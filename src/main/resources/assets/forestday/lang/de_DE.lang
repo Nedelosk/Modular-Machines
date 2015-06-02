@@ -1,0 +1,307 @@
+####################################
+Blocks
+####################################
+tile.machine.kiln.0.name=Resin Kiln
+tile.machine.file.auto.name=Saw
+tile.machine.furnace.0.name=Coke Furnace
+tile.machine.furnace.1.name=Fluid Heater
+tile.machine.generator.0.name=Burning Generator
+tile.machine.furnace.alloy.0.name=Alloy Smelter Controller
+tile.machine.furnace.alloy.1.name=Alloy Smelter Regulator
+tile.machine.furnace.macerator.0.name=Macerator Controller
+tile.machine.furnace.macerator.1.name=Macerator Regulator
+tile.machine.air.heater.0.name=Air Heater Controller
+tile.machine.air.heater.1.name=Air Heater Regulator
+tile.machine.furnace.blast.0.name=Blast Furnace Controller
+tile.machine.furnace.blast.1.name=Blast Furnace Regulator
+tile.machine.fan.name=Fan
+tile.structure.wall.0.name=Loam Brick
+tile.structure.wall.1.name=Ash Brick
+tile.structure.wall.2.name=Hardened Brick
+tile.structure.wall.3.name=Steel Brick
+tile.structure.wall.4.name=Obsidian Brick
+tile.structure.wall.5.name=Enderium Brick
+tile.structure.metal.0.name=Steel Metal Wall
+tile.structure.metal.1.name=Light Steel Metal Wall
+tile.structure.metal.2.name=Dark Steel Metal Wall
+tile.structure.metal.3.name=Obsidian Metal Wall
+tile.structure.metal.4.name=Enderium Metal Wall
+tile.structure.bus.0.name=Loam Brick Bus
+tile.structure.bus.fluid.0.name=Loam Brick Fluid Bus
+tile.structure.bus.1.name=Ash Brick Bus
+tile.structure.bus.fluid.1.name=Ash Brick Fluid Bus
+tile.structure.bus.2.name=Hardened Brick Bus
+tile.structure.bus.fluid.2.name=Hardened Brick Fluid Bus
+tile.structure.bus.3.name=Steel Brick Bus
+tile.structure.bus.fluid.3.name=Steel Brick Fluid Bus
+tile.structure.bus.4.name=Obsidian Brick Bus
+tile.structure.bus.fluid.4.name=Obsidian Brick Fluid Bus
+tile.structure.bus.5.name=Enderium Brick Bus
+tile.structure.bus.fluid.5.name=Enderium Brick Fluid Bus
+tile.structure.bus.metal.0.name=Steel Bus
+tile.structure.bus.metal.1.name=Light Steel Bus
+tile.structure.bus.metal.2.name=Dark Steel Bus
+tile.structure.bus.metal.3.name=Obsidian Metal Metal Bus
+tile.structure.bus.metal.4.name=Enderium Bus
+tile.structure.bus.metal.fluid.0.name=Steel Fluid Bus
+tile.structure.bus.metal.fluid.1.name=Light Steel Fluid Bus
+tile.structure.bus.metal.fluid.2.name=Dark Steel Fluid Bus
+tile.structure.bus.metal.fluid.3.name=Obsidian Metal Metal Fluid Bus
+tile.structure.bus.metal.fluid.4.name=Enderium Fluid Bus
+tile.structure.coil.heat.0.name=Red Alloy Coil
+tile.structure.coil.heat.1.name=Blue Alloy Coil
+tile.structure.coil.heat.2.name=Dark Blue Alloy Coil
+tile.structure.coil.heat.3.name=Yellow Alloy Coil
+tile.structure.coil.heat.4.name=Brown Alloy Coil
+tile.structure.coil.heat.5.name=Green Alloy Coil
+tile.structure.coil.heat.6.name=Copper Coil
+tile.structure.coil.grinding.0.name=Wood Grinding Coil Holder
+tile.structure.coil.grinding.1.name=Stone Grinding Coil Holder
+tile.structure.coil.grinding.2.name=Iron Grinding Coil Holder
+tile.structure.coil.grinding.3.name=Steel Grinding Coil Holder
+tile.structure.coil.grinding.4.name=Dark Steel Grinding Coil Holder
+tile.structure.coil.grinding.5.name=Enderium Grinding Coil Holder
+fd.tile.ore.0.name=Copper Ore
+fd.tile.ore.1.name=Tin Ore
+fd.tile.ore.2.name=Lime Stone
+fd.tile.log.nature.name=Spruce Wood Resin
+fd.tile.metalBlock.0.name=Block of Copper
+fd.tile.metalBlock.1.name=Block of Tin
+fd.tile.metalBlock.2.name=Block of Bronze
+fd.tile.metalBlock.3.name=Block of Red Alloy
+fd.tile.metalBlock.4.name=Block of Blue Alloy
+fd.tile.metalBlock.5.name=Block of Dark Blue Alloy
+fd.tile.metalBlock.6.name=Block of Yellow Alloy
+fd.tile.metalBlock.7.name=Block of Brown Alloy
+fd.tile.metalBlock.8.name=Block of Green Alloy
+fd.tile.metalBlock.9.name=Block of Steel
+fd.tile.metalBlock.10.name=Block of Light Steel
+fd.tile.metalBlock.11.name=Block of Dark Steel
+fd.tile.metalBlock.12.name=Block of Obsidian Metal
+fd.tile.metalBlock.13.name=Block of Enderium
+fd.tile.loam.name=Loam
+fd.tile.log.resin.name=Resin Spruce Wood
+fd.tile.trunk.big.name=Big Trunk
+fd.tile.trunk.medium.name=Medium Trunk
+fd.tile.trunk.small.name=Small Trunk
+fd.tile.trunk.tiny.name=Tiny Trunk
+fd.tile.resin.name=Resin
+fd.tile.tar.name=Tar
+fd.tile.steam.name=Steam
+fd.tile.gas_heat.name=Hot Gas
+fd.tile.pig_iron.name=Pig-Iron
+fd.tile.slag.name=Slag
+fd.tile.air_hot.name=Hot Air
+fd.tile.gas_blast.name=Blast Furnace Gas
+fd.tile.molten_steel.name=Molten Steel
+fd.tile.air.name=Air
+fd.tile.lubricant.name=Lubricant
+
+#Fluids
+fluid.tar=Tar
+fluid.resin=Resin
+fluid.steam=Steam
+fluid.gas_heat=Hot Gas
+fluid.pig_iron=Pig-Iron
+fluid.slag=Slag
+fluid.air_hot=Hot Air
+fluid.gas_blast=Blast Furnace Gas
+fluid.molten_steel=Molten Steel
+fluid.air=Air
+fluid.lubricant=Lubricant
+
+####################################
+Items
+####################################
+fd.item.nature.0.name=Barkdust
+fd.item.nature.1.name=Sawdust
+fd.item.nature.2.name=Rubber
+fd.item.nature.3.name=Resin
+fd.item.nature.4.name=Peat
+fd.item.nature.5.name=Mud
+fd.item.nature.6.name=Dirtdust
+fd.item.nature.7.name=Ash
+fd.item.nature.machine.0.name=Lubricant
+fd.item.nature.machine.1.name=Heat Debugger
+fd.item.nature.machine.2.name=Grinding Debugger
+fd.item.coil.0.name=Red Alloy Coil
+fd.item.coil.1.name=Blue Alloy Coil
+fd.item.coil.2.name=Dark Blue Alloy Coil
+fd.item.coil.3.name=Yellow Alloy Coil
+fd.item.coil.4.name=Brown Alloy Coil
+fd.item.coil.5.name=Green Alloy Coil
+fd.item.coil.6.name=Copper Coil
+fd.item.coil.7.name=Tin Coil
+fd.item.coil.8.name=Bronze Coil
+fd.item.coil.9.name=Iron Coil
+fd.item.coil.10.name=Steel Coil
+fd.item.coil.grinding.0.name=Stone Grinding Coil
+fd.item.coil.grinding.1.name=Iron Grinding Coil
+fd.item.coil.grinding.2.name=Brown Alloy Grinding Coil
+fd.item.coil.grinding.3.name=Steel Grinding Coil
+fd.item.coil.grinding.4.name=Dark Steel Alloy Grinding Coil
+fd.item.coil.grinding.5.name=Diamond Alloy Grinding Coil
+fd.item.rod.0.name=Bronze Rod
+fd.item.rod.1.name=Iron Rod
+fd.item.rod.2.name=Steel Rod
+fd.item.hatch.0.name=Input Bus Hatch
+fd.item.hatch.1.name=Output Bus Hatch
+fd.item.hatch.2.name=Controller Bus Hatch
+fd.item.hatch.3.name=Wood Pattern
+fd.item.ingot.0.name=Copper Ingot
+fd.item.ingot.1.name=Tin Ingot
+fd.item.ingot.2.name=Bronze Ingot
+fd.item.ingot.3.name=Red Alloy Ingot
+fd.item.ingot.4.name=Blue Alloy Ingot
+fd.item.ingot.5.name=Dark Blue Alloy Ingot
+fd.item.ingot.6.name=Yellow Alloy Ingot
+fd.item.ingot.7.name=Brown Alloy Ingot
+fd.item.ingot.8.name=Green Alloy Ingot
+fd.item.ingot.9.name=Steel Ingot
+fd.item.ingot.10.name=Light Steel Ingot
+fd.item.ingot.11.name=Dark Steel Ingot
+fd.item.ingot.12.name=Obsidian Metal Ingot
+fd.item.ingot.13.name=Enderium Ingot
+fd.item.build.material.0.name=Raw Loam Brick
+fd.item.build.material.1.name=Loam Brick
+fd.item.build.material.2.name=Raw Ash Brick
+fd.item.build.material.3.name=Ash Brick
+fd.item.build.material.4.name=Raw Hardened Brick
+fd.item.build.material.5.name=Hardened Brick
+fd.item.build.material.6.name=Steel Brick
+fd.item.build.material.7.name=Obsidian Brick
+fd.item.build.material.8.name=Enderium Brick
+fd.item.build.material.9.name=Raw Magic Brick
+fd.item.build.material.10.name=Magic Brick
+fd.item.build.material.mortal.0.name=Soft Mortar
+fd.item.build.material.mortal.1.name=Medium Mortar
+fd.item.build.material.mortal.2.name=Hard Mortar
+fd.item.build.material.mortal.3.name=Enderium Mortar
+fd.item.build.material.mortal.4.name=Magic Mortar
+fd.item.build.material.plate.0.name=Steel Plate
+fd.item.build.material.plate.1.name=Light Steel Plate
+fd.item.build.material.plate.2.name=Dark Steel Plate
+fd.item.build.material.plate.3.name=Obsidian Matal Plate
+fd.item.build.material.plate.4.name=Enderium Plate
+fd.item.charcoal.name=Charcoal
+fd.item.dust.0.name=Copper Dust
+fd.item.dust.1.name=Tin Dust
+fd.item.dust.2.name=Iron Dust
+fd.item.dust.3.name=Gold Dust
+fd.item.dust.4.name=Stone Dust
+fd.item.dust.5.name=Lapis Lazuli Dust
+fd.item.dust.6.name=Diamond Dust
+fd.item.dust.7.name=Emerald Dust
+fd.item.dust.8.name=Coal Dust
+fd.item.powder.0.name=Copper Powder
+fd.item.powder.1.name=Tin Powder
+fd.item.powder.2.name=Iron Powder
+fd.item.powder.3.name=Gold Powder
+fd.item.powder.4.name=Stone Powder
+fd.item.powder.5.name=Lapis Lazuli Powder
+fd.item.powder.6.name=Diamond Powder
+fd.item.powder.7.name=Emerald Powder
+fd.item.powder.8.name=Coal Powder
+fd.item.gear.0.name=Bronze Gear
+fd.item.gear.1.name=Iron Gear
+fd.item.gear.2.name=Steel Gear
+fd.item.gear.3.name=Light Steel Gear
+fd.item.gear.4.name=Dark Steel Gear
+fd.item.gear.5.name=Enderium Gear
+fd.item.gear.wood.0.name=Improved Wood Gear
+fd.item.gear.wood.1.name=Wood Gear
+fd.item.gear.wood.2.name=Unfinished Wood Gear
+fd.item.gear.wood.3.name=Unfinished Wood Gear
+fd.item.gear.wood.4.name=Unfinished Wood Gear
+fd.item.gear.wood.5.name=Unfinished Wood Gear
+fd.item.nugget.0.name=Copper Nugget
+fd.item.nugget.1.name=Tin Nugget
+fd.item.nugget.2.name=Bronze Nugget
+fd.item.tool.file.stone.name=Stone File
+fd.item.tool.file.iron.name=Iron File
+fd.item.tool.cutter.iron.name=Iron Cutter
+fd.item.tool.file.diamond.name=Diamond File
+fd.item.tool.file.energy.rf.name=File Energy (RF)
+fd.item.tool.knife.iron.name=Iron Knife
+fd.item.parts.0.name=File Handle
+fd.item.parts.1.name=Improved File Handle
+fd.item.parts.2.name=RF File Handle
+fd.item.parts.3.name=EU File Handle
+fd.item.parts.4.name=Stone File Head
+fd.item.parts.5.name=Iron File Head
+fd.item.parts.6.name=Diamond File Head
+fd.item.parts.7.name=RF File Head
+fd.item.parts.8.name=EU File Head
+fd.item.parts.9.name=Knife Handle
+fd.item.parts.10.name=Knife Head
+fd.item.parts.11.name=Cutter Head
+fd.item.parts.12.name=Cutter Handle
+fd.item.metallurgy.0.name=Coke
+fd.item.metallurgy.1.name=Lime Dust
+fd.item.metallurgy.2.name=Sulfur Dust
+item.bucket.resin.name=Resin Bucket
+item.bucket.tar.name=Tar Bucket
+item.bucket.steam.name=Steam Bucket
+item.bucket.pig_iron.name=Pig-Iron Bucket
+item.bucket.slag.name=Slag Bucket
+item.bucket.molten_steel.name=Molten Steel Bucket
+item.bucket.lubricant.name=Lubricant Bucket
+fd.item.charconia.name=Notizen eines Koehlers
+fd.item.lumberjack.name=Notizen eines Holzfaellers
+
+####################################
+Containers
+####################################
+container.machine.kiln.charcoal=Charcoal Kiln
+container.machine.kiln.resin=Resin Kiln
+container.machine.tip.heat=Heat: 
+container.machine.saw=Saw
+container.machine.generator.burning=Burning Generator
+container.machine.furnace.coke=Coke Furnace
+container.machine.furnace.fluidheater=Fluid Heater
+container.bus=Bus
+container.regulator=Regulator
+container.controller=Controller
+
+####################################
+Books
+####################################
+
+#Charconia
+nc.book.charconia.category.charcoal.name=Basis Wissen ueber die Holzkohle
+
+#Lumberjack
+nc.book.lumberjack.category.wood.name=Basis Wissen ueber das Holz
+nc.book.lumberjack.entry.basic.wood.title=Mein erstes Holz
+nc.book.lumberjack.entry.basic.worktable.title=Meine erste Werkbank 
+nc.book.lumberjack.base.text.note.0=Die sind meine Notizen die ich geschrieben habe.Darauf hin hoffent das diese Notiezen einem anderen oder mir weiterhelfen koennen.
+nc.book.lumberjack.basic.wood.note.0=Holz ist eine Nachwachsender Rohstoff.Er ist vielseitig einsetzbar. Es gibt bestimmte Hölzer die für bestimmte Produkte wichtig ist.Ich muss mich auf die suche nach dem best passende Holz für meine Werkbank machen.
+nc.book.lumberjack.basic.worktable.note.0=Durch einige experimente mit einigen Holzarten habe ich das perfekte Holz für meine erste Werkbank gefunden.Ich hoffe mir meit dieser Werkbank neue Informationen über Holz und dessen produkte zu bekommen.
+
+####################################
+Tabs
+####################################
+itemGroup.forestday.items=Forest Day Items
+itemGroup.forestday.blocks=Forest Day Blocks
+itemGroup.forestday.multiblocks=Forest Day Structures
+
+####################################
+Tooltips
+####################################
+forestday.tooltip.tool.energy=Energy: 
+forestday.tooltip.damage=Durability: 
+forestday.tooltip.tier=Tier: 
+forestday.tooltip.material=Material: 
+forestday.tooltip.heat=Heat: 
+forestday.tooltip.roughness=Roughness: 
+forestday.tooltip.empty=Empty
+
+####################################
+Gui Nei
+####################################
+forestday.nei.smelter.alloy=Alloy Smelter
+forestday.nei.macerator=Macerator
+forestday.nei.file.auto=Saw
+forestday.nei.kiln.resin=Resin Kiln
+forestday.nei.kiln.charcoal=Charcoal Kiln
+forestday.nei.burning=Burning
