@@ -4,16 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.client.machines.wood.gui.GuiWorkbench;
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipeManager;
-import nedelosk.forestday.structure.alloysmelter.crafting.AlloySmelterRecipe;
-import nedelosk.forestday.structure.alloysmelter.crafting.AlloySmelterRecipeManager;
-import nedelosk.forestday.structure.alloysmelter.gui.GuiAlloySmelterController;
-import nedelosk.forestday.structure.macerator.crafting.MaceratorRecipe;
-import nedelosk.forestday.structure.macerator.crafting.MaceratorRecipeManager;
-import nedelosk.forestday.structure.macerator.gui.GuiMaceratorController;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;

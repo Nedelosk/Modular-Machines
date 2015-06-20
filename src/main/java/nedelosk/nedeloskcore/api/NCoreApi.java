@@ -5,9 +5,11 @@ import java.util.List;
 
 import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.api.book.BookLevel;
+import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import nedelosk.nedeloskcore.api.plan.IPlanEnum;
 import nedelosk.nedeloskcore.common.book.BookData;
+import nedelosk.nedeloskcore.common.plan.PlanRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +17,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 
 public class NCoreApi {
+	
+	public static IPlanRecipe planRecipe;
 	
 	public static List<IPlanEnum> plans = new ArrayList<IPlanEnum>();
 	
@@ -47,38 +51,30 @@ public class NCoreApi {
 		plans.add(plan);
 	}
 	
-	public static ItemStack setItemPlan(Item item, IPlanEnum plan)
+	public static ItemStack setItemPlan(Item item, PlanRecipe plan)
 	{
 		ItemStack planStack = new ItemStack(item, 1, 0);
 		NBTTagCompound tag = new NBTTagCompound();
-		for(int i = 0;i < plan.getBuildingStages();i++)
+		for(int i = 0;i < plan.stages;i++)
 		{
 			NBTTagList list = new NBTTagList();
-			if(plan.getInput() != null)
-			{
-			for(ItemStack stack : plan.getInput()[i])
+			for(ItemStack stack : plan.input[i])
 			{
 				NBTTagCompound tagNBT = new NBTTagCompound();
 				stack.writeToNBT(tagNBT);
 				list.appendTag(tagNBT);
 			}
 			tag.setTag("input" + i, list);
-			}
-			else
-			{
-				for(OreStack stack : plan.getInputOre()[i])
-				{
-					NBTTagCompound tagNBT = new NBTTagCompound();
-					stack.writeToNBT(tagNBT);
-					list.appendTag(tagNBT);
-				}
-				tag.setTag("inputOre" + i, list);
-			}
 		}
-		tag.setInteger("stages", plan.getBuildingStages());
+		tag.setInteger("stages", plan.stages);
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		plan.getOutput().writeToNBT(nbtTag);
+		plan.outputBlock.writeToNBT(nbtTag);
 		tag.setTag("Output", nbtTag);
+		if(plan.updateBlock != null){
+		NBTTagCompound nbtTagU = new NBTTagCompound();
+		plan.updateBlock.writeToNBT(nbtTagU);
+		tag.setTag("UpdateBlock", nbtTagU);
+		}
 		planStack.setTagCompound(tag);
 		return planStack;
 	}

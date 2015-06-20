@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.Forestday;
 import nedelosk.forestday.api.Tabs;
+import nedelosk.forestday.common.core.Forestday;
 import nedelosk.forestday.common.core.TabForestday;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWood;
@@ -29,10 +29,11 @@ public class BlockOre extends BlockForestday {
 	public BlockOre() {
 		super("ore", Material.ground, Tabs.tabForestdayBlocks);
 		this.setHardness(2.0f);
+		this.setResistance(3.0F);
 		this.setStepSound(Block.soundTypeStone);
 		this.setHarvestLevel("pickaxe", 1, 0);
 		this.setHarvestLevel("pickaxe", 2, 1);
-		this.setHarvestLevel("pickaxe", 1, 0);
+		this.setHarvestLevel("pickaxe", 1, 1);
 	}
 	
     @Override

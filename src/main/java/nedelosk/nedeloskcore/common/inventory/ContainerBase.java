@@ -1,16 +1,21 @@
 package nedelosk.nedeloskcore.common.inventory;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
+import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public abstract class ContainerBase extends Container {
 
-	public ContainerBase(TileBaseInventory tile, InventoryPlayer inventory) {
-		this.tile = tile;
+	protected IInventory inventoryBase;
+	
+	public ContainerBase(IInventory tile, InventoryPlayer inventory) {
+		this.inventoryBase = tile;
 		addInventory(inventory);
 		addSlots(inventory);
 	}
@@ -31,16 +36,13 @@ public abstract class ContainerBase extends Container {
 	
 	protected abstract void addSlots(InventoryPlayer inventory);
 	
-	protected TileBaseInventory tile;
-	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return tile.isUseableByPlayer(player);
+		return true;
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_transferStackInSlot_1_,
-			int p_transferStackInSlot_2_) {
+	public ItemStack transferStackInSlot(EntityPlayer p_transferStackInSlot_1_, int p_transferStackInSlot_2_) {
 		return null;
 	}
 

@@ -2,16 +2,8 @@ package nedelosk.forestday.common.plugins.waila;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import nedelosk.forestday.common.machines.brick.kiln.TileKiln;
+import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileKiln;
-import nedelosk.forestday.common.plugins.waila.provider.structures.ProviderBusFluid;
-import nedelosk.forestday.common.plugins.waila.provider.structures.ProviderTileCoil;
-import nedelosk.forestday.common.plugins.waila.provider.structures.ProviderTileRegulatorGrinding;
-import nedelosk.forestday.common.plugins.waila.provider.structures.ProviderTileRegulatorHeat;
-import nedelosk.forestday.structure.base.blocks.tile.TileBusFluid;
-import nedelosk.forestday.structure.base.blocks.tile.TileCoilHeat;
-import nedelosk.forestday.structure.base.blocks.tile.TileRegulatorGrinding;
-import nedelosk.forestday.structure.base.blocks.tile.TileRegulatorHeat;
 import nedelosk.nedeloskcore.plugins.Plugin;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
@@ -24,22 +16,6 @@ public class PluginWaila extends Plugin {
 		final IWailaDataProvider tileResin = new ProviderTileKiln();
 		
 		registrar.registerBodyProvider( tileResin, TileKiln.class);
-		
-		final IWailaDataProvider tileRegulatorHeat = new ProviderTileRegulatorHeat();
-		
-		registrar.registerBodyProvider( tileRegulatorHeat, TileRegulatorHeat.class);
-		
-		final IWailaDataProvider tileRegulatorGrinding = new ProviderTileRegulatorGrinding();
-		
-		registrar.registerBodyProvider( tileRegulatorGrinding, TileRegulatorGrinding.class);
-		
-		final IWailaDataProvider tileCoil = new ProviderTileCoil();
-		
-		registrar.registerBodyProvider( tileCoil, TileCoilHeat.class);
-		
-		final IWailaDataProvider tileBusFluid = new ProviderBusFluid();
-		
-		registrar.registerBodyProvider( tileBusFluid, TileBusFluid.class);
 
 	}
 	

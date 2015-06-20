@@ -75,7 +75,7 @@ public class ItemSeed extends ItemPlant {
 					}
 					seedIcons.get(seed.ordinal()).get(i).put(r, IIconRegister.registerIcon("forestbotany:crops/seeds/" + seed.name().toLowerCase() + "/" + i + "/" + "seed." + r));
 					
-					File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
+					/*File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
 					File file = new File(file0 , "seeds");
 		        	File file1 = new File(file, seed.name().toLowerCase());
 					File file3 = new File(file1, Integer.toString(i));
@@ -94,7 +94,7 @@ public class ItemSeed extends ItemPlant {
 					fileoutputstream.close();
 					}
 					catch (Exception e) {
-					}
+					}*/
 				}
 				}
 				
@@ -113,7 +113,7 @@ public class ItemSeed extends ItemPlant {
 					{
 					cropIcons.get(crop.ordinal()).put(i, IIconRegister.registerIcon("forestbotany:crops/plants/" + seed.name().toLowerCase() + "/" + crop.name().toLowerCase() + "/plant." + i));
 					
-					File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
+					/*File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
 					File file = new File(file0 , "plants");
 		        	File file1 = new File(file, seed.name().toLowerCase());
 					File file3 = new File(file1, crop.name().toLowerCase());
@@ -132,7 +132,7 @@ public class ItemSeed extends ItemPlant {
 					fileoutputstream.close();
 					}
 					catch (Exception e) {
-					}
+					}*/
 					}
 				}
 		}

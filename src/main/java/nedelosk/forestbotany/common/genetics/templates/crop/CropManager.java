@@ -11,7 +11,7 @@ import nedelosk.forestbotany.api.genetics.allele.IAllelePlantCrop;
 import nedelosk.forestbotany.api.genetics.plants.IPlant;
 import nedelosk.forestbotany.api.genetics.plants.crop.ICropGenome;
 import nedelosk.forestbotany.api.genetics.plants.crop.ICropManager;
-import nedelosk.forestbotany.common.core.registry.ItemRegistry;
+import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.allele.Allele;
 import nedelosk.forestbotany.common.genetics.templates.tree.Tree;

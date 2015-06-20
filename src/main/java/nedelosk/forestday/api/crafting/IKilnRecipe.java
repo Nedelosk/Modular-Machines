@@ -3,7 +3,7 @@
  */
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.forestday.common.machines.brick.kiln.KilnRecipe;
+import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipe;
 import net.minecraft.item.ItemStack;
 
 public interface IKilnRecipe {

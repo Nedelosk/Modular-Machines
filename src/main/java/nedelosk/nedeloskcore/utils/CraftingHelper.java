@@ -80,7 +80,7 @@ public class CraftingHelper
 
     public static void removeFurnaceRecipe (Item i)
     {
-        removeFurnaceRecipe(new ItemStack(i, 1, 32767));
+        removeFurnaceRecipe(new ItemStack(i));
     }
 
     //removes from all vanilla worldgen chests :D

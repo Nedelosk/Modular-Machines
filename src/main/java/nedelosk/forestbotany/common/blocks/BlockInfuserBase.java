@@ -7,7 +7,7 @@ import nedelosk.forestbotany.common.blocks.tile.TileInfuser;
 import nedelosk.forestbotany.common.blocks.tile.TileInfuserBase;
 import nedelosk.forestbotany.common.blocks.tile.TileInfuserChamber;
 import nedelosk.forestbotany.common.core.ForestBotany;
-import nedelosk.forestbotany.common.core.registry.BlockRegistry;
+import nedelosk.forestbotany.common.core.registrys.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;

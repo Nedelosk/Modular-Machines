@@ -24,7 +24,7 @@ import cofh.api.energy.IEnergyStorage;
 
 public class WidgetEnergyBar extends Gui {
 
-	private final ResourceLocation widget = new ResourceLocation("forestbotany", "textures/gui/widgets/widget_energy_bar.png");
+	private final ResourceLocation widget = new ResourceLocation("nedeloskcore", "textures/gui/widgets/widget_energy_bar.png");
 	IEnergyStorage storage;
 	public int posX, posY;
 
@@ -41,10 +41,10 @@ public class WidgetEnergyBar extends Gui {
 
 		RenderUtils.bindTexture(widget);
 		drawTexturedModalRect(this.posX, this.posY, 0, 0, 12, 69);
-
-		int energy = (this.storage.getEnergyStored() * 32) / this.storage.getMaxEnergyStored() ;
 		
-        this.drawTexturedModalRect(this.posX, this.posY, 69, 0, energy, 10);
+		int energy = (this.storage.getEnergyStored() * 69) / this.storage.getMaxEnergyStored() ;
+		
+        this.drawTexturedModalRect(this.posX, this.posY + 69 - energy, 12, 0 + 69 - energy, 12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

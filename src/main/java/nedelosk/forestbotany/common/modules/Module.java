@@ -3,7 +3,7 @@ package nedelosk.forestbotany.common.modules;
 import java.io.File;
 
 import cpw.mods.fml.common.Loader;
-import nedelosk.forestbotany.common.core.registry.ItemRegistry;
+import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.templates.tree.TreeManager;
 import nedelosk.forestbotany.common.items.ItemSapling;

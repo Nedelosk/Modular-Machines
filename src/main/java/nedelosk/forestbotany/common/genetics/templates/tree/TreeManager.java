@@ -8,7 +8,7 @@ import nedelosk.forestbotany.api.genetics.allele.IAlleleGender;
 import nedelosk.forestbotany.api.genetics.plants.IPlant;
 import nedelosk.forestbotany.api.genetics.plants.tree.ITreeGenome;
 import nedelosk.forestbotany.api.genetics.plants.tree.ITreeManager;
-import nedelosk.forestbotany.common.core.registry.ItemRegistry;
+import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.allele.Allele;
 import net.minecraft.item.ItemStack;

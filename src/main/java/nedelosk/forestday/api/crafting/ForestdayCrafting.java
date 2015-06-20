@@ -15,14 +15,14 @@ public class ForestdayCrafting {
 	
 	public static IBurnRecipe burningRecipe;
 	
-	public static IAirHeaterRecipe airHeaterRecipes;
-	
-	public static IBlastFurnaceRecipe blastFurnace;
-	
 	public static ICokeFurnaceRecipe furnaceCokeRecipe;
 	
 	public static IFluidHeaterRecipe fluidHeaterRecipe;
 	
 	public static IWorkbenchRecipe workbenchRecipe;
+	
+	public static ICampfireRecipe campfireRecipe;
+	
+	public static IWoodType woodManager;
 	
 }

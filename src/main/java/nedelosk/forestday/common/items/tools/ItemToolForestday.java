@@ -3,7 +3,8 @@ package nedelosk.forestday.common.items.tools;
 import java.util.List;
 
 import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,23 +28,15 @@ public class ItemToolForestday extends Item {
 		this.setMaxStackSize(1);
 		this.name = name;
 		this.setTextureName("forestday:tools/" + name);
-	}
-	
-	public ItemToolForestday(String name, int maxDamage)
-	{
-		this.setMaxDamage(maxDamage);
-		this.setCreativeTab(CreativeTabs.tabTools);
-		this.setFull3D();
-		this.maxStackSize = 1;
-		this.name = name;
+		setUnlocalizedName(NRegistry.setUnlocalizedItemName( "tool." + name, "fd"));
 	}
 	
 	protected int tier;
 	protected Material material;
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
-		return  ForestdayRegistry.setUnlocalizedItemName( "tool." + name);
+	public String getUnlocalizedName(ItemStack p_77667_1_) {
+		return getUnlocalizedName().replace("item.", "");
 	}
 	
 	public int getTier()

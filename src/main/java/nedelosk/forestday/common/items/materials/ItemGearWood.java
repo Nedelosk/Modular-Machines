@@ -8,7 +8,8 @@ import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.api.crafting.IUnfinished;
 import nedelosk.forestday.common.core.TabForestday;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ public class ItemGearWood extends ItemForestday implements IUnfinished {
 	public ItemGearWood() {
 		super(null, Tabs.tabForestdayItems);
 		setHasSubtypes(true);
+		setUnlocalizedName("gearWood");
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -55,7 +57,7 @@ public class ItemGearWood extends ItemForestday implements IUnfinished {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return ForestdayRegistry.setUnlocalizedItemName("gear.wood." + itemstack.getItemDamage());
+        return NRegistry.setUnlocalizedItemName("gear.wood." + itemstack.getItemDamage(), "fd");
     }
 
 	@Override

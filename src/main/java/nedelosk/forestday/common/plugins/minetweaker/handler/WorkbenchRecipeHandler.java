@@ -3,8 +3,8 @@ package nedelosk.forestday.common.plugins.minetweaker.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipeManager;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
 import net.minecraft.item.ItemStack;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
@@ -16,7 +16,7 @@ import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-@ZenClass("mods.forday.Workbench")
+@ZenClass("mods.fd.Workbench")
 public class WorkbenchRecipeHandler {
 	
 	@ZenMethod

@@ -4,10 +4,10 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.client.machines.brick.gui.GuiKiln;
-import nedelosk.forestday.client.machines.iron.gui.GuiSaw;
-import nedelosk.forestday.common.machines.iron.saw.SawRecipe;
-import nedelosk.forestday.common.machines.iron.saw.SawRecipeManager;
+import nedelosk.forestday.client.machines.base.gui.GuiKiln;
+import nedelosk.forestday.client.machines.base.gui.GuiSaw;
+import nedelosk.forestday.common.machines.base.saw.SawRecipe;
+import nedelosk.forestday.common.machines.base.saw.SawRecipeManager;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;

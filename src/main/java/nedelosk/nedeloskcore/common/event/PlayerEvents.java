@@ -10,10 +10,11 @@ import akka.actor.FSM.Event;
 import com.google.common.io.Files;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import nedelosk.forestday.Forestday;
+import nedelosk.forestday.common.core.Forestday;
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
+import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.BookManager;
@@ -31,7 +32,7 @@ public class PlayerEvents {
 	  public void loadPlayerBookData(PlayerEvent.LoadFromFile event)
 	  {
 	  EntityPlayer p = event.entityPlayer;
-	  Forestday.proxy.getPlayerData().removeData(p.getDisplayName());
+	  NedelsokCore.proxy.getPlayerData().removeData(p.getDisplayName());
 	   
 	       File file = getPlayerFile("book", event.playerDirectory, p.getDisplayName());
 	       boolean legacy = false;
@@ -68,7 +69,7 @@ public class PlayerEvents {
 	       BookManager.loadBookDataFromPlayer(p, file, getPlayerFile("bookback", event.playerDirectory, p.getDisplayName()));
 	       
 	       //Forestday.proxy.getBookManager().unlockEntry(p, "baseWood");
-	       Forestday.proxy.getBookManager().unlockKnowledge(p, NCoreApi.basicKnowledge.unlocalizedName);
+	       NedelsokCore.proxy.getBookManager().unlockKnowledge(p, NCoreApi.basicKnowledge.unlocalizedName);
 	       
 	     }
 	  

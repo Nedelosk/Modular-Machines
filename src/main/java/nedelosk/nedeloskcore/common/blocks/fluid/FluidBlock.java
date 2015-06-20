@@ -2,9 +2,10 @@ package nedelosk.nedeloskcore.common.blocks.fluid;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.Forestday;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -55,7 +56,7 @@ public class FluidBlock extends BlockFluidClassic {
 	@Override
     public String getUnlocalizedName()
     {
-        return ForestdayRegistry.setUnlocalizedBlockName(fluidName);
+        return NRegistry.setUnlocalizedBlockName(fluidName, "nc");
     }
 	
 }

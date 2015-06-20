@@ -3,16 +3,18 @@
  */
 package nedelosk.forestday.api.crafting;
 
+import nedelosk.forestday.common.machines.base.furnace.alloysmelter.AlloySmelterRecipe;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public interface IAlloySmelterRecipe {
 
-	public void addRecipe(ItemStack input1, ItemStack input2, ItemStack output1, int minHeat, int maxHeat);
+	void addRecipe(ItemStack input, int burnTime, ItemStack... output);
 	
-	public void addRecipe(String input1, ItemStack input2, ItemStack output1, int minHeat, int maxHeat);
+	void addRecipe(ItemStack input, FluidStack inputFluid, int burnTime, ItemStack... output);
 	
-	public void addRecipe(ItemStack input1, String input2, ItemStack output1, int minHeat, int maxHeat);
+	void addRecipe(ItemStack input, FluidStack inputFluid, int burnTime, int energy, ItemStack... output);
 	
-	public void addRecipe(String input1, String input2, ItemStack output1, int minHeat, int maxHeat);
+	void addRecipe(ItemStack input, int burnTime, int energy, ItemStack... output);
 	
 }

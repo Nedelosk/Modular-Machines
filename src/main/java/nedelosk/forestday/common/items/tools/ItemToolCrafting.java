@@ -11,7 +11,8 @@ public class ItemToolCrafting extends ItemToolForestday implements ITool {
 		super(name, maxDamage, tier, material);
 		this.setTextureName("forestday:tools/" + nameTexture);
 		this.damage = damage;
-	}
+		this.setNoRepair();
+		}
 
 	@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)

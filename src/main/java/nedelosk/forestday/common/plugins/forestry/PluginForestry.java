@@ -3,7 +3,8 @@ package nedelosk.forestday.common.plugins.forestry;
 import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IBurnRecipe;
-import nedelosk.forestday.common.registrys.ForestdayItemRegistry;
+import nedelosk.forestday.common.registrys.FItems;
+import nedelosk.forestday.common.registrys.ItemRegistry;
 import nedelosk.nedeloskcore.plugins.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,7 @@ public class PluginForestry extends Plugin {
 		
 		IBurnRecipe burnRecipe = ForestdayCrafting.burningRecipe;
 		
-		burnRecipe.addRecipe(new ItemStack(itemPeat), new ItemStack(ForestdayItemRegistry.nature, 2, 7), 1600, BurningMode.Peat);
+		burnRecipe.addRecipe(new ItemStack(itemPeat), new ItemStack(FItems.nature.item(), 2, 7), 1600, BurningMode.Peat);
 		
 	}
 

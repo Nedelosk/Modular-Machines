@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.brick.generator.heat.HeatGeneratorRecipe;
-import nedelosk.forestday.common.machines.brick.generator.heat.HeatGeneratorRecipeManager;
+import nedelosk.forestday.common.machines.base.heater.generator.HeatGeneratorRecipe;
+import nedelosk.forestday.common.machines.base.heater.generator.HeatGeneratorRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 

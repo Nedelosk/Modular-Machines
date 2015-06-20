@@ -11,7 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IMaceratorRecipe;
 import nedelosk.forestday.common.core.Defaults;
-import nedelosk.forestday.common.registrys.ForestdayItemRegistry;
+import nedelosk.forestday.common.registrys.ItemRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 

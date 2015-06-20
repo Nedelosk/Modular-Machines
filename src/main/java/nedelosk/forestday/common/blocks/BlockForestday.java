@@ -1,6 +1,7 @@
 package nedelosk.forestday.common.blocks;
 
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,13 +14,13 @@ public class BlockForestday extends Block {
 		super(material);
 		this.name = name;
 		this.setCreativeTab(tab);
-		this.setBlockName(ForestdayRegistry.setUnlocalizedBlockName(name));
+		this.setBlockName(NRegistry.setUnlocalizedBlockName(name, "nc"));
 	}
 	
 	@Override
     public String getUnlocalizedName()
     {
-        return ForestdayRegistry.setUnlocalizedBlockName(this.name);
+        return name;
     }
 
 }

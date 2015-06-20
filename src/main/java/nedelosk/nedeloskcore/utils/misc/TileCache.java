@@ -1,0 +1,44 @@
+package nedelosk.nedeloskcore.utils.misc;
+
+import nedelosk.nedeloskcore.utils.WorldUtils;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+
+public final class TileCache {
+    private final TileEntity[] cache = new TileEntity[6];
+    private final TileEntity source;
+
+    public TileCache(TileEntity tile) {
+        this.source = tile;
+    }
+
+    private TileEntity searchSide(ForgeDirection side) {
+        return WorldUtils.getTileEntityOnSide(source.getWorldObj(), source.xCoord, source.yCoord, source.zCoord, side);
+    }
+
+    public void refresh() {
+        for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+            getTileOnSide(side);
+        }
+    }
+
+    protected void setTile(int side, TileEntity tile) {
+        if (cache[side] != tile) {
+            cache[side] = tile;
+        }
+    }
+
+    public TileEntity getTileOnSide(ForgeDirection side) {
+        int s = side.ordinal();
+        if (cache[s] != null)
+            if (cache[s].isInvalid() || !WorldUtils.areCoordinatesOnSide(source.xCoord, source.yCoord, source.zCoord, side, cache[s].xCoord, cache[s].yCoord, cache[s].zCoord))
+                setTile(s, null);
+            else
+                return cache[s];
+
+        setTile(s, searchSide(side));
+
+        return cache[s];
+    }
+
+}

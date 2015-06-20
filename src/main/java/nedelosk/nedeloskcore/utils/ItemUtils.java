@@ -7,6 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtils {
 
@@ -30,5 +31,23 @@ public class ItemUtils {
 				inventory.setInventorySlotContents(i, null);
 			}
 		}
+	}
+	
+	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
+		if (lhs == null || rhs == null) {
+			return false;
+		}
+
+		if (lhs.getItem() != rhs.getItem()) {
+			return false;
+		}
+
+		if (lhs.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+			if (lhs.getItemDamage() != rhs.getItemDamage()) {
+				return false;
+			}
+		}
+
+		return ItemStack.areItemStackTagsEqual(lhs, rhs);
 	}
 }

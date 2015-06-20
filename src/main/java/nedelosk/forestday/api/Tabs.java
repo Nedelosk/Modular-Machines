@@ -9,8 +9,6 @@ public class Tabs {
 	
 	public static CreativeTabs tabForestdayBlocks;
 	
-	public static CreativeTabs tabForestdayMultiBlocks;
-	
 	public static CreativeTabs tabForestdayItems;
 	
 

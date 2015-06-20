@@ -3,8 +3,8 @@
  */
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.forestday.common.machines.brick.furnace.coke.CokeFurnaceRecipe;
-import nedelosk.forestday.common.machines.brick.furnace.fluidheater.FluidHeaterRecipe;
+import nedelosk.forestday.common.machines.base.fluid.heater.FluidHeaterRecipe;
+import nedelosk.forestday.common.machines.base.furnace.coke.CokeFurnaceRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

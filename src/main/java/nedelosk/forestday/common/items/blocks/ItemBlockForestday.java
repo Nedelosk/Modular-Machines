@@ -2,6 +2,7 @@ package nedelosk.forestday.common.items.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ public class ItemBlockForestday extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return  getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage();
+		return  NRegistry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage(), "fd");
 	}
 
 }

@@ -1,17 +1,16 @@
 package nedelosk.forestday.common.core;
 
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.registrys.ForestdayBlockRegistry;
-import nedelosk.forestday.common.registrys.ForestdayItemRegistry;
+import nedelosk.forestday.common.registrys.BlockRegistry;
+import nedelosk.forestday.common.registrys.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class TabForestday extends CreativeTabs {
 	
 	public static CreativeTabs tabForestdayBlocks = Tabs.tabForestdayBlocks = new TabForestday(0, "forestday.blocks");
-	
-	public static CreativeTabs tabForestdayMultiBlocks = Tabs.tabForestdayMultiBlocks = new TabForestday(2, "forestday.multiblocks");
 
 	public static CreativeTabs tabForestdayItems = Tabs.tabForestdayItems = new TabForestday(1, "forestday.items");
 
@@ -27,13 +26,10 @@ public class TabForestday extends CreativeTabs {
 		Item iconItem;
 		switch (tabIcon) {
 		case 1:
-			iconItem = ForestdayItemRegistry.file;
-			break;
-		case 2:
-			iconItem = Item.getItemFromBlock(ForestdayBlockRegistry.bricks);
+			iconItem = Item.getItemFromBlock(Blocks.brick_block);
 			break;
 		default:
-			iconItem = Item.getItemFromBlock(ForestdayBlockRegistry.trunkBig);
+			iconItem = Item.getItemFromBlock(Blocks.brick_block);
 			break;
 		}
 		return new ItemStack(iconItem);

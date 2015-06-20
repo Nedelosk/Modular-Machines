@@ -3,13 +3,14 @@ package nedelosk.nedeloskcore.client.gui.book;
 import java.util.Collection;
 
 import nedelosk.forestbotany.client.book.GuiPlantBook;
-import nedelosk.forestday.Forestday;
+import nedelosk.forestday.common.core.Forestday;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
+import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.note.NoteText;
@@ -73,9 +74,9 @@ public class GuiBook extends GuiScreen {
 		{
 			for(BookCategory category : bookData.map.values())
 			{
-				if(Forestday.proxy.getPlayerData().getEntrys(player.getName()) != null && Forestday.proxy.getPlayerData().getEntrys(player.getName()).get(0) != null)
+				if(NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()) != null && NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()).get(0) != null)
 				{
-				for(String entry : Forestday.proxy.getPlayerData().getEntrys(player.getName()))
+				for(String entry : NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()))
 				{
 					if(category.entrys.containsKey(entry))
 					{

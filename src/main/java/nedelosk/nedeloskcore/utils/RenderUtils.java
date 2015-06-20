@@ -177,31 +177,13 @@ public final class RenderUtils {
 	    GL11.glDisable(GL11.GL_BLEND);
 	  }
 	  
-	  public static ResourceLocation getResourceLocation(String fileName, String... subPackages){
+	  public static ResourceLocation getResourceLocation(String modName, String fileName, String... subPackages){
 	        String filePath = "textures/";
 	        for(String subPackage : subPackages){
 	            filePath+=subPackage+"/";
 	        }
 	        filePath+=fileName + ".png";
-	        return new ResourceLocation(Defaults.MOD_ID.toLowerCase(), filePath);
-	    }
-	  
-	  public static ResourceLocation getResourceLocationBotany(String fileName, String... subPackages){
-	        String filePath = "textures/";
-	        for(String subPackage : subPackages){
-	            filePath+=subPackage+"/";
-	        }
-	        filePath+=fileName + ".png";
-	        return new ResourceLocation("ForestBotany".toLowerCase(), filePath);
-	    }
-	  
-	  public static ResourceLocation getResourceLocatioStructure(String fileName, String... subPackages){
-	        String filePath = "textures/structures/";
-	        for(String subPackage : subPackages){
-	            filePath+=subPackage+"/";
-	        }
-	        filePath+=fileName + ".png";
-	        return new ResourceLocation(Defaults.MOD_ID.toLowerCase(), filePath);
+	        return new ResourceLocation(modName, filePath);
 	    }
 	  
 		public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6) {

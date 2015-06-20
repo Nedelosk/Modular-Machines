@@ -12,6 +12,11 @@ public class BlockForest extends Block {
 		setHardness(2.0F);
 	}
 	
+	protected BlockForest(Material mat) {
+		super(mat);
+		setHardness(2.0F);
+	}
+	
 	@Override
 	public int damageDropped(int metadata) {
 		return metadata;

@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL12;
 
 public class WidgetFluidTank extends Gui {
 
-	private final ResourceLocation widget = new ResourceLocation("forestbotany", "textures/gui/widgets/widget_fluid_tank.png");
+	private final ResourceLocation widget = new ResourceLocation("nedeloskcore", "textures/gui/widgets/widget_fluid_tank.png");
 	IFluidTank tank;
 	public int posX, posY;
 

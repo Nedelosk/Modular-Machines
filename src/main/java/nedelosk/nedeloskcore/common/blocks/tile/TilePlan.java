@@ -1,25 +1,24 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
-import sun.net.www.content.text.plain;
 import nedelosk.nedeloskcore.client.gui.GuiPlan;
 import nedelosk.nedeloskcore.common.inventory.ContainerPlan;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class TilePlan extends TileBaseInventory {
+public class TilePlan extends TileMachineBase {
 
-	public ItemStack plan;
+	public NBTTagCompound plan;
 	public int stages;
 	public ItemStack[] inputs = new ItemStack[4];
 	public ItemStack[] input = new ItemStack[4];
 	public int stage;
+	public boolean closeGui;
+	public boolean closedGui;
 	
 	public TilePlan() {
 		super(8);
@@ -52,8 +51,13 @@ public class TilePlan extends TileBaseInventory {
 		{
 		if(stage == stages && stages != 0)
 		{
+			closeGui = true;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			if(closedGui)
+			{
 			ItemUtils.dropItems(worldObj, xCoord, yCoord, zCoord);
 			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Block.getBlockFromItem(getOutput(plan).getItem()), getOutput(plan).getItemDamage(), 3);
+			}
 		}
 		else if(((getStackInSlot(0) != null && ((input[0] != null && inputs[0].stackSize != input[0].stackSize) || input[0] == null)) || (getStackInSlot(1) != null && ((input[1] != null && inputs[1].stackSize != input[1].stackSize) || input[1] == null)) || (getStackInSlot(2) != null  && ((input[2] != null && inputs[2].stackSize != input[2].stackSize) || input[2] == null)) || (getStackInSlot(3) != null &&((input[0] != null && inputs[0].stackSize != input[0].stackSize) || input[0] == null))) || ((inputs[0] == null || input[0] != null && inputs[0].stackSize == input[0].stackSize) && (inputs[1] == null || input[1] != null && inputs[1].stackSize == input[1].stackSize) && (inputs[2] == null || input[2] != null && inputs[2].stackSize == input[2].stackSize) && (inputs[3] == null || input[3] != null && inputs[3].stackSize == input[3].stackSize)))
 		{
@@ -131,9 +135,7 @@ public class TilePlan extends TileBaseInventory {
 		
 		if(plan != null)
 		{
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		plan.writeToNBT(nbtTag);
-		nbt.setTag("Plan", nbtTag);
+			nbt.setTag("plan", plan);
 		}
 		
 		nbt.setInteger("stages", stages);
@@ -160,16 +162,21 @@ public class TilePlan extends TileBaseInventory {
 			}
 		}
 		nbt.setTag("inputs", nbtTag);
+		
+		nbt.setBoolean("closedGui", closedGui);
+		nbt.setBoolean("closeGui", closeGui);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagCompound nbtTagC = nbt.getCompoundTag("Plan");
-		plan = ItemStack.loadItemStackFromNBT(nbtTagC);
+		plan = nbt.getCompoundTag("plan");
 		
 		stages = nbt.getInteger("stages");
 		stage = nbt.getInteger("stage");
+		
+		closedGui = nbt.getBoolean("closedGui");
+		closeGui = nbt.getBoolean("closeGui");
 		
 		NBTTagList nbtTagList = nbt.getTagList("input", 10);
 		
@@ -194,10 +201,10 @@ public class TilePlan extends TileBaseInventory {
 		}
 	}
 	
-	public void setPlan(ItemStack plan)
+	public void setPlan(NBTTagCompound plan)
 	{
 		this.plan = plan;
-		stages = plan.getTagCompound().getInteger("stages");
+		stages = plan.getInteger("stages");
 		inputs[0] = getInput(plan, stage)[0];
 		inputs[1] = getInput(plan, stage)[1];
 		inputs[2] = getInput(plan, stage)[2];
@@ -212,19 +219,18 @@ public class TilePlan extends TileBaseInventory {
 		return input;
 	}
 	
-	public ItemStack getOutput(ItemStack stack) {
-		if(stack.getTagCompound() == null)
+	public ItemStack getOutput(NBTTagCompound plan) {
+		if(plan == null)
 			return null;
-		NBTTagCompound nbt = stack.getTagCompound().getCompoundTag("Output");
+		NBTTagCompound nbt = plan.getCompoundTag("Output");
 		return ItemStack.loadItemStackFromNBT(nbt);
 	}
 	
-	public ItemStack[] getInput(ItemStack stack, int stage) {
-		if(stack == null)
+	public ItemStack[] getInput(NBTTagCompound plan, int stage) {
+		if(plan == null)
 			return null;
-		if(stack.getTagCompound() == null)
-			return null;
-		NBTTagList nbtTagList = stack.getTagCompound().getTagList("input" + stage, 10);
+		
+		NBTTagList nbtTagList = plan.getTagList("input" + stage, 10);
 		ItemStack[] stacks = new ItemStack[4];
 		for(int i = 0; i < nbtTagList.tagCount(); i++)
 		{
@@ -234,7 +240,7 @@ public class TilePlan extends TileBaseInventory {
 		return stacks;
 	}
 	
-	public ItemStack getPlan() {
+	public NBTTagCompound getPlan() {
 		return plan;
 	}
 	
@@ -268,7 +274,16 @@ public class TilePlan extends TileBaseInventory {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
+		if(side != 1)
+		{
 		return new int[] { 0, 1, 2, 3, 4, 5, 6, 7};
+		}
+		return null;
+	}
+
+	@Override
+	public String getMachineName() {
+		return "plan";
 	}
 
 }

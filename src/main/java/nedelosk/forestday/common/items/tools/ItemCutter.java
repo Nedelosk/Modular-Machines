@@ -1,12 +1,12 @@
 package nedelosk.forestday.common.items.tools;
 
 import nedelosk.forestday.api.crafting.ITool;
-import nedelosk.forestday.common.registrys.ForestdayBlockRegistry;
+import nedelosk.forestday.common.registrys.BlockRegistry;
 import net.minecraft.item.ItemStack;
 
 public class ItemCutter extends ItemToolCrafting
 {
-	public static ForestdayBlockRegistry coreBlocks;
+	public static BlockRegistry coreBlocks;
 	
 	public ItemCutter(int damagemax, int damage, String uln, String nameTexture, int tier, Material material){
 		super(uln, damagemax, tier, material, nameTexture, damage);

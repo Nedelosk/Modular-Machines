@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.brick.kiln.KilnRecipe;
-import nedelosk.forestday.common.machines.brick.kiln.KilnRecipeManager;
+import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipe;
+import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 

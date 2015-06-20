@@ -2,15 +2,19 @@ package nedelosk.nedeloskcore.common;
 
 import java.io.File;
 
-import mcp.mobius.waila.network.NetworkHandler;
+import nedelosk.nedeloskcore.common.book.BookManager;
+import nedelosk.nedeloskcore.common.book.PlayerData;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.event.PlayerEvents;
 import nedelosk.nedeloskcore.common.network.GuiHandler;
 import nedelosk.nedeloskcore.common.proxy.CommonProxy;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = "NedeloskCore", version = "1.0.1" )
@@ -32,6 +36,9 @@ public class NedelsokCore
     public void preInit(FMLPreInitializationEvent event)
     {
     	
+    	proxy.playerData = new PlayerData();
+    	proxy.bookManager = new BookManager();
+    	
     	NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
     	
     	NRegistry.instance = new NRegistry();
@@ -41,6 +48,8 @@ public class NedelsokCore
         configPlugins = new File(configFolder, "Plugins.cfg");
         
         NRegistry.instance.preInit();
+        
+    	MinecraftForge.EVENT_BUS.register(new PlayerEvents());
 
     }
     
@@ -54,5 +63,10 @@ public class NedelsokCore
 	public void postInit(FMLPostInitializationEvent event){
     	NRegistry.instance.postInit();
 	}
+    
+    @Mod.EventHandler
+    public void serverInit(FMLServerStartingEvent event )
+    {
+    }
 	
 }

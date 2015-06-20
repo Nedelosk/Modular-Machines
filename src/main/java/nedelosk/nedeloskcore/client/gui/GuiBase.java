@@ -2,6 +2,8 @@ package nedelosk.nedeloskcore.client.gui;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
+import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,7 +12,8 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiBase extends GuiContainer {
 
-	protected ResourceLocation guiTexture = RenderUtils.getResourceLocation(getGuiName(), "gui");
+	protected ResourceLocation guiTexture = RenderUtils.getResourceLocation(getModName(), getGuiName(), "gui");
+	protected ResourceLocation guiUpdateInventory = RenderUtils.getResourceLocation("nedeloskcore", "updateInventory", "gui");
 	protected TileBase tile;
 	
 	public GuiBase(TileBaseInventory tile, InventoryPlayer inventory) {
@@ -32,6 +35,12 @@ public abstract class GuiBase extends GuiContainer {
 	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
 	    renderProgressBar();
+	    
+        if(tile instanceof TileMachineBase)
+        {
+    		//RenderUtils.bindTexture(guiUpdateInventory);
+    		//drawTexturedModalRect(this.guiLeft + 83, this.guiTop - 30, 0, 0, 30, 30);
+        }
 	}
 	
 	protected abstract void renderStrings(FontRenderer fontRenderer, int x, int y);
@@ -39,5 +48,7 @@ public abstract class GuiBase extends GuiContainer {
 	protected abstract void renderProgressBar();
     
     protected abstract String getGuiName();
+    
+    protected abstract String getModName();
 
 }

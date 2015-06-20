@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.core.TabForestday;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,13 +18,14 @@ import net.minecraft.util.MathHelper;
 
 public class ItemNature extends ItemForestday {
 
-	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash" };
+	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash", "mortar" };
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;
 	
 	public ItemNature() {
 		super(null, Tabs.tabForestdayItems);
 		setHasSubtypes(true);
+		setUnlocalizedName("nature");
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -55,7 +57,7 @@ public class ItemNature extends ItemForestday {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return ForestdayRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage());
+        return NRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
     }
 
 }

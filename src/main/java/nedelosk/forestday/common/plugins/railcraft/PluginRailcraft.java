@@ -4,7 +4,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IBurnRecipe;
-import nedelosk.forestday.common.registrys.ForestdayItemRegistry;
+import nedelosk.forestday.common.registrys.FItems;
+import nedelosk.forestday.common.registrys.ItemRegistry;
 import nedelosk.nedeloskcore.plugins.Plugin;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -26,8 +27,8 @@ public class PluginRailcraft extends Plugin {
 		
 		IBurnRecipe burnRecipe = ForestdayCrafting.burningRecipe;
 		
-		burnRecipe.addRecipe(new ItemStack(itemCoke, 1, 0), new ItemStack(ForestdayItemRegistry.nature, 1, 7), 3200, BurningMode.Coke);
-		burnRecipe.addRecipe(new ItemStack(blockCoke, 1, 0), new ItemStack(ForestdayItemRegistry.nature, 1, 7), 28800, BurningMode.Coke);
+		burnRecipe.addRecipe(new ItemStack(itemCoke, 1, 0), new ItemStack(FItems.nature.item(), 1, 7), 3200, BurningMode.Coke);
+		burnRecipe.addRecipe(new ItemStack(blockCoke, 1, 0), new ItemStack(FItems.nature.item(), 1, 7), 28800, BurningMode.Coke);
 		
 	}
 

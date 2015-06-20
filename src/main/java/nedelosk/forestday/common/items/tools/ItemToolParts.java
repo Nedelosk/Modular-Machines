@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.core.TabForestday;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -25,6 +26,7 @@ public class ItemToolParts extends ItemForestday {
 	public ItemToolParts() {
 		super(null, Tabs.tabForestdayItems);
 		setHasSubtypes(true);
+		setUnlocalizedName("tool.parts");
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -57,7 +59,7 @@ public class ItemToolParts extends ItemForestday {
     public String getUnlocalizedName (ItemStack itemstack)
     {
     	
-        return ForestdayRegistry.setUnlocalizedItemName("parts." + itemstack.getItemDamage());
+        return NRegistry.setUnlocalizedItemName("parts." + itemstack.getItemDamage(), "fd");
     }
 
 }

@@ -1,4 +1,24 @@
 ####################################
+Blocks
+####################################
+forest.nc.block.plan.name=Plan
+
+####################################
+Container
+####################################
+
+
+####################################
+Items
+####################################
+forest.nc.item.book.plants.name=Book of the Plants
+forest.nc.item.plan.0.name=Plan
+forest.nc.item.plan.1.name=Blueprint
+forest.nc.item.plan.2.name=Planning Tool
+forest.nc.item.bucket.wood.name=Wood Bucket
+forest.nc.item.bucket.wood.water.name=Wood Water Bucket
+
+####################################
 Books
 ####################################
 nc.back=Back
@@ -6,3 +26,4 @@ nc.nextPage=Next Page
 nc.prevPage=Previous Page
 
 itemGroup.NedeloskCore=Notes
+nei.nedeloskcore.plan=Plan

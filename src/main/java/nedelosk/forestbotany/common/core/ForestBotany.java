@@ -28,21 +28,21 @@ public class ForestBotany {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
+		/*NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
 		ForestBotanyTab.instance = new ForestBotanyTab();
-		ModuleManager.preInit();
+		ModuleManager.preInit();*/
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		ModuleManager.init();
+		/*ModuleManager.init();
 		proxy.registerRenderers();
-		Config.loadConfig(config);
+		Config.loadConfig(config);*/
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		ModuleManager.postInit();
+		//ModuleManager.postInit();
 	}
 	
 }

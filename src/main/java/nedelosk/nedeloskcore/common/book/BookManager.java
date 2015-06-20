@@ -13,7 +13,7 @@ import nedelosk.forestbotany.common.core.tracker.PlantTracker;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.allele.Allele;
 import nedelosk.forestbotany.common.genetics.templates.crop.CropChromosome;
-import nedelosk.forestday.Forestday;
+import nedelosk.nedeloskcore.common.NedelsokCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -35,7 +35,7 @@ public class BookManager {
 
 	public static boolean isEntryUnlock(String playerName, String key)
 	{
-		List unlock = Forestday.proxy.playerData.getEntrys(playerName);
+		List unlock = NedelsokCore.proxy.playerData.getEntrys(playerName);
 		if(unlock != null && unlock.size() > 0)
 		{
 			if(BookDatas.getEntry(key).parents != null)
@@ -87,7 +87,7 @@ public class BookManager {
 	
 	public static boolean isKnowledgeUnlock(String playerName, String key)
 	{
-		List unlock = Forestday.proxy.getPlayerData().getKnowledges(playerName);
+		List unlock = NedelsokCore.proxy.getPlayerData().getKnowledges(playerName);
 		if(unlock != null)
 		{
 			return unlock.contains(key);
@@ -97,12 +97,12 @@ public class BookManager {
 	
 	public static ArrayList<String> getEntrysForPlayer(String playerName)
 	{
-		ArrayList<String> entrys = Forestday.proxy.getPlayerData().getEntrys(playerName);
+		ArrayList<String> entrys = NedelsokCore.proxy.getPlayerData().getEntrys(playerName);
 		try
 		{
-			if(entrys == null && Forestday.proxy.getClientWorld() == null && MinecraftServer.getServer() != null)
+			if(entrys == null && NedelsokCore.proxy.getClientWorld() == null && MinecraftServer.getServer() != null)
 			{
-				Forestday.proxy.getPlayerData().getUnlockEntrys().put(playerName, new ArrayList());
+				NedelsokCore.proxy.getPlayerData().getUnlockEntrys().put(playerName, new ArrayList());
 				UUID id = UUID.nameUUIDFromBytes(("OfflinePlayer:" + playerName).getBytes(Charsets.UTF_8));
 				EntityPlayerMP entityplayermp = new EntityPlayerMP(MinecraftServer.getServer(), MinecraftServer.getServer().worldServerForDimension(0), new GameProfile(id, playerName), new ItemInWorldManager(MinecraftServer.getServer().worldServerForDimension(0)));
 				if (entityplayermp != null)
@@ -125,7 +125,7 @@ public class BookManager {
 	
 	public static ArrayList<String> getUnlockEntrys(String playerName)
 	{
-		return Forestday.proxy.getPlayerData().getEntrys(playerName);
+		return NedelsokCore.proxy.getPlayerData().getEntrys(playerName);
 	}
 	
 	public static void unlockEntry(EntityPlayer player, String key)
@@ -138,13 +138,13 @@ public class BookManager {
 		if(!list.contains(key))
 		{
 			list.add(key);
-			Forestday.proxy.getPlayerData().getUnlockEntrys().put(player.getDisplayName(), list);
+			NedelsokCore.proxy.getPlayerData().getUnlockEntrys().put(player.getDisplayName(), list);
 		}
 	}
 	
 	public static ArrayList<String> getUnlockKnowledges(String playerName)
 	{
-		return Forestday.proxy.getPlayerData().getKnowledges(playerName);
+		return NedelsokCore.proxy.getPlayerData().getKnowledges(playerName);
 	}
 	
 	public static void unlockKnowledge(EntityPlayer player, String key)
@@ -157,7 +157,7 @@ public class BookManager {
 		if(!list.contains(key))
 		{
 			list.add(key);
-			Forestday.proxy.getPlayerData().getUnlockKnowledges().put(player.getDisplayName(), list);
+			NedelsokCore.proxy.getPlayerData().getUnlockKnowledges().put(player.getDisplayName(), list);
 		}
 	}
 	
@@ -279,7 +279,7 @@ public class BookManager {
 	public static void saveKnowledges(NBTTagCompound tag, EntityPlayer player)
 	{
 		NBTTagList tagList = new NBTTagList();
-		List list = Forestday.proxy.getPlayerData().getKnowledges(player.getDisplayName());
+		List list = NedelsokCore.proxy.getPlayerData().getKnowledges(player.getDisplayName());
 		if(list != null && list.size() > 0)
 		{
 			for(Object key : list)

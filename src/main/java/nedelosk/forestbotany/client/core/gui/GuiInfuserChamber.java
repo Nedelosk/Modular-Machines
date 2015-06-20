@@ -57,12 +57,8 @@ public class GuiInfuserChamber extends GuiBase {
 	}
 	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-		guiTexture = RenderUtils.getResourceLocationBotany(getGuiName(), "gui");
-		RenderUtils.bindTexture(guiTexture);	    
-	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-		
-	    renderProgressBar();
+	protected String getModName() {
+		return "forestbotany";
 	}
 
 }

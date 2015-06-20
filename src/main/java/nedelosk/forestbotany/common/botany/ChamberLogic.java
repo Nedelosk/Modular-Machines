@@ -10,7 +10,7 @@ import nedelosk.forestbotany.api.botany.IInfuserChamber.PlantStatus;
 import nedelosk.forestbotany.api.genetics.IPlantDifinition;
 import nedelosk.forestbotany.api.genetics.allele.IAlleleGender;
 import nedelosk.forestbotany.api.genetics.plants.IPlant;
-import nedelosk.forestbotany.common.core.registry.ItemRegistry;
+import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
 import nedelosk.forestbotany.common.genetics.Genome;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.allele.Allele;

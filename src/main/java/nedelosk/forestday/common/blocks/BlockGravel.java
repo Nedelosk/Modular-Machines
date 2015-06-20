@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.Forestday;
 import nedelosk.forestday.api.Tabs;
+import nedelosk.forestday.common.core.Forestday;
 import nedelosk.forestday.common.core.TabForestday;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWood;
@@ -24,7 +24,7 @@ import net.minecraft.world.WorldSettings.GameType;
 
 public class BlockGravel extends BlockForestday {
 
-	 public String[] textures = new String[] { "laom", "ore_gravel" };
+	 public String[] textures = new String[] { "loam", "ore_gravel" };
 	 public IIcon[] icon;
 	
 	public BlockGravel() {
@@ -56,7 +56,7 @@ public class BlockGravel extends BlockForestday {
     @Override
     public void getSubBlocks (Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int i = 0; i < textures.length; i++)
+        for (int i = 0; i < 1; i++)
             par3List.add(new ItemStack(par1, 1, i));
     }
 

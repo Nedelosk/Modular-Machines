@@ -68,11 +68,6 @@ public class FluidHelper {
         return FluidContainerRegistry.fillFluidContainer(new FluidStack(fluid, Integer.MAX_VALUE), empty);
     }
     
-    public static Fluid getFluidFromID(int id)
-    {
-    	return NRegistry.fluidRegister.get(id);
-    }
-    
     public static FluidStack getFluidFromItem(ItemStack stack) {
         if(stack != null) {
           FluidStack fluidStack = null;

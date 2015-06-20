@@ -1,7 +1,8 @@
 package nedelosk.forestday.common.items.base;
 
 import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,16 +10,15 @@ import net.minecraft.item.ItemStack;
 public class ItemForestday extends Item {
 	
 	private String unl;
+	private boolean hasMeta;
 	
-	public ItemForestday(String unl, CreativeTabs tab, boolean autoTexture)
+	public ItemForestday(String unl, CreativeTabs tab, boolean hasMeta)
 	{
 		this.setCreativeTab(tab);
 		this.setUnlocalizedName(unl);
-		if(autoTexture)
-		{
-		this.setTextureName("forestday:" + unl);
-		}
 		this.unl = unl;
+		this.setHasSubtypes(hasMeta);
+		this.hasMeta = hasMeta;
 	}
 	
 	public ItemForestday(String unl, CreativeTabs tab)
@@ -31,6 +31,6 @@ public class ItemForestday extends Item {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return ForestdayRegistry.setUnlocalizedItemName(unl);
+        return NRegistry.setUnlocalizedItemName(unl + ((hasMeta) ? itemstack.getItemDamage() : ""), "fd");
     }
 }

@@ -1,7 +1,7 @@
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.wood.workbench.WorkbenchRecipeManager;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
+import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 

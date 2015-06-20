@@ -11,6 +11,9 @@ import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.templates.crop.CropManager;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
+import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
+import nedelosk.nedeloskcore.common.network.packets.PacketBlueprint;
+import nedelosk.nedeloskcore.common.network.packets.PacketTilePlan;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -37,6 +40,23 @@ public class GuiPlan extends GuiBase {
 	@Override
 	protected void renderProgressBar() {
 		
+	}
+	
+	@Override
+	public void updateScreen() {
+		super.updateScreen();
+		if(tile instanceof TilePlan)
+		{
+			TilePlan plan = (TilePlan) tile;
+			if(plan.closeGui)
+			{
+				plan.closedGui = true;
+				plan.getWorldObj().markBlockForUpdate(plan.xCoord, plan.yCoord, plan.zCoord);
+				PacketHandler.INSTANCE.sendToServer(new PacketTilePlan(plan));
+				mc.displayGuiScreen(null);
+				mc.setIngameFocus();
+			}
+		}
 	}
 	
 	@Override
@@ -72,10 +92,7 @@ public class GuiPlan extends GuiBase {
 		
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		if(!ForgeHooksClient.renderInventoryItem(RenderBlocks.getInstance(), Minecraft.getMinecraft().renderEngine, input2, false, zLevel +3.0F, (float) xPosition, (float)yPosition))
-		{
-			RenderItem.getInstance().renderItemIntoGUI(this.mc.fontRenderer, Minecraft.getMinecraft().renderEngine, input2, xPosition, yPosition);
-		}
+		this.drawItemStack(input2, xPosition, yPosition);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -85,6 +102,24 @@ public class GuiPlan extends GuiBase {
     		RenderUtils.renderTooltip(mx, my + tooltipY, tooltip);
         }
 		}
+	}
+	
+    private void drawItemStack(ItemStack stack, int x, int y)
+    {
+        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+        this.zLevel = 200.0F;
+        itemRender.zLevel = 200.0F;
+        FontRenderer font = null;
+        if (stack != null) font = stack.getItem().getFontRenderer(stack);
+        if (font == null) font = fontRendererObj;
+        itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
+        this.zLevel = 0.0F;
+        itemRender.zLevel = 0.0F;
+    }
+
+	@Override
+	protected String getModName() {
+		return "nedeloskcore";
 	}
 
 }

@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.core.TabForestday;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.registrys.ForestdayRegistry;
+import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,13 +18,14 @@ import net.minecraft.util.MathHelper;
 
 public class ItemNugget extends ItemForestday {
 
-	public String[] ingot = new String[] { "copper", "tin", "bronze" };
+	public String[] ingot = new String[] { "copper", "tin", "bronze", "redstone_alloy", "dark_alloy", "steel", "forest_steel", "enderium" };
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;
 	
 	public ItemNugget() {
 		super(null, Tabs.tabForestdayItems);
 		setHasSubtypes(true);
+		setUnlocalizedName("nugget");
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -34,7 +36,7 @@ public class ItemNugget extends ItemForestday {
 
         for (int i = 0; i < this.itemIcon.length; ++i)
         {
-            this.itemIcon[i] = iconRegister.registerIcon("forestday:nugget_" + ingot[i]);
+            this.itemIcon[i] = iconRegister.registerIcon("forestday:nuggets/" + ingot[i]);
         }
     }
     
@@ -55,7 +57,7 @@ public class ItemNugget extends ItemForestday {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return ForestdayRegistry.setUnlocalizedItemName("nugget." + itemstack.getItemDamage());
+        return NRegistry.setUnlocalizedItemName("nugget." + itemstack.getItemDamage(), "fd");
     }
 
 }

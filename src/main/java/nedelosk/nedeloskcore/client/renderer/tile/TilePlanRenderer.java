@@ -24,8 +24,6 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 		GL11.glTranslated((float) x + 0.5F, (float) y - 0.5F, (float) z + 0.5F);
 		Tessellator t = Tessellator.instance;
 		GL11.glPushMatrix();
-		if(plan.stage == 0)
-		{
 			this.bindTexture(new ResourceLocation("textures/blocks/log_oak.png"));
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
@@ -122,8 +120,8 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 			if(plan.getPlan() != null)
 			{
 			RenderUtils.bindItemTexture();
-			Item planItem = plan.getPlan().getItem();
-			IIcon iconPlan = planItem.getIcon(plan.getPlan(), 0);
+			Item planItem = NRegistry.plan;
+			IIcon iconPlan = planItem.getIcon(new ItemStack(NRegistry.plan, 1, 0), 0);
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
 			t.addVertexWithUV(-0.431, 1.02, 0.431, iconPlan.getMaxU(), iconPlan.getMinV());
@@ -132,49 +130,6 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(-0.431, 0.72, -0.431, iconPlan.getMaxU(), iconPlan.getMaxV());
 			t.draw();
 			}
-			
-			
-		}
-		else if(plan.stages > 1 && plan.stage == 1)
-		{
-			
-		}
-		else if(plan.stages > 2 && plan.stage == 2)
-		{
-			
-		}
-		else if(plan.stages > 3 && plan.stage == 3)
-		{
-			
-		}
-		else if(plan.stages > 4 && plan.stage == 4)
-		{
-			
-		}
-		else if(plan.stages > 5 && plan.stage == 5)
-		{
-			
-		}
-		else if(plan.stages > 6 && plan.stage == 6)
-		{
-			
-		}
-		else if(plan.stages > 7 && plan.stage == 7)
-		{
-			
-		}
-		else if(plan.stages > 8 && plan.stage == 8)
-		{
-			
-		}
-		else if(plan.stages > 9 && plan.stage == 9)
-		{
-			
-		}
-		else if(plan.stages - 1 == plan.stage)
-		{
-			
-		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

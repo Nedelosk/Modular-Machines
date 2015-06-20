@@ -21,7 +21,7 @@ public class BlockPlan extends BlockContainerForest {
 	
 	public BlockPlan() {
 		super(Material.wood);
-		setBlockName(NRegistry.setUnlocalizedItemName("plan", "nc"));
+		setBlockName(NRegistry.setUnlocalizedBlockName("plan", "nc"));
 		setHardness(2.0F);
 		setStepSound(soundTypeWood);
 	}
@@ -36,6 +36,7 @@ public class BlockPlan extends BlockContainerForest {
 		if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TilePlan)
 		{
 			player.openGui(NedelsokCore.instance, 0, world, x, y, z);
+			return true;
 		}
 		return false;
 	}
@@ -53,8 +54,8 @@ public class BlockPlan extends BlockContainerForest {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-		plan.getPlan().stackSize = 1;
-		list.add(plan.getPlan());
+		list.add(new ItemStack(NRegistry.plan, 1, 0));
+		list.get(0).setTagCompound(plan.plan);
 		return list;
 	}
 	

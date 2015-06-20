@@ -3,7 +3,8 @@ package nedelosk.forestday.common.world;
 import java.util.Random;
 
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.registrys.ForestdayBlockRegistry;
+import nedelosk.forestday.common.registrys.BlockRegistry;
+import nedelosk.forestday.common.registrys.FBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -34,15 +35,15 @@ public class WorldGeneratorForestday implements IWorldGenerator {
 	private void generateSurface(World world, Random random, int x, int z) {
 		if(ForestdayConfig.generateCopper)
 		{
-		generateOre(ForestdayBlockRegistry.oreBlock, 0, world, random, x, z, 5 + random.nextInt(3), 20, 12, 45);
+		generateOre(FBlocks.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(3), 20, 12, 45);
 		}
 		if(ForestdayConfig.generateTin)
 		{
-		generateOre(ForestdayBlockRegistry.oreBlock, 1, world, random, x, z, 3 + random.nextInt(3), 10, 3, 20);
+		generateOre(FBlocks.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(3), 10, 3, 20);
 		}
 		if(ForestdayConfig.generateLimestone)
 		{
-		generateOre(ForestdayBlockRegistry.oreBlock, 2, world, random, x, z, 13 + random.nextInt(7), 8, 20, 56);
+		generateOre(FBlocks.Ore.block(), 2, world, random, x, z, 13 + random.nextInt(7), 8, 20, 56);
 		}
 	}
 
