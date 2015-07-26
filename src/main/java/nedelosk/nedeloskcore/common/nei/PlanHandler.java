@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.common.nei;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.nedeloskcore.common.plan.PlanRecipe;
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;

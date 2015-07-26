@@ -6,10 +6,58 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2371822-forest-day",
-  "updateUrl": "http://minecraft.curseforge.com/mc-mods/226149-forest-day/files",
+  "updateUrl": "",
   "authorList": ["Nedelosk"],
   "credits": "",
   "logoFile": "/assets/forestday/logo.png",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "ModularMachines",
+  "name": "Modular Machines",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Nedelosk"],
+  "credits": "",
+  "logoFile": "/assets/modularmachines/logo.png",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "ForestBotany",
+  "name": "Forest Botany",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Nedelosk"],
+  "credits": "",
+  "logoFile": "/assets/modularmachines/logo.png",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "NedeloskCore",
+  "name": "Nedelosk Core",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Nedelosk"],
+  "credits": "",
+  "logoFile": "/assets/modularmachines/logo.png",
   "screenshots": [],
   "dependencies": [
      "mod_MinecraftForge"

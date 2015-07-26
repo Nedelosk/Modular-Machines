@@ -5,6 +5,7 @@ import java.util.List;
 
 import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
 import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import net.minecraft.item.ItemStack;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;

@@ -15,7 +15,7 @@ public class PluginManager {
 	public static void registerPlugin(Plugin plugin)
 	{
 		plugins.add(plugin);
-		Log.log(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());
+		Log.logPluginManager(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());
 	}
 	
 	public void preInitPlugins()

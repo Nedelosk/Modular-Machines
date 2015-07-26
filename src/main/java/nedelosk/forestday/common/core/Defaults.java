@@ -13,8 +13,8 @@ import net.minecraftforge.oredict.OreDictionary;
 public class Defaults {
 	
 	public static final String MOD = "Forest Day";
-	public static final String MOD_ID = "Forestday";
-    public static final String VERSION = "1.4.0a";
+	public static final String MOD_ID = "ForestDay";
+    public static final String VERSION = "0.1.1";
 	
 	public static final int BUSRENDERER_ID = RenderingRegistry.getNextAvailableRenderId();
 	public static final int BUSRENDERER_METAL_ID = RenderingRegistry.getNextAvailableRenderId();

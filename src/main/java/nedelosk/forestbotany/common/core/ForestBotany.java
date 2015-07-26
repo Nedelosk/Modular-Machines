@@ -14,7 +14,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = "ForestBotany", version = "0.0.1a", dependencies = "after:Forestry;after:NotEnoughItems;after:NedeloskCore")
+@Mod(modid = "ForestBotany", version = "0.1.1", dependencies = "after:Forestry;after:NotEnoughItems;after:NedeloskCore")
 public class ForestBotany {
 	
 	  public static File config= new File(Module.configFolder, "Forest-Botany");

@@ -16,9 +16,6 @@ public class ForestdayConfig {
 		//Kiln
 		kilnBurnTime = config.get("Kiln", "BurnTime", 700).getInt();
 		kilnMinHeat = config.get("Kiln", "MinHeat", 125).getInt();
-			
-		//Fan
-		fanAirProduction = config.get("Fan", "Air Production", 10).getInt();
 		
 		//Saw
 		sawBurnTime = config.get("Saw", "Burn Time", 90).getInt();
@@ -64,8 +61,6 @@ public class ForestdayConfig {
 	public static int sawBurnTime;
 	
 	public static int worktableBurnTime;
-	
-	public static int fanAirProduction;
 	
 	public static boolean generateCopper;
 	public static boolean generateTin;

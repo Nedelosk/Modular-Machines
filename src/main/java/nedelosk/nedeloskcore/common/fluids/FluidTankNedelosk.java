@@ -9,6 +9,14 @@ public class FluidTankNedelosk extends FluidTank {
   public FluidTankNedelosk(int capacity) {
     super(capacity);
   }
+  
+  public FluidTankNedelosk(FluidStack stack,int capacity) {
+	  super(stack, capacity);
+  }
+  
+  public FluidTankNedelosk(Fluid fluid, int amount ,int capacity) {
+	  super(fluid, amount, capacity);
+  }
 
   public float getFilledRatio() {
     return (float) getFluidAmount() / getCapacity();

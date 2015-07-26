@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.common.blocks.fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.forestday.common.registrys.FRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.material.Material;

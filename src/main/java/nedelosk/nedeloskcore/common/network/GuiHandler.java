@@ -44,14 +44,14 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		if(ID == 0)
+		/*if(ID == 0)
 		{
 			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemBook)
 			{
 			return new GuiPlantBookIndex(null, "plants", ((ItemBook)player.getCurrentEquippedItem().getItem()).getBookData(), player.getGameProfile(), world);
 			}
 		}
-		else if(ID == 1)
+		else*/if(ID == 1)
 		{
 			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemPlan && player.getCurrentEquippedItem().getItemDamage() == 1)
 			{

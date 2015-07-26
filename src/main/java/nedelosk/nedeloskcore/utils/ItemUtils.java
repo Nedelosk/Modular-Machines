@@ -33,6 +33,39 @@ public class ItemUtils {
 		}
 	}
 	
+	public static void dropItem(World world, int x, int y, int z, int ID)
+	{
+		Random rand = new Random();
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile == null || !(tile instanceof IInventory))
+			return;
+		IInventory inventory = (IInventory) tile;
+		ItemStack item = inventory.getStackInSlot(ID);
+		if(item != null && item.stackSize > 0)
+		{
+			float rx = rand.nextFloat() * 0.8F + 0.1F;
+			float ry = rand.nextFloat() * 0.8F + 0.1F;
+			float rz = rand.nextFloat() * 0.8F + 0.1F;
+			EntityItem entityItem = new EntityItem(world, x, y, z, new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+			world.spawnEntityInWorld(entityItem);
+			inventory.setInventorySlotContents(ID, null);
+		}
+	}
+	
+	public static void dropItem(World world, int x, int y, int z, ItemStack item)
+	{
+		Random rand = new Random();
+		if(item != null && item.stackSize > 0)
+		{
+			float rx = rand.nextFloat() * 0.8F + 0.1F;
+			float ry = rand.nextFloat() * 0.8F + 0.1F;
+			float rz = rand.nextFloat() * 0.8F + 0.1F;
+			EntityItem entityItem = new EntityItem(world, x, y, z, new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+			world.spawnEntityInWorld(entityItem);
+			item = null;
+		}
+	}
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		if (lhs == null || rhs == null) {
 			return false;

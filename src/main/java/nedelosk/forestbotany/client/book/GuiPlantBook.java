@@ -3,7 +3,7 @@ package nedelosk.forestbotany.client.book;
 import java.util.Collection;
 import java.util.UUID;
 
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
@@ -31,6 +31,7 @@ public class GuiPlantBook extends GuiBook {
 	
 	public GuiPlantBook(BookData data, GameProfile player, World world) {
 		super(new ResourceLocation("forestbotany", "textures/gui/book/manual_crop/pages/pageBackground.png"), data, player, world);
+		guiRender = false;
 	}
     
     @Override

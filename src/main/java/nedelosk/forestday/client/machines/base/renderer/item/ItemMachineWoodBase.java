@@ -2,8 +2,6 @@ package nedelosk.forestday.client.machines.base.renderer.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.sun.javafx.webkit.theme.Renderer;
-
 import nedelosk.forestday.client.machines.base.renderer.tile.TileCampfireRenderer;
 import nedelosk.forestday.client.machines.base.renderer.tile.TileKilnRenderer;
 import nedelosk.forestday.client.machines.base.renderer.tile.TileWorkbenchRenderer;

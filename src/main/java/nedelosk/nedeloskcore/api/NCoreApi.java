@@ -3,13 +3,11 @@ package nedelosk.nedeloskcore.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.api.book.BookLevel;
+import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
-import nedelosk.nedeloskcore.api.crafting.OreStack;
 import nedelosk.nedeloskcore.api.plan.IPlanEnum;
-import nedelosk.nedeloskcore.common.book.BookData;
-import nedelosk.nedeloskcore.common.plan.PlanRecipe;
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

@@ -8,6 +8,7 @@ import nedelosk.forestbotany.api.genetics.plants.IPlant;
 import nedelosk.forestbotany.common.blocks.BlockInfuserBase;
 import nedelosk.forestbotany.common.blocks.tile.TileInfuser;
 import nedelosk.forestbotany.common.blocks.tile.TileInfuserChamber;
+import nedelosk.forestbotany.common.book.PlantBookManager;
 import nedelosk.forestbotany.common.core.config.Config;
 import nedelosk.forestbotany.common.core.registrys.BlockRegistry;
 import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
@@ -55,9 +56,9 @@ public class ModuleBotanist extends Module {
 		ItemRegistry.plant_book.registerItem(new ItemBook("plants", EntryRegistry.plantData){
 			@Override
 			public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX,float hitY, float hitZ) {
-				BookManager.unlockPlants(player.getGameProfile(), CropDefinition.Wheat.getPlant(), world);
-				BookManager.unlockPlants(player.getGameProfile(), CropDefinition.Carrot.getPlant(), world);
-				BookManager.unlockPlants(player.getGameProfile(), CropDefinition.Potatoe.getPlant(), world);
+				PlantBookManager.unlockPlants(player.getGameProfile(), CropDefinition.Wheat.getPlant(), world);
+				PlantBookManager.unlockPlants(player.getGameProfile(), CropDefinition.Carrot.getPlant(), world);
+				PlantBookManager.unlockPlants(player.getGameProfile(), CropDefinition.Potatoe.getPlant(), world);
 				return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 				
 			}

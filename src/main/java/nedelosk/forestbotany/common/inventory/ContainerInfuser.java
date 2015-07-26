@@ -19,11 +19,11 @@ public class ContainerInfuser extends ContainerBase {
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		
-		if(((TileInfuser)inventoryBase).getChamerWithGender(Allele.male) != null)
-		addSlotToContainer(new SlotGender(((TileInfuser)inventoryBase).getChamerWithGender(Allele.male), 0 , 44, 29, Allele.male));
+		if(((TileInfuser)inventoryBase).getChamberWithGender(Allele.male) != null)
+			addSlotToContainer(new SlotGender(((TileInfuser)inventoryBase).getChamberWithGender(Allele.male), 0 , 44, 29, Allele.male));
 		
-		if(((TileInfuser)inventoryBase).getChamerWithGender(Allele.female) != null)
-		addSlotToContainer(new SlotGender(((TileInfuser)inventoryBase).getChamerWithGender(Allele.female), 0 , 116, 29, Allele.female));
+		if(((TileInfuser)inventoryBase).getChamberWithGender(Allele.female) != null)
+			addSlotToContainer(new SlotGender(((TileInfuser)inventoryBase).getChamberWithGender(Allele.female), 0 , 116, 29, Allele.female));
 		
 		//Plant Output
 		addSlotToContainer(new Slot(inventoryBase, 0 , 80, 29)

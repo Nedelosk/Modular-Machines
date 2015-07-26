@@ -126,7 +126,7 @@ public class CraftingManager {
 		addShapelessRecipe(new ItemStack(FItems.cutter.item()), new ItemStack(FItems.tool_parts.item(), 1, 6), new ItemStack(FItems.tool_parts.item(), 1, 7));
 		addShapelessRecipe(new ItemStack(FItems.adze.item()), new ItemStack(FItems.tool_parts.item(), 1, 8), new ItemStack(FItems.tool_parts.item(), 1, 10));
 		addShapelessRecipe(new ItemStack(FItems.adze_long.item()), new ItemStack(FItems.tool_parts.item(), 1, 9), new ItemStack(FItems.tool_parts.item(), 1, 11));
-		addShapelessRecipe(new ItemStack(FItems.bow_and_stick.item()), Items.bow, Items.stick, Items.bow, Items.stick);
+		addShapelessRecipe(new ItemStack(FItems.bow_and_stick.item()), Items.bow, Items.stick, Items.stick);
 		
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, Items.water_bucket);
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, NRegistry.woodBucketWater);

@@ -9,6 +9,7 @@ import com.mojang.authlib.GameProfile;
 
 import nedelosk.forestbotany.api.botany.book.BookPlantEntry;
 import nedelosk.forestbotany.api.genetics.plants.IPlant;
+import nedelosk.forestbotany.common.book.PlantBookManager;
 import nedelosk.forestbotany.common.genetics.templates.crop.CropChromosome;
 import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
@@ -40,9 +41,9 @@ public class GuiPlantBookIndex extends GuiPlantBook {
 		entriesToDisplay.clear();
 		if(bookData.getCategory(category) != null && bookData.getCategory(category).entrys != null)
 		{
-			if(BookManager.getUnlockPlants(player, "Crop", world) != null)
+			if(PlantBookManager.getUnlockPlants(player, "Crop", world) != null)
 			{
-			for(IPlant plant : BookManager.getUnlockPlants(player, "Crop", world))
+			for(IPlant plant : PlantBookManager.getUnlockPlants(player, "Crop", world))
 			{
 				entriesToDisplay.add((BookPlantEntry)bookData.getCategory(category).entrys.get("plant" + plant.getGenome().getActiveAllele(CropChromosome.PLANT).getUID().replace("fb.plant.crop", "")));
 			}

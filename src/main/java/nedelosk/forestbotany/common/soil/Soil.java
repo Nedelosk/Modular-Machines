@@ -1,8 +1,7 @@
 package nedelosk.forestbotany.common.soil;
 
 import nedelosk.forestbotany.api.soil.ISoil;
-import nedelosk.forestbotany.common.fluid.FluidTankNedelosk;
-import nedelosk.nedeloskcore.api.INBTTagable;
+import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;

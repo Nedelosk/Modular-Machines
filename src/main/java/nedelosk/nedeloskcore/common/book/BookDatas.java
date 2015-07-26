@@ -8,12 +8,15 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import nedelosk.forestbotany.common.core.ForestBotany;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import net.minecraft.client.Minecraft;
 
 import org.w3c.dom.Document;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BookDatas {
 
@@ -63,6 +66,7 @@ public class BookDatas {
 	
     public static Document crops;
 
+    @SideOnly(Side.CLIENT)
     public static void readManuals() {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         String CurrentLanguage = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
@@ -75,7 +79,7 @@ public class BookDatas {
 
     public static Document readManual(String location, DocumentBuilderFactory dbFactory) {
         try {
-            InputStream stream = ForestBotany.class.getResourceAsStream(location);
+            InputStream stream = NedelsokCore.class.getResourceAsStream(location);
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(stream);
             doc.getDocumentElement().normalize();

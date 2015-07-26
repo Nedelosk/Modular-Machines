@@ -2,18 +2,17 @@ package nedelosk.nedeloskcore.client.gui.book;
 
 import java.util.Collection;
 
-import nedelosk.forestbotany.client.book.GuiPlantBook;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
-import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.note.NoteText;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,6 +33,7 @@ public class GuiBook extends GuiScreen {
     protected GuiBook parent;
     protected GameProfile player = null;
     protected World world;
+    protected boolean guiRender;
     
     protected GuiButton pageLeft, pageRight, pageBack;
 	
@@ -42,6 +42,7 @@ public class GuiBook extends GuiScreen {
 		this.bookData = data;
 		this.player = player;
 		this.world = world;
+		guiRender = true;
 	}
 	
 	protected int guiWidth = 146;
@@ -106,7 +107,7 @@ public class GuiBook extends GuiScreen {
 	@Override
 	public void drawScreen(int arg0, int arg1, float arg2) {
 		
-		if(!(this instanceof GuiPlantBook))
+		if(guiRender)
 		{
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(bookGuiTextures);

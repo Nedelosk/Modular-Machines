@@ -29,7 +29,7 @@ public final class RenderUtils {
 		if(lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
-		if (!tooltipData.isEmpty()) {
+		if (tooltipData != null && !tooltipData.isEmpty()) {
 			int var5 = 0;
 			int var6;
 			int var7;
@@ -199,4 +199,15 @@ public final class RenderUtils {
 			tessellator.addVertexWithUV(par1 + 0, par2 + 0, z, (par3 + 0) * f, (par4 + 0) * f1);
 			tessellator.draw();
 		}
+		
+	    public static void drawTexturedModelRectFromIcon(int p_94065_1_, int p_94065_2_, float z, IIcon p_94065_3_, int p_94065_4_, int p_94065_5_)
+	    {
+	        Tessellator tessellator = Tessellator.instance;
+	        tessellator.startDrawingQuads();
+	        tessellator.addVertexWithUV((double)(p_94065_1_ + 0), (double)(p_94065_2_ + p_94065_5_), (double)z, (double)p_94065_3_.getMinU(), (double)p_94065_3_.getMaxV());
+	        tessellator.addVertexWithUV((double)(p_94065_1_ + p_94065_4_), (double)(p_94065_2_ + p_94065_5_), (double)z, (double)p_94065_3_.getMaxU(), (double)p_94065_3_.getMaxV());
+	        tessellator.addVertexWithUV((double)(p_94065_1_ + p_94065_4_), (double)(p_94065_2_ + 0), (double)z, (double)p_94065_3_.getMaxU(), (double)p_94065_3_.getMinV());
+	        tessellator.addVertexWithUV((double)(p_94065_1_ + 0), (double)(p_94065_2_ + 0), (double)z, (double)p_94065_3_.getMinU(), (double)p_94065_3_.getMinV());
+	        tessellator.draw();
+	    }
 }

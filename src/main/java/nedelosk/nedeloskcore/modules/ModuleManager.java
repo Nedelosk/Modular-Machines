@@ -13,7 +13,7 @@ public class ModuleManager {
 	public static void registerModules(Module module)
 	{
 		modules.add(module);
-		Log.log(Level.INFO, "Register Plugin: " + module.getModuleName() + ", " + module.getModuleVersion());
+		Log.logPluginManager(Level.INFO, "Register Module: " + module.getModuleName() + ", " + module.getModuleVersion());
 	}
 	
 	public void preInitModules()

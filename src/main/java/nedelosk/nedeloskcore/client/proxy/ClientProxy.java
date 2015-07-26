@@ -3,6 +3,7 @@ package nedelosk.nedeloskcore.client.proxy;
 import nedelosk.nedeloskcore.client.renderer.item.ItemPlanRenderer;
 import nedelosk.nedeloskcore.client.renderer.tile.TilePlanRenderer;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
+import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.common.proxy.CommonProxy;
 import net.minecraft.item.Item;
@@ -13,6 +14,12 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
 
+	@Override
+	public void init()
+	{
+		BookDatas.readManuals();
+	}
+	
 	@Override
 	public void registerRenderer() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePlan.class, new TilePlanRenderer());

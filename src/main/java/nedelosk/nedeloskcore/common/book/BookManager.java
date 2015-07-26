@@ -7,13 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import nedelosk.forestbotany.api.genetics.allele.IAllelePlant;
-import nedelosk.forestbotany.api.genetics.plants.IPlant;
-import nedelosk.forestbotany.common.core.tracker.PlantTracker;
-import nedelosk.forestbotany.common.genetics.PlantManager;
-import nedelosk.forestbotany.common.genetics.allele.Allele;
-import nedelosk.forestbotany.common.genetics.templates.crop.CropChromosome;
-import nedelosk.nedeloskcore.common.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -21,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ItemInWorldManager;
-import net.minecraft.world.World;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.SaveHandler;
 
@@ -51,38 +44,6 @@ public class BookManager {
 			return unlock.contains(key);
 		}
 		return false;
-	}
-	
-	public static List<IPlant> getUnlockPlants(GameProfile player, String plantName, World world)
-	{
-		List<IPlant> plants = new ArrayList<IPlant>();
-		if(PlantManager.getPlantManager(plantName) == null)
-			return null;
-		for(IPlant plant : PlantManager.getPlantManager(plantName).getTemplates())
-		{
-			if(plant.getGenome().getActiveAllele(CropChromosome.GENDER) == Allele.male && getPlantTracker(world, player).isDiscovered((IAllelePlant)plant.getGenome().getActiveAllele(CropChromosome.PLANT)))
-			{
-				plants.add(plant);
-			}
-		}
-		return plants;
-	}
-	
-	public static void unlockPlants(GameProfile player, IAllelePlant plant, World world)
-	{
-		getPlantTracker(world, player).registerPlant(plant);
-	}
-	
-	public static PlantTracker getPlantTracker(World world, GameProfile player) {
-		String filename = "PlantTracker." + (player == null ? "common" : player.getId());
-		PlantTracker tracker = (PlantTracker) world.loadItemData(PlantTracker.class, filename);
-
-		if (tracker == null) {
-			tracker = new PlantTracker(filename);
-			world.setItemData(filename, tracker);
-		}
-
-		return tracker;
 	}
 	
 	public static boolean isKnowledgeUnlock(String playerName, String key)

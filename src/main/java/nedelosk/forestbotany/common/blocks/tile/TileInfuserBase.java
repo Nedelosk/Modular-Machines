@@ -1,9 +1,9 @@
 package nedelosk.forestbotany.common.blocks.tile;
 
 import nedelosk.forestbotany.api.botany.IInfuserChamber;
-import nedelosk.forestbotany.common.fluid.FluidTankNedelosk;
 import nedelosk.forestbotany.common.soil.SoilType;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

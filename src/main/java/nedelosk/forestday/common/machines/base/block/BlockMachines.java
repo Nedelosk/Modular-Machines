@@ -7,7 +7,7 @@ import java.util.List;
 
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.client.proxy.ClientProxy;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.common.blocks.BlockContainerForest;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.material.Material;
@@ -154,7 +154,7 @@ public class BlockMachines extends BlockContainerForest {
 		{
 			if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileMachineBase)
 			{
-		player.openGui(Forestday.instance, 0, player.worldObj, x, y, z);
+		player.openGui(ForestDay.instance, 0, player.worldObj, x, y, z);
 		return true;
 			}
 		}

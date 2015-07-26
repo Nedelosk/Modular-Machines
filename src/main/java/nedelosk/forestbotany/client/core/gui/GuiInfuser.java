@@ -2,8 +2,8 @@ package nedelosk.forestbotany.client.core.gui;
 
 import nedelosk.forestbotany.common.blocks.tile.TileInfuserBase;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widgets.WidgetEnergyBar;
-import nedelosk.nedeloskcore.client.gui.widgets.WidgetFluidTank;
+import nedelosk.nedeloskcore.client.gui.widget.WidgetEnergyBar;
+import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
@@ -24,7 +24,7 @@ public class GuiInfuser extends GuiBase {
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
         if(energyBar != null)
-        	energyBar.draw(energyBar.posX, energyBar.posY, x, y);
+        	energyBar.draw(this);
         if (energyBar != null)
             if (func_146978_c(energyBar.posX, energyBar.posY, 12, 69, x, y)) {
             	energyBar.drawTooltip(x - this.guiLeft, y

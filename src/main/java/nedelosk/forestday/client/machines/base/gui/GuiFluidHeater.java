@@ -6,7 +6,7 @@ import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.machines.base.fluid.heater.TileFluidHeater;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widgets.WidgetFluidTank;
+import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;

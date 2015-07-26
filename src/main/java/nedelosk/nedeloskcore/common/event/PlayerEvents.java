@@ -10,14 +10,14 @@ import akka.actor.FSM.Event;
 import com.google.common.io.Files;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
-import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.BookManager;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

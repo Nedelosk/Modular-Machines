@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 

@@ -129,8 +129,8 @@ forest.fd.tool.file.diamond.name=Diamond File
 forest.fd.tool.knife.name=Knife
 forest.fd.tool.cutter.name=Cutter
 forest.fd.tool.adze.name=Adze
-forest.fd.tool.adze.name=Long Adze
-forest.fd.tool.bowandstick.name=Long Adze
+forest.fd.tool.adze.long.name=Long Adze
+forest.fd.tool.bowandstick.name=Bow and Stick
 forest.fd.item.parts.0.name=Stone File Handle
 forest.fd.item.parts.1.name=Stone File Head
 forest.fd.item.parts.2.name=Iron File Head
@@ -169,6 +169,7 @@ forestday.tooltip.material=Material:
 forestday.tooltip.heat=Heat: 
 forestday.tooltip.roughness=Roughness: 
 forestday.tooltip.empty=Empty
+forest.fd.tooltip.power=Power
 
 ####################################
 Gui Nei

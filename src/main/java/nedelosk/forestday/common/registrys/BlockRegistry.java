@@ -29,11 +29,10 @@ public class BlockRegistry {
 		FBlocks.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
 		FBlocks.Ore.registerBlock(new BlockOre(), ItemBlockForestday.class);
 		
-		FBlocks.Machine_Furnace_Base.registerBlock(new BlockMachines("furnace", TileFurnace.class, TileFurnace.class, TileFurnace.class, TileFurnace.class, TileFurnace.class), ItemBlockMachines.class);
-		FBlocks.Machine_Furnace_Coke.registerBlock(new BlockMachines("furnace_coke", TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class), ItemBlockMachines.class);
-		FBlocks.Machine_Fluid_Heater.registerBlock(new BlockMachines("fluid_heater", TileFluidHeater.class, TileFluidHeater.class, TileFluidHeater.class, TileFluidHeater.class, TileFluidHeater.class), ItemBlockMachines.class);
-		FBlocks.Machine_Generator_Heat.registerBlock(new BlockMachines("generator.heat", TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class), ItemBlockMachines.class);
-		FBlocks.Machine_Saw.registerBlock(new BlockMachines("saw", TileSaw.class,  TileSaw.class,  TileSaw.class,  TileSaw.class,  TileSaw.class), ItemBlockMachines.class);
+		FBlocks.Machine_Furnace_Base.registerBlock(new BlockMachines("furnace", TileFurnace.class/*, TileFurnace.class, TileFurnace.class, TileFurnace.class, TileFurnace.class*/), ItemBlockMachines.class);
+		FBlocks.Machine_Furnace_Coke.registerBlock(new BlockMachines("furnace_coke", TileCokeFurnace.class/*, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class*/), ItemBlockMachines.class);
+		FBlocks.Machine_Fluid_Heater.registerBlock(new BlockMachines("fluid_heater", TileFluidHeater.class/*, TileFluidHeater.class, TileFluidHeater.class, TileFluidHeater.class, TileFluidHeater.class*/), ItemBlockMachines.class);
+		FBlocks.Machine_Generator_Heat.registerBlock(new BlockMachines("generator.heat", TileHeatGenerator.class/*,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class*/), ItemBlockMachines.class);
 		FBlocks.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
 		
 		FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);

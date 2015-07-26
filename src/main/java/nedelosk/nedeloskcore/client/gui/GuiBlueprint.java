@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.book.BookEntry;
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
@@ -20,7 +21,6 @@ import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.network.packets.PacketBlueprint;
-import nedelosk.nedeloskcore.common.plan.PlanRecipe;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.block.Block;

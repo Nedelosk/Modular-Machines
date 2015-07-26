@@ -9,6 +9,7 @@ import nedelosk.nedeloskcore.common.blocks.BlockPlan;
 import nedelosk.nedeloskcore.common.blocks.fluid.FluidBlock;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.book.BookDatas;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import nedelosk.nedeloskcore.common.event.BucketHandler;
 import nedelosk.nedeloskcore.common.items.FluidBucket;
 import nedelosk.nedeloskcore.common.items.ItemPlan;
@@ -51,7 +52,6 @@ public class NRegistry {
 		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 1), Items.paper);
 		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 2), new ItemStack(plan, 1, 1), Items.stick, Items.stick);
 		GameRegistry.addShapedRecipe(new ItemStack(woodBucket), "   ", "+ +", " + ", '+', Blocks.planks);
-		BookDatas.readManuals();
     	PacketHandler.preInit();
     	EntryRegistry.preInit();
     	
@@ -65,7 +65,7 @@ public class NRegistry {
 	
 	public static void init()
 	{
-		BookDatas.readManuals();
+		NedelsokCore.proxy.init();
 	}
 	
 	public static void postInit()

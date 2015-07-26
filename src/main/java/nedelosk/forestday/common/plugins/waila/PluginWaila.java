@@ -19,9 +19,13 @@ public class PluginWaila extends Plugin {
 
 	}
 	
+	@Override
+	public String getRequiredMod() {
+		return "Waila";
+	}
+	
 	public void init(){
-		if(Loader.isModLoaded("Waila"))
-			FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
+		FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
 	}
 	
 }

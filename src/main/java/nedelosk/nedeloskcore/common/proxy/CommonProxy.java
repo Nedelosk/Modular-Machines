@@ -11,6 +11,11 @@ public class CommonProxy {
 		
 	}
 	
+	public void init()
+	{
+		
+	}
+	
 	public PlayerData playerData;
 	public BookManager bookManager;
 	

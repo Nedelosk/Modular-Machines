@@ -7,7 +7,7 @@ import nedelosk.forestbotany.common.core.registrys.ItemRegistry;
 import nedelosk.forestbotany.common.genetics.PlantManager;
 import nedelosk.forestbotany.common.genetics.templates.tree.TreeManager;
 import nedelosk.forestbotany.common.items.ItemSapling;
-import nedelosk.nedeloskcore.common.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 
 public class Module {
 

@@ -2,7 +2,7 @@ package nedelosk.forestday.common.machines.base.wood.kiln;
 
 import nedelosk.forestday.client.machines.base.gui.GuiKiln;
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.forestday.common.machines.base.tile.TileHeatBase;
 import nedelosk.forestday.common.network.GuiHandler;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBase;

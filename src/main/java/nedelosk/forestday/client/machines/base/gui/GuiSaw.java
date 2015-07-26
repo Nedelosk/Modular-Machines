@@ -2,7 +2,7 @@ package nedelosk.forestday.client.machines.base.gui;
 
 import nedelosk.forestday.common.machines.base.saw.TileSaw;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widgets.WidgetFluidTank;
+import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;

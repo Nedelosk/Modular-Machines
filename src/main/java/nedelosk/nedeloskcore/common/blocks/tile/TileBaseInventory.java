@@ -1,5 +1,7 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -18,6 +20,10 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 	public TileBaseInventory(int slots)
 	{
 		this.slots = new ItemStack[slots];
+	}
+	
+	public TileBaseInventory()
+	{
 	}
 	
 	@Override
@@ -136,36 +142,42 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		NBTTagList nbtTagList = new NBTTagList();
-		for(int i = 0; i< this.getSizeInventory(); i++){
-			if (this.slots[i] != null){
-				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("item", (byte)i);
-				this.slots[i].writeToNBT(item);
-				nbtTagList.appendTag(item);
+		if(!(this instanceof TileModularMachine))
+		{
+			NBTTagList nbtTagList = new NBTTagList();
+			for(int i = 0; i< this.getSizeInventory(); i++){
+				if (this.slots[i] != null){
+					NBTTagCompound item = new NBTTagCompound();
+					item.setByte("item", (byte)i);
+					this.slots[i].writeToNBT(item);
+					nbtTagList.appendTag(item);
+				}
 			}
+			nbt.setTag("slots", nbtTagList);
 		}
-		nbt.setTag("slots", nbtTagList);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		NBTTagList nbtTagList = nbt.getTagList("slots", 10);
-		this.slots = new ItemStack[this.getSizeInventory()];
-		
-		for(int i = 0; i < nbtTagList.tagCount(); i++){
-			NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
-			byte itemLocation = item.getByte("item");
-			if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
-				this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
+		if(!(this instanceof TileModularMachine))
+		{
+			NBTTagList nbtTagList = nbt.getTagList("slots", 10);
+			this.slots = new ItemStack[this.getSizeInventory()];
+			
+			for(int i = 0; i < nbtTagList.tagCount(); i++){
+				NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
+				byte itemLocation = item.getByte("item");
+				if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
+					this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
+				}
 			}
 		}
 	}
 	
 	
-	protected boolean addToOutput(ItemStack output, int slotMin, int slotMax) {
+	public boolean addToOutput(ItemStack output, int slotMin, int slotMax) {
 		if (output == null) return true;
 		
 		for(int i = slotMin; i < slotMax; i++){

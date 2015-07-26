@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.client.gui.GuiBlueprint;
-import nedelosk.nedeloskcore.common.plan.PlanRecipe;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

@@ -1,5 +1,6 @@
 package nedelosk.nedeloskcore.common.inventory;
 
+import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
@@ -10,7 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerBase extends Container {
+public abstract class ContainerBase extends Container implements IContainerBase{
 
 	protected IInventory inventoryBase;
 	
@@ -20,9 +21,10 @@ public abstract class ContainerBase extends Container {
 		addSlots(inventory);
 	}
 	
-	private void addInventory(InventoryPlayer inventory)
+	protected void addInventory(InventoryPlayer inventory)
 	{
-		
+		if(inventory.player.worldObj.isRemote)
+			inventory.getClass();
         for (int i1 = 0; i1 < 3; i1++) {
             for (int l1 = 0; l1 < 9; l1++) {
                 addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, 84 + i1 * 18));
@@ -32,6 +34,12 @@ public abstract class ContainerBase extends Container {
         for (int j1 = 0; j1 < 9; j1++) {
             addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 142));
         }
+	}
+	
+	@Override
+	public void addSlot(Slot slot) {
+		addSlotToContainer(slot);
+		
 	}
 	
 	protected abstract void addSlots(InventoryPlayer inventory);

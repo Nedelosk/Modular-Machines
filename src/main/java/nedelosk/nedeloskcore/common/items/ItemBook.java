@@ -2,10 +2,10 @@ package nedelosk.nedeloskcore.common.items;
 
 import nedelosk.forestbotany.common.core.ForestBotanyTab;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.core.Forestday;
+import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.book.BookData;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;

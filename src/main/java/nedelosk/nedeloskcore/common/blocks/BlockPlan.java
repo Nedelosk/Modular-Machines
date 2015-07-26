@@ -3,8 +3,8 @@ package nedelosk.nedeloskcore.common.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.nedeloskcore.common.NedelsokCore;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
+import nedelosk.nedeloskcore.common.core.NedelsokCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.block.Block;

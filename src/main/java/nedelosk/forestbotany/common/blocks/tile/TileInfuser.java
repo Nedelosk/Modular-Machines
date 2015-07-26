@@ -61,7 +61,7 @@ public class TileInfuser extends TileInfuserBase implements IInfuser {
 		return null;
 	}
 	
-	public TileInfuserBase getChamerWithGender(IAlleleGender gender)
+	public TileInfuserBase getChamberWithGender(IAlleleGender gender)
 	{
 		if(chambers[0] != null && chambers[1] != null)
 		{
@@ -216,16 +216,16 @@ public class TileInfuser extends TileInfuserBase implements IInfuser {
 
 	@Override
 	public ItemStack getMale() {
-		if(getChamerWithGender(Allele.male) == null)
+		if(getChamberWithGender(Allele.male) == null)
 			return null;
-		return getChamerWithGender(Allele.male).getStackInSlot(0);
+		return getChamberWithGender(Allele.male).getStackInSlot(0);
 	}
 
 	@Override
 	public ItemStack getFemale() {
-		if(getChamerWithGender(Allele.female) == null)
+		if(getChamberWithGender(Allele.female) == null)
 			return null;
-		return getChamerWithGender(Allele.female).getStackInSlot(0);
+		return getChamberWithGender(Allele.female).getStackInSlot(0);
 	}
 
 	
