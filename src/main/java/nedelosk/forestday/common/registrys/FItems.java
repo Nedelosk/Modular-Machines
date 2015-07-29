@@ -9,7 +9,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public enum FItems {
 
 	//Materials
-	ingots,
 	nuggets,
 	dust,
 	powder,

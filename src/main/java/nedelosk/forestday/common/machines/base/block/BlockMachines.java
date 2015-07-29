@@ -150,14 +150,12 @@ public class BlockMachines extends BlockContainerForest {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
-		if(!GuiScreen.isShiftKeyDown())
+		if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileMachineBase)
 		{
-			if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileMachineBase)
-			{
 		player.openGui(ForestDay.instance, 0, player.worldObj, x, y, z);
 		return true;
-			}
 		}
+		GuiScreen.isShiftKeyDown();
 		return false;
 	}
 	

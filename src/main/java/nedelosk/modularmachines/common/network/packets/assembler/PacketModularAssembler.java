@@ -1,21 +1,23 @@
 package nedelosk.modularmachines.common.network.packets.assembler;
 
 import io.netty.buffer.ByteBuf;
+import nedelosk.modularmachines.api.modular.module.ModuleEntry;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketModularAssembler extends PacketTileEntity<TileModularAssenbler> implements IMessageHandler<PacketModularAssembler, IMessage> {
+public class PacketModularAssembler extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketModularAssembler, IMessage> {
 
-	public int entryId;
-	public boolean slotToAssembler;
+	public ModuleEntry entry;
 	
 	public PacketModularAssembler() {
 	}
@@ -23,45 +25,49 @@ public class PacketModularAssembler extends PacketTileEntity<TileModularAssenble
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		entryId = buf.readInt();
-		slotToAssembler = buf.readBoolean();
+		if(buf.readBoolean())
+		{
+		NBTTagCompound nbt = ByteBufUtils.readTag(buf);
+			entry = new ModuleEntry(nbt);
+		}
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		buf.writeInt(entryId);
-		buf.writeBoolean(slotToAssembler);
+		buf.writeBoolean(entry != null);
+		if(entry != null){
+		NBTTagCompound nbt = new NBTTagCompound();
+		entry.writeToNBT(nbt);
+		ByteBufUtils.writeTag(buf, nbt);
+		}
 	}
 
-	public PacketModularAssembler(TileModularAssenbler tile, int entryId, boolean slotToAssembler) {
+	public PacketModularAssembler(TileModularAssembler tile, ModuleEntry entry) {
 		super(tile);
-		this.entryId = entryId;
-		this.slotToAssembler = slotToAssembler;
+		this.entry = entry;
 	}
 	
-	public PacketModularAssembler(TileModularAssenbler tile) {
+	public PacketModularAssembler(TileModularAssembler tile) {
 		super(tile);
-		this.entryId = 0;
-		this.slotToAssembler = true;
 	}
 	
 	@Override
 	public IMessage onMessage(PacketModularAssembler message, MessageContext ctx) {
-	    	if(!message.slotToAssembler)
+	    	if(message.entry != null)
 	    	{
-			TileModularAssenbler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+			TileModularAssembler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 			
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			if(entityPlayerMP.getExtendedProperties(ModularSaveModule.class.getName()) != null)
-				((ModularSaveModule)entityPlayerMP.getExtendedProperties(ModularSaveModule.class.getName())).entry = ((TileModularAssenbler)tile).getModuleEntry(tile.page, message.entryId);
+				((ModularSaveModule)entityPlayerMP.getExtendedProperties(ModularSaveModule.class.getName())).entry = message.entry;
 			else
-				entityPlayerMP.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(((TileModularAssenbler)tile).getModuleEntry(tile.page, message.entryId)));
+				entityPlayerMP.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(message.entry));
 			entityPlayerMP.openGui(ModularMachines.instance, 1, entityPlayerMP.worldObj, message.x, message.y, message.z);
 	    	}
 	    	else
 	    	{
-	    		TileModularAssenbler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+	    		TileModularAssembler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 				
 	    		
 				if(ctx.getServerHandler().playerEntity.openContainer instanceof ContainerModularAssemblerSlot)

@@ -1,7 +1,6 @@
 package nedelosk.forestday.common.registrys;
 
 import nedelosk.forestday.common.blocks.BlockGravel;
-import nedelosk.forestday.common.blocks.BlockOre;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.forestday.common.machines.base.block.BlockMachines;
 import nedelosk.forestday.common.machines.base.block.BlockMachinesWood;
@@ -17,6 +16,7 @@ import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.BlockCharcoalKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
+import nedelosk.nedeloskcore.common.blocks.BlockOre;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockRegistry {
@@ -27,7 +27,6 @@ public class BlockRegistry {
 		//Blocks
 		
 		FBlocks.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
-		FBlocks.Ore.registerBlock(new BlockOre(), ItemBlockForestday.class);
 		
 		FBlocks.Machine_Furnace_Base.registerBlock(new BlockMachines("furnace", TileFurnace.class/*, TileFurnace.class, TileFurnace.class, TileFurnace.class, TileFurnace.class*/), ItemBlockMachines.class);
 		FBlocks.Machine_Furnace_Coke.registerBlock(new BlockMachines("furnace_coke", TileCokeFurnace.class/*, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class, TileCokeFurnace.class*/), ItemBlockMachines.class);

@@ -9,11 +9,10 @@ import net.minecraft.util.StatCollector;
 
 public class GuiSaw extends GuiMachine {
 	
-	protected WidgetFluidTank widgetFluidTank;
-	
 	public GuiSaw(InventoryPlayer inventory, TileSaw tile) {
 		super(tile, inventory);
 		this.tile = tile;
+		widgetManager.add(new WidgetFluidTank(((TileSaw)this.tile).getTank(), 7, 7));
 	}
 
 
@@ -33,19 +32,6 @@ public class GuiSaw extends GuiMachine {
         this.drawTexturedModalRect(k + 82, l + 19, 176, 42, 18, 42);
         
 	}
-	
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		
-        if(widgetFluidTank != null)
-        widgetFluidTank.draw(widgetFluidTank.posX, widgetFluidTank.posY, mouseX, mouseY);
-        if (widgetFluidTank != null)
-            if (func_146978_c(widgetFluidTank.posX, widgetFluidTank.posY, 18, 73, mouseX, mouseY)) {
-                widgetFluidTank.drawTooltip(mouseX - this.guiLeft, mouseY
-                        - this.guiTop);
-            }
-	}
 
 
 	@Override
@@ -56,7 +42,6 @@ public class GuiSaw extends GuiMachine {
     @Override
     public void initGui() {
         super.initGui();
-        widgetFluidTank = new WidgetFluidTank(((TileSaw)this.tile).getTank(), 7, 7);
     }
 
 }

@@ -17,7 +17,7 @@ import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.BookManager;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -32,7 +32,7 @@ public class PlayerEvents {
 	  public void loadPlayerBookData(PlayerEvent.LoadFromFile event)
 	  {
 	  EntityPlayer p = event.entityPlayer;
-	  NedelsokCore.proxy.getPlayerData().removeData(p.getDisplayName());
+	  NedeloskCore.proxy.getPlayerData().removeData(p.getDisplayName());
 	   
 	       File file = getPlayerFile("book", event.playerDirectory, p.getDisplayName());
 	       boolean legacy = false;
@@ -69,7 +69,7 @@ public class PlayerEvents {
 	       BookManager.loadBookDataFromPlayer(p, file, getPlayerFile("bookback", event.playerDirectory, p.getDisplayName()));
 	       
 	       //Forestday.proxy.getBookManager().unlockEntry(p, "baseWood");
-	       NedelsokCore.proxy.getBookManager().unlockKnowledge(p, NCoreApi.basicKnowledge.unlocalizedName);
+	       NedeloskCore.proxy.getBookManager().unlockKnowledge(p, NCoreApi.basicKnowledge.unlocalizedName);
 	       
 	     }
 	  

@@ -10,9 +10,9 @@ import cpw.mods.fml.common.Loader;
 
 public class PluginManager {
 
-	public static ArrayList<Plugin> plugins = new ArrayList<Plugin>();
+	public ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 	
-	public static void registerPlugin(Plugin plugin)
+	public void registerPlugin(Plugin plugin)
 	{
 		plugins.add(plugin);
 		Log.logPluginManager(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());

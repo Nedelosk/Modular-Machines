@@ -19,7 +19,7 @@ public class TabModularMachines extends CreativeTabs {
 
 	@Override
 	public Item getTabIconItem() {
-		return Items.arrow;
+		return MMBlocks.Modular_Assembler.item();
 	}
 
 }

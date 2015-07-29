@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.Minecraft;
 
 import org.w3c.dom.Document;
@@ -79,7 +79,7 @@ public class BookDatas {
 
     public static Document readManual(String location, DocumentBuilderFactory dbFactory) {
         try {
-            InputStream stream = NedelsokCore.class.getResourceAsStream(location);
+            InputStream stream = NedeloskCore.class.getResourceAsStream(location);
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(stream);
             doc.getDocumentElement().normalize();

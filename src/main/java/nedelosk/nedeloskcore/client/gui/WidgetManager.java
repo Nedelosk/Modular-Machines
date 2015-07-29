@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.client.gui;
 import java.util.ArrayList;
 
 import nedelosk.nedeloskcore.api.machines.IWidgetManager;
-import nedelosk.nedeloskcore.client.gui.widget.Widget;
+import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 

@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.manager;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleFanManager;
@@ -22,6 +24,7 @@ public class ModuleFanManager extends Module implements IModuleFanManager{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		
 	}

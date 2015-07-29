@@ -15,9 +15,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCampfire extends ItemForestday {
 	
-	@SideOnly(Side.CLIENT)
-    public IIcon[] itemIcon;
-	
 	public String[] textures;
 	public String itemName;
 	
@@ -28,31 +25,12 @@ public class ItemCampfire extends ItemForestday {
 		this.textures = textures;
 		this.itemName = itemName;
 	}
-	
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons (IIconRegister iconRegister)
-    {
-        this.itemIcon = new IIcon[textures.length];
-
-        for (int i = 0; i < this.itemIcon.length; ++i)
-        {
-            this.itemIcon[i] = iconRegister.registerIcon("forestday:campfire/" + textures[i]);
-        }
-    }
     
     @Override
     public void getSubItems (Item id, CreativeTabs tab, List list)
     {
         for (int i = 0; i < textures.length; i++)
             list.add(new ItemStack(id, 1, i));
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIconFromDamage (int meta)
-    {
-        return itemIcon[meta];
     }
     
     @Override

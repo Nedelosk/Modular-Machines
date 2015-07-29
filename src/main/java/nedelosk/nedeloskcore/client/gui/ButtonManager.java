@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.api.machines.IButtonManager;
+import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

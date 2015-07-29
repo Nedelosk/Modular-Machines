@@ -1,8 +1,15 @@
 package nedelosk.modularmachines.common.core;
 
-import nedelosk.modularmachines.common.modular.config.ModularConfig;
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import nedelosk.modularmachines.client.techtree.gui.TechTree;
+import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.plugins.PluginManager;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.common.ForgeHooks;
 
 public class MMRegistry {
 
@@ -10,13 +17,15 @@ public class MMRegistry {
 	
 	public void preInit()
 	{
-		pluginManager.preInit();
     	ModularRegistry.preInit();
+    	pluginManager.registerPlugins();
+		pluginManager.preInit();
     	ModularConfig.preInit();
     	BlockRegistry.preInit();
     	ItemRegistry.preInit();
     	PacketHandler.preInit();
-    	PluginManager.registerPlugins();
+    	ModularRecipeManager.preInit();
+    	//ClientRegistry.registerKeyBinding(TechTree.techTree);
 	}
 	
 	public void init()

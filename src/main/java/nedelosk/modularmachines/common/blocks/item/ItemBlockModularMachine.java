@@ -4,7 +4,7 @@ import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKil
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodType;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.modularmachines.common.blocks.ModularBlock;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.core.BlockRegistry;
 import nedelosk.modularmachines.common.core.MMBlocks;

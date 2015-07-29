@@ -18,6 +18,17 @@ public class ModuleItem {
 		this.hasNbt = hasNbt;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof ModuleItem)
+		{
+			ModuleItem itemModule = (ModuleItem) obj;
+			if(itemModule.hasNbt == hasNbt && itemModule.moduleName.equals(moduleName) && itemModule.tier == tier && ItemStack.areItemStackTagsEqual(item, itemModule.item) && itemModule.module.getName().equals(module.getName()))
+				return true;
+		}
+		return false;
+	}
+	
 	public ItemStack getItem() {
 		return item;
 	}

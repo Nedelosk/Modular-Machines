@@ -1,6 +1,6 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

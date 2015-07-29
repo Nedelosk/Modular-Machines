@@ -2,6 +2,7 @@ package nedelosk.modularmachines.common.modular.module.manager;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleTankManager;
@@ -54,6 +55,7 @@ public class ModuleTankManager extends Module implements IModuleTankManager {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		if(modular.getFluidHandler() != null)
 		{

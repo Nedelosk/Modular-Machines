@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory;
 
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotModule;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,8 +22,7 @@ public class ContainerModularAssemblerSlot extends ContainerBase {
 	}
 	
 	protected void addSlot(InventoryPlayer inventory) {
-		entry.setAssembler((TileModularAssenbler) this.inventoryBase);
-		addSlotToContainer(new SlotModule(entry.assembler, entry.ID, 80, 35, entry.moduleName, entry.moduleName2, entry.getTier(), entry.page));
+		addSlotToContainer(new SlotModule(inventoryBase, entry.ID, 80, 35, entry));
 	}
 
 }

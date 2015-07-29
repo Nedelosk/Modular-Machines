@@ -100,9 +100,6 @@ public class CraftingManager {
 	{
 		addShapelessRecipe(new ItemStack(FBlocks.Gravel.item()), Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.gravel, Blocks.gravel, Blocks.gravel, Blocks.gravel, Blocks.sand);
 		
-		GameRegistry.addSmelting(FBlocks.Ore.getItemStack(1, 0), FItems.ingots.getItemStack(1, 0), 10);
-		GameRegistry.addSmelting(FBlocks.Ore.getItemStack(1, 1), FItems.ingots.getItemStack(1, 1), 10);
-		
 		addShapelessRecipe(new ItemStack(FItems.axe_flint.item()), Items.stick, Items.stick, Items.flint, Items.flint);
 		
 		addShapelessRecipe(new ItemStack(FItems.tool_parts.item()), Items.stick, Items.leather);

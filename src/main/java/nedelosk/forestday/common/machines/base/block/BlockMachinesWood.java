@@ -24,16 +24,6 @@ public class BlockMachinesWood extends BlockMachines {
 	}
 	
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-	
-	@Override
 	public IIcon getIcon(int blockSide, int blockMeta) {
 		return Blocks.iron_block.getIcon(0, 0);
 	}
@@ -69,6 +59,16 @@ public class BlockMachinesWood extends BlockMachines {
 	
 	@Override
 	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 

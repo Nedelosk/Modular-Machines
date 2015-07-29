@@ -71,10 +71,6 @@ public class ModuleFurnace extends ModuleProducer {
 		TileModularMachine tile = ((TileModularMachine)modular.getMachine());
 		if(tile.getEnergyStored(null) > 0)
 		{
-			if(output != null)
-			{
-				getClass();
-			}
 		if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 		{
 			ItemStack input = tile.getStackInSlot(this.getName(), 0);
@@ -90,7 +86,8 @@ public class ModuleFurnace extends ModuleProducer {
 				{
 					output = recipeOutput.copy();
 					tile.decrStackSize(this.getName(), 0, 1);
-					burnTimeTotal = 350 / modular.getProducer().getTier() + (350 / modular.getProducer().getTier() * modular.getEnergyManger().getSpeedModifier() / 100);
+					if(burnTimeTotal == 0)
+						burnTimeTotal = getBurnTimeTotal(modular);
 					burnTime = 0;
 				}
 			}
@@ -116,7 +113,7 @@ public class ModuleFurnace extends ModuleProducer {
 				timer++;
 			}
 			
-			if(((ModularMachine)modular).getEnergyHandler().extractEnergy(null, 10, false) != 0)
+			if(((ModularMachine)modular).getEnergyHandler().extractEnergy(null, 10, false) > 0)
 				burnTime++;
 		}
 		}
@@ -146,6 +143,11 @@ public class ModuleFurnace extends ModuleProducer {
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		
+	}
+
+	@Override
+	public int getSpeedModifier() {
+		return 30;
 	}
 
 }

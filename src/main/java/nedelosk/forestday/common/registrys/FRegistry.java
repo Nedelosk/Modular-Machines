@@ -8,9 +8,9 @@ import nedelosk.forestday.common.managers.CraftingManager;
 import nedelosk.forestday.common.managers.OreManager;
 import nedelosk.forestday.common.network.packets.PacketHandler;
 import nedelosk.forestday.common.plugins.PluginManager;
-import nedelosk.forestday.common.world.WorldGeneratorForestday;
 import nedelosk.nedeloskcore.common.core.registry.EntryRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.world.WorldGeneratorNedeloskCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -66,7 +66,7 @@ public class FRegistry {
 		}
     	CraftingManager.removeRecipes();
     	manangerPlugin.postInit();
-    	GameRegistry.registerWorldGenerator(new WorldGeneratorForestday(), 0);
+    	GameRegistry.registerWorldGenerator(new WorldGeneratorNedeloskCore(), 0);
     }
     
 }

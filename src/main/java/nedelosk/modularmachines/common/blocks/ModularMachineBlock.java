@@ -4,7 +4,7 @@ import java.util.List;
 
 import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.material.Material;
@@ -34,12 +34,8 @@ public class ModularMachineBlock extends ModularBlock {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
-		if(!GuiScreen.isShiftKeyDown())
-		{
-			player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
+		player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
 		return true;
-		}
-		return false;
 	}
 	
 	@Override

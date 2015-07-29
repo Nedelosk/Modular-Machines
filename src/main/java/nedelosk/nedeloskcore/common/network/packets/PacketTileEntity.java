@@ -4,6 +4,9 @@ import nedelosk.nedeloskcore.common.core.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import io.netty.buffer.ByteBuf;
+
+import java.nio.charset.StandardCharsets;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -34,7 +37,8 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 	    buf.writeInt(x);
 	    buf.writeInt(y);
 	    buf.writeInt(z);
-	    ByteBufUtils.writeUTF8String(buf, tileClass.getName());
+		buf.writeInt(tileClass.getName().getBytes().length);
+		buf.writeBytes(tileClass.getName().getBytes());
 
 	  }
 
@@ -43,7 +47,15 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 	    x = buf.readInt();
 	    y = buf.readInt();
 	    z = buf.readInt();
-	    String str = ByteBufUtils.readUTF8String(buf);
+	    String str = null;
+		try
+		{
+		byte[] bytes = new byte[buf.readInt()];
+		buf.readBytes(bytes);
+		str = new String(bytes, StandardCharsets.UTF_8);
+		}catch(Exception e){
+			
+		}
 	    try {
 	      tileClass = (Class<TileEntity>) Class.forName(str);
 	    } catch (Exception e) {

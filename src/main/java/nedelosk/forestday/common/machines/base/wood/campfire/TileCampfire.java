@@ -21,6 +21,7 @@ public class TileCampfire extends TileMachineBase {
 	
 	public TileCampfire() {
 		super(8);
+		timerMax = 25;
 	}
 
 	@Override
@@ -75,12 +76,7 @@ public class TileCampfire extends TileMachineBase {
 	@Override
 	public void updateServer() {
 		
-		if(burnTimeTotal == 0)
-		{
-			burnTimeTotal = 25;
-		}
-		
-		if(burnTime >= burnTimeTotal)
+		if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 		{
 			if(output != null)
 			{
@@ -99,7 +95,7 @@ public class TileCampfire extends TileMachineBase {
 				CampfireRecipe recipe = CampfireRecipeManager.getRecipe(input, input2, (getStackInSlot(6) != null) ? getStackInSlot(6).getItemDamage() + 1 : 0);
 				if(recipe != null)
 				{
-					if(input.stackSize >= recipe.input.stackSize && (input2 == null || input2.stackSize >= recipe.input2.stackSize))
+					if(input.stackSize >= recipe.input.stackSize && (recipe.input2 == null || input2 != null && input2.stackSize >= recipe.input2.stackSize))
 					{
 					decrStackSize(0, recipe.input.stackSize);
 					if(recipe.input2 != null)
@@ -109,11 +105,11 @@ public class TileCampfire extends TileMachineBase {
 					output = recipe.output.copy();
 					isWorking = true;
 					burnTimeTotal = recipe.burnTime;
+					burnTime = 0;
 					}
 				}
 			}
 			}
-			burnTime = 0;
 		}
 		
 		if(getStackInSlot(6) != null)
@@ -164,7 +160,7 @@ public class TileCampfire extends TileMachineBase {
 					{
 						isWorking = false;
 					}
-				fuelStorage--;
+				fuelStorage-= 5;
 				}
 				
 				burnTime++;

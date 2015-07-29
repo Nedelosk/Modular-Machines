@@ -26,8 +26,8 @@ public class PluginEnderIO extends Plugin {
 		ModularMachinesApi.addModuleItem(new ItemStack(capacitorBank, 1, 2), new ModuleBattery("capacitor", 5000000), 2);
 		ModularMachinesApi.addModuleItem(new ItemStack(capacitorBank, 1, 3), new ModuleBattery("capacitorVibrant", 25000000), 3);
 		ModularMachinesApi.addModuleItem(new ItemStack(capacitor, 1, 0), new ModuleCapacitor(10, 20), 1);
-		ModularMachinesApi.addModuleItem(new ItemStack(capacitor, 1, 1), new ModuleBattery("capacitor", 5000000), 2);
-		ModularMachinesApi.addModuleItem(new ItemStack(capacitor, 1, 2), new ModuleBattery("capacitorVibrant", 25000000), 3);
+		ModularMachinesApi.addModuleItem(new ItemStack(capacitor, 1, 1), new ModuleCapacitor(20, 40), 2);
+		ModularMachinesApi.addModuleItem(new ItemStack(capacitor, 1, 2), new ModuleCapacitor(40, 80), 3);
 		ModularMachinesApi.addModuleItem(new ItemStack(tanks), new ModuleTank(16000), 1);
 		ModularMachinesApi.addModuleItem(new ItemStack(tanks, 1, 1), new ModuleTank(32000), 2);
 		ModularMachinesApi.addBookmarkItem("Energy", new ItemStack(capacitorBank, 1, 1));

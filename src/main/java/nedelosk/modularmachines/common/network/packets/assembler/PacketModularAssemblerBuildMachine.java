@@ -5,7 +5,7 @@ import java.util.Map;
 
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -15,12 +15,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketModularAssemblerBuildMachine extends PacketTileEntity<TileModularAssenbler> implements IMessageHandler<PacketModularAssemblerBuildMachine, IMessage> {
+public class PacketModularAssemblerBuildMachine extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketModularAssemblerBuildMachine, IMessage> {
 	
 	public PacketModularAssemblerBuildMachine() {
 	}
@@ -35,17 +36,24 @@ public class PacketModularAssemblerBuildMachine extends PacketTileEntity<TileMod
 		super.toBytes(buf);
 	}
 
-	public PacketModularAssemblerBuildMachine(TileModularAssenbler tile) {
+	public PacketModularAssemblerBuildMachine(TileModularAssembler tile) {
 		super(tile);
 	}
 	
 	@Override
 	public IMessage onMessage(PacketModularAssemblerBuildMachine message, MessageContext ctx) {
-		TileModularAssenbler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+		TileModularAssembler tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 		ArrayList<String> requiredModule = new ArrayList<String>(ModularMachinesApi.getRequiredModule());
+		if(tile.getEnergyStored(ForgeDirection.DOWN) >= 20000)
+		{
 		ModularMachine machine = tile.buildMachine();
 		if(machine != null)
 		{
+			if(!(tile.extractEnergy(ForgeDirection.DOWN, 20000, false) >= 20000))
+			{
+				ctx.getServerHandler().playerEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Fail to build machine.The energy in the Assembler are " + tile.getEnergyStored(ForgeDirection.DOWN)));
+				return null;
+			}
 			ItemStack stack = MMBlocks.Modular_Machine.getItemStack();
 			stack.setTagCompound(new NBTTagCompound());
 			machine.writeToNBT(stack.getTagCompound());
@@ -64,18 +72,21 @@ public class PacketModularAssemblerBuildMachine extends PacketTileEntity<TileMod
 			for(Map.Entry<String, ItemStack[]> entry : tile.slot.entrySet())
 			{
 				for(int i = 0;i < entry.getValue().length;i++)
+				{   
+					if(tile.moduleEntrys.get(entry.getKey()).get(i).isActivate && tile.moduleEntrys.get(entry.getKey()).get(i).canActivate)
 					tile.setInventorySlotContents(entry.getKey(), i, null);
+				}
 			}
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 		}
 		else
 		{
-			//tile.buildMachine(requiredModule);
 			ctx.getServerHandler().playerEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Fail to build machine."));
-			/*for(String s : requiredModule)
-			{
-				ctx.getServerHandler().playerEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Fail to find " + s + "."));
-			}*/
+		}
+		}
+		else
+		{
+			ctx.getServerHandler().playerEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Fail to build machine.The energy in the Assembler are " + tile.getEnergyStored(ForgeDirection.DOWN)));
 		}
 		return null;
 	}

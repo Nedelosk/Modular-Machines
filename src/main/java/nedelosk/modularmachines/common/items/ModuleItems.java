@@ -9,11 +9,14 @@ import scala.reflect.api.Mirrors.ClassMirror;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.IModule;
+import nedelosk.modularmachines.api.modular.module.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.IModuleSpecial;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.ModuleStack;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleManager;
+import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,6 +35,7 @@ public class ModuleItems extends ModularItem {
 		setHasSubtypes(true);
 		registerModules("Manager");
 		registerModules("Producer");
+		registerModules("Engine");
 	}
 	
 	public void registerModules(String moduleName)
@@ -58,10 +62,22 @@ public class ModuleItems extends ModularItem {
 				}
 			}
 		}
+		else if(moduleName.equals("Engine"))
+		{
+			for(IModule module : ModularMachinesApi.getModules().values())
+			{
+				if(module instanceof IModuleEngine)
+				{
+					this.names.add(module.getName());
+					this.modules.put(module.getName(), module);
+				}
+			}
+		}
 	}
 	
-	public ArrayList<String> names = new ArrayList<String>();
-	public HashMap<String, IModule> modules = new HashMap<String, IModule>();
+	public static ArrayList<String> names = new ArrayList<String>();
+	public static HashMap<String, IModule> modules = new HashMap<String, IModule>();
+	
 	
 	public HashMap<String, IIcon[]> icons = new HashMap<String, IIcon[]>();
 	
@@ -90,6 +106,12 @@ public class ModuleItems extends ModularItem {
     		{
         		ItemStack stack = new ItemStack(id);
         		stack.setTagCompound(new NBTTagCompound());
+        		if(modules.get(s) instanceof IModuleSpecial)
+        		{
+        			NBTTagCompound nbt = new NBTTagCompound();
+        			((IModuleSpecial)modules.get(s)).writeToItemNBT(nbt, i);
+        			modules.get(s).readFromNBT(nbt);
+        		}
         		stack.getTagCompound().setString("Name", s);
         		stack.getTagCompound().setInteger("Tier", i);
     			list.add(stack);

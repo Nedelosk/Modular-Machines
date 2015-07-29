@@ -64,7 +64,7 @@ public class ItemFruit extends ItemPlant {
 				for(int f = 0;f < definition.getFruits();f++)
 				{
 			fruitIcons.get(definition.ordinal()).put(i, IIconRegister.registerIcon("forestbotany:crops/fruits/" + definition.getFile().name().toLowerCase() + "/" + definition.name().toLowerCase() + "/" + f +"/" + "/fruit." + i));
-			File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
+			/*File file0 = new File(Loader.instance().getConfigDir().getPath() , "crops");
 			File file = new File(file0 , "fruits");
         	File file1 = new File(file, definition.getFile().name().toLowerCase());
 			File file2 = new File(file1, definition.name().toLowerCase());
@@ -84,7 +84,7 @@ public class ItemFruit extends ItemPlant {
 			fileoutputstream.close();
 			}
 			catch (Exception e) {
-			}
+			}*/
 			}
 			}
 		}

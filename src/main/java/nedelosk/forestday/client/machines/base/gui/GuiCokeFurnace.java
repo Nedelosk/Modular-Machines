@@ -15,11 +15,11 @@ import net.minecraft.util.StatCollector;
 
 public class GuiCokeFurnace extends GuiMachine {
 	
-	protected WidgetFluidTank fluidTank = new WidgetFluidTank(((TileCokeFurnace)tile).getTank(), guiLeft + 148, guiTop + 12);
 	//protected WidgetHeatBar heatBar = new WidgetHeatBar(((TileCokeFurnace)tile).getHeat(), 150, 71, 9);
 	
 	public GuiCokeFurnace(InventoryPlayer inventory, TileMachineBase tile) {
 		super(tile, inventory);
+		widgetManager.add(new WidgetFluidTank(((TileCokeFurnace)tile).getTank(), guiLeft + 148, guiTop + 12));
 	}
 
 	@Override
@@ -27,14 +27,6 @@ public class GuiCokeFurnace extends GuiMachine {
 
 		fontRenderer.drawString(StatCollector.translateToLocal("container.machine.furnace.coke"), 8, ySize - 163, 4210752);
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
-		
-        if(fluidTank != null)
-        	fluidTank.draw(fluidTank.posX, fluidTank.posY, x, y);
-        if (fluidTank != null)
-            if (func_146978_c(fluidTank.posX, fluidTank.posY, 18, 73, x, y)) {
-            	fluidTank.drawTooltip(x - this.guiLeft, y
-                        - this.guiTop);
-           }
            
        // if(heatBar != null)
          // heatBar.draw(heatBar.posX, heatBar.posY, x, y);

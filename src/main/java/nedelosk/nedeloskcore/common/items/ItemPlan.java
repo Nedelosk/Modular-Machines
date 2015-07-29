@@ -2,12 +2,14 @@ package nedelosk.nedeloskcore.common.items;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import nedelosk.nedeloskcore.api.plan.IPlan;
 import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
@@ -94,9 +96,7 @@ public class ItemPlan extends Item implements IPlan {
 	    }
 	    else if(!world.isRemote)
 	    {
-	    	if(GuiScreen.isShiftKeyDown()){
-	    	}
-	    	else if(getUpdateBlock(stack) == null)
+	    	if(getUpdateBlock(stack) == null)
 	    	{
 	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z) != NRegistry.planBlock)
 	    	  {
@@ -129,7 +129,8 @@ public class ItemPlan extends Item implements IPlan {
 	    }
 	    else if(!world.isRemote)
 	    { 
-	    	if(GuiScreen.isShiftKeyDown()){
+	    	if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+	    	{
 	    	InventoryPlanningTool toolInv = new InventoryPlanningTool(stack);
 	    	if(toolInv.getStackInSlot(0) != null)
 	    	{
@@ -165,23 +166,16 @@ public class ItemPlan extends Item implements IPlan {
 	 
 	 @Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		 if(stack.getItemDamage() == 0)
-		 {
-			 if(GuiScreen.isShiftKeyDown()){
-					stack.setItemDamage(1);
-					stack.stackTagCompound = null;
-			 }
-		 }
 		 if(stack.getItemDamage() == 1)
 		 {
 		 if(!GuiScreen.isShiftKeyDown()){
-				player.openGui(NedelsokCore.instance, 1, world, 0, 0, 0);
+				player.openGui(NedeloskCore.instance, 1, world, 0, 0, 0);
 		 }
 		 }
 		 else if(stack.getItemDamage() == 2)
 		 {
 			 if(!GuiScreen.isShiftKeyDown()){
-					player.openGui(NedelsokCore.instance, 2, world, 0, 0, 0);
+					player.openGui(NedeloskCore.instance, 2, world, 0, 0, 0);
 			 } 
 		 }
 		return stack;

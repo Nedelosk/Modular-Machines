@@ -1,27 +1,21 @@
 package nedelosk.modularmachines.common.modular.module.energy;
 
-import java.util.ArrayList;
-
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.IModuleEngine;
+import nedelosk.modularmachines.api.modular.module.IModuleSpecial;
 import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.ModuleStack;
-import nedelosk.modularmachines.common.modular.config.ModularConfig;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleEngine extends Module implements IModuleEngine {
+public class ModuleEngine extends Module implements IModuleEngine, IModuleSpecial {
 
-	public int energy;
+	public int speed;
+	public int[] speedModifiers;
 	
-	public ModuleEngine(int energy) {
-		this.energy = energy;
+	public ModuleEngine() {
 	}
 	
-	public ModuleEngine(String modifier, int energy) {
+	public ModuleEngine(String modifier, int... speeds) {
 		super(modifier);
-		this.energy = energy;
+		this.speedModifiers = speeds;
 	}
 	
 	public ModuleEngine(NBTTagCompound nbt) {
@@ -31,23 +25,29 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		energy = nbt.getInteger("Energy");
+		speed = nbt.getInteger("Speed");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("Energy", energy);
+		nbt.setInteger("Speed", speed);
 	}
 
 	@Override
-	public int getEngineModifier() {
-		return energy;
+	public int getSpeedModifier() {
+		return speed;
 	}
 	
 	@Override
 	public String getModuleName() {
-		return "engine";
+		return "Engine";
+	}
+
+	@Override
+	public void writeToItemNBT(NBTTagCompound nbt, int tier) {
+		nbt.setInteger("Speed", speedModifiers[tier]);
+		
 	}
 
 }

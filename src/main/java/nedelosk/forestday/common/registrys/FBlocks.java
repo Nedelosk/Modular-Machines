@@ -14,7 +14,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public enum FBlocks {
 
 	Gravel,
-	Ore,
 	
 	Machine_Fluid_Base,
 	Machine_Fluid_Heater,

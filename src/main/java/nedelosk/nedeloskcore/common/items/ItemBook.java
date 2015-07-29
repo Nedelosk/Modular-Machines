@@ -5,7 +5,7 @@ import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.nedeloskcore.common.book.BookData;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +36,7 @@ public class ItemBook extends Item {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		player.openGui(NedelsokCore.instance, 0, world, 0, 0, 0);
+		player.openGui(NedeloskCore.instance, 0, world, 0, 0, 0);
 		return stack;
 	}
 	

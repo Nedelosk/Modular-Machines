@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.block.Block;
@@ -35,7 +35,7 @@ public class BlockPlan extends BlockContainerForest {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
 		if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TilePlan)
 		{
-			player.openGui(NedelsokCore.instance, 0, world, x, y, z);
+			player.openGui(NedeloskCore.instance, 0, world, x, y, z);
 			return true;
 		}
 		return false;

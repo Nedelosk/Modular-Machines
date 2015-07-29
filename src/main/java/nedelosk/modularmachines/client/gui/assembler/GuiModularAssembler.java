@@ -2,17 +2,15 @@ package nedelosk.modularmachines.client.gui.assembler;
 
 import java.util.ArrayList;
 
-import nedelosk.forestbotany.common.blocks.tile.TileInfuserBase;
-import nedelosk.forestday.client.machines.base.gui.widget.WidgetFuelBar;
-import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.machines.base.fluid.heater.TileFluidHeater;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
+import org.lwjgl.opengl.GL11;
+
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.RendererSides;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
-import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
-import nedelosk.modularmachines.common.inventory.slots.SlotModule;
+import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
+import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBuildMachine;
+import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlot;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssembler;
 import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssemblerBookmark;
@@ -20,22 +18,18 @@ import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAs
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetEnergyBar;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiModularAssembler extends GuiBase {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtils.getResourceLocation(getModName(), "modular_assembler_overlay", "gui");
 	protected ResourceLocation guiTextureOverlay2 = RenderUtils.getResourceLocation(getModName(), "modular_assembler_overlay_2", "gui");
-	//protected WidgetEnergyBar energyBar = new WidgetEnergyBar(((TileModularAssenbler)tile).getStorage(), 279, 60);
 	
 	public InventoryPlayer inventory;
 	public int guiX;
@@ -46,17 +40,12 @@ public class GuiModularAssembler extends GuiBase {
 		xSize = 314;
 		ySize = 228;
 		this.inventory = inventory;
+		widgetManager.add(new WidgetEnergyBar(((TileModularAssembler)tile).storage, 278, 57));
+		
 	}
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-        //if(energyBar != null)
-        //	energyBar.draw(this);
-        //if (energyBar != null)
-        //     if (func_146978_c(energyBar.posX, energyBar.posY, 12, 69, x, y)) {
-        //    	energyBar.drawTooltip(x - this.guiLeft, y
-        //                - this.guiTop);
-        //    }
 	}
 	
 	@Override
@@ -70,6 +59,8 @@ public class GuiModularAssembler extends GuiBase {
 		drawTexturedModalRect(guiLeft + 256, guiTop + 25, 0, 122, 58, 134);
 		this.guiX = guiLeft;
 		this.guiY = guiTop;
+		
+        widgetManager.drawWidgets();
 	}
 	
 	@Override
@@ -85,17 +76,13 @@ public class GuiModularAssembler extends GuiBase {
 			buttonList.add(new GuiButtonModularAssemblerBookmark(i, guiLeft + -28, guiTop + 8 + 21 * i, (String) ModularMachinesApi.moduleEntrys.keySet().toArray()[i]));
 			id++;
 		}
-		for(ModuleEntry entry : ((TileModularAssenbler)tile).moduleEntrys.get(((TileModularAssenbler)tile).page))
+		for(ModuleEntry entry : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
 		{
 			if(entry != null)
-				if(entry.isChain)
-					buttonList.add(new GuiButtonModularAssemblerSlot(5 + entry.ID, entry.x + guiLeft, entry.y + guiTop, entry.ID, entry.page, this, entry.parent != null ? entry.parent.ID : 0, ((entry.parent != null) ? entry.parent.page : (String) ModularMachinesApi.moduleEntrys.keySet().toArray()[0]), entry.parent != null, entry.rendererSides, entry.isChain, entry.chainTile));
-				else
-					buttonList.add(new GuiButtonModularAssemblerSlot(5 + entry.ID, entry.x + guiLeft, entry.y + guiTop, entry.ID, entry.page, this, entry.parent != null ? entry.parent.ID : 0, ((entry.parent) != null ? entry.parent.page : (String) ModularMachinesApi.moduleEntrys.keySet().toArray()[0]), entry.parent != null, entry.rendererSides));
+					buttonList.add(new GuiButtonModularAssemblerSlot(id, entry.x + guiLeft, entry.y + guiTop, entry));
 			id++;
 		}
 		buttonList.add(new GuiButtonModularAssemblerBuildMachine(id, guiLeft + 261, guiTop + 35));
-		updateButtons();
 	}
 	
 	@Override
@@ -103,66 +90,65 @@ public class GuiModularAssembler extends GuiBase {
 		super.actionPerformed(button);
 		if(button instanceof GuiButtonModularAssemblerBookmark)
 		{
-			((TileModularAssenbler)tile).page = ((GuiButtonModularAssemblerBookmark) button).page;
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBookmark((TileModularAssenbler) tile, ((GuiButtonModularAssemblerBookmark) button).page));
+			((TileModularAssembler)tile).page = ((GuiButtonModularAssemblerBookmark) button).page;
+			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBookmark((TileModularAssembler) tile, ((GuiButtonModularAssemblerBookmark) button).page));
 			Minecraft.getMinecraft().displayGuiScreen(new GuiModularAssembler((TileBaseInventory) tile, inventory));
 			//updateButtons();
 		}
 		else if(button instanceof GuiButtonModularAssemblerSlot)
 		{
-			if(((GuiButtonModularAssemblerSlot) button).active)
+			GuiButtonModularAssemblerSlot slot = (GuiButtonModularAssemblerSlot) button;
+			if(slot.entry.isActivate)
 			{
 				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())) != null)
-					((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).entry = ((TileModularAssenbler)tile).getModuleEntry(((TileModularAssenbler)tile).page, (((GuiButtonModularAssemblerSlot) button).entryID));
+					((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).entry = slot.entry;
 				else
-					inventory.player.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(((TileModularAssenbler)tile).getModuleEntry(((TileModularAssenbler)tile).page, (((GuiButtonModularAssemblerSlot) button).entryID))));
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler((TileModularAssenbler) tile, ((GuiButtonModularAssemblerSlot) button).entryID, false));
-			Minecraft.getMinecraft().displayGuiScreen(new GuiModularAssemblerSlot((TileBaseInventory) this.tile, inventory, ((TileModularAssenbler)tile).getModuleEntry(((TileModularAssenbler)tile).page, (((GuiButtonModularAssemblerSlot) button).entryID))));
+					inventory.player.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule( slot.entry));
+			PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler((TileModularAssembler) tile, slot.entry));
 			}
-			updateButtons();
 		}
 		else if(button instanceof GuiButtonModularAssemblerBuildMachine)
 		{
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBuildMachine((TileModularAssenbler) tile));
+			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBuildMachine((TileModularAssembler) tile));
 		}
 	}
 	
-    
-	public void closeModule(GuiButtonModularAssemblerSlot buttonBase)
-	{
-		buttonBase.active = false;
-	}
-	
-	public void closeModules(GuiButtonModularAssemblerSlot buttonBase)
-	{
-		for(GuiButton button : (ArrayList<GuiButton>)buttonList)
+	@Override
+	public void drawScreen(int mx, int my, float p_73863_3_) {
+		super.drawScreen(mx, my, p_73863_3_);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
+		if(lighting)
+			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		for(GuiButton button : (ArrayList<GuiButton>)buttonList){
+			if(button != null && button instanceof GuiButtonModularAssemblerSlot)
+				((GuiButtonModularAssemblerSlot)button).renderTooltip(mx, my);
+		}
+		RenderUtils.bindTexture(guiTextureOverlay2);
+		for(ModuleEntry entry : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
 		{
-			if(button instanceof GuiButtonModularAssemblerSlot)
-				if(((GuiButtonModularAssemblerSlot)button).hasParent && ((GuiButtonModularAssemblerSlot)button).parentID  == buttonBase.entryID && ((GuiButtonModularAssemblerSlot)button).parentPage == ((GuiButtonModularAssemblerSlot)buttonBase).page)
-				{
-					closeModule(((GuiButtonModularAssemblerSlot)button));
-					//closeModules(((GuiButtonModularAssemblerSlot)button));
-				}
+			ArrayList<ModuleEntry> childs = new ArrayList<ModuleEntry>();
+			for(ModuleEntry entryChild : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
+			{
+				if(entryChild.parent != null)
+					if(entryChild.parent.equals(entry))
+						childs.add(entryChild);
+			}
+			
+			for(ModuleEntry child : childs)
+			{
+				if(child.x + 36 == entry.x)
+					RenderUtils.drawTexturedModalRect(entry.x + guiLeft - 18, entry.y + guiTop + 5, 1, !entry.isActivate ? 0 : 54 , 23 ,18 , 8);
+				else if(child.x - 36 == entry.x)
+					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 18, entry.y + guiTop + 5, 1, !entry.isActivate ? 36 : 90 , 23 ,18 , 8);
+				else if(child.y - 36 == entry.y)
+					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 5, entry.y + guiTop + 18, 1,!entry.isActivate ? 23 : 77 , 36 ,8 , 18);
+				else if(child.y + 36 == entry.y)
+					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 5, entry.y + guiTop - 18, 1,!entry.isActivate ? 23 : 77 , 0 ,8 , 18);
+			}
 		}
-	}
-	
-	public void activeModule(GuiButtonModularAssemblerSlot buttonBase)
-	{
-		((TileModularAssenbler)tile).getModuleEntry(((TileModularAssenbler)tile).page, ((GuiButtonModularAssemblerSlot) buttonBase).entryID).setAssembler((TileModularAssenbler) tile);
-		if(buttonBase.isChain && ((TileModularAssenbler)tile).getModuleEntry(((TileModularAssenbler)tile).page, ((GuiButtonModularAssemblerSlot) buttonBase).entryID).getTier() > 0 || !buttonBase.isChain)
-			buttonBase.active = true;
-
-	}
-	
-	public void activeModules(GuiButtonModularAssemblerSlot buttonBase)
-	{
-		for(GuiButton button : (ArrayList<GuiButton>)buttonList)
-		{
-			if(button instanceof GuiButtonModularAssemblerSlot)
-				if(((GuiButtonModularAssemblerSlot)button).hasParent && ((GuiButtonModularAssemblerSlot)button).parentID  == buttonBase.entryID)
-					activeModule(((GuiButtonModularAssemblerSlot)button));
-		}
-
+		if(!lighting)
+			net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 	}
 
 	@Override
@@ -173,27 +159,6 @@ public class GuiModularAssembler extends GuiBase {
 	@Override
 	protected String getModName() {
 		return "modularmachines";
-	}
-	
-	public void updateButtons()
-	{
-		for(GuiButton button : (ArrayList<GuiButton>)buttonList)
-		{
-			if(button != null && button instanceof GuiButtonModularAssemblerSlot)
-			{
-				if(((GuiButtonModularAssemblerSlot)button).entryID == 0)
-					if(((GuiButtonModularAssemblerSlot)button).parentPage == ((GuiButtonModularAssemblerSlot)button).page)
-						activeModule(((GuiButtonModularAssemblerSlot)button));
-					else if(((TileModularAssenbler)tile).getStackInSlot(((GuiButtonModularAssemblerSlot)button).parentPage, ((GuiButtonModularAssemblerSlot)button).parentID) != null)
-						activeModule(((GuiButtonModularAssemblerSlot)button));
-				if(((GuiButtonModularAssemblerSlot)button).active)
-					if(((TileModularAssenbler)tile).getStackInSlot(((GuiButtonModularAssemblerSlot)button).page, ((GuiButtonModularAssemblerSlot)button).entryID) != null)
-						activeModules(((GuiButtonModularAssemblerSlot)button));
-					else
-						closeModules(((GuiButtonModularAssemblerSlot)button));
-			}
-				
-		}
 	}
     
     public int getGuiX() {

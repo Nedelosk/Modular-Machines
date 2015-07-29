@@ -4,7 +4,7 @@ import java.util.List;
 
 import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,7 +28,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileModularAssenbler();
+		return new TileModularAssembler();
 	}
 	
 	@Override

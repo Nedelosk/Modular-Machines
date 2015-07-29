@@ -4,7 +4,7 @@ import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKil
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodType;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.modularmachines.common.blocks.ModularBlock;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.BlockRegistry;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import net.minecraft.block.Block;
@@ -78,12 +78,12 @@ public class ItemBlockModularAssembler extends ItemBlock {
 			}
 
 			TileEntity tile = world.getTileEntity(x, y, z);
-			if (!(tile instanceof TileModularAssenbler)) {
+			if (!(tile instanceof TileModularAssembler)) {
 				world.setBlockToAir(x, y, z);
 				return false;
 			}
 
-			TileModularAssenbler assembler = (TileModularAssenbler) tile;
+			TileModularAssembler assembler = (TileModularAssembler) tile;
 			assembler.setCapacity(stack.getTagCompound().getInteger("capacity"));
 			world.markBlockForUpdate(x, y, z);
 			world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), this.field_150939_a.stepSound.func_150496_b(), (this.field_150939_a.stepSound.getVolume() + 1.0F) / 2.0F, this.field_150939_a.stepSound.getPitch() * 0.8F);

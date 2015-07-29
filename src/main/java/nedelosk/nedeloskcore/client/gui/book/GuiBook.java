@@ -12,7 +12,7 @@ import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.note.NoteText;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -75,9 +75,9 @@ public class GuiBook extends GuiScreen {
 		{
 			for(BookCategory category : bookData.map.values())
 			{
-				if(NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()) != null && NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()).get(0) != null)
+				if(NedeloskCore.proxy.getPlayerData().getEntrys(player.getName()) != null && NedeloskCore.proxy.getPlayerData().getEntrys(player.getName()).get(0) != null)
 				{
-				for(String entry : NedelsokCore.proxy.getPlayerData().getEntrys(player.getName()))
+				for(String entry : NedeloskCore.proxy.getPlayerData().getEntrys(player.getName()))
 				{
 					if(category.entrys.containsKey(entry))
 					{

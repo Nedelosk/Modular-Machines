@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.storage;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModuleStorage;
 import nedelosk.modularmachines.api.modular.module.Module;
@@ -17,7 +19,8 @@ public class ModuleChest extends Module implements IModuleStorage {
 	public ModuleChest() {
 	}
 	
-	public ModuleChest(int slots) {
+	public ModuleChest(String modifier, int slots) {
+			super(modifier);
 		this.slots = slots;
 	}
 	
@@ -41,7 +44,7 @@ public class ModuleChest extends Module implements IModuleStorage {
 	
 	@Override
 	public int getGuiTop(IModular modular) {
-		if(modular.getStorage().getTier() == 3)
+		if(modular.getStorage().getTier() != 1)
 			return 256;
 		else
 			return 166;
@@ -61,6 +64,7 @@ public class ModuleChest extends Module implements IModuleStorage {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		
 	}

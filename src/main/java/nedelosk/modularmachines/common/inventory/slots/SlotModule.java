@@ -1,62 +1,38 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
-import nedelosk.nedeloskcore.utils.ItemUtils;
+import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotModule extends Slot {
-
-	public String moduleName;
-	public String moduleName2;
-	public boolean active;
-	public int tier;
-	public String page;
+	
+	public ModuleEntry entry;
+	
+	public SlotModule(IInventory inventory, int ID, int x, int y, ModuleEntry entry) {
+		super(inventory, ID, x, y);
+		this.entry = entry;
+	}
 	
 	@Override
 	public ItemStack getStack() {
-		return ((TileModularAssenbler)inventory).getStackInSlot(page, this.getSlotIndex());
+		return ((TileModularAssembler)inventory).getStackInSlot(entry.page, entry.ID);
 	}
 	
 	@Override
     public void putStack(ItemStack p_75215_1_)
     {
-		((TileModularAssenbler)inventory).setInventorySlotContents(this.page, getSlotIndex(), p_75215_1_);
+		((TileModularAssembler)inventory).setInventorySlotContents(entry.page, entry.ID, p_75215_1_);
         this.onSlotChanged();
     }
 	
 	@Override
     public ItemStack decrStackSize(int p_75209_1_)
     {
-        return ((TileModularAssenbler)inventory).decrStackSize(this.page, getSlotIndex(), p_75209_1_);
+        return ((TileModularAssembler)inventory).decrStackSize(entry.page, entry.ID, p_75209_1_);
     }
-	
-	public SlotModule(IInventory inventory, int ID, int x, int y, String moduleName, int tier, String page) {
-		super(inventory, ID, x, y);
-		this.moduleName = moduleName;
-		this.active = false;
-		this.tier = tier;
-		this.page = page;
-	}
-	
-	public SlotModule(IInventory inventory, int ID, int x, int y, String moduleName, boolean active, int tier, String page) {
-		super(inventory, ID, x, y);
-		this.moduleName = moduleName;
-		this.active = active;
-		this.tier = tier;
-		this.page = page;
-	}
-	
-	public SlotModule(IInventory inventory, int ID, int x, int y, String moduleName, String moduleName2, int tier, String page) {
-		super(inventory, ID, x, y);
-		this.moduleName = moduleName;
-		this.moduleName2 = moduleName2;
-		this.active = false;
-		this.tier = tier;
-		this.page = page;
-	}
 	
 	@Override
 	public int getSlotStackLimit() {
@@ -65,13 +41,13 @@ public class SlotModule extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if(ModularMachinesApi.getModuleItem(moduleName, stack) != null && ModularMachinesApi.getModuleItem(moduleName, stack).getTier() <= tier)
-			return true;
-		else if(moduleName2 != null && ModularMachinesApi.getModuleItem(moduleName2, stack) != null && ModularMachinesApi.getModuleItem(moduleName2, stack).getTier() <= tier)
-			return true;
+		int tier = entry.parent == null ? 3 : entry.parent.getTier();
+		for(String moduleName : entry.moduleNames)
+		{
+			if(ModularMachinesApi.getModuleItem(moduleName, stack) != null && ModularMachinesApi.getModuleItem(moduleName, stack).getTier() <= tier)
+				return true;
+		}
 		return false;
-	}
-	
-	
+	}	
 
 }

@@ -1,7 +1,8 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlotBack;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -53,7 +54,7 @@ public class GuiModularAssemblerSlot extends GuiBase {
 		super.actionPerformed(button);
 		if(button instanceof GuiButtonModularAssemblerSlotBack)
 		{
-		PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler((TileModularAssenbler) tile));
+		PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler((TileModularAssembler) tile));
 		Minecraft.getMinecraft().displayGuiScreen(new GuiModularAssembler((TileBaseInventory) this.tile, inventory));
 		}
 	}

@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.core;
 
 import nedelosk.forestday.common.blocks.BlockGravel;
-import nedelosk.forestday.common.blocks.BlockOre;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.forestday.common.machines.base.block.BlockMachines;
 import nedelosk.forestday.common.machines.base.block.BlockMachinesWood;
@@ -21,9 +20,10 @@ import nedelosk.modularmachines.common.blocks.ModularAssemblerBlock;
 import nedelosk.modularmachines.common.blocks.ModularMachineBlock;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularAssembler;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularMachine;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.modular.ModularMachine;
+import nedelosk.nedeloskcore.common.blocks.BlockOre;
 import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -33,7 +33,22 @@ public class BlockRegistry {
 	{
 		
 		//Blocks
-		MMBlocks.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
+		MMBlocks.Modular_Assembler.registerBlock(new ModularAssemblerBlock(){
+			@Override
+			public boolean isOpaqueCube() {
+				return false;
+			}
+			
+			@Override
+			public int getRenderType() {
+				return -1;
+			}
+			
+			@Override
+			public boolean renderAsNormalBlock() {
+				return false;
+			}
+		}, ItemBlockModularAssembler.class);
 		MMBlocks.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModularMachine.class);
 		
 		registerTile();
@@ -42,7 +57,7 @@ public class BlockRegistry {
 	
 	public static void registerTile()
 	{
-		GameRegistry.registerTileEntity(TileModularAssenbler.class, "tile.modular.assenbler");
+		GameRegistry.registerTileEntity(TileModularAssembler.class, "tile.modular.assenbler");
 		GameRegistry.registerTileEntity(TileModularMachine.class, "tile.modular.machine");
 		
 	}

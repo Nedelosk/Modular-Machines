@@ -1,17 +1,20 @@
 package nedelosk.nedeloskcore.common.core.registry;
 
-import java.util.HashMap;
-
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.MineTweakerAPI;
-import nedelosk.forestday.common.registrys.FRegistry;
+import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.nedeloskcore.api.NCoreApi;
+import nedelosk.nedeloskcore.common.blocks.BlockOre;
 import nedelosk.nedeloskcore.common.blocks.BlockPlan;
 import nedelosk.nedeloskcore.common.blocks.fluid.FluidBlock;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.book.BookDatas;
-import nedelosk.nedeloskcore.common.core.NedelsokCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.event.BucketHandler;
 import nedelosk.nedeloskcore.common.items.FluidBucket;
+import nedelosk.nedeloskcore.common.items.ItemBlockForest;
+import nedelosk.nedeloskcore.common.items.ItemGem;
+import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemPlan;
 import nedelosk.nedeloskcore.common.items.ItemWoodBucket;
 import nedelosk.nedeloskcore.common.items.blocks.ItemBlockPlan;
@@ -29,8 +32,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NRegistry {
 	
@@ -39,6 +40,9 @@ public class NRegistry {
 	public static Block planBlock;
 	public static Item woodBucket;
 	public static Item woodBucketWater;
+	public static Block ore;
+	public static Item ingots;
+	public static Item gems;
 	
 	public static void preInit()
 	{
@@ -49,9 +53,18 @@ public class NRegistry {
 		woodBucket = registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood"), "bucket.wood", "nc");
 		woodBucketWater = registerItem(new ItemWoodBucket(Blocks.water, "bucket.wood.water"), "bucket.wood.water", "nc");
 		
+		ore = registerBlock(new BlockOre(), ItemBlockForest.class, "ore", "nc");
+		ingots = registerItem(new ItemIngot(), "ingot", "nc");
+		gems = registerItem(new ItemGem(), "gem", "nc");
+		
 		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 1), Items.paper);
 		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 2), new ItemStack(plan, 1, 1), Items.stick, Items.stick);
 		GameRegistry.addShapedRecipe(new ItemStack(woodBucket), "   ", "+ +", " + ", '+', Blocks.planks);
+		GameRegistry.addSmelting(new ItemStack(ore, 1, 0), new ItemStack(ingots, 1, 0),  3);
+		GameRegistry.addSmelting(new ItemStack(ore, 1, 1), new ItemStack(ingots, 1, 1),  3);
+		GameRegistry.addSmelting(new ItemStack(ore, 1, 2), new ItemStack(ingots, 1, 2),  3);
+		GameRegistry.addSmelting(new ItemStack(ore, 1, 3), new ItemStack(ingots, 1, 3),  3);
+		GameRegistry.addSmelting(new ItemStack(ore, 1, 4), new ItemStack(ingots, 1, 4),  3);
     	PacketHandler.preInit();
     	EntryRegistry.preInit();
     	
@@ -65,7 +78,7 @@ public class NRegistry {
 	
 	public static void init()
 	{
-		NedelsokCore.proxy.init();
+		NedeloskCore.proxy.init();
 	}
 	
 	public static void postInit()

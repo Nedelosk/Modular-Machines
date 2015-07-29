@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.api.modular.module.IModuleGui;
 import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.client.gui.assembler.GuiButtonModularAssemblerBookmark;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
+import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;

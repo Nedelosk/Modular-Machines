@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -75,41 +76,6 @@ public class WidgetFluidTank extends Widget {
 
 		RenderUtils.bindTexture(widget);
 		drawTexturedModalRect(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, 19, 1, 16, 60);
-
-		GL11.glEnable(GL11.GL_LIGHTING);
-	}
-	
-	public void draw(int guiX, int guiY, int mouseX, int mouseY) {
-		if (this.tank == null)
-			return;
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
-		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(this.posX, this.posY, 0, 0, 18, 73);
-
-		int iconHeightRemainder = (60 - 4) % 16;
-
-		FluidStack fluid = this.tank.getFluid();
-		if (fluid != null && fluid.amount > 0) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-
-			IIcon fluidIcon = fluid.getFluid().getStillIcon();
-
-			if (iconHeightRemainder > 0) {
-				drawTexturedModelRectFromIcon(this.posX + 1, this.posY + 1, fluidIcon, 16, iconHeightRemainder);
-			}
-			for (int i = 0; i < (60 - 6) / 16; i++) {
-				drawTexturedModelRectFromIcon(this.posX + 1, this.posY + 1 + i * 16 + iconHeightRemainder, fluidIcon, 16, 18);
-			}
-
-			RenderUtils.bindTexture(widget);
-			drawTexturedModalRect(this.posX + 1, this.posY + 1, 1, 1, 16, 72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
-		}
-
-		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(this.posX + 1, this.posY + 1, 19, 1, 16, 60);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

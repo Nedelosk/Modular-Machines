@@ -173,6 +173,7 @@ public class TileModularMachine extends TileBaseInventory implements IEnergyHand
 		{
 			slot.put(stack.getModule().getName(), new ItemStack[64]);
 		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	public ArrayList<ModuleStack> getModuleGuis() {

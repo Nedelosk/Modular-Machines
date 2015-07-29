@@ -11,7 +11,7 @@ import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
 import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.inventory.slots.SlotModule;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;

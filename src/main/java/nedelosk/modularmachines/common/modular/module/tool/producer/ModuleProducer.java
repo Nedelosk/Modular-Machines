@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer;
 
+import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModuleProducer;
 import nedelosk.modularmachines.api.modular.module.Module;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +26,14 @@ public abstract class ModuleProducer extends Module implements IModuleProducer {
 		nbt.setInteger("burnTimeTotal", burnTimeTotal);
 		nbt.setInteger("timer", timer);
 		nbt.setInteger("timerTotal", timerTotal);
+	}
+	
+	public abstract int getSpeedModifier();
+	
+	public int getBurnTimeTotal(IModular modular)
+	{
+		int burnTimeTotal = modular.getEngine().getSpeedModifier() * getSpeedModifier() / 10;
+		return burnTimeTotal + (burnTimeTotal * modular.getEnergyManger().getSpeedModifier() / 100);
 	}
 	
 	@Override

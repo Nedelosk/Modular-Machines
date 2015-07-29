@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
@@ -13,12 +18,6 @@ import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.farm.IFarm;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.logging.log4j.Level;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.LoaderException;
 
 public class ModularMachinesApi {
 	
@@ -88,7 +87,14 @@ public class ModularMachinesApi {
 	
 	public static void addModuleItem(ItemStack item, IModule module, int tier, boolean hasNbt)
 	{
-		items.add(new ModuleItem(item, module, tier, hasNbt));
+		ModuleItem itemM = new ModuleItem(item, module, tier, hasNbt);
+		ArrayList<ModuleItem> it = items;
+		if(!items.contains(itemM))
+			items.add(itemM);
+		else
+		{
+			getItems();
+		}
 		if(modules.get(module.getName()) == null)
 			addModule(module);
 	}
@@ -129,6 +135,7 @@ public class ModularMachinesApi {
 	public static ModuleItem getModuleItem(ItemStack stack){
 		if(stack == null)
 			return null;
+		ArrayList<ModuleItem> ite = items;
 		for(ModuleItem item : items)
 		{
 			if(stack.getItem() == item.item.getItem() && stack.getItemDamage() == item.item.getItemDamage())
@@ -200,25 +207,15 @@ public class ModularMachinesApi {
     	bookmark.get(markName).add(stack);
     }
     
-    public static void addModuleEntry(String page, int ID, int x, int y, String moduleName, RendererSides... rendererSides)
+    public static void addModuleEntry(String page, int x, int y, String moduleName, RendererSides... rendererSides)
     {
-    	moduleEntrys.get(page).add(new ModuleEntry(ID, x - 9, y - 9, moduleName, page, rendererSides));
+    	moduleEntrys.get(page).add(new ModuleEntry(x - 9, y - 9, moduleName));
     }
     
     public static void addModuleEntry(ModuleEntry entry)
     {
     	moduleEntrys.get(entry.page).add(entry);
     	moduleEntrys.get(entry.page).get(0);
-    }
-    
-    public static void addModuleEntry(String page, int ID, int x, int y, String moduleName, ModuleEntry parent, int chainTile, RendererSides... rendererSides)
-    {
-    	moduleEntrys.get(page).add(new ModuleEntry(ID, x - 9, y - 9, moduleName, parent, page, true, chainTile, rendererSides));
-    }
-    
-    public static void addModuleEntry(String page, int ID, int x, int y, String moduleName, ModuleEntry parent, RendererSides... rendererSides)
-    {
-    	moduleEntrys.get(page).add(new ModuleEntry(ID, x - 9, y - 9, moduleName, parent, page, rendererSides));
     }
 	
 }

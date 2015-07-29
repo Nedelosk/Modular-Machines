@@ -12,7 +12,7 @@ import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssenbler;
+import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.items.ModularItem;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -56,7 +56,7 @@ public class GuiButtonModularMachineBookmark extends GuiButton {
 		ItemStack[] item = ModularMachinesApi.addModuleItemStacks(stack.getModule(), stack.getTier());
 		
 		if(itemToRender == null)
-			if(item == null)
+			if(item == null || item.length == 0)
 				itemToRender = new ItemStack(Items.arrow);
 			else
 				itemToRender = item[r.nextInt(item.length)];

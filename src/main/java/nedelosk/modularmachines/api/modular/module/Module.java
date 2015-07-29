@@ -24,7 +24,7 @@ public abstract class Module implements IModule{
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		if(nbt.hasKey("Modifier"))
-		this.modifier = nbt.getString("Modifier");
+			this.modifier = nbt.getString("Modifier");
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
