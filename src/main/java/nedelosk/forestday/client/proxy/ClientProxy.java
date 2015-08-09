@@ -1,5 +1,6 @@
 package nedelosk.forestday.client.proxy;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
 import nedelosk.forestday.client.machines.base.renderer.item.ItemCampfireRenderer;
 import nedelosk.forestday.client.machines.base.renderer.item.ItemMachineWoodBase;
 import nedelosk.forestday.client.machines.base.renderer.tile.TileCampfireRenderer;
@@ -19,7 +20,6 @@ import nedelosk.forestday.common.registrys.FItems;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
-import cpw.mods.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
 	

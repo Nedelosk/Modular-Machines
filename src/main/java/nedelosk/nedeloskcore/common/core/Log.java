@@ -22,7 +22,12 @@ public class Log {
     
     public static void err(String msg, Object... args)
     {
-    	log("Nedelosk Core Error", Level.ERROR, msg, args);
+    	log("Nedelosk Core ERROR", Level.ERROR, msg, args);
+    }
+    
+    public static void info(String msg, Object... args)
+    {
+    	log("Nedelosk Core INFO", Level.INFO, msg, args);
     }
 	
 }

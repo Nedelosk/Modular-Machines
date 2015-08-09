@@ -6,26 +6,17 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.api.modular.module.IModuleGui;
 import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachine;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.modularmachines.common.network.packets.saver.ModularTileEntitySave;
 import nedelosk.nedeloskcore.api.INBTTagable;
-import nedelosk.nedeloskcore.client.gui.ButtonManager;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.WidgetManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,9 +29,9 @@ public class GuiModularMachine extends GuiBase implements INBTTagable {
 	public GuiModularMachine(TileModularMachine tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		this.inventory = inventory;
-		if(((TileModularMachine)tile).getModuleGuis() != null && ((TileModularMachine)tile).getModuleGui() != null)
-		((IModuleGui)((TileModularMachine)tile).getModuleGui().getModule()).addWidgets(this, ((TileModularMachine)this.tile).machine);
-		ySize = ((Module)((TileModularMachine)tile).getModuleGui().getModule()).getGuiTop(tile.machine);
+		if(tile.getModuleGuis() != null && tile.getModuleGui() != null)
+		((IModuleGui)tile.getModuleGui().getModule()).addWidgets(this, ((TileModularMachine)this.tile).machine);
+		ySize = ((Module)tile.getModuleGui().getModule()).getGuiTop(tile.machine);
 	}
 
 	@Override

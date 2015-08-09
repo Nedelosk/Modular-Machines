@@ -1,29 +1,10 @@
 package nedelosk.modularmachines.common.inventory.machine;
 
-import java.util.ArrayList;
-
-import cpw.mods.fml.common.Loader;
-import nedelosk.forestday.common.machines.mutiblock.core.tile.TileMultiblockBase;
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModuleGui;
 import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.modular.module.ModuleItem;
-import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.inventory.slots.SlotModule;
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssembler;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
-import nedelosk.nedeloskcore.common.inventory.slots.SlotOutput;
-import nedelosk.nedeloskcore.utils.ItemUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
 public class ContainerModularMachine extends ContainerBase{
@@ -37,8 +18,13 @@ public class ContainerModularMachine extends ContainerBase{
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
-		//addSlot(new Slot(this.inventoryBase, 0, 56, 35));
-		((IModuleGui)((TileModularMachine)inventoryBase).getModuleGui().getModule()).addSlots(this, ((TileModularMachine)this.inventoryBase).machine);
+		if(((IModuleGui)((TileModularMachine)inventoryBase).getModuleGui().getModule()).addSlots(this, ((TileModularMachine)this.inventoryBase).machine) != null)
+		{
+			for(Slot slot : ((IModuleGui)((TileModularMachine)inventoryBase).getModuleGui().getModule()).addSlots(this, ((TileModularMachine)this.inventoryBase).machine))
+			{
+				addSlotToContainer(slot);		
+			}
+		}
 	}
 	
 	@Override
@@ -53,11 +39,6 @@ public class ContainerModularMachine extends ContainerBase{
         for (int j1 = 0; j1 < 9; j1++) {
             addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, i + 58));
         }
-	}
-	
-	public void addSlot(Slot slot)
-	{
-		addSlotToContainer(slot);
 	}
 
 }

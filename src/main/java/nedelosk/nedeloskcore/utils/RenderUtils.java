@@ -2,7 +2,6 @@ package nedelosk.nedeloskcore.utils;
 
 import java.util.List;
 
-import nedelosk.forestday.common.core.Defaults;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -23,7 +22,18 @@ public final class RenderUtils {
 
 		renderTooltip(x, y, tooltipData, color, color2);
 	}
-
+	
+	public static void drawTexturedQuadFull(int par1, int par2, double zLevel)
+	{
+		Tessellator var9 = Tessellator.instance;
+		var9.startDrawingQuads();
+		var9.addVertexWithUV(par1 + 0, par2 + 16, zLevel, 0.0D, 1.0D);
+		var9.addVertexWithUV(par1 + 16, par2 + 16, zLevel, 1.0D, 1.0D);
+		var9.addVertexWithUV(par1 + 16, par2 + 0, zLevel, 1.0D, 0.0D);
+		var9.addVertexWithUV(par1 + 0, par2 + 0, zLevel, 0.0D, 0.0D);
+		var9.draw();
+	}
+	
 	public static void renderTooltip(int x, int y, List<String> tooltipData, int color, int color2) {
 		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
 		if(lighting)
@@ -45,6 +55,54 @@ public final class RenderUtils {
 			if (tooltipData.size() > 1)
 				var9 += 2 + (tooltipData.size() - 1) * 10;
 			float z = 300F;
+			drawGradientRect(var6 - 3, var7 - 4, z, var6 + var5 + 3, var7 - 3, color2, color2);
+			drawGradientRect(var6 - 3, var7 + var9 + 3, z, var6 + var5 + 3, var7 + var9 + 4, color2, color2);
+			drawGradientRect(var6 - 3, var7 - 3, z, var6 + var5 + 3, var7 + var9 + 3, color2, color2);
+			drawGradientRect(var6 - 4, var7 - 3, z, var6 - 3, var7 + var9 + 3, color2, color2);
+			drawGradientRect(var6 + var5 + 3, var7 - 3, z, var6 + var5 + 4, var7 + var9 + 3, color2, color2);
+			int var12 = (color & 0xFFFFFF) >> 1 | color & -16777216;
+			drawGradientRect(var6 - 3, var7 - 3 + 1, z, var6 - 3 + 1, var7 + var9 + 3 - 1, color, var12);
+			drawGradientRect(var6 + var5 + 2, var7 - 3 + 1, z, var6 + var5 + 3, var7 + var9 + 3 - 1, color, var12);
+			drawGradientRect(var6 - 3, var7 - 3, z, var6 + var5 + 3, var7 - 3 + 1, color, color);
+			drawGradientRect(var6 - 3, var7 + var9 + 2, z, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
+
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			for (int var13 = 0; var13 < tooltipData.size(); ++var13) {
+				String var14 = tooltipData.get(var13);
+				fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
+				if (var13 == 0)
+					var7 += 2;
+				var7 += 10;
+			}
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+		}
+		if(!lighting)
+			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+
+	public static void renderTooltip(int x, int y, List<String> tooltipData, int color) {
+		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
+		if(lighting)
+			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+
+		if (tooltipData != null && !tooltipData.isEmpty()) {
+			int var5 = 0;
+			int var6;
+			int var7;
+			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+			for (var6 = 0; var6 < tooltipData.size(); ++var6) {
+				var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
+				if (var7 > var5)
+					var5 = var7;
+			}
+			var6 = x + 12;
+			var7 = y - 12;
+			int var9 = 8;
+			if (tooltipData.size() > 1)
+				var9 += 2 + (tooltipData.size() - 1) * 10;
+			float z = 300F;
+			int color2 = -267386864;
 			drawGradientRect(var6 - 3, var7 - 4, z, var6 + var5 + 3, var7 - 3, color2, color2);
 			drawGradientRect(var6 - 3, var7 + var9 + 3, z, var6 + var5 + 3, var7 + var9 + 4, color2, color2);
 			drawGradientRect(var6 - 3, var7 - 3, z, var6 + var5 + 3, var7 + var9 + 3, color2, color2);
@@ -111,6 +169,11 @@ public final class RenderUtils {
 	public static void bindTexture(ResourceLocation tex)
 	{
 		engine().bindTexture(tex);
+	}
+	
+	public static void bindTexture(String modID, String path)
+	{
+		engine().bindTexture(new ResourceLocation(modID, path));
 	}
 	
 	public static void bindBlockTexture() {
@@ -204,10 +267,10 @@ public final class RenderUtils {
 	    {
 	        Tessellator tessellator = Tessellator.instance;
 	        tessellator.startDrawingQuads();
-	        tessellator.addVertexWithUV((double)(p_94065_1_ + 0), (double)(p_94065_2_ + p_94065_5_), (double)z, (double)p_94065_3_.getMinU(), (double)p_94065_3_.getMaxV());
-	        tessellator.addVertexWithUV((double)(p_94065_1_ + p_94065_4_), (double)(p_94065_2_ + p_94065_5_), (double)z, (double)p_94065_3_.getMaxU(), (double)p_94065_3_.getMaxV());
-	        tessellator.addVertexWithUV((double)(p_94065_1_ + p_94065_4_), (double)(p_94065_2_ + 0), (double)z, (double)p_94065_3_.getMaxU(), (double)p_94065_3_.getMinV());
-	        tessellator.addVertexWithUV((double)(p_94065_1_ + 0), (double)(p_94065_2_ + 0), (double)z, (double)p_94065_3_.getMinU(), (double)p_94065_3_.getMinV());
+	        tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMinU(), p_94065_3_.getMaxV());
+	        tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMaxU(), p_94065_3_.getMaxV());
+	        tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + 0, z, p_94065_3_.getMaxU(), p_94065_3_.getMinV());
+	        tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + 0, z, p_94065_3_.getMinU(), p_94065_3_.getMinV());
 	        tessellator.draw();
 	    }
 }

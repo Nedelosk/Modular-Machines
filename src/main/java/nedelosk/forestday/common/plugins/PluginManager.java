@@ -4,8 +4,6 @@ import nedelosk.forestday.common.plugins.forestry.PluginForestry;
 import nedelosk.forestday.common.plugins.minetweaker.PluginMineTweaker;
 import nedelosk.forestday.common.plugins.railcraft.PluginRailcraft;
 import nedelosk.forestday.common.plugins.waila.PluginWaila;
-import nedelosk.nedeloskcore.plugins.Plugin;
-import net.minecraft.item.ItemStack;
 
 public class PluginManager extends nedelosk.nedeloskcore.plugins.PluginManager {
 	

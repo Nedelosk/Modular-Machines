@@ -1,6 +1,5 @@
 package nedelosk.nedeloskcore.api.crafting;
 
-import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import net.minecraft.item.ItemStack;
 
 public interface IPlanRecipe {

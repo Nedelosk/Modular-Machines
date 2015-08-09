@@ -3,27 +3,18 @@ package nedelosk.nedeloskcore.common.core.registry;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import minetweaker.MineTweakerAPI;
-import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.nedeloskcore.api.NCoreApi;
-import nedelosk.nedeloskcore.common.blocks.BlockOre;
-import nedelosk.nedeloskcore.common.blocks.BlockPlan;
 import nedelosk.nedeloskcore.common.blocks.fluid.FluidBlock;
-import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
+import nedelosk.nedeloskcore.common.core.NedeloskCoreConfig;
 import nedelosk.nedeloskcore.common.event.BucketHandler;
 import nedelosk.nedeloskcore.common.items.FluidBucket;
-import nedelosk.nedeloskcore.common.items.ItemBlockForest;
-import nedelosk.nedeloskcore.common.items.ItemGem;
-import nedelosk.nedeloskcore.common.items.ItemIngot;
-import nedelosk.nedeloskcore.common.items.ItemPlan;
-import nedelosk.nedeloskcore.common.items.ItemWoodBucket;
-import nedelosk.nedeloskcore.common.items.blocks.ItemBlockPlan;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeHandler;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
+import nedelosk.nedeloskcore.common.world.WorldGeneratorNedeloskCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -36,35 +27,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class NRegistry {
 	
 	public static NRegistry instance;
-	public static Item plan;
-	public static Block planBlock;
-	public static Item woodBucket;
-	public static Item woodBucketWater;
-	public static Block ore;
-	public static Item ingots;
-	public static Item gems;
 	
 	public static void preInit()
 	{
-		plan = registerItem(new ItemPlan(), "plan", "nc");
-		planBlock = registerBlock(new BlockPlan(), ItemBlockPlan.class, "plan", "nc");
-		registerTile(TilePlan.class, "plan", "nc");
-		
-		woodBucket = registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood"), "bucket.wood", "nc");
-		woodBucketWater = registerItem(new ItemWoodBucket(Blocks.water, "bucket.wood.water"), "bucket.wood.water", "nc");
-		
-		ore = registerBlock(new BlockOre(), ItemBlockForest.class, "ore", "nc");
-		ingots = registerItem(new ItemIngot(), "ingot", "nc");
-		gems = registerItem(new ItemGem(), "gem", "nc");
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 1), Items.paper);
-		GameRegistry.addShapelessRecipe(new ItemStack(plan, 1, 2), new ItemStack(plan, 1, 1), Items.stick, Items.stick);
-		GameRegistry.addShapedRecipe(new ItemStack(woodBucket), "   ", "+ +", " + ", '+', Blocks.planks);
-		GameRegistry.addSmelting(new ItemStack(ore, 1, 0), new ItemStack(ingots, 1, 0),  3);
-		GameRegistry.addSmelting(new ItemStack(ore, 1, 1), new ItemStack(ingots, 1, 1),  3);
-		GameRegistry.addSmelting(new ItemStack(ore, 1, 2), new ItemStack(ingots, 1, 2),  3);
-		GameRegistry.addSmelting(new ItemStack(ore, 1, 3), new ItemStack(ingots, 1, 3),  3);
-		GameRegistry.addSmelting(new ItemStack(ore, 1, 4), new ItemStack(ingots, 1, 4),  3);
+		NedeloskCoreConfig.preInit();
+		ObjectRegistry.preInit();
     	PacketHandler.preInit();
     	EntryRegistry.preInit();
     	
@@ -78,12 +45,13 @@ public class NRegistry {
 	
 	public static void init()
 	{
+		ObjectRegistry.init();
 		NedeloskCore.proxy.init();
 	}
 	
 	public static void postInit()
 	{
-		
+    	GameRegistry.registerWorldGenerator(new WorldGeneratorNedeloskCore(), 0);
 	}
 	
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket)

@@ -5,35 +5,30 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.blocks.BlockForestday;
-import nedelosk.forestday.common.core.ForestDay;
-import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWood;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.WorldSettings.GameType;
 
 public class BlockOre extends BlockForest {
 
-	 public String[] ore = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Ruby" };
-	 public IIcon[] oreIcon;
+	public static String[] ores = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Ruby" };
+	public String[] ore;
+	public IIcon[] oreIcon;
+	public String modID;
 	
-	public BlockOre() {
+	public BlockOre(String[] ores, String modID) {
 		super(Material.ground, CreativeTabs.tabBlock);
+		this.ore = ores;
+		this.modID = modID;
 		this.setHardness(2.0f);
 		this.setResistance(3.0F);
-		this.setBlockName("ore");
+		this.setBlockName("ore" + modID);
 		this.setStepSound(Block.soundTypeStone);
 		this.setHarvestLevel("pickaxe", 1);
 	}
@@ -47,19 +42,22 @@ public class BlockOre extends BlockForest {
     
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-    	if(metadata == 5)
-    	{
-    		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-    		list.add(new ItemStack(NRegistry.gems, 1, world.rand.nextInt(2)));
-    	}
-    	return super.getDrops(world, x, y, z, metadata, fortune);
-    }
-    
-    @Override
-    public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int metadata) {
-    	if(metadata == 5)
-    		return false;
-    	return true;
+		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+
+		if (metadata == 5) {
+			int fortmod = world.rand.nextInt(fortune + 2) - 1;
+			if (fortmod < 0) {
+				fortmod = 0;
+			}
+
+			int amount = (2 + world.rand.nextInt(5)) * (fortmod + 1);
+			if (amount > 0) {
+				drops.add(new ItemStack(ObjectRegistry.gems, amount, 0));
+			}
+		} else {
+			drops.add(new ItemStack(this, 1, metadata));
+		}
+    	return drops;
     }
 
     @Override
@@ -70,7 +68,7 @@ public class BlockOre extends BlockForest {
 
         for (int i = 0; i < this.oreIcon.length; ++i)
         {
-            this.oreIcon[i] = iconRegister.registerIcon("nedeloskcore:ore" + ore[i]);
+            this.oreIcon[i] = iconRegister.registerIcon(this.modID + ":ore" + ore[i]);
         }
     }
     

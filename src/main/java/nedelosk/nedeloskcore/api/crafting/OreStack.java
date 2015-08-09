@@ -1,7 +1,6 @@
 package nedelosk.nedeloskcore.api.crafting;
 
 import nedelosk.nedeloskcore.api.INBTTagable;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class OreStack implements INBTTagable {

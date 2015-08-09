@@ -5,7 +5,6 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileKiln;
 import nedelosk.nedeloskcore.plugins.Plugin;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
@@ -24,6 +23,7 @@ public class PluginWaila extends Plugin {
 		return "Waila";
 	}
 	
+	@Override
 	public void init(){
 		FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
 	}

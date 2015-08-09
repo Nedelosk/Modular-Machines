@@ -1,19 +1,19 @@
 package nedelosk.modularmachines.common.modular.module.manager;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleTankManager;
-import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
-import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import nedelosk.modularmachines.common.modular.handler.FluidHandler;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import net.minecraft.client.Minecraft;
+import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleTankManager extends Module implements IModuleTankManager {
@@ -35,6 +35,7 @@ public class ModuleTankManager extends Module implements IModuleTankManager {
 			manager.writeToNBT(nbt);
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
 		super.readFromNBT(nbt);
 		
@@ -46,12 +47,18 @@ public class ModuleTankManager extends Module implements IModuleTankManager {
 	}
 	
 	@Override
-	public void addSlots(IContainerBase container, IModular modular) {
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+		return null;
 	}
 
 	@Override
 	public void addButtons(IGuiBase gui, IModular modular) {
 		
+	}
+	
+	@Override
+	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
 	}
 
 	@Override

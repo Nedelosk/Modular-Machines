@@ -3,7 +3,6 @@ package nedelosk.nedeloskcore.client.gui.button;
 import java.util.Arrays;
 import java.util.List;
 
-import nedelosk.nedeloskcore.client.gui.book.GuiBook;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

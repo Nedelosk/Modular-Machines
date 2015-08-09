@@ -4,14 +4,11 @@ import nedelosk.forestday.client.machines.base.gui.GuiCampfire;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class TileCampfire extends TileMachineBase {

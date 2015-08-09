@@ -1,26 +1,15 @@
 package nedelosk.nedeloskcore.client.gui.book.button;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.api.book.Knowledge;
-import nedelosk.nedeloskcore.client.gui.book.GuiBook;
 import nedelosk.nedeloskcore.common.book.BookManager;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class GuiButtonBookEntry extends GuiButtonBook {
 

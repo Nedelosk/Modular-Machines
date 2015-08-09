@@ -3,7 +3,6 @@ package nedelosk.forestday.common.machines.base.wood.workbench;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.api.crafting.IKilnRecipe;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
@@ -43,61 +42,73 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe{
 		return list;
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack inputTool, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, ItemStack inputTool, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, OreStack inputTool, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, OreStack inputTool, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, OreStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack inputTool, OreStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, OreStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, OreStack inputTool, OreStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, ItemStack inputTool, OreStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(OreStack input, OreStack inputTool, OreStack inputPattern, ItemStack output, int burnTime)
 	{
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));

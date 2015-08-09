@@ -3,14 +3,12 @@ package nedelosk.modularmachines.common.network.packets.machine;
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
 
 public class PacketModularMachineNBT extends PacketTileEntity<TileModularMachine> implements IMessageHandler<PacketModularMachineNBT, IMessage>{
 

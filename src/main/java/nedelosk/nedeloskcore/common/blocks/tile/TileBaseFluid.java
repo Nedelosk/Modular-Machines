@@ -1,12 +1,8 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 

@@ -1,5 +1,7 @@
 package nedelosk.forestday.client.machines.multiblock.charcoalkiln;
 
+import org.lwjgl.opengl.GL11;
+
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -7,8 +9,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-
-import org.lwjgl.opengl.GL11;
 
 public class TileCharcoalAshRenderer extends TileEntitySpecialRenderer {
 

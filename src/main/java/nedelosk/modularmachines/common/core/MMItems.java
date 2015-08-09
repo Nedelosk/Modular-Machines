@@ -4,10 +4,17 @@ import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum MMItems {
 
+	Gears,
+	Dusts,
+	Dusts_Others,
+	Ingots_Others,
+	Nuggets_Others,
+	Alloy_Ingots,
+	Alloy_Nuggets,
+	
 	Module_Items;
 
 	private Item item;

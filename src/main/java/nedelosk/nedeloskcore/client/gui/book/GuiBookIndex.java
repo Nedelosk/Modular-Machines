@@ -40,7 +40,7 @@ public class GuiBookIndex extends GuiBook {
 			Collection c = bookData.getCategory(category).entrys.keySet();
 			for (Object obj : c) {
 				if (BookManager.isEntryUnlock(player.getName(), (String) obj)) {
-					entriesToDisplay.add(bookData.getCategory(category).entrys.get((String) obj));
+					entriesToDisplay.add(bookData.getCategory(category).entrys.get(obj));
 				}
 			}
 		}

@@ -3,15 +3,9 @@
  */
 package nedelosk.nedeloskcore.api.book;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import nedelosk.nedeloskcore.api.NCoreApi;
-import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.note.Note;
-import net.minecraft.util.StatCollector;
 
 public class BookEntry {
 

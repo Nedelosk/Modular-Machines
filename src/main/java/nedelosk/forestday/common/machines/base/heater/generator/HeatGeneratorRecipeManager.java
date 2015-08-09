@@ -14,11 +14,13 @@ public class HeatGeneratorRecipeManager implements IBurnRecipe{
 	
 	public static HeatGeneratorRecipeManager instance;
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack output, int burnTime, BurningMode mode)
 	{
 		recipes.add(new HeatGeneratorRecipe(input, output, burnTime, mode));
 	}
 	
+	@Override
 	public void addRecipe(String input, ItemStack output, int burnTime, BurningMode mode)
 	{
 		recipes.add(new HeatGeneratorRecipe(input, output, burnTime, mode));

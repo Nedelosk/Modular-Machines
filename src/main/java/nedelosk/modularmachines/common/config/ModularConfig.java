@@ -1,8 +1,15 @@
 package nedelosk.modularmachines.common.config;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.common.ModularMachines;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.Language;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModularConfig {
@@ -19,6 +26,19 @@ public class ModularConfig {
 		Configuration config = ModularMachines.config;
 		
 		energyManagerCapacitorTiers = config.get("Capacitor Tiers", "Capacitor", new int[]{ 1, 2, 5, 8}).getIntList();
+		
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+		{
+        Iterator iterator = Minecraft.getMinecraft().getLanguageManager().getLanguages().iterator();
+
+        while (iterator.hasNext())
+        {
+        	Language language = (Language) iterator.next();
+        	if(language.getLanguageCode().equals("en_US"))
+        		activeLanguages.put(language.getLanguageCode(), config.get("techtreepage languages", language.getLanguageCode(), true).getBoolean());
+        	activeLanguages.put(language.getLanguageCode(), config.get("techtreepage languages", language.getLanguageCode(), false).getBoolean());
+        }
+		}
 		
 		save();
 	}
@@ -41,5 +61,5 @@ public class ModularConfig {
 	}
 	
 	public static int[] energyManagerCapacitorTiers;
-	
+	public static HashMap<String, Boolean> activeLanguages = new HashMap<>();
 }

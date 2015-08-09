@@ -20,10 +20,12 @@ public class WidgetManager implements IWidgetManager {
 		this.minecraft = Minecraft.getMinecraft();
 	}
 
+	@Override
 	public void add(Widget slot) {
 		this.widgets.add(slot);
 	}
 
+	@Override
 	public void remove(Widget slot) {
 		this.widgets.remove(slot);
 	}

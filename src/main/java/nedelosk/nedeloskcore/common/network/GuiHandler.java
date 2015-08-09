@@ -1,18 +1,16 @@
 package nedelosk.nedeloskcore.common.network;
 
-import nedelosk.forestbotany.client.book.GuiPlantBookIndex;
+import cpw.mods.fml.common.network.IGuiHandler;
 import nedelosk.nedeloskcore.client.gui.GuiBlueprint;
 import nedelosk.nedeloskcore.client.gui.GuiPlanningTool;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.inventory.ContainerPlanningTool;
 import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
-import nedelosk.nedeloskcore.common.items.ItemBook;
 import nedelosk.nedeloskcore.common.items.ItemPlan;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 	

@@ -5,10 +5,8 @@ import java.util.Arrays;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
 import nedelosk.nedeloskcore.common.book.BookData;
-import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;

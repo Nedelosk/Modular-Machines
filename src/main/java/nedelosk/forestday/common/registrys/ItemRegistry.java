@@ -2,12 +2,7 @@ package nedelosk.forestday.common.registrys;
 
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
-import nedelosk.forestday.common.items.materials.ItemDust;
-import nedelosk.forestday.common.items.materials.ItemGearWood;
-import nedelosk.forestday.common.items.materials.ItemGears;
 import nedelosk.forestday.common.items.materials.ItemNature;
-import nedelosk.forestday.common.items.materials.ItemNugget;
-import nedelosk.forestday.common.items.materials.ItemPowder;
 import nedelosk.forestday.common.items.tools.ItemAdze;
 import nedelosk.forestday.common.items.tools.ItemBowAndStick;
 import nedelosk.forestday.common.items.tools.ItemCutter;
@@ -17,7 +12,6 @@ import nedelosk.forestday.common.items.tools.ItemKnife;
 import nedelosk.forestday.common.items.tools.ItemToolForestday.Material;
 import nedelosk.forestday.common.items.tools.ItemToolParts;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.ItemCharcoalKiln;
-import nedelosk.nedeloskcore.common.items.ItemIngot;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemRegistry {
@@ -27,11 +21,6 @@ public class ItemRegistry {
 	public static void preInit()
 	{
 		
-		FItems.nuggets.registerItem(new ItemNugget());
-		FItems.dust.registerItem(new ItemDust());
-		FItems.powder.registerItem(new ItemPowder());
-		FItems.gears.registerItem(new ItemGears());
-		FItems.gears_wood.registerItem(new ItemGearWood());
 		FItems.nature.registerItem(new ItemNature());
 		FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
 		

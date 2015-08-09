@@ -8,7 +8,6 @@ import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.modular.ModularMachine;
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -77,6 +75,7 @@ public class PacketModularAssemblerBuildMachine extends PacketTileEntity<TileMod
 					tile.setInventorySlotContents(entry.getKey(), i, null);
 				}
 			}
+			tile.updateEntrys();
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 		}
 		else

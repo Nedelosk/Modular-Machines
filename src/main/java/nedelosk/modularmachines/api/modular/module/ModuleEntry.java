@@ -11,12 +11,14 @@ public class ModuleEntry{
 	public int x;
 	public int y;
 	public ModuleEntry parent;
+	public String parentPage;
+	public int parentID;
 	public String[] moduleNames;
+	public boolean[] activatedModuleNames;
 	public int ID;
 	public String page;
 	public boolean isActivate;
 	public boolean canActivate;
-	public ItemStack item;
 	
 	public ModuleEntry(int x, int y, String page, String... moduleNames) {
 		this.x = x + 12;
@@ -25,10 +27,37 @@ public class ModuleEntry{
 		this.moduleNames = moduleNames;
 		this.page = page;
 		this.canActivate = true;
+		activatedModuleNames = new boolean[moduleNames.length];
+		for(int i = 0;i < moduleNames.length;i++)
+		{
+			activatedModuleNames[i] = true;
+		}
 	}
 	
-	public ModuleEntry(NBTTagCompound nbt) {
-		readFromNBT(nbt);
+	public void activateModuleName(String moduleName)
+	{
+		for(int i = 0;i < moduleNames.length;i++)
+		{
+			String name = moduleNames[i];
+			if(name.equals(moduleName))
+				activatedModuleNames[i] = true;
+				
+		}
+	}
+	
+	public void deactivateModuleName(String moduleName)
+	{
+		for(int i = 0;i < moduleNames.length;i++)
+		{
+			String name = moduleNames[i];
+			if(name.equals(moduleName))
+				activatedModuleNames[i] = false;
+				
+		}
+	}
+	
+	public ModuleEntry(NBTTagCompound nbt, IModularAssembler modular) {
+		readFromNBT(nbt, modular);
 	}
 	
 	public ModuleEntry setPage(String page) {
@@ -38,6 +67,8 @@ public class ModuleEntry{
 	
 	public ModuleEntry setParent(ModuleEntry parent) {
 		this.parent = parent;
+		this.parentPage = parent.page;
+		this.parentID = parent.ID;
 		return this;
 	}
 	
@@ -47,6 +78,16 @@ public class ModuleEntry{
 	}
 	
 	public void onDeactivate(IModularAssembler assembler)
+	{
+		
+	}
+	
+	public void onActivateItem(IModularAssembler assembler)
+	{
+		
+	}
+	
+	public void onDeactivateItem(IModularAssembler assembler)
 	{
 		
 	}
@@ -63,18 +104,21 @@ public class ModuleEntry{
 		}
 		else
 		{
-			item = stack;
+			if(assembler.getStackInSlot(page, ID) != null)
+				onActivateItem(assembler);
+			else
+				onDeactivateItem(assembler);
 			isActivate = true;
 			onActivate(assembler);
 		}
 		}
 		else
 		{
-			if(!parent.canActivate || !parent.isActivate)
+			ModuleEntry parent = assembler.getModuleEntry(parentPage, parentID);
+			if(!parent.isActivate || !parent.canActivate || !canActivate)
 			{
 				if(isActivate)
 					onDeactivate(assembler);
-				canActivate = false;
 				isActivate = false;
 			}
 			else if(itemParent == null)
@@ -84,7 +128,10 @@ public class ModuleEntry{
 				isActivate = false;
 			}
 			else{
-				item = stack;
+				if(assembler.getStackInSlot(page, ID) != null)
+					onActivateItem(assembler);
+				else
+					onDeactivateItem(assembler);
 				isActivate = true;
 				onActivate(assembler);
 			}
@@ -100,12 +147,16 @@ public class ModuleEntry{
 		return isActivate;
 	}
 	
-	public int getTier() {
-		if(item != null)
-			for(String moduleName : moduleNames)
+	public int getTier(IModularAssembler assembler) {
+		if(assembler.getStackInSlot(page, ID) != null)
+			for(int i= 0;i < moduleNames.length;i++)
 			{
-				if(ModularMachinesApi.getModuleItem(moduleName, item) != null)
-					return ModularMachinesApi.getModuleItem(moduleName, item).getTier();
+				if(activatedModuleNames[i])
+				{
+					String moduleName = moduleNames[i];
+					if(ModularMachinesApi.getModuleItem(moduleName, assembler.getStackInSlot(page, ID)) != null)
+						return ModularMachinesApi.getModuleItem(moduleName, assembler.getStackInSlot(page, ID)).getTier();
+				}
 			}
 		return 0;
 	}
@@ -124,31 +175,34 @@ public class ModuleEntry{
 		nbt.setString("page", this.page);
 		nbt.setInteger("x", this.x);
 		nbt.setInteger("y", this.y);
-		NBTTagList list = new NBTTagList();
+		NBTTagList listModuleNames = new NBTTagList();
 		for(int i = 0;i < moduleNames.length;i++)
 		{
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			nbtTag.setString("ModuleName", moduleNames[i]);
-			list.appendTag(nbtTag);
+			listModuleNames.appendTag(nbtTag);
 		}
-		nbt.setTag("ModuleNames", list);
+		nbt.setTag("ModuleNames", listModuleNames);
+		NBTTagList listModuleNamesActivated = new NBTTagList();
+		for(int i = 0;i < activatedModuleNames.length;i++)
+		{
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			nbtTag.setBoolean("ModuleName", activatedModuleNames[i]);
+			listModuleNamesActivated.appendTag(nbtTag);
+		}
+		nbt.setTag("ModuleNamesActivated", listModuleNamesActivated);
 		nbt.setBoolean("isActivate", isActivate);
 		nbt.setBoolean("canActivate", canActivate);
-		if(item != null)
-		{
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		item.writeToNBT(nbtTag);
-		nbt.setTag("Item", nbtTag);
-		}
-		if(parent != null)
+		if(parentPage != null)
 		{
 			NBTTagCompound nbtParent = new NBTTagCompound();
-			parent.writeToNBT(nbtParent);
+			nbtParent.setString("parentPage", parentPage);
+			nbtParent.setInteger("parentID", parentID);
 			nbt.setTag("Parent", nbtParent);
 		}
 	}
 	
-	public void readFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt, IModularAssembler modular)
 	{
 		this.ID = nbt.getInteger("ID");
 		this.page = nbt.getString("page");
@@ -161,17 +215,21 @@ public class ModuleEntry{
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			moduleNames[i] = nbtTag.getString("ModuleName");
 		}
+		NBTTagList listModuleNamesActivated = nbt.getTagList("ModuleNamesActivated", 10);
+		activatedModuleNames = new boolean[listModuleNamesActivated.tagCount()];
+		for(int i = 0;i < listModuleNamesActivated.tagCount();i++)
+		{
+			NBTTagCompound nbtTag = listModuleNamesActivated.getCompoundTagAt(i);
+			activatedModuleNames[i] = nbtTag.getBoolean("ModuleName");
+		}
 		isActivate = nbt.getBoolean("isActivate");
 		canActivate = nbt.getBoolean("canActivate");
-		if(nbt.hasKey("Item"))
-		{
-		NBTTagCompound nbtTag = nbt.getCompoundTag("Item");
-		item = ItemStack.loadItemStackFromNBT(nbtTag);
-		}
 		if(nbt.hasKey("Parent"))
 		{
-			NBTTagCompound nbtParent = nbt.getCompoundTag("Parent");
-			parent = new ModuleEntry(nbtParent);
+			NBTTagCompound nbtTag = nbt.getCompoundTag("Parent");
+			parentPage = nbtTag.getString("parentPage");
+			parentID = nbtTag.getInteger("parentID");
+			parent = modular.getModuleEntry(parentPage, parentID);
 		}
 	}
 	

@@ -1,8 +1,6 @@
 package nedelosk.forestday.common.core;
 
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.registrys.BlockRegistry;
-import nedelosk.forestday.common.registrys.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;

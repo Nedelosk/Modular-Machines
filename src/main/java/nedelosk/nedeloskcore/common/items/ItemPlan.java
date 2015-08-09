@@ -11,10 +11,10 @@ import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -98,13 +98,13 @@ public class ItemPlan extends Item implements IPlan {
 	    {
 	    	if(getUpdateBlock(stack) == null)
 	    	{
-	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z) != NRegistry.planBlock)
+	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z) != ObjectRegistry.planBlock)
 	    	  {
 	    		  if(world.getBlock(x, y + 1, z) == Blocks.air)
 	    		  {
 	    			  if(getUpdateBlock(stack) == null)
 	    			  {
-	    			  if(!(world.setBlock(x, y + 1, z, NRegistry.planBlock)))
+	    			  if(!(world.setBlock(x, y + 1, z, ObjectRegistry.planBlock)))
 	    					  return  false;
 	    			  if(!(world.getTileEntity(x, y + 1, z) instanceof TilePlan))
 	    			  {
@@ -112,7 +112,7 @@ public class ItemPlan extends Item implements IPlan {
 	    				  return false;
 	    			  }
 	    			  ((TilePlan)world.getTileEntity(x, y + 1, z)).setPlan(stack.getTagCompound());
-	    			  world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), NRegistry.planBlock.stepSound.func_150496_b(), (NRegistry.planBlock.stepSound.getVolume() + 1.0F) / 2.0F, NRegistry.planBlock.stepSound.getPitch() * 0.8F);
+	    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, ObjectRegistry.planBlock.stepSound.func_150496_b(), (ObjectRegistry.planBlock.stepSound.getVolume() + 1.0F) / 2.0F, ObjectRegistry.planBlock.stepSound.getPitch() * 0.8F);
 	    			  world.markBlockForUpdate(x, y + 1, z);
 	    			  return true;
 	    			  }
@@ -142,7 +142,7 @@ public class ItemPlan extends Item implements IPlan {
 		  	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air)
 			    	  {
 		  	    		  NBTTagCompound nbt = stack.getTagCompound().getTagList("slots", 10).getCompoundTagAt(0).getCompoundTag("tag");
-			    			  if(!(world.setBlock(x, y, z, NRegistry.planBlock)))
+			    			  if(!(world.setBlock(x, y, z, ObjectRegistry.planBlock)))
 			    					  return  false;
 			    			  if(!(world.getTileEntity(x, y, z) instanceof TilePlan))
 			    			  {
@@ -150,7 +150,7 @@ public class ItemPlan extends Item implements IPlan {
 			    				  return false;
 			    			  }
 			    			  ((TilePlan)world.getTileEntity(x, y, z)).setPlan(stack.getTagCompound().getTagList("slots", 10).getCompoundTagAt(0).getCompoundTag("tag"));
-			    			  world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), NRegistry.planBlock.stepSound.func_150496_b(), (NRegistry.planBlock.stepSound.getVolume() + 1.0F) / 2.0F, NRegistry.planBlock.stepSound.getPitch() * 0.8F);
+			    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F,ObjectRegistry.planBlock.stepSound.func_150496_b(), (ObjectRegistry.planBlock.stepSound.getVolume() + 1.0F) / 2.0F, ObjectRegistry.planBlock.stepSound.getPitch() * 0.8F);
 			    			  world.markBlockForUpdate(x, y, z);
 			    			  return true;
 			    	  }

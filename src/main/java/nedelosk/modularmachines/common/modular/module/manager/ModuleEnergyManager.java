@@ -1,16 +1,20 @@
 package nedelosk.modularmachines.common.modular.module.manager;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.energy.IModuleCapacitor;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleEnergyManager;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.handler.EnergyHandler;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetEnergyBar;
+import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleEnergyManager extends Module implements IModuleEnergyManager {
@@ -49,10 +53,14 @@ public class ModuleEnergyManager extends Module implements IModuleEnergyManager 
 	}
 
 	@Override
-	public void addSlots(IContainerBase container, IModular modular) {
-		
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+		return null;
 	}
 	
+	@Override
+	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
+	}
 
 	@Override
 	public void addButtons(IGuiBase gui, IModular modular) {

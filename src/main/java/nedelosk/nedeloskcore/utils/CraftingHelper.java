@@ -2,7 +2,6 @@ package nedelosk.nedeloskcore.utils;
 
 import java.util.*;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.*;
 import net.minecraftforge.common.ChestGenHooks;

@@ -47,7 +47,7 @@ public class NedeloskCore
         configNedelsokCore = new File(configFolder, "NedeloskCore.cfg");
         configPlugins = new File(configFolder, "Plugins.cfg");
         
-        NRegistry.instance.preInit();
+        NRegistry.preInit();
         
     	MinecraftForge.EVENT_BUS.register(new PlayerEvents());
 
@@ -56,12 +56,12 @@ public class NedeloskCore
     @Mod.EventHandler
 	public void init(FMLInitializationEvent event){
     	proxy.registerRenderer();
-    	NRegistry.instance.init();
+    	NRegistry.init();
     }
 	
     @Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
-    	NRegistry.instance.postInit();
+    	NRegistry.postInit();
 	}
     
     @Mod.EventHandler

@@ -1,40 +1,25 @@
 package nedelosk.nedeloskcore.client.gui;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-
 import java.awt.Color;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.nedeloskcore.api.NCoreApi;
-import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.api.plan.PlanRecipe;
-import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
-import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
-import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprint;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprintBack;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprintPage;
-import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.network.packets.PacketBlueprint;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 
 public class GuiBlueprint extends GuiScreen {
 	
@@ -112,7 +97,7 @@ public class GuiBlueprint extends GuiScreen {
 			}
 			else if(((GuiButtonBlueprint)button).object instanceof PlanRecipe)
 			{
-				player.inventory.mainInventory[player.inventory.currentItem] = NCoreApi.setItemPlan(NRegistry.plan, (PlanRecipe)((GuiButtonBlueprint)button).object);
+				player.inventory.mainInventory[player.inventory.currentItem] = NCoreApi.setItemPlan(ObjectRegistry.plan, (PlanRecipe)((GuiButtonBlueprint)button).object);
 				closeGui();
 				PacketHandler.INSTANCE.sendToServer(new PacketBlueprint(player.inventory.mainInventory[player.inventory.currentItem]));
 			}

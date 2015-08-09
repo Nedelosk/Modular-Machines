@@ -3,7 +3,6 @@ package nedelosk.forestday.common.plugins.waila.provider.machines;
 import java.util.List;
 
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

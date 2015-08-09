@@ -1,8 +1,6 @@
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.forestday.common.machines.base.wood.campfire.CampfireRecipe;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 public interface ICampfireRecipe {
 

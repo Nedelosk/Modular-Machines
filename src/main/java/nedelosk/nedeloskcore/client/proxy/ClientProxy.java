@@ -4,7 +4,7 @@ import nedelosk.nedeloskcore.client.renderer.item.ItemPlanRenderer;
 import nedelosk.nedeloskcore.client.renderer.tile.TilePlanRenderer;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.book.BookDatas;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.common.proxy.CommonProxy;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderer() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePlan.class, new TilePlanRenderer());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(NRegistry.planBlock), new ItemPlanRenderer(new TilePlanRenderer()));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ObjectRegistry.planBlock), new ItemPlanRenderer(new TilePlanRenderer()));
 	}
 	
 	

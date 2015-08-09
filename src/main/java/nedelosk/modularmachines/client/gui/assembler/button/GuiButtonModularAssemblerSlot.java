@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.api.RendererSides;
+import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -25,10 +23,12 @@ public class GuiButtonModularAssemblerSlot extends GuiButton {
 	
 	public RenderItem itemRender = RenderItem.getInstance();
 	public ModuleEntry entry;
+	public IModularAssembler assembler;
 	
-	public GuiButtonModularAssemblerSlot(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleEntry entry) {
+	public GuiButtonModularAssemblerSlot(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleEntry entry, IModularAssembler assembler) {
 		super(p_i1021_1_, p_i1021_2_, p_i1021_3_,18 , 18, null);
 		this.entry = entry;
+		this.assembler = assembler;
 	}
 	
 	public void renderTooltip(int mx, int my)
@@ -37,12 +37,19 @@ public class GuiButtonModularAssemblerSlot extends GuiButton {
 		if(entry.isActivate)
 		{
 			if(inside)
-				if(entry.item != null)
-					renderToolTip(entry.item, my, my);
+				if(assembler.getStackInSlot(entry.page, entry.ID) != null)
+					renderToolTip(assembler.getStackInSlot(entry.page, entry.ID), mx, my);
 				else
 				{
 					ArrayList<String> list = new ArrayList<String>();
-					list.add(entry.moduleNames[0]);
+					for(int i = 0;i < entry.moduleNames.length;i++)
+					{
+						if(entry.activatedModuleNames[i])
+						{
+							list.add(entry.moduleNames[i] + ((entry.moduleNames.length - 1 > i) ? "," : ""));
+						}
+					}
+					/*list.add(entry.moduleNames[0]);
 					if(entry.moduleNames.length > 1)
 					{
 						for(int i = 1;i < entry.moduleNames.length;i++)
@@ -55,7 +62,7 @@ public class GuiButtonModularAssemblerSlot extends GuiButton {
 							list.add(builder.toString());
 							list.add(entry.moduleNames[i]);
 						}
-					}
+					}*/
 			        RenderUtils.renderTooltip(mx, my, list);
 				}
 		}
@@ -68,10 +75,10 @@ public class GuiButtonModularAssemblerSlot extends GuiButton {
 		if(entry.isActivate)
 		{
 		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1,238 ,238 ,18 , 18);
-		if(entry.item != null)
+		if(assembler.getStackInSlot(entry.page, entry.ID) != null)
 		{
 			RenderHelper.enableGUIStandardItemLighting();
-			drawItemStack(entry.item, xPosition + 1, yPosition + 1);
+			drawItemStack(assembler.getStackInSlot(entry.page, entry.ID), xPosition + 1, yPosition + 1);
 			RenderHelper.disableStandardItemLighting();
 		}
 		}

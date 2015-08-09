@@ -2,8 +2,6 @@ package nedelosk.modularmachines.client.gui;
 
 import cpw.mods.fml.common.Loader;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.IModule;
-import nedelosk.modularmachines.api.modular.module.Module;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiModuleRegisterError extends GuiScreen {

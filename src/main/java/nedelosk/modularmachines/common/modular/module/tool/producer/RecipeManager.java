@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.recipes.IRecipe;
 import nedelosk.modularmachines.api.modular.module.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeInput;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
@@ -35,15 +34,18 @@ public class RecipeManager implements IRecipeManager {
 		this.speedModifier = RecipeRegistry.getRecipe(recipeName, inputs).getRequiredSpeedModifier();
 	}
 	
+	@Override
 	public RecipeItem[] getOutputs()
 	{
 		return RecipeRegistry.getRecipe(recipeName, inputs).getOutputs();
 	}
 	
+	@Override
 	public RecipeInput[] getInputs() {
 		return inputs;
 	}
 	
+	@Override
 	public boolean removeEnergy()
 	{
 		if(((ModularMachine)modular).extractEnergy(ForgeDirection.UNKNOWN, energyModifier, false) > 0)
@@ -54,10 +56,12 @@ public class RecipeManager implements IRecipeManager {
 			return  false;
 	}
 	
+	@Override
 	public int getSpeedModifier() {
 		return speedModifier;
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		nbt.setString("RecipeName", recipeName);
@@ -73,6 +77,7 @@ public class RecipeManager implements IRecipeManager {
 		nbt.setTag("RecipeInput", list);
 	}
 	
+	@Override
 	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular)
 	{
 		String recipeName = nbt.getString("RecipeName");

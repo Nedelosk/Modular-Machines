@@ -6,18 +6,14 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
-import nedelosk.modularmachines.common.modular.module.manager.TankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
 
 public class WidgetFluidTankDirection extends Widget {
 
@@ -57,7 +53,7 @@ public class WidgetFluidTankDirection extends Widget {
 				direction = ForgeDirection.values()[direction.ordinal() + 1];
 			else
 				direction = ForgeDirection.values()[0];
-			((TankManager)((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager).directions[ID] = direction;
+			((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager.directions[ID] = direction;
 			PacketHandler.INSTANCE.sendToServer(new PacketModularMachineNBT((TileModularMachine) gui.getTile()));
 		}
 	}

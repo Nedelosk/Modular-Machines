@@ -2,11 +2,10 @@ package nedelosk.forestday.common.machines.mutiblock.charcoalkiln;
 
 import java.util.ArrayList;
 
-import scala.xml.PrettyPrinter.Item;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.tools.ItemBowAndStick;
-import nedelosk.forestday.common.machines.mutiblock.core.tile.TileMultiblockBase;
 import nedelosk.forestday.common.registrys.FBlocks;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -168,6 +167,7 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 		
 	}
 	
+	@Override
 	public void onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side) {
 		if(master != null)
 		{

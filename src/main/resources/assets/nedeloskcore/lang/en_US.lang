@@ -2,12 +2,12 @@
 Blocks
 ####################################
 forest.nc.block.plan.name=Plan
-forest.nc.item.tile.ore.0.name=Copper Ore
-forest.nc.item.tile.ore.1.name=Tin Ore
-forest.nc.item.tile.ore.2.name=Silver Ore
-forest.nc.item.tile.ore.3.name=Lead Ore
-forest.nc.item.tile.ore.4.name=Nickel Ore
-forest.nc.item.tile.ore.5.name=Ruby Ore
+forest.nc.item.tile.orenedeloskcore.0.name=Copper Ore
+forest.nc.item.tile.orenedeloskcore.1.name=Tin Ore
+forest.nc.item.tile.orenedeloskcore.2.name=Silver Ore
+forest.nc.item.tile.orenedeloskcore.3.name=Lead Ore
+forest.nc.item.tile.orenedeloskcore.4.name=Nickel Ore
+forest.nc.item.tile.orenedeloskcore.5.name=Ruby Ore
 
 ####################################
 Container
@@ -23,13 +23,20 @@ forest.nc.item.plan.1.name=Blueprint
 forest.nc.item.plan.2.name=Planning Tool
 forest.nc.item.bucket.wood.name=Wood Bucket
 forest.nc.item.bucket.wood.water.name=Wood Water Bucket
-forest.nc.item.ingot.0.name=Cooper Ingot
-forest.nc.item.ingot.1.name=Tin Ingot
-forest.nc.item.ingot.2.name=Silver Ingot
-forest.nc.item.ingot.3.name=Lead Ingot
-forest.nc.item.ingot.4.name=Nickel Ingot
-forest.nc.item.ingot.5.name=Bronze Ingot
-forest.nc.item.ingot.6.name=Invar Ingot
+forest.nc.item.ingot.nedeloskcore.0.name=Cooper Ingot
+forest.nc.item.ingot.nedeloskcore.1.name=Tin Ingot
+forest.nc.item.ingot.nedeloskcore.2.name=Silver Ingot
+forest.nc.item.ingot.nedeloskcore.3.name=Lead Ingot
+forest.nc.item.ingot.nedeloskcore.4.name=Nickel Ingot
+forest.nc.item.ingot.nedeloskcore.5.name=Bronze Ingot
+forest.nc.item.ingot.nedeloskcore.6.name=Invar Ingot
+forest.nc.item.nugget.nedeloskcore.0.name=Cooper Nugget
+forest.nc.item.nugget.nedeloskcore.1.name=Tin Nugget
+forest.nc.item.nugget.nedeloskcore.2.name=Silver Nugget
+forest.nc.item.nugget.nedeloskcore.3.name=Lead Nugget
+forest.nc.item.nugget.nedeloskcore.4.name=Nickel Nugget
+forest.nc.item.nugget.nedeloskcore.5.name=Bronze Nugget
+forest.nc.item.nugget.nedeloskcore.6.name=Invar Nugget
 forest.nc.item.gem.0.name=Ruby
 
 ####################################

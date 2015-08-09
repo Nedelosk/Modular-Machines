@@ -2,11 +2,9 @@ package nedelosk.nedeloskcore.api.machines;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class Widget extends Gui {

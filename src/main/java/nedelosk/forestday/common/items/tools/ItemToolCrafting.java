@@ -20,6 +20,7 @@ public class ItemToolCrafting extends ItemToolForestday implements ITool {
 		return false;
 	}
 	
+	@Override
 	public boolean hasContainerItem(ItemStack stack)
 	{
 		return true;

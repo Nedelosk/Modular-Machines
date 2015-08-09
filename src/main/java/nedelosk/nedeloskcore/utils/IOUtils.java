@@ -1,6 +1,17 @@
 package nedelosk.nedeloskcore.utils;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.nedeloskcore.common.core.Log;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class IOUtils {
 
@@ -46,6 +57,64 @@ public class IOUtils {
             output.add(element);
         }
         return output.toArray(new String[output.size()]);
+    }
+    
+    public static String readOrWrite(String directory, String fileName, String defaultData) {
+        return readOrWrite(directory, fileName, defaultData, false);
+    }
+
+    public static String readOrWrite(String directory, String fileName, String defaultData, boolean reset) {
+        File file = new File(directory, fileName+".txt");
+        if(file.exists() && !file.isDirectory() && !reset) {
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                byte[] input = new byte[(int) file.length()];
+                try {
+                    inputStream.read(input);
+                    inputStream.close();
+                    return new String(input, "UTF-8");
+                } catch (IOException e) {
+                    Log.info("Caught IOException when reading "+fileName+".txt");
+                }
+            } catch(FileNotFoundException e) {
+                Log.info("Caught IOException when reading "+fileName+".txt");
+            }
+        }
+        else {
+            BufferedWriter writer;
+            try {
+                writer = new BufferedWriter(new FileWriter(file));
+                try {
+                    writer.write(defaultData);
+                    writer.close();
+                    return defaultData;
+                }
+                catch(IOException e) {
+                    Log.info("Caught IOException when writing "+fileName+".txt");
+                }
+            }
+            catch(IOException e) {
+                Log.info("Caught IOException when writing "+fileName+".txt");
+            }
+        }
+        return null;
+    }
+    
+    public static ItemStack getStack(String input)
+    {
+    	String[] data = input.split(":");
+    	int meta = 0;
+    	
+    	if(data.length <= 1)
+    		return null;
+    	if(data.length == 3)
+    		meta = Integer.parseInt(data[2]);
+    	
+    	Item item = GameRegistry.findItem(data[0], data[1]);
+    	if(item != null)
+    		return new ItemStack(item, 1, meta);
+    	return null;
+    	
     }
 	
 }

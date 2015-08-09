@@ -2,16 +2,12 @@ package nedelosk.modularmachines.common.modular.module.manager;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankDirection;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankFilter;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankPriority;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;

@@ -1,10 +1,7 @@
 package nedelosk.forestday.common.machines.base.heater.generator;
 
-import java.util.ArrayList;
-
 import nedelosk.forestday.api.crafting.BurningMode;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class HeatGeneratorRecipe {
 	private ItemStack input1;

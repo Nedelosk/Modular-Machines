@@ -1,5 +1,7 @@
 package nedelosk.forestday.common.machines.base.heater.generator;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.client.machines.base.gui.GuiHeatGenerator;
 import nedelosk.forestday.common.config.ForestdayConfig;
@@ -7,8 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileHeatGenerator extends nedelosk.forestday.common.machines.base.tile.TileHeatGenerator {
 	

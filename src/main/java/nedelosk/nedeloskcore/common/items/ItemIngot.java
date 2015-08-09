@@ -14,12 +14,16 @@ import net.minecraft.util.IIcon;
 
 public class ItemIngot extends ItemForestday {
 
-	public String[] ingot = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Bronze", "Invar" };
+	public static String[] ingots = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel" };
+	public String[] ingot;
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;
+	public String modID;
 	
-	public ItemIngot() {
+	public ItemIngot(String[] ingot, String modID) {
 		super(null, CreativeTabs.tabMaterials);
+		this.ingot = ingot;
+		this.modID = modID;
 		setHasSubtypes(true);
 		setUnlocalizedName("ingot");
 	}
@@ -32,7 +36,7 @@ public class ItemIngot extends ItemForestday {
 
         for (int i = 0; i < this.itemIcon.length; ++i)
         {
-            this.itemIcon[i] = iconRegister.registerIcon("nedeloskcore:ingots/ingot" + ingot[i]);
+            this.itemIcon[i] = iconRegister.registerIcon(modID + ":ingots/ingot" + ingot[i]);
         }
     }
     
@@ -53,7 +57,7 @@ public class ItemIngot extends ItemForestday {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName("ingot." + itemstack.getItemDamage(), "nc");
+        return NRegistry.setUnlocalizedItemName("ingot." + modID + "." + itemstack.getItemDamage(), "nc");
     }
 
 }

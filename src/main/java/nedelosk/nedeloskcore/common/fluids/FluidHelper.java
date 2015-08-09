@@ -1,7 +1,6 @@
 package nedelosk.nedeloskcore.common.fluids;
 
 import nedelosk.nedeloskcore.common.CoreHelper;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

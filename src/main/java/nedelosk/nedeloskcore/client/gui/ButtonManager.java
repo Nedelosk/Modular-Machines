@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.api.machines.IButtonManager;
-import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-
 import org.lwjgl.opengl.GL11;
 
 public class ButtonManager implements IButtonManager {
@@ -23,10 +20,12 @@ public class ButtonManager implements IButtonManager {
 		this.minecraft = Minecraft.getMinecraft();
 	}
 
+	@Override
 	public void add(Button slot) {
 		this.buttons.add(slot);
 	}
 
+	@Override
 	public void remove(Button slot) {
 		this.buttons.remove(slot);
 	}
@@ -35,6 +34,7 @@ public class ButtonManager implements IButtonManager {
 		this.buttons.clear();
 	}
 	
+	@Override
 	public ArrayList<Button> getButtons() {
 		return buttons;
 	}

@@ -1,0 +1,72 @@
+####################################
+Modular Assembler
+####################################
+mm.modularassembler.bookmark.Basic=Basic
+mm.modularassembler.bookmark.Energy=Energy
+mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
+mm.modularassembler.bookmark.Fluid=Fluid
+mm.modularassembler.bookmark.Storage=Storage
+
+mm.module.tooltip.shift=Hold Shift
+mm.module.tooltip.tier=Tier
+mm.module.tooltip.name=Module Name
+
+####################################
+Techtree
+####################################
+mm.techpoint.VERY_EASY=Very Easy Points
+mm.techpoint.EASY=Easy Points
+mm.techpoint.NORMAL=Normal Points
+mm.techpoint.HARD=Hard Points
+mm.techpoint.VERY_HARD=Very Hard Points
+mm.techtree.required=Required
+mm.techtree.point.text=Techpoint with difficulty
+mm.techtree.point.VERY_EASY=Very Easy
+mm.techtree.point.EASY=Easy
+mm.techtree.point.NODRMAL=Normal
+mm.techtree.point.HARD=Hard
+mm.techtree.point.VERY_HARD=Very Hard
+
+mm.techtree_page.BASIC.MODULE.0=Hallo Ich war !HALLO! und Nein Ich bin !NEIN!
+
+####################################
+Tabs
+####################################
+itemGroup.modularmachines=Modular Machines
+itemGroup.modularmachines.modules=Modular Machines Modules
+
+####################################
+Blocks
+####################################
+tile.modular.assembler.name=Modular Assembler
+tile.modular.machine.name=Modular Machine
+
+####################################
+Item
+####################################
+forest.mm.item.ingot.0.name=Bronze Ingot
+forest.mm.item.ingot.1.name=Invar Ingot
+forest.mm.item.nugget.0.name=Bronze Nugget
+forest.mm.item.nugget.1.name=Invar Nugget
+forest.mm.item.dust.0.name=Coal Dust
+forest.mm.item.dust.1.name=Obsidian Dust
+forest.mm.item.dust.2.name=Iron Dust
+forest.mm.item.dust.3.name=Gold Dust
+forest.mm.item.dust.4.name=Diamond Dust
+forest.mm.item.dust.5.name=Copper Dust
+forest.mm.item.dust.6.name=Tin Dust
+forest.mm.item.dust.7.name=Silver Dust
+forest.mm.item.dust.8.name=Lead Dust
+forest.mm.item.dust.9.name=Nickel Dust
+forest.mm.item.dust.10.name=Bronze Dust
+forest.mm.item.dust.11.name=Invar Dust
+forest.mm.item.gear.0.name=Stone Gear
+forest.mm.item.gear.1.name=Iron Gear
+forest.mm.item.gear.2.name=Gold Gear
+forest.mm.item.gear.3.name=Diamond Gear
+forest.mm.item.gear.4.name=Copper Gear
+forest.mm.item.gear.5.name=Tin Gear
+forest.mm.item.gear.6.name=Silver Gear
+forest.mm.item.gear.7.name=Lead Gear
+forest.mm.item.gear.8.name=Bronze Gear
+forest.mm.item.gear.9.name=Invar Gear

@@ -32,7 +32,7 @@ public class TileKilnRenderer extends TileEntitySpecialRenderer {
 	
 	public void renderItem() {
 		GL11.glPushMatrix();
-		GL11.glTranslated((float)0.5F, (float) 1.5F, (float) 0.5F);
+		GL11.glTranslated(0.5F, 1.5F, 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		this.bindTexture(textureModel);
 		GL11.glPushMatrix();

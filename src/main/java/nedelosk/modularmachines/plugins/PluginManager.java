@@ -1,13 +1,8 @@
 package nedelosk.modularmachines.plugins;
 
-import java.util.ArrayList;
-
 import nedelosk.modularmachines.plugins.mt.PluginMineTweaker3;
-import nedelosk.nedeloskcore.common.core.Log;
-
-import org.apache.logging.log4j.Level;
-
-import cpw.mods.fml.common.Loader;
+import nedelosk.modularmachines.plugins.thaumcraft.PluginThaumcraft;
+import nedelosk.modularmachines.plugins.waila.PluginWaila;
 
 public class PluginManager extends nedelosk.nedeloskcore.plugins.PluginManager {
 	
@@ -16,6 +11,8 @@ public class PluginManager extends nedelosk.nedeloskcore.plugins.PluginManager {
 		registerPlugin(new PluginEnderIO());
 		registerPlugin(new PluginMineTweaker3());
 		registerPlugin(new PluginThermalExpansion());
+		registerPlugin(new PluginWaila());
+		registerPlugin(new PluginThaumcraft());
 	}
 	
 }

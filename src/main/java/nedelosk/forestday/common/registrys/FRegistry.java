@@ -10,13 +10,10 @@ import nedelosk.forestday.common.network.packets.PacketHandler;
 import nedelosk.forestday.common.plugins.PluginManager;
 import nedelosk.nedeloskcore.common.core.registry.EntryRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
-import nedelosk.nedeloskcore.common.world.WorldGeneratorNedeloskCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FRegistry {
     
@@ -66,7 +63,6 @@ public class FRegistry {
 		}
     	CraftingManager.removeRecipes();
     	manangerPlugin.postInit();
-    	GameRegistry.registerWorldGenerator(new WorldGeneratorNedeloskCore(), 0);
     }
     
 }

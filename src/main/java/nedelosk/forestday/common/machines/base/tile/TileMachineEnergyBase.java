@@ -1,8 +1,6 @@
 package nedelosk.forestday.common.machines.base.tile;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;

@@ -1,19 +1,12 @@
 package nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
-
-import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

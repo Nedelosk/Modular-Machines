@@ -1,8 +1,5 @@
 package nedelosk.forestday.common.registrys;
 
-import java.util.EnumSet;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -15,18 +12,10 @@ public enum FBlocks {
 
 	Gravel,
 	
-	Machine_Fluid_Base,
-	Machine_Fluid_Heater,
-	Machine_Kiln_Base,
 	Machine_Furnace_Base,
-	Machine_Furnace_AlloySmelter,
 	Machine_Furnace_Coke,
-	Machine_Generator_Base,
 	Machine_Generator_Heat,
 	Machine_Wood_Base,
-	Machine_Grinding_Base,
-	Machine_Grinding_Macerator,
-	Machine_Saw,
 	
 	Multiblock_Charcoal_Kiln;
 	

@@ -1,15 +1,13 @@
 package nedelosk.nedeloskcore.common.blocks;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -54,7 +52,7 @@ public class BlockPlan extends BlockContainerForest {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-		list.add(new ItemStack(NRegistry.plan, 1, 0));
+		list.add(new ItemStack(ObjectRegistry.plan, 1, 0));
 		list.get(0).setTagCompound(plan.plan);
 		return list;
 	}

@@ -1,14 +1,10 @@
 package nedelosk.forestday.common.core;
 
-import java.util.Locale;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.message.MessageFormatMessage;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class Defaults {
 	

@@ -1,15 +1,21 @@
 package nedelosk.modularmachines.api.modular.module;
 
+import java.util.ArrayList;
+
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
+import net.minecraft.inventory.Slot;
 
 public interface IModuleGui extends IModule {
 	
-	void addSlots(IContainerBase container, IModular modular);
+	ArrayList<Slot> addSlots(IContainerBase container, IModular modular);
 	
 	void addButtons(IGuiBase gui, IModular modular);
 	
 	void addWidgets(IGuiBase gui, IModular modular);
+	
+	ArrayList<NeiStack> addNEIStacks();
 	
 }

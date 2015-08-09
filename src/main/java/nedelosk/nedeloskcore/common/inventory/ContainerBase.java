@@ -1,9 +1,6 @@
 package nedelosk.nedeloskcore.common.inventory;
 
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks;
 
-import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.modularmachines.common.core.tabs.TabModularMachines;
 import nedelosk.nedeloskcore.common.blocks.BlockContainerForest;
 import net.minecraft.block.material.Material;
 

@@ -1,13 +1,9 @@
 package nedelosk.forestday.common.machines.base.wood.kiln;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import nedelosk.nedeloskcore.common.inventory.slots.SlotOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 

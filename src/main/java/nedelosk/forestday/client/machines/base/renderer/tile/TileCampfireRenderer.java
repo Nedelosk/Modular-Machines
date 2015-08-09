@@ -1,23 +1,14 @@
 package nedelosk.forestday.client.machines.base.renderer.tile;
 
 import nedelosk.forestday.client.machines.base.renderer.model.ModelCampfire;
-import nedelosk.forestday.client.machines.base.renderer.model.ModelWorkbench;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 	
@@ -64,7 +55,7 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 	public void renderItem(int meta, String texture)
 	{
 		GL11.glPushMatrix();
-		GL11.glTranslated((float) 0.5F, (float) 1.5F, (float)  0.5F);
+		GL11.glTranslated(0.5F, 1.5F, 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 		if(texture == "curb")
@@ -74,13 +65,13 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(texture == "pot_holder")
 		{
-		GL11.glTranslated(0, 0.2, (float)  0);
+		GL11.glTranslated(0, 0.2, 0);
 		RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestdayConfig.campfirePotHolders[meta] + ".png"));
 		model.renderPotHolder();
 		}
 		else if(texture == "pot")
 		{
-		GL11.glTranslated(0, 0.7, (float)  0);
+		GL11.glTranslated(0, 0.7, 0);
 		RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestdayConfig.campfirePots[meta] + ".png"));
 		model.renderPot();
 		}

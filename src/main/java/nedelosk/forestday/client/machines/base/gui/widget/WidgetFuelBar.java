@@ -1,27 +1,12 @@
 package nedelosk.forestday.client.machines.base.gui.widget;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cofh.api.energy.IEnergyStorage;
 
 public class WidgetFuelBar extends Gui {
 

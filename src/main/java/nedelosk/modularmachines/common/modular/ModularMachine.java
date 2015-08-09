@@ -5,7 +5,6 @@ import java.util.List;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.IModuleGenerator;
@@ -31,7 +30,6 @@ import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
 import cofh.api.energy.EnergyStorage;

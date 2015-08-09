@@ -118,7 +118,8 @@ public class BookManager {
 		if(!list.contains(key))
 		{
 			list.add(key);
-			NedeloskCore.proxy.getPlayerData().getUnlockKnowledges().put(player.getDisplayName(), list);
+			NedeloskCore.proxy.getPlayerData();
+			PlayerData.getUnlockKnowledges().put(player.getDisplayName(), list);
 		}
 	}
 	

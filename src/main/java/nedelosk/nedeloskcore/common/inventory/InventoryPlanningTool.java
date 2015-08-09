@@ -3,16 +3,10 @@ package nedelosk.nedeloskcore.common.inventory;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
 public class InventoryPlanningTool implements IInventory, INBTTagable {
 

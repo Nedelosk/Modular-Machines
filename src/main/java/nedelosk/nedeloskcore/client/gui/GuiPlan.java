@@ -1,31 +1,20 @@
 package nedelosk.nedeloskcore.client.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import nedelosk.forestbotany.common.genetics.PlantManager;
-import nedelosk.forestbotany.common.genetics.templates.crop.CropManager;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
-import nedelosk.nedeloskcore.common.network.packets.PacketBlueprint;
 import nedelosk.nedeloskcore.common.network.packets.PacketTilePlan;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.ForgeHooksClient;
 
 public class GuiPlan extends GuiBase {
 

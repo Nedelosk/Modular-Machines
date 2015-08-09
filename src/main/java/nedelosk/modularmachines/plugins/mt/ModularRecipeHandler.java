@@ -9,10 +9,12 @@ import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.oredict.IOreDictEntry;
 import nedelosk.modularmachines.api.modular.module.recipes.IRecipe;
 import nedelosk.modularmachines.api.modular.module.recipes.Recipe;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeRegistry;
+import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -32,6 +34,10 @@ public class ModularRecipeHandler {
         		inputItems[i] = new RecipeItem(MineTweakerMC.getLiquidStack((ILiquidStack) input));
         	else if(input instanceof IItemStack)
         		inputItems[i] = new RecipeItem(MineTweakerMC.getItemStack(input));
+        	else if(input instanceof IOreDictEntry)
+        	{
+        		inputItems[i] = new RecipeItem(new OreStack(((IOreDictEntry) input).getName()));
+        	}
         }
 		RecipeItem[] outputItems = new RecipeItem[outputs.length];
         for(int i = 0;i < outputs.length;i++)
@@ -58,6 +64,11 @@ public class ModularRecipeHandler {
     		FluidStack resultToRemove = MineTweakerMC.getLiquidStack((ILiquidStack) result);
     		MineTweakerAPI.apply(new RemoveAction(new RecipeItem(resultToRemove), recipeName));
     	}
+    }
+    
+    @ZenMethod
+    public static void remove(String result, String recipeName) {
+    	MineTweakerAPI.apply(new RemoveAction(new RecipeItem(new OreStack(result)), recipeName));
     }
 
     private static class AddAction implements IUndoableAction {
@@ -128,18 +139,23 @@ public class ModularRecipeHandler {
 
         @Override
         public String describe() {
-        	if(!result.isFluid())
+        	if(result.isItem())
         		return "Removing all " + recipeName + " Recipe where '" + result.item.getDisplayName() + "' is the result.";
-        	else
+        	else if(result.isFluid())
         		return "Removing all " + recipeName + " Recipe where '" + result.fluid.getLocalizedName() + "' is the result.";
+        	else
+        		return "Removing all " + recipeName + " Recipe where '" + result.ore.getOreDict() + "' is the result.";
+        	
         }
 
         @Override
         public String describeUndo() {
-          	if(!result.isFluid())
+          	if(result.isItem())
           		return "Adding back in all " + recipeName + "Recipe where '" + result.item.getDisplayName() + "' is the result.";
-          	else
+          	else if(result.isFluid())
           		return "Adding back in all " + recipeName + "Recipe where '" + result.fluid.getLocalizedName() + "' is the result.";
+          	else
+          		return "Adding back in all " + recipeName + "Recipe where '" + result.ore.getOreDict() + "' is the result.";
         }
 
         @Override

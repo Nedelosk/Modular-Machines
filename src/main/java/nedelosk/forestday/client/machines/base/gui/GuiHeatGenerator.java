@@ -1,7 +1,6 @@
 package nedelosk.forestday.client.machines.base.gui;
 
 import nedelosk.forestday.common.machines.base.heater.generator.TileHeatGenerator;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;

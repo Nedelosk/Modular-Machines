@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.client.gui.book.GuiBookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

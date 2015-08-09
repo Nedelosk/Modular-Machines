@@ -1,6 +1,5 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,9 +8,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
 public abstract class TileBaseInventory extends TileBase implements ISidedInventory {
 
@@ -103,7 +99,7 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entitiPlayer) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entitiPlayer.getDistanceSq((double)xCoord + 0.5D, (double)yCoord +0.5D, (double)zCoord + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entitiPlayer.getDistanceSq(xCoord + 0.5D, yCoord +0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 
 	@Override

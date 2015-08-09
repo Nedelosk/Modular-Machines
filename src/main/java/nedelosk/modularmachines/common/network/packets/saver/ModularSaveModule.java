@@ -33,12 +33,6 @@ public class ModularSaveModule implements IExtendedEntityProperties {
 	
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
-		if(entry != null)
-		{
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			entry.writeToNBT(nbtTag);
-			compound.setTag("Entry", nbtTag);
-		}
 		
 		if(saver.size() > 0)
 		{
@@ -55,8 +49,6 @@ public class ModularSaveModule implements IExtendedEntityProperties {
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
-		if(compound.hasKey("Entry"))
-			entry.readFromNBT(compound.getCompoundTag("Entry"));
 		
 		if(compound.hasKey("Saver"))
 		{

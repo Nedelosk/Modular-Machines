@@ -3,22 +3,12 @@ package nedelosk.modularmachines.common.modular.module.tool.producer;
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModule;
-import nedelosk.modularmachines.api.modular.module.ModuleStack;
-import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
-import nedelosk.modularmachines.common.inventory.slots.SlotModule;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -125,14 +115,16 @@ public class ModuleFurnace extends ModuleProducer {
 	}
 
 	@Override
-	public void addSlots(IContainerBase container, IModular modular) {
-		container.addSlot(new SlotModuleMachine(modular.getMachine(), 0, 56, 35, this.getName()));
-		container.addSlot(new SlotModuleMachine(modular.getMachine(), 1, 116, 35, this.getName()){
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+		ArrayList<Slot> list = new ArrayList<Slot>();
+		list.add(new SlotModuleMachine(modular.getMachine(), 0, 56, 35, this.getName()));
+		list.add(new SlotModuleMachine(modular.getMachine(), 1, 116, 35, this.getName()){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
 			}
 		});
+		return list;
 	}
 
 	@Override

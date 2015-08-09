@@ -2,7 +2,6 @@ package nedelosk.forestday.common.machines.base.furnace.base;
 
 import nedelosk.forestday.client.machines.base.gui.GuiFurnace;
 import nedelosk.forestday.common.machines.base.tile.TileHeatBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

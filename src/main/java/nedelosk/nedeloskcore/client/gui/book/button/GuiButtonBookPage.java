@@ -5,7 +5,6 @@ import java.util.Arrays;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;

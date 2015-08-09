@@ -1,8 +1,5 @@
 package nedelosk.modularmachines.common.core;
 
-import java.util.EnumSet;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -13,7 +10,10 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMBlocks {
 
+	Ore_Others,
+	
 	Modular_Assembler,
+	Modular_Workbench,
 	Modular_Machine;
 	
 	private Block block;

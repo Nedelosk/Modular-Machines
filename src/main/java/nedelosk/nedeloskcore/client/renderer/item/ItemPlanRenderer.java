@@ -1,7 +1,5 @@
 package nedelosk.nedeloskcore.client.renderer.item;
 
-import org.lwjgl.opengl.GL11;
-
 import nedelosk.nedeloskcore.client.renderer.tile.TilePlanRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

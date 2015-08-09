@@ -1,5 +1,7 @@
 package nedelosk.forestday.client.machines.multiblock.charcoalkiln;
 
+import org.lwjgl.opengl.GL11;
+
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodType;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -10,8 +12,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-
-import org.lwjgl.opengl.GL11;
 
 public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 
@@ -697,7 +697,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		if(WoodType.loadFromNBT(stack.getTagCompound()) != null)
 		{
 		GL11.glPushMatrix();
-		GL11.glTranslated((float) 0.5F, (float) 0.4F, (float) 0.5F);
+		GL11.glTranslated(0.5F, 0.4F, 0.5F);
 		Tessellator t = Tessellator.instance;
 		GL11.glPushMatrix();
 		

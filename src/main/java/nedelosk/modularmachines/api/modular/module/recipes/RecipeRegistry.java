@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeRegistry {
 
@@ -51,11 +52,22 @@ public class RecipeRegistry {
 			for(RecipeItem item : recipe.getOutputs())
 			{
 				if(item.isFluid() && removeItem.isFluid())
+				{
 					if(item.fluid.isFluidEqual(removeItem.fluid))
 						list.add(recipe);
-				else
+				}
+				else if(item.isItem() && removeItem.isItem())
+				{
 					if(item.item.getItem() == removeItem.item.getItem() && item.item.getItemDamage() == removeItem.item.getItemDamage() && (item.item.stackTagCompound == null && removeItem.item.stackTagCompound == null || ItemStack.areItemStackTagsEqual(item.item, removeItem.item)))
 						list.add(recipe);
+				}
+				else if(item.isItem() && removeItem.isOre())
+				{
+					ArrayList<ItemStack> listOre = OreDictionary.getOres(removeItem.ore.oreDict);
+					for(ItemStack stack : listOre)
+						if(stack.getItem() == item.item.getItem())
+							list.add(recipe);
+				}
 			}
 		}
 		return list;
@@ -71,15 +83,17 @@ public class RecipeRegistry {
 			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
 			for(RecipeItem item : recipe.getInputs())
 			{
-				if(!item.isFluid())
+				if(item.isItem())
 					inputR.add(new RecipeInput(0, item.item));
-				else
+				else if(item.isFluid())
 					inputR.add(new RecipeInput(0, item.fluid));
+				else
+					inputR.add(new RecipeInput(0, item.ore));
 			}
 			for(int i = 0;i < inputR.size();i++){
 				RecipeInput in = inputR.get(i);
 				if(inputs[i] != null)
-					if(!in.isFluid())
+					if(in.isItem())
 					{
 						if(inputs[i].item == null)
 						{
@@ -109,6 +123,23 @@ public class RecipeRegistry {
 							break;
 						}
 					}
+					else if(in.isOre())
+					{
+						if(inputs[i].item == null)
+						{
+							isBreak = true;
+							break;
+						}
+						ArrayList<ItemStack> listOre = OreDictionary.getOres(in.ore.oreDict);
+						for(ItemStack stack : listOre)
+						{
+							if(inputs[i].item.getItem() == stack.getItem() && inputs[i].item.stackSize >= in.ore.stackSize)
+								continue;
+						}
+						isBreak = true;
+						break;
+					}
+				
 			}
 			if(!isBreak)
 				return recipe;

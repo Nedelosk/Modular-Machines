@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 

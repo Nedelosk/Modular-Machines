@@ -1,15 +1,8 @@
 package nedelosk.nedeloskcore.client.gui;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerPlanningTool;
-import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
-import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 

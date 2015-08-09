@@ -10,6 +10,7 @@ import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -28,7 +29,7 @@ public class PacketModularAssembler extends PacketTileEntity<TileModularAssemble
 		if(buf.readBoolean())
 		{
 		NBTTagCompound nbt = ByteBufUtils.readTag(buf);
-			entry = new ModuleEntry(nbt);
+			entry = new ModuleEntry(nbt, getTileEntity(DimensionManager.getWorld(0)));
 		}
 	}
 	

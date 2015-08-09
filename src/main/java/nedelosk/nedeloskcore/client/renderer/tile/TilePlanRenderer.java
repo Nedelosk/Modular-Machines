@@ -3,11 +3,9 @@ package nedelosk.nedeloskcore.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
-import nedelosk.nedeloskcore.common.items.ItemPlan;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -120,8 +118,8 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 			if(plan.getPlan() != null)
 			{
 			RenderUtils.bindItemTexture();
-			Item planItem = NRegistry.plan;
-			IIcon iconPlan = planItem.getIcon(new ItemStack(NRegistry.plan, 1, 0), 0);
+			Item planItem = ObjectRegistry.plan;
+			IIcon iconPlan = planItem.getIcon(new ItemStack(ObjectRegistry.plan, 1, 0), 0);
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
 			t.addVertexWithUV(-0.431, 1.02, 0.431, iconPlan.getMaxU(), iconPlan.getMinV());
@@ -137,7 +135,7 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 	public void renderItem()
 	{
 		GL11.glPushMatrix();
-		GL11.glTranslated((float) 0.5F, (float) -0.5F, (float) 0.5F);
+		GL11.glTranslated(0.5F, -0.5F, 0.5F);
 		GL11.glRotatef(180.0F, 0.0F, 1F, 0.0F);
 		Tessellator t = Tessellator.instance;
 		GL11.glPushMatrix();
@@ -235,8 +233,8 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 		t.draw();
 		
 		RenderUtils.bindItemTexture();
-		Item planItem = NRegistry.plan;
-		IIcon iconPlan = planItem.getIcon(new ItemStack(NRegistry.plan), 0);
+		Item planItem = ObjectRegistry.plan;
+		IIcon iconPlan = planItem.getIcon(new ItemStack(ObjectRegistry.plan), 0);
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
 		t.addVertexWithUV(-0.431, 1.02, 0.431, iconPlan.getMaxU(), iconPlan.getMinV());

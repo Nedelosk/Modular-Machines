@@ -3,7 +3,6 @@ package nedelosk.forestday.client.machines.base.gui;
 import nedelosk.forestday.client.machines.base.gui.widget.WidgetHeatBar;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;

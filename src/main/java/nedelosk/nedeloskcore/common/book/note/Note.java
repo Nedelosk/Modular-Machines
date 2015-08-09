@@ -2,9 +2,7 @@ package nedelosk.nedeloskcore.common.book.note;
 
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.client.gui.book.GuiBookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;
-import net.minecraft.client.gui.GuiButton;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

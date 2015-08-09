@@ -1,17 +1,12 @@
 package nedelosk.nedeloskcore.common.items;
 
-import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.registrys.ItemRegistry;
-import nedelosk.forestday.common.registrys.FRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
-import net.minecraft.init.Blocks;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -38,13 +33,13 @@ public class ItemWoodBucket extends ItemBucket {
 
         if(result.getItem() == Items.bucket) {
 
-            return new ItemStack(NRegistry.woodBucket);
+            return new ItemStack(ObjectRegistry.woodBucket);
         }
         
-        if(result.getItem() == Items.water_bucket) return new ItemStack(NRegistry.woodBucketWater);
+        if(result.getItem() == Items.water_bucket) return new ItemStack(ObjectRegistry.woodBucketWater);
         if(result.getItem() == Items.lava_bucket){
         	player.setFire(10);
-        	return new ItemStack(NRegistry.woodBucketWater, 0);
+        	return new ItemStack(ObjectRegistry.woodBucketWater, 0);
         }
         return result;
     }

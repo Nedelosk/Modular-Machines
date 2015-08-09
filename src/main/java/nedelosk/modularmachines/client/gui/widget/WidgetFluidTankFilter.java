@@ -6,25 +6,18 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
-import nedelosk.modularmachines.common.modular.module.manager.TankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class WidgetFluidTankFilter extends Widget {
 
@@ -43,7 +36,7 @@ public class WidgetFluidTankFilter extends Widget {
 		if(GuiScreen.isShiftKeyDown())
 		{
 			fluid = null;
-			((TankManager)((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager).filters[ID] = fluid;
+			((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager.filters[ID] = fluid;
 			PacketHandler.INSTANCE.sendToServer(new PacketModularMachineNBT((TileModularMachine) gui.getTile()));
 		}
 		else{
@@ -51,7 +44,7 @@ public class WidgetFluidTankFilter extends Widget {
 		if(stack != null && FluidContainerRegistry.isContainer(stack))
 		{
 			fluid = FluidContainerRegistry.getFluidForFilledItem(stack).getFluid();
-			((TankManager)((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager).filters[ID] = fluid;
+			((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager.filters[ID] = fluid;
 			PacketHandler.INSTANCE.sendToServer(new PacketModularMachineNBT((TileModularMachine) gui.getTile()));
 		}
 		}

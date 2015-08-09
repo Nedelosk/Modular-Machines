@@ -1,11 +1,6 @@
 package nedelosk.forestday.client.machines.base.gui;
 
-import nedelosk.forestday.client.machines.base.gui.widget.WidgetHeatBar;
-import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.machines.base.fluid.heater.TileFluidHeater;
 import nedelosk.forestday.common.machines.base.furnace.coke.TileCokeFurnace;
-import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;

@@ -1,10 +1,5 @@
 package nedelosk.nedeloskcore.common.core.registry;
 
-import nedelosk.forestbotany.api.botany.book.BookPlantEntry;
-import nedelosk.forestbotany.api.genetics.plants.IPlant;
-import nedelosk.forestbotany.common.genetics.PlantManager;
-import nedelosk.forestbotany.common.genetics.templates.crop.CropChromosome;
-import nedelosk.forestbotany.common.genetics.templates.crop.CropManager;
 import nedelosk.nedeloskcore.api.book.BookCategory;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;

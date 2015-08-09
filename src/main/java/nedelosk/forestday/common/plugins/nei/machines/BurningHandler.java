@@ -43,7 +43,8 @@ public class BurningHandler extends TemplateRecipeHandler {
       return;
     }
 
-    List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getInstance().getRecipes();
+    HeatGeneratorRecipeManager.getInstance();
+	List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getRecipes();
     for (HeatGeneratorRecipe recipe : recipes) {
       ItemStack output = recipe.getOutput();
       if(result.getItem() == output.getItem() && result.getItemDamage() == output.getItemDamage()) {
@@ -57,7 +58,8 @@ public class BurningHandler extends TemplateRecipeHandler {
   @Override
   public void loadCraftingRecipes(String outputId, Object... results) {
     if(outputId.equals("ForestDayBurning") && getClass() == BurningHandler.class) {
-        List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getInstance().getRecipes();
+        HeatGeneratorRecipeManager.getInstance();
+		List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getRecipes();
       for (HeatGeneratorRecipe recipe : recipes) {
         ItemStack output = recipe.getOutput();
         BurningCachedRecipe res = new BurningCachedRecipe(recipe.getInput1(), output);
@@ -70,7 +72,8 @@ public class BurningHandler extends TemplateRecipeHandler {
 
   @Override
   public void loadUsageRecipes(ItemStack ingredient) {
-      List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getInstance().getRecipes();
+      HeatGeneratorRecipeManager.getInstance();
+	List<HeatGeneratorRecipe> recipes = HeatGeneratorRecipeManager.getRecipes();
     for (HeatGeneratorRecipe recipe : recipes) {
   	  ItemStack output = recipe.getOutput();
 	  BurningCachedRecipe res = new BurningCachedRecipe(recipe.getInput1(), output);

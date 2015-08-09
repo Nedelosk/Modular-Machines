@@ -11,8 +11,6 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.oredict.IOreDict;
-import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

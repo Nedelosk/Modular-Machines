@@ -1,8 +1,11 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer;
 
+import java.util.ArrayList;
+
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModuleProducer;
 import nedelosk.modularmachines.api.modular.module.Module;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleProducer extends Module implements IModuleProducer {
@@ -17,6 +20,16 @@ public abstract class ModuleProducer extends Module implements IModuleProducer {
 	
 	public ModuleProducer(NBTTagCompound nbt) {
 		super(nbt);
+	}
+	
+	@Override
+	public int getBurnTime() {
+		return burnTime;
+	}
+	
+	@Override
+	public int getBurnTimeTotal() {
+		return burnTimeTotal;
 	}
 	
 	@Override
@@ -48,6 +61,11 @@ public abstract class ModuleProducer extends Module implements IModuleProducer {
 	@Override
 	public String getModuleName() {
 		return "Producer";
+	}
+	
+	@Override
+	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
 	}
 
 }

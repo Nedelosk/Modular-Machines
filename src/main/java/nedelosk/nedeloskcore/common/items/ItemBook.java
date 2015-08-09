@@ -1,9 +1,5 @@
 package nedelosk.nedeloskcore.common.items;
 
-import nedelosk.forestbotany.common.core.ForestBotanyTab;
-import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.core.ForestDay;
-import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
@@ -22,7 +18,7 @@ public class ItemBook extends Item {
 		this.uln = "book." + uln;
 		this.setMaxStackSize(1);
 		this.bookData = bookData;
-		setCreativeTab(ForestBotanyTab.instance);
+		//setCreativeTab(ForestBotanyTab.instance);
 	}
 	
 	@Override

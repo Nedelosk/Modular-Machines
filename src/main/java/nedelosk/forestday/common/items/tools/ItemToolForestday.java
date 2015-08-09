@@ -2,15 +2,11 @@ package nedelosk.forestday.common.items.tools;
 
 import java.util.List;
 
-import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.forestday.common.registrys.FRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.StatCollector;
 
 public class ItemToolForestday extends Item {

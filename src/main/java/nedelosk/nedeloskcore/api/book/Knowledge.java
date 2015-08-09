@@ -1,7 +1,5 @@
 package nedelosk.nedeloskcore.api.book;
 
-import net.minecraft.util.EnumChatFormatting;
-
 public class Knowledge {
 
 	public final String unlocalizedName;

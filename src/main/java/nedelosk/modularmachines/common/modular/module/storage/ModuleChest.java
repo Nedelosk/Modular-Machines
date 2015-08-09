@@ -1,10 +1,13 @@
 package nedelosk.modularmachines.common.modular.module.storage;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.IModuleStorage;
 import nedelosk.modularmachines.api.modular.module.Module;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
@@ -30,15 +33,17 @@ public class ModuleChest extends Module implements IModuleStorage {
 	}
 
 	@Override
-	public void addSlots(IContainerBase container, IModular modular) {
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
 		
+		ArrayList<Slot> list = new ArrayList<Slot>();
 		int i = slots / 9;
 		
         for (int i1 = 0; i1 < i; i1++) {
             for (int l1 = 0; l1 < 9; l1++) {
-               container.addSlot(new SlotModuleMachine(modular.getMachine(), l1 + i1 * 9 + 9, 8 + l1 * 18, 10 + i1 * 18, this.getName()));
+               list.add(new SlotModuleMachine(modular.getMachine(), l1 + i1 * 9 + 9, 8 + l1 * 18, 10 + i1 * 18, this.getName()));
             }
         }
+        return list;
 
 	}
 	
@@ -81,6 +86,11 @@ public class ModuleChest extends Module implements IModuleStorage {
 		super.readFromNBT(nbt);
 		
 		slots = nbt.getInteger("Slots");
+	}
+
+	@Override
+	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
 	}
 
 }

@@ -2,7 +2,6 @@ package nedelosk.modularmachines.plugins;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.common.modular.module.ModuleCasing;
 import nedelosk.modularmachines.common.modular.module.ModuleTank;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleBattery;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleCapacitor;

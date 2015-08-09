@@ -1,7 +1,6 @@
 package nedelosk.forestday.common.network;
 
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.common.core.registry.EntryRegistry;
 import net.minecraft.entity.player.EntityPlayer;

@@ -2,21 +2,16 @@ package nedelosk.nedeloskcore.client.gui.book;
 
 import java.util.Collection;
 
-import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.api.book.BookCategory;
-import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
 import nedelosk.nedeloskcore.common.book.BookData;
-import nedelosk.nedeloskcore.common.book.BookDatas;
 import nedelosk.nedeloskcore.common.book.note.NoteText;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 

@@ -43,7 +43,8 @@ public class KilnHandler extends TemplateRecipeHandler {
       return;
     }
 
-    List<KilnRecipe> recipes = KilnRecipeManager.getInstance().getRecipes();
+    KilnRecipeManager.getInstance();
+	List<KilnRecipe> recipes = KilnRecipeManager.getRecipes();
     for (KilnRecipe recipe : recipes) {
       ItemStack output = recipe.getOutput1();
       if(result.getItem() == output.getItem() && result.getItemDamage() == output.getItemDamage()) {
@@ -57,7 +58,8 @@ public class KilnHandler extends TemplateRecipeHandler {
   @Override
   public void loadCraftingRecipes(String outputId, Object... results) {
     if(outputId.equals("ForestDayKilnResin") && getClass() == KilnHandler.class) {
-        List<KilnRecipe> recipes = KilnRecipeManager.getInstance().getRecipes();
+        KilnRecipeManager.getInstance();
+		List<KilnRecipe> recipes = KilnRecipeManager.getRecipes();
       for (KilnRecipe recipe : recipes) {
         ItemStack output = recipe.getOutput1();
         KilnResinCachedRecipe res = new KilnResinCachedRecipe(recipe.getInput1(), recipe.getInput2(), output);
@@ -70,7 +72,8 @@ public class KilnHandler extends TemplateRecipeHandler {
 
   @Override
   public void loadUsageRecipes(ItemStack ingredient) {
-     List<KilnRecipe> recipes = KilnRecipeManager.getInstance().getRecipes();
+     KilnRecipeManager.getInstance();
+	List<KilnRecipe> recipes = KilnRecipeManager.getRecipes();
     for (KilnRecipe recipe : recipes) {
   	  ItemStack output = recipe.getOutput1();
 	  KilnResinCachedRecipe res = new KilnResinCachedRecipe(recipe.getInput1(), recipe.getInput2(), output);

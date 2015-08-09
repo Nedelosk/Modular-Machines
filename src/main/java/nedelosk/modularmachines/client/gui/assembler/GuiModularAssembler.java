@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.RendererSides;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBuildMachine;
@@ -79,7 +79,7 @@ public class GuiModularAssembler extends GuiBase {
 		for(ModuleEntry entry : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
 		{
 			if(entry != null)
-					buttonList.add(new GuiButtonModularAssemblerSlot(id, entry.x + guiLeft, entry.y + guiTop, entry));
+					buttonList.add(new GuiButtonModularAssemblerSlot(id, entry.x + guiLeft, entry.y + guiTop, entry, (IModularAssembler) tile));
 			id++;
 		}
 		buttonList.add(new GuiButtonModularAssemblerBuildMachine(id, guiLeft + 261, guiTop + 35));

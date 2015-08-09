@@ -42,10 +42,12 @@ public class PlanRecipeManager implements IPlanRecipe{
 		return list;
 	}
 	
+	@Override
 	public void add(ItemStack outputBlock, int stages, ItemStack[]... input) {
 		recipes.add(new PlanRecipe(outputBlock, stages, input));
 	}
 	
+	@Override
 	public void add(ItemStack updateBlock, ItemStack outputBlock, int stages, ItemStack[]... input) {
 		recipes.add(new PlanRecipe(updateBlock, outputBlock, stages, input));
 	}

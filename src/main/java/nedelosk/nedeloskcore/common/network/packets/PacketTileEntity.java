@@ -7,13 +7,8 @@ import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
 
 public class PacketTileEntity<T extends TileEntity> implements IMessage {
 	
@@ -33,7 +28,8 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 	    z = tile.zCoord;
 	  }
 
-	  public void toBytes(ByteBuf buf) {
+	  @Override
+	public void toBytes(ByteBuf buf) {
 	    buf.writeInt(x);
 	    buf.writeInt(y);
 	    buf.writeInt(z);

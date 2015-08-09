@@ -1,11 +1,8 @@
 package nedelosk.forestday.common.machines.base.wood.kiln;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nedelosk.forestday.api.crafting.IKilnRecipe;
-import nedelosk.forestday.common.machines.base.saw.SawRecipe;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
 import net.minecraft.item.ItemStack;
 
 public class KilnRecipeManager implements IKilnRecipe{
@@ -14,21 +11,25 @@ public class KilnRecipeManager implements IKilnRecipe{
 	
 	public static KilnRecipeManager instance;
 	
+	@Override
 	public void addRecipe(ItemStack input1, ItemStack input2, ItemStack output1, ItemStack output2)
 	{
 		recipes.add(new KilnRecipe(input1, input2, output1, output2));
 	}
 	
+	@Override
 	public void addRecipe(String input1, ItemStack input2, ItemStack output1, ItemStack output2)
 	{
 		recipes.add(new KilnRecipe(input1, input2, output1, output2));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input1, String input2, ItemStack output1, ItemStack output2)
 	{
 		recipes.add(new KilnRecipe(input1, input2, output1, output2));
 	}
 	
+	@Override
 	public void addRecipe(String input1, String input2, ItemStack output1, ItemStack output2)
 	{
 		recipes.add(new KilnRecipe(input1, input2, output1, output2));

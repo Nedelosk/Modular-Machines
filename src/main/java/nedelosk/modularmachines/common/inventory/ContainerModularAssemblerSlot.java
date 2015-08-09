@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.inventory;
 
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotModule;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,7 +21,7 @@ public class ContainerModularAssemblerSlot extends ContainerBase {
 	}
 	
 	protected void addSlot(InventoryPlayer inventory) {
-		addSlotToContainer(new SlotModule(inventoryBase, entry.ID, 80, 35, entry));
+		addSlotToContainer(new SlotModule(inventoryBase, entry.ID, 80, 35, entry, inventory));
 	}
 
 }

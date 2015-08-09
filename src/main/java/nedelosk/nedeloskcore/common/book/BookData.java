@@ -1,17 +1,9 @@
 package nedelosk.nedeloskcore.common.book;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
-import nedelosk.nedeloskcore.api.book.BookEntry;
-import nedelosk.nedeloskcore.api.book.Knowledge;
-import nedelosk.nedeloskcore.api.book.BookLevel;
-import nedelosk.nedeloskcore.common.core.Log;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class BookData {

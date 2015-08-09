@@ -1,11 +1,7 @@
 package nedelosk.forestday.common.machines.base.wood.workbench;
 
-import java.util.ArrayList;
-
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class WorkbenchRecipe {
 	private ItemStack input, inputPattern, inputTool;

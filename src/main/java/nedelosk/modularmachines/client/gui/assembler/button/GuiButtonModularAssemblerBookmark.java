@@ -9,11 +9,8 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.items.ModularItem;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -24,7 +21,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.ForgeHooksClient;
 
 public class GuiButtonModularAssemblerBookmark extends GuiButton {
 

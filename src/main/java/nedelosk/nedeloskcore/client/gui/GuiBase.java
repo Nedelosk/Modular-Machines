@@ -1,27 +1,19 @@
 package nedelosk.nedeloskcore.client.gui;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.common.inventory.slots.SlotModule;
 import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.api.machines.IButtonManager;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.IWidgetManager;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import nedelosk.nedeloskcore.common.inventory.slots.SlotPlan;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiBase extends GuiContainer implements IGuiBase {
@@ -44,14 +36,17 @@ public abstract class GuiBase extends GuiContainer implements IGuiBase {
 		buttonList.addAll(buttonManager.getButtons());
 	}
 	
+	@Override
 	public IButtonManager getButtonManager() {
 		return buttonManager;
 	}
 	
+	@Override
 	public IWidgetManager getWidgetManager() {
 		return widgetManager;
 	}
 	
+	@Override
 	public TileBase getTile() {
 		return tile;
 	}
@@ -101,14 +96,17 @@ public abstract class GuiBase extends GuiContainer implements IGuiBase {
 		return itemRender;
 	}
 
+	@Override
 	public void setZLevel(float zLevel) {
 		this.zLevel = zLevel;
 	}
 
+	@Override
 	public int getGuiLeft() {
 		return this.guiLeft;
 	}
 	
+	@Override
 	public int getGuiTop() {
 		return this.guiTop;
 	}

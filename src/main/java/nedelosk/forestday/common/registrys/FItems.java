@@ -4,16 +4,10 @@ import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum FItems {
 
 	//Materials
-	nuggets,
-	dust,
-	powder,
-	gears,
-	gears_wood,
 	nature,
 	charcoal,
 	

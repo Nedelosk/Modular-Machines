@@ -1,8 +1,6 @@
 package nedelosk.forestday.client.machines.multiblock.charcoalkiln;
 
-import nedelosk.forestday.client.machines.base.renderer.tile.TileKilnRenderer;
 import nedelosk.forestday.client.proxy.ClientProxy;
-import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

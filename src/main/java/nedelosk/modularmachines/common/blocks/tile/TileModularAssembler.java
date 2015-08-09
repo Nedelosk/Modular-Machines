@@ -9,22 +9,15 @@ import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyStorage;
 import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.RendererSides;
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
 import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.ModuleStack;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import nedelosk.modularmachines.common.modular.ModularMachine;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -37,8 +30,6 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 	public HashMap<String, ArrayList<ModuleEntry>> moduleEntrys = new HashMap<String, ArrayList<ModuleEntry>>();
 	public int capacity;
 	public EnergyStorage storage;
-	public int timer;
-	public int timerTotal = 35;
 	
 	public TileModularAssembler() {
 		super(1);
@@ -58,6 +49,7 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 		
 		if(page == null)
 			page = "Basic";
+		updateEntrys();
 	}
 	
 	public ModularMachine buildMachine()
@@ -87,6 +79,7 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 			if(!modules.contains(module))
 				return null;
 		}
+		updateEntrys();
 		return ModularMachine.crateModularMachine(moduleStacks);
 	}
 
@@ -122,15 +115,9 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 
 	@Override
 	public void updateServer() {
-		if(this.timer >= timerTotal)
-		{
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			updateEntrys();
-		}
-		else
-			timer++;
 	}
 	
+	@Override
 	public ItemStack getStackInSlot(String page, int i) {
 		return this.slot.get(page)[i];
 	}
@@ -152,7 +139,7 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 		    	}
 		    }
 		}
-		
+		updateEntrys();
 		return null;
 		
 	}
@@ -163,7 +150,7 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
 			itemstack.stackSize = this.getInventoryStackLimit();
 		}
-		
+		updateEntrys();
 	}
 
 	@Override
@@ -214,7 +201,6 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 		storage.writeToNBT(nbtTag);
 		nbt.setTag("Storage", nbtTag);
 		
-		nbt.setInteger("Timer", timer);
 	}
 	
 	@Override
@@ -241,7 +227,7 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 				for(int i = 0;i < list.tagCount();i++)
 				{
 					NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-					entryList.add(new ModuleEntry(nbtTag));
+					entryList.add(new ModuleEntry(nbtTag, this));
 				}
 				this.moduleEntrys.put(entrys.getKey(), entryList);
 			}
@@ -256,8 +242,6 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 		storage = new EnergyStorage(nbt.getInteger("Capacity"));
 		NBTTagCompound nbtTag = nbt.getCompoundTag("Storage");
 		storage.readFromNBT(nbtTag);
-		
-		this.timer = nbt.getInteger("Timer");
 		
 	}
 	
@@ -296,6 +280,11 @@ public class TileModularAssembler extends TileBaseInventory implements IEnergyHa
 
 	public IEnergyStorage getStorage() {
 		return storage;
+	}
+	
+	@Override
+	public ModuleEntry getModuleEntry(String page, int ID) {
+		return moduleEntrys.get(page).get(ID);
 	}
 
 }

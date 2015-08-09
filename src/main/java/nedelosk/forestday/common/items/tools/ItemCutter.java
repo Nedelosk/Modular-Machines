@@ -1,6 +1,5 @@
 package nedelosk.forestday.common.items.tools;
 
-import nedelosk.forestday.api.crafting.ITool;
 import nedelosk.forestday.common.registrys.BlockRegistry;
 import net.minecraft.item.ItemStack;
 
@@ -19,6 +18,7 @@ public class ItemCutter extends ItemToolCrafting
 		return false;
 	}
 	
+	@Override
 	public boolean hasContainerItem(ItemStack stack)
 	{
 		return true;

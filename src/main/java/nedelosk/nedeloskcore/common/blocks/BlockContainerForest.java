@@ -1,7 +1,5 @@
 package nedelosk.nedeloskcore.common.blocks;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;

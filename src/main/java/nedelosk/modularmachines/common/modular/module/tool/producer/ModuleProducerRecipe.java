@@ -1,22 +1,14 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer;
 
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.AMDDebugOutput;
-
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModuleProducer;
 import nedelosk.modularmachines.api.modular.module.IModuleProducerRecipe;
-import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.recipes.IRecipe;
 import nedelosk.modularmachines.api.modular.module.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeInput;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.modular.ModularMachine;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -51,6 +43,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
 	}
 	
+	@Override
 	public IRecipeManager getRecipeManager() {
 		return manager;
 	}
@@ -67,6 +60,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		return inputs;
 	}
 	
+	@Override
 	public boolean removeInput(IModular modular){
 		TileModularMachine tile = ((TileModularMachine)modular.getMachine());
 		for(int i = 0;i < getInputs(modular).length;i++)
@@ -143,6 +137,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		}
 	}
 	
+	@Override
 	public boolean addOutput(IModular modular)
 	{
 		TileModularMachine tile = ((TileModularMachine)modular.getMachine());

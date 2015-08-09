@@ -1,7 +1,5 @@
 package nedelosk.forestday.common.items.base;
 
-import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.forestday.common.registrys.FRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

@@ -3,7 +3,6 @@ package nedelosk.forestday.common.machines.base.furnace.coke;
 import java.util.ArrayList;
 
 import nedelosk.forestday.api.crafting.ICokeFurnaceRecipe;
-import nedelosk.forestday.api.crafting.IKilnRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -13,11 +12,13 @@ public class CokeFurnaceRecipeManager implements ICokeFurnaceRecipe{
 	
 	public static CokeFurnaceRecipeManager instance;
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack output, ItemStack output1, ItemStack output2, FluidStack outputFluid)
 	{
 		recipes.add(new CokeFurnaceRecipe(input, output, output1, output2, outputFluid));
 	}
 	
+	@Override
 	public void addRecipe(String input, ItemStack output, ItemStack output1, ItemStack output2, FluidStack outputFluid)
 	{
 		recipes.add(new CokeFurnaceRecipe(input, output, output1, output2, outputFluid));

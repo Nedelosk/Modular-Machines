@@ -2,9 +2,6 @@ package nedelosk.modularmachines.common.modular.handler;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankDirection;
-import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankFilter;
-import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankPriority;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
 import nedelosk.nedeloskcore.api.INBTTagable;

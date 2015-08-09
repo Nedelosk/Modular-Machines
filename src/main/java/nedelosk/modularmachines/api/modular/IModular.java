@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.module.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.IModuleGenerator;
-import nedelosk.modularmachines.api.modular.module.IModuleStorage;
 import nedelosk.modularmachines.api.modular.module.IModuleTank;
 import nedelosk.modularmachines.api.modular.module.ModuleStack;
 import nedelosk.modularmachines.api.modular.module.energy.IModuleBattery;

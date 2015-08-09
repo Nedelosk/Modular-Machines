@@ -5,22 +5,13 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.core.ForestDay;
-import nedelosk.forestday.common.core.TabForestday;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWood;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.WorldSettings.GameType;
 
 public class BlockGravel extends BlockForestday {
 

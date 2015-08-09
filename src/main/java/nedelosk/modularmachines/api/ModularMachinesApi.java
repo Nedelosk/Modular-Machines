@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
@@ -12,12 +13,15 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
 import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
 import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.farm.IFarm;
+import nedelosk.modularmachines.api.techtree.TechPointStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import scala.actors.threadpool.Arrays;
 
 public class ModularMachinesApi {
 	
@@ -27,8 +31,11 @@ public class ModularMachinesApi {
 	private static ArrayList<ModuleItem> items = new ArrayList<ModuleItem>();
 	private static IModule registerFailed;
 	private static ArrayList<String> requiredModule = new ArrayList<String>();
+	public static String currentLanguage;
 	public final static LinkedHashMap<String, ArrayList<ModuleEntry>> moduleEntrys = new LinkedHashMap<String, ArrayList<ModuleEntry>>();
+	public final static HashMap<List, TechPointStack[]> techpoinedItems = new HashMap<>();
 	public final static HashMap<String, ArrayList<ItemStack>> bookmark = new HashMap<String, ArrayList<ItemStack>>();
+	private static ArrayList<IModularCraftingRecipe> recipes = new ArrayList<>();
 	
 	public static void addModule(IModule module)
 	{
@@ -39,9 +46,28 @@ public class ModularMachinesApi {
 			addModuleClass(module.getClass(), module.getName());
 	}
 	
+	public static ArrayList<IModularCraftingRecipe> getModularRecipes() {
+		return recipes;
+	}
+	
+	public static void registerRecipe(IModularCraftingRecipe recipe)
+	{
+		recipes.add(recipe);
+	}
+	
 	public static void addModuleClass(Class< ? extends IModule> module, String name)
 	{
 		moduleClasses.put(name, module);
+	}
+	
+	public static void addTechPointsToItem(ItemStack stack, TechPointStack... stacks)
+	{
+		techpoinedItems.put(Arrays.asList(new Object[] { stack.getItem(), Integer.valueOf(stack.getItemDamage())}), stacks);
+	}
+	
+	public static TechPointStack[] getTechPointsFromItem(ItemStack stack)
+	{
+		return techpoinedItems.get(Arrays.asList(new Object[] { stack.getItem(), Integer.valueOf(stack.getItemDamage())}));
 	}
 	
 	public static void addRequiredModule(String module)

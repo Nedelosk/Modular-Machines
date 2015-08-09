@@ -1,7 +1,6 @@
 package nedelosk.nedeloskcore.common.book.note;
 
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.client.gui.book.GuiBookEntry;
 import nedelosk.nedeloskcore.common.book.BookData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

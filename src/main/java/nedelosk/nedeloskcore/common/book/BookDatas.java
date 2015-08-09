@@ -71,9 +71,9 @@ public class BookDatas {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         String CurrentLanguage = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 
-        Document crops_cl = readManual("/assets/forestbotany/book/crops_" + CurrentLanguage + ".xml", dbFactory);
+        //Document crops_cl = readManual("/assets/forestbotany/book/crops_" + CurrentLanguage + ".xml", dbFactory);
 
-        crops = crops_cl != null ? crops_cl : readManual("/assets/forestbotany/book/crops_en_US.xml", dbFactory);
+        //crops = crops_cl != null ? crops_cl : readManual("/assets/forestbotany/book/crops_en_US.xml", dbFactory);
 
     }
 

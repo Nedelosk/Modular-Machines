@@ -1,10 +1,6 @@
 package nedelosk.forestday.common.machines.base.wood.campfire;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class CampfireRecipe {
 	

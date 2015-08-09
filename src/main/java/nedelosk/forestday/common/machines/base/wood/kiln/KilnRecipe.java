@@ -3,7 +3,6 @@ package nedelosk.forestday.common.machines.base.wood.kiln;
 import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class KilnRecipe {

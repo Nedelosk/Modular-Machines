@@ -2,7 +2,6 @@ package nedelosk.modularmachines.api.modular.module;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 
 

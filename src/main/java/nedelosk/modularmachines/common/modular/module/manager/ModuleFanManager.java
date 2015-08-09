@@ -1,12 +1,16 @@
 package nedelosk.modularmachines.common.modular.module.manager;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.module.Module;
 import nedelosk.modularmachines.api.modular.module.manager.IModuleFanManager;
+import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
+import net.minecraft.inventory.Slot;
 
 public class ModuleFanManager extends Module implements IModuleFanManager{
 
@@ -14,13 +18,18 @@ public class ModuleFanManager extends Module implements IModuleFanManager{
 	}
 	
 	@Override
-	public void addSlots(IContainerBase container, IModular modular) {
-		
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+		return null;
 	}
 
 	@Override
 	public void addButtons(IGuiBase gui, IModular modular) {
 		
+	}
+	
+	@Override
+	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
 	}
 
 	@Override

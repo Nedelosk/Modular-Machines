@@ -1,13 +1,11 @@
 package nedelosk.modularmachines.common.network.packets.assembler;
 
 import io.netty.buffer.ByteBuf;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 
 import java.nio.charset.StandardCharsets;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

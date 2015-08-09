@@ -1,12 +1,6 @@
 package nedelosk.modularmachines.common.modular.module.energy;
 
-import java.util.ArrayList;
-
-import cofh.api.energy.IEnergyStorage;
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.ModuleStack;
 import nedelosk.modularmachines.api.modular.module.energy.IModuleBattery;
 import net.minecraft.nbt.NBTTagCompound;
 

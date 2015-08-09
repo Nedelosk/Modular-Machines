@@ -2,7 +2,6 @@ package nedelosk.forestday.common.machines.mutiblock.charcoalkiln;
 
 import java.util.ArrayList;
 
-import nedelosk.forestday.common.machines.mutiblock.core.tile.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

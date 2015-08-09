@@ -1,8 +1,12 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
+import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.techtree.TechTreeManager;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -10,10 +14,12 @@ import net.minecraft.item.ItemStack;
 public class SlotModule extends Slot {
 	
 	public ModuleEntry entry;
+	public EntityPlayer player;
 	
-	public SlotModule(IInventory inventory, int ID, int x, int y, ModuleEntry entry) {
+	public SlotModule(IInventory inventory, int ID, int x, int y, ModuleEntry entry, InventoryPlayer inventoryPlayer) {
 		super(inventory, ID, x, y);
 		this.entry = entry;
+		this.player = inventoryPlayer.player;
 	}
 	
 	@Override
@@ -41,11 +47,17 @@ public class SlotModule extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		int tier = entry.parent == null ? 3 : entry.parent.getTier();
-		for(String moduleName : entry.moduleNames)
+		int tier = entry.parent == null ? 3 : entry.parent.getTier((IModularAssembler)inventory);
+		for(int i = 0;i < entry.moduleNames.length;i++)
 		{
-			if(ModularMachinesApi.getModuleItem(moduleName, stack) != null && ModularMachinesApi.getModuleItem(moduleName, stack).getTier() <= tier)
-				return true;
+			if(entry.activatedModuleNames[i])
+			{
+				String moduleName = entry.moduleNames[i];
+				if(ModularMachinesApi.getModuleItem(moduleName, stack) != null)
+					if(ModularMachinesApi.getModuleItem(moduleName, stack).getTier() <= tier)
+						if(ModularMachinesApi.getModuleItem(moduleName, stack).module.getTechTreeKeys() == null && ModularMachinesApi.getModuleItem(moduleName, stack).module.getTechTreeKeys(ModularMachinesApi.getModuleItem(moduleName, stack).getTier()) == null || (ModularMachinesApi.getModuleItem(moduleName, stack).module.getTechTreeKeys() != null && TechTreeManager.isEntryComplete(player, ModularMachinesApi.getModuleItem(moduleName, stack).module.getTechTreeKeys())) || (ModularMachinesApi.getModuleItem(moduleName, stack).module.getTechTreeKeys(ModularMachinesApi.getModuleItem(moduleName, stack).getTier()) != null && TechTreeManager.isEntryComplete(player, ModularMachinesApi.getModuleItem(moduleName, stack).getModule().getTechTreeKeys(ModularMachinesApi.getModuleItem(moduleName, stack).getTier())[ModularMachinesApi.getModuleItem(moduleName, stack).getTier()])))
+							return true;
+			}
 		}
 		return false;
 	}	

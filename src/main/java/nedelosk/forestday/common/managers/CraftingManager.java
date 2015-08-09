@@ -1,61 +1,43 @@
 package nedelosk.forestday.common.managers;
 
-import scala.xml.PrettyPrinter.Item;
+import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
-import nedelosk.forestday.api.crafting.IAlloySmelterRecipe;
 import nedelosk.forestday.api.crafting.IBurnRecipe;
 import nedelosk.forestday.api.crafting.ICampfireRecipe;
 import nedelosk.forestday.api.crafting.ICokeFurnaceRecipe;
-import nedelosk.forestday.api.crafting.IFluidHeaterRecipe;
 import nedelosk.forestday.api.crafting.IKilnRecipe;
-import nedelosk.forestday.api.crafting.IMaceratorRecipe;
-import nedelosk.forestday.api.crafting.ISawRecipe;
-import nedelosk.forestday.api.crafting.IWoodType;
+import nedelosk.forestday.api.crafting.IWoodTypeManager;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.machines.base.fluid.heater.FluidHeaterRecipeManager;
-import nedelosk.forestday.common.machines.base.furnace.alloysmelter.AlloySmelterRecipeManager;
 import nedelosk.forestday.common.machines.base.furnace.coke.CokeFurnaceRecipeManager;
 import nedelosk.forestday.common.machines.base.heater.generator.HeatGeneratorRecipeManager;
-import nedelosk.forestday.common.machines.base.saw.SawRecipeManager;
 import nedelosk.forestday.common.machines.base.wood.campfire.CampfireRecipeManager;
 import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipeManager;
-import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench.Mode;
 import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodType;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodTypeManager;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import nedelosk.nedeloskcore.utils.CraftingHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingManager {
 	
-	public static ISawRecipe autoFileRecipe;
-	public static IAlloySmelterRecipe alloySmelter;
 	public static IKilnRecipe kilnResin;
-	public static IMaceratorRecipe macerator;
 	public static IBurnRecipe burning;
 	public static ICokeFurnaceRecipe furnaceCoke;
-	public static IFluidHeaterRecipe fluidHeater;
 	public static IWorkbenchRecipe workbench;
 	public static ICampfireRecipe campfire;
 	public static IPlanRecipe planRecipe;
-	public static IWoodType woodManager;
+	public static IWoodTypeManager woodManager;
 	
 	public static void removeRecipes()
 	{
@@ -65,23 +47,16 @@ public class CraftingManager {
 	
 	public static void registerRecipes()
 	{
-		ForestdayCrafting.autoFileRecipe = new SawRecipeManager();
 		ForestdayCrafting.kilnResinRecipes = new KilnRecipeManager();
 		ForestdayCrafting.burningRecipe = new HeatGeneratorRecipeManager();
 		ForestdayCrafting.furnaceCokeRecipe = new CokeFurnaceRecipeManager();
-		ForestdayCrafting.fluidHeaterRecipe = new FluidHeaterRecipeManager();
 		ForestdayCrafting.workbenchRecipe = new WorkbenchRecipeManager();
-		ForestdayCrafting.alloySmelterRecipes = new AlloySmelterRecipeManager();
 		ForestdayCrafting.campfireRecipe = new CampfireRecipeManager();
 		ForestdayCrafting.woodManager = new WoodTypeManager();
 		
-		autoFileRecipe = ForestdayCrafting.autoFileRecipe;
-		alloySmelter = ForestdayCrafting.alloySmelterRecipes;
 		kilnResin = ForestdayCrafting.kilnResinRecipes;
-		macerator = ForestdayCrafting.maceratorRecipes;
 		burning = ForestdayCrafting.burningRecipe;
 		furnaceCoke = ForestdayCrafting.furnaceCokeRecipe;
-		fluidHeater = ForestdayCrafting.fluidHeaterRecipe;
 		workbench = ForestdayCrafting.workbenchRecipe;
 		campfire = ForestdayCrafting.campfireRecipe;
 		planRecipe = NCoreApi.planRecipe;
@@ -126,7 +101,7 @@ public class CraftingManager {
 		addShapelessRecipe(new ItemStack(FItems.bow_and_stick.item()), Items.bow, Items.stick, Items.stick);
 		
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, Items.water_bucket);
-		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, NRegistry.woodBucketWater);
+		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, ObjectRegistry.woodBucketWater);
 	}
 	
 	public static void addWoodRecipes()
@@ -142,11 +117,11 @@ public class CraftingManager {
 	
 	public static void addWorkbenchRecipes()
 	{
-		workbench.addRecipe(new OreStack("plankWood"), new OreStack("tool_file"), new ItemStack(FItems.gears_wood.item(), 1, 5), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(FItems.gears_wood.item(), 1, 5), new OreStack("tool_file"), new ItemStack(FItems.gears_wood.item(), 1, 4), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(FItems.gears_wood.item(), 1, 4), new OreStack("tool_file"), new ItemStack(FItems.gears_wood.item(), 1, 3), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(FItems.gears_wood.item(), 1, 3), new OreStack("tool_file"), new ItemStack(FItems.gears_wood.item(), 1, 2), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(FItems.gears_wood.item(), 1, 2), new OreStack("tool_file"), new ItemStack(FItems.gears_wood.item(), 1, 1), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 5), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 5), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 4), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 4), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 3), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 3), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 2), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 2), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 1), ForestdayConfig.worktableBurnTime);
 	}
 	
 	public static void addMachineRecipes()
@@ -201,12 +176,12 @@ public class CraftingManager {
 	
 	public static void addShapedRecipe(ItemStack stack, Object... obj)
 	{
-		GameRegistry.addRecipe((IRecipe) new ShapedOreRecipe(stack, obj));
+		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
 	}
 	
 	public static void addShapelessRecipe(ItemStack stack, Object... obj)
 	{
-		GameRegistry.addRecipe((IRecipe) new ShapelessOreRecipe(stack, obj));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
 	
 }

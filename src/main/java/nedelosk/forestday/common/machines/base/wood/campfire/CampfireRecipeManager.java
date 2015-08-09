@@ -6,17 +6,18 @@ import java.util.List;
 import nedelosk.forestday.api.crafting.ICampfireRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 public class CampfireRecipeManager implements ICampfireRecipe{
 
 	private static List<CampfireRecipe> recipes = new ArrayList();
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack input2, ItemStack output, int potTier, int burnTime)
 	{
 		add(new CampfireRecipe(input, input2, output, potTier, burnTime));
 	}
 	
+	@Override
 	public void addRecipe(ItemStack input, ItemStack output, int potTier, int burnTime)
 	{
 		add(new CampfireRecipe(input, output, potTier, burnTime));

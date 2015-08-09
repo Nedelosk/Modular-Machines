@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.modular.module.recipes;
 
+import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
@@ -8,20 +9,30 @@ public class RecipeItem {
 
 	public final FluidStack fluid;
 	public final ItemStack item;
+	public final OreStack ore;
 	
 	public RecipeItem(ItemStack item) {
 		this.item = item;
 		this.fluid = null;
+		this.ore = null;
 	}
 	
 	public RecipeItem(FluidStack fluid) {
 		this.fluid = fluid;
 		this.item = null;
+		this.ore = null;
 	}
 	
-	public RecipeItem(ItemStack item, FluidStack fluid) {
+	public RecipeItem(OreStack ore) {
+		this.fluid = null;
+		this.item = null;
+		this.ore = ore;
+	}
+	
+	public RecipeItem(ItemStack item, FluidStack fluid, OreStack ore) {
 		this.fluid = fluid;
 		this.item = item;
+		this.ore = ore;
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt)
@@ -35,6 +46,10 @@ public class RecipeItem {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			fluid.writeToNBT(nbtTag);
 			nbt.setTag("fluid", nbtTag);
+		}else if(ore != null){
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			ore.writeToNBT(nbtTag);
+			nbt.setTag("ore", nbtTag);
 		}
 	}
 	
@@ -42,6 +57,7 @@ public class RecipeItem {
 	{
 		ItemStack item = null;
 		FluidStack fluid = null;
+		OreStack ore = null;
 		if(nbt.hasKey("item"))
 		{
 			NBTTagCompound nbtTag = nbt.getCompoundTag("item");
@@ -52,12 +68,26 @@ public class RecipeItem {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("fluid");
 			fluid = FluidStack.loadFluidStackFromNBT(nbtTag);
 		}
-		return new RecipeItem(item, fluid);
+		else if(nbt.hasKey("ore"))
+		{
+			NBTTagCompound nbtTag = nbt.getCompoundTag("ore");
+			ore = OreStack.loadOreStackFromNBT(nbtTag);
+		}
+		return new RecipeItem(item, fluid, ore);
 	}
 	
 	public boolean isFluid()
 	{
 		return fluid != null;
+	}
+	public boolean isItem()
+	{
+		return item != null;
+	}
+	
+	public boolean isOre()
+	{
+		return ore != null;
 	}
 	
 }

@@ -1,9 +1,7 @@
 package nedelosk.forestday.common.machines.mutiblock.charcoalkiln;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

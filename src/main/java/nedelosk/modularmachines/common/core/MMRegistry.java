@@ -1,15 +1,19 @@
 package nedelosk.modularmachines.common.core;
 
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.registry.ClientRegistry;
-import nedelosk.modularmachines.client.techtree.gui.TechTree;
+import cpw.mods.fml.common.FMLCommonHandler;
 import nedelosk.modularmachines.common.config.ModularConfig;
+import nedelosk.modularmachines.common.core.manager.ModularRecipeManager;
+import nedelosk.modularmachines.common.core.manager.OreDictManager;
+import nedelosk.modularmachines.common.core.registry.BlockRegistry;
+import nedelosk.modularmachines.common.core.registry.ItemRegistry;
+import nedelosk.modularmachines.common.core.registry.ModularRegistry;
+import nedelosk.modularmachines.common.core.registry.TechTreeRegistry;
+import nedelosk.modularmachines.common.events.EventHandler;
+import nedelosk.modularmachines.common.events.EventHandlerNetwork;
+import nedelosk.modularmachines.common.events.KeyHandler;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.plugins.PluginManager;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.MinecraftForge;
 
 public class MMRegistry {
 
@@ -23,13 +27,17 @@ public class MMRegistry {
     	ModularConfig.preInit();
     	BlockRegistry.preInit();
     	ItemRegistry.preInit();
+    	TechTreeRegistry.preInit();
     	PacketHandler.preInit();
     	ModularRecipeManager.preInit();
-    	//ClientRegistry.registerKeyBinding(TechTree.techTree);
+    	MinecraftForge.EVENT_BUS.register(new EventHandler());
+		FMLCommonHandler.instance().bus().register(new KeyHandler());
+		FMLCommonHandler.instance().bus().register(new EventHandlerNetwork());
 	}
 	
 	public void init()
 	{
+		OreDictManager.init();
 		pluginManager.init();
 	}
 	

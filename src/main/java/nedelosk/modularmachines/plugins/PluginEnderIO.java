@@ -2,13 +2,11 @@ package nedelosk.modularmachines.plugins;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.modular.module.ModuleCasing;
 import nedelosk.modularmachines.common.modular.module.ModuleTank;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleBattery;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleCapacitor;
 import nedelosk.nedeloskcore.plugins.Plugin;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

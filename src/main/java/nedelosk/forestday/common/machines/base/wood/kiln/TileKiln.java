@@ -2,17 +2,9 @@ package nedelosk.forestday.common.machines.base.wood.kiln;
 
 import nedelosk.forestday.client.machines.base.gui.GuiKiln;
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.forestday.common.machines.base.tile.TileHeatBase;
-import nedelosk.forestday.common.network.GuiHandler;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseFluid;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

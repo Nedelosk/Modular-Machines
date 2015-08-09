@@ -1,7 +1,5 @@
 package nedelosk.forestday.common.machines.base.block;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -18,8 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -29,7 +25,6 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.client.gui.machine;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -9,12 +8,8 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.ModuleItem;
 import nedelosk.modularmachines.api.modular.module.ModuleStack;
-import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.items.ModularItem;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -25,7 +20,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.ForgeHooksClient;
 
 public class GuiButtonModularMachineBookmark extends GuiButton {
 

@@ -2,29 +2,16 @@ package nedelosk.forestday.common.machines.mutiblock.charcoalkiln;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Stack;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
-import nedelosk.forestday.common.machines.mutiblock.core.block.BlockMultiblockBase;
-import nedelosk.forestday.common.machines.mutiblock.core.tile.TileMultiblockBase;
 import nedelosk.forestday.common.registrys.FBlocks;
-import nedelosk.forestday.common.registrys.FItems;
-import nedelosk.nedeloskcore.common.blocks.BlockContainerForest;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.BlockMultiblockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class BlockCharcoalKiln extends BlockMultiblockBase {
@@ -61,7 +48,8 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 		return -1;
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random random_)
     {
     	if(world.getBlockMetadata(x, y, z) == 0)
@@ -70,43 +58,43 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
     		{
     	if(((TileCharcoalKiln)world.getTileEntity(x, y, z)).master.isWorking)
     	{
-            float f = (float)x + 0.5F;
-            float f1 = (float)y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;
-            float f2 = (float)z + 0.5F;
+            float f = x + 0.5F;
+            float f1 = y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;
+            float f2 = z + 0.5F;
             float f3 = 0.52F;
             float f4 = random_.nextFloat() * 0.6F - 0.3F;
 
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.5, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.5, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.5, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.5, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.5, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.5, f2 + f4, 0.0D, 0.0D, 0.0D);
             
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.3, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.3, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1 + 0.3, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
                 
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
     	}
     	}
     	}
     	else
     	{
-            float f = (float)x + 0.5F;
-            float f1 = (float)y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;
-            float f2 = (float)z + 0.5F;
+            float f = x + 0.5F;
+            float f1 = y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;
+            float f2 = z + 0.5F;
             float f3 = 0.52F;
             float f4 = random_.nextFloat() * 0.6F - 0.3F;
                 
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                world.spawnParticle("smoke", (double)(f + f3 - 0.5), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
     	}
     }
 	

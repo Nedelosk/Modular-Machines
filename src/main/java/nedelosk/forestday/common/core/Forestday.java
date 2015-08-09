@@ -6,12 +6,7 @@ import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.network.GuiHandler;
 import nedelosk.forestday.common.proxy.CommonProxy;
 import nedelosk.forestday.common.registrys.FRegistry;
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.events.ModularEvents;
-import nedelosk.modularmachines.common.modular.module.manager.ModuleEnergyManager;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -41,7 +36,7 @@ public class ForestDay
   	  	NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
   	  
     	
-        File configFileForestdayFolder = new File(NedeloskCore.instance.configFolder, "forest-day");
+        File configFileForestdayFolder = new File(NedeloskCore.configFolder, "forest-day");
         File configFileForestday = new File(configFileForestdayFolder, "Forest-Day.cfg");
         config_forestday = new Configuration(configFileForestday);
     	ForestdayConfig.loadConfig(configFileForestday);

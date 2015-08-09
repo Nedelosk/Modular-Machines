@@ -8,6 +8,10 @@ import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAs
 import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssemblerBuildMachine;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachine;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
+import nedelosk.modularmachines.common.network.packets.techtree.PacketEntryComplete;
+import nedelosk.modularmachines.common.network.packets.techtree.PacketEntryCompleteClient;
+import nedelosk.modularmachines.common.network.packets.techtree.PacketSyncData;
+import nedelosk.modularmachines.common.network.packets.techtree.PacketSyncDataClient;
 
 public class PacketHandler {
 	
@@ -23,6 +27,12 @@ public class PacketHandler {
     	INSTANCE.registerMessage(PacketModularMachine.class, PacketModularMachine.class, nextID(), Side.SERVER);
     	INSTANCE.registerMessage(PacketModularMachineNBT.class, PacketModularMachineNBT.class, nextID(), Side.SERVER);
     	INSTANCE.registerMessage(PacketModularMachineNBT.class, PacketModularMachineNBT.class, nextID(), Side.CLIENT);
+    	
+    	//TechTree
+    	INSTANCE.registerMessage(PacketEntryComplete.class, PacketEntryComplete.class, nextID(), Side.SERVER);
+    	INSTANCE.registerMessage(PacketEntryCompleteClient.class, PacketEntryCompleteClient.class, nextID(), Side.CLIENT);
+    	INSTANCE.registerMessage(PacketSyncData.class, PacketSyncData.class, nextID(), Side.CLIENT);
+    	INSTANCE.registerMessage(PacketSyncDataClient.class, PacketSyncDataClient.class, nextID(), Side.SERVER);
     }
 
     public static int nextID()

@@ -2,7 +2,6 @@ package nedelosk.modularmachines.common.network.packets.machine;
 
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.modularmachines.common.network.packets.saver.ModularTileEntitySave;

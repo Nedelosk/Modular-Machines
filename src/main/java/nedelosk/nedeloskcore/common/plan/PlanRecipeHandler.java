@@ -3,8 +3,6 @@ package nedelosk.nedeloskcore.common.plan;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
 import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import net.minecraft.item.ItemStack;
 import minetweaker.IUndoableAction;
@@ -12,8 +10,6 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.oredict.IOreDict;
-import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

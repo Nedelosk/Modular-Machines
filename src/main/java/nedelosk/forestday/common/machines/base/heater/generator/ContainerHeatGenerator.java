@@ -1,6 +1,5 @@
 package nedelosk.forestday.common.machines.base.heater.generator;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
