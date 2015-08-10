@@ -11,6 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public enum FBlocks {
 
 	Gravel,
+	Crop_Corn,
 	
 	Machine_Furnace_Base,
 	Machine_Furnace_Coke,

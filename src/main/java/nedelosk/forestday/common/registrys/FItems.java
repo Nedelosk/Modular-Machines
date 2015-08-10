@@ -10,6 +10,7 @@ public enum FItems {
 	//Materials
 	nature,
 	charcoal,
+	crop_corn,
 	
 	//Campfire
 	curb,

@@ -46,7 +46,7 @@ public class PacketSyncData implements IMessage, IMessageHandler<PacketSyncData,
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeBoolean(entrys != null || !entrys.isEmpty());
+		buf.writeBoolean(entrys != null && !entrys.isEmpty());
 		if(entrys != null && !entrys.isEmpty())
 		{
 			buf.writeInt(entrys.size());

@@ -6,8 +6,9 @@ import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.items.ModuleItems;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
-import nedelosk.modularmachines.common.items.materials.ItemDust;
+import nedelosk.modularmachines.common.items.materials.ItemDusts;
 import nedelosk.modularmachines.common.items.materials.ItemGears;
+import nedelosk.modularmachines.common.items.materials.ItemPlates;
 import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemNugget;
 import net.minecraft.item.ItemStack;
@@ -22,12 +23,13 @@ public class ItemRegistry {
 		
 		//Blocks
 		
-		MMItems.Dusts.registerItem(new ItemDust(ItemDust.dusts, ""));
-		MMItems.Dusts_Others.registerItem(new ItemDust(ItemDust.dustsOtherOres, ".other"));
+		MMItems.Dusts.registerItem(new ItemDusts(ItemDusts.dusts, ""));
+		MMItems.Dusts_Others.registerItem(new ItemDusts(ItemDusts.dustsOtherOres, ".other"));
 		MMItems.Alloy_Ingots.registerItem(new ItemAlloyIngot());
 		MMItems.Ingots_Others.registerItem(new ItemIngot(ingotsOther, "modularmachines"));
 		MMItems.Alloy_Nuggets.registerItem(new ItemAlloyNugget());
 		MMItems.Nuggets_Others.registerItem(new ItemNugget(ingotsOther, "modularmachines"));
+		MMItems.Plattes.registerItem(new ItemPlates(ItemPlates.plats, ""));
 		MMItems.Gears.registerItem(new ItemGears());
 		
 		MMItems.Module_Items.registerItem(new ModuleItems());

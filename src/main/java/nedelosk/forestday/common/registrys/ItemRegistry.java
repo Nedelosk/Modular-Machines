@@ -12,6 +12,8 @@ import nedelosk.forestday.common.items.tools.ItemKnife;
 import nedelosk.forestday.common.items.tools.ItemToolForestday.Material;
 import nedelosk.forestday.common.items.tools.ItemToolParts;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.ItemCharcoalKiln;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemSeedFood;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemRegistry {
@@ -20,7 +22,12 @@ public class ItemRegistry {
 	
 	public static void preInit()
 	{
-		
+		FItems.crop_corn.registerItem(new ItemSeedFood(2, 0.4F, FBlocks.Crop_Corn.block(), Blocks.farmland){
+			@Override
+			public void registerIcons(net.minecraft.client.renderer.texture.IIconRegister IIconRegister) {
+				itemIcon = IIconRegister.registerIcon("forestday:corn");
+			};
+		}.setUnlocalizedName("corn"));
 		FItems.nature.registerItem(new ItemNature());
 		FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
 		

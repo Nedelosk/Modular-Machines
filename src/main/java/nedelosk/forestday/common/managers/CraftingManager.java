@@ -41,7 +41,6 @@ public class CraftingManager {
 	
 	public static void removeRecipes()
 	{
-		CraftingHelper.removeAnyRecipe(new ItemStack(Items.bowl, 4));
 		CraftingHelper.removeFurnaceRecipe(Items.brick);
 	}
 	
@@ -102,6 +101,10 @@ public class CraftingManager {
 		
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, Items.water_bucket);
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, ObjectRegistry.woodBucketWater);
+		
+		GameRegistry.addSmelting(new ItemStack(FItems.crop_corn.item()), new ItemStack(FItems.nature.item(), 1, 9), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(FItems.nature.item(), 1, 10), new ItemStack(FItems.nature.item(), 1, 11), 0.5F);
+		addShapedRecipe(new ItemStack(FItems.nature.item(), 1, 10), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 9));
 	}
 	
 	public static void addWoodRecipes()

@@ -628,7 +628,6 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			GL11.glTranslated((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
 			Tessellator t = Tessellator.instance;
 			GL11.glPushMatrix();
-			
 			GL11.glDisable(GL11.GL_LIGHTING);
 			
 			RenderUtils.bindBlockTexture();

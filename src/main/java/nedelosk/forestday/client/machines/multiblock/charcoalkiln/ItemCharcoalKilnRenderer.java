@@ -2,6 +2,7 @@ package nedelosk.forestday.client.machines.multiblock.charcoalkiln;
 
 import nedelosk.forestday.client.proxy.ClientProxy;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -25,7 +26,9 @@ public class ItemCharcoalKilnRenderer implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		RenderHelper.disableStandardItemLighting();
 		kiln.renderItem(item);
+		RenderHelper.enableStandardItemLighting();
 	}
 
 }

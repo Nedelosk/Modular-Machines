@@ -303,14 +303,14 @@ public void updateScreen()
                 
                 int var30 = Math.sin(Minecraft.getSystemTime() % 600L / 600.0D * 3.141592653589793D * 2.0D) > 0.6D ? 255 : 130;
                 if (var28) {
-                  drawLine(var24, var25, var26, var27, 0.1F, 0.1F, 0.1F, par3, false);
-                } else if (canUnlockResearch(var33)) {
+                  drawLine(var24, var25, var26, var27, 0.1F, 0.1F, 0.1F, par3);
+                } //else if (canUnlockResearch(var33)) {
                   if (var29) {
-                    drawLine(var24, var25, var26, var27, 0.0F, 1.0F, 0.0F, par3, true);
+                    drawLine(var24, var25, var26, var27, 0.0F, 1.0F, 0.0F, par3);
                   } else if (canUnlockResearch(parent)) {
-                    drawLine(var24, var25, var26, var27, 0.0F, 0.0F, 1.0F, par3, true);
+                    drawLine(var24, var25, var26, var27, 0.0F, 0.0F, 1.0F, par3);
                   }
-                }
+                //}
             }
           }
         }
@@ -329,12 +329,12 @@ public void updateScreen()
                 boolean var28 = ((ArrayList)completedEntrys.get(this.playerName)).contains(var33.key);
                 boolean var29 = ((ArrayList)completedEntrys.get(this.playerName)).contains(sibling.key);
                 if (var28) {
-                  drawLine(var24, var25, var26, var27, 0.1F, 0.1F, 0.2F, par3, false);
+                  drawLine(var24, var25, var26, var27, 0.1F, 0.1F, 0.2F, par3);
                 } else if (canUnlockResearch(var33)) {
                   if (var29) {
-                    drawLine(var24, var25, var26, var27, 0.0F, 1.0F, 0.0F, par3, true);
+                    drawLine(var24, var25, var26, var27, 0.0F, 1.0F, 0.0F, par3);
                   } else if (canUnlockResearch(sibling)) {
-                    drawLine(var24, var25, var26, var27, 0.0F, 0.0F, 1.0F, par3, true);
+                    drawLine(var24, var25, var26, var27, 0.0F, 0.0F, 1.0F, par3);
                   }
                 }
               }
@@ -678,7 +678,7 @@ public boolean doesGuiPauseGame()
     return false;
   }
   
-  private void drawLine(int x, int y, int x2, int y2, float r, float g, float b, float te, boolean wiggle)
+  private void drawLine(int x, int y, int x2, int y2, float r, float g, float b, float te)
   {
     float count = FMLClientHandler.instance().getClient().thePlayer.ticksExisted + te;
     
@@ -718,16 +718,6 @@ public boolean doesGuiPauseGame()
       float mx = 0.0F;
       float my = 0.0F;
       float op = 0.6F;
-      if (wiggle)
-      {
-        float phase = a / inc;
-        mx = MathHelper.sin((count + a) / 7.0F) * 5.0F * (1.0F - phase);
-        my = MathHelper.sin((count + a) / 5.0F) * 5.0F * (1.0F - phase);
-        r2 *= (1.0F - phase);
-        g2 *= (1.0F - phase);
-        b2 *= (1.0F - phase);
-        op *= phase;
-      }
       var12.setColorRGBA_F(01.F, 1F, 1F, 0.6F);
       
       var12.addVertex(x - dx * a + mx, y - dy * a + my, 0.0D);

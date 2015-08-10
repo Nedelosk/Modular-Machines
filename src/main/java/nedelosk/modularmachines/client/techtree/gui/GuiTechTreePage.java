@@ -134,7 +134,7 @@ public void drawScreen(int par1, int par2, float par3)
   }
   
   String tex1 = "modularmachines:textures/gui/gui_techtreetablet.png";
-  String tex2 = "thaumcraft:textures/gui/gui_researchbook_overlay.png";
+  String tex2 = "modularmachines:textures/gui/gui_techtree_overlay.png";
   
   protected void genPageBackground(int par1, int par2, float par3)
   {

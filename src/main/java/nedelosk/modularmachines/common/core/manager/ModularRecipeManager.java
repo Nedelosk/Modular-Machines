@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.common.core.manager;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestday.common.managers.CraftingManager;
+import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
@@ -79,6 +81,7 @@ public class ModularRecipeManager {
 	
 	public static void registerMetalRecipes()
 	{
+		CraftingManager.addShapedRecipe(new ItemStack(MMItems.Plattes.item(), 1, 8), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 11));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 0));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 1));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Alloy_Nuggets.item(),9 , 0), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0));

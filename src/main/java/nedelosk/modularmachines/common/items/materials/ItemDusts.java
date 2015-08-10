@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemDust extends ModularItem {
+public class ItemDusts extends ModularItem {
 
 	public static String[] dusts = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond", "Copper", "Tin", "Silver", "Lead", "Nickel", "Bronze", "Invar", "Ruby" };
 	public static String[] dustsOtherOres = new String[] { "Columbite", "Niobium", "Tantalum" };
@@ -21,7 +21,7 @@ public class ItemDust extends ModularItem {
     public IIcon[] itemIcon;
 	public String uln;
 	
-	public ItemDust(String[] names, String uln) {
+	public ItemDusts(String[] names, String uln) {
 		super("dust" + uln);
 		this.uln = uln;
 		this.name = names;

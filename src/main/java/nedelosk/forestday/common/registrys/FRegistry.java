@@ -40,6 +40,7 @@ public class FRegistry {
     	BlockRegistry.preInit();
     	ItemRegistry.preInit();
     	
+    	
     	manangerPlugin.preInit();
     }
     

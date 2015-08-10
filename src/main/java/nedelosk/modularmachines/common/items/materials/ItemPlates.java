@@ -1,11 +1,10 @@
-package nedelosk.forestday.common.items.materials;
+package nedelosk.modularmachines.common.items.materials;
 
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.items.base.ItemForestday;
+import nedelosk.modularmachines.common.items.ModularItem;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,34 +12,37 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemNature extends ItemForestday {
+public class ItemPlates extends ModularItem {
 
-	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash", "mortar", "starch", "starch", "hardened_starch" };
+	public static String[] plats = new String[] { "Iron", "Gold", "Copper", "Tin", "Silver", "Lead", "Bronze", "Invar", "Plastic", "Niobium", "Tantalum" };
+	public String[] name;
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;
+	public String uln;
 	
-	public ItemNature() {
-		super(null, Tabs.tabForestdayItems);
+	public ItemPlates(String[] names, String uln) {
+		super("plate" + uln);
+		this.uln = uln;
+		this.name = names;
 		setHasSubtypes(true);
-		setUnlocalizedName("nature");
 	}
 	
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons (IIconRegister iconRegister)
     {
-        this.itemIcon = new IIcon[material.length];
+        this.itemIcon = new IIcon[name.length];
 
         for (int i = 0; i < this.itemIcon.length; ++i)
         {
-            this.itemIcon[i] = iconRegister.registerIcon("forestday:" + material[i]);
+            this.itemIcon[i] = iconRegister.registerIcon("modularmachines:plates/plate" + name[i]);
         }
     }
     
     @Override
     public void getSubItems (Item id, CreativeTabs tab, List list)
     {
-        for (int i = 0; i < material.length; i++)
+        for (int i = 0; i < name.length; i++)
             list.add(new ItemStack(id, 1, i));
     }
     
@@ -54,7 +56,7 @@ public class ItemNature extends ItemForestday {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
+        return NRegistry.setUnlocalizedItemName("plate" + uln + "." + itemstack.getItemDamage(), "mm");
     }
 
 }

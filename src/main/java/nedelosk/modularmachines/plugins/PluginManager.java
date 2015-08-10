@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.plugins;
 
 import nedelosk.modularmachines.plugins.mt.PluginMineTweaker3;
-import nedelosk.modularmachines.plugins.thaumcraft.PluginThaumcraft;
 import nedelosk.modularmachines.plugins.waila.PluginWaila;
 
 public class PluginManager extends nedelosk.nedeloskcore.plugins.PluginManager {
@@ -12,7 +11,6 @@ public class PluginManager extends nedelosk.nedeloskcore.plugins.PluginManager {
 		registerPlugin(new PluginMineTweaker3());
 		registerPlugin(new PluginThermalExpansion());
 		registerPlugin(new PluginWaila());
-		registerPlugin(new PluginThaumcraft());
 	}
 	
 }

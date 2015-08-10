@@ -1,6 +1,7 @@
 package nedelosk.forestday.common.registrys;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestday.common.blocks.BlockCropCorn;
 import nedelosk.forestday.common.blocks.BlockGravel;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.forestday.common.machines.base.block.BlockMachines;
@@ -15,6 +16,7 @@ import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.BlockCharcoalKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
+import net.minecraft.item.ItemBlock;
 
 public class BlockRegistry {
 	
@@ -22,7 +24,7 @@ public class BlockRegistry {
 	{
 		
 		//Blocks
-		
+		FBlocks.Crop_Corn.registerBlock(new BlockCropCorn(), ItemBlock.class);
 		FBlocks.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
 		
 		FBlocks.Machine_Furnace_Base.registerBlock(new BlockMachines("furnace", TileFurnace.class/*, TileFurnace.class, TileFurnace.class, TileFurnace.class, TileFurnace.class*/), ItemBlockMachines.class);
