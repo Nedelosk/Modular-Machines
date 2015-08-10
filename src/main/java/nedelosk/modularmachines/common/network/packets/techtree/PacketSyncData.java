@@ -2,7 +2,6 @@ package nedelosk.modularmachines.common.network.packets.techtree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -35,6 +34,7 @@ public class PacketSyncData implements IMessage, IMessageHandler<PacketSyncData,
 		int size = buf.readInt();
 		for(int i = 0;i < size;i++)
 			this.entrys.add(ByteBufUtils.readUTF8String(buf));
+		
 		}
 		if(buf.readBoolean())
 		{

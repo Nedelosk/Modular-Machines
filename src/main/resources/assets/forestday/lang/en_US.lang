@@ -74,6 +74,7 @@ forest.fd.item.axe.flint.name=Flint Axe
 forest.fd.tool.file.stone.name=Stone File
 forest.fd.tool.file.iron.name=Iron File
 forest.fd.tool.file.diamond.name=Diamond File
+forest.fd.tool.hammer.name=Iron Hammer
 forest.fd.tool.knife.name=Knife
 forest.fd.tool.cutter.name=Cutter
 forest.fd.tool.adze.name=Adze

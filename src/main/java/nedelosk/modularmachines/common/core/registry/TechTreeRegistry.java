@@ -15,9 +15,21 @@ public class TechTreeRegistry {
 	public static void preInit()
 	{
 		TechTreeCategories.registerCategory("BASIC", new ResourceLocation("modularmachines", "textures/items/modules/moduleEnergyManager_0.png"), new ResourceLocation("modularmachines", "textures/gui/gui_techtreeback.png"));
+		TechTreeCategories.registerCategory("ENERGY", new ResourceLocation("modularmachines", "textures/items/modules/moduleEnergyManager_0.png"), new ResourceLocation("modularmachines", "textures/gui/gui_techtreeback.png"));
+		registerBasicStuff();
+		registerEnergyStuff();
+	}
+	
+	public static void registerBasicStuff()
+	{
 		new TechTreeEntry("MODULE.BASE", "BASIC", 1, TechPointTypes.VERY_EASY, 0, 0, new ItemStack(MMItems.Module_Items.item())).setPages(new TechTreePage("mm.techtree_page.BASIC.MODULE.0"), new TechTreePage("mm.techtree_page.MODULE.BASE"), new TechTreePage("mm.techtree_page.BASIC.MODULE.2"), new TechTreePage("mm.techtree_page.BASIC.MODULE.3"), new TechTreePage("mm.techtree_page.BASIC.MODULE.4"), new TechTreePage(new ShapedOreRecipe(Blocks.furnace, "+++", "+ +", "+++", '+', Blocks.cobblestone) )).setAutoUnlock().registerTechTreeEntry();
 		new TechTreeEntry("MODULE.IMPROVED", "BASIC", 1, TechPointTypes.VERY_EASY, 0, 1, new ItemStack(MMItems.Module_Items.item(), 1, 1)).setParents("MODULE.BASE").registerTechTreeEntry();
 		new TechTreeEntry("MODULE.ADVANCED", "BASIC", 1, TechPointTypes.VERY_EASY, 0, 2, new ItemStack(MMItems.Module_Items.item(), 1, 2)).setParents("MODULE.IMPROVED").registerTechTreeEntry();
+	}
+	
+	public static void registerEnergyStuff()
+	{
+		new TechTreeEntry("CAPACITOR.BASE", "ENERGY", 15, TechPointTypes.EASY, 0, 0, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).registerTechTreeEntry();
 	}
 	
 }

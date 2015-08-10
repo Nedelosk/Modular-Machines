@@ -5,6 +5,7 @@ import nedelosk.forestday.common.managers.CraftingManager;
 import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
+import nedelosk.modularmachines.api.modular.crafting.ShapedModularCraftingRecipe;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
 import nedelosk.modularmachines.api.modular.module.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.core.MMItems;
@@ -29,6 +30,13 @@ public class ModularRecipeManager {
 		registerAlloySmelterRecipes();
 		registerCentrifugeRecipes();
 		registerMetalRecipes();
+		registerModuleRecipes();
+	}
+	
+	public static void registerModuleRecipes()
+	{
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.BASE"}, new ItemStack(MMItems.Module_Items.item(), 1, 3), 0, " --- ", "-+++-", "-+++-", "-+++-", " --- ", '+', new ItemStack(MMItems.Plattes.item(), 1, 8), '-', "nuggetIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.BASE"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0), 0, " --- ", "-PRP-", "-PRP-", " --- ", " i i ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plattes.item(), 1, 11), '-', new ItemStack(MMItems.Plattes.item(), 1, 8), 'i', "nuggetIron"));
 	}
 	
 	public static void registerSawMillRecipes()
@@ -58,6 +66,9 @@ public class ModularRecipeManager {
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreLead"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 2, 8))}, 15, 250));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreNickel"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 2, 9))}, 15, 250));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreRuby"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 2, 12))}, 15, 250));
+		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreColumbite"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts_Others.item(), 2, 0))}, 15, 250));
+		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreAluminum"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts_Others.item(), 2, 3))}, 15, 250));
+		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreRedstone"),  new RecipeItem[]{new RecipeItem(new ItemStack(Items.redstone, 8))}, 15, 250));
 		
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new ItemStack(Items.coal),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 0))}, 7, 125));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotIron"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 2))}, 7, 125));
@@ -70,8 +81,9 @@ public class ModularRecipeManager {
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotNickel"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 9))}, 7, 125));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotBronze"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 10))}, 7, 125));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotInvar"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 11))}, 7, 125));
+		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotNiobium"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts_Others.item(), 1, 1))}, 7, 125));
+		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("ingotTantalum"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts_Others.item(), 1, 2))}, 7, 125));
 		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("gemRuby"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts.item(), 1, 12))}, 7, 125));
-		RecipeRegistry.registerRecipe(new RecipePulverizer(new OreStack("oreColumbite"),  new RecipeItem[]{new RecipeItem(new ItemStack(MMItems.Dusts_Others.item(), 2, 0))}, 7, 125));
 	}
 	
 	public static void registerAlloySmelterRecipes(){
@@ -81,15 +93,17 @@ public class ModularRecipeManager {
 	
 	public static void registerMetalRecipes()
 	{
-		CraftingManager.addShapedRecipe(new ItemStack(MMItems.Plattes.item(), 1, 8), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 11));
+		CraftingManager.addShapedRecipe(new ItemStack(MMItems.Plattes.item(), 4, 8), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 11));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 0));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 1));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Alloy_Nuggets.item(),9 , 0), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Alloy_Nuggets.item(),9 , 1), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Ingots_Others.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(MMItems.Nuggets_Others.item(),1 , 0));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Ingots_Others.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(MMItems.Nuggets_Others.item(),1 , 1));
+		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Ingots_Others.item(), 1, 2), "+++", "+++", "+++", '+', new ItemStack(MMItems.Nuggets_Others.item(),1 , 2));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Nuggets_Others.item(),9 , 0), new ItemStack(MMItems.Ingots_Others.item(), 1, 0));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Nuggets_Others.item(),9 , 1), new ItemStack(MMItems.Ingots_Others.item(), 1, 1));
+		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Nuggets_Others.item(),9 , 2), new ItemStack(MMItems.Ingots_Others.item(), 1, 2));
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 2), new ItemStack(Items.iron_ingot), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 3), new ItemStack(Items.gold_ingot), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 5), new ItemStack(ObjectRegistry.ingots, 1, 0), 0.5F);
@@ -101,28 +115,12 @@ public class ModularRecipeManager {
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 11), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 1), new ItemStack(MMItems.Ingots_Others.item(), 1, 0), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 2), new ItemStack(MMItems.Ingots_Others.item(), 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 3), new ItemStack(MMItems.Ingots_Others.item(), 1, 2), 0.5F);
 		
 	}
 	
 	public static ItemStack findMatchingModularRecipe(IInventory inventory, EntityPlayer player)
 	{
-	     int var2 = 0;
-	     ItemStack var3 = null;
-	     ItemStack var4 = null;
-	     for (int var5 = 0; var5 < 9; var5++)
-	     {
-	       ItemStack stack = inventory.getStackInSlot(var5);
-	       if (stack != null)
-	       {
-	         if (var2 == 0) {
-	           var3 = stack;
-	         }
-	         if (var2 == 1) {
-	           var4 = stack;
-	         }
-	         var2++;
-	       }
-	     }
 	     IModularCraftingRecipe recipe = null;
 	     for (Object var11 : ModularMachinesApi.getModularRecipes()) {
 	       if (((var11 instanceof IModularCraftingRecipe)) && (((IModularCraftingRecipe)var11).matches(inventory, player.worldObj, player)))

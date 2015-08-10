@@ -25,7 +25,8 @@ public class ModularConfig {
 		
 		Configuration config = ModularMachines.config;
 		
-		energyManagerCapacitorTiers = config.get("Capacitor Tiers", "Capacitor", new int[]{ 1, 2, 5, 8}).getIntList();
+		generateAluminiumOre = config.get("OreGen", "Aluminium", true).getBoolean();
+		generateColumbiteOre = config.get("OreGen", "Columbite", true).getBoolean();
 		
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
@@ -60,6 +61,7 @@ public class ModularConfig {
 		ModularMachines.config.save();
 	}
 	
-	public static int[] energyManagerCapacitorTiers;
 	public static HashMap<String, Boolean> activeLanguages = new HashMap<>();
+	public static boolean generateColumbiteOre;
+	public static boolean generateAluminiumOre;
 }

@@ -20,6 +20,7 @@ public class GuiModularWorkbench
     super(workbench, inventory);
     this.workbench = workbench;
     this.ip = inventory;
+    ySize = 191;
   }
 
   @Override

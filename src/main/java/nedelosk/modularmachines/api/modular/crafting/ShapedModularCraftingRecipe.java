@@ -15,8 +15,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ShapedModularCraftingRecipe implements IModularCraftingRecipe
 {
-    private static final int MAX_CRAFT_GRID_WIDTH = 3;
-    private static final int MAX_CRAFT_GRID_HEIGHT = 3;
+    private static final int MAX_CRAFT_GRID_WIDTH = 5;
+    private static final int MAX_CRAFT_GRID_HEIGHT = 5;
 
     public ItemStack output = null;
     public  Object[] input = null;
@@ -139,7 +139,7 @@ public class ShapedModularCraftingRecipe implements IModularCraftingRecipe
     @Override
     public boolean matches(IInventory inv, World world, EntityPlayer player)
     {
-    	if (entrys.length>0 && !TechTreeManager.isEntryComplete(player, entrys)) {
+    	if (entrys != null && entrys.length>0 && !TechTreeManager.isEntryComplete(player, entrys)) {
     		return false;
     	}
     	if(!(getTier() >= ((IModularWorkbench)inv).getTier()))

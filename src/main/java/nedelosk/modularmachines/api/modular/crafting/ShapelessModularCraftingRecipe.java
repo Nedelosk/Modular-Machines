@@ -72,7 +72,7 @@ public class ShapelessModularCraftingRecipe implements IModularCraftingRecipe
     @Override
     public boolean matches(IInventory inv, World world, EntityPlayer player)
     {
-    	if (entrys.length>0 && !TechTreeManager.isEntryComplete(player, entrys)) {
+    	if (entrys != null && entrys.length>0 && !TechTreeManager.isEntryComplete(player, entrys)) {
     		return false;
     	}
     	
@@ -81,7 +81,7 @@ public class ShapelessModularCraftingRecipe implements IModularCraftingRecipe
     	
         ArrayList required = new ArrayList(input);
         
-        for (int x = 0; x < 9; x++)
+        for (int x = 0; x < 25; x++)
         {
             ItemStack slot = inv.getStackInSlot(x);
 

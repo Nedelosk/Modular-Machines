@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.manager.ModularRecipeManager;
 import nedelosk.modularmachines.common.core.manager.OreDictManager;
@@ -21,17 +22,18 @@ public class MMRegistry {
 	
 	public void preInit()
 	{
-    	ModularRegistry.preInit();
     	pluginManager.registerPlugins();
 		pluginManager.preInit();
     	ModularConfig.preInit();
     	BlockRegistry.preInit();
     	ItemRegistry.preInit();
+    	ModularRegistry.preInit();
     	TechTreeRegistry.preInit();
     	PacketHandler.preInit();
     	ModularRecipeManager.preInit();
     	MinecraftForge.EVENT_BUS.register(new EventHandler());
-		FMLCommonHandler.instance().bus().register(new KeyHandler());
+    	if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+    		FMLCommonHandler.instance().bus().register(new KeyHandler());
 		FMLCommonHandler.instance().bus().register(new EventHandlerNetwork());
 	}
 	

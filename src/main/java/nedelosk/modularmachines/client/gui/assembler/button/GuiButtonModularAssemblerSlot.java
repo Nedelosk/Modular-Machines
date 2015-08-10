@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public class GuiButtonModularAssemblerSlot extends GuiButton {
 
@@ -46,7 +47,7 @@ public class GuiButtonModularAssemblerSlot extends GuiButton {
 					{
 						if(entry.activatedModuleNames[i])
 						{
-							list.add(entry.moduleNames[i] + ((entry.moduleNames.length - 1 > i) ? "," : ""));
+							list.add(StatCollector.translateToLocal(entry.moduleNames[i] + ".name") + ((entry.moduleNames.length - 1 > i) ? "," : ""));
 						}
 					}
 					/*list.add(entry.moduleNames[0]);

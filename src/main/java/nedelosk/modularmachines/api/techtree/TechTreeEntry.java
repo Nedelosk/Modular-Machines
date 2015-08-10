@@ -49,7 +49,7 @@ public class TechTreeEntry
     {
     	this.key = key;
     	this.category = category;
-        this.techPoints = 1;  	
+        this.techPoints = techPoints;  	
         this.techPointType = techPointType;
         this.icon_resource = icon;
         this.icon_item = null;
@@ -61,7 +61,7 @@ public class TechTreeEntry
     {
     	this.key = key;
     	this.category = category;
-        this.techPoints = 1;  	
+        this.techPoints = techPoints;  	
         this.techPointType = techPointType;
         this.icon_resource = null;
         this.icon_item = icon;

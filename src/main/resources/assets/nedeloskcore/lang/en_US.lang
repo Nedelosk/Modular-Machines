@@ -28,15 +28,12 @@ forest.nc.item.ingot.nedeloskcore.1.name=Tin Ingot
 forest.nc.item.ingot.nedeloskcore.2.name=Silver Ingot
 forest.nc.item.ingot.nedeloskcore.3.name=Lead Ingot
 forest.nc.item.ingot.nedeloskcore.4.name=Nickel Ingot
-forest.nc.item.ingot.nedeloskcore.5.name=Bronze Ingot
-forest.nc.item.ingot.nedeloskcore.6.name=Invar Ingot
 forest.nc.item.nugget.nedeloskcore.0.name=Cooper Nugget
 forest.nc.item.nugget.nedeloskcore.1.name=Tin Nugget
 forest.nc.item.nugget.nedeloskcore.2.name=Silver Nugget
 forest.nc.item.nugget.nedeloskcore.3.name=Lead Nugget
 forest.nc.item.nugget.nedeloskcore.4.name=Nickel Nugget
-forest.nc.item.nugget.nedeloskcore.5.name=Bronze Nugget
-forest.nc.item.nugget.nedeloskcore.6.name=Invar Nugget
+forest.nc.item.nugget.nedeloskcore.5.name=Iron Nugget
 forest.nc.item.gem.0.name=Ruby
 
 ####################################

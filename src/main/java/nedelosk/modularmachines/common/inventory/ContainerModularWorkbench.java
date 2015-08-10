@@ -10,7 +10,6 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 
 public class ContainerModularWorkbench
   extends ContainerBase
@@ -30,14 +29,14 @@ public class ContainerModularWorkbench
   @Override
 public void onCraftMatrixChanged(IInventory par1IInventory)
   {
-    InventoryCrafting ic = new InventoryCrafting(new ContainerDummy(), 3, 3);
-    for (int a = 0; a < 9; a++) {
+    InventoryCrafting ic = new InventoryCrafting(new ContainerDummy(), 5, 5);
+    for (int a = 0; a < 25; a++) {
       ic.setInventorySlotContents(a, this.workbench.getStackInSlot(a));
     }
-    this.workbench.setInventorySlotContentsSoftly(9, CraftingManager.getInstance().findMatchingRecipe(ic, this.workbench.getWorldObj()));
-    if ((this.workbench.getStackInSlot(9) == null))
+    this.workbench.setInventorySlotContentsSoftly(25, null);
+    if ((this.workbench.getStackInSlot(25) == null))
     {
-       this.workbench.setInventorySlotContentsSoftly(9, ModularRecipeManager.findMatchingModularRecipe(this.workbench, this.ip.player));
+       this.workbench.setInventorySlotContentsSoftly(25, ModularRecipeManager.findMatchingModularRecipe(this.workbench, this.ip.player));
     }
   }
   
@@ -78,15 +77,28 @@ public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot)
 
   @Override
   protected void addSlots(InventoryPlayer inventory) {
-      this.addSlotToContainer(new SlotCrafting(inventory.player, inventoryBase, inventoryBase, 9, 124, 35));
+      this.addSlotToContainer(new SlotCrafting(inventory.player, inventoryBase, inventoryBase, 25, 140, 44));
 
-      for (int l = 0; l < 3; ++l)
+      for (int l = 0; l < 5; ++l)
       {
-          for (int i1 = 0; i1 < 3; ++i1)
+          for (int i1 = 0; i1 < 5; ++i1)
           {
-              this.addSlotToContainer(new Slot(inventoryBase, i1 + l * 3, 30 + i1 * 18, 17 + l * 18));
+              this.addSlotToContainer(new Slot(inventoryBase, i1 + l * 5, 8 + i1 * 18, 8 + l * 18));
           }
       }
 	
   }
+  
+  @Override
+	protected void addInventory(InventoryPlayer inventory) {
+        for (int i1 = 0; i1 < 3; i1++) {
+            for (int l1 = 0; l1 < 9; l1++) {
+                addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, 109 + i1 * 18));
+            }
+        }
+
+        for (int j1 = 0; j1 < 9; j1++) {
+            addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 167));
+        }
+	}
 }

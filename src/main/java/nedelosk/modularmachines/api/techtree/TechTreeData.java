@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.api.techtree;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +19,13 @@ public class TechTreeData implements IExtendedEntityProperties {
 	
 	public TechTreeData(EntityPlayer player) {
 		this.player = player;
+		for(Map.Entry<String, TechTreeCategoryList> entryList : TechTreeCategories.entryCategories.entrySet())
+		{
+			for(TechTreeEntry entry : entryList.getValue().entrys.values())
+				if(entry.isAutoUnlock())
+					if(!techEntrys.contains(entry.key))
+						techEntrys.add(entry.key);
+		}
 	}
 	
 	public TechTreeData(EntityPlayer player, String techEntrys) {

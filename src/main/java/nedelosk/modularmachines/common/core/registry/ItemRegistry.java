@@ -1,8 +1,7 @@
 package nedelosk.modularmachines.common.core.registry;
 
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.IModuleSpecial;
 import nedelosk.modularmachines.common.core.MMItems;
+import nedelosk.modularmachines.common.items.ItemCapacitor;
 import nedelosk.modularmachines.common.items.ModuleItems;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
@@ -11,12 +10,10 @@ import nedelosk.modularmachines.common.items.materials.ItemGears;
 import nedelosk.modularmachines.common.items.materials.ItemPlates;
 import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemNugget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemRegistry {
 	
-	public static String[] ingotsOther = new String[]{ "Niobium", "Tantalum" };
+	public static String[] ingotsOther = new String[]{ "Niobium", "Tantalum", "Aluminum" };
 	
 	public static void preInit()
 	{
@@ -32,24 +29,8 @@ public class ItemRegistry {
 		MMItems.Plattes.registerItem(new ItemPlates(ItemPlates.plats, ""));
 		MMItems.Gears.registerItem(new ItemGears());
 		
+		MMItems.Module_Item_Capacitor.registerItem(new ItemCapacitor("", new String[]{ "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));
 		MMItems.Module_Items.registerItem(new ModuleItems());
-    	for(String s : ModuleItems.names)
-    	{
-    		for(int i = 0;i < 3;i++)
-    		{
-        		ItemStack stack = new ItemStack(MMItems.Module_Items.item());
-        		stack.setTagCompound(new NBTTagCompound());
-        		if(ModuleItems.modules.get(s) instanceof IModuleSpecial)
-        		{
-        			NBTTagCompound nbt = new NBTTagCompound();
-        			((IModuleSpecial)ModuleItems.modules.get(s)).writeToItemNBT(nbt, i);
-        			ModuleItems.modules.get(s).readFromNBT(nbt);
-        		}
-        		stack.getTagCompound().setString("Name", s);
-        		stack.getTagCompound().setInteger("Tier", i);
-    			ModularMachinesApi.addModuleItem(stack, ModuleItems.modules.get(s), i + 1, true);
-    		}
-    	}
 		
 	}
 	

@@ -20,8 +20,6 @@ public abstract class ContainerBase extends Container implements IContainerBase{
 	
 	protected void addInventory(InventoryPlayer inventory)
 	{
-		if(inventory.player.worldObj.isRemote)
-			inventory.getClass();
         for (int i1 = 0; i1 < 3; i1++) {
             for (int l1 = 0; l1 < 9; l1++) {
                 addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, 84 + i1 * 18));

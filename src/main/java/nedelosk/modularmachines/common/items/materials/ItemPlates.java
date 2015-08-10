@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemPlates extends ModularItem {
 
-	public static String[] plats = new String[] { "Iron", "Gold", "Copper", "Tin", "Silver", "Lead", "Bronze", "Invar", "Plastic", "Niobium", "Tantalum" };
+	public static String[] plats = new String[] { "Iron", "Gold", "Copper", "Tin", "Silver", "Lead", "Bronze", "Invar", "Plastic", "Niobium", "Tantalum", "Aluminium" };
 	public String[] name;
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;

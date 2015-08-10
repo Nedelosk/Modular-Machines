@@ -29,6 +29,7 @@ public class EventHandler {
 				event.gui = new GuiModuleRegisterError();
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event)
 	{
@@ -44,7 +45,7 @@ public class EventHandler {
 				if(event.toolTip.size() != 1)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
 				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModularMachinesApi.getModuleItem(event.itemStack).getTier());
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + ModularMachinesApi.getModuleItem(event.itemStack).getModuleName());
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModularMachinesApi.getModuleItem(event.itemStack).getModuleName() + ".name"));
 				if(event.toolTip.size() != 3)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
 				

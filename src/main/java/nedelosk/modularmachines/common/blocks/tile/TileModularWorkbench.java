@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileModularWorkbench extends TileBaseInventory implements IModularWorkbench {
 
 	public TileModularWorkbench() {
-		super(10);
+		super(26);
 	}
 	
 	public int tier;
@@ -55,9 +55,9 @@ public class TileModularWorkbench extends TileBaseInventory implements IModularW
 
 	@Override
 	public ItemStack getStackInRowAndColumn(int par1, int par2) {
-		if ((par1 >= 0) && (par1 < 3))
+		if ((par1 >= 0) && (par1 < 5))
 		{
-		       int var3 = par1 + par2 * 3;
+		       int var3 = par1 + par2 * 5;
 		       return getStackInSlot(var3);
 		}
 		return null;

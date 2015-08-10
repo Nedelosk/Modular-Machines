@@ -24,6 +24,7 @@ public enum FItems {
 	knife_stone,
 	bow_and_stick,
 	cutter,
+	hammer,
 	adze,
 	adze_long,
 	axe_flint,

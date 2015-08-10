@@ -16,7 +16,7 @@ import net.minecraft.item.ItemBlock;
 
 public class BlockRegistry {
 	
-	public static String[] oreOtherOres = new String[] { "Columbite" };
+	public static String[] oreOtherOres = new String[] { "Columbite", "Aluminum" };
 	
 	public static void preInit()
 	{

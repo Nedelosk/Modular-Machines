@@ -1,9 +1,14 @@
 package nedelosk.modularmachines.plugins.nei;
 
+import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.IModule;
 import nedelosk.modularmachines.api.modular.module.IModuleProducerRecipe;
+import nedelosk.modularmachines.common.core.MMBlocks;
+import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -21,6 +26,13 @@ public class NEIConfig implements IConfigureNEI {
 				}
 			}
 		isAdded = true;
+		
+	      GuiCraftingRecipe.craftinghandlers.add(new ShapedModularCraftingHandler());
+	      GuiUsageRecipe.usagehandlers.add(new ShapedModularCraftingHandler());
+	      GuiCraftingRecipe.craftinghandlers.add(new ShapelessModularCraftingHandler());
+	      GuiUsageRecipe.usagehandlers.add(new ShapelessModularCraftingHandler());
+	      
+	      API.hideItem(new ItemStack(MMBlocks.Modular_Machine.item(), 1, 0));
 	}
 
 	@Override

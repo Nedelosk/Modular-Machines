@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,13 +26,10 @@ public class ModuleItems extends ModularItem {
 	public ModuleItems() {
 		super("module");
 		setHasSubtypes(true);
-		registerModules("Manager");
-		registerModules("Producer");
-		registerModules("Engine");
 		setCreativeTab(TabModularMachinesModules.instance);
 	}
 	
-	public void registerModules(String moduleName)
+	public static void registerModules(String moduleName)
 	{
 		if(moduleName.equals("Manager"))
 		{
@@ -70,7 +68,7 @@ public class ModuleItems extends ModularItem {
 	
 	public static ArrayList<String> names = new ArrayList<String>();
 	public static HashMap<String, IModule> modules = new HashMap<String, IModule>();
-	public IIcon[] itemIcons = new IIcon[3];
+	public IIcon[] itemIcons = new IIcon[4];
 	
 	
 	public HashMap<String, IIcon[]> icons = new HashMap<String, IIcon[]>();
@@ -82,6 +80,7 @@ public class ModuleItems extends ModularItem {
     	itemIcons[0] = iconRegister.registerIcon("modularmachines:modules/moduleBase");
     	itemIcons[1] = iconRegister.registerIcon("modularmachines:modules/moduleImproved");
     	itemIcons[2] = iconRegister.registerIcon("modularmachines:modules/moduleAdvanced");
+    	itemIcons[3] = iconRegister.registerIcon("modularmachines:modules/moduleHolder");
     	for(String s : names)
     	{
 			IIcon[] icons = new IIcon[3];
@@ -100,6 +99,7 @@ public class ModuleItems extends ModularItem {
     	list.add(new ItemStack(id));
     	list.add(new ItemStack(id, 1, 1));
     	list.add(new ItemStack(id, 1, 2));
+    	list.add(new ItemStack(id, 1, 3));
     	for(String s : names)
     	{
     		for(int i = 0;i < 3;i++)
@@ -129,6 +129,8 @@ public class ModuleItems extends ModularItem {
     			return itemIcons[1];
     		else if(stack.getItemDamage() == 2)
     			return itemIcons[2];
+    		else if(stack.getItemDamage() == 3)
+    			return itemIcons[3];
     	NBTTagCompound nbt = stack.getTagCompound();
     	return icons.get(nbt.getString("Name"))[nbt.getInteger("Tier")];
     }
@@ -142,16 +144,25 @@ public class ModuleItems extends ModularItem {
     			return itemIcons[1];
     		else if(stack.getItemDamage() == 2)
     			return itemIcons[2];
+    		else if(stack.getItemDamage() == 3)
+    			return itemIcons[3];
     	NBTTagCompound nbt = stack.getTagCompound();
     	return icons.get(nbt.getString("Name"))[nbt.getInteger("Tier")];
+    }
+    
+    @Override
+    public String getItemStackDisplayName(ItemStack itemstack) {
+    	if(!itemstack.hasTagCompound())
+    		return super.getItemStackDisplayName(itemstack);
+    	return super.getItemStackDisplayName(itemstack) + " " + StatCollector.translateToLocal("module." + itemstack.getTagCompound().getString("Name"));
     }
     
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
     	if(!itemstack.hasTagCompound())
-    		return NRegistry.setUnlocalizedItemName("module", "mm");
-        return NRegistry.setUnlocalizedItemName("module." + itemstack.getTagCompound().getString("Name") + "." + itemstack.getTagCompound().getInteger("Tier"), "mm");
+    		return NRegistry.setUnlocalizedItemName("module." + itemstack.getItemDamage(), "mm");
+        return NRegistry.setUnlocalizedItemName("module." + itemstack.getItemDamage() , "mm");
     }
 
 }

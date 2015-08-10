@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemNugget extends ItemForestday {
 
-	public static String[] nuggets = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel" };
+	public static String[] nuggets = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Iron" };
 	public String[] nugget;
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;

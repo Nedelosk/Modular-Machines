@@ -88,6 +88,7 @@ public class ObjectRegistry {
 		OreDictionary.registerOre("nuggetSilver", new ItemStack(nuggets, 1, 2));
 		OreDictionary.registerOre("nuggetLead", new ItemStack(nuggets, 1, 3));
 		OreDictionary.registerOre("nuggetNickel", new ItemStack(nuggets, 1, 4));
+		OreDictionary.registerOre("nuggetIron", new ItemStack(nuggets, 1, 5));
 		OreDictionary.registerOre("oreCopper", new ItemStack(ore, 1, 0));
 		OreDictionary.registerOre("oreTin", new ItemStack(ore, 1, 1));
 		OreDictionary.registerOre("oreSilver", new ItemStack(ore, 1, 2));
