@@ -48,6 +48,17 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustNiobium", new ItemStack(MMItems.Dusts_Others.item(), 1, 1));
 		OreDictionary.registerOre("dustTantalum", new ItemStack(MMItems.Dusts_Others.item(), 1, 2));
 		OreDictionary.registerOre("dustAluminium", new ItemStack(MMItems.Dusts_Others.item(), 1, 3));
+		OreDictionary.registerOre("plateIron", new ItemStack(MMItems.Plates.item(), 1, 0));
+		OreDictionary.registerOre("plateGold", new ItemStack(MMItems.Plates.item(), 1, 1));
+		OreDictionary.registerOre("plateCopper", new ItemStack(MMItems.Plates.item(), 1, 2));
+		OreDictionary.registerOre("plateTin", new ItemStack(MMItems.Plates.item(), 1, 3));
+		OreDictionary.registerOre("plateSilver", new ItemStack(MMItems.Plates.item(), 1, 4));
+		OreDictionary.registerOre("plateLead", new ItemStack(MMItems.Plates.item(), 1, 5));
+		OreDictionary.registerOre("plateBronze", new ItemStack(MMItems.Plates.item(), 1, 6));
+		OreDictionary.registerOre("plateInvar", new ItemStack(MMItems.Plates.item(), 1, 7));
+		OreDictionary.registerOre("plateNiobium", new ItemStack(MMItems.Plates.item(), 1, 9));
+		OreDictionary.registerOre("plateTantalum", new ItemStack(MMItems.Plates.item(), 1, 10));
+		OreDictionary.registerOre("plateAluminium", new ItemStack(MMItems.Plates.item(), 1, 11));
 	}
 	
 }

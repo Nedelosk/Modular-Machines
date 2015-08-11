@@ -17,22 +17,11 @@ public class ForestdayConfig {
 		kilnBurnTime = config.get("Kiln", "BurnTime", 700).getInt();
 		kilnMinHeat = config.get("Kiln", "MinHeat", 125).getInt();
 		
-		//Saw
-		sawBurnTime = config.get("Saw", "Burn Time", 90).getInt();
-		
 		//Heat Generator
 		generatorHeatBurnTime = config.get("Heat Generator", "Burn Time", 250).getInt();
 		
-		//Fluid Heater
-		fluidheaterMinHeat = config.get("Fluid Heater", "MinHeat", 175).getInt();
-		
 		//Worktable
 		worktableBurnTime = config.get("Worktable", "Burn Time", 70).getInt();
-		
-		//Worldgen
-		generateCopper = config.get("worldgen", "Cooper", true).getBoolean(true);
-		generateTin = config.get("worldgen", "Tin", true).getBoolean(true);
-		generateLimestone = config.get("worldgen", "Limestone", true).getBoolean(true);
 		
 		campfireFuelStorageMax = config.get("Campfire", "Fuel Storage Max", new int[]{ 2500, 5000, 7500 , 10000, 15000}).getIntList();
 		
@@ -54,17 +43,9 @@ public class ForestdayConfig {
 	public static int kilnMinHeat;
 	public static int kilnBurnTime;
 	
-	public static int fluidheaterMinHeat;
-	
 	public static int generatorHeatBurnTime;
 	
-	public static int sawBurnTime;
-	
 	public static int worktableBurnTime;
-	
-	public static boolean generateCopper;
-	public static boolean generateTin;
-	public static boolean generateLimestone;
 
 	public static int[] campfireFuelStorageMax;
 	

@@ -69,18 +69,23 @@ public class PacketSyncData implements IMessage, IMessageHandler<PacketSyncData,
 	@SideOnly(Side.CLIENT)
 	public IMessage onMessage(PacketSyncData message, MessageContext ctx) {
 		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
+		{
+			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys = new ArrayList<>();
+		}
 		String key;
-		for (Iterator i$ = message.entrys.iterator(); i$.hasNext(); TechTreeManager.completeEntry(Minecraft.getMinecraft().thePlayer, key)) {
+		for (Iterator i$ = message.entrys.iterator(); i$.hasNext(); TechTreeManager.completeEntry(player, key)) {
 			key = (String)i$.next();
 		}
-		GuiTechTree.completedEntrys.put(Minecraft.getMinecraft().thePlayer.getCommandSenderName(), message.entrys);
+		GuiTechTree.completedEntrys.put(player.getCommandSenderName(), message.entrys);
 		
 		for(TechPointTypes type : TechPointTypes.values())
 		{
-			if(message.points[type.ordinal()] > TechTreeManager.getTechPoints(Minecraft.getMinecraft().thePlayer)[type.ordinal()])
-				ClientProxy.techPointGui.addPoints(type, message.points[type.ordinal()] - TechTreeManager.getTechPoints(Minecraft.getMinecraft().thePlayer)[type.ordinal()]);
+			if(message.points[type.ordinal()] > TechTreeManager.getTechPoints(player)[type.ordinal()])
+				ClientProxy.techPointGui.addPoints(type, message.points[type.ordinal()] - TechTreeManager.getTechPoints(player)[type.ordinal()]);
 		}
-		TechTreeManager.setTechPoints(Minecraft.getMinecraft().thePlayer, message.points);
+		TechTreeManager.setTechPoints(player, message.points);
 		//ClientProxy.techPointGui.addPoints(type, points);
 		return null;
 	}

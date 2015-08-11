@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.manager.ModularRecipeManager;
@@ -13,6 +14,7 @@ import nedelosk.modularmachines.common.events.EventHandler;
 import nedelosk.modularmachines.common.events.EventHandlerNetwork;
 import nedelosk.modularmachines.common.events.KeyHandler;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
+import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import nedelosk.modularmachines.plugins.PluginManager;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -35,6 +37,7 @@ public class MMRegistry {
     	if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
     		FMLCommonHandler.instance().bus().register(new KeyHandler());
 		FMLCommonHandler.instance().bus().register(new EventHandlerNetwork());
+		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
 	}
 	
 	public void init()

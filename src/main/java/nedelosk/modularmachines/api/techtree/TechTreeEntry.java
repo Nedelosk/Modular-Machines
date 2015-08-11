@@ -1,8 +1,13 @@
 package nedelosk.modularmachines.api.techtree;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.client.techtree.pages.PageData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 public class TechTreeEntry 
 {
@@ -93,12 +98,35 @@ public class TechTreeEntry
 
     public String getName()
     {
-    	return StatCollector.translateToLocal("mm.techtree_entry_name."+key);
+    	return "mm.techtree_entry_name."+key;
     }
     
     public String getText()
     {
-    	return StatCollector.translateToLocal("mm.techtree_entry_text."+key);
+    	return "mm.techtree_entry_text."+key;
+    }
+    
+    public String getTextTranslated()
+    {
+		if(!Minecraft.getMinecraft().gameSettings.language.equals(ModularMachinesApi.currentLanguage))
+		{
+			ModularMachinesApi.currentLanguage = Minecraft.getMinecraft().gameSettings.language;
+			for(Map.Entry<String, TechTreeCategoryList> entry : TechTreeCategories.entryCategories.entrySet())
+				PageData.readDocument(entry.getKey(), Minecraft.getMinecraft().gameSettings.language);
+		}
+    	HashMap<String, String> map = PageData.pages;
+    	return PageData.pages.get(getText());
+    }
+    
+    public String getNameTranslated()
+    {
+		if(!Minecraft.getMinecraft().gameSettings.language.equals(ModularMachinesApi.currentLanguage))
+		{
+			ModularMachinesApi.currentLanguage = Minecraft.getMinecraft().gameSettings.language;
+			for(Map.Entry<String, TechTreeCategoryList> entry : TechTreeCategories.entryCategories.entrySet())
+				PageData.readDocument(entry.getKey(), Minecraft.getMinecraft().gameSettings.language);
+		}
+    	return PageData.pages.get(getName());
     }
     
     public boolean isAutoUnlock() {

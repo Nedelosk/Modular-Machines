@@ -16,6 +16,7 @@ public class OreManager {
 		//Tools
 		OreDictionary.registerOre("tool_file", FItems.file_stone.item());
 		OreDictionary.registerOre("tool_file", FItems.file_iron.item());
+		OreDictionary.registerOre("toolHammer", FItems.hammer.item());
 		OreDictionary.registerOre("tool_file", FItems.file_diamond.item());
 	}
 	

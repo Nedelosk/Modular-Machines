@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.techtree.TechTreeManager;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBuildMachine;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlot;
@@ -100,6 +101,11 @@ public class GuiModularAssembler extends GuiBase {
 			GuiButtonModularAssemblerSlot slot = (GuiButtonModularAssemblerSlot) button;
 			if(slot.entry.isActivate)
 			{
+				for(String s : slot.entry.moduleNames)
+				{
+					if(!TechTreeManager.isEntryComplete(inventory.player, s.toUpperCase()))
+						return;
+				}
 				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())) != null)
 					((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).entry = slot.entry;
 				else

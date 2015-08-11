@@ -57,6 +57,62 @@ public class PageData {
 				{
 				Node nodeEntry = nodeListEntry.item(0);
 				Element eEntry = (Element) nodeEntry;
+				if(eEntry.getElementsByTagName("Name") != null)
+				{
+					NodeList nodeListName = eEntry.getElementsByTagName("Name");
+					Node nodeName = nodeListName.item(0);
+					Element eName = (Element) nodeName;
+					if(eName != null)
+					{
+					if((eName.getTextContent().isEmpty() || eName.getTextContent().equals(entry.getName())))
+					{
+						createPageDataName(entry, eName, doc, language);
+						hasChance = true;
+					}
+					else
+					{
+					pages.put(entry.getName(), eName.getTextContent());
+					}
+					}
+					else
+					{
+						createPageDataNameNEW(entry, eEntry, doc, language);
+						hasChance = true;
+					}
+				}
+				else
+				{
+					createPageDataNameNEW(entry, eEntry, doc, language);
+					hasChance = true;
+				}
+				if(eEntry.getElementsByTagName("Text") != null)
+				{
+					NodeList nodeListText = eEntry.getElementsByTagName("Text");
+					Node nodeText = nodeListText.item(0);
+					Element eText = (Element) nodeText;
+					if(eText != null)
+					{
+					if((eText.getTextContent().isEmpty() || eText.getTextContent().equals(entry.getText())))
+					{
+						createPageDataText(entry, eText, doc, language);
+						hasChance = true;
+					}
+					else
+					{
+					pages.put(entry.getText(), eText.getTextContent());
+					}
+					}
+					else
+					{
+						createPageDataTextNEW(entry, eEntry, doc, language);
+						hasChance = true;
+					}
+				}
+				else
+				{
+					createPageDataTextNEW(entry, eEntry, doc, language);
+					hasChance = true;
+				}
 				if(entry.getPages() != null)
 				{
 				for(int p = 0;p < entry.getPages().length;p++)
@@ -179,12 +235,74 @@ public class PageData {
 		else
 			text = pageText;
 		pages.put(pageText, text);
-		pageElement.setTextContent(pageText);
+		pageElement.setTextContent(text);
+	}
+	
+	private static void createPageDataTextNEW(TechTreeEntry entry,  Element element, Document doc, String language)
+	{
+		Element textElement = doc.createElement("Text");
+		String text = null;
+		String l = LanguageRegistry.instance().getStringLocalization(entry.getText(), language);
+		if(!LanguageRegistry.instance().getStringLocalization(entry.getText(), language).isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getText(), language);
+		else if(!LanguageRegistry.instance().getStringLocalization(entry.getText(), "en_US").isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getText(), "en_US");
+		else
+			text = entry.getText();
+		pages.put(entry.getText(), text);
+		textElement.setTextContent(text);
+		element.appendChild(textElement);
+	}
+	
+	private static void createPageDataText(TechTreeEntry entry,  Element element, Document doc, String language)
+	{
+		String text = null;
+		String l = LanguageRegistry.instance().getStringLocalization(entry.getText(), language);
+		if(!LanguageRegistry.instance().getStringLocalization(entry.getText(), language).isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getText(), language);
+		else if(!LanguageRegistry.instance().getStringLocalization(entry.getText(), "en_US").isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getText(), "en_US");
+		else
+			text = entry.getText();
+		pages.put(entry.getText(), text);
+		element.setTextContent(text);
+	}
+	
+	private static void createPageDataNameNEW(TechTreeEntry entry,  Element element, Document doc, String language)
+	{
+		Element textElement = doc.createElement("Name");
+		String text = null;
+		String l = LanguageRegistry.instance().getStringLocalization(entry.getName(), language);
+		if(!LanguageRegistry.instance().getStringLocalization(entry.getName(), language).isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getName(), language);
+		else if(!LanguageRegistry.instance().getStringLocalization(entry.getName(), "en_US").isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getName(), "en_US");
+		else
+			text = entry.getName();
+		pages.put(entry.getName(), text);
+		textElement.setTextContent(text);
+		element.appendChild(textElement);
+	}
+	
+	private static void createPageDataName(TechTreeEntry entry,  Element element, Document doc, String language)
+	{
+		String text = null;
+		String l = LanguageRegistry.instance().getStringLocalization(entry.getName(), language);
+		if(!LanguageRegistry.instance().getStringLocalization(entry.getName(), language).isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getName(), language);
+		else if(!LanguageRegistry.instance().getStringLocalization(entry.getName(), "en_US").isEmpty())
+			text = LanguageRegistry.instance().getStringLocalization(entry.getName(), "en_US");
+		else
+			text = entry.getName();
+		pages.put(entry.getName(), text);
+		element.setTextContent(text);
 	}
 	
 	private static void createPageDataEntry(TechTreeEntry entry,  Element element, Document doc, String language)
 	{
 		Element entryElement = doc.createElement(entry.key);
+		createPageDataNameNEW(entry, entryElement, doc, language);
+		createPageDataTextNEW(entry, entryElement, doc, language);
 		if(entry.getPages() != null)
 		{
 			for(int p = 0;p < entry.getPages().length;p++)

@@ -216,10 +216,10 @@ public void drawScreen(int par1, int par2, float par3)
     {
       drawTexturedModalRect(x + 4, y - 13, 24, 184, 96, 4);
       drawTexturedModalRect(x + 4, y + 4, 24, 184, 96, 4);
-      int offset = this.fontRendererObj.getStringWidth(this.entry.getName());
+      int offset = this.fontRendererObj.getStringWidth(this.entry.getNameTranslated());
       if (offset <= 130)
       {
-        this.fontRendererObj.drawString(this.entry.getName(), x + 52 - offset / 2, y - 6, 3158064);
+        this.fontRendererObj.drawString(this.entry.getNameTranslated(), x + 52 - offset / 2, y - 6, 3158064);
       }
       else
       {
@@ -227,7 +227,7 @@ public void drawScreen(int par1, int par2, float par3)
         GL11.glPushMatrix();
         GL11.glTranslatef(x + 52 - offset / 2 * vv, y - 6.0F * vv, 0.0F);
         GL11.glScalef(vv, vv, vv);
-        this.fontRendererObj.drawString(this.entry.getName(), 0, 0, 3158064);
+        this.fontRendererObj.drawString(this.entry.getNameTranslated(), 0, 0, 3158064);
         GL11.glPopMatrix();
       }
       y += 25;

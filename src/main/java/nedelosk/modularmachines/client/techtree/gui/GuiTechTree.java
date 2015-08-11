@@ -522,7 +522,7 @@ public void updateScreen()
     if ((completedEntrys.get(this.playerName) != null) && 
       (this.currentHighlight != null))
     {
-      String var34 = this.currentHighlight.getName();
+      String var34 = this.currentHighlight.getNameTranslated();
       int var26 = mx + 6;
       int var27 = my - 4;
       int var99 = 0;
@@ -531,7 +531,7 @@ public void updateScreen()
       //{
         boolean primary = (!((ArrayList)completedEntrys.get(this.playerName)).contains(this.currentHighlight.key));
         String requiredText = StatCollector.translateToLocal("mm.techtree.required") + " " + Integer.toString(currentHighlight.getTechPoints()) + " " + StatCollector.translateToLocal("mm.techtree.point.text") + " " + StatCollector.translateToLocal("mm.techtree.point." + currentHighlight.getTechPointType().name());
-        int var42 = (int)Math.max(fr.getStringWidth(var34), fr.getStringWidth(this.currentHighlight.getText()) / 1.9F);
+        int var42 = (int)Math.max(fr.getStringWidth(var34), fr.getStringWidth(this.currentHighlight.getTextTranslated()) / 1.9F);
         if(!completedEntrys.get(playerName).contains(currentHighlight.key))
         	var42 = Math.max(var42, fr.getStringWidth(requiredText));
         int var41 = fr.splitStringWidth(var34, var42) + 5;
@@ -631,7 +631,6 @@ protected void mouseClicked(int par1, int par2, int par3)
           {
             selectedCategory = (String)obj;
             updateEntrys();
-            playButtonClick();
             break;
           }
           count++;
@@ -651,11 +650,6 @@ protected void mouseClicked(int par1, int par2, int par3)
     tessellator.addVertexWithUV(par1 + par5, par2 + 0, this.zLevel, (par3 - par5) * f, (par4 + 0) * f1);
     tessellator.addVertexWithUV(par1 + 0, par2 + 0, this.zLevel, (par3 + 0) * f, (par4 + 0) * f1);
     tessellator.draw();
-  }
-  
-  private void playButtonClick()
-  {
-    this.mc.renderViewEntity.worldObj.playSound(this.mc.renderViewEntity.posX, this.mc.renderViewEntity.posY, this.mc.renderViewEntity.posZ, "thaumcraft:cameraclack", 0.4F, 1.0F, false);
   }
   
   private boolean canUnlockResearch(TechTreeEntry res)

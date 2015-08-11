@@ -35,16 +35,16 @@ public class BlockMachinesWood extends BlockMachines {
 	
     @Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random_)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
     {
-    	if(world.getTileEntity(x, y, z) instanceof TileCampfire && ((TileCampfire)world.getTileEntity(x, y, z)).isWorking)
+    	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire && ((TileCampfire)world.getTileEntity(x, y, z)).isWorking)
     	{
             int l = world.getBlockMetadata(x, y, z);
             float f = x + 0.5F;
-            float f1 = y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;
+            float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
             float f2 = z + 0.5F;
             float f3 = 0.52F;
-            float f4 = random_.nextFloat() * 0.6F - 0.3F;
+            float f4 = random.nextFloat() * 0.6F - 0.3F;
 
                 world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
                 world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
@@ -55,6 +55,8 @@ public class BlockMachinesWood extends BlockMachines {
                 world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
                 world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
                 world.spawnParticle("flame", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                
+                world.playSound(x + 0.5F, y + 0.5F, z + 0.5F, "fire.fire", 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
     	}
     }
 	

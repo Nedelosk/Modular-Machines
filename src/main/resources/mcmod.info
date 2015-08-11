@@ -32,22 +32,6 @@
   ]
 },
 {
-  "modid": "ForestBotany",
-  "name": "Forest Botany",
-  "description": "",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Nedelosk"],
-  "credits": "",
-  "logoFile": "/assets/modularmachines/logo.png",
-  "screenshots": [],
-  "dependencies": [
-     "mod_MinecraftForge"
-  ]
-},
-{
   "modid": "NedeloskCore",
   "name": "Nedelosk Core",
   "description": "",

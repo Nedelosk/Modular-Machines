@@ -26,7 +26,7 @@ public class ItemRegistry {
 		MMItems.Ingots_Others.registerItem(new ItemIngot(ingotsOther, "modularmachines"));
 		MMItems.Alloy_Nuggets.registerItem(new ItemAlloyNugget());
 		MMItems.Nuggets_Others.registerItem(new ItemNugget(ingotsOther, "modularmachines"));
-		MMItems.Plattes.registerItem(new ItemPlates(ItemPlates.plats, ""));
+		MMItems.Plates.registerItem(new ItemPlates(ItemPlates.plats, ""));
 		MMItems.Gears.registerItem(new ItemGears());
 		
 		MMItems.Module_Item_Capacitor.registerItem(new ItemCapacitor("", new String[]{ "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));

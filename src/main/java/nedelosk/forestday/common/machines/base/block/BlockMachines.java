@@ -8,6 +8,8 @@ import nedelosk.forestday.client.proxy.ClientProxy;
 import nedelosk.forestday.common.core.ForestDay;
 import nedelosk.nedeloskcore.common.blocks.BlockContainerForest;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
+import nedelosk.nedeloskcore.utils.ItemUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -41,6 +43,15 @@ public class BlockMachines extends BlockContainerForest {
 		this.blockName = blockName;
 		setBlockName(blockName);
 		this.tiles = tiles;
+	}
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
+		if(!world.isRemote)
+		{
+			ItemUtils.dropItems(world, x, y, z);
+		}
+		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}
 
 	@Override

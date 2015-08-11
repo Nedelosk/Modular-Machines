@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.nedeloskcore.utils.ItemUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,7 +61,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 	}
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileModularAssembler)
 		{
 			TileModularAssembler tile = (TileModularAssembler) world.getTileEntity(x, y, z);
@@ -70,7 +70,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 				ItemUtils.dropItem(world, x, y, z, entry.getValue());
 			}
 		}
-		return super.getDrops(world, x, y, z, metadata, fortune);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 }

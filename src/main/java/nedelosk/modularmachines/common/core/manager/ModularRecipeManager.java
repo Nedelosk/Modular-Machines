@@ -20,6 +20,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class ModularRecipeManager {
 
@@ -35,8 +37,10 @@ public class ModularRecipeManager {
 	
 	public static void registerModuleRecipes()
 	{
-		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.BASE"}, new ItemStack(MMItems.Module_Items.item(), 1, 3), 0, " --- ", "-+++-", "-+++-", "-+++-", " --- ", '+', new ItemStack(MMItems.Plattes.item(), 1, 8), '-', "nuggetIron"));
-		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.BASE"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0), 0, " --- ", "-PRP-", "-PRP-", " --- ", " i i ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plattes.item(), 1, 11), '-', new ItemStack(MMItems.Plattes.item(), 1, 8), 'i', "nuggetIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.BASE"}, new ItemStack(MMItems.Module_Items.item(), 1, 3), 0, " --- ", "-+++-", "-+++-", "-+++-", " --- ", '+', new ItemStack(MMItems.Plates.item(), 1, 8), '-', "nuggetIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.BASE"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0), 0, " --- ", "-PRP-", "-PRP-", " --- ", " i i ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 11), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'i', "nuggetIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.IMPROVED"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 1), 0, " --- ", "-PRP-", "-PRP-", " --- ", " C C ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 9), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'C', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.IMPROVED"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 2), 0, " --- ", "-PRP-", "-PRP-", " --- ", " C C ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 10), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'C', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)));
 	}
 	
 	public static void registerSawMillRecipes()
@@ -93,7 +97,7 @@ public class ModularRecipeManager {
 	
 	public static void registerMetalRecipes()
 	{
-		CraftingManager.addShapedRecipe(new ItemStack(MMItems.Plattes.item(), 4, 8), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 11));
+		CraftingManager.addShapedRecipe(new ItemStack(MMItems.Plates.item(), 4, 8), "+++", "+++", "+++", '+', new ItemStack(FItems.nature.item(), 1, 11));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 0));
 		GameRegistry.addShapedRecipe(new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Nuggets.item(),1 , 1));
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Alloy_Nuggets.item(),9 , 0), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0));
@@ -117,6 +121,17 @@ public class ModularRecipeManager {
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 2), new ItemStack(MMItems.Ingots_Others.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 3), new ItemStack(MMItems.Ingots_Others.item(), 1, 2), 0.5F);
 		
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 0), "toolHammer", "ingotIron", "ingotIron");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 1), "toolHammer", "ingotGold", "ingotGold");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 2), "toolHammer", "ingotCopper", "ingotCopper");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 3), "toolHammer", "ingotTin", "ingotTin");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 4), "toolHammer", "ingotSilver", "ingotSilver");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 5), "toolHammer", "ingotLead", "ingotLead");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 6), "toolHammer", "ingotBronze", "ingotBronze");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 7), "toolHammer", "ingotInvar", "ingotInvar");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 9), "toolHammer", "ingotNiobium", "ingotNiobium");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 10), "toolHammer", "ingotTantalum", "ingotTantalum");
+		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 11), "toolHammer", "ingotAluminium", "ingotAluminium");
 	}
 	
 	public static ItemStack findMatchingModularRecipe(IInventory inventory, EntityPlayer player)
@@ -130,6 +145,17 @@ public class ModularRecipeManager {
 	       }
 	     }
 	     return recipe == null ? null : recipe.getCraftingResult(inventory);
-	   }
+	}
+	
+	
+	public static void addShapedRecipe(ItemStack stack, Object... obj)
+	{
+		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
+	}
+	
+	public static void addShapelessRecipe(ItemStack stack, Object... obj)
+	{
+		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
+	}
 	
 }
