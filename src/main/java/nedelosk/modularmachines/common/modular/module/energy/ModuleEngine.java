@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.modular.module.energy;
 
-import nedelosk.modularmachines.api.modular.module.IModuleEngine;
-import nedelosk.modularmachines.api.modular.module.IModuleSpecial;
-import nedelosk.modularmachines.api.modular.module.Module;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleEngine;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleSpecial;
+import nedelosk.modularmachines.api.basic.modular.module.Module;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleEngine extends Module implements IModuleEngine, IModuleSpecial {

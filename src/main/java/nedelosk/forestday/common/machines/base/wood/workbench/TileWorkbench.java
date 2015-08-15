@@ -157,16 +157,15 @@ public class TileWorkbench extends TileMachineBase {
 			WorkbenchRecipe recipe = WorkbenchRecipeManager.getRecipe(stackSlotInput, stackSlotTool, stackSlotPattern);
 			if(recipe != null)
 			{
-				stackSlotTool.setItemDamage(stackSlotTool.getItemDamage() + ((stackSlotTool.getItem() instanceof ITool) ? ((ITool)stackSlotTool.getItem()).getDamage() : 2));
+                if (stackSlotTool.attemptDamageItem(stackSlotTool.getItemDamage() + ((stackSlotTool.getItem() instanceof ITool) ? ((ITool)stackSlotTool.getItem()).getDamage() : 2), worldObj.rand))
+                {
+                    decrStackSize(2, 1);
+                }
 				decrStackSize(0, (recipe.getInput() != null) ? recipe.getInput().stackSize : recipe.getsInput().stackSize);
 				output = recipe.getOutput();
 				burnTime = 0;
 				burnTimeTotal = (recipe.getBurnTime() == -1) ? ForestdayConfig.worktableBurnTime : recipe.getBurnTime();
 				isWorking = true;
-				if(stackSlotTool.getItemDamage() >= stackSlotTool.getMaxDamage())
-				{
-					decrStackSize(0, 1);
-				}
 			}
 		}
 		}

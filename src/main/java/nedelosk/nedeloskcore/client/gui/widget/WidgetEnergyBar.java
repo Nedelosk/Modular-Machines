@@ -1,8 +1,6 @@
 package nedelosk.nedeloskcore.client.gui.widget;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -50,13 +48,5 @@ public class WidgetEnergyBar extends Widget {
         this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 69 - energy, 12, 0 + 69 - energy, 12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
-	}
-
-	public void drawTooltip(int x, int y) {
-
-		List<String> description = new ArrayList<String>();
-
-		description.add(storage.getEnergyStored() + " RF / " + storage.getMaxEnergyStored() + " RF");
-		RenderUtils.renderTooltip(x, y, description);
 	}
 }

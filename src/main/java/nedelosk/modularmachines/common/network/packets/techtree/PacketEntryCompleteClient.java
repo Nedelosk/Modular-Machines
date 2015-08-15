@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.network.packets.techtree;
 
 import io.netty.buffer.ByteBuf;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
 import net.minecraft.client.Minecraft;

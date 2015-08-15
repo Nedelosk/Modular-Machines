@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.energy;
 
-import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.energy.IModuleBattery;
+import nedelosk.modularmachines.api.basic.modular.module.Module;
+import nedelosk.modularmachines.api.basic.modular.module.energy.IModuleBattery;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleBattery extends Module implements IModuleBattery {

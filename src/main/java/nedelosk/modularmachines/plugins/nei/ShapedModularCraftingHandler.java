@@ -10,9 +10,9 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
-import nedelosk.modularmachines.api.modular.crafting.ShapedModularCraftingRecipe;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.modular.crafting.IModularCraftingRecipe;
+import nedelosk.modularmachines.api.basic.modular.crafting.ShapedModularCraftingRecipe;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -48,7 +48,7 @@ public class ShapedModularCraftingHandler extends TemplateRecipeHandler {
     	{
     		if(recipe.getEntrys() == null || TechTreeManager.isEntryComplete(Minecraft.getMinecraft().thePlayer, recipe.getEntrys()))
     		{
-    			if(recipe.getRecipeOutput().isItemEqual(result))
+    			if(recipe.getRecipeOutput().isItemEqual(result) && ItemStack.areItemStackTagsEqual(result, recipe.getRecipeOutput()))
     			{
     				if(checkDupe((ShapedModularCraftingRecipe) recipe))
     				{

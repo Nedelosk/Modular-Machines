@@ -2,6 +2,7 @@ package nedelosk.modularmachines.api;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,16 +13,18 @@ import org.apache.logging.log4j.Level;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
-import nedelosk.modularmachines.api.modular.module.IModule;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.modular.module.ModuleItem;
-import nedelosk.modularmachines.api.modular.module.farm.IFarm;
-import nedelosk.modularmachines.api.techtree.TechPointStack;
+import nedelosk.modularmachines.api.basic.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.crafting.IModularCraftingRecipe;
+import nedelosk.modularmachines.api.basic.modular.module.IModule;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleItem;
+import nedelosk.modularmachines.api.basic.modular.module.farm.IFarm;
+import nedelosk.modularmachines.api.basic.techtree.TechPointStack;
+import nedelosk.modularmachines.api.multiblocks.IAirHeatingPlantRecipe;
+import nedelosk.modularmachines.api.multiblocks.IBlastFurnaceRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import scala.actors.threadpool.Arrays;
+import net.minecraftforge.fluids.Fluid;
 
 public class ModularMachinesApi {
 	
@@ -33,9 +36,12 @@ public class ModularMachinesApi {
 	private static ArrayList<String> requiredModule = new ArrayList<String>();
 	public static String currentLanguage;
 	public final static LinkedHashMap<String, ArrayList<ModuleEntry>> moduleEntrys = new LinkedHashMap<String, ArrayList<ModuleEntry>>();
-	public final static HashMap<List, TechPointStack[]> techpoinedItems = new HashMap<>();
+	public final static HashMap<List, TechPointStack[]> techpoinedItems = new HashMap<List, TechPointStack[]>();
 	public final static HashMap<String, ArrayList<ItemStack>> bookmark = new HashMap<String, ArrayList<ItemStack>>();
-	private static ArrayList<IModularCraftingRecipe> recipes = new ArrayList<>();
+	private static ArrayList<IModularCraftingRecipe> recipes = new ArrayList<IModularCraftingRecipe>();
+	public static IBlastFurnaceRecipe blastFurnace;
+	public static IAirHeatingPlantRecipe airHeatingPlant;
+	public static final ArrayList<Fluid> airHeatingPlantGas = new ArrayList<Fluid>();
 	
 	public static void addModule(IModule module)
 	{
@@ -44,6 +50,11 @@ public class ModularMachinesApi {
 		modules.put(module.getName(), module);
 		if(!moduleClasses.containsKey(module.getName()))
 			addModuleClass(module.getClass(), module.getName());
+	}
+	
+	public static void addAirHeatingPlantGas(Fluid fluid)
+	{
+		airHeatingPlantGas.add(fluid);
 	}
 	
 	public static ArrayList<IModularCraftingRecipe> getModularRecipes() {
@@ -233,7 +244,7 @@ public class ModularMachinesApi {
     	bookmark.get(markName).add(stack);
     }
     
-    public static void addModuleEntry(String page, int x, int y, String moduleName, RendererSides... rendererSides)
+    public static void addModuleEntry(String page, int x, int y, String moduleName)
     {
     	moduleEntrys.get(page).add(new ModuleEntry(x - 9, y - 9, moduleName));
     }

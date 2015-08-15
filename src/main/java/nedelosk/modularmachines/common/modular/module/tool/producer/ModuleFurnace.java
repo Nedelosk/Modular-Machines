@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.modular.module.tool.producer;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.IModular;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.ModularMachine;

@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer;
 
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModuleProducerRecipe;
-import nedelosk.modularmachines.api.modular.module.recipes.IRecipe;
-import nedelosk.modularmachines.api.modular.module.recipes.IRecipeManager;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeInput;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.basic.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.IRecipe;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.IRecipeManager;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeInput;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeItem;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -105,7 +105,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 					manager = null;
 					return;
 				}
-				burnTimeTotal = getBurnTimeTotal(modular);
+				burnTimeTotal = getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getRequiredSpeedModifier()) / modular.getProducer().getTier();
 				burnTime = 0;
 			}
 			if(timer > timerTotal)

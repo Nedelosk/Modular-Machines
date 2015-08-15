@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.proxy;
 
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssemblerSlot;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;

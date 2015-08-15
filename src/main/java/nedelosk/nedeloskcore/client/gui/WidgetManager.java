@@ -22,7 +22,8 @@ public class WidgetManager implements IWidgetManager {
 
 	@Override
 	public void add(Widget slot) {
-		this.widgets.add(slot);
+		if(!widgets.contains(slot))
+			this.widgets.add(slot);
 	}
 
 	@Override

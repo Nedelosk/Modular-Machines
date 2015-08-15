@@ -17,7 +17,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = "NedeloskCore", version = "0.1.1" )
+@Mod(modid = "NedeloskCore", version = "0.1.1", dependencies = "after:Railcraft")
 public class NedeloskCore
 {
 	

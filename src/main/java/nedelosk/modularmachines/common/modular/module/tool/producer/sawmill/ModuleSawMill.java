@@ -2,9 +2,9 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.sawmill;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeInput;
+import nedelosk.modularmachines.api.basic.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.NeiStack;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeInput;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.module.tool.producer.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;

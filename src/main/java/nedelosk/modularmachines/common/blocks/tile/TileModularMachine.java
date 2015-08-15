@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cofh.api.energy.IEnergyHandler;
-import nedelosk.modularmachines.api.modular.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.IModuleGui;
-import nedelosk.modularmachines.api.modular.module.ModuleStack;
+import nedelosk.modularmachines.api.basic.modular.IModularTileEntity;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleGui;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleStack;
 import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
 import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
 import nedelosk.modularmachines.common.modular.ModularMachine;

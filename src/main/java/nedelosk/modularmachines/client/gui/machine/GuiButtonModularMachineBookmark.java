@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.ModuleStack;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;

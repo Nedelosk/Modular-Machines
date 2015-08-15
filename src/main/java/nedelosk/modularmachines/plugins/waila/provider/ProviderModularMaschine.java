@@ -5,7 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import nedelosk.modularmachines.api.modular.module.IModuleProducer;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleProducer;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.item.ItemStack;
 

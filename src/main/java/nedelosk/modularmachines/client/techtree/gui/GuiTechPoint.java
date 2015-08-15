@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;

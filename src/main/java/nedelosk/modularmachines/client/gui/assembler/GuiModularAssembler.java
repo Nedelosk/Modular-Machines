@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.modular.IModularAssembler;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBuildMachine;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlot;

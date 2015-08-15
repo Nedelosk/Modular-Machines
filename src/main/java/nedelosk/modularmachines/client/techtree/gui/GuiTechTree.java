@@ -12,12 +12,12 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
-import nedelosk.modularmachines.api.techtree.TechTreeCategories;
-import nedelosk.modularmachines.api.techtree.TechTreeCategoryList;
-import nedelosk.modularmachines.api.techtree.TechTreeData;
-import nedelosk.modularmachines.api.techtree.TechTreeEntry;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeCategoryList;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.techtree.PacketEntryComplete;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -597,13 +597,13 @@ protected void mouseClicked(int par1, int par2, int par3)
     boolean swop;
     if (currentHighlight != null && (!((ArrayList)completedEntrys.get(this.playerName)).contains(this.currentHighlight.key)) && (canUnlockResearch(this.currentHighlight)))
     {
-      if (TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] >= currentHighlight.getTechPoints())
-      {
+      //if (TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] >= currentHighlight.getTechPoints())
+      //{
         PacketHandler.INSTANCE.sendToServer(new PacketEntryComplete(this.currentHighlight.key, TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] - currentHighlight.getTechPoints(), currentHighlight.getTechPointType()));
         
         //this.popuptime = (System.currentTimeMillis() + 3000L);
         //this.popupmessage = new ChatComponentTranslation(StatCollector.translateToLocal("tc.research.popup"), new Object[] { "" + this.currentHighlight.getName() }).getUnformattedText();
-      }
+      //}
     }
     else if ((this.currentHighlight != null) && (((ArrayList)completedEntrys.get(this.playerName)).contains(this.currentHighlight.key)))
     {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.registrys.FBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,10 +82,10 @@ public class ItemCharcoalKiln extends ItemForestday {
 	    }
 	    else if(!world.isRemote)
 	    {
-			boolean placed = world.setBlock(x, y, z, FBlocks.Multiblock_Charcoal_Kiln.block(), 0, 2);
-			if (!placed) {
-				return false;
-			}
+			//boolean placed = world.setBlock(x, y, z, FBlocks.Multiblock_Charcoal_Kiln.block(), 0, 2);
+			//if (!placed) {
+			//	return false;
+			//}
 
 			TileEntity tile = world.getTileEntity(x, y, z);
 			if (!(tile instanceof TileCharcoalKiln)) {

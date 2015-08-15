@@ -13,9 +13,14 @@ import nedelosk.modularmachines.common.core.registry.TechTreeRegistry;
 import nedelosk.modularmachines.common.events.EventHandler;
 import nedelosk.modularmachines.common.events.EventHandlerNetwork;
 import nedelosk.modularmachines.common.events.KeyHandler;
+import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
+import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
+import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import nedelosk.modularmachines.plugins.PluginManager;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 
 public class MMRegistry {
@@ -24,6 +29,7 @@ public class MMRegistry {
 	
 	public void preInit()
 	{
+    	registerFluids();
     	pluginManager.registerPlugins();
 		pluginManager.preInit();
     	ModularConfig.preInit();
@@ -38,6 +44,9 @@ public class MMRegistry {
     		FMLCommonHandler.instance().bus().register(new KeyHandler());
 		FMLCommonHandler.instance().bus().register(new EventHandlerNetwork());
 		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
+		new MultiblockAirHeatingPlant();
+		new MultiblockBlastFurnace();
+		new MultiblockCokeOven();
 	}
 	
 	public void init()
@@ -51,4 +60,11 @@ public class MMRegistry {
 		pluginManager.postInit();
 	}
 	
+	public static void registerFluids()
+	{
+		NRegistry.registerFluid("pig.iron", 1500, Material.lava, true);
+		NRegistry.registerFluid("slag", 100, Material.lava, true);
+		NRegistry.registerFluid("gas.blastfurnace", 200, Material.water, true);
+		NRegistry.registerFluid("air.hot", 1250, Material.lava, true);
+	}
 }

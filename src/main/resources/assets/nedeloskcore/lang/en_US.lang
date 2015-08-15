@@ -34,6 +34,15 @@ forest.nc.item.nugget.nedeloskcore.2.name=Silver Nugget
 forest.nc.item.nugget.nedeloskcore.3.name=Lead Nugget
 forest.nc.item.nugget.nedeloskcore.4.name=Nickel Nugget
 forest.nc.item.nugget.nedeloskcore.5.name=Iron Nugget
+forest.nc.item.gear.wood.0.name=Improved Wood Gear
+forest.nc.item.gear.wood.1.name=Wood Gear
+forest.nc.item.gear.wood.2.name=Unfinished Wood Gear
+forest.nc.item.gear.wood.3.name=Unfinished Wood Gear
+forest.nc.item.gear.wood.4.name=Unfinished Wood Gear
+forest.nc.item.gear.wood.5.name=Unfinished Wood Gear
+forest.nc.item.multiblock.name=Multiblock
+forest.nc.item.multiblock_valve.name=Multiblock Valve
+
 forest.nc.item.gem.0.name=Ruby
 
 ####################################

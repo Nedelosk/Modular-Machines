@@ -1,9 +1,9 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
-import nedelosk.modularmachines.api.IModularAssembler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.modular.IModularAssembler;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

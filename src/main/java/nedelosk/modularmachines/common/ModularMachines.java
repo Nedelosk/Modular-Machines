@@ -21,7 +21,7 @@ import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = "ModularMachines", version = "0.1.1", dependencies = "after:NotEnoughItems;after:EnderIO;after:NedeloskCore;after:Thaumcraft;after:ForestDay")
+@Mod(modid = "ModularMachines", version = "0.1.1", dependencies = "after:NotEnoughItems;after:EnderIO;after:NedeloskCore;after:Thaumcraft;after:ForestDay;after:ThermalExpansion")
 public class ModularMachines
 {
 	public static Configuration config;

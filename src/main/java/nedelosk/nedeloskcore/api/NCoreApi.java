@@ -1,6 +1,7 @@
 package nedelosk.nedeloskcore.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import nedelosk.nedeloskcore.api.book.BookLevel;
@@ -8,6 +9,8 @@ import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
 import nedelosk.nedeloskcore.api.plan.IPlanEnum;
 import nedelosk.nedeloskcore.api.plan.PlanRecipe;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblock;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,6 +27,57 @@ public class NCoreApi {
 	
 	public static Knowledge basicKnowledge, dwarfKnowledge, elvenKnowledge;
 	public static BookLevel traineeLevel, advancedtraineeLevel, trainedLevel, masterLevel, grandMasterLevel;
+	private static HashMap<String, ArrayList<MultiblockPattern>> mutiblockPatterns = new HashMap<String, ArrayList<MultiblockPattern>>();
+	private static HashMap<String, AbstractMultiblock> mutiblocks = new HashMap<String, AbstractMultiblock>();
+	private static ArrayList<Material> materials = new ArrayList<Material>();
+	
+	public static void addMultiblockPattern(String mutliblockName, MultiblockPattern pattern)
+	{
+		ArrayList<MultiblockPattern> patterens = new ArrayList<MultiblockPattern>();
+		if(	mutiblockPatterns.get(mutliblockName) != null)
+			patterens.addAll(mutiblockPatterns.get(mutliblockName));
+		patterens.add(pattern);
+		mutiblockPatterns.put(mutliblockName, patterens);
+	}
+	
+	public static void addMultiblockPattern(String mutliblockName, ArrayList<MultiblockPattern> pattern)
+	{
+		ArrayList<MultiblockPattern> patterens = new ArrayList<MultiblockPattern>();
+		if(	mutiblockPatterns.get(mutliblockName) != null)
+			patterens.addAll(mutiblockPatterns.get(mutliblockName));
+		patterens.addAll(pattern);
+		mutiblockPatterns.put(mutliblockName, patterens);
+	}
+	
+	public static void registerMuliblock(String mutliblockName, AbstractMultiblock multiblock)
+	{
+		mutiblocks.put(mutliblockName, multiblock);
+	}
+	
+	public static AbstractMultiblock getMutiblock(String mutliblockName) {
+		return mutiblocks.get(mutliblockName);
+	}
+	
+	public static HashMap<String, AbstractMultiblock> getMutiblocks() {
+		return mutiblocks;
+	}
+	
+	public static void registerMaterial(Material material)
+	{
+		materials.add(material);
+	}
+	
+	public static ArrayList<Material> getMaterials() {
+		return materials;
+	}
+	
+	public static ArrayList<MultiblockPattern> getMutiblockPatterns(String mutliblockName) {
+		return mutiblockPatterns.get(mutliblockName);
+	}
+	
+	public static HashMap<String, ArrayList<MultiblockPattern>> getMutiblockPatterns() {
+		return mutiblockPatterns;
+	}
 	
 	public static Knowledge registerKnowledge(String unlocalizedName)
 	{

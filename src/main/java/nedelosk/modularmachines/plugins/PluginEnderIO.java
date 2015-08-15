@@ -6,7 +6,7 @@ import nedelosk.modularmachines.common.modular.module.ModuleCasing;
 import nedelosk.modularmachines.common.modular.module.ModuleTank;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleBattery;
 import nedelosk.modularmachines.common.modular.module.energy.ModuleCapacitor;
-import nedelosk.nedeloskcore.plugins.Plugin;
+import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

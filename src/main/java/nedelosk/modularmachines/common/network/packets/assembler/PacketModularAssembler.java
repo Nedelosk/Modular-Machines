@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.network.packets.assembler;
 
 import io.netty.buffer.ByteBuf;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;

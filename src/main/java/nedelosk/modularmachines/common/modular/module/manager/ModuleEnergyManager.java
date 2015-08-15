@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.energy.IModuleCapacitor;
-import nedelosk.modularmachines.api.modular.module.manager.IModuleEnergyManager;
-import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
+import nedelosk.modularmachines.api.basic.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.module.Module;
+import nedelosk.modularmachines.api.basic.modular.module.energy.IModuleCapacitor;
+import nedelosk.modularmachines.api.basic.modular.module.manager.IModuleEnergyManager;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.NeiStack;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.handler.EnergyHandler;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;

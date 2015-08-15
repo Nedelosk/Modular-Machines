@@ -10,7 +10,7 @@ import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprint;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprintBack;
 import nedelosk.nedeloskcore.client.gui.button.GuiButtonBlueprintPage;
-import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.network.packets.PacketBlueprint;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
@@ -97,7 +97,7 @@ public class GuiBlueprint extends GuiScreen {
 			}
 			else if(((GuiButtonBlueprint)button).object instanceof PlanRecipe)
 			{
-				player.inventory.mainInventory[player.inventory.currentItem] = NCoreApi.setItemPlan(ObjectRegistry.plan, (PlanRecipe)((GuiButtonBlueprint)button).object);
+				player.inventory.mainInventory[player.inventory.currentItem] = NCoreApi.setItemPlan(NCItems.Plan.item(), (PlanRecipe)((GuiButtonBlueprint)button).object);
 				closeGui();
 				PacketHandler.INSTANCE.sendToServer(new PacketBlueprint(player.inventory.mainInventory[player.inventory.currentItem]));
 			}

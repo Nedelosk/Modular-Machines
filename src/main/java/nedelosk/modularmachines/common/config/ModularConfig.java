@@ -6,7 +6,7 @@ import java.util.Iterator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.IModule;
+import nedelosk.modularmachines.api.basic.modular.module.IModule;
 import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.Language;
@@ -61,7 +61,7 @@ public class ModularConfig {
 		ModularMachines.config.save();
 	}
 	
-	public static HashMap<String, Boolean> activeLanguages = new HashMap<>();
+	public static HashMap<String, Boolean> activeLanguages = new HashMap<String, Boolean>();
 	public static boolean generateColumbiteOre;
 	public static boolean generateAluminiumOre;
 }

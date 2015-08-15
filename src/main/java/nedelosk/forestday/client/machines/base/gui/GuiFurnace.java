@@ -1,14 +1,11 @@
 package nedelosk.forestday.client.machines.base.gui;
 
-import nedelosk.forestday.client.machines.base.gui.widget.WidgetHeatBar;
 import nedelosk.forestday.common.machines.base.furnace.base.TileFurnace;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 public class GuiFurnace extends GuiMachine {
-	
-	public WidgetHeatBar heatBar = new WidgetHeatBar(((TileFurnace)tile).getHeat(), 125, 71, 9);
 	
 	public GuiFurnace(InventoryPlayer inventory, TileFurnace tile) {
 		super(tile, inventory);
@@ -21,8 +18,6 @@ public class GuiFurnace extends GuiMachine {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.furnace"), 8, ySize - 163, 4210752);
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 		
-        if(heatBar != null)
-        	heatBar.draw(heatBar.posX, heatBar.posY, x, y);
 	}
 
 	@Override

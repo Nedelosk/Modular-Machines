@@ -6,14 +6,9 @@ import nedelosk.forestday.client.machines.base.renderer.item.ItemMachineWoodBase
 import nedelosk.forestday.client.machines.base.renderer.tile.TileCampfireRenderer;
 import nedelosk.forestday.client.machines.base.renderer.tile.TileKilnRenderer;
 import nedelosk.forestday.client.machines.base.renderer.tile.TileWorkbenchRenderer;
-import nedelosk.forestday.client.machines.multiblock.charcoalkiln.ItemCharcoalKilnRenderer;
-import nedelosk.forestday.client.machines.multiblock.charcoalkiln.TileCharcoalAshRenderer;
-import nedelosk.forestday.client.machines.multiblock.charcoalkiln.TileCharcoalKilnRenderer;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
 import nedelosk.forestday.common.proxy.CommonProxy;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.forestday.common.registrys.FItems;
@@ -40,9 +35,9 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileWorkbench.class, new TileWorkbenchRenderer());
 		MinecraftForgeClient.registerItemRenderer(FBlocks.Machine_Wood_Base.item(), new ItemMachineWoodBase());
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalKiln.class, new TileCharcoalKilnRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalAsh.class, new TileCharcoalAshRenderer());
-		MinecraftForgeClient.registerItemRenderer(FItems.charcoal_kiln.item(), new ItemCharcoalKilnRenderer());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalKiln.class, new TileCharcoalKilnRenderer());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalAsh.class, new TileCharcoalAshRenderer());
+		//MinecraftForgeClient.registerItemRenderer(FItems.charcoal_kiln.item(), new ItemCharcoalKilnRenderer());
 		
 		MinecraftForgeClient.registerItemRenderer(FItems.curb.item(), new ItemCampfireRenderer("curb"));
 		MinecraftForgeClient.registerItemRenderer(FItems.pot.item(), new ItemCampfireRenderer("pot"));

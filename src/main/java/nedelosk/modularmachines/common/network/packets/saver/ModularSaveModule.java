@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.network.packets.saver;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

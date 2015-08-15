@@ -53,7 +53,7 @@ public class ItemGearWood extends ItemForestday implements IUnfinished {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName("gear.wood." + itemstack.getItemDamage(), "fd");
+        return NRegistry.setUnlocalizedItemName("gear.wood." + itemstack.getItemDamage(), "nc");
     }
 
 	@Override

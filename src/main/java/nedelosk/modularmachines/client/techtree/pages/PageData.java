@@ -25,19 +25,22 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import nedelosk.modularmachines.api.techtree.TechTreeCategories;
-import nedelosk.modularmachines.api.techtree.TechTreeEntry;
-import nedelosk.modularmachines.api.techtree.TechTreePage;
-import nedelosk.modularmachines.api.techtree.TechTreePage.PageType;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePage;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePage.PageType;
 import nedelosk.modularmachines.common.ModularMachines;
 
 public class PageData {
 	
-	public static HashMap<String, String> pages = new HashMap<>();
+	public static HashMap<String, String> pages = new HashMap<String, String>();
 
 	public static void readDocument(String categoryName, String language)
 	{
 		File file = new File(ModularMachines.configFolder.getPath() + "/techtree/" + language, "data_entrys_" + categoryName + ".xml");
+		try{
+		try{
+		try{
 		try{
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -202,10 +205,24 @@ public class PageData {
 			outputStream.close();
 		}
 		}
-		catch(ParserConfigurationException | SAXException | IOException | TransformerException e)
+		catch(ParserConfigurationException e)
 		{
-			ModularMachines.class.getName();
 		}
+		}
+		catch(SAXException e)
+		{
+			
+		}
+		}
+		catch(IOException e)
+		{
+		}
+		}
+		catch(TransformerException e)
+		{
+			
+		}
+		
 	}
 	
 	private static void createPageDataPage(String pageText, int pageID, String entryKey, Element element, Document doc, String lang)

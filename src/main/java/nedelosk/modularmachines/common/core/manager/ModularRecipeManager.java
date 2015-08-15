@@ -4,22 +4,27 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.common.managers.CraftingManager;
 import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.crafting.IModularCraftingRecipe;
-import nedelosk.modularmachines.api.modular.crafting.ShapedModularCraftingRecipe;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.basic.modular.crafting.IModularCraftingRecipe;
+import nedelosk.modularmachines.api.basic.modular.crafting.ShapedModularCraftingRecipe;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeItem;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeRegistry;
+import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMItems;
+import nedelosk.modularmachines.common.core.registry.TechTreeRegistry;
+import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.modular.module.tool.producer.alloysmelter.RecipeAlloySmelter;
 import nedelosk.modularmachines.common.modular.module.tool.producer.centrifuge.RecipeCentrifuge;
 import nedelosk.modularmachines.common.modular.module.tool.producer.pulverizer.RecipePulverizer;
 import nedelosk.modularmachines.common.modular.module.tool.producer.sawmill.RecipeSawMill;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
-import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -27,20 +32,69 @@ public class ModularRecipeManager {
 
 	public static void preInit()
 	{
+		ModularMachinesApi.blastFurnace = new BlastFurnaceRecipeManager();
+		
 		registerSawMillRecipes();
 		registerPulverizerRecipes();
 		registerAlloySmelterRecipes();
 		registerCentrifugeRecipes();
 		registerMetalRecipes();
 		registerModuleRecipes();
+		ModularMachinesApi.blastFurnace.addRecipe(10, new FluidStack[]{ new FluidStack(FluidRegistry.getFluid("slag"), 1000), new FluidStack(FluidRegistry.getFluid("pig.iron"), 220)}, new Object[]{ new ItemStack(Blocks.iron_ore, 1)}, 1200);
 	}
 	
 	public static void registerModuleRecipes()
 	{
+		addShapedRecipe(new ItemStack(MMBlocks.Modular_Workbench.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
+		addShapedRecipe(new ItemStack(MMBlocks.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', MMBlocks.Modular_Workbench.item());
+		
+		//Basic
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.BASE"}, new ItemStack(MMItems.Module_Items.item(), 1, 0), 0, " --- ", "-+P+-", "-PHP-", "-+P+-", " --- ", '+', new ItemStack(MMItems.Plates.item(), 1, 8), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 3), '-', "nuggetIron", 'P', "plateIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.IMPROVED"}, new ItemStack(MMItems.Module_Items.item(), 1, 1), 0, " --- ", "-+P+-", "-PHP-", "-+P+-", " --- ", '+', new ItemStack(MMItems.Plates.item(), 1, 8), 'H', new ItemStack(MMItems.Module_Items.item()), '-', "nuggetIron", 'P', "plateGold"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.ADVANCED"}, new ItemStack(MMItems.Module_Items.item(), 1, 2), 0, " --- ", "-+P+-", "-PHP-", "-+P+-", " --- ", '+', new ItemStack(MMItems.Plates.item(), 1, 8), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), '-', "nuggetIron", 'P', Items.diamond));
 		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.BASE"}, new ItemStack(MMItems.Module_Items.item(), 1, 3), 0, " --- ", "-+++-", "-+++-", "-+++-", " --- ", '+', new ItemStack(MMItems.Plates.item(), 1, 8), '-', "nuggetIron"));
-		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.BASE"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0), 0, " --- ", "-PRP-", "-PRP-", " --- ", " i i ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 11), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'i', "nuggetIron"));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.BASE"}, new ItemStack(MMItems.Module_Item_Capacitor.item()), 0, " --- ", "-PRP-", "-PRP-", " --- ", " i i ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 11), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'i', "nuggetIron"));
 		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.IMPROVED"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 1), 0, " --- ", "-PRP-", "-PRP-", " --- ", " C C ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 9), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'C', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)));
 		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"CAPACITOR.IMPROVED"}, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 2), 0, " --- ", "-PRP-", "-PRP-", " --- ", " C C ", 'R', Items.redstone, 'P', new ItemStack(MMItems.Plates.item(), 1, 10), '-', new ItemStack(MMItems.Plates.item(), 1, 8), 'C', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENGINE.BASE"}, TechTreeRegistry.getItemStackFromData("moduleEngineNormal", 0), 0, "    I","  BI ", "PBIB ", " PB  ", "  P  ", 'I', Items.iron_ingot, 'B', "plateBronze", 'P', "plateIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENGINE.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleEngineNormal", 1), 0, "    I","  BI ", "PBIB ", " PB  ", "  P  ", 'I', Items.iron_ingot, 'B', "plateInvar", 'P', "plateIron"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENGINE.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleEngineNormal", 2), 0, "    I","  BI ", "PBIB ", " PB  ", "  P  ", 'I', Items.iron_ingot, 'B', Items.diamond, 'P', "plateIron"));
+		
+		//Manager
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"STORAGEMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleStorageManager", 0), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(Blocks.chest), 'H', new ItemStack(MMItems.Module_Items.item()), 'P', "dyeOrange"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"STORAGEMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleStorageManager", 1), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(Blocks.chest), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', "dyeOrange"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"STORAGEMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleStorageManager", 2), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(Blocks.chest), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', "dyeOrange"));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENERGYMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleEnergyManager", 0), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(MMItems.Module_Item_Capacitor.item()), 'H', new ItemStack(MMItems.Module_Items.item()), 'P', "dyeRed"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENERGYMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleEnergyManager", 1), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 1), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', "dyeRed"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"ENERGYMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleEnergyManager", 2), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 2), 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', "dyeRed"));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"TANKMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleTankManager", 0), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.bucket, 'H', new ItemStack(MMItems.Module_Items.item()), 'P', "dyeBlue"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"TANKMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleTankManager", 1), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.bucket, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', "dyeBlue"));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"TANKMANAGER"}, TechTreeRegistry.getItemStackFromData("moduleTankManager", 2), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.bucket, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', "dyeBlue"));
+		
+		//Tools
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.FURNACE.BASE"}, TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 0), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item()), 'P', Items.coal));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.FURNACE.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 1), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', Items.coal));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.FURNACE.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 2), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', Items.coal));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.ALLOYSMELTER.BASE"}, TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 0), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 0), '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item()), 'P', Items.coal));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.ALLOYSMELTER.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 1), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 1), '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', Items.coal));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.ALLOYSMELTER.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 2), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerFurnace", 2), '+', Blocks.furnace, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', Items.coal));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.SAGMILL.BASE"}, TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 0), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item()), 'P', Items.flint));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.SAGMILL.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 1), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', Items.flint));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.SAGMILL.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 2), 0, "     ", " +P+ ", " PHP ", " +P+ ", "     ", '+', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', Items.flint));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.PULVERIZER.BASE"}, TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 0), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 0), 'P', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item()), '+', Items.flint));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.PULVERIZER.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 1), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 1), 'P', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), '+', Items.flint));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.PULVERIZER.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 2), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerSawMill", 2), 'P', Items.iron_axe, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), '+', Items.flint));
+		
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.CENTRIFUGE.BASE"}, TechTreeRegistry.getItemStackFromData("moduleProducerCentrifuge", 0), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 0), '+', "plateIron", 'H', new ItemStack(MMItems.Module_Items.item()), 'P', TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 0)));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.CENTRIFUGE.IMPROVED"}, TechTreeRegistry.getItemStackFromData("moduleProducerCentrifuge", 1), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 1), '+', "plateGold", 'H', new ItemStack(MMItems.Module_Items.item(), 1, 1), 'P', TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 1)));
+		ModularMachinesApi.registerRecipe(new ShapedModularCraftingRecipe(new String[]{"MODULE.CENTRIFUGE.ADVANCED"}, TechTreeRegistry.getItemStackFromData("moduleProducerCentrifuge", 2), 0, "     ", " +P+ ", " FHF ", " +P+ ", "     ", 'F', TechTreeRegistry.getItemStackFromData("moduleProducerPulverizer", 2), '+', Items.diamond, 'H', new ItemStack(MMItems.Module_Items.item(), 1, 2), 'P', TechTreeRegistry.getItemStackFromData("moduleProducerAlloySmelter", 2)));
 	}
 	
 	public static void registerSawMillRecipes()
@@ -110,15 +164,15 @@ public class ModularRecipeManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(MMItems.Nuggets_Others.item(),9 , 2), new ItemStack(MMItems.Ingots_Others.item(), 1, 2));
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 2), new ItemStack(Items.iron_ingot), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 3), new ItemStack(Items.gold_ingot), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 5), new ItemStack(ObjectRegistry.ingots, 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 6), new ItemStack(ObjectRegistry.ingots, 1, 1), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 7), new ItemStack(ObjectRegistry.ingots, 1, 2), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 8), new ItemStack(ObjectRegistry.ingots, 1, 3), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 9), new ItemStack(ObjectRegistry.ingots, 1, 4), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 5), new ItemStack(NCItems.Ingots.item(), 1, 0), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 6), new ItemStack(NCItems.Ingots.item(), 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 7), new ItemStack(NCItems.Ingots.item(), 1, 2), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 8), new ItemStack(NCItems.Ingots.item(), 1, 3), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 9), new ItemStack(NCItems.Ingots.item(), 1, 4), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 10), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts.item(), 1, 11), new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 1), new ItemStack(MMItems.Ingots_Others.item(), 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 2), new ItemStack(MMItems.Ingots_Others.item(), 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 1), new ItemStack(MMItems.Ingots_Others.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItems.Dusts_Others.item(), 1, 3), new ItemStack(MMItems.Ingots_Others.item(), 1, 2), 0.5F);
 		
 		addShapelessRecipe(new ItemStack(MMItems.Plates.item(), 1, 0), "toolHammer", "ingotIron", "ingotIron");

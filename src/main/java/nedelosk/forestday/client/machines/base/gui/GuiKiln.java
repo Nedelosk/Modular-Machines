@@ -1,15 +1,11 @@
 package nedelosk.forestday.client.machines.base.gui;
 
-import nedelosk.forestday.client.machines.base.gui.widget.WidgetHeatBar;
-import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 public class GuiKiln extends GuiMachine {
-	
-	public WidgetHeatBar heatBar = new WidgetHeatBar(((TileKiln)tile).getHeat(), ForestdayConfig.kilnMinHeat, 71, 9);
 	
 	public GuiKiln(InventoryPlayer inventory, TileKiln tile) {
 		super(tile, inventory);
@@ -22,8 +18,6 @@ public class GuiKiln extends GuiMachine {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.machine.kiln.resin"), 8, ySize - 163, 4210752);
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 		
-        if(heatBar != null)
-        	heatBar.draw(heatBar.posX, heatBar.posY, x, y);
 	}
 
 	@Override

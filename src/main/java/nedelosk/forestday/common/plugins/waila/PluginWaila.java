@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileKiln;
-import nedelosk.nedeloskcore.plugins.Plugin;
+import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 

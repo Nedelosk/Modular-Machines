@@ -20,7 +20,7 @@ public class WidgetProcessBar extends Widget {
 	
 	@Override
 	public ArrayList<String> getTooltip() {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<String>();
 		list.add(burntime + " / " + burntimeTotal);
 		return list;
 	}

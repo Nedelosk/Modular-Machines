@@ -20,7 +20,7 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 	public TileCharcoalKiln kiln;
 	
 	public BlockCharcoalKiln() {
-		super(Material.wood, TileCharcoalKiln.class);
+		super(Material.wood);
 		setHardness(1.0F);
 		setBlockName("kiln.charcoal");
 		setStepSound(soundTypeWood);

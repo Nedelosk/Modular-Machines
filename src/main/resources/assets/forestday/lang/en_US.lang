@@ -119,6 +119,8 @@ forestday.tooltip.heat=Heat:
 forestday.tooltip.roughness=Roughness: 
 forestday.tooltip.empty=Empty
 forest.fd.tooltip.power=Power
+forestday.tooltip.workbench.mode.0.name=Forward
+forestday.tooltip.workbench.mode.1.name=Stop
 
 ####################################
 Gui Nei

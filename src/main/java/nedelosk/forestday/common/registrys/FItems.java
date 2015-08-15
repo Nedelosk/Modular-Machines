@@ -18,6 +18,9 @@ public enum FItems {
 	pot_holder,
 	
 	//Tools
+	
+	//charcoal_kiln,
+	
 	file_stone,
 	file_iron,
 	file_diamond,
@@ -28,9 +31,7 @@ public enum FItems {
 	adze,
 	adze_long,
 	axe_flint,
-	tool_parts,
-	
-	charcoal_kiln;
+	tool_parts;
 
 	private Item item;
 

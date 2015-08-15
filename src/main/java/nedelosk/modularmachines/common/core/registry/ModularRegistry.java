@@ -1,13 +1,13 @@
 package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.IModule;
-import nedelosk.modularmachines.api.modular.module.IModuleGenerator;
-import nedelosk.modularmachines.api.modular.module.IModuleProducer;
-import nedelosk.modularmachines.api.modular.module.IModuleSpecial;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.techtree.TechPointStack;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.modular.module.IModule;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleGenerator;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleProducer;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleSpecial;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechPointStack;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.items.ModuleItems;
 import nedelosk.modularmachines.common.modular.module.ModuleCasing;
@@ -44,6 +44,8 @@ public class ModularRegistry {
 		ModularMachinesApi.addModule(new ModuleCentrifuge());
 		ModularMachinesApi.addModule(new ModuleEngine("Normal", 300, 150, 50));
 		ModularMachinesApi.addModuleItem(new ItemStack(Blocks.iron_block), new ModuleCasing(), 1);
+		ModularMachinesApi.addModuleItem(new ItemStack(Blocks.gold_block), new ModuleCasing(), 2);
+		ModularMachinesApi.addModuleItem(new ItemStack(Blocks.diamond_block), new ModuleCasing(), 3);
 		ModularMachinesApi.addModuleItem(new ItemStack(Items.iron_axe), new ModuleCasing(), 1);
 		ModularMachinesApi.addModuleItem(new ItemStack(Blocks.chest), new ModuleChest("Normal", 27), 1);
 		ModularMachinesApi.addModuleItem(new ItemStack(Blocks.furnace), new ModuleGenerator(), 1);
@@ -84,7 +86,7 @@ public class ModularRegistry {
     	//Tool
     	ModularMachinesApi.addModuleEntry(new ModuleEntry(116 - 9, 102 - 9, "Tool_Pruducer", "Tool", "Producer", "Generator"){
     		@Override
-			public void onActivateItem(nedelosk.modularmachines.api.IModularAssembler assembler) {
+			public void onActivateItem(nedelosk.modularmachines.api.basic.modular.IModularAssembler assembler) {
     			if(assembler.getStackInSlot(page, ID) != null)
     			{
     				if(ModularMachinesApi.getModuleItem(assembler.getStackInSlot(page, ID)) != null)
@@ -99,7 +101,7 @@ public class ModularRegistry {
     		};
     		
     		@Override
-			public void onDeactivateItem(nedelosk.modularmachines.api.IModularAssembler assembler) {
+			public void onDeactivateItem(nedelosk.modularmachines.api.basic.modular.IModularAssembler assembler) {
     			if(assembler.getStackInSlot(page, ID) == null)
     			{
     				assembler.getModuleEntry(page, 1).canActivate = true;

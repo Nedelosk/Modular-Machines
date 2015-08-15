@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.plugins.mt;
 
 import minetweaker.MineTweakerAPI;
-import nedelosk.nedeloskcore.plugins.Plugin;
+import nedelosk.nedeloskcore.plugins.basic.Plugin;
 
 public class PluginMineTweaker3 extends Plugin {
 	

@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.events;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
 import nedelosk.modularmachines.client.gui.GuiModuleRegisterError;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiMainMenu;

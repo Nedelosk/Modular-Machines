@@ -3,10 +3,10 @@ package nedelosk.forestday.client.machines.multiblock.charcoalkiln;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
-import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
@@ -29,7 +29,7 @@ public class TileCharcoalAshRenderer extends TileEntitySpecialRenderer {
 			
 			RenderUtils.bindBlockTexture();
 			
-			IIcon dirtIcon = FBlocks.Multiblock_Charcoal_Kiln.block().getIcon(0, 0);
+			IIcon dirtIcon = /*FBlocks.Multiblock_Charcoal_Kiln.block().getIcon(0, 0);*/ Blocks.dirt.getIcon(0, 0);
 			
 			    t.startDrawingQuads();
 			    t.setNormal(0, 1, 0);

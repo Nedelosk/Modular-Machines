@@ -13,12 +13,12 @@ public enum FBlocks {
 	Gravel,
 	Crop_Corn,
 	
+	//Multiblock_Charcoal_Kiln,
+	
 	Machine_Furnace_Base,
 	Machine_Furnace_Coke,
 	Machine_Generator_Heat,
-	Machine_Wood_Base,
-	
-	Multiblock_Charcoal_Kiln;
+	Machine_Wood_Base;
 	
 	private Block block;
 

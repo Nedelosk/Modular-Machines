@@ -9,8 +9,8 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class TileBase extends TileEntity{
 	
 	public boolean isWorking;
-	protected int burnTime;
-	protected int burnTimeTotal;
+	public int burnTime;
+	public int burnTimeTotal;
 	
 	@Override
 	public void updateEntity() {

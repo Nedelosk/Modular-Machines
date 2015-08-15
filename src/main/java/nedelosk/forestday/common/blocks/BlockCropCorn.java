@@ -239,7 +239,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
     {
-        ArrayList<ItemStack> ret = new ArrayList<>();
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
         Block block = world.getBlock(x, y + 1, z);
         if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && metadata >= 5 || world.getBlock(x, y + 1, z) == this && world.getBlockMetadata(x, y + 1, z) >= 5)

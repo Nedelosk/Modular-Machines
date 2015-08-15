@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
-import nedelosk.modularmachines.api.techtree.TechTreeCategories;
-import nedelosk.modularmachines.api.techtree.TechTreeEntry;
-import nedelosk.modularmachines.api.techtree.TechTreePage;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePage;
 import nedelosk.modularmachines.common.core.MMItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -69,13 +69,13 @@ public class TechTreeRegistry {
 	
 	public static void registerEnergyStuff()
 	{
-		new TechTreeEntry("CAPACITOR.BASE", "ENERGY", 15, TechPointTypes.EASY, 0, 0, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("ENGINE.BASE", "BATTERY").setPages(new TechTreePage("mm.techtree_page.CAPACITOR.BASE.0")).registerTechTreeEntry();
+		new TechTreeEntry("CAPACITOR.BASE", "ENERGY", 15, TechPointTypes.EASY, 0, 0, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("CAPACITOR").setPages(new TechTreePage("mm.techtree_page.CAPACITOR.BASE.0")).registerTechTreeEntry();
 		new TechTreeEntry("CAPACITOR.IMPROVED", "ENERGY", 7, TechPointTypes.NORMAL, 0, 1, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 1)).setParents("CAPACITOR.BASE").setPages(new TechTreePage("mm.techtree_page.CAPACITOR.IMPROVED.0")).registerTechTreeEntry();
 		new TechTreeEntry("CAPACITOR.ADVANCED", "ENERGY", 13, TechPointTypes.HARD, 0, 2, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 3)).setParents("CAPACITOR.IMPROVED").setPages(new TechTreePage("mm.techtree_page.CAPACITOR.ADVANCED.0")).registerTechTreeEntry();
 		
-		new TechTreeEntry("ENGINE.BASE", "ENERGY", 15, TechPointTypes.EASY, 2, 0, getItemStackFromData("moduleEngineNormal", 0)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENGINE.BASE.0")).registerTechTreeEntry();
+		new TechTreeEntry("ENGINE.BASE", "ENERGY", 15, TechPointTypes.EASY, 2, 0, getItemStackFromData("moduleEngineNormal", 0)).setParents("ENGINE").setPages(new TechTreePage("mm.techtree_page.ENGINE.BASE.0")).registerTechTreeEntry();
 		new TechTreeEntry("ENGINE.IMPROVED", "ENERGY", 7, TechPointTypes.NORMAL, 2, 1, getItemStackFromData("moduleEngineNormal", 1)).setParents("ENGINE.BASE").setPages(new TechTreePage("mm.techtree_page.ENGINE.IMPROVED.0")).registerTechTreeEntry();
-		new TechTreeEntry("ENGINE.ADVANCED", "ENERGY", 13, TechPointTypes.HARD, 2, 2, getItemStackFromData("moduleEngineNormal", 2)).setParents("ENGINE.ADVANCED").setPages(new TechTreePage("mm.techtree_page.ENGINE.ADVANCED.0")).registerTechTreeEntry();
+		new TechTreeEntry("ENGINE.ADVANCED", "ENERGY", 13, TechPointTypes.HARD, 2, 2, getItemStackFromData("moduleEngineNormal", 2)).setParents("ENGINE.IMPROVED").setPages(new TechTreePage("mm.techtree_page.ENGINE.ADVANCED.0")).registerTechTreeEntry();
 	}
 	
 	public static void registerModuleStuff()
@@ -85,8 +85,8 @@ public class TechTreeRegistry {
 		//Energy
 		new TechTreeEntry("BATTERY", "MODULE", 15, TechPointTypes.EASY, 0, 2, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.BATTERY.0")).registerTechTreeEntry();
 		new TechTreeEntry("ENERGYACCEPTOR", "MODULE", 15, TechPointTypes.EASY, 0, 4, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENERGYACCEPTOR.0")).registerTechTreeEntry();
-		new TechTreeEntry("ENGINE", "MODULE", 15, TechPointTypes.EASY, 2, 2, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENGINE.0")).registerTechTreeEntry();
-		new TechTreeEntry("ENERGYMANAGER", "MODULE", 15, TechPointTypes.EASY, -2, 2, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENERGYMANAGER.0")).registerTechTreeEntry();
+		new TechTreeEntry("ENGINE", "MODULE", 15, TechPointTypes.EASY, 2, 2, getItemStackFromData("moduleEngineNormal", 2)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENGINE.0")).registerTechTreeEntry();
+		new TechTreeEntry("ENERGYMANAGER", "MODULE", 15, TechPointTypes.EASY, -2, 2, getItemStackFromData("moduleEnergyManager", 2)).setParents("BATTERY").setPages(new TechTreePage("mm.techtree_page.ENERGYMANAGER.0")).registerTechTreeEntry();
 		new TechTreeEntry("CAPACITOR", "MODULE", 15, TechPointTypes.EASY, -2, 4, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("ENERGYMANAGER").setPages(new TechTreePage("mm.techtree_page.CAPACITOR.0")).registerTechTreeEntry();
 		
 		//Tool
@@ -95,11 +95,11 @@ public class TechTreeRegistry {
 		new TechTreeEntry("GENERATOR", "MODULE", 15, TechPointTypes.EASY, 2, -2, new ItemStack(Blocks.furnace)).setParents("TOOL").setPages(new TechTreePage("mm.techtree_page.GENERATOR.0")).registerTechTreeEntry();
 		
 		//Fluid
-		new TechTreeEntry("TANKMANAGER", "MODULE", 15, TechPointTypes.EASY, 2, 0, new ItemStack(Items.iron_axe)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.TANKMANAGER.0")).registerTechTreeEntry();
+		new TechTreeEntry("TANKMANAGER", "MODULE", 15, TechPointTypes.EASY, 2, 0, getItemStackFromData("moduleTankManager", 2)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.TANKMANAGER.0")).registerTechTreeEntry();
 		new TechTreeEntry("TANK", "MODULE", 15, TechPointTypes.EASY, 4, 0, new ItemStack(Items.iron_axe)).setParents("TANKMANAGER").setPages(new TechTreePage("mm.techtree_page.TANK.0")).registerTechTreeEntry();
     	
     	//Storage
-		new TechTreeEntry("STORAGEMANAGER", "MODULE", 15, TechPointTypes.EASY, -2, 0, new ItemStack(Items.iron_axe)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.STORAGEMANAGER.0")).registerTechTreeEntry();
+		new TechTreeEntry("STORAGEMANAGER", "MODULE", 15, TechPointTypes.EASY, -2, 0, getItemStackFromData("moduleStorageManager", 2)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.STORAGEMANAGER.0")).registerTechTreeEntry();
 		new TechTreeEntry("STORAGE", "MODULE", 15, TechPointTypes.EASY, -4, 0, new ItemStack(Blocks.chest)).setParents("STORAGEMANAGER").setPages(new TechTreePage("mm.techtree_page.STORAGE.0")).registerTechTreeEntry();
 	}
 	

@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
-import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -118,8 +118,8 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 			if(plan.getPlan() != null)
 			{
 			RenderUtils.bindItemTexture();
-			Item planItem = ObjectRegistry.plan;
-			IIcon iconPlan = planItem.getIcon(new ItemStack(ObjectRegistry.plan, 1, 0), 0);
+			Item planItem = NCItems.Plan.item();
+			IIcon iconPlan = planItem.getIcon(new ItemStack(NCItems.Plan.item(), 1, 0), 0);
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
 			t.addVertexWithUV(-0.431, 1.02, 0.431, iconPlan.getMaxU(), iconPlan.getMinV());
@@ -233,8 +233,8 @@ public class TilePlanRenderer extends TileEntitySpecialRenderer {
 		t.draw();
 		
 		RenderUtils.bindItemTexture();
-		Item planItem = ObjectRegistry.plan;
-		IIcon iconPlan = planItem.getIcon(new ItemStack(ObjectRegistry.plan), 0);
+		Item planItem = NCItems.Plan.item();
+		IIcon iconPlan = planItem.getIcon(new ItemStack(NCItems.Plan.item()), 0);
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
 		t.addVertexWithUV(-0.431, 1.02, 0.431, iconPlan.getMaxU(), iconPlan.getMinV());

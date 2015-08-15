@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.alloysmelter;
 
-import nedelosk.modularmachines.api.modular.module.recipes.Recipe;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.Recipe;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeItem;
 
 public class RecipeAlloySmelter extends Recipe {
 

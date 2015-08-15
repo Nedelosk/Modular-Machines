@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.tools.ItemBowAndStick;
-import nedelosk.forestday.common.registrys.FBlocks;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,17 +22,16 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 	public WoodType type;
 	
 	public TileCharcoalKiln() {
-		super(0, 5, 4, 2, 1);
+		super();
 		burnTimeTotal = ForestdayConfig.charcoalKilnBurnTime;
 	}
 
 	@Override
-	public String getMultiBlockName() {
+	public String getMultiblockName() {
 		return "kiln.charcoal";
 	}
 
-	@Override
-	public char[][][] createPattern()
+	public MultiblockPattern createPattern()
 	{
 		char[][] charcoal = { {  'O', 'O', 'O', 'O', 'O', },
 				              {'O', 'C', 'C', 'C', 'O', },
@@ -55,11 +54,9 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 	                                 {  'O', 'O', 'O', 'O', 'O', },
 	                                 };
 		
-		return new char[][][] { charcoal_O, charcoal_Master, charcoal, charcoal_O };
+		return new MultiblockPattern(new char[][][] { charcoal_O, charcoal_Master, charcoal, charcoal_O }, 2, 1, 2);
 	}
 
-
-	@Override
 	public boolean isPatternBlockValid(int x, int y, int z, char pattern) {
 		Block block = this.worldObj.getBlock(x, y, z);
 		TileEntity tile = this.worldObj.getTileEntity(x, y, z);
@@ -67,14 +64,12 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 		case 'C':
             if (block != getBlockType() && !(tile instanceof TileCharcoalKiln))
             {
-            	//System.err.print("C Error at " + x + " X, " + y + " Y, " + z + " Z,  ;");
                 return false;
             }
             break;
 		case 'O':
             if (block == getBlockType() && tile instanceof TileCharcoalKiln)
             {
-            	//System.err.print("C Error at " + x + " X, " + y + " Y, " + z + " Z,  ;");
                 return false;
             }
             break;
@@ -131,7 +126,7 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 				{
 				items.add(stack);
 				}
-				worldObj.setBlock(xCoord, yCoord, zCoord, FBlocks.Multiblock_Charcoal_Kiln.block(), 1, 2);
+				//worldObj.setBlock(xCoord, yCoord, zCoord, FBlocks.Multiblock_Charcoal_Kiln.block(), 1, 2);
 				((TileCharcoalAsh)worldObj.getTileEntity(xCoord, yCoord, zCoord)).setDropps(items);
 			}
 			else
@@ -167,7 +162,6 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 		
 	}
 	
-	@Override
 	public void onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side) {
 		if(master != null)
 		{
@@ -195,7 +189,6 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 		}
 	}
 
-	@Override
 	public boolean testBlock() {
 		return false;
 	}

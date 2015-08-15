@@ -19,7 +19,7 @@ import org.lwjgl.opengl.GL11;
 public class WidgetFluidTank extends Widget {
 
 	private final ResourceLocation widget = new ResourceLocation("nedeloskcore", "textures/gui/widgets/widget_fluid_tank.png");
-	IFluidTank tank;
+	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
 

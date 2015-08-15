@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlotBack;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;

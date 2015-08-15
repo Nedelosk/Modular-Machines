@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiBase extends GuiContainer implements IGuiBase {
 
-	protected ResourceLocation guiTexture = RenderUtils.getResourceLocation(getModName(), getGuiName(), "gui");
+	protected ResourceLocation guiTexture;
 	protected TileBase tile;
 	protected ButtonManager buttonManager;
 	protected WidgetManager widgetManager;
@@ -28,6 +28,7 @@ public abstract class GuiBase extends GuiContainer implements IGuiBase {
 		this.tile = tile;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
+		guiTexture = RenderUtils.getResourceLocation(getModName(), getGuiName(), "gui");
 	}
 	
 	@Override

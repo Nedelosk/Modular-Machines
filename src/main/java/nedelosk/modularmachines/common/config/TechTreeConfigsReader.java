@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.config;
 
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
-import nedelosk.modularmachines.api.techtree.TechTreeCategories;
-import nedelosk.modularmachines.api.techtree.TechTreeEntry;
-import nedelosk.modularmachines.api.techtree.TechTreePage;
-import nedelosk.modularmachines.api.techtree.TechTreePage.PageType;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePage;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePage.PageType;
 import nedelosk.modularmachines.client.techtree.TechTree;
 import nedelosk.nedeloskcore.utils.IOUtils;
 import net.minecraft.item.ItemStack;

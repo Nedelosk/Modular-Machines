@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.pulverizer;
 
-import nedelosk.modularmachines.api.modular.module.recipes.Recipe;
-import nedelosk.modularmachines.api.modular.module.recipes.RecipeItem;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.Recipe;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.RecipeItem;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 

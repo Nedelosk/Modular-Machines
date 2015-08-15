@@ -13,6 +13,7 @@ import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeHandler;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import nedelosk.nedeloskcore.common.world.WorldGeneratorNedeloskCore;
+import nedelosk.nedeloskcore.plugins.NCPluginManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
@@ -27,6 +28,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class NRegistry {
 	
 	public static NRegistry instance;
+	public static NCPluginManager pluginManager = new NCPluginManager();
 	
 	public static void preInit()
 	{
@@ -41,17 +43,22 @@ public class NRegistry {
         {
         	MineTweakerAPI.registerClass(PlanRecipeHandler.class);
         }
+        pluginManager.registerPlugins();
+        pluginManager.preInit();
 	}
 	
 	public static void init()
 	{
 		ObjectRegistry.init();
 		NedeloskCore.proxy.init();
+		pluginManager.init();
 	}
 	
 	public static void postInit()
 	{
+		ObjectRegistry.postInit();
     	GameRegistry.registerWorldGenerator(new WorldGeneratorNedeloskCore(), 0);
+    	pluginManager.postInit();
 	}
 	
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket)

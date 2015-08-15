@@ -36,4 +36,12 @@ public class Widget extends Gui {
 		
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		Widget w = (Widget) obj;
+		if(w.posX == posX && w.posY == posY)
+			return true;
+		return false;
+	}
+	
 }

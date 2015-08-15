@@ -10,7 +10,6 @@ import nedelosk.forestday.common.items.tools.ItemFlintAxe;
 import nedelosk.forestday.common.items.tools.ItemToolCrafting;
 import nedelosk.forestday.common.items.tools.ItemToolForestday.Material;
 import nedelosk.forestday.common.items.tools.ItemToolParts;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.ItemCharcoalKiln;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemSeedFood;
 import net.minecraftforge.common.util.EnumHelper;
@@ -28,7 +27,7 @@ public class ItemRegistry {
 			};
 		}.setUnlocalizedName("corn"));
 		FItems.nature.registerItem(new ItemNature());
-		FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
+		//FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
 		
 		FItems.curb.registerItem(new ItemCampfire(ForestdayConfig.campfireCurbs, "curb"));
 		FItems.pot.registerItem(new ItemCampfire(ForestdayConfig.campfirePots, "pot"));

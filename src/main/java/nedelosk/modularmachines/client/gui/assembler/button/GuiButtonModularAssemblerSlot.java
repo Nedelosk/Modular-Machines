@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.api.IModularAssembler;
-import nedelosk.modularmachines.api.modular.module.ModuleEntry;
+import nedelosk.modularmachines.api.basic.modular.IModularAssembler;
+import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

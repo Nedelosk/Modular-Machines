@@ -2,10 +2,10 @@ package nedelosk.modularmachines.common.modular.module.tool.producer;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.module.IModuleProducer;
-import nedelosk.modularmachines.api.modular.module.Module;
-import nedelosk.modularmachines.api.modular.module.recipes.NeiStack;
+import nedelosk.modularmachines.api.basic.modular.IModular;
+import nedelosk.modularmachines.api.basic.modular.module.IModuleProducer;
+import nedelosk.modularmachines.api.basic.modular.module.Module;
+import nedelosk.modularmachines.api.basic.modular.module.recipes.NeiStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleProducer extends Module implements IModuleProducer {

@@ -9,9 +9,9 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import nedelosk.modularmachines.api.techtree.TechPointTypes;
-import nedelosk.modularmachines.api.techtree.TechTreeData;
-import nedelosk.modularmachines.api.techtree.TechTreeManager;
+import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
 import net.minecraft.client.Minecraft;
@@ -72,7 +72,7 @@ public class PacketSyncData implements IMessage, IMessageHandler<PacketSyncData,
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys = new ArrayList<>();
+			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys = new ArrayList<String>();
 		}
 		String key;
 		for (Iterator i$ = message.entrys.iterator(); i$.hasNext(); TechTreeManager.completeEntry(player, key)) {

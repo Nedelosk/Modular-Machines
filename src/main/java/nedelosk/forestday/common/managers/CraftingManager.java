@@ -21,7 +21,7 @@ import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.crafting.IPlanRecipe;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
-import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import nedelosk.nedeloskcore.utils.CraftingHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -101,7 +101,7 @@ public class CraftingManager {
 		addShapedRecipe(new ItemStack(FItems.hammer.item()), "+++", "+++", " - ", '+', "ingotIron", '-', "stickWood");
 		
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, Items.water_bucket);
-		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, ObjectRegistry.woodBucketWater);
+		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, NCItems.Bucket_Wood_Water.item());
 		
 		GameRegistry.addSmelting(new ItemStack(FItems.crop_corn.item()), new ItemStack(FItems.nature.item(), 1, 9), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(FItems.nature.item(), 1, 10), new ItemStack(FItems.nature.item(), 1, 11), 0.5F);
@@ -121,23 +121,19 @@ public class CraftingManager {
 	
 	public static void addWorkbenchRecipes()
 	{
-		workbench.addRecipe(new OreStack("plankWood"), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 5), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 5), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 4), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 4), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 3), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 3), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 2), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(ObjectRegistry.gearWood, 1, 2), new OreStack("tool_file"), new ItemStack(ObjectRegistry.gearWood, 1, 1), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 5), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 5), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 4), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 4), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 3), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 3), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 2), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 2), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 1), ForestdayConfig.worktableBurnTime);
 	}
 	
 	public static void addMachineRecipes()
 	{
 		
 		//Furenace
-		planRecipe.add(new ItemStack(Blocks.furnace), new ItemStack(FBlocks.Machine_Furnace_Base.item(), 1, 0), 2, new ItemStack[]{ new ItemStack(Items.brick, 16), new ItemStack(FItems.nature.item(), 8, 8)}, new ItemStack[]{ new ItemStack(Items.brick, 16), new ItemStack(FItems.nature.item(), 8, 8), new ItemStack(Blocks.chest)});
 		CraftingHelper.removeAnyRecipe(new ItemStack(Blocks.furnace));
 		addShapedRecipe(new ItemStack(Blocks.furnace), "SSS", "BHB", "BBB", 'S', "stone", 'B', Blocks.stonebrick);
-		
-		//Generator
-		planRecipe.add(new ItemStack(FBlocks.Machine_Generator_Heat.item()), 2, new ItemStack[]{ new ItemStack(Items.brick, 8), new ItemStack(FItems.nature.item(), 4, 8), new ItemStack(Blocks.furnace)}, new ItemStack[]{ new ItemStack(Items.brick, 16), new ItemStack(FItems.nature.item(), 4, 8), new ItemStack(Blocks.chest)});
 		
 		//Campfire
 		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 0), "   ", " + ", "+++", '+', "logWood");
@@ -145,19 +141,19 @@ public class CraftingManager {
 		addShapelessRecipe(new ItemStack(FItems.curb.item(), 1, 0), "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone");
 		addShapelessRecipe(new ItemStack(FItems.curb.item(), 1, 1), "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian");
 		
-		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 0), "   ", "+ +", "+++", '+', new ItemStack(Blocks.stone));
+		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 0), "   ", "+ +", "+++", '+', "stone");
 		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 1), "   ", "+ +", "+++", '+', "ingotBronze");
 		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 2), "   ", "+ +", "+++", '+', "ingotIron");
 		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 3), "   ", "+ +", "+++", '+', "ingotSteel");
 		
 		addShapedRecipe(new ItemStack(FItems.pot_holder.item()), "+++", "+ +", "+ +", '+', "logWood");
-		addShapedRecipe(new ItemStack(FItems.pot_holder.item(), 1, 1), "+++", "+ +", "+ +", '+', Blocks.stone);
+		addShapedRecipe(new ItemStack(FItems.pot_holder.item(), 1, 1), "+++", "+ +", "+ +", '+', "stone");
 		addShapedRecipe(new ItemStack(FItems.pot_holder.item(), 1, 2), "+++", "+ +", "+ +", '+', "ingotBronze");
 		addShapedRecipe(new ItemStack(FItems.pot_holder.item(), 1, 3), "+++", "+ +", "+ +", '+', "ingotIron");
 		
 		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 1), "---", "+++", "W W", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood");
 		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 2), "---", "+++", "WCW", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood", 'C', Blocks.chest);
-		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 3), "ILI", "ICI", "ILI", 'I', Items.iron_ingot, 'C', Blocks.chest, 'L', FBlocks.Gravel.item());
+		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 3), "ILI", "ICI", "ILI", 'I', "ingotIron", 'C', Blocks.chest, 'L', FBlocks.Gravel.item());
 		
 	}
 	

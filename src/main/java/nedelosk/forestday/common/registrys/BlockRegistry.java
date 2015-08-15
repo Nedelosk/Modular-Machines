@@ -13,7 +13,6 @@ import nedelosk.forestday.common.machines.base.heater.generator.TileHeatGenerato
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.BlockCharcoalKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
 import net.minecraft.item.ItemBlock;
@@ -32,7 +31,7 @@ public class BlockRegistry {
 		FBlocks.Machine_Generator_Heat.registerBlock(new BlockMachines("generator.heat", TileHeatGenerator.class/*,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class,  TileHeatGenerator.class*/), ItemBlockMachines.class);
 		FBlocks.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
 		
-		FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
+		//FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
 		
 		registerTile();
 		

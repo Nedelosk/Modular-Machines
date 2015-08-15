@@ -5,7 +5,7 @@ import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IBurnRecipe;
 import nedelosk.forestday.common.registrys.FItems;
-import nedelosk.nedeloskcore.plugins.Plugin;
+import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

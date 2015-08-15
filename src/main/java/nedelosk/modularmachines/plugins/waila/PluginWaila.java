@@ -5,7 +5,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.plugins.waila.provider.ProviderModularMaschine;
-import nedelosk.nedeloskcore.plugins.Plugin;
+import nedelosk.nedeloskcore.plugins.basic.Plugin;
 
 public class PluginWaila extends Plugin {
 

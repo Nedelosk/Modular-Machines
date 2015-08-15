@@ -13,6 +13,10 @@ public abstract class TileMachineBase extends TileBaseInventory {
 		super(slots);
 	}
 	
+	public TileMachineBase() {
+		super();
+	}
+	
 	public abstract String getMachineName();
 
 	@Override
