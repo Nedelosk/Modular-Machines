@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.basic.techtree.TechPointStack;
-import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePlayerData;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -41,9 +41,9 @@ public class EventHandlerNetwork {
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ArrayList<String> listEntrys = new ArrayList();
 			if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") == null)
-				player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player));
+				player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player));
 			else
-				listEntrys = ((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys;
+				listEntrys = ((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys;
 			//TechTreeGui.completedEntrys.put(Minecraft.getMinecraft().thePlayer.getCommandSenderName(), listEntrys);
 		}
 	}

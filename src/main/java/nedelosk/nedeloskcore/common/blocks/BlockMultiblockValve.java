@@ -92,6 +92,11 @@ public class BlockMultiblockValve extends BlockContainerForest {
 	}
 	
 	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
 	public float getBlockHardness(World world, int x, int y, int z) {
 		return NCoreApi.getMaterials().get(world.getBlockMetadata(x, y, z)).hardness;
 	}

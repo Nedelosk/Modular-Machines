@@ -10,14 +10,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class TechTreeData implements IExtendedEntityProperties {
+public class TechTreePlayerData implements IExtendedEntityProperties {
 
 	public ArrayList<String> techEntrys = new ArrayList<String>();
 	public int[] techPoints = new int[TechPointTypes.values().length];
 	
 	public EntityPlayer player;
 	
-	public TechTreeData(EntityPlayer player) {
+	public TechTreePlayerData(EntityPlayer player) {
 		this.player = player;
 		for(Map.Entry<String, TechTreeCategoryList> entryList : TechTreeCategories.entryCategories.entrySet())
 		{
@@ -28,12 +28,12 @@ public class TechTreeData implements IExtendedEntityProperties {
 		}
 	}
 	
-	public TechTreeData(EntityPlayer player, String techEntrys) {
+	public TechTreePlayerData(EntityPlayer player, String techEntrys) {
 		this.player = player;
 		this.techEntrys.add(techEntrys);
 	}
 	
-	public TechTreeData(EntityPlayer player, int points, TechPointTypes type) {
+	public TechTreePlayerData(EntityPlayer player, int points, TechPointTypes type) {
 		this.player = player;
 		this.techPoints[type.ordinal()]+= points;
 	}

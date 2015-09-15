@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
+import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblockValve;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
@@ -25,6 +26,12 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderblocks) {
         //block.setBlockBounds(0, 0, 0, 1, 1, 1);
+    	if(world.getTileEntity(x, y, z) != null && (((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock != null) || ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMaster && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock)
+    		if(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock.getClass()) != null || ((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null  && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock.getClass()) != null)
+    		{
+    			return true;
+    		}	
+    	BlockMultiblock.renderPass = 0;
         BlockMultiblockValve.renderPass = 0;
         renderblocks.setRenderBoundsFromBlock(block);
         renderblocks.renderStandardBlock(block, x, y, z);
@@ -137,6 +144,7 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
+    	BlockMultiblock.renderPass = 0;
         BlockMultiblockValve.renderPass = 0;
         renderItem(renderer, stack.getItemDamage(), NCBlocks.Multiblock_Valve.block().getIcon(0, stack.getItemDamage()));
         BlockMultiblockValve.renderPass = 1;
@@ -168,6 +176,7 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
             GL11.glColor4f(r, g, b, 1.0F);
         }
 
+    	BlockMultiblock.renderPass = 0;
         renderItem(render, stack, ItemRenderType.ENTITY);
     }
 

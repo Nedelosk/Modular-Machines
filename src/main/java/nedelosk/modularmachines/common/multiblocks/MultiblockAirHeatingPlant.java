@@ -246,7 +246,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 				if(recipe != null)
 				{
 					tankInput.drain(recipe.getInput(), true);
-					output = recipe.getOutput();
+					output = recipe.getOutput().copy();
 					tile.burnTimeTotal = recipe.getBurntTime();
 				}
 			}

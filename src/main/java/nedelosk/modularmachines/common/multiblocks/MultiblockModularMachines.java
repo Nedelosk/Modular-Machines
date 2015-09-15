@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblockFluid;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public abstract class MultiblockModularMachines extends AbstractMultiblockFluid {
@@ -21,6 +24,17 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	public MultiblockPattern createPattern() {
 		return null;
 	}
+	
+	@Override
+	public IIcon getIcon(int side, TileMultiblockBase tile) {
+		return null;
+	}
+	
+	@Override
+	public float[] getBlockBounds()
+	{
+		return new float[]{0,0,0,1,1,1};
+	}
 
 	@Override
 	public ArrayList<MultiblockPattern> createPatterns() {
@@ -29,6 +43,11 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 
 	@Override
 	public void updateMultiblock() {
+		
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister IIconRegister) {
 		
 	}
 
@@ -40,6 +59,11 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	@Override
 	public boolean isPatternBlockValid(int x, int y, int z, char pattern, TileMultiblockBase tile) {
 		return false;
+	}
+	
+	@Override
+	public TileEntitySpecialRenderer getRenderer() {
+		return null;
 	}
 
 	@Override

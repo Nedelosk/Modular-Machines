@@ -119,7 +119,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() ||  multiblock == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() ||  multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -132,7 +132,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'S':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -153,7 +153,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'C':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material.type != MaterialType.METAL)
+            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.METAL)
             {
                 return false;
             }
@@ -166,7 +166,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material.type != MaterialType.METAL)
+            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.METAL)
             {
                 return false;
             }
@@ -347,7 +347,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 						if(recipe.getInput()[i] instanceof OreStack)
 							tile.decrStackSize(i, ((OreStack)recipe.getInput()[i]).stackSize);
 					}
-					outputs = recipe.getOutput();
+					outputs = recipe.getOutput().clone();
 					tile.burnTimeTotal = recipe.getBurntTime();
 					heatTotal = recipe.getHeat();
 				}

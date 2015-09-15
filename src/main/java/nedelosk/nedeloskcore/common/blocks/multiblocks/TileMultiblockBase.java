@@ -13,6 +13,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileMultiblockBase extends TileMachineBase {
@@ -20,12 +21,15 @@ public class TileMultiblockBase extends TileMachineBase {
 	public MultiblockModifierValveTypeString modifier;
 	public MultiblockPattern pattern;
 	public AbstractMultiblock multiblock;
-	public TileCache cache;
+	public TileCache cache = new TileCache(this);
 	public boolean tested;
 	public boolean isMaster;
 	public boolean isMultiblock;
 	public boolean isMultiblockSolid;
 	public Material material;
+    private byte patternX;
+    private byte patternY;
+    private byte patternZ;
 	
 	public TileMultiblockBase(int slots) {
 		super(slots);
@@ -36,7 +40,6 @@ public class TileMultiblockBase extends TileMachineBase {
 	
 	public TileMultiblockBase(Material material) {
 		super();
-		this.cache = new TileCache(this);
 		timerMax = 100;
 		modifier = getModifier();
 		this.material = material;
@@ -44,7 +47,6 @@ public class TileMultiblockBase extends TileMachineBase {
 	
 	public TileMultiblockBase() {
 		super();
-		this.cache = new TileCache(this);
 		timerMax = 100;
 		modifier = getModifier();
 	}
@@ -52,6 +54,21 @@ public class TileMultiblockBase extends TileMachineBase {
 	public MultiblockModifierValveTypeString getModifier()
 	{
 		return new MultiblockModifierValveTypeString();
+	}
+	
+	public final char getPatternMarker()
+	{
+		if(isMaster)
+		{
+			if(pattern == null || multiblock == null || !isMultiblock)
+				 return 'O';
+		}
+		else if (master == null || master.pattern == null || master.multiblock == null || !master.isMultiblock)
+            return 'O';
+		if(master != null)
+			return master.pattern.getPatternMarker(patternX, patternY, patternZ);
+		else
+			return pattern.getPatternMarker(patternX, patternY, patternZ);
 	}
 	
 	public TileMultiblockBase master;
@@ -68,15 +85,39 @@ public class TileMultiblockBase extends TileMachineBase {
 		return "multiblock." + getMultiblockName();
 	}
 	
+	public float[] getBlockBounds()
+	{
+		if(isMaster)
+		{
+			if(!isMultiblock || !tested)
+			{
+				return new float[]{0,0,0,1,1,1};
+			}
+		}
+		else if(!isMaster)
+			if(master == null || master.multiblock == null || !master.isMultiblock ||! master.tested)
+				return new float[]{0,0,0,1,1,1};
+		if(!isMaster)
+			return master.multiblock.getBlockBounds();
+		else
+			return multiblock.getBlockBounds();
+	}
+	
 	@Override
 	public void updateServer() {
 		updateMultiblock();
-		if(isMaster && isMultiblock)
-			master.multiblock.updateServer(this);
+		if(isMaster && isMultiblock && multiblock != null)
+			multiblock.updateServer(this);
 	}
 	
     protected boolean isStructureTile(TileEntity tile) {
-        return tile != null && tile.getClass() == getClass();
+        return tile != null && (tile.getClass() == TileMultiblockBase.class || tile.getClass() == TileMultiblockValve.class);
+    }
+    
+    private void setPatternPosition(byte x, byte y, byte z) {
+        patternX = x;
+        patternY = y;
+        patternZ = z;
     }
 	
 	public void updateMultiblock() {
@@ -104,15 +145,15 @@ public class TileMultiblockBase extends TileMachineBase {
 	        int yOffset = yCoord - pattern.getMasterOffsetY();
 	        int zOffset = zCoord - pattern.getMasterOffsetZ();
 
-	        for (int patX = 0; patX < xWidth; patX++) {
-	            for (int patY = 0; patY < height; patY++) {
-	                for (int patZ = 0; patZ < zWidth; patZ++) {
+	        for (byte patX = 0; patX < xWidth; patX++) {
+	            for (byte patY = 0; patY < height; patY++) {
+	                for (byte patZ = 0; patZ < zWidth; patZ++) {
 	                    int x = patX + xOffset;
 	                    int y = patY + yOffset;
 	                    int z = patZ + zOffset;
 						TileEntity tile = this.worldObj.getTileEntity(x, y, z);
 						char c = pattern.getPatternMarker(patX, patY, patZ);
-						if(c != 'O' || c != 'H')
+						if(c != 'O' && c != 'H')
 						{
 							if(tile instanceof TileMultiblockBase) {
 								if(multiblock.testBlock())
@@ -123,10 +164,14 @@ public class TileMultiblockBase extends TileMachineBase {
 								}
 								((TileMultiblockBase) tile).setMaster(this);
 								((TileMultiblockBase) tile).tested = true;
+								((TileMultiblockBase) tile).setPatternPosition(patX, patY, patZ);
 								worldObj.markBlockForUpdate(x, y, z);
 							}
 							else
+							{
 								tested = false;
+								return;
+							}
 						}
 					}
 				}
@@ -181,6 +226,17 @@ public class TileMultiblockBase extends TileMachineBase {
         return true;
 	}
 	
+    public IIcon getIcon(int side) {
+        if (master != null && master.isMultiblock && master.multiblock != null) {
+        	return master.multiblock.getIcon(side, this);
+        }
+        else if(isMaster && multiblock != null && isMultiblock)
+        {
+          	return multiblock.getIcon(side, this);
+        }
+        return null;
+    }
+	
     public void onBlockAdded() {
 		if(worldObj.isRemote) return;
         onBlockChange();
@@ -200,24 +256,25 @@ public class TileMultiblockBase extends TileMachineBase {
     	super.writeToNBT(nbt);
     	if(worldObj != null)
     	{
+    		nbt.setInteger("Material", NCoreApi.getMaterials().indexOf(material));
+    		
+    		nbt.setBoolean("isMaster", isMaster);
+    		nbt.setBoolean("isMultiblock", isMultiblock);
+    		nbt.setBoolean("isMultiblockSolid", isMultiblockSolid);
+			nbt.setByte("patternX", patternX);
+			nbt.setByte("patternY", patternY);
+			nbt.setByte("patternZ", patternZ);
+			if(modifier != null)
+			{
+				NBTTagCompound nbtModifier = new NBTTagCompound();
+				modifier.writeToNBT(nbtModifier);
+				nbt.setTag("Modifier", nbtModifier);
+			}
     		if(master != null && worldObj.getTileEntity(master.xCoord, master.yCoord,  master.zCoord) != null && worldObj.getTileEntity(master.xCoord, master.yCoord, master.zCoord) == master)
     		{
     			nbt.setInteger("masterXCoord", master.xCoord);
     			nbt.setInteger("masterYCoord", master.yCoord);
     			nbt.setInteger("masterZCoord", master.zCoord);
-    			
-    			if(modifier != null)
-    			{
-    				NBTTagCompound nbtModifier = new NBTTagCompound();
-    				modifier.writeToNBT(nbtModifier);
-    				nbt.setTag("Modifier", nbtModifier);
-    			}
-    			
-    			nbt.setInteger("Material", NCoreApi.getMaterials().indexOf(material));
-    			
-    			nbt.setBoolean("isMaster", isMaster);
-    			nbt.setBoolean("isMultiblock", isMultiblock);
-    			nbt.setBoolean("isMultiblockSolid", isMultiblockSolid);
     			if(isMaster)
     				if(multiblock != null)
     				{
@@ -229,28 +286,31 @@ public class TileMultiblockBase extends TileMachineBase {
     				}
     		}
     	}
-    	nbt.setBoolean("tested", tested);
     }
     
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
     	super.readFromNBT(nbt);
     	
+		this.material = NCoreApi.getMaterials().get(nbt.getInteger("Material"));
+    	
+		patternX = nbt.getByte("patternX");
+		patternY = nbt.getByte("patternY");
+		patternZ = nbt.getByte("patternZ");
+		
+		this.isMaster = nbt.getBoolean("isMaster");
+		this.isMultiblock = nbt.getBoolean("isMultiblock");
+		this.isMultiblockSolid = nbt.getBoolean("isMultiblockSolid");
+		if(nbt.hasKey("Modifier"))
+		{
+			NBTTagCompound nbtModifier = nbt.getCompoundTag("Modifier");
+			modifier.readFromNBT(nbtModifier);
+		}
     	if(nbt.hasKey("masterXCoord") || nbt.hasKey("masterYCoord") || nbt.hasKey("masterZCoord"))
     	{
     		if(worldObj == null) return;
     		if(worldObj.getTileEntity(nbt.getInteger("masterXCoord"), nbt.getInteger("masterYCoord"), nbt.getInteger("masterZCoord")) != null && worldObj.getTileEntity(nbt.getInteger("masterXCoord"), nbt.getInteger("masterYCoord"), nbt.getInteger("masterZCoord")) instanceof TileMachineBase)
     		this.master = (TileMultiblockBase) worldObj.getTileEntity(nbt.getInteger("masterXCoord"), nbt.getInteger("masterYCoord"), nbt.getInteger("masterZCoord"));
-    	
-    		this.isMaster = nbt.getBoolean("isMaster");
-    		this.isMultiblock = nbt.getBoolean("isMultiblock");
-    		this.isMultiblockSolid = nbt.getBoolean("isMultiblockSolid");
-    		this.material = NCoreApi.getMaterials().get(nbt.getInteger("Material"));
-    		if(nbt.hasKey("Modifier"))
-    		{
-    			NBTTagCompound nbtModifier = nbt.getCompoundTag("Modifier");
-    			modifier.readFromNBT(nbtModifier);
-    		}
     		if(isMaster)
     		{
     			if(nbt.hasKey("Multiblock"))
@@ -265,8 +325,6 @@ public class TileMultiblockBase extends TileMachineBase {
     	{
     		master = null;
     	}
-    	
-    	this.tested = nbt.getBoolean("tested");
     }
 
     @Override
@@ -288,9 +346,8 @@ public class TileMultiblockBase extends TileMachineBase {
         depth--;
         if (depth < 0)
             return;
-        if (tested) {
+        if (tested || isMultiblock) {
             tested = false;
-            
             if(isMaster)
             	isMultiblock = false;
 
@@ -305,6 +362,16 @@ public class TileMultiblockBase extends TileMachineBase {
                 if (isStructureTile(tile))
                     ((TileMultiblockBase) tile).onBlockChange(depth);
             }
+        }
+    }
+    
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        if (!isMaster) {
+            TileMultiblockBase mBlock = getMasterBlock();
+            if (mBlock != null)
+                mBlock.markDirty();
         }
     }
     
@@ -377,8 +444,8 @@ public class TileMultiblockBase extends TileMachineBase {
 
 	@Override
 	public void updateClient() {
-		if(isMaster && isMultiblock)
-			master.multiblock.updateClient(this);
+		if(isMaster && isMultiblock && multiblock != null)
+			multiblock.updateClient(this);
 	}
 	
 }

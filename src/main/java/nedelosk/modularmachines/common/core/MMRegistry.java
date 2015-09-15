@@ -16,6 +16,7 @@ import nedelosk.modularmachines.common.events.KeyHandler;
 import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
+import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import nedelosk.modularmachines.plugins.PluginManager;
@@ -47,6 +48,7 @@ public class MMRegistry {
 		new MultiblockAirHeatingPlant();
 		new MultiblockBlastFurnace();
 		new MultiblockCokeOven();
+		new MultiblockFermenter();
 	}
 	
 	public void init()

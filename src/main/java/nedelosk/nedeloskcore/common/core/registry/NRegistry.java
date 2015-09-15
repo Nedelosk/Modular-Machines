@@ -83,12 +83,12 @@ public class NRegistry {
 	}
 
 	public static Block registerBlock(Block block, String name, String modName) {
-		GameRegistry.registerBlock(block, setUnlocalizedBlockName(name, modName));
+		GameRegistry.registerBlock(block, name);
 		return block;
 	}
 
 	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName) {
-		GameRegistry.registerBlock(block, itemblock, setUnlocalizedBlockName(name, modName));
+		GameRegistry.registerBlock(block, itemblock, name);
 		return block;
 	}
 
@@ -101,7 +101,7 @@ public class NRegistry {
 	}
 
 	public static Item registerItem(Item item, String name, String modName) {
-		GameRegistry.registerItem(item, setUnlocalizedItemName(name, modName));
+		GameRegistry.registerItem(item, name);
 		return item;
 	}
 

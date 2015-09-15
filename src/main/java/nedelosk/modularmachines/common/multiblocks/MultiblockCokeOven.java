@@ -5,23 +5,27 @@ import java.util.ArrayList;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiCokeOven;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.crafting.CokeOvenRecipe;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
+import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager.CokeOvenRecipe;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerCokeOven;
 import nedelosk.nedeloskcore.api.Material.MaterialType;
 import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
+import nedelosk.nedeloskcore.client.TextureAtlasMap;
+import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -35,6 +39,8 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 	public ItemStack output;
 	public int heat;
 	public int heatTotal = 1350;
+	public IIcon[] cokeOvenIcon;
+	public IIcon[] cokeOvenOnIcon;
 	
 	public MultiblockCokeOven() {
 		super();
@@ -49,76 +55,196 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 	public MultiblockPattern createPattern() {
 		return null;
 	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister IIconRegister) {
+		cokeOvenIcon = TextureAtlasMap.unstitchIcons(IIconRegister, "modularmachines:multiblocks/coke_oven", 3, 3);
+		cokeOvenOnIcon = TextureAtlasMap.unstitchIcons(IIconRegister, "modularmachines:multiblocks/coke_oven_on", 3, 3);
+	}
 
 	@Override
 	public ArrayList<MultiblockPattern> createPatterns() {
 		ArrayList<MultiblockPattern> list = new ArrayList<MultiblockPattern>();
-		char[][] layer_0_0 = {
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_0_1 = {
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'B', 'O'},
-				{ 'O', 'B', 'J', 'B', 'O'},
-				{ 'O', 'B', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_0_2 = {
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'V', 'B', 'O'},
-				{ 'O', 'V', 'H', 'V', 'O'},
-				{ 'O', 'B', 'V', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_0_3 = {
-				{ 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'B', 'O'},
-				{ 'O', 'B', 'F', 'B', 'O'},
-				{ 'O', 'B', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O'}};
-		list.add(new MultiblockPattern(new char[][][]{ layer_0_0, layer_0_1, layer_0_2, layer_0_3, layer_0_0}, 2, 1, 2));
-		char[][] layer_1_0 = {
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_1_1 = {
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O'},
-				{ 'O', 'B', 'F', 'J', 'F', 'B', 'O'},
-				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_1_2 = {
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'B', 'H', 'H', 'H', 'B', 'O'},
-				{ 'O', 'B', 'H', 'H', 'H', 'B', 'O'},
-				{ 'O', 'B', 'H', 'H', 'H', 'B', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_1_3 = {
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'V', 'B', 'B', 'O'},
-				{ 'O', 'B', 'H', 'H', 'H', 'B', 'O'},
-				{ 'O', 'V', 'H', 'H', 'H', 'V', 'O'},
-				{ 'O', 'B', 'H', 'H', 'H', 'B', 'O'},
-				{ 'O', 'B', 'B', 'V', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'}};
-		char[][] layer_1_4 = {
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O'},
-				{ 'O', 'B', 'F', 'B', 'F', 'B', 'O'},
-				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O'},
-				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O'},
-				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O'}};
-		list.add(new MultiblockPattern(new char[][][]{ layer_1_0, layer_1_1, layer_1_2, layer_1_3, layer_1_2, layer_1_4, layer_1_0}, 3, 1, 3));
+		char[][] layer_0_0_0 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_0_1 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'J', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_0_2 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'f', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_0_3 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'V', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'e', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_0_4 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'd', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_0_5 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'F', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		list.add(new MultiblockPattern(new char[][][]{ layer_0_0_0, layer_0_0_1, layer_0_0_2, layer_0_0_3, layer_0_0_4, layer_0_0_5, layer_0_0_0}, 3, 1, 2));
+		char[][] layer_0_1_1 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'J', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_1_2 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'f', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_1_3 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'e', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'V', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_1_4 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'd', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'H', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		char[][] layer_0_1_5 = {
+				{ 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'F', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' }
+		};
+		list.add(new MultiblockPattern(new char[][][]{ layer_0_0_0, layer_0_1_1, layer_0_1_2, layer_0_1_3, layer_0_1_4, layer_0_1_5, layer_0_0_0}, 3, 1, 2));
+		char[][] layer_0_2_0 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_2_1 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'J', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_2_2 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'H', 'H', 'H', 'f', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_2_3 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'V', 'H', 'H', 'H', 'e', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_2_4 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'H', 'H', 'H', 'd', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_2_5 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		list.add(new MultiblockPattern(new char[][][]{ layer_0_2_0, layer_0_2_1, layer_0_2_2, layer_0_2_3, layer_0_2_4, layer_0_2_5, layer_0_2_0}, 2, 1, 3));
+		char[][] layer_0_3_1 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'V', 'B', 'J', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_3_2 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'f', 'H', 'H', 'H', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_3_3 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'e', 'H', 'H', 'H', 'V', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_3_4 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'd', 'H', 'H', 'H', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		char[][] layer_0_3_5 = {
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'F', 'B', 'B', 'O' },
+				{ 'O', 'B', 'B', 'B', 'B', 'B', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O', 'O', 'O' },
+		};
+		list.add(new MultiblockPattern(new char[][][]{ layer_0_2_0, layer_0_3_1, layer_0_3_2, layer_0_3_3, layer_0_3_4, layer_0_3_5, layer_0_2_0}, 2, 1, 3));
 		return list;
 	}
 
@@ -135,9 +261,18 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		if(tile instanceof TileMultiblockBase)
 			multiblock = (TileMultiblockBase) tile;
 		switch (pattern) {
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
+		case 'e':
+		case 'f':
+		case 'g':
+		case 'h':
+		case 'i':
 		case 'B':
 		{
-            if (block != NCBlocks.Multiblock.block() || multiblock == null)
+            if (block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -145,7 +280,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'J':
 		{
-            if (block != NCBlocks.Multiblock.block() || multiblock == null)
+            if (block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -153,11 +288,11 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlocks.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
-            else if(block == NCBlocks.Multiblock_Valve.block())
+            else
             {
             	multiblock.modifier.valveType = ValveType.OUTPUT;
             }
@@ -165,11 +300,11 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() && block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlocks.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
-            else if(block == NCBlocks.Multiblock_Valve.block())
+            else
             {
             	multiblock.modifier.valveType = ValveType.INPUT;
             }
@@ -195,6 +330,79 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		if(tile != null)
 			base.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
 		return true;
+	}
+	
+	@Override
+	public IIcon getIcon(int side, TileMultiblockBase tile) {
+		char c = tile.getPatternMarker();
+		if(!tile.isWorking)
+		{
+			switch (c) {
+			case 'a':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[0];
+			case 'b':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[3];
+			case 'c':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[6];
+			case 'd':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[1];
+			case 'e':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[4];
+			case 'f':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[7];
+			case 'g':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[2];
+			case 'h':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[5];
+			case 'i':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenIcon[8];
+			default:
+			return null;
+			}
+		}
+		else
+		{
+			switch (c) {
+			case 'a':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[0];
+			case 'b':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[3];
+			case 'c':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[6];
+			case 'd':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[1];
+			case 'e':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[4];
+			case 'f':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[7];
+			case 'g':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[2];
+			case 'h':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[5];
+			case 'i':
+				BlockMultiblock.renderPass = 1;
+				return cokeOvenOnIcon[8];
+			default:
+			return null;
+			}
+		}
 	}
 
 	@Override
@@ -276,8 +484,13 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 				{
 					output = recipe.getOutput();
 					tile.burnTimeTotal = recipe.getBurntTime();
+					tile.isWorking = true;;
 				}
+				else
+					tile.isWorking = false;
 			}
+			else
+				tile.isWorking = false;
 		}
 		else
 		{

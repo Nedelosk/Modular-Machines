@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.command;
 import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategoryList;
-import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePlayerData;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -270,7 +270,7 @@ public void processCommand(ICommandSender icommandsender, String[] astring)
   {
     if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
     {
-    	((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys = new ArrayList<String>();
+    	((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys = new ArrayList<String>();
     }
     
 

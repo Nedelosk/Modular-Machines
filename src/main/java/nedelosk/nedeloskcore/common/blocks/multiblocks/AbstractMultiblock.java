@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.api.NCoreApi;
+import nedelosk.nedeloskcore.client.renderer.tile.TileMultiblockRenderer;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public abstract class AbstractMultiblock implements INBTTagable {
@@ -16,6 +20,8 @@ public abstract class AbstractMultiblock implements INBTTagable {
 			NCoreApi.addMultiblockPattern(getMultiblockName(), createPatterns());
 		else
 			NCoreApi.addMultiblockPattern(getMultiblockName(), createPattern());
+		if(getRenderer() != null)
+			TileMultiblockRenderer.registerRenderer(getClass(), getRenderer());
 		NCoreApi.registerMuliblock(getMultiblockName(), this);
 	}
 	
@@ -27,7 +33,13 @@ public abstract class AbstractMultiblock implements INBTTagable {
 	
 	public abstract void updateMultiblock();
 	
+	public abstract TileEntitySpecialRenderer getRenderer();
+	
 	public abstract boolean testBlock();
+	
+	public abstract float[] getBlockBounds();
+	
+	public abstract IIcon getIcon(int side, TileMultiblockBase tile);
 	
 	public abstract boolean isPatternBlockValid(int x, int y, int z, char pattern, TileMultiblockBase tile);
 
@@ -40,5 +52,7 @@ public abstract class AbstractMultiblock implements INBTTagable {
 	public abstract void updateClient(TileMultiblockBase base);
 	
 	public abstract void updateServer(TileMultiblockBase base);
+	
+	public abstract void registerBlockIcons(IIconRegister IIconRegister);
 	
 }

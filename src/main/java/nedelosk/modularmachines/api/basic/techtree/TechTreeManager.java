@@ -8,11 +8,11 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.add(key);
+			((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.add(key);
 		}
 		else
 		{
-			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player, key));
+			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player, key));
 		}
 	}
 	
@@ -20,7 +20,7 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			return ((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(key);
+			return ((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(key);
 		}
 		return false;
 	}
@@ -30,7 +30,7 @@ public class TechTreeManager {
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
 			for(String key : keys)
-				if(!((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(key))
+				if(!((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(key))
 					return false;
 			return true;
 		}
@@ -41,11 +41,11 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints[type.ordinal()] += points;
+			((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints[type.ordinal()] += points;
 		}
 		else
 		{
-			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player, points, type));
+			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player, points, type));
 		}
 	}
 	
@@ -53,11 +53,11 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints[type.ordinal()] = points;
+			((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints[type.ordinal()] = points;
 		}
 		else
 		{
-			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player, points, type));
+			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player, points, type));
 		}
 	}
 	
@@ -65,12 +65,12 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints = points;
+			((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints = points;
 		}
 		else
 		{
-			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player));
-			((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints = points;
+			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player));
+			((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints = points;
 		}
 	}
 	
@@ -78,11 +78,11 @@ public class TechTreeManager {
 	{
 		if(player.getExtendedProperties("MODULARMACHINES:TECHTREE") != null)
 		{
-			return ((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints;
+			return ((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techPoints;
 		}
 		else
 		{
-			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData(player));
+			player.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData(player));
 			return null;
 		}
 	}

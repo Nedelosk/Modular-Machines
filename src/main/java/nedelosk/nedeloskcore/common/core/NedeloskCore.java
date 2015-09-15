@@ -2,13 +2,6 @@ package nedelosk.nedeloskcore.common.core;
 
 import java.io.File;
 
-import nedelosk.nedeloskcore.common.book.BookManager;
-import nedelosk.nedeloskcore.common.book.PlayerData;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
-import nedelosk.nedeloskcore.common.event.PlayerEvents;
-import nedelosk.nedeloskcore.common.network.GuiHandler;
-import nedelosk.nedeloskcore.common.proxy.CommonProxy;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -16,6 +9,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import nedelosk.nedeloskcore.common.book.BookManager;
+import nedelosk.nedeloskcore.common.book.PlayerData;
+import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.event.PlayerEvents;
+import nedelosk.nedeloskcore.common.network.GuiHandler;
+import nedelosk.nedeloskcore.common.proxy.CommonProxy;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = "NedeloskCore", version = "0.1.1", dependencies = "after:Railcraft")
 public class NedeloskCore

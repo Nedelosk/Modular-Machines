@@ -64,11 +64,10 @@ public class ModularRecipeHandler {
     		FluidStack resultToRemove = MineTweakerMC.getLiquidStack((ILiquidStack) result);
     		MineTweakerAPI.apply(new RemoveAction(new RecipeItem(resultToRemove), recipeName));
     	}
-    }
-    
-    @ZenMethod
-    public static void remove(String result, String recipeName) {
-    	MineTweakerAPI.apply(new RemoveAction(new RecipeItem(new OreStack(result)), recipeName));
+    	else if(result instanceof IOreDictEntry)
+    	{
+    		MineTweakerAPI.apply(new RemoveAction(new RecipeItem(new OreStack(((IOreDictEntry) result).getName())), recipeName));
+    	}
     }
 
     private static class AddAction implements IUndoableAction {

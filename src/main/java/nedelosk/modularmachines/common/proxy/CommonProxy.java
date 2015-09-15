@@ -41,8 +41,11 @@ public class CommonProxy implements IGuiHandler {
 	    }
 	}
 	
-	public void postInit()
-	{
+	public void init(){
+	}
+	
+	public void postInit(){
+		
 	}
 
 	@Override

@@ -2,9 +2,14 @@ package nedelosk.nedeloskcore.common.blocks;
 
 import java.util.List;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import nedelosk.nedeloskcore.api.NCoreApi;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,9 +21,15 @@ import net.minecraft.world.World;
 
 public class BlockMultiblock extends BlockContainerForest {
 	
+	public static int renderPass;
+	public static TileMultiblockBase tileBase;
+	public int renderType = 0;
+	
 	public BlockMultiblock() {
 		super(net.minecraft.block.material.Material.ground, CreativeTabs.tabBlock);
 		setBlockName("multiblock");
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+			renderType = RenderingRegistry.getNextAvailableRenderId();
 	}
 	
 	@Override
@@ -56,13 +67,37 @@ public class BlockMultiblock extends BlockContainerForest {
 	
 	@Override
 	public IIcon getIcon(int side, int meta) {
-		return Block.getBlockFromItem(NCoreApi.getMaterials().get(meta).block.getItem()).getIcon(side, 0);
+		if(renderPass == 0)
+			return Block.getBlockFromItem(NCoreApi.getMaterials().get(meta).block.getItem()).getIcon(side, 0);
+		else if(tileBase != null && tileBase.getIcon(side) != null)
+		{
+			return tileBase.getIcon(side);
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister IIconRegister) {
+		for(AbstractMultiblock multiblock : NCoreApi.getMutiblocks().values())
+		{
+			multiblock.registerBlockIcons(IIconRegister);	
+		}
 	}
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		for(int i = 0;i < NCoreApi.getMaterials().size();i++)
 			list.add(new ItemStack(item, 1, i));
+	}
+	
+	@Override
+	public int getRenderType() {
+		return renderType;
 	}
 	
 	@Override

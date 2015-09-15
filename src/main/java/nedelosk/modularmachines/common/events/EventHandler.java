@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.events;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePlayerData;
 import nedelosk.modularmachines.client.gui.GuiModuleRegisterError;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -59,7 +59,7 @@ public class EventHandler {
 		if(event.entity instanceof EntityPlayer)
 		{
 			if(event.entity.getExtendedProperties("MODULARMACHINES:TECHTREE") == null)
-				event.entity.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreeData((EntityPlayer)event.entity));
+				event.entity.registerExtendedProperties("MODULARMACHINES:TECHTREE", new TechTreePlayerData((EntityPlayer)event.entity));
 		}
 	}
 	

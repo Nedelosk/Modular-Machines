@@ -42,6 +42,7 @@ public class ModularMachinesApi {
 	public static IBlastFurnaceRecipe blastFurnace;
 	public static IAirHeatingPlantRecipe airHeatingPlant;
 	public static final ArrayList<Fluid> airHeatingPlantGas = new ArrayList<Fluid>();
+	public static final HashMap<Fluid, Integer> fermenterFluid = new HashMap<Fluid, Integer>();
 	
 	public static void addModule(IModule module)
 	{

@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.basic.techtree;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -8,10 +9,14 @@ import net.minecraft.util.StatCollector;
 
 public class TechTreeCategories {
 	
-	public static LinkedHashMap <String, TechTreeCategoryList> entryCategories = new LinkedHashMap <String, TechTreeCategoryList>();
+	public static LinkedHashMap <String, TechTreeCategoryList> entryCategories;
+	public static final LinkedHashMap <String, TechTreeCategoryList> entryCategoriesTemp = new LinkedHashMap <String, TechTreeCategoryList>();
+	public static final ArrayList<String> entryCategoriesDisabled = new ArrayList<String>();
 	
 	public static TechTreeCategoryList getEntryList(String key) {
-		return entryCategories.get(key);
+		if(entryCategories != null)
+			return entryCategories.get(key);
+		return entryCategoriesTemp.get(key);
 	}
 	
 	public static String getCategoryName(String key) {
@@ -31,8 +36,11 @@ public class TechTreeCategories {
 	
 	public static void registerCategory(String key, ResourceLocation icon, ResourceLocation background) {
 		if (getEntryList(key)==null) {
-			TechTreeCategoryList rl = new TechTreeCategoryList(icon, background);
-			entryCategories.put(key, rl);
+			TechTreeCategoryList rl = new TechTreeCategoryList(key, icon, background);
+			if(entryCategories == null)
+				entryCategoriesTemp.put(key, rl);
+			else
+				entryCategories.put(key, rl);
 		}
 	}
 	

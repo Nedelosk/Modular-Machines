@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategoryList;
-import nedelosk.modularmachines.api.basic.techtree.TechTreeData;
+import nedelosk.modularmachines.api.basic.techtree.TechTreePlayerData;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -149,7 +149,7 @@ protected void keyTyped(char par1, int par2)
   }
   
   @Override
-public void drawScreen(int mx, int my, float par3)
+  public void drawScreen(int mx, int my, float par3)
   {
     int var4 = (this.width - this.paneWidth) / 2;
     int var5 = (this.height - this.paneHeight) / 2;
@@ -221,7 +221,7 @@ public void drawScreen(int mx, int my, float par3)
   }
   
   @Override
-public void updateScreen()
+  public void updateScreen()
   {
     this.field_74117_m = this.guiMapX;
     this.field_74115_n = this.guiMapY;
@@ -290,6 +290,7 @@ public void updateScreen()
         TechTreeEntry var33 = this.entrys.get(var22);
         if ((var33.parents != null) && (var33.parents.length > 0)) {
           for (int a = 0; a < var33.parents.length; a++) {
+        	  try{
             if ((var33.parents[a] != null) && (TechTreeCategories.getEntry(var33.parents[a]).category.equals(selectedCategory)))
             {
             	TechTreeEntry parent = TechTreeCategories.getEntry(var33.parents[a]);
@@ -312,6 +313,9 @@ public void updateScreen()
                   }
                 //}
             }
+          }catch(Exception e){
+        	  e.getMessage();
+          }
           }
         }
         if ((var33.siblings != null) && (var33.siblings.length > 0)) {
@@ -658,7 +662,7 @@ protected void mouseClicked(int par1, int par2, int par3)
       for (String pt : res.parents)
       {
         TechTreeEntry parent = TechTreeCategories.getEntry(pt);
-        if ((parent != null) && (!(((TechTreeData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(parent.key)))) {
+        if ((parent != null) && (!(((TechTreePlayerData)player.getExtendedProperties("MODULARMACHINES:TECHTREE")).techEntrys.contains(parent.key)))) {
           return false;
         }
       }

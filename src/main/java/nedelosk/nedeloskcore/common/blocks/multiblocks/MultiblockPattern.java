@@ -11,16 +11,26 @@ public class MultiblockPattern {
     private final int offsetX;
     private final int offsetY;
     private final int offsetZ;
+    public final int tier;
 
     public MultiblockPattern(char[][][] pattern) {
         this(pattern, 1, 1, 1);
     }
-
+    
     public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ) {
         this.pattern = pattern;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;
+        this.tier = 1;
+    }
+
+    public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ, int tier) {
+        this.pattern = pattern;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.offsetZ = offsetZ;
+        this.tier = tier;
     }
 
     public char getPatternMarker(int x, int y, int z) {

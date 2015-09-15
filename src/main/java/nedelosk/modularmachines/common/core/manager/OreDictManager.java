@@ -2,6 +2,7 @@ package nedelosk.modularmachines.common.core.manager;
 
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMItems;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -59,6 +60,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("plateNiobium", new ItemStack(MMItems.Plates.item(), 1, 9));
 		OreDictionary.registerOre("plateTantalum", new ItemStack(MMItems.Plates.item(), 1, 10));
 		OreDictionary.registerOre("plateAluminium", new ItemStack(MMItems.Plates.item(), 1, 11));
+		OreDictionary.registerOre("blockObsidian", Blocks.obsidian);
 	}
 	
 }

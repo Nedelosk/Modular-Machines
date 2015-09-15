@@ -12,7 +12,7 @@ public final class TileCache {
         this.source = tile;
     }
 
-    private TileEntity searchSide(ForgeDirection side) {
+    public TileEntity searchSide(ForgeDirection side) {
         return WorldUtils.getTileEntityOnSide(source.getWorldObj(), source.xCoord, source.yCoord, source.zCoord, side);
     }
 
@@ -22,7 +22,9 @@ public final class TileCache {
         }
     }
 
-    protected void setTile(int side, TileEntity tile) {
+    public void setTile(int side, TileEntity tile) {
+    	if(tile == null)
+    		return;
         if (cache[side] != tile) {
             cache[side] = tile;
         }
@@ -35,8 +37,7 @@ public final class TileCache {
                 setTile(s, null);
             else
                 return cache[s];
-
-        setTile(s, searchSide(side));
+		setTile(s, searchSide(side));
 
         return cache[s];
     }

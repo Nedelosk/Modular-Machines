@@ -29,7 +29,7 @@ public class GuiModularWorkbench
   }
 
   @Override
-	protected void renderProgressBar() {
+  protected void renderProgressBar() {
 	
   }
 

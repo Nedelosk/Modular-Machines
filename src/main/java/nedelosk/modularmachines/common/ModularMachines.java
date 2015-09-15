@@ -12,9 +12,10 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.client.techtree.utils.TechEntryData;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.modularmachines.common.config.TechTreeConfigsReader;
+import nedelosk.modularmachines.common.config.TechTreeConfigs;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
@@ -25,6 +26,7 @@ import net.minecraftforge.common.config.Configuration;
 public class ModularMachines
 {
 	public static Configuration config;
+	public static Configuration configTechTree;
 	public static File configFolder;
 	
 	@Mod.Instance("ModularMachines")
@@ -40,7 +42,9 @@ public class ModularMachines
     {
         File configFolderModularMachines = new File(NedeloskCore.configFolder, "modular-machines");
         File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
+        File configFileTechTree = new File(configFolderModularMachines, "Tech-Tree.cfg");
         config = new Configuration(configFileModularMachines);
+        configTechTree = new Configuration(configFileTechTree);
         configFolder = configFolderModularMachines;
         registry.preInit();
         if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
@@ -53,15 +57,16 @@ public class ModularMachines
     @Mod.EventHandler
 	public void init(FMLInitializationEvent event){
     	proxy.registerRenderer();
+        proxy.init();
         registry.init();
-        TechTreeConfigsReader.readCustomTechTreeEntrys();
-        TechTreeConfigsReader.readCustomTechTreeEntryPages();
     }
 	
     @Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
         registry.postInit();
+    	TechEntryData.checkJsonData();
         ModularConfig.postInit();
+        TechTreeConfigs.postInit();
         proxy.postInit();
 	}
     

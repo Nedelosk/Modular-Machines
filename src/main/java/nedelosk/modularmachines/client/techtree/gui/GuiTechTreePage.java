@@ -58,15 +58,15 @@ public class GuiTechTreePage
   private int page = 0;
   private int maxPages = 0;
   
-  public GuiTechTreePage(TechTreeEntry research, int page, double x, double y)
+  public GuiTechTreePage(TechTreeEntry entry, int page, double x, double y)
   {
-    this.entry = research;
+    this.entry = entry;
     this.guiMapX = x;
     this.guiMapY = y;
     
     this.mc = Minecraft.getMinecraft();
     
-    this.pages = research.getPages();
+    this.pages = entry.getPages();
     
     List<TechTreePage> p1 = Arrays.asList(this.pages);
     ArrayList<TechTreePage> p2 = new ArrayList();
@@ -234,7 +234,7 @@ public void drawScreen(int par1, int par2, float par3)
     }
     GL11.glAlphaFunc(516, 0.003921569F);
     if ((pageParm.type == TechTreePage.PageType.TEXT)) {
-      drawTextPage(side, x, y - 10, pageParm.getTranslatedText());
+      drawTextPage(side, x, y - 10, pageParm.getTranslatedText(entry));
     } else if (pageParm.type == TechTreePage.PageType.NORMAL_CRAFTING) {
       drawCraftingPage(1, x - 4, y - 8, mx, my, pageParm);
     } else if (pageParm.type == TechTreePage.PageType.SMELTING) {

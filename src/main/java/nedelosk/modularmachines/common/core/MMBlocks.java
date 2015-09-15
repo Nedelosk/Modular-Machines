@@ -20,7 +20,7 @@ public enum MMBlocks {
 
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass) {
 		this.block = block;
-		NRegistry.registerBlock(block, itemClass, block.getUnlocalizedName().replace("tile.", ""), "fd");
+		NRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
 	}
 
 	public boolean isItemEqual(ItemStack stack) {
