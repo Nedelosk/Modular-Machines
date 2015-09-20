@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.Minecraft;

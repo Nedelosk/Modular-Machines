@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.tools.ItemBowAndStick;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -165,7 +165,7 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 	public void onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side) {
 		if(master != null)
 		{
-			if(!master.isWorking)
+			if(!master.isWorking())
 			{
 		if(player.getCurrentEquippedItem() != null)
 		{
@@ -175,14 +175,14 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 				if(bow.hasTagCompound() && bow.getTagCompound().hasKey("Power") && bow.getTagCompound().getInteger("Power") == ForestdayConfig.bowandstickPowerMin[bow.getItemDamage()])
 				{
 					bow.getTagCompound().setInteger("Power", 0);
-					master.isWorking = true;
+					master.setWorking(true);
 					
 				}
 			}
 			else if(player.getCurrentEquippedItem().getItem() instanceof ItemFlintAndSteel)
 			{
 				player.getCurrentEquippedItem().damageItem(5, player);
-				master.isWorking = true;
+				master.setWorking(true);
 			}
 		}
 		}

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.nedeloskcore.common.core.Log;
+import nedelosk.nedeloskcore.api.Log;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

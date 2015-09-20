@@ -154,7 +154,7 @@ public class ModuleItems extends ModularItem {
     public String getItemStackDisplayName(ItemStack itemstack) {
     	if(!itemstack.hasTagCompound())
     		return super.getItemStackDisplayName(itemstack);
-    	return super.getItemStackDisplayName(itemstack) + " " + StatCollector.translateToLocal("module." + itemstack.getTagCompound().getString("Name"));
+    	return StatCollector.translateToLocal("module." + itemstack.getTagCompound().getInteger("Tier")) + " " + StatCollector.translateToLocal("module." + itemstack.getTagCompound().getString("Name")) + " " + StatCollector.translateToLocal("module");
     }
     
     @Override

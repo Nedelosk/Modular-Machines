@@ -19,9 +19,9 @@ public abstract class BlockMultiblockBase extends BlockContainerForest {
 		if(tile != null && tile instanceof TileMultiblockBase)
 		{
 			TileMultiblockBase multiblock = (TileMultiblockBase) tile;
-			if(multiblock.master != null && multiblock.master.isMultiblock && multiblock.master.multiblock != null)
+			if(multiblock.master != null && multiblock.master.isMultiblock() && multiblock.master.getMultiblock() != null)
 			{
-				multiblock.master.multiblock.onBlockActivated(world, x, y, z, player, side);
+				multiblock.master.getMultiblock().onBlockActivated(world, x, y, z, player, side);
 				if(((TileMultiblockBase) tile).getContainer(player.inventory) != null)
 					return true;
 			}

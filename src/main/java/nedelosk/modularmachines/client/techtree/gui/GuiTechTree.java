@@ -38,7 +38,7 @@ public class GuiTechTree
   extends GuiScreen
 {
 	
-	public static ResourceLocation techtree = new ResourceLocation("modularmachines", "textures/gui/gui_techtree.png");
+  public static ResourceLocation techtree = new ResourceLocation("modularmachines", "textures/gui/gui_techtree.png");
   private static int guiMapTop;
   private static int guiMapLeft;
   private static int guiMapBottom;
@@ -601,13 +601,13 @@ protected void mouseClicked(int par1, int par2, int par3)
     boolean swop;
     if (currentHighlight != null && (!((ArrayList)completedEntrys.get(this.playerName)).contains(this.currentHighlight.key)) && (canUnlockResearch(this.currentHighlight)))
     {
-      //if (TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] >= currentHighlight.getTechPoints())
-      //{
+      if (TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] >= currentHighlight.getTechPoints())
+      {
         PacketHandler.INSTANCE.sendToServer(new PacketEntryComplete(this.currentHighlight.key, TechTreeManager.getTechPoints(player)[currentHighlight.getTechPointType().ordinal()] - currentHighlight.getTechPoints(), currentHighlight.getTechPointType()));
         
         //this.popuptime = (System.currentTimeMillis() + 3000L);
         //this.popupmessage = new ChatComponentTranslation(StatCollector.translateToLocal("tc.research.popup"), new Object[] { "" + this.currentHighlight.getName() }).getUnformattedText();
-      //}
+      }
     }
     else if ((this.currentHighlight != null) && (((ArrayList)completedEntrys.get(this.playerName)).contains(this.currentHighlight.key)))
     {

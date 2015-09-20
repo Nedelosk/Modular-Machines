@@ -8,8 +8,8 @@ import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -30,7 +30,7 @@ public class WidgetFluidTankDirection extends Widget {
 	}
 	
 	@Override
-	public void draw(GuiBase gui) {
+	public void draw(IGuiBase gui) {
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -46,7 +46,7 @@ public class WidgetFluidTankDirection extends Widget {
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, GuiBase gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		if(direction != null)
 		{
 			if(direction.ordinal() != ForgeDirection.values().length - 1)

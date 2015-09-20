@@ -37,7 +37,7 @@ public enum FItems {
 
 	public void registerItem(Item item) {
 		this.item = item;
-		NRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "fd");
+		NRegistry.registerItem(item, item.getUnlocalizedName(), "fd");
 	}
 
 	public boolean isItemEqual(ItemStack stack) {

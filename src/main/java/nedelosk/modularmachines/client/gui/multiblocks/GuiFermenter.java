@@ -14,15 +14,15 @@ public class GuiFermenter extends GuiBase {
 		
 		if(!tile.isMaster)
 		{
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.multiblock).tank, 7, 11));
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.multiblock).tank2, 79, 11));
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.multiblock).tankOut, 151, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.getMultiblock()).tank, 7, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.getMultiblock()).tank2, 79, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.master.getMultiblock()).tankOut, 151, 11));
 		}
 		else
 		{
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.multiblock).tank, 7, 11));
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.multiblock).tank2, 79, 11));
-			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.multiblock).tankOut, 151, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.getMultiblock()).tank, 7, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.getMultiblock()).tank2, 79, 11));
+			widgetManager.add(new WidgetFluidTank(((MultiblockFermenter)tile.getMultiblock()).tankOut, 151, 11));
 		}
 	}
 
@@ -37,15 +37,15 @@ public class GuiFermenter extends GuiBase {
 		
 		if(!((TileMultiblockBase)tile).isMaster)
 		{
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.multiblock).tank;
-			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.multiblock).tank2;
-			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.multiblock).tankOut;
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.getMultiblock()).tank;
+			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.getMultiblock()).tank2;
+			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).master.getMultiblock()).tankOut;
 		}
 		else
 		{
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).multiblock).tank;
-			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).multiblock).tank2;
-			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).multiblock).tankOut;
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).getMultiblock()).tank;
+			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).getMultiblock()).tank2;
+			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = ((MultiblockFermenter)((TileMultiblockBase)tile).getMultiblock()).tankOut;
 		}
 	}	
 

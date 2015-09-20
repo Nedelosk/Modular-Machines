@@ -6,7 +6,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.nedeloskcore.api.NCoreApi;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.IMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -38,9 +38,9 @@ public class BlockMultiblock extends BlockContainerForest {
 		if(tile != null && tile instanceof TileMultiblockBase)
 		{
 			TileMultiblockBase multiblock = (TileMultiblockBase) tile;
-			if(multiblock.master != null && multiblock.master.isMultiblock && multiblock.master.multiblock != null)
+			if(multiblock.master != null && multiblock.master.isMultiblock() && multiblock.master.getMultiblock() != null)
 			{
-				multiblock.master.multiblock.onBlockActivated(world, x, y, z, player, side);
+				multiblock.master.getMultiblock().onBlockActivated(world, x, y, z, player, side);
 				if(((TileMultiblockBase) tile).getContainer(player.inventory) != null)
 					return true;
 			}
@@ -83,7 +83,7 @@ public class BlockMultiblock extends BlockContainerForest {
 	
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
-		for(AbstractMultiblock multiblock : NCoreApi.getMutiblocks().values())
+		for(IMultiblock multiblock : NCoreApi.getMutiblocks().values())
 		{
 			multiblock.registerBlockIcons(IIconRegister);	
 		}

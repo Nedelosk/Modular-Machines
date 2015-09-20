@@ -54,7 +54,7 @@ public class TechTreeRegistry {
 		//Sag Mill Module
 		new TechTreeEntry("MODULE.SAGMILL.BASE", "BASIC", 1, TechPointTypes.VERY_EASY, 2, -1, getItemStackFromData("moduleProducerSawMill", 0)).setPages(new TechTreePage("mm.techtree_page.MODULE.SAGMILL.BASE.0", 0)).setParents("MODULE.BASE").registerTechTreeEntry();
 		new TechTreeEntry("MODULE.SAGMILL.IMPROVED", "BASIC", 1, TechPointTypes.VERY_EASY, 2, -2, getItemStackFromData("moduleProducerSawMill", 1)).setPages(new TechTreePage("mm.techtree_page.MODULE.SAGMILL.IMPROVED.0", 0)).setParents("MODULE.SAGMILL.BASE", "MODULE.IMPROVED").registerTechTreeEntry();
-		new TechTreeEntry("MODULE.SAGMILL.ADVANCED", "BASIC", 1, TechPointTypes.VERY_EASY, 2, -3, getItemStackFromData("moduleProducerAlloySmelter", 2)).setPages(new TechTreePage("mm.techtree_page.MODULE.SAGMILL.ADVANCED.0", 0)).setParents("MODULE.SAGMILL.IMPROVED", "MODULE.ADVANCED").registerTechTreeEntry();
+		new TechTreeEntry("MODULE.SAGMILL.ADVANCED", "BASIC", 1, TechPointTypes.VERY_EASY, 2, -3, getItemStackFromData("moduleProducerSawMill", 2)).setPages(new TechTreePage("mm.techtree_page.MODULE.SAGMILL.ADVANCED.0", 0)).setParents("MODULE.SAGMILL.IMPROVED", "MODULE.ADVANCED").registerTechTreeEntry();
 		
 		//Pulverizer Module
 		new TechTreeEntry("MODULE.PULVERIZER.BASE", "BASIC", 1, TechPointTypes.VERY_EASY, 4, -1, getItemStackFromData("moduleProducerPulverizer", 0)).setPages(new TechTreePage("mm.techtree_page.MODULE.MODULE.PULVERIZER.BASE.0", 0)).setParents("MODULE.SAGMILL.BASE").registerTechTreeEntry();

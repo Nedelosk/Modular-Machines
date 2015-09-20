@@ -1,10 +1,10 @@
 package nedelosk.nedeloskcore.common.core.registry;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.api.book.BookEntry;
-import nedelosk.nedeloskcore.common.book.BookData;
+import nedelosk.nedeloskcore.api.book.note.NoteText;
 import nedelosk.nedeloskcore.common.book.BookDatas;
-import nedelosk.nedeloskcore.common.book.note.NoteText;
 import net.minecraft.util.ResourceLocation;
 
 public class EntryRegistry {

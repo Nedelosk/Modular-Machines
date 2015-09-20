@@ -25,8 +25,8 @@ public class BlockMultiblockRenderer implements ISimpleBlockRenderingHandler, II
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderblocks) {
         TileEntity tile = world.getTileEntity(x, y, z);
-    	if(world.getTileEntity(x, y, z) != null && (((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock != null) || ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMaster && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock)
-    		if(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock.getClass()) != null || ((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null  && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock.getClass()) != null)
+    	if(world.getTileEntity(x, y, z) != null && (((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.getMultiblock() != null) || ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMaster && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock)
+    		if(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock.getClass()) != null || ((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null  && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.isMultiblock() && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).master.getMultiblock().getClass()) != null)
     		{
     			return true;
     		}	

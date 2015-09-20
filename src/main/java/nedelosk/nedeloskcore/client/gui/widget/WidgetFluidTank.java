@@ -3,8 +3,8 @@ package nedelosk.nedeloskcore.client.gui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -39,7 +39,7 @@ public class WidgetFluidTank extends Widget {
 	}
 	
 	@Override
-	public void draw(GuiBase gui) {
+	public void draw(IGuiBase gui) {
 		if (this.tank == null)
 			return;
 

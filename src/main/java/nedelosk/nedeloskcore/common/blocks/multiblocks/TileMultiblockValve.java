@@ -24,43 +24,43 @@ public class TileMultiblockValve extends TileMultiblockBase implements IFluidHan
 	
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).fill(this, from, resource, doFill);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).fill(this, from, resource, doFill);
 		return 0;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).drain(this, from, resource, doDrain);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).drain(this, from, resource, doDrain);
 		return null;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).drain(this, from, maxDrain, doDrain);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).drain(this, from, maxDrain, doDrain);
 		return null;
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).canFill(this, from, fluid);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).canFill(this, from, fluid);
 		return false;
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).canDrain(this, from, fluid);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).canDrain(this, from, fluid);
 		return false;
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if(master != null && master.isMultiblock && master.multiblock != null && master.multiblock instanceof AbstractMultiblockFluid)
-			return ((AbstractMultiblockFluid)master.multiblock).getTankInfo(this, from);
+		if(master != null && master.isMultiblock() && master.getMultiblock() != null && master.getMultiblock() instanceof AbstractMultiblockFluid)
+			return ((AbstractMultiblockFluid)master.getMultiblock()).getTankInfo(this, from);
 		return null;
 	}
 

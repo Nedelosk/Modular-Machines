@@ -6,8 +6,9 @@ import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipe;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipeManager;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerAirHeatingPlant;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
+import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
@@ -74,7 +75,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	}
 
 	@Override
-	public boolean isPatternBlockValid(int x, int y, int z, char pattern, TileMultiblockBase base) {
+	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile2) {
+		TileMultiblockBase base = (TileMultiblockBase) tile2;
 		Block block = base.getWorldObj().getBlock(x, y, z);
 		TileEntity tile = base.getWorldObj().getTileEntity(x, y, z);
 		TileMultiblockBase multiblock = null;
@@ -163,17 +165,17 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	}
 
 	@Override
-	public Container getContainer(TileMultiblockBase tile, InventoryPlayer inventory) {
+	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new ContainerAirHeatingPlant(tile, inventory);
 	}
 
 	@Override
-	public Object getGUIContainer(TileMultiblockBase tile, InventoryPlayer inventory) {
-		return new GuiAirHeatingPlant(tile, inventory);
+	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
+		return new GuiAirHeatingPlant((TileMultiblockBase) tile, inventory);
 	}
 
 	@Override
-	public void updateClient(TileMultiblockBase tile) {
+	public void updateClient(ITileMultiblock tile) {
 		
 	}
 	
@@ -223,7 +225,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	}
 	
 	@Override
-	public void updateServer(TileMultiblockBase tile) {
+	public void updateServer(ITileMultiblock tile) {
+		TileMultiblockBase base = (TileMultiblockBase) tile;
 			if(tankGas == null)
 				tankGas = new FluidTankNedelosk(32000);
 			if(tank == null)
@@ -232,7 +235,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 				tankInput = new FluidTankNedelosk(32000);
 		if(heat >= heatTotal || heatTotal == 0)
 		{
-		if(tile.burnTime >= tile.burnTimeTotal || tile.burnTimeTotal == 0)
+		if(base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0)
 		{
 			FluidStack input = tankInput.getFluid();
 			if(output != null)
@@ -247,13 +250,13 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 				{
 					tankInput.drain(recipe.getInput(), true);
 					output = recipe.getOutput().copy();
-					tile.burnTimeTotal = recipe.getBurntTime();
+					base.burnTimeTotal = recipe.getBurntTime();
 				}
 			}
 		}
 		else
 		{
-			tile.burnTime++;
+			base.burnTime++;
 		}
 		}
 		else
@@ -266,7 +269,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 					heat+= heat;
 			}
 		}
-		tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+		base.getWorldObj().markBlockForUpdate(base.xCoord, base.yCoord, base.zCoord);
 	}
 
 	@Override
@@ -330,5 +333,4 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 			return new FluidTankInfo[]{ tankGas.getInfo(), tank.getInfo(), tankInput.getInfo()};
 		return null;
 	}
-	
 }

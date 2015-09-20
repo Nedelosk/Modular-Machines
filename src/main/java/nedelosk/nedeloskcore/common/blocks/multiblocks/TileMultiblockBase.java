@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import nedelosk.nedeloskcore.api.Material;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveTypeString;
 import nedelosk.nedeloskcore.api.NCoreApi;
+import nedelosk.nedeloskcore.api.multiblock.IMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveTypeString;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.utils.misc.TileCache;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,11 +19,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileMultiblockBase extends TileMachineBase {
+public class TileMultiblockBase extends TileMachineBase implements ITileMultiblock {
 
 	public MultiblockModifierValveTypeString modifier;
 	public MultiblockPattern pattern;
-	public AbstractMultiblock multiblock;
+	public IMultiblock multiblock;
 	public TileCache cache = new TileCache(this);
 	public boolean tested;
 	public boolean isMaster;
@@ -51,11 +54,13 @@ public class TileMultiblockBase extends TileMachineBase {
 		modifier = getModifier();
 	}
 	
+	@Override
 	public MultiblockModifierValveTypeString getModifier()
 	{
 		return new MultiblockModifierValveTypeString();
 	}
 	
+	@Override
 	public final char getPatternMarker()
 	{
 		if(isMaster)
@@ -63,20 +68,21 @@ public class TileMultiblockBase extends TileMachineBase {
 			if(pattern == null || multiblock == null || !isMultiblock)
 				 return 'O';
 		}
-		else if (master == null || master.pattern == null || master.multiblock == null || !master.isMultiblock)
+		else if (master == null || master.getPattern() == null || master.getMultiblock() == null || !master.isMultiblock())
             return 'O';
 		if(master != null)
-			return master.pattern.getPatternMarker(patternX, patternY, patternZ);
+			return master.getPattern().getPatternMarker(patternX, patternY, patternZ);
 		else
 			return pattern.getPatternMarker(patternX, patternY, patternZ);
 	}
 	
-	public TileMultiblockBase master;
+	public ITileMultiblock master;
 
+	@Override
 	public String getMultiblockName()
 	{
-		if( master != null && master.multiblock != null)
-			return master.multiblock.getMultiblockName();
+		if( master != null && master.getMultiblock() != null)
+			return master.getMultiblock().getMultiblockName();
 		return null;
 	}
 	
@@ -95,10 +101,10 @@ public class TileMultiblockBase extends TileMachineBase {
 			}
 		}
 		else if(!isMaster)
-			if(master == null || master.multiblock == null || !master.isMultiblock ||! master.tested)
+			if(master == null || master.getMultiblock() == null || !master.isMultiblock() ||! master.isTested())
 				return new float[]{0,0,0,1,1,1};
 		if(!isMaster)
-			return master.multiblock.getBlockBounds();
+			return master.getMultiblock().getBlockBounds();
 		else
 			return multiblock.getBlockBounds();
 	}
@@ -110,16 +116,19 @@ public class TileMultiblockBase extends TileMachineBase {
 			multiblock.updateServer(this);
 	}
 	
-    protected boolean isStructureTile(TileEntity tile) {
+    @Override
+	public boolean isStructureTile(TileEntity tile) {
         return tile != null && (tile.getClass() == TileMultiblockBase.class || tile.getClass() == TileMultiblockValve.class);
     }
     
-    private void setPatternPosition(byte x, byte y, byte z) {
+    @Override
+	public void setPatternPosition(byte x, byte y, byte z) {
         patternX = x;
         patternY = y;
         patternZ = z;
     }
 	
+	@Override
 	public void updateMultiblock() {
 		if(timer >= timerMax)
 		{
@@ -131,6 +140,7 @@ public class TileMultiblockBase extends TileMachineBase {
 			timer++;
 	}
 	
+	@Override
 	public void testMultiblock()
 	{
 		if(!tested)
@@ -181,6 +191,7 @@ public class TileMultiblockBase extends TileMachineBase {
 		}
 	}
 	
+	@Override
 	public boolean testPatterns()
 	{
 		for(Map.Entry<String, ArrayList<MultiblockPattern>> entry : NCoreApi.getMutiblockPatterns().entrySet())
@@ -200,7 +211,8 @@ public class TileMultiblockBase extends TileMachineBase {
 		return false;
 	}
 	
-	public boolean testPattern(MultiblockPattern pattern, AbstractMultiblock multiblock)
+	@Override
+	public boolean testPattern(MultiblockPattern pattern, IMultiblock multiblock)
 	{
         int xWidth = pattern.getPatternWidthX();
         int zWidth = pattern.getPatternWidthZ();
@@ -227,8 +239,8 @@ public class TileMultiblockBase extends TileMachineBase {
 	}
 	
     public IIcon getIcon(int side) {
-        if (master != null && master.isMultiblock && master.multiblock != null) {
-        	return master.multiblock.getIcon(side, this);
+        if (master != null && master.isMultiblock() && master.getMultiblock() != null) {
+        	return master.getMultiblock().getIcon(side, this);
         }
         else if(isMaster && multiblock != null && isMultiblock)
         {
@@ -247,8 +259,8 @@ public class TileMultiblockBase extends TileMachineBase {
         onBlockChange();
         isMaster = false;
         if(master != null)
-        	if(!master.isMultiblockSolid)
-        		master.isMultiblock = false;
+        	if(!master.isMultiblockSolid())
+        		master.setIsMultiblock(false);
     }
     
     @Override
@@ -270,11 +282,11 @@ public class TileMultiblockBase extends TileMachineBase {
 				modifier.writeToNBT(nbtModifier);
 				nbt.setTag("Modifier", nbtModifier);
 			}
-    		if(master != null && worldObj.getTileEntity(master.xCoord, master.yCoord,  master.zCoord) != null && worldObj.getTileEntity(master.xCoord, master.yCoord, master.zCoord) == master)
+    		if(master != null && worldObj.getTileEntity(master.getXCoord(), master.getYCoord(),  master.getZCoord()) != null && worldObj.getTileEntity(master.getXCoord(), master.getYCoord(), master.getZCoord()) == master)
     		{
-    			nbt.setInteger("masterXCoord", master.xCoord);
-    			nbt.setInteger("masterYCoord", master.yCoord);
-    			nbt.setInteger("masterZCoord", master.zCoord);
+    			nbt.setInteger("masterXCoord", master.getXCoord());
+    			nbt.setInteger("masterYCoord", master.getYCoord());
+    			nbt.setInteger("masterZCoord", master.getZCoord());
     			if(isMaster)
     				if(multiblock != null)
     				{
@@ -342,7 +354,8 @@ public class TileMultiblockBase extends TileMachineBase {
         }
     }
 
-    private void onBlockChange(int depth) {
+    @Override
+	public void onBlockChange(int depth) {
         depth--;
         if (depth < 0)
             return;
@@ -351,7 +364,7 @@ public class TileMultiblockBase extends TileMachineBase {
             if(isMaster)
             	isMultiblock = false;
 
-            TileMultiblockBase mBlock = getMasterBlock();
+            ITileMultiblock mBlock = getMasterBlock();
             if (mBlock != null) {
                 mBlock.onBlockChange(12);
                 return;
@@ -369,21 +382,23 @@ public class TileMultiblockBase extends TileMachineBase {
     public void markDirty() {
         super.markDirty();
         if (!isMaster) {
-            TileMultiblockBase mBlock = getMasterBlock();
+            ITileMultiblock mBlock = getMasterBlock();
             if (mBlock != null)
                 mBlock.markDirty();
         }
     }
     
-    public final TileMultiblockBase getMasterBlock() {
-        if (master != null && !master.tested) {
+    @Override
+	public ITileMultiblock getMasterBlock() {
+        if (master != null && !master.isTested()) {
             master = null;
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
         return master;
     }
 	
-	public void setMaster(TileMultiblockBase tile)
+	@Override
+	public void setMaster(ITileMultiblock tile)
 	{
 		master = tile;
 	}
@@ -434,18 +449,73 @@ public class TileMultiblockBase extends TileMachineBase {
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		return master.multiblock.getContainer(this, inventory);
+		return master.getMultiblock().getContainer(this, inventory);
 	}
 
 	@Override
 	public Object getGUIContainer(InventoryPlayer inventory) {
-		return master.multiblock.getGUIContainer(this, inventory);
+		return master.getMultiblock().getGUIContainer(this, inventory);
 	}
 
 	@Override
 	public void updateClient() {
 		if(isMaster && isMultiblock && multiblock != null)
 			multiblock.updateClient(this);
+	}
+
+	@Override
+	public IMultiblock getMultiblock() {
+		return multiblock;
+	}
+
+	@Override
+	public MultiblockPattern getPattern() {
+		return pattern;
+	}
+
+	@Override
+	public boolean isMultiblock() {
+		return isMultiblock;
+	}
+
+	@Override
+	public boolean isMultiblockSolid() {
+		return isMultiblockSolid;
+	}
+
+	@Override
+	public boolean isTested() {
+		return tested;
+	}
+
+	@Override
+	public void setIsMultiblock(boolean isMultiblock) {
+		this.isMultiblock = isMultiblock;
+	}
+
+	@Override
+	public int getXCoord() {
+		return xCoord;
+	}
+
+	@Override
+	public int getYCoord() {
+		return yCoord;
+	}
+
+	@Override
+	public int getZCoord() {
+		return zCoord;
+	}
+
+	@Override
+	public boolean isWorking() {
+		return isWorking;
+	}
+
+	@Override
+	public void setWorking(boolean isWorking) {
+		this.isWorking = isWorking;
 	}
 	
 }

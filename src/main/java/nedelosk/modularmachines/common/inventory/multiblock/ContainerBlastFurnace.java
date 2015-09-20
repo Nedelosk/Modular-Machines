@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;

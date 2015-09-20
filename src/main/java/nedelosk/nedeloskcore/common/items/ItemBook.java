@@ -1,6 +1,6 @@
 package nedelosk.nedeloskcore.common.items;
 
-import nedelosk.nedeloskcore.common.book.BookData;
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;

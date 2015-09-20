@@ -2,9 +2,9 @@ package nedelosk.modularmachines.common.multiblocks;
 
 import java.util.ArrayList;
 
+import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblockFluid;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	}
 	
 	@Override
-	public IIcon getIcon(int side, TileMultiblockBase tile) {
+	public IIcon getIcon(int side, ITileMultiblock tile) {
 		return null;
 	}
 	
@@ -57,7 +57,7 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	}
 
 	@Override
-	public boolean isPatternBlockValid(int x, int y, int z, char pattern, TileMultiblockBase tile) {
+	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile) {
 		return false;
 	}
 	
@@ -72,22 +72,22 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	}
 
 	@Override
-	public Container getContainer(TileMultiblockBase base, InventoryPlayer inventory) {
+	public Container getContainer(ITileMultiblock base, InventoryPlayer inventory) {
 		return null;
 	}
 
 	@Override
-	public Object getGUIContainer(TileMultiblockBase base, InventoryPlayer inventory) {
+	public Object getGUIContainer(ITileMultiblock base, InventoryPlayer inventory) {
 		return null;
 	}
 
 	@Override
-	public void updateClient(TileMultiblockBase base) {
+	public void updateClient(ITileMultiblock base) {
 		
 	}
 
 	@Override
-	public void updateServer(TileMultiblockBase base) {
+	public void updateServer(ITileMultiblock base) {
 		
 	}
 

@@ -19,6 +19,10 @@ public class KeyHandler {
 			PacketHandler.INSTANCE.sendToServer(new PacketSyncDataClient());
 			FMLNetworkHandler.openGui(Minecraft.getMinecraft().thePlayer, ModularMachines.instance, 2, Minecraft.getMinecraft().theWorld, 0, 0, 0);
 		}
+		if(ClientProxy.techTreeEditor.isPressed())
+		{
+			FMLNetworkHandler.openGui(Minecraft.getMinecraft().thePlayer, ModularMachines.instance, 3, Minecraft.getMinecraft().theWorld, 0, 0, 0);
+		}
 	}
 	
 }

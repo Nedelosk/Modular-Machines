@@ -5,12 +5,13 @@ import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerBlastFurnace;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveTypeString;
 import nedelosk.nedeloskcore.api.Material.MaterialType;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveTypeString;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
+import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.MultiblockPattern;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import nedelosk.nedeloskcore.utils.NBTUtils;
@@ -94,7 +95,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 	}
 
 	@Override
-	public boolean isPatternBlockValid(int x, int y, int z, char pattern, TileMultiblockBase base) {
+	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile2) {
+		TileMultiblockBase base = (TileMultiblockBase) tile2;
 		Block block = base.getWorldObj().getBlock(x, y, z);
 		TileEntity tile = base.getWorldObj().getTileEntity(x, y, z);
 		TileMultiblockBase multiblock = null;
@@ -217,17 +219,17 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 	}
 
 	@Override
-	public Container getContainer(TileMultiblockBase tile, InventoryPlayer inventory) {
+	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new ContainerBlastFurnace(tile, inventory);
 	}
 
 	@Override
-	public Object getGUIContainer(TileMultiblockBase tile, InventoryPlayer inventory) {
-		return new GuiBlastFurnace(tile, inventory);
+	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
+		return new GuiBlastFurnace((TileMultiblockBase) tile, inventory);
 	}
 
 	@Override
-	public void updateClient(TileMultiblockBase tile) {
+	public void updateClient(ITileMultiblock tile) {
 		
 	}
 	
@@ -304,9 +306,10 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 	}
 	
 	@Override
-	public void updateServer(TileMultiblockBase tile) {
-			if(tile.slots == null || tile.slots.length == 0)
-				tile.slots = new ItemStack[4];
+	public void updateServer(ITileMultiblock tile) {
+		TileMultiblockBase base = (TileMultiblockBase) tile;
+			if(base.slots == null || base.slots.length == 0)
+				base.slots = new ItemStack[4];
 			if(tankGas == null)
 				tankGas = new FluidTankNedelosk(32000);
 			if(tankSlag == null)
@@ -317,7 +320,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 				tankAirHot = new FluidTankNedelosk(32000);
 		if(heat >= heatTotal || heatTotal == 0)
 		{
-		if(tile.burnTime >= tile.burnTimeTotal || tile.burnTimeTotal == 0)
+		if(base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0)
 		{
 			ItemStack[] inputs = new ItemStack[4];
 			inputs[0] = tile.getStackInSlot(0);
@@ -348,29 +351,29 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 							tile.decrStackSize(i, ((OreStack)recipe.getInput()[i]).stackSize);
 					}
 					outputs = recipe.getOutput().clone();
-					tile.burnTimeTotal = recipe.getBurntTime();
+					base.burnTimeTotal = recipe.getBurntTime();
 					heatTotal = recipe.getHeat();
 				}
 			}
 		}
 		else
 		{
-			tile.burnTime++;
+			base.burnTime++;
 		}
 		}
 		else
 		{
-			if(tile.getWorldObj().rand.nextInt(40) == 20)
+			if(base.getWorldObj().rand.nextInt(40) == 20)
 				if(tankAirHot != null && tankAirHot.drain(50, true) != null && tankAirHot.drain(50, true).amount >= 50)
 					if(tankGas.fill(new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >=150)
 						heat++;
 		}
-		tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+		base.getWorldObj().markBlockForUpdate(base.xCoord, base.yCoord, base.zCoord);
 	}
 
 	@Override
 	public int fill(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(tile.master.isMultiblock)
+		if(tile.master.isMultiblock())
 		{
 			if(tile.modifier != null && tile.modifier instanceof MultiblockModifierValveTypeString)
 			{
@@ -383,7 +386,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
 	@Override
 	public FluidStack drain(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if(tile.master.isMultiblock)
+		if(tile.master.isMultiblock())
 		{
 			if(tile.modifier != null)
 			{
@@ -403,7 +406,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
 	@Override
 	public FluidStack drain(TileMultiblockBase tile, ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(tile.master.isMultiblock)
+		if(tile.master.isMultiblock())
 		{
 			if(tile.modifier != null)
 			{
@@ -423,17 +426,17 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
 	@Override
 	public boolean canFill(TileMultiblockBase tile, ForgeDirection from, Fluid fluid) {
-		return tile.master.isMultiblock && tile.modifier != null && tile.modifier.valveType == ValveType.INPUT;
+		return tile.master.isMultiblock() && tile.modifier != null && tile.modifier.valveType == ValveType.INPUT;
 	}
 
 	@Override
 	public boolean canDrain(TileMultiblockBase tile, ForgeDirection from, Fluid fluid) {
-		return tile.master.isMultiblock && tile.modifier != null && tile.modifier.valveType == ValveType.OUTPUT;
+		return tile.master.isMultiblock() && tile.modifier != null && tile.modifier.valveType == ValveType.OUTPUT;
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(TileMultiblockBase tile, ForgeDirection from) {
-		if(tile.master.isMultiblock)
+		if(tile.master.isMultiblock())
 			return new FluidTankInfo[]{ tankGas.getInfo(), tankAirHot.getInfo(), tank.getInfo(), tankSlag.getInfo() };
 		return null;
 	}

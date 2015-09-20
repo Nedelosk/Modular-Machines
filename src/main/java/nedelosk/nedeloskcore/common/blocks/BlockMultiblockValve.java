@@ -5,8 +5,8 @@ import java.util.List;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.api.NCoreApi;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockValve;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
@@ -41,9 +41,9 @@ public class BlockMultiblockValve extends BlockContainerForest {
 		if(tile != null && tile instanceof TileMultiblockBase)
 		{
 			TileMultiblockBase multiblock = (TileMultiblockBase) tile;
-			if(multiblock.master != null && multiblock.master.isMultiblock && multiblock.master.multiblock != null)
+			if(multiblock.master != null && multiblock.master.isMultiblock() && multiblock.master.getMultiblock() != null)
 			{
-				multiblock.master.multiblock.onBlockActivated(world, x, y, z, player, side);
+				multiblock.master.getMultiblock().onBlockActivated(world, x, y, z, player, side);
 				if(((TileMultiblockBase) tile).getContainer(player.inventory) != null)
 					return true;
 			}

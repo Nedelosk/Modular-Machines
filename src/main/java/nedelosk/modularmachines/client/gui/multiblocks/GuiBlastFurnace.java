@@ -15,18 +15,18 @@ public class GuiBlastFurnace extends GuiBase {
 		super(tile, inventory);
 		if(tile.getBlockType() != NCBlocks.Multiblock.block() && tile.master != null && (tile.modifier != null))
 		{
-			if(tile.master.modifier.filter == "output")
-					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.multiblock).tank, 79, 12));
-			else if(tile.master.modifier.filter == "slag")
-					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.multiblock).tankSlag, 79, 12));
-			else if(tile.master.modifier.filter == "gas.blastfurnace")
-					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.multiblock).tankGas, 79, 12));
-			else if(tile.master.modifier.filter == "air.hot")
-					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.multiblock).tankAirHot, 79, 12));
+			if(tile.master.getModifier().filter == "output")
+					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.getMultiblock()).tank, 79, 12));
+			else if(tile.master.getModifier().filter == "slag")
+					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.getMultiblock()).tankSlag, 79, 12));
+			else if(tile.master.getModifier().filter == "gas.blastfurnace")
+					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.getMultiblock()).tankGas, 79, 12));
+			else if(tile.master.getModifier().filter == "air.hot")
+					widgetManager.add(new WidgetFluidTank(((MultiblockBlastFurnace)tile.master.getMultiblock()).tankAirHot, 79, 12));
 		}
 		if(tile.getBlockType() == NCBlocks.Multiblock.block())
 		{
-			widgetManager.add(new WidgetHeatBar(((MultiblockBlastFurnace)tile.master.multiblock).heat,((MultiblockBlastFurnace)tile.master.multiblock).heatTotal, 82, 8));
+			widgetManager.add(new WidgetHeatBar(((MultiblockBlastFurnace)tile.master.getMultiblock()).heat,((MultiblockBlastFurnace)tile.master.getMultiblock()).heatTotal, 82, 8));
 		}
 	}
 
@@ -41,22 +41,22 @@ public class GuiBlastFurnace extends GuiBase {
 		
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank)
 		{
-		if(((TileMultiblockBase)tile).master.modifier.filter == "output")
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).tank;
-		else if(((TileMultiblockBase)tile).master.modifier.filter == "slag")
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).tankSlag;
-		else if(((TileMultiblockBase)tile).master.modifier.filter == "gas.blastfurnace")
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank =((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).tankGas;
-		else if(((TileMultiblockBase)tile).master.modifier.filter == "air.hot")
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).tankAirHot;
+		if(((TileMultiblockBase)tile).master.getModifier().filter == "output")
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).tank;
+		else if(((TileMultiblockBase)tile).master.getModifier().filter == "slag")
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).tankSlag;
+		else if(((TileMultiblockBase)tile).master.getModifier().filter == "gas.blastfurnace")
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank =((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).tankGas;
+		else if(((TileMultiblockBase)tile).master.getModifier().filter == "air.hot")
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).tankAirHot;
 		}
 		
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetHeatBar)
 		{
-			if(((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).heat;
-			if(((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.multiblock).heatTotal;
+			if(((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).heat;
+			if(((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = ((MultiblockBlastFurnace)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal;
 		}
 	}
 

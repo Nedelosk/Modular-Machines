@@ -2,7 +2,7 @@ package nedelosk.modularmachines.client.gui.multiblocks;
 
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
@@ -17,14 +17,14 @@ public class GuiCokeOven extends GuiBase {
 		super(tile, inventory);
 		if(tile.getBlockType() == NCBlocks.Multiblock.block())
 		{
-			widgetManager.add(new WidgetHeatBar(((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heat, ((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heatTotal, 82, 8));
+			widgetManager.add(new WidgetHeatBar(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat, ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal, 82, 8));
 		}
 		else if(((TileMultiblockBase)tile).master != null)
 		{
 			if(((TileMultiblockBase)tile).modifier.valveType == ValveType.OUTPUT)
-					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).tank, 79, 12));
+					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tank, 79, 12));
 			else if(((TileMultiblockBase)tile).modifier.valveType == ValveType.INPUT)
-					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).tankGas, 79, 12));
+					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tankGas, 79, 12));
 		}
 	}
 
@@ -40,17 +40,17 @@ public class GuiCokeOven extends GuiBase {
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank)
 		{
 		if(((TileMultiblockBase)tile).modifier.valveType == ValveType.OUTPUT)
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).tank;
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tank;
 		else if(((TileMultiblockBase)tile).modifier.valveType == ValveType.INPUT)
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).tankGas;
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tankGas;
 		}
 		
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetHeatBar)
 		{
-			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heat;
-			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.multiblock).heatTotal;
+			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat;
+			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal;
 		}
 	}
 

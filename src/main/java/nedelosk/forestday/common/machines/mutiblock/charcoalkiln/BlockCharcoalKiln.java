@@ -54,9 +54,9 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
     {
     	if(world.getBlockMetadata(x, y, z) == 0)
     	{
-    		if(((TileCharcoalKiln)world.getTileEntity(x, y, z)).master != null && ((TileCharcoalKiln)world.getTileEntity(x, y, z)).master.isMultiblock  || ((TileCharcoalKiln)world.getTileEntity(x, y, z)).isMaster && ((TileCharcoalKiln)world.getTileEntity(x, y, z)).isMultiblock)
+    		if(((TileCharcoalKiln)world.getTileEntity(x, y, z)).master != null && ((TileCharcoalKiln)world.getTileEntity(x, y, z)).master.isMultiblock()  || ((TileCharcoalKiln)world.getTileEntity(x, y, z)).isMaster && ((TileCharcoalKiln)world.getTileEntity(x, y, z)).isMultiblock)
     		{
-    	if(((TileCharcoalKiln)world.getTileEntity(x, y, z)).master.isWorking)
+    	if(((TileCharcoalKiln)world.getTileEntity(x, y, z)).master.isWorking())
     	{
             float f = x + 0.5F;
             float f1 = y + 0.0F + random_.nextFloat() * 6.0F / 16.0F;

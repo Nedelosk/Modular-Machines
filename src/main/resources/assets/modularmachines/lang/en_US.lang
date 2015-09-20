@@ -25,6 +25,10 @@ module.moduleProducerPulverizer=Pulverizer
 module.moduleProducerAlloySmelter=Alloy Smelter
 module.moduleProducerCentrifuge=Centrifuge
 module.moduleEngineNormal=Normal Engine
+module.0=Basic
+module.1=Improved
+module.2=Advanced
+module=Module
 
 Casing.name=Casing
 Battery.name=Battery
@@ -57,7 +61,39 @@ mm.techtree.point.NODRMAL=Normal
 mm.techtree.point.HARD=Hard
 mm.techtree.point.VERY_HARD=Very Hard
 
-mm.techtree_page.BASIC.MODULE.0=Hallo Ich bin !HALLO!
+####################################
+Techtree Editor
+####################################
+techtree.editor.close=Close
+techtree.editor.save=Save
+techtree.editor.delete=Delete
+techtree.editor.load=Load File
+techtree.editor.default=Default
+techtree.editor.pages=Pages
+techtree.editor.prevPage=Previous Page
+techtree.editor.nextPage=Next Page
+techtree.editor.switchPageType=Switch Page Type
+techtree.editor.page.image=Image
+techtree.editor.page.text_concealed=Concealed
+techtree.editor.default=Entry
+techtree.editor.pages=Pages
+techtree.editor.type=Techpoints
+techtree.editor.category=Category
+techtree.editor.key=Key
+techtree.editor.page.type.image=Image Text
+techtree.editor.page.type.text_concealed=Text Concealed
+techtree.editor.page.type.text=Text
+techtree.editor.page.type.normal_crafting=Crafting
+techtree.editor.page.type.smelting=Smelting
+techtree.editor.autounlock=Auto Unlock
+techtree.editor.not.autounlock=Not Auto Unlock
+techtree.editor.concealed=Concealed
+techtree.editor.not.concealed=Not Concealed
+techtree.editor.culumnandrow=Culumn and Row
+techtree.editor.siblings=Siblings
+techtree.editor.parents=Parents
+techtree.editor.icon=Item Icon
+techtree.editor.done=Done
 
 ####################################
 Tabs
@@ -109,6 +145,15 @@ forest.mm.item.plate.8.name=Plastic Plate
 forest.mm.item.plate.9.name=Niobium Plate
 forest.mm.item.plate.10.name=Tantalum Plate
 forest.mm.item.plate.11.name=Aluminium Plate
+forest.mm.item.screw.0.name=Stone Screw
+forest.mm.item.screw.1.name=Iron Screw
+forest.mm.item.screw.2.name=Gold Screw
+forest.mm.item.screw.3.name=Copper Screw
+forest.mm.item.screw.4.name=Tin Screw
+forest.mm.item.screw.5.name=Silver Screw
+forest.mm.item.screw.6.name=Lead Screw
+forest.mm.item.screw.7.name=Bronze Screw
+forest.mm.item.screw.8.name=Invar Screw
 forest.mm.item.dust.0.name=Coal Dust
 forest.mm.item.dust.1.name=Obsidian Dust
 forest.mm.item.dust.2.name=Iron Dust

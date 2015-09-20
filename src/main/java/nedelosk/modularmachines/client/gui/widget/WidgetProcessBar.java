@@ -2,8 +2,8 @@ package nedelosk.modularmachines.client.gui.widget;
 
 import java.util.ArrayList;
 
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 
 public class WidgetProcessBar extends Widget {
@@ -26,7 +26,7 @@ public class WidgetProcessBar extends Widget {
 	}
 	
 	@Override
-	public void draw(GuiBase gui) {
+	public void draw(IGuiBase gui) {
 		RenderUtils.bindTexture(widget);
 		int process = (burntimeTotal == 0) ? 0 : burntime * 22 / burntimeTotal;
 	    int sx = gui.getGuiLeft();

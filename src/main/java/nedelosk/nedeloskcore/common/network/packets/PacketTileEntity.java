@@ -1,9 +1,9 @@
 package nedelosk.nedeloskcore.common.network.packets;
 
-import nedelosk.nedeloskcore.common.core.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import io.netty.buffer.ByteBuf;
+import nedelosk.nedeloskcore.api.Log;
 
 import java.nio.charset.StandardCharsets;
 

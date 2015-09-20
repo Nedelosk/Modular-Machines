@@ -21,7 +21,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 	}
 	
 	public void renderTileEntityAt(TileCharcoalKiln kiln, double x, double y, double z, float p_147500_8_) {
-		if(kiln.master != null && kiln.master.isMultiblock || kiln.isMaster && kiln.isMultiblock)
+		if(kiln.master != null && kiln.master.isMultiblock() || kiln.isMaster && kiln.isMultiblock)
 		{
 			
 			GL11.glPushMatrix();
@@ -35,7 +35,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			
 			IIcon dirtIcon = Blocks.dirt.getIcon(0, 0);
 			
-			if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 			//Down 0
 			t.startDrawingQuads();
@@ -86,7 +86,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(0.5, 0.5, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 			t.draw();
 			}
-			else if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 0F, 1F);
 				GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
@@ -139,7 +139,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(0.5, 0.5, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 			t.draw();
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			//Down 0
@@ -191,7 +191,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(0.5, 0.5, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 			t.draw();
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord()+ 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -244,7 +244,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(0.5, 0.5, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 			t.draw();
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() + 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -290,7 +290,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(90, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -328,7 +328,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			//Down 0
@@ -365,7 +365,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() + 1 == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -403,7 +403,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() + 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -427,7 +427,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() + 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -451,7 +451,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 				
@@ -474,7 +474,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(90, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -498,7 +498,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord + 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() + 1 == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 0F, 1F);
 				GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
@@ -513,7 +513,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord - 1 == kiln.zCoord)
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -528,7 +528,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord + 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord() + 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
@@ -543,7 +543,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord - 1 == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord() - 1 == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			//Down 0
@@ -557,7 +557,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			t.draw();
 			
 			}
-			else if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 			//Down 0
 			
@@ -570,7 +570,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 				t.draw();
 			
 			}
-			else if(kiln.master.xCoord == kiln.xCoord && kiln.master.yCoord + 1 == kiln.yCoord && kiln.master.zCoord == kiln.zCoord)
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord && kiln.master.getZCoord() == kiln.zCoord)
 			{
 			//Down 0
 			

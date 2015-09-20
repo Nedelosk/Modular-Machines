@@ -20,7 +20,8 @@ import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
 import nedelosk.modularmachines.api.basic.techtree.TechTreePage;
 import nedelosk.modularmachines.api.basic.techtree.TechTreePage.PageType;
-import nedelosk.nedeloskcore.common.book.note.NoteText;
+import nedelosk.nedeloskcore.api.book.note.NoteText;
+import nedelosk.nedeloskcore.utils.ItemUtils;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -240,9 +241,9 @@ public void drawScreen(int par1, int par2, float par3)
     } else if (pageParm.type == TechTreePage.PageType.SMELTING) {
       drawSmeltingPage(side, x - 4, y - 8, mx, my, pageParm);
     }
-    else if (pageParm.type == TechTreePage.PageType.MODULAR_CRAFTING) {
+    /*else if (pageParm.type == TechTreePage.PageType.MODULAR_CRAFTING) {
         drawModularCraftingPage(side, x - 4, y - 8, mx, my, pageParm);
-      }
+      }*/
     GL11.glAlphaFunc(516, 0.1F);
     GL11.glPopAttrib();
   }
@@ -490,8 +491,8 @@ public void drawScreen(int par1, int par2, float par3)
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glEnable(2884);
             GL11.glTranslated(0.0D, 0.0D, 100.0D);
-            itemRenderer.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, (ItemStack)items[(i + j * rw)], x + start + 16 + i * 32, y + 76 + j * 32);
-            itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, ((ItemStack)items[(i + j * rw)]).copy().splitStack(1), x + start + 16 + i * 32, y + 76 + j * 32);
+            itemRenderer.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, ItemUtils.cycleItemStack(items[(i + j * rw)]), x + start + 16 + i * 32, y + 76 + j * 32);
+            itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, (ItemUtils.cycleItemStack(items[(i + j * rw)])).copy().splitStack(1), x + start + 16 + i * 32, y + 76 + j * 32);
             RenderHelper.disableStandardItemLighting();
             GL11.glEnable(2896);
             GL11.glPopMatrix();
@@ -503,8 +504,8 @@ public void drawScreen(int par1, int par2, float par3)
           if (items[(i + j * rw)] != null) {
             if ((mposx >= x + 16 + start + i * 32) && (mposy >= y + 76 + j * 32) && (mposx < x + 16 + start + i * 32 + 16) && (mposy < y + 76 + j * 32 + 16))
             {
-              List addtext = ((ItemStack)items[(i + j * rw)]).getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
-              Object[] ref = findRecipeReference(((ItemStack)items[(i + j * rw)]));
+              List addtext = (ItemUtils.cycleItemStack(items[(i + j * rw)])).getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+              Object[] ref = findRecipeReference((ItemUtils.cycleItemStack(items[(i + j * rw)])));
               if ((ref != null) && (!((String)ref[0]).equals(this.entry.key)))
               {
                 addtext.add("§8§o" + StatCollector.translateToLocal("recipe.clickthrough"));
@@ -536,8 +537,8 @@ public void drawScreen(int par1, int par2, float par3)
           RenderHelper.enableGUIStandardItemLighting();
           GL11.glEnable(2884);
           GL11.glTranslated(0.0D, 0.0D, 100.0D);
-          itemRenderer.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, (ItemStack)items.get(i), x + start + 16 + i % 3 * 32, y + 76 + i / 3 * 32);
-          itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, ((ItemStack)items.get(i)).copy().splitStack(1), x + start + 16 + i % 3 * 32, y + 76 + i / 3 * 32);
+          itemRenderer.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, ItemUtils.cycleItemStack(items.get(i)), x + start + 16 + i % 3 * 32, y + 76 + i / 3 * 32);
+          itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, (ItemUtils.cycleItemStack(items.get(i))).copy().splitStack(1), x + start + 16 + i % 3 * 32, y + 76 + i / 3 * 32);
           RenderHelper.disableStandardItemLighting();
           GL11.glEnable(2896);
           GL11.glPopMatrix();
@@ -547,8 +548,8 @@ public void drawScreen(int par1, int par2, float par3)
         if (items.get(i) != null) {
           if ((mposx >= x + 16 + start + i % 3 * 32) && (mposy >= y + 76 + i / 3 * 32) && (mposx < x + 16 + start + i % 3 * 32 + 16) && (mposy < y + 76 + i / 3 * 32 + 16))
           {
-            List addtext = ((ItemStack)items.get(i)).getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
-            Object[] ref = findRecipeReference(((ItemStack)items.get(i)));
+            List addtext = (ItemUtils.cycleItemStack(items.get(i))).getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+            Object[] ref = findRecipeReference((ItemUtils.cycleItemStack(items.get(i))));
             if ((ref != null) && (!((String)ref[0]).equals(this.entry.key)))
             {
               addtext.add("§8§o" + StatCollector.translateToLocal("recipe.clickthrough"));

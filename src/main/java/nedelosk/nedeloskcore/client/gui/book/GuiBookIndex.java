@@ -7,11 +7,11 @@ import java.util.List;
 
 import com.mojang.authlib.GameProfile;
 
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.api.book.BookEntry;
 import nedelosk.nedeloskcore.api.book.Knowledge;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
-import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.common.book.BookManager;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;

@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import nedelosk.nedeloskcore.api.MultiblockModifierValveType.ValveType;
+import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblockValve;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
@@ -26,8 +26,8 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderblocks) {
         //block.setBlockBounds(0, 0, 0, 1, 1, 1);
-    	if(world.getTileEntity(x, y, z) != null && (((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock != null) || ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMaster && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock)
-    		if(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock.getClass()) != null || ((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null  && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).master.multiblock.getClass()) != null)
+    	if(world.getTileEntity(x, y, z) != null && (((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.getMultiblock() != null) || ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMaster && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock)
+    		if(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock != null && ((TileMultiblockBase)world.getTileEntity(x, y, z)).isMultiblock && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).multiblock.getClass()) != null || ((TileMultiblockBase)world.getTileEntity(x, y, z)).master != null  && ((TileMultiblockBase)world.getTileEntity(x, y, z)).master.isMultiblock() && TileMultiblockRenderer.getRenderer(((TileMultiblockBase)world.getTileEntity(x, y, z)).master.getMultiblock().getClass()) != null)
     		{
     			return true;
     		}	

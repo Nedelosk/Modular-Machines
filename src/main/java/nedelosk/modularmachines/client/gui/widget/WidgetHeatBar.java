@@ -1,8 +1,9 @@
 package nedelosk.modularmachines.client.gui.widget;
 
 import java.util.ArrayList;
+
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 
@@ -36,7 +37,7 @@ public class WidgetHeatBar extends Widget {
 	}
 	
 	@Override
-	public void draw(GuiBase gui) {
+	public void draw(IGuiBase gui) {
 		if(heatTotal == 0)
 			return;
 		GL11.glDisable(GL11.GL_LIGHTING);

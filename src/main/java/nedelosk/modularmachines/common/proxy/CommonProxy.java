@@ -3,6 +3,8 @@ package nedelosk.modularmachines.common.proxy;
 import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssemblerSlot;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
+import nedelosk.modularmachines.client.techtree.gui.GuiTechTreeEditor;
+import nedelosk.modularmachines.common.inventory.ContainerDummy;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
@@ -36,6 +38,8 @@ public class CommonProxy implements IGuiHandler {
 		    	ModuleEntry entry = ((ModularSaveModule)player.getExtendedProperties(ModularSaveModule.class.getName())).entry;
 		    	return new ContainerModularAssemblerSlot((TileBaseInventory) tile, player.inventory, entry);
 		    }
+		case 3:
+	    	return new ContainerDummy();
 		default:
 			return null;
 	    }
@@ -65,7 +69,9 @@ public class CommonProxy implements IGuiHandler {
 		    	return new GuiModularAssemblerSlot((TileBaseInventory) tile, player.inventory, entry);
 		    }
 		case 2:
-		    	return new GuiTechTree();
+		    return new GuiTechTree();
+		case 3:
+	    	return new GuiTechTreeEditor();
 		default:
 			return null;
 	    }

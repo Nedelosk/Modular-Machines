@@ -3,13 +3,11 @@ package nedelosk.modularmachines.client.proxy;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.client.renderers.ItemModularMachinesRenderer;
 import nedelosk.modularmachines.client.renderers.TileModularAssemblerRenderer;
 import nedelosk.modularmachines.client.renderers.TileModularWorkbenchRenderer;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechPoint;
-import nedelosk.modularmachines.client.techtree.utils.TechEntryData;
+import nedelosk.modularmachines.client.techtree.utils.language.LanguageManager;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularWorkbench;
 import nedelosk.modularmachines.common.config.TechTreeConfigs;
@@ -21,9 +19,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
-
-	@SideOnly(Side.CLIENT)
+	
 	public static KeyBinding techTree = new KeyBinding("forest.mm.techtree.key", Keyboard.KEY_U, "forest.mm.techtree");
+	public static KeyBinding techTreeEditor = new KeyBinding("forest.mm.techtree.editor.key", Keyboard.KEY_I, "forest.mm.techtree.editor");
 	public static final GuiTechPoint techPointGui = new GuiTechPoint();
 	
 	@Override
@@ -42,12 +40,14 @@ public class ClientProxy extends CommonProxy {
 	public void init()
 	{
     	ClientRegistry.registerKeyBinding(techTree);
+    	ClientRegistry.registerKeyBinding(techTreeEditor);
     	TechTreeConfigs.init();
-    	TechEntryData.writeLanguageData();
+    	LanguageManager.init();
+    	LanguageManager.getInstance().writeLanguageData();
 	}
 	
 	@Override
 	public void postInit(){
-		TechEntryData.updateLanguage();
+		LanguageManager.getInstance().updateLanguage();
 	}
 }

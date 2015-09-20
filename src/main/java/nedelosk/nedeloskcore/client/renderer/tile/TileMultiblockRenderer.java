@@ -2,6 +2,7 @@ package nedelosk.nedeloskcore.client.renderer.tile;
 
 import java.util.HashMap;
 
+import nedelosk.nedeloskcore.api.multiblock.IMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -16,7 +17,7 @@ public class TileMultiblockRenderer extends TileEntitySpecialRenderer {
 		renderers.put(multiblock, renderer);
 	}
 	
-	public static TileEntitySpecialRenderer getRenderer(Class<? extends AbstractMultiblock> multiblock)
+	public static TileEntitySpecialRenderer getRenderer(Class<? extends IMultiblock> multiblock)
 	{
 		return renderers.get(multiblock);
 	}
@@ -26,14 +27,14 @@ public class TileMultiblockRenderer extends TileEntitySpecialRenderer {
 		if(tile instanceof TileMultiblockBase)
 		{
 			TileMultiblockBase base = (TileMultiblockBase) tile;
-	    	if(base.master != null && base.master.multiblock != null || base.isMaster &&  base.isMultiblock)
-	    		if(base.multiblock != null && TileMultiblockRenderer.getRenderer(base.multiblock.getClass()) != null && base.isMultiblock)
+	    	if(base.master != null && base.master.getMultiblock() != null || base.isMaster &&  base.isMultiblock)
+	    		if(base.multiblock != null && getRenderer(base.multiblock.getClass()) != null && base.isMultiblock)
 	    		{
 	    			renderers.get(base.multiblock.getClass()).renderTileEntityAt(base, x, y, z, p_147500_8_);
 	    		}
-	    		else if(base.master != null && base.master.multiblock != null && TileMultiblockRenderer.getRenderer(base.master.multiblock.getClass()) != null)
+	    		else if(base.master != null && base.master.getMultiblock() != null && TileMultiblockRenderer.getRenderer(base.master.getMultiblock().getClass()) != null)
 	    		{
-	    			renderers.get(base.master.multiblock.getClass()).renderTileEntityAt(base, x, y, z, p_147500_8_);
+	    			renderers.get(base.master.getMultiblock().getClass()).renderTileEntityAt(base, x, y, z, p_147500_8_);
 	    		}
 		}
 	}

@@ -3,12 +3,13 @@ package nedelosk.nedeloskcore.client.gui.book;
 import java.util.Collection;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
-import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookBack;
+import nedelosk.nedeloskcore.api.book.BookData;
+import nedelosk.nedeloskcore.api.book.IGuiBook;
+import nedelosk.nedeloskcore.api.book.note.NoteText;
+import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBack;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookEntry;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookPage;
 import nedelosk.nedeloskcore.client.gui.book.button.GuiButtonBookmark;
-import nedelosk.nedeloskcore.common.book.BookData;
-import nedelosk.nedeloskcore.common.book.note.NoteText;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
 
-public class GuiBook extends GuiScreen {
+public class GuiBook extends GuiScreen implements IGuiBook {
 	
     public ResourceLocation bookGuiTextures;
     public BookData bookData;
@@ -62,7 +63,7 @@ public class GuiBook extends GuiScreen {
 		
 		buttonList.add(pageLeft = new GuiButtonBookPage(12, left, top + guiHeight - 7, false, this));
 		buttonList.add(pageRight = new GuiButtonBookPage(13, left + guiWidth - 18, top + guiHeight - 7, true, this));
-		buttonList.add(pageBack = new GuiButtonBookBack(14, left + guiWidth / 2 - 8, top + guiHeight + 2, this));
+		buttonList.add(pageBack = new GuiButtonBack(14, left + guiWidth / 2 - 8, top + guiHeight + 2, bookGuiTextures, 36, 180));
 		
 		int id = 0;
 		Collection cat = bookData.map.keySet();
@@ -151,18 +152,22 @@ public class GuiBook extends GuiScreen {
 		pageBack.enabled = parent != null;
 	}
 	
+	@Override
 	public int getGuiHeight() {
 		return guiHeight;
 	}
 	
+	@Override
 	public int getGuiWidth() {
 		return guiWidth;
 	}
 	
+	@Override
 	public int getTop() {
 		return top;
 	}
 	
+	@Override
 	public int getLeft() {
 		return left;
 	}

@@ -12,7 +12,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.client.techtree.utils.TechEntryData;
+import nedelosk.modularmachines.client.techtree.utils.TechTreeUtils;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.config.TechTreeConfigs;
@@ -22,7 +22,7 @@ import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = "ModularMachines", version = "0.1.1", dependencies = "after:NotEnoughItems;after:EnderIO;after:NedeloskCore;after:Thaumcraft;after:ForestDay;after:ThermalExpansion")
+@Mod(modid = "ModularMachines", version = "0.2.0", dependencies = "after:NotEnoughItems;after:EnderIO;after:NedeloskCore;after:Thaumcraft;after:ForestDay;after:ThermalExpansion")
 public class ModularMachines
 {
 	public static Configuration config;
@@ -64,7 +64,7 @@ public class ModularMachines
     @Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
         registry.postInit();
-    	TechEntryData.checkJsonData();
+    	TechTreeUtils.checkJsonData();
         ModularConfig.postInit();
         TechTreeConfigs.postInit();
         proxy.postInit();

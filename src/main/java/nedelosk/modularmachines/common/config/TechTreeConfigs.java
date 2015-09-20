@@ -33,8 +33,9 @@ public class TechTreeConfigs {
 		{
 			Language language = (Language) iterator.next();
 			if(language.getLanguageCode().equals("en_US"))
-				activeLanguages.put(language.getLanguageCode(), config.get("techtreepage languages", language.getLanguageCode(), true).getBoolean());
-			activeLanguages.put(language.getLanguageCode(), config.get("techtreepage languages", language.getLanguageCode(), false).getBoolean());
+				activeLanguages.put(language.getLanguageCode(), true);
+			else
+				activeLanguages.put(language.getLanguageCode(), config.get("techtreepage languages", language.getLanguageCode(), false).getBoolean());
 		}
 		save();
 	}

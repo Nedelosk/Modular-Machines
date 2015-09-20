@@ -10,6 +10,7 @@ public enum MMItems {
 	Gears,
 	Dusts,
 	Plates,
+	Screw,
 	Dusts_Others,
 	Ingots_Others,
 	Nuggets_Others,

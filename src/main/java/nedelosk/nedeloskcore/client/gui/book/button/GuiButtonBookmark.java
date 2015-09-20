@@ -3,8 +3,8 @@ package nedelosk.nedeloskcore.client.gui.book.button;
 import java.util.Arrays;
 
 import nedelosk.nedeloskcore.api.book.BookCategory;
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.common.book.BookData;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;

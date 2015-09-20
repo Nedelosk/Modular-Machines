@@ -2,8 +2,8 @@ package nedelosk.nedeloskcore.client.gui.book;
 
 import com.mojang.authlib.GameProfile;
 
+import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.api.book.BookEntry;
-import nedelosk.nedeloskcore.common.book.BookData;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
