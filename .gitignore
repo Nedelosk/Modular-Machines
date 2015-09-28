@@ -3,6 +3,9 @@
 
 # folders
 !/gradle/wrapper
+!/api
+!/src/main/java/nedelosk
+!/src/main/resources
 
 # files
 !/.gitignore
