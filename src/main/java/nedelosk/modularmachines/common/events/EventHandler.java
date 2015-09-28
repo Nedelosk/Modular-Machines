@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.events;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.basic.machine.ModularManager;
 import nedelosk.modularmachines.api.basic.techtree.TechTreePlayerData;
 import nedelosk.modularmachines.client.gui.GuiModuleRegisterError;
 import nedelosk.modularmachines.client.proxy.ClientProxy;
@@ -25,7 +26,7 @@ public class EventHandler {
 	public void onOpenGui(GuiOpenEvent event)
 	{
 		if(event.gui instanceof GuiMainMenu)
-			if(ModularMachinesApi.getRegisterFailed() != null)
+			if(ModularManager.getRegisterFailed() != null)
 				event.gui = new GuiModuleRegisterError();
 	}
 	
@@ -33,7 +34,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event)
 	{
-		if(ModularMachinesApi.getModuleItem(event.itemStack) != null)
+		if(ModularManager.getModuleItem(event.itemStack) != null)
 		{
 			if(!GuiScreen.isShiftKeyDown())
 			{
@@ -44,8 +45,8 @@ public class EventHandler {
 			{
 				if(event.toolTip.size() != 1)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModularMachinesApi.getModuleItem(event.itemStack).getTier());
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModularMachinesApi.getModuleItem(event.itemStack).getModuleName() + ".name"));
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModularManager.getModuleItem(event.itemStack).getTier());
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModularManager.getModuleItem(event.itemStack).getModuleName() + ".name"));
 				if(event.toolTip.size() != 3)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
 				

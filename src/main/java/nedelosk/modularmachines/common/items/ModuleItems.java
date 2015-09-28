@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.basic.machine.ModularManager;
 import nedelosk.modularmachines.api.basic.machine.module.IModule;
 import nedelosk.modularmachines.api.basic.machine.module.IModuleEngine;
 import nedelosk.modularmachines.api.basic.machine.module.IModuleProducer;
@@ -33,7 +34,7 @@ public class ModuleItems extends ModularItem {
 	{
 		if(moduleName.equals("Manager"))
 		{
-			for(IModule module : ModularMachinesApi.getModules().values())
+			for(IModule module : ModularManager.getModules().values())
 			{
 				if(module instanceof IModuleManager)
 				{
@@ -44,7 +45,7 @@ public class ModuleItems extends ModularItem {
 		}
 		else if(moduleName.equals("Producer"))
 		{
-			for(IModule module : ModularMachinesApi.getModules().values())
+			for(IModule module : ModularManager.getModules().values())
 			{
 				if(module instanceof IModuleProducer)
 				{
@@ -55,7 +56,7 @@ public class ModuleItems extends ModularItem {
 		}
 		else if(moduleName.equals("Engine"))
 		{
-			for(IModule module : ModularMachinesApi.getModules().values())
+			for(IModule module : ModularManager.getModules().values())
 			{
 				if(module instanceof IModuleEngine)
 				{
@@ -115,7 +116,7 @@ public class ModuleItems extends ModularItem {
         		stack.getTagCompound().setString("Name", s);
         		stack.getTagCompound().setInteger("Tier", i);
     			list.add(stack);
-    			ModularMachinesApi.addModuleItem(stack, modules.get(s), i + 1, true);
+    			ModularManager.addModuleItem(stack, modules.get(s), i + 1, true);
     		}
     	}
     }

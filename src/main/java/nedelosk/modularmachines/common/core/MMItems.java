@@ -20,8 +20,10 @@ public enum MMItems {
 	//Module
 	Module_Item_Capacitor,
 	Module_Items,
+	Module_Item_Battery,
 	
-	Component_Battery,
+	Component_Connection_Wires,
+	Component_Energy_Crystal,
 	
 	//Pattern
 	WoodPattern,

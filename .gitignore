@@ -3,9 +3,12 @@
 
 # folders
 !/gradle/wrapper
-!/api
-!/src/main/java/nedelosk
-!/src/main/resources
+!/src
+/src/main/apis
+/src/main/java/mcp
+/src/main/java/minetweaker
+/src/main/java/stanhebben
+/src/main/java/tconstruct
 
 # files
 !/.gitignore

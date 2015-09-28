@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.basic.machine.ModularManager;
 import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeEntry;
@@ -80,7 +81,7 @@ public class TechTreeRegistry {
 	
 	public static void registerModuleStuff()
 	{
-		new TechTreeEntry("CASING", "MODULE", 15, TechPointTypes.EASY, 0, 0, ModularMachinesApi.bookmark.get("Basic").get(0)).setPages(new TechTreePage("mm.techtree_page.CASING.0", 0)).registerTechTreeEntry();
+		new TechTreeEntry("CASING", "MODULE", 15, TechPointTypes.EASY, 0, 0, ModularManager.bookmark.get("Basic").get(0)).setPages(new TechTreePage("mm.techtree_page.CASING.0", 0)).registerTechTreeEntry();
 		
 		//Energy
 		new TechTreeEntry("BATTERY", "MODULE", 15, TechPointTypes.EASY, 0, 2, new ItemStack(MMItems.Module_Item_Capacitor.item(), 1, 0)).setParents("CASING").setPages(new TechTreePage("mm.techtree_page.BATTERY.0", 0)).registerTechTreeEntry();
