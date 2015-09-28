@@ -6,7 +6,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.network.handler.PacketHandler;
 import nedelosk.nedeloskcore.common.network.packets.PacketTilePlan;
@@ -16,9 +15,9 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
-public class GuiPlan extends GuiBase {
+public class GuiPlan extends GuiBase<TilePlan> {
 
-	public GuiPlan(TileBaseInventory tile, InventoryPlayer inventory) {
+	public GuiPlan(TilePlan tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 
@@ -34,34 +33,30 @@ public class GuiPlan extends GuiBase {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-		if(tile instanceof TilePlan)
+		if(tile.closeGui)
 		{
-			TilePlan plan = (TilePlan) tile;
-			if(plan.closeGui)
-			{
-				plan.closedGui = true;
-				plan.getWorldObj().markBlockForUpdate(plan.xCoord, plan.yCoord, plan.zCoord);
-				PacketHandler.INSTANCE.sendToServer(new PacketTilePlan(plan));
-				mc.displayGuiScreen(null);
-				mc.setIngameFocus();
-			}
+			tile.closedGui = true;
+			tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+			PacketHandler.INSTANCE.sendToServer(new PacketTilePlan(tile));
+			mc.displayGuiScreen(null);
+			mc.setIngameFocus();
 		}
 	}
 	
 	@Override
 	public void drawScreen(int x, int y, float p_73863_3_) {
 		super.drawScreen(x, y, p_73863_3_);
-		renderButtomInput(((TilePlan)tile).input[0],((TilePlan)tile).inputs[0], this.guiLeft + 8, this.guiTop + 7, x, y);
-		renderButtomInput(((TilePlan)tile).input[1],((TilePlan)tile).inputs[1], this.guiLeft + 8, this.guiTop + 25, x, y);
-		renderButtomInput(((TilePlan)tile).input[2],((TilePlan)tile).inputs[2], this.guiLeft + 8, this.guiTop + 43, x, y);
-		renderButtomInput(((TilePlan)tile).input[3],((TilePlan)tile).inputs[3], this.guiLeft + 8, this.guiTop + 61, x, y);
+		renderButtomInput(tile.input[0],tile.inputs[0], this.guiLeft + 8, this.guiTop + 7, x, y);
+		renderButtomInput(tile.input[1],tile.inputs[1], this.guiLeft + 8, this.guiTop + 25, x, y);
+		renderButtomInput(tile.input[2],tile.inputs[2], this.guiLeft + 8, this.guiTop + 43, x, y);
+		renderButtomInput(tile.input[3],tile.inputs[3], this.guiLeft + 8, this.guiTop + 61, x, y);
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, p_146976_2_, p_146976_3_);
 		
-	    drawTexturedModalRect(this.guiLeft + 53, this.guiTop + 6, 0, ySize, ((TilePlan)tile).getScaledProcess(89), 4);
+	    drawTexturedModalRect(this.guiLeft + 53, this.guiTop + 6, 0, ySize, tile.getScaledProcess(89), 4);
 	}
 	
 	@Override

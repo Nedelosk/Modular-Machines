@@ -16,6 +16,7 @@ public class ForestdayConfig {
 		//Kiln
 		kilnBurnTime = config.get("Kiln", "BurnTime", 700).getInt();
 		kilnMinHeat = config.get("Kiln", "MinHeat", 125).getInt();
+		kilnMaxHeat = config.get("Kiln", "MaxHeat", 750).getInt();
 		
 		//Heat Generator
 		generatorHeatBurnTime = config.get("Heat Generator", "Burn Time", 250).getInt();
@@ -41,6 +42,7 @@ public class ForestdayConfig {
 	public static boolean activeCreativeDrop;
 	
 	public static int kilnMinHeat;
+	public static int kilnMaxHeat;
 	public static int kilnBurnTime;
 	
 	public static int generatorHeatBurnTime;

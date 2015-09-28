@@ -8,8 +8,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.modular.module.ModuleStack;
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
+import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -43,7 +42,7 @@ public class GuiButtonModularMachineBookmark extends GuiButton {
 
 		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
 		RenderUtils.bindTexture(guiTextureOverlay);
-		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1, ((TileModularMachine)machine.getTile()).page.equals(stack.getModule().getName()) ? 0 : 28,235 ,28 , 21);
+		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1, machine.getTile().page.equals(stack.getModule().getName()) ? 0 : 28,235 ,28 , 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		Random r = FMLClientHandler.instance().getClient().theWorld.rand;

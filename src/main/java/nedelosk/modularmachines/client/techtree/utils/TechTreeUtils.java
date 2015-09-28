@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -23,8 +24,11 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 
+import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.basic.techtree.TechPointStack;
 import nedelosk.modularmachines.api.basic.techtree.TechPointTypes;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategories;
 import nedelosk.modularmachines.api.basic.techtree.TechTreeCategoryList;
@@ -43,6 +47,47 @@ public class TechTreeUtils {
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(TechTreeEntry.class, new TechTreeEntryUtils.Deserializer()).registerTypeAdapter(TechTreeEntry.class, new TechTreeEntryUtils.Serializer()).registerTypeAdapter(TechTreeCategoryList.class, new TechTreeCategoryUtils.Deserializer()).registerTypeAdapter(TechTreeCategoryList.class, new TechTreeCategoryUtils.Serializer()).create();
 	
 	public static HashMap<String, String> pages = new HashMap<String, String>();
+	
+	public static void readTechPoints(){
+		try{
+			File file = new File(ModularMachines.configFolder + "/techtree", "techpoints.json");
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			JsonReader reader = new JsonReader( new FileReader(file) );
+			JsonObject object = Streams.parse(reader).getAsJsonObject();
+			if(object.has("points") && object.get("points").isJsonArray()){
+				JsonArray array = object.get("points").getAsJsonArray();
+				Iterator<JsonElement> iterator = array.iterator();
+				while(iterator.hasNext()){
+					JsonElement element = iterator.next();
+					ItemStack stack = JsonUtils.parseItem(element, "item");
+					JsonArray types = null;
+					ArrayList<TechPointStack> typeList = new ArrayList<TechPointStack>();
+					if(element.getAsJsonObject().has("types") && element.getAsJsonObject().get("types").isJsonArray()){
+						types = element.getAsJsonObject().get("types").getAsJsonArray();
+						Iterator<JsonElement> iteratorTypes = array.iterator();
+						while(iterator.hasNext()){
+							JsonElement type = iteratorTypes.next();
+							int typeID = 0;
+							if(type.getAsJsonObject().has("type")){
+								typeID = type.getAsJsonObject().get("type").getAsInt();
+							}
+							int points = 0;
+							if(type.getAsJsonObject().has("points")){
+								points = type.getAsJsonObject().get("points").getAsInt();
+							}
+							TechPointTypes techType = TechPointTypes.values()[typeID];
+							typeList.add(new TechPointStack(points, techType));
+						}
+					}
+					ModularMachinesApi.addTechPointsToItem(stack, typeList.toArray(new TechPointStack[typeList.size()]));
+				}
+			}
+		}catch(Exception e){
+			
+		}
+	}
 	
 	public static void checkJsonData()
 	{

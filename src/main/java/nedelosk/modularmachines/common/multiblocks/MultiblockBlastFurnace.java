@@ -220,7 +220,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
 	@Override
 	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new ContainerBlastFurnace(tile, inventory);
+		return new ContainerBlastFurnace((TileMultiblockBase<MultiblockBlastFurnace>) tile, inventory);
 	}
 
 	@Override

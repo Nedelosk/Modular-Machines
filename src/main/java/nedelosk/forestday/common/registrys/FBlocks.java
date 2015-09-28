@@ -15,9 +15,6 @@ public enum FBlocks {
 	
 	//Multiblock_Charcoal_Kiln,
 	
-	Machine_Furnace_Base,
-	Machine_Furnace_Coke,
-	Machine_Generator_Heat,
 	Machine_Wood_Base;
 	
 	private Block block;

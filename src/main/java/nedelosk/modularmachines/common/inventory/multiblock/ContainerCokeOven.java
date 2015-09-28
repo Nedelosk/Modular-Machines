@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
+import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
@@ -10,9 +11,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCokeOven extends ContainerBase {
+public class ContainerCokeOven extends ContainerBase<TileMultiblockBase<MultiblockCokeOven>> {
 
-	public ContainerCokeOven(IInventory tile, InventoryPlayer inventory) {
+	public ContainerCokeOven(TileMultiblockBase<MultiblockCokeOven> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 

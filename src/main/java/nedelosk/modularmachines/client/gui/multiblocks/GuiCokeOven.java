@@ -6,25 +6,24 @@ import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveTyp
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiCokeOven extends GuiBase {
+public class GuiCokeOven extends GuiBase<TileMultiblockBase<MultiblockCokeOven>> {
 
-	public GuiCokeOven(TileBaseInventory tile, InventoryPlayer inventory) {
+	public GuiCokeOven(TileMultiblockBase<MultiblockCokeOven> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		if(tile.getBlockType() == NCBlocks.Multiblock.block())
 		{
-			widgetManager.add(new WidgetHeatBar(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat, ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal, 82, 8));
+			widgetManager.add(new WidgetHeatBar(tile.master.getMultiblock().heat, tile.master.getMultiblock().heatTotal, 82, 8));
 		}
-		else if(((TileMultiblockBase)tile).master != null)
+		else if(tile.master != null)
 		{
-			if(((TileMultiblockBase)tile).modifier.valveType == ValveType.OUTPUT)
-					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tank, 79, 12));
-			else if(((TileMultiblockBase)tile).modifier.valveType == ValveType.INPUT)
-					widgetManager.add(new WidgetFluidTank(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tankGas, 79, 12));
+			if(tile.modifier.valveType == ValveType.OUTPUT)
+					widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank, 79, 12));
+			else if(tile.modifier.valveType == ValveType.INPUT)
+					widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tankGas, 79, 12));
 		}
 	}
 
@@ -39,18 +38,18 @@ public class GuiCokeOven extends GuiBase {
 		
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank)
 		{
-		if(((TileMultiblockBase)tile).modifier.valveType == ValveType.OUTPUT)
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tank;
-		else if(((TileMultiblockBase)tile).modifier.valveType == ValveType.INPUT)
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).tankGas;
+		if(tile.modifier.valveType == ValveType.OUTPUT)
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = tile.master.getMultiblock().tank;
+		else if(tile.modifier.valveType == ValveType.INPUT)
+			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = tile.master.getMultiblock().tankGas;
 		}
 		
 		if(widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetHeatBar)
 		{
-			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heat;
-			if(((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
-				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = ((MultiblockCokeOven)((TileMultiblockBase)tile).master.getMultiblock()).heatTotal;
+			if(tile.master.getMultiblock().heat != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heat = tile.master.getMultiblock().heat;
+			if(tile.master.getMultiblock().heatTotal != ((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal)
+				((WidgetHeatBar)widgetManager.getWidgets().get(0)).heatTotal = tile.master.getMultiblock().heatTotal;
 		}
 	}
 

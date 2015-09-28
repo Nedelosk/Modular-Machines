@@ -17,6 +17,7 @@ public class ModularWorkbench extends ModularBlock {
 		setHardness(2.0F);
 		setHarvestLevel("pickaxe", 1);
 		setBlockName("modular.workbench");
+		setBlockTextureName("iron_block");
 	}
 	
 	@Override

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.api.basic.modular.module.IModuleGui;
-import nedelosk.modularmachines.api.basic.modular.module.Module;
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
+import nedelosk.modularmachines.api.basic.machine.module.IModuleGui;
+import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
+import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachine;
+import nedelosk.modularmachines.common.network.packets.machine.PacketModular;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.modularmachines.common.network.packets.saver.ModularTileEntitySave;
 import nedelosk.nedeloskcore.api.INBTTagable;
@@ -22,16 +22,16 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiModularMachine extends GuiBase implements INBTTagable {
+public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagable {
 
 	public InventoryPlayer inventory;
 	
-	public GuiModularMachine(TileModularMachine tile, InventoryPlayer inventory) {
+	public GuiModularMachine(TileModular tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		this.inventory = inventory;
-		if(tile.getModuleGuis() != null && tile.getModuleGui() != null)
-		((IModuleGui)tile.getModuleGui().getModule()).addWidgets(this, ((TileModularMachine)this.tile).machine);
-		ySize = ((Module)tile.getModuleGui().getModule()).getGuiTop(tile.machine);
+		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui() != null)
+		((IModuleGui)tile.getModuleWithGui().getModule()).addWidgets(this, tile.machine);
+		ySize = ((IModuleGui)tile.getModuleWithGui().getModule()).getGuiTop(tile.machine);
 	}
 
 	@Override
@@ -56,32 +56,32 @@ public class GuiModularMachine extends GuiBase implements INBTTagable {
 	public void initGui() {
 		super.initGui();
 		int id = 0;
-		for(int i = 0;i < ((TileModularMachine)tile).getModuleGuis().size();i++)
+		for(int i = 0;i < tile.getModuleWithGuis().size();i++)
 		{
-			buttonList.add(new GuiButtonModularMachineBookmark(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 21 * (i - 7) : guiTop + 8 + 21 * i, ((TileModularMachine)tile).getModuleGuis().get(i)));
+			buttonList.add(new GuiButtonModularMachineBookmark(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 21 * (i - 7) : guiTop + 8 + 21 * i, (ModuleStack) tile.getModuleWithGuis().get(i)));
 			id++;
 		}
 		
-		if(((TileModularMachine)tile).getModuleGuis() != null && ((TileModularMachine)tile).getModuleGui() != null)
-			((IModuleGui)((TileModularMachine)tile).getModuleGui().getModule()).addButtons(this, ((TileModularMachine)this.tile).machine);
+		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui() != null)
+			((IModuleGui)tile.getModuleWithGui().getModule()).addButtons(this, this.tile.machine);
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if(button instanceof GuiButtonModularMachineBookmark)
 		{
-			if(!((TileModularMachine)this.tile).page.equals(((GuiButtonModularMachineBookmark)button).stack.getModule().getName()))
+			if(!this.tile.page.equals(((GuiButtonModularMachineBookmark)button).stack.getModule().getName()))
 			{
-			((TileModularMachine)this.tile).page = ((GuiButtonModularMachineBookmark)button).stack.getModule().getName();
+			this.tile.page = ((GuiButtonModularMachineBookmark)button).stack.getModule().getName();
 			EntityPlayer entityPlayer = inventory.player;
 			if(entityPlayer.getExtendedProperties(ModularSaveModule.class.getName()) != null)
 				if(((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
-					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page = ((TileModularMachine)tile).page;
+					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page = tile.page;
 				else
-					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).saver.add(new ModularTileEntitySave(((TileModularMachine)tile).page, tile.xCoord, tile.yCoord, tile.zCoord));
+					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).saver.add(new ModularTileEntitySave(tile.page, tile.xCoord, tile.yCoord, tile.zCoord));
 			else
-				entityPlayer.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(new ModularTileEntitySave(((TileModularMachine)tile).page, tile.xCoord, tile.yCoord, tile.zCoord)));
-			PacketHandler.INSTANCE.sendToServer(new PacketModularMachine((TileModularMachine) this.tile, ((GuiButtonModularMachineBookmark) button).stack.getModule().getName()));
+				entityPlayer.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(new ModularTileEntitySave(tile.page, tile.xCoord, tile.yCoord, tile.zCoord)));
+			PacketHandler.INSTANCE.sendToServer(new PacketModular(this.tile, ((GuiButtonModularMachineBookmark) button).stack.getModule().getName()));
 			}
 		}
 	}
@@ -99,8 +99,8 @@ public class GuiModularMachine extends GuiBase implements INBTTagable {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		if(((TileModularMachine)tile).getModuleGuis() != null && ((Module)((TileModularMachine)tile).getModuleGui().getModule()).getCustomGui(((TileModularMachine)tile).machine) != null)
-			RenderUtils.bindTexture(((Module)((TileModularMachine)tile).getModuleGui().getModule()).getCustomGui(((TileModularMachine)tile).machine));
+		if(tile.getModuleWithGuis() != null && ((IModuleGui)tile.getModuleWithGui().getModule()).getCustomGui(tile.machine) != null)
+			RenderUtils.bindTexture(((IModuleGui)tile.getModuleWithGui().getModule()).getCustomGui(tile.machine));
 		else
 			RenderUtils.bindTexture(guiTexture);	    
 	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);

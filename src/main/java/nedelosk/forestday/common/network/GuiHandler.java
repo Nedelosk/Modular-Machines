@@ -1,7 +1,7 @@
 package nedelosk.forestday.common.network;
 
 import nedelosk.nedeloskcore.client.gui.book.GuiBook;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
+import nedelosk.nedeloskcore.common.blocks.tile.TileBaseGui;
 import nedelosk.nedeloskcore.common.core.registry.EntryRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -19,9 +19,9 @@ public class GuiHandler implements IGuiHandler {
 	    
 		if (tile == null) return null;
 	    
-	    if(tile instanceof TileMachineBase)
+	    if(tile instanceof TileBaseGui)
 	    {
-	    	return ((TileMachineBase) tile).getContainer(player.inventory);
+	    	return ((TileBaseGui) tile).getContainer(player.inventory);
 	    }
 	    return null;
 	}
@@ -37,9 +37,9 @@ public class GuiHandler implements IGuiHandler {
 	    
 		if (tile == null) return null;
 		
-	    if(tile instanceof TileMachineBase)
+	    if(tile instanceof TileBaseGui)
 	    {
-	    	return ((TileMachineBase) tile).getGUIContainer(player.inventory);
+	    	return ((TileBaseGui) tile).getGUIContainer(player.inventory);
 	    }
 	    return null;
 	}

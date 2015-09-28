@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
+import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
 import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
@@ -9,9 +10,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBlastFurnace extends ContainerBase {
+public class ContainerBlastFurnace extends ContainerBase<TileMultiblockBase<MultiblockBlastFurnace>> {
 
-	public ContainerBlastFurnace(IInventory tile, InventoryPlayer inventory) {
+	public ContainerBlastFurnace(TileMultiblockBase<MultiblockBlastFurnace> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 

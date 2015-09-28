@@ -62,6 +62,7 @@ public class EventHandlerNetwork {
 					if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 						ClientProxy.techPointGui.addPoints(stack.type, stack.points);
 				}
+				((TechTreePlayerData)event.player.getExtendedProperties("MODULARMACHINES:TECHTREE")).craftetTechPoints.add(event.crafting);
 			}
 		}
 	}

@@ -8,14 +8,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerBase extends Container implements IContainerBase{
+public abstract class ContainerBase<T extends IInventory> extends Container implements IContainerBase<T>{
 
-	protected IInventory inventoryBase;
+	protected T inventoryBase;
 	
-	public ContainerBase(IInventory tile, InventoryPlayer inventory) {
+	public ContainerBase(T tile, InventoryPlayer inventory) {
 		this.inventoryBase = tile;
-		addInventory(inventory);
 		addSlots(inventory);
+		addInventory(inventory);
 	}
 	
 	protected void addInventory(InventoryPlayer inventory)
@@ -34,7 +34,11 @@ public abstract class ContainerBase extends Container implements IContainerBase{
 	@Override
 	public void addSlot(Slot slot) {
 		addSlotToContainer(slot);
-		
+	}
+	
+	@Override
+	public T getInventoryBase() {
+		return inventoryBase;
 	}
 	
 	protected abstract void addSlots(InventoryPlayer inventory);
@@ -42,6 +46,10 @@ public abstract class ContainerBase extends Container implements IContainerBase{
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
+	}
+	
+	public boolean sameGui(ContainerBase otherContainer) {
+		return this.inventoryBase == otherContainer.inventoryBase;
 	}
 	
 	@Override

@@ -1,17 +1,12 @@
 package nedelosk.forestday.common.managers;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestday.api.crafting.BurningMode;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
-import nedelosk.forestday.api.crafting.IBurnRecipe;
 import nedelosk.forestday.api.crafting.ICampfireRecipe;
-import nedelosk.forestday.api.crafting.ICokeFurnaceRecipe;
 import nedelosk.forestday.api.crafting.IKilnRecipe;
 import nedelosk.forestday.api.crafting.IWoodTypeManager;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.machines.base.furnace.coke.CokeFurnaceRecipeManager;
-import nedelosk.forestday.common.machines.base.heater.generator.HeatGeneratorRecipeManager;
 import nedelosk.forestday.common.machines.base.wood.campfire.CampfireRecipeManager;
 import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipeManager;
 import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
@@ -32,8 +27,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class CraftingManager {
 	
 	public static IKilnRecipe kilnResin;
-	public static IBurnRecipe burning;
-	public static ICokeFurnaceRecipe furnaceCoke;
 	public static IWorkbenchRecipe workbench;
 	public static ICampfireRecipe campfire;
 	public static IPlanRecipe planRecipe;
@@ -47,15 +40,11 @@ public class CraftingManager {
 	public static void registerRecipes()
 	{
 		ForestdayCrafting.kilnResinRecipes = new KilnRecipeManager();
-		ForestdayCrafting.burningRecipe = new HeatGeneratorRecipeManager();
-		ForestdayCrafting.furnaceCokeRecipe = new CokeFurnaceRecipeManager();
 		ForestdayCrafting.workbenchRecipe = new WorkbenchRecipeManager();
 		ForestdayCrafting.campfireRecipe = new CampfireRecipeManager();
 		ForestdayCrafting.woodManager = new WoodTypeManager();
 		
 		kilnResin = ForestdayCrafting.kilnResinRecipes;
-		burning = ForestdayCrafting.burningRecipe;
-		furnaceCoke = ForestdayCrafting.furnaceCokeRecipe;
 		workbench = ForestdayCrafting.workbenchRecipe;
 		campfire = ForestdayCrafting.campfireRecipe;
 		planRecipe = NCoreApi.planRecipe;
@@ -67,7 +56,6 @@ public class CraftingManager {
 		addNormalRecipes();
 		
 		addWoodRecipes();
-		addFuelToGenerator();
 	}
 	
 	public static void addNormalRecipes()
@@ -155,11 +143,6 @@ public class CraftingManager {
 		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 2), "---", "+++", "WCW", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood", 'C', Blocks.chest);
 		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 3), "ILI", "ICI", "ILI", 'I', "ingotIron", 'C', Blocks.chest, 'L', FBlocks.Gravel.item());
 		
-	}
-	
-	public static void addFuelToGenerator()
-	{
-		burning.addRecipe(new ItemStack(Items.coal, 1, 1), new ItemStack(FItems.nature.item(), 1, 7), 250, BurningMode.Charcoal);
 	}
 	
 	public static void addCampfireRecipes()

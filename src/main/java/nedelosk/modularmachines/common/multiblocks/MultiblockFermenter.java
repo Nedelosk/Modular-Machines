@@ -174,7 +174,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 
 	@Override
 	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new ContainerFermenter(tile, inventory);
+		return new ContainerFermenter((TileMultiblockBase<MultiblockFermenter>) tile, inventory);
 	}
 
 	@Override

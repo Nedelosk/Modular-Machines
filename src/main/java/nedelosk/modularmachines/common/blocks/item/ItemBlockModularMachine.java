@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.item;
 
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
+import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,12 +73,12 @@ public class ItemBlockModularMachine extends ItemBlock {
 			}
 
 			TileEntity tile = world.getTileEntity(x, y, z);
-			if (!(tile instanceof TileModularMachine)) {
+			if (!(tile instanceof TileModular)) {
 				world.setBlockToAir(x, y, z);
 				return false;
 			}
 
-			TileModularMachine machine = (TileModularMachine) tile;
+			TileModular machine = (TileModular) tile;
 			machine.setMachine(stack.getTagCompound());
 			world.markBlockForUpdate(x, y, z);
 			world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, this.field_150939_a.stepSound.func_150496_b(), (this.field_150939_a.stepSound.getVolume() + 1.0F) / 2.0F, this.field_150939_a.stepSound.getPitch() * 0.8F);

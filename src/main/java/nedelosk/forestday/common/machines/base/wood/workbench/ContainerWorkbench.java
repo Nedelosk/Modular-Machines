@@ -1,14 +1,13 @@
 package nedelosk.forestday.common.machines.base.wood.workbench;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerWorkbench extends ContainerBase {
+public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 
-	public ContainerWorkbench(TileBaseInventory tile, InventoryPlayer inventory) {
+	public ContainerWorkbench(TileWorkbench tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 

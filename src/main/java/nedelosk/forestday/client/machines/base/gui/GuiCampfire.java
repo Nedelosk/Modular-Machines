@@ -3,15 +3,14 @@ package nedelosk.forestday.client.machines.base.gui;
 import nedelosk.forestday.client.machines.base.gui.widget.WidgetFuelBar;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiCampfire extends GuiMachine {
+public class GuiCampfire extends GuiMachine<TileCampfire> {
 
-	protected WidgetFuelBar fuelBar = new WidgetFuelBar(((TileCampfire)tile).fuelStorage, ForestdayConfig.campfireFuelStorageMax[(((TileBaseInventory)tile).getStackInSlot(4) != null) ? ((TileBaseInventory)tile).getStackInSlot(4).getItemDamage() : 0], this.guiLeft + 7, this.guiTop + 9);;
+	protected WidgetFuelBar fuelBar = new WidgetFuelBar(tile.fuelStorage, ForestdayConfig.campfireFuelStorageMax[(tile.getStackInSlot(4) != null) ? tile.getStackInSlot(4).getItemDamage() : 0], this.guiLeft + 7, this.guiTop + 9);;
 	
-	public GuiCampfire(TileBaseInventory tile, InventoryPlayer inventory) {
+	public GuiCampfire(TileCampfire tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 
@@ -19,8 +18,8 @@ public class GuiCampfire extends GuiMachine {
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
         if(fuelBar != null)
         {
-        	fuelBar.fuel = ((TileCampfire)tile).fuelStorage;
-        	fuelBar.fuelMax = ForestdayConfig.campfireFuelStorageMax[(((TileBaseInventory)tile).getStackInSlot(4) != null) ? ((TileBaseInventory)tile).getStackInSlot(4).getItemDamage() : 0];
+        	fuelBar.fuel = tile.fuelStorage;
+        	fuelBar.fuelMax = ForestdayConfig.campfireFuelStorageMax[(tile.getStackInSlot(4) != null) ? tile.getStackInSlot(4).getItemDamage() : 0];
         	fuelBar.draw(fuelBar.posX, fuelBar.posY, x, y);
         }
         if (fuelBar != null)
@@ -32,7 +31,12 @@ public class GuiCampfire extends GuiMachine {
 
 	@Override
 	protected void renderProgressBar() {
-		
+        if (tile.isWorking) {
+        	this.drawTexturedModalRect(guiLeft + 66, guiTop + 36, 0, 166, 14, 14);
+        }
+        if (tile.getBurnTime() > 0 && tile.getBurnTime() <= tile.getBurnTimeTotal()) {
+        	this.drawTexturedModalRect(guiLeft + 84, guiTop + 35, 0, 180, this.tile.getScaledProcess(24), 15);
+        }
 	}
 
 	@Override

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
+import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.machines.module.manager.ModuleTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
+import nedelosk.modularmachines.common.network.packets.machine.PacketModularNBT;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class WidgetFluidTankDirection extends Widget {
+public class WidgetFluidTankDirection extends Widget<TileModular> {
 
 	protected ResourceLocation widget = RenderUtils.getResourceLocation("modularmachines", "widgets", "gui");
 	public ForgeDirection direction;
@@ -30,7 +30,7 @@ public class WidgetFluidTankDirection extends Widget {
 	}
 	
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(IGuiBase<TileModular> gui) {
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -46,15 +46,15 @@ public class WidgetFluidTankDirection extends Widget {
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<TileModular> gui) {
 		if(direction != null)
 		{
 			if(direction.ordinal() != ForgeDirection.values().length - 1)
 				direction = ForgeDirection.values()[direction.ordinal() + 1];
 			else
 				direction = ForgeDirection.values()[0];
-			((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager.directions[ID] = direction;
-			PacketHandler.INSTANCE.sendToServer(new PacketModularMachineNBT((TileModularMachine) gui.getTile()));
+			((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.directions[ID] = direction;
+			PacketHandler.INSTANCE.sendToServer(new PacketModularNBT(gui.getTile()));
 		}
 	}
 	

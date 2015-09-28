@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.modularmachines.api.basic.modular.IModularWorkbench;
+import nedelosk.modularmachines.api.basic.machine.IModularWorkbench;
 import nedelosk.modularmachines.client.gui.GuiModularWorkbench;
 import nedelosk.modularmachines.common.inventory.ContainerModularWorkbench;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
@@ -26,12 +26,12 @@ public class TileModularWorkbench extends TileBaseInventory implements IModularW
 
 	@Override
 	public void updateServer() {
-		testWorkbench();
+		
 	}
 
 	@Override
 	public String getMachineTileName() {
-		return null;
+		return "modular.workbench";
 	}
 
 	@Override
@@ -47,10 +47,6 @@ public class TileModularWorkbench extends TileBaseInventory implements IModularW
 	public void setInventorySlotContentsSoftly(int par1, ItemStack par2ItemStack)
 	{
 		this.slots[par1] = par2ItemStack;
-	}
-	
-	public void testWorkbench()
-	{
 	}
 
 	@Override
@@ -109,16 +105,6 @@ public class TileModularWorkbench extends TileBaseInventory implements IModularW
 	@Override
 	public int getTier() {
 		return tier;
-	}
-
-	@Override
-	public boolean canDrain(int tier) {
-		return false;
-	}
-
-	@Override
-	public boolean drainMaterials(int tier) {
-		return false;
 	}
 
 }

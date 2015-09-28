@@ -7,7 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerKiln extends ContainerBase {
+public class ContainerKiln extends ContainerBase<TileKiln> {
 	
 	public ContainerKiln(InventoryPlayer inventory, TileKiln tile) {
 		super(tile, inventory);

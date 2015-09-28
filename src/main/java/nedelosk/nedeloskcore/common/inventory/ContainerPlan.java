@@ -1,13 +1,13 @@
 package nedelosk.nedeloskcore.common.inventory;
 
 import nedelosk.forestday.common.machines.base.slots.SlotTool;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerPlan extends ContainerBase {
+public class ContainerPlan extends ContainerBase<TilePlan> {
 
-	public ContainerPlan(TileBaseInventory tile, InventoryPlayer inventory) {
+	public ContainerPlan(TilePlan tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 

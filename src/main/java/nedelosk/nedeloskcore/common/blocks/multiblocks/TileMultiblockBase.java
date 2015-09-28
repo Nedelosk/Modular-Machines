@@ -19,11 +19,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileMultiblockBase extends TileMachineBase implements ITileMultiblock {
+public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase implements ITileMultiblock<M> {
 
 	public MultiblockModifierValveTypeString modifier;
 	public MultiblockPattern pattern;
-	public IMultiblock multiblock;
+	public M multiblock;
 	public TileCache cache = new TileCache(this);
 	public boolean tested;
 	public boolean isMaster;
@@ -76,7 +76,7 @@ public class TileMultiblockBase extends TileMachineBase implements ITileMultiblo
 			return pattern.getPatternMarker(patternX, patternY, patternZ);
 	}
 	
-	public ITileMultiblock master;
+	public ITileMultiblock<M> master;
 
 	@Override
 	public String getMultiblockName()
@@ -198,7 +198,8 @@ public class TileMultiblockBase extends TileMachineBase implements ITileMultiblo
 		{
 			for(MultiblockPattern pattern : entry.getValue())
 			{
-				boolean isPattern = testPattern(pattern, NCoreApi.getMutiblock(entry.getKey()));
+				M m;
+				boolean isPattern = testPattern(pattern, m = NCoreApi.getMutiblock(entry.getKey()));
 				if(isPattern)
 				{
 					this.pattern = pattern;
@@ -212,7 +213,7 @@ public class TileMultiblockBase extends TileMachineBase implements ITileMultiblo
 	}
 	
 	@Override
-	public boolean testPattern(MultiblockPattern pattern, IMultiblock multiblock)
+	public boolean testPattern(MultiblockPattern pattern, M multiblock)
 	{
         int xWidth = pattern.getPatternWidthX();
         int zWidth = pattern.getPatternWidthZ();
@@ -464,7 +465,7 @@ public class TileMultiblockBase extends TileMachineBase implements ITileMultiblo
 	}
 
 	@Override
-	public IMultiblock getMultiblock() {
+	public M getMultiblock() {
 		return multiblock;
 	}
 

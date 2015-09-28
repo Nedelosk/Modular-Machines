@@ -1,16 +1,32 @@
 package nedelosk.forestday.common.machines.base.block;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
+import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
+import nedelosk.forestday.common.registrys.FItems;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class BlockMachinesWood extends BlockMachines {
 
@@ -31,6 +47,27 @@ public class BlockMachinesWood extends BlockMachines {
 	@Override
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int blockSide) {
 		return Blocks.iron_block.getIcon(0, 0);
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(FItems.curb.item(), 1, 0);
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof TileCampfire){
+			TileCampfire campfire = (TileCampfire) tile;
+			ret.add(campfire.getStackInSlot(4));
+			return ret;
+		}
+		return new ArrayList<ItemStack>();
+	}
+	
+	@Override
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 	}
 	
     @Override
@@ -58,6 +95,32 @@ public class BlockMachinesWood extends BlockMachines {
                 
                 world.playSound(x + 0.5F, y + 0.5F, z + 0.5F, "fire.fire", 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
     	}
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
+    	if(player.getCurrentEquippedItem() != null){
+	    	TileEntity tile = world.getTileEntity(x, y, z);
+	    	if(tile instanceof TileKiln){
+	    		TileKiln kiln = (TileKiln) tile;
+	    		if(player.getCurrentEquippedItem().getItem() instanceof ItemBucket && !kiln.tankLava.isFull() && ((kiln.tankLava.getFluidAmount() + 1000) <= kiln.tankLava.getCapacity())){
+	    			IFluidContainerItem container = (IFluidContainerItem) player.getCurrentEquippedItem().getItem();
+	    			if(player.getCurrentEquippedItem().getItem() == Items.lava_bucket){
+	    				if(kiln.tankLava.fill(new FluidStack(FluidRegistry.LAVA, 1000), true) > 0){
+	    					player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
+	    				}
+	    			}
+	    			return true;
+	    		}
+	    	}else if(tile instanceof TileCampfire){
+	    		TileCampfire campfile = (TileCampfire) tile;
+	    		if(player.getCurrentEquippedItem().getItem() instanceof ItemCampfire){
+	    			player.inventory.setInventorySlotContents(player.inventory.currentItem, campfile.setCampfireItem(player.getCurrentEquippedItem()));
+	    			return true;
+	    		}
+	    	}
+    	}
+    	return super.onBlockActivated(world, x, y, z, player, side, par7, par8, par9);
     }
 	
 	@Override

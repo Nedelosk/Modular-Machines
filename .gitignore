@@ -1,0 +1,17 @@
+# everything
+/*
+
+# folders
+!/gradle/wrapper
+
+# files
+!/.gitignore
+!/.gitmodules
+!/LICENSE.txt
+!/license-header.txt
+!/README.md
+!/application.properties
+!/build.gradle
+!/build.properties
+!/gradlew
+!/gradlew.bat

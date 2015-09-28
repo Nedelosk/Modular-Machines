@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.config;
 
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.modular.module.IModule;
+import nedelosk.modularmachines.api.basic.machine.module.IModule;
 import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraftforge.common.config.Configuration;
 

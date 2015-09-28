@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiWorkbench extends GuiMachine {
+public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 
 	public GuiWorkbench(TileWorkbench tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -23,7 +23,7 @@ public class GuiWorkbench extends GuiMachine {
     public void initGui() {
     	super.initGui();
     	
-    	buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, ((TileWorkbench)tile).getMode(), new ResourceLocation("forestday", "textures/gui/button/workbanch_mode.png")));
+    	buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(), new ResourceLocation("forestday", "textures/gui/button/workbanch_mode.png")));
     }
 
 	@Override
@@ -44,15 +44,15 @@ public class GuiWorkbench extends GuiMachine {
 	protected void actionPerformed(GuiButton button) {
 		if(button instanceof ButtonWorkbenchMode)
 		{
-			((TileWorkbench) tile).setMode(((TileWorkbench) tile).getMode() == Mode.further_processing ? Mode.stop_processing : Mode.further_processing);
-			((ButtonWorkbenchMode)buttonList.get(0)).setMode(((TileWorkbench) tile).getMode());
+			tile.setMode(tile.getMode() == Mode.further_processing ? Mode.stop_processing : Mode.further_processing);
+			((ButtonWorkbenchMode)buttonList.get(0)).setMode(tile.getMode());
 			switchMode();
 		}
 	}
 	
 	private void switchMode()
 	{
-		PacketHandler.INSTANCE.sendToServer(new PacketSwitchMode((TileWorkbench) tile));
+		PacketHandler.INSTANCE.sendToServer(new PacketSwitchMode(tile));
 	}
 
 }

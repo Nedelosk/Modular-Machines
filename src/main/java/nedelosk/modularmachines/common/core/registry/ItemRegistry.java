@@ -2,6 +2,8 @@ package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.items.ItemCapacitor;
+import nedelosk.modularmachines.common.items.ItemMachinePartEnergy;
+import nedelosk.modularmachines.common.items.ItemMachinePattern;
 import nedelosk.modularmachines.common.items.ModuleItems;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
@@ -33,6 +35,8 @@ public class ItemRegistry {
 		
 		MMItems.Module_Item_Capacitor.registerItem(new ItemCapacitor("", new String[]{ "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));
 		MMItems.Module_Items.registerItem(new ModuleItems());
+		
+		MMItems.Component_Battery.registerItem(new ItemMachinePartEnergy("Battery", 1, 1000000, maxReceive, maxExtract));
 		
 	}
 	

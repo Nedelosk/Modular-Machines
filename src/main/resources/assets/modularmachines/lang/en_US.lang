@@ -121,6 +121,15 @@ forest.nc.item.tile.oremodularmachines.0.name=Columbite Ore
 forest.nc.item.tile.oremodularmachines.1.name=Aluminium Ore
 
 ####################################
+Fluids
+####################################
+fluid.air.hot=Air Hot
+fluid.air=Air
+fluid.slag=Slag
+fluid.pig.iron=Pig Iron
+fluid.gas.blastfurnace=Gas Blastfurnace
+
+####################################
 Item
 ####################################
 forest.mm.item.ingot.alloy.0.name=Bronze Ingot
@@ -189,3 +198,8 @@ forest.mm.item.capacitor.0.name=Aluminium Metal Paper Capacitor
 forest.mm.item.capacitor.1.name=Niobium Electrolytic Capacitor
 forest.mm.item.capacitor.2.name=Tantalum Electrolytic Capacitor
 forest.mm.item.capacitor.3.name=Double-Layer Capacitor
+item.bucket.air.hot.name=Air Hot Bucket
+item.bucket.air.name=Air Bucket
+item.bucket.slag.name=Slag Bucket
+item.bucket.pig.iron.name=Pig Iron Bucket
+item.bucket.gas.blastfurnace.name=Gas Blastfurnace

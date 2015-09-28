@@ -17,8 +17,15 @@ public enum MMItems {
 	Alloy_Ingots,
 	Alloy_Nuggets,
 	
+	//Module
 	Module_Item_Capacitor,
-	Module_Items;
+	Module_Items,
+	
+	Component_Battery,
+	
+	//Pattern
+	WoodPattern,
+	MetalPattern;
 
 	private Item item;
 

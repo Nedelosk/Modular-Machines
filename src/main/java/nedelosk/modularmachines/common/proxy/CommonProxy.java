@@ -1,12 +1,8 @@
 package nedelosk.modularmachines.common.proxy;
 
-import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
-import nedelosk.modularmachines.client.gui.assembler.GuiModularAssemblerSlot;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechTreeEditor;
-import nedelosk.modularmachines.common.inventory.ContainerDummy;
-import nedelosk.modularmachines.common.inventory.ContainerModularAssemblerSlot;
-import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
+import nedelosk.nedeloskcore.common.blocks.tile.TileBaseGui;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,18 +24,10 @@ public class CommonProxy implements IGuiHandler {
 	    
 	    switch (ID) {
 		case 0:
-			if(tile != null && tile instanceof TileBaseInventory)
+			if(tile != null && tile instanceof TileBaseGui)
 		    {
 				return ((TileBaseInventory) tile).getContainer(player.inventory);
 		    }
-		case 1:
-			if(tile != null && tile instanceof TileBaseInventory)
-		    {
-		    	ModuleEntry entry = ((ModularSaveModule)player.getExtendedProperties(ModularSaveModule.class.getName())).entry;
-		    	return new ContainerModularAssemblerSlot((TileBaseInventory) tile, player.inventory, entry);
-		    }
-		case 3:
-	    	return new ContainerDummy();
 		default:
 			return null;
 	    }
@@ -58,20 +46,14 @@ public class CommonProxy implements IGuiHandler {
 	    if ((world instanceof WorldClient)) {
 	    switch (ID) {
 		case 0:
-			if(tile instanceof TileBaseInventory)
+			if(tile instanceof TileBaseGui)
 		    {
 		    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
 		    }
 		case 1:
-			if(tile instanceof TileBaseInventory)
-		    {
-		    	ModuleEntry entry = ((ModularSaveModule)player.getExtendedProperties(ModularSaveModule.class.getName())).entry;
-		    	return new GuiModularAssemblerSlot((TileBaseInventory) tile, player.inventory, entry);
-		    }
+	    	return new GuiTechTreeEditor();
 		case 2:
 		    return new GuiTechTree();
-		case 3:
-	    	return new GuiTechTreeEditor();
 		default:
 			return null;
 	    }

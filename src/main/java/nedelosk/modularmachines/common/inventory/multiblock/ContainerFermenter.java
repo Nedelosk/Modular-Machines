@@ -1,12 +1,13 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
+import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
+import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 
-public class ContainerFermenter extends ContainerBase {
+public class ContainerFermenter extends ContainerBase<TileMultiblockBase<MultiblockFermenter>> {
 
-	public ContainerFermenter(IInventory tile, InventoryPlayer inventory) {
+	public ContainerFermenter(TileMultiblockBase<MultiblockFermenter> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
 

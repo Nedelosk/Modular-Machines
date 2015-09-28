@@ -166,7 +166,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 
 	@Override
 	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new ContainerAirHeatingPlant(tile, inventory);
+		return new ContainerAirHeatingPlant((TileMultiblockBase<MultiblockAirHeatingPlant>) tile, inventory);
 	}
 
 	@Override

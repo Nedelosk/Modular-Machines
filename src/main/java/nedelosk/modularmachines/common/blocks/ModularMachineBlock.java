@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
+import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,12 +17,13 @@ public class ModularMachineBlock extends ModularBlock {
 		setStepSound(soundTypeMetal);
 		setHardness(2.0F);
 		setHarvestLevel("pickaxe", 1);
-		setBlockName("modular.machine");
+		setBlockName("modular");
+		setBlockTextureName("iron_block");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileModularMachine();
+		return new TileModular();
 	}
 	
 	@Override

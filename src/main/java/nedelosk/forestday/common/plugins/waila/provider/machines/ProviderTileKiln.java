@@ -24,13 +24,15 @@ public class ProviderTileKiln implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileKiln tile = (TileKiln) accessor.getTileEntity();
 		
-		int heat = tile.getHeat();
-		int resinAmount = /*tile.getTank()[0].getFluidAmount()*/ 0;
-		int tarAmount = /*tile.getTank()[1].getFluidAmount()*/ 0;
+		int heat = tile.heat;
+		int resinAmount = tile.tank1.getFluidAmount();
+		int tarAmount = tile.tank2.getFluidAmount();
+		int lavaAmount = tile.tankLava.getFluidAmount();
 		
 		currenttip.add("Heat: " + heat + " H");
-		currenttip.add("Resin: 16000 mb / " + resinAmount + " mb");
-		currenttip.add("Tar: 16000 mb / " + tarAmount + " mb");
+		currenttip.add("Tank 1: 16000 mb / " + resinAmount + " mb");
+		currenttip.add("Tank 2: 16000 mb / " + tarAmount + " mb");
+		currenttip.add("Lava Tank: 8000 mb / " + lavaAmount + " mb");
 		currenttip.add("Progress: " + tile.getBurnTimeTotal() + " / " + tile.getBurnTime());
 		return currenttip;
 	}

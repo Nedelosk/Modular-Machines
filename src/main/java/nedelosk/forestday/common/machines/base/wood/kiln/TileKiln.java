@@ -2,13 +2,12 @@ package nedelosk.forestday.common.machines.base.wood.kiln;
 
 import nedelosk.forestday.client.machines.base.gui.GuiKiln;
 import nedelosk.forestday.common.config.ForestdayConfig;
-import nedelosk.forestday.common.machines.base.tile.TileHeatBase;
+import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -17,15 +16,17 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 
-public class TileKiln extends TileHeatBase implements IFluidHandler {
+public class TileKiln extends TileMachineBase implements IFluidHandler {
 	
-	private int heatTimer;
+	private int heatTimer = 25;
+	public int heat;
 	
     private ItemStack currentOutput1;
     private ItemStack currentOutput2;
     
-    public FluidTankNedelosk tankTar = new FluidTankNedelosk(16000);
-    public FluidTankNedelosk tankResin = new FluidTankNedelosk(16000);
+    public FluidTankNedelosk tank1 = new FluidTankNedelosk(16000);
+    public FluidTankNedelosk tank2 = new FluidTankNedelosk(16000);
+    public FluidTankNedelosk tankLava = new FluidTankNedelosk(4000);
 	
 	public TileKiln() {
 		super(4);
@@ -51,9 +52,9 @@ public class TileKiln extends TileHeatBase implements IFluidHandler {
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		switch (from) {
 		case UP:
-			return tankTar.drain(resource, doDrain);
+			return tank1.drain(resource, doDrain);
 		case DOWN:
-			return tankResin.drain(resource, doDrain);
+			return tank2.drain(resource, doDrain);
 		default:
 			return null;
 		}
@@ -63,9 +64,9 @@ public class TileKiln extends TileHeatBase implements IFluidHandler {
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		switch (from) {
 		case UP:
-			return tankTar.drain(maxDrain, doDrain);
+			return tank1.drain(maxDrain, doDrain);
 		case DOWN:
-			return tankResin.drain(maxDrain, doDrain);
+			return tank2.drain(maxDrain, doDrain);
 		default:
 			return null;
 		}
@@ -85,39 +86,65 @@ public class TileKiln extends TileHeatBase implements IFluidHandler {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		if (this.currentOutput1 != null){
-			NBTTagList nbtTagList = new NBTTagList();
 			NBTTagCompound item = new NBTTagCompound();
 			this.currentOutput1.writeToNBT(item);
-			nbtTagList.appendTag(item);
-			nbt.setTag("currentOutput1", nbtTagList);
+			nbt.setTag("currentOutput1", item);
 		}
 		if (this.currentOutput2 != null){
-			NBTTagList nbtTagList = new NBTTagList();
 			NBTTagCompound item = new NBTTagCompound();
 			this.currentOutput2.writeToNBT(item);
-			nbtTagList.appendTag(item);
-			nbt.setTag("currentOutput2", nbtTagList);
+			nbt.setTag("currentOutput2", item);
 		}
+		if (this.tank1 != null){
+			NBTTagCompound fluid = new NBTTagCompound();
+			fluid.setInteger("Capacity", tank1.getCapacity());
+			this.tank1.writeToNBT(fluid);
+			nbt.setTag("tank1", fluid);
+		}
+		if (this.tank2 != null){
+			NBTTagCompound fluid = new NBTTagCompound();
+			fluid.setInteger("Capacity", tank2.getCapacity());
+			this.tank2.writeToNBT(fluid);
+			nbt.setTag("tank2", fluid);
+		}
+		if (this.tankLava != null){
+			NBTTagCompound fluid = new NBTTagCompound();
+			fluid.setInteger("Capacity", tankLava.getCapacity());
+			this.tankLava.writeToNBT(fluid);
+			nbt.setTag("tankLava", fluid);
+		}
+		nbt.setInteger("Heat", heat);
+		nbt.setInteger("HeatTimer", heatTimer);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("currentOutput1")){
-			NBTTagList nbtTagList = nbt.getTagList("currentOutput1", 10);
-			NBTTagCompound item = nbtTagList.getCompoundTagAt(0);
+			NBTTagCompound item = nbt.getCompoundTag("currentOutput1");
 			this.currentOutput1 = ItemStack.loadItemStackFromNBT(item);
-		}else{
-			this.currentOutput1 = null;
 		}
 		if (nbt.hasKey("currentOutput2")){
-			NBTTagList nbtTagList = nbt.getTagList("currentOutput2", 10);
-			NBTTagCompound item = nbtTagList.getCompoundTagAt(0);
+			NBTTagCompound item = nbt.getCompoundTag("currentOutput2");
 			this.currentOutput2 = ItemStack.loadItemStackFromNBT(item);
-		}else{
-			this.currentOutput2 = null;
 		}
-	      
+		if (nbt.hasKey("tank1")){
+			NBTTagCompound fluid = nbt.getCompoundTag("tank1");
+			tank1 = new FluidTankNedelosk(fluid.getInteger("Capacity"));
+			tank1.readFromNBT(fluid);
+		}
+		if (nbt.hasKey("tank2")){
+			NBTTagCompound fluid = nbt.getCompoundTag("tank2");
+			tank2 = new FluidTankNedelosk(fluid.getInteger("Capacity"));
+			tank2.readFromNBT(fluid);
+		}
+		if (nbt.hasKey("tankLava")){
+			NBTTagCompound fluid = nbt.getCompoundTag("tankLava");
+			tankLava = new FluidTankNedelosk(fluid.getInteger("Capacity"));
+			tankLava.readFromNBT(fluid);
+		}
+	    heat = nbt.getInteger("Heat");
+	    heatTimer = nbt.getInteger("HeatTimer");
 	}
 	
 	@Override
@@ -136,52 +163,79 @@ public class TileKiln extends TileHeatBase implements IFluidHandler {
 
 	@Override
 	public void updateServer() {
-		super.updateServer();
 		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		int lavaSources = 0;
-    	if(!this.tankTar.isFull() && !this.tankResin.isFull())
+		if(heat < ForestdayConfig.kilnMaxHeat){
+			if(!tankLava.isEmpty()){
+				if(heatTimer >= 25){
+					if(tankLava.drain(2, true) != null)
+						heatTimer = 0;
+				}else{
+					heatTimer++;
+				}
+			}else{
+				if(heatTimer >= 50){
+					heatTimer--;
+				}else{
+					heatTimer++;
+				}
+			}
+		}else{
+			if(!tankLava.isEmpty()){
+				if(heatTimer >= 50){
+					if(tankLava.drain(2, true) != null)
+						heatTimer = 0;
+				}else{
+					heatTimer++;
+				}
+			}else{
+				if(heatTimer >= 50){
+						heatTimer--;
+				}else{
+					heatTimer++;
+				}
+			}
+		}
+    	if(!this.tank1.isFull() && !this.tank2.isFull())
     	{
-    		
-    	if(heat >= ForestdayConfig.kilnMinHeat)
-    	{
-    	if(burnTime < burnTimeTotal)
-    	{
-    		burnTime++;
-	}else{
-    		if (this.currentOutput1 != null){
-    			if (this.addToOutput(this.currentOutput1, 2, 4) && this.addToOutput(this.currentOutput2, 2, 4)){
-    				this.currentOutput1 = null;
-    				this.currentOutput2 = null;
-    				tankTar.fill(new FluidStack(FluidRegistry.getFluid("tar"), 300), true);
-    				tankResin.fill(new FluidStack(FluidRegistry.getFluid("resin"), 150), true);
-    			}
-    			}else{
-		    ItemStack itemStackInputSlot1 = this.getStackInSlot(0);
-    		ItemStack itemStackInputSlot2 = this.getStackInSlot(1);
-    		if(itemStackInputSlot1 != null && itemStackInputSlot2 != null)
-    		{
-    			KilnRecipe recipe = KilnRecipeManager.getRecipe(itemStackInputSlot1, itemStackInputSlot2);
-    			if(recipe != null)
-    			{
-    				if (itemStackInputSlot1.stackSize >= recipe.getInput1().stackSize && itemStackInputSlot2.stackSize >= recipe.getInput2().stackSize){
-    					this.decrStackSize(0, recipe.getInput1().stackSize);
-    					this.decrStackSize(1, recipe.getInput2().stackSize);
-        				this.currentOutput1 = recipe.getOutput1();
-        				this.currentOutput2 = recipe.getOutput2();
-        				this.burnTime = 0;
-    				}
-    			}
-    		}
+	    	if(heat >= ForestdayConfig.kilnMinHeat)
+	    	{
+		    	if(burnTime < burnTimeTotal)
+		    	{
+		    		burnTime++;
+		    	}else{
+		    		if (this.currentOutput1 != null){
+		    			if (this.addToOutput(this.currentOutput1, 2, 4) && this.addToOutput(this.currentOutput2, 2, 4)){
+		    				this.currentOutput1 = null;
+		    				this.currentOutput2 = null;
+		    				tank1.fill(new FluidStack(FluidRegistry.getFluid("tar"), 300), true);
+		    				tank2.fill(new FluidStack(FluidRegistry.getFluid("resin"), 150), true);
+		    			}
+		    		}else{
+					    ItemStack itemStackInputSlot1 = this.getStackInSlot(0);
+			    		ItemStack itemStackInputSlot2 = this.getStackInSlot(1);
+			    		if(itemStackInputSlot1 != null && itemStackInputSlot2 != null)
+			    		{
+			    			KilnRecipe recipe = KilnRecipeManager.getRecipe(itemStackInputSlot1, itemStackInputSlot2);
+			    			if(recipe != null){
+			    				if (itemStackInputSlot1.stackSize >= recipe.getInput1().stackSize && itemStackInputSlot2.stackSize >= recipe.getInput2().stackSize){
+			    					this.decrStackSize(0, recipe.getInput1().stackSize);
+			    					this.decrStackSize(1, recipe.getInput2().stackSize);
+			        				this.currentOutput1 = recipe.getOutput1();
+			        				this.currentOutput2 = recipe.getOutput2();
+			        				this.burnTime = 0;
+			    				}
+			    			}
+			    		}
+		    		}
+		    	}
+		    }
     	}
-    		
-    	}
-	}
-	}
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return new FluidTankInfo[]{ tankTar.getInfo(), tankResin.getInfo()};
+		return new FluidTankInfo[]{ tank1.getInfo(), tank2.getInfo() };
 	}
 
 	@Override

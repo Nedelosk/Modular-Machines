@@ -10,8 +10,10 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketBlueprint implements IMessage {
+public class PacketBlueprint implements IMessage, IMessageHandler<PacketBlueprint, IMessage>{
 
 	public ItemStack blueprint;
 	
@@ -45,32 +47,31 @@ public class PacketBlueprint implements IMessage {
 		}
 	}
 	
-	protected static void writeNBTTagCompound(
-			   NBTTagCompound par0NBTTagCompound, ByteBuf buf)
-			   throws IOException {
-			  if (par0NBTTagCompound == null) {
-			   buf.writeShort(-1);
-			  } else {
-			   byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
-			   buf.writeShort((short) abyte.length);
-			   buf.writeBytes(abyte);
-			   System.out
-				 .println("[SENDING]abyte length: " + (short) abyte.length);
-			   System.out.println("[SENDING]abyte: " + abyte);
-			  }
+	@Override
+	public IMessage onMessage(PacketBlueprint message, MessageContext ctx) {
+	    ctx.getServerHandler().playerEntity.inventory.mainInventory[ctx.getServerHandler().playerEntity.inventory.currentItem] = message.blueprint;
+		return null;
 	}
 	
-	public static NBTTagCompound readNBTTagCompound(ByteBuf buf)
-			   throws IOException {
-			  short short1 = buf.readShort();
-			  System.out.println("[RECIEVING]abyte length: " + short1);
-			  if (short1 < 0) {
-			   return null;
-			  } else {
-			   byte[] abyte = new byte[short1];
-			   buf.readBytes(abyte);
-			   return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
-			  }
-			}
+	protected static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, ByteBuf buf) throws IOException {
+		if (par0NBTTagCompound == null) {
+			buf.writeShort(-1);
+		} else {
+			byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
+			buf.writeShort((short) abyte.length);
+			buf.writeBytes(abyte);
+		}
+	}
+	
+	public static NBTTagCompound readNBTTagCompound(ByteBuf buf) throws IOException {
+		short short1 = buf.readShort();
+		if (short1 < 0) {
+			return null;
+		} else {
+			byte[] abyte = new byte[short1];
+			buf.readBytes(abyte);
+			return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
+		}
+	}
 
 }

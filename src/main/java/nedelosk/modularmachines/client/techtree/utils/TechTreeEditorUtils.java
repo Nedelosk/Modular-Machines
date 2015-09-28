@@ -14,17 +14,17 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import nedelosk.modularmachines.client.techtree.utils.language.TechTreeEntryLanguageData;
 import nedelosk.modularmachines.client.techtree.utils.language.editor.TechTreeEntryEditorLanguageData;
 import nedelosk.modularmachines.common.config.TechTreeConfigs;
 import net.minecraft.util.StatCollector;
 
 public class TechTreeEditorUtils {
-
+	
 	public static class TechTreeEditorLanguage{
+		
 		public static class Serializer implements JsonSerializer<TechTreeEntryEditorLanguageData>{
-
+			
 			public JsonElement writeEntryLanguageData(TechTreeEntryEditorLanguageData src){
 				JsonObject object = new JsonObject();
 				for(Map.Entry<String, TechTreeEntryLanguageData> entry : src.languageData.entrySet()){

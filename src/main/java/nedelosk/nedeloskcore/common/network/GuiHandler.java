@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.common.network;
 import cpw.mods.fml.common.network.IGuiHandler;
 import nedelosk.nedeloskcore.client.gui.GuiBlueprint;
 import nedelosk.nedeloskcore.client.gui.GuiPlanningTool;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.blocks.tile.TileBaseGui;
 import nedelosk.nedeloskcore.common.inventory.ContainerPlanningTool;
 import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
 import nedelosk.nedeloskcore.common.items.ItemPlan;
@@ -32,9 +32,9 @@ public class GuiHandler implements IGuiHandler {
 	    
 		if (tile == null) return null;
 	    
-	    if(tile instanceof TileBaseInventory)
+	    if(tile instanceof TileBaseGui)
 	    {
-	    	return ((TileBaseInventory) tile).getContainer(player.inventory);
+	    	return ((TileBaseGui) tile).getContainer(player.inventory);
 	    }
 	    return null;
 	}
@@ -67,9 +67,9 @@ public class GuiHandler implements IGuiHandler {
 	    
 		if (tile == null) return null;
 		
-	    if(tile instanceof TileBaseInventory)
+	    if(tile instanceof TileBaseGui)
 	    {
-	    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
+	    	return ((TileBaseGui) tile).getGUIContainer(player.inventory);
 	    }
 	    return null;
 	}

@@ -1,15 +1,12 @@
 package nedelosk.nedeloskcore.common.blocks.tile;
 
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class TileBaseInventory extends TileBase implements ISidedInventory {
+public abstract class TileBaseInventory extends TileBaseGui implements ISidedInventory {
 
 	public ItemStack[] slots;
 
@@ -20,11 +17,6 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 	
 	public TileBaseInventory()
 	{
-	}
-	
-	@Override
-	public void updateEntity() {
-		super.updateEntity();
 	}
     
 	@Override
@@ -59,6 +51,7 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 		    	if(this.slots[slot].stackSize == 0){
 		    		this.slots[slot] = null;
 		    	}
+		    	return itemstack;
 		    }
 		}
 		
@@ -141,29 +134,25 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return null;
+		return new int[0];
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
-		if(!(this instanceof TileModularMachine) && slots != null)
+		if(slots.length > 0)
 		{
-			if(slots.length > 0)
-			{
-				nbt.setInteger("Size", slots.length);
-				NBTTagList nbtTagList = new NBTTagList();
-				for(int i = 0; i< this.getSizeInventory(); i++){
-					if (this.slots[i] != null){
-						NBTTagCompound item = new NBTTagCompound();
-						item.setByte("item", (byte)i);
-						this.slots[i].writeToNBT(item);
-						nbtTagList.appendTag(item);
-					}
+			nbt.setInteger("Size", slots.length);
+			NBTTagList nbtTagList = new NBTTagList();
+			for(int i = 0; i< this.getSizeInventory(); i++){
+				if (this.slots[i] != null){
+					NBTTagCompound item = new NBTTagCompound();
+					item.setByte("item", (byte)i);
+					this.slots[i].writeToNBT(item);
+					nbtTagList.appendTag(item);
 				}
-				nbt.setTag("slots", nbtTagList);
 			}
+			nbt.setTag("slots", nbtTagList);
 		}
 	}
 	
@@ -171,17 +160,14 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		if(!(this instanceof TileModularMachine))
-		{
-			NBTTagList nbtTagList = nbt.getTagList("slots", 10);
-			this.slots = new ItemStack[nbt.getInteger("Size")];
+		NBTTagList nbtTagList = nbt.getTagList("slots", 10);
+		this.slots = new ItemStack[nbt.getInteger("Size")];
 			
-			for(int i = 0; i < nbtTagList.tagCount(); i++){
-				NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
-				byte itemLocation = item.getByte("item");
-				if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
-					this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
-				}
+		for(int i = 0; i < nbtTagList.tagCount(); i++){
+			NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
+			byte itemLocation = item.getByte("item");
+			if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
+				this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
 			}
 		}
 	}
@@ -213,9 +199,5 @@ public abstract class TileBaseInventory extends TileBase implements ISidedInvent
 		}
 		return false;		
 	}
-	
-	public abstract Container getContainer(InventoryPlayer inventory);
-
-	public abstract Object getGUIContainer(InventoryPlayer inventory);
 
 }

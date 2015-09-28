@@ -15,7 +15,6 @@ import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveTyp
 import nedelosk.nedeloskcore.client.TextureAtlasMap;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import nedelosk.nedeloskcore.utils.NBTUtils;
@@ -415,12 +414,12 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 
 	@Override
 	public Container getContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new ContainerCokeOven(tile, inventory);
+		return new ContainerCokeOven((TileMultiblockBase<MultiblockCokeOven>) tile, inventory);
 	}
 
 	@Override
 	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new GuiCokeOven((TileBaseInventory) tile, inventory);
+		return new GuiCokeOven((TileMultiblockBase<MultiblockCokeOven>) tile, inventory);
 	}
 	
 	@Override

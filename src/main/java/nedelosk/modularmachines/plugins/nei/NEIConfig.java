@@ -5,8 +5,8 @@ import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.modular.module.IModule;
-import nedelosk.modularmachines.api.basic.modular.module.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.basic.machine.module.IModule;
+import nedelosk.modularmachines.api.basic.machine.module.IModuleProducerRecipe;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import net.minecraft.item.ItemStack;
 

@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import nedelosk.modularmachines.client.renderers.ItemModularMachinesRenderer;
+import nedelosk.modularmachines.client.renderers.ItemPartRenderer;
 import nedelosk.modularmachines.client.renderers.TileModularAssemblerRenderer;
 import nedelosk.modularmachines.client.renderers.TileModularWorkbenchRenderer;
 import nedelosk.modularmachines.client.techtree.gui.GuiTechPoint;
@@ -30,6 +31,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularWorkbench.class, new TileModularWorkbenchRenderer());
 		MinecraftForgeClient.registerItemRenderer(MMBlocks.Modular_Assembler.item(), new ItemModularMachinesRenderer());
 		MinecraftForgeClient.registerItemRenderer(MMBlocks.Modular_Workbench.item(), new ItemModularMachinesRenderer());
+		ItemPartRenderer.preInit();
 	}
 	
 	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass){

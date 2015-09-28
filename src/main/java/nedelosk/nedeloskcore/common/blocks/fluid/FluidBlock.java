@@ -1,5 +1,8 @@
 package nedelosk.nedeloskcore.common.blocks.fluid;
 
+import java.util.Locale;
+
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
@@ -15,11 +18,13 @@ public class FluidBlock extends BlockFluidClassic {
 
 	protected Fluid fluid;
 	protected String fluidName;
+	protected String modName;
 	
 	public FluidBlock(Fluid fluid, Material material, String fluidName) {
 		super(fluid, material);
 		this.fluid = fluid;
 		this.fluidName = fluidName;
+		this.modName = Loader.instance().activeModContainer().getModId().toLowerCase(Locale.ENGLISH);
 	}
     @SideOnly(Side.CLIENT)
     protected IIcon[] icons;
@@ -32,8 +37,8 @@ public class FluidBlock extends BlockFluidClassic {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-      icons = new IIcon[] { iconRegister.registerIcon("forestday:fluids/" + this.fluidName + "_still"),
-          iconRegister.registerIcon("forestday:fluids/" + this.fluidName + "_flow") };
+      icons = new IIcon[] { iconRegister.registerIcon(modName + ":fluids/" + this.fluidName + "_still"),
+          iconRegister.registerIcon(modName + ":fluids/" + this.fluidName + "_flow") };
 
       fluid.setIcons(icons[0], icons[1]);
     }

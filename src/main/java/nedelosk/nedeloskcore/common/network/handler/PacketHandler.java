@@ -14,8 +14,8 @@ public class PacketHandler {
     
     public static void preInit()
     {
-    	INSTANCE.registerMessage(PacketBlueprintHandler.class, PacketBlueprint.class, nextID(), Side.SERVER);
-    	INSTANCE.registerMessage(PacketTilePlanHandler.class, PacketTilePlan.class, nextID(), Side.SERVER);
+    	INSTANCE.registerMessage(PacketBlueprint.class, PacketBlueprint.class, nextID(), Side.SERVER);
+    	INSTANCE.registerMessage(PacketTilePlan.class, PacketTilePlan.class, nextID(), Side.SERVER);
     }
 
     public static int nextID()

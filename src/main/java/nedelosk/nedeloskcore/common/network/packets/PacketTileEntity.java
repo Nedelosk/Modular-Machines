@@ -46,9 +46,9 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 	    String str = null;
 		try
 		{
-		byte[] bytes = new byte[buf.readInt()];
-		buf.readBytes(bytes);
-		str = new String(bytes, StandardCharsets.UTF_8);
+			byte[] bytes = new byte[buf.readInt()];
+			buf.readBytes(bytes);
+			str = new String(bytes, StandardCharsets.UTF_8);
 		}catch(Exception e){
 			
 		}

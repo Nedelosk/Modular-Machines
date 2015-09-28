@@ -6,7 +6,6 @@ import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.api.machines.IButtonManager;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.IWidgetManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
@@ -16,14 +15,14 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase extends GuiContainer implements IGuiBase {
+public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer implements IGuiBase<T> {
 
 	protected ResourceLocation guiTexture;
-	protected TileBase tile;
+	protected T tile;
 	protected ButtonManager buttonManager;
 	protected WidgetManager widgetManager;
 	
-	public GuiBase(TileBaseInventory tile, InventoryPlayer inventory) {
+	public GuiBase(T tile, InventoryPlayer inventory) {
 		super(tile.getContainer(inventory));
 		this.tile = tile;
 		widgetManager = new WidgetManager(this);
@@ -34,7 +33,13 @@ public abstract class GuiBase extends GuiContainer implements IGuiBase {
 	@Override
 	public void initGui() {
 		super.initGui();
+		buttonManager.clear();
+		addButtons();
 		buttonList.addAll(buttonManager.getButtons());
+	}
+	
+	public void addButtons(){
+		
 	}
 	
 	@Override
@@ -48,7 +53,7 @@ public abstract class GuiBase extends GuiContainer implements IGuiBase {
 	}
 	
 	@Override
-	public TileBase getTile() {
+	public T getTile() {
 		return tile;
 	}
 	

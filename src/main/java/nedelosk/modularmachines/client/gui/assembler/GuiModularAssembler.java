@@ -1,161 +1,223 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Point;
 
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.modular.IModularAssembler;
-import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
-import nedelosk.modularmachines.api.basic.techtree.TechTreeManager;
-import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBookmark;
-import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerBuildMachine;
-import nedelosk.modularmachines.client.gui.assembler.button.GuiButtonModularAssemblerSlot;
+import codechicken.nei.LayoutManager;
+import codechicken.nei.VisiblityData;
+import codechicken.nei.api.INEIGuiHandler;
+import codechicken.nei.api.TaggedInventoryArea;
+import nedelosk.modularmachines.api.basic.machine.part.IMachinePart;
+import nedelosk.modularmachines.client.MMClientRegistry;
+import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
+import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
+import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
+import nedelosk.modularmachines.common.items.ItemMachinePart;
+import nedelosk.modularmachines.common.machines.assembler.AssemblerRegistry;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssembler;
-import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssemblerBookmark;
-import nedelosk.modularmachines.common.network.packets.assembler.PacketModularAssemblerBuildMachine;
-import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
+import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
+import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetEnergyBar;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
-import nedelosk.nedeloskcore.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class GuiModularAssembler extends GuiBase {
-
-	protected ResourceLocation guiTextureOverlay = RenderUtils.getResourceLocation(getModName(), "modular_assembler_overlay", "gui");
-	protected ResourceLocation guiTextureOverlay2 = RenderUtils.getResourceLocation(getModName(), "modular_assembler_overlay_2", "gui");
+@SideOnly(Side.CLIENT)
+public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	
-	public InventoryPlayer inventory;
-	public int guiX;
-	public int guiY;
+	public static final GuiElement ICON_Button = new GuiElement(180, 216, 18, 18);
+	public static final GuiElement ICON_ButtonHover = new GuiElement(180 + 18 * 2, 216, 18, 18);
+	public static final GuiElement ICON_ButtonPressed = new GuiElement(180 - 18 * 2, 216, 18, 18);
 	
-	public GuiModularAssembler(TileBaseInventory tile, InventoryPlayer inventory) {
+	private static final GuiElement SlotBorder = new GuiElement(176, 0, 18, 18);
+	private static final GuiElement SlotBackground = new GuiElement(194, 0, 18, 18);
+	
+	public TileModularAssembler assembler;
+	public InventoryPlayer inventory;	
+	protected int activeSlots;
+	
+	protected int selectedSlot = 0;
+	
+	public AssemblerMachineInfo currentInfo = GuiButtonAssembler.info;
+	
+	public GuiModularAssembler(TileModularAssembler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		xSize = 314;
-		ySize = 228;
 		this.inventory = inventory;
-		widgetManager.add(new WidgetEnergyBar(((TileModularAssembler)tile).storage, 278, 57));
-		
+		assembler = tile;
+	}
+	
+	@Override
+	public void initGui() {
+		this.ySize = 174;
+        this.xSize = 176 + 110;
+        this.mc.thePlayer.openContainer = this.inventorySlots;
+        this.guiLeft = (this.width - 176) / 2 - 110;
+        this.guiTop = (this.height - this.ySize) / 2;
+		buttonManager.clear();
+		addButtons();
+		buttonList.addAll(buttonManager.getButtons());
+        updateGUI();
 	}
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
 	}
 	
+	public void onToolSelection(AssemblerMachineInfo info) {
+		  activeSlots = Math.min(info.positions.size(), tile.getSizeInventory() - 1);
+		  currentInfo = info;
+
+		  ((ContainerModularAssembler) inventorySlots).setToolSelection(info, activeSlots);
+		  PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerSelection(tile, info, activeSlots));
+		  updateGUI();
+	}
+	
+	public void setSelectedButtonByTool(ItemStack stack) {
+		for(Object o : buttonList) {
+			GuiButtonItem<AssemblerMachineInfo> btn = (GuiButtonItem<AssemblerMachineInfo>) o;
+			btn.pressed = ItemStack.areItemStacksEqual(btn.data.machine, stack);
+		}
+	}
+
+	public void onToolSelectionPacket(PacketModularAssemblerSelection packet) {
+		  AssemblerMachineInfo info = packet.info;
+		  if(info == null) {
+		    info = GuiButtonAssembler.info;
+		  }
+		  activeSlots = packet.activeSlots;
+		  currentInfo = info;
+
+		  setSelectedButtonByTool(currentInfo.machine);
+
+		  updateGUI();
+	}
+	
+	 @Override
+	 protected void actionPerformed(GuiButton button) {
+	    for(Object o : buttonList) {
+	      ((GuiButtonItem) o).pressed = false;
+	    }
+	    ((GuiButtonItem) button).pressed = true;
+	    selectedSlot = button.id;
+
+	    onToolSelection(((GuiButtonItem<AssemblerMachineInfo>) button).data);
+	 }
+	
+    private static final ResourceLocation background = new ResourceLocation("modularmachines", "textures/gui/modular_assembler.png");
+    private static final ResourceLocation icons = new ResourceLocation("modularmachines", "textures/gui/icons.png");
+	
+    protected void drawBackground(ResourceLocation background) {
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.mc.getTextureManager().bindTexture(background);
+        final int cornerX = this.guiLeft + 110;
+        this.drawTexturedModalRect(cornerX, this.guiTop, 0, 0, 176, this.ySize);
+   }
+    
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-		RenderUtils.bindTexture(guiTexture);	    
-	    drawTexturedModalRect(this.guiLeft + 12, this.guiTop + 12, 0, 0, 232, 204);
-		
-		RenderUtils.bindTexture(guiTextureOverlay);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, 256, 228);
-		RenderUtils.bindTexture(guiTextureOverlay2);
-		drawTexturedModalRect(guiLeft + 256, guiTop + 25, 0, 122, 58, 134);
-		this.guiX = guiLeft;
-		this.guiY = guiTop;
-		
-        widgetManager.drawWidgets();
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mX, int mY) {
+	    drawBackground(background);
+	    
+	    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	    for(int i = 0; i < tile.getSizeInventory() - 1; i++) {
+	      Slot slot = inventorySlots.getSlot(i);
+	      if(slot instanceof SlotAssemblerIn && (((SlotAssemblerIn) slot).isActivated() || slot.getHasStack())) {
+	        SlotBorder.draw(this.guiLeft + slot.xDisplayPosition - 1, this.guiTop + slot.yDisplayPosition - 1);
+	        SlotBackground.draw(this.guiLeft + slot.xDisplayPosition - 1, this.guiTop + slot.yDisplayPosition - 1);
+	      }
+	    }
 	}
 	
 	@Override
 	protected void renderProgressBar() {
 	}
-	
-	@Override
-	public void initGui() {
-		super.initGui();
-		int id = 0;
-		for(int i = 0;i < ModularMachinesApi.moduleEntrys.size();i++)
-		{
-			buttonList.add(new GuiButtonModularAssemblerBookmark(i, guiLeft + -28, guiTop + 8 + 21 * i, (String) ModularMachinesApi.moduleEntrys.keySet().toArray()[i]));
-			id++;
-		}
-		for(ModuleEntry entry : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
-		{
-			if(entry != null)
-					buttonList.add(new GuiButtonModularAssemblerSlot(id, entry.x + guiLeft, entry.y + guiTop, entry, (IModularAssembler) tile));
-			id++;
-		}
-		buttonList.add(new GuiButtonModularAssemblerBuildMachine(id, guiLeft + 261, guiTop + 35));
-	}
-	
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		super.actionPerformed(button);
-		if(button instanceof GuiButtonModularAssemblerBookmark)
-		{
-			((TileModularAssembler)tile).page = ((GuiButtonModularAssemblerBookmark) button).page;
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBookmark((TileModularAssembler) tile, ((GuiButtonModularAssemblerBookmark) button).page));
-			Minecraft.getMinecraft().displayGuiScreen(new GuiModularAssembler((TileBaseInventory) tile, inventory));
-			//updateButtons();
-		}
-		else if(button instanceof GuiButtonModularAssemblerSlot)
-		{
-			GuiButtonModularAssemblerSlot slot = (GuiButtonModularAssemblerSlot) button;
-			if(slot.entry.isActivate)
-			{
-				for(String s : slot.entry.moduleNames)
-				{
-					if(!TechTreeManager.isEntryComplete(inventory.player, s.toUpperCase()))
-						return;
-				}
-				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())) != null)
-					((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).entry = slot.entry;
-				else
-					inventory.player.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule( slot.entry));
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler((TileModularAssembler) tile, slot.entry));
-			}
-		}
-		else if(button instanceof GuiButtonModularAssemblerBuildMachine)
-		{
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerBuildMachine((TileModularAssembler) tile));
-		}
-	}
-	
-	@Override
-	public void drawScreen(int mx, int my, float p_73863_3_) {
-		super.drawScreen(mx, my, p_73863_3_);
-		GL11.glColor4f(1F, 1F, 1F, 1F);
-		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-		if(lighting)
-			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-		for(GuiButton button : (ArrayList<GuiButton>)buttonList){
-			if(button != null && button instanceof GuiButtonModularAssemblerSlot)
-				((GuiButtonModularAssemblerSlot)button).renderTooltip(mx, my);
-		}
-		RenderUtils.bindTexture(guiTextureOverlay2);
-		for(ModuleEntry entry : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
-		{
-			ArrayList<ModuleEntry> childs = new ArrayList<ModuleEntry>();
-			for(ModuleEntry entryChild : ((TileModularAssembler)tile).moduleEntrys.get(((TileModularAssembler)tile).page))
-			{
-				if(entryChild.parent != null)
-					if(entryChild.parent.equals(entry))
-						childs.add(entryChild);
-			}
-			
-			for(ModuleEntry child : childs)
-			{
-				if(child.x + 36 == entry.x)
-					RenderUtils.drawTexturedModalRect(entry.x + guiLeft - 18, entry.y + guiTop + 5, 1, !entry.isActivate ? 0 : 54 , 23 ,18 , 8);
-				else if(child.x - 36 == entry.x)
-					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 18, entry.y + guiTop + 5, 1, !entry.isActivate ? 36 : 90 , 23 ,18 , 8);
-				else if(child.y - 36 == entry.y)
-					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 5, entry.y + guiTop + 18, 1,!entry.isActivate ? 23 : 77 , 36 ,8 , 18);
-				else if(child.y + 36 == entry.y)
-					RenderUtils.drawTexturedModalRect(entry.x + guiLeft + 5, entry.y + guiTop - 18, 1,!entry.isActivate ? 23 : 77 , 0 ,8 , 18);
-			}
-		}
-		if(!lighting)
-			net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
-	}
+    
+    public void updateGUI() {
+        int i;
+        for(i = 0; i < activeSlots; i++) {
+          Point point = currentInfo.positions.get(i);
+
+          Slot slot = inventorySlots.getSlot(i);
+          slot.xDisplayPosition = point.getX() + 110;
+          slot.yDisplayPosition = point.getY();
+        }
+
+        // remaining slots
+        int stillFilled = 0;
+        for(; i < tile.getSizeInventory() - 1; i++) {
+          Slot slot = inventorySlots.getSlot(i);
+
+          if(slot.getHasStack()) {
+            slot.xDisplayPosition = 87 + 20 * stillFilled;
+            slot.yDisplayPosition = 62;
+            stillFilled++;
+          }
+          else {
+            // todo: slot.disable
+            slot.xDisplayPosition = 0;
+            slot.yDisplayPosition = 0;
+          }
+        }
+      }
+    
+    @Override
+    public void addButtons() {
+        int index = 0;
+        
+        {
+        	GuiButtonItem button = new GuiButtonAssembler(index++, -1, -1);
+        	shiftButton(button, 0, -18);
+        	addButton(button);
+        	
+            if(index - 1 == selectedSlot) {
+                button.pressed = true;
+              }
+        }
+    	
+        for(IMachinePart part : AssemblerRegistry.getAssemblerRecipes()) {
+            AssemblerMachineInfo info = MMClientRegistry.getAssemblerInfo(part);
+            if(info != null) {
+              GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
+              shiftButton(button, 0, -18);
+              addButton(button);
+
+              if(index - 1 == selectedSlot) {
+                button.pressed = true;
+              }
+            }
+        }
+        updateGUI();
+    }
+    
+    public void addButton(Button button) {
+        int count = buttonManager.getButtons().size();
+
+        int columns = 5;
+        int spacing = 4;
+        
+        int rows = (count-1)/columns + 1;
+
+        int offset = buttonList.size();
+        int x = (offset % columns) * (button.width + spacing);
+        int y = (offset / columns) * (button.height + spacing);
+
+        button.xPosition = guiLeft + x;
+        button.yPosition = guiTop + y;
+
+        buttonManager.add(button);
+      }
 
 	@Override
 	protected String getGuiName() {
@@ -166,13 +228,13 @@ public class GuiModularAssembler extends GuiBase {
 	protected String getModName() {
 		return "modularmachines";
 	}
-    
-    public int getGuiX() {
-		return guiX;
+
+	public void updateDisplay() {
+		
 	}
-    
-    public int getGuiY() {
-		return guiY;
+	
+	protected void shiftButton(GuiButtonItem button, int xd, int yd) {
+		button.setGraphics(ICON_Button.shift(xd, yd), ICON_ButtonHover.shift(xd, yd), ICON_ButtonPressed.shift(xd, yd), GuiButtonItem.locBackground);
 	}
 
 }

@@ -9,8 +9,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
 @SideOnly(Side.CLIENT)
-public class GuiModularWorkbench
-  extends GuiBase
+public class GuiModularWorkbench extends GuiBase<TileModularWorkbench>
 {
   private TileModularWorkbench workbench;
   private InventoryPlayer ip;

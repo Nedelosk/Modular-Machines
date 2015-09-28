@@ -5,7 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
-public class GuiKiln extends GuiMachine {
+public class GuiKiln extends GuiMachine<TileKiln> {
 	
 	public GuiKiln(InventoryPlayer inventory, TileKiln tile) {
 		super(tile, inventory);

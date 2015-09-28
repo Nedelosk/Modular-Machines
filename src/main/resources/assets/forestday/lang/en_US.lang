@@ -1,27 +1,6 @@
 ####################################
 Blocks
 ####################################
-
-forest.fd.block.furnace.0.name=Furnace (Brick)
-forest.fd.block.furnace.1.name=Furnace (Iron)
-forest.fd.block.furnace.2.name=Furnace (Base)
-forest.fd.block.furnace.3.name=Furnace (Steel)
-forest.fd.block.furnace.4.name=Furnace (Forest Steel)
-forest.fd.block.furnace_coke.0.name=Coke Furnace (Brick)
-forest.fd.block.furnace_coke.1.name=Coke Furnace (Iron)
-forest.fd.block.furnace_coke.2.name=Coke Furnace (Base)
-forest.fd.block.furnace_coke.3.name=Coke Furnace (Steel)
-forest.fd.block.furnace_coke.4.name=Coke Furnace (Forest Steel)
-forest.fd.block.generator.heat.0.name=Heat Generator (Brick)
-forest.fd.block.generator.heat.1.name=Heat Generator (Iron)
-forest.fd.block.generator.heat.2.name=Heat Generator (Base)
-forest.fd.block.generator.heat.3.name=Heat Generator (Steel)
-forest.fd.block.generator.heat.4.name=Heat Generator (Forest Steel)
-forest.fd.block.saw.0.name=Saw (Brick)
-forest.fd.block.saw.1.name=Saw (Iron)
-forest.fd.block.saw.2.name=Saw (Base)
-forest.fd.block.saw.3.name=Saw (Steel)
-forest.fd.block.saw.4.name=Saw (Forest Steel)
 forest.fd.block.wood_base.0.name=Campfire
 forest.fd.block.wood_base.1.name=Workbench
 forest.fd.block.wood_base.2.name=Workbench (Chest)

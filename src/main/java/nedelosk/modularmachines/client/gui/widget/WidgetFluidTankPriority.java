@@ -1,17 +1,18 @@
 package nedelosk.modularmachines.client.gui.widget;
 
 import java.util.ArrayList;
-import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
-import nedelosk.modularmachines.common.modular.module.manager.ModuleTankManager;
+
+import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.machines.module.manager.ModuleTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularMachineNBT;
+import nedelosk.modularmachines.common.network.packets.machine.PacketModularNBT;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class WidgetFluidTankPriority extends Widget {
+public class WidgetFluidTankPriority extends Widget<TileModular> {
 
 	protected ResourceLocation widget = RenderUtils.getResourceLocation("modularmachines", "widgets", "gui");
 	public int priority;
@@ -26,7 +27,7 @@ public class WidgetFluidTankPriority extends Widget {
 	}
 	
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(IGuiBase<TileModular> gui) {
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -40,13 +41,13 @@ public class WidgetFluidTankPriority extends Widget {
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<TileModular> gui) {
 		if(priority != 3)
 			priority++;
 		else
 			priority = 1;
-		((ModuleTankManager)((TileModularMachine)gui.getTile()).machine.getTankManeger()).manager.prioritys[ID] = priority;
-		PacketHandler.INSTANCE.sendToServer(new PacketModularMachineNBT((TileModularMachine) gui.getTile()));
+		((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.prioritys[ID] = priority;
+		PacketHandler.INSTANCE.sendToServer(new PacketModularNBT(gui.getTile()));
 	}
 	
 	@Override

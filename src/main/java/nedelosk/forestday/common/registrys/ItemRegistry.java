@@ -12,6 +12,8 @@ import nedelosk.forestday.common.items.tools.ItemToolForestday.Material;
 import nedelosk.forestday.common.items.tools.ItemToolParts;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemSeedFood;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemRegistry {
@@ -26,6 +28,7 @@ public class ItemRegistry {
 				itemIcon = IIconRegister.registerIcon("forestday:corn");
 			};
 		}.setUnlocalizedName("corn"));
+		MinecraftForge.addGrassSeed(new ItemStack(FItems.crop_corn.item()), 15);
 		FItems.nature.registerItem(new ItemNature());
 		//FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
 		

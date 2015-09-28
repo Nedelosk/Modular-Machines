@@ -63,21 +63,19 @@ public class NRegistry {
 	
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket)
 	{
-		if(FluidRegistry.getFluid(fluidName) == null)
-		{
-		Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
-		FluidRegistry.registerFluid(fluid);
-		Block fluidBlock = new FluidBlock(fluid, material, fluidName);
-		fluid.setUnlocalizedName(fluidName);
-		GameRegistry.registerBlock(fluidBlock, "fluid_" + fluidName);
+		if(FluidRegistry.getFluid(fluidName) == null){
+			Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
+			FluidRegistry.registerFluid(fluid);
+			Block fluidBlock = new FluidBlock(fluid, material, fluidName);
+			fluid.setUnlocalizedName(fluidName);
+			GameRegistry.registerBlock(fluidBlock, "fluid_" + fluidName);
 		}
-		if(createBucket)
-		{
-		Item bucket = new FluidBucket(FluidRegistry.getFluid(fluidName).getBlock(), fluidName);
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket), new ItemStack(Items.bucket));
-		BucketHandler.INSTANCE.buckets.put(FluidRegistry.getFluid(fluidName).getBlock(), bucket);
-		GameRegistry.registerItem(bucket, "bucket_" + fluidName);
-		return FluidRegistry.getFluid(fluidName);
+		if(createBucket){
+			Item bucket = new FluidBucket(FluidRegistry.getFluid(fluidName).getBlock(), fluidName);
+			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket), new ItemStack(Items.bucket));
+			BucketHandler.INSTANCE.buckets.put(FluidRegistry.getFluid(fluidName).getBlock(), bucket);
+			GameRegistry.registerItem(bucket, "bucket_" + fluidName);
+			return FluidRegistry.getFluid(fluidName);
 		}
 		return null;
 	}

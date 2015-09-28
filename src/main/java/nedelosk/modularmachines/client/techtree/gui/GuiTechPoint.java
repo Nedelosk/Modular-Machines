@@ -17,8 +17,8 @@ import net.minecraft.util.StatCollector;
 public class GuiTechPoint extends Gui {
 	
     private static final ResourceLocation achievement = new ResourceLocation("textures/gui/achievement/achievement_background.png");
-    private TechPointTypes[] type = new TechPointTypes[5];
-    private int[] points = new int[5];
+    private TechPointTypes[] type = new TechPointTypes[TechPointTypes.values().length];
+    private int[] points = new int[TechPointTypes.values().length];
     private long timer;
     private RenderItem itemRender = new RenderItem();
     private Minecraft mc = Minecraft.getMinecraft();
@@ -32,13 +32,24 @@ public class GuiTechPoint extends Gui {
     
     public void addPoints(TechPointTypes type, int points)
     {
-    	int index = 0;
-    	for(int i = 0;i < 5;i++)
-    		if(this.type[i] == null)
-    		{
-    			index = i;
-    			break;
+    	int index = -1;
+    	for(int i = 0;i < 5;i++){
+    		if(this.type[i] != null){
+    			if(this.type[i] == type){
+    				index = i;
+    				break;
+    			}
     		}
+    	}
+    	if(index == -1){
+    		for(int i = 0;i < 5;i++){
+    			if(this.type[i] == null)
+    			{
+    				index = i;
+    				break;
+    			}
+    		}
+    	}
     	this.type[index]  = type;
     	this.points[index] = points;
     	timer = 10 * 20;

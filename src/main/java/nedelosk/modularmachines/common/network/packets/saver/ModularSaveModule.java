@@ -2,7 +2,6 @@ package nedelosk.modularmachines.common.network.packets.saver;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.basic.modular.module.ModuleEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,12 +10,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class ModularSaveModule implements IExtendedEntityProperties {
 
-	public ModuleEntry entry;
 	public ArrayList<ModularTileEntitySave> saver = new ArrayList<ModularTileEntitySave>();
-	
-	public ModularSaveModule(ModuleEntry entry) {
-		this.entry = entry;
-	}
 	
 	public ModularSaveModule(ModularTileEntitySave save) {
 		saver.add(save);
