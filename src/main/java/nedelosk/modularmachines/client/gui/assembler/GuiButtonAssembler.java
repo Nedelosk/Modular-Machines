@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
+import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
 

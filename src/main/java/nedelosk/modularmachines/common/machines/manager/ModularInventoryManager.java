@@ -6,10 +6,10 @@ import java.util.Vector;
 
 import com.google.common.collect.Maps;
 
-import nedelosk.modularmachines.api.basic.machine.manager.IModularInventoryManager;
-import nedelosk.modularmachines.api.basic.machine.modular.IModularInventory;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleInventory;
-import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularInventoryManager;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

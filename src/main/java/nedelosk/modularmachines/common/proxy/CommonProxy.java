@@ -1,7 +1,5 @@
 package nedelosk.modularmachines.common.proxy;
 
-import nedelosk.modularmachines.client.techtree.gui.GuiTechTree;
-import nedelosk.modularmachines.client.techtree.gui.GuiTechTreeEditor;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseGui;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -35,10 +33,6 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void init(){
 	}
-	
-	public void postInit(){
-		
-	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -50,10 +44,6 @@ public class CommonProxy implements IGuiHandler {
 		    {
 		    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
 		    }
-		case 1:
-	    	return new GuiTechTreeEditor();
-		case 2:
-		    return new GuiTechTree();
 		default:
 			return null;
 	    }

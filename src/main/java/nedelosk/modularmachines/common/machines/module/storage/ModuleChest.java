@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleStorage;
-import nedelosk.modularmachines.api.basic.machine.module.Module;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
-import nedelosk.modularmachines.common.machines.ModularUtils;
+import nedelosk.modularmachines.common.machines.utils.ModularUtils;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;

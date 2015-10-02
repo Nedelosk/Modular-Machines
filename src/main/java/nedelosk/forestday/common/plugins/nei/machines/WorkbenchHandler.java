@@ -61,6 +61,8 @@ public class WorkbenchHandler extends TemplateRecipeHandler {
  	    	else
  	    	{
  	    		input = OreDictionary.getOres(recipe.getsInput().getOreDict());
+ 	    		for(ItemStack stack : input)
+ 	    			stack.stackSize = recipe.getsInput().stackSize;
  	    	}
  	    	
  	    	if(recipe.getInputPattern() != null)
@@ -121,6 +123,8 @@ public class WorkbenchHandler extends TemplateRecipeHandler {
 	    	else
 	    	{
 	    		input = OreDictionary.getOres(recipe.getsInput().getOreDict());
+ 	    		for(ItemStack stack : input)
+ 	    			stack.stackSize = recipe.getsInput().stackSize;
 	    	}
 	    	
 	    	if(recipe.getInputPattern() != null)
@@ -180,6 +184,8 @@ public class WorkbenchHandler extends TemplateRecipeHandler {
     	    	else
     	    	{
     	    		input = OreDictionary.getOres(recipe.getsInput().getOreDict());
+     	    		for(ItemStack stack : input)
+     	    			stack.stackSize = recipe.getsInput().stackSize;
     	    	}
     	    	
     	    	if(recipe.getInputPattern() != null)

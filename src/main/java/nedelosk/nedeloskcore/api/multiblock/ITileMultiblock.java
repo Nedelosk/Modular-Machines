@@ -51,4 +51,6 @@ public interface ITileMultiblock<M extends IMultiblock> extends ISidedInventory 
 	
 	int getZCoord();
 	
+	void onCreateMultiBlock();
+	
 }

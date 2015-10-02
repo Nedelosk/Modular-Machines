@@ -2,19 +2,19 @@ package nedelosk.modularmachines.common.items;
 
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
-import nedelosk.modularmachines.api.basic.machine.part.MaterialType;
+import nedelosk.modularmachines.api.modular.parts.PartType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 @Optional.Interface(modid = "CoFHAPI|energy", iface = "cofh.api.energy.IEnergyContainerItem")
-public class ItemMachinePartEnergy extends ItemMachinePart implements IEnergyContainerItem {
+public abstract class ItemMachinePartEnergy extends ItemMachinePart implements IEnergyContainerItem {
 
     protected int capacity;
     protected int maxReceive;
     protected int maxExtract;
 	
-	public ItemMachinePartEnergy(String name, int renderPasses) {
-		super(name, renderPasses);
+	public ItemMachinePartEnergy(PartType[] requiredComponents, String name) {
+		super(requiredComponents, name);
 	}
 	
     @Override
@@ -58,7 +58,7 @@ public class ItemMachinePartEnergy extends ItemMachinePart implements IEnergyCon
         if (tags == null || !tags.getCompoundTag(getTagKey()).hasKey("Energy"))
             return 0;
         int energy = tags.getCompoundTag(getTagKey()).getInteger("Energy");
-        int energyReceived = this.maxReceive; // backup value
+        int energyReceived = tags.hasKey("EnergyReceiveRate") ? tags.getInteger("EnergyReceiveRate") : this.maxReceive;
         int maxEnergy = this.capacity; // backup value
 
         // calculate how much we can receive
@@ -82,7 +82,7 @@ public class ItemMachinePartEnergy extends ItemMachinePart implements IEnergyCon
             return 0;
         }
         int energy = tags.getCompoundTag(getTagKey()).getInteger("Energy");
-        int energyExtracted =this.maxExtract; // backup value
+        int energyExtracted = tags.hasKey("EnergyExtractionRate") ? tags.getInteger("EnergyExtractionRate") : this.maxExtract; // backup value
 
         // calculate how much we can extract
         energyExtracted = Math.min(energy, Math.min(energyExtracted, maxExtract));
@@ -104,6 +104,7 @@ public class ItemMachinePartEnergy extends ItemMachinePart implements IEnergyCon
         {
             return 0;
         }
+        
         return tags.getCompoundTag(getTagKey()).getInteger("Energy");
     }
 

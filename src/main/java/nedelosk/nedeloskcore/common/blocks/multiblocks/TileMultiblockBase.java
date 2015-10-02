@@ -57,7 +57,9 @@ public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase i
 	@Override
 	public MultiblockModifierValveTypeString getModifier()
 	{
-		return new MultiblockModifierValveTypeString();
+		if(modifier == null)
+			return new MultiblockModifierValveTypeString();
+		return modifier;
 	}
 	
 	@Override
@@ -132,9 +134,9 @@ public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase i
 	public void updateMultiblock() {
 		if(timer >= timerMax)
 		{
-		testMultiblock();
-		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		timer = 0;
+			testMultiblock();
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			timer = 0;
 		}
 		else
 			timer++;
@@ -145,49 +147,49 @@ public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase i
 	{
 		if(!tested)
 		{
-		if (testPatterns()) {
-			isMaster = true;
-	        int xWidth = pattern.getPatternWidthX();
-	        int zWidth = pattern.getPatternWidthZ();
-	        int height = pattern.getPatternHeight();
-
-	        int xOffset = xCoord - pattern.getMasterOffsetX();
-	        int yOffset = yCoord - pattern.getMasterOffsetY();
-	        int zOffset = zCoord - pattern.getMasterOffsetZ();
-
-	        for (byte patX = 0; patX < xWidth; patX++) {
-	            for (byte patY = 0; patY < height; patY++) {
-	                for (byte patZ = 0; patZ < zWidth; patZ++) {
-	                    int x = patX + xOffset;
-	                    int y = patY + yOffset;
-	                    int z = patZ + zOffset;
-						TileEntity tile = this.worldObj.getTileEntity(x, y, z);
-						char c = pattern.getPatternMarker(patX, patY, patZ);
-						if(c != 'O' && c != 'H')
-						{
-							if(tile instanceof TileMultiblockBase) {
-								if(multiblock.testBlock())
+			if (testPatterns()) {
+				isMaster = true;
+		        int xWidth = pattern.getPatternWidthX();
+		        int zWidth = pattern.getPatternWidthZ();
+		        int height = pattern.getPatternHeight();
+	
+		        int xOffset = xCoord - pattern.getMasterOffsetX();
+		        int yOffset = yCoord - pattern.getMasterOffsetY();
+		        int zOffset = zCoord - pattern.getMasterOffsetZ();
+	
+		        for (byte patX = 0; patX < xWidth; patX++) {
+		            for (byte patY = 0; patY < height; patY++) {
+		                for (byte patZ = 0; patZ < zWidth; patZ++) {
+		                    int x = patX + xOffset;
+		                    int y = patY + yOffset;
+		                    int z = patZ + zOffset;
+							TileEntity tile = this.worldObj.getTileEntity(x, y, z);
+							char c = pattern.getPatternMarker(patX, patY, patZ);
+							if(c != 'O' && c != 'H')
+							{
+								if(tile instanceof TileMultiblockBase) {
+									if(multiblock.testBlock())
+									{
+										tested = false;
+										isMultiblock = false;
+										return;
+									}
+									((TileMultiblockBase) tile).setMaster(this);
+									((TileMultiblockBase) tile).tested = true;
+									((TileMultiblockBase) tile).setPatternPosition(patX, patY, patZ);
+									worldObj.markBlockForUpdate(x, y, z);
+								}
+								else
 								{
 									tested = false;
-									isMultiblock = false;
 									return;
 								}
-								((TileMultiblockBase) tile).setMaster(this);
-								((TileMultiblockBase) tile).tested = true;
-								((TileMultiblockBase) tile).setPatternPosition(patX, patY, patZ);
-								worldObj.markBlockForUpdate(x, y, z);
-							}
-							else
-							{
-								tested = false;
-								return;
 							}
 						}
 					}
 				}
+				isMultiblock = true;
 			}
-			isMultiblock = true;
-		}
 		}
 	}
 	
@@ -517,6 +519,11 @@ public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase i
 	@Override
 	public void setWorking(boolean isWorking) {
 		this.isWorking = isWorking;
+	}
+
+	@Override
+	public void onCreateMultiBlock() {
+		
 	}
 	
 }

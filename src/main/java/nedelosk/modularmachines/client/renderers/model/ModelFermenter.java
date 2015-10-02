@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
  * Created using Tabula 5.1.0
  */
 public class ModelFermenter extends ModelBase {
+	
     public ModelRenderer monitor;
     public ModelRenderer monitor_underground;
     public ModelRenderer monitor_holder_0;

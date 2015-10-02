@@ -2,17 +2,15 @@ package nedelosk.modularmachines.common.inventory;
 
 import java.util.ArrayList;
 
-import org.lwjgl.util.Point;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.basic.machine.part.IMachinePart;
-import nedelosk.modularmachines.client.gui.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.parts.IMachinePart;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOut;
-import nedelosk.modularmachines.common.machines.MachineBuilder;
+import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.common.machines.utils.MachineBuilder;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
@@ -76,8 +74,8 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
   	}
 
   	protected void syncWithOtherContainer(ContainerModularAssembler otherContainer, EntityPlayerMP player) {
-    	this.setToolSelection(info, otherContainer.activeSlots);
-    	PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, info, otherContainer.activeSlots), player);
+    	this.setToolSelection(otherContainer.info, otherContainer.activeSlots);
+    	PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
   	}
 	
 	public void setToolSelection(AssemblerMachineInfo info, int activeSlots) {
@@ -100,6 +98,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
         		}
       		}
     	}
+    	onCraftMatrixChanged(null);
   	}
 	
 	@Override
@@ -130,15 +129,15 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
   	}
   
     private ItemStack buildMachine() {
-    	ItemStack[] input = new ItemStack[inventoryBase.getSizeInventory() - 1];
-    	for(int i = 0; i < input.length; i++) {
+    	ItemStack[] input = new ItemStack[activeSlots];
+    	for(int i = 0; i < activeSlots; i++) {
      		input[i] = inventoryBase.getStackInSlot(i);
     	}
     	if(info == null)
     		return null;
     	if(info.machine == null)
     		return null;
-    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName());
+    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode);
   	}
 	
 	@Override

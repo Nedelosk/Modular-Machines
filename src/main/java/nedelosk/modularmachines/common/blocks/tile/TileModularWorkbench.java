@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.modularmachines.api.basic.machine.IModularWorkbench;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularWorkbench;
 import nedelosk.modularmachines.client.gui.GuiModularWorkbench;
 import nedelosk.modularmachines.common.inventory.ContainerModularWorkbench;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;

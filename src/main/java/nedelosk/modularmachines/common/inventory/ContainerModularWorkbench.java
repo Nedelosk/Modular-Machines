@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModularWorkbench;
-import nedelosk.modularmachines.common.core.manager.ModularRecipeManager;
+import nedelosk.modularmachines.common.core.manager.RecipeManager;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -36,7 +36,7 @@ public void onCraftMatrixChanged(IInventory par1IInventory)
     this.workbench.setInventorySlotContentsSoftly(25, null);
     if ((this.workbench.getStackInSlot(25) == null))
     {
-       this.workbench.setInventorySlotContentsSoftly(25, ModularRecipeManager.findMatchingModularRecipe(this.workbench, this.ip.player));
+       this.workbench.setInventorySlotContentsSoftly(25, RecipeManager.findMatchingModularRecipe(this.workbench, this.ip.player));
     }
   }
   

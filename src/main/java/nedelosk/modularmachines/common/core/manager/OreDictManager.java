@@ -1,7 +1,11 @@
 package nedelosk.modularmachines.common.core.manager;
 
+import nedelosk.modularmachines.api.modular.material.Material;
+import nedelosk.modularmachines.api.modular.material.MaterialType;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMItems;
+import nedelosk.modularmachines.common.core.MMRegistry;
+import nedelosk.modularmachines.common.machines.utils.MaterialManager;
 import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -24,16 +28,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustBronze", new ItemStack(MMItems.Dusts.item(), 1, 10));
 		OreDictionary.registerOre("dustInvar", new ItemStack(MMItems.Dusts.item(), 1, 11));
 		OreDictionary.registerOre("dustRuby", new ItemStack(MMItems.Dusts.item(), 1, 12));
-		OreDictionary.registerOre("gearStone", new ItemStack(MMItems.Gears.item(), 1, 0));
-		OreDictionary.registerOre("gearIron", new ItemStack(MMItems.Gears.item(), 1, 1));
-		OreDictionary.registerOre("gearGold", new ItemStack(MMItems.Gears.item(), 1, 2));
-		OreDictionary.registerOre("gearDiamond", new ItemStack(MMItems.Gears.item(), 1, 3));
-		OreDictionary.registerOre("gearCopper", new ItemStack(MMItems.Gears.item(), 1, 4));
-		OreDictionary.registerOre("gearTin", new ItemStack(MMItems.Gears.item(), 1, 5));
-		OreDictionary.registerOre("gearSilver", new ItemStack(MMItems.Gears.item(), 1, 6));
-		OreDictionary.registerOre("gearLead", new ItemStack(MMItems.Gears.item(), 1, 7));
-		OreDictionary.registerOre("gearBronze", new ItemStack(MMItems.Gears.item(), 1, 8));
-		OreDictionary.registerOre("gearInvar", new ItemStack(MMItems.Gears.item(), 1, 9));
 		OreDictionary.registerOre("gearWood", new ItemStack(NCItems.Gears_Wood.item(), 1, 1));
 		OreDictionary.registerOre("ingotBronze", new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0));
 		OreDictionary.registerOre("ingotInvar", new ItemStack(MMItems.Alloy_Ingots.item(), 1, 1));
@@ -51,18 +45,62 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustNiobium", new ItemStack(MMItems.Dusts_Others.item(), 1, 1));
 		OreDictionary.registerOre("dustTantalum", new ItemStack(MMItems.Dusts_Others.item(), 1, 2));
 		OreDictionary.registerOre("dustAluminium", new ItemStack(MMItems.Dusts_Others.item(), 1, 3));
-		OreDictionary.registerOre("plateIron", new ItemStack(MMItems.Plates.item(), 1, 0));
-		OreDictionary.registerOre("plateGold", new ItemStack(MMItems.Plates.item(), 1, 1));
-		OreDictionary.registerOre("plateCopper", new ItemStack(MMItems.Plates.item(), 1, 2));
-		OreDictionary.registerOre("plateTin", new ItemStack(MMItems.Plates.item(), 1, 3));
-		OreDictionary.registerOre("plateSilver", new ItemStack(MMItems.Plates.item(), 1, 4));
-		OreDictionary.registerOre("plateLead", new ItemStack(MMItems.Plates.item(), 1, 5));
-		OreDictionary.registerOre("plateBronze", new ItemStack(MMItems.Plates.item(), 1, 6));
-		OreDictionary.registerOre("plateInvar", new ItemStack(MMItems.Plates.item(), 1, 7));
-		OreDictionary.registerOre("plateNiobium", new ItemStack(MMItems.Plates.item(), 1, 9));
-		OreDictionary.registerOre("plateTantalum", new ItemStack(MMItems.Plates.item(), 1, 10));
-		OreDictionary.registerOre("plateAluminium", new ItemStack(MMItems.Plates.item(), 1, 11));
 		OreDictionary.registerOre("blockObsidian", Blocks.obsidian);
+		
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMItems.Component_Plates.item(), 1, i);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom || mat == MMRegistry.Plastic){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("plate" + mat.getOreDict() , stack);
+            	}
+            }
+        }
+        
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMItems.Component_Rods.item(), 1, i);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("rod" + mat.getOreDict() , stack);
+            	}
+            }
+        }
+        
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMItems.Component_Screws.item(), 1);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("screw" + mat.getOreDict() , stack);
+            	}
+            }
+        }
+        
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMItems.Component_Gears.item(), 1, i);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("gear" + mat.getOreDict(), stack);
+            	}
+            }
+        }
+		
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMBlocks.Metal_Blocks.block(), 1, i);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("block" + mat.getOreDict() , stack);
+            	}
+            }
+        }
 	}
 	
 }

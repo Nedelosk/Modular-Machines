@@ -9,6 +9,7 @@ import nedelosk.forestday.common.machines.base.block.item.ItemBlockMachines;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
 import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
+import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.BlockCharcoalKiln;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
 import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
 import net.minecraft.item.ItemBlock;
@@ -24,7 +25,7 @@ public class BlockRegistry {
 		
 		FBlocks.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
 		
-		//FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
+		FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
 		
 		registerTile();
 		

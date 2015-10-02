@@ -18,14 +18,10 @@ public enum FItems {
 	pot_holder,
 	
 	//Tools
-	
-	//charcoal_kiln,
-	
 	file_stone,
 	file_iron,
 	file_diamond,
 	knife_stone,
-	bow_and_stick,
 	cutter,
 	hammer,
 	adze,

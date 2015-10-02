@@ -90,5 +90,10 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	public void updateServer(ITileMultiblock base) {
 		
 	}
+	
+	@Override
+	public boolean hasBlockActivatedFunction() {
+		return false;
+	}
 
 }

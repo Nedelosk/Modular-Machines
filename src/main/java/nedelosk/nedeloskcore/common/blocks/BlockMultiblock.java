@@ -41,7 +41,7 @@ public class BlockMultiblock extends BlockContainerForest {
 			if(multiblock.master != null && multiblock.master.isMultiblock() && multiblock.master.getMultiblock() != null)
 			{
 				multiblock.master.getMultiblock().onBlockActivated(world, x, y, z, player, side);
-				if(((TileMultiblockBase) tile).getContainer(player.inventory) != null)
+				if(((TileMultiblockBase) tile).getContainer(player.inventory) != null || multiblock.master.getMultiblock().hasBlockActivatedFunction())
 					return true;
 			}
 		}
@@ -92,7 +92,8 @@ public class BlockMultiblock extends BlockContainerForest {
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		for(int i = 0;i < NCoreApi.getMaterials().size();i++)
-			list.add(new ItemStack(item, 1, i));
+			if(!NCoreApi.getMaterials().get(i).oreDict.equals("woodOak"))
+				list.add(new ItemStack(item, 1, i));
 	}
 	
 	@Override

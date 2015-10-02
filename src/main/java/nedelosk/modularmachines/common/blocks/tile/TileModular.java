@@ -3,13 +3,13 @@ package nedelosk.modularmachines.common.blocks.tile;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import nedelosk.modularmachines.api.basic.machine.IModularTileEntity;
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleGui;
-import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
 import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
-import nedelosk.modularmachines.common.machines.MachineBuilder;
+import nedelosk.modularmachines.common.machines.utils.MachineBuilder;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.entity.player.InventoryPlayer;

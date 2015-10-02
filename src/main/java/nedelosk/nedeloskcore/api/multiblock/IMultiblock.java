@@ -46,4 +46,6 @@ public interface IMultiblock extends INBTTagable{
 	
 	void registerBlockIcons(IIconRegister IIconRegister);
 	
+	boolean hasBlockActivatedFunction();
+	
 }

@@ -1,12 +1,6 @@
 package nedelosk.modularmachines.common.items;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -47,8 +41,8 @@ public class ItemMachinePattern extends Item implements IPattern {
     }
     
     @Override
-    public IIcon getIcon(ItemStack stack, int pass) {
-    	return icons[stack.getItemDamage()];
+    public IIcon getIconFromDamage(int meta) {
+    	return icons[meta];
     }
     
     @Override
@@ -58,6 +52,8 @@ public class ItemMachinePattern extends Item implements IPattern {
 
     @Override
     public int getPatternCost(ItemStack pattern) {
+    	if(pattern == null)
+    		return 2;
         return cost[pattern.getItemDamage()];
     }
 

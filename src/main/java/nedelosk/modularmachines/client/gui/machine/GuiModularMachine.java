@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.modularmachines.api.basic.machine.module.IModuleGui;
-import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModular;

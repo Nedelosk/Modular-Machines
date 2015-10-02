@@ -140,7 +140,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		if(slots.length > 0)
+		if(slots != null && slots.length > 0)
 		{
 			nbt.setInteger("Size", slots.length);
 			NBTTagList nbtTagList = new NBTTagList();
@@ -160,14 +160,16 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		NBTTagList nbtTagList = nbt.getTagList("slots", 10);
-		this.slots = new ItemStack[nbt.getInteger("Size")];
-			
-		for(int i = 0; i < nbtTagList.tagCount(); i++){
-			NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
-			byte itemLocation = item.getByte("item");
-			if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
-				this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
+		if(nbt.hasKey("slots")){
+			NBTTagList nbtTagList = nbt.getTagList("slots", 10);
+			this.slots = new ItemStack[nbt.getInteger("Size")];
+				
+			for(int i = 0; i < nbtTagList.tagCount(); i++){
+				NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
+				byte itemLocation = item.getByte("item");
+				if (itemLocation >= 0 && itemLocation < this.getSizeInventory()){
+					this.slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
+				}
 			}
 		}
 	}

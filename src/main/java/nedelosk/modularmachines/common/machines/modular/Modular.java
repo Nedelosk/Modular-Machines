@@ -8,31 +8,31 @@ import java.util.Vector;
 
 import com.google.common.collect.Maps;
 
-import nedelosk.modularmachines.api.basic.machine.IModularTileEntity;
-import nedelosk.modularmachines.api.basic.machine.manager.IModularUtilsManager;
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.modular.IModularMachine;
-import nedelosk.modularmachines.api.basic.machine.module.IModule;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleCasing;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleEngine;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleGenerator;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleProducer;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleStorage;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleTank;
-import nedelosk.modularmachines.api.basic.machine.module.ModuleStack;
-import nedelosk.modularmachines.api.basic.machine.module.energy.IModuleBattery;
-import nedelosk.modularmachines.api.basic.machine.module.energy.IModuleCapacitor;
-import nedelosk.modularmachines.api.basic.machine.module.manager.IModuleEnergyManager;
-import nedelosk.modularmachines.api.basic.machine.module.manager.IModuleTankManager;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularMachine;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleCapacitor;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyManager;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
+import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
+import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleTank;
+import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
+import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.producer.producer.energy.IModuleGenerator;
+import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
 import nedelosk.modularmachines.common.machines.handler.EnergyHandler;
 import nedelosk.modularmachines.common.machines.handler.FluidHandler;
 import nedelosk.modularmachines.common.machines.manager.ModularUtilsManager;
 import nedelosk.modularmachines.common.machines.module.ModuleTank;
 import nedelosk.modularmachines.common.machines.module.energy.ModuleBattery;
 import nedelosk.modularmachines.common.machines.module.energy.ModuleCapacitor;
+import nedelosk.modularmachines.common.machines.module.energy.ModuleEnergyManager;
 import nedelosk.modularmachines.common.machines.module.energy.ModuleEngine;
-import nedelosk.modularmachines.common.machines.module.manager.ModuleEnergyManager;
-import nedelosk.modularmachines.common.machines.module.manager.ModuleTankManager;
+import nedelosk.modularmachines.common.machines.module.fluids.ModuleTankManager;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -136,7 +136,7 @@ public abstract class Modular implements IModular {
 	}
 
 	@Override
-	public ModuleStack<IModuleTankManager> getTankManeger() {
+	public ModuleStack<IModuleFluidManager> getTankManeger() {
 		return getModule("TankManager", 0);
 	}
 	

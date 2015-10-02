@@ -2,8 +2,8 @@ package nedelosk.modularmachines.common.machines.handler;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.basic.machine.modular.IModularInventory;
-import nedelosk.modularmachines.common.machines.module.manager.ModuleTankManager;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
+import nedelosk.modularmachines.common.machines.module.fluids.ModuleTankManager;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.nbt.NBTTagCompound;

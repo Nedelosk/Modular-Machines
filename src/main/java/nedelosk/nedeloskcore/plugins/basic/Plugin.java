@@ -27,4 +27,9 @@ public class Plugin {
 		return null;
 	}
 	
+	public boolean getConfigOption()
+	{
+		return true;
+	}
+	
 }

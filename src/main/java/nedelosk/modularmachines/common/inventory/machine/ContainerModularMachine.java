@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory.machine;
 
-import nedelosk.modularmachines.api.basic.machine.module.IModuleGui;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleInventory;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;

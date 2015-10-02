@@ -3,13 +3,12 @@ package nedelosk.modularmachines.common.items;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.machine.ModularManager;
-import nedelosk.modularmachines.api.basic.machine.module.IModule;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleEngine;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleProducer;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleSpecial;
-import nedelosk.modularmachines.api.basic.machine.module.manager.IModuleManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleManager;
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
+import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
 import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -107,16 +106,16 @@ public class ModuleItems extends ModularItem {
     		{
         		ItemStack stack = new ItemStack(id);
         		stack.setTagCompound(new NBTTagCompound());
-        		if(modules.get(s) instanceof IModuleSpecial)
+        		if(modules.get(s) instanceof IModuleWithItem)
         		{
         			NBTTagCompound nbt = new NBTTagCompound();
-        			((IModuleSpecial)modules.get(s)).writeToItemNBT(nbt, i);
+        			((IModuleWithItem)modules.get(s)).writeToItemNBT(nbt, i);
         			modules.get(s).readFromNBT(nbt);
         		}
         		stack.getTagCompound().setString("Name", s);
         		stack.getTagCompound().setInteger("Tier", i);
     			list.add(stack);
-    			ModularManager.addModuleItem(stack, modules.get(s), i + 1, true);
+    			ModularManager.addModuleStack(stack, modules.get(s), i + 1, true);
     		}
     	}
     }

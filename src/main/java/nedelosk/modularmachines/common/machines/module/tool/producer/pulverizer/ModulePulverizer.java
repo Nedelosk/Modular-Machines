@@ -2,9 +2,9 @@ package nedelosk.modularmachines.common.machines.module.tool.producer.pulverizer
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.NeiStack;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeInput;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.recipes.NeiStack;
+import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.machines.module.tool.producer.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;

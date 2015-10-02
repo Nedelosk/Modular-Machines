@@ -10,11 +10,11 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleProducerRecipe;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.IRecipe;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.NeiStack;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeItem;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.recipes.IRecipe;
+import nedelosk.modularmachines.api.recipes.NeiStack;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
+import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -57,7 +57,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
       return;
     }
 
-    List<IRecipe> recipes = RecipeRegistry.recipes.get(recipeName);
+    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
     if(recipes != null)
     {
     for (IRecipe recipe : recipes) {
@@ -77,7 +77,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
   @Override
   public void loadCraftingRecipes(String outputId, Object... results) {
     if(outputId.equals("ModularMachines" + recipeName) && getClass() == ModularMachinesHandler.class) {
-      List<IRecipe> recipes = RecipeRegistry.recipes.get(recipeName);
+      List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
       if(recipes != null)
       {
       for (IRecipe recipe : recipes) {
@@ -92,7 +92,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 
   @Override
   public void loadUsageRecipes(ItemStack ingredient) {
-    List<IRecipe> recipes = RecipeRegistry.recipes.get(recipeName);
+    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
     if(recipes != null)
     {
     for (IRecipe recipe : recipes) {

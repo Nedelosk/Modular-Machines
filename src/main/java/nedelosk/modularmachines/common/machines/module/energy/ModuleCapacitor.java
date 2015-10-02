@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.machines.module.energy;
 
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.module.Module;
-import nedelosk.modularmachines.api.basic.machine.module.energy.IModuleCapacitor;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleCapacitor;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleCapacitor extends Module implements IModuleCapacitor {

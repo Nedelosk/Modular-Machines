@@ -62,9 +62,10 @@ public class NCoreApi {
 		return mutiblocks;
 	}
 	
-	public static void registerMaterial(Material material)
+	public static Material registerMaterial(Material material)
 	{
 		materials.add(material);
+		return material;
 	}
 	
 	public static ArrayList<Material> getMaterials() {

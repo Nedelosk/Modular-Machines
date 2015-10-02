@@ -3,7 +3,6 @@ package nedelosk.forestday.common.registrys;
 import nedelosk.forestday.common.config.ForestdayConfig;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.forestday.common.items.materials.ItemNature;
-import nedelosk.forestday.common.items.tools.ItemBowAndStick;
 import nedelosk.forestday.common.items.tools.ItemCutter;
 import nedelosk.forestday.common.items.tools.ItemFile;
 import nedelosk.forestday.common.items.tools.ItemFlintAxe;
@@ -30,7 +29,6 @@ public class ItemRegistry {
 		}.setUnlocalizedName("corn"));
 		MinecraftForge.addGrassSeed(new ItemStack(FItems.crop_corn.item()), 15);
 		FItems.nature.registerItem(new ItemNature());
-		//FItems.charcoal_kiln.registerItem(new ItemCharcoalKiln());
 		
 		FItems.curb.registerItem(new ItemCampfire(ForestdayConfig.campfireCurbs, "curb"));
 		FItems.pot.registerItem(new ItemCampfire(ForestdayConfig.campfirePots, "pot"));
@@ -45,7 +43,6 @@ public class ItemRegistry {
 		FItems.adze.registerItem(new ItemToolCrafting("adze", 175, 1, Material.Stone, "adze", 3));
 		FItems.adze_long.registerItem(new ItemToolCrafting("adze.long", 175, 1, Material.Stone, "adze.long", 3));
 		FItems.axe_flint.registerItem(new ItemFlintAxe(EnumHelper.addToolMaterial("flint", 1, 50, 1, 0, 1)));
-		FItems.bow_and_stick.registerItem(new ItemBowAndStick("bowandstick", 150, "bow_and_stick", 1, Material.Wood));
 		
 		FItems.tool_parts.registerItem(new ItemToolParts());
 		

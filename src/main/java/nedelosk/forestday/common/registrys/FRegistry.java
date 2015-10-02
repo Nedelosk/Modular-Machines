@@ -1,7 +1,9 @@
 package nedelosk.forestday.common.registrys;
 
 import nedelosk.forestday.api.Tabs;
+import nedelosk.forestday.common.core.EventHandler;
 import nedelosk.forestday.common.core.TabForestday;
+import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.MultiblockCharcoalKiln;
 import nedelosk.forestday.common.managers.CraftingManager;
 import nedelosk.forestday.common.managers.OreManager;
 import nedelosk.forestday.common.network.packets.PacketHandler;
@@ -10,6 +12,7 @@ import nedelosk.nedeloskcore.common.core.registry.EntryRegistry;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 
 public class FRegistry {
     
@@ -17,10 +20,10 @@ public class FRegistry {
     
     public void registerFluids()
     {
-		NRegistry.registerFluid("tar", 350, Material.lava, true);
-		NRegistry.registerFluid("resin", 100, Material.water, true);
-		NRegistry.registerFluid("rubber", 550, Material.lava, true);
-		NRegistry.registerFluid("lubricant", 30, Material.water, true);
+		NRegistry.registerFluid("tar", 350, Material.lava, true, false);
+		NRegistry.registerFluid("resin", 100, Material.water, true, false);
+		NRegistry.registerFluid("rubber", 550, Material.lava, true, false);
+		NRegistry.registerFluid("lubricant", 30, Material.water, true, false);
     }
     
     PluginManager manangerPlugin = new PluginManager();
@@ -36,6 +39,9 @@ public class FRegistry {
     	BlockRegistry.preInit();
     	ItemRegistry.preInit();
     	
+    	MinecraftForge.EVENT_BUS.register(new EventHandler());
+    	
+    	new MultiblockCharcoalKiln();
     	
     	manangerPlugin.preInit();
     }

@@ -7,27 +7,25 @@ import org.lwjgl.util.Point;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
-import nedelosk.modularmachines.api.basic.machine.part.IMachinePart;
-import nedelosk.modularmachines.client.gui.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.common.machines.utils.MachineBuilder.BuildMode;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
-import nedelosk.nedeloskcore.common.network.packets.PacketTileEntitySide;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.WorldServer;
 
@@ -70,7 +68,6 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 	    if(container instanceof ContainerModularAssembler) {
 	      ((ContainerModularAssembler) container).setToolSelection(info, activeSlots);
 
-	      // find all people who also have the same gui open and update them too
 	      WorldServer server = netHandler.playerEntity.getServerForPlayer();
 	      for(EntityPlayer player : (ArrayList<EntityPlayer>)server.playerEntities) {
 	        if(player == netHandler.playerEntity)
@@ -78,7 +75,6 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 	        if(player.openContainer instanceof ContainerModularAssembler) {
 	          if(((ContainerBase) container).sameGui((ContainerBase) player.openContainer)) {
 	            ((ContainerModularAssembler) player.openContainer).setToolSelection(info, activeSlots);
-	            // same gui, send him an update
 	            PacketHandler.INSTANCE.sendTo(this, (EntityPlayerMP) player);
 	          }
 	        }
@@ -88,24 +84,21 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		if(buf.readShort() > -1){
+		if(buf.readBoolean()){
 			info = new AssemblerMachineInfo();
-		    int id = buf.readShort();
-		    if(id > -1) {
-		      Item item = Item.getItemById(id);
-		      if(item instanceof IMachinePart) {
-		        info.machine = new ItemStack(item, 1, buf.readShort());
-		      }
+			info.mode = BuildMode.values()[buf.readInt()];
+		    if(buf.readBoolean()) {
+		        info.machine = ByteBufUtils.readItemStack(buf);
 		    }
-	
 		    List<Point> positions = Lists.newArrayList();
 		    int points = buf.readShort();
-		    if(buf.readShort() > points){
+		    if(points > 0){
 		    	for(int i = 0;i < points;i++){
 		    		positions.add(new Point(buf.readInt(), buf.readInt()));
 		    	}
 		    }
 		    info.positions = positions;
+		    
 		}
 		
 	    activeSlots = buf.readInt();
@@ -113,13 +106,12 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 
 	@Override
 	public void toBytes(ByteBuf buf) {
+		buf.writeBoolean(info != null);
 		if(info != null){
-			buf.writeShort(0);
-		    if(info.machine == null)
-		      buf.writeShort(-1);
-		    else{
-		      buf.writeShort(Item.getIdFromItem(info.machine.getItem()));
-		      buf.writeShort(info.machine.getItemDamage());
+			buf.writeInt(info.mode.ordinal());
+			buf.writeBoolean(info.machine != null);
+		    if(info.machine != null){
+		    	ByteBufUtils.writeItemStack(buf, info.machine);
 		    }
 		    
 		    if(info.positions != null){
@@ -130,9 +122,8 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 			    		buf.writeInt(point.getY());
 			    	}
 			    }
-		    }
-		}else{
-			buf.writeShort(-1);
+		    }else
+		    	buf.writeShort(0);
 		}
 		
 		buf.writeInt(activeSlots);

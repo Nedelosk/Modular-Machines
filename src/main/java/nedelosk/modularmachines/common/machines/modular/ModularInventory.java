@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.machines.modular;
 
-import nedelosk.modularmachines.api.basic.machine.IModularTileEntity;
-import nedelosk.modularmachines.api.basic.machine.manager.IModularInventoryManager;
-import nedelosk.modularmachines.api.basic.machine.modular.IModularInventory;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularInventoryManager;
 import nedelosk.modularmachines.common.machines.manager.ModularInventoryManager;
 import net.minecraft.nbt.NBTTagCompound;
 

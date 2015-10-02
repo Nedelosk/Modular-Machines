@@ -1,37 +1,27 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import codechicken.nei.LayoutManager;
-import codechicken.nei.VisiblityData;
-import codechicken.nei.api.INEIGuiHandler;
-import codechicken.nei.api.TaggedInventoryArea;
-import nedelosk.modularmachines.api.basic.machine.part.IMachinePart;
+import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
+import nedelosk.modularmachines.api.modular.parts.IMachinePart;
 import nedelosk.modularmachines.client.MMClientRegistry;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
-import nedelosk.modularmachines.common.items.ItemMachinePart;
-import nedelosk.modularmachines.common.machines.assembler.AssemblerRegistry;
+import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.nedeloskcore.api.machines.Button;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -160,7 +150,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
           Slot slot = inventorySlots.getSlot(i);
 
           if(slot.getHasStack()) {
-            slot.xDisplayPosition = 87 + 20 * stillFilled;
+            slot.xDisplayPosition = 87 + 20 * stillFilled + 110;
             slot.yDisplayPosition = 62;
             stillFilled++;
           }
@@ -186,7 +176,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
               }
         }
     	
-        for(IMachinePart part : AssemblerRegistry.getAssemblerRecipes()) {
+        for(IMachinePart part : ModularManager.getMachineParts()) {
             AssemblerMachineInfo info = MMClientRegistry.getAssemblerInfo(part);
             if(info != null) {
               GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
@@ -206,15 +196,11 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 
         int columns = 5;
         int spacing = 4;
-        
-        int rows = (count-1)/columns + 1;
+	    int xI = button.id % columns;
+	    int yI = button.id / spacing;
 
-        int offset = buttonList.size();
-        int x = (offset % columns) * (button.width + spacing);
-        int y = (offset / columns) * (button.height + spacing);
-
-        button.xPosition = guiLeft + x;
-        button.yPosition = guiTop + y;
+        button.xPosition = guiLeft + xI * (button.width + 2);
+        button.yPosition = guiTop + yI * (button.height + 2);
 
         buttonManager.add(button);
       }

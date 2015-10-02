@@ -29,8 +29,11 @@ import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 
 public class ObjectRegistry {
 	
+	public static Material WOOD;
+	
 	public static void preInit()
 	{
+		WOOD = NCoreApi.registerMaterial(new Material("wood", 600, 1.5F, 1F, MaterialType.WOOD, "woodOak", new ItemStack(Blocks.log, 1, 0)));
 		NCoreApi.registerMaterial(new Material("clayBrick", 1400, 1.5F, 1F, MaterialType.BRICK, "ingotBrick", new ItemStack(Blocks.brick_block, 1, 0)));
 		NCoreApi.registerMaterial(new Material("stoneBrick", 1600, 3F, 1F, MaterialType.BRICK, "bricksStone", new ItemStack(Blocks.stonebrick, 1, 0)));
 		NCoreApi.registerMaterial(new Material("netherBrick", 2000, 5F, 1F, MaterialType.BRICK, "ingotBrickNether", new ItemStack(Blocks.nether_brick, 1, 0)));

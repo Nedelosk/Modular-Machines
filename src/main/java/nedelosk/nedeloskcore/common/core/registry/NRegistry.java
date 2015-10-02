@@ -61,10 +61,12 @@ public class NRegistry {
     	pluginManager.postInit();
 	}
 	
-	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket)
+	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas)
 	{
 		if(FluidRegistry.getFluid(fluidName) == null){
 			Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
+			if(isGas)
+				fluid.isGaseous();
 			FluidRegistry.registerFluid(fluid);
 			Block fluidBlock = new FluidBlock(fluid, material, fluidName);
 			fluid.setUnlocalizedName(fluidName);

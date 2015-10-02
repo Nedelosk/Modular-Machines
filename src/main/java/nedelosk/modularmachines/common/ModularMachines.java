@@ -12,10 +12,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.client.techtree.utils.TechTreeUtils;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.modularmachines.common.config.TechTreeConfigs;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
@@ -47,10 +45,6 @@ public class ModularMachines
         configTechTree = new Configuration(configFileTechTree);
         configFolder = configFolderModularMachines;
         registry.preInit();
-        if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-        {
-        ModularMachinesApi.currentLanguage = Minecraft.getMinecraft().gameSettings.language;
-        }
     	NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
     }
     
@@ -59,16 +53,12 @@ public class ModularMachines
     	proxy.registerRenderer();
         proxy.init();
         registry.init();
-        TechTreeUtils.readTechPoints();
     }
 	
     @Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
         registry.postInit();
-    	TechTreeUtils.checkJsonData();
         ModularConfig.postInit();
-        TechTreeConfigs.postInit();
-        proxy.postInit();
 	}
     
     @Mod.EventHandler

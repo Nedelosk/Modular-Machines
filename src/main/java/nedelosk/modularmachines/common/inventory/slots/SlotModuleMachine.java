@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
-import nedelosk.modularmachines.api.basic.machine.modular.IModularInventory;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

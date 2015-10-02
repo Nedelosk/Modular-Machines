@@ -235,29 +235,29 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 				tankInput = new FluidTankNedelosk(32000);
 		if(heat >= heatTotal || heatTotal == 0)
 		{
-		if(base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0)
-		{
-			FluidStack input = tankInput.getFluid();
-			if(output != null)
+			if(base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0)
 			{
-				if(tank.fill(output, true) >= output.amount)
-					output = null;
-			}
-			else if(input != null)
-			{
-				AirHeatingPlantRecipe recipe = AirHeatingPlantRecipeManager.getRecipe(input);
-				if(recipe != null)
+				FluidStack input = tankInput.getFluid();
+				if(output != null)
 				{
-					tankInput.drain(recipe.getInput(), true);
-					output = recipe.getOutput().copy();
-					base.burnTimeTotal = recipe.getBurntTime();
+					if(tank.fill(output, true) >= output.amount)
+						output = null;
+				}
+				else if(input != null)
+				{
+					AirHeatingPlantRecipe recipe = AirHeatingPlantRecipeManager.getRecipe(input);
+					if(recipe != null)
+					{
+						tankInput.drain(recipe.getInput(), true);
+						output = recipe.getOutput().copy();
+						base.burnTimeTotal = recipe.getBurntTime();
+					}
 				}
 			}
-		}
-		else
-		{
-			base.burnTime++;
-		}
+			else
+			{
+				base.burnTime++;
+			}
 		}
 		else
 		{

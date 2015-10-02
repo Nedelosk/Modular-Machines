@@ -18,8 +18,6 @@ public class ForestdayConfig {
 		kilnMinHeat = config.get("Kiln", "MinHeat", 125).getInt();
 		kilnMaxHeat = config.get("Kiln", "MaxHeat", 750).getInt();
 		
-		//Heat Generator
-		generatorHeatBurnTime = config.get("Heat Generator", "Burn Time", 250).getInt();
 		
 		//Worktable
 		worktableBurnTime = config.get("Worktable", "Burn Time", 70).getInt();
@@ -31,9 +29,7 @@ public class ForestdayConfig {
 		campfirePotHolders = config.get("Campfire Items", "Pot Holders", campfirePotHoldersDefault).getStringList();
 		campfirePotCapacity = config.get("Campfire Items", "Pot Capacity", campfirePotCapacityDefault).getIntList();
 		
-		bowandstickPowerMin = config.get("Bow and Stick", "MinPower", new int[]{ 125, 75, 50}).getIntList();
-		
-		charcoalKilnBurnTime = config.get("Charcoal Kiln", "BurnTime", 9600).getInt();
+		charcoalKilnBurnTime = config.get("Charcoal Kiln", "BurnTime", 12000).getInt();
 		
 		config.save();
 		
@@ -44,8 +40,6 @@ public class ForestdayConfig {
 	public static int kilnMinHeat;
 	public static int kilnMaxHeat;
 	public static int kilnBurnTime;
-	
-	public static int generatorHeatBurnTime;
 	
 	public static int worktableBurnTime;
 
@@ -60,8 +54,6 @@ public class ForestdayConfig {
 	public static String[] campfirePots;
 	public static int[] campfirePotCapacity;
 	public static String[] campfirePotHolders;
-
-	public static int[] bowandstickPowerMin;
 	
 	public static int charcoalKilnBurnTime;
 

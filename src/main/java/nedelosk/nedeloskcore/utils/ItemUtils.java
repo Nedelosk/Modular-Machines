@@ -86,6 +86,24 @@ public class ItemUtils {
 		}
 	}
 	
+	public static void dropItem(World world, int x, int y, int z, List<ItemStack> items)
+	{
+		for(int i = 0;i < items.size();i++)
+		{
+			ItemStack item = items.get(i);
+			Random rand = new Random();
+			if(item != null && item.stackSize > 0)
+			{
+				float rx = rand.nextFloat() * 0.8F + 0.1F;
+				float ry = rand.nextFloat() * 0.8F + 0.1F;
+				float rz = rand.nextFloat() * 0.8F + 0.1F;
+				EntityItem entityItem = new EntityItem(world, x, y, z, new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+				world.spawnEntityInWorld(entityItem);
+				item = null;
+			}
+		}
+	}
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		if (lhs == null || rhs == null) {
 			return false;

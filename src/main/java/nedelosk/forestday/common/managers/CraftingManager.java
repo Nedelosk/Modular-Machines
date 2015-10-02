@@ -85,7 +85,6 @@ public class CraftingManager {
 		addShapelessRecipe(new ItemStack(FItems.cutter.item()), new ItemStack(FItems.tool_parts.item(), 1, 6), new ItemStack(FItems.tool_parts.item(), 1, 7));
 		addShapelessRecipe(new ItemStack(FItems.adze.item()), new ItemStack(FItems.tool_parts.item(), 1, 8), new ItemStack(FItems.tool_parts.item(), 1, 10));
 		addShapelessRecipe(new ItemStack(FItems.adze_long.item()), new ItemStack(FItems.tool_parts.item(), 1, 9), new ItemStack(FItems.tool_parts.item(), 1, 11));
-		addShapelessRecipe(new ItemStack(FItems.bow_and_stick.item()), Items.bow, Items.stick, Items.stick);
 		addShapedRecipe(new ItemStack(FItems.hammer.item()), "+++", "+++", " - ", '+', "ingotIron", '-', "stickWood");
 		
 		addShapelessRecipe(new ItemStack(FItems.nature.item(), 1, 8), Blocks.sand, Blocks.sand, Blocks.gravel, Blocks.gravel, Items.water_bucket);
@@ -109,11 +108,11 @@ public class CraftingManager {
 	
 	public static void addWorkbenchRecipes()
 	{
-		workbench.addRecipe(new OreStack("plankWood"), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 5), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 5), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 4), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 4), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 3), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 3), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 2), ForestdayConfig.worktableBurnTime);
-		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 2), new OreStack("tool_file"), new ItemStack(NCItems.Gears_Wood.item(), 1, 1), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolFile"), new ItemStack(NCItems.Gears_Wood.item(), 1, 5), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 5), new OreStack("toolFile"), new ItemStack(NCItems.Gears_Wood.item(), 1, 4), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 4), new OreStack("toolFile"), new ItemStack(NCItems.Gears_Wood.item(), 1, 3), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 3), new OreStack("toolFile"), new ItemStack(NCItems.Gears_Wood.item(), 1, 2), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new ItemStack(NCItems.Gears_Wood.item(), 1, 2), new OreStack("toolFile"), new ItemStack(NCItems.Gears_Wood.item(), 1, 1), ForestdayConfig.worktableBurnTime);
 	}
 	
 	public static void addMachineRecipes()
@@ -124,10 +123,8 @@ public class CraftingManager {
 		addShapedRecipe(new ItemStack(Blocks.furnace), "SSS", "BHB", "BBB", 'S', "stone", 'B', Blocks.stonebrick);
 		
 		//Campfire
-		addShapedRecipe(new ItemStack(FBlocks.Machine_Wood_Base.item(), 1, 0), "   ", " + ", "+++", '+', "logWood");
-		
-		addShapelessRecipe(new ItemStack(FItems.curb.item(), 1, 0), "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone", "cobblestone");
-		addShapelessRecipe(new ItemStack(FItems.curb.item(), 1, 1), "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian", "obsidian");
+		addShapedRecipe(new ItemStack(FItems.curb.item(), 1, 0), "+++", "+ +", "+++", '+', "cobblestone");
+		addShapedRecipe(new ItemStack(FItems.curb.item(), 1, 1), "+++", "+ +", "+++", '+', "blockObsidian");
 		
 		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 0), "   ", "+ +", "+++", '+', "stone");
 		addShapedRecipe(new ItemStack(FItems.pot.item(), 1, 1), "   ", "+ +", "+++", '+', "ingotBronze");
@@ -147,8 +144,8 @@ public class CraftingManager {
 	
 	public static void addCampfireRecipes()
 	{
-		campfire.addRecipe(new ItemStack(Blocks.red_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew, 1),  0, 25);
-		campfire.addRecipe(new ItemStack(Blocks.brown_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew, 1),  0, 25);
+		campfire.addRecipe(new ItemStack(Blocks.red_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew),  0, 25);
+		campfire.addRecipe(new ItemStack(Blocks.brown_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew),  0, 25);
 		campfire.addRecipe(new ItemStack(Items.beef), new ItemStack(Items.cooked_beef), 0, 25);
 		campfire.addRecipe(new ItemStack(Items.chicken), new ItemStack(Items.cooked_chicken), 0, 25);
 		campfire.addRecipe(new ItemStack(Items.fish), new ItemStack(Items.cooked_fished), 0, 25);

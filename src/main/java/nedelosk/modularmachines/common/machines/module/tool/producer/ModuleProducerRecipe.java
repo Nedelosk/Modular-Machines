@@ -1,15 +1,15 @@
 package nedelosk.modularmachines.common.machines.module.tool.producer;
 
-import nedelosk.modularmachines.api.basic.machine.IModularTileEntity;
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.modular.IModularInventory;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleProducerRecipe;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.IRecipe;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.IRecipeManager;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeInput;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeItem;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeRegistry;
-import nedelosk.modularmachines.common.machines.ModularUtils;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.recipes.IRecipe;
+import nedelosk.modularmachines.api.recipes.IRecipeManager;
+import nedelosk.modularmachines.api.recipes.RecipeInput;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
+import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.common.machines.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;

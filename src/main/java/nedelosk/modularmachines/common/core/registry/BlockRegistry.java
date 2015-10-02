@@ -1,11 +1,14 @@
 package nedelosk.modularmachines.common.core.registry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.modularmachines.common.blocks.BlockMetal;
 import nedelosk.modularmachines.common.blocks.ModularAssemblerBlock;
 import nedelosk.modularmachines.common.blocks.ModularMachineBlock;
 import nedelosk.modularmachines.common.blocks.ModularWorkbench;
+import nedelosk.modularmachines.common.blocks.item.ItemBlockMaterial;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularAssembler;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularMachine;
+import nedelosk.modularmachines.common.blocks.tile.TileMaterial;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularWorkbench;
@@ -26,12 +29,15 @@ public class BlockRegistry {
 		MMBlocks.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModularMachine.class);
 		MMBlocks.Modular_Workbench.registerBlock(new ModularWorkbench(), ItemBlock.class);
 		
+		MMBlocks.Metal_Blocks.registerBlock(new BlockMetal(), ItemBlockMaterial.class);
+		
 		registerTile();
 		
 	}
 	
 	public static void registerTile()
 	{
+		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 		GameRegistry.registerTileEntity(TileModularAssembler.class, "tile.modular.assenbler");
 		GameRegistry.registerTileEntity(TileModular.class, "tile.modular");
 		GameRegistry.registerTileEntity(TileModularWorkbench.class, "tile.modular.workbench");

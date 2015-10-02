@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
-import nedelosk.modularmachines.client.renderers.TileMultiblockFermenterRenderer;
+import nedelosk.modularmachines.client.renderers.tile.TileMultiblockFermenterRenderer;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager.FermenterRecipe;

@@ -15,7 +15,7 @@ public class WoodType {
 		this.wood = wood;
 		for(ItemStack dropp : charcoalDropps)
 		{
-		this.charcoalDropps.add(dropp);
+			this.charcoalDropps.add(dropp);
 		}
 	}
 	

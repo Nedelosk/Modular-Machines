@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelModularTable extends ModelBase
 {
-  //fields
+	
     ModelRenderer Top;
     ModelRenderer Leg;
     ModelRenderer Leg1;

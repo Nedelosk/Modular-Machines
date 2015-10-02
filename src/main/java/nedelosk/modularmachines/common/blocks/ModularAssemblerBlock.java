@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -58,10 +57,8 @@ public class ModularAssemblerBlock extends ModularBlock {
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
-		ItemStack stack = new ItemStack(item);
-		stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger("capacity", 1000000);
-		list.add(stack);
+		for(int i = 0;i < 5;i++)
+			list.add(new ItemStack(item, 1, i));
 	}
 	
 	@Override

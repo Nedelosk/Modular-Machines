@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.machines.module;
 
-import nedelosk.modularmachines.api.basic.machine.module.IModuleTank;
-import nedelosk.modularmachines.api.basic.machine.module.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleTank;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleTank extends Module implements IModuleTank{

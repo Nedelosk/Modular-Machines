@@ -21,7 +21,7 @@ public class PluginManager {
 	{
 		for(Plugin plugin : plugins)
 		{
-			if(Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
 			{
 				plugin.preInit();
 			}
@@ -32,7 +32,7 @@ public class PluginManager {
 	{
 		for(Plugin plugin : plugins)
 		{
-			if(Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
 			{
 				plugin.postInit();
 			}
@@ -43,7 +43,7 @@ public class PluginManager {
 	{
 		for(Plugin plugin : plugins)
 		{
-			if(Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
 			{
 				plugin.init();
 				plugin.registerRecipes();

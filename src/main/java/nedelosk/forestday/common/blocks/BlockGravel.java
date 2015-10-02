@@ -21,7 +21,7 @@ public class BlockGravel extends BlockForestday {
 	public BlockGravel() {
 		super("gravel", Material.ground, Tabs.tabForestdayBlocks);
 		this.setHardness(1.0f);
-		this.setStepSound(Block.soundTypeMetal);
+		this.setStepSound(Block.soundTypeGravel);
 		this.setHarvestLevel("shovel", 1, 0);
 	}
 	

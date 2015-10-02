@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.plugins.waila.provider.ProviderModularMaschine;
 import nedelosk.nedeloskcore.plugins.basic.Plugin;
 
@@ -22,6 +23,11 @@ public class PluginWaila extends Plugin {
 	@Override
 	public void init(){
 		FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
+	}
+	
+	@Override
+	public boolean getConfigOption() {
+		return ModularConfig.pluginWaila;
 	}
 	
 }

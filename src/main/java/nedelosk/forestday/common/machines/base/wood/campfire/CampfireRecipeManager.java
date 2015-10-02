@@ -30,10 +30,10 @@ public class CampfireRecipeManager implements ICampfireRecipe{
 	
 	public static CampfireRecipe getRecipe(ItemStack input, ItemStack input2, int potTier){
 		for(CampfireRecipe sr : recipes){
-			boolean a = sr.input.getItem() == input.getItem();
-			Item i = sr.input.getItem();
+			boolean a = sr.getInput().getItem() == input.getItem();
+			Item i = sr.getInput().getItem();
 			Item o = input.getItem();
-			if(sr.input.getItem() == input.getItem() && sr.input.getItemDamage() == input.getItemDamage() && ItemStack.areItemStackTagsEqual(input, sr.input) && potTier >= sr.potTier && (sr.input2== null || input2 != null  && sr.input2.getItem() == input2.getItem() && sr.input2.getItemDamage() == input2.getItemDamage() && ItemStack.areItemStackTagsEqual(input2, sr.input2))){
+			if(sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage() && ItemStack.areItemStackTagsEqual(input, sr.getInput()) && potTier >= sr.getPotTier() && (sr.getInput2() == null || input2 != null  && sr.getInput2().getItem() == input2.getItem() && sr.getInput2().getItemDamage() == input2.getItemDamage() && ItemStack.areItemStackTagsEqual(input2, sr.getInput2()))){
 				return sr;
 			}
 		}
@@ -55,12 +55,16 @@ public class CampfireRecipeManager implements ICampfireRecipe{
 		List<CampfireRecipe> list = new ArrayList();
 		for(CampfireRecipe recipe : recipes)
 		{
-			if(recipe.output.getItem() == stack.getItem() && recipe.output.getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.output))
+			if(recipe.getOutput().getItem() == stack.getItem() && recipe.getOutput().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getOutput()))
 			{
 				list.add(recipe);
 			}
 		}
 		return list;
+	}
+	
+	public static List<CampfireRecipe> getRecipes() {
+		return recipes;
 	}
 	
 }

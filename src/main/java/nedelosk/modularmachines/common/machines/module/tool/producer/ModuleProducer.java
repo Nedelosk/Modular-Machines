@@ -2,11 +2,13 @@ package nedelosk.modularmachines.common.machines.module.tool.producer;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.basic.machine.modular.IModular;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleProducer;
-import nedelosk.modularmachines.api.basic.machine.module.ModuleGui;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.NeiStack;
-import nedelosk.modularmachines.common.machines.ModularUtils;
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.basic.gui.ModuleGui;
+import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.recipes.NeiStack;
+import nedelosk.modularmachines.common.machines.utils.ModularUtils;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleProducer extends ModuleGui implements IModuleProducer {
@@ -66,6 +68,11 @@ public abstract class ModuleProducer extends ModuleGui implements IModuleProduce
 	
 	@Override
 	public ArrayList<NeiStack> addNEIStacks() {
+		return null;
+	}
+	
+	@Override
+	public IModule buildModule(ItemStack[] stacks) {
 		return null;
 	}
 

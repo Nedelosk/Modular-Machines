@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.machines.module.energy;
 
-import nedelosk.modularmachines.api.basic.machine.module.Module;
-import nedelosk.modularmachines.api.basic.machine.module.energy.IModuleEnergyAcceptor;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyAcceptor;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleEnergyAcceptor extends Module implements IModuleEnergyAcceptor {

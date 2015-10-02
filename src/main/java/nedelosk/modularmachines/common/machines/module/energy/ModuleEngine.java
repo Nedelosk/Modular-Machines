@@ -1,11 +1,11 @@
 package nedelosk.modularmachines.common.machines.module.energy;
 
-import nedelosk.modularmachines.api.basic.machine.module.IModuleEngine;
-import nedelosk.modularmachines.api.basic.machine.module.IModuleSpecial;
-import nedelosk.modularmachines.api.basic.machine.module.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleEngine extends Module implements IModuleEngine, IModuleSpecial {
+public class ModuleEngine extends Module implements IModuleEngine, IModuleWithItem {
 
 	public int speed;
 	public int[] speedModifiers;

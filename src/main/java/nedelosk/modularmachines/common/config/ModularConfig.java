@@ -1,8 +1,7 @@
 package nedelosk.modularmachines.common.config;
 
-import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.basic.machine.ModularManager;
-import nedelosk.modularmachines.api.basic.machine.module.IModule;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
 import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraftforge.common.config.Configuration;
 
@@ -21,6 +20,12 @@ public class ModularConfig {
 		
 		generateAluminiumOre = config.get("OreGen", "Aluminium", true).getBoolean();
 		generateColumbiteOre = config.get("OreGen", "Columbite", true).getBoolean();
+		
+		pluginTinkers = config.get("Plugins", "Tinkers Construct", true).getBoolean();
+		pluginEnderIO = config.get("Plugins", "EnderIO", true).getBoolean();
+		pluginThermalExpansion = config.get("Plugins", "Thermal Expansion", true).getBoolean();
+		pluginWaila = config.get("Plugins", "Waila", true).getBoolean();
+		pluginMineTweaker3 = config.get("Plugins", "Mine Tweaker 3", true).getBoolean();
 		
 		save();
 	}
@@ -44,4 +49,10 @@ public class ModularConfig {
 	
 	public static boolean generateColumbiteOre;
 	public static boolean generateAluminiumOre;
+	
+	public static boolean pluginTinkers;
+	public static boolean pluginEnderIO;
+	public static boolean pluginThermalExpansion;
+	public static boolean pluginWaila;
+	public static boolean pluginMineTweaker3;
 }

@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.machines.manager;
 
 import cofh.api.energy.IEnergyHandler;
-import nedelosk.modularmachines.api.basic.machine.manager.IModularUtilsManager;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class ModularUtilsManager implements IModularUtilsManager {

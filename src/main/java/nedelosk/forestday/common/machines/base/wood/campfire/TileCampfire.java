@@ -8,7 +8,6 @@ import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -95,16 +94,16 @@ public class TileCampfire extends TileMachineBase {
 					CampfireRecipe recipe = CampfireRecipeManager.getRecipe(input, input2, (getStackInSlot(6) != null) ? getStackInSlot(6).getItemDamage() + 1 : 0);
 					if(recipe != null)
 					{
-						if(input.stackSize >= recipe.input.stackSize && (recipe.input2 == null || input2 != null && input2.stackSize >= recipe.input2.stackSize))
+						if(input.stackSize >= recipe.getInput().stackSize && (recipe.getInput2() == null || input2 != null && input2.stackSize >= recipe.getInput2().stackSize))
 						{
-							decrStackSize(0, recipe.input.stackSize);
-							if(recipe.input2 != null)
+							decrStackSize(0, recipe.getInput().stackSize);
+							if(recipe.getInput() != null)
 							{
-								decrStackSize(1, recipe.input2.stackSize);
+								decrStackSize(1, recipe.getInput2().stackSize);
 							}
-							output = recipe.output.copy();
+							output = recipe.getOutput().copy();
 							isWorking = true;
-							burnTimeTotal = recipe.burnTime;
+							burnTimeTotal = recipe.getBurnTime();
 							burnTime = 0;
 						}
 					}
@@ -114,16 +113,16 @@ public class TileCampfire extends TileMachineBase {
 						CampfireRecipe recipe = CampfireRecipeManager.getRecipe(input2, input, (getStackInSlot(6) != null) ? getStackInSlot(6).getItemDamage() + 1 : 0);
 						if(recipe != null)
 						{
-							if(input2.stackSize >= recipe.input.stackSize && (recipe.input2 == null || input != null && input.stackSize >= recipe.input2.stackSize))
+							if(input2.stackSize >= recipe.getInput().stackSize && (recipe.getInput2() == null || input != null && input.stackSize >= recipe.getInput2().stackSize))
 							{
-								decrStackSize(1, recipe.input.stackSize);
-								if(recipe.input2 != null)
+								decrStackSize(1, recipe.getInput().stackSize);
+								if(recipe.getInput2() != null)
 								{
-									decrStackSize(0, recipe.input2.stackSize);
+									decrStackSize(0, recipe.getInput2().stackSize);
 								}
-								output = recipe.output.copy();
+								output = recipe.getOutput().copy();
 								isWorking = true;
-								burnTimeTotal = recipe.burnTime;
+								burnTimeTotal = recipe.getBurnTime();
 								burnTime = 0;
 							}
 						}

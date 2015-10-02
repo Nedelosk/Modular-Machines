@@ -30,20 +30,41 @@ module.1=Improved
 module.2=Advanced
 module=Module
 
-Casing.name=Casing
-Battery.name=Battery
-Engine.name=Engine
-Tool.name=Tool
-Producer.name=Producer
-Generator.name=Generator
-EnergyAcceptor.name=Energy Acceptor
-Capacitor.name=Capacitor
-EnergyManager.name=Energy Manager
-TankManager.name=Tank Manager
-FanManager.name=Fan Manager
-StorageManager.name=Storage Manager
-Storage.name=Storage
-Tank.name=Tank
+####################################
+Material
+####################################
+material.wood=Wood
+material.stone=Stone
+material.iron=Iron
+material.flint=Flint
+material.bone=Bone
+material.netherrack=Netherrack
+material.tin=Tin
+material.copper=Copper
+material.bronze=Bronze
+material.steel=Steel
+material.niobium=Niobium
+material.tantalum=Tantalum
+material.silver=Silver
+material.plastic=Plastic
+material.diamond=Diamond
+material.emerald=Emerald
+material.ruby=Ruby
+material.cobalt=Cobalt
+material.ardite=Ardite
+material.manyullyn=Manyullyn
+material.alumite=Alumite
+material.pigiron=Pig Iron
+
+####################################
+Components
+####################################
+component.rods=Rod
+component.connection_wires=Connection Wire
+component.screws=Screw
+component.gears=Gear
+component.plates=Plate
+component.energy_crystal=Energy Crystal
 
 ####################################
 Techtree
@@ -119,6 +140,7 @@ tile.modular.workbench.name=Modular Workbench
 tile.modular.machine.name=Modular Machine
 forest.nc.item.tile.oremodularmachines.0.name=Columbite Ore
 forest.nc.item.tile.oremodularmachines.1.name=Aluminium Ore
+tile.metal.block.name=Metal Block
 
 ####################################
 Fluids
@@ -142,27 +164,6 @@ forest.nc.item.ingot.modularmachines.2.name=Aluminium Ingot
 forest.nc.item.nugget.modularmachines.0.name=Niobium Nugget
 forest.nc.item.nugget.modularmachines.1.name=Tantalum Nugget
 forest.nc.item.nugget.modularmachines.2.name=Aluminium Nugget
-forest.mm.item.plate.0.name=Iron Plate
-forest.mm.item.plate.1.name=Gold Plate
-forest.mm.item.plate.2.name=Copper Plate
-forest.mm.item.plate.3.name=Tin Plate
-forest.mm.item.plate.4.name=Silver Plate
-forest.mm.item.plate.5.name=Lead Plate
-forest.mm.item.plate.6.name=Bronze Plate
-forest.mm.item.plate.7.name=Invar Plate
-forest.mm.item.plate.8.name=Plastic Plate
-forest.mm.item.plate.9.name=Niobium Plate
-forest.mm.item.plate.10.name=Tantalum Plate
-forest.mm.item.plate.11.name=Aluminium Plate
-forest.mm.item.screw.0.name=Stone Screw
-forest.mm.item.screw.1.name=Iron Screw
-forest.mm.item.screw.2.name=Gold Screw
-forest.mm.item.screw.3.name=Copper Screw
-forest.mm.item.screw.4.name=Tin Screw
-forest.mm.item.screw.5.name=Silver Screw
-forest.mm.item.screw.6.name=Lead Screw
-forest.mm.item.screw.7.name=Bronze Screw
-forest.mm.item.screw.8.name=Invar Screw
 forest.mm.item.dust.0.name=Coal Dust
 forest.mm.item.dust.1.name=Obsidian Dust
 forest.mm.item.dust.2.name=Iron Dust
@@ -180,16 +181,6 @@ forest.mm.item.dust.other.0.name=Columbite Dust
 forest.mm.item.dust.other.1.name=Niobium Dust
 forest.mm.item.dust.other.2.name=Tantalum Dust
 forest.mm.item.dust.other.3.name=Aluminium Dust
-forest.mm.item.gear.0.name=Stone Gear
-forest.mm.item.gear.1.name=Iron Gear
-forest.mm.item.gear.2.name=Gold Gear
-forest.mm.item.gear.3.name=Diamond Gear
-forest.mm.item.gear.4.name=Copper Gear
-forest.mm.item.gear.5.name=Tin Gear
-forest.mm.item.gear.6.name=Silver Gear
-forest.mm.item.gear.7.name=Lead Gear
-forest.mm.item.gear.8.name=Bronze Gear
-forest.mm.item.gear.9.name=Invar Gear
 forest.mm.item.module.0.name=Basic Module
 forest.mm.item.module.1.name=Improved Module
 forest.mm.item.module.2.name=Advanced Module
@@ -203,3 +194,9 @@ item.bucket.air.name=Air Bucket
 item.bucket.slag.name=Slag Bucket
 item.bucket.pig.iron.name=Pig Iron Bucket
 item.bucket.gas.blastfurnace.name=Gas Blastfurnace
+item.bucket.tantalum.name=Tantalum Bucket
+item.bucket.niobium.name=Niobium Bucket
+item.bucket.gray.pig.iron.name=Gray Pig Iron Bucket
+item.bucket.white.pig.iron.name=White Pig Iron Bucket
+item.partBattery.name=Battery
+item.partEngine.name=Engine

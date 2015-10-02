@@ -26,7 +26,7 @@ public class EnergyHandler implements IEnergyHandler, INBTTagable {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyManager");
-		storage = new EnergyStorage(nbtTag.getInteger("Capacity"));
+		storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
 		storage.readFromNBT(nbtTag);
 	}
 
@@ -35,6 +35,8 @@ public class EnergyHandler implements IEnergyHandler, INBTTagable {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		storage.writeToNBT(nbtTag);
 		nbtTag.setInteger("Capacity", storage.getMaxEnergyStored());
+		nbtTag.setInteger("MaxReceive", storage.getMaxReceive());
+		nbtTag.setInteger("MaxExtract", storage.getMaxExtract());
 		nbt.setTag("EnergyManager", nbtTag);
 	}
 

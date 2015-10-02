@@ -7,10 +7,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMItems {
 
-	Gears,
 	Dusts,
-	Plates,
-	Screw,
 	Dusts_Others,
 	Ingots_Others,
 	Nuggets_Others,
@@ -20,10 +17,18 @@ public enum MMItems {
 	//Module
 	Module_Item_Capacitor,
 	Module_Items,
-	Module_Item_Battery,
 	
+	//Parts
+	Part_Battery,
+	Part_Engine,
+	
+	//Components
 	Component_Connection_Wires,
-	Component_Energy_Crystal,
+	Component_Rods,
+	Component_Energy_Crystals,
+	Component_Gears,
+	Component_Plates,
+	Component_Screws,
 	
 	//Pattern
 	WoodPattern,
@@ -33,7 +38,7 @@ public enum MMItems {
 
 	public void registerItem(Item item) {
 		this.item = item;
-		NRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "fd");
+		NRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
 	}
 
 	public boolean isItemEqual(ItemStack stack) {

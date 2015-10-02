@@ -11,6 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public enum MMBlocks {
 
 	Ore_Others,
+	Metal_Blocks,
 	
 	Modular_Assembler,
 	Modular_Workbench,

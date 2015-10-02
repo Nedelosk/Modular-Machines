@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.machines.module.tool.generator;
 
-import nedelosk.modularmachines.api.basic.machine.module.IModuleGenerator;
+import nedelosk.modularmachines.api.modular.module.producer.producer.energy.IModuleGenerator;
 import nedelosk.modularmachines.common.machines.module.tool.producer.ModuleProducer;
 import net.minecraft.nbt.NBTTagCompound;
 

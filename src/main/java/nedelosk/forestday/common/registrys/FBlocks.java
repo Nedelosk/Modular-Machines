@@ -13,7 +13,7 @@ public enum FBlocks {
 	Gravel,
 	Crop_Corn,
 	
-	//Multiblock_Charcoal_Kiln,
+	Multiblock_Charcoal_Kiln,
 	
 	Machine_Wood_Base;
 	

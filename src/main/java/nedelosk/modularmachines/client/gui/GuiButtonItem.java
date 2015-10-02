@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.nedeloskcore.api.machines.Button;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -73,6 +74,10 @@ public class GuiButtonItem<T> extends Button {
   }
 
   protected void drawIcon(Minecraft mc) {
+	  GL11.glPushMatrix();
+	  RenderHelper.enableStandardItemLighting();
 	  itemRender.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, icon, xPosition+1, yPosition+1);
+	  RenderHelper.disableStandardItemLighting();
+	  GL11.glPopMatrix();
   }
 }

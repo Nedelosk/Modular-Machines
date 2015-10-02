@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.machines.module.tool.producer.centrifuge;
 
-import nedelosk.modularmachines.api.basic.machine.module.recipes.Recipe;
-import nedelosk.modularmachines.api.basic.machine.module.recipes.RecipeItem;
+import nedelosk.modularmachines.api.recipes.Recipe;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
 
 public class RecipeCentrifuge extends Recipe {
 
