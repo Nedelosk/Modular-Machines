@@ -2,8 +2,8 @@ package nedelosk.forestday.common.plugins.waila;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
-import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
+import nedelosk.forestday.common.blocks.tiles.TileCampfire;
+import nedelosk.forestday.common.blocks.tiles.TileKiln;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileCampfire;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileKiln;
 import nedelosk.nedeloskcore.plugins.basic.Plugin;

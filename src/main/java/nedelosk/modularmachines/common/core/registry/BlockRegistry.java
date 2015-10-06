@@ -6,11 +6,11 @@ import nedelosk.modularmachines.common.blocks.ModularAssemblerBlock;
 import nedelosk.modularmachines.common.blocks.ModularMachineBlock;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockMaterial;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularAssembler;
-import nedelosk.modularmachines.common.blocks.item.ItemBlockModularMachine;
+import nedelosk.modularmachines.common.blocks.item.ItemBlockModular;
 import nedelosk.modularmachines.common.blocks.tile.TileMaterial;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.core.MMBlocks;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
@@ -25,11 +25,11 @@ public class BlockRegistry {
 	public static void preInit()
 	{
 		//Blocks
-		MMBlocks.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
-		MMBlocks.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
-		MMBlocks.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModularMachine.class);
+		MMBlockManager.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
+		MMBlockManager.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
+		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class);
 		
-		MMBlocks.Metal_Blocks.registerBlock(new BlockMetal(), ItemBlockMaterial.class);
+		MMBlockManager.Metal_Blocks.registerBlock(new BlockMetal(), ItemBlockMaterial.class);
 		
 		registerTile();
 		

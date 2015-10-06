@@ -10,8 +10,8 @@ import nedelosk.nedeloskcore.api.plan.IPlan;
 import nedelosk.nedeloskcore.api.plan.PlanRecipe;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import nedelosk.nedeloskcore.common.inventory.InventoryPlanningTool;
 import nedelosk.nedeloskcore.common.plan.PlanRecipeManager;
 import net.minecraft.block.Block;
@@ -37,12 +37,12 @@ public class ItemPlan extends Item implements IPlan {
 		setCreativeTab(CreativeTabs.tabMisc);
 		setHarvestLevel("axe", 0);
 		setHasSubtypes(true);
-        setUnlocalizedName(NRegistry.setUnlocalizedItemName("plan", "nc"));
+        setUnlocalizedName(NCRegistry.setUnlocalizedItemName("plan", "nc"));
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return NRegistry.setUnlocalizedItemName("plan", "nc") + "." + stack.getItemDamage();
+		return NCRegistry.setUnlocalizedItemName("plan", "nc") + "." + stack.getItemDamage();
 	}
 	
 	@Override
@@ -99,13 +99,13 @@ public class ItemPlan extends Item implements IPlan {
 	    {
 	    	if(getUpdateBlock(stack) == null)
 	    	{
-	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z) != NCBlocks.Plan_Block.block())
+	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z) != NCBlockManager.Plan_Block.block())
 	    	  {
 	    		  if(world.getBlock(x, y + 1, z) == Blocks.air)
 	    		  {
 	    			  if(getUpdateBlock(stack) == null)
 	    			  {
-	    			  if(!(world.setBlock(x, y + 1, z, NCBlocks.Plan_Block.block())))
+	    			  if(!(world.setBlock(x, y + 1, z, NCBlockManager.Plan_Block.block())))
 	    					  return  false;
 	    			  if(!(world.getTileEntity(x, y + 1, z) instanceof TilePlan))
 	    			  {
@@ -113,7 +113,7 @@ public class ItemPlan extends Item implements IPlan {
 	    				  return false;
 	    			  }
 	    			  ((TilePlan)world.getTileEntity(x, y + 1, z)).setPlan(stack.getTagCompound());
-	    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, NCBlocks.Plan_Block.block().stepSound.func_150496_b(), (NCBlocks.Plan_Block.block().stepSound.getVolume() + 1.0F) / 2.0F, NCBlocks.Plan_Block.block().stepSound.getPitch() * 0.8F);
+	    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, NCBlockManager.Plan_Block.block().stepSound.func_150496_b(), (NCBlockManager.Plan_Block.block().stepSound.getVolume() + 1.0F) / 2.0F, NCBlockManager.Plan_Block.block().stepSound.getPitch() * 0.8F);
 	    			  world.markBlockForUpdate(x, y + 1, z);
 	    			  return true;
 	    			  }
@@ -143,7 +143,7 @@ public class ItemPlan extends Item implements IPlan {
 		  	    	  if(world.getBlock(x, y, z) != null && world.getBlock(x, y, z) != Blocks.air)
 			    	  {
 		  	    		  NBTTagCompound nbt = stack.getTagCompound().getTagList("slots", 10).getCompoundTagAt(0).getCompoundTag("tag");
-			    			  if(!(world.setBlock(x, y, z, NCBlocks.Plan_Block.block())))
+			    			  if(!(world.setBlock(x, y, z, NCBlockManager.Plan_Block.block())))
 			    					  return  false;
 			    			  if(!(world.getTileEntity(x, y, z) instanceof TilePlan))
 			    			  {
@@ -151,7 +151,7 @@ public class ItemPlan extends Item implements IPlan {
 			    				  return false;
 			    			  }
 			    			  ((TilePlan)world.getTileEntity(x, y, z)).setPlan(stack.getTagCompound().getTagList("slots", 10).getCompoundTagAt(0).getCompoundTag("tag"));
-			    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F,NCBlocks.Plan_Block.block().stepSound.func_150496_b(), (NCBlocks.Plan_Block.block().stepSound.getVolume() + 1.0F) / 2.0F, NCBlocks.Plan_Block.block().stepSound.getPitch() * 0.8F);
+			    			  world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F,NCBlockManager.Plan_Block.block().stepSound.func_150496_b(), (NCBlockManager.Plan_Block.block().stepSound.getVolume() + 1.0F) / 2.0F, NCBlockManager.Plan_Block.block().stepSound.getPitch() * 0.8F);
 			    			  world.markBlockForUpdate(x, y, z);
 			    			  return true;
 			    	  }

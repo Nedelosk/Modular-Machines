@@ -2,9 +2,7 @@ package nedelosk.modularmachines.client.renderers.item;
 
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererModular;
-import nedelosk.modularmachines.client.renderers.tile.TileRendererModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

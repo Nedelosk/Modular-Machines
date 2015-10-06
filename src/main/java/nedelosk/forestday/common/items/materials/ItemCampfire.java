@@ -2,11 +2,11 @@ package nedelosk.forestday.common.items.materials;
 
 import java.util.List;
 
+import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.items.base.ItemForestday;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
-import nedelosk.forestday.common.registrys.FBlocks;
-import nedelosk.forestday.common.registrys.FItems;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.forestday.common.managers.BlockManager;
+import nedelosk.forestday.common.managers.FItemManager;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,9 +39,9 @@ public class ItemCampfire extends ItemForestday {
     @Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-    	if(this == FItems.curb.item()){
+    	if(this == FItemManager.curb.item()){
 	        Block block = world.getBlock(x, y, z);
-	        Block blockC = FBlocks.Machine_Wood_Base.block();
+	        Block blockC = BlockManager.Machine_Wood_Base.block();
 	        
 	        if (block == Blocks.snow_layer && (world.getBlockMetadata(x, y, z) & 7) < 1)
 	        {
@@ -116,7 +116,7 @@ public class ItemCampfire extends ItemForestday {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
     	
-    	Block blockC = FBlocks.Machine_Wood_Base.block();
+    	Block blockC = BlockManager.Machine_Wood_Base.block();
 
        if (!world.setBlock(x, y, z, blockC, metadata, 3))
        {
@@ -138,7 +138,7 @@ public class ItemCampfire extends ItemForestday {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage(), "fd");
+        return NCRegistry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage(), "fd");
     }
 
 }

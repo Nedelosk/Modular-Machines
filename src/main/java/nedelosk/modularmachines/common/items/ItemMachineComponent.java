@@ -7,7 +7,7 @@ import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.parts.IMachineComponent;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesComponents;
+import nedelosk.modularmachines.common.core.TabModularMachines;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,7 +22,7 @@ public class ItemMachineComponent extends Item implements IMachineComponent {
 	
 	public ItemMachineComponent(String name, MaterialType... type) {
 		this.setUnlocalizedName("component." + name);
-		this.setCreativeTab(TabModularMachinesComponents.instance);
+		this.setCreativeTab(TabModularMachines.components);
 		this.componentName = name;
 		this.type = type;
 	}

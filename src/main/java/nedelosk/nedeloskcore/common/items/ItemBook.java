@@ -2,7 +2,7 @@ package nedelosk.nedeloskcore.common.items;
 
 import nedelosk.nedeloskcore.api.book.BookData;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -38,6 +38,6 @@ public class ItemBook extends Item {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return NRegistry.setUnlocalizedItemName(uln, "nc");
+		return NCRegistry.setUnlocalizedItemName(uln, "nc");
 	}
 }

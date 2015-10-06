@@ -1,7 +1,7 @@
 package nedelosk.nedeloskcore.common.items;
 
-import nedelosk.nedeloskcore.common.core.registry.NCItems;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItemManager;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,7 +15,7 @@ public class ItemWoodBucket extends ItemBucket {
     public ItemWoodBucket(Block contents, String name)
     {
     	super(contents);
-        setUnlocalizedName(NRegistry.setUnlocalizedItemName(name, "nc"));
+        setUnlocalizedName(NCRegistry.setUnlocalizedItemName(name, "nc"));
         this.setTextureName("nedeloskcore:" + "bucket.wood." + contents.getUnlocalizedName().replaceAll("tile.", ""));
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
@@ -26,13 +26,13 @@ public class ItemWoodBucket extends ItemBucket {
 
         if(result.getItem() == Items.bucket) {
 
-            return new ItemStack(NCItems.Bucket_Wood.item());
+            return new ItemStack(NCItemManager.Bucket_Wood.item());
         }
         
-        if(result.getItem() == Items.water_bucket) return new ItemStack(NCItems.Bucket_Wood_Water.item());
+        if(result.getItem() == Items.water_bucket) return new ItemStack(NCItemManager.Bucket_Wood_Water.item());
         if(result.getItem() == Items.lava_bucket){
         	player.setFire(10);
-        	return new ItemStack(NCItems.Bucket_Wood_Water.item(), 0);
+        	return new ItemStack(NCItemManager.Bucket_Wood_Water.item(), 0);
         }
         return result;
     }

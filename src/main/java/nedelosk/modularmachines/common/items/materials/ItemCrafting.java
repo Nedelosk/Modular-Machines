@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.common.items.ModularItem;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -56,7 +56,7 @@ public class ItemCrafting extends ModularItem {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName("crafting" + uln + "." + itemstack.getItemDamage(), "mm");
+        return NCRegistry.setUnlocalizedItemName("crafting" + uln + "." + itemstack.getItemDamage(), "mm");
     }
 
 }

@@ -9,7 +9,7 @@ import nedelosk.nedeloskcore.api.NCoreApi;
 import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockValve;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -80,7 +80,7 @@ public class BlockMultiblockValve extends BlockContainerForest {
 	public IIcon getIcon(int side, int meta) {
 		if(renderPass == 0)
 		{
-			return NCBlocks.Multiblock.block().getIcon(side, meta);
+			return NCBlockManager.Multiblock.block().getIcon(side, meta);
 		}
 		return blockIcon[valveType.ordinal()];
 	}

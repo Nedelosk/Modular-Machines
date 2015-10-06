@@ -10,10 +10,9 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyManager;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -97,6 +96,7 @@ public abstract class Modular implements IModular {
 		this.modules = modules;
 	}
 	
+	@Override
 	public void setMachine(IModularTileEntity machine) {
 		this.machine = machine;
 	}
@@ -107,8 +107,8 @@ public abstract class Modular implements IModular {
 	}
 	
 	@Override
-	public ModuleStack<IModuleEnergyManager> getEnergyManger() {
-		return getModule("EnergyManager", 0);
+	public ModuleStack<IModuleBattery> getBattery() {
+		return getModule("Battery", 0);
 	}
 	
 	@Override

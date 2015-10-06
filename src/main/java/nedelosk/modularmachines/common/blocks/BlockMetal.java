@@ -5,9 +5,9 @@ import java.util.List;
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.common.blocks.tile.TileMaterial;
-import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesComponents;
+import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,7 +25,7 @@ public class BlockMetal extends BlockContainer {
 	public BlockMetal() {
 		super(net.minecraft.block.material.Material.iron);
 		setStepSound(soundTypeMetal);
-		this.setCreativeTab(TabModularMachinesComponents.instance);
+		this.setCreativeTab(TabModularMachines.components);
 		setBlockName("metal.block");
 	}
 	
@@ -51,7 +51,7 @@ public class BlockMetal extends BlockContainer {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile instanceof TileMaterial){
 			TileMaterial material = (TileMaterial) tile;
-			ItemStack stack = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, material.blockMetadata);
+			ItemStack stack = new ItemStack(MMBlockManager.Metal_Blocks.item(), 1, material.blockMetadata);
 			MaterialManager.setMaterial(stack, material.material);
 			return stack;
 		}

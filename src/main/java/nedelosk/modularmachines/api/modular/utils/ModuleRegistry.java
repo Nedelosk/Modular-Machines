@@ -23,7 +23,7 @@ public class ModuleRegistry {
 	
 	private static HashMap<String, Class<? extends IModule>> moduleClasses = Maps.newHashMap();
 	
-	public static HashMap<String, Class<? extends IModular>> modularClasses = Maps.newHashMap();
+	private static HashMap<String, Class<? extends IModular>> modularClasses = Maps.newHashMap();
 	
 	private static LinkedHashMap<String, IFarm> farmRegistry = new LinkedHashMap<String, IFarm>(64);
 	
@@ -150,6 +150,10 @@ public class ModuleRegistry {
 		return moduleClasses;
 	}
 	
+	public static HashMap<String, Class<? extends IModular>> getModularClasses() {
+		return modularClasses;
+	}
+	
 	public static ArrayList<String> getRequiredModule() {
 		return requiredModule;
 	}
@@ -168,6 +172,11 @@ public class ModuleRegistry {
     	return part;
     }
     
+    public static void registerModular(Class<? extends IModular> modular, String name){
+    	modularClasses.put(name, modular);
+		MinecraftForge.EVENT_BUS.post(new ModularRegisterEvent(modular, name));
+    }
+    
     public static ArrayList<IMachinePart> getMachineParts() {
 		return machineParts;
 	}
@@ -177,6 +186,16 @@ public class ModuleRegistry {
 
         public ModuleRegisterEvent(IModule module){
         	this.module = module;
+        }
+    }
+    
+    public static class ModularRegisterEvent extends Event{
+        public final Class<? extends IModular> modular;
+        public final String name;
+
+        public ModularRegisterEvent(Class<? extends IModular> modular, String name){
+        	this.modular = modular;
+        	this.name = name;
         }
     }
 	

@@ -5,7 +5,7 @@ import codechicken.nei.api.IConfigureNEI;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.common.core.MMBlocks;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI {
@@ -25,7 +25,7 @@ public class NEIConfig implements IConfigureNEI {
 			}
 		isAdded = true;
 	      
-	    API.hideItem(new ItemStack(MMBlocks.Modular_Machine.item(), 1, 0));
+	    API.hideItem(new ItemStack(MMBlockManager.Modular_Machine.item(), 1, 0));
 	}
 
 	@Override

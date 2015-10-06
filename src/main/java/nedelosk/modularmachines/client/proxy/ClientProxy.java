@@ -11,8 +11,8 @@ import nedelosk.modularmachines.client.renderers.tile.TileRendererModular;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.core.MMBlocks;
-import nedelosk.modularmachines.common.core.MMItems;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
+import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder.BuildMode;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
@@ -26,9 +26,9 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderer() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModular.class, new TileRendererModular());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileRendererModularAssembler());
-		MinecraftForgeClient.registerItemRenderer(MMBlocks.Modular_Machine.item(), new ItemRendererModular());
-		MinecraftForgeClient.registerItemRenderer(MMBlocks.Modular_Assembler.item(), new ItemRendererModularAssembler());
-		MinecraftForgeClient.registerItemRenderer(MMBlocks.Metal_Blocks.item(), new ItemRendererMetal());
+		MinecraftForgeClient.registerItemRenderer(MMBlockManager.Modular_Machine.item(), new ItemRendererModular());
+		MinecraftForgeClient.registerItemRenderer(MMBlockManager.Modular_Assembler.item(), new ItemRendererModularAssembler());
+		MinecraftForgeClient.registerItemRenderer(MMBlockManager.Metal_Blocks.item(), new ItemRendererMetal());
 		ItemPartRenderer.init();
 	}
 	
@@ -40,29 +40,29 @@ public class ClientProxy extends CommonProxy {
 	public void init()
 	{
     	registerRenderer();
-    	AssemblerMachineInfo infoBattery = new AssemblerMachineInfo(new ItemStack(MMItems.Part_Battery.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoBattery = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Battery.item()), BuildMode.PART);
     	infoBattery.addSlotPosition(33-20, 42-20);
         infoBattery.addSlotPosition(33-20, 42);
         infoBattery.addSlotPosition(33, 42);
         infoBattery.addSlotPosition(33+20, 42);
         infoBattery.addSlotPosition(33+20, 42-20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItems.Part_Battery.item(), infoBattery);
+    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Battery.item(), infoBattery);
     	
-    	AssemblerMachineInfo infoEngine = new AssemblerMachineInfo(new ItemStack(MMItems.Part_Engine.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoEngine = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Engine.item()), BuildMode.PART);
         infoEngine.addSlotPosition(33+20, 42-20);
         infoEngine.addSlotPosition(33, 42);
         infoEngine.addSlotPosition(33-20, 42+20);
-        MMClientRegistry.addAssemblerInfo((IMachinePart) MMItems.Part_Engine.item(), infoEngine);
+        MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Engine.item(), infoEngine);
         
-    	AssemblerMachineInfo infoModule = new AssemblerMachineInfo(new ItemStack(MMItems.Part_Module.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoModule = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Module.item()), BuildMode.PART);
     	infoModule.addSlotPosition(33, 42-20);
         infoModule.addSlotPosition(33-20, 42);
         infoModule.addSlotPosition(33, 42);
         infoModule.addSlotPosition(33+20, 42);
         infoModule.addSlotPosition(33, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItems.Part_Module.item(), infoModule);
+    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Module.item(), infoModule);
     	
-    	AssemblerMachineInfo infoBurningChamber = new AssemblerMachineInfo(new ItemStack(MMItems.Part_Burning_Chamber.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoBurningChamber = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Burning_Chamber.item()), BuildMode.PART);
     	infoBurningChamber.addSlotPosition(33-20, 42-20);
         infoBurningChamber.addSlotPosition(33, 	  42-20);
         infoBurningChamber.addSlotPosition(33+20, 42-20);
@@ -71,14 +71,14 @@ public class ClientProxy extends CommonProxy {
         infoBurningChamber.addSlotPosition(33-20, 42+20);
         infoBurningChamber.addSlotPosition(33, 	  42+20);
     	infoBurningChamber.addSlotPosition(33+20, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItems.Part_Burning_Chamber.item(), infoBurningChamber);
+    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Burning_Chamber.item(), infoBurningChamber);
     
-    	AssemblerMachineInfo infoGrindingWhell = new AssemblerMachineInfo(new ItemStack(MMItems.Part_Grinding_Wheel.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoGrindingWhell = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Grinding_Wheel.item()), BuildMode.PART);
     	infoGrindingWhell.addSlotPosition(33, 42-20);
         infoGrindingWhell.addSlotPosition(33-20, 42);
         infoGrindingWhell.addSlotPosition(33, 42);
         infoGrindingWhell.addSlotPosition(33+20, 42);
         infoGrindingWhell.addSlotPosition(33, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItems.Part_Grinding_Wheel.item(), infoGrindingWhell);
+    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Grinding_Wheel.item(), infoGrindingWhell);
 	}
 }

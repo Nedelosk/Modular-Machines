@@ -2,14 +2,18 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 
 import java.util.ArrayList;
 
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.Stats;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
+import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
@@ -91,6 +95,16 @@ public class ModuleAlloySmelter extends ModuleProducerRecipe {
 
 	@Override
 	public ModuleStack creatModule(ItemStack stack) {
+		IMachinePartProducer producer = (IMachinePartProducer) stack.getItem();
+		Material[] materials = producer.getPartMaterials(stack);
+		int size;
+		int tiers = 0;
+		for(size = 0;size < materials.length;size++){
+			if(!materials[size].hasStats(Stats.MACHINE))
+				return null;
+			tiers += ((MachineState)materials[size].getStats(Stats.MACHINE)).tier();
+		}
+		int speedModifier = 40/tiers*size;
 		return null;
 	}
 

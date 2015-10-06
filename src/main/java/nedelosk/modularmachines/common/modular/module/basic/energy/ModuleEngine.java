@@ -1,13 +1,11 @@
 package nedelosk.modularmachines.common.modular.module.basic.energy;
 
-import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
 import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleEngine extends Module implements IModuleEngine, IModuleWithItem {
+public class ModuleEngine extends Module implements IModuleEngine {
 
-	public int speed;
 	public int[] speedModifiers;
 	
 	public ModuleEngine() {
@@ -25,18 +23,13 @@ public class ModuleEngine extends Module implements IModuleEngine, IModuleWithIt
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		speed = nbt.getInteger("Speed");
+		speedModifiers = nbt.getIntArray("Speed");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("Speed", speed);
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return speed;
+		nbt.setIntArray("Speed", speedModifiers);
 	}
 	
 	@Override
@@ -45,9 +38,8 @@ public class ModuleEngine extends Module implements IModuleEngine, IModuleWithIt
 	}
 
 	@Override
-	public void writeToItemNBT(NBTTagCompound nbt, int tier) {
-		nbt.setInteger("Speed", speedModifiers[tier]);
-		
+	public int getSpeedModifier(int tier) {
+		return speedModifiers[tier];
 	}
 
 }

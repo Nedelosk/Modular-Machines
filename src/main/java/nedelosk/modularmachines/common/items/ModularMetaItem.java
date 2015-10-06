@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class ModularMetaItem extends ModularItem {
 		setHasSubtypes(true);
 		this.names = names;
 		this.uln = uln;
-		setCreativeTab(TabModularMachinesModules.instance);
+		setCreativeTab(TabModularMachines.core);
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -56,7 +56,7 @@ public class ModularMetaItem extends ModularItem {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NRegistry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage(), "mm");
+        return NCRegistry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage(), "mm");
     }
 
 }

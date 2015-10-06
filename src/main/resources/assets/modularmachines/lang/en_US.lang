@@ -1,34 +1,17 @@
 ####################################
-Modular Assembler
-####################################
-mm.modularassembler.bookmark.Basic=Basic
-mm.modularassembler.bookmark.Energy=Energy
-mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
-mm.modularassembler.bookmark.Fluid=Fluid
-mm.modularassembler.bookmark.Storage=Storage
-mm.modularassembler.build_machine=Build Machine
-
-mm.module.tooltip.shift=Hold Shift
-mm.module.tooltip.tier=Tier
-mm.module.tooltip.name=Module Name
-
-####################################
 Module
 ####################################
-module.moduleEnergyManager=Energy Manager
-module.moduleTankManager=Tank Manager
-module.moduleStorageManager=Storage Manager
-module.moduleFanManager=Fan Manager
-module.moduleProducerFurnace=Furnace
-module.moduleProducerSawMill=Sag Mill
-module.moduleProducerPulverizer=Pulverizer
-module.moduleProducerAlloySmelter=Alloy Smelter
-module.moduleProducerCentrifuge=Centrifuge
-module.moduleEngineNormal=Normal Engine
-module.0=Basic
-module.1=Improved
-module.2=Advanced
-module=Module
+Casing.name=Casing
+Battery.name=Battery
+Engine.name=Engine
+Tool.name=Tool
+Producer.name=Producer
+Generator.name=Generator
+Capacitor.name=Capacitor
+TankManager.name=Tank Manager
+StorageManager.name=Storage Manager
+Storage.name=Storage
+Tank.name=Tank
 
 ####################################
 Material
@@ -65,78 +48,16 @@ component.screws=Screw
 component.gears=Gear
 component.plates=Plate
 component.energy_crystal=Energy Crystal
-
-####################################
-Techtree
-####################################
-mm.techpoint.VERY_EASY=Very Easy Points
-mm.techpoint.EASY=Easy Points
-mm.techpoint.NORMAL=Normal Points
-mm.techpoint.HARD=Hard Points
-mm.techpoint.VERY_HARD=Very Hard Points
-mm.techtree.required=Required
-mm.techtree.point.text=Techpoint with difficulty
-mm.techtree.point.VERY_EASY=Very Easy
-mm.techtree.point.EASY=Easy
-mm.techtree.point.NODRMAL=Normal
-mm.techtree.point.HARD=Hard
-mm.techtree.point.VERY_HARD=Very Hard
-
-####################################
-Techtree Editor
-####################################
-techtree.editor.close=Close
-techtree.editor.save=Save
-techtree.editor.delete=Delete
-techtree.editor.load=Load File
-techtree.editor.default=Default
-techtree.editor.pages=Pages
-techtree.editor.prevPage=Previous Page
-techtree.editor.nextPage=Next Page
-techtree.editor.switchPageType=Switch Page Type
-techtree.editor.page.image=Image
-techtree.editor.page.text_concealed=Concealed
-techtree.editor.default=Entry
-techtree.editor.pages=Pages
-techtree.editor.type=Techpoints
-techtree.editor.category=Category
-techtree.editor.key=Key
-techtree.editor.page.type.image=Image Text
-techtree.editor.page.type.text_concealed=Text Concealed
-techtree.editor.page.type.text=Text
-techtree.editor.page.type.normal_crafting=Crafting
-techtree.editor.page.type.smelting=Smelting
-techtree.editor.autounlock=Auto Unlock
-techtree.editor.not.autounlock=Not Auto Unlock
-techtree.editor.concealed=Concealed
-techtree.editor.not.concealed=Not Concealed
-techtree.editor.culumnandrow=Culumn and Row
-techtree.editor.siblings=Siblings
-techtree.editor.parents=Parents
-techtree.editor.icon=Item Icon
-techtree.editor.done=Done
-
 ####################################
 Tabs
 ####################################
 itemGroup.modularmachines=Modular Machines
-itemGroup.modularmachines.modules=Modular Machines Modules
-
-####################################
-Plugins 
-####################################
-
-####################################
-NEI
-####################################
-modularmachines.shapedmodularcrafting=Shaped Modular Crafting
-modularmachines.shapelessmodularcrafting=Shapeless Modular Crafting
+itemGroup.modularmachines.components=Modular Machines Components
 
 ####################################
 Blocks
 ####################################
 tile.modular.assembler.name=Modular Assembler
-tile.modular.workbench.name=Modular Workbench
 tile.modular.machine.name=Modular Machine
 forest.nc.item.tile.oremodularmachines.0.name=Columbite Ore
 forest.nc.item.tile.oremodularmachines.1.name=Aluminium Ore
@@ -145,11 +66,20 @@ tile.metal.block.name=Metal Block
 ####################################
 Fluids
 ####################################
-fluid.air.hot=Air Hot
+fluid.air_hot=Air Hot
+forest.nc.block.air_hot.name=Air Hot
 fluid.air=Air
+forest.nc.block.air.name=Air
 fluid.slag=Slag
-fluid.pig.iron=Pig Iron
-fluid.gas.blastfurnace=Gas Blastfurnace
+forest.nc.block.slag.name=Slag
+fluid.steel=Molten Steel
+forest.nc.block.steel.name=Molten Steel
+fluid.gas_blastfurnace=Gas Blastfurnace
+forest.nc.block.gas_blastfurnace.name=Gas Blastfurnace
+fluid.white_pig_iron=Molten White Pig Iron
+forest.nc.block.white_pig_iron.name=Molten White Pig Iron
+fluid.gray_pig_iron=Molten Gray Pig Iron
+forest.nc.block.gray_pig_iron.name=Molten Gray Pig Iron
 
 ####################################
 Item
@@ -189,11 +119,11 @@ forest.mm.item.capacitor.0.name=Aluminium Metal Paper Capacitor
 forest.mm.item.capacitor.1.name=Niobium Electrolytic Capacitor
 forest.mm.item.capacitor.2.name=Tantalum Electrolytic Capacitor
 forest.mm.item.capacitor.3.name=Double-Layer Capacitor
-item.bucket.air.hot.name=Air Hot Bucket
+item.bucket.air_hot.name=Air Hot Bucket
 item.bucket.air.name=Air Bucket
 item.bucket.slag.name=Slag Bucket
-item.bucket.pig.iron.name=Pig Iron Bucket
-item.bucket.gas.blastfurnace.name=Gas Blastfurnace
+item.bucket.steel.name=Steel Bucket
+item.bucket.gas_blastfurnace.name=Gas Blastfurnace
 item.bucket.tantalum.name=Tantalum Bucket
 item.bucket.niobium.name=Niobium Bucket
 item.bucket.gray.pig.iron.name=Gray Pig Iron Bucket

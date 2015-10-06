@@ -2,11 +2,11 @@ package nedelosk.forestday.common.plugins.waila.provider.machines;
 
 import java.util.List;
 
-import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import nedelosk.forestday.common.blocks.tiles.TileKiln;
 
 public class ProviderTileKiln implements IWailaDataProvider {
 

@@ -8,7 +8,7 @@ import nedelosk.nedeloskcore.client.renderer.tile.TilePlanRenderer;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.book.BookDatas;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import nedelosk.nedeloskcore.common.proxy.CommonProxy;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -27,13 +27,13 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderer() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePlan.class, new TilePlanRenderer());
-		MinecraftForgeClient.registerItemRenderer(NCBlocks.Plan_Block.item(), new ItemPlanRenderer(new TilePlanRenderer()));
+		MinecraftForgeClient.registerItemRenderer(NCBlockManager.Plan_Block.item(), new ItemPlanRenderer(new TilePlanRenderer()));
 		BlockMultiblockValveRenderer multiblockValveRenderer = new BlockMultiblockValveRenderer();
 		RenderingRegistry.registerBlockHandler(multiblockValveRenderer);
-		MinecraftForgeClient.registerItemRenderer(NCBlocks.Multiblock_Valve.item(), multiblockValveRenderer);
+		MinecraftForgeClient.registerItemRenderer(NCBlockManager.Multiblock_Valve.item(), multiblockValveRenderer);
 		BlockMultiblockRenderer multiblockRenderer = new BlockMultiblockRenderer();
 		RenderingRegistry.registerBlockHandler(multiblockRenderer);
-		MinecraftForgeClient.registerItemRenderer(NCBlocks.Multiblock.item(), multiblockRenderer);
+		MinecraftForgeClient.registerItemRenderer(NCBlockManager.Multiblock.item(), multiblockRenderer);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMultiblockBase.class, new TileMultiblockRenderer());
 	}
 	

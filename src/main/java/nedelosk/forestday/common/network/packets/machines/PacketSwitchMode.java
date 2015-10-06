@@ -1,8 +1,8 @@
 package nedelosk.forestday.common.network.packets.machines;
 
 import io.netty.buffer.ByteBuf;
-import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
-import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench.Mode;
+import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
+import nedelosk.forestday.common.blocks.tiles.TileWorkbench.Mode;
 import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

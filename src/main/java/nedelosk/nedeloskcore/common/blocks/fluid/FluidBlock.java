@@ -5,7 +5,7 @@ import java.util.Locale;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -58,7 +58,7 @@ public class FluidBlock extends BlockFluidClassic {
 	@Override
     public String getUnlocalizedName()
     {
-        return NRegistry.setUnlocalizedBlockName(fluidName, "nc");
+        return NCRegistry.setUnlocalizedBlockName(fluidName, "nc");
     }
 	
 }

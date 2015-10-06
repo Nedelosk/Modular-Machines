@@ -13,6 +13,7 @@ import nedelosk.modularmachines.api.parts.IMachinePartBattery;
 import nedelosk.modularmachines.api.parts.IMachinePartEngine;
 import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
+import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -33,7 +34,9 @@ public class ModularMachine extends ModularInventory {
 			ModuleStack engine = null;
 			ModuleStack casing = null;
 			ModuleStack producer = null;
-			if(ModuleRegistry.getModuleStack(stacks[0]).getModule() instanceof IModuleBattery)
+			if(stacks[0] == null)
+				return null;
+			if(ModuleRegistry.getModuleStack(stacks[0]) != null && ModuleRegistry.getModuleStack(stacks[0]).getModule() instanceof IModuleBattery)
 				battery = ModuleRegistry.getModuleStack(stacks[0]);
 			else{
 				if(stacks[0].getItem() instanceof IMachinePartBattery){
@@ -42,7 +45,9 @@ public class ModularMachine extends ModularInventory {
 				}else
 					return null;
 			}
-			if(ModuleRegistry.getModuleStack(stacks[1]).getModule() instanceof IModuleEngine)
+			if(stacks[1] == null)
+				return null;
+			if(ModuleRegistry.getModuleStack(stacks[1]) != null && ModuleRegistry.getModuleStack(stacks[1]).getModule() instanceof IModuleEngine)
 				engine = ModuleRegistry.getModuleStack(stacks[1]);
 			else{
 				if(stacks[1].getItem() instanceof IMachinePartEngine){
@@ -51,12 +56,16 @@ public class ModularMachine extends ModularInventory {
 				}else
 					return null;
 			}
-			if(ModuleRegistry.getModuleStack(stacks[2]).getModule() instanceof IModuleCasing)
+			if(stacks[2] == null)
+				return null;
+			if(ModuleRegistry.getModuleStack(stacks[2]) != null && ModuleRegistry.getModuleStack(stacks[2]).getModule() instanceof IModuleCasing)
 				casing = ModuleRegistry.getModuleStack(stacks[2]);
 			else{
 				return null;
 			}
-			if(ModuleRegistry.getModuleStack(stacks[3]).getModule() instanceof IModuleProducer)
+			if(stacks[3] == null)
+				return null;
+			if(ModuleRegistry.getModuleStack(stacks[3]) != null && ModuleRegistry.getModuleStack(stacks[3]).getModule() instanceof IModuleProducer)
 				engine = ModuleRegistry.getModuleStack(stacks[3]);
 			else{
 				if(stacks[3].getItem() instanceof IMachinePartProducer){
@@ -65,6 +74,10 @@ public class ModularMachine extends ModularInventory {
 				}else
 					return null;
 			}
+			modular.addModule(battery);
+			modular.addModule(engine);
+			modular.addModule(casing);
+			modular.addModule(producer);
 			return modular;
 		}
 		return null;
@@ -72,17 +85,17 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public String getName() {
-		return "modularmachine";
+		return "modular.machines";
 	}
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		return null;
+		return ModularUtils.getModuleProducer(modular).getItemRenderer(modular, stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		return null;
+		return ModularUtils.getModuleProducer(modular).getMachineRenderer(modular, tile);
 	}
 
 }

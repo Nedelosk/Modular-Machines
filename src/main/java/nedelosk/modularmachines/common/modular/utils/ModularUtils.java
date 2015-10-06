@@ -6,7 +6,6 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyManager;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
 import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
@@ -29,14 +28,6 @@ public class ModularUtils {
 	
 	public static ModuleStack<IModuleFluidManager> getModuleStackTankManager(IModular modular){
 		return getModuleStack(modular, "TankManager", 0);
-	}
-	
-	public static IModuleEnergyManager getModuleEnergyManager(IModular modular){
-		return getModule(modular, "EnergyManager");
-	}
-	
-	public static ModuleStack<IModuleEnergyManager> getModuleStackEnergyManager(IModular modular){
-		return getModuleStack(modular, "EnergyManager", 0);
 	}
 	
 	public static IModuleBattery getModuleBattery(IModular modular){

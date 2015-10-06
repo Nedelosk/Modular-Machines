@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -50,13 +50,13 @@ public class BlockMultiblockRenderer implements ISimpleBlockRenderingHandler, II
 
 	@Override
 	public int getRenderId() {
-		return NCBlocks.Multiblock.block().getRenderType();
+		return NCBlockManager.Multiblock.block().getRenderType();
 	}
 	
     private void renderItem(RenderBlocks renderBlocks, int meta, IIcon texture) {
         if (texture == null) return;
 
-        Block block = NCBlocks.Multiblock.block();
+        Block block = NCBlockManager.Multiblock.block();
         block.setBlockBoundsForItemRender();
         renderBlocks.setRenderBoundsFromBlock(block);
 
@@ -146,7 +146,7 @@ public class BlockMultiblockRenderer implements ISimpleBlockRenderingHandler, II
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
     	BlockMultiblock.renderPass = 0;
-        renderItem(renderer, stack.getItemDamage(), NCBlocks.Multiblock.block().getIcon(0, stack.getItemDamage()));
+        renderItem(renderer, stack.getItemDamage(), NCBlockManager.Multiblock.block().getIcon(0, stack.getItemDamage()));
         //renderItem(renderer, stack.getItemDamage(), NCBlocks.Multiblock.block().getIcon(0, stack.getItemDamage()));
         
         GL11.glPopAttrib();

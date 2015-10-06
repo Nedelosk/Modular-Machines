@@ -2,8 +2,8 @@ package nedelosk.forestday.common.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.registrys.FBlocks;
-import nedelosk.forestday.common.registrys.FItems;
+import nedelosk.forestday.common.managers.BlockManager;
+import nedelosk.forestday.common.managers.FItemManager;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
                     world.setBlockMetadataWithNotify(x, y, z, l, 2);
                     if(l == 2)
                     {
-                    	world.setBlock(x, y + 1, z, FBlocks.Crop_Corn.block());
+                    	world.setBlock(x, y + 1, z, BlockManager.Crop_Corn.block());
                     	world.setBlockMetadataWithNotify(x, y + 1, z, 3, 2);
                     }
                 }
@@ -114,7 +114,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
         world.setBlockMetadataWithNotify(x, y, z, l, 2);
         if(l == 2)
         {
-        	world.setBlock(x, y + 1, z, FBlocks.Crop_Corn.block());
+        	world.setBlock(x, y + 1, z, BlockManager.Crop_Corn.block());
         	world.setBlockMetadataWithNotify(x, y + 1, z, 3, 2);
         }
     }
@@ -212,7 +212,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
 
     protected Item getFruit()
     {
-        return FItems.crop_corn.item();
+        return FItemManager.crop_corn.item();
     }
 
     @Override

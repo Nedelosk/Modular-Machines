@@ -1,7 +1,7 @@
 package nedelosk.forestday.common.core;
 
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.registrys.FBlocks;
+import nedelosk.forestday.common.managers.BlockManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,7 @@ public class TabForestday extends CreativeTabs {
 		int iconMeta;
 		switch (tabIcon) {
 		default:
-			iconItem = FBlocks.Machine_Wood_Base.item();
+			iconItem = BlockManager.Machine_Wood_Base.item();
 			iconMeta = 2;
 			break;
 		}

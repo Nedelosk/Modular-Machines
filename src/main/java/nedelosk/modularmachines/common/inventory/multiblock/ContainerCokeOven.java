@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.inventory.multiblock;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import nedelosk.nedeloskcore.common.inventory.slots.SlotOutput;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,7 +19,7 @@ public class ContainerCokeOven extends ContainerBase<TileMultiblockBase<Multiblo
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		if(((TileMultiblockBase)inventoryBase).master != null && ((TileMultiblockBase)inventoryBase).getBlockType() == NCBlocks.Multiblock.block())
+		if(((TileMultiblockBase)inventoryBase).master != null && ((TileMultiblockBase)inventoryBase).getBlockType() == NCBlockManager.Multiblock.block())
 		{
 			addSlotToContainer(new SlotCokeOven(((TileMultiblockBase)inventoryBase).master, 0, 53, 35));
 			addSlotToContainer(new SlotOutput(((TileMultiblockBase)inventoryBase).master, 1, 107, 35));

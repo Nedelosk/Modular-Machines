@@ -2,7 +2,7 @@ package nedelosk.forestday.common.core;
 
 import java.io.File;
 
-import nedelosk.forestday.common.config.ForestdayConfig;
+import nedelosk.forestday.common.configs.ForestdayConfig;
 import nedelosk.forestday.common.network.GuiHandler;
 import nedelosk.forestday.common.proxy.CommonProxy;
 import nedelosk.forestday.common.registrys.FRegistry;

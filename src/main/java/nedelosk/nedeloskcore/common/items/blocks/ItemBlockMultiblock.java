@@ -4,8 +4,8 @@ import java.util.List;
 
 import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
 import nedelosk.nedeloskcore.api.NCoreApi;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class ItemBlockMultiblock extends ItemBlockForestday {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return NRegistry.setUnlocalizedItemName("multiblock" + (Block.getBlockFromItem(itemstack.getItem()) == NCBlocks.Multiblock_Valve.block() ? "_valve" : ""), "nc");
+		return NCRegistry.setUnlocalizedItemName("multiblock" + (Block.getBlockFromItem(itemstack.getItem()) == NCBlockManager.Multiblock_Valve.block() ? "_valve" : ""), "nc");
 	}
 
 }

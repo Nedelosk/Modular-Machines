@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
+import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 
 public class ProviderTileCampfire implements IWailaDataProvider {
 

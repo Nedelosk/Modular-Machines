@@ -3,11 +3,11 @@ package nedelosk.forestday.common.plugins.nei;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import nedelosk.forestday.common.core.Defaults;
+import nedelosk.forestday.common.managers.BlockManager;
 import nedelosk.forestday.common.plugins.nei.machines.CampfireHandler;
 import nedelosk.forestday.common.plugins.nei.machines.CharcoalKilnHandler;
 import nedelosk.forestday.common.plugins.nei.machines.ResinKilnHandler;
 import nedelosk.forestday.common.plugins.nei.machines.WorkbenchHandler;
-import nedelosk.forestday.common.registrys.FBlocks;
 import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI {
@@ -25,7 +25,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new CampfireHandler());
 		
 	    for(int i = 0;i < 16;i++)
-	    	API.hideItem(new ItemStack(FBlocks.Multiblock_Charcoal_Kiln.item(), 1, i));
+	    	API.hideItem(new ItemStack(BlockManager.Multiblock_Charcoal_Kiln.item(), 1, i));
 		
 	}
 

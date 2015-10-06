@@ -5,7 +5,7 @@ import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
 import nedelosk.nedeloskcore.client.gui.GuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -13,7 +13,7 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 
 	public GuiBlastFurnace(TileMultiblockBase<MultiblockBlastFurnace> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		if(tile.getBlockType() != NCBlocks.Multiblock.block() && tile.master != null && (tile.modifier != null))
+		if(tile.getBlockType() != NCBlockManager.Multiblock.block() && tile.master != null && (tile.modifier != null))
 		{
 			if(tile.master.getModifier().filter == "output")
 					widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank, 79, 12));
@@ -24,7 +24,7 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 			else if(tile.master.getModifier().filter == "air.hot")
 					widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tankAirHot, 79, 12));
 		}
-		if(tile.getBlockType() == NCBlocks.Multiblock.block())
+		if(tile.getBlockType() == NCBlockManager.Multiblock.block())
 		{
 			widgetManager.add(new WidgetHeatBar(tile.master.getMultiblock().heat,tile.master.getMultiblock().heatTotal, 82, 8));
 		}
@@ -67,7 +67,7 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 
 	@Override
 	protected String getGuiName() {
-		if(tile.modifier.filter != null && tile.getBlockType() == NCBlocks.Multiblock_Valve.block() || tile.getBlockType() == NCBlocks.Multiblock.block())
+		if(tile.modifier.filter != null && tile.getBlockType() == NCBlockManager.Multiblock_Valve.block() || tile.getBlockType() == NCBlockManager.Multiblock.block())
 			return "gui_blastfurnace_fluid";
 		return "gui_blastfurnace_item";
 	}

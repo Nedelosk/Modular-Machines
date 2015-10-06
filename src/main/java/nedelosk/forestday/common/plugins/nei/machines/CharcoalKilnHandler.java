@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodType;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.WoodTypeManager;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +17,8 @@ import org.lwjgl.opengl.GL11;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import nedelosk.forestday.common.types.WoodType;
+import nedelosk.forestday.common.types.WoodTypeManager;
 
 public class CharcoalKilnHandler extends TemplateRecipeHandler {
 

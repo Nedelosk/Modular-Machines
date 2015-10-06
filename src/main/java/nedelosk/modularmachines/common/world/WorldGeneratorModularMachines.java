@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.world;
 import java.util.Random;
 
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.modularmachines.common.core.MMBlocks;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -33,11 +33,11 @@ public class WorldGeneratorModularMachines implements IWorldGenerator {
 	private void generateSurface(World world, Random random, int x, int z) {
 		if(ModularConfig.generateColumbiteOre)
 		{
-		generateOre(MMBlocks.Ore_Others.block(), 0, world, random, x, z, 2 + random.nextInt(3), 1, 0, 25);
+		generateOre(MMBlockManager.Ore_Others.block(), 0, world, random, x, z, 2 + random.nextInt(3), 1, 0, 25);
 		}
 		if(ModularConfig.generateAluminiumOre)
 		{
-		generateOre(MMBlocks.Ore_Others.block(), 1, world, random, x, z, 4 + random.nextInt(3), 3, 20, 65);
+		generateOre(MMBlockManager.Ore_Others.block(), 1, world, random, x, z, 4 + random.nextInt(3), 3, 20, 65);
 		}
 	}
 

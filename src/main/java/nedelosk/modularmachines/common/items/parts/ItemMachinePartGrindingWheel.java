@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.materials.Stats;
+import nedelosk.modularmachines.api.materials.Tags;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.materials.MachineState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -33,6 +37,23 @@ public class ItemMachinePartGrindingWheel extends ItemMachinePart {
 		materials.add(MMRegistry.Iron);
 		materials.add(MMRegistry.Iron);
 		return buildItem(materials);
+	}
+	
+	@Override
+	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List subItems) {
+	    for(Material head : MMRegistry.materials) {
+	        if(!head.hasStats(Tags.TAG_MACHINE))
+	        	continue;
+	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD)
+	        	continue;
+	        List<Material> mats = new ArrayList<Material>(requiredComponents.length);
+
+	        for(int i = 0; i < requiredComponents.length; i++) {	
+	        	mats.add(head);
+	        }
+
+	        subItems.add(buildItem(mats));
+	      }
 	}
 
 	@Override

@@ -10,10 +10,7 @@ public class Defaults {
 	
 	public static final String MOD = "Forest Day";
 	public static final String MOD_ID = "ForestDay";
-    public static final String VERSION = "0.1.1";
-	
-	public static final int BUSRENDERER_ID = RenderingRegistry.getNextAvailableRenderId();
-	public static final int BUSRENDERER_METAL_ID = RenderingRegistry.getNextAvailableRenderId();
+    public static final String VERSION = "0.2.0a";
 	
 	public static String BLOOD_MAGIC_MOD_ID = "AWWayofTime";
 	public static String FORESTRY_MOD_ID = "Forestry";

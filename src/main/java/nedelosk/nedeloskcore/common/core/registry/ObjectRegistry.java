@@ -25,7 +25,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 
 public class ObjectRegistry {
 	
@@ -42,21 +42,21 @@ public class ObjectRegistry {
 		GameRegistry.registerTileEntity(TileMultiblockBase.class, "tile.multiblock.base");
 		GameRegistry.registerTileEntity(TileMultiblockValve.class, "tile.multiblock.fluid");
 		
-		NCBlocks.Multiblock.registerBlock(new BlockMultiblock(), ItemBlockMultiblock.class);
-		NCBlocks.Multiblock_Valve.registerBlock(new BlockMultiblockValve(), ItemBlockMultiblock.class);
+		NCBlockManager.Multiblock.registerBlock(new BlockMultiblock(), ItemBlockMultiblock.class);
+		NCBlockManager.Multiblock_Valve.registerBlock(new BlockMultiblockValve(), ItemBlockMultiblock.class);
 		
-		NCItems.Plan.registerItem(new ItemPlan());
-		NCBlocks.Plan_Block.registerBlock(new BlockPlan(), ItemBlockPlan.class);
-		NRegistry.registerTile(TilePlan.class, "plan", "nc");
+		NCItemManager.Plan.registerItem(new ItemPlan());
+		NCBlockManager.Plan_Block.registerBlock(new BlockPlan(), ItemBlockPlan.class);
+		NCRegistry.registerTile(TilePlan.class, "plan", "nc");
 		
-		NCItems.Bucket_Wood.registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood"));
-		NCItems.Bucket_Wood_Water.registerItem(new ItemWoodBucket(Blocks.water, "bucket.wood.water"));
+		NCItemManager.Bucket_Wood.registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood"));
+		NCItemManager.Bucket_Wood_Water.registerItem(new ItemWoodBucket(Blocks.water, "bucket.wood.water"));
 		
-		NCBlocks.Ore.registerBlock(new BlockOre(BlockOre.ores, "nedeloskcore"), ItemBlockForest.class);
-		NCItems.Ingots.registerItem(new ItemIngot(ItemIngot.ingots, "nedeloskcore"));
-		NCItems.Nuggets.registerItem(new ItemNugget(ItemNugget.nuggets, "nedeloskcore"));
-		NCItems.Gems.registerItem(new ItemGem());
-		NCItems.Gears_Wood.registerItem(new ItemGearWood());
+		NCBlockManager.Ore.registerBlock(new BlockOre(BlockOre.ores, "nedeloskcore"), ItemBlockForest.class);
+		NCItemManager.Ingots.registerItem(new ItemIngot(ItemIngot.ingots, "nedeloskcore"));
+		NCItemManager.Nuggets.registerItem(new ItemNugget(ItemNugget.nuggets, "nedeloskcore"));
+		NCItemManager.Gems.registerItem(new ItemGem());
+		NCItemManager.Gears_Wood.registerItem(new ItemGearWood());
 	}
 	
 	public static void init()
@@ -71,65 +71,65 @@ public class ObjectRegistry {
 	
 	public static void registerRecipes()
 	{
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Plan.item(), 1, 1), Items.paper);
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Plan.item(), 1, 2), new ItemStack(NCItems.Plan.item(), 1, 1), Items.stick, Items.stick);
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Bucket_Wood.item()), "   ", "+ +", " + ", '+', Blocks.planks);
-		GameRegistry.addSmelting(new ItemStack(NCBlocks.Ore.item(), 1, 0), new ItemStack(NCItems.Ingots.item(), 1, 0),  0.5F);
-		GameRegistry.addSmelting(new ItemStack(NCBlocks.Ore.item(), 1, 1), new ItemStack(NCItems.Ingots.item(), 1, 1),  0.5F);
-		GameRegistry.addSmelting(new ItemStack(NCBlocks.Ore.item(), 1, 2), new ItemStack(NCItems.Ingots.item(), 1, 2),  0.5F);
-		GameRegistry.addSmelting(new ItemStack(NCBlocks.Ore.item(), 1, 3), new ItemStack(NCItems.Ingots.item(), 1, 3),  0.5F);
-		GameRegistry.addSmelting(new ItemStack(NCBlocks.Ore.item(), 1, 4), new ItemStack(NCItems.Ingots.item(), 1, 4),  0.5F);
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(NCItems.Nuggets.item(),1 , 0));
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(NCItems.Nuggets.item(),1 , 1));
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Ingots.item(), 1, 2), "+++", "+++", "+++", '+', new ItemStack(NCItems.Nuggets.item(),1 , 2));
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Ingots.item(), 1, 3), "+++", "+++", "+++", '+', new ItemStack(NCItems.Nuggets.item(),1 , 3));
-		GameRegistry.addShapedRecipe(new ItemStack(NCItems.Ingots.item(), 1, 4), "+++", "+++", "+++", '+', new ItemStack(NCItems.Nuggets.item(),1 , 4));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Nuggets.item(), 9, 0), new ItemStack(NCItems.Ingots.item(), 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Nuggets.item(), 9, 1), new ItemStack(NCItems.Ingots.item(), 1, 1));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Nuggets.item(), 9, 2), new ItemStack(NCItems.Ingots.item(), 1, 2));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Nuggets.item(), 9, 3), new ItemStack(NCItems.Ingots.item(), 1, 3));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.Nuggets.item(), 9, 4), new ItemStack(NCItems.Ingots.item(), 1, 4));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Plan.item(), 1, 1), Items.paper);
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Plan.item(), 1, 2), new ItemStack(NCItemManager.Plan.item(), 1, 1), Items.stick, Items.stick);
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Bucket_Wood.item()), "   ", "+ +", " + ", '+', Blocks.planks);
+		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 0), new ItemStack(NCItemManager.Ingots.item(), 1, 0),  0.5F);
+		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 1), new ItemStack(NCItemManager.Ingots.item(), 1, 1),  0.5F);
+		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 2), new ItemStack(NCItemManager.Ingots.item(), 1, 2),  0.5F);
+		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 3), new ItemStack(NCItemManager.Ingots.item(), 1, 3),  0.5F);
+		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 4), new ItemStack(NCItemManager.Ingots.item(), 1, 4),  0.5F);
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Nuggets.item(),1 , 0));
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Nuggets.item(),1 , 1));
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Ingots.item(), 1, 2), "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Nuggets.item(),1 , 2));
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Ingots.item(), 1, 3), "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Nuggets.item(),1 , 3));
+		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Ingots.item(), 1, 4), "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Nuggets.item(),1 , 4));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Nuggets.item(), 9, 0), new ItemStack(NCItemManager.Ingots.item(), 1, 0));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Nuggets.item(), 9, 1), new ItemStack(NCItemManager.Ingots.item(), 1, 1));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Nuggets.item(), 9, 2), new ItemStack(NCItemManager.Ingots.item(), 1, 2));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Nuggets.item(), 9, 3), new ItemStack(NCItemManager.Ingots.item(), 1, 3));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Nuggets.item(), 9, 4), new ItemStack(NCItemManager.Ingots.item(), 1, 4));
 		
 		for(Material material : NCoreApi.getMaterials())
 		{
 			if(material.type == MaterialType.BRICK)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.clay_ball);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.clay_ball);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
 			}
 			else if(material.type == MaterialType.METAL)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.redstone);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.redstone);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
 			}
 			else if(material.type == MaterialType.WOOD)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.stick);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlocks.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.ladder);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.stick);
+				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.ladder);
 			}
 		}
 	}
 	
 	public static void registerOreDict()
 	{
-		OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.Ingots.item(), 1, 0));
-		OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.Ingots.item(), 1, 1));
-		OreDictionary.registerOre("ingotSilver", new ItemStack(NCItems.Ingots.item(), 1, 2));
-		OreDictionary.registerOre("ingotLead", new ItemStack(NCItems.Ingots.item(), 1, 3));
-		OreDictionary.registerOre("ingotNickel", new ItemStack(NCItems.Ingots.item(), 1, 4));
-		OreDictionary.registerOre("nuggetCopper", new ItemStack(NCItems.Nuggets.item(), 1, 0));
-		OreDictionary.registerOre("nuggetTin", new ItemStack(NCItems.Nuggets.item(), 1, 1));
-		OreDictionary.registerOre("nuggetSilver", new ItemStack(NCItems.Nuggets.item(), 1, 2));
-		OreDictionary.registerOre("nuggetLead", new ItemStack(NCItems.Nuggets.item(), 1, 3));
-		OreDictionary.registerOre("nuggetNickel", new ItemStack(NCItems.Nuggets.item(), 1, 4));
-		OreDictionary.registerOre("nuggetIron", new ItemStack(NCItems.Nuggets.item(), 1, 5));
-		OreDictionary.registerOre("oreCopper", new ItemStack(NCBlocks.Ore.item(), 1, 0));
-		OreDictionary.registerOre("oreTin", new ItemStack(NCBlocks.Ore.item(), 1, 1));
-		OreDictionary.registerOre("oreSilver", new ItemStack(NCBlocks.Ore.item(), 1, 2));
-		OreDictionary.registerOre("oreLead", new ItemStack(NCBlocks.Ore.item(), 1, 3));
-		OreDictionary.registerOre("oreNickel", new ItemStack(NCBlocks.Ore.item(), 1, 4));
-		OreDictionary.registerOre("oreRuby", new ItemStack(NCBlocks.Ore.item(), 1, 5));
-		OreDictionary.registerOre("gemRuby", new ItemStack(NCItems.Gems.item(), 1, 0));
+		OreDictionary.registerOre("ingotCopper", new ItemStack(NCItemManager.Ingots.item(), 1, 0));
+		OreDictionary.registerOre("ingotTin", new ItemStack(NCItemManager.Ingots.item(), 1, 1));
+		OreDictionary.registerOre("ingotSilver", new ItemStack(NCItemManager.Ingots.item(), 1, 2));
+		OreDictionary.registerOre("ingotLead", new ItemStack(NCItemManager.Ingots.item(), 1, 3));
+		OreDictionary.registerOre("ingotNickel", new ItemStack(NCItemManager.Ingots.item(), 1, 4));
+		OreDictionary.registerOre("nuggetCopper", new ItemStack(NCItemManager.Nuggets.item(), 1, 0));
+		OreDictionary.registerOre("nuggetTin", new ItemStack(NCItemManager.Nuggets.item(), 1, 1));
+		OreDictionary.registerOre("nuggetSilver", new ItemStack(NCItemManager.Nuggets.item(), 1, 2));
+		OreDictionary.registerOre("nuggetLead", new ItemStack(NCItemManager.Nuggets.item(), 1, 3));
+		OreDictionary.registerOre("nuggetNickel", new ItemStack(NCItemManager.Nuggets.item(), 1, 4));
+		OreDictionary.registerOre("nuggetIron", new ItemStack(NCItemManager.Nuggets.item(), 1, 5));
+		OreDictionary.registerOre("oreCopper", new ItemStack(NCBlockManager.Ore.item(), 1, 0));
+		OreDictionary.registerOre("oreTin", new ItemStack(NCBlockManager.Ore.item(), 1, 1));
+		OreDictionary.registerOre("oreSilver", new ItemStack(NCBlockManager.Ore.item(), 1, 2));
+		OreDictionary.registerOre("oreLead", new ItemStack(NCBlockManager.Ore.item(), 1, 3));
+		OreDictionary.registerOre("oreNickel", new ItemStack(NCBlockManager.Ore.item(), 1, 4));
+		OreDictionary.registerOre("oreRuby", new ItemStack(NCBlockManager.Ore.item(), 1, 5));
+		OreDictionary.registerOre("gemRuby", new ItemStack(NCItemManager.Gems.item(), 1, 0));
 		OreDictionary.registerOre("bricksStone", Blocks.stonebrick);
 	}
 	

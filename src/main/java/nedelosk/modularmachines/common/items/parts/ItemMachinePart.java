@@ -11,7 +11,7 @@ import nedelosk.modularmachines.api.materials.Tags;
 import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesComponents;
+import nedelosk.modularmachines.common.core.TabModularMachines;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +33,7 @@ public abstract class ItemMachinePart extends Item implements IMachinePart{
 	public ItemMachinePart(PartType[] requiredComponents, String name) {
         this.setHasSubtypes(true);
 		this.setUnlocalizedName("part" + name);
-		this.setCreativeTab(TabModularMachinesComponents.instance);
+		this.setCreativeTab(TabModularMachines.components);
 		
 		this.name = name;
 		if(requiredComponents != null)

@@ -1,17 +1,18 @@
 package nedelosk.forestday.common.registrys;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestday.common.blocks.BlockCharcoalKiln;
 import nedelosk.forestday.common.blocks.BlockCropCorn;
 import nedelosk.forestday.common.blocks.BlockGravel;
+import nedelosk.forestday.common.blocks.BlockMachinesWood;
+import nedelosk.forestday.common.blocks.items.ItemBlockMachines;
+import nedelosk.forestday.common.blocks.tiles.TileCampfire;
+import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
+import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
+import nedelosk.forestday.common.blocks.tiles.TileKiln;
+import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
-import nedelosk.forestday.common.machines.base.block.BlockMachinesWood;
-import nedelosk.forestday.common.machines.base.block.item.ItemBlockMachines;
-import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
-import nedelosk.forestday.common.machines.base.wood.kiln.TileKiln;
-import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.BlockCharcoalKiln;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalAsh;
-import nedelosk.forestday.common.machines.mutiblock.charcoalkiln.TileCharcoalKiln;
+import nedelosk.forestday.common.managers.BlockManager;
 import net.minecraft.item.ItemBlock;
 
 public class BlockRegistry {
@@ -20,12 +21,12 @@ public class BlockRegistry {
 	{
 		
 		//Blocks
-		FBlocks.Crop_Corn.registerBlock(new BlockCropCorn(), ItemBlock.class);
-		FBlocks.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
+		BlockManager.Crop_Corn.registerBlock(new BlockCropCorn(), ItemBlock.class);
+		BlockManager.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
 		
-		FBlocks.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
+		BlockManager.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
 		
-		FBlocks.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
+		BlockManager.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
 		
 		registerTile();
 		

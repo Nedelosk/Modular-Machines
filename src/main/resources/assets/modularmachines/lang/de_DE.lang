@@ -1,72 +1,133 @@
 ####################################
-Modular Assembler
+Module
 ####################################
-mm.modularassembler.bookmark.Basic=Basic
-mm.modularassembler.bookmark.Energy=Energy
-mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
-mm.modularassembler.bookmark.Fluid=Fluid
-mm.modularassembler.bookmark.Storage=Storage
-
-mm.module.tooltip.shift=Hold Shift
-mm.module.tooltip.tier=Tier
-mm.module.tooltip.name=Module Name
+Casing.name=Gehäuse
+Battery.name=Battery
+Engine.name=Motor
+Tool.name=Werkzeug
+Producer.name=Erzeuger
+Generator.name=Generator
+Capacitor.name=Kondensator
+TankManager.name=Tank Manager
+StorageManager.name=Lagerungs Manager
+Storage.name=Lagerung
+Tank.name=Tank
 
 ####################################
-Techtree
+Material
 ####################################
-mm.techpoint.VERY_EASY=Very Easy Points
-mm.techpoint.EASY=Easy Points
-mm.techpoint.NORMAL=Normal Points
-mm.techpoint.HARD=Hard Points
-mm.techpoint.VERY_HARD=Very Hard Points
-mm.techtree.required=Required
-mm.techtree.point.text=Techpoint with difficulty
-mm.techtree.point.VERY_EASY=Very Easy
-mm.techtree.point.EASY=Easy
-mm.techtree.point.NODRMAL=Normal
-mm.techtree.point.HARD=Hard
-mm.techtree.point.VERY_HARD=Very Hard
+material.wood=Holz
+material.stone=Stein
+material.iron=Eisen
+material.flint=Feuerstein
+material.bone=Knochen
+material.netherrack=Nether Stein
+material.tin=Zinn
+material.copper=Kupfer
+material.bronze=Bronze
+material.steel=Stahl
+material.niobium=Niobium
+material.tantalum=Tantalum
+material.silver=Silber
+material.plastic=Plastic
+material.diamond=Diamand
+material.emerald=Smaragd
+material.ruby=Rubyn
+material.cobalt=Cobalt
+material.ardite=Ardite
+material.manyullyn=Manyullyn
+material.alumite=Alumite
+material.pigiron=Roh Stahl
 
-mm.techtree_page.BASIC.MODULE.0=Hallo Ich war !HALLO! und Nein Ich bin !NEIN!
+####################################
+Components
+####################################
+component.rods=Stab
+component.connection_wires=Anschluss-Draht
+component.screws=Schraube
+component.gears=Zahnrad
+component.plates=Plate
+component.energy_crystal=Energy Kristall
 
 ####################################
 Tabs
 ####################################
-itemGroup.modularmachines=Modular Machines
-itemGroup.modularmachines.modules=Modular Machines Modules
+itemGroup.modularmachines=Modulare Maschinen
+itemGroup.modularmachines.components=Modulare Maschinen Componenten
 
 ####################################
 Blocks
 ####################################
-tile.modular.assembler.name=Modular Assembler
-tile.modular.machine.name=Modular Machine
+tile.modular.assembler.name=Modularer Monteur
+tile.modular.machine.name=Modulare Maschine
+forest.nc.item.tile.oremodularmachines.0.name=Columbite Erz
+forest.nc.item.tile.oremodularmachines.1.name=Aluminium Erz
+tile.metal.block.name=Metal Block
+
+####################################
+Fluids
+####################################
+fluid.air_hot=Heisse Luft
+forest.nc.block.air_hot.name=Heisse Luft
+fluid.air=Luft
+forest.nc.block.air.name=Luft
+fluid.slag=Schlacke
+forest.nc.block.slag.name=Schlacke
+fluid.steel=Geschmolzener Stahl
+forest.nc.block.steel.name=Geschmolzener Stahl
+fluid.gas_blastfurnace=Gichtgas
+forest.nc.block.gas_blastfurnace.name=Gichtgas
+fluid.white_pig_iron=Geschmolzenes Weisses Roh Eisen
+forest.nc.block.white_pig_iron.name=Geschmolzenes Weisses Roh Eisen
+fluid.gray_pig_iron=Geschmolzenes Graues Roh Eisen
+forest.nc.block.gray_pig_iron.name=Geschmolzenes Graues Roh Eisen
 
 ####################################
 Item
 ####################################
-forest.mm.item.ingot.0.name=Bronze Ingot
-forest.mm.item.ingot.1.name=Invar Ingot
-forest.mm.item.nugget.0.name=Bronze Nugget
-forest.mm.item.nugget.1.name=Invar Nugget
-forest.mm.item.dust.0.name=Coal Dust
-forest.mm.item.dust.1.name=Obsidian Dust
-forest.mm.item.dust.2.name=Iron Dust
-forest.mm.item.dust.3.name=Gold Dust
-forest.mm.item.dust.4.name=Diamond Dust
-forest.mm.item.dust.5.name=Copper Dust
-forest.mm.item.dust.6.name=Tin Dust
-forest.mm.item.dust.7.name=Silver Dust
-forest.mm.item.dust.8.name=Lead Dust
-forest.mm.item.dust.9.name=Nickel Dust
-forest.mm.item.dust.10.name=Bronze Dust
-forest.mm.item.dust.11.name=Invar Dust
-forest.mm.item.gear.0.name=Stone Gear
-forest.mm.item.gear.1.name=Iron Gear
-forest.mm.item.gear.2.name=Gold Gear
-forest.mm.item.gear.3.name=Diamond Gear
-forest.mm.item.gear.4.name=Copper Gear
-forest.mm.item.gear.5.name=Tin Gear
-forest.mm.item.gear.6.name=Silver Gear
-forest.mm.item.gear.7.name=Lead Gear
-forest.mm.item.gear.8.name=Bronze Gear
-forest.mm.item.gear.9.name=Invar Gear
+forest.mm.item.ingot.alloy.0.name=Bronze Barren
+forest.mm.item.ingot.alloy.1.name=Invar Barren
+forest.mm.item.nugget.alloy.0.name=Bronze Nugget
+forest.mm.item.nugget.alloy.1.name=Invar Nugget
+forest.nc.item.ingot.modularmachines.0.name=Niobium Barren
+forest.nc.item.ingot.modularmachines.1.name=Tantalum Barren
+forest.nc.item.ingot.modularmachines.2.name=Aluminium Barren
+forest.nc.item.nugget.modularmachines.0.name=Niobium Nugget
+forest.nc.item.nugget.modularmachines.1.name=Tantalum Nugget
+forest.nc.item.nugget.modularmachines.2.name=Aluminium Nugget
+forest.mm.item.dust.0.name=Kohl Staub
+forest.mm.item.dust.1.name=Obsidian Staub
+forest.mm.item.dust.2.name=Eisen Staub
+forest.mm.item.dust.3.name=Gold Staub
+forest.mm.item.dust.4.name=Diamand Staub
+forest.mm.item.dust.5.name=Kupfer Staub
+forest.mm.item.dust.6.name=Zinn Staub
+forest.mm.item.dust.7.name=Silber Staub
+forest.mm.item.dust.8.name=Blei Staub
+forest.mm.item.dust.9.name=Nickel Staub
+forest.mm.item.dust.10.name=Bronze Staub
+forest.mm.item.dust.11.name=Invar Staub
+forest.mm.item.dust.12.name=Rubyn Staub
+forest.mm.item.dust.other.0.name=Columbite Staub
+forest.mm.item.dust.other.1.name=Niobium Staub
+forest.mm.item.dust.other.2.name=Tantalum Staub
+forest.mm.item.dust.other.3.name=Aluminium Staub
+forest.mm.item.module.0.name=Basic Module
+forest.mm.item.module.1.name=Improved Module
+forest.mm.item.module.2.name=Advanced Module
+forest.mm.item.module.3.name=Module Holder
+forest.mm.item.capacitor.0.name=Aluminium Metal Papier Kondensator
+forest.mm.item.capacitor.1.name=Niobium Elektrolytische Kondensator
+forest.mm.item.capacitor.2.name=Tantalum Elektrolytischer Kondensator
+forest.mm.item.capacitor.3.name=Double-Layer Kondensator
+item.bucket.air_hot.name=Heisse Luft Eimer
+item.bucket.air.name=Luft Eimer
+item.bucket.slag.name=Schlacke Eimer
+item.bucket.steel.name=Stahl Eimer
+item.bucket.gas_blastfurnace.name=Gichtgas Eimer
+item.bucket.tantalum.name=Tantalum Eimer
+item.bucket.niobium.name=Niobium Eimer
+item.bucket.gray.pig.iron.name=Graues Roh Eisen Eimer
+item.bucket.white.pig.iron.name=Weisses Roh Eisen Eimer
+item.partBattery.name=Battery
+item.partEngine.name=Motor

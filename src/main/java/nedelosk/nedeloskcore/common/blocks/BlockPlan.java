@@ -3,8 +3,8 @@ package nedelosk.nedeloskcore.common.blocks;
 import java.util.ArrayList;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
-import nedelosk.nedeloskcore.common.core.registry.NCItems;
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCItemManager;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import nedelosk.nedeloskcore.utils.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -19,7 +19,7 @@ public class BlockPlan extends BlockContainerForest {
 	
 	public BlockPlan() {
 		super(Material.wood);
-		setBlockName(NRegistry.setUnlocalizedBlockName("plan", "nc"));
+		setBlockName(NCRegistry.setUnlocalizedBlockName("plan", "nc"));
 		setHardness(2.0F);
 		setStepSound(soundTypeWood);
 	}
@@ -52,7 +52,7 @@ public class BlockPlan extends BlockContainerForest {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-		list.add(new ItemStack(NCItems.Plan.item(), 1, 0));
+		list.add(new ItemStack(NCItemManager.Plan.item(), 1, 0));
 		list.get(0).setTagCompound(plan.plan);
 		return list;
 	}

@@ -1,0 +1,55 @@
+####################################
+Blocks
+####################################
+forest.nc.block.plan.name=Plan
+forest.nc.item.tile.orenedeloskcore.0.name=Kupfer Erz
+forest.nc.item.tile.orenedeloskcore.1.name=Zinn Erz
+forest.nc.item.tile.orenedeloskcore.2.name=Silver Erz
+forest.nc.item.tile.orenedeloskcore.3.name=Blei Erz
+forest.nc.item.tile.orenedeloskcore.4.name=Nickel Erz
+forest.nc.item.tile.orenedeloskcore.5.name=Rubyn Erz
+
+####################################
+Container
+####################################
+
+
+####################################
+Items
+####################################
+forest.nc.item.plan.0.name=Plan
+forest.nc.item.plan.1.name=Blueprint
+forest.nc.item.plan.2.name=Planungs Werkzeug
+forest.nc.item.bucket.wood.name=Holz Eimer
+forest.nc.item.bucket.wood.water.name=Wasser Holz Eimer
+forest.nc.item.ingot.nedeloskcore.0.name=Kupfer Barren
+forest.nc.item.ingot.nedeloskcore.1.name=Zinn Barren
+forest.nc.item.ingot.nedeloskcore.2.name=Silber Barren
+forest.nc.item.ingot.nedeloskcore.3.name=Blei Barren
+forest.nc.item.ingot.nedeloskcore.4.name=Nickel Barren
+forest.nc.item.nugget.nedeloskcore.0.name=Kupfer Nugget
+forest.nc.item.nugget.nedeloskcore.1.name=Zinn Nugget
+forest.nc.item.nugget.nedeloskcore.2.name=Silber Nugget
+forest.nc.item.nugget.nedeloskcore.3.name=Lead Nugget
+forest.nc.item.nugget.nedeloskcore.4.name=Nickel Nugget
+forest.nc.item.nugget.nedeloskcore.5.name=Eisen Nugget
+forest.nc.item.gear.wood.0.name=Verbessertes Holz Zahnrad
+forest.nc.item.gear.wood.1.name=Holz Zahnrad
+forest.nc.item.gear.wood.2.name=Unfertiges Holz Zahnrad
+forest.nc.item.gear.wood.3.name=Unfertiges Holz Zahnrad
+forest.nc.item.gear.wood.4.name=Unfertiges Holz Zahnrad
+forest.nc.item.gear.wood.5.name=Unfertiges Holz Zahnrad
+forest.nc.item.multiblock.name=Multiblock
+forest.nc.item.multiblock_valve.name=Multiblock Ventil
+
+forest.nc.item.gem.0.name=Rubyn
+
+####################################
+Widgets
+####################################
+nc.tooltip.nonefluid=None Fluid
+
+####################################
+NEI
+####################################
+nei.nedeloskcore.plan=Plan

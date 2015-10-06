@@ -7,7 +7,7 @@ import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveTyp
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblockValve;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -49,13 +49,13 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
 
 	@Override
 	public int getRenderId() {
-		return NCBlocks.Multiblock_Valve.block().getRenderType();
+		return NCBlockManager.Multiblock_Valve.block().getRenderType();
 	}
 	
     private void renderItem(RenderBlocks renderBlocks, int meta, IIcon texture) {
         if (texture == null) return;
 
-        Block block = NCBlocks.Multiblock_Valve.block();
+        Block block = NCBlockManager.Multiblock_Valve.block();
         block.setBlockBoundsForItemRender();
         renderBlocks.setRenderBoundsFromBlock(block);
 
@@ -146,10 +146,10 @@ public class BlockMultiblockValveRenderer implements ISimpleBlockRenderingHandle
         
     	BlockMultiblock.renderPass = 0;
         BlockMultiblockValve.renderPass = 0;
-        renderItem(renderer, stack.getItemDamage(), NCBlocks.Multiblock_Valve.block().getIcon(0, stack.getItemDamage()));
+        renderItem(renderer, stack.getItemDamage(), NCBlockManager.Multiblock_Valve.block().getIcon(0, stack.getItemDamage()));
         BlockMultiblockValve.renderPass = 1;
         BlockMultiblockValve.valveType = ValveType.DEFAULT;
-        renderItem(renderer, stack.getItemDamage(), NCBlocks.Multiblock_Valve.block().getIcon(0, stack.getItemDamage()));
+        renderItem(renderer, stack.getItemDamage(), NCBlockManager.Multiblock_Valve.block().getIcon(0, stack.getItemDamage()));
         
         GL11.glPopAttrib();
 	}

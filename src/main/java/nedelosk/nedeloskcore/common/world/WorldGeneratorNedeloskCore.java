@@ -3,7 +3,7 @@ package nedelosk.nedeloskcore.common.world;
 import java.util.Random;
 
 import nedelosk.nedeloskcore.common.core.NedeloskCoreConfig;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -33,23 +33,23 @@ public class WorldGeneratorNedeloskCore implements IWorldGenerator {
 	private void generateSurface(World world, Random random, int x, int z) {
 		if(NedeloskCoreConfig.generateOre[0])
 		{
-		generateOre(NCBlocks.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
+		generateOre(NCBlockManager.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
 		}
 		if(NedeloskCoreConfig.generateOre[1])
 		{
-		generateOre(NCBlocks.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
+		generateOre(NCBlockManager.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
 		}
 		if(NedeloskCoreConfig.generateOre[2])
 		{
-		generateOre(NCBlocks.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
+		generateOre(NCBlockManager.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
 		}
 		if(NedeloskCoreConfig.generateOre[3])
 		{
-		generateOre(NCBlocks.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
+		generateOre(NCBlockManager.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
 		}
 		if(NedeloskCoreConfig.generateOre[4])
 		{
-		generateOre(NCBlocks.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
+		generateOre(NCBlockManager.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
 		}
 	}
 

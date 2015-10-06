@@ -3,7 +3,9 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
@@ -34,15 +36,17 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	@Override
 	public int getBurnTimeTotal(IModular modular)
 	{
-		int burnTimeTotal = ModularUtils.getModuleEngine(modular).getSpeedModifier() * getSpeedModifier() / 10;
-		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleEnergyManager(modular).getSpeedModifier() / 100);
+		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2;
 	}
 	
 	public int getBurnTimeTotal(IModular modular, int speedModifier)
 	{
-		int burnTimeTotal = ModularUtils.getModuleEngine(modular).getSpeedModifier() * getSpeedModifier() / 10;
-		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleEnergyManager(modular).getSpeedModifier() / 100);
+		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
 	}
 	

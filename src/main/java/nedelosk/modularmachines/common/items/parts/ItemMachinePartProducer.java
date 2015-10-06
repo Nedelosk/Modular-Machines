@@ -267,5 +267,21 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 		}
 		return listMaterial.toArray(new Material[listMaterial.size()]);
 	}
+	
+	@Override
+	public Material[] getPartMaterials(ItemStack stack) {
+		List<Material> listMaterial = new ArrayList();
+		NBTTagList list = stack.getTagCompound().getCompoundTag(Tags.TAG_PARTS).getTagList(Tags.TAG_MATERIALS, 8);
+		for(int i = 0;i < list.tagCount();i++){
+			String identifier = list.getStringTagAt(i);
+			for(Material material : MMRegistry.materials){
+				if(material.identifier.equals(identifier)){
+					listMaterial.add(material);
+					continue;
+				}
+			}
+		}
+		return listMaterial.toArray(new Material[listMaterial.size()]);
+	}
 
 }

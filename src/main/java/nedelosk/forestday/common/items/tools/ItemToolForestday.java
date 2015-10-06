@@ -2,7 +2,7 @@ package nedelosk.forestday.common.items.tools;
 
 import java.util.List;
 
-import nedelosk.nedeloskcore.common.core.registry.NRegistry;
+import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class ItemToolForestday extends Item {
 		this.setMaxStackSize(1);
 		this.name = name;
 		this.setTextureName("forestday:tools/" + name);
-		setUnlocalizedName(NRegistry.setUnlocalizedItemName( "tool." + name, "fd"));
+		setUnlocalizedName(NCRegistry.setUnlocalizedItemName( "tool." + name, "fd"));
 	}
 	
 	protected int tier;

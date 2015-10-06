@@ -15,7 +15,7 @@ import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveTyp
 import nedelosk.nedeloskcore.client.TextureAtlasMap;
 import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
 import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlocks;
+import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
@@ -274,7 +274,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		case 'i':
 		case 'B':
 		{
-            if (block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -282,7 +282,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'J':
 		{
-            if (block != NCBlocks.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -290,7 +290,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlockManager.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -302,7 +302,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlocks.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != NCBlockManager.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
             {
                 return false;
             }
@@ -322,7 +322,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'O':
 		{
-            if (block == NCBlocks.Multiblock_Valve.block() || block == NCBlocks.Multiblock.block() || tile instanceof TileMultiblockBase)
+            if (block == NCBlockManager.Multiblock_Valve.block() || block == NCBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
             {
                 return false;
             }

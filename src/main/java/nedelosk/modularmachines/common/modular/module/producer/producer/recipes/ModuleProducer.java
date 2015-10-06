@@ -3,9 +3,13 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.basic.gui.ModuleGui;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
@@ -48,8 +52,9 @@ public abstract class ModuleProducer extends ModuleGui implements IModuleProduce
 	
 	public int getBurnTimeTotal(IModular modular)
 	{
-		int burnTimeTotal = ModularUtils.getModuleEngine(modular).getSpeedModifier() * getSpeedModifier() / 10;
-		return burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleEnergyManager(modular).getSpeedModifier() / 100);
+		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		return burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 	}
 	
 	@Override
@@ -79,6 +84,16 @@ public abstract class ModuleProducer extends ModuleGui implements IModuleProduce
 	@Override
 	public int getColor() {
 		return 16777215;
+	}
+	
+	@Override
+	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
+		return null;
+	}
+	
+	@Override
+	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
+		return null;
 	}
 
 }

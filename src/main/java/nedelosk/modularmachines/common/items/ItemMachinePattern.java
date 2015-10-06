@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
+import nedelosk.modularmachines.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -18,7 +18,7 @@ public class ItemMachinePattern extends Item {
 	
     public ItemMachinePattern(String type, String[] patterns, int[] cost) {
         setUnlocalizedName("patternMachine" + type);
-        this.setCreativeTab(TabModularMachinesModules.instance);
+        this.setCreativeTab(TabModularMachines.components);
         this.components = patterns;
         this.cost = cost;
         this.type = type;

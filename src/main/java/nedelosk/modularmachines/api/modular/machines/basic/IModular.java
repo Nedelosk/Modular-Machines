@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyManager;
+import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.nedeloskcore.api.INBTTagable;
@@ -35,7 +35,7 @@ public interface IModular extends INBTTagable {
 	
 	IModularTileEntity getMachine();
 	
-	ModuleStack<IModuleEnergyManager> getEnergyManger();
+	ModuleStack<IModuleBattery> getBattery();
 	
 	ModuleStack<IModuleCasing> getCasing();
 

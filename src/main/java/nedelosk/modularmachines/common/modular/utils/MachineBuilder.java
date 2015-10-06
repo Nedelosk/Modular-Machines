@@ -10,7 +10,7 @@ import nedelosk.modularmachines.api.materials.Tags;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.common.core.MMBlocks;
+import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -24,9 +24,9 @@ public class MachineBuilder {
 	{
 		if(mode == BuildMode.MACHINE){
 			IModular machine = buildMachine(inputs, moduleName);
-			if(tier >= machine.getTier()){
-				if(machine != null){
-					ItemStack stack = MMBlocks.Modular_Machine.getItemStack();
+			if(machine != null){
+				if(tier >= machine.getTier()){
+					ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
 					stack.setTagCompound(new NBTTagCompound());
 					NBTTagCompound nbtTag = new NBTTagCompound();
 					machine.writeToNBT(nbtTag);
@@ -50,7 +50,7 @@ public class MachineBuilder {
 	
 	public static IModular buildMachine(ItemStack[] slots, String moduleName)
 	{
-		for(Entry<String, Class<? extends IModular>> entry : ModuleRegistry.modularClasses.entrySet()){
+		for(Entry<String, Class<? extends IModular>> entry : ModuleRegistry.getModularClasses().entrySet()){
 			IModular modularType = createMachine(moduleName);
 			IModular modular = modularType.buildItem(slots);
 			if(modular != null){
@@ -92,12 +92,18 @@ public class MachineBuilder {
 	public static <M extends IModular> M createMachine(String moduleName, Object... ctorArgs){
 		IModular machine = null;
 		try{
+            if(ctorArgs == null || ctorArgs.length == 0)
+            	if(ModuleRegistry.getModularClasses().get(moduleName) != null)
+            		return (M) ModuleRegistry.getModularClasses().get(moduleName).getConstructor().newInstance();
             Class<?>[] ctorArgClasses = new Class<?>[ctorArgs.length];
             for (int idx = 0; idx < ctorArgClasses.length; idx++)
             {
                 ctorArgClasses[idx] = ctorArgs[idx].getClass();
             }
-			machine = ModuleRegistry.modularClasses.get(moduleName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
+            if(ModuleRegistry.getModularClasses().get(moduleName) != null)
+            	machine = ModuleRegistry.getModularClasses().get(moduleName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
+            else
+            	return null;
 		}catch(Exception e){
             FMLLog.log(Level.ERROR, e, "Caught an exception during IModular registration in " + Loader.instance().activeModContainer().getModId() + ":" + moduleName);
             throw new LoaderException(e);
