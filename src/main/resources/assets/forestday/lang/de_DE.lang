@@ -12,14 +12,14 @@ forest.fd.item.tile.kiln.charcoal.1.name=Holzkohle Ash
 ####################################
 Fluids
 ####################################
-fluid.tar=Flüssiger Teer
-forest.nc.block.tar.name=Flüssiger Teer
-fluid.resin=Flüssiges Harz
-forest.nc.block.resin.name=Flüssiges Harz
-fluid.rubber=Flüssiges Gummi
-forest.nc.block.rubber.name=Flüssiges Gummi
-fluid.lubricant=Flüssiges Schmiermittel
-forest.nc.block.lubricant.name=Flüssiges Schmiermittel
+fluid.tar=Fluessiger Teer
+forest.nc.block.tar.name=Fluessiger Teer
+fluid.resin=Fluessiges Harz
+forest.nc.block.resin.name=Fluessiges Harz
+fluid.rubber=Fluessiges Gummi
+forest.nc.block.rubber.name=Fluessiges Gummi
+fluid.lubricant=Fluessiges Schmiermittel
+forest.nc.block.lubricant.name=Fluessiges Schmiermittel
 
 ####################################
 Items
@@ -30,17 +30,17 @@ item.bucket.rubber.name=Gummi Eimer
 item.bucket.lubricant.name=Schmiermittel Eimer
 item.corn.name=Mais
 forest.fd.item.nature.0.name=Rinden Staub
-forest.fd.item.nature.1.name=Sägemehl
+forest.fd.item.nature.1.name=Saegemehl
 forest.fd.item.nature.2.name=Rubber
 forest.fd.item.nature.3.name=Harz
 forest.fd.item.nature.4.name=Torf
 forest.fd.item.nature.5.name=Schlamm
 forest.fd.item.nature.6.name=Erd Staub
 forest.fd.item.nature.7.name=Asche
-forest.fd.item.nature.8.name=Mörtel
-forest.fd.item.nature.9.name=Stärcke
-forest.fd.item.nature.10.name=Compreste Stärcke
-forest.fd.item.nature.11.name=Harte Starch
+forest.fd.item.nature.8.name=Morrtel
+forest.fd.item.nature.9.name=Staercke
+forest.fd.item.nature.10.name=Compreste Staercke
+forest.fd.item.nature.11.name=Harte Staercke
 forest.fd.item.campfire.curb.0.name=Stein Randsteine
 forest.fd.item.campfire.curb.1.name=Obsidian Randsteine
 forest.fd.item.campfire.pot.0.name=Stein Topf
