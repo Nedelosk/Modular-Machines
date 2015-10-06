@@ -4,6 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.common.registrys.FBlocks;
 import nedelosk.forestday.common.registrys.FItems;
+import nedelosk.nedeloskcore.utils.ItemUtils;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -40,14 +42,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable
 	protected boolean canPlaceBlockOn(Block block)
     {
         return block == Blocks.farmland || block == this;
-    }
-    
-    public void afterDrop(World world, int x, int y, int z, Block block, int meta)
-    {
-    	if(world.getBlock(x, y + 1, z) == this)
-    		world.setBlockToAir(x, y + 1, z);
-    	if(world.getBlock(x, y - 1, z) == this)
-    		world.setBlockToAir(x, y - 1, z);
     }
 
     @Override
@@ -174,6 +168,32 @@ public class BlockCropCorn extends BlockBush implements IGrowable
     }
     
     @Override
+    public void breakBlock(World world, int x, int y, int z, Block Block, int meta) {
+    	super.breakBlock(world, x, y, z, Block, meta);
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+        int metadata = world.getBlockMetadata(x, y, z);
+        Block block = world.getBlock(x, y + 1, z);
+        if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && metadata >= 5 || world.getBlock(x, y + 1, z) == this && world.getBlockMetadata(x, y + 1, z) >= 5)
+        {
+        	ret.add(new ItemStack(getFruit(), 3));
+        }
+        else if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && !(metadata >= 5))
+        {
+        	ret.add(new ItemStack(getFruit(), 1));
+        }
+        else if(world.getBlock(x, y - 1, z) != this && world.getBlock(x, y + 1, z) != this)
+        {
+        	ret.add(new ItemStack(getFruit(), 1));
+        }
+        ItemUtils.dropItem(world, x, y, z, ret);
+    	if(world.getBlock(x, y - 1, z) == this)
+    		world.setBlockToAir(x, y - 1, z);
+    	if(world.getBlock(x, y + 1, z) == this)
+    		world.setBlockToAir(x, y + 1, z);
+    }
+    
+    @Override
     public int damageDropped(int meta) {
     	return meta;
     }
@@ -193,12 +213,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable
     protected Item getFruit()
     {
         return FItems.crop_corn.item();
-    }
-
-    @Override
-	public int quantityDropped(Random p_149745_1_)
-    {
-        return 1;
     }
 
     @Override
@@ -240,22 +254,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-
-        Block block = world.getBlock(x, y + 1, z);
-        if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && metadata >= 5 || world.getBlock(x, y + 1, z) == this && world.getBlockMetadata(x, y + 1, z) >= 5)
-        {
-        	ret.add(new ItemStack(getFruit(), 3));
-            afterDrop(world, x, y, z, world.getBlock(x, y, z), metadata);
-        }
-        else if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && !(metadata >= 5))
-        {
-        	ret.add(new ItemStack(getFruit(), 1));
-            afterDrop(world, x, y, z, world.getBlock(x, y, z), metadata);
-        }
-        else if(world.getBlock(x, y - 1, z) != this && world.getBlock(x, y + 1, z) != this)
-        {
-        	ret.add(new ItemStack(getFruit(), 1));
-        }
         return ret;
     }
 }

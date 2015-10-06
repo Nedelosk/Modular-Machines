@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.machines.module.fluids.ModuleTankManager;
+import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularNBT;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;

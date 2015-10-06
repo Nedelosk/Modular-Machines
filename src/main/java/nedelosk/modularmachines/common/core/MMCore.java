@@ -8,10 +8,7 @@ import nedelosk.modularmachines.common.core.registry.BlockRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.core.registry.ModularRegistry;
 import nedelosk.modularmachines.common.events.EventHandler;
-import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
-import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
-import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
-import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
+import nedelosk.modularmachines.common.modular.utils.ModuleFactory;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import nedelosk.modularmachines.plugins.PluginManager;
@@ -35,6 +32,8 @@ public class MMCore {
 	
 	public void preInit()
 	{
+    	MinecraftForge.EVENT_BUS.register(new EventHandler());
+		ModuleFactory.init();
     	registerFluids();
        	ModularConfig.preInit();
     	pluginManager.registerPlugins();
@@ -43,12 +42,6 @@ public class MMCore {
     	ItemRegistry.preInit();
     	ModularRegistry.preInit();
     	PacketHandler.preInit();
-    	MinecraftForge.EVENT_BUS.register(new EventHandler());
-		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
-		new MultiblockAirHeatingPlant();
-		new MultiblockBlastFurnace();
-		new MultiblockCokeOven();
-		new MultiblockFermenter();
 	}
 	
 	public void init()
@@ -61,6 +54,7 @@ public class MMCore {
 	public void postInit()
 	{
 		pluginManager.postInit();
+		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
 	}
 	
 	public static void registerFluids()

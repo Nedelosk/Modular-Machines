@@ -21,7 +21,8 @@ public class ItemIngot extends ItemForestday {
 	public String modID;
 	
 	public ItemIngot(String[] ingot, String modID) {
-		super(null, CreativeTabs.tabMaterials);
+		super(null);
+		this.setCreativeTab(CreativeTabs.tabMaterials);
 		this.ingot = ingot;
 		this.modID = modID;
 		setHasSubtypes(true);

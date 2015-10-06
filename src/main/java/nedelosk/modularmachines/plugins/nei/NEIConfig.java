@@ -4,7 +4,7 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
-import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import net.minecraft.item.ItemStack;
 
@@ -15,7 +15,7 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		isAdded = false;
-		for(IModule module : ModularManager.getModules().values())
+		for(IModule module : ModuleRegistry.getModules().values())
 			if(module instanceof IModuleProducerRecipe)
 			{
 				if(((IModuleProducerRecipe) module).addNEIStacks() != null)

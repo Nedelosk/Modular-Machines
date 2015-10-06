@@ -45,7 +45,7 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 		if(tile instanceof TileCharcoalKiln){
 			TileCharcoalKiln kiln = (TileCharcoalKiln) tile;
 			if(kiln.isMaster && kiln.isMultiblock || kiln.master != null && kiln.master.isMultiblock()){
-				return 6;
+				return 10;
 			}
 		}
 		return super.getLightValue(world, x, y, z);
@@ -150,5 +150,5 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 	public boolean isOpaqueCube() {
 		return false;
 	}
-
+	
 }

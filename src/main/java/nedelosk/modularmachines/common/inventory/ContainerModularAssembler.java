@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.modular.parts.IMachinePart;
+import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOut;
-import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
-import nedelosk.modularmachines.common.machines.utils.MachineBuilder;
+import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
@@ -137,7 +137,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
     		return null;
     	if(info.machine == null)
     		return null;
-    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode);
+    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode, inventoryBase.tier);
   	}
 	
 	@Override

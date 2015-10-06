@@ -3,11 +3,13 @@ package nedelosk.modularmachines.api.modular.machines.basic;
 import java.util.HashMap;
 import java.util.Vector;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEnergyManager;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
-import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.item.ItemStack;
 
@@ -22,6 +24,14 @@ public interface IModular extends INBTTagable {
 	HashMap<String, Vector<ModuleStack>> getModules();
 	
 	void setModules(HashMap<String, Vector<ModuleStack>> modules);
+	
+	void setMachine(IModularTileEntity machine);
+	
+	@SideOnly(Side.CLIENT)
+	IModularRenderer getItemRenderer(IModular modular, ItemStack stack);
+	
+	@SideOnly(Side.CLIENT)
+	IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile);
 	
 	IModularTileEntity getMachine();
 	

@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.config;
 
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraftforge.common.config.Configuration;
 
@@ -34,10 +34,10 @@ public class ModularConfig {
 	{
 		load();
 		Configuration config = ModularMachines.config;
-		for(IModule module : ModularManager.getModules().values())
+		for(IModule module : ModuleRegistry.getModules().values())
 		{
 			if(!config.get("Modules", module.getName(), true).getBoolean())
-				ModularManager.getModules().remove(module.getName(), module);
+				ModuleRegistry.getModules().remove(module.getName(), module);
 		}
 		save();
 	}

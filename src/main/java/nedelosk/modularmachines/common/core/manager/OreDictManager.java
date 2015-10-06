@@ -1,11 +1,11 @@
 package nedelosk.modularmachines.common.core.manager;
 
-import nedelosk.modularmachines.api.modular.material.Material;
-import nedelosk.modularmachines.api.modular.material.MaterialType;
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.machines.utils.MaterialManager;
+import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -87,6 +87,17 @@ public class OreDictManager {
             	MaterialManager.setMaterial(stack, mat);
             	if (MaterialManager.getMaterial(stack) != null){
             		OreDictionary.registerOre("gear" + mat.getOreDict(), stack);
+            	}
+            }
+        }
+        
+        for(int i = 0;i < MMRegistry.materials.size();i++) {
+            ItemStack stack = new ItemStack(MMItems.Component_Saw_Blades.item(), 1, i);
+            Material mat = MMRegistry.materials.get(i);
+            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
+            	MaterialManager.setMaterial(stack, mat);
+            	if (MaterialManager.getMaterial(stack) != null){
+            		OreDictionary.registerOre("sawBlade" + mat.getOreDict(), stack);
             	}
             }
         }

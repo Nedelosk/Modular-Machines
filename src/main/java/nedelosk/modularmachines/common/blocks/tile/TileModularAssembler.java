@@ -6,11 +6,19 @@ import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class TileModularAssembler extends TileBaseInventory {
 	
+	public int tier;
+	
 	public TileModularAssembler() {
 		super(9);
+	}
+	
+	public TileModularAssembler(int tier) {
+		super(9);
+		this.tier = tier;
 	}
 
 	@Override
@@ -34,6 +42,18 @@ public class TileModularAssembler extends TileBaseInventory {
 
 	@Override
 	public void updateServer() {
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("Tier", tier);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		tier = nbt.getInteger("Tier");
 	}
 
 	@Override

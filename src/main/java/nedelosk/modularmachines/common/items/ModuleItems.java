@@ -8,7 +8,7 @@ import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
-import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,7 +33,7 @@ public class ModuleItems extends ModularItem {
 	{
 		if(moduleName.equals("Manager"))
 		{
-			for(IModule module : ModularManager.getModules().values())
+			for(IModule module : ModuleRegistry.getModules().values())
 			{
 				if(module instanceof IModuleManager)
 				{
@@ -44,7 +44,7 @@ public class ModuleItems extends ModularItem {
 		}
 		else if(moduleName.equals("Producer"))
 		{
-			for(IModule module : ModularManager.getModules().values())
+			for(IModule module : ModuleRegistry.getModules().values())
 			{
 				if(module instanceof IModuleProducer)
 				{
@@ -55,7 +55,7 @@ public class ModuleItems extends ModularItem {
 		}
 		else if(moduleName.equals("Engine"))
 		{
-			for(IModule module : ModularManager.getModules().values())
+			for(IModule module : ModuleRegistry.getModules().values())
 			{
 				if(module instanceof IModuleEngine)
 				{
@@ -115,7 +115,7 @@ public class ModuleItems extends ModularItem {
         		stack.getTagCompound().setString("Name", s);
         		stack.getTagCompound().setInteger("Tier", i);
     			list.add(stack);
-    			ModularManager.addModuleStack(stack, modules.get(s), i + 1, true);
+    			ModuleRegistry.addModuleStack(stack, modules.get(s), i + 1, true);
     		}
     	}
     }

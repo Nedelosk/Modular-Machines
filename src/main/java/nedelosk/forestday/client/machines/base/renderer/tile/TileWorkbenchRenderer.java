@@ -1,6 +1,7 @@
 package nedelosk.forestday.client.machines.base.renderer.tile;
 
 import nedelosk.forestday.client.machines.base.renderer.model.ModelWorkbench;
+import nedelosk.forestday.common.machines.base.wood.workbench.TileWorkbench;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +25,14 @@ public class TileWorkbenchRenderer extends TileEntitySpecialRenderer {
 		GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+		TileWorkbench workbench = (TileWorkbench) entity;
+		if(workbench.facing == 2){
+			GL11.glRotated(270, 0F, 1F, 0F);
+		}else if(workbench.facing == 3){
+			GL11.glRotated(90, 0F, 1F, 0F);
+		}else if(workbench.facing == 4){
+			GL11.glRotated(180, 0F, 1F, 0F);
+		}
 		this.bindTexture(textureModel);
 		GL11.glPushMatrix();
 		table.renderTable();

@@ -21,7 +21,8 @@ public class ItemNugget extends ItemForestday {
 	String modID;
 	
 	public ItemNugget(String[] ingot, String modID) {
-		super(null, CreativeTabs.tabMaterials);
+		super(null);
+		setCreativeTab(CreativeTabs.tabMaterials);
 		this.nugget = ingot;
 		this.modID = modID;
 		setHasSubtypes(true);

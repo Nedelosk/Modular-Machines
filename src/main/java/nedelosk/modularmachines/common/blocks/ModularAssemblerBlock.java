@@ -43,7 +43,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileModularAssembler();
+		return new TileModularAssembler(meta + 1);
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
-		for(int i = 0;i < 5;i++)
+		for(int i = 0;i < 6;i++)
 			list.add(new ItemStack(item, 1, i));
 	}
 	

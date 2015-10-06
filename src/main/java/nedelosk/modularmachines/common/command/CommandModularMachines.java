@@ -1,13 +1,9 @@
 package nedelosk.modularmachines.common.command;
 
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
 public class CommandModularMachines
   extends CommandBase

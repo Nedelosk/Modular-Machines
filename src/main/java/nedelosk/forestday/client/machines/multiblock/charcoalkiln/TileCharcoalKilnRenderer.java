@@ -31,8 +31,10 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			
 			IIcon loamIcon = FBlocks.Gravel.block().getIcon(0, 0);
 			IIcon woodIcon = Block.getBlockFromItem(kiln.type.wood.getItem()).getIcon(4, kiln.type.wood.getItemDamage());
-			
-			if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord + 1 && kiln.master.getZCoord() - 1 == kiln.zCoord)
+			if(kiln.isMaster){
+				renderTop(loamIcon, woodIcon);
+			}
+			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() == kiln.yCoord + 1 && kiln.master.getZCoord() - 1 == kiln.zCoord)
 			{
 				renderFront(loamIcon, woodIcon);
 			}
@@ -142,10 +144,6 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			{
 				renderDown(loamIcon, woodIcon);
 			
-			}
-			else if(kiln.master.getXCoord() == kiln.xCoord && kiln.master.getYCoord() + 1 == kiln.yCoord + 1 && kiln.master.getZCoord() == kiln.zCoord)
-			{
-				renderTop(loamIcon, woodIcon);
 			}
 			
 			GL11.glPopMatrix();

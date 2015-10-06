@@ -19,7 +19,7 @@ public class BlockGravel extends BlockForestday {
 	 public IIcon[] icon;
 	
 	public BlockGravel() {
-		super("gravel", Material.ground, Tabs.tabForestdayBlocks);
+		super("gravel", Material.ground, Tabs.tabForestday);
 		this.setHardness(1.0f);
 		this.setStepSound(Block.soundTypeGravel);
 		this.setHarvestLevel("shovel", 1, 0);

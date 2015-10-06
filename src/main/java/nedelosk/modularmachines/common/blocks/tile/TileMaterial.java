@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.modularmachines.api.modular.material.Material;
+import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBase;
 import net.minecraft.nbt.NBTTagCompound;

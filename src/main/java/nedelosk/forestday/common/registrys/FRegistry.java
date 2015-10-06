@@ -30,8 +30,7 @@ public class FRegistry {
     
     public void preInit()
     {
-    	CreativeTabs tabBlocks = Tabs.tabForestdayBlocks = TabForestday.tabForestdayBlocks;
-    	CreativeTabs tabItemss = Tabs.tabForestdayItems = TabForestday.tabForestdayItems;
+    	CreativeTabs tabBlocks = Tabs.tabForestday = TabForestday.tabForestdayBlocks;
     	
     	registerFluids();
     	PacketHandler.preInit();

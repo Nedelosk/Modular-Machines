@@ -9,7 +9,7 @@ public class ItemFlintAxe extends ItemAxe {
 
 	public ItemFlintAxe(ToolMaterial mat) {
 		super(mat);
-		this.setCreativeTab(Tabs.tabForestdayItems);
+		this.setCreativeTab(Tabs.tabForestday);
 		this.setTextureName("forestday:tools/axe_flint");
 		setUnlocalizedName(NRegistry.setUnlocalizedItemName("axe.flint", "fd"));
 	}

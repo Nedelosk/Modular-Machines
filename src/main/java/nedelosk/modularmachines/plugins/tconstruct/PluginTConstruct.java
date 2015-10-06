@@ -5,15 +5,16 @@ import static net.minecraft.util.EnumChatFormatting.DARK_PURPLE;
 import static net.minecraft.util.EnumChatFormatting.DARK_RED;
 import static net.minecraft.util.EnumChatFormatting.LIGHT_PURPLE;
 import static net.minecraft.util.EnumChatFormatting.RED;
-import nedelosk.modularmachines.api.modular.material.Material;
-import nedelosk.modularmachines.api.modular.material.MaterialType;
+
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.items.ItemMachinePattern;
-import nedelosk.modularmachines.common.machines.utils.MaterialManager;
+import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,6 @@ import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
 import tconstruct.library.crafting.LiquidCasting;
 import tconstruct.library.crafting.Smeltery;
-import tconstruct.library.util.IPattern;
 import tconstruct.smeltery.TinkerSmeltery;
 
 public class PluginTConstruct extends Plugin{
@@ -37,15 +37,15 @@ public class PluginTConstruct extends Plugin{
 		MMRegistry.Alumite = MMRegistry.addMachineMaterial(MaterialType.METAL_Custom, "Alumite", 4, 2, LIGHT_PURPLE.toString(), 0xffa7e9, "Alumite", 2, 355);
 		MMRegistry.Pig_Iron = MMRegistry.addMachineMaterial(MaterialType.METAL_Custom, "Pig Iron", 3, 1, RED.toString(), 0xF0A8A4, "PigIron", 1, 450);
 		
-		int[] costs = new int[]{ 1, 1 };
-		String[] components = new String[]{ "connection_wires", "screws" };
+		int[] costs = new int[]{ 1, 1, 8 };
+		String[] components = new String[]{ "connection_wires", "screws", "saw_blades" };
 		
 		MMItems.MetalPattern.registerItem(new ItemMachinePattern("metal", components, costs).setCreativeTab(TConstructRegistry.materialTab));
 	}
 	
 	@Override
 	public void init() {
-		Item[] patternOutputs = new Item[] { MMItems.Component_Connection_Wires.item(), MMItems.Component_Screws.item() };
+		Item[] patternOutputs = new Item[] { MMItems.Component_Connection_Wires.item(), MMItems.Component_Screws.item(), MMItems.Component_Saw_Blades.item() };
 		int[] liquidDamage = new int[] { 2, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21 };
 		Material[] material = new Material[]{ MMRegistry.Iron, MMRegistry.Tin, MMRegistry.Copper, MMRegistry.Bronze, MMRegistry.Steel, MMRegistry.Niobium, MMRegistry.Tantalum, MMRegistry.Cobalt, MMRegistry.Ardite, MMRegistry.Manyullyn, MMRegistry.Alumite, MMRegistry.Pig_Iron };
 		
@@ -63,7 +63,7 @@ public class PluginTConstruct extends Plugin{
 
             for (int iterTwo = 0; iterTwo < liquids.length; iterTwo++) {
                 Fluid fs = liquids[iterTwo].getFluid();
-                int fluidAmount = ((IPattern)MMItems.MetalPattern.item()).getPatternCost(cast) * TConstruct.ingotLiquidValue / 2;
+                int fluidAmount = ((ItemMachinePattern)MMItems.MetalPattern.item()).getPatternCost(cast) * TConstruct.ingotLiquidValue / 2;
                 ItemStack metalCast = new ItemStack(patternOutputs[i], 1, liquidDamage[iterTwo]);
                 MaterialManager.setMaterial(metalCast, material[iterTwo]);
                 tableCasting.addCastingRecipe(metalCast, new FluidStack(fs, fluidAmount), cast, 50);
@@ -73,7 +73,7 @@ public class PluginTConstruct extends Plugin{
 
         for (int iterTwo = 0; iterTwo < liquids.length; iterTwo++) {
                 Fluid fs = liquids[iterTwo].getFluid();
-                int fluidAmount = ((IPattern)MMItems.MetalPattern.item()).getPatternCost(null) * TConstruct.ingotLiquidValue / 2;
+                int fluidAmount = ((ItemMachinePattern)MMItems.MetalPattern.item()).getPatternCost(null) * TConstruct.ingotLiquidValue / 2;
                 ItemStack metalCast = new ItemStack(MMItems.Component_Plates.item(), 1, liquidDamage[iterTwo]);
                 MaterialManager.setMaterial(metalCast, material[iterTwo]);
                 tableCasting.addCastingRecipe(metalCast, new FluidStack(fs, fluidAmount), null, 50);

@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
-import nedelosk.modularmachines.client.renderers.tile.TileMultiblockFermenterRenderer;
+import nedelosk.modularmachines.client.renderers.tile.TileRendererMultiblockFermenter;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager.FermenterRecipe;
@@ -56,7 +56,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public TileEntitySpecialRenderer getRenderer() {
-		return new TileMultiblockFermenterRenderer();
+		return new TileRendererMultiblockFermenter();
 	}
 
 	@Override

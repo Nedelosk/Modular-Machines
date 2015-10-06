@@ -2,8 +2,8 @@ package nedelosk.modularmachines.client;
 
 import java.util.HashMap;
 
-import nedelosk.modularmachines.api.modular.parts.IMachinePart;
-import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.parts.IMachinePart;
+import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 
 public class MMClientRegistry {
 

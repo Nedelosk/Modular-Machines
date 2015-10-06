@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.items.base.ItemForestday;
+import nedelosk.modularmachines.common.core.tabs.TabModularMachines;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,9 +20,10 @@ public class ItemNature extends ItemForestday {
     public IIcon[] itemIcon;
 	
 	public ItemNature() {
-		super(null, Tabs.tabForestdayItems);
+		super(null);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
+		setCreativeTab(TabModularMachines.instance);
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -33,7 +34,7 @@ public class ItemNature extends ItemForestday {
 
         for (int i = 0; i < this.itemIcon.length; ++i)
         {
-            this.itemIcon[i] = iconRegister.registerIcon("forestday:" + material[i]);
+            this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
         }
     }
     

@@ -4,19 +4,19 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.material.Material;
-import nedelosk.modularmachines.api.modular.material.MaterialType;
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMItems;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
-import nedelosk.modularmachines.common.machines.module.tool.producer.alloysmelter.RecipeAlloySmelter;
-import nedelosk.modularmachines.common.machines.module.tool.producer.centrifuge.RecipeCentrifuge;
-import nedelosk.modularmachines.common.machines.module.tool.producer.pulverizer.RecipePulverizer;
-import nedelosk.modularmachines.common.machines.module.tool.producer.sawmill.RecipeSawMill;
-import nedelosk.modularmachines.common.machines.utils.MaterialManager;
+import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.alloysmelter.RecipeAlloySmelter;
+import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.centrifuge.RecipeCentrifuge;
+import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.pulverizer.RecipePulverizer;
+import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.sawmill.RecipeSawMill;
+import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import nedelosk.nedeloskcore.api.crafting.OreStack;
 import nedelosk.nedeloskcore.common.core.registry.NCItems;
 import net.minecraft.init.Blocks;
@@ -39,15 +39,13 @@ public class RecipeManager {
 		registerCentrifugeRecipes();
 		registerMetalRecipes();
 		registerModuleRecipes();
-		//if(!ModularConfig.pluginTinkers || !Loader.isModLoaded("TConstruct"))
-			registerModularComponentRecipes();
+		registerModularComponentRecipes();
 		ModularMachinesApi.blastFurnace.addRecipe(10, new FluidStack[]{ new FluidStack(FluidRegistry.getFluid("slag"), 1000), new FluidStack(FluidRegistry.getFluid("white.pig.iron"), 220)}, new Object[]{ new ItemStack(Blocks.iron_ore, 1)}, 1200);
 	}
 	
 	public static void registerModuleRecipes()
 	{
-		addShapedRecipe(new ItemStack(MMBlocks.Modular_Workbench.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
-		addShapedRecipe(new ItemStack(MMBlocks.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', MMBlocks.Modular_Workbench.item());
+		addShapedRecipe(new ItemStack(MMBlocks.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
 	}
 	
 	public static void registerSawMillRecipes()
@@ -131,8 +129,8 @@ public class RecipeManager {
 	
 	public static void registerModularComponentRecipes(){
 		IWorkbenchRecipe manager = ForestdayCrafting.workbenchRecipe;
-		//for(int i )
 		
+		//if(!ModularConfig.pluginTinkers || !Loader.isModLoaded("TConstruct"))
         for(int i = 0;i < MMRegistry.materials.size();i++) {
             ItemStack plate = new ItemStack(MMItems.Component_Plates.item(), 1, i);
             ItemStack connection_wires = new ItemStack(MMItems.Component_Connection_Wires.item(), 4, i);
@@ -146,6 +144,44 @@ public class RecipeManager {
             	}
             }
         }
+        //else
+        	ItemStack plateIron = new ItemStack(MMItems.Component_Plates.item(), 1, 2);
+        	ItemStack connection_wiresIron = new ItemStack(MMItems.Component_Connection_Wires.item(), 8, 2);
+        	MaterialManager.setMaterial(plateIron, MMRegistry.Iron);
+        	MaterialManager.setMaterial(connection_wiresIron, MMRegistry.Iron);
+        	manager.addRecipe(new OreStack("ingotIron", 2), new OreStack("toolHammer"), plateIron, 100);
+        	manager.addRecipe(new OreStack("plateIron", 1), new OreStack("toolCutter"), plateIron, 100);
+           	ItemStack platePlastic = new ItemStack(MMItems.Component_Plates.item(), 2, 13);
+        	MaterialManager.setMaterial(platePlastic, MMRegistry.Plastic);
+        	manager.addRecipe(new OreStack("hardenedStarch", 1), new OreStack("toolHammer"), platePlastic, 100);
+        	
+        	ItemStack blockTin = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 6);
+        	MaterialManager.setMaterial(blockTin, MMRegistry.Tin);
+            addShapedRecipe(blockTin, "+++", "+++", "+++", '+', new ItemStack(NCItems.Ingots.item(), 1, 1));
+            
+        	ItemStack blockCopper = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 7);
+        	MaterialManager.setMaterial(blockCopper, MMRegistry.Copper);
+            addShapedRecipe(blockCopper, "+++", "+++", "+++", '+', new ItemStack(NCItems.Ingots.item()));
+            
+        	ItemStack blockBronze = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 8);
+        	MaterialManager.setMaterial(blockBronze, MMRegistry.Bronze);
+            addShapedRecipe(blockBronze, "+++", "+++", "+++", '+', new ItemStack(MMItems.Alloy_Ingots.item(), 1, 0));
+            
+        	ItemStack blockSteel = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 9);
+        	MaterialManager.setMaterial(blockSteel, MMRegistry.Steel);
+            addShapedRecipe(blockSteel, "+++", "+++", "+++", '+', new ItemStack(NCItems.Ingots.item()));
+            
+        	ItemStack blockNiobium = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 10);
+        	MaterialManager.setMaterial(blockNiobium, MMRegistry.Niobium);
+            addShapedRecipe(blockNiobium, "+++", "+++", "+++", '+', new ItemStack(MMItems.Ingots_Others.item(), 1, 0));
+            
+        	ItemStack blockTantalum = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 11);
+        	MaterialManager.setMaterial(blockTantalum, MMRegistry.Tantalum);
+            addShapedRecipe(blockTantalum, "+++", "+++", "+++", '+', new ItemStack(MMItems.Ingots_Others.item(), 1, 1));
+            
+        	ItemStack blockSilver = new ItemStack(MMBlocks.Metal_Blocks.item(), 1, 12);
+        	MaterialManager.setMaterial(blockSilver, MMRegistry.Silver);
+            addShapedRecipe(blockSilver, "+++", "+++", "+++", '+', new ItemStack(NCItems.Ingots.item(), 1, 2));
 	}
 	
 	

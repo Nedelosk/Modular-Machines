@@ -3,7 +3,6 @@ package nedelosk.modularmachines.api.modular.module.basic.basic;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 public abstract class Module implements IModule{
 	

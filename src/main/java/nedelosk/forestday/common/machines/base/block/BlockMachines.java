@@ -38,7 +38,8 @@ public class BlockMachines extends BlockContainerForest {
 	public IIcon[][][] icons;
 	
 	public BlockMachines(String blockName, Class<? extends TileMachineBase>... tiles) {
-		super(Material.iron, Tabs.tabForestdayBlocks);
+		super(Material.iron);
+		setCreativeTab(Tabs.tabForestday);
 		setStepSound(soundTypeMetal);
 		this.blockName = blockName;
 		setBlockName(blockName);

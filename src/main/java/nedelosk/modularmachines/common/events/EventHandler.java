@@ -1,6 +1,9 @@
 package nedelosk.modularmachines.common.events;
 
-import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
+import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry.ModuleRegisterEvent;
+import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -15,7 +18,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event)
 	{
-		if(ModularManager.getModuleStack(event.itemStack) != null)
+		if(ModuleRegistry.getModuleStack(event.itemStack) != null)
 		{
 			if(!GuiScreen.isShiftKeyDown())
 			{
@@ -26,13 +29,19 @@ public class EventHandler {
 			{
 				if(event.toolTip.size() != 1)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModularManager.getModuleStack(event.itemStack).getTier());
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModularManager.getModuleStack(event.itemStack).getModuleName() + ".name"));
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModuleRegistry.getModuleStack(event.itemStack).getTier());
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModuleRegistry.getModuleStack(event.itemStack).getModuleName() + ".name"));
 				if(event.toolTip.size() != 3)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
 				
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onRegisterModule(ModuleRegisterEvent event){
+		if(event.module instanceof IModuleProducer)
+			ItemRegistry.Producer.addModule(event.module.getName());
 	}
 	
 }

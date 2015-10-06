@@ -7,8 +7,6 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public class Tabs {
 	
-	public static CreativeTabs tabForestdayBlocks;
-	
-	public static CreativeTabs tabForestdayItems;
+	public static CreativeTabs tabForestday;
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.nedeloskcore.common.core.registry.NRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -21,7 +20,7 @@ public class ItemToolParts extends ItemForestday {
     public IIcon[] itemIcon;
 	
 	public ItemToolParts() {
-		super(null, Tabs.tabForestdayItems);
+		super(null);
 		setHasSubtypes(true);
 		setUnlocalizedName("tool.parts");
 	}

@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 public class ItemDusts extends ModularItem {
 
 	public static String[] dusts = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond", "Copper", "Tin", "Silver", "Lead", "Nickel", "Bronze", "Invar", "Ruby" };
-	public static String[] dustsOtherOres = new String[] { "Columbite", "Niobium", "Tantalum", "Aluminum" };
+	public static String[] dustsOtherOres = new String[] { "Columbite", "Niobium", "Tantalum", "Aluminum", "Steel", "White_Steel", "Gray_Steel", "Dark_Steel" };
 	public String[] name;
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;

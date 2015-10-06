@@ -2,15 +2,13 @@ package nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
 
-import nedelosk.modularmachines.api.modular.material.Material;
-import nedelosk.modularmachines.api.modular.material.MaterialType;
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.common.blocks.tile.TileMaterial;
 import nedelosk.modularmachines.common.core.MMBlocks;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.tabs.TabModularMachinesComponents;
-import nedelosk.modularmachines.common.core.tabs.TabModularMachinesModules;
-import nedelosk.modularmachines.common.machines.utils.MaterialManager;
-import net.minecraft.block.Block;
+import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -37,7 +35,15 @@ public class BlockMetal extends BlockContainer {
 	}
 
 	public int getRenderColor(ItemStack stack) {
-        return MaterialManager.getMaterial(stack).primaryColor;
+		if(MaterialManager.getMaterial(stack) != null)
+			return MaterialManager.getMaterial(stack).primaryColor;
+		else
+			return 16777215;
+	}
+	
+	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
+		return true;
 	}
 	
 	@Override

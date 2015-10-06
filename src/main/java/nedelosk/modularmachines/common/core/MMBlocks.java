@@ -14,7 +14,6 @@ public enum MMBlocks {
 	Metal_Blocks,
 	
 	Modular_Assembler,
-	Modular_Workbench,
 	Modular_Machine;
 	
 	private Block block;

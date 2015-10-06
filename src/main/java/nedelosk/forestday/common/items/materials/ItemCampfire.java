@@ -2,7 +2,6 @@ package nedelosk.forestday.common.items.materials;
 
 import java.util.List;
 
-import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.forestday.common.machines.base.wood.campfire.TileCampfire;
 import nedelosk.forestday.common.registrys.FBlocks;
@@ -22,7 +21,7 @@ public class ItemCampfire extends ItemForestday {
 	public String itemName;
 	
 	public ItemCampfire(String[] textures, String itemName) {
-		super(null, Tabs.tabForestdayItems);
+		super(null);
 		setHasSubtypes(true);
 		setUnlocalizedName("campfire." + itemName);
 		this.textures = textures;

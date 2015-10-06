@@ -5,6 +5,7 @@ forest.fd.block.wood_base.0.name=Campfire
 forest.fd.block.wood_base.1.name=Workbench
 forest.fd.block.wood_base.2.name=Workbench (Chest)
 forest.fd.block.wood_base.3.name=Kiln
+tile.corn.name=Corn Crop
 
 forest.fd.item.charcoal.kiln.0.name=Charcoal Kiln
 forest.fd.item.tile.kiln.charcoal.0.name=Charcoal Kiln
@@ -83,9 +84,7 @@ container.machine.kiln.resin=Resin Kiln
 ####################################
 Tabs
 ####################################
-itemGroup.forestday.items=Forest Day Items
-itemGroup.forestday.blocks=Forest Day Blocks
-itemGroup.forestday.multiblocks=Forest Day Structures
+itemGroup.forestday=Forest Day
 
 ####################################
 Tooltips
@@ -104,7 +103,6 @@ forestday.tooltip.workbench.mode.1.name=Stop
 ####################################
 Gui Nei
 ####################################
-forestday.nei.macerator=Macerator
 forestday.nei.kiln.resin=Resin Kiln
 forestday.nei.kiln.charcoal=Charcoal Kiln
 forestday.nei.burning=Burning

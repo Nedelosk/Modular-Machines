@@ -6,10 +6,10 @@ import java.util.Vector;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
-import nedelosk.modularmachines.api.modular.module.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
 import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
-import nedelosk.modularmachines.common.machines.utils.MachineBuilder;
+import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -81,7 +81,8 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 	}
 
 	public void setMachine(NBTTagCompound tagCompound) {
-		machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getTag("Machine"), this);
+		machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getTag("Machine"));
+		machine.setMachine(this);
 		if(page == null)
 			page = getModuleWithGuis().get(0).getModule().getName();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

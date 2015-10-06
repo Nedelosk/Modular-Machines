@@ -21,6 +21,11 @@ public enum MMItems {
 	//Parts
 	Part_Battery,
 	Part_Engine,
+	Part_Module,
+	Part_Producer,
+	Part_Burning_Chamber,
+	Part_Grinding_Wheel,
+	Part_Centrifuge_Chamber,
 	
 	//Components
 	Component_Connection_Wires,
@@ -29,6 +34,7 @@ public enum MMItems {
 	Component_Gears,
 	Component_Plates,
 	Component_Screws,
+	Component_Saw_Blades,
 	
 	//Pattern
 	WoodPattern,

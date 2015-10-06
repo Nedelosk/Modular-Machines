@@ -19,7 +19,8 @@ public class ItemGem extends ItemForestday {
     public IIcon[] itemIcon;
 	
 	public ItemGem() {
-		super(null, CreativeTabs.tabMaterials);
+		super(null);
+		setCreativeTab(CreativeTabs.tabMaterials);
 		setHasSubtypes(true);
 		setUnlocalizedName("gem");
 	}

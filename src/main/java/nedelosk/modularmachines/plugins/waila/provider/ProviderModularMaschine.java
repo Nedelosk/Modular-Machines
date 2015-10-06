@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.machines.utils.ModularUtils;
+import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
 
 public class ProviderModularMaschine implements IWailaDataProvider {

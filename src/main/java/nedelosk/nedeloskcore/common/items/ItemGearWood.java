@@ -19,7 +19,8 @@ public class ItemGearWood extends ItemForestday implements IUnfinished {
     public IIcon[] woodIcon;
 	
 	public ItemGearWood() {
-		super(null, CreativeTabs.tabMaterials);
+		super(null);
+		setCreativeTab(CreativeTabs.tabMaterials);
 		setHasSubtypes(true);
 		setUnlocalizedName("gearWood");
 	}

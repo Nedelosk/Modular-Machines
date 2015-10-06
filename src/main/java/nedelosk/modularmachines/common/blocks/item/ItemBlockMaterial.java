@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.blocks.item;
 
-import nedelosk.modularmachines.api.modular.material.Material;
+import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.common.blocks.tile.TileMaterial;
-import nedelosk.modularmachines.common.machines.utils.MaterialManager;
+import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

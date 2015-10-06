@@ -3,15 +3,15 @@ package nedelosk.modularmachines.client.gui.assembler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import nedelosk.modularmachines.api.modular.module.utils.ModularManager;
-import nedelosk.modularmachines.api.modular.parts.IMachinePart;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.MMClientRegistry;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
-import nedelosk.modularmachines.common.machines.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.nedeloskcore.api.machines.Button;
@@ -176,7 +176,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
               }
         }
     	
-        for(IMachinePart part : ModularManager.getMachineParts()) {
+        for(IMachinePart part : ModuleRegistry.getMachineParts()) {
             AssemblerMachineInfo info = MMClientRegistry.getAssemblerInfo(part);
             if(info != null) {
               GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
@@ -195,7 +195,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
         int count = buttonManager.getButtons().size();
 
         int columns = 5;
-        int spacing = 4;
+        int spacing = 5;
 	    int xI = button.id % columns;
 	    int yI = button.id / spacing;
 

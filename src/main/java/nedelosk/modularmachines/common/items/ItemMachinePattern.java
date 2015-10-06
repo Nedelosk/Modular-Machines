@@ -8,11 +8,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import tconstruct.library.TConstructRegistry;
-import tconstruct.library.crafting.PatternBuilder;
-import tconstruct.library.util.IPattern;
 
-public class ItemMachinePattern extends Item implements IPattern {
+public class ItemMachinePattern extends Item {
 	
 	public String[] components;
 	public int[] cost;
@@ -50,15 +47,9 @@ public class ItemMachinePattern extends Item implements IPattern {
     	return getUnlocalizedName() + stack.getItemDamage();
     }
 
-    @Override
     public int getPatternCost(ItemStack pattern) {
     	if(pattern == null)
     		return 2;
         return cost[pattern.getItemDamage()];
-    }
-
-    @Override
-    public ItemStack getPatternOutput(ItemStack pattern, ItemStack input, PatternBuilder.MaterialSet set) {
-        return TConstructRegistry.getPartMapping(this, pattern.getItemDamage(), set.materialID);
     }
 }
