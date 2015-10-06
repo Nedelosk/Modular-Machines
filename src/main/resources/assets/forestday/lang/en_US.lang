@@ -4,19 +4,22 @@ Blocks
 forest.fd.block.wood_base.0.name=Campfire
 forest.fd.block.wood_base.1.name=Workbench
 forest.fd.block.wood_base.2.name=Workbench (Chest)
-forest.fd.block.wood_base.3.name=Kiln
-tile.corn.name=Corn Crop
-
-forest.fd.item.charcoal.kiln.0.name=Charcoal Kiln
+forest.fd.block.wood_base.3.name=Resin Kiln
+tile.corn.name=Corn
 forest.fd.item.tile.kiln.charcoal.0.name=Charcoal Kiln
 forest.fd.item.tile.kiln.charcoal.1.name=Charcoal Ash
 
-#Fluids
-fluid.tar=Tar
-fluid.resin=Resin
-fluid.steam=Steam
-fluid.rubber=Rubber
-fluid.lubricant=Lubricant
+####################################
+Fluids
+####################################
+fluid.tar=Molten Tar
+forest.nc.block.tar.name=Molten Tar
+fluid.resin=Molten Resin
+forest.nc.block.resin.name=Molten Resin
+fluid.rubber=Molten Rubber
+forest.nc.block.rubber.name=Molten Rubber
+fluid.lubricant=Molten Lubricant
+forest.nc.block.lubricant.name=Molten Lubricant
 
 ####################################
 Items
@@ -24,7 +27,6 @@ Items
 item.bucket.tar.name=Tar Bucket
 item.bucket.resin.name=Resin Bucket
 item.bucket.rubber.name=Rubber Bucket
-item.bucket.steam.name=Steam Bucket
 item.bucket.lubricant.name=Lubricant Bucket
 item.corn.name=Corn
 forest.fd.item.nature.0.name=Bark Dust
