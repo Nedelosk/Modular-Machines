@@ -1,6 +1,5 @@
 package nedelosk.nedeloskcore.common.inventory;
 
-import nedelosk.forestday.common.inventory.slots.SlotTool;
 import nedelosk.nedeloskcore.common.blocks.tile.TilePlan;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -17,11 +16,6 @@ public class ContainerPlan extends ContainerBase<TilePlan> {
 		addSlotToContainer(new Slot(inventoryBase, 1, 26, 25));
 		addSlotToContainer(new Slot(inventoryBase, 2, 26, 43));
 		addSlotToContainer(new Slot(inventoryBase, 3, 26, 61));
-		
-		addSlotToContainer(new SlotTool(inventoryBase, 4, 152, 7));
-		addSlotToContainer(new SlotTool(inventoryBase, 5, 152, 25));
-		addSlotToContainer(new SlotTool(inventoryBase, 6, 152, 43));
-		addSlotToContainer(new SlotTool(inventoryBase, 7, 152, 61));
 	}
 
 }

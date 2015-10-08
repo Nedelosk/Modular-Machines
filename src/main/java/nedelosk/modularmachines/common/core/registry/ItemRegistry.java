@@ -11,13 +11,13 @@ import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
 import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartBattery;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartBurningChamber;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartCentrifugeChamber;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartEngine;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartGrindingWheel;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartModule;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePartProducer;
+import nedelosk.modularmachines.common.items.parts.energy.ItemMachinePartBattery;
+import nedelosk.modularmachines.common.items.parts.energy.ItemMachinePartEngine;
+import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartBurningChamber;
+import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartCentrifugeChamber;
+import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartGrindingWheel;
+import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartModule;
+import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartProducer;
 import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemNugget;
 
@@ -61,7 +61,7 @@ public class ItemRegistry {
 		MMItemManager.Component_Energy_Crystals.registerItem(Energy_Crystal = new ItemMachineComponent("energy_crystal", MaterialType.CRYTAL));
 		MMItemManager.Component_Saw_Blades.registerItem(Saw_Blade = new ItemMachineComponent("saw_blades", MaterialType.METAL));
 		
-		MMItemManager.Part_Battery.registerItem(Battery = registerPart(new ItemMachinePartBattery("Battery")));
+		MMItemManager.Part_Battery.registerItem(Battery = registerPart(new ItemMachinePartBattery("battery")));
 		MMItemManager.Part_Engine.registerItem(Engine = registerPart(new ItemMachinePartEngine("engine")));
 		MMItemManager.Part_Module.registerItem(Module = registerPart(new ItemMachinePartModule("module")));
 		MMItemManager.Part_Producer.registerItem(Producer = registerPart(new ItemMachinePartProducer()));

@@ -12,7 +12,6 @@ import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducer;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -133,17 +132,7 @@ public class ModuleFurnace extends ModuleProducer {
 	}
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
-	public void addWidgets(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
-	public int getSpeedModifier() {
+	public int getSpeed() {
 		return 30;
 	}
 

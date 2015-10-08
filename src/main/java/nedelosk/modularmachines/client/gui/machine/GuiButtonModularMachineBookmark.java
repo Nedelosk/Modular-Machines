@@ -58,7 +58,7 @@ public class GuiButtonModularMachineBookmark extends GuiButton {
 		GL11.glEnable(GL11.GL_BLEND);
 		
 		if(inside)
-			RenderUtils.renderTooltip(mx, my, Arrays.asList(StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getName())));
+			RenderUtils.renderTooltip(mx, my, Arrays.asList(StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getModuleName())));
 		GL11.glPopMatrix();
 		
 	}

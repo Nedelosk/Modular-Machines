@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items.parts.energy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class ItemMachinePartBattery extends ItemMachinePartEnergy implements IMa
 	    for(Material head : MMRegistry.materials) {
 	        if(!head.hasStats(Tags.TAG_MACHINE))
 	        	continue;
-	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD)
+	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD || head.type == MaterialType.PLACE_HOLDER)
 	        	continue;
 	        if(!head.hasStats(Stats.ENERGY_CONDUCTS))
 	        	continue;

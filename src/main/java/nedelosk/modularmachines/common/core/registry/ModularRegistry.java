@@ -40,8 +40,8 @@ public class ModularRegistry {
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 1), new ModuleCapacitor(20, 30), 2);
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 2), new ModuleCapacitor(25, 40), 2);
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 3), new ModuleCapacitor(40, 60), 1);
-		ModuleRegistry.registerModuleClass(ModuleBattery.class, "BatteryModular");
-		ModuleRegistry.registerModuleClass(ModuleEngine.class, "EngineModular");
+		ModuleRegistry.registerModuleClass(ModuleBattery.class, "moduleBatteryBatteryModular");
+		ModuleRegistry.registerModuleClass(ModuleEngine.class, "moduleEngineEngineModular");
 		
 		ModuleRegistry.registerModular(ModularMachine.class, "modular.machines");
 		

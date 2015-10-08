@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.utils;
 
 import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class MaterialManager {
 
 	public static Material getMaterial(ItemStack stack){
+		if(stack == null)
+			return null;
+		if(stack.getItem() instanceof IMachinePart){
+			return ((IMachinePart)stack.getItem()).getMaterial(stack);
+		}
 		NBTTagCompound nbtTag = stack.getTagCompound();
 		if(nbtTag == null)
 			return null;
@@ -22,6 +28,8 @@ public class MaterialManager {
 	}
 	
 	public static void setMaterial(ItemStack stack, Material material){
+		if(stack == null)
+			return;
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		if(!stack.getTagCompound().hasKey("Part")){

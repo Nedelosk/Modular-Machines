@@ -51,7 +51,8 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 		super.readFromNBT(nbt);
 		
 		page = nbt.getString("Page");
-		machine = MachineBuilder.createMachine(nbt.getString("MachineName"));
+		machine = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
+		machine.setMachine(this);
 	}
 
 	@Override
@@ -81,8 +82,9 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 	}
 
 	public void setMachine(NBTTagCompound tagCompound) {
-		machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getTag("Machine"));
+		machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
 		machine.setMachine(this);
+		machine.initModular();
 		if(page == null)
 			page = getModuleWithGuis().get(0).getModule().getName();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

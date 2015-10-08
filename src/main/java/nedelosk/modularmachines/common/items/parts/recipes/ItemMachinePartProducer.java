@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items.parts.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,12 +20,14 @@ import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
+import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.StatCollector;
 
 public class ItemMachinePartProducer extends ItemMachinePart implements IMachinePartProducer {
 	
@@ -34,7 +36,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	public PartType[][] requiredComponents;
 	
 	public ItemMachinePartProducer() {
-		super(null, "Producer");
+		super(null, "producer");
 	}
 	
 	public void addModule(String moduleName){
@@ -60,6 +62,11 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	}
 	
 	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		return StatCollector.translateToLocal("item.module.name") + " " + StatCollector.translateToLocal(modules.get(stack.getTagCompound().getInteger("ID")) + ".name");
+	}
+	
+	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
 		int b = 0;
 		for(Entry<Integer, String> entry : modules.entrySet()){
@@ -67,7 +74,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 		    for(Material head : MMRegistry.materials) {
 		        if(!head.hasStats(Tags.TAG_MACHINE))
 		        	continue;
-		        if(head.type == MaterialType.CUSTOM || head.type == MaterialType.CRYTAL)
+		        if(head.type == MaterialType.WOOD || head.type == MaterialType.STONE || head.type == MaterialType.CUSTOM || head.type == MaterialType.CRYTAL || head.type == MaterialType.PLACE_HOLDER)
 		        	continue;
 		        if(requiredComponents == null){
 		        	requiredComponents = new PartType[modules.size()][3];
@@ -125,6 +132,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	@Override
 	public ItemStack buildItemFromStacks(ItemStack[] stacks) {
 		for(Entry<Integer, String> entry : modules.entrySet()){
+			boolean isBroken = false;
 			List<Material> materials = Lists.newArrayList();
 			List<Material> partMaterials = Lists.newArrayList();
 			List<Material> moduleMaterials = Lists.newArrayList();
@@ -140,30 +148,47 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 		    if(stacks.length != requiredComponents[entry.getKey()].length || stacks[0] == null) {
 		      continue;
 		    }
-	
-		    for(int i = 0; i < stacks.length; i++) {
+			
+		    for(int i = 0; i < stacks.length;i++) {
 		    	ItemStack stack = stacks[i];
 		    	if(!validComponent(entry.getKey(), i, stack)) {
-		    		continue;
+		    		isBroken = true;
+		    		break;
 		    	}
-		    	if(stack.getItem() instanceof ItemMachinePartModule){
-		    		for(Material mat : ((ItemMachinePartModule)stack.getItem()).getMaterials(stack))
-		    			moduleMaterials.add(mat);
-		    		materials.add(MaterialManager.getMaterial(stack));
-		    	}
-		    	else if(stack.getItem() instanceof ItemMachinePart){
+		    	if(stack.getItem() instanceof ItemMachinePart){
 		    		for(Material mat : ((ItemMachinePart)stack.getItem()).getMaterials(stack))
 		    			partMaterials.add(mat);
-		    		materials.add(MaterialManager.getMaterial(stack));
+		    		if(MaterialManager.getMaterial(stack) != null)
+		    			materials.add(MaterialManager.getMaterial(stack));
+		    		else{
+			    		isBroken = true;
+			    		break;
+		    		}
 		    	}else{
-		    		materials.add(MaterialManager.getMaterial(stack));
+		    		if(MaterialManager.getMaterial(stack) != null)
+		    			materials.add(MaterialManager.getMaterial(stack));
+		    		else{
+			    		isBroken = true;
+			    		break;
+		    		}
 		    	}
 		    }
 		    for(Material mat : moduleMaterials)
-		    	materials.add(mat);
+		    	if(mat != null)
+		    		materials.add(mat);
+		    	else{
+		    		isBroken = true;
+		    		break;
+		    	}
 		    for(Material mat : partMaterials)
-		    	materials.add(mat);
-	
+		    	if(mat != null)
+		    		materials.add(mat);
+		    	else{
+		    		isBroken = true;
+		    		break;
+		    	}
+		    if(isBroken)
+		    	continue;
 		    if(buildItem(entry.getKey(), materials) == null)
 		    	continue;
 		    return buildItem(entry.getKey(), materials);
@@ -228,13 +253,21 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 
 	@Override
 	public ItemStack getMachine(ItemStack stack) {
+        if(requiredComponents == null){
+        	requiredComponents = new PartType[modules.size()][16];
+        }
+		if(requiredComponents[0] == null){
+			Iterator<String> iterator = modules.values().iterator();
+			IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(iterator.next());
+			requiredComponents[0] = producer.getRequiredComponents();
+		}
         int a = 0;
-        for(PartType type : requiredComponents[0]){
+        for(PartType type : ((IModuleProducer)ModuleRegistry.moduleFactory.createModule("moduleProducerAlloySmelter")).getRequiredComponents()){
         	Iterator<IMachine> iterator = type.neededPart.iterator();
         	while(iterator.hasNext()){
         		IMachine m = iterator.next();
         		if(m instanceof IMachinePart){
-        			a+=((IMachinePart) m).getMachineComponents().length;
+        			a+=((IMachinePart) m).getMachineComponents().length + 1;
         		}else{
         			a+=1;
         		}
@@ -244,7 +277,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
         for(int i = 0; i < a; i++) {
 	          mats.add(MMRegistry.Copper);
 	    }
-		return buildItem(mats);
+		return buildItem(0, mats);
 	}
 
 	@Override

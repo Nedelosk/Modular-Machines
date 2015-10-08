@@ -41,7 +41,7 @@ public final class ModuleStack<M extends IModule> {
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
-		nbt.setString("ModuleName", module.getModuleName());
+		nbt.setString("ModuleName", module.getName());
 		nbt.setInteger("Tier", tier);
 		nbt.setBoolean("hasNbt", hasNbt);
 		NBTTagCompound nbtTag = new NBTTagCompound();

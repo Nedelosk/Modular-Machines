@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core.manager;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.Loader;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.modularmachines.api.ModularMachinesApi;
@@ -8,6 +9,7 @@ import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.alloysmelter.RecipeAlloySmelter;
@@ -128,31 +130,21 @@ public class RecipeManager {
 	public static void registerModularComponentRecipes(){
 		IWorkbenchRecipe manager = ForestdayCrafting.workbenchRecipe;
 		
-		//if(!ModularConfig.pluginTinkers || !Loader.isModLoaded("TConstruct"))
-        for(int i = 0;i < MMRegistry.materials.size();i++) {
-            ItemStack plate = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
-            ItemStack connection_wires = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 4, i);
-            Material mat = MMRegistry.materials.get(i);
-            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
-            	MaterialManager.setMaterial(plate, mat);
-            	MaterialManager.setMaterial(connection_wires, mat);
-            	if (MaterialManager.getMaterial(plate) != null){
-            		manager.addRecipe(new OreStack("ingot" + mat.getOreDict(), 2), new OreStack("toolHammer"), plate, 100);
-            		manager.addRecipe(new OreStack("plate" + mat.getOreDict(), 1), new OreStack("toolCutter"), connection_wires, 100);
-            	}
-            }
-        }
-        //else
-        	ItemStack plateIron = new ItemStack(MMItemManager.Component_Plates.item(), 1, 2);
-        	ItemStack connection_wiresIron = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 8, 2);
-        	MaterialManager.setMaterial(plateIron, MMRegistry.Iron);
-        	MaterialManager.setMaterial(connection_wiresIron, MMRegistry.Iron);
-        	manager.addRecipe(new OreStack("ingotIron", 2), new OreStack("toolHammer"), plateIron, 100);
-        	manager.addRecipe(new OreStack("plateIron", 1), new OreStack("toolCutter"), plateIron, 100);
-           	ItemStack platePlastic = new ItemStack(MMItemManager.Component_Plates.item(), 2, 13);
-        	MaterialManager.setMaterial(platePlastic, MMRegistry.Plastic);
-        	manager.addRecipe(new OreStack("hardenedStarch", 1), new OreStack("toolHammer"), platePlastic, 100);
-        	
+		if(!ModularConfig.pluginTinkers || !Loader.isModLoaded("TConstruct"))
+		{
+	        for(int i = 0;i < MMRegistry.materials.size();i++) {
+	            ItemStack plate = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
+	            ItemStack connection_wires = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 4, i);
+	            Material mat = MMRegistry.materials.get(i);
+	            if(mat.type == MaterialType.METAL || mat.type == MaterialType.METAL_Custom){
+	            	MaterialManager.setMaterial(plate, mat);
+	            	MaterialManager.setMaterial(connection_wires, mat);
+	            	if (MaterialManager.getMaterial(plate) != null){
+	            		manager.addRecipe(new OreStack("ingot" + mat.getOreDict(), 2), new OreStack("toolHammer"), plate, 100);
+	            		manager.addRecipe(new OreStack("plate" + mat.getOreDict(), 1), new OreStack("toolCutter"), connection_wires, 100);
+	            	}
+	            }
+	        }
         	ItemStack blockTin = new ItemStack(MMBlockManager.Metal_Blocks.item(), 1, 6);
         	MaterialManager.setMaterial(blockTin, MMRegistry.Tin);
             addShapedRecipe(blockTin, "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Ingots.item(), 1, 1));
@@ -180,6 +172,17 @@ public class RecipeManager {
         	ItemStack blockSilver = new ItemStack(MMBlockManager.Metal_Blocks.item(), 1, 12);
         	MaterialManager.setMaterial(blockSilver, MMRegistry.Silver);
             addShapedRecipe(blockSilver, "+++", "+++", "+++", '+', new ItemStack(NCItemManager.Ingots.item(), 1, 2));
+       }else{
+	        ItemStack plateIron = new ItemStack(MMItemManager.Component_Plates.item(), 1, 2);
+	        ItemStack connection_wiresIron = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 8, 2);
+	        MaterialManager.setMaterial(plateIron, MMRegistry.Iron);
+	        MaterialManager.setMaterial(connection_wiresIron, MMRegistry.Iron);
+	        manager.addRecipe(new OreStack("ingotIron", 2), new OreStack("toolHammer"), plateIron, 100);
+	        manager.addRecipe(new OreStack("plateIron", 1), new OreStack("toolCutter"), plateIron, 100);
+	        ItemStack platePlastic = new ItemStack(MMItemManager.Component_Plates.item(), 2, 13);
+	        MaterialManager.setMaterial(platePlastic, MMRegistry.Plastic);
+	        manager.addRecipe(new OreStack("hardenedStarch", 1), new OreStack("toolHammer"), platePlastic, 100);
+       }
 	}
 	
 	

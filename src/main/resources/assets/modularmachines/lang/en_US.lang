@@ -13,6 +13,15 @@ StorageManager.name=Storage Manager
 Storage.name=Storage
 Tank.name=Tank
 
+moduleProducerAlloySmelter.name=Alloy Smelter
+moduleProducerCentrifuge.name=Centrifuge
+moduleProducerPulverizer.name=Pulverizer
+moduleProducerSawMill.name=Saw Mill
+
+mm.module.tooltip.tier=Tier
+mm.module.tooltip.name=Name
+mm.module.tooltip.shift=Hold Shift
+
 ####################################
 Material
 ####################################
@@ -48,6 +57,8 @@ component.screws=Screw
 component.gears=Gear
 component.plates=Plate
 component.energy_crystal=Energy Crystal
+component.saw_blades=Saw Blades
+
 ####################################
 Tabs
 ####################################
@@ -80,6 +91,10 @@ fluid.white_pig_iron=Molten White Pig Iron
 forest.nc.block.white_pig_iron.name=Molten White Pig Iron
 fluid.gray_pig_iron=Molten Gray Pig Iron
 forest.nc.block.gray_pig_iron.name=Molten Gray Pig Iron
+fluid.niobium=Molten Niobium
+forest.nc.block.niobium.name=Molten Niobium
+fluid.tantalum=Molten Tantalum
+forest.nc.block.tantalum.name=Molten Tantalum
 
 ####################################
 Item
@@ -128,5 +143,10 @@ item.bucket.tantalum.name=Tantalum Bucket
 item.bucket.niobium.name=Niobium Bucket
 item.bucket.gray.pig.iron.name=Gray Pig Iron Bucket
 item.bucket.white.pig.iron.name=White Pig Iron Bucket
-item.partBattery.name=Battery
-item.partEngine.name=Engine
+item.partbattery.name=Battery
+item.partengine.name=Engine
+item.partmodule.name=Module
+item.partgrinding_wheel.name=Grinding Wheel
+item.partburning_chamber.name=Burning Chamber
+item.partcentrifuge_chamber.name=Centrifuge Chamber
+item.module.name=Module

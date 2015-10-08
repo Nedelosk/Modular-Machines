@@ -15,11 +15,11 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = Defaults.MOD_ID,  version = Defaults.VERSION, dependencies = "after:Forestry;after:NotEnoughItems;after:NedeloskCore" )
+@Mod(modid = Defaults.MOD_ID,  version = Defaults.VERSION, dependencies = "after:Forestry;after:NotEnoughItems;required-after:NedeloskCore" )
 public class ForestDay
 {
-	  public static Configuration config_forestday;
-	  public static GuiHandler guiHandler = new GuiHandler();
+	public static Configuration config_forestday;
+	public static GuiHandler guiHandler = new GuiHandler();
 	  
 	@Mod.Instance(Defaults.MOD_ID)
 	public static ForestDay instance;
@@ -35,7 +35,6 @@ public class ForestDay
     	
   	  	NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
   	  
-    	
         File configFileForestdayFolder = new File(NedeloskCore.configFolder, "forest-day");
         File configFileForestday = new File(configFileForestdayFolder, "Forest-Day.cfg");
         config_forestday = new Configuration(configFileForestday);

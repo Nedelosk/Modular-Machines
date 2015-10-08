@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -17,20 +17,20 @@ public class SlotModuleMachine extends Slot {
 	
 	@Override
 	public ItemStack getStack() {
-		return ((TileModular<IModularInventory>)inventory).getModular().getInventoryManager().getStackInSlot(page, this.getSlotIndex());
+		return ((IModularTileEntity<IModularInventory>)inventory).getModular().getInventoryManager().getStackInSlot(page, this.getSlotIndex());
 	}
 	
 	@Override
     public void putStack(ItemStack p_75215_1_)
     {
-		((TileModular<IModularInventory>)inventory).getModular().getInventoryManager().setInventorySlotContents(this.page, getSlotIndex(), p_75215_1_);
+		((IModularTileEntity<IModularInventory>)inventory).getModular().getInventoryManager().setInventorySlotContents(this.page, getSlotIndex(), p_75215_1_);
         this.onSlotChanged();
     }
 	
 	@Override
     public ItemStack decrStackSize(int p_75209_1_)
     {
-        return ((TileModular<IModularInventory>)inventory).getModular().getInventoryManager().decrStackSize(this.page, getSlotIndex(), p_75209_1_);
+        return ((IModularTileEntity<IModularInventory>)inventory).getModular().getInventoryManager().decrStackSize(this.page, getSlotIndex(), p_75209_1_);
     }
 
 }

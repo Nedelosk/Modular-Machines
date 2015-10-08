@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.utils;
 
 import java.util.Map.Entry;
+
 import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.FMLLog;
@@ -20,7 +21,7 @@ public class MachineBuilder {
 		MACHINE, PART
 	}
 	
-	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, BuildMode mode, int tier)
+	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, BuildMode mode, int tier, ItemStack part)
 	{
 		if(mode == BuildMode.MACHINE){
 			IModular machine = buildMachine(inputs, moduleName);
@@ -36,8 +37,10 @@ public class MachineBuilder {
 				}
 			}
 		}else if(mode == BuildMode.PART){
-		    for(IMachinePart item : ModuleRegistry.getMachineParts()) {
-		    	ItemStack output = item.buildItemFromStacks(inputs);
+			if(part == null)
+				return null;
+			else{
+				ItemStack output = ((IMachinePart)part.getItem()).buildItemFromStacks(inputs);
 		    	if(output != null && output.hasTagCompound()){
 			        if(tier >= output.getTagCompound().getCompoundTag(Tags.TAG_MACHINE).getInteger("Tier")) {
 			        	return output;

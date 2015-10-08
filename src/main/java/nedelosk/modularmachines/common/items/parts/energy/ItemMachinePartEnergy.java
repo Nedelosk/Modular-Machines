@@ -1,8 +1,9 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items.parts.energy;
 
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import nedelosk.modularmachines.api.parts.PartType;
+import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

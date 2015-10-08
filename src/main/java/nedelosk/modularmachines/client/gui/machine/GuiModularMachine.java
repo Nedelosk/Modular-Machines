@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGuiWithButtons;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGuiWithWidgets;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -29,8 +32,8 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 	public GuiModularMachine(TileModular tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		this.inventory = inventory;
-		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui() != null)
-		((IModuleGui)tile.getModuleWithGui().getModule()).addWidgets(this, tile.machine);
+		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui().getModule() != null && tile.getModuleWithGui().getModule() instanceof IModuleGuiWithWidgets)
+			((IModuleGuiWithWidgets)tile.getModuleWithGui().getModule()).addWidgets(this, tile.machine);
 		ySize = ((IModuleGui)tile.getModuleWithGui().getModule()).getGuiTop(tile.machine);
 	}
 
@@ -41,12 +44,13 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 
 	@Override
 	protected void renderProgressBar() {
-		
-		for(Slot slot : (ArrayList<Slot>)inventorySlots.inventorySlots)
-		{
-			if(slot.slotNumber >= 36)
+		if(tile.getModuleWithGui().getModule() instanceof IModuleInventory){
+			for(Slot slot : (ArrayList<Slot>)inventorySlots.inventorySlots)
 			{
-				RenderUtils.drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 1, 56, 238, 18, 18);
+				if(slot.slotNumber < ((IModuleInventory)tile.getModuleWithGui().getModule()).getSizeInventory())
+				{
+					RenderUtils.drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 1, 56, 238, 18, 18);
+				}
 			}
 		}
 		
@@ -62,8 +66,8 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 			id++;
 		}
 		
-		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui() != null)
-			((IModuleGui)tile.getModuleWithGui().getModule()).addButtons(this, this.tile.machine);
+		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui().getModule() != null && tile.getModuleWithGui().getModule() instanceof IModuleGuiWithButtons)
+			((IModuleGuiWithButtons)tile.getModuleWithGui().getModule()).addButtons(this, this.tile.machine);
 	}
 	
 	@Override
@@ -106,7 +110,7 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	    
         RenderUtils.bindTexture(new ResourceLocation(getModName(), "textures/gui/inventory_player.png"));
-	    drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - 83, 0, 0, 162, 76);
+	    drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - 83, 7, 83, 162, 76);
 		
 		RenderUtils.bindTexture(guiTexture);
 	    renderProgressBar();

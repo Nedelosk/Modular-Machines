@@ -4,15 +4,16 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.items.base.ItemForestday;
+import nedelosk.forestday.api.Tabs;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.nedeloskcore.common.items.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemToolParts extends ItemForestday {
+public class ItemToolParts extends ItemForest {
 
 	public String[] parts = new String[] { "file_handle", "file_head_stone", "file_head_iron", "file_head_diamond", "knife_handle", "knife_head", "cutter_head", "cutter_handle", "adze_head", "adze_head_long", "adze_handle", "adze_handle_long" };
 	
@@ -20,7 +21,7 @@ public class ItemToolParts extends ItemForestday {
     public IIcon[] itemIcon;
 	
 	public ItemToolParts() {
-		super(null);
+		super(null, Tabs.tabForestday);
 		setHasSubtypes(true);
 		setUnlocalizedName("tool.parts");
 	}

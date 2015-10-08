@@ -2,11 +2,12 @@ package nedelosk.forestday.common.items.materials;
 
 import java.util.List;
 
+import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
-import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.forestday.common.managers.BlockManager;
 import nedelosk.forestday.common.managers.FItemManager;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.nedeloskcore.common.items.ItemForest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,13 +16,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemCampfire extends ItemForestday {
+public class ItemCampfire extends ItemForest {
 	
 	public String[] textures;
 	public String itemName;
 	
 	public ItemCampfire(String[] textures, String itemName) {
-		super(null);
+		super(null, Tabs.tabForestday);
 		setHasSubtypes(true);
 		setUnlocalizedName("campfire." + itemName);
 		this.textures = textures;

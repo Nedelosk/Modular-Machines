@@ -1,27 +1,27 @@
-package nedelosk.forestday.common.items.base;
+package nedelosk.nedeloskcore.common.items;
 
-import nedelosk.forestday.api.Tabs;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemForestday extends Item {
+public class ItemForest extends Item {
 	
 	private String unl;
 	private boolean hasMeta;
 	
-	public ItemForestday(String unl, boolean hasMeta)
+	public ItemForest(String unl, boolean hasMeta, CreativeTabs tab)
 	{
 		this.setUnlocalizedName(unl);
 		this.unl = unl;
 		this.setHasSubtypes(hasMeta);
-		this.setCreativeTab(Tabs.tabForestday);
+		this.setCreativeTab(tab);
 		this.hasMeta = hasMeta;
 	}
 	
-	public ItemForestday(String unl)
+	public ItemForest(String unl, CreativeTabs tab)
 	{
-		this.setCreativeTab(Tabs.tabForestday);
+		this.setCreativeTab(tab);
 		this.setUnlocalizedName(unl);
 		this.unl = unl;
 	}

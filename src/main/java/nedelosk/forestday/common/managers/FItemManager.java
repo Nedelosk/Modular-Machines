@@ -9,7 +9,6 @@ public enum FItemManager {
 
 	//Materials
 	nature,
-	charcoal,
 	crop_corn,
 	
 	//Campfire

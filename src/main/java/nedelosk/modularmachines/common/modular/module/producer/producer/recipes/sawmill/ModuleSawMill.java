@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -12,7 +12,6 @@ import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -20,6 +19,10 @@ public class ModuleSawMill extends ModuleProducerRecipe {
 
 	public ModuleSawMill() {
 		super("SawMill", 1, 2);
+	}
+	
+	public ModuleSawMill(int speedModifier) {
+		super("SawMill", 1, 2, speedModifier);
 	}
 
 	@Override
@@ -51,16 +54,6 @@ public class ModuleSawMill extends ModuleProducerRecipe {
 	}
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
-	public void addWidgets(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
 	public RecipeInput[] getInputs(IModular modular) {
 		return getInputItems(modular);
 	}
@@ -69,12 +62,6 @@ public class ModuleSawMill extends ModuleProducerRecipe {
 	public String getRecipeName() {
 		return "SawMill";
 	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 20;
-	}
-
 	@Override
 	public int getSizeInventory() {
 		return 3;
@@ -86,11 +73,20 @@ public class ModuleSawMill extends ModuleProducerRecipe {
 				  			  new MachinePartType(ItemRegistry.Module),
 				  			  new MachinePartType(ItemRegistry.Saw_Blade)};
 	}
+	
+	@Override
+	public int getColor() {
+		return 0x6C5416;
+	}
 
 	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getSpeedModifier() {
+		return 85;
+	}
+	
+	@Override
+	public IModule getModule(int speedModifier) {
+		return new ModuleSawMill(speedModifier);
 	}
 
 }

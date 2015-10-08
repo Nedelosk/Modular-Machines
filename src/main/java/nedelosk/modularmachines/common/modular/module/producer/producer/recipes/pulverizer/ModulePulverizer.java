@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -12,7 +12,6 @@ import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -20,6 +19,10 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 
 	public ModulePulverizer() {
 		super("Pulverizer", 1, 2);
+	}
+	
+	public ModulePulverizer(int speedModifier) {
+		super("Pulverizer", 1, 2, speedModifier);
 	}
 
 	@Override
@@ -51,16 +54,6 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	}
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
-	public void addWidgets(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
 	public RecipeInput[] getInputs(IModular modular) {
 		return getInputItems(modular);
 	}
@@ -68,11 +61,6 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	@Override
 	public String getRecipeName() {
 		return "Pulverizer";
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 25;
 	}
 
 	@Override
@@ -86,11 +74,20 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 				  			  new MachinePartType(ItemRegistry.Module),
 				  			new MachinePartType(ItemRegistry.Grinding_Wheel)};
 	}
-
+	
 	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getColor() {
+		return 0x515151;
+	}
+	
+	@Override
+	public int getSpeedModifier() {
+		return 105;
+	}
+	
+	@Override
+	public IModule getModule(int speedModifier) {
+		return new ModulePulverizer(speedModifier);
 	}
 
 }

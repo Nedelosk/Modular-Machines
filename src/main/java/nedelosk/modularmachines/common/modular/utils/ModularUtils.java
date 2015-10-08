@@ -67,6 +67,8 @@ public class ModularUtils {
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName){
+		if(getModuleStack(modular, moduleName, 0) == null)
+			return null;
 		return (M) getModuleStack(modular, moduleName, 0).getModule();
 	}
 	
@@ -79,10 +81,14 @@ public class ModularUtils {
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName, int ID){
+		if(getModuleStack(modular, moduleName, ID) == null)
+			return null;
 		return (M) getModuleStack(modular, moduleName, ID).getModule();
 	}
 	
 	public static ModuleStack getModuleStack(IModular modular, String moduleName, int ID){
+		if(getModuleStack(modular, moduleName) == null)
+			return null;
 		return getModuleStack(modular, moduleName).get(ID);
 	}
 	

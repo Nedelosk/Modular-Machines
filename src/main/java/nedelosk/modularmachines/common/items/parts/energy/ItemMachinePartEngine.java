@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items.parts.energy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
+import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
 import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.module.basic.energy.ModuleEngine;
 import net.minecraft.creativetab.CreativeTabs;
@@ -57,7 +58,7 @@ public class ItemMachinePartEngine extends ItemMachinePart implements IMachinePa
 	    for(Material head : MMRegistry.materials) {
 	        if(!head.hasStats(Tags.TAG_MACHINE))
 	        	continue;
-	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD || head.type == MaterialType.CUSTOM)
+	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD || head.type == MaterialType.CUSTOM || head.type == MaterialType.PLACE_HOLDER)
 	        	continue;
 	        List<Material> mats = new ArrayList<Material>(requiredComponents.length);
 

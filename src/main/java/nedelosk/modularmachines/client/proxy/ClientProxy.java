@@ -80,5 +80,11 @@ public class ClientProxy extends CommonProxy {
         infoGrindingWhell.addSlotPosition(33+20, 42);
         infoGrindingWhell.addSlotPosition(33, 42+20);
     	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Grinding_Wheel.item(), infoGrindingWhell);
+    	
+    	AssemblerMachineInfo infoProducer = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Producer.item()), BuildMode.PART);
+        infoProducer.addSlotPosition(33-20, 42);
+        infoProducer.addSlotPosition(33, 42);
+        infoProducer.addSlotPosition(33+20, 42);
+    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Producer.item(), infoProducer);
 	}
 }

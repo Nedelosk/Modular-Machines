@@ -37,11 +37,6 @@ public class ModuleTankManager extends ModuleGui implements IModuleFluidManager 
 	}
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		if(modular.getManager().getFluidHandler() != null)

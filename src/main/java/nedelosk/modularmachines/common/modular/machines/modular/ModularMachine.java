@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.common.modular.machines.modular;
 
+import cofh.api.energy.EnergyStorage;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -12,6 +13,7 @@ import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePartBattery;
 import nedelosk.modularmachines.api.parts.IMachinePartEngine;
 import nedelosk.modularmachines.api.parts.IMachinePartProducer;
+import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
@@ -20,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ModularMachine extends ModularInventory {
 
 	public ModularMachine() {
+		super();
 	}
 	
 	public ModularMachine(NBTTagCompound nbt) {
@@ -78,6 +81,7 @@ public class ModularMachine extends ModularInventory {
 			modular.addModule(engine);
 			modular.addModule(casing);
 			modular.addModule(producer);
+			modular.getManager().setEnergyHandler(new EnergyHandler(new EnergyStorage(((IModuleBattery)battery.getModule()).getMaxEnergyStored(), ((IModuleBattery)battery.getModule()).getMaxEnergyReceive(), ((IModuleBattery)battery.getModule()).getMaxEnergyExtract())));
 			return modular;
 		}
 		return null;
@@ -90,11 +94,15 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
+		if(ModularUtils.getModuleProducer(modular) == null)
+			return null;
 		return ModularUtils.getModuleProducer(modular).getItemRenderer(modular, stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
+		if(ModularUtils.getModuleProducer(modular) == null)
+			return null;
 		return ModularUtils.getModuleProducer(modular).getMachineRenderer(modular, tile);
 	}
 

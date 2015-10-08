@@ -1,16 +1,21 @@
 package nedelosk.modularmachines.common.modular.module.producer.producer.recipes;
 
+import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.Stats;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import nedelosk.modularmachines.common.modular.utils.RecipeManager;
 import net.minecraft.item.ItemStack;
@@ -22,6 +27,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	public IRecipeManager manager;
 	public int outputs;
 	public int inputs;
+	protected int speed;
 	
 	public ModuleProducerRecipe(NBTTagCompound nbt) {
 		super(nbt);
@@ -32,12 +38,19 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		this.inputs = inputs;
 		this.outputs = outputs;
 	}
+	
+	public ModuleProducerRecipe(String modifier, int inputs, int outputs, int speed) {
+		super(modifier);
+		this.inputs = inputs;
+		this.outputs = outputs;
+		this.speed = speed;
+	}
 
 	@Override
 	public int getBurnTimeTotal(IModular modular)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2;
 	}
@@ -45,7 +58,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	public int getBurnTimeTotal(IModular modular, int speedModifier)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
 	}
@@ -186,6 +199,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		
 		nbt.setInteger("Inputs", inputs);
 		nbt.setInteger("Outputs", outputs);
+		nbt.setInteger("Speed", speed);
 	}
 	
 	@Override
@@ -197,6 +211,31 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		
 		inputs = nbt.getInteger("Inputs");
 		outputs = nbt.getInteger("Outputs");
+		speed = nbt.getInteger("Speed");
 	}
+	
+	@Override
+	public int getSpeed() {
+		return speed;
+	}
+	
+	@Override
+	public ModuleStack creatModule(ItemStack stack) {
+		IMachinePartProducer producer = (IMachinePartProducer) stack.getItem();
+		Material[] materials = producer.getPartMaterials(stack);
+		int size;
+		int tiers = 0;
+		for(size = 0;size < materials.length;size++){
+			if(!materials[size].hasStats(Stats.MACHINE))
+				return null;
+			tiers += ((MachineState)materials[size].getStats(Stats.MACHINE)).tier();
+		}
+		int speedModifier = getSpeedModifier()/tiers*size;
+		return new ModuleStack(stack, getModule(speedModifier), tiers/size, false);
+	}
+	
+	public abstract int getSpeedModifier();
+	
+	public abstract IModule getModule(int speedModifier);
 
 }

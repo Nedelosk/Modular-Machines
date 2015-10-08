@@ -1,8 +1,9 @@
 package nedelosk.modularmachines.api.modular.module.basic.energy;
 
-import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGuiWithWidgets;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
 
-public interface IModuleBattery extends IModuleGui{
+public interface IModuleBattery extends IModuleGuiWithWidgets, IModuleInventory{
 
 	int getMaxEnergyStored();
 	

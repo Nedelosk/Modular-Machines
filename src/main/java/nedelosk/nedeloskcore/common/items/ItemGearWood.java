@@ -4,8 +4,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.crafting.IUnfinished;
-import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,14 +11,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemGearWood extends ItemForestday implements IUnfinished {
+public class ItemGearWood extends ItemForest {
 	
 	@SideOnly(Side.CLIENT)
     public IIcon[] woodIcon;
 	
 	public ItemGearWood() {
-		super(null);
-		setCreativeTab(CreativeTabs.tabMaterials);
+		super(null, CreativeTabs.tabMaterials);
 		setHasSubtypes(true);
 		setUnlocalizedName("gearWood");
 	}
@@ -56,10 +53,5 @@ public class ItemGearWood extends ItemForestday implements IUnfinished {
     {
         return NCRegistry.setUnlocalizedItemName("gear.wood." + itemstack.getItemDamage(), "nc");
     }
-
-	@Override
-	public boolean isItemUnfinished(ItemStack stack) {
-		return stack.getItemDamage() > 1;
-	}
 
 }

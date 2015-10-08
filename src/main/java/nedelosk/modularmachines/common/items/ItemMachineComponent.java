@@ -5,12 +5,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
+import nedelosk.modularmachines.api.materials.Stats;
 import nedelosk.modularmachines.api.parts.IMachineComponent;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -100,6 +103,13 @@ public class ItemMachineComponent extends Item implements IMachineComponent {
 	@Override
 	public Material getMaterial(ItemStack stack) {
 		return MaterialManager.getMaterial(stack);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
+		IMachineComponent producer = (IMachineComponent) stack.getItem();
+		if(getMaterial(stack).hasStats(Stats.MACHINE))
+			list.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ((MachineState)getMaterial(stack).getStats(Stats.MACHINE)).tier());
 	}
     
 }

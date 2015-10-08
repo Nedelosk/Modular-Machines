@@ -17,7 +17,7 @@ import nedelosk.nedeloskcore.common.network.GuiHandler;
 import nedelosk.nedeloskcore.common.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "NedeloskCore", version = "0.2.0", dependencies = "after:Railcraft")
+@Mod(modid = "NedeloskCore", version = "0.3.0", dependencies = "after:Railcraft")
 public class NedeloskCore
 {
 	

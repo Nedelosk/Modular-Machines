@@ -48,12 +48,12 @@ public abstract class ModuleProducer extends ModuleGui implements IModuleProduce
 		nbt.setInteger("timerTotal", timerTotal);
 	}
 	
-	public abstract int getSpeedModifier();
+	public abstract int getSpeed();
 	
 	public int getBurnTimeTotal(IModular modular)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeedModifier() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
 		return burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 	}
 	

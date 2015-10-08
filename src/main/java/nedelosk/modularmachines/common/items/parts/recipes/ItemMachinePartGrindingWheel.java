@@ -1,27 +1,32 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items.parts.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.modularmachines.api.materials.Material;
+import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.materials.Stats;
+import nedelosk.modularmachines.api.materials.Tags;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
+import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
 import nedelosk.modularmachines.common.materials.MachineState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemMachinePartCentrifugeChamber extends ItemMachinePart {
+public class ItemMachinePartGrindingWheel extends ItemMachinePart {
 
-	public ItemMachinePartCentrifugeChamber(String name) {
-		super(new PartType[]{ new MachinePartType(ItemRegistry.Rods),
+	public ItemMachinePartGrindingWheel(String name) {
+		super(new PartType[]{ new MachinePartType(ItemRegistry.Plates),
+							  new MachinePartType(ItemRegistry.Plates),
 							  new MachinePartType(ItemRegistry.Rods),
-							  new MachinePartType(ItemRegistry.Burning_Chamber),
-							  new MachinePartType(ItemRegistry.Rods),
-							  new MachinePartType(ItemRegistry.Rods) }, name);
+							  new MachinePartType(ItemRegistry.Plates),
+							  new MachinePartType(ItemRegistry.Plates) }, name);
 	}
 
 	@Override
@@ -33,6 +38,23 @@ public class ItemMachinePartCentrifugeChamber extends ItemMachinePart {
 		materials.add(MMRegistry.Iron);
 		materials.add(MMRegistry.Iron);
 		return buildItem(materials);
+	}
+	
+	@Override
+	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List subItems) {
+	    for(Material head : MMRegistry.materials) {
+	        if(!head.hasStats(Tags.TAG_MACHINE))
+	        	continue;
+	        if(head.type == MaterialType.CRYTAL || head.type == MaterialType.STONE || head.type == MaterialType.WOOD || head.type == MaterialType.PLACE_HOLDER)
+	        	continue;
+	        List<Material> mats = new ArrayList<Material>(requiredComponents.length);
+
+	        for(int i = 0; i < requiredComponents.length; i++) {	
+	        	mats.add(head);
+	        }
+
+	        subItems.add(buildItem(mats));
+	      }
 	}
 
 	@Override
@@ -52,9 +74,9 @@ public class ItemMachinePartCentrifugeChamber extends ItemMachinePart {
 		MachineState state_1 = materials.get(1).getStats(Stats.MACHINE);
 		MachineState state_2 = materials.get(2).getStats(Stats.MACHINE);
 		MachineState state_3 = materials.get(3).getStats(Stats.MACHINE);
-		MachineState state_4 = materials.get(4).getStats(Stats.MACHINE);
+		MachineState state_4 = materials.get(3).getStats(Stats.MACHINE);
 		int tier = state_0.tier() + state_1.tier() + state_2.tier() + state_3.tier() + state_4.tier();
-		nbtTag.setInteger("Tier", tier / 5);
+		nbtTag.setInteger("Tier", tier / 4);
 		return nbtTag;
 	}
 

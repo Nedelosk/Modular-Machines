@@ -137,7 +137,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
     		return null;
     	if(info.machine == null)
     		return null;
-    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode, inventoryBase.tier);
+    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode, inventoryBase.tier, info.machine);
   	}
 	
 	@Override

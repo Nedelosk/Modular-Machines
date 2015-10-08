@@ -4,7 +4,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.items.base.ItemForestday;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemIngot extends ItemForestday {
+public class ItemIngot extends ItemForest {
 
 	public static String[] ingots = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel" };
 	public String[] ingot;
@@ -21,8 +20,7 @@ public class ItemIngot extends ItemForestday {
 	public String modID;
 	
 	public ItemIngot(String[] ingot, String modID) {
-		super(null);
-		this.setCreativeTab(CreativeTabs.tabMaterials);
+		super(null, CreativeTabs.tabMaterials);
 		this.ingot = ingot;
 		this.modID = modID;
 		setHasSubtypes(true);

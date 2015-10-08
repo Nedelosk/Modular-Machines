@@ -49,4 +49,14 @@ public interface IModular extends INBTTagable {
 	
 	String getName();
 	
+	void initModular();
+	
+	int getStorageSlots();
+	
+	int getUsedStorageSlots();
+	
+	void setStorageSlots(int slots);
+	
+	void setUsedStorageSlots(int slots);
+	
 }

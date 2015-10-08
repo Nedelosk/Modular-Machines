@@ -4,22 +4,23 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.items.base.ItemForestday;
+import nedelosk.forestday.api.Tabs;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.nedeloskcore.common.items.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemNature extends ItemForestday {
+public class ItemNature extends ItemForest {
 
 	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash", "mortar", "starch", "starch", "hardened_starch" };
 	@SideOnly(Side.CLIENT)
     public IIcon[] itemIcon;
 	
 	public ItemNature() {
-		super(null);
+		super(null, Tabs.tabForestday);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
 	}

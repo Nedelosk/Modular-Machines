@@ -7,14 +7,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
+import nedelosk.modularmachines.api.materials.Stats;
 import nedelosk.modularmachines.api.materials.Tags;
 import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -137,7 +140,7 @@ public abstract class ItemMachinePart extends Item implements IMachinePart{
 	    NBTTagList materialList = new NBTTagList();
 
 	    for(Material material : materials) {
-	      materialList.appendTag(new NBTTagString(material.identifier));
+	    	materialList.appendTag(new NBTTagString(material.identifier));
 	    }
 
 	    base.setTag(Tags.TAG_MATERIALS, materialList);
@@ -188,6 +191,21 @@ public abstract class ItemMachinePart extends Item implements IMachinePart{
 	        ItemStack tool = buildItem(mats);
 	        subItems.add(tool);
 	      }
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
+		IMachinePart producer = (IMachinePart) stack.getItem();
+		Material[] materials = producer.getMaterials(stack);
+		int size;
+		int tiers = 0;
+		for(size = 0;size < materials.length;size++){
+			if(!materials[size].hasStats(Stats.MACHINE))
+				return;
+			tiers += ((MachineState)materials[size].getStats(Stats.MACHINE)).tier();
+		}
+		int tier = tiers/size;
+		list.add("Tier: " + tier);
 	}
 
 }

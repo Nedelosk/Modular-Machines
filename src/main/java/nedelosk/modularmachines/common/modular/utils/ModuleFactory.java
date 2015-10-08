@@ -50,6 +50,8 @@ public class ModuleFactory implements IModuleFactory {
             IModule i = null;
             if (name != null)
             {
+            	if(ModuleRegistry.getModuleClass(name) == null)
+            		return null;
                 i = ModuleRegistry.getModuleClass(name).newInstance();
                 i.readFromNBT(nbt, modular);
             }

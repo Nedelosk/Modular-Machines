@@ -1,7 +1,6 @@
 package nedelosk.nedeloskcore.common.core.registry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestday.common.managers.CraftingManager;
 import nedelosk.nedeloskcore.api.Material;
 import nedelosk.nedeloskcore.api.Material.MaterialType;
 import nedelosk.nedeloskcore.api.NCoreApi;
@@ -25,6 +24,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 
 public class ObjectRegistry {
@@ -94,18 +95,18 @@ public class ObjectRegistry {
 		{
 			if(material.type == MaterialType.BRICK)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.clay_ball);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.clay_ball);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
 			}
 			else if(material.type == MaterialType.METAL)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.redstone);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.redstone);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.iron_bars);
 			}
 			else if(material.type == MaterialType.WOOD)
 			{
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.stick);
-				CraftingManager.addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.ladder);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock.item(), 4, NCoreApi.getMaterials().indexOf(material)), "+++", "+-+", "+++", '+', material.oreDict, '-', Items.stick);
+				addShapedRecipe(new ItemStack(NCBlockManager.Multiblock_Valve.item(), 2, NCoreApi.getMaterials().indexOf(material)), "+I+", "I-I", "+I+", '+', material.oreDict, '-', Blocks.lever, 'I', Blocks.ladder);
 			}
 		}
 	}
@@ -131,6 +132,16 @@ public class ObjectRegistry {
 		OreDictionary.registerOre("oreRuby", new ItemStack(NCBlockManager.Ore.item(), 1, 5));
 		OreDictionary.registerOre("gemRuby", new ItemStack(NCItemManager.Gems.item(), 1, 0));
 		OreDictionary.registerOre("bricksStone", Blocks.stonebrick);
+	}
+	
+	public static void addShapedRecipe(ItemStack stack, Object... obj)
+	{
+		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
+	}
+	
+	public static void addShapelessRecipe(ItemStack stack, Object... obj)
+	{
+		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
 	
 }

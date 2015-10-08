@@ -8,11 +8,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class ModularInventory extends Modular implements IModularInventory {
 
 	public ModularInventory() {
+		inventoryManager = new ModularInventoryManager(this);
 	}
 	
 	public ModularInventory(NBTTagCompound nbt) {
 		super(nbt);
-		inventoryManager = new ModularInventoryManager(this);
 	}
 	
 	protected IModularInventoryManager inventoryManager;
@@ -26,13 +26,17 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagCompound inventory = new NBTTagCompound();
-		inventoryManager.writeToNBT(nbt);
+		if(inventoryManager == null)
+			inventoryManager = new ModularInventoryManager(this);
+		inventoryManager.writeToNBT(inventory);
 		nbt.setTag("InventoryManager", inventory);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		if(inventoryManager == null)
+			inventoryManager = new ModularInventoryManager(this);
 		inventoryManager.readFromNBT(nbt.getCompoundTag("InventoryManager"));
 	}
 

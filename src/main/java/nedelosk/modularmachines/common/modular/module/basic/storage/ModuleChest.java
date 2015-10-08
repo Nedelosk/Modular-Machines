@@ -2,15 +2,12 @@ package nedelosk.modularmachines.common.modular.module.basic.storage;
 
 import java.util.ArrayList;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
 import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -58,20 +55,9 @@ public class ModuleChest extends Module implements IModuleStorage {
 	@Override
 	public ResourceLocation getCustomGui(IModular modular) {
 		if(ModularUtils.getModuleStackStorage(modular).getTier() == 3)
-		return new ResourceLocation("modularmachines", "textures/gui/modular_machine_chest.png");
+			return new ResourceLocation("modularmachines", "textures/gui/modular_machine_chest.png");
 		else
 			return null;
-	}
-
-	@Override
-	public void addButtons(IGuiBase gui, IModular modular) {
-		
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addWidgets(IGuiBase gui, IModular modular) {
-		
 	}
 	
 	@Override

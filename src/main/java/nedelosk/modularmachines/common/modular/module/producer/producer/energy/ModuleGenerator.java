@@ -13,10 +13,5 @@ public abstract class ModuleGenerator extends ModuleProducer implements IModuleG
 	public ModuleGenerator(NBTTagCompound nbt) {
 		super(nbt);
 	}
-
-	@Override
-	public String getModuleName() {
-		return "Generator";
-	}
 	
 }
