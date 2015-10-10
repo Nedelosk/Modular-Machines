@@ -18,10 +18,10 @@ public class ContainerModularMachine extends ContainerBase<TileModular>{
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
-		if(inventoryBase.getModuleWithGui().getModule() instanceof IModuleInventory){
-			if(((IModuleInventory)inventoryBase.getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.machine) != null)
+		if(inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
+			if(((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular) != null)
 			{
-				for(Slot slot : ((IModuleInventory)inventoryBase.getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.machine))
+				for(Slot slot : ((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular))
 				{
 					addSlotToContainer(slot);		
 				}
@@ -31,8 +31,8 @@ public class ContainerModularMachine extends ContainerBase<TileModular>{
 	
 	@Override
 	protected void addInventory(InventoryPlayer inventory) {
-		if(inventoryBase.getModuleWithGui().getModule() instanceof IModuleInventory){
-			int i = ((IModuleGui)inventoryBase.getModuleWithGui().getModule()).getGuiTop(inventoryBase.machine) - 82;
+		if(inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
+			int i = ((IModuleGui)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).getGuiTop(inventoryBase.modular) - 82;
         	for (int i1 = 0; i1 < 3; i1++) {
             	for (int l1 = 0; l1 < 9; l1++) {
             		addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));

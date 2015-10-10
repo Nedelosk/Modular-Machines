@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
-import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducer;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import net.minecraft.inventory.Slot;
@@ -121,8 +121,8 @@ public class ModuleFurnace extends ModuleProducer {
 	@Override
 	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.add(new SlotModuleMachine(modular.getMachine(), 0, 56, 35, this.getName()));
-		list.add(new SlotModuleMachine(modular.getMachine(), 1, 116, 35, this.getName()){
+		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, this.getName()));
+		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, this.getName()){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;

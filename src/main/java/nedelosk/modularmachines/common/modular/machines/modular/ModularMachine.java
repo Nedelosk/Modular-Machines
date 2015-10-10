@@ -9,13 +9,13 @@ import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePartBattery;
 import nedelosk.modularmachines.api.parts.IMachinePartEngine;
 import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
-import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -96,14 +96,14 @@ public class ModularMachine extends ModularInventory {
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
 		if(ModularUtils.getModuleProducer(modular) == null)
 			return null;
-		return ModularUtils.getModuleProducer(modular).getItemRenderer(modular, stack);
+		return ModularUtils.getModuleProducer(modular).getItemRenderer(modular, ModularUtils.getModuleStackProducer(modular), stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
 		if(ModularUtils.getModuleProducer(modular) == null)
 			return null;
-		return ModularUtils.getModuleProducer(modular).getMachineRenderer(modular, tile);
+		return ModularUtils.getModuleProducer(modular).getMachineRenderer(modular, ModularUtils.getModuleStackProducer(modular), tile);
 	}
 
 }

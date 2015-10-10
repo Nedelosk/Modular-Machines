@@ -54,5 +54,10 @@ public class ModuleTankManager extends ModuleGui implements IModuleFluidManager 
 	public String getModuleName() {
 		return "TankManager";
 	}
+	
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
 
 }

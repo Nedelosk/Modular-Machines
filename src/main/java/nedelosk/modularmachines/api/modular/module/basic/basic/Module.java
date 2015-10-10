@@ -1,7 +1,11 @@
 package nedelosk.modularmachines.api.modular.module.basic.basic;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class Module implements IModule{
@@ -50,6 +54,16 @@ public abstract class Module implements IModule{
 	@Override
 	public String getName() {
 		return "module" + getModuleName() + ((modifier != null) ? modifier : "");
+	}
+	
+	@Override
+	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
+		return null;
+	}
+	
+	@Override
+	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
+		return null;
 	}
 
 }

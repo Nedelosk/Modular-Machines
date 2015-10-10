@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
@@ -15,26 +16,17 @@ import net.minecraft.item.ItemStack;
 
 public interface IModular extends INBTTagable {
 	
-	IModularUtilsManager getManager();
-	
 	int getTier();
 	
-	IModular buildItem(ItemStack[] stacks);
-	
-	HashMap<String, Vector<ModuleStack>> getModules();
-	
-	void setModules(HashMap<String, Vector<ModuleStack>> modules);
-	
-	void setMachine(IModularTileEntity machine);
-	
-	@SideOnly(Side.CLIENT)
-	IModularRenderer getItemRenderer(IModular modular, ItemStack stack);
-	
-	@SideOnly(Side.CLIENT)
-	IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile);
+	void update();
 	
 	IModularTileEntity getMachine();
 	
+	String getName();
+	
+	void initModular();
+	
+	//Utils
 	ModuleStack<IModuleBattery> getBattery();
 	
 	ModuleStack<IModuleCasing> getCasing();
@@ -47,10 +39,15 @@ public interface IModular extends INBTTagable {
 	
 	ModuleStack getModule(String moduleName, int id);
 	
-	String getName();
+	HashMap<String, Vector<ModuleStack>> getModules();
 	
-	void initModular();
+	void setModules(HashMap<String, Vector<ModuleStack>> modules);
 	
+	void setMachine(IModularTileEntity machine);
+	
+	IModularUtilsManager getManager();
+	
+	//Storage
 	int getStorageSlots();
 	
 	int getUsedStorageSlots();
@@ -58,5 +55,18 @@ public interface IModular extends INBTTagable {
 	void setStorageSlots(int slots);
 	
 	void setUsedStorageSlots(int slots);
+	
+	//Gui
+	IModularGuiManager getGuiManager();
+	
+	//Renderer
+	@SideOnly(Side.CLIENT)
+	IModularRenderer getItemRenderer(IModular modular, ItemStack stack);
+	
+	@SideOnly(Side.CLIENT)
+	IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile);
+	
+	//Item
+	IModular buildItem(ItemStack[] stacks);
 	
 }

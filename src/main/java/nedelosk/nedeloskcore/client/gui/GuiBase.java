@@ -66,8 +66,6 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	
     @Override
     protected void drawGuiContainerForegroundLayer(int param1, int param2) {
-
-        //fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
         
         renderStrings(fontRendererObj, param1, param2);
         widgetManager.drawTooltip(param1, param2);

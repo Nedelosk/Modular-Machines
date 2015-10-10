@@ -4,8 +4,6 @@ import nedelosk.modularmachines.api.modular.machines.manager.IModularInventoryMa
 
 public interface IModularInventory extends IModular {
 
-	void update();
-	
 	IModularInventoryManager getInventoryManager();
 	
 }

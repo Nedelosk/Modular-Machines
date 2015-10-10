@@ -25,4 +25,8 @@ public interface IMachinePartProducer extends IMachinePart {
 	
 	Material[] getPartMaterials(ItemStack stack);
 	
+	int getModuleID(ItemStack stack);
+	
+	void updateComponents(int ID);
+	
 }

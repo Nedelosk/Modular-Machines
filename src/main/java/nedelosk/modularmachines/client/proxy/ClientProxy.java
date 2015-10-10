@@ -2,7 +2,6 @@ package nedelosk.modularmachines.client.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.client.MMClientRegistry;
 import nedelosk.modularmachines.client.renderers.item.ItemRendererMetal;
 import nedelosk.modularmachines.client.renderers.item.ItemRendererModular;
 import nedelosk.modularmachines.client.renderers.item.ItemRendererModularAssembler;
@@ -11,6 +10,7 @@ import nedelosk.modularmachines.client.renderers.tile.TileRendererModular;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
+import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
@@ -46,13 +46,13 @@ public class ClientProxy extends CommonProxy {
         infoBattery.addSlotPosition(33, 42);
         infoBattery.addSlotPosition(33+20, 42);
         infoBattery.addSlotPosition(33+20, 42-20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Battery.item(), infoBattery);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Battery.item(), infoBattery);
     	
     	AssemblerMachineInfo infoEngine = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Engine.item()), BuildMode.PART);
         infoEngine.addSlotPosition(33+20, 42-20);
         infoEngine.addSlotPosition(33, 42);
         infoEngine.addSlotPosition(33-20, 42+20);
-        MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Engine.item(), infoEngine);
+        MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Engine.item(), infoEngine);
         
     	AssemblerMachineInfo infoModule = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Module.item()), BuildMode.PART);
     	infoModule.addSlotPosition(33, 42-20);
@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy {
         infoModule.addSlotPosition(33, 42);
         infoModule.addSlotPosition(33+20, 42);
         infoModule.addSlotPosition(33, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Module.item(), infoModule);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Module.item(), infoModule);
     	
     	AssemblerMachineInfo infoBurningChamber = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Burning_Chamber.item()), BuildMode.PART);
     	infoBurningChamber.addSlotPosition(33-20, 42-20);
@@ -71,7 +71,7 @@ public class ClientProxy extends CommonProxy {
         infoBurningChamber.addSlotPosition(33-20, 42+20);
         infoBurningChamber.addSlotPosition(33, 	  42+20);
     	infoBurningChamber.addSlotPosition(33+20, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Burning_Chamber.item(), infoBurningChamber);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Burning_Chamber.item(), infoBurningChamber);
     
     	AssemblerMachineInfo infoGrindingWhell = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Grinding_Wheel.item()), BuildMode.PART);
     	infoGrindingWhell.addSlotPosition(33, 42-20);
@@ -79,12 +79,12 @@ public class ClientProxy extends CommonProxy {
         infoGrindingWhell.addSlotPosition(33, 42);
         infoGrindingWhell.addSlotPosition(33+20, 42);
         infoGrindingWhell.addSlotPosition(33, 42+20);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Grinding_Wheel.item(), infoGrindingWhell);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Grinding_Wheel.item(), infoGrindingWhell);
     	
     	AssemblerMachineInfo infoProducer = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Producer.item()), BuildMode.PART);
         infoProducer.addSlotPosition(33-20, 42);
         infoProducer.addSlotPosition(33, 42);
         infoProducer.addSlotPosition(33+20, 42);
-    	MMClientRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Producer.item(), infoProducer);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Producer.item(), infoProducer);
 	}
 }

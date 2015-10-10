@@ -32,60 +32,60 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 	public GuiModularMachine(TileModular tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		this.inventory = inventory;
-		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui().getModule() != null && tile.getModuleWithGui().getModule() instanceof IModuleGuiWithWidgets)
-			((IModuleGuiWithWidgets)tile.getModuleWithGui().getModule()).addWidgets(this, tile.machine);
-		ySize = ((IModuleGui)tile.getModuleWithGui().getModule()).getGuiTop(tile.machine);
+		widgetManager = new WidgetManagerModular(this);
+		if(tile.getModular().getGuiManager().getModuleWithGuis() != null && tile.getModular().getGuiManager().getModuleWithGui().getModule() != null && tile.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleGuiWithWidgets)
+			((IModuleGuiWithWidgets)tile.getModular().getGuiManager().getModuleWithGui().getModule()).addWidgets(this, tile.modular);
+		ySize = ((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).getGuiTop(tile.modular);
 	}
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-		
+		((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).renderString(fontRenderer, guiLeft, guiTop, x, y);
 	}
 
 	@Override
 	protected void renderProgressBar() {
-		if(tile.getModuleWithGui().getModule() instanceof IModuleInventory){
+		if(tile.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
 			for(Slot slot : (ArrayList<Slot>)inventorySlots.inventorySlots)
 			{
-				if(slot.slotNumber < ((IModuleInventory)tile.getModuleWithGui().getModule()).getSizeInventory())
+				if(slot.slotNumber < ((IModuleInventory)tile.getModular().getGuiManager().getModuleWithGui().getModule()).getSizeInventory())
 				{
 					RenderUtils.drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 1, 56, 238, 18, 18);
 				}
 			}
 		}
-		
 	}
 	
 	@Override
 	public void initGui() {
 		super.initGui();
 		int id = 0;
-		for(int i = 0;i < tile.getModuleWithGuis().size();i++)
+		for(int i = 0;i < tile.getModular().getGuiManager().getModuleWithGuis().size();i++)
 		{
-			buttonList.add(new GuiButtonModularMachineBookmark(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 21 * (i - 7) : guiTop + 8 + 21 * i, (ModuleStack) tile.getModuleWithGuis().get(i)));
+			buttonList.add(new GuiBookmarkModular(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i, tile.getModular().getGuiManager().getModuleWithGuis().get(i), i >= 7));
 			id++;
 		}
 		
-		if(tile.getModuleWithGuis() != null && tile.getModuleWithGui().getModule() != null && tile.getModuleWithGui().getModule() instanceof IModuleGuiWithButtons)
-			((IModuleGuiWithButtons)tile.getModuleWithGui().getModule()).addButtons(this, this.tile.machine);
+		if(tile.getModular().getGuiManager().getModuleWithGuis() != null && tile.getModular().getGuiManager().getModuleWithGui().getModule() != null && tile.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleGuiWithButtons)
+			((IModuleGuiWithButtons)tile.getModular().getGuiManager().getModuleWithGui().getModule()).addButtons(this, this.tile.modular);
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if(button instanceof GuiButtonModularMachineBookmark)
+		if(button instanceof GuiBookmarkModular)
 		{
-			if(!this.tile.page.equals(((GuiButtonModularMachineBookmark)button).stack.getModule().getName()))
+			if(!this.tile.getModular().getGuiManager().getPage().equals(((GuiBookmarkModular)button).stack.getModule().getName()))
 			{
-			this.tile.page = ((GuiButtonModularMachineBookmark)button).stack.getModule().getName();
+			this.tile.getModular().getGuiManager().setPage(((GuiBookmarkModular)button).stack.getModule().getName());
 			EntityPlayer entityPlayer = inventory.player;
 			if(entityPlayer.getExtendedProperties(ModularSaveModule.class.getName()) != null)
 				if(((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
-					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page = tile.page;
+					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page = tile.getModular().getGuiManager().getPage();
 				else
-					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).saver.add(new ModularTileEntitySave(tile.page, tile.xCoord, tile.yCoord, tile.zCoord));
+					((ModularSaveModule)entityPlayer.getExtendedProperties(ModularSaveModule.class.getName())).saver.add(new ModularTileEntitySave(tile.getModular().getGuiManager().getPage(), tile.xCoord, tile.yCoord, tile.zCoord));
 			else
-				entityPlayer.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(new ModularTileEntitySave(tile.page, tile.xCoord, tile.yCoord, tile.zCoord)));
-			PacketHandler.INSTANCE.sendToServer(new PacketModular(this.tile, ((GuiButtonModularMachineBookmark) button).stack.getModule().getName()));
+				entityPlayer.registerExtendedProperties(ModularSaveModule.class.getName(), new ModularSaveModule(new ModularTileEntitySave(tile.getModular().getGuiManager().getPage(), tile.xCoord, tile.yCoord, tile.zCoord)));
+			PacketHandler.INSTANCE.sendToServer(new PacketModular(this.tile, ((GuiBookmarkModular) button).stack.getModule().getName()));
 			}
 		}
 	}
@@ -103,8 +103,8 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		if(tile.getModuleWithGuis() != null && ((IModuleGui)tile.getModuleWithGui().getModule()).getCustomGui(tile.machine) != null)
-			RenderUtils.bindTexture(((IModuleGui)tile.getModuleWithGui().getModule()).getCustomGui(tile.machine));
+		if(tile.getModular().getGuiManager().getModuleWithGuis() != null && ((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).getCustomGui(tile.modular) != null)
+			RenderUtils.bindTexture(((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).getCustomGui(tile.modular));
 		else
 			RenderUtils.bindTexture(guiTexture);	    
 	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
@@ -114,7 +114,7 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 		
 		RenderUtils.bindTexture(guiTexture);
 	    renderProgressBar();
-        
+		((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).updateGui(this, guiLeft, guiTop);
         widgetManager.drawWidgets();
 	}
 

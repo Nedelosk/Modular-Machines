@@ -77,13 +77,14 @@ public class RecipeRegistry {
 	
 	public static IRecipe getRecipe(String recipeName, RecipeInput[] inputs)
 	{
-		if(recipes.get(recipeName) == null)
+		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
+		if(recipes == null)
 			return null;
-		for(IRecipe recipe : recipes.get(recipeName))
+		for(IRecipe recipe : recipes)
 		{
 			boolean isBreak = false;
 			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
-			for(RecipeItem item : recipe.getInputs())
+			for(RecipeItem item : recipe.getInputs().clone())
 			{
 				if(item.isItem())
 					inputR.add(new RecipeInput(0, item.item));
@@ -92,6 +93,7 @@ public class RecipeRegistry {
 				else
 					inputR.add(new RecipeInput(0, item.ore));
 			}
+			input:
 			for(int i = 0;i < inputR.size();i++){
 				RecipeInput in = inputR.get(i);
 				if(inputs[i] != null)
@@ -132,11 +134,16 @@ public class RecipeRegistry {
 							isBreak = true;
 							break;
 						}
+						boolean c = false;
 						ArrayList<ItemStack> listOre = OreDictionary.getOres(in.ore.oreDict);
 						for(ItemStack stack : listOre)
 						{
-							if(inputs[i].item.getItem() == stack.getItem() && inputs[i].item.stackSize >= in.ore.stackSize)
-								continue;
+							ItemStack inputStack = inputs[i].item;
+							boolean a = inputStack.getItem() == stack.getItem();
+							boolean b = inputStack.stackSize >= in.ore.stackSize;
+							if(inputStack.stackSize >= in.ore.stackSize && inputStack.getItem() == stack.getItem()){
+								continue input;
+							}
 						}
 						isBreak = true;
 						break;

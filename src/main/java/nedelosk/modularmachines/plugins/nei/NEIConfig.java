@@ -23,6 +23,7 @@ public class NEIConfig implements IConfigureNEI {
 					new ModularMachinesHandler((IModuleProducerRecipe) module);
 				}
 			}
+		new ModularAssemblerHandler();
 		isAdded = true;
 	      
 	    API.hideItem(new ItemStack(MMBlockManager.Modular_Machine.item(), 1, 0));
@@ -35,6 +36,6 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public String getVersion() {
-		return "1.1";
+		return "2.0";
 	}
 }

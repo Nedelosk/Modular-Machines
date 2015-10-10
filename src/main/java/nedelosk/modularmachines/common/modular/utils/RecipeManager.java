@@ -36,6 +36,8 @@ public class RecipeManager implements IRecipeManager {
 	@Override
 	public RecipeItem[] getOutputs()
 	{
+		if(RecipeRegistry.getRecipe(recipeName, inputs) == null)
+			return null;
 		return RecipeRegistry.getRecipe(recipeName, inputs).getOutputs();
 	}
 	

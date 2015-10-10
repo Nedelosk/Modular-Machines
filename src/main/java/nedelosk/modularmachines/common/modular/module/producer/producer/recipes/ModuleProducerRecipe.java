@@ -8,6 +8,7 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.parts.IMachinePartProducer;
 import nedelosk.modularmachines.api.recipes.IRecipe;
@@ -16,7 +17,6 @@ import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.materials.MachineState;
-import nedelosk.modularmachines.common.modular.utils.ModularUtils;
 import nedelosk.modularmachines.common.modular.utils.RecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -83,13 +83,18 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	@Override
 	public boolean removeInput(IModular modular){
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular));
 		for(int i = 0;i < getInputs(modular).length;i++)
 		{
 			RecipeInput input = getInputs(modular)[i];
-			if(input != null)
-				if(!input.isFluid())
+			RecipeItem[] inputs = recipe.getInputs();
+			if(input != null){
+				if(!inputs[i].isFluid())
 				{
-					tile.getModular().getInventoryManager().decrStackSize(getName(), input.slotIndex, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getInputs()[i].item.stackSize);
+					if(inputs[i].isOre())
+						tile.getModular().getInventoryManager().decrStackSize(getName(), input.slotIndex, inputs[i].ore.stackSize);
+					else
+						tile.getModular().getInventoryManager().decrStackSize(getName(), input.slotIndex, inputs[i].item.stackSize);
 					continue;
 				}
 				else
@@ -97,6 +102,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 					tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true);
 					continue;
 				}
+			}
 			else
 				return false;		
 		}
@@ -105,55 +111,56 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	
 	@Override
 	public void update(IModular modular) {
-		super.update(modular);
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(tile.getEnergyStored(null) > 0)
 		{
-		if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
-		{
-			if(manager != null)
-			{
-				if(addOutput(modular))
-					manager = null;
-			}
-			else if(getInputs(modular) != null && RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)) != null)
+			if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 			{
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular));
-				manager = new RecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredEnergy() / getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getRequiredSpeedModifier()), getInputs(modular));
-				if(!removeInput(modular))
+				if(manager != null)
 				{
-					manager = null;
-					return;
+					if(addOutput(modular))
+						manager = null;
 				}
-				burnTimeTotal = getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getRequiredSpeedModifier()) / ModularUtils.getModuleStackProducer(modular).getTier();
-				burnTime = 0;
-			}
-			if(timer > timerTotal)
-			{
-			modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
-			timer = 0;
-			}
-			else
-			{
-				timer++;
-			}
-		}
-		else
-		{
-			if(timer > timerTotal)
-			{
+				else if(getInputs(modular) != null && RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)) != null)
+				{
+					if(ModularUtils.getModuleStackProducer(modular) == null)
+						return;
+					manager = new RecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredEnergy() / getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getRequiredSpeedModifier()), getInputs(modular));
+					if(!removeInput(modular))
+					{
+						manager = null;
+						return;
+					}
+					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier()) / ModularUtils.getModuleStackProducer(modular).getTier();
+					burnTime = 0;
+				}
+				if(timer > timerTotal)
+				{
 				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 				timer = 0;
+				}
+				else
+				{
+					timer++;
+				}
 			}
 			else
 			{
-				timer++;
-				
-				if(manager != null)
-					if(manager.removeEnergy())
-						burnTime++;
+				if(timer > timerTotal)
+				{
+					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+					timer = 0;
+				}
+				else
+				{
+					timer++;
+					
+					if(manager != null)
+						if(manager.removeEnergy())
+							burnTime++;
+				}
 			}
-		}
 		}
 	}
 	
@@ -161,29 +168,32 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	public boolean addOutput(IModular modular)
 	{
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		for(RecipeItem item : manager.getOutputs())
-		{
-			if(item != null)
+		if(manager.getOutputs() != null){
+			for(RecipeItem item : manager.getOutputs())
 			{
-				if(!item.isFluid())
-					if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, getName()))
-					{
-						item = null;
-						continue;
-					}
+				if(item != null)
+				{
+					if(!item.isFluid())
+						if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, getName()))
+						{
+							item = null;
+							continue;
+						}
+						else
+							return false;
 					else
-						return false;
-				else
-					if(tile.getModular().getManager().getFluidHandler().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true) != 0)
-					{
-						item = null;
-						continue;
-					}
-					else
-						return false;
+						if(tile.getModular().getManager().getFluidHandler().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true) != 0)
+						{
+							item = null;
+							continue;
+						}
+						else
+							return false;
+				}
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	@Override

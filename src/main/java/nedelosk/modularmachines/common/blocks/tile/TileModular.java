@@ -1,16 +1,8 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
-import nedelosk.modularmachines.common.inventory.machine.ContainerModularMachine;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
-import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -22,8 +14,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class TileModular<M extends IModular> extends TileBaseInventory implements IModularTileEntity {
 
-	public M machine;
-	public String page;
+	public M modular;
 	
 	public TileModular()
 	{
@@ -39,37 +30,42 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagCompound machineTag = new NBTTagCompound();
-		machine.writeToNBT(machineTag);
+		modular.writeToNBT(machineTag);
 		nbt.setTag("Machine", machineTag);
-		nbt.setString("MachineName", machine.getName());
-		
-		nbt.setString("Page", page);
+		nbt.setString("MachineName", modular.getName());
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		page = nbt.getString("Page");
-		machine = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
-		machine.setMachine(this);
+		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
+		modular.setMachine(this);
 	}
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
 		//if(!worldObj.isRemote)
 			//PacketHandler.INSTANCE.sendTo(new PacketModularMachineNBT(this), (EntityPlayerMP) inventory.player);
-		return new ContainerModularMachine(this, inventory);
+		if(modular != null)
+			return modular.getGuiManager().getContainer(this, inventory);
+		else
+			return null;
 	}
 
 	@Override
 	public Object getGUIContainer(InventoryPlayer inventory) {
-		if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
-			if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(xCoord, yCoord, zCoord) != null)
-				this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(xCoord, yCoord, zCoord).page;
-			else
-				page = getModuleWithGuis().get(0).getModule().getName();
-		return new GuiModularMachine(this, inventory);
+		/*if(modular != null){
+			if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
+				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(xCoord, yCoord, zCoord) != null)
+					this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(xCoord, yCoord, zCoord).page;
+				else
+					page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName();
+		}*/
+		if(modular != null)
+			return modular.getGuiManager().getGUIContainer(this, inventory);
+		else
+			return null;
 	}
 
 	@Override
@@ -79,36 +75,17 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 
 	@Override
 	public void updateServer() {
+		if(modular != null){
+			modular.update();
+		}
 	}
 
 	public void setMachine(NBTTagCompound tagCompound) {
-		machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
-		machine.setMachine(this);
-		machine.initModular();
-		if(page == null)
-			page = getModuleWithGuis().get(0).getModule().getName();
+		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
+		modular.setMachine(this);
+		modular.initModular();
+		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName());
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-
-	public ArrayList<ModuleStack> getModuleWithGuis() {
-		ArrayList<ModuleStack> guis = new ArrayList<ModuleStack>();
-		for(Vector<ModuleStack> stacks : machine.getModules().values())
-			for(ModuleStack module : stacks)
-			{
-				if(module.getModule() instanceof IModuleGui)
-					guis.add(module);
-			}
-		return guis;
-	}
-	
-	public ModuleStack getModuleWithGui()
-	{
-		for(ModuleStack module : getModuleWithGuis())
-		{
-			if(module.getModule().getName().equals(page))
-				return module;
-		}
-		return null;
 	}
 
 	@Override
@@ -128,128 +105,128 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(machine == null)
+		if(modular == null)
 			return 0;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return 0;
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return 0;
-		return machine.getManager().getFluidHandler().fill(from, resource, doFill);
+		return modular.getManager().getFluidHandler().fill(from, resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if(machine == null)
+		if(modular == null)
 			return null;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return null;
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return null;
-		return machine.getManager().getFluidHandler().drain(from, resource, doDrain);
+		return modular.getManager().getFluidHandler().drain(from, resource, doDrain);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(machine == null)
+		if(modular == null)
 			return null;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return null;
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return null;
-		return machine.getManager().getFluidHandler().drain(from, maxDrain, doDrain);
+		return modular.getManager().getFluidHandler().drain(from, maxDrain, doDrain);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(machine == null)
+		if(modular == null)
 			return false;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return false;
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return false;
-		return machine.getManager().getFluidHandler().canFill(from, fluid);
+		return modular.getManager().getFluidHandler().canFill(from, fluid);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(machine == null)
+		if(modular == null)
 			return false;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return false;
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return false;
-		return machine.getManager().getFluidHandler().canDrain(from, fluid);
+		return modular.getManager().getFluidHandler().canDrain(from, fluid);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if(machine == null)
+		if(modular == null)
 			return new FluidTankInfo[0];
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return new FluidTankInfo[0];
-		if(machine.getManager().getFluidHandler() == null)
+		if(modular.getManager().getFluidHandler() == null)
 			return new FluidTankInfo[0];
-		return machine.getManager().getFluidHandler().getTankInfo(from);
+		return modular.getManager().getFluidHandler().getTankInfo(from);
 	}
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		if(machine == null)
+		if(modular == null)
 			return 0;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return 0;
-		if(machine.getManager().getEnergyHandler() == null)
+		if(modular.getManager().getEnergyHandler() == null)
 			return 0;
-		return machine.getManager().getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
+		return modular.getManager().getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		if(machine == null)
+		if(modular == null)
 			return 0;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return 0;
-		if(machine.getManager().getEnergyHandler() == null)
+		if(modular.getManager().getEnergyHandler() == null)
 			return 0;
-		return machine.getManager().getEnergyHandler().extractEnergy(from, maxExtract, simulate);
+		return modular.getManager().getEnergyHandler().extractEnergy(from, maxExtract, simulate);
 	}
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		if(machine == null)
+		if(modular == null)
 			return 0;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return 0;
-		if(machine.getManager().getEnergyHandler() == null)
+		if(modular.getManager().getEnergyHandler() == null)
 			return 0;
-		return machine.getManager().getEnergyHandler().getEnergyStored(from);
+		return modular.getManager().getEnergyHandler().getEnergyStored(from);
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		if(machine == null)
+		if(modular == null)
 			return 0;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return 0;
-		if(machine.getManager().getEnergyHandler() == null)
+		if(modular.getManager().getEnergyHandler() == null)
 			return 0;
-		return machine.getManager().getEnergyHandler().getMaxEnergyStored(from);
+		return modular.getManager().getEnergyHandler().getMaxEnergyStored(from);
 	}
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		if(machine == null)
+		if(modular == null)
 			return false;
-		if(machine.getManager() == null)
+		if(modular.getManager() == null)
 			return false;
-		if(machine.getManager().getEnergyHandler() == null)
+		if(modular.getManager().getEnergyHandler() == null)
 			return false;
-		return machine.getManager().getEnergyHandler().canConnectEnergy(from);
+		return modular.getManager().getEnergyHandler().canConnectEnergy(from);
 	}
 
 	@Override
 	public M getModular() {
-		return machine;
+		return modular;
 	}
 
 }

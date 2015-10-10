@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularNBT;
+import nedelosk.modularmachines.common.network.packets.machine.PacketModularSelection;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -47,7 +47,7 @@ public class WidgetFluidTankPriority extends Widget<TileModular> {
 		else
 			priority = 1;
 		((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.prioritys[ID] = priority;
-		PacketHandler.INSTANCE.sendToServer(new PacketModularNBT(gui.getTile()));
+		PacketHandler.INSTANCE.sendToServer(new PacketModularSelection(gui.getTile()));
 	}
 	
 	@Override

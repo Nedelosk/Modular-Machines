@@ -33,15 +33,15 @@ public class CommonProxy implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 	    TileEntity tile = world.getTileEntity(x, y, z);
 	    if ((world instanceof WorldClient)) {
-	    switch (ID) {
-		case 0:
-			if(tile instanceof TileBaseGui)
-		    {
-		    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
+		    switch (ID) {
+			case 0:
+				if(tile instanceof TileBaseGui)
+			    {
+			    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
+			    }
+			default:
+				return null;
 		    }
-		default:
-			return null;
-	    }
 	    }
 	    return null;
 	}

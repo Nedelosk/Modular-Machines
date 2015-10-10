@@ -2,6 +2,7 @@ package nedelosk.nedeloskcore.client.gui;
 
 import java.util.ArrayList;
 
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.IWidgetManager;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.utils.RenderUtils;
@@ -9,13 +10,13 @@ import net.minecraft.client.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 
-public class WidgetManager implements IWidgetManager {
+public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
-	public final GuiBase gui;
+	public final G gui;
 	public final Minecraft minecraft;
 	protected final ArrayList<Widget> widgets = new ArrayList<Widget>();
 
-	public WidgetManager(GuiBase gui) {
+	public WidgetManager(G gui) {
 		this.gui = gui;
 		this.minecraft = Minecraft.getMinecraft();
 	}
@@ -76,5 +77,10 @@ public class WidgetManager implements IWidgetManager {
 	@Override
 	public ArrayList<Widget> getWidgets() {
 		return widgets;
+	}
+
+	@Override
+	public G getGui() {
+		return gui;
 	}
 }

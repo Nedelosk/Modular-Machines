@@ -28,7 +28,7 @@ public class SlotAssemblerIn extends Slot{
 	
     @Override
     public void onSlotChanged() {
-      parent.onCraftMatrixChanged(inventory);
+    	parent.onCraftMatrixChanged(inventory);
     }
     
     @Override

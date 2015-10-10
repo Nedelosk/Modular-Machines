@@ -13,4 +13,9 @@ public class ModuleStorageManager extends ModuleGui implements IModuleStorageMan
 		return "StorageManager";
 	}
 
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
 }

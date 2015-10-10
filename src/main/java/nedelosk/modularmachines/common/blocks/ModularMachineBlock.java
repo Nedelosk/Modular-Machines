@@ -20,6 +20,21 @@ public class ModularMachineBlock extends ModularBlock {
 		setBlockName("modular");
 		setBlockTextureName("iron_block");
 	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {

@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder.BuildMode;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;

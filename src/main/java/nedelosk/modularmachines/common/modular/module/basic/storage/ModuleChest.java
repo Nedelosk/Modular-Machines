@@ -3,16 +3,16 @@ package nedelosk.modularmachines.common.modular.module.basic.storage;
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.ModuleInventory;
 import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
-import nedelosk.modularmachines.common.inventory.slots.SlotModuleMachine;
-import nedelosk.modularmachines.common.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class ModuleChest extends Module implements IModuleStorage {
+public class ModuleChest extends ModuleInventory implements IModuleStorage {
 
 	public int slots;
 	
@@ -37,7 +37,7 @@ public class ModuleChest extends Module implements IModuleStorage {
 		
         for (int i1 = 0; i1 < i; i1++) {
             for (int l1 = 0; l1 < 9; l1++) {
-               list.add(new SlotModuleMachine(modular.getMachine(), l1 + i1 * 9 + 9, 8 + l1 * 18, 10 + i1 * 18, this.getName()));
+               list.add(new SlotModular(modular.getMachine(), l1 + i1 * 9 + 9, 8 + l1 * 18, 10 + i1 * 18, this.getName()));
             }
         }
         return list;
@@ -77,6 +77,11 @@ public class ModuleChest extends Module implements IModuleStorage {
 	@Override
 	public int getSizeInventory() {
 		return slots;
+	}
+	
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
 	}
 
 }

@@ -62,6 +62,24 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	}
 	
 	@Override
+	public int getModuleID(ItemStack stack){
+		if(!stack.hasTagCompound())
+			return -1;
+		return stack.getTagCompound().getInteger("ID");
+	}
+	
+	@Override
+	public void updateComponents(int ID){
+        if(requiredComponents == null){
+        	requiredComponents = new PartType[modules.size()][3];
+        }
+		if(requiredComponents[ID][0] == null){
+			IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(modules.get(ID));
+			requiredComponents[ID] = producer.getRequiredComponents();
+		}
+	}
+	
+	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		return StatCollector.translateToLocal("item.module.name") + " " + StatCollector.translateToLocal(modules.get(stack.getTagCompound().getInteger("ID")) + ".name");
 	}

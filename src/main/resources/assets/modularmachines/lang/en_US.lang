@@ -13,6 +13,12 @@ StorageManager.name=Storage Manager
 Storage.name=Storage
 Tank.name=Tank
 
+mm.modularassembler.bookmark.Basic=Basic
+mm.modularassembler.bookmark.Energy=Energy
+mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
+mm.modularassembler.bookmark.Fluid=Fluid
+mm.modularassembler.bookmark.Storage=Storage
+
 moduleProducerAlloySmelter.name=Alloy Smelter
 moduleProducerCentrifuge.name=Centrifuge
 moduleProducerPulverizer.name=Pulverizer

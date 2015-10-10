@@ -40,7 +40,7 @@ public class PacketModular extends PacketTileEntity<TileModular> implements IMes
 	public IMessage onMessage(PacketModular message, MessageContext ctx) {
 		TileModular tile = message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 		
-		tile.page = message.page;
+		tile.getModular().getGuiManager().setPage(message.page);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 		if(entityPlayerMP.getExtendedProperties(ModularSaveModule.class.getName()) != null)
 			if(((ModularSaveModule)entityPlayerMP.getExtendedProperties(ModularSaveModule.class.getName())).getSave(message.x, message.y, message.z) != null)

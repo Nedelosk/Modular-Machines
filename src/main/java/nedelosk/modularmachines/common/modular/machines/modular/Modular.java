@@ -8,11 +8,13 @@ import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularGuiManager;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularUtilsManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -22,19 +24,22 @@ public abstract class Modular implements IModular {
 	protected HashMap<String, Vector<ModuleStack>> modules = Maps.newHashMap();
 	protected IModularTileEntity machine;
 	protected IModularUtilsManager utils;
+	protected IModularGuiManager gui;
 	protected int storageSlots = 1;
 	protected int usedStorageSlots = 0;
+	protected String page;
 	
 	public Modular() {
 		utils = new ModularUtilsManager();
+		gui = new ModularGuiManager();
 	}
 	
 	public Modular(NBTTagCompound nbt) {
 		readFromNBT(nbt);
 	}
 	
-	public void update()
-	{
+	@Override
+	public void update(){
 		for(Vector<ModuleStack> moduleV : modules.values())
 			for(ModuleStack module : moduleV)
 				module.getModule().update(this);
@@ -60,6 +65,9 @@ public abstract class Modular implements IModular {
 		   }
 		   utils = new ModularUtilsManager();
 		   utils.readFromNBT(nbt);
+		   gui = new ModularGuiManager();
+		   gui.readFromNBT(nbt);
+		   gui.setModular(this);
 		   storageSlots = nbt.getInteger("StorageSlots");
 		   usedStorageSlots = nbt.getInteger("UsedStorageSlots");
 	}
@@ -87,6 +95,9 @@ public abstract class Modular implements IModular {
 		if(utils == null)
 			utils = new ModularUtilsManager();
 		utils.writeToNBT(nbt);
+		if(gui == null)
+			gui = new ModularGuiManager();
+		gui.writeToNBT(nbt);
 		nbt.setInteger("StorageSlots", storageSlots);
 		nbt.setInteger("UsedStorageSlots", usedStorageSlots);
 	}
@@ -213,6 +224,11 @@ public abstract class Modular implements IModular {
 	@Override
 	public void setUsedStorageSlots(int slots) {
 		usedStorageSlots =  slots;
+	}
+	
+	@Override
+	public IModularGuiManager getGuiManager() {
+		return gui;
 	}
 
 }

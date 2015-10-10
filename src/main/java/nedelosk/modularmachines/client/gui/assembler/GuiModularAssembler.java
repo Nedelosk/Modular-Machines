@@ -5,11 +5,11 @@ import org.lwjgl.util.Point;
 
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.client.MMClientRegistry;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.core.MMRegistry;
+import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -177,7 +177,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
         }
     	
         for(IMachinePart part : ModuleRegistry.getMachineParts()) {
-            AssemblerMachineInfo info = MMClientRegistry.getAssemblerInfo(part);
+            AssemblerMachineInfo info = MMRegistry.getAssemblerInfo(part);
             if(info != null) {
               GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
               shiftButton(button, 0, -18);

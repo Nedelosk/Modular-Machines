@@ -95,13 +95,13 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
     List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
     if(recipes != null)
     {
-    for (IRecipe recipe : recipes) {
-    	ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
-    	if(res.contains(res.input, ingredient)) {
-    		res.setIngredientPermutation(res.input, ingredient);
-    	    arecipes.add(res);	
-    	}
-    }
+	    for (IRecipe recipe : recipes) {
+	    	ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
+	    	if(res.contains(res.input, ingredient)) {
+	    		res.setIngredientPermutation(res.input, ingredient);
+	    	    arecipes.add(res);	
+	    	}
+	    }
     }
   }
   

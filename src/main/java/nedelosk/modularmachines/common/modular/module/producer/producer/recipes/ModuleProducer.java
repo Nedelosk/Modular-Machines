@@ -2,20 +2,21 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
-import nedelosk.modularmachines.api.modular.module.basic.gui.ModuleGui;
+import nedelosk.modularmachines.api.modular.module.basic.inventory.ModuleInventory;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
-import nedelosk.modularmachines.common.modular.utils.ModularUtils;
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ModuleProducer extends ModuleGui implements IModuleProducer {
+public abstract class ModuleProducer extends ModuleInventory implements IModuleProducer {
 	
 	public int burnTime, burnTimeTotal;
 	public int timer, timerTotal;
@@ -87,13 +88,14 @@ public abstract class ModuleProducer extends ModuleGui implements IModuleProduce
 	}
 	
 	@Override
-	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		return null;
+	public boolean hasCustomInventoryName() {
+		return true;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		return null;
+	public void addWidgets(IGuiBase gui, IModular modular) {
+		
 	}
 
 }

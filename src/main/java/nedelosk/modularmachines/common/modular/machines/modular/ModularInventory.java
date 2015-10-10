@@ -39,5 +39,5 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 			inventoryManager = new ModularInventoryManager(this);
 		inventoryManager.readFromNBT(nbt.getCompoundTag("InventoryManager"));
 	}
-
+	
 }

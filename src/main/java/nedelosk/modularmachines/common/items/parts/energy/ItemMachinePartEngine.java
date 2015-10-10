@@ -48,7 +48,7 @@ public class ItemMachinePartEngine extends ItemMachinePart implements IMachinePa
 		
 		int engineSpeed = (state_0.engineSpeed + state_1.engineSpeed + state_2.engineSpeed) / 3;
 		
-		nbtTag.setIntArray("Speed", new int[]{ engineSpeed, engineSpeed / 2, engineSpeed / 3});
+		nbtTag.setIntArray("Speed", new int[]{ engineSpeed, engineSpeed / 2, engineSpeed / 3, engineSpeed / 4, engineSpeed / 5, engineSpeed / 6});
 		
 		return nbtTag;
 	}

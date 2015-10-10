@@ -14,16 +14,18 @@ public class TileRendererModular extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
 		if(entity instanceof TileModular){
 			TileModular machineTile = (TileModular) entity;
-			if(machineTile.machine != null && machineTile.machine.getMachineRenderer(machineTile.machine, machineTile) != null)
-				machineTile.machine.getMachineRenderer(machineTile.machine, machineTile).renderMachine(machineTile, x, y, z);
+			if(machineTile.modular != null && machineTile.modular.getMachineRenderer(machineTile.modular, machineTile) != null)
+				machineTile.modular.getMachineRenderer(machineTile.modular, machineTile).renderMachine(machineTile, x, y, z);
 		}
 	}
 	
 	public void renderTileEntityItem(ItemStack stack){
 		NBTTagCompound tagCompound = stack.getTagCompound();
+		if(!stack.hasTagCompound())
+			return;
 		IModular machine = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getTag("Machine"));
 		if(machine != null && machine.getItemRenderer(machine, stack) != null)
-			machine.getItemRenderer(machine, stack).renderMachineItemStack(stack);
+			machine.getItemRenderer(machine, stack).renderMachineItemStack(machine, stack);
 	}
 
 }

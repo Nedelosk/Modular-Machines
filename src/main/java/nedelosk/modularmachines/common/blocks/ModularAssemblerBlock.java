@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.blocks;
 import java.util.List;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;

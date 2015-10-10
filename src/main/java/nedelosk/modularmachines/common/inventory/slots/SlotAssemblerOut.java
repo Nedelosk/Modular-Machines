@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.inventory.slots;
 
-import nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;

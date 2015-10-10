@@ -11,17 +11,21 @@ import static net.minecraft.util.EnumChatFormatting.WHITE;
 import static net.minecraft.util.EnumChatFormatting.YELLOW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
+import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.common.materials.EnergyConductsState;
 import nedelosk.modularmachines.common.materials.EnergyStorageState;
 import nedelosk.modularmachines.common.materials.MachineState;
+import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 
 public class MMRegistry {
 
     public static ArrayList<Material> materials = new ArrayList();
-	
+	private static final HashMap<IMachinePart, AssemblerMachineInfo> assemblerInfos = new HashMap<IMachinePart, AssemblerMachineInfo>();
+    
     public static Material addMachineMaterial(MaterialType type, String materialName, int harvestLevel, int reinforced, String style, int primaryColor, String oreDict, int tier, int engineSpeed)
     {
     	Material mat = new Material(type, materialName, style, primaryColor, oreDict).addStats(new MachineState(harvestLevel, reinforced, tier, engineSpeed));
@@ -44,6 +48,21 @@ public class MMRegistry {
         else
             throw new IllegalArgumentException("[MM] Material is already occupied by " + material.materialName);
     }
+	
+    public static void addAssemblerInfo(IMachinePart item, AssemblerMachineInfo info)
+    {
+    	assemblerInfos.put(item, info);
+    }
+    
+    public static AssemblerMachineInfo getAssemblerInfo(IMachinePart item)
+    {
+        return assemblerInfos.get(item);
+    }
+    
+    public static HashMap<IMachinePart, AssemblerMachineInfo> getAssemblerInfos()
+    {
+        return assemblerInfos;
+    }
     
     public static Material Wood = MMRegistry.addMachineMaterial(MaterialType.WOOD, "Wood", 1, 0, YELLOW.toString(), 0x755821, "Wood", 1, 600);
     public static Material Stone = MMRegistry.addMachineMaterial(MaterialType.STONE, "Stone", 1, 0, GRAY.toString(), 0x7F7F7F, "Stone", 2, 650);
@@ -54,7 +73,7 @@ public class MMRegistry {
     public static Material Tin = MMRegistry.addMachineMaterial(MaterialType.METAL, "Tin", 1, 1, WHITE.toString(), 0xCACECF, "Tin", 2, 550);
     public static Material Copper = MMRegistry.addMachineMaterial(MaterialType.METAL, "Copper", 1, 0, RED.toString(), 0xCC6410, "Copper", 2, 575).addStats(new EnergyConductsState(580));
     public static Material Bronze = MMRegistry.addMachineMaterial(MaterialType.METAL, "Bronze", 2, 1, GOLD.toString(), 0xCA9956, "Bronze", 3, 500);
-    public static Material Steel = MMRegistry.addMachineMaterial(MaterialType.METAL, "Steel", 4, 2, GRAY.toString(), 0xA0A0A0, "Steel", 4, 375).addStats(new EnergyConductsState(14));
+    public static Material Steel = MMRegistry.addMachineMaterial(MaterialType.METAL, "Steel", 4, 2, GRAY.toString(), 0xA0A0A0, "Steel", 4, 375).addStats(new EnergyConductsState(140));
     public static Material Niobium = MMRegistry.addMachineMaterial(MaterialType.METAL, "Niobium", 3, 2, YELLOW.toString(), 0xD5BA7D, "Niobium", 2, 450);
     public static Material Tantalum = MMRegistry.addMachineMaterial(MaterialType.METAL, "Tantalum", 3, 2, GRAY.toString(), 0xBEB9AF, "Tantalum", 2, 450);
     public static Material Silver = MMRegistry.addMachineMaterial(MaterialType.METAL, "Silver", 1, 0, WHITE.toString(), 0xD4E3E6, "Silver", 2, 500).addStats(new EnergyConductsState(610));
