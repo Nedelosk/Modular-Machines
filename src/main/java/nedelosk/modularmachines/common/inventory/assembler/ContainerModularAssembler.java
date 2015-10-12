@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOut;
-import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;

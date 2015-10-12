@@ -70,7 +70,7 @@ public class ItemMachinePartModule extends ItemMachinePart {
 
 	        ItemStack tool = buildItem(mats);
 	        subItems.add(tool);
-	      }
+	   }
 	}
 
 }

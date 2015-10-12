@@ -5,15 +5,15 @@ import java.util.List;
 
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
-import nedelosk.modularmachines.api.materials.Stats;
 import nedelosk.modularmachines.api.materials.Tags;
+import nedelosk.modularmachines.api.materials.stats.MachineState;
+import nedelosk.modularmachines.api.materials.stats.Stats;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
-import nedelosk.modularmachines.common.materials.MachineState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

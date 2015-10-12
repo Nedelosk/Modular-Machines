@@ -1,7 +1,16 @@
 package nedelosk.modularmachines.common.modular.module.producer.producer.recipes;
 
+import java.util.ArrayList;
+
+import codechicken.nei.NEIModContainer;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.NotEnoughDataDecoderException;
 import nedelosk.modularmachines.api.materials.Material;
-import nedelosk.modularmachines.api.materials.Stats;
+import nedelosk.modularmachines.api.materials.stats.MachineState;
+import nedelosk.modularmachines.api.materials.stats.Stats;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -10,14 +19,16 @@ import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.IMachinePartProducer;
+import nedelosk.modularmachines.api.parts.IMachinePartModules;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import nedelosk.modularmachines.common.materials.MachineState;
+import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
 import nedelosk.modularmachines.common.modular.utils.RecipeManager;
+import nedelosk.nedeloskcore.api.machines.IGuiBase;
+import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -109,6 +120,28 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		return true;
 	}
 	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton) {
+		if(widget instanceof WidgetProgressBar){
+			if(Loader.isModLoaded("NotEnoughItems")){
+				GuiCraftingRecipe.openRecipeGui("ModularMachines" + getRecipeName());
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateGui(IGuiBase base, int x, int y, IModular modular) {
+		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
+		for(Widget widget : widgets){
+			if(widget instanceof WidgetProgressBar){
+				((WidgetProgressBar)widget).burntime = burnTime;
+				((WidgetProgressBar)widget).burntimeTotal = burnTimeTotal;
+			}
+		}
+	}
+	
 	@Override
 	public void update(IModular modular) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
@@ -119,8 +152,11 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular));
 				if(manager != null)
 				{
-					if(addOutput(modular))
+					if(addOutput(modular)){
 						manager = null;
+						burnTimeTotal = 0;
+						burnTime = 0;
+					}
 				}
 				else if(getInputs(modular) != null && RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)) != null)
 				{
@@ -133,12 +169,11 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 						return;
 					}
 					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier()) / ModularUtils.getModuleStackProducer(modular).getTier();
-					burnTime = 0;
 				}
 				if(timer > timerTotal)
 				{
-				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
-				timer = 0;
+					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+					timer = 0;
 				}
 				else
 				{
@@ -193,6 +228,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 			}
 			return true;
 		}
+		manager = null;
 		return false;
 	}
 	
@@ -231,7 +267,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	
 	@Override
 	public ModuleStack creatModule(ItemStack stack) {
-		IMachinePartProducer producer = (IMachinePartProducer) stack.getItem();
+		IMachinePartModules producer = (IMachinePartModules) stack.getItem();
 		Material[] materials = producer.getPartMaterials(stack);
 		int size;
 		int tiers = 0;

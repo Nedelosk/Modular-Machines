@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.api.materials;
+package nedelosk.modularmachines.api.materials.stats;
 
 public abstract class AbstractIMaterialStats implements IMaterialStats{
 

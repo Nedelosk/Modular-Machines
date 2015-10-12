@@ -16,7 +16,7 @@ public interface IModuleGui extends IModule {
 	
 	void renderString(FontRenderer fontRenderer, int x, int y, int xM, int yM);
 	
-	void updateGui(IGuiBase base, int x, int y);
+	void updateGui(IGuiBase base, int x, int y, IModular modular);
 	
 	void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton);
 	

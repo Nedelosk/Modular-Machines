@@ -75,15 +75,6 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}
-	
-	@Override
-	public void updateGui(IGuiBase base, int x, int y) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
-		if(widgets.get(0) instanceof WidgetProgressBar){
-			((WidgetProgressBar)widgets.get(0)).burntime = burnTime;
-			((WidgetProgressBar)widgets.get(0)).burntimeTotal = burnTimeTotal;
-		}
-	}
 
 	@Override
 	public PartType[] getRequiredComponents() {

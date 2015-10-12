@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class WidgetEnergyBar extends Widget {
 
 	private final ResourceLocation widget = new ResourceLocation("nedeloskcore", "textures/gui/widgets/widget_energy_bar.png");
-	IEnergyStorage storage;
+	public IEnergyStorage storage;
 	public int posX, posY;
 
 	public WidgetEnergyBar(IEnergyStorage storage, int posX, int posY) {

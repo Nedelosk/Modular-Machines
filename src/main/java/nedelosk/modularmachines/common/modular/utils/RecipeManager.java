@@ -27,6 +27,8 @@ public class RecipeManager implements IRecipeManager {
 	public RecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs) {
 		this.inputs = inputs;
 		this.recipeName = recipeName;
+		if(energyModifier == 0)
+			energyModifier = 1;
 		this.energyModifier = energyModifier;
 		this.modular = modular;
 		
@@ -49,6 +51,8 @@ public class RecipeManager implements IRecipeManager {
 	@Override
 	public boolean removeEnergy()
 	{
+		if(modular == null || modular.getManager() == null || modular.getManager().getEnergyHandler() == null)
+			return  false;
 		if(modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, energyModifier, false) > 0)
 		{
 			return true;
@@ -91,6 +95,8 @@ public class RecipeManager implements IRecipeManager {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeInput.readFromNBT(nbtTag);
 		}
+		if(RecipeRegistry.getRecipe(recipeName, inputs) == null)
+			return null;
 		return new RecipeManager(modular, recipeName, energyModifier, inputs);
 	}
 	

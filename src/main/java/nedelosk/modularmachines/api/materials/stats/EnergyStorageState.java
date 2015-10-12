@@ -1,10 +1,8 @@
-package nedelosk.modularmachines.common.materials;
+package nedelosk.modularmachines.api.materials.stats;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.modularmachines.api.materials.AbstractIMaterialStats;
-import nedelosk.modularmachines.api.materials.Stats;
 import net.minecraft.util.StatCollector;
 
 public class EnergyStorageState extends AbstractIMaterialStats{

@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.client.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo.BuildMode;
 import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.renderers.item.ItemRendererMetal;
 import nedelosk.modularmachines.client.renderers.item.ItemRendererModular;
@@ -13,8 +15,6 @@ import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
-import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
-import nedelosk.modularmachines.common.modular.utils.MachineBuilder.BuildMode;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -81,10 +81,10 @@ public class ClientProxy extends CommonProxy {
         infoGrindingWhell.addSlotPosition(33, 42+20);
     	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Grinding_Wheel.item(), infoGrindingWhell);
     	
-    	AssemblerMachineInfo infoProducer = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Producer.item()), BuildMode.PART);
+    	AssemblerMachineInfo infoProducer = new AssemblerMachineInfo(new ItemStack(MMItemManager.Part_Modules.item()), BuildMode.PART);
         infoProducer.addSlotPosition(33-20, 42);
         infoProducer.addSlotPosition(33, 42);
         infoProducer.addSlotPosition(33+20, 42);
-    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Producer.item(), infoProducer);
+    	MMRegistry.addAssemblerInfo((IMachinePart) MMItemManager.Part_Modules.item(), infoProducer);
 	}
 }

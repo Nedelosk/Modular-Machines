@@ -16,14 +16,10 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 public class FluidHandler implements INBTTagable, IFluidHandler {
 
-	public FluidTankNedelosk[] tanks;
+	public FluidTankNedelosk[] tanks = new FluidTankNedelosk[3];
 	public IModularInventory machine;
 	
-	/**
-	 * @param tanks max size = 3
-	 */
-	public FluidHandler(IModularInventory machine, FluidTankNedelosk... tanks){
-		this.tanks = tanks;
+	public FluidHandler(IModularInventory machine){
 		this.machine = machine;
 	}
 	
@@ -32,17 +28,25 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 		this.machine = machine;
 	}
 	
+	public void setTanks(int id, FluidTankNedelosk tank) {
+		this.tanks[id] = tank;
+	}
+	
+	public FluidTankNedelosk getTank(int id) {
+		return tanks[id];
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagCompound nbtT = nbt.getCompoundTag("FluidHandler");
 		NBTTagList list = nbtT.getTagList("Tanks", 10);
 		int[] tankCapacitys = nbtT.getIntArray("TankCapacitys");
-		tanks = new FluidTankNedelosk[list.tagCount()];
 		for(int i= 0;i < list.tagCount();i++)
 		{
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			tanks[i] = new FluidTankNedelosk(tankCapacitys[i]);
-			tanks[i].readFromNBT(nbtTag);
+			byte position = nbtTag.getByte("Position");
+			tanks[position] = new FluidTankNedelosk(tankCapacitys[position]);
+			tanks[position].readFromNBT(nbtTag);
 		}
 	}
 
@@ -53,10 +57,13 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 		int[] tankCapacitys = new int[tanks.length];
 		for(int i = 0;i < tanks.length;i++)
 		{
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			tanks[i].writeToNBT(nbtTag);
-			tankCapacitys[i] = tanks[i].getCapacity();
-			list.appendTag(nbtTag);
+			if(tanks[i] != null){
+				NBTTagCompound nbtTag = new NBTTagCompound();
+				tanks[i].writeToNBT(nbtTag);
+				tankCapacitys[i] = tanks[i].getCapacity();
+				nbtTag.setByte("Position", (byte) i);
+				list.appendTag(nbtTag);
+			}
 		}
 		nbtT.setTag("Tanks", list);
 		nbtT.setIntArray("TankCapacitys", tankCapacitys);
@@ -135,24 +142,24 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 					}
 					if(listPrioritys.size() != 0)
 					{
-					Integer[] prioritys  = new Integer[tanks.length];
-					prioritys[0] = listPrioritys.get(0);
-					for(int p : listPrioritys)
-					{
-						int priority = manager.manager.prioritys[p];
-						if(priority < manager.manager.prioritys[prioritys[0]])
-							prioritys[0] = p;
-						else if(priority == manager.manager.prioritys[prioritys[0]])
-							prioritys[1] = p;
-					}
-					if(prioritys.length > 0)
-					{
-						for(int i = 0;i < prioritys.length;i++)
+						Integer[] prioritys  = new Integer[tanks.length];
+						prioritys[0] = listPrioritys.get(0);
+						for(int p : listPrioritys)
 						{
-							if(!tanks[prioritys[i]].isFull())
-								return tanks[prioritys[i]].fill(resource, doFill);
+							int priority = manager.manager.prioritys[p];
+							if(priority < manager.manager.prioritys[prioritys[0]])
+								prioritys[0] = p;
+							else if(priority == manager.manager.prioritys[prioritys[0]])
+								prioritys[1] = p;
 						}
-					}
+						if(prioritys.length > 0)
+						{
+							for(int i = 0;i < prioritys.length;i++)
+							{
+								if(tanks[prioritys[i]] != null && !tanks[prioritys[i]].isFull())
+									return tanks[prioritys[i]].fill(resource, doFill);
+							}
+						}
 					}
 				}
 			}
@@ -182,12 +189,13 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] infos = new FluidTankInfo[tanks.length];
+		ArrayList<FluidTankInfo> infos = new ArrayList<>();
 		for(int i = 0;i < tanks.length;i++)
 		{
-			infos[i]  = tanks[i].getInfo();
+			if(tanks[i] != null)
+				infos.add(tanks[i].getInfo());
 		}
-		return infos;
+		return infos.toArray(new FluidTankInfo[infos.size()]);
 	}
 
 }

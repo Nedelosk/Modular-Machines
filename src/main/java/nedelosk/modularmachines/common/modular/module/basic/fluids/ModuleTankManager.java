@@ -3,13 +3,17 @@ package nedelosk.modularmachines.common.modular.module.basic.fluids;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
 import nedelosk.modularmachines.api.modular.module.basic.gui.ModuleGui;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.FluidHandler;
 import nedelosk.modularmachines.common.modular.module.basic.fluids.manager.TankManager;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleTankManager extends ModuleGui implements IModuleFluidManager {
@@ -58,6 +62,26 @@ public class ModuleTankManager extends ModuleGui implements IModuleFluidManager 
 	@Override
 	public boolean hasCustomInventoryName() {
 		return true;
+	}
+
+	@Override
+	public IModule buildModule(ItemStack[] stacks) {
+		return null;
+	}
+
+	@Override
+	public PartType[] getRequiredComponents() {
+		return null;
+	}
+
+	@Override
+	public ModuleStack creatModule(ItemStack stack) {
+		return null;
+	}
+
+	@Override
+	public int getColor() {
+		return 0;
 	}
 
 }

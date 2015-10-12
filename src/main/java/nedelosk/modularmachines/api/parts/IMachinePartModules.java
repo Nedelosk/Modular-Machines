@@ -7,7 +7,7 @@ import nedelosk.modularmachines.api.materials.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IMachinePartProducer extends IMachinePart {
+public interface IMachinePartModules extends IMachinePart {
 
 	PartType[][] getProducerComponents();
 	

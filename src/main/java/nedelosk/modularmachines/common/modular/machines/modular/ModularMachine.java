@@ -13,7 +13,7 @@ import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePartBattery;
 import nedelosk.modularmachines.api.parts.IMachinePartEngine;
-import nedelosk.modularmachines.api.parts.IMachinePartProducer;
+import nedelosk.modularmachines.api.parts.IMachinePartModules;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import net.minecraft.item.ItemStack;
@@ -71,18 +71,16 @@ public class ModularMachine extends ModularInventory {
 			if(ModuleRegistry.getModuleStack(stacks[3]) != null && ModuleRegistry.getModuleStack(stacks[3]).getModule() instanceof IModuleProducer)
 				engine = ModuleRegistry.getModuleStack(stacks[3]);
 			else{
-				if(stacks[3].getItem() instanceof IMachinePartProducer){
-					IMachinePartProducer producerItem = (IMachinePartProducer) stacks[3].getItem();
+				if(stacks[3].getItem() instanceof IMachinePartModules){
+					IMachinePartModules producerItem = (IMachinePartModules) stacks[3].getItem();
 					producer = producerItem.buildModule(stacks[3]);
 				}else
 					return null;
 			}
-			modular.addModule(battery);
-			modular.addModule(engine);
-			modular.addModule(casing);
-			modular.addModule(producer);
-			modular.getManager().setEnergyHandler(new EnergyHandler(new EnergyStorage(((IModuleBattery)battery.getModule()).getMaxEnergyStored(), ((IModuleBattery)battery.getModule()).getMaxEnergyReceive(), ((IModuleBattery)battery.getModule()).getMaxEnergyExtract())));
-			return modular;
+			if(modular.addModule(battery) && modular.addModule(engine) && modular.addModule(casing) && modular.addModule(producer)){
+				modular.getManager().setEnergyHandler(new EnergyHandler(new EnergyStorage(((IModuleBattery)battery.getModule()).getMaxEnergyStored(), ((IModuleBattery)battery.getModule()).getMaxEnergyReceive(), ((IModuleBattery)battery.getModule()).getMaxEnergyExtract())));
+				return modular;
+			}
 		}
 		return null;
 	}

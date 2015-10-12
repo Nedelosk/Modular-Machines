@@ -33,16 +33,20 @@ public class OreDictionaryManager {
 		OreDictionary.registerOre("nuggetInvar", new ItemStack(MMItemManager.Alloy_Nuggets.item(), 1, 1));
 		OreDictionary.registerOre("oreColumbite", new ItemStack(MMBlockManager.Ore_Others.item(), 1, 0));
 		OreDictionary.registerOre("oreAluminium", new ItemStack(MMBlockManager.Ore_Others.item(), 1, 1));
+		OreDictionary.registerOre("oreAluminum", new ItemStack(MMBlockManager.Ore_Others.item(), 1, 1));
 		OreDictionary.registerOre("ingotNiobium", new ItemStack(MMItemManager.Ingots_Others.item(), 1, 0));
 		OreDictionary.registerOre("nuggetNiobium", new ItemStack(MMItemManager.Nuggets_Others.item(), 1, 0));
 		OreDictionary.registerOre("ingotTantalum", new ItemStack(MMItemManager.Ingots_Others.item(), 1, 1));
 		OreDictionary.registerOre("nuggetTantalum", new ItemStack(MMItemManager.Nuggets_Others.item(), 1, 1));
 		OreDictionary.registerOre("ingotAluminium", new ItemStack(MMItemManager.Ingots_Others.item(), 1, 2));
 		OreDictionary.registerOre("nuggetAluminium", new ItemStack(MMItemManager.Nuggets_Others.item(), 1, 2));
+		OreDictionary.registerOre("ingotAluminum", new ItemStack(MMItemManager.Ingots_Others.item(), 1, 2));
+		OreDictionary.registerOre("nuggetAluminum", new ItemStack(MMItemManager.Nuggets_Others.item(), 1, 2));
 		OreDictionary.registerOre("dustColumbite", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 0));
 		OreDictionary.registerOre("dustNiobium", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 1));
 		OreDictionary.registerOre("dustTantalum", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 2));
 		OreDictionary.registerOre("dustAluminium", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 3));
+		OreDictionary.registerOre("dustAlumium", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 3));
 		OreDictionary.registerOre("blockObsidian", Blocks.obsidian);
 		
         for(int i = 0;i < MMRegistry.materials.size();i++) {

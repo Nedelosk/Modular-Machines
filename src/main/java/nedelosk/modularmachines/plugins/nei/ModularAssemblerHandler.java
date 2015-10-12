@@ -15,12 +15,12 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.parts.IMachine;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.api.parts.IMachinePartProducer;
+import nedelosk.modularmachines.api.parts.IMachinePartModules;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -78,9 +78,9 @@ public class ModularAssemblerHandler extends TemplateRecipeHandler {
 			   ArrayList[] inputs = new ArrayList[8];
 			   IMachinePart part = (IMachinePart) result.getItem();
 			   PartType[] types;
-			   if(part instanceof IMachinePartProducer){
-				   ((IMachinePartProducer) part).updateComponents(((IMachinePartProducer) part).getModuleID(result));
-				   types = ((IMachinePartProducer) part).getProducerComponents()[((IMachinePartProducer) part).getModuleID(result)];
+			   if(part instanceof IMachinePartModules){
+				   ((IMachinePartModules) part).updateComponents(((IMachinePartModules) part).getModuleID(result));
+				   types = ((IMachinePartModules) part).getProducerComponents()[((IMachinePartModules) part).getModuleID(result)];
 			   }else{
 				   types = part.getMachineComponents();
 			   }
@@ -109,9 +109,9 @@ public class ModularAssemblerHandler extends TemplateRecipeHandler {
 			   ArrayList[] inputs = new ArrayList[8];
 			   IMachinePart part = (IMachinePart) info.machine.getItem();
 			   PartType[] types;
-			   if(part instanceof IMachinePartProducer){
-				   ((IMachinePartProducer) part).updateComponents(((IMachinePartProducer) part).getModuleID(info.machine));
-				   types = ((IMachinePartProducer) part).getProducerComponents()[((IMachinePartProducer) part).getModuleID(info.machine)];
+			   if(part instanceof IMachinePartModules){
+				   ((IMachinePartModules) part).updateComponents(((IMachinePartModules) part).getModuleID(info.machine));
+				   types = ((IMachinePartModules) part).getProducerComponents()[((IMachinePartModules) part).getModuleID(info.machine)];
 			   }else{
 				   types = part.getMachineComponents();
 			   }
@@ -141,9 +141,9 @@ public class ModularAssemblerHandler extends TemplateRecipeHandler {
 		   ArrayList[] inputs = new ArrayList[8];
 		   IMachinePart part = (IMachinePart) info.machine.getItem();
 		   PartType[] types;
-		   if(part instanceof IMachinePartProducer){
-			   ((IMachinePartProducer) part).updateComponents(((IMachinePartProducer) part).getModuleID(info.machine));
-			   types = ((IMachinePartProducer) part).getProducerComponents()[((IMachinePartProducer) part).getModuleID(info.machine)];
+		   if(part instanceof IMachinePartModules){
+			   ((IMachinePartModules) part).updateComponents(((IMachinePartModules) part).getModuleID(info.machine));
+			   types = ((IMachinePartModules) part).getProducerComponents()[((IMachinePartModules) part).getModuleID(info.machine)];
 		   }else{
 			   types = part.getMachineComponents();
 		   }

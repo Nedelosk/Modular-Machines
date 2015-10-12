@@ -20,11 +20,10 @@ public class TankManager implements INBTTagable {
 	public ForgeDirection[] directions = new ForgeDirection[3];
 	public Fluid[] filters = new Fluid[3];
 	 
-	public TankManager() {
+	public TankManager(){
 	}
 	
-	public void update()
-	{
+	public void update(){
 	}
 	
 	@SideOnly(Side.CLIENT)

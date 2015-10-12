@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.items.parts.recipes;
+package nedelosk.modularmachines.common.items.parts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +12,14 @@ import com.google.common.collect.Maps;
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
 import nedelosk.modularmachines.api.materials.Tags;
-import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachine;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.api.parts.IMachinePartProducer;
+import nedelosk.modularmachines.api.parts.IMachinePartModules;
 import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.modularmachines.common.core.MMRegistry;
-import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
 import nedelosk.modularmachines.common.modular.utils.MaterialManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -29,14 +28,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 
-public class ItemMachinePartProducer extends ItemMachinePart implements IMachinePartProducer {
+public class ItemMachinePartModules extends ItemMachinePart implements IMachinePartModules {
 	
 	public HashMap<Integer, String> modules = Maps.newHashMap();
 	public int modulesIDs;
 	public PartType[][] requiredComponents;
 	
-	public ItemMachinePartProducer() {
-		super(null, "producer");
+	public ItemMachinePartModules() {
+		super(null, "modules");
 	}
 	
 	public void addModule(String moduleName){
@@ -74,8 +73,8 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
         	requiredComponents = new PartType[modules.size()][3];
         }
 		if(requiredComponents[ID][0] == null){
-			IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(modules.get(ID));
-			requiredComponents[ID] = producer.getRequiredComponents();
+			IModuleWithItem module = ModuleRegistry.moduleFactory.createModule(modules.get(ID));
+			requiredComponents[ID] = module.getRequiredComponents();
 		}
 	}
 	
@@ -98,8 +97,8 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 		        	requiredComponents = new PartType[modules.size()][3];
 		        }
 				if(requiredComponents[b][0] == null){
-					IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(entry.getValue());
-					requiredComponents[b] = producer.getRequiredComponents();
+					IModuleWithItem module = ModuleRegistry.moduleFactory.createModule(entry.getValue());
+					requiredComponents[b] = module.getRequiredComponents();
 				}
 		        
 		        int a = 0;
@@ -134,8 +133,8 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	
 	@Override
 	public ModuleStack buildModule(ItemStack stack) {
-		IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(modules.get(stack.getTagCompound().getInteger("ID")));
-		return producer.creatModule(stack);
+		IModuleWithItem module = ModuleRegistry.moduleFactory.createModule(modules.get(stack.getTagCompound().getInteger("ID")));
+		return module.creatModule(stack);
 	}
 	
 	@Override
@@ -159,7 +158,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	        	requiredComponents = new PartType[modules.size()][16];
 	        }
 			if(requiredComponents[entry.getKey()][0] == null){
-				IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(entry.getValue());
+				IModuleWithItem producer = ModuleRegistry.moduleFactory.createModule(entry.getValue());
 				requiredComponents[entry.getKey()] = producer.getRequiredComponents();
 			}
 			
@@ -258,7 +257,7 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
 	public int getColorFromItemStack(ItemStack stack, int pass) {
 		if(pass > 4)
 			if(pass == 6){
-				IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(modules.get(stack.getTagCompound().getInteger("ID")));
+				IModuleWithItem producer = ModuleRegistry.moduleFactory.createModule(modules.get(stack.getTagCompound().getInteger("ID")));
 				return producer.getColor();
 			}
 			else{
@@ -276,11 +275,11 @@ public class ItemMachinePartProducer extends ItemMachinePart implements IMachine
         }
 		if(requiredComponents[0] == null){
 			Iterator<String> iterator = modules.values().iterator();
-			IModuleProducer producer = ModuleRegistry.moduleFactory.createModule(iterator.next());
+			IModuleWithItem producer = ModuleRegistry.moduleFactory.createModule(iterator.next());
 			requiredComponents[0] = producer.getRequiredComponents();
 		}
         int a = 0;
-        for(PartType type : ((IModuleProducer)ModuleRegistry.moduleFactory.createModule("moduleProducerAlloySmelter")).getRequiredComponents()){
+        for(PartType type : ((IModuleWithItem)ModuleRegistry.moduleFactory.createModule("moduleProducerAlloySmelter")).getRequiredComponents()){
         	Iterator<IMachine> iterator = type.neededPart.iterator();
         	while(iterator.hasNext()){
         		IMachine m = iterator.next();

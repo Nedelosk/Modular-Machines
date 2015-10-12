@@ -15,11 +15,11 @@ import java.util.HashMap;
 
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
+import nedelosk.modularmachines.api.materials.stats.EnergyConductsState;
+import nedelosk.modularmachines.api.materials.stats.EnergyStorageState;
+import nedelosk.modularmachines.api.materials.stats.MachineState;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.common.materials.EnergyConductsState;
-import nedelosk.modularmachines.common.materials.EnergyStorageState;
-import nedelosk.modularmachines.common.materials.MachineState;
-import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 
 public class MMRegistry {
 

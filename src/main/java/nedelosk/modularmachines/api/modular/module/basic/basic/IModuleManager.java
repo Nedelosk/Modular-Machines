@@ -1,5 +1,5 @@
 package nedelosk.modularmachines.api.modular.module.basic.basic;
 
-public interface IModuleManager {
+public interface IModuleManager extends IModuleWithItem {
 
 }

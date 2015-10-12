@@ -11,13 +11,13 @@ import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
 import nedelosk.modularmachines.common.items.parts.ItemMachinePart;
+import nedelosk.modularmachines.common.items.parts.ItemMachinePartModules;
 import nedelosk.modularmachines.common.items.parts.energy.ItemMachinePartBattery;
 import nedelosk.modularmachines.common.items.parts.energy.ItemMachinePartEngine;
 import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartBurningChamber;
 import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartCentrifugeChamber;
 import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartGrindingWheel;
 import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartModule;
-import nedelosk.modularmachines.common.items.parts.recipes.ItemMachinePartProducer;
 import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemNugget;
 
@@ -38,7 +38,7 @@ public class ItemRegistry {
 	public static ItemMachinePartBurningChamber Burning_Chamber;
 	public static ItemMachinePartGrindingWheel Grinding_Wheel;
 	public static ItemMachinePartCentrifugeChamber Centrifuge_Chamber;
-	public static ItemMachinePartProducer Producer;
+	public static ItemMachinePartModules Modules;
 	
 	public static void preInit()
 	{
@@ -64,7 +64,7 @@ public class ItemRegistry {
 		MMItemManager.Part_Battery.registerItem(Battery = registerPart(new ItemMachinePartBattery("battery")));
 		MMItemManager.Part_Engine.registerItem(Engine = registerPart(new ItemMachinePartEngine("engine")));
 		MMItemManager.Part_Module.registerItem(Module = registerPart(new ItemMachinePartModule("module")));
-		MMItemManager.Part_Producer.registerItem(Producer = registerPart(new ItemMachinePartProducer()));
+		MMItemManager.Part_Modules.registerItem(Modules = registerPart(new ItemMachinePartModules()));
 		MMItemManager.Part_Burning_Chamber.registerItem(Burning_Chamber = registerPart(new ItemMachinePartBurningChamber("burning_chamber")));
 		MMItemManager.Part_Grinding_Wheel.registerItem(Grinding_Wheel = registerPart(new ItemMachinePartGrindingWheel("grinding_wheel")));
 		MMItemManager.Part_Centrifuge_Chamber.registerItem(Centrifuge_Chamber = registerPart(new ItemMachinePartCentrifugeChamber("centrifuge_chamber")));

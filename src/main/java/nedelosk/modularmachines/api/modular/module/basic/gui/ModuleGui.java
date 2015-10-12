@@ -1,8 +1,10 @@
 package nedelosk.modularmachines.api.modular.module.basic.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.Module;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.client.gui.FontRenderer;
@@ -43,13 +45,15 @@ public abstract class ModuleGui extends Module implements IModuleGui {
 	public abstract boolean hasCustomInventoryName();
 	
 	public String getInventoryName(){
-		return StatCollector.translateToLocal(getName());
+		return StatCollector.translateToLocal(getName() + ".name");
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public void updateGui(IGuiBase base, int x, int y) {
+	public void updateGui(IGuiBase base, int x, int y, IModular modular) {
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton) {
 		

@@ -38,7 +38,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 	
   @Override
   public String getRecipeName() {
-    return StatCollector.translateToLocal("modularmachines." + recipeName);
+    return StatCollector.translateToLocal(module.getName() + ".name");
   }
 
   @Override

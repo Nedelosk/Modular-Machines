@@ -8,6 +8,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.materials.Tags;
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo.BuildMode;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePart;
@@ -16,10 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class MachineBuilder {
-
-	public static enum BuildMode{
-		MACHINE, PART
-	}
 	
 	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, BuildMode mode, int tier, ItemStack part)
 	{

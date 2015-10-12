@@ -20,7 +20,7 @@ public class PluginEnderIO extends Plugin {
 	
 	@Override
 	public void preInit() {
-		ModuleRegistry.addModuleStack(casing, new ModuleCasing(), 1);
+		ModuleRegistry.addModuleStack(casing, new ModuleCasing("chassis"), 1);
 		ModuleRegistry.addModuleStack(new ItemStack(capacitorBank, 1, 1), new ModuleBattery("capacitorBasic", 1000000, 1000, 1000), 1);
 		ModuleRegistry.addModuleStack(new ItemStack(capacitorBank, 1, 2), new ModuleBattery("capacitor", 5000000, 5000, 5000), 2);
 		ModuleRegistry.addModuleStack(new ItemStack(capacitorBank, 1, 3), new ModuleBattery("capacitorVibrant", 25000000, 25000, 25000), 3);

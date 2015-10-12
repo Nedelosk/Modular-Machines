@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.modular.machines.assembler;
+package nedelosk.modularmachines.api.modular.machines.basic;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.lwjgl.util.Point;
 import com.google.common.collect.Lists;
 
 import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.common.modular.utils.MachineBuilder.BuildMode;
 import net.minecraft.item.ItemStack;
 
 public class AssemblerMachineInfo {
@@ -28,6 +27,10 @@ public class AssemblerMachineInfo {
 	
 	public void addSlotPosition(int x, int y) {
 		positions.add(new Point(x, y));
+	}
+	
+	public static enum BuildMode{
+		MACHINE, PART
 	}
 	
 }

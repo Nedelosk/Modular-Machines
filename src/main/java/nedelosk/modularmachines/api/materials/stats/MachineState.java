@@ -1,9 +1,6 @@
-package nedelosk.modularmachines.common.materials;
+package nedelosk.modularmachines.api.materials.stats;
 
 import java.util.List;
-
-import nedelosk.modularmachines.api.materials.AbstractIMaterialStats;
-import nedelosk.modularmachines.api.materials.Stats;
 
 public class MachineState extends AbstractIMaterialStats {
 

@@ -25,8 +25,6 @@ public abstract class Modular implements IModular {
 	protected IModularTileEntity machine;
 	protected IModularUtilsManager utils;
 	protected IModularGuiManager gui;
-	protected int storageSlots = 1;
-	protected int usedStorageSlots = 0;
 	protected String page;
 	
 	public Modular() {
@@ -42,7 +40,8 @@ public abstract class Modular implements IModular {
 	public void update(){
 		for(Vector<ModuleStack> moduleV : modules.values())
 			for(ModuleStack module : moduleV)
-				module.getModule().update(this);
+				if(module != null && module.getModule() != null)
+					module.getModule().update(this);
 		
 	}
 	
@@ -68,8 +67,6 @@ public abstract class Modular implements IModular {
 		   gui = new ModularGuiManager();
 		   gui.readFromNBT(nbt);
 		   gui.setModular(this);
-		   storageSlots = nbt.getInteger("StorageSlots");
-		   usedStorageSlots = nbt.getInteger("UsedStorageSlots");
 	}
 
 	@Override
@@ -98,8 +95,6 @@ public abstract class Modular implements IModular {
 		if(gui == null)
 			gui = new ModularGuiManager();
 		gui.writeToNBT(nbt);
-		nbt.setInteger("StorageSlots", storageSlots);
-		nbt.setInteger("UsedStorageSlots", usedStorageSlots);
 	}
 
 	@Override
@@ -124,8 +119,6 @@ public abstract class Modular implements IModular {
 	
 	@Override
 	public void initModular(){
-		storageSlots = getStorageSlotsForInit(getTier());
-		usedStorageSlots = 0;
 	}
 	
 	public int getStorageSlotsForInit(int tier){
@@ -183,14 +176,19 @@ public abstract class Modular implements IModular {
 	}
 	
 	@Override
-	public void addModule(ModuleStack stack) {
+	public boolean addModule(ModuleStack stack) {
+		if(stack == null || stack.getModule() == null)
+			return false;
 		if(modules.get(stack.getModule().getModuleName()) == null)
 			modules.put(stack.getModule().getModuleName(), new Vector<ModuleStack>());
 		modules.get(stack.getModule().getModuleName()).add(stack);
+		return true;
 	}
 	
 	@Override
 	public ModuleStack getModule(String moduleName, int id) {
+		if(getModule(moduleName) == null)
+			return null;
 		return getModule(moduleName).get(id);
 	}
 	
@@ -204,26 +202,6 @@ public abstract class Modular implements IModular {
 	@Override
 	public IModularUtilsManager getManager() {
 		return utils;
-	}
-	
-	@Override
-	public int getStorageSlots() {
-		return storageSlots;
-	}
-
-	@Override
-	public int getUsedStorageSlots() {
-		return usedStorageSlots;
-	}
-	
-	@Override
-	public void setStorageSlots(int slots) {
-		storageSlots = slots;
-	}
-	
-	@Override
-	public void setUsedStorageSlots(int slots) {
-		usedStorageSlots =  slots;
 	}
 	
 	@Override

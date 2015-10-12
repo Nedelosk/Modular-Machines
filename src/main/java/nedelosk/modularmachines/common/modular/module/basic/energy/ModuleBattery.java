@@ -20,6 +20,7 @@ import nedelosk.modularmachines.api.parts.IMachinePartCapacitor;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
+import nedelosk.nedeloskcore.api.machines.Widget;
 import nedelosk.nedeloskcore.client.gui.widget.WidgetEnergyBar;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -90,6 +91,16 @@ public class ModuleBattery extends ModuleInventory implements IModuleBattery {
 	@Override
 	public boolean hasCustomInventoryName() {
 		return true;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateGui(IGuiBase base, int x, int y, IModular modular) {
+		for(Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets()){
+			if(widget instanceof WidgetEnergyBar){
+				(( WidgetEnergyBar)widget).storage = ((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage();
+			}
+		}
 	}
 	
 	//Inventory
@@ -175,23 +186,23 @@ public class ModuleBattery extends ModuleInventory implements IModuleBattery {
 		@Override
 		public void onSlotChanged() {
 			super.onSlotChanged();
-			if(((IModularTileEntity)inventory).getModular().getModules().get(page) == null || ((IModularTileEntity)inventory).getModular().getModules().get(page).size() < 3){
+			if(((IModularTileEntity)inventory).getModular().getModules().get("Capacitor") == null || ((IModularTileEntity)inventory).getModular().getModules().get("Capacitor").size() < 3){
 				Vector<ModuleStack> modules = new Vector<ModuleStack>(3);
 				for(int i = 0;i < 3;i++){
 					modules.add(null);
 				}
-				((IModularTileEntity)inventory).getModular().getModules().put(page, modules);
+				((IModularTileEntity)inventory).getModular().getModules().put("Capacitor", modules);
 			}
-			Vector<ModuleStack> modules = ((IModularTileEntity)inventory).getModular().getModules().get(page);
+			Vector<ModuleStack> modules = ((IModularTileEntity)inventory).getModular().getModules().get("Capacitor");
 			if(getStack() == null){
 				if(modules.get(getSlotIndex()) != null){
 					modules.set(getSlotIndex(), null);
 				}
 			}else{
 				if(getStack().getItem() instanceof IMachinePartCapacitor){
-					((IModularTileEntity)inventory).getModular().getModules().get(page).set(getSlotIndex(), ((IMachinePartCapacitor)getStack().getItem()).buildModule(getStack()));
+					((IModularTileEntity)inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(), ((IMachinePartCapacitor)getStack().getItem()).buildModule(getStack()));
 				}else if(ModuleRegistry.getModuleStack(getStack()) != null && ModuleRegistry.getModuleStack(getStack()).getModule() != null && ModuleRegistry.getModuleStack(getStack()).getModule() instanceof IModuleCapacitor){
-					((IModularTileEntity)inventory).getModular().getModules().get(page).set(getSlotIndex(), ModuleRegistry.getModuleStack(getStack()));
+					((IModularTileEntity)inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(), ModuleRegistry.getModuleStack(getStack()));
 				}
 			}
 		}

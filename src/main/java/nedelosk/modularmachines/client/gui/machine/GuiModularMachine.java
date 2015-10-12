@@ -114,7 +114,7 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 		
 		RenderUtils.bindTexture(guiTexture);
 	    renderProgressBar();
-		((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).updateGui(this, guiLeft, guiTop);
+		((IModuleGui)tile.getModular().getGuiManager().getModuleWithGui().getModule()).updateGui(this, guiLeft, guiTop, tile.getModular());
         widgetManager.drawWidgets();
 	}
 

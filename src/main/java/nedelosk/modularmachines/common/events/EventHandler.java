@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.common.events;
 
+import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry.ModuleRegisterEvent;
@@ -40,8 +41,8 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void onRegisterModule(ModuleRegisterEvent event){
-		if(event.module instanceof IModuleProducer)
-			ItemRegistry.Producer.addModule(event.module.getName());
+		if(event.module instanceof IModuleWithItem)
+			ItemRegistry.Modules.addModule(event.module.getName());
 	}
 	
 }

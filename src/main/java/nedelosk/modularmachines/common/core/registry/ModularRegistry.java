@@ -2,12 +2,12 @@ package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.api.materials.Material;
 import nedelosk.modularmachines.api.materials.MaterialType;
-import nedelosk.modularmachines.api.materials.Stats;
+import nedelosk.modularmachines.api.materials.stats.MachineState;
+import nedelosk.modularmachines.api.materials.stats.Stats;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
-import nedelosk.modularmachines.common.materials.MachineState;
 import nedelosk.modularmachines.common.modular.machines.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.module.basic.basic.ModuleCasing;
 import nedelosk.modularmachines.common.modular.module.basic.energy.ModuleBattery;
@@ -37,9 +37,9 @@ public class ModularRegistry {
 		ModuleRegistry.addModule(new ModulePulverizer());
 		ModuleRegistry.addModule(new ModuleCentrifuge());
 		ModuleRegistry.addModule(new ModuleEngine("Normal", 300, 150, 50));
-		ModuleRegistry.addModuleStack(new ItemStack(Blocks.iron_block), new ModuleCasing(), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(Blocks.gold_block), new ModuleCasing(), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(Blocks.diamond_block), new ModuleCasing(), 3);
+		ModuleRegistry.addModuleStack(new ItemStack(Blocks.iron_block), new ModuleCasing("iron"), 1);
+		ModuleRegistry.addModuleStack(new ItemStack(Blocks.gold_block), new ModuleCasing("gold"), 2);
+		ModuleRegistry.addModuleStack(new ItemStack(Blocks.diamond_block), new ModuleCasing("diamond"), 3);
 		ModuleRegistry.addModuleStack(new ItemStack(Blocks.chest), new ModuleChest("Normal", 27), 1);
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 0), new ModuleCapacitor(10, 20), 1);
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 1), new ModuleCapacitor(20, 30), 2);
@@ -56,7 +56,7 @@ public class ModularRegistry {
             if(mat.type == MaterialType.METAL){
             	MaterialManager.setMaterial(stack, mat);
             	if (MaterialManager.getMaterial(stack) != null){
-            		ModuleRegistry.addModuleStack(stack, new ModuleCasing(), ((MachineState)mat.getStats(Stats.MACHINE)).tier());
+            		ModuleRegistry.addModuleStack(stack, new ModuleCasing(mat.identifier), ((MachineState)mat.getStats(Stats.MACHINE)).tier());
             	}
             }
         }

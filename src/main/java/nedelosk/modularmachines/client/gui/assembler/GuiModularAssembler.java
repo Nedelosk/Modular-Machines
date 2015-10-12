@@ -3,6 +3,7 @@ package nedelosk.modularmachines.client.gui.assembler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
+import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
@@ -11,7 +12,6 @@ import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
-import nedelosk.modularmachines.common.modular.machines.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.nedeloskcore.api.machines.Button;

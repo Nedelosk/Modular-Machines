@@ -25,7 +25,7 @@ public enum MMItemManager {
 	Part_Battery,
 	Part_Engine,
 	Part_Module,
-	Part_Producer,
+	Part_Modules,
 	Part_Burning_Chamber,
 	Part_Grinding_Wheel,
 	Part_Centrifuge_Chamber,

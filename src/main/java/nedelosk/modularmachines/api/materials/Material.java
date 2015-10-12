@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import nedelosk.modularmachines.api.materials.stats.IMaterialStats;
 import net.minecraft.util.StatCollector;
 
 public class Material

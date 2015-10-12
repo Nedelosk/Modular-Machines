@@ -134,14 +134,11 @@ public class RecipeRegistry {
 							isBreak = true;
 							break;
 						}
-						boolean c = false;
 						ArrayList<ItemStack> listOre = OreDictionary.getOres(in.ore.oreDict);
 						for(ItemStack stack : listOre)
 						{
 							ItemStack inputStack = inputs[i].item;
-							boolean a = inputStack.getItem() == stack.getItem();
-							boolean b = inputStack.stackSize >= in.ore.stackSize;
-							if(inputStack.stackSize >= in.ore.stackSize && inputStack.getItem() == stack.getItem()){
+							if(inputStack.stackSize >= in.ore.stackSize && inputStack.getItem() == stack.getItem() && stack.getItemDamage() == inputStack.getItemDamage()){
 								continue input;
 							}
 						}

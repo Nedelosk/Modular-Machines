@@ -33,7 +33,7 @@ public interface IModular extends INBTTagable {
 
 	ModuleStack<IModuleFluidManager> getTankManeger();
 	
-	void addModule(ModuleStack module);
+	boolean addModule(ModuleStack module);
 	
 	Vector<ModuleStack> getModule(String moduleName);
 	
@@ -46,15 +46,6 @@ public interface IModular extends INBTTagable {
 	void setMachine(IModularTileEntity machine);
 	
 	IModularUtilsManager getManager();
-	
-	//Storage
-	int getStorageSlots();
-	
-	int getUsedStorageSlots();
-	
-	void setStorageSlots(int slots);
-	
-	void setUsedStorageSlots(int slots);
 	
 	//Gui
 	IModularGuiManager getGuiManager();

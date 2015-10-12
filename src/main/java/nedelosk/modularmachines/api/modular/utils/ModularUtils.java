@@ -73,11 +73,12 @@ public class ModularUtils {
 	
 	public static Vector<IModule> getModules(IModular modular, String moduleName){
 		Vector<ModuleStack> v =  getModuleStack(modular, moduleName);
-		Vector<IModule> modules = new Vector();
 		if(v == null)
 			return null;
+		Vector<IModule> modules = new Vector();
 		for(ModuleStack stack : v)
-			modules.add(stack.getModule());
+			if(stack != null)
+				modules.add(stack.getModule());
 		return modules;
 	}
 	

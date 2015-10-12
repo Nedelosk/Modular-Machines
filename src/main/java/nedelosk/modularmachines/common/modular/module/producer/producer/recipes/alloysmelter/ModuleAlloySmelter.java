@@ -63,28 +63,10 @@ public class ModuleAlloySmelter extends ModuleProducerRecipe {
 	}
 	
 	//Gui
-	@Override
-	public void updateGui(IGuiBase base, int x, int y) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
-		if(widgets.size() > 0 && widgets.get(0) instanceof WidgetProgressBar){
-			((WidgetProgressBar)widgets.get(0)).burntime = burnTime;
-			((WidgetProgressBar)widgets.get(0)).burntimeTotal = burnTimeTotal;
-		}
-	}
 	
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton) {
-		if(widget instanceof WidgetProgressBar){
-			if(Loader.isModLoaded("NEI")){
-				GuiCraftingRecipe.openRecipeGui("ModularMachinesAlloySmelter");
-			}
-		}
 	}
 	
 	//NEI
