@@ -57,7 +57,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	{
 		for(ModuleStack module : getModuleWithGuis())
 		{
-			if(module.getModule().getName().equals(page))
+			if(module.getModule().getName(module).equals(page))
 				return module;
 		}
 		return null;
@@ -76,21 +76,21 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Container getContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName();
+			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
 		return new ContainerModularMachine((TileModular) tile, inventory);
 	}
 
 	@Override
 	public Object getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(modular != null){
-		if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
-			if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-				this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
-			else
-				page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName();
+			if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
+				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
+					this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
+				else
+					page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
 		}
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName();
+			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
 		return new GuiModularMachine((TileModular) tile, inventory);
 	}
 

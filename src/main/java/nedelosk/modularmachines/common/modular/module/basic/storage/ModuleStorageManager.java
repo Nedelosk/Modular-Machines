@@ -1,15 +1,32 @@
 package nedelosk.modularmachines.common.modular.module.basic.storage;
 
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.basic.gui.ModuleGui;
+import java.util.ArrayList;
+
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleManager;
 import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorageManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.PartType;
-import net.minecraft.item.ItemStack;
+import nedelosk.nedeloskcore.api.machines.IContainerBase;
+import net.minecraft.inventory.Slot;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class ModuleStorageManager extends ModuleGui implements IModuleStorageManager {
+public class ModuleStorageManager extends ModuleManager implements IModuleStorageManager {
 
 	public ModuleStorageManager() {
+		super();
+	}
+	
+	public ModuleStorageManager(ForgeDirection side) {
+		super(side);
+	}
+	
+	public ModuleStorageManager(ForgeDirection side, String modifier) {
+		super(side, modifier);
+	}
+	
+	public ModuleStorageManager(NBTTagCompound nbt) {
+		super(nbt);
 	}
 
 	@Override
@@ -23,22 +40,17 @@ public class ModuleStorageManager extends ModuleGui implements IModuleStorageMan
 	}
 
 	@Override
-	public IModule buildModule(ItemStack[] stacks) {
-		return null;
-	}
-
-	@Override
-	public PartType[] getRequiredComponents() {
-		return null;
-	}
-
-	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		return null;
-	}
-
-	@Override
 	public int getColor() {
+		return 0xC78C2D;
+	}
+
+	@Override
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+		return null;
+	}
+
+	@Override
+	public int getSizeInventory(ModuleStack stack) {
 		return 0;
 	}
 

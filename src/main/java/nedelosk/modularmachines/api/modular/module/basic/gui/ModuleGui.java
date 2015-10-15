@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.client.gui.FontRenderer;

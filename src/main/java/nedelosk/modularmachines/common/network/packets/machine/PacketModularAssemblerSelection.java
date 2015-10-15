@@ -14,7 +14,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo.BuildMode;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
@@ -86,7 +85,6 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 	public void fromBytes(ByteBuf buf) {
 		if(buf.readBoolean()){
 			info = new AssemblerMachineInfo();
-			info.mode = BuildMode.values()[buf.readInt()];
 		    if(buf.readBoolean()) {
 		        info.machine = ByteBufUtils.readItemStack(buf);
 		    }
@@ -108,7 +106,6 @@ public class PacketModularAssemblerSelection extends PacketTileEntity<TileModula
 	public void toBytes(ByteBuf buf) {
 		buf.writeBoolean(info != null);
 		if(info != null){
-			buf.writeInt(info.mode.ordinal());
 			buf.writeBoolean(info.machine != null);
 		    if(info.machine != null){
 		    	ByteBufUtils.writeItemStack(buf, info.machine);

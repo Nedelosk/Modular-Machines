@@ -2,15 +2,10 @@ package nedelosk.modularmachines.common.modular.module.producer.producer.recipes
 
 import java.util.ArrayList;
 
-import codechicken.nei.NEIModContainer;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.NotEnoughDataDecoderException;
-import nedelosk.modularmachines.api.materials.Material;
-import nedelosk.modularmachines.api.materials.stats.MachineState;
-import nedelosk.modularmachines.api.materials.stats.Stats;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -19,7 +14,6 @@ import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.IMachinePartModules;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
@@ -61,7 +55,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	public int getBurnTimeTotal(IModular modular)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier().getStage()) * getSpeed() / 10;
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2;
 	}
@@ -69,7 +63,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	public int getBurnTimeTotal(IModular modular, int speedModifier)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier().getStage()) * getSpeed() / 10;
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
 	}
@@ -79,33 +73,33 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 		return manager;
 	}
 	
-	public RecipeInput[] getInputItems(IModular modular)
+	public RecipeInput[] getInputItems(IModular modular, ModuleStack moduleStack)
 	{
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		RecipeInput[] inputs = new RecipeInput[this.inputs];
 		for(int i = 0;i < inputs.length;i++)
 		{
-			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(getName(), i);
+			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(getName(moduleStack), i);
 			inputs[i] = new RecipeInput(i, stack);
 		}
 		return inputs;
 	}
 	
 	@Override
-	public boolean removeInput(IModular modular){
+	public boolean removeInput(IModular modular, ModuleStack stack){
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular));
-		for(int i = 0;i < getInputs(modular).length;i++)
+		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular, stack));
+		for(int i = 0;i < getInputs(modular, stack).length;i++)
 		{
-			RecipeInput input = getInputs(modular)[i];
+			RecipeInput input = getInputs(modular, stack)[i];
 			RecipeItem[] inputs = recipe.getInputs();
 			if(input != null){
 				if(!inputs[i].isFluid())
 				{
 					if(inputs[i].isOre())
-						tile.getModular().getInventoryManager().decrStackSize(getName(), input.slotIndex, inputs[i].ore.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].ore.stackSize);
 					else
-						tile.getModular().getInventoryManager().decrStackSize(getName(), input.slotIndex, inputs[i].item.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].item.stackSize);
 					continue;
 				}
 				else
@@ -143,32 +137,32 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	}
 	
 	@Override
-	public void update(IModular modular) {
+	public void update(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(tile.getEnergyStored(null) > 0)
 		{
 			if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 			{
-				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular));
+				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular, stack));
 				if(manager != null)
 				{
-					if(addOutput(modular)){
+					if(addOutput(modular, stack)){
 						manager = null;
 						burnTimeTotal = 0;
 						burnTime = 0;
 					}
 				}
-				else if(getInputs(modular) != null && RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)) != null)
+				else if(getInputs(modular, stack) != null && RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular, stack)) != null)
 				{
 					if(ModularUtils.getModuleStackProducer(modular) == null)
 						return;
-					manager = new RecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredEnergy() / getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular)).getRequiredSpeedModifier()), getInputs(modular));
-					if(!removeInput(modular))
+					manager = new RecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredEnergy() / getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(), getInputs(modular, stack)).getRequiredSpeedModifier()), getInputs(modular, stack));
+					if(!removeInput(modular, stack))
 					{
 						manager = null;
 						return;
 					}
-					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier()) / ModularUtils.getModuleStackProducer(modular).getTier();
+					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier()) / ModularUtils.getModuleStackProducer(modular).getTier().getStage();
 				}
 				if(timer > timerTotal)
 				{
@@ -200,7 +194,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	}
 	
 	@Override
-	public boolean addOutput(IModular modular)
+	public boolean addOutput(IModular modular, ModuleStack stack)
 	{
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(manager.getOutputs() != null){
@@ -209,7 +203,7 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 				if(item != null)
 				{
 					if(!item.isFluid())
-						if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, getName()))
+						if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, getName(stack)))
 						{
 							item = null;
 							continue;
@@ -263,21 +257,6 @@ public abstract class ModuleProducerRecipe extends ModuleProducer implements IMo
 	@Override
 	public int getSpeed() {
 		return speed;
-	}
-	
-	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		IMachinePartModules producer = (IMachinePartModules) stack.getItem();
-		Material[] materials = producer.getPartMaterials(stack);
-		int size;
-		int tiers = 0;
-		for(size = 0;size < materials.length;size++){
-			if(!materials[size].hasStats(Stats.MACHINE))
-				return null;
-			tiers += ((MachineState)materials[size].getStats(Stats.MACHINE)).tier();
-		}
-		int speedModifier = getSpeedModifier()/tiers*size;
-		return new ModuleStack(stack, getModule(speedModifier), tiers/size, false);
 	}
 	
 	public abstract int getSpeedModifier();

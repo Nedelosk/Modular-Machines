@@ -7,43 +7,27 @@ import org.apache.logging.log4j.Level;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
-import nedelosk.modularmachines.api.materials.Tags;
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo.BuildMode;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class MachineBuilder {
 	
-	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, BuildMode mode, int tier, ItemStack part)
+	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, int tier, ItemStack part)
 	{
-		if(mode == BuildMode.MACHINE){
-			IModular machine = buildMachine(inputs, moduleName);
-			if(machine != null){
-				if(tier >= machine.getTier()){
-					ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
-					stack.setTagCompound(new NBTTagCompound());
-					NBTTagCompound nbtTag = new NBTTagCompound();
-					machine.writeToNBT(nbtTag);
-					stack.getTagCompound().setTag("Machine", nbtTag);
-					stack.getTagCompound().setString("MachineName", machine.getName());
-					return stack;
-				}
+		IModular machine = buildMachine(inputs, moduleName);
+		if(machine != null){
+			if(tier >= machine.getTier()){
+				ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
+				stack.setTagCompound(new NBTTagCompound());
+				NBTTagCompound nbtTag = new NBTTagCompound();
+				machine.writeToNBT(nbtTag);
+				stack.getTagCompound().setTag("Machine", nbtTag);
+				stack.getTagCompound().setString("MachineName", machine.getName());
+				return stack;
 			}
-		}else if(mode == BuildMode.PART){
-			if(part == null)
-				return null;
-			else{
-				ItemStack output = ((IMachinePart)part.getItem()).buildItemFromStacks(inputs);
-		    	if(output != null && output.hasTagCompound()){
-			        if(tier >= output.getTagCompound().getCompoundTag(Tags.TAG_MACHINE).getInteger("Tier")) {
-			        	return output;
-			        }
-		    	}
-		      }
 		}
 		return null;
 	}
@@ -89,23 +73,23 @@ public class MachineBuilder {
 		return machine;
 	}*/
 	
-	public static <M extends IModular> M createMachine(String moduleName, Object... ctorArgs){
+	public static <M extends IModular> M createMachine(String modularName, Object... ctorArgs){
 		IModular machine = null;
 		try{
             if(ctorArgs == null || ctorArgs.length == 0)
-            	if(ModuleRegistry.getModularClasses().get(moduleName) != null)
-            		return (M) ModuleRegistry.getModularClasses().get(moduleName).getConstructor().newInstance();
+            	if(ModuleRegistry.getModularClasses().get(modularName) != null)
+            		return (M) ModuleRegistry.getModularClasses().get(modularName).getConstructor().newInstance();
             Class<?>[] ctorArgClasses = new Class<?>[ctorArgs.length];
             for (int idx = 0; idx < ctorArgClasses.length; idx++)
             {
                 ctorArgClasses[idx] = ctorArgs[idx].getClass();
             }
-            if(ModuleRegistry.getModularClasses().get(moduleName) != null)
-            	machine = ModuleRegistry.getModularClasses().get(moduleName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
+            if(ModuleRegistry.getModularClasses().get(modularName) != null)
+            	machine = ModuleRegistry.getModularClasses().get(modularName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
             else
             	return null;
 		}catch(Exception e){
-            FMLLog.log(Level.ERROR, e, "Caught an exception during IModular registration in " + Loader.instance().activeModContainer().getModId() + ":" + moduleName);
+            FMLLog.log(Level.ERROR, e, "Caught an exception during IModular registration in " + Loader.instance().activeModContainer().getModId() + ":" + modularName);
             throw new LoaderException(e);
 		}
 		return (M) machine;

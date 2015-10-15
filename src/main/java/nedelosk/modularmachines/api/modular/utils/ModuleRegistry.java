@@ -13,7 +13,7 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.factory.IModuleFactory;
 import nedelosk.modularmachines.api.modular.module.producer.farm.IFarm;
-import nedelosk.modularmachines.api.parts.IMachinePart;
+import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -28,10 +28,6 @@ public class ModuleRegistry {
 	private static LinkedHashMap<String, IFarm> farmRegistry = new LinkedHashMap<String, IFarm>(64);
 	
 	private static ArrayList<ModuleStack> moduleStacks = Lists.newArrayList();
-	
-	private static ArrayList<IMachinePart> machineParts = Lists.newArrayList();
-	
-	private static ArrayList<String> requiredModule = Lists.newArrayList();
 	
 	public static IModuleFactory moduleFactory;
 	
@@ -51,13 +47,6 @@ public class ModuleRegistry {
 		moduleClasses.put(name, module);
 	}
 	
-	public static void addRequiredModule(String module)
-	{
-		if(requiredModule.contains(module))
-			return;
-		requiredModule.add(module);
-	}
-	
 	public static Class<? extends IModule> getModuleClass(String name)
 	{
 		for(Map.Entry<String, Class<? extends IModule>> entry : moduleClasses.entrySet())
@@ -68,39 +57,41 @@ public class ModuleRegistry {
 		return null;
 	}
 	
-	public static void addModuleStack(ItemStack item, IModule module, int tier, boolean hasNbt)
+	public static void addModuleStack(ItemStack item, IModule module, Tier tier, boolean hasNbt)
 	{
-		ModuleStack itemM = new ModuleStack(item, module, tier, hasNbt);
+		ModuleStack stack = new ModuleStack(item, module, tier, hasNbt);
 		ArrayList<ModuleStack> it = moduleStacks;
-		if(!moduleStacks.contains(itemM))
-			moduleStacks.add(itemM);
-		else
-		{
-			getModuleStacks();
+		if(!moduleStacks.contains(stack)){
+			moduleStacks.add(stack);
+			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(stack));
 		}
-		if(modules.get(module.getName()) == null)
+		if(modules.get(module.getName(stack)) == null)
 			addModule(module);
 	}
 	
-	public static ItemStack[] getModuleItemStacks(IModule module, int tier)
+	public static void addModuleStack(ItemStack item, IModule module, Tier tier)
+	{
+		ModuleStack stack = new ModuleStack(item, module, tier, false);
+		if(!moduleStacks.contains(stack)){
+			moduleStacks.add(stack);
+			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(stack));
+		}
+		if(modules.get(module.getName(stack)) == null)
+			addModule(module);
+	}
+	
+	public static ItemStack[] getModuleItemStacks(IModule module, Tier tier)
 	{
 		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 		for(ModuleStack item : moduleStacks)
 		{
-			if(module.getName().equals(item.getModule().getName()) && tier == item.getTier())
+			if(module.getName(item).equals(item.getModule().getName(item)) && tier == item.getTier())
 			{
 				stacks.add(item.getItem());
 			}
 				
 		}
 		return stacks.toArray(new ItemStack[stacks.size()]);
-	}
-	
-	public static void addModuleStack(ItemStack item, IModule module, int tier)
-	{
-		moduleStacks.add(new ModuleStack(item, module, tier, false));
-		if(modules.get(module.getName()) == null)
-			addModule(module);
 	}
 	
 	public static ModuleStack getModuleStack(String moduleName, ItemStack stack){
@@ -154,37 +145,28 @@ public class ModuleRegistry {
 		return modularClasses;
 	}
 	
-	public static ArrayList<String> getRequiredModule() {
-		return requiredModule;
-	}
-	
 	public static IFarm getFarm(String farm)
 	{
 		return farmRegistry.get(farm);
 	}
-	
-	public static ArrayList<ModuleStack> getModuleStacks() {
-		return moduleStacks;
-	}
-    
-    public static <M extends IMachinePart> M registerMachinePart(M part){
-    	machineParts.add(part);
-    	return part;
-    }
     
     public static void registerModular(Class<? extends IModular> modular, String name){
     	modularClasses.put(name, modular);
 		MinecraftForge.EVENT_BUS.post(new ModularRegisterEvent(modular, name));
     }
     
-    public static ArrayList<IMachinePart> getMachineParts() {
-		return machineParts;
-	}
-    
     public static class ModuleRegisterEvent extends Event{
         public final IModule module;
 
         public ModuleRegisterEvent(IModule module){
+        	this.module = module;
+        }
+    }
+    
+    public static class ModuleItemRegisterEvent extends Event{
+        public final ModuleStack module;
+
+        public ModuleItemRegisterEvent(ModuleStack module){
         	this.module = module;
         }
     }

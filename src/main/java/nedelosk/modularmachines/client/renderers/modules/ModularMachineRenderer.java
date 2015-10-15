@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.client.renderers.modules;
 
-import java.io.IOException;
 import java.util.Vector;
 
 import org.lwjgl.opengl.GL11;
@@ -25,7 +24,7 @@ public class ModularMachineRenderer {
 	public static class CasingRenderer implements IModularRenderer{
 
 		public final ModuleStack stack;
-		public final ResourceLocation texture;
+		public ResourceLocation texture;
 		public int color = 0;
 		
 		public CasingRenderer(ModuleStack stack) {
@@ -36,11 +35,9 @@ public class ModularMachineRenderer {
 				texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/iron.png");
 			 IReloadableResourceManager resourceManager = (SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager();
 			 try{
-				 if(resourceManager.getResource(new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier() + ".png")) == null)
-					 if(stack.getModule().getMaterial() != null)
-						 color = stack.getModule().getMaterial().primaryColor;
+				 resourceManager.getResource(new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier() + ".png")); 
 			 }catch(Exception e){
-				 
+				 texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/iron.png");
 			 }
 		}
 		

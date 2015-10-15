@@ -1,15 +1,13 @@
 package nedelosk.modularmachines.api.modular.module.basic.energy;
 
+import cofh.api.energy.EnergyStorage;
 import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGuiWithWidgets;
 import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 
 public interface IModuleBattery extends IModuleGuiWithWidgets, IModuleInventory{
-
-	int getMaxEnergyStored();
 	
-	int getMaxEnergyReceive();
-	
-	int getMaxEnergyExtract();
+	EnergyStorage getStorage(ModuleStack stack);
 	
 	int getSpeedModifier();
 	

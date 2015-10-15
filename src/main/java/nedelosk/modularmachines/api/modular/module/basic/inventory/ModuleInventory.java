@@ -18,7 +18,4 @@ public abstract class ModuleInventory extends ModuleGui implements IModuleInvent
 		super(nbt);
 	}
 	
-	@Override
-	public void onSlotChanced(IModularInventory modular){}
-	
 }

@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.parts.PartType;
-import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
-import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducerRecipe;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -29,16 +26,16 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, this.getName()));
-		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, this.getName()){
+		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, stack));
+		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, stack){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
 			}
 		});
-		list.add(new SlotModular(modular.getMachine(), 2, 134, 35, this.getName()){
+		list.add(new SlotModular(modular.getMachine(), 2, 134, 35, stack){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
@@ -57,8 +54,8 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	}
 
 	@Override
-	public RecipeInput[] getInputs(IModular modular) {
-		return getInputItems(modular);
+	public RecipeInput[] getInputs(IModular modular, ModuleStack stack) {
+		return getInputItems(modular, stack);
 	}
 
 	@Override
@@ -67,20 +64,13 @@ public class ModulePulverizer extends ModuleProducerRecipe {
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(ModuleStack stack) {
 		return 3;
 	}
 	
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
-	}
-
-	@Override
-	public PartType[] getRequiredComponents() {
-		return new PartType[]{new MachinePartType(ItemRegistry.Grinding_Wheel),
-				  			  new MachinePartType(ItemRegistry.Module),
-				  			new MachinePartType(ItemRegistry.Grinding_Wheel)};
 	}
 	
 	@Override

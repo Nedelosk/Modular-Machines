@@ -2,6 +2,7 @@ package nedelosk.modularmachines.common.inventory.machine;
 
 import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
 import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,9 +20,10 @@ public class ContainerModularMachine extends ContainerBase<TileModular>{
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
 		if(inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
-			if(((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular) != null)
+			ModuleStack stack = inventoryBase.getModular().getGuiManager().getModuleWithGui();
+			if(((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular, stack) != null)
 			{
-				for(Slot slot : ((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular))
+				for(Slot slot : ((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular, stack))
 				{
 					addSlotToContainer(slot);		
 				}

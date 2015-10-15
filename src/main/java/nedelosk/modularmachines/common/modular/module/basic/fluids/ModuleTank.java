@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.modular.module.basic.fluids;
 
-import nedelosk.modularmachines.api.modular.module.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleTank;
 import net.minecraft.nbt.NBTTagCompound;
 

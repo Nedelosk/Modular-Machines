@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.modular.module.producer.farm;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.producer.farm.IFarm;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.module.producer.tool.ModuleTool;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -20,8 +21,8 @@ public abstract class ModuleFarm extends ModuleTool {
 	}
 	
 	@Override
-	public void update(IModular modular) {
-		farm.updateFarm(this, modular);
+	public void update(IModular modular, ModuleStack stack) {
+		farm.updateFarm(stack, modular);
 	}
 	
 	@Override

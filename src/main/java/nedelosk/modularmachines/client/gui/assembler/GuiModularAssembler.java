@@ -5,7 +5,6 @@ import org.lwjgl.util.Point;
 
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.parts.IMachinePart;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
@@ -176,8 +175,8 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
               }
         }
     	
-        for(IMachinePart part : ModuleRegistry.getMachineParts()) {
-            AssemblerMachineInfo info = MMRegistry.getAssemblerInfo(part);
+        for(String modular : ModuleRegistry.getModularClasses().keySet()) {
+            AssemblerMachineInfo info = MMRegistry.getAssemblerInfo(modular);
             if(info != null) {
               GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
               shiftButton(button, 0, -18);

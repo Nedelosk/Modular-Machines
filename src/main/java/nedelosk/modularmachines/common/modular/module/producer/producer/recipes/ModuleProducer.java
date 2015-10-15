@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
 import nedelosk.modularmachines.api.modular.module.basic.inventory.ModuleInventory;
 import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
@@ -13,7 +12,6 @@ import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleProducer extends ModuleInventory implements IModuleProducer {
@@ -54,7 +52,7 @@ public abstract class ModuleProducer extends ModuleInventory implements IModuleP
 	public int getBurnTimeTotal(IModular modular)
 	{
 		ModuleStack<IModuleEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier()) * getSpeed() / 10;
+		int burnTimeTotal = engine.getModule().getSpeedModifier(engine.getTier().getStage()) * getSpeed() / 10;
 		return burnTimeTotal + (burnTimeTotal * ModularUtils.getModuleBattery(modular).getSpeedModifier() / 100);
 	}
 	
@@ -74,11 +72,6 @@ public abstract class ModuleProducer extends ModuleInventory implements IModuleP
 	
 	@Override
 	public ArrayList<NeiStack> addNEIStacks() {
-		return null;
-	}
-	
-	@Override
-	public IModule buildModule(ItemStack[] stacks) {
 		return null;
 	}
 	

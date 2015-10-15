@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
-import nedelosk.modularmachines.api.parts.IMachinePart;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularItem;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
@@ -137,7 +137,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
     		return null;
     	if(info.machine == null)
     		return null;
-    	return MachineBuilder.buildMachineItem(input, ((IMachinePart)info.machine.getItem()).getPartName(), info.mode, inventoryBase.tier, info.machine);
+    	return MachineBuilder.buildMachineItem(input, ((IModularItem)info.machine.getItem()).getMachineName(), inventoryBase.tier, info.machine);
   	}
 	
 	@Override

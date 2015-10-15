@@ -23,7 +23,6 @@ public class NEIConfig implements IConfigureNEI {
 					new ModularMachinesHandler((IModuleProducerRecipe) module);
 				}
 			}
-		new ModularAssemblerHandler();
 		isAdded = true;
 	      
 	    API.hideItem(new ItemStack(MMBlockManager.Modular_Machine.item(), 1, 0));

@@ -1,8 +1,9 @@
 package nedelosk.modularmachines.common.modular.module.producer.tool;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.modularmachines.api.modular.module.producer.tool.IModuleTool;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleTool extends Module implements IModuleTool {
@@ -18,7 +19,7 @@ public abstract class ModuleTool extends Module implements IModuleTool {
 	public int tier;
 
 	@Override
-	public void update(IModular modular) {
+	public void update(IModular modular, ModuleStack stack) {
 	}
 	
 	@Override

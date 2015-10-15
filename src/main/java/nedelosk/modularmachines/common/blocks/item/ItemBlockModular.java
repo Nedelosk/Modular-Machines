@@ -1,10 +1,6 @@
 package nedelosk.modularmachines.common.blocks.item;
 
-import nedelosk.modularmachines.api.materials.Material;
-import nedelosk.modularmachines.api.materials.MaterialType;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.IMachinePart;
-import nedelosk.modularmachines.api.parts.PartType;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.block.Block;
@@ -14,12 +10,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.client.IItemRenderer;
 
-public class ItemBlockModular extends ItemBlock implements IMachinePart {
+public class ItemBlockModular extends ItemBlock implements IModularItem{
 
-	public ItemBlockModular(Block p_i45328_1_) {
+	public String machineName;
+	
+	public ItemBlockModular(Block p_i45328_1_, String machineName) {
 		super(p_i45328_1_);
+		this.machineName = machineName;
 	}
 	
 	@Override
@@ -96,58 +94,8 @@ public class ItemBlockModular extends ItemBlock implements IMachinePart {
 	}
 
 	@Override
-	public MaterialType getMaterialType() {
-		return null;
-	}
-
-	@Override
-	public Material getMaterial(ItemStack stack) {
-		return null;
-	}
-
-	@Override
-	public String getTagKey() {
-		return null;
-	}
-
-	@Override
-	public ItemStack buildItemFromStacks(ItemStack[] stacks) {
-		return null;
-	}
-
-	@Override
-	public boolean validComponent(int slot, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public ItemStack getMachine(ItemStack stack) {
-		return null;
-	}
-
-	@Override
-	public PartType[] getMachineComponents() {
-		return null;
-	}
-
-	@Override
-	public String getPartName() {
-		return "modular.machines";
-	}
-
-	@Override
-	public IItemRenderer getPartRenderer() {
-		return null;
-	}
-
-	@Override
-	public Material[] getMaterials(ItemStack stack) {
-		return null;
-	}
-
-	@Override
-	public ModuleStack buildModule(ItemStack stack) {
-		return null;
+	public String getMachineName() {
+		return machineName;
 	}
 
 }

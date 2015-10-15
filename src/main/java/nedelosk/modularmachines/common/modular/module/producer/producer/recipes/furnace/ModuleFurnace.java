@@ -7,9 +7,6 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.PartType;
-import nedelosk.modularmachines.api.parts.PartType.MachinePartType;
-import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.modular.module.producer.producer.recipes.ModuleProducer;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import net.minecraft.inventory.Slot;
@@ -61,16 +58,16 @@ public class ModuleFurnace extends ModuleProducer {
 	}
 	
 	@Override
-	public void update(IModular modular) {
+	public void update(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(tile.getEnergyStored(null) > 0)
 		{
 		if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 		{
-			ItemStack input = tile.getModular().getInventoryManager().getStackInSlot(this.getName(), 0);
+			ItemStack input = tile.getModular().getInventoryManager().getStackInSlot(this.getName(stack), 0);
 			if(output != null)
 			{
-				if(tile.getModular().getInventoryManager().addToOutput(output, 1, 2, this.getName()))
+				if(tile.getModular().getInventoryManager().addToOutput(output, 1, 2, this.getName(stack)))
 					output = null;
 			}
 			else if(input != null)
@@ -79,7 +76,7 @@ public class ModuleFurnace extends ModuleProducer {
 				if(recipeOutput != null)
 				{
 					output = recipeOutput.copy();
-					tile.getModular().getInventoryManager().decrStackSize(this.getName(), 0, 1);
+					tile.getModular().getInventoryManager().decrStackSize(this.getName(stack), 0, 1);
 					if(burnTimeTotal == 0)
 						burnTimeTotal = getBurnTimeTotal(modular);
 					burnTime = 0;
@@ -119,10 +116,10 @@ public class ModuleFurnace extends ModuleProducer {
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, this.getName()));
-		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, this.getName()){
+		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, stack));
+		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, stack){
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;
@@ -137,19 +134,8 @@ public class ModuleFurnace extends ModuleProducer {
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(ModuleStack stack) {
 		return 2;
-	}
-
-	@Override
-	public PartType[] getRequiredComponents() {
-		return new PartType[]{new MachinePartType(ItemRegistry.Burning_Chamber),
-				  new MachinePartType(ItemRegistry.Module) };
-	}
-
-	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		return null;
 	}
 
 }

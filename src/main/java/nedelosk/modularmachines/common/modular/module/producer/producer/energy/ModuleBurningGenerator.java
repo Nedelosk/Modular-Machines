@@ -7,11 +7,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGuiWithWidgets;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.parts.PartType;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleBurningGenerator extends ModuleGenerator implements IModuleGuiWithWidgets{
@@ -25,22 +23,12 @@ public class ModuleBurningGenerator extends ModuleGenerator implements IModuleGu
 	}
 
 	@Override
-	public PartType[] getRequiredComponents() {
+	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		return null;
 	}
 
 	@Override
-	public ModuleStack creatModule(ItemStack stack) {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular) {
-		return null;
-	}
-
-	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(ModuleStack stack) {
 		return 1;
 	}
 

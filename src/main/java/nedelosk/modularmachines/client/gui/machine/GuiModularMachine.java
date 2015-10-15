@@ -48,7 +48,8 @@ public class GuiModularMachine extends GuiBase<TileModular> implements INBTTagab
 		if(tile.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
 			for(Slot slot : (ArrayList<Slot>)inventorySlots.inventorySlots)
 			{
-				if(slot.slotNumber < ((IModuleInventory)tile.getModular().getGuiManager().getModuleWithGui().getModule()).getSizeInventory())
+				ModuleStack gui = tile.getModular().getGuiManager().getModuleWithGui();
+				if(slot.slotNumber < ((IModuleInventory)gui.getModule()).getSizeInventory(gui))
 				{
 					RenderUtils.drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 1, 56, 238, 18, 18);
 				}

@@ -41,7 +41,7 @@ public abstract class Modular implements IModular {
 		for(Vector<ModuleStack> moduleV : modules.values())
 			for(ModuleStack module : moduleV)
 				if(module != null && module.getModule() != null)
-					module.getModule().update(this);
+					module.getModule().update(this, module);
 		
 	}
 	
@@ -106,7 +106,7 @@ public abstract class Modular implements IModular {
 				if(modules != null){
 					for(ModuleStack module : modules){
 						if(module != null){
-							tiers += module.getTier();
+							tiers += module.getTier().getStage();
 							size++;
 						}
 					}
@@ -119,25 +119,6 @@ public abstract class Modular implements IModular {
 	
 	@Override
 	public void initModular(){
-	}
-	
-	public int getStorageSlotsForInit(int tier){
-		switch (tier) {
-		case 1:
-			return 2;
-		case 2:
-			return 3;
-		case 3:
-			return 3;
-		case 4:
-			return 4;
-		case 5:
-			return 5;
-		case 6:
-			return 5;
-		default:
-			return 2;
-		}
 	}
 
 	@Override

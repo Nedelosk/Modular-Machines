@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.common.core.manager;
 
+import nedelosk.modularmachines.common.items.ItemMachineComponent;
 import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,9 +27,12 @@ public enum MMItemManager {
 	Part_Engine,
 	Part_Module,
 	Part_Modules,
+	Part_Modules_Manager,
 	Part_Burning_Chamber,
 	Part_Grinding_Wheel,
 	Part_Centrifuge_Chamber,
+	Part_Storage_Holder,
+	Part_Tank_Holder,
 	
 	//Components
 	Component_Connection_Wires,
@@ -48,6 +52,12 @@ public enum MMItemManager {
 	public void registerItem(Item item) {
 		this.item = item;
 		NCRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
+	}
+	
+	public void addMetaData(int color, String name, String oreDict){
+		if(item instanceof ItemMachineComponent){
+			ItemMachineComponent.addMetaData(this, color, name, oreDict);
+		}
 	}
 
 	public boolean isItemEqual(ItemStack stack) {
