@@ -2,6 +2,9 @@ package nedelosk.modularmachines.common.blocks.tile;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -84,7 +87,8 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
 		modular.setMachine(this);
 		modular.initModular();
-		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName());
+		ModuleStack<IModule, IProducerGui> gui = modular.getGuiManager().getModuleWithGui();
+		modular.getGuiManager().setPage(gui.getModule().getName(gui));
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 

@@ -10,9 +10,11 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularGuiManager;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularUtilsManager;
@@ -40,8 +42,8 @@ public abstract class Modular implements IModular {
 	public void update(){
 		for(Vector<ModuleStack> moduleV : modules.values())
 			for(ModuleStack module : moduleV)
-				if(module != null && module.getModule() != null)
-					module.getModule().update(this, module);
+				if(module != null && module.getModule() != null && module.getProducer() != null)
+					module.getProducer().update(this, module);
 		
 	}
 	
@@ -142,17 +144,17 @@ public abstract class Modular implements IModular {
 	}
 	
 	@Override
-	public ModuleStack<IModuleBattery> getBattery() {
+	public ModuleStack<IModule, IProducerBattery> getBattery() {
 		return getModule("Battery", 0);
 	}
 	
 	@Override
-	public ModuleStack<IModuleCasing> getCasing() {
+	public ModuleStack<IModuleCasing, IProducer> getCasing() {
 		return getModule("Casing", 0);
 	}
 
 	@Override
-	public ModuleStack<IModuleFluidManager> getTankManeger() {
+	public ModuleStack<IModule, IProducerFluidManager> getTankManeger() {
 		return getModule("TankManager", 0);
 	}
 	

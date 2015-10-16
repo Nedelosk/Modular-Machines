@@ -29,13 +29,13 @@ public class ModularMachineRenderer {
 		
 		public CasingRenderer(ModuleStack stack) {
 			this.stack = stack;
-			if(stack.getModule().getModifier() != null)
-				texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier() + ".png");
+			if(stack.getModule().getModifier(stack) != null)
+				texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier(stack) + ".png");
 			else
 				texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/iron.png");
 			 IReloadableResourceManager resourceManager = (SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager();
 			 try{
-				 resourceManager.getResource(new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier() + ".png")); 
+				 resourceManager.getResource(new ResourceLocation("modularmachines", "textures/models/modules/casing/" + stack.getModule().getModifier(stack) + ".png")); 
 			 }catch(Exception e){
 				 texture = new ResourceLocation("modularmachines", "textures/models/modules/casing/iron.png");
 			 }
@@ -196,8 +196,8 @@ public class ModularMachineRenderer {
 		public void renderMachineItemStack(IModular machine, ItemStack stack) {
 			for(Vector<ModuleStack> stacks : machine.getModules().values()){
 				for(ModuleStack moduleStack : stacks){
-					if(moduleStack != null){
-						IModularRenderer renderer = moduleStack.getModule().getItemRenderer(machine, moduleStack, stack);
+					if(moduleStack != null && moduleStack.getModule() != module){
+						IModularRenderer renderer = moduleStack.getProducer().getItemRenderer(machine, moduleStack, stack);
 						if(renderer != null)
 							renderer.renderMachineItemStack(machine, stack);
 					}
@@ -211,7 +211,7 @@ public class ModularMachineRenderer {
 			for(Vector<ModuleStack> stacks : machine.getModules().values()){
 				for(ModuleStack stack : stacks){
 					if(stack != null && stack.getModule() != module){
-						IModularRenderer renderer = stack.getModule().getMachineRenderer(machine, stack, entity);
+						IModularRenderer renderer = stack.getProducer().getMachineRenderer(machine, stack, entity);
 						if(renderer != null)
 							renderer.renderMachine(entity, x, y, z);;
 					}

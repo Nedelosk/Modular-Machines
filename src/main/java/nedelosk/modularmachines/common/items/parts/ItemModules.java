@@ -49,7 +49,7 @@ public class ItemModules extends Item{
 		if(stack.hasTagCompound())
 			return 16777215;
 		if(pass == 1){
-			IModuleWithItem module = ModuleRegistry.moduleFactory.createModule(stack.getTagCompound().getString("Name"));
+			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModule(stack.getTagCompound().getString("Name"));
 			return module.getColor();
 		}
 		else{

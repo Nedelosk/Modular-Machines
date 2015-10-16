@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTankManager;
+import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularSelection;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
@@ -36,7 +36,7 @@ public class WidgetFluidTankFilter extends Widget<TileModular> {
 		if(GuiScreen.isShiftKeyDown())
 		{
 			fluid = null;
-			((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.filters[ID] = fluid;
+			((ProducerTankManager)gui.getTile().getModular().getTankManeger().getProducer()).manager.filters[ID] = fluid;
 			PacketHandler.INSTANCE.sendToServer(new PacketModularSelection(gui.getTile()));
 		}
 		else{
@@ -44,7 +44,7 @@ public class WidgetFluidTankFilter extends Widget<TileModular> {
 		if(stack != null && FluidContainerRegistry.isContainer(stack))
 		{
 			fluid = FluidContainerRegistry.getFluidForFilledItem(stack).getFluid();
-			((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.filters[ID] = fluid;
+			((ProducerTankManager)gui.getTile().getModular().getTankManeger().getProducer()).manager.filters[ID] = fluid;
 			PacketHandler.INSTANCE.sendToServer(new PacketModularSelection(gui.getTile()));
 		}
 		}

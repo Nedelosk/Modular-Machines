@@ -3,11 +3,11 @@ package nedelosk.modularmachines.plugins;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.modularmachines.common.modular.module.basic.basic.ModuleCasing;
-import nedelosk.modularmachines.common.modular.module.basic.energy.ModuleBattery;
-import nedelosk.modularmachines.common.modular.module.basic.energy.ModuleCapacitor;
-import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTank;
-import nedelosk.modularmachines.common.modular.module.basic.storage.ModuleChest;
+import nedelosk.modularmachines.common.modular.module.basic.ModuleCasing;
+import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerBattery;
+import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerCapacitor;
+import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTank;
+import nedelosk.modularmachines.common.modular.module.tool.producer.storage.ProducerChest;
 import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,27 +22,27 @@ public class PluginThermalExpansion extends Plugin {
 	
 	@Override
 	public void preInit() {
-		ModuleRegistry.addModuleStack(new ItemStack(frame, 1, 0), new ModuleCasing(), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(frame, 1, 1), new ModuleCasing(), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(frame, 1, 2), new ModuleCasing(), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(frame, 1, 3), new ModuleCasing(), 3);
-		ModuleRegistry.addModuleStack(new ItemStack(tank, 1, 1), new ModuleTank(8000), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(tank, 1, 2), new ModuleTank(32000), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(tank, 1, 3), new ModuleTank(128000), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(tank, 1, 4), new ModuleTank(512000), 3);
-		ModuleRegistry.addModuleStack(new ItemStack(cell, 1, 1), new ModuleBattery("energyCellLeadstone", 400000, 200, 200), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(cell, 1, 2), new ModuleBattery("energyCellHardened", 20000000, 800, 800), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(cell, 1, 3), new ModuleBattery("energyCellRedstone", 200000000, 8000, 8000), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(cell, 1, 4), new ModuleBattery("energyCellResonant", 800000000, 32000, 32000), 3);
-		ModuleRegistry.addModuleStack(new ItemStack(strongBox, 1, 1), new ModuleChest("strongBox",  18), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(strongBox, 1, 2), new ModuleChest("strongBoxHardende",  36), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(strongBox, 1, 3), new ModuleChest("strongBoxReinforced",  54), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(strongBox, 1, 4), new ModuleChest("strongBoxHResonant",  72), 3);
-		ModuleRegistry.addModuleStack(new ItemStack(capacitor, 1, 1), new ModuleCapacitor(7, 15), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(capacitor, 1, 2), new ModuleCapacitor(10, 20), 1);
-		ModuleRegistry.addModuleStack(new ItemStack(capacitor, 1, 3), new ModuleCapacitor(15, 30), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(capacitor, 1, 4), new ModuleCapacitor(20, 40), 2);
-		ModuleRegistry.addModuleStack(new ItemStack(capacitor, 1, 5), new ModuleCapacitor(40, 80), 3);
+		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 0), new ModuleCasing(), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 1), new ModuleCasing(), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 2), new ModuleCasing(), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 3), new ModuleCasing(), 3);
+		ModuleRegistry.addModuleItem(new ItemStack(tank, 1, 1), new ProducerTank(8000), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(tank, 1, 2), new ProducerTank(32000), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(tank, 1, 3), new ProducerTank(128000), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(tank, 1, 4), new ProducerTank(512000), 3);
+		ModuleRegistry.addModuleItem(new ItemStack(cell, 1, 1), new ProducerBattery("energyCellLeadstone", 400000, 200, 200), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(cell, 1, 2), new ProducerBattery("energyCellHardened", 20000000, 800, 800), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(cell, 1, 3), new ProducerBattery("energyCellRedstone", 200000000, 8000, 8000), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(cell, 1, 4), new ProducerBattery("energyCellResonant", 800000000, 32000, 32000), 3);
+		ModuleRegistry.addModuleItem(new ItemStack(strongBox, 1, 1), new ProducerChest("strongBox",  18), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(strongBox, 1, 2), new ProducerChest("strongBoxHardende",  36), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(strongBox, 1, 3), new ProducerChest("strongBoxReinforced",  54), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(strongBox, 1, 4), new ProducerChest("strongBoxHResonant",  72), 3);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 1), new ProducerCapacitor(7, 15), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 2), new ProducerCapacitor(10, 20), 1);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 3), new ProducerCapacitor(15, 30), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 4), new ProducerCapacitor(20, 40), 2);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 5), new ProducerCapacitor(40, 80), 3);
 		}
 	
 	@Override

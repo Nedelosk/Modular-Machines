@@ -7,9 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.item.ItemStack;
@@ -27,11 +29,11 @@ public interface IModular extends INBTTagable {
 	void initModular();
 	
 	//Utils
-	ModuleStack<IModuleBattery> getBattery();
+	ModuleStack<IModule, IProducerBattery> getBattery();
 	
-	ModuleStack<IModuleCasing> getCasing();
+	ModuleStack<IModuleCasing, IProducer> getCasing();
 
-	ModuleStack<IModuleFluidManager> getTankManeger();
+	ModuleStack<IModule, IProducerFluidManager> getTankManeger();
 	
 	boolean addModule(ModuleStack module);
 	

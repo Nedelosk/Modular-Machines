@@ -3,7 +3,6 @@ package nedelosk.modularmachines.plugins.nei;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;

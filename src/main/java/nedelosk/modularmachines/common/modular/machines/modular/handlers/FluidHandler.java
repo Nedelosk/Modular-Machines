@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.modular.machines.modular.handlers;
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
-import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTankManager;
+import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.nbt.NBTTagCompound;
@@ -74,7 +74,7 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		if(!doFill)
 			return 0;
-		ModuleTankManager manager = (ModuleTankManager) machine.getTankManeger().getModule();
+		ProducerTankManager manager = (ProducerTankManager) machine.getTankManeger().getProducer();
 		if(manager != null)
 		{
 			ArrayList<Integer> listDirection = new ArrayList<Integer>();

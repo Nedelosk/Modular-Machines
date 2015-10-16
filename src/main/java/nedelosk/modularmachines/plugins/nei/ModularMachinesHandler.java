@@ -10,7 +10,6 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;

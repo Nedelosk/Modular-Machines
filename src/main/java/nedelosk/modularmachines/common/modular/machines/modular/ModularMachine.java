@@ -1,13 +1,12 @@
 package nedelosk.modularmachines.common.modular.machines.modular;
 
-import cofh.api.energy.EnergyStorage;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
-import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
@@ -39,11 +38,11 @@ public class ModularMachine extends ModularInventory {
 			ModuleStack manager_back = null;
 			if(stacks[0] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[0]) != null && ModuleRegistry.getModuleStack(stacks[0]).getModule() instanceof IModuleBattery)
+			if(ModuleRegistry.getModuleStack(stacks[0]) != null && ModuleRegistry.getModuleStack(stacks[0]).getProducer() instanceof IProducerBattery)
 				battery = ModuleRegistry.getModuleStack(stacks[0]);
 			if(stacks[1] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[1]) != null && ModuleRegistry.getModuleStack(stacks[1]).getModule() instanceof IModuleEngine)
+			if(ModuleRegistry.getModuleStack(stacks[1]) != null && ModuleRegistry.getModuleStack(stacks[1]).getProducer() instanceof IProducerEngine)
 				engine = ModuleRegistry.getModuleStack(stacks[1]);
 			if(stacks[2] == null)
 				return null;
@@ -54,10 +53,10 @@ public class ModularMachine extends ModularInventory {
 			}
 			if(stacks[3] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[3]) != null && ModuleRegistry.getModuleStack(stacks[3]).getModule() instanceof IModuleProducer)
+			if(ModuleRegistry.getModuleStack(stacks[3]) != null && ModuleRegistry.getModuleStack(stacks[3]).getProducer() instanceof IProducerMachine)
 				engine = ModuleRegistry.getModuleStack(stacks[3]);
 			if(modular.addModule(battery) && modular.addModule(engine) && modular.addModule(casing) && modular.addModule(producer)){
-				modular.getManager().setEnergyHandler(new EnergyHandler(((IModuleBattery)battery.getModule()).getStorage(battery)));
+				modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery)battery.getModule()).getStorage(battery)));
 				return modular;
 			}
 		}
@@ -71,16 +70,16 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		if(ModularUtils.getModuleProducer(modular) == null)
+		if(ModularUtils.getModuleStackMachine(modular) == null)
 			return null;
-		return ModularUtils.getModuleProducer(modular).getItemRenderer(modular, ModularUtils.getModuleStackProducer(modular), stack);
+		return ModularUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular, ModularUtils.getModuleStackMachine(modular), stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		if(ModularUtils.getModuleProducer(modular) == null)
+		if(ModularUtils.getModuleStackMachine(modular) == null)
 			return null;
-		return ModularUtils.getModuleProducer(modular).getMachineRenderer(modular, ModularUtils.getModuleStackProducer(modular), tile);
+		return ModularUtils.getModuleStackMachine(modular).getProducer().getMachineRenderer(modular, ModularUtils.getModuleStackMachine(modular), tile);
 	}
 
 }

@@ -6,7 +6,8 @@ import java.util.Vector;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
-import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.machine.GuiModularMachine;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
@@ -45,8 +46,8 @@ public class ModularGuiManager implements IModularGuiManager {
 		for(Vector<ModuleStack> stacks : modular.getModules().values())
 			for(ModuleStack module : stacks)
 			{
-				if(module != null)
-					if(module.getModule() instanceof IModuleGui)
+				if(module != null && module.getProducer() != null)
+					if(module.getProducer() instanceof IProducerGui)
 						guis.add(module);
 			}
 		return guis;
@@ -76,21 +77,24 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Container getContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
+			page = modular.getGuiManager().getModuleWithGui().getModule().getName(modular.getGuiManager().getModuleWithGui());
 		return new ContainerModularMachine((TileModular) tile, inventory);
 	}
 
 	@Override
 	public Object getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory) {
+		
+		ModuleStack<IModule, IProducerGui> gui = modular.getGuiManager().getModuleWithGui();
+		
 		if(modular != null){
 			if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
 				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
 					this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
 				else
-					page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
+					page = gui.getModule().getName(gui);
 		}
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0));
+			page = gui.getModule().getName(gui);
 		return new GuiModularMachine((TileModular) tile, inventory);
 	}
 

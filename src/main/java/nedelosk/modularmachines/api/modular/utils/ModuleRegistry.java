@@ -12,7 +12,8 @@ import cpw.mods.fml.common.eventhandler.Event;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.factory.IModuleFactory;
-import nedelosk.modularmachines.api.modular.module.producer.farm.IFarm;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.farm.IFarm;
 import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,35 +22,18 @@ public class ModuleRegistry {
 
 	private static HashMap<String, IModule> modules = Maps.newHashMap();
 	
-	private static HashMap<String, Class<? extends IModule>> moduleClasses = Maps.newHashMap();
+	private static HashMap<String, Class<? extends IProducer>> producerClasses = Maps.newHashMap();
 	
 	private static HashMap<String, Class<? extends IModular>> modularClasses = Maps.newHashMap();
 	
 	private static LinkedHashMap<String, IFarm> farmRegistry = new LinkedHashMap<String, IFarm>(64);
 	
-	private static ArrayList<ModuleStack> moduleStacks = Lists.newArrayList();
+	private static ArrayList<ModuleStack> moduleItems = Lists.newArrayList();
 	
 	public static IModuleFactory moduleFactory;
 	
-	public static void addModule(IModule module)
-	{
-		if(modules.containsKey(module.getName())){
-			return;
-		}
-		modules.put(module.getName(), module);
-		if(!moduleClasses.containsKey(module.getName()))
-			registerModuleClass(module.getClass(), module.getName());
-		MinecraftForge.EVENT_BUS.post(new ModuleRegisterEvent(module));
-	}
-	
-	public static void registerModuleClass(Class< ? extends IModule> module, String name)
-	{
-		moduleClasses.put(name, module);
-	}
-	
-	public static Class<? extends IModule> getModuleClass(String name)
-	{
-		for(Map.Entry<String, Class<? extends IModule>> entry : moduleClasses.entrySet())
+	public static Class<? extends IProducer> getProducerClass(String name){
+		for(Map.Entry<String, Class<? extends IProducer>> entry : producerClasses.entrySet())
 		{
 			if(entry.getKey().equals(name))
 				return entry.getValue();
@@ -57,33 +41,33 @@ public class ModuleRegistry {
 		return null;
 	}
 	
-	public static void addModuleStack(ItemStack item, IModule module, Tier tier, boolean hasNbt)
+	public static void addModuleItem(ItemStack item, IModule module, IProducer producer, Tier tier, boolean hasNbt)
 	{
-		ModuleStack stack = new ModuleStack(item, module, tier, hasNbt);
-		ArrayList<ModuleStack> it = moduleStacks;
-		if(!moduleStacks.contains(stack)){
-			moduleStacks.add(stack);
+		ModuleStack stack = new ModuleStack(item, module, producer, tier, hasNbt);
+		ArrayList<ModuleStack> it = moduleItems;
+		if(!moduleItems.contains(stack)){
+			moduleItems.add(stack);
 			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(stack));
 		}
-		if(modules.get(module.getName(stack)) == null)
-			addModule(module);
+		if(!module.getTiers().contains(tier)){
+			module.addTier(tier);
+		}
 	}
 	
-	public static void addModuleStack(ItemStack item, IModule module, Tier tier)
+	public static void addModuleItem(ItemStack item, IModule module, Tier tier, boolean hasNbt)
 	{
-		ModuleStack stack = new ModuleStack(item, module, tier, false);
-		if(!moduleStacks.contains(stack)){
-			moduleStacks.add(stack);
-			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(stack));
-		}
-		if(modules.get(module.getName(stack)) == null)
-			addModule(module);
+		addModuleItem(item, module, null, tier, hasNbt);
+	}
+	
+	public static void addModuleItem(ItemStack item, IModule module, Tier tier)
+	{
+		addModuleItem(item, module, tier, false);
 	}
 	
 	public static ItemStack[] getModuleItemStacks(IModule module, Tier tier)
 	{
 		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-		for(ModuleStack item : moduleStacks)
+		for(ModuleStack item : moduleItems)
 		{
 			if(module.getName(item).equals(item.getModule().getName(item)) && tier == item.getTier())
 			{
@@ -97,7 +81,7 @@ public class ModuleRegistry {
 	public static ModuleStack getModuleStack(String moduleName, ItemStack stack){
 		if(stack == null || moduleName == null)
 			return null;
-		for(ModuleStack item : moduleStacks)
+		for(ModuleStack item : moduleItems)
 		{
 			if(item.getModuleName().equals(moduleName) && stack.getItem() == item.getItem().getItem() && stack.getItemDamage() == item.getItem().getItemDamage())
 				if(ItemStack.areItemStackTagsEqual(stack, item.getItem()) || !item.hasNbt())
@@ -109,8 +93,8 @@ public class ModuleRegistry {
 	public static ModuleStack getModuleStack(ItemStack stack){
 		if(stack == null)
 			return null;
-		ArrayList<ModuleStack> ite = moduleStacks;
-		for(ModuleStack item : moduleStacks)
+		ArrayList<ModuleStack> ite = moduleItems;
+		for(ModuleStack item : moduleItems)
 		{
 			if(stack.getItem() == item.getItem().getItem() && stack.getItemDamage() == item.getItem().getItemDamage())
 				if(ItemStack.areItemStackTagsEqual(stack, item.getItem()) || !item.hasNbt())
@@ -137,8 +121,8 @@ public class ModuleRegistry {
 		return modules;
 	}
 	
-	public static HashMap<String, Class< ? extends IModule>> getModuleClasses() {
-		return moduleClasses;
+	public static void registerModule(IModule module){
+		modules.put(module.getRegistryName(), module);
 	}
 	
 	public static HashMap<String, Class<? extends IModular>> getModularClasses() {

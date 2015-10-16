@@ -2,75 +2,30 @@ package nedelosk.modularmachines.api.modular.module.basic.basic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import akka.japi.Pair;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.tier.Tiers;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 public abstract class Module implements IModule{
 	
 	protected String moduleModifier;
-	public ArrayList<Tier> tiers = Lists.newArrayList();
-	public HashMap<Tier, String> tierModifiers = Maps.newHashMap();
+	protected ArrayList<Tier> tiers = Lists.newArrayList();
+	private HashMap<Tier, String> tierModifiers = Maps.newHashMap();
+	private HashMap<Tier, IProducer> tierProducer = Maps.newHashMap();
 	
 	public Module() {
 	}
 	
 	public Module(String moduleModifier) {
 		this.moduleModifier = moduleModifier;
-	}
-	
-	public Module(NBTTagCompound nbt) {
-		readFromNBT(nbt);
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
-		readFromNBT(nbt);
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		if(nbt.hasKey("Modifier"))
-			this.moduleModifier = nbt.getString("Modifier");
-		NBTTagList list = nbt.getTagList("TierModifier", 10);
-		for(int i = 0;i < list.tagCount();i++){
-			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			String modifier = nbtTag.getString("Modifier");
-			String name = nbtTag.getString("Name");
-			tierModifiers.put(Tiers.getTier(name), modifier);
-		}
-	}
-
-	@Override
-	public void update(IModular modular, ModuleStack stack) {
-		
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		if(moduleModifier != null)
-			nbt.setString("Modifier", moduleModifier);
-		NBTTagList list = new NBTTagList();
-		for(Entry<Tier, String> entry : tierModifiers.entrySet()){
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			nbtTag.setString("Modifier", entry.getValue());
-			nbtTag.setString("Name", entry.getKey().getName());
-			list.appendTag(nbtTag);
-		}
-		nbt.setTag("TierModifier", list);
 	}
 	
 	@Override
@@ -92,6 +47,11 @@ public abstract class Module implements IModule{
 	}
 	
 	@Override
+	public String getRegistryName() {
+		return "module" + getModuleName() + moduleModifier;
+	}
+	
+	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return null;
 	}
@@ -101,18 +61,29 @@ public abstract class Module implements IModule{
 		return null;
 	}
 
+	@Override
 	public void addTier(Tier tier){
-		tiers.add(tier);
+		if(!tiers.contains(tier))
+			tiers.add(tier);
 	}
 	
-	public void addTier(Tier tier, String modifier){
+	@Override
+	public void addTier(Tier tier, String modifier, IProducer producer){
 		addTier(tier);
-		tierModifiers.put(tier, modifier);
+		if(!tierModifiers.containsKey(tier))
+			tierModifiers.put(tier, modifier);
+		if(!tierProducer.containsKey(tier))
+			tierProducer.put(tier, producer);
 	}
 	
 	@Override
 	public ArrayList<Tier> getTiers() {
 		return tiers;
+	}
+	
+	@Override
+	public HashMap<Tier, IProducer> getProducer() {
+		return tierProducer;
 	}
 	
 }
