@@ -49,7 +49,7 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	public int getBurnTimeTotal(IModular modular, ModuleStack stack)
 	{
 		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getTier().getStage()) * getSpeed(stack) / 10;
+		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
 		return burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 	}

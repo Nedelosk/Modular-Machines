@@ -34,7 +34,7 @@ public class MachineBuilder {
 	
 	public static IModular buildMachine(ItemStack[] slots, String moduleName)
 	{
-		for(Entry<String, Class<? extends IModular>> entry : ModuleRegistry.getModularClasses().entrySet()){
+		for(Entry<String, Class<? extends IModular>> entry : ModuleRegistry.getModular().entrySet()){
 			IModular modularType = createMachine(moduleName);
 			IModular modular = modularType.buildItem(slots);
 			if(modular != null){
@@ -77,15 +77,15 @@ public class MachineBuilder {
 		IModular machine = null;
 		try{
             if(ctorArgs == null || ctorArgs.length == 0)
-            	if(ModuleRegistry.getModularClasses().get(modularName) != null)
-            		return (M) ModuleRegistry.getModularClasses().get(modularName).getConstructor().newInstance();
+            	if(ModuleRegistry.getModular().get(modularName) != null)
+            		return (M) ModuleRegistry.getModular().get(modularName).getConstructor().newInstance();
             Class<?>[] ctorArgClasses = new Class<?>[ctorArgs.length];
             for (int idx = 0; idx < ctorArgClasses.length; idx++)
             {
                 ctorArgClasses[idx] = ctorArgs[idx].getClass();
             }
-            if(ModuleRegistry.getModularClasses().get(modularName) != null)
-            	machine = ModuleRegistry.getModularClasses().get(modularName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
+            if(ModuleRegistry.getModular().get(modularName) != null)
+            	machine = ModuleRegistry.getModular().get(modularName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
             else
             	return null;
 		}catch(Exception e){

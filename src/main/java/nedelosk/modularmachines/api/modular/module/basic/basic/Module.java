@@ -10,16 +10,16 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
-import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
+import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
 public abstract class Module implements IModule{
 	
 	protected String moduleModifier;
-	protected ArrayList<Tier> tiers = Lists.newArrayList();
-	private HashMap<Tier, String> tierModifiers = Maps.newHashMap();
-	private HashMap<Tier, IProducer> tierProducer = Maps.newHashMap();
+	protected ArrayList<Type> tiers = Lists.newArrayList();
+	private HashMap<Type, String> typeModifiers = Maps.newHashMap();
+	private HashMap<Type, IProducer> typeProducer = Maps.newHashMap();
 	
 	public Module() {
 	}
@@ -34,16 +34,16 @@ public abstract class Module implements IModule{
 	}
 	
 	@Override
-	public String getTierModifier(ModuleStack stack){
-		if(tierModifiers.get(stack.getTier()) != null){
-			return tierModifiers.get(stack.getTier());
+	public String getTypeModifier(ModuleStack stack){
+		if(typeModifiers.get(stack.getType()) != null){
+			return typeModifiers.get(stack.getType());
 		}
 		return null;
 	}
 
 	@Override
 	public String getName(ModuleStack stack) {
-		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "") + ((getTierModifier(stack) != null) ? getTierModifier(stack) : "") ;
+		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "") + ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "") ;
 	}
 	
 	@Override
@@ -62,28 +62,28 @@ public abstract class Module implements IModule{
 	}
 
 	@Override
-	public void addTier(Tier tier){
+	public void addType(Type tier){
 		if(!tiers.contains(tier))
 			tiers.add(tier);
 	}
 	
 	@Override
-	public void addTier(Tier tier, String modifier, IProducer producer){
-		addTier(tier);
-		if(!tierModifiers.containsKey(tier))
-			tierModifiers.put(tier, modifier);
-		if(!tierProducer.containsKey(tier))
-			tierProducer.put(tier, producer);
+	public void addType(Type tier, String modifier, IProducer producer){
+		addType(tier);
+		if(!typeModifiers.containsKey(tier))
+			typeModifiers.put(tier, modifier);
+		if(!typeProducer.containsKey(tier))
+			typeProducer.put(tier, producer);
 	}
 	
 	@Override
-	public ArrayList<Tier> getTiers() {
+	public ArrayList<Type> getTypes() {
 		return tiers;
 	}
 	
 	@Override
-	public HashMap<Tier, IProducer> getProducer() {
-		return tierProducer;
+	public HashMap<Type, IProducer> getProducer() {
+		return typeProducer;
 	}
 	
 }

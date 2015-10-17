@@ -1,8 +1,9 @@
 package nedelosk.modularmachines.common.events;
 
-import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
+import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry.ModuleItemRegisterEvent;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry.Events.ModuleItemRegisterEvent;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
@@ -18,7 +19,8 @@ public class EventHandler {
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event)
 	{
-		if(ModuleRegistry.getModuleStack(event.itemStack) != null)
+		ModuleStack stack = ModuleRegistry.getModuleItem(event.itemStack);
+		if(stack != null)
 		{
 			if(!GuiScreen.isShiftKeyDown())
 			{
@@ -29,8 +31,9 @@ public class EventHandler {
 			{
 				if(event.toolTip.size() != 1)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModuleRegistry.getModuleStack(event.itemStack).getTier());
-				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(ModuleRegistry.getModuleStack(event.itemStack).getModuleName() + ".name"));
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + StatCollector.translateToLocal("type." + stack.getType().getName()));
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModuleRegistry.getModuleItem(event.itemStack).getType().getTier());
+				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": " + StatCollector.translateToLocal(stack.getProducer().getName(stack) + ".name"));
 				if(event.toolTip.size() != 3)
 					event.toolTip.add(EnumChatFormatting.WHITE +  "------------------------");
 				
@@ -40,7 +43,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void onRegisterModule(ModuleItemRegisterEvent event){
-		if(event.module.getModule() instanceof IModuleWithItem)
+		if(event.module.getProducer() instanceof IProducerWithItem)
 			ItemRegistry.Modules.addModuleItem(event.module);
 	}
 	

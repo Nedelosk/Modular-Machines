@@ -1,35 +1,50 @@
-package nedelosk.modularmachines.common.items.parts;
+package nedelosk.modularmachines.common.items;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.google.common.collect.Lists;
-import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleWithItem;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.TabModularMachines;
+import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 
-public class ItemModules extends Item{
+public class ItemProducers extends Item{
 	
-	public ArrayList<ItemStack> subItems = Lists.newArrayList();
+	private static ArrayList<ItemStack> subItems = Lists.newArrayList();
 	
-	public ItemModules() {
+	public ItemProducers() {
 		setUnlocalizedName("modules");
 		setCreativeTab(TabModularMachines.components);
 		setHasSubtypes(true);
 	}
 	
-	public void addModuleItem(ModuleStack module){
-		ItemStack stack = new ItemStack(this);
+	@Override
+	public int getRenderPasses(int metadata) {
+		return 2;
+	}
+	
+	@Override
+	public boolean requiresMultipleRenderPasses() {
+		return true;
+	}
+	
+	public static ModuleStack addModuleItem(ModuleStack moduleStack){
+		ItemStack itemStack = new ItemStack(MMItemManager.Producers.item());
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("Tier", module.getTier().getName());
-		nbtTag.setString("Name", module.getModule().getName(module));
-		nbtTag.setString("ModuleName", module.getModule().getModuleName());
-		stack.setTagCompound(nbtTag);
+		nbtTag.setString("Type", moduleStack.getType().getName());
+		nbtTag.setString("Name", moduleStack.getProducer().getName(moduleStack));
+		nbtTag.setString("ModuleName", moduleStack.getModule().getModuleName());
+		itemStack.setTagCompound(nbtTag);
+		subItems.add(itemStack);
+		moduleStack.setItemStack(itemStack);
+		return moduleStack;
 	}
 	
 	@Override
@@ -49,8 +64,8 @@ public class ItemModules extends Item{
 		if(stack.hasTagCompound())
 			return 16777215;
 		if(pass == 1){
-			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModule(stack.getTagCompound().getString("Name"));
-			return module.getColor();
+			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.moduleFactory.createProducer(stack.getTagCompound().getString("Name"));
+			return producer.getColor();
 		}
 		else{
 			return 16777215;

@@ -29,10 +29,33 @@ public class ModuleFactory implements IModuleFactory {
             IProducer i = null;
             if (name != null)
             {
-            	if(ModuleRegistry.getProducerClass(name) == null)
+            	if(ModuleRegistry.getProducer(name) == null)
             		return null;
-                i = ModuleRegistry.getProducerClass(name).newInstance();
-                i.readFromNBT(nbt, modular, stack);
+                i = ModuleRegistry.getProducer(name).getConstructor(new Class[]{ NBTTagCompound.class, IModular.class, ModuleStack.class }).newInstance(nbt, modular, stack);
+            }
+            if (i != null)
+            {
+                return (P) i;
+            }
+            return null;
+        }
+        catch (Exception e)
+        {
+            FMLLog.log(Level.ERROR, e, "Caught an exception during IProducer creation in " + Loader.instance().activeModContainer().getModId() + ":" + name);
+            throw new LoaderException(e);
+        }
+	}
+	
+	@Override
+	public <P extends IProducer> P createProducer(String name) {
+        try
+        {
+            IProducer i = null;
+            if (name != null)
+            {
+            	if(ModuleRegistry.getProducer(name) == null)
+            		return null;
+                i = ModuleRegistry.getProducer(name).newInstance();
             }
             if (i != null)
             {

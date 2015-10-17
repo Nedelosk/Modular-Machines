@@ -108,7 +108,7 @@ public abstract class Modular implements IModular {
 				if(modules != null){
 					for(ModuleStack module : modules){
 						if(module != null){
-							tiers += module.getTier().getStage();
+							tiers += module.getType().getTier();
 							size++;
 						}
 					}

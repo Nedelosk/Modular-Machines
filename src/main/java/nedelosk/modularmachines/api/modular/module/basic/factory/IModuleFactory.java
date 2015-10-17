@@ -9,4 +9,6 @@ public interface IModuleFactory {
 	
 	<P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack);
 	
+	<P extends IProducer> P createProducer(String name);
+	
 }

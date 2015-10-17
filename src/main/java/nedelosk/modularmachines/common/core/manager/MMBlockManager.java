@@ -22,6 +22,11 @@ public enum MMBlockManager {
 		this.block = block;
 		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
 	}
+	
+	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass, Object... objects) {
+		this.block = block;
+		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);
+	}
 
 	public boolean isItemEqual(ItemStack stack) {
 		return stack != null && isBlockEqual(Block.getBlockFromItem(stack.getItem()));

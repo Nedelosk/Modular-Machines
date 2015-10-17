@@ -8,11 +8,11 @@ public class PluginManager extends nedelosk.nedeloskcore.plugins.basic.PluginMan
 	
 	public void registerPlugins()
 	{
-		registerPlugin(new PluginEnderIO());
+		/*registerPlugin(new PluginEnderIO());
 		registerPlugin(new PluginMineTweaker3());
 		registerPlugin(new PluginThermalExpansion());
 		registerPlugin(new PluginTConstruct());
-		registerPlugin(new PluginWaila());
+		registerPlugin(new PluginWaila());*/
 	}
 	
 }

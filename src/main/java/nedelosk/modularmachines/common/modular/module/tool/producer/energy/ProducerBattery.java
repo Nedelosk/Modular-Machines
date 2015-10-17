@@ -17,8 +17,8 @@ import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerCapacitor;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
-import nedelosk.modularmachines.api.modular.tier.Tiers;
-import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
+import nedelosk.modularmachines.api.modular.type.Types;
+import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
@@ -35,7 +35,7 @@ import net.minecraft.nbt.NBTTagList;
 
 public class ProducerBattery extends ProducerInventory implements IProducerBattery {
 
-	public HashMap<Tier, EnergyStorage> storages = Maps.newHashMap();
+	public HashMap<Type, EnergyStorage> storages = Maps.newHashMap();
 	
     private int batteryCapacity;
     private int speedModifier;
@@ -124,7 +124,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		super.writeToNBT(nbt, modular, stack);
 		
 		NBTTagList list = new NBTTagList();
-		for(Entry<Tier, EnergyStorage> entry : storages.entrySet()){
+		for(Entry<Type, EnergyStorage> entry : storages.entrySet()){
 			EnergyStorage storage = entry.getValue();
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			storage.writeToNBT(nbtTag);
@@ -148,7 +148,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			EnergyStorage storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
 			storage.readFromNBT(nbtTag);
-			storages.put(Tiers.getTier(nbt.getString("Name")), storage);
+			storages.put(Types.getType(nbt.getString("Name")), storage);
 		}
 		batteryCapacity = nbt.getInteger("BatteryCapacity");
 		speedModifier = nbt.getInteger("speedModifier");
@@ -157,7 +157,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	
 	@Override
 	public EnergyStorage getStorage(ModuleStack stack) {
-		return storages.get(stack.getTier());
+		return storages.get(stack.getType());
 	}
 	
 	@Override
@@ -173,7 +173,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		
 		@Override
 		public boolean isItemValid(ItemStack stack) {
-			if(ModuleRegistry.getModuleStack(stack) != null && ModuleRegistry.getModuleStack(stack).getProducer() != null && ModuleRegistry.getModuleStack(stack).getProducer() instanceof IProducerCapacitor)
+			if(ModuleRegistry.getModuleItem(stack) != null && ModuleRegistry.getModuleItem(stack).getProducer() != null && ModuleRegistry.getModuleItem(stack).getProducer() instanceof IProducerCapacitor)
 				return true;
 			return false;
 		}
@@ -194,8 +194,8 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 					modules.set(getSlotIndex(), null);
 				}
 			}else{
-				if(ModuleRegistry.getModuleStack(getStack()) != null && ModuleRegistry.getModuleStack(getStack()).getProducer() != null && ModuleRegistry.getModuleStack(getStack()).getProducer() instanceof IProducerCapacitor){
-					((IModularTileEntity)inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(), ModuleRegistry.getModuleStack(getStack()));
+				if(ModuleRegistry.getModuleItem(getStack()) != null && ModuleRegistry.getModuleItem(getStack()).getProducer() != null && ModuleRegistry.getModuleItem(getStack()).getProducer() instanceof IProducerCapacitor){
+					((IModularTileEntity)inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(), ModuleRegistry.getModuleItem(getStack()));
 				}
 			}
 		}

@@ -5,11 +5,14 @@ import java.util.List;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import net.minecraft.item.ItemStack;
 
-public class ProviderModularMaschine implements IWailaDataProvider {
+public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -23,11 +26,11 @@ public class ProviderModularMaschine implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular machine = (TileModular) accessor.getTileEntity();
-		if(ModularUtils.getModuleStackProducer(machine.modular) != null)
+		TileModular modular = (TileModular) accessor.getTileEntity();
+		if(ModularUtils.getModuleStackMachine(modular.modular) != null)
 		{
-			IModuleProducer producer = ModularUtils.getModuleStackProducer(machine.modular).getModule();
-			currenttip.add(producer.getBurnTime() + " / " + producer.getBurnTimeTotal());
+			ModuleStack<IModule, IProducerMachine> machine = ModularUtils.getModuleStackMachine(modular.modular);
+			currenttip.add(machine.getProducer().getBurnTime(machine) + " / " + machine.getProducer().getBurnTimeTotal(machine));
 		}
 		return currenttip;
 	}

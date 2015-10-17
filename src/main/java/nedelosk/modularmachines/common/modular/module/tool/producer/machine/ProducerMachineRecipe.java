@@ -56,7 +56,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public int getBurnTimeTotal(IModular modular, ModuleStack stack)
 	{
 		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getTier().getStage()) * getSpeed(stack) / 10;
+		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 		return burnTimeTotal2;
@@ -65,7 +65,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack stack)
 	{
 		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getTier().getStage()) * getSpeed(stack) / 10;
+		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
 		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
@@ -165,7 +165,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 						manager = null;
 						return;
 					}
-					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack) / ModularUtils.getModuleStackMachine(modular).getTier().getStage();
+					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack) / ModularUtils.getModuleStackMachine(modular).getType().getTier();
 				}
 				if(timer > timerTotal)
 				{

@@ -1,9 +1,12 @@
 package nedelosk.modularmachines.common.core.registry;
 
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.tier.Tiers;
+import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleMachine;
+import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
+import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.modular.machines.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.module.basic.ModuleCasing;
 import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerBattery;
@@ -22,9 +25,12 @@ import net.minecraft.item.ItemStack;
 public class ModularRegistry {
 	
 	public static IModule CASING = new ModuleCasing();
+	public static IModule ALLOYSMELTER = new ModuleMachine("AlloySmelter");
 	
 	public static void preInit()
 	{
+		registerCasings();
+		registerAlloySmelter();
 		/*ModuleRegistry.addModule(new ModuleTankManager());
 		ModuleRegistry.addModule(new ProducerStorageManager());
 		ModuleRegistry.addModule(new ProducerFurnace());
@@ -42,20 +48,28 @@ public class ModularRegistry {
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 2), new ProducerCapacitor(25, 40), 2);
 		ModuleRegistry.addModuleStack(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 3), new ProducerCapacitor(40, 60), 1);*/
 		
-		ModuleRegistry.registerModular(ModularMachine.class, "modular.machines");
+		ModuleRegistry.registerModular(ModularMachine.class, "modular.machine");
 		
     	//if(Loader.isModLoaded("appliedenergistics2"))
     		//ModularMachinesApi.registerBookmark("Storage_AE2");
 	}
 	
 	public static void registerCasings(){
-		CASING.addTier(Tiers.WOOD);
-		CASING.addTier(Tiers.STONE);
-		CASING.addTier(Tiers.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log), CASING, Tiers.WOOD);
-		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log2), CASING, Tiers.WOOD);
-		ModuleRegistry.addModuleItem(new ItemStack(Blocks.stone), CASING, Tiers.STONE);
-		ModuleRegistry.addModuleItem(new ItemStack(Blocks.iron_block), CASING, Tiers.IRON);
+		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log), CASING, Types.WOOD);
+		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log2), CASING, Types.WOOD);
+		ModuleRegistry.addModuleItem(new ItemStack(Blocks.stone), CASING, Types.STONE);
+		ModuleRegistry.addModuleItem(new ItemStack(Blocks.iron_block), CASING, Types.IRON);
+		ModuleRegistry.registerModule(CASING);
+	}
+	
+	public static void registerAlloySmelter(){
+		ALLOYSMELTER.addType(Types.STONE, "stoneAlloySmelter", new ProducerAlloySmelter(350));
+		ALLOYSMELTER.addType(Types.BRONZE, "bronzAlloySmelter", new ProducerAlloySmelter(300));
+		ALLOYSMELTER.addType(Types.IRON, "ironAlloySmelter", new ProducerAlloySmelter(250));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, ALLOYSMELTER, Types.STONE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, ALLOYSMELTER, Types.BRONZE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, ALLOYSMELTER, Types.IRON, true)));
+		ModuleRegistry.registerModule(ALLOYSMELTER);
 	}
 	
 }

@@ -23,7 +23,7 @@ public class BlockRegistry {
 		//Blocks
 		MMBlockManager.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
 		MMBlockManager.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
-		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class);
+		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class, new Object[]{ "modular.machine" });
 		
 		registerTile();
 		

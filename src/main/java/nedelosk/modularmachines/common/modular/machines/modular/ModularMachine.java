@@ -38,23 +38,23 @@ public class ModularMachine extends ModularInventory {
 			ModuleStack manager_back = null;
 			if(stacks[0] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[0]) != null && ModuleRegistry.getModuleStack(stacks[0]).getProducer() instanceof IProducerBattery)
-				battery = ModuleRegistry.getModuleStack(stacks[0]);
+			if(ModuleRegistry.getModuleItem(stacks[0]) != null && ModuleRegistry.getModuleItem(stacks[0]).getProducer() instanceof IProducerBattery)
+				battery = ModuleRegistry.getModuleItem(stacks[0]);
 			if(stacks[1] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[1]) != null && ModuleRegistry.getModuleStack(stacks[1]).getProducer() instanceof IProducerEngine)
-				engine = ModuleRegistry.getModuleStack(stacks[1]);
+			if(ModuleRegistry.getModuleItem(stacks[1]) != null && ModuleRegistry.getModuleItem(stacks[1]).getProducer() instanceof IProducerEngine)
+				engine = ModuleRegistry.getModuleItem(stacks[1]);
 			if(stacks[2] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[2]) != null && ModuleRegistry.getModuleStack(stacks[2]).getModule() instanceof IModuleCasing)
-				casing = ModuleRegistry.getModuleStack(stacks[2]);
+			if(ModuleRegistry.getModuleItem(stacks[2]) != null && ModuleRegistry.getModuleItem(stacks[2]).getModule() instanceof IModuleCasing)
+				casing = ModuleRegistry.getModuleItem(stacks[2]);
 			else{
 				return null;
 			}
 			if(stacks[3] == null)
 				return null;
-			if(ModuleRegistry.getModuleStack(stacks[3]) != null && ModuleRegistry.getModuleStack(stacks[3]).getProducer() instanceof IProducerMachine)
-				engine = ModuleRegistry.getModuleStack(stacks[3]);
+			if(ModuleRegistry.getModuleItem(stacks[3]) != null && ModuleRegistry.getModuleItem(stacks[3]).getProducer() instanceof IProducerMachine)
+				engine = ModuleRegistry.getModuleItem(stacks[3]);
 			if(modular.addModule(battery) && modular.addModule(engine) && modular.addModule(casing) && modular.addModule(producer)){
 				modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery)battery.getModule()).getStorage(battery)));
 				return modular;
@@ -65,7 +65,7 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public String getName() {
-		return "modular.machines";
+		return "modular.machine";
 	}
 
 	@Override

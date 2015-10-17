@@ -10,8 +10,8 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorage;
-import nedelosk.modularmachines.api.modular.tier.Tiers;
-import nedelosk.modularmachines.api.modular.tier.Tiers.Tier;
+import nedelosk.modularmachines.api.modular.type.Types;
+import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.nedeloskcore.api.machines.IContainerBase;
@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ProducerChest extends ProducerInventory implements IProducerStorage {
 
-	public HashMap<Tier, Integer> slots = Maps.newHashMap();
+	public HashMap<Type, Integer> slots = Maps.newHashMap();
 	
 	public ProducerChest(String modifier) {
 			super(modifier);
@@ -32,7 +32,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		int i = slots.get(stack.getTier()) / 9;
+		int i = slots.get(stack.getType()) / 9;
 		
         for (int i1 = 0; i1 < i; i1++) {
             for (int l1 = 0; l1 < 9; l1++) {
@@ -45,7 +45,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 	
 	@Override
 	public int getGuiTop(IModular modular, ModuleStack stack) {
-		if(ModularUtils.getModuleStackStorage(modular).getTier().getStage() != 1)
+		if(ModularUtils.getModuleStackStorage(modular).getType().getTier() != 1)
 			return 256;
 		else
 			return 166;
@@ -53,7 +53,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 	
 	@Override
 	public ResourceLocation getCustomGui(IModular modular, ModuleStack stack) {
-		if(ModularUtils.getModuleStackStorage(modular).getTier().getStage() == 3)
+		if(ModularUtils.getModuleStackStorage(modular).getType().getTier() == 3)
 			return new ResourceLocation("modularmachines", "textures/gui/modular_machine_chest.png");
 		else
 			return null;
@@ -64,7 +64,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 		super.writeToNBT(nbt, modular, stack);
 		
 		NBTTagList list = new NBTTagList();
-		for(Entry<Tier, Integer> entry : slots.entrySet()){
+		for(Entry<Type, Integer> entry : slots.entrySet()){
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			nbtTag.setString("Name", entry.getKey().getName());
 			nbtTag.setInteger("Slot", entry.getValue());
@@ -82,13 +82,13 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			int slot = nbtTag.getInteger("Slot");
 			String name = nbtTag.getString("Name");
-			slots.put(Tiers.getTier(name), slot);
+			slots.put(Types.getType(name), slot);
 		}
 	}
 
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
-		return slots.get(stack.getTier());
+		return slots.get(stack.getType());
 	}
 	
 	@Override
