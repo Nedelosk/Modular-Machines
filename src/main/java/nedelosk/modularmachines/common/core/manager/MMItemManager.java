@@ -21,6 +21,7 @@ public enum MMItemManager {
 	
 	//Module
 	Module_Item_Capacitor,
+	Module_Item_Engine,
 	
 	Producers,
 	
@@ -34,8 +35,7 @@ public enum MMItemManager {
 	Component_Saw_Blades,
 	
 	//Pattern
-	WoodPattern,
-	MetalPattern;
+	WoodPattern;
 
 	private Item item;
 

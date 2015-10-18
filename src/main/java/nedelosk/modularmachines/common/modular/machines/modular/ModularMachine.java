@@ -54,9 +54,9 @@ public class ModularMachine extends ModularInventory {
 			if(stacks[3] == null)
 				return null;
 			if(ModuleRegistry.getModuleItem(stacks[3]) != null && ModuleRegistry.getModuleItem(stacks[3]).getProducer() instanceof IProducerMachine)
-				engine = ModuleRegistry.getModuleItem(stacks[3]);
+				producer = ModuleRegistry.getModuleItem(stacks[3]);
 			if(modular.addModule(battery) && modular.addModule(engine) && modular.addModule(casing) && modular.addModule(producer)){
-				modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery)battery.getModule()).getStorage(battery)));
+				modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery)battery.getProducer()).getStorage(battery)));
 				return modular;
 			}
 		}

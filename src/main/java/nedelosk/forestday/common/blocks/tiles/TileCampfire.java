@@ -99,7 +99,7 @@ public class TileCampfire extends TileMachineBase {
 						if(input.stackSize >= recipe.getInput().stackSize && (recipe.getInput2() == null || input2 != null && input2.stackSize >= recipe.getInput2().stackSize))
 						{
 							decrStackSize(0, recipe.getInput().stackSize);
-							if(recipe.getInput() != null)
+							if(recipe.getInput2() != null)
 							{
 								decrStackSize(1, recipe.getInput2().stackSize);
 							}

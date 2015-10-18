@@ -16,13 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerPulverizer extends ProducerMachineRecipe {
-
-	public ProducerPulverizer() {
-		super("Pulverizer", 1, 2);
-	}
 	
-	public ProducerPulverizer(int speedModifier) {
-		super("Pulverizer", 1, 2, speedModifier);
+	public ProducerPulverizer(String modifier, int speedModifier) {
+		super("Pulverizer" + modifier, 1, 2, speedModifier);
 	}
 	
 	public ProducerPulverizer(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

@@ -19,9 +19,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ProducerTankManager extends ProducerManager implements IProducerFluidManager {
 
 	public TankManager manager;
+	public int tankSlots;
 	
-	public ProducerTankManager(String modifier, Side side) {
-		super(modifier, side);
+	public ProducerTankManager(int tankSlots) {
+		super("TankManagers");
+		this.tankSlots = tankSlots;
 	}
 	
 	public ProducerTankManager(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -33,6 +35,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 		super.writeToNBT(nbt, modular, stack);
 		if(manager != null)
 			manager.writeToNBT(nbt);
+		nbt.setInteger("TankSlots", tankSlots);
 	}
 	
 	@Override
@@ -43,6 +46,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 			manager = new TankManager();
 			manager.readFromNBT(nbt);
 		}
+		tankSlots = nbt.getInteger("TankSlots");
 	}
 
 	@Override

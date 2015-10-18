@@ -12,8 +12,11 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerStorageManager extends ProducerManager implements IProducerStorageManager {
 	
-	public ProducerStorageManager(String modifier, Side side) {
-		super(modifier, side);
+	private int storageSlots;
+	
+	public ProducerStorageManager(int storageSlots) {
+		super("StorageManager");
+		this.storageSlots = storageSlots;
 	}
 	
 	public ProducerStorageManager(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -23,6 +26,20 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	@Override
 	public boolean hasCustomInventoryName(ModuleStack stack) {
 		return true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+		super.readFromNBT(nbt, modular, stack);
+		
+		storageSlots = nbt.getInteger("StorageSlots");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+		super.writeToNBT(nbt, modular, stack);
+		
+		nbt.setInteger("StorageSlots", storageSlots);
 	}
 
 	@Override

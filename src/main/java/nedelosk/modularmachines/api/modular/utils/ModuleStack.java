@@ -24,16 +24,19 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		this.module = module;
 		this.type = type;
 		this.hasNbt = hasNbt;
-		this.producer = (P) module.getProducer().get(type);
+		this.producer = null;
 	}
 	
 	public ModuleStack(ItemStack item, M module, P producer, Type type, boolean hasNbt) {
 		this.item = item;
 		this.module = module;
+		if(producer != null)
+			if(module.getTypeModifier(this) == null)
+				module.addType(type, producer.getName(this));
 		this.type = type;
 		this.hasNbt = hasNbt;
 		if(producer == null){
-			producer = (P) module.getProducer().get(type);
+			producer = null;
 		}
 		this.producer = producer;
 	}
@@ -43,7 +46,7 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		if(obj instanceof ModuleStack)
 		{
 			ModuleStack stackModule = (ModuleStack) obj;
-			if(stackModule.hasNbt == hasNbt && stackModule.type == type && item.getItem() == stackModule.item.getItem() && (hasNbt ? getItem().stackTagCompound.equals(stackModule.getItem().stackTagCompound) : true) && stackModule.module == module && (stackModule.producer == null && producer == null || (stackModule.producer == null ? false : true) || (producer == null ? false : true) || stackModule.producer.getName(this).equals(producer.getName(this))))
+			if(stackModule.hasNbt == hasNbt && stackModule.type == type && item.getItemDamage() == stackModule.item.getItemDamage() &&  item.getItem() == stackModule.item.getItem() && (hasNbt ? getItem().stackTagCompound.equals(stackModule.getItem().stackTagCompound) : true) && stackModule.module == module && (stackModule.producer == null && producer == null || (stackModule.producer == null ? false : true) || (producer == null ? false : true) || stackModule.producer.getName(this).equals(producer.getName(this))))
 				return true;
 		}
 		return false;
@@ -56,7 +59,7 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		hasNbt = nbt.getBoolean("hasNbt");
 		if(nbt.hasKey("Producer")){
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Producer");
-			producer = ModuleRegistry.moduleFactory.createProducer(nbt.getString("Name"), nbtTag, modular, this);
+			producer = ModuleRegistry.moduleFactory.createProducer(nbtTag.getString("Name"), nbtTag, modular, this);
 		}
 	}
 

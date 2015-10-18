@@ -21,13 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerAlloySmelter extends ProducerMachineRecipe {
-
-	public ProducerAlloySmelter() {
-		super("AlloySmelter", 2, 2);
-	}
 	
-	public ProducerAlloySmelter(int speedModifier) {
-		super("AlloySmelter", 2, 2, speedModifier);
+	public ProducerAlloySmelter(String modifier, int speedModifier) {
+		super("AlloySmelter" + modifier, 2, 2, speedModifier);
 	}
 	
 	public ProducerAlloySmelter(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

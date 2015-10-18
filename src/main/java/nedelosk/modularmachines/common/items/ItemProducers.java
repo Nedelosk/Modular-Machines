@@ -3,7 +3,6 @@ package nedelosk.modularmachines.common.items;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.common.collect.Lists;
-import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
@@ -20,7 +19,7 @@ public class ItemProducers extends Item{
 	private static ArrayList<ItemStack> subItems = Lists.newArrayList();
 	
 	public ItemProducers() {
-		setUnlocalizedName("modules");
+		setUnlocalizedName("producers");
 		setCreativeTab(TabModularMachines.components);
 		setHasSubtypes(true);
 	}
@@ -56,7 +55,7 @@ public class ItemProducers extends Item{
 	
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		subItems.addAll(this.subItems);
+		subItems.addAll(ItemProducers.subItems);
 	}
 	
 	@Override

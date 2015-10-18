@@ -9,9 +9,8 @@ public abstract class ProducerManager extends ProducerGui implements IProducerMa
 	
 	protected Side side;
 	
-	public ProducerManager(String modifier, Side side) {
+	public ProducerManager(String modifier) {
 		super(modifier);
-		this.side = side;
 	}
 	
 	public ProducerManager(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -21,6 +20,11 @@ public abstract class ProducerManager extends ProducerGui implements IProducerMa
 	@Override
 	public Side getSide() {
 		return side;
+	}
+	
+	@Override
+	public void setSide(Side side) {
+		this.side = side;
 	}
 
 }

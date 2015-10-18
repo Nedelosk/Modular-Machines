@@ -20,12 +20,8 @@ public class ProducerFurnace extends ProducerMachine {
 
 	public ItemStack output;
 	
-	public ProducerFurnace() {
-		super("Furnace");
-	}
-	
 	public ProducerFurnace(String modifier) {
-		super(modifier);
+		super("Furnace" + modifier);
 	}
 	
 	public ProducerFurnace(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

@@ -2,8 +2,6 @@ package nedelosk.modularmachines.plugins.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;

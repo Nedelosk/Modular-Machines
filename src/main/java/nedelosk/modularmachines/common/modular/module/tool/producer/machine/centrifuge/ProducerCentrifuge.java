@@ -14,13 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerCentrifuge extends ProducerMachineRecipe {
-
-	public ProducerCentrifuge() {
-		super("Centrifuge", 2, 2);
-	}
 	
-	public ProducerCentrifuge(int speedModifier) {
-		super("Centrifuge", 2, 2, speedModifier);
+	public ProducerCentrifuge(String modifier, int speedModifier) {
+		super("Centrifuge" + modifier, 2, 2, speedModifier);
 	}
 	
 	public ProducerCentrifuge(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

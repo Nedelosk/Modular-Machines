@@ -8,11 +8,11 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerEngine extends Producer implements IProducerEngine {
 
-	public int[] speedModifiers;
+	public int speedModifier;
 	
-	public ProducerEngine(String modifier, int... speeds) {
+	public ProducerEngine(String modifier, int speedModifier) {
 		super(modifier);
-		this.speedModifiers = speeds;
+		this.speedModifier = speedModifier;
 	}
 	
 	public ProducerEngine(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -22,18 +22,18 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.readFromNBT(nbt, modular, stack);
-		speedModifiers = nbt.getIntArray("Speed");
+		speedModifier = nbt.getInteger("SpeedModifier");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.writeToNBT(nbt, modular, stack);
-		nbt.setIntArray("Speed", speedModifiers);
+		nbt.setInteger("SpeedModifier", speedModifier);
 	}
 
 	@Override
 	public int getSpeedModifier(int tier) {
-		return speedModifiers[tier];
+		return speedModifier;
 	}
 
 }

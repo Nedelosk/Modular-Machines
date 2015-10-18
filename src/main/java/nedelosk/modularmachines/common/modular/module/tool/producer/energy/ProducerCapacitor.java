@@ -18,10 +18,6 @@ public class ProducerCapacitor extends Producer implements IProducerCapacitor {
 		this.energyModifier = energyModifier;
 	}
 	
-	public ProducerCapacitor(String modifier) {
-		super(modifier);
-	}
-	
 	public ProducerCapacitor(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}

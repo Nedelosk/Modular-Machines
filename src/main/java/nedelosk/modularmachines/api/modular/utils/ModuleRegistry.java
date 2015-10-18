@@ -49,19 +49,24 @@ public class ModuleRegistry {
 	
 	public static void addModuleItem(ModuleStack stack)
 	{
-		ArrayList<ModuleStack> it = moduleItems;
 		if(!moduleItems.contains(stack)){
 			moduleItems.add(stack);
 			MinecraftForge.EVENT_BUS.post(new Events.ModuleItemRegisterEvent(stack));
 		}
-		if(!stack.getModule().getTypes().contains(stack.getType())){
-			stack.getModule().addType(stack.getType());
+		if(stack.getProducer() != null){
+			if(getProducer(stack.getProducer().getName(stack)) == null)
+				registerProducer(stack.getProducer().getClass(), stack.getProducer().getName(stack));
 		}
 	}
     
 	public static void addModuleItem(ItemStack item, IModule module, IProducer producer, Type type, boolean hasNbt)
 	{
 		addModuleItem(new ModuleStack(item, module, producer, type, hasNbt));
+	}
+	
+	public static void addModuleItem(ItemStack item, IModule module, IProducer producer, Type type)
+	{
+		addModuleItem(new ModuleStack(item, module, producer, type, false));
 	}
 	
 	public static void addModuleItem(ItemStack item, IModule module, Type type, boolean hasNbt)

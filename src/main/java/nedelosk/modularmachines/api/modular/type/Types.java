@@ -12,10 +12,11 @@ public class Types {
 	
 	public static Type WOOD = addType(0, "Wood", "wood");
 	public static Type STONE = addType(1, "Stone", "stone");
-	public static Type BRONZE = addType(2, "Bronze", "bronze");
-	public static Type IRON = addType(3, "Iron", "iron");
-	public static Type STEEL = addType(4, "Steel", "steel");
-	public static Type MAGMARIUM = addType(5, "Magmarium", "magmarium");
+	public static Type IRON = addType(2, "Iron", "iron");
+	public static Type BRONZE = addType(3, "Bronze", "bronze");
+	public static Type OBSIDIAN = addType(4, "Obsidian", "obsidian");
+	public static Type STEEL = addType(5, "Steel", "steel");
+	public static Type MAGMARIUM = addType(7, "Magmarium", "magmarium");
 	
 	public static Type addType(String name, String localName){
 		Type tier = new Type(0, name, localName, types.size());
@@ -71,7 +72,7 @@ public class Types {
 		}
 		
 		public String getLocalName() {
-			return StatCollector.translateToLocal(localName);
+			return StatCollector.translateToLocal("type." + localName);
 		}
 	}
 	

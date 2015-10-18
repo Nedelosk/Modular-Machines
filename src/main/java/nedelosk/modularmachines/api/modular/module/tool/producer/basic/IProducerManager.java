@@ -6,6 +6,8 @@ public interface IProducerManager extends IProducerInventory {
 
 	Side getSide();
 	
+	void setSide(Side side);
+	
 	public enum Side{
 		LEFT, RIGHT, BACK
 	}

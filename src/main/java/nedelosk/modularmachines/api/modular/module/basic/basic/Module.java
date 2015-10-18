@@ -9,7 +9,6 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,6 @@ public abstract class Module implements IModule{
 	protected String moduleModifier;
 	protected ArrayList<Type> tiers = Lists.newArrayList();
 	private HashMap<Type, String> typeModifiers = Maps.newHashMap();
-	private HashMap<Type, IProducer> typeProducer = Maps.newHashMap();
 	
 	public Module() {
 	}
@@ -40,10 +38,16 @@ public abstract class Module implements IModule{
 		}
 		return null;
 	}
+	
+	@Override
+	public void addType(Type tier, String modifier){
+		if(!typeModifiers.containsKey(tier))
+			typeModifiers.put(tier, modifier);
+	}
 
 	@Override
 	public String getName(ModuleStack stack) {
-		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "") + ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "") ;
+		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "") + ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "");
 	}
 	
 	@Override
@@ -59,31 +63,6 @@ public abstract class Module implements IModule{
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return null;
-	}
-
-	@Override
-	public void addType(Type tier){
-		if(!tiers.contains(tier))
-			tiers.add(tier);
-	}
-	
-	@Override
-	public void addType(Type tier, String modifier, IProducer producer){
-		addType(tier);
-		if(!typeModifiers.containsKey(tier))
-			typeModifiers.put(tier, modifier);
-		if(!typeProducer.containsKey(tier))
-			typeProducer.put(tier, producer);
-	}
-	
-	@Override
-	public ArrayList<Type> getTypes() {
-		return tiers;
-	}
-	
-	@Override
-	public HashMap<Type, IProducer> getProducer() {
-		return typeProducer;
 	}
 	
 }

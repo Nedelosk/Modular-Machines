@@ -14,13 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerSawMill extends ProducerMachineRecipe {
-
-	public ProducerSawMill() {
-		super("SawMill", 1, 2);
-	}
 	
-	public ProducerSawMill(int speedModifier) {
-		super("SawMill", 1, 2, speedModifier);
+	public ProducerSawMill(String modifier, int speedModifier) {
+		super("SawMill" + modifier, 1, 2, speedModifier);
 	}
 	
 	public ProducerSawMill(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.common.config;
 
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
@@ -37,8 +36,8 @@ public class ModularConfig {
 		Configuration config = ModularMachines.config;
 		for(ModuleStack module : ModuleRegistry.getModuleItems())
 		{
-			if(!config.getBoolean(module.getModule().getName(module) + (module.getProducer() != null ?  " : " + module.getProducer().getName(module) : ""), "Modules.Default", true, "")){
-				//ModuleRegistry.getModules().remove(module.getName(), module);
+			if(!config.getBoolean(module.getModule().getName(module) + (module.getProducer() != null ?  " : " + module.getProducer().getName(module) : "") + " : " + module.getItem().getUnlocalizedName(), "Modules.Default", true, "")){
+				ModuleRegistry.getModuleItems().remove(module);
 			}
 		}
 		save();

@@ -4,6 +4,7 @@ import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemCapacitor;
 import nedelosk.modularmachines.common.items.ItemMachineComponent;
 import nedelosk.modularmachines.common.items.ItemProducers;
+import nedelosk.modularmachines.common.items.ModularMetaItem;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
@@ -28,6 +29,7 @@ public class ItemRegistry {
 		MMItemManager.Nuggets_Others.registerItem(new ItemNugget(ingotsOther, "modularmachines"));
 		
 		MMItemManager.Module_Item_Capacitor.registerItem(new ItemCapacitor("", new String[]{ "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));
+		MMItemManager.Module_Item_Engine.registerItem(new ModularMetaItem("engine", new String[]{ "iron_engine", "bronze_engine", "steel_engine", "magmarium_engine"}));
 		
 		MMItemManager.Component_Connection_Wires.registerItem(new ItemMachineComponent("connection_wires"));
 		MMItemManager.Component_Rods.registerItem(new ItemMachineComponent("rods"));

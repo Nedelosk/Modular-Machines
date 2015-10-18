@@ -20,7 +20,6 @@ import net.minecraftforge.common.config.Configuration;
 public class ModularMachines
 {
 	public static Configuration config;
-	public static Configuration configTechTree;
 	public static File configFolder;
 	
 	@Mod.Instance("ModularMachines")
@@ -36,9 +35,7 @@ public class ModularMachines
     {
         File configFolderModularMachines = new File(NedeloskCore.configFolder, "modular-machines");
         File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
-        File configFileTechTree = new File(configFolderModularMachines, "Tech-Tree.cfg");
         config = new Configuration(configFileModularMachines);
-        configTechTree = new Configuration(configFileTechTree);
         configFolder = configFolderModularMachines;
         registry.preInit();
     	NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);

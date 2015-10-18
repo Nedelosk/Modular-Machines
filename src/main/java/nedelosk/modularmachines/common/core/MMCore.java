@@ -56,6 +56,7 @@ public class MMCore {
 	{
 		pluginManager.postInit();
 		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
+		ModularRegistry.postInit();
 	}
 	
 	public static void registerFluids()
