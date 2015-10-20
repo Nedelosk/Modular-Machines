@@ -7,6 +7,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGu
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +16,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class TileModular<M extends IModular> extends TileBaseInventory implements IModularTileEntity {
+public class TileModular<M extends IModular> extends TileMachineBase implements IModularTileEntity {
 
 	public M modular;
 	
@@ -87,8 +88,7 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
 		modular.setMachine(this);
 		modular.initModular();
-		ModuleStack<IModule, IProducerGui> gui = modular.getGuiManager().getModuleWithGui();
-		modular.getGuiManager().setPage(gui.getModule().getName(gui));
+		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0)));
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
@@ -231,6 +231,11 @@ public class TileModular<M extends IModular> extends TileBaseInventory implement
 	@Override
 	public M getModular() {
 		return modular;
+	}
+
+	@Override
+	public String getMachineName() {
+		return null;
 	}
 
 }

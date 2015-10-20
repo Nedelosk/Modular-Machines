@@ -7,6 +7,7 @@ import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerCapacitor;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
@@ -31,7 +32,7 @@ public class ModularUtils {
 	}
 	
 	public static ModuleStack<IModule, IProducerMachine> getModuleStackMachine(IModular modular){
-		return getModuleStack(modular, "Machine", 0);
+		return getModuleStack(modular, "Producer", 0);
 	}
 	
 	public static IProducerStorage getModuleStorage(IModular modular){
@@ -42,8 +43,8 @@ public class ModularUtils {
 		return getModuleStack(modular, "Storage", 0);
 	}
 	
-	public static Vector<IModule> getModuleCapacitor(IModular modular){
-		return getModules(modular, "Capacitor");
+	public static Vector<ModuleStack> getModuleStackCapacitors(IModular modular){
+		return getModuleStacks(modular, "Capacitor");
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName){
@@ -52,15 +53,9 @@ public class ModularUtils {
 		return (M) getModuleStack(modular, moduleName, 0).getModule();
 	}
 	
-	public static Vector<IModule> getModules(IModular modular, String moduleName){
-		Vector<ModuleStack> v =  getModuleStack(modular, moduleName);
-		if(v == null)
-			return null;
-		Vector<IModule> modules = new Vector();
-		for(ModuleStack stack : v)
-			if(stack != null)
-				modules.add(stack.getModule());
-		return modules;
+	public static Vector<ModuleStack> getModuleStacks(IModular modular, String moduleName){
+		Vector<ModuleStack> v = getModuleStack(modular, moduleName);
+		return v;
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName, int ID){

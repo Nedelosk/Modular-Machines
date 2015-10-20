@@ -42,10 +42,10 @@ public class ModularRegistry {
 	}
 	
 	public static void registerEnergy(){
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngine("iron_engine", 300), Types.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 1), Modules.ENGINE, new ProducerEngine("bronze_engine", 225), Types.BRONZE);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngine("steel_engine", 175), Types.STEEL);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 3), Modules.ENGINE, new ProducerEngine("magmarium_engine", 125), Types.MAGMARIUM);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngine("iron_engine", 300, "Steam"), Types.IRON);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 1), Modules.ENGINE, new ProducerEngine("bronze_engine", 225, "Steam"), Types.BRONZE);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngine("steel_engine", 175, "Normal"), Types.STEEL);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 3), Modules.ENGINE, new ProducerEngine("magmarium_engine", 125, "Normal"), Types.MAGMARIUM);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 0), Modules.CAPACITOR, new ProducerCapacitor("metal_paper_capacitor", 10, 20), Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 1), Modules.CAPACITOR, new ProducerCapacitor("electrolyte_niobium_capacitor", 20, 30), Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 2), Modules.CAPACITOR, new ProducerCapacitor("electrolyte_tantalum_capacitor", 25, 40), Types.IRON);
@@ -102,6 +102,7 @@ public class ModularRegistry {
 		ModuleRegistry.registerModule(Modules.MANAGER_STORAGE);
 		ModuleRegistry.registerModule(Modules.CAPACITOR);
 		ModuleRegistry.registerModule(Modules.ENGINE);
+		ModuleRegistry.registerModule(Modules.BATTERY);
 	}
 	
 }

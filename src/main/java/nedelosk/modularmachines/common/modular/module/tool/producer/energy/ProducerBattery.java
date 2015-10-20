@@ -48,14 +48,16 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			batteryCapacity = getStorage(stack).getMaxEnergyStored();
 		int energyModifier = 0;
 		int speedModifier = 0;
-		if(ModularUtils.getModuleCapacitor(modular) != null){
-			for(IModule module : ModularUtils.getModuleCapacitor(modular))
+		if(ModularUtils.getModuleStackCapacitors(modular) != null){
+			for(ModuleStack<IModule, IProducerCapacitor> module : ModularUtils.getModuleStackCapacitors(modular))
 			{
-				IProducerCapacitor capacitor = (IProducerCapacitor) module;
-				if(capacitor.canWork(modular))
-				{
-					energyModifier = energyModifier + capacitor.getEnergyModifier();
-					speedModifier = speedModifier + capacitor.getSpeedModifier();
+				if(module.getModule() != null && module.getProducer() != null ){
+					IProducerCapacitor capacitor = (IProducerCapacitor) module.getProducer();
+					if(capacitor.canWork(modular))
+					{
+						energyModifier = energyModifier + capacitor.getEnergyModifier();
+						speedModifier = speedModifier + capacitor.getSpeedModifier();
+					}
 				}
 			}
 			this.speedModifier = speedModifier;
@@ -116,7 +118,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.writeToNBT(nbt, modular, stack);
 		
-		if(storage == null){
+		if(storage != null){
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			storage.writeToNBT(nbtTag);
 			nbtTag.setInteger("Capacity", storage.getMaxEnergyStored());

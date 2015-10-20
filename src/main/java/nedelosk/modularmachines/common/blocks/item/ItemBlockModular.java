@@ -82,6 +82,12 @@ public class ItemBlockModular extends ItemBlock implements IModularItem{
 				return false;
 			}
 
+		     if (world.getBlock(x, y, z) == field_150939_a)
+		     {
+		         field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
+		         field_150939_a.onPostBlockPlaced(world, x, y, z, 0);
+		     }
+			
 			TileModular machine = (TileModular) tile;
 			machine.setMachine(stack.getTagCompound());
 			world.markBlockForUpdate(x, y, z);

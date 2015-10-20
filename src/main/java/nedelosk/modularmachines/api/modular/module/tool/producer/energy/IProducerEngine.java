@@ -6,4 +6,6 @@ public interface IProducerEngine extends IProducer {
 
 	int getSpeedModifier(int tier);
 	
+	String getMode();
+	
 }

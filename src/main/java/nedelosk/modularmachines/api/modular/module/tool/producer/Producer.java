@@ -21,11 +21,12 @@ public abstract class Producer implements IProducer {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+		modifier = nbt.getString("Modifier");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		
+		nbt.setString("Modifier", modifier);
 	}
 	
 	@Override

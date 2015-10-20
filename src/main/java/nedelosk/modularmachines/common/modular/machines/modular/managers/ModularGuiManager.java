@@ -77,24 +77,22 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Container getContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = modular.getGuiManager().getModuleWithGui().getModule().getName(modular.getGuiManager().getModuleWithGui());
+			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
 		return new ContainerModularMachine((TileModular) tile, inventory);
 	}
 
 	@Override
 	public Object getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		
-		ModuleStack<IModule, IProducerGui> gui = modular.getGuiManager().getModuleWithGui();
-		
 		if(modular != null){
 			if(inventory.player.getExtendedProperties(ModularSaveModule.class.getName()) != null)
 				if(((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
 					this.page = ((ModularSaveModule)inventory.player.getExtendedProperties(ModularSaveModule.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
 				else
-					page = gui.getModule().getName(gui);
+					page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));;
 		}
 		if(page == null || page.length() == 0 || page.length() < 0 )
-			page = gui.getModule().getName(gui);
+			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
 		return new GuiModularMachine((TileModular) tile, inventory);
 	}
 

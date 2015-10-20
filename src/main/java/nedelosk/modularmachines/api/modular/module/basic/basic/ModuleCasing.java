@@ -1,12 +1,10 @@
-package nedelosk.modularmachines.common.modular.module.basic;
+package nedelosk.modularmachines.api.modular.module.basic.basic;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.client.renderers.modules.ModularMachineRenderer;
 import net.minecraft.item.ItemStack;
 
 public class ModuleCasing extends Module implements IModuleCasing {

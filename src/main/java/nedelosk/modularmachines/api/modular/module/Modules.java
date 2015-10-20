@@ -2,8 +2,8 @@ package nedelosk.modularmachines.api.modular.module;
 
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleBasic;
+import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleCasing;
 import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleMachine;
-import nedelosk.modularmachines.common.modular.module.basic.ModuleCasing;
 
 public class Modules {
 
