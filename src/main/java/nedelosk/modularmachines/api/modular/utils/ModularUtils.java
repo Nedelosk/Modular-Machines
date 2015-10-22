@@ -5,64 +5,45 @@ import java.util.Vector;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleEngine;
-import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
-import nedelosk.modularmachines.api.modular.module.basic.storage.IModuleStorage;
-import nedelosk.modularmachines.api.modular.module.producer.producer.IModuleProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorage;
 
 public class ModularUtils {
-
-	public static IModuleCasing getModuleCasing(IModular modular){
-		return getModule(modular, "Casing");
-	}
 	
-	public static ModuleStack<IModuleCasing> getModuleStackCasing(IModular modular){
+	public static ModuleStack<IModuleCasing, IProducer> getModuleStackCasing(IModular modular){
 		return getModuleStack(modular, "Casing", 0);
 	}
 	
-	public static IModuleFluidManager getModuleTankManager(IModular modular){
-		return getModule(modular, "TankManager");
-	}
-	
-	public static ModuleStack<IModuleFluidManager> getModuleStackTankManager(IModular modular){
+	public static ModuleStack<IModule, IProducerFluidManager> getModuleStackTankManager(IModular modular){
 		return getModuleStack(modular, "TankManager", 0);
 	}
 	
-	public static IModuleBattery getModuleBattery(IModular modular){
-		return getModule(modular, "Battery");
-	}
-	
-	public static ModuleStack<IModuleBattery> getModuleStackBattery(IModular modular){
+	public static ModuleStack<IModule, IProducerBattery> getModuleStackBattery(IModular modular){
 		return getModuleStack(modular, "Battery", 0);
 	}
 	
-	public static IModuleEngine getModuleEngine(IModular modular){
-		return getModule(modular, "Engine");
-	}
-	
-	public static ModuleStack<IModuleEngine> getModuleStackEngine(IModular modular){
+	public static ModuleStack<IModule, IProducerEngine> getModuleStackEngine(IModular modular){
 		return getModuleStack(modular, "Engine", 0);
 	}
 	
-	public static IModuleProducer getModuleProducer(IModular modular){
-		return getModule(modular, "Producer");
-	}
-	
-	public static ModuleStack<IModuleProducer> getModuleStackProducer(IModular modular){
+	public static ModuleStack<IModule, IProducerMachine> getModuleStackMachine(IModular modular){
 		return getModuleStack(modular, "Producer", 0);
 	}
 	
-	public static IModuleStorage getModuleStorage(IModular modular){
+	public static IProducerStorage getModuleStorage(IModular modular){
 		return getModule(modular, "Storage");
 	}
 	
-	public static ModuleStack<IModuleStorage> getModuleStackStorage(IModular modular){
+	public static ModuleStack<IModule, IProducerStorage> getModuleStackStorage(IModular modular){
 		return getModuleStack(modular, "Storage", 0);
 	}
 	
-	public static Vector<IModule> getModuleCapacitor(IModular modular){
-		return getModules(modular, "Capacitor");
+	public static Vector<ModuleStack> getModuleStackCapacitors(IModular modular){
+		return getModuleStacks(modular, "Capacitor");
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName){
@@ -71,15 +52,9 @@ public class ModularUtils {
 		return (M) getModuleStack(modular, moduleName, 0).getModule();
 	}
 	
-	public static Vector<IModule> getModules(IModular modular, String moduleName){
-		Vector<ModuleStack> v =  getModuleStack(modular, moduleName);
-		if(v == null)
-			return null;
-		Vector<IModule> modules = new Vector();
-		for(ModuleStack stack : v)
-			if(stack != null)
-				modules.add(stack.getModule());
-		return modules;
+	public static Vector<ModuleStack> getModuleStacks(IModular modular, String moduleName){
+		Vector<ModuleStack> v = getModuleStack(modular, moduleName);
+		return v;
 	}
 	
 	public static <M extends IModule> M getModule(IModular modular, String moduleName, int ID){

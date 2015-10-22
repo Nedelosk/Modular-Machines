@@ -1,7 +1,8 @@
 package nedelosk.modularmachines.common.inventory.machine;
 
-import nedelosk.modularmachines.api.modular.module.basic.gui.IModuleGui;
-import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.nedeloskcore.common.inventory.ContainerBase;
@@ -19,11 +20,14 @@ public class ContainerModularMachine extends ContainerBase<TileModular>{
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
-		if(inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
-			ModuleStack stack = inventoryBase.getModular().getGuiManager().getModuleWithGui();
-			if(((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular, stack) != null)
+		
+		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
+		ModuleStack stack = guiManager.getModuleWithGui();
+		
+		if(stack.getProducer() instanceof IProducerInventory){
+			if(((IProducerInventory)stack.getProducer()).addSlots(this, this.inventoryBase.modular, stack) != null)
 			{
-				for(Slot slot : ((IModuleInventory)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).addSlots(this, this.inventoryBase.modular, stack))
+				for(Slot slot : ((IProducerInventory)stack.getProducer()).addSlots(this, this.inventoryBase.modular, stack))
 				{
 					addSlotToContainer(slot);		
 				}
@@ -33,8 +37,12 @@ public class ContainerModularMachine extends ContainerBase<TileModular>{
 	
 	@Override
 	protected void addInventory(InventoryPlayer inventory) {
-		if(inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule() instanceof IModuleInventory){
-			int i = ((IModuleGui)inventoryBase.getModular().getGuiManager().getModuleWithGui().getModule()).getGuiTop(inventoryBase.modular) - 82;
+		
+		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
+		ModuleStack stack = guiManager.getModuleWithGui();
+		
+		if(stack.getProducer() instanceof IProducerInventory){
+			int i = ((IProducerGui)stack.getProducer()).getGuiTop(inventoryBase.modular, stack) - 82;
         	for (int i1 = 0; i1 < 3; i1++) {
             	for (int l1 = 0; l1 < 9; l1++) {
             		addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));

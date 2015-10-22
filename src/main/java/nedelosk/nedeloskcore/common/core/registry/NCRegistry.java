@@ -93,6 +93,11 @@ public class NCRegistry {
 		GameRegistry.registerBlock(block, itemblock, name);
 		return block;
 	}
+	
+	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName, Object... objects) {
+		GameRegistry.registerBlock(block, itemblock, name, objects);
+		return block;
+	}
 
 	public static void registerTile(Class<? extends TileEntity> tile, String name, String modName) {
 		GameRegistry.registerTileEntity(tile, "forest." + modName + "." + name);

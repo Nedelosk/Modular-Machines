@@ -10,9 +10,11 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modular.module.basic.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modular.module.basic.fluids.IModuleFluidManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
+import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularGuiManager;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularUtilsManager;
@@ -32,21 +34,28 @@ public abstract class Modular implements IModular {
 		gui = new ModularGuiManager();
 	}
 	
-	public Modular(NBTTagCompound nbt) {
-		readFromNBT(nbt);
+	public Modular(NBTTagCompound nbt){
+		try {
+			readFromNBT(nbt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void update(){
+	public void update(boolean isServer){
 		for(Vector<ModuleStack> moduleV : modules.values())
-			for(ModuleStack module : moduleV)
-				if(module != null && module.getModule() != null)
-					module.getModule().update(this, module);
+			for(ModuleStack stack : moduleV)
+				if(stack != null && stack.getModule() != null && stack.getProducer() != null)
+					if(isServer)
+						stack.getProducer().updateServer(this, stack);
+					else
+						stack.getProducer().updateClient(this, stack);
 		
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt) throws Exception {
 		   if(modules == null)
 			   modules = Maps.newHashMap();
 		   NBTTagList listTag = nbt.getTagList("Modules", 10);
@@ -70,7 +79,7 @@ public abstract class Modular implements IModular {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {		
+	public void writeToNBT(NBTTagCompound nbt) throws Exception {		
 		NBTTagList listTag = new NBTTagList();
 		for(Entry<String, Vector<ModuleStack>> moduleV : modules.entrySet()){
 			NBTTagCompound modulesTag = new NBTTagCompound();
@@ -106,7 +115,7 @@ public abstract class Modular implements IModular {
 				if(modules != null){
 					for(ModuleStack module : modules){
 						if(module != null){
-							tiers += module.getTier().getStage();
+							tiers += module.getType().getTier();
 							size++;
 						}
 					}
@@ -142,17 +151,17 @@ public abstract class Modular implements IModular {
 	}
 	
 	@Override
-	public ModuleStack<IModuleBattery> getBattery() {
+	public ModuleStack<IModule, IProducerBattery> getBattery() {
 		return getModule("Battery", 0);
 	}
 	
 	@Override
-	public ModuleStack<IModuleCasing> getCasing() {
+	public ModuleStack<IModuleCasing, IProducer> getCasing() {
 		return getModule("Casing", 0);
 	}
 
 	@Override
-	public ModuleStack<IModuleFluidManager> getTankManeger() {
+	public ModuleStack<IModule, IProducerFluidManager> getTankManeger() {
 		return getModule("TankManager", 0);
 	}
 	

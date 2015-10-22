@@ -5,14 +5,14 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.modularmachines.plugins.waila.provider.ProviderModularMaschine;
+import nedelosk.modularmachines.plugins.waila.provider.ProviderModular;
 import nedelosk.nedeloskcore.plugins.basic.Plugin;
 
 public class PluginWaila extends Plugin {
 
 	@Optional.Method(modid = "Waila")
 	public static void register(IWailaRegistrar registrar){
-		registrar.registerBodyProvider(new ProviderModularMaschine(), TileModular.class);
+		registrar.registerBodyProvider(new ProviderModular(), TileModular.class);
 	}
 	
 	@Override

@@ -43,5 +43,9 @@ public abstract class TileMachineBase extends TileBaseInventory {
 		tier = getBlockMetadata() + 1;
 		}
 	}
+	
+	public short getFacing() {
+		return facing;
+	}
 
 }

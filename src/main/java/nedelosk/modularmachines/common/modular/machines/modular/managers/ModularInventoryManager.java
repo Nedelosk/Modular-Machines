@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularInventoryManager;
-import nedelosk.modularmachines.api.modular.module.basic.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,8 +26,8 @@ public class ModularInventoryManager implements IModularInventoryManager {
 	public ModularInventoryManager(IModularInventory modular) {
 		for(Vector<ModuleStack> stacks : modular.getModules().values()){
 			for(ModuleStack module : stacks){
-				if(module.getModule() instanceof IModuleInventory)
-					slots.put(module.getModule().getName(module), new ItemStack[((IModuleInventory)module.getModule()).getSizeInventory(module)]);
+				if(module.getProducer() instanceof IProducerInventory)
+					slots.put(module.getModule().getName(module), new ItemStack[((IProducerInventory)module.getProducer()).getSizeInventory(module)]);
 			}
 		}
 	}

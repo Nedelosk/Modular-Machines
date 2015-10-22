@@ -6,9 +6,10 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.factory.IModuleFactory;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleFactory implements IModuleFactory {
@@ -22,48 +23,49 @@ public class ModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public <M> M createModule(String moduleName) {
+	public <P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack) {
         try
         {
-            IModule i = null;
-            if (moduleName != null)
+            IProducer i = null;
+            if (name != null)
             {
-                i = ModuleRegistry.getModuleClass(moduleName).newInstance();
+            	if(ModuleRegistry.getProducer(name) == null)
+            		return null;
+                i = ModuleRegistry.getProducer(name).getConstructor(new Class[]{ NBTTagCompound.class, IModular.class, ModuleStack.class }).newInstance(nbt, modular, stack);
             }
             if (i != null)
             {
-                return (M) i;
+                return (P) i;
             }
             return null;
         }
         catch (Exception e)
         {
-            FMLLog.log(Level.ERROR, e, "Caught an exception during IModule registration in " + Loader.instance().activeModContainer().getModId() + ":" + moduleName);
+            FMLLog.log(Level.ERROR, e, "Caught an exception during IProducer creation in " + Loader.instance().activeModContainer().getModId() + ":" + name);
             throw new LoaderException(e);
         }
 	}
-
+	
 	@Override
-	public <M> M createModule(String name, NBTTagCompound nbt, IModular modular) {
+	public <P extends IProducer> P createProducer(String name) {
         try
         {
-            IModule i = null;
+            IProducer i = null;
             if (name != null)
             {
-            	if(ModuleRegistry.getModuleClass(name) == null)
+            	if(ModuleRegistry.getProducer(name) == null)
             		return null;
-                i = ModuleRegistry.getModuleClass(name).newInstance();
-                i.readFromNBT(nbt, modular);
+                i = ModuleRegistry.getProducer(name).newInstance();
             }
             if (i != null)
             {
-                return (M) i;
+                return (P) i;
             }
             return null;
         }
         catch (Exception e)
         {
-            FMLLog.log(Level.ERROR, e, "Caught an exception during IModule registration in " + Loader.instance().activeModContainer().getModId() + ":" + name);
+            FMLLog.log(Level.ERROR, e, "Caught an exception during IProducer creation in " + Loader.instance().activeModContainer().getModId() + ":" + name);
             throw new LoaderException(e);
         }
 	}

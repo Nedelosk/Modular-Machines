@@ -67,7 +67,7 @@ public class RecipeManager implements IRecipeManager {
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public void writeToNBT(NBTTagCompound nbt) throws Exception
 	{
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("EnergyModifier", energyModifier);
@@ -82,8 +82,7 @@ public class RecipeManager implements IRecipeManager {
 		nbt.setTag("RecipeInput", list);
 	}
 	
-	@Override
-	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular)
+	public static IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception
 	{
 		String recipeName = nbt.getString("RecipeName");
 		int energyModifier = nbt.getInteger("EnergyModifier");
@@ -100,10 +99,8 @@ public class RecipeManager implements IRecipeManager {
 		return new RecipeManager(modular, recipeName, energyModifier, inputs);
 	}
 	
-	public static IRecipeManager loadManagerFromNBT(NBTTagCompound nbt, IModular modular)
+	public static IRecipeManager loadManagerFromNBT(NBTTagCompound nbt, IModular modular) throws Exception
 	{
-		IRecipeManager manager = new RecipeManager();
-		manager.readFromNBT(nbt, modular);
-		return manager;
+		return readFromNBT(nbt, modular);
 	}
 }

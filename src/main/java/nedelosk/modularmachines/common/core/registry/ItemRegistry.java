@@ -3,11 +3,11 @@ package nedelosk.modularmachines.common.core.registry;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemCapacitor;
 import nedelosk.modularmachines.common.items.ItemMachineComponent;
-
+import nedelosk.modularmachines.common.items.ItemProducers;
+import nedelosk.modularmachines.common.items.ModularMetaItem;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
-import nedelosk.modularmachines.common.items.parts.ItemModules;
 import nedelosk.nedeloskcore.common.items.ItemIngot;
 import nedelosk.nedeloskcore.common.items.ItemNugget;
 
@@ -15,7 +15,7 @@ public class ItemRegistry {
 	
 	public static String[] ingotsOther = new String[]{ "Niobium", "Tantalum", "Aluminum", "Steel", "White_Steel", "Gray_Steel" };
 	
-	public static ItemModules Modules;
+	public static ItemProducers Modules;
 	
 	public static void preInit()
 	{
@@ -29,6 +29,7 @@ public class ItemRegistry {
 		MMItemManager.Nuggets_Others.registerItem(new ItemNugget(ingotsOther, "modularmachines"));
 		
 		MMItemManager.Module_Item_Capacitor.registerItem(new ItemCapacitor("", new String[]{ "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));
+		MMItemManager.Module_Item_Engine.registerItem(new ModularMetaItem("engine", new String[]{ "iron_engine", "bronze_engine", "steel_engine", "magmarium_engine"}));
 		
 		MMItemManager.Component_Connection_Wires.registerItem(new ItemMachineComponent("connection_wires"));
 		MMItemManager.Component_Rods.registerItem(new ItemMachineComponent("rods"));
@@ -37,7 +38,7 @@ public class ItemRegistry {
 		MMItemManager.Component_Plates.registerItem(new ItemMachineComponent("plates"));
 		MMItemManager.Component_Energy_Crystals.registerItem(new ItemMachineComponent("energy_crystal"));
 		MMItemManager.Component_Saw_Blades.registerItem(new ItemMachineComponent("saw_blades"));
-		MMItemManager.Part_Modules.registerItem(new ItemModules());
+		MMItemManager.Producers.registerItem(new ItemProducers());
 		
 		MMItemManager.Component_Connection_Wires.addMetaData(0xDADADA, "iron", "Iron");
 		MMItemManager.Component_Connection_Wires.addMetaData(0xCACECF, "tin", "Tin");

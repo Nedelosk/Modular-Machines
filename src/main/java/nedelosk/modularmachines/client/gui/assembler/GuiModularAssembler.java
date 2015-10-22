@@ -175,7 +175,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
               }
         }
     	
-        for(String modular : ModuleRegistry.getModularClasses().keySet()) {
+        for(String modular : ModuleRegistry.getModular().keySet()) {
             AssemblerMachineInfo info = MMRegistry.getAssemblerInfo(modular);
             if(info != null) {
               GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);

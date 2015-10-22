@@ -3,11 +3,15 @@ package nedelosk.modularmachines.common.blocks;
 import java.util.List;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ModularMachineBlock extends ModularBlock {
@@ -106,5 +110,31 @@ public class ModularMachineBlock extends ModularBlock {
 	        }
         }
 	}*/
+	
+	  @Override
+	  public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+		  super.onBlockPlacedBy(world, x, y, z, player, stack);
+		  int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		  TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);
+		  tile.facing = getFacingForHeading(heading);
+		  if(world.isRemote) {
+			  return;
+		  }
+		    world.markBlockForUpdate(x, y, z);
+	  }
+	  
+	  protected short getFacingForHeading(int heading) {
+		    switch (heading) {
+		    case 0:
+		      return 2;
+		    case 1:
+		      return 5;
+		    case 2:
+		      return 3;
+		    case 3:
+		    default:
+		      return 4;
+		    }
+	  }
 
 }

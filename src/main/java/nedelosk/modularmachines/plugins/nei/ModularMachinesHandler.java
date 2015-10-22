@@ -10,7 +10,9 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -24,11 +26,11 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 	
 	public ResourceLocation nei_widgets = new ResourceLocation("modularmachines:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
-	public IModuleProducerRecipe module;
+	public ModuleStack<IModule, IProducerMachineRecipe> producer;
 	
-	public ModularMachinesHandler(IModuleProducerRecipe module) {
-		this.recipeName = module.getRecipeName();
-		this.module = module;
+	public ModularMachinesHandler(ModuleStack<IModule, IProducerMachineRecipe> producer) {
+		this.recipeName = producer.getProducer().getRecipeName(producer);
+		this.producer = producer;
 		if(!NEIConfig.isAdded)
 		{
 		      GuiCraftingRecipe.craftinghandlers.add(this);
@@ -36,104 +38,98 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 		}
 	}
 	
-  @Override
-  public String getRecipeName() {
-    return StatCollector.translateToLocal(module.getName() + ".name");
-  }
+	@Override
+	public String getRecipeName() {
+		return StatCollector.translateToLocal(producer.getModule().getName(producer) + ".name");
+	}
 
-  @Override
-  public String getGuiTexture() {
-    return "modularmachines:textures/gui/nei/nei_background.png";
-  }
+	@Override
+	public String getGuiTexture() {
+		return "modularmachines:textures/gui/nei/nei_background.png";
+	}
 
-  @Override
-  public String getOverlayIdentifier() {
-    return "ModularMachines" + recipeName;
-  }
+	@Override
+  	public String getOverlayIdentifier() {
+		return "ModularMachines" + recipeName;
+	}
 
-  @Override
-  public void loadCraftingRecipes(ItemStack result) {
-    if(result == null) {
-      return;
-    }
+	@Override
+	public void loadCraftingRecipes(ItemStack result) {
+		if(result == null){
+			return;
+		}
 
-    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
-    if(recipes != null)
-    {
-    for (IRecipe recipe : recipes) {
-      RecipeItem[] outputs = recipe.getOutputs();
-      for(RecipeItem output : outputs)
-      {
-      if(result.getItem() == output.item.getItem() && result.getItemDamage() == output.item.getItemDamage()) {
-    	  ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs);
-    	  arecipes.add(res);
-      }
-      }
-    }
-    }
-
-  }
-
-  @Override
-  public void loadCraftingRecipes(String outputId, Object... results) {
-    if(outputId.equals("ModularMachines" + recipeName) && getClass() == ModularMachinesHandler.class) {
-      List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
-      if(recipes != null)
-      {
-      for (IRecipe recipe : recipes) {
-       ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
-       arecipes.add(res);
-      }
-      }
-    } else {
-      super.loadCraftingRecipes(outputId, results);
-    }
-  }
-
-  @Override
-  public void loadUsageRecipes(ItemStack ingredient) {
-    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
-    if(recipes != null)
-    {
-	    for (IRecipe recipe : recipes) {
-	    	ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
-	    	if(res.contains(res.input, ingredient)) {
-	    		res.setIngredientPermutation(res.input, ingredient);
-	    	    arecipes.add(res);	
-	    	}
+	    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
+	    if(recipes != null)
+	    {
+		    for (IRecipe recipe : recipes) {
+		    	RecipeItem[] outputs = recipe.getOutputs();
+		    	for(RecipeItem output : outputs)
+		    	{
+		    		if(result.getItem() == output.item.getItem() && result.getItemDamage() == output.item.getItemDamage()) {
+		    			ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs);
+				    	arecipes.add(res);
+		    		}
+		    	}
+		    }
 	    }
-    }
-  }
-  
-  @Override
-  public TemplateRecipeHandler newInstance() {
-	return new ModularMachinesHandler(this.module);
-  }
+	}
 
-  @Override
-  public void drawBackground(int recipeIndex) {
-    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    GuiDraw.changeTexture(getGuiTexture());
-    GuiDraw.drawTexturedModalRect(0, 0, 0, 0, 166, 65);
-    
-    GuiDraw.changeTexture(nei_widgets);
-    ArrayList<PositionedStack> stacks = new ArrayList<PositionedStack>();
-    stacks.add(getResultStack(recipeIndex));
-    for(PositionedStack stack : getIngredientStacks(recipeIndex))
-    	stacks.add(stack);
-    if(getOtherStacks(recipeIndex) != null)
-    	for(PositionedStack stack : getOtherStacks(recipeIndex))
-    		if(stack != null)
-    			stacks.add(stack);
-    for(PositionedStack stack : stacks)
-    	GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
-  }
+	@Override
+	public void loadCraftingRecipes(String outputId, Object... results) {
+		if(outputId.equals("ModularMachines" + recipeName) && getClass() == ModularMachinesHandler.class) {
+			List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
+			if(recipes != null){
+				for (IRecipe recipe : recipes) {
+					ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
+					arecipes.add(res);
+				}
+			}
+		}else {
+			super.loadCraftingRecipes(outputId, results);
+		}
+	}
+
+	@Override
+	public void loadUsageRecipes(ItemStack ingredient) {
+	    List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
+	    if(recipes != null)
+	    {
+		    for (IRecipe recipe : recipes) {
+		    	ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
+		    	if(res.contains(res.input, ingredient)) {
+		    		res.setIngredientPermutation(res.input, ingredient);
+		    	    arecipes.add(res);	
+		    	}
+		    }
+	    }
+	}
   
-  @Override
-  public void drawExtras(int recipe) {
-  }
+	@Override
+	public TemplateRecipeHandler newInstance() {
+		return new ModularMachinesHandler(this.producer);
+	}
+
+	@Override
+	public void drawBackground(int recipeIndex) {
+	    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	    GuiDraw.changeTexture(getGuiTexture());
+	    GuiDraw.drawTexturedModalRect(0, 0, 0, 0, 166, 65);
+	    
+	    GuiDraw.changeTexture(nei_widgets);
+	    ArrayList<PositionedStack> stacks = new ArrayList<PositionedStack>();
+	    stacks.add(getResultStack(recipeIndex));
+	    for(PositionedStack stack : getIngredientStacks(recipeIndex))
+	    	stacks.add(stack);
+	    if(getOtherStacks(recipeIndex) != null)
+	    	for(PositionedStack stack : getOtherStacks(recipeIndex))
+	    		if(stack != null)
+	    			stacks.add(stack);
+	    for(PositionedStack stack : stacks)
+	    	GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
+	}
   
-  public class ModularCachedRecipe extends TemplateRecipeHandler.CachedRecipe {
+	public class ModularCachedRecipe extends TemplateRecipeHandler.CachedRecipe {
 
 	    private ArrayList<PositionedStack> input;
 	    private PositionedStack output;
@@ -162,7 +158,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 	    public ModularCachedRecipe(RecipeItem[] inputs,RecipeItem[] outputs) {
 	        this.input = new ArrayList<PositionedStack>();
 	        this.outputs = new ArrayList<PositionedStack>();
-	    	ArrayList<NeiStack> stacks = module.addNEIStacks();
+	    	ArrayList<NeiStack> stacks = producer.getProducer().addNEIStacks(producer);
 	    	int input = 0;
 	    	int output = 0;
 	    	for(NeiStack stack : stacks)
@@ -171,15 +167,15 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 	    		{
 	    			if(inputs.length != input)
 	    			{
-	    			if(inputs[input].isItem())
-	    				this.input.add(new PositionedStack(inputs[input].item, stack.x, stack.y));
-	    			else if(inputs[input].isOre())
-	    			{
-	    				ArrayList<ItemStack> listOre = OreDictionary.getOres(inputs[input].ore.oreDict);
-	    				for(ItemStack stackOre : listOre)
-	    					stackOre.stackSize = inputs[input].ore.stackSize;
-	    				this.input.add(new PositionedStack(listOre, stack.x, stack.y));
-	    			}
+		    			if(inputs[input].isItem())
+		    				this.input.add(new PositionedStack(inputs[input].item, stack.x, stack.y));
+		    			else if(inputs[input].isOre())
+		    			{
+		    				ArrayList<ItemStack> listOre = OreDictionary.getOres(inputs[input].ore.oreDict);
+		    				for(ItemStack stackOre : listOre)
+		    					stackOre.stackSize = inputs[input].ore.stackSize;
+		    				this.input.add(new PositionedStack(listOre, stack.x, stack.y));
+		    			}
 	    			}
 	    			input++;
 	    		}

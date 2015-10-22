@@ -3,7 +3,7 @@ package nedelosk.modularmachines.client.gui.widget;
 import java.util.ArrayList;
 
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.modular.module.basic.fluids.ModuleTankManager;
+import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularSelection;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
@@ -46,7 +46,7 @@ public class WidgetFluidTankPriority extends Widget<TileModular> {
 			priority++;
 		else
 			priority = 1;
-		((ModuleTankManager)gui.getTile().getModular().getTankManeger().getModule()).manager.prioritys[ID] = priority;
+		((ProducerTankManager)gui.getTile().getModular().getTankManeger().getProducer()).manager.prioritys[ID] = priority;
 		PacketHandler.INSTANCE.sendToServer(new PacketModularSelection(gui.getTile()));
 	}
 	

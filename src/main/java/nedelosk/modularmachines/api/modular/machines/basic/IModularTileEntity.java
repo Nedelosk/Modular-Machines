@@ -18,4 +18,6 @@ public interface IModularTileEntity<M extends IModular> extends ISidedInventory,
 	
 	M getModular();
 	
+	short getFacing();
+	
 }

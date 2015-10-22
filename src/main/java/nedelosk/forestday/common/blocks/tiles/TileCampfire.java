@@ -8,7 +8,6 @@ import nedelosk.forestday.common.inventory.ContainerCampfire;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.forestday.common.managers.FItemManager;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -100,7 +99,7 @@ public class TileCampfire extends TileMachineBase {
 						if(input.stackSize >= recipe.getInput().stackSize && (recipe.getInput2() == null || input2 != null && input2.stackSize >= recipe.getInput2().stackSize))
 						{
 							decrStackSize(0, recipe.getInput().stackSize);
-							if(recipe.getInput() != null)
+							if(recipe.getInput2() != null)
 							{
 								decrStackSize(1, recipe.getInput2().stackSize);
 							}
@@ -171,24 +170,11 @@ public class TileCampfire extends TileMachineBase {
 		}
 		
 		if(worldObj.isRaining()){
-			if(yCoord == 175)
-				return;
-			boolean foundBlock = false;
-			for(int i = 1;i < 11;i++){
-				Block block = worldObj.getBlock(xCoord, yCoord + i, zCoord);
-				if(!worldObj.getBlock(xCoord, yCoord + i, zCoord).isAir(worldObj, xCoord, yCoord + i, zCoord)){
-				 	foundBlock = true;
-				 	continue;
-				}
-			}
-			if(!foundBlock){
-				if(isWorking){
-					isWorking = false;
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-				}
+			if(worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord)){
+				isWorking = false;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				return;
 			}
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		
 		if(fuelStorage > 0)

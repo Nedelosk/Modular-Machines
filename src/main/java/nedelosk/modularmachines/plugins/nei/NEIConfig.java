@@ -2,9 +2,9 @@ package nedelosk.modularmachines.plugins.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.producer.producer.recipe.IModuleProducerRecipe;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 
@@ -15,12 +15,12 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		isAdded = false;
-		for(IModule module : ModuleRegistry.getModules().values())
-			if(module instanceof IModuleProducerRecipe)
+		for(ModuleStack stack : ModuleRegistry.getModuleItems())
+			if(stack.getProducer() instanceof IProducerMachineRecipe)
 			{
-				if(((IModuleProducerRecipe) module).addNEIStacks() != null)
+				if(((IProducerMachineRecipe)stack.getProducer()).addNEIStacks(stack) != null)
 				{
-					new ModularMachinesHandler((IModuleProducerRecipe) module);
+					new ModularMachinesHandler(stack);
 				}
 			}
 		isAdded = true;
