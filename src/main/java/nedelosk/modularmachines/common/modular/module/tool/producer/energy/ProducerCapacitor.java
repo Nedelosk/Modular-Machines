@@ -23,14 +23,14 @@ public class ProducerCapacitor extends Producer implements IProducerCapacitor {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		this.energyModifier = nbt.getInteger("energyModifier");
 		this.speedModifier = nbt.getInteger("speedModifier");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		nbt.setInteger("energyModifier", energyModifier);
 		nbt.setInteger("speedModifier", speedModifier);

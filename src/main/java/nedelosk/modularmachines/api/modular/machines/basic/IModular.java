@@ -13,20 +13,24 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModular extends INBTTagable {
+public interface IModular {
 	
 	int getTier();
 	
-	void update();
+	void update(boolean isServer);
 	
 	IModularTileEntity getMachine();
 	
 	String getName();
 	
 	void initModular();
+	
+	void readFromNBT(NBTTagCompound nbt) throws Exception;
+
+	void writeToNBT(NBTTagCompound nbt) throws Exception;
 	
 	//Utils
 	ModuleStack<IModule, IProducerBattery> getBattery();

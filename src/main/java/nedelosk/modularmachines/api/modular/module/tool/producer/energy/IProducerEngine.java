@@ -8,4 +8,8 @@ public interface IProducerEngine extends IProducer {
 	
 	String getMode();
 	
+	float getProgress();
+	
+	void setProgress(float progress);
+	
 }

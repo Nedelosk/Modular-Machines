@@ -4,7 +4,7 @@ public class ModuleBasic extends Module {
 
 	public String moduleName;
 	
-	public ModuleBasic(String moduleModifier, String moduleName) {
+	public ModuleBasic(String moduleModifier, String moduleName){
 		super(moduleModifier);
 		this.moduleName = moduleName;
 	}

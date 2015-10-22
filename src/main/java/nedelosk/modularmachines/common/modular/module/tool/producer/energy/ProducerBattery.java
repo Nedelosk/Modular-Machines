@@ -6,7 +6,9 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
@@ -43,32 +45,33 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	}
 	
 	@Override
-	public void update(IModular modular, ModuleStack stack) {
+	public void updateServer(IModular modular, ModuleStack stack) {
 		if(batteryCapacity == 0)
 			batteryCapacity = getStorage(stack).getMaxEnergyStored();
 		int energyModifier = 0;
 		int speedModifier = 0;
-		if(ModularUtils.getModuleStackCapacitors(modular) != null){
+		if(ModularUtils.getModuleStackCapacitors(modular) != null && ModularUtils.getModuleStackCapacitors(modular).size() > 0 && (ModularUtils.getModuleStackCapacitors(modular).get(0) != null || ModularUtils.getModuleStackCapacitors(modular).get(1) != null || ModularUtils.getModuleStackCapacitors(modular).get(2) != null)){
 			for(ModuleStack<IModule, IProducerCapacitor> module : ModularUtils.getModuleStackCapacitors(modular))
 			{
-				if(module.getModule() != null && module.getProducer() != null ){
-					IProducerCapacitor capacitor = (IProducerCapacitor) module.getProducer();
+				if(module != null && module.getModule() != null && module.getProducer() != null ){
+					IProducerCapacitor capacitor = module.getProducer();
 					if(capacitor.canWork(modular))
 					{
-						energyModifier = energyModifier + capacitor.getEnergyModifier();
-						speedModifier = speedModifier + capacitor.getSpeedModifier();
+						energyModifier += capacitor.getEnergyModifier();
+						speedModifier += capacitor.getSpeedModifier();
 					}
 				}
 			}
 			this.speedModifier = speedModifier;
 			this.energyModifier = energyModifier;
-			int capacity = batteryCapacity * energyModifier / 100;
+			int capacity = batteryCapacity + ((batteryCapacity * (energyModifier / 10)) / 10);
 			if(((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() != capacity)
-				((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().setCapacity(batteryCapacity + (batteryCapacity * energyModifier / 100));
+				((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().setCapacity(capacity);
 		}
 		else{
-			if(((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() != batteryCapacity){
-				((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().setEnergyStored(batteryCapacity);
+			if(((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() > batteryCapacity){
+				if(((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().getEnergyStored() > batteryCapacity)
+					((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().setEnergyStored(batteryCapacity);
 				((EnergyHandler)modular.getManager().getEnergyHandler()).getStorage().setCapacity(batteryCapacity);
 			}
 		}
@@ -115,7 +118,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	
 	//NBT
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		
 		if(storage != null){
@@ -132,7 +135,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		if(nbt.hasKey("Storage")){
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Storage");
@@ -189,6 +192,16 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			}
 		}
 		
+	}
+	
+	@Override
+	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
+		return new ModularMachineRenderer.BatteryRenderer(moduleStack, modular);
+	}
+	
+	@Override
+	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
+		return new ModularMachineRenderer.BatteryRenderer(moduleStack, modular);
 	}
 
 }

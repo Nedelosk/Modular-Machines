@@ -15,7 +15,7 @@ public interface IProducerGui extends IProducer {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	void update(IModular modular, ModuleStack stack);
+	void updateServer(IModular modular, ModuleStack stack);
 	
 	@SideOnly(Side.CLIENT)
 	int getGuiTop(IModular modular, ModuleStack stack);

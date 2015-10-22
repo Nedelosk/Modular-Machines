@@ -16,16 +16,20 @@ public abstract class Producer implements IProducer {
 	}
 	
 	public Producer(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		readFromNBT(nbt, modular, stack);
+		try {
+			readFromNBT(nbt, modular, stack);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		modifier = nbt.getString("Modifier");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		nbt.setString("Modifier", modifier);
 	}
 	
@@ -34,11 +38,16 @@ public abstract class Producer implements IProducer {
 		return "producer" + modifier;
 	}
 	
+	@Override
+	public String getModifier(ModuleStack stack) {
+		return modifier;
+	}
 
 	@Override
-	public void update(IModular modular, ModuleStack stack) {
-		
-	}
+	public void updateServer(IModular modular, ModuleStack stack) {}
+	
+	@Override
+	public void updateClient(IModular modular, ModuleStack stack) {}
 	
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {

@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModular;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularSelection;
+import nedelosk.modularmachines.common.network.packets.machine.PacketProducerEngine;
 
 public class PacketHandler {
 	
@@ -18,6 +19,7 @@ public class PacketHandler {
     	INSTANCE.registerMessage(PacketModular.class, PacketModular.class, nextID(), Side.SERVER);
     	INSTANCE.registerMessage(PacketModularSelection.class, PacketModularSelection.class, nextID(), Side.SERVER);
     	INSTANCE.registerMessage(PacketModularSelection.class, PacketModularSelection.class, nextID(), Side.CLIENT);
+    	INSTANCE.registerMessage(PacketProducerEngine.class, PacketProducerEngine.class, nextID(), Side.SERVER);
     	
     	//Assembler
     	INSTANCE.registerMessage(PacketModularAssemblerSelection.class, PacketModularAssemblerSelection.class, nextID(), Side.CLIENT);

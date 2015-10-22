@@ -20,4 +20,6 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 	
 	ArrayList<NeiStack> addNEIStacks(ModuleStack stack);
 	
+	boolean isWorking();
+	
 }

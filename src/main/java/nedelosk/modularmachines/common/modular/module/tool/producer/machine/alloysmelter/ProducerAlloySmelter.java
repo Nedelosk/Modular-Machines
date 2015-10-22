@@ -94,5 +94,10 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.AlloySmelterRenderer(moduleStack.getModule());
 	}
+	
+	@Override
+	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
+		return new ModularMachineRenderer.AlloySmelterRenderer(moduleStack.getModule());
+	}
 
 }

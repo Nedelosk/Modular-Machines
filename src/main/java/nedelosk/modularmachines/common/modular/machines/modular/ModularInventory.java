@@ -23,7 +23,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(NBTTagCompound nbt) throws Exception{
 		super.writeToNBT(nbt);
 		NBTTagCompound inventory = new NBTTagCompound();
 		if(inventoryManager == null)
@@ -33,7 +33,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt) throws Exception{
 		super.readFromNBT(nbt);
 		if(inventoryManager == null)
 			inventoryManager = new ModularInventoryManager(this);

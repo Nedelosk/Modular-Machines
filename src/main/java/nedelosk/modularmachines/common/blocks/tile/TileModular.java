@@ -2,11 +2,8 @@ package nedelosk.modularmachines.common.blocks.tile;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
+import nedelosk.nedeloskcore.api.Log;
 import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -33,10 +30,16 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		NBTTagCompound machineTag = new NBTTagCompound();
-		modular.writeToNBT(machineTag);
-		nbt.setTag("Machine", machineTag);
-		nbt.setString("MachineName", modular.getName());
+		try{
+			NBTTagCompound machineTag = new NBTTagCompound();
+			modular.writeToNBT(machineTag);
+			nbt.setTag("Machine", machineTag);
+			nbt.setString("MachineName", modular.getName());
+		}catch(Exception e){
+			e.printStackTrace();
+			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			Log.err("Error To Write Data From Modular Machine:" + getMachineName() + " on Position " + xCoord + ", " + yCoord + ", " + zCoord);
+		}
 	}
 	
 	@Override
@@ -44,7 +47,11 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		super.readFromNBT(nbt);
 		
 		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
-		modular.setMachine(this);
+		if(modular == null || modular.getModules() == null){
+			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			Log.err("Error To Load Data From Modular Machine: " + getMachineName() + " on Position " + xCoord + ", " + yCoord + ", " + zCoord);
+		}else
+			modular.setMachine(this);
 	}
 
 	@Override
@@ -74,13 +81,15 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 
 	@Override
 	public void updateClient() {
-		
+		if(modular != null){
+			modular.update(false);
+		}
 	}
 
 	@Override
 	public void updateServer() {
 		if(modular != null){
-			modular.update();
+			modular.update(true);
 		}
 	}
 

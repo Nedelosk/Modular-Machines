@@ -82,7 +82,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		RecipeInput[] inputs = new RecipeInput[this.inputs];
 		for(int i = 0;i < inputs.length;i++)
 		{
-			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(getName(moduleStack), i);
+			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(moduleStack.getModule().getName(moduleStack), i);
 			inputs[i] = new RecipeInput(i, stack);
 		}
 		return inputs;
@@ -100,9 +100,9 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 				if(!inputs[i].isFluid())
 				{
 					if(inputs[i].isOre())
-						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].ore.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack), input.slotIndex, inputs[i].ore.stackSize);
 					else
-						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].item.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack), input.slotIndex, inputs[i].item.stackSize);
 					continue;
 				}
 				else
@@ -140,7 +140,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	}
 	
 	@Override
-	public void update(IModular modular, ModuleStack stack) {
+	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(tile.getEnergyStored(null) > 0)
 		{
@@ -153,6 +153,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 						manager = null;
 						burnTimeTotal = 0;
 						burnTime = 0;
+						isWorking = false;
 					}
 				}
 				else if(getInputs(modular, stack) != null && RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)) != null)
@@ -165,6 +166,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 						manager = null;
 						return;
 					}
+					isWorking = true;
 					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack) / ModularUtils.getModuleStackMachine(modular).getType().getTier();
 				}
 				if(timer > timerTotal)
@@ -206,7 +208,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 				if(item != null)
 				{
 					if(!item.isFluid())
-						if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, getName(stack)))
+						if(tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs, this.inputs + this.outputs, stack.getModule().getName(stack)))
 						{
 							item = null;
 							continue;
@@ -230,7 +232,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		
 		if(manager != null)
@@ -246,7 +248,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		
 		if(nbt.hasKey("Manager"))

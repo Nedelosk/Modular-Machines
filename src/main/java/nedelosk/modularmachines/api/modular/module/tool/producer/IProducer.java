@@ -9,13 +9,17 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IProducer {
 	
-	void update(IModular modular, ModuleStack stack);
+	void updateServer(IModular modular, ModuleStack stack);
 	
-	void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack);
+	void updateClient(IModular modular, ModuleStack stack);
+	
+	void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
 
-	void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack);
+	void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
 	
 	String getName(ModuleStack stack);
+	
+	String getModifier(ModuleStack stack);
 	
 	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);
 	

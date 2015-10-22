@@ -34,21 +34,28 @@ public abstract class Modular implements IModular {
 		gui = new ModularGuiManager();
 	}
 	
-	public Modular(NBTTagCompound nbt) {
-		readFromNBT(nbt);
+	public Modular(NBTTagCompound nbt){
+		try {
+			readFromNBT(nbt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void update(){
+	public void update(boolean isServer){
 		for(Vector<ModuleStack> moduleV : modules.values())
-			for(ModuleStack module : moduleV)
-				if(module != null && module.getModule() != null && module.getProducer() != null)
-					module.getProducer().update(this, module);
+			for(ModuleStack stack : moduleV)
+				if(stack != null && stack.getModule() != null && stack.getProducer() != null)
+					if(isServer)
+						stack.getProducer().updateServer(this, stack);
+					else
+						stack.getProducer().updateClient(this, stack);
 		
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt) throws Exception {
 		   if(modules == null)
 			   modules = Maps.newHashMap();
 		   NBTTagList listTag = nbt.getTagList("Modules", 10);
@@ -72,7 +79,7 @@ public abstract class Modular implements IModular {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {		
+	public void writeToNBT(NBTTagCompound nbt) throws Exception {		
 		NBTTagList listTag = new NBTTagList();
 		for(Entry<String, Vector<ModuleStack>> moduleV : modules.entrySet()){
 			NBTTagCompound modulesTag = new NBTTagCompound();

@@ -30,9 +30,14 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 	public ModuleStack(ItemStack item, M module, P producer, Type type, boolean hasNbt) {
 		this.item = item;
 		this.module = module;
-		if(producer != null)
+		if(producer != null){
 			if(module.getTypeModifier(this) == null)
 				module.addType(type, producer.getName(this));
+		}
+		else{
+			if(module.getTypeModifier(this) == null)
+				module.addType(type, type.getName());
+		}
 		this.type = type;
 		this.hasNbt = hasNbt;
 		if(producer == null){
@@ -52,7 +57,7 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		return false;
 	}
 	
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception{
 		module = (M) ModuleRegistry.getModule(nbt.getString("ModuleName"));
 		item = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
 		type = Types.getType(nbt.getString("Type"));
@@ -63,7 +68,7 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		}
 	}
 
-	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception{
 		nbt.setString("ModuleName", module.getRegistryName());
 		nbt.setString("Type", type.getName());
 		nbt.setBoolean("hasNbt", hasNbt);
@@ -78,8 +83,7 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		nbt.setTag("Item", itemNBT);
 	}
 	
-	public static ModuleStack loadStackFromNBT(NBTTagCompound nbt, IModular modular)
-	{
+	public static ModuleStack loadStackFromNBT(NBTTagCompound nbt, IModular modular) throws Exception{
 		ModuleStack stack = new ModuleStack();
 		stack.readFromNBT(nbt, modular);
 		return stack;

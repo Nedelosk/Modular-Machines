@@ -66,7 +66,7 @@ public class ModuleRegistry {
 	
 	public static void addModuleItem(ItemStack item, IModule module, IProducer producer, Type type)
 	{
-		addModuleItem(new ModuleStack(item, module, producer, type, false));
+		addModuleItem(item, module, producer, type, false);
 	}
 	
 	public static void addModuleItem(ItemStack item, IModule module, Type type, boolean hasNbt)

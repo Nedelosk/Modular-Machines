@@ -31,7 +31,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		if(manager != null)
 			manager.writeToNBT(nbt);
@@ -39,7 +39,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		if(modular.getManager().getFluidHandler() != null)
 		{

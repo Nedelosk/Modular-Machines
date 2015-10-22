@@ -7,7 +7,6 @@ import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerCapacitor;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;

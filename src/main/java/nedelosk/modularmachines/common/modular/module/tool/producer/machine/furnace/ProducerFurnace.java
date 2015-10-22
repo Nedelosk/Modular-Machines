@@ -29,7 +29,7 @@ public class ProducerFurnace extends ProducerMachine {
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		
 		if (this.output != null){
@@ -42,7 +42,7 @@ public class ProducerFurnace extends ProducerMachine {
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		
 		if (nbt.hasKey("currentOutput")){
@@ -55,17 +55,19 @@ public class ProducerFurnace extends ProducerMachine {
 	}
 	
 	@Override
-	public void update(IModular modular, ModuleStack stack) {
+	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(tile.getEnergyStored(null) > 0)
 		{
 		if(burnTime >= burnTimeTotal || burnTimeTotal == 0)
 		{
-			ItemStack input = tile.getModular().getInventoryManager().getStackInSlot(this.getName(stack), 0);
+			ItemStack input = tile.getModular().getInventoryManager().getStackInSlot(stack.getModule().getName(stack), 0);
 			if(output != null)
 			{
-				if(tile.getModular().getInventoryManager().addToOutput(output, 1, 2, this.getName(stack)))
+				if(tile.getModular().getInventoryManager().addToOutput(output, 1, 2, stack.getModule().getName(stack))){
 					output = null;
+					isWorking = false;
+				}
 			}
 			else if(input != null)
 			{
@@ -73,10 +75,11 @@ public class ProducerFurnace extends ProducerMachine {
 				if(recipeOutput != null)
 				{
 					output = recipeOutput.copy();
-					tile.getModular().getInventoryManager().decrStackSize(this.getName(stack), 0, 1);
+					tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack), 0, 1);
 					if(burnTimeTotal == 0)
 						burnTimeTotal = getBurnTimeTotal(modular, stack);
 					burnTime = 0;
+					isWorking = true;
 				}
 			}
 			if(timer > timerTotal)
