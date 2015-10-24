@@ -51,8 +51,12 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		if(obj instanceof ModuleStack)
 		{
 			ModuleStack stackModule = (ModuleStack) obj;
-			if(stackModule.hasNbt == hasNbt && stackModule.type == type && item.getItemDamage() == stackModule.item.getItemDamage() &&  item.getItem() == stackModule.item.getItem() && (hasNbt ? getItem().stackTagCompound.equals(stackModule.getItem().stackTagCompound) : true) && stackModule.module == module && (stackModule.producer == null && producer == null || (stackModule.producer == null ? false : true) || (producer == null ? false : true) || stackModule.producer.getName(this).equals(producer.getName(this))))
-				return true;
+			if(stackModule.item.getItem() == null || item.getItem() == null)
+				return false;
+			if(stackModule.item.getItem() == item.getItem() && stackModule.item.getItemDamage() == item.getItemDamage())
+				if(stackModule.item.getTagCompound() != null && item.getTagCompound() != null && stackModule.item.getTagCompound().equals(item.getTagCompound()) || !stackModule.hasNbt() && !hasNbt())
+					if(stackModule.type == type && stackModule.module == module &&(producer == null && stackModule.getProducer() == null || producer.getName(this).equals(stackModule.getProducer().getName(stackModule))))
+						return true;
 		}
 		return false;
 	}

@@ -29,14 +29,14 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		
 		storageSlots = nbt.getInteger("StorageSlots");
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		
 		nbt.setInteger("StorageSlots", storageSlots);

@@ -57,14 +57,14 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
 		
 		nbt.setInteger("Slots", slots);
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
 		
 		slots = nbt.getInteger("Slots");

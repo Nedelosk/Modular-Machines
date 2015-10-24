@@ -25,6 +25,8 @@ public class BlockRegistry {
 		BlockManager.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
 		
 		BlockManager.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
+		BlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 1);
+		BlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 2);
 		
 		BlockManager.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
 		

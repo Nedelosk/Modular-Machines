@@ -55,64 +55,13 @@ public class ModularMachineBlock extends ModularBlock {
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
 	}
 	
-	/*@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
-		boolean isHarvestet = false;
-        player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
-        player.addExhaustion(0.025F);
-        if(player.getCurrentEquippedItem().getItem() instanceof ItemWrench){
-        	ItemWrench wrench = (ItemWrench) player.getCurrentEquippedItem().getItem();
-	        TileEntity tile = world.getTileEntity(x, y, z);
-	        if(tile instanceof IModularTileEntity){
-	        	IModularTileEntity modularTile = (IModularTileEntity) tile;
-	        	nedelosk.modularmachines.api.materials.Material mat = MaterialManager.getMaterial(player.getCurrentEquippedItem());
-	        	if(mat != null && mat.hasStats(Stats.MACHINE)){
-	        		int wrenchTier = ((MachineState)mat.getStats(Stats.MACHINE)).tier();
-	        		int machineTier = modularTile.getModular().getTier();
-	        		if(wrenchTier >= machineTier){
-	                    ArrayList<ItemStack> items = Lists.newArrayList();
-	                    ItemStack itemstack = this.createStackedBlock(meta);
-
-	                    NBTTagCompound nbtTag = new NBTTagCompound();
-	                    NBTTagCompound nbtTagMachine = new NBTTagCompound();
-	                    modularTile.getModular().writeToNBT(nbtTagMachine);
-	                    nbtTag.setTag("Machine", nbtTagMachine);
-	                    nbtTag.setString("MachineName", modularTile.getModular().getName());
-	                    itemstack.setTagCompound(nbtTag);
-	                    
-	                    if (itemstack != null)
-	                    {
-	                        items.add(itemstack);
-	                    }
-
-	                    ForgeEventFactory.fireBlockHarvesting(items, world, this, x, y, z, meta, 0, 1.0f, true, player);
-	                    for (ItemStack is : items)
-	                    {
-	                        this.dropBlockAsItem(world, x, y, z, is);
-	                    }
-	                    isHarvestet = true;
-	        		}
-	        	}
-	        }
-        }
-        if(!isHarvestet)
-        {
-	        TileEntity tile = world.getTileEntity(x, y, z);
-	        if(tile instanceof IModularTileEntity){
-	        	IModularTileEntity modularTile = (IModularTileEntity) tile;
-	        	for(Vector<ModuleStack> stacks : modularTile.getModular().getModules().values()){
-	        		for(ModuleStack stack : stacks){
-	        			ItemStack itemStack = stack.getItem();
-	        			if(!(world.rand.nextInt(100 / modularTile.getModular().getTier()) == 0))
-	        				dropBlockAsItem(world, x, y, z, itemStack);
-	        		}
-	        	}
-	        }
-        }
-	}*/
+	@Override
+	protected void dropBlockAsItem(World p_149642_1_, int p_149642_2_, int p_149642_3_, int p_149642_4_, ItemStack p_149642_5_) {
+		super.dropBlockAsItem(p_149642_1_, p_149642_2_, p_149642_3_, p_149642_4_, p_149642_5_);
+	}
 	
-	  @Override
-	  public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+	 @Override
+	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		  super.onBlockPlacedBy(world, x, y, z, player, stack);
 		  int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		  TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);

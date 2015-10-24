@@ -111,6 +111,7 @@ public class CraftingManager {
 		workbench.addRecipe(new ItemStack(NCItemManager.Gears_Wood.item(), 1, 4), new OreStack("toolFile"), new ItemStack(NCItemManager.Gears_Wood.item(), 1, 3), ForestdayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(NCItemManager.Gears_Wood.item(), 1, 3), new OreStack("toolFile"), new ItemStack(NCItemManager.Gears_Wood.item(), 1, 2), ForestdayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(NCItemManager.Gears_Wood.item(), 1, 2), new OreStack("toolFile"), new ItemStack(NCItemManager.Gears_Wood.item(), 1, 1), ForestdayConfig.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolFile"), new ItemStack(NCItemManager.Bucket_Wood.item()), ForestdayConfig.worktableBurnTime);
 	}
 	
 	public static void addMachineRecipes()

@@ -3,6 +3,9 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.machine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
@@ -11,6 +14,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProduc
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.nedeloskcore.api.machines.IGuiBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
@@ -80,6 +84,19 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@Override
 	public boolean isWorking() {
 		return isWorking;
+	}
+	
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
+		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
+		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
 	}
 
 }

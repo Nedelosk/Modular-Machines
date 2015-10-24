@@ -2,7 +2,9 @@ package nedelosk.modularmachines.common.modular.machines.modular.handlers;
 
 import java.util.ArrayList;
 
+import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerTank;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.nedeloskcore.api.INBTTagable;
 import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
@@ -17,19 +19,19 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class FluidHandler implements INBTTagable, IFluidHandler {
 
 	public FluidTankNedelosk[] tanks = new FluidTankNedelosk[3];
-	public IModularInventory machine;
+	public IModular machine;
 	
-	public FluidHandler(IModularInventory machine){
+	public FluidHandler(IModular machine){
 		this.machine = machine;
 	}
 	
-	public FluidHandler(NBTTagCompound nbt, IModularInventory machine){
+	public FluidHandler(NBTTagCompound nbt, IModular machine){
 		readFromNBT(nbt);
 		this.machine = machine;
 	}
 	
-	public void setTanks(int id, FluidTankNedelosk tank) {
-		this.tanks[id] = tank;
+	public void addTanks(int id, IProducerTank tank) {
+		this.tanks[id] = new FluidTankNedelosk(tank.getCapacity());
 	}
 	
 	public FluidTankNedelosk getTank(int id) {
@@ -44,7 +46,7 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 		for(int i= 0;i < list.tagCount();i++)
 		{
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			byte position = nbtTag.getByte("Position");
+			short position = nbtTag.getShort("Position");
 			tanks[position] = new FluidTankNedelosk(tankCapacitys[position]);
 			tanks[position].readFromNBT(nbtTag);
 		}
@@ -61,7 +63,7 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 				NBTTagCompound nbtTag = new NBTTagCompound();
 				tanks[i].writeToNBT(nbtTag);
 				tankCapacitys[i] = tanks[i].getCapacity();
-				nbtTag.setByte("Position", (byte) i);
+				nbtTag.setShort("Position", (short) i);
 				list.appendTag(nbtTag);
 			}
 		}
@@ -77,87 +79,96 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 		ProducerTankManager manager = (ProducerTankManager) machine.getTankManeger().getProducer();
 		if(manager != null)
 		{
-			ArrayList<Integer> listDirection = new ArrayList<Integer>();
+			ArrayList<Integer> directions = new ArrayList<Integer>();
 			for(int d = 0;d < manager.manager.directions.length;d++)
 			{
 				ForgeDirection direction = manager.manager.directions[d];
 				if(direction != null)
 					if(direction == from)
-						listDirection.add(d);
+						directions.add(d);
 			}
-			if(listDirection.size() == 0)
+			if(directions.isEmpty()){
 				for(int d = 0;d < manager.manager.directions.length;d++)
 				{
 					ForgeDirection direction = manager.manager.directions[d];
 					if(direction != null)
 						if(direction == ForgeDirection.UNKNOWN)
-							listDirection.add(d);
+							directions.add(d);
 				}
-			if(listDirection.size() != 0)
-			{
-				ArrayList<Integer> listFilters = new ArrayList<Integer>();
+			}
+			if(!directions.isEmpty()){
+				ArrayList<Integer> filters = new ArrayList<Integer>();
 				for(int f = 0;f < manager.manager.filters.length;f++)
 				{
 					Fluid filter = manager.manager.filters[f];
-					for(int d : listDirection)
+					for(int d : directions)
 					{
-						if(filter != null)
-							if(d == f)
-							{
-								if(filter == resource.fluid)
-									listFilters.add(f);
-							}
-					}
-				}
-				if(listFilters.size() == 0)
-				{
-					for(int f = 0;f < manager.manager.filters.length;f++)
-					{
-						Fluid filter = manager.manager.filters[f];
-						if(filter != null)
-							for(int d : listDirection)
-							{
-								if(d == f)
-								{
-									if(filter == null)
-										listFilters.add(f);
-								}
+						if(d == f)
+						{
+							if(filter == resource.getFluid())
+								filters.add(f);
 						}
 					}
 				}
-				if(listFilters.size() != 0)
-				{
-					ArrayList<Integer> listPrioritys = new ArrayList<Integer>();
+				if(filters.isEmpty()){
+					for(int f = 0;f < manager.manager.filters.length;f++)
+					{
+						Fluid filter = manager.manager.filters[f];
+						for(int d : directions)
+						{
+							if(d == f)
+							{
+								filters.add(f);
+							}
+						}
+					}
+				}
+				if(!filters.isEmpty()){
+					ArrayList<Integer> prioritys = new ArrayList<Integer>();
 					for(int p = 0;p < manager.manager.prioritys.length;p++)
 					{
 						int priority = manager.manager.prioritys[p];
 						if(priority != 0)
-							for(int f : listFilters)
+							for(int f : filters)
 							{
 								if(p == f)
 								{
-									listPrioritys.add(p);
+									prioritys.add(p);
 								}
 							}
 					}
-					if(listPrioritys.size() != 0)
-					{
-						Integer[] prioritys  = new Integer[tanks.length];
-						prioritys[0] = listPrioritys.get(0);
-						for(int p : listPrioritys)
+					if(prioritys.isEmpty()){
+						for(int p = 0;p < manager.manager.prioritys.length;p++)
 						{
-							int priority = manager.manager.prioritys[p];
-							if(priority < manager.manager.prioritys[prioritys[0]])
-								prioritys[0] = p;
-							else if(priority == manager.manager.prioritys[prioritys[0]])
-								prioritys[1] = p;
-						}
-						if(prioritys.length > 0)
-						{
-							for(int i = 0;i < prioritys.length;i++)
+							for(int f : filters)
 							{
-								if(tanks[prioritys[i]] != null && !tanks[prioritys[i]].isFull())
-									return tanks[prioritys[i]].fill(resource, doFill);
+								if(p == f)
+								{
+									prioritys.add(p);
+								}
+							}
+						}
+					}
+					if(!prioritys.isEmpty()){
+						ArrayList<Integer> tankPrioritys = new ArrayList<>();
+						tankPrioritys.add(prioritys.get(0));
+						int priority = manager.manager.prioritys[0];
+						for(int p : prioritys)
+						{
+							int pr = manager.manager.prioritys[p];
+							if(pr > priority){
+								priority = pr;
+								tankPrioritys.add(0, p);
+							}
+						}
+						if(!tankPrioritys.isEmpty())
+						{
+							for(int p : tankPrioritys)
+							{
+								if(tanks[p] != null && !tanks[p].isFull())
+									return tanks[p].fill(resource, doFill);
+								else
+									continue;
 							}
 						}
 					}
@@ -169,11 +180,186 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+		if(!doDrain)
+			return null;
+		ProducerTankManager manager = (ProducerTankManager) machine.getTankManeger().getProducer();
+		if(manager != null)
+		{
+			ArrayList<Integer> directions = new ArrayList<Integer>();
+			for(int d = 0;d < manager.manager.directions.length;d++)
+			{
+				ForgeDirection direction = manager.manager.directions[d];
+				if(direction != null)
+					if(direction == from)
+						directions.add(d);
+			}
+			if(directions.isEmpty()){
+				for(int d = 0;d < manager.manager.directions.length;d++)
+				{
+					ForgeDirection direction = manager.manager.directions[d];
+					if(direction != null)
+						if(direction == ForgeDirection.UNKNOWN)
+							directions.add(d);
+				}
+			}
+			if(!directions.isEmpty()){
+				ArrayList<Integer> filters = new ArrayList<Integer>();
+				for(int f = 0;f < manager.manager.filters.length;f++)
+				{
+					Fluid filter = manager.manager.filters[f];
+					for(int d : directions)
+					{
+						if(d == f)
+						{
+							if(filter == resource.getFluid())
+								filters.add(f);
+						}
+					}
+				}
+				if(filters.isEmpty()){
+					for(int f = 0;f < manager.manager.filters.length;f++)
+					{
+						Fluid filter = manager.manager.filters[f];
+						for(int d : directions)
+						{
+							if(filter == resource.getFluid())
+								if(d == f)
+								{
+									filters.add(f);
+								}
+						}
+					}
+				}
+				if(!filters.isEmpty()){
+					ArrayList<Integer> prioritys = new ArrayList<Integer>();
+					for(int p = 0;p < manager.manager.prioritys.length;p++)
+					{
+						int priority = manager.manager.prioritys[p];
+						if(priority != 0)
+							for(int f : filters)
+							{
+								if(p == f)
+								{
+									prioritys.add(p);
+								}
+							}
+					}
+					if(prioritys.isEmpty()){
+						for(int p = 0;p < manager.manager.prioritys.length;p++)
+						{
+							for(int f : filters)
+							{
+								if(p == f)
+								{
+									prioritys.add(p);
+								}
+							}
+						}
+					}
+					if(!prioritys.isEmpty()){
+						ArrayList<Integer> tankPrioritys = new ArrayList<>();
+						tankPrioritys.add(prioritys.get(0));
+						int priority = manager.manager.prioritys[0];
+						for(int p : prioritys)
+						{
+							int pr = manager.manager.prioritys[p];
+							if(pr > priority){
+								priority = pr;
+								tankPrioritys.add(0, p);
+							}
+						}
+						if(!tankPrioritys.isEmpty())
+						{
+							for(int p : tankPrioritys)
+							{
+								if(tanks[p] != null && !tanks[p].isEmpty())
+									return tanks[p].drain(resource, doDrain);
+								else
+									continue;
+							}
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		if(!doDrain)
+			return null;
+		ProducerTankManager manager = (ProducerTankManager) machine.getTankManeger().getProducer();
+		if(manager != null)
+		{
+			ArrayList<Integer> directions = new ArrayList<Integer>();
+			for(int d = 0;d < manager.manager.directions.length;d++)
+			{
+				ForgeDirection direction = manager.manager.directions[d];
+				if(direction != null)
+					if(direction == from)
+						directions.add(d);
+			}
+			if(directions.isEmpty()){
+				for(int d = 0;d < manager.manager.directions.length;d++)
+				{
+					ForgeDirection direction = manager.manager.directions[d];
+					if(direction != null)
+						if(direction == ForgeDirection.UNKNOWN)
+							directions.add(d);
+				}
+			}
+			if(!directions.isEmpty()){
+				ArrayList<Integer> prioritys = new ArrayList<Integer>();
+				for(int p = 0;p < manager.manager.prioritys.length;p++)
+				{
+					int priority = manager.manager.prioritys[p];
+					if(priority != 0)
+						for(int d : directions)
+						{
+							if(p == d)
+							{
+								prioritys.add(p);
+							}
+						}
+				}
+				if(prioritys.isEmpty()){
+					for(int p = 0;p < manager.manager.prioritys.length;p++)
+					{
+						for(int d : directions)
+						{
+							if(p == d)
+							{
+								prioritys.add(p);
+							}
+						}
+					}
+				}
+				if(!prioritys.isEmpty()){
+					ArrayList<Integer> tankPrioritys = new ArrayList<>();
+					tankPrioritys.add(prioritys.get(0));
+					int priority = manager.manager.prioritys[0];
+					for(int p : prioritys)
+					{
+						int pr = manager.manager.prioritys[p];
+						if(pr > priority){
+							priority = pr;
+							tankPrioritys.add(0, p);
+						}
+					}
+					if(!tankPrioritys.isEmpty())
+					{
+						for(int p : tankPrioritys)
+						{
+							if(tanks[p] != null && !tanks[p].isEmpty())
+								return tanks[p].drain(maxDrain, doDrain);
+							else
+								continue;
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -184,7 +370,7 @@ public class FluidHandler implements INBTTagable, IFluidHandler {
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -49,14 +54,40 @@ public abstract class Producer implements IProducer {
 	@Override
 	public void updateClient(IModular modular, ModuleStack stack) {}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return null;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return null;
+	}
+	
+	@Override
+	public ArrayList<String> getRequiredModules() {
+		return new ArrayList<String>();
+	}
+	
+	@Override
+	public boolean onBuildModular(IModular modular, ModuleStack stack) {
+		ArrayList<String> requiredModules = new ArrayList<>();
+		requiredModules.addAll(getRequiredModules());
+		for(String moduleName : getRequiredModules()){
+			for(Vector<ModuleStack> moduleStacks : modular.getModules().values()){
+				for(ModuleStack moduleStack : moduleStacks){
+					if(moduleStack != null && moduleStack.getModule() != null){
+						if(moduleName.equals(moduleStack.getModule().getName(moduleStack)))
+							requiredModules.remove(moduleStack.getModule().getName(moduleStack));
+					}
+				}
+			}
+		}
+		if(!requiredModules.isEmpty())
+			return false;
+		return true;
 	}
 
 }

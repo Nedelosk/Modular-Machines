@@ -31,6 +31,7 @@ public abstract class Modular implements IModular {
 	
 	public Modular() {
 		utils = new ModularUtilsManager();
+		utils.setModular(this);
 		gui = new ModularGuiManager();
 	}
 	
@@ -73,6 +74,7 @@ public abstract class Modular implements IModular {
 		   }
 		   utils = new ModularUtilsManager();
 		   utils.readFromNBT(nbt);
+		   utils.setModular(this);
 		   gui = new ModularGuiManager();
 		   gui.readFromNBT(nbt);
 		   gui.setModular(this);
@@ -98,8 +100,10 @@ public abstract class Modular implements IModular {
 			listTag.appendTag(modulesTag);
 		}
 		nbt.setTag("Modules", listTag);
-		if(utils == null)
+		if(utils == null){
 			utils = new ModularUtilsManager();
+			utils.setModular(this);
+		}
 		utils.writeToNBT(nbt);
 		if(gui == null)
 			gui = new ModularGuiManager();

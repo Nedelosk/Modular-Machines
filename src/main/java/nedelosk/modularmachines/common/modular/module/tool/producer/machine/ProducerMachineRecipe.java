@@ -27,6 +27,8 @@ import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 public abstract class ProducerMachineRecipe extends ProducerMachine implements IProducerMachineRecipe {
 	
@@ -83,6 +85,19 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		for(int i = 0;i < inputs.length;i++)
 		{
 			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(moduleStack.getModule().getName(moduleStack), i);
+			inputs[i] = new RecipeInput(i, stack);
+		}
+		return inputs;
+	}
+	
+	public RecipeInput[] getInputFluids(IModular modular, ModuleStack moduleStack)
+	{
+		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		RecipeInput[] inputs = new RecipeInput[this.inputs];
+		for(int i = 0;i < inputs.length;i++)
+		{
+			FluidTankInfo[] infos = tile.getModular().getManager().getFluidHandler().getTankInfo(ForgeDirection.UNKNOWN);
+			FluidStack stack = infos[i].fluid.copy();
 			inputs[i] = new RecipeInput(i, stack);
 		}
 		return inputs;

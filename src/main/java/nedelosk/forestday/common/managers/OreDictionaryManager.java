@@ -13,6 +13,7 @@ public class OreDictionaryManager {
 		OreDictionary.registerOre("toolHammer", FItemManager.hammer.item());
 		OreDictionary.registerOre("toolFile", FItemManager.file_diamond.item());
 		OreDictionary.registerOre("toolCutter", FItemManager.cutter.item());
+		OreDictionary.registerOre("toolKnife", FItemManager.knife_stone.item());
 		
 		OreDictionary.registerOre("hardenedStarch", new ItemStack(FItemManager.nature.item(), 1, 11));
 	}

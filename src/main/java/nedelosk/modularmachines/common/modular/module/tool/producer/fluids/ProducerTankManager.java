@@ -22,7 +22,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 	public int tankSlots;
 	
 	public ProducerTankManager(int tankSlots) {
-		super("TankManagers");
+		super("TankManager");
 		this.tankSlots = tankSlots;
 	}
 	
@@ -76,6 +76,12 @@ public class ProducerTankManager extends ProducerManager implements IProducerFlu
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
 		return 3;
+	}
+	
+	@Override
+	public boolean onBuildModular(IModular modular, ModuleStack stack) {
+		modular.getManager().setFluidHandler(new FluidHandler(modular));
+		return super.onBuildModular(modular, stack);
 	}
 
 }

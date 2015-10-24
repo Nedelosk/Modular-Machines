@@ -23,6 +23,8 @@ import nedelosk.nedeloskcore.common.items.blocks.ItemBlockPlan;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -32,8 +34,7 @@ public class ObjectRegistry {
 	
 	public static Material WOOD;
 	
-	public static void preInit()
-	{
+	public static void preInit(){
 		WOOD = NCoreApi.registerMaterial(new Material("wood", 600, 1.5F, 1F, MaterialType.WOOD, "woodOak", new ItemStack(Blocks.log, 1, 0)));
 		NCoreApi.registerMaterial(new Material("clayBrick", 1400, 1.5F, 1F, MaterialType.BRICK, "ingotBrick", new ItemStack(Blocks.brick_block, 1, 0)));
 		NCoreApi.registerMaterial(new Material("stoneBrick", 1600, 3F, 1F, MaterialType.BRICK, "bricksStone", new ItemStack(Blocks.stonebrick, 1, 0)));
@@ -50,8 +51,9 @@ public class ObjectRegistry {
 		NCBlockManager.Plan_Block.registerBlock(new BlockPlan(), ItemBlockPlan.class);
 		NCRegistry.registerTile(TilePlan.class, "plan", "nc");
 		
-		NCItemManager.Bucket_Wood.registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood"));
+		NCItemManager.Bucket_Wood.registerItem(new ItemWoodBucket(Blocks.air, "bucket.wood").setMaxStackSize(16));
 		NCItemManager.Bucket_Wood_Water.registerItem(new ItemWoodBucket(Blocks.water, "bucket.wood.water"));
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(NCItemManager.Bucket_Wood_Water.item()), new ItemStack(NCItemManager.Bucket_Wood.item()));
 		
 		NCBlockManager.Ore.registerBlock(new BlockOre(BlockOre.ores, "nedeloskcore"), ItemBlockForest.class);
 		NCItemManager.Ingots.registerItem(new ItemIngot(ItemIngot.ingots, "nedeloskcore"));
@@ -60,21 +62,17 @@ public class ObjectRegistry {
 		NCItemManager.Gears_Wood.registerItem(new ItemGearWood());
 	}
 	
-	public static void init()
-	{
+	public static void init(){
 		registerOreDict();
 	}
 	
-	public static void postInit()
-	{
+	public static void postInit(){
 		registerRecipes();
 	}
 	
-	public static void registerRecipes()
-	{
+	public static void registerRecipes(){
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Plan.item(), 1, 1), Items.paper);
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItemManager.Plan.item(), 1, 2), new ItemStack(NCItemManager.Plan.item(), 1, 1), Items.stick, Items.stick);
-		GameRegistry.addShapedRecipe(new ItemStack(NCItemManager.Bucket_Wood.item()), "   ", "+ +", " + ", '+', Blocks.planks);
 		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 0), new ItemStack(NCItemManager.Ingots.item(), 1, 0),  0.5F);
 		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 1), new ItemStack(NCItemManager.Ingots.item(), 1, 1),  0.5F);
 		GameRegistry.addSmelting(new ItemStack(NCBlockManager.Ore.item(), 1, 2), new ItemStack(NCItemManager.Ingots.item(), 1, 2),  0.5F);
@@ -111,8 +109,7 @@ public class ObjectRegistry {
 		}
 	}
 	
-	public static void registerOreDict()
-	{
+	public static void registerOreDict(){
 		OreDictionary.registerOre("ingotCopper", new ItemStack(NCItemManager.Ingots.item(), 1, 0));
 		OreDictionary.registerOre("ingotTin", new ItemStack(NCItemManager.Ingots.item(), 1, 1));
 		OreDictionary.registerOre("ingotSilver", new ItemStack(NCItemManager.Ingots.item(), 1, 2));
@@ -134,13 +131,11 @@ public class ObjectRegistry {
 		OreDictionary.registerOre("bricksStone", Blocks.stonebrick);
 	}
 	
-	public static void addShapedRecipe(ItemStack stack, Object... obj)
-	{
+	public static void addShapedRecipe(ItemStack stack, Object... obj){
 		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
 	}
 	
-	public static void addShapelessRecipe(ItemStack stack, Object... obj)
-	{
+	public static void addShapelessRecipe(ItemStack stack, Object... obj){
 		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
 	

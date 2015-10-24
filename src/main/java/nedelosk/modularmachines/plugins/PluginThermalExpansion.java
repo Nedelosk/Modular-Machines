@@ -1,10 +1,14 @@
 package nedelosk.modularmachines.plugins;
 
+import java.util.Map;
+
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
+import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleBasic;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
@@ -19,12 +23,7 @@ import net.minecraft.item.ItemStack;
 
 public class PluginThermalExpansion extends Plugin {
 
-	public static IModule STRONGBOX = new Module() {
-		@Override
-		public String getModuleName() {
-			return "Storage";
-		}
-	};
+	public static IModule STRONGBOX = new ModuleBasic("Storage", "Storage");
 	
 	public static Type Lead = Types.addType(2, "Lead", "lead");
 	public static Type Invar = Types.addType(3, "Invar", "invar");
@@ -32,14 +31,19 @@ public class PluginThermalExpansion extends Plugin {
 	public static Type Signalum = Types.addType(6, "Signalum", "signalum");
 	public static Type Enderium = Types.addType(7, "Enderium", "enderium");
 	
-	public Item cell = GameRegistry.findItem(getRequiredMod(), "Cell");
-	public Item frame = GameRegistry.findItem(getRequiredMod(), "Frame");
-	public Item tank = GameRegistry.findItem(getRequiredMod(), "Tank");
-	public Item strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
-	public Item capacitor = GameRegistry.findItem(getRequiredMod(), "Capacitor");
+	public Item cell;
+	public Item frame;
+	public Item tank;
+	public Item strongBox;
+	public Item capacitor;
 	
 	@Override
-	public void preInit() {
+	public void init() {
+		cell = GameRegistry.findItem(getRequiredMod(), "Cell");
+		frame = GameRegistry.findItem(getRequiredMod(), "Frame");
+		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
+		strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
+		capacitor = GameRegistry.findItem(getRequiredMod(), "Capacitor");
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 0), Modules.CASING, Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 1), Modules.CASING, Electrum);
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 2), Modules.CASING, Signalum);

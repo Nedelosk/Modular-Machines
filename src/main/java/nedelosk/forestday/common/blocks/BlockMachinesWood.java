@@ -41,12 +41,12 @@ public class BlockMachinesWood extends BlockMachines {
 	
 	@Override
 	public IIcon getIcon(int blockSide, int blockMeta) {
-		return Blocks.iron_block.getIcon(0, 0);
+		return Blocks.planks.getIcon(0, 0);
 	}
 	
 	@Override
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int blockSide) {
-		return Blocks.iron_block.getIcon(0, 0);
+		return Blocks.planks.getIcon(0, 0);
 	}
 	
 	@Override

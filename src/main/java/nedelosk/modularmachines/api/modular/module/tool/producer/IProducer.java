@@ -1,9 +1,14 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer;
 
+import java.util.ArrayList;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.common.modular.machines.modular.Modular;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -21,8 +26,14 @@ public interface IProducer {
 	
 	String getModifier(ModuleStack stack);
 	
+	@SideOnly(Side.CLIENT)
 	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);
 	
+	@SideOnly(Side.CLIENT)
 	IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile);
+	
+	ArrayList<String> getRequiredModules();
+	
+	boolean onBuildModular(IModular modular, ModuleStack stack);
 	
 }

@@ -2,6 +2,8 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.machine.pul
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
@@ -68,6 +70,7 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 		return 3;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));

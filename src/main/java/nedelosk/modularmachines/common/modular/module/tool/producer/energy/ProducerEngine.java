@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.energy;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -29,6 +31,7 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 		super(nbt, modular, stack);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModular modular, ModuleStack stack) {
 		if(ModularUtils.getModuleStackMachine(modular).getProducer() != null && ModularUtils.getModuleStackMachine(modular).getProducer().isWorking()){
@@ -57,11 +60,13 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 		nbt.setFloat("Progress", progress);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.EngineRenderer(moduleStack);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.EngineRenderer(moduleStack);

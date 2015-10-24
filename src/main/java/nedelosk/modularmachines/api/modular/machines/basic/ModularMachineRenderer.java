@@ -329,11 +329,11 @@ public class ModularMachineRenderer {
 		
 	}
 	
-	public static class AlloySmelterRenderer implements IModularRenderer{
+	public static class MachineRenderer implements IModularRenderer{
 
 		public IModule module;
 		
-		public AlloySmelterRenderer(IModule module) {
+		public MachineRenderer(IModule module) {
 			this.module = module;
 		}
 		

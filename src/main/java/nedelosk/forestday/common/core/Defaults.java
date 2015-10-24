@@ -8,7 +8,7 @@ public class Defaults {
 	
 	public static final String MOD = "Forest Day";
 	public static final String MOD_ID = "ForestDay";
-    public static final String VERSION = "0.3.0";
+    public static final String VERSION = "0.3.1";
 	
 	public static String BLOOD_MAGIC_MOD_ID = "AWWayofTime";
 	public static String FORESTRY_MOD_ID = "Forestry";

@@ -194,14 +194,22 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.BatteryRenderer(moduleStack, modular);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.BatteryRenderer(moduleStack, modular);
+	}
+	
+	@Override
+	public boolean onBuildModular(IModular modular, ModuleStack stack) {
+		modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery)stack.getProducer()).getStorage(stack)));
+		return super.onBuildModular(modular, stack);
 	}
 
 }

@@ -20,13 +20,18 @@ public class MachineBuilder {
 		IModular machine = buildMachine(inputs, moduleName);
 		if(machine != null){
 			if(tier >= machine.getTier()){
-				ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
-				stack.setTagCompound(new NBTTagCompound());
-				NBTTagCompound nbtTag = new NBTTagCompound();
-				machine.writeToNBT(nbtTag);
-				stack.getTagCompound().setTag("Machine", nbtTag);
-				stack.getTagCompound().setString("MachineName", machine.getName());
-				return stack;
+				try{
+					ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
+					stack.setTagCompound(new NBTTagCompound());
+					NBTTagCompound nbtTag = new NBTTagCompound();
+					machine.writeToNBT(nbtTag);
+					stack.getTagCompound().setTag("Machine", nbtTag);
+					stack.getTagCompound().setString("MachineName", machine.getName());
+					return stack;
+				}catch(Exception e){
+					e.printStackTrace();
+					return null;
+				}
 			}
 		}
 		return null;

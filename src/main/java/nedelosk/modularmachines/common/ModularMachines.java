@@ -16,7 +16,7 @@ import nedelosk.modularmachines.common.proxy.CommonProxy;
 import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = "ModularMachines", version = "0.3.0", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:NedeloskCore;after:Thaumcraft;required-after:ForestDay;after:ThermalExpansion;after:TConstruct")
+@Mod(modid = "ModularMachines", version = "0.3.1", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:NedeloskCore;required-after:ForestDay;after:ThermalExpansion")
 public class ModularMachines
 {
 	public static Configuration config;

@@ -1,9 +1,12 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 
 public class GuiButtonAssembler extends GuiButtonItem {
@@ -26,7 +29,7 @@ public class GuiButtonAssembler extends GuiButtonItem {
 
     info = new AssemblerMachineInfo();
     info.machine = MMBlockManager.Modular_Machine.getItemStack();
-
+    
     info.addSlotPosition(x, y - 23);
     info.addSlotPosition(x - 22, y - 5);
     info.addSlotPosition(x, y);
