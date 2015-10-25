@@ -2,9 +2,9 @@ package nedelosk.forestday.common.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.managers.BlockManager;
-import nedelosk.forestday.common.managers.FItemManager;
-import nedelosk.nedeloskcore.utils.ItemUtils;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.core.managers.FItemManager;
+import nedelosk.forestday.utils.WorldUtils;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -63,7 +63,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
                     world.setBlockMetadataWithNotify(x, y, z, l, 2);
                     if(l == 2)
                     {
-                    	world.setBlock(x, y + 1, z, BlockManager.Crop_Corn.block());
+                    	world.setBlock(x, y + 1, z, FBlockManager.Crop_Corn.block());
                     	world.setBlockMetadataWithNotify(x, y + 1, z, 3, 2);
                     }
                 }
@@ -114,7 +114,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
         world.setBlockMetadataWithNotify(x, y, z, l, 2);
         if(l == 2)
         {
-        	world.setBlock(x, y + 1, z, BlockManager.Crop_Corn.block());
+        	world.setBlock(x, y + 1, z, FBlockManager.Crop_Corn.block());
         	world.setBlockMetadataWithNotify(x, y + 1, z, 3, 2);
         }
     }
@@ -186,7 +186,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
         {
         	ret.add(new ItemStack(getFruit(), 1));
         }
-        ItemUtils.dropItem(world, x, y, z, ret);
+        WorldUtils.dropItem(world, x, y, z, ret);
     	if(world.getBlock(x, y - 1, z) == this)
     		world.setBlockToAir(x, y - 1, z);
     	if(world.getBlock(x, y + 1, z) == this)
@@ -212,7 +212,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable
 
     protected Item getFruit()
     {
-        return FItemManager.crop_corn.item();
+        return FItemManager.Crop_Corn.item();
     }
 
     @Override

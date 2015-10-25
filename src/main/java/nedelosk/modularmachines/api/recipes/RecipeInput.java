@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.recipes;
 
-import nedelosk.nedeloskcore.api.crafting.OreStack;
+import nedelosk.forestday.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;

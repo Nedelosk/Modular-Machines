@@ -8,8 +8,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.BlockMultiblockBase;
-import nedelosk.nedeloskcore.utils.ItemUtils;
+import nedelosk.forestday.common.multiblocks.BlockMultiblockBase;
+import nedelosk.forestday.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -139,7 +139,7 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 			if(!kiln.isConsumed)
 				list.add(kiln.type.wood);
 		}
-		ItemUtils.dropItem(world, x, y, z, list);
+		WorldUtils.dropItem(world, x, y, z, list);
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 	

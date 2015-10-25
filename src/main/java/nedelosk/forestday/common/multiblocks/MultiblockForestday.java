@@ -2,9 +2,8 @@ package nedelosk.forestday.common.multiblocks;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblock;
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;

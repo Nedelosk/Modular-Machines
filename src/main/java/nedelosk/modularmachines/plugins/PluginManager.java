@@ -4,7 +4,7 @@ import nedelosk.modularmachines.plugins.mt.PluginMineTweaker3;
 import nedelosk.modularmachines.plugins.tconstruct.PluginTConstruct;
 import nedelosk.modularmachines.plugins.waila.PluginWaila;
 
-public class PluginManager extends nedelosk.nedeloskcore.plugins.basic.PluginManager {
+public class PluginManager extends nedelosk.forestday.plugins.basic.PluginManager {
 	
 	public void registerPlugins()
 	{

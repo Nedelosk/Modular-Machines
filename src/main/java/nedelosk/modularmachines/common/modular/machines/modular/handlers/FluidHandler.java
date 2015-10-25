@@ -2,12 +2,11 @@ package nedelosk.modularmachines.common.modular.machines.modular.handlers;
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.INBTTagable;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerTank;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
-import nedelosk.nedeloskcore.api.INBTTagable;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;

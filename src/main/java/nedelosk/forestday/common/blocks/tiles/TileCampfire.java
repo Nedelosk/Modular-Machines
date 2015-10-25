@@ -1,13 +1,12 @@
 package nedelosk.forestday.common.blocks.tiles;
 
 import nedelosk.forestday.client.gui.GuiCampfire;
-import nedelosk.forestday.common.configs.ForestdayConfig;
+import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.common.core.managers.FItemManager;
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerCampfire;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
-import nedelosk.forestday.common.managers.FItemManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -156,15 +155,15 @@ public class TileCampfire extends TileMachineBase {
 			
 			if(TileEntityFurnace.getItemBurnTime(fuel) > 0)
 			{
-				if(fuelStorage < ForestdayConfig.campfireFuelStorageMax[getCurbTier()] && !(TileEntityFurnace.getItemBurnTime(fuel) + fuelStorage > ForestdayConfig.campfireFuelStorageMax[getCurbTier()]))
+				if(fuelStorage < ForestDayConfig.campfireFuelStorageMax[getCurbTier()] && !(TileEntityFurnace.getItemBurnTime(fuel) + fuelStorage > ForestDayConfig.campfireFuelStorageMax[getCurbTier()]))
 				{
 					fuelStorage = fuelStorage + TileEntityFurnace.getItemBurnTime(fuel);
 					decrStackSize(2, 1);
 					this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				}
-				else if(fuelStorage > ForestdayConfig.campfireFuelStorageMax[getCurbTier()])
+				else if(fuelStorage > ForestDayConfig.campfireFuelStorageMax[getCurbTier()])
 				{
-					fuelStorage = ForestdayConfig.campfireFuelStorageMax[getCurbTier()];
+					fuelStorage = ForestDayConfig.campfireFuelStorageMax[getCurbTier()];
 				}
 			}
 		}
@@ -197,9 +196,9 @@ public class TileCampfire extends TileMachineBase {
 					burnTime++;
 				if(output != null)
 					isWorking = true;
-				if(fuelStorage > ForestdayConfig.campfireFuelStorageMax[getCurbTier()])
+				if(fuelStorage > ForestDayConfig.campfireFuelStorageMax[getCurbTier()])
 				{
-					fuelStorage = ForestdayConfig.campfireFuelStorageMax[getCurbTier()];
+					fuelStorage = ForestDayConfig.campfireFuelStorageMax[getCurbTier()];
 				}
 				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				timer = 0;
@@ -226,11 +225,11 @@ public class TileCampfire extends TileMachineBase {
 	
 	public ItemStack setCampfireItem(ItemStack stack){
 		int ID = 0;
-		if(stack.getItem() == FItemManager.curb.item())
+		if(stack.getItem() == FItemManager.Curb.item())
 			ID = 0;
-		if(stack.getItem() == FItemManager.pot_holder.item())
+		if(stack.getItem() == FItemManager.Pot_Holder.item())
 			ID = 1;
-		if(stack.getItem() == FItemManager.pot.item())
+		if(stack.getItem() == FItemManager.Curb.item())
 			ID = 2;
 		ItemStack stackOld = getStackInSlot(4 + ID);
 		setInventorySlotContents(ID + 4, stack);

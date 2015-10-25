@@ -3,16 +3,16 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.fluids;
 import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.guis.IContainerBase;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.ProducerManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerFluidManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.FluidHandler;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.manager.TankManager;
-import nedelosk.nedeloskcore.api.machines.IContainerBase;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 

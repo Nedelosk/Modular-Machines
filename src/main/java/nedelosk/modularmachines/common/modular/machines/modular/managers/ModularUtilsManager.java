@@ -2,7 +2,6 @@ package nedelosk.modularmachines.common.modular.machines.modular.managers;
 
 import cofh.api.energy.IEnergyHandler;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
 import nedelosk.modularmachines.common.modular.machines.modular.handlers.FluidHandler;
@@ -54,6 +53,7 @@ public class ModularUtilsManager implements IModularUtilsManager {
 			energyHandler.writeToNBT(nbt);
 	}
 	
+	@Override
 	public void setModular(IModular modular) {
 		this.modular = modular;
 	}

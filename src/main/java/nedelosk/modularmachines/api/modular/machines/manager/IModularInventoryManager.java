@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.modular.machines.manager;
 
-import nedelosk.nedeloskcore.api.INBTTagable;
+import nedelosk.forestday.api.INBTTagable;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 

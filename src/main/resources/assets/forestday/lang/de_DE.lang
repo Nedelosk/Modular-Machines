@@ -8,18 +8,25 @@ forest.fd.block.wood_base.3.name=Harz Ofen
 tile.corn.name=Mais
 forest.fd.item.tile.kiln.charcoal.0.name=Holzkohle Meiler
 forest.fd.item.tile.kiln.charcoal.1.name=Holzkohle Ash
+forest.fd.item.tile.oreforestday.0.name=Kupfer Erz
+forest.fd.item.tile.oreforestday.1.name=Zinn Erz
+forest.fd.item.tile.oreforestday.2.name=Silver Erz
+forest.fd.item.tile.oreforestday.3.name=Blei Erz
+forest.fd.item.tile.oreforestday.4.name=Nickel Erz
+forest.fd.item.tile.oreforestday.5.name=Rubyn Erz
 
 ####################################
 Fluids
 ####################################
 fluid.tar=Fluessiger Teer
-forest.nc.block.tar.name=Fluessiger Teer
+forest.fd.block.tar.name=Fluessiger Teer
 fluid.resin=Fluessiges Harz
-forest.nc.block.resin.name=Fluessiges Harz
+forest.fd.block.resin.name=Fluessiges Harz
 fluid.rubber=Fluessiges Gummi
-forest.nc.block.rubber.name=Fluessiges Gummi
+forest.df.block.rubber.name=Fluessiges Gummi
 fluid.lubricant=Fluessiges Schmiermittel
-forest.nc.block.lubricant.name=Fluessiges Schmiermittel
+forest.fd.block.lubricant.name=Fluessiges Schmiermittel
+nc.tooltip.nonefluid=None Fluid
 
 ####################################
 Items
@@ -74,6 +81,32 @@ forest.fd.item.parts.8.name=Adze Head
 forest.fd.item.parts.9.name=Long Adze Head
 forest.fd.item.parts.10.name=Adze Handle
 forest.fd.item.parts.11.name=Long Adze Handle
+
+forest.fd.item.plan.0.name=Plan
+forest.fd.item.plan.1.name=Blueprint
+forest.fd.item.plan.2.name=Planungs Werkzeug
+forest.fd.item.bucket.wood.name=Holz Eimer
+forest.fd.item.bucket.wood.water.name=Wasser Holz Eimer
+forest.fd.item.ingot.forestday.0.name=Kupfer Barren
+forest.fd.item.ingot.forestday.1.name=Zinn Barren
+forest.fd.item.ingot.forestday.2.name=Silber Barren
+forest.fd.item.ingot.forestday.3.name=Blei Barren
+forest.fd.item.ingot.forestday.4.name=Nickel Barren
+forest.fd.item.nugget.forestday.0.name=Kupfer Nugget
+forest.fd.item.nugget.forestday.1.name=Zinn Nugget
+forest.fd.item.nugget.forestday.2.name=Silber Nugget
+forest.fd.item.nugget.forestday.3.name=Lead Nugget
+forest.fd.item.nugget.forestday.4.name=Nickel Nugget
+forest.fd.item.nugget.forestday.5.name=Eisen Nugget
+forest.fd.item.gear.wood.0.name=Verbessertes Holz Zahnrad
+forest.fd.item.gear.wood.1.name=Holz Zahnrad
+forest.fd.item.gear.wood.2.name=Unfertiges Holz Zahnrad
+forest.fd.item.gear.wood.3.name=Unfertiges Holz Zahnrad
+forest.fd.item.gear.wood.4.name=Unfertiges Holz Zahnrad
+forest.fd.item.gear.wood.5.name=Unfertiges Holz Zahnrad
+forest.fd.item.multiblock.name=Multiblock
+forest.fd.item.multiblock_valve.name=Multiblock Ventil
+
 
 ####################################
 Containers

@@ -2,22 +2,21 @@ package nedelosk.modularmachines.common.multiblocks;
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.client.renderer.TextureAtlasMap;
+import nedelosk.forestday.common.blocks.BlockMultiblock;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiCokeOven;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager.CokeOvenRecipe;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerCokeOven;
-import nedelosk.nedeloskcore.api.Material.MaterialType;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.client.TextureAtlasMap;
-import nedelosk.nedeloskcore.common.blocks.BlockMultiblock;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -274,7 +273,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		case 'i':
 		case 'B':
 		{
-            if (block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
@@ -282,7 +281,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'J':
 		{
-            if (block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
@@ -290,7 +289,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null)
             {
                 return false;
             }
@@ -302,7 +301,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null)
             {
                 return false;
             }
@@ -322,7 +321,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		}
 		case 'O':
 		{
-            if (block == NCBlockManager.Multiblock_Valve.block() || block == NCBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
+            if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
             {
                 return false;
             }

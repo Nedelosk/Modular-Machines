@@ -2,13 +2,12 @@ package nedelosk.forestday.common.multiblocks;
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
-import nedelosk.forestday.common.configs.ForestdayConfig;
-import nedelosk.forestday.common.managers.BlockManager;
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.common.core.managers.FBlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -50,13 +49,13 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 		TileEntity baseTile = base.getWorldObj().getTileEntity(x, y, z);
 		switch (pattern) {
 		case 'C':
-            if (block != BlockManager.Multiblock_Charcoal_Kiln.block() && !(baseTile instanceof TileCharcoalKiln))
+            if (block != FBlockManager.Multiblock_Charcoal_Kiln.block() && !(baseTile instanceof TileCharcoalKiln))
             {
                 return false;
             }
             break;
 		case 'O':
-            if (block == BlockManager.Multiblock_Charcoal_Kiln.block() && baseTile instanceof TileCharcoalKiln)
+            if (block == FBlockManager.Multiblock_Charcoal_Kiln.block() && baseTile instanceof TileCharcoalKiln)
             {
                 return false;
             }
@@ -74,7 +73,7 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 	public void updateServer(ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
 		if(base.burnTimeTotal == 0)
-			base.burnTimeTotal = ForestdayConfig.charcoalKilnBurnTime;
+			base.burnTimeTotal = ForestDayConfig.charcoalKilnBurnTime;
 		if(!base.isWorking()) return;
 		if(base.burnTime >= base.burnTimeTotal)
 		{
@@ -105,7 +104,7 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 			{
 				items.add(stack);
 			}
-			base.getWorldObj().setBlock(base.xCoord, base.yCoord - 1, base.zCoord, BlockManager.Multiblock_Charcoal_Kiln.block(), 1, 2);
+			base.getWorldObj().setBlock(base.xCoord, base.yCoord - 1, base.zCoord, FBlockManager.Multiblock_Charcoal_Kiln.block(), 1, 2);
 			((TileCharcoalAsh)base.getWorldObj().getTileEntity(base.xCoord, base.yCoord - 1, base.zCoord)).setDropps(items);
 			((TileCharcoalKiln)base.getWorldObj().getTileEntity(base.xCoord, base.yCoord, base.zCoord)).isConsumed = true;
 			base.getWorldObj().setBlock(base.xCoord, base.yCoord, base.zCoord, Blocks.air);

@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.common.inventory.ContainerBase;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

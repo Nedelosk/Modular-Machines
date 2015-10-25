@@ -2,13 +2,13 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.machine.cen
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipe;
-import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

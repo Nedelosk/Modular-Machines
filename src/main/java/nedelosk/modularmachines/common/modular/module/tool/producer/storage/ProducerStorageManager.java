@@ -2,11 +2,11 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.storage;
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.ProducerManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorageManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.nedeloskcore.api.machines.IContainerBase;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -49,7 +49,7 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
-		return 0;
+		return 3;
 	}
 
 }

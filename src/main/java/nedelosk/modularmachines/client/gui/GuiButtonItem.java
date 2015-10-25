@@ -2,8 +2,8 @@ package nedelosk.modularmachines.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.forestday.api.guis.Button;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
-import nedelosk.nedeloskcore.api.machines.Button;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;

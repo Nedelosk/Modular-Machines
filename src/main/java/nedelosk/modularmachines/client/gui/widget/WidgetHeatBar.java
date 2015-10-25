@@ -2,9 +2,9 @@ package nedelosk.modularmachines.client.gui.widget;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.utils.RenderUtils;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestday.utils.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;

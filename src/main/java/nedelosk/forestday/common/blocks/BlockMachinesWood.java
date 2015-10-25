@@ -8,9 +8,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileKiln;
+import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
+import nedelosk.forestday.common.core.managers.FItemManager;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
-import nedelosk.forestday.common.managers.FItemManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,7 +51,7 @@ public class BlockMachinesWood extends BlockMachines {
 	
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-		return new ItemStack(FItemManager.curb.item(), 1, 0);
+		return new ItemStack(FItemManager.Curb.item(), 1, 0);
 	}
 	
 	@Override

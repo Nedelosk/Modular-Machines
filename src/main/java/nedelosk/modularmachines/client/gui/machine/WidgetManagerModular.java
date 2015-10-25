@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.client.gui.machine;
 
+import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestday.client.gui.WidgetManager;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.client.gui.WidgetManager;
 
 public class WidgetManagerModular extends WidgetManager<GuiModularMachine> {
 

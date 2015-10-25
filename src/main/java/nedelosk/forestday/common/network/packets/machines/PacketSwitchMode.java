@@ -3,7 +3,7 @@ package nedelosk.forestday.common.network.packets.machines;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench.Mode;
-import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
+import nedelosk.forestday.common.network.packets.PacketTileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

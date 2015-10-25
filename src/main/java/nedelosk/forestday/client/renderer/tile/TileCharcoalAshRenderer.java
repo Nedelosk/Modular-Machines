@@ -3,7 +3,7 @@ package nedelosk.forestday.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
-import nedelosk.nedeloskcore.utils.RenderUtils;
+import nedelosk.forestday.utils.RenderUtils;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;

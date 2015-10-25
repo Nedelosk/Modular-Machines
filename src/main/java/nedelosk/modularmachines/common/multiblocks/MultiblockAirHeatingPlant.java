@@ -1,18 +1,18 @@
 package nedelosk.modularmachines.common.multiblocks;
 
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiAirHeatingPlant;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipe;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipeManager;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerAirHeatingPlant;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -85,7 +85,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		switch (pattern) {
 		case 'B':
 		{
-            if (block != NCBlockManager.Multiblock.block())
+            if (block != FBlockManager.Multiblock.block())
             {
                 return false;
             }
@@ -93,7 +93,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		}
 		case 'J':
 		{
-            if (block != NCBlockManager.Multiblock.block())
+            if (block != FBlockManager.Multiblock.block())
             {
                 return false;
             }
@@ -101,11 +101,11 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
                	multiblock.modifier.filter = "fluid";
             	multiblock.modifier.valveType = ValveType.OUTPUT;
@@ -114,11 +114,11 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
             	multiblock.modifier.filter = "gas";
             	multiblock.modifier.valveType = ValveType.OUTPUT;
@@ -127,11 +127,11 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		}
 		case 'N':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
             	multiblock.modifier.valveType = ValveType.INPUT;
             }
@@ -147,7 +147,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		}
 		case 'O':
 		{
-            if (block == NCBlockManager.Multiblock_Valve.block() || block == NCBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
+            if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
             {
                 return false;
             }

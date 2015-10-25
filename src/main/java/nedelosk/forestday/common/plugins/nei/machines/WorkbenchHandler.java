@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
+import nedelosk.forestday.common.crafting.WorkbenchRecipe;
+import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;

@@ -3,8 +3,8 @@ package nedelosk.forestday.common.plugins.minetweaker.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
+import nedelosk.forestday.common.crafting.WorkbenchRecipe;
+import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import net.minecraft.item.ItemStack;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;

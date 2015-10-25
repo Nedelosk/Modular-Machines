@@ -2,6 +2,7 @@ package nedelosk.modularmachines.common;
 
 import java.io.File;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -13,10 +14,9 @@ import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
-import nedelosk.nedeloskcore.common.core.NedeloskCore;
 import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = "ModularMachines", version = "0.3.1", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:NedeloskCore;required-after:ForestDay;after:ThermalExpansion")
+@Mod(modid = "ModularMachines", version = "0.3.2", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:ForestDay;after:ThermalExpansion")
 public class ModularMachines
 {
 	public static Configuration config;
@@ -33,7 +33,7 @@ public class ModularMachines
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        File configFolderModularMachines = new File(NedeloskCore.configFolder, "modular-machines");
+        File configFolderModularMachines = new File(Loader.instance().getConfigDir(), "Modular-Machines");
         File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
         config = new Configuration(configFileModularMachines);
         configFolder = configFolderModularMachines;

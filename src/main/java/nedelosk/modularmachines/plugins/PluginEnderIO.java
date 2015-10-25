@@ -2,6 +2,7 @@ package nedelosk.modularmachines.plugins;
 
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestday.plugins.basic.Plugin;
 import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
@@ -9,7 +10,6 @@ import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerBattery;
 import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerCapacitor;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTank;
-import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

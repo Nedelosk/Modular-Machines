@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.modular.machines.modular.handlers;
 
-import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import nedelosk.forestday.api.INBTTagable;
 
 public class EnergyHandler implements IEnergyHandler, INBTTagable {
 

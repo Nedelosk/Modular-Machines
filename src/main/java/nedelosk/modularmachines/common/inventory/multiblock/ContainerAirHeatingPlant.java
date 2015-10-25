@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
+import nedelosk.forestday.common.inventory.ContainerBase;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ContainerAirHeatingPlant extends ContainerBase<TileMultiblockBase<MultiblockAirHeatingPlant>> {

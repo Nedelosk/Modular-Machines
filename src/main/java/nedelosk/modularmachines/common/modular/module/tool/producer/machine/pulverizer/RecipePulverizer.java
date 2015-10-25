@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer;
 
+import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.modularmachines.api.recipes.Recipe;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
-import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 
 public class RecipePulverizer extends Recipe {

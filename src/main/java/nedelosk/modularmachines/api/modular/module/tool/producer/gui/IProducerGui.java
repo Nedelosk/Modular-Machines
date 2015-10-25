@@ -2,12 +2,12 @@ package nedelosk.modularmachines.api.modular.module.tool.producer.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 

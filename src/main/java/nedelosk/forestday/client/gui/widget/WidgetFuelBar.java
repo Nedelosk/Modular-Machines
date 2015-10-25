@@ -3,10 +3,11 @@ package nedelosk.forestday.client.gui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import nedelosk.forestday.utils.RenderUtils;
 
 public class WidgetFuelBar extends Gui {
 

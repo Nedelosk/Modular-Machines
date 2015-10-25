@@ -1,13 +1,13 @@
 package nedelosk.modularmachines.common.proxy;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseGui;
-import nedelosk.nedeloskcore.common.blocks.tile.TileBaseInventory;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.network.IGuiHandler;
+import nedelosk.forestday.common.blocks.tiles.TileBaseGui;
+import nedelosk.forestday.common.blocks.tiles.TileBaseInventory;
 
 public class CommonProxy implements IGuiHandler {
 

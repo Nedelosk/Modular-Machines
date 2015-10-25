@@ -1,17 +1,23 @@
 package nedelosk.modularmachines.common.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import nedelosk.forestday.utils.WorldUtils;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ModularMachineBlock extends ModularBlock {
@@ -56,20 +62,52 @@ public class ModularMachineBlock extends ModularBlock {
 	}
 	
 	@Override
-	protected void dropBlockAsItem(World p_149642_1_, int p_149642_2_, int p_149642_3_, int p_149642_4_, ItemStack p_149642_5_) {
-		super.dropBlockAsItem(p_149642_1_, p_149642_2_, p_149642_3_, p_149642_4_, p_149642_5_);
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof IModularTileEntity){
+			IModularTileEntity modular = (IModularTileEntity) tile;
+			EntityPlayer player = WorldUtils.getPlayer(world, modular.getOwner());
+			if(player == null || !player.capabilities.isCreativeMode){
+				ItemStack stack = new ItemStack(block, 1, meta);
+				NBTTagCompound nbtTag = new NBTTagCompound();
+				modular.writeToNBT(nbtTag);
+				stack.setTagCompound(nbtTag);
+				WorldUtils.dropItem(world, x, y, z, stack);
+			}
+		}
+		super.breakBlock(world, x, y, z, block, meta);
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		ItemStack stack = new ItemStack(this);
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof IModularTileEntity){
+			IModularTileEntity modular = (IModularTileEntity) tile;
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			modular.writeToNBT(nbtTag);
+			stack.setTagCompound(nbtTag);
+		}
+		return stack;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return new ArrayList<ItemStack>();
 	}
 	
 	 @Override
-	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-		  super.onBlockPlacedBy(world, x, y, z, player, stack);
-		  int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		  TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);
-		  tile.facing = getFacingForHeading(heading);
+	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+		  super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		  int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		  IModularTileEntity tile = (IModularTileEntity) world.getTileEntity(x, y, z);
+		  tile.setFacing(getFacingForHeading(heading));
 		  if(world.isRemote) {
 			  return;
 		  }
-		    world.markBlockForUpdate(x, y, z);
+		  EntityPlayer player = (EntityPlayer) entity;
+		  tile.setOwner(player.getGameProfile());
+		  world.markBlockForUpdate(x, y, z);
 	  }
 	  
 	  protected short getFacingForHeading(int heading) {

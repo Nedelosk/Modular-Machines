@@ -2,12 +2,12 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.fluids.mana
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.INBTTagable;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankDirection;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankFilter;
 import nedelosk.modularmachines.client.gui.widget.WidgetFluidTankPriority;
-import nedelosk.nedeloskcore.api.INBTTagable;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;

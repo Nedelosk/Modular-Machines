@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.client.gui.GuiBase;
+import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -14,7 +14,7 @@ public class GuiCokeOven extends GuiBase<TileMultiblockBase<MultiblockCokeOven>>
 
 	public GuiCokeOven(TileMultiblockBase<MultiblockCokeOven> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		if(tile.getBlockType() == NCBlockManager.Multiblock.block())
+		if(tile.getBlockType() == FBlockManager.Multiblock.block())
 		{
 			widgetManager.add(new WidgetHeatBar(tile.master.getMultiblock().heat, tile.master.getMultiblock().heatTotal, 82, 8));
 		}
@@ -60,7 +60,7 @@ public class GuiCokeOven extends GuiBase<TileMultiblockBase<MultiblockCokeOven>>
 
 	@Override
 	protected String getGuiName() {
-		if(tile.getBlockType() == NCBlockManager.Multiblock_Valve.block())
+		if(tile.getBlockType() == FBlockManager.Multiblock_Valve.block())
 			return "gui_blastfurnace_fluid";
 		return "gui_coke_oven";
 	}

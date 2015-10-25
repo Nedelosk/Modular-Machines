@@ -2,7 +2,7 @@ package nedelosk.forestday.common.core;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
-import nedelosk.forestday.common.managers.BlockManager;
+import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.types.WoodType;
 import nedelosk.forestday.common.types.WoodTypeManager;
 import nedelosk.forestday.common.types.WoodTypeManager.WoodTypeStack;
@@ -39,7 +39,7 @@ public class EventHandler {
 					for(int yPos = 0;yPos < 2;yPos++){
 						Block block = world.getBlock(x + xPos - 1, y + yPos - 1, z + zPos - 1);
 						int damage = world.getBlockMetadata(x + xPos - 1, y + yPos - 1, z + zPos - 1);
-						if(world.setBlock(x + xPos - 1, y + yPos - 1, z + zPos - 1, BlockManager.Multiblock_Charcoal_Kiln.block())){
+						if(world.setBlock(x + xPos - 1, y + yPos - 1, z + zPos - 1, FBlockManager.Multiblock_Charcoal_Kiln.block())){
 							TileCharcoalKiln kiln = (TileCharcoalKiln) world.getTileEntity(x + xPos - 1, y + yPos - 1, z + zPos - 1);
 							WoodType type;
 							if(WoodTypeManager.woodTypes.equals(new WoodTypeStack(block, damage)))

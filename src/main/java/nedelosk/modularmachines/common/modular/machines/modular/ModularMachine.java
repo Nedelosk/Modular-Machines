@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.common.modular.machines.modular;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
@@ -15,8 +14,6 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProduc
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.common.modular.machines.modular.handlers.EnergyHandler;
-import nedelosk.modularmachines.common.modular.machines.modular.handlers.FluidHandler;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

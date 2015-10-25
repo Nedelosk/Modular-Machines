@@ -3,11 +3,10 @@ package nedelosk.forestday.common.blocks.tiles;
 import nedelosk.forestday.api.crafting.ITool;
 import nedelosk.forestday.api.crafting.IUnfinished;
 import nedelosk.forestday.client.gui.GuiWorkbench;
-import nedelosk.forestday.common.configs.ForestdayConfig;
+import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.common.crafting.WorkbenchRecipe;
+import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerWorkbench;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipe;
-import nedelosk.forestday.common.machines.base.wood.workbench.WorkbenchRecipeManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -167,7 +166,7 @@ public class TileWorkbench extends TileMachineBase {
 				decrStackSize(0, (recipe.getInput() != null) ? recipe.getInput().stackSize : recipe.getsInput().stackSize);
 				output = recipe.getOutput();
 				burnTime = 0;
-				burnTimeTotal = (recipe.getBurnTime() == -1) ? ForestdayConfig.worktableBurnTime : recipe.getBurnTime();
+				burnTimeTotal = (recipe.getBurnTime() == -1) ? ForestDayConfig.worktableBurnTime : recipe.getBurnTime();
 				isWorking = true;
 			}
 		}

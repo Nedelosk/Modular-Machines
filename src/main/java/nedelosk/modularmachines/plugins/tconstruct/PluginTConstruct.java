@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.plugins.tconstruct;
 
+import nedelosk.forestday.plugins.basic.Plugin;
 import nedelosk.modularmachines.common.config.ModularConfig;
-import nedelosk.nedeloskcore.plugins.basic.Plugin;
 
 public class PluginTConstruct extends Plugin{
 

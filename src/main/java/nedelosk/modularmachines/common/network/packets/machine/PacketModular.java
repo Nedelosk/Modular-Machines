@@ -1,11 +1,11 @@
 package nedelosk.modularmachines.common.network.packets.machine;
 
 import io.netty.buffer.ByteBuf;
+import nedelosk.forestday.common.network.packets.PacketTileEntity;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.network.packets.saver.ModularSaveModule;
 import nedelosk.modularmachines.common.network.packets.saver.ModularTileEntitySave;
-import nedelosk.nedeloskcore.common.network.packets.PacketTileEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

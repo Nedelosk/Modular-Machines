@@ -1,6 +1,5 @@
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 
 public interface IWorkbenchRecipe {

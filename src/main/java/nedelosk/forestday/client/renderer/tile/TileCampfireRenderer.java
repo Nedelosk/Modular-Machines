@@ -2,8 +2,8 @@ package nedelosk.forestday.client.renderer.tile;
 
 import nedelosk.forestday.client.renderer.model.ModelCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
-import nedelosk.forestday.common.configs.ForestdayConfig;
-import nedelosk.nedeloskcore.utils.RenderUtils;
+import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.utils.RenderUtils;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -35,18 +35,18 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		}
 		if(((TileCampfire)entity).getStackInSlot(4) != null)
 		{
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + ForestdayConfig.campfireCurbs[((TileCampfire)entity).getStackInSlot(4).getItemDamage()] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + ForestDayConfig.campfireCurbs[((TileCampfire)entity).getStackInSlot(4).getItemDamage()] + ".png"));
 			model.renderCubs();
 		}
 		if(((TileCampfire)entity).getStackInSlot(5) != null)
 		{
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestdayConfig.campfirePotHolders[((TileCampfire)entity).getStackInSlot(5).getItemDamage()] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestDayConfig.campfirePotHolders[((TileCampfire)entity).getStackInSlot(5).getItemDamage()] + ".png"));
 			model.renderPotHolder();
 		}
 		if(((TileCampfire)entity).getStackInSlot(6) != null)
 		{
 		    
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestdayConfig.campfirePots[((TileCampfire)entity).getStackInSlot(6).getItemDamage()] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestDayConfig.campfirePots[((TileCampfire)entity).getStackInSlot(6).getItemDamage()] + ".png"));
 			model.renderPot();
 		
 		}
@@ -62,19 +62,19 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 		if(texture == "curb")
 		{
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + ForestdayConfig.campfireCurbs[meta] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + ForestDayConfig.campfireCurbs[meta] + ".png"));
 			model.renderCubs();
 		}
 		else if(texture == "pot_holder")
 		{
 			GL11.glTranslated(0, 0.2, 0);
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestdayConfig.campfirePotHolders[meta] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestDayConfig.campfirePotHolders[meta] + ".png"));
 			model.renderPotHolder();
 		}
 		else if(texture == "pot")
 		{
 			GL11.glTranslated(0, 0.7, 0);
-			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestdayConfig.campfirePots[meta] + ".png"));
+			RenderUtils.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestDayConfig.campfirePots[meta] + ".png"));
 			model.renderPot();
 		}
 		GL11.glPopMatrix();

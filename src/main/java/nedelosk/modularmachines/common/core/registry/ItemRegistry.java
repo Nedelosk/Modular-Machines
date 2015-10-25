@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.common.core.registry;
 
+import nedelosk.forestday.common.items.materials.ItemIngot;
+import nedelosk.forestday.common.items.materials.ItemNugget;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemCapacitor;
 import nedelosk.modularmachines.common.items.ItemMachineComponent;
@@ -8,8 +10,6 @@ import nedelosk.modularmachines.common.items.ModularMetaItem;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
-import nedelosk.nedeloskcore.common.items.ItemIngot;
-import nedelosk.nedeloskcore.common.items.ItemNugget;
 
 public class ItemRegistry {
 	

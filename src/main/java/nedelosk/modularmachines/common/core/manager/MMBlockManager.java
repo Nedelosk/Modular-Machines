@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.core.manager;
 
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.forestday.common.core.registry.FRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -20,12 +20,12 @@ public enum MMBlockManager {
 
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass) {
 		this.block = block;
-		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
+		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
 	}
 	
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass, Object... objects) {
 		this.block = block;
-		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);
+		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);
 	}
 
 	public boolean isItemEqual(ItemStack stack) {

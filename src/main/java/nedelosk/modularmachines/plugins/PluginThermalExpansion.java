@@ -1,13 +1,10 @@
 package nedelosk.modularmachines.plugins;
 
-import java.util.Map;
-
 import cofh.api.energy.EnergyStorage;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestday.plugins.basic.Plugin;
 import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.basic.basic.Module;
 import nedelosk.modularmachines.api.modular.module.basic.basic.ModuleBasic;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modular.type.Types.Type;
@@ -17,7 +14,6 @@ import nedelosk.modularmachines.common.modular.module.tool.producer.energy.Produ
 import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerCapacitor;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTank;
 import nedelosk.modularmachines.common.modular.module.tool.producer.storage.ProducerChest;
-import nedelosk.nedeloskcore.plugins.basic.Plugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

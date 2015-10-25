@@ -1,8 +1,7 @@
 package nedelosk.forestday.common.blocks.tiles;
 
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.forestday.common.types.WoodType;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.ObjectRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileCharcoalKiln extends TileMultiblockBase {
@@ -11,7 +10,7 @@ public class TileCharcoalKiln extends TileMultiblockBase {
 	public boolean isConsumed;
 	
 	public TileCharcoalKiln() {
-		super(ObjectRegistry.WOOD);
+		super();
 	}
 	
 	public void setType(WoodType type) {

@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.modularmachines.common.core.TabModularMachines;
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -56,7 +56,7 @@ public class ModularMetaItem extends ModularItem {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NCRegistry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage(), "mm");
+        return FRegistry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage(), "mm");
     }
 
 }

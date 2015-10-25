@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.core.manager;
 
 import nedelosk.modularmachines.common.items.ItemMachineComponent;
-import nedelosk.nedeloskcore.common.core.registry.NCItemManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
@@ -23,7 +22,6 @@ public class OreDictionaryManager {
 		registerOre("dustBronze", new ItemStack(MMItemManager.Dusts.item(), 1, 10));
 		registerOre("dustInvar", new ItemStack(MMItemManager.Dusts.item(), 1, 11));
 		registerOre("dustRuby", new ItemStack(MMItemManager.Dusts.item(), 1, 12));
-		registerOre("gearWood", new ItemStack(NCItemManager.Gears_Wood.item(), 1, 1));
 		registerOre("ingotBronze", new ItemStack(MMItemManager.Alloy_Ingots.item(), 1, 0));
 		registerOre("ingotInvar", new ItemStack(MMItemManager.Alloy_Ingots.item(), 1, 1));
 		registerOre("nuggetBronze", new ItemStack(MMItemManager.Alloy_Nuggets.item(), 1, 0));

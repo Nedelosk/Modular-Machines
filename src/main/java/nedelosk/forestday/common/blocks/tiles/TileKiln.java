@@ -1,12 +1,11 @@
 package nedelosk.forestday.common.blocks.tiles;
 
 import nedelosk.forestday.client.gui.GuiKiln;
-import nedelosk.forestday.common.configs.ForestdayConfig;
+import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.common.crafting.KilnRecipe;
+import nedelosk.forestday.common.crafting.KilnRecipeManager;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
 import nedelosk.forestday.common.inventory.ContainerKiln;
-import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipe;
-import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipeManager;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -33,7 +32,7 @@ public class TileKiln extends TileMachineBase implements IFluidHandler {
 	
 	public TileKiln() {
 		super(4);
-		burnTimeTotal = ForestdayConfig.kilnBurnTime;
+		burnTimeTotal = ForestDayConfig.kilnBurnTime;
 	}
 	
 	@Override
@@ -156,7 +155,7 @@ public class TileKiln extends TileMachineBase implements IFluidHandler {
 	}
 	
 	public int getScaledHeat(int maxWidth) {
-		return (this.heat > 0) ? (this.heat * maxWidth) / ForestdayConfig.kilnMinHeat : 0 ;
+		return (this.heat > 0) ? (this.heat * maxWidth) / ForestDayConfig.kilnMinHeat : 0 ;
 	}
 
 	@Override
@@ -168,7 +167,7 @@ public class TileKiln extends TileMachineBase implements IFluidHandler {
 	public void updateServer() {
 		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		int lavaSources = 0;
-		if(heat < ForestdayConfig.kilnMaxHeat){
+		if(heat < ForestDayConfig.kilnMaxHeat){
 			if(!tankLava.isEmpty()){
 				if(heatTimer >= 25){
 					if(tankLava.drain(2, true) != null)
@@ -201,7 +200,7 @@ public class TileKiln extends TileMachineBase implements IFluidHandler {
 		}
     	if(!this.tank1.isFull() && !this.tank2.isFull())
     	{
-	    	if(heat >= ForestdayConfig.kilnMinHeat)
+	    	if(heat >= ForestDayConfig.kilnMinHeat)
 	    	{
 		    	if(burnTime < burnTimeTotal)
 		    	{

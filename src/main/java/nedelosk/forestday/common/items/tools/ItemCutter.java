@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.items.tools;
 
-import nedelosk.forestday.common.registrys.BlockRegistry;
+import nedelosk.forestday.common.core.registry.BlockRegistry;
 import net.minecraft.item.ItemStack;
 
 public class ItemCutter extends ItemToolCrafting

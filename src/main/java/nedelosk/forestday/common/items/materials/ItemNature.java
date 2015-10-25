@@ -5,8 +5,8 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
-import nedelosk.nedeloskcore.common.items.ItemForest;
+import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestday.common.items.base.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -54,7 +54,7 @@ public class ItemNature extends ItemForest {
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return NCRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
+        return FRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
     }
 
 }

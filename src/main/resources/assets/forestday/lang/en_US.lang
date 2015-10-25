@@ -8,18 +8,25 @@ forest.fd.block.wood_base.3.name=Resin Kiln
 tile.corn.name=Corn
 forest.fd.item.tile.kiln.charcoal.0.name=Charcoal Kiln
 forest.fd.item.tile.kiln.charcoal.1.name=Charcoal Ash
+forest.fd.item.tile.oreforestday.0.name=Copper Ore
+forest.fd.item.tile.oreforestday.1.name=Tin Ore
+forest.fd.item.tile.oreforestday.2.name=Silver Ore
+forest.fd.item.tile.oreforestday.3.name=Lead Ore
+forest.fd.item.tile.oreforestday.4.name=Nickel Ore
+forest.fd.item.tile.oreforestday.5.name=Ruby Ore
 
 ####################################
 Fluids
 ####################################
 fluid.tar=Molten Tar
-forest.nc.block.tar.name=Molten Tar
+forest.fd.block.tar.name=Molten Tar
 fluid.resin=Molten Resin
-forest.nc.block.resin.name=Molten Resin
+forest.fd.block.resin.name=Molten Resin
 fluid.rubber=Molten Rubber
-forest.nc.block.rubber.name=Molten Rubber
+forest.fd.block.rubber.name=Molten Rubber
 fluid.lubricant=Molten Lubricant
-forest.nc.block.lubricant.name=Molten Lubricant
+forest.fd.block.lubricant.name=Molten Lubricant
+nc.tooltip.nonefluid=None Fluid
 
 ####################################
 Items
@@ -74,6 +81,31 @@ forest.fd.item.parts.8.name=Adze Head
 forest.fd.item.parts.9.name=Long Adze Head
 forest.fd.item.parts.10.name=Adze Handle
 forest.fd.item.parts.11.name=Long Adze Handle
+
+forest.fd.item.plan.0.name=Plan
+forest.fd.item.plan.1.name=Blueprint
+forest.fd.item.plan.2.name=Planning Tool
+forest.fd.item.bucket.wood.name=Wood Bucket
+forest.fd.item.bucket.wood.water.name=Wood Water Bucket
+forest.fd.item.ingot.forestday.0.name=Cooper Ingot
+forest.fd.item.ingot.forestday.1.name=Tin Ingot
+forest.fd.item.ingot.forestday.2.name=Silver Ingot
+forest.fd.item.ingot.forestday.3.name=Lead Ingot
+forest.fd.item.ingot.forestday.4.name=Nickel Ingot
+forest.fd.item.nugget.forestday.0.name=Cooper Nugget
+forest.fd.item.nugget.forestday.1.name=Tin Nugget
+forest.fd.item.nugget.forestday.2.name=Silver Nugget
+forest.fd.item.nugget.forestday.3.name=Lead Nugget
+forest.fd.item.nugget.forestday.4.name=Nickel Nugget
+forest.fd.item.nugget.forestday.5.name=Iron Nugget
+forest.fd.item.gear.wood.0.name=Improved Wood Gear
+forest.fd.item.gear.wood.1.name=Wood Gear
+forest.fd.item.gear.wood.2.name=Unfinished Wood Gear
+forest.fd.item.gear.wood.3.name=Unfinished Wood Gear
+forest.fd.item.gear.wood.4.name=Unfinished Wood Gear
+forest.fd.item.gear.wood.5.name=Unfinished Wood Gear
+forest.fd.item.multiblock.name=Multiblock
+forest.fd.item.multiblock_valve.name=Multiblock Valve
 
 ####################################
 Containers

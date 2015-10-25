@@ -3,8 +3,8 @@ package nedelosk.forestday.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
-import nedelosk.forestday.common.managers.BlockManager;
-import nedelosk.nedeloskcore.utils.RenderUtils;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.utils.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -29,7 +29,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			
 			RenderUtils.bindBlockTexture();
 			
-			IIcon loamIcon = BlockManager.Gravel.block().getIcon(0, 0);
+			IIcon loamIcon = FBlockManager.Gravel.block().getIcon(0, 0);
 			IIcon woodIcon = Block.getBlockFromItem(kiln.type.wood.getItem()).getIcon(4, kiln.type.wood.getItemDamage());
 			if(kiln.isMaster){
 				renderTop(loamIcon, woodIcon);

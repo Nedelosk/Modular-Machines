@@ -4,13 +4,13 @@ import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
 
-public class ForestdayConfig {
+public class ForestDayConfig {
 	
-	public static void loadConfig(File file)
-	{
+	public static void loadConfig(File file){
 		Configuration config = new Configuration(file);
 		
-		config.load();	
+		config.load();
+		
 		//Resin Kiln
 		kilnBurnTime = config.get("Kiln", "BurnTime", 700).getInt();
 		kilnMinHeat = config.get("Kiln", "MinHeat", 125).getInt();
@@ -31,6 +31,9 @@ public class ForestdayConfig {
 		
 		//Charcoal Kiln
 		charcoalKilnBurnTime = config.get("Charcoal Kiln", "BurnTime", 12000).getInt();
+		
+		//Ores
+		generateOre = config.get("World Generation", "Ore Generation", new boolean[]{ true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel.").getBooleanList();
 		
 		config.save();
 		
@@ -55,5 +58,7 @@ public class ForestdayConfig {
 	public static String[] campfirePotHolders;
 	
 	public static int charcoalKilnBurnTime;
+	
+	public static boolean[] generateOre;
 
 }

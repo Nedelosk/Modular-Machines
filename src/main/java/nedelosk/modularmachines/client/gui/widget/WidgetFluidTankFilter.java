@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestday.utils.RenderUtils;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularSelection;
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;

@@ -2,7 +2,6 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

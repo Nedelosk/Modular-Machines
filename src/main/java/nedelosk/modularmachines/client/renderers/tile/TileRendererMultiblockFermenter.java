@@ -3,9 +3,9 @@ package nedelosk.modularmachines.client.renderers.tile;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.utils.RenderUtils;
 import nedelosk.modularmachines.client.renderers.model.ModelFermenter;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.utils.RenderUtils;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

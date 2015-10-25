@@ -1,20 +1,19 @@
 package nedelosk.modularmachines.common.multiblocks;
 
+import nedelosk.forestday.api.crafting.OreStack;
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiBlastFurnace;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerBlastFurnace;
-import nedelosk.nedeloskcore.api.Material.MaterialType;
-import nedelosk.nedeloskcore.api.crafting.OreStack;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveTypeString;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -105,7 +104,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		switch (pattern) {
 		case 'B':
 		{
-            if (block != NCBlockManager.Multiblock.block() || multiblock == null)
+            if (block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
@@ -113,7 +112,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'J':
 		{
-            if (block != NCBlockManager.Multiblock.block() || multiblock == null)
+            if (block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
@@ -121,11 +120,11 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() ||  multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() ||  multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
             	multiblock.modifier.filter = "output";
             	multiblock.modifier.valveType = ValveType.OUTPUT;
@@ -134,11 +133,11 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'S':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.BRICK)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
 				multiblock.modifier.filter = "slag";
 	          	multiblock.modifier.valveType = ValveType.OUTPUT;
@@ -155,11 +154,11 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'C':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
             	multiblock.modifier.filter = "gas.blastfurnace";
             	multiblock.modifier.valveType = ValveType.OUTPUT;
@@ -168,11 +167,11 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'F':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
             	multiblock.modifier.filter = "air.hot";
               	multiblock.modifier.valveType = ValveType.INPUT;
@@ -181,11 +180,11 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'I':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() && block != NCBlockManager.Multiblock.block() ||  multiblock == null || multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block() ||  multiblock == null)
             {
                 return false;
             }
-            else if(block == NCBlockManager.Multiblock_Valve.block())
+            else if(block == FBlockManager.Multiblock_Valve.block())
             {
               	multiblock.modifier.valveType = ValveType.INPUT;
             }
@@ -193,7 +192,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'M':
 		{
-            if (block != NCBlockManager.Multiblock.block() && multiblock == null || multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock.block() && multiblock == null)
             {
                 return false;
             }
@@ -201,7 +200,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		}
 		case 'O':
 		{
-            if (block == NCBlockManager.Multiblock.block() || block == NCBlockManager.Multiblock_Valve.block() || tile instanceof TileMultiblockBase)
+            if (block == FBlockManager.Multiblock.block() || block == FBlockManager.Multiblock_Valve.block() || tile instanceof TileMultiblockBase)
             {
                 return false;
             }

@@ -3,8 +3,8 @@ package nedelosk.modularmachines.common.crafting;
 import java.util.ArrayList;
 import java.util.List;
 
+import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.modularmachines.api.multiblocks.IBlastFurnaceRecipe;
-import nedelosk.nedeloskcore.api.crafting.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;

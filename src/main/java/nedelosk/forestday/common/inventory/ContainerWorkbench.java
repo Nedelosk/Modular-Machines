@@ -1,8 +1,7 @@
 package nedelosk.forestday.common.inventory;
 
+import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
-import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 

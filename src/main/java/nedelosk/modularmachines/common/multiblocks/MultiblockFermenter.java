@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.fluids.FluidTankNedelosk;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererMultiblockFermenter;
@@ -11,13 +17,6 @@ import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager.FermenterRecipe;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerFermenter;
-import nedelosk.nedeloskcore.api.Material.MaterialType;
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
-import nedelosk.nedeloskcore.common.fluids.FluidTankNedelosk;
-import nedelosk.nedeloskcore.utils.NBTUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -134,7 +133,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 		case 'J':
 		case 'M':
 		{
-            if (block != NCBlockManager.Multiblock.block() || multiblock == null || multiblock.material == null ||  multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock.block() || multiblock == null)
             {
                 return false;
             }
@@ -142,7 +141,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 		}
 		case 'V':
 		{
-            if (block != NCBlockManager.Multiblock_Valve.block() || multiblock == null || multiblock.material == null || multiblock.material.type != MaterialType.METAL)
+            if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null)
             {
                 return false;
             }
@@ -150,7 +149,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 		}
 		case 'O':
 		{
-            if (block == NCBlockManager.Multiblock_Valve.block() || block == NCBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
+            if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
             {
                 return false;
             }

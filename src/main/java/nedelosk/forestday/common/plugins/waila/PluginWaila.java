@@ -6,7 +6,7 @@ import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileKiln;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileCampfire;
 import nedelosk.forestday.common.plugins.waila.provider.machines.ProviderTileKiln;
-import nedelosk.nedeloskcore.plugins.basic.Plugin;
+import nedelosk.forestday.plugins.basic.Plugin;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 

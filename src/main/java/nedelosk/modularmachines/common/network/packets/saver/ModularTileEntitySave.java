@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.network.packets.saver;
 
-import nedelosk.nedeloskcore.api.INBTTagable;
+import nedelosk.forestday.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModularTileEntitySave implements INBTTagable {

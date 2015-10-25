@@ -6,7 +6,7 @@ import java.util.List;
 
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
-import nedelosk.forestday.common.machines.base.wood.kiln.KilnRecipeManager;
+import nedelosk.forestday.common.crafting.KilnRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 

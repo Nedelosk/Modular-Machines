@@ -2,10 +2,10 @@ package nedelosk.modularmachines.api.modular.machines.manager;
 
 import java.util.ArrayList;
 
+import nedelosk.forestday.api.INBTTagable;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.nedeloskcore.api.INBTTagable;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 

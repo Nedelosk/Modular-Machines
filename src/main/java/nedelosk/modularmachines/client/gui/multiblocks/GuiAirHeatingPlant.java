@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.client.gui.GuiBase;
+import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
+import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;
 import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
-import nedelosk.nedeloskcore.client.gui.widget.WidgetFluidTank;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.core.registry.NCBlockManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -14,7 +14,7 @@ public class GuiAirHeatingPlant extends GuiBase<TileMultiblockBase<MultiblockAir
 
 	public GuiAirHeatingPlant(TileMultiblockBase<MultiblockAirHeatingPlant> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		if(tile.getBlockType() != NCBlockManager.Multiblock.block() && tile.master != null)
+		if(tile.getBlockType() != FBlockManager.Multiblock.block() && tile.master != null)
 		{
 			if(tile.modifier.valveType == ValveType.INPUT)
 					widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tankInput, 79, 12));
@@ -23,7 +23,7 @@ public class GuiAirHeatingPlant extends GuiBase<TileMultiblockBase<MultiblockAir
 			else if(tile.modifier.filter == "fluid")
 				widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank, 79, 12));
 		}
-		else if(tile.getBlockType() == NCBlockManager.Multiblock.block())
+		else if(tile.getBlockType() == FBlockManager.Multiblock.block())
 		{
 			widgetManager.add(new WidgetHeatBar(tile.master.getMultiblock().heat, tile.master.getMultiblock().heatTotal, 82, 8));
 		}

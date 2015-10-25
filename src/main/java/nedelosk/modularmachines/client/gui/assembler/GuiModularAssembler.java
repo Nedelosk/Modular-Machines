@@ -3,6 +3,8 @@ package nedelosk.modularmachines.client.gui.assembler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
+import nedelosk.forestday.api.guis.Button;
+import nedelosk.forestday.client.gui.GuiBase;
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
@@ -13,8 +15,6 @@ import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssem
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
-import nedelosk.nedeloskcore.api.machines.Button;
-import nedelosk.nedeloskcore.client.gui.GuiBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;

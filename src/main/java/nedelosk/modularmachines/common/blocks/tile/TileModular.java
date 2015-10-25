@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
+import nedelosk.forestday.api.Log;
+import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
-import nedelosk.nedeloskcore.api.Log;
-import nedelosk.nedeloskcore.common.blocks.tile.TileMachineBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;

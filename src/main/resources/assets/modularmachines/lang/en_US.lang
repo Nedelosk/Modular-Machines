@@ -84,23 +84,23 @@ tile.metal.block.name=Metal Block
 Fluids
 ####################################
 fluid.air_hot=Air Hot
-forest.nc.block.air_hot.name=Air Hot
+forest.fd.block.air_hot.name=Air Hot
 fluid.air=Air
 forest.nc.block.air.name=Air
 fluid.slag=Slag
-forest.nc.block.slag.name=Slag
+forest.fd.block.slag.name=Slag
 fluid.steel=Molten Steel
-forest.nc.block.steel.name=Molten Steel
+forest.fd.block.steel.name=Molten Steel
 fluid.gas_blastfurnace=Gas Blastfurnace
-forest.nc.block.gas_blastfurnace.name=Gas Blastfurnace
+forest.fd.block.gas_blastfurnace.name=Gas Blastfurnace
 fluid.white_pig_iron=Molten White Pig Iron
-forest.nc.block.white_pig_iron.name=Molten White Pig Iron
+forest.fd.block.white_pig_iron.name=Molten White Pig Iron
 fluid.gray_pig_iron=Molten Gray Pig Iron
-forest.nc.block.gray_pig_iron.name=Molten Gray Pig Iron
+forest.fd.block.gray_pig_iron.name=Molten Gray Pig Iron
 fluid.niobium=Molten Niobium
-forest.nc.block.niobium.name=Molten Niobium
+forest.fd.block.niobium.name=Molten Niobium
 fluid.tantalum=Molten Tantalum
-forest.nc.block.tantalum.name=Molten Tantalum
+forest.fd.block.tantalum.name=Molten Tantalum
 
 ####################################
 Item

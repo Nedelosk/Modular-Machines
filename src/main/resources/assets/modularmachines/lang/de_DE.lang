@@ -77,23 +77,23 @@ tile.metal.block.name=Metal Block
 Fluids
 ####################################
 fluid.air_hot=Heisse Luft
-forest.nc.block.air_hot.name=Heisse Luft
+forest.fd.block.air_hot.name=Heisse Luft
 fluid.air=Luft
-forest.nc.block.air.name=Luft
+forest.fd.block.air.name=Luft
 fluid.slag=Schlacke
-forest.nc.block.slag.name=Schlacke
+forest.fd.block.slag.name=Schlacke
 fluid.steel=Geschmolzener Stahl
-forest.nc.block.steel.name=Geschmolzener Stahl
+forest.fd.block.steel.name=Geschmolzener Stahl
 fluid.gas_blastfurnace=Gichtgas
-forest.nc.block.gas_blastfurnace.name=Gichtgas
+forest.fd.block.gas_blastfurnace.name=Gichtgas
 fluid.white_pig_iron=Geschmolzenes Weisses Roh Eisen
-forest.nc.block.white_pig_iron.name=Geschmolzenes Weisses Roh Eisen
+forest.fd.block.white_pig_iron.name=Geschmolzenes Weisses Roh Eisen
 fluid.gray_pig_iron=Geschmolzenes Graues Roh Eisen
-forest.nc.block.gray_pig_iron.name=Geschmolzenes Graues Roh Eisen
+forest.fd.block.gray_pig_iron.name=Geschmolzenes Graues Roh Eisen
 fluid.niobium=Geschmolzenes Niobium
-forest.nc.block.niobium.name=Geschmolzenes Niobium
+forest.fd.block.niobium.name=Geschmolzenes Niobium
 fluid.tantalum=Geschmolzenes Tantalum
-forest.nc.block.tantalum.name=Geschmolzenes Tantalum
+forest.fd.block.tantalum.name=Geschmolzenes Tantalum
 
 
 ####################################

@@ -1,7 +1,6 @@
 package nedelosk.forestday.common.inventory;
 
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
-import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
