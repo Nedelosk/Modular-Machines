@@ -10,16 +10,12 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum FBlockManager {
 
-	Multiblock,
-	Multiblock_Valve,
-	Multiblock_Charcoal_Kiln,
-	
-	Ore,
-	Gravel,
-	Crop_Corn,
-	
+	Multiblock, Multiblock_Valve, Multiblock_Charcoal_Kiln,
+
+	Ore, Gravel, Crop_Corn,
+
 	Machine_Wood_Base;
-	
+
 	private Block block;
 
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass) {

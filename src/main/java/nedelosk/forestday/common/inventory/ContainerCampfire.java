@@ -16,7 +16,7 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 		addSlotToContainer(new Slot(inventoryBase, 1, 43, 35));
 		addSlotToContainer(new Slot(inventoryBase, 2, 65, 53));
 		addSlotToContainer(new Slot(inventoryBase, 3, 116, 35));
-		
+
 	}
 
 }

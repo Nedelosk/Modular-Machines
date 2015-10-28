@@ -23,7 +23,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	@Override
 	public void add(Widget slot) {
-		if(!widgets.contains(slot))
+		if (!widgets.contains(slot))
 			this.widgets.add(slot);
 	}
 
@@ -57,12 +57,10 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		GuiBase.getItemRenderer().zLevel = 0.0F;
 
 	}
-	
-	public void drawTooltip(int mX, int mY)
-	{
-		for(Widget slot : widgets)
-		{
-			if(slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop()))
+
+	public void drawTooltip(int mX, int mY) {
+		for (Widget slot : widgets) {
+			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop()))
 				RenderUtils.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip());
 		}
 	}

@@ -10,18 +10,17 @@ import nedelosk.modularmachines.api.multiblocks.IBlastFurnaceRecipe;
 import net.minecraftforge.fluids.Fluid;
 
 public class ModularMachinesApi {
-	
+
 	public static IBlastFurnaceRecipe blastFurnace;
-	
+
 	public static IAirHeatingPlantRecipe airHeatingPlant;
-	
+
 	public static final ArrayList<Fluid> airHeatingPlantGas = Lists.newArrayList();
-	
+
 	public static final HashMap<Fluid, Integer> fermenterFluid = Maps.newHashMap();
-	
-	public static void addAirHeatingPlantGas(Fluid fluid)
-	{
+
+	public static void addAirHeatingPlantGas(Fluid fluid) {
 		airHeatingPlantGas.add(fluid);
 	}
-	
+
 }

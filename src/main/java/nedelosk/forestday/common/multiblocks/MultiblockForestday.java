@@ -23,16 +23,15 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 	public MultiblockPattern createPattern() {
 		return null;
 	}
-	
+
 	@Override
 	public IIcon getIcon(int side, ITileMultiblock tile) {
 		return null;
 	}
-	
+
 	@Override
-	public float[] getBlockBounds()
-	{
-		return new float[]{0,0,0,1,1,1};
+	public float[] getBlockBounds() {
+		return new float[] { 0, 0, 0, 1, 1, 1 };
 	}
 
 	@Override
@@ -42,12 +41,12 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 
 	@Override
 	public void updateMultiblock() {
-		
+
 	}
-	
+
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
-		
+
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile) {
 		return false;
 	}
-	
+
 	@Override
 	public TileEntitySpecialRenderer getRenderer() {
 		return null;
@@ -67,7 +66,7 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 
 	@Override
 	public void onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side) {
-		
+
 	}
 
 	@Override
@@ -82,14 +81,14 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 
 	@Override
 	public void updateClient(ITileMultiblock base) {
-		
+
 	}
 
 	@Override
 	public void updateServer(ITileMultiblock base) {
-		
+
 	}
-	
+
 	@Override
 	public boolean hasBlockActivatedFunction() {
 		return false;

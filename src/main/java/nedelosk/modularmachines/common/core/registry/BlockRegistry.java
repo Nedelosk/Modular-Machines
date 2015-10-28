@@ -16,28 +16,29 @@ import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
 import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
 
 public class BlockRegistry {
-	
+
 	public static String[] oreOtherOres = new String[] { "Columbite", "Aluminum" };
-	
-	public static void preInit(){
-		//Blocks
+
+	public static void preInit() {
+		// Blocks
 		MMBlockManager.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
 		MMBlockManager.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
-		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class, new Object[]{ "modular.machine" });
-		
+		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class,
+				new Object[] { "modular.machine" });
+
 		registerTile();
-		
+
 		new MultiblockAirHeatingPlant();
 		new MultiblockBlastFurnace();
 		new MultiblockCokeOven();
 		new MultiblockFermenter();
-		
+
 	}
-	
-	public static void registerTile(){
+
+	public static void registerTile() {
 		GameRegistry.registerTileEntity(TileModularAssembler.class, "tile.modular.assenbler");
 		GameRegistry.registerTileEntity(TileModular.class, "tile.modular");
-		
+
 	}
-	
+
 }

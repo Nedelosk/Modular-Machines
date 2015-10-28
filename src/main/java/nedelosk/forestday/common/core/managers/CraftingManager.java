@@ -51,8 +51,7 @@ public class CraftingManager {
 		addWoodRecipes();
 	}
 	
-	public static void addNormalRecipes()
-	{
+	public static void addNormalRecipes(){
 		addShapelessRecipe(new ItemStack(FBlockManager.Gravel.item()), Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.gravel, Blocks.gravel, Blocks.gravel, Blocks.gravel, Blocks.sand);
 		
 		addShapelessRecipe(new ItemStack(FItemManager.Axe_Flint.item()), Items.stick, Items.stick, Items.flint, Items.flint);
@@ -104,8 +103,7 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(FItemManager.Nuggets.item(), 9, 4), new ItemStack(FItemManager.Ingots.item(), 1, 4));
 	}
 	
-	public static void addWoodRecipes()
-	{
+	public static void addWoodRecipes(){
 		woodManager.add(new ItemStack(Blocks.log, 1, 0), new ItemStack(Items.coal, 2, 1));
 		woodManager.add(new ItemStack(Blocks.log, 1, 1), new ItemStack(Items.coal, 1, 1), new ItemStack(FItemManager.Nature.item(), 1, 3));
 		woodManager.add(new ItemStack(Blocks.log, 1, 2), new ItemStack(Items.coal, 2, 1));
@@ -115,18 +113,18 @@ public class CraftingManager {
 		kilnResin.addRecipe(new ItemStack(FItemManager.Nature.item(), 9, 3), new ItemStack(FItemManager.Nature.item(), 9, 3), new ItemStack(FItemManager.Nature.item(), 1, 2), new ItemStack(FItemManager.Nature.item(), 1, 2));
 	}
 	
-	public static void addWorkbenchRecipes()
-	{
+	public static void addWorkbenchRecipes(){
 		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolFile"), new ItemStack(FItemManager.Gears_Wood.item(), 1, 5), ForestDayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(FItemManager.Gears_Wood.item(), 1, 5), new OreStack("toolFile"), new ItemStack(FItemManager.Gears_Wood.item(), 1, 4), ForestDayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(FItemManager.Gears_Wood.item(), 1, 4), new OreStack("toolFile"), new ItemStack(FItemManager.Gears_Wood.item(), 1, 3), ForestDayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(FItemManager.Gears_Wood.item(), 1, 3), new OreStack("toolFile"), new ItemStack(FItemManager.Gears_Wood.item(), 1, 2), ForestDayConfig.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(FItemManager.Gears_Wood.item(), 1, 2), new OreStack("toolFile"), new ItemStack(FItemManager.Gears_Wood.item(), 1, 1), ForestDayConfig.worktableBurnTime);
-		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolFile"), new ItemStack(FItemManager.Bucket_Wood.item()), ForestDayConfig.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolKnife"), new ItemStack(FItemManager.Bucket_Wood.item()), ForestDayConfig.worktableBurnTime);
+		workbench.addOutput(new ItemStack(FItemManager.Bucket_Wood.item()));
+		workbench.addOutput(new ItemStack(FItemManager.Gears_Wood.item(), 1, 1));
 	}
 	
-	public static void addMachineRecipes()
-	{
+	public static void addMachineRecipes(){
 		
 		//Furenace
 		CraftingHelper.removeAnyRecipe(new ItemStack(Blocks.furnace));
@@ -153,8 +151,7 @@ public class CraftingManager {
 		
 	}
 	
-	public static void addCampfireRecipes()
-	{
+	public static void addCampfireRecipes(){
 		campfire.addRecipe(new ItemStack(Blocks.red_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew),  0, 25);
 		campfire.addRecipe(new ItemStack(Blocks.brown_mushroom), new ItemStack(Items.bowl),  new ItemStack(Items.mushroom_stew),  0, 25);
 		campfire.addRecipe(new ItemStack(Items.beef), new ItemStack(Items.cooked_beef), 0, 25);
@@ -165,13 +162,11 @@ public class CraftingManager {
 		campfire.addRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.stone), 0, 10);
 	}
 	
-	public static void addShapedRecipe(ItemStack stack, Object... obj)
-	{
+	public static void addShapedRecipe(ItemStack stack, Object... obj){
 		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
 	}
 	
-	public static void addShapelessRecipe(ItemStack stack, Object... obj)
-	{
+	public static void addShapelessRecipe(ItemStack stack, Object... obj){
 		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
 	

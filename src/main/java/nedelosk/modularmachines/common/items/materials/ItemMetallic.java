@@ -17,45 +17,40 @@ public class ItemMetallic extends ItemForest {
 
 	public String[] material = new String[] { "coke" };
 	@SideOnly(Side.CLIENT)
-    public IIcon[] itemIcon;
-	
+	public IIcon[] itemIcon;
+
 	public ItemMetallic() {
 		super(null, TabModularMachines.core);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
 
 	}
-	
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons (IIconRegister iconRegister)
-    {
-        this.itemIcon = new IIcon[material.length];
 
-        for (int i = 0; i < this.itemIcon.length; ++i)
-        {
-            this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
-        }
-    }
-    
-    @Override
-    public void getSubItems (Item id, CreativeTabs tab, List list)
-    {
-        for (int i = 0; i < material.length; i++)
-            list.add(new ItemStack(id, 1, i));
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIconFromDamage (int meta)
-    {
-        return itemIcon[meta];
-    }
-    
-    @Override
-    public String getUnlocalizedName (ItemStack itemstack)
-    {
-        return FRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "mm");
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		this.itemIcon = new IIcon[material.length];
+
+		for (int i = 0; i < this.itemIcon.length; ++i) {
+			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
+		}
+	}
+
+	@Override
+	public void getSubItems(Item id, CreativeTabs tab, List list) {
+		for (int i = 0; i < material.length; i++)
+			list.add(new ItemStack(id, 1, i));
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemIcon[meta];
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return FRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "mm");
+	}
 
 }

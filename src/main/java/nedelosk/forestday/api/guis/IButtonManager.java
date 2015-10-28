@@ -7,6 +7,6 @@ public interface IButtonManager {
 	void add(Button slot);
 
 	void remove(Button slot);
-	
+
 	ArrayList<Button> getButtons();
 }

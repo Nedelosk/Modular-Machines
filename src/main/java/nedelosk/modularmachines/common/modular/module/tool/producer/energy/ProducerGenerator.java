@@ -11,9 +11,9 @@ public abstract class ProducerGenerator extends ProducerMachine implements IProd
 	public ProducerGenerator(String modifier) {
 		super(modifier);
 	}
-	
+
 	public ProducerGenerator(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
-	
+
 }

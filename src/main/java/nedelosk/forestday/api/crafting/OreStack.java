@@ -7,27 +7,26 @@ public class OreStack implements INBTTagable {
 
 	public String oreDict;
 	public int stackSize;
-	
+
 	public OreStack(String oreDict) {
 		this.oreDict = oreDict;
 		this.stackSize = 1;
 	}
-	
+
 	public OreStack(String oreDict, int stackSize) {
 		this.oreDict = oreDict;
 		this.stackSize = stackSize;
 	}
-	
+
 	public int getStackSize() {
 		return stackSize;
 	}
-	
+
 	public String getOreDict() {
 		return oreDict;
 	}
-	
-	public static OreStack loadOreStackFromNBT(NBTTagCompound nbt)
-	{
+
+	public static OreStack loadOreStackFromNBT(NBTTagCompound nbt) {
 		return new OreStack(nbt.getString("oreDict"), nbt.getInteger("stackSize"));
 	}
 
@@ -42,5 +41,5 @@ public class OreStack implements INBTTagable {
 		nbt.setString("oreDict", oreDict);
 		nbt.setInteger("stackSize", stackSize);
 	}
-	
+
 }

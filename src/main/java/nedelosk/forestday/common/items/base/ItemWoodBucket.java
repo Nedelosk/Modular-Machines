@@ -11,29 +11,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemWoodBucket extends ItemBucket {
-	
-    public ItemWoodBucket(Block contents, String name)
-    {
-    	super(contents);
-        setUnlocalizedName(FRegistry.setUnlocalizedItemName(name, "nc"));
-        this.setTextureName("forestday:" + "bucket.wood." + contents.getUnlocalizedName().replaceAll("tile.", ""));
-        this.setCreativeTab(CreativeTabs.tabMisc);
-    }
 
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        ItemStack result = super.onItemRightClick(itemStack, world, player);
+	public ItemWoodBucket(Block contents, String name) {
+		super(contents);
+		setUnlocalizedName(FRegistry.setUnlocalizedItemName(name, "fd"));
+		setTextureName("forestday:" + "bucket.wood." + contents.getUnlocalizedName().replaceAll("tile.", ""));
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
 
-        if(result.getItem() == Items.bucket) {
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+		ItemStack result = super.onItemRightClick(itemStack, world, player);
 
-            return new ItemStack(FItemManager.Bucket_Wood.item());
-        }
-        
-        if(result.getItem() == Items.water_bucket) return new ItemStack(FItemManager.Bucket_Wood_Water.item());
-        if(result.getItem() == Items.lava_bucket){
-        	player.setFire(10);
-        	return new ItemStack(FItemManager.Bucket_Wood_Water.item(), 0);
-        }
-        return result;
-    }
+		if (result.getItem() == Items.bucket) {
+
+			return new ItemStack(FItemManager.Bucket_Wood.item());
+		}
+
+		if (result.getItem() == Items.water_bucket)
+			return new ItemStack(FItemManager.Bucket_Wood_Water.item());
+		if (result.getItem() == Items.lava_bucket) {
+			player.setFire(10);
+			return new ItemStack(FItemManager.Bucket_Wood_Water.item(), 0);
+		}
+		return result;
+	}
 }

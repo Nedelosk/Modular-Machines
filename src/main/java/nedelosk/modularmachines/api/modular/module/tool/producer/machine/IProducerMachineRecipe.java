@@ -8,13 +8,17 @@ import nedelosk.modularmachines.api.recipes.RecipeInput;
 public interface IProducerMachineRecipe extends IProducerMachine {
 
 	boolean addOutput(IModular modular, ModuleStack stack);
-	
+
 	boolean removeInput(IModular modular, ModuleStack stack);
-	
+
 	String getRecipeName(ModuleStack stack);
-	
+
 	RecipeInput[] getInputs(IModular modular, ModuleStack stack);
-	
+
 	IRecipeManager getRecipeManager(ModuleStack stack);
 	
+	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs);
+	
+	IRecipeManager creatRecipeManager();
+
 }

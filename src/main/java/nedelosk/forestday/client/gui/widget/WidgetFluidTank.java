@@ -18,7 +18,8 @@ import org.lwjgl.opengl.GL11;
 
 public class WidgetFluidTank extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestday", "textures/gui/widgets/widget_fluid_tank.png");
+	private final ResourceLocation widget = new ResourceLocation("forestday",
+			"textures/gui/widgets/widget_fluid_tank.png");
 	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
@@ -29,7 +30,7 @@ public class WidgetFluidTank extends Widget {
 		this.posX = posX;
 		this.posY = posY;
 	}
-	
+
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY, int ID) {
 		super(posX, posY, 18, 60);
 		this.tank = tank;
@@ -37,11 +38,9 @@ public class WidgetFluidTank extends Widget {
 		this.posY = posY;
 		this.ID = ID;
 	}
-	
+
 	@Override
 	public void draw(IGuiBase gui) {
-		if (this.tank == null)
-			return;
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -51,21 +50,26 @@ public class WidgetFluidTank extends Widget {
 
 		int iconHeightRemainder = (60 - 4) % 16;
 
-		FluidStack fluid = this.tank.getFluid();
-		if (fluid != null && fluid.amount > 0) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		if (tank != null) {
+			FluidStack fluid = this.tank.getFluid();
+			if (fluid != null && fluid.amount > 0) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
-			IIcon fluidIcon = fluid.getFluid().getStillIcon();
+				IIcon fluidIcon = fluid.getFluid().getStillIcon();
 
-			if (iconHeightRemainder > 0) {
-				drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, fluidIcon, 16, iconHeightRemainder);
+				if (iconHeightRemainder > 0) {
+					drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1,
+							fluidIcon, 16, iconHeightRemainder);
+				}
+				for (int i = 0; i < (60 - 6) / 16; i++) {
+					drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1,
+							gui.getGuiTop() + this.posY + 1 + i * 16 + iconHeightRemainder, fluidIcon, 16, 18);
+				}
+
+				RenderUtils.bindTexture(widget);
+				drawTexturedModalRect(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, 1, 1, 16,
+						72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
 			}
-			for (int i = 0; i < (60 - 6) / 16; i++) {
-				drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1 + i * 16 + iconHeightRemainder, fluidIcon, 16, 18);
-			}
-
-			RenderUtils.bindTexture(widget);
-			drawTexturedModalRect(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, 1, 1, 16, 72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
 		}
 
 		RenderUtils.bindTexture(widget);
@@ -73,30 +77,28 @@ public class WidgetFluidTank extends Widget {
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
-	
+
 	@Override
 	public ArrayList<String> getTooltip() {
 		ArrayList<String> description = new ArrayList<String>();
 
-		if(tank.getFluidAmount() == 0)
-		{
+		if (tank == null || tank.getFluidAmount() == 0) {
 			description.add(StatCollector.translateToLocal("nc.tooltip.nonefluid"));
-		}
-		else{
-		description.add(tank.getFluidAmount() + " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity() + " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
+		} else {
+			description.add(tank.getFluidAmount() + " "
+					+ StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity()
+					+ " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
 		}
 		return description;
 	}
 
 	public void drawTooltip(int x, int y) {
-
 		List<String> description = new ArrayList<String>();
 
-		if(tank.getFluidAmount() == 0)
-		{
-		}
-		else{
-		description.add(tank.getFluidAmount() + " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity() + " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
+		if (tank != null && tank.getFluidAmount() > 0) {
+			description.add(tank.getFluidAmount() + " "
+					+ StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity()
+					+ " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
 		}
 		RenderUtils.renderTooltip(x, y, description);
 	}

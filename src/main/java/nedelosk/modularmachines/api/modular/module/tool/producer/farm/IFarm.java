@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 public interface IFarm {
 
 	void updateFarm(ModuleStack stack, IModular modular);
-	
+
 	String getName();
-	
+
 }

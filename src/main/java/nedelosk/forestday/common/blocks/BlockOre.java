@@ -21,7 +21,7 @@ public class BlockOre extends BlockForest {
 	public String[] ore;
 	public IIcon[] oreIcon;
 	public String modID;
-	
+
 	public BlockOre(String[] ores, String modID) {
 		super(Material.ground, CreativeTabs.tabBlock);
 		this.ore = ores;
@@ -32,16 +32,15 @@ public class BlockOre extends BlockForest {
 		this.setStepSound(Block.soundTypeStone);
 		this.setHarvestLevel("pickaxe", 1);
 	}
-	
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon (int side, int meta)
-    {
-        return oreIcon[meta];
-    }
-    
-    @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		return oreIcon[meta];
+	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 
 		if (metadata == 5) {
@@ -57,27 +56,24 @@ public class BlockOre extends BlockForest {
 		} else {
 			drops.add(new ItemStack(this, 1, metadata));
 		}
-    	return drops;
-    }
+		return drops;
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons (IIconRegister iconRegister)
-    {
-        this.oreIcon = new IIcon[ore.length];
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		this.oreIcon = new IIcon[ore.length];
 
-        for (int i = 0; i < this.oreIcon.length; ++i)
-        {
-            this.oreIcon[i] = iconRegister.registerIcon(this.modID + ":ore" + ore[i]);
-        }
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void getSubBlocks (Item par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
-        for (int i = 0; i < ore.length; i++)
-            par3List.add(new ItemStack(par1, 1, i));
-    }
+		for (int i = 0; i < this.oreIcon.length; ++i) {
+			this.oreIcon[i] = iconRegister.registerIcon(this.modID + ":ore" + ore[i]);
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+		for (int i = 0; i < ore.length; i++)
+			par3List.add(new ItemStack(par1, 1, i));
+	}
 
 }

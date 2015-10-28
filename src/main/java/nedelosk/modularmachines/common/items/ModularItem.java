@@ -9,5 +9,5 @@ public class ModularItem extends Item {
 		setCreativeTab(TabModularMachines.core);
 		setUnlocalizedName(uln);
 	}
-	
+
 }

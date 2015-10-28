@@ -30,17 +30,17 @@ public class ModularMachineBlock extends ModularBlock {
 		setBlockName("modular");
 		setBlockTextureName("iron_block");
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return -1;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -50,24 +50,25 @@ public class ModularMachineBlock extends ModularBlock {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileModular();
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
+			float par8, float par9) {
 		player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
 		return true;
 	}
-	
+
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
 	}
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile instanceof IModularTileEntity){
+		if (tile instanceof IModularTileEntity) {
 			IModularTileEntity modular = (IModularTileEntity) tile;
 			EntityPlayer player = WorldUtils.getPlayer(world, modular.getOwner());
-			if(player == null || !player.capabilities.isCreativeMode){
+			if (player == null || !player.capabilities.isCreativeMode) {
 				ItemStack stack = new ItemStack(block, 1, meta);
 				NBTTagCompound nbtTag = new NBTTagCompound();
 				modular.writeToNBT(nbtTag);
@@ -77,12 +78,12 @@ public class ModularMachineBlock extends ModularBlock {
 		}
 		super.breakBlock(world, x, y, z, block, meta);
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile instanceof IModularTileEntity){
+		if (tile instanceof IModularTileEntity) {
 			IModularTileEntity modular = (IModularTileEntity) tile;
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			modular.writeToNBT(nbtTag);
@@ -90,38 +91,38 @@ public class ModularMachineBlock extends ModularBlock {
 		}
 		return stack;
 	}
-	
+
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return new ArrayList<ItemStack>();
 	}
-	
-	 @Override
-	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
-		  super.onBlockPlacedBy(world, x, y, z, entity, stack);
-		  int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		  IModularTileEntity tile = (IModularTileEntity) world.getTileEntity(x, y, z);
-		  tile.setFacing(getFacingForHeading(heading));
-		  if(world.isRemote) {
-			  return;
-		  }
-		  EntityPlayer player = (EntityPlayer) entity;
-		  tile.setOwner(player.getGameProfile());
-		  world.markBlockForUpdate(x, y, z);
-	  }
-	  
-	  protected short getFacingForHeading(int heading) {
-		    switch (heading) {
-		    case 0:
-		      return 2;
-		    case 1:
-		      return 5;
-		    case 2:
-		      return 3;
-		    case 3:
-		    default:
-		      return 4;
-		    }
-	  }
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+		super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		IModularTileEntity tile = (IModularTileEntity) world.getTileEntity(x, y, z);
+		tile.setFacing(getFacingForHeading(heading));
+		if (world.isRemote) {
+			return;
+		}
+		EntityPlayer player = (EntityPlayer) entity;
+		tile.setOwner(player.getGameProfile());
+		world.markBlockForUpdate(x, y, z);
+	}
+
+	protected short getFacingForHeading(int heading) {
+		switch (heading) {
+		case 0:
+			return 2;
+		case 1:
+			return 5;
+		case 2:
+			return 3;
+		case 3:
+		default:
+			return 4;
+		}
+	}
 
 }

@@ -2,34 +2,28 @@ package nedelosk.forestday.plugins.basic;
 
 public class Plugin {
 
-	public void preInit()
-	{
-		
+	public void preInit() {
+
 	}
-	
-	public void init()
-	{
-		
+
+	public void init() {
+
 	}
-	
-	public void postInit()
-	{
-		
+
+	public void postInit() {
+
 	}
-	
-	public void registerRecipes()
-	{
-		
+
+	public void registerRecipes() {
+
 	}
-	
-	public String getRequiredMod()
-	{
+
+	public String getRequiredMod() {
 		return null;
 	}
-	
-	public boolean getConfigOption()
-	{
+
+	public boolean getConfigOption() {
 		return true;
 	}
-	
+
 }

@@ -10,60 +10,50 @@ import nedelosk.forestday.api.Log;
 public class PluginManager {
 
 	public ArrayList<Plugin> plugins = new ArrayList<Plugin>();
-	
-	public void registerPlugin(Plugin plugin)
-	{
+
+	public void registerPlugin(Plugin plugin) {
 		plugins.add(plugin);
 		Log.logPluginManager(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());
 	}
-	
-	public void preInitPlugins()
-	{
-		for(Plugin plugin : plugins)
-		{
-			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
-			{
+
+	public void preInitPlugins() {
+		for (Plugin plugin : plugins) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+					&& plugin.getConfigOption()) {
 				plugin.preInit();
 			}
 		}
 	}
-	
-	public void postInitPlugins()
-	{
-		for(Plugin plugin : plugins)
-		{
-			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
-			{
+
+	public void postInitPlugins() {
+		for (Plugin plugin : plugins) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+					&& plugin.getConfigOption()) {
 				plugin.postInit();
 			}
 		}
 	}
-	
-	public void initPlugins()
-	{
-		for(Plugin plugin : plugins)
-		{
-			if((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption())
-			{
+
+	public void initPlugins() {
+		for (Plugin plugin : plugins) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
+					&& plugin.getConfigOption()) {
 				plugin.init();
 				plugin.registerRecipes();
 			}
 		}
 	}
-	
-	public void preInit()
-	{
+
+	public void preInit() {
 		preInitPlugins();
 	}
-	
-	public void init()
-	{
+
+	public void init() {
 		initPlugins();
 	}
-	
-	public void postInit()
-	{
+
+	public void postInit() {
 		postInitPlugins();
 	}
-	
+
 }

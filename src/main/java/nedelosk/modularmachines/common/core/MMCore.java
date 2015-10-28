@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.Fluid;
 public class MMCore {
 
 	PluginManager pluginManager = new PluginManager();
-	
+
 	public static Fluid White_Pig_Iron;
 	public static Fluid Gray_Pig_Iron;
 	public static Fluid Steel;
@@ -30,40 +30,36 @@ public class MMCore {
 	public static Fluid Gas_Blastfurnace;
 	public static Fluid Air_Hot;
 	public static Fluid Air;
-	
-	public void preInit()
-	{
-    	MinecraftForge.EVENT_BUS.register(new EventHandler());
+
+	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModuleFactory.init();
-    	registerFluids();
-       	ModularConfig.preInit();
-    	pluginManager.registerPlugins();
+		registerFluids();
+		ModularConfig.preInit();
+		pluginManager.registerPlugins();
 		pluginManager.preInit();
-    	BlockRegistry.preInit();
-    	ItemRegistry.preInit();
-    	ModularRegistry.preInit();
-    	PacketHandler.preInit();
+		BlockRegistry.preInit();
+		ItemRegistry.preInit();
+		ModularRegistry.preInit();
+		PacketHandler.preInit();
 	}
-	
-	public void init()
-	{
+
+	public void init() {
 		OreDictionaryManager.init();
 		RecipeManager.init();
 		pluginManager.init();
 	}
-	
-	public void postInit()
-	{
+
+	public void postInit() {
 		pluginManager.postInit();
 		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
 		ModularRegistry.postInit();
 	}
-	
-	public static void registerFluids()
-	{
+
+	public static void registerFluids() {
 		White_Pig_Iron = FRegistry.registerFluid("white_pig_iron", 1500, Material.lava, true, false).setDensity(3000).setViscosity(6000);
 		Gray_Pig_Iron = FRegistry.registerFluid("gray_pig_iron", 1500, Material.lava, true, false).setDensity(3000).setViscosity(6000);
-		Steel= FRegistry.registerFluid("steel", 1500, Material.lava, true, false).setDensity(3000).setViscosity(6000);
+		Steel = FRegistry.registerFluid("steel", 1500, Material.lava, true, false).setDensity(3000).setViscosity(6000);
 		Niobium = FRegistry.registerFluid("niobium", 1000, Material.lava, true, false).setDensity(3000).setViscosity(6000);
 		Tantalum = FRegistry.registerFluid("tantalum", 1000, Material.lava, true, false).setDensity(3000).setViscosity(6000);
 		Slag = FRegistry.registerFluid("slag", 100, Material.lava, true, false).setDensity(3000).setViscosity(6000);

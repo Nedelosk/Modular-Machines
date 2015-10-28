@@ -30,9 +30,9 @@ public class WidgetFuelBar extends Gui {
 		RenderUtils.bindTexture(widget);
 		drawTexturedModalRect(this.posX, this.posY, 0, 0, 12, 69);
 
-		int fuel = (this.fuel * 69) / this.fuelMax ;
-		
-        this.drawTexturedModalRect(this.posX, this.posY + 69 - fuel, 12, 0  + 69 - fuel, 12, fuel);
+		int fuel = (this.fuel * 69) / this.fuelMax;
+
+		this.drawTexturedModalRect(this.posX, this.posY + 69 - fuel, 12, 0 + 69 - fuel, 12, fuel);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

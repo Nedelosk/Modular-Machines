@@ -8,24 +8,24 @@ import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
 public class ModuleCasing extends Module implements IModuleCasing {
-	
+
 	public ModuleCasing() {
 	}
-	
+
 	public ModuleCasing(String modifier) {
 		super(modifier);
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return "Casing";
 	}
-	
+
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.CasingRenderer(moduleStack);
 	}
-	
+
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.CasingRenderer(moduleStack);

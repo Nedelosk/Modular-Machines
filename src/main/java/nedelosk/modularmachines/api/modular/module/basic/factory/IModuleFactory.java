@@ -6,9 +6,9 @@ import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModuleFactory {
-	
+
 	<P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack);
-	
+
 	<P extends IProducer> P createProducer(String name);
-	
+
 }

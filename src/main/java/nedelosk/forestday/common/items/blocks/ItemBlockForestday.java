@@ -32,7 +32,8 @@ public class ItemBlockForestday extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return  FRegistry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage(), "fd");
+		return FRegistry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage(),
+				"fd");
 	}
 
 }

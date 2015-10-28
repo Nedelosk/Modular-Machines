@@ -27,65 +27,62 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class FRegistry {
-    
-    //Register
-    
-    public void registerFluids()
-    {
+
+	// Register
+
+	public void registerFluids() {
 		registerFluid("tar", 350, Material.lava, true, false).setDensity(3000).setViscosity(6000);
 		registerFluid("resin", 100, Material.water, true, false);
 		registerFluid("rubber", 550, Material.lava, true, false);
 		registerFluid("lubricant", 30, Material.water, true, false);
-    }
-    
-    PluginManager manangerPlugin = new PluginManager();
-    
-    public void preInit()
-    {
-    	CreativeTabs tabBlocks = Tabs.tabForestday = TabForestday.tabForestdayBlocks;
-    	
-    	registerFluids();
-    	PacketHandler.preInit();
-    	BlockRegistry.preInit();
-    	ItemRegistry.preInit();
-    	
-    	MinecraftForge.EVENT_BUS.register(new EventHandler());
-    	
-    	new MultiblockCharcoalKiln();
-    	
-    	manangerPlugin.preInit();
-    }
-    
-    public void init()
-    {
-    	OreDictionaryManager.preInit();
-    	CraftingManager.registerRecipes();
-    	manangerPlugin.init();
-    }
-    
-    public void postInit()
-    {
-    	CraftingManager.removeRecipes();
-    	manangerPlugin.postInit();
-    	GameRegistry.registerWorldGenerator(new WorldGeneratorForestDay(), 0);
-    }
-    
-	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas)
-	{
-		if(FluidRegistry.getFluid(fluidName) == null){
+	}
+
+	PluginManager manangerPlugin = new PluginManager();
+
+	public void preInit() {
+		CreativeTabs tabBlocks = Tabs.tabForestday = TabForestday.tabForestdayBlocks;
+
+		registerFluids();
+		PacketHandler.preInit();
+		BlockRegistry.preInit();
+		ItemRegistry.preInit();
+
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
+
+		new MultiblockCharcoalKiln();
+
+		manangerPlugin.preInit();
+	}
+
+	public void init() {
+		OreDictionaryManager.preInit();
+		CraftingManager.registerRecipes();
+		manangerPlugin.init();
+	}
+
+	public void postInit() {
+		CraftingManager.removeRecipes();
+		manangerPlugin.postInit();
+		GameRegistry.registerWorldGenerator(new WorldGeneratorForestDay(), 0);
+	}
+
+	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket,
+			boolean isGas) {
+		if (FluidRegistry.getFluid(fluidName) == null) {
 			Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
-			if(material == Material.lava)
+			if (material == Material.lava)
 				fluid.setLuminosity(12);
-			if(isGas)
+			if (isGas)
 				fluid.isGaseous();
 			FluidRegistry.registerFluid(fluid);
 			Block fluidBlock = new FluidBlock(fluid, material, fluidName);
 			fluid.setUnlocalizedName(fluidName);
 			GameRegistry.registerBlock(fluidBlock, "fluid_" + fluidName);
 		}
-		if(createBucket){
+		if (createBucket) {
 			Item bucket = new FluidBucket(FluidRegistry.getFluid(fluidName).getBlock(), fluidName);
-			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket), new ItemStack(Items.bucket));
+			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket),
+					new ItemStack(Items.bucket));
 			BucketHandler.INSTANCE.buckets.put(FluidRegistry.getFluid(fluidName).getBlock(), bucket);
 			GameRegistry.registerItem(bucket, "bucket_" + fluidName);
 			return FluidRegistry.getFluid(fluidName);
@@ -102,8 +99,9 @@ public class FRegistry {
 		GameRegistry.registerBlock(block, itemblock, name);
 		return block;
 	}
-	
-	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName, Object... objects) {
+
+	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName,
+			Object... objects) {
 		GameRegistry.registerBlock(block, itemblock, name, objects);
 		return block;
 	}
@@ -124,5 +122,5 @@ public class FRegistry {
 	public static String setUnlocalizedItemName(String name, String modName) {
 		return "forest." + modName + ".item." + name;
 	}
-    
+
 }

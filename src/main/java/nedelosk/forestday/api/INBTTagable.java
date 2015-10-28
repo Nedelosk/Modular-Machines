@@ -7,5 +7,5 @@ public interface INBTTagable {
 	void readFromNBT(NBTTagCompound nbt);
 
 	void writeToNBT(NBTTagCompound nbt);
-	
+
 }

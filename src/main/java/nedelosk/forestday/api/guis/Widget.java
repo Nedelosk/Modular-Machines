@@ -20,7 +20,7 @@ public class Widget<I extends IInventory> extends Gui {
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	public void draw(IGuiBase<I> gui) {
 	}
 
@@ -33,15 +33,15 @@ public class Widget<I extends IInventory> extends Gui {
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
-		
+
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if(w.posX == posX && w.posY == posY)
+		if (w.posX == posX && w.posY == posY)
 			return true;
 		return false;
 	}
-	
+
 }

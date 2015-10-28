@@ -10,34 +10,34 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	public ModularInventory() {
 		inventoryManager = new ModularInventoryManager(this);
 	}
-	
+
 	public ModularInventory(NBTTagCompound nbt) {
 		super(nbt);
 	}
-	
+
 	protected IModularInventoryManager inventoryManager;
-	
+
 	@Override
 	public IModularInventoryManager getInventoryManager() {
 		return inventoryManager;
 	}
-	
+
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) throws Exception{
+	public void writeToNBT(NBTTagCompound nbt) throws Exception {
 		super.writeToNBT(nbt);
 		NBTTagCompound inventory = new NBTTagCompound();
-		if(inventoryManager == null)
+		if (inventoryManager == null)
 			inventoryManager = new ModularInventoryManager(this);
 		inventoryManager.writeToNBT(inventory);
 		nbt.setTag("InventoryManager", inventory);
 	}
-	
+
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) throws Exception{
+	public void readFromNBT(NBTTagCompound nbt) throws Exception {
 		super.readFromNBT(nbt);
-		if(inventoryManager == null)
+		if (inventoryManager == null)
 			inventoryManager = new ModularInventoryManager(this);
 		inventoryManager.readFromNBT(nbt.getCompoundTag("InventoryManager"));
 	}
-	
+
 }

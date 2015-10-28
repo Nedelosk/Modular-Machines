@@ -14,29 +14,30 @@ public class WoodTypeManager implements IWoodTypeManager {
 
 	@Override
 	public void add(ItemStack wood, ItemStack... dropps) {
-		woodTypes.put(new WoodTypeStack(Block.getBlockFromItem(wood.getItem()), wood.getItemDamage()), new WoodType(wood, dropps));
+		woodTypes.put(new WoodTypeStack(Block.getBlockFromItem(wood.getItem()), wood.getItemDamage()),
+				new WoodType(wood, dropps));
 	}
-	
-	public static class WoodTypeStack{
-		
+
+	public static class WoodTypeStack {
+
 		public Block block;
 		public int damage;
-		
+
 		public WoodTypeStack(Block block, int damage) {
 			this.block = block;
 			this.damage = damage;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(obj instanceof WoodTypeStack){
+			if (obj instanceof WoodTypeStack) {
 				WoodTypeStack stack = (WoodTypeStack) obj;
-				if(stack.block == block && stack.damage == damage)
+				if (stack.block == block && stack.damage == damage)
 					return false;
 			}
 			return false;
 		}
-		
+
 	}
-	
+
 }

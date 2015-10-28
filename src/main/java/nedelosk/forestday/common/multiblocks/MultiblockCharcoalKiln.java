@@ -18,30 +18,18 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 
 	@Override
 	public MultiblockPattern createPattern() {
-		char[][] charcoal = { {  'O', 'O', 'O', 'O', 'O', },
-			              {	 'O', 'C', 'C', 'C', 'O', },
-			              {  'O', 'C', 'C', 'C', 'O', },
-			              {  'O', 'C', 'C', 'C', 'O', },
-			              {  'O', 'O', 'O', 'O', 'O', },
-			              };
-		
-		char[][] charcoal_O = { {  'O', 'O', 'O', 'O', 'O', },
-							{  'O', 'O', 'O', 'O', 'O', },
-							{  'O', 'O', 'O', 'O', 'O', },
-							{  'O', 'O', 'O', 'O', 'O', },
-							{  'O', 'O', 'O', 'O', 'O', },
-		  				};
-		
-		char[][] charcoal_Master = { {  'O', 'O', 'O', 'O', 'O', },
-			                     {  'O', 'C', 'C', 'C', 'O', },
-		                       {  'O', 'C', 'M', 'C', 'O', },
-		                       {  'O', 'C', 'C', 'C', 'O', },
-		                       {  'O', 'O', 'O', 'O', 'O', },
-		                       };
-		
+		char[][] charcoal = { { 'O', 'O', 'O', 'O', 'O', }, { 'O', 'C', 'C', 'C', 'O', }, { 'O', 'C', 'C', 'C', 'O', },
+				{ 'O', 'C', 'C', 'C', 'O', }, { 'O', 'O', 'O', 'O', 'O', }, };
+
+		char[][] charcoal_O = { { 'O', 'O', 'O', 'O', 'O', }, { 'O', 'O', 'O', 'O', 'O', },
+				{ 'O', 'O', 'O', 'O', 'O', }, { 'O', 'O', 'O', 'O', 'O', }, { 'O', 'O', 'O', 'O', 'O', }, };
+
+		char[][] charcoal_Master = { { 'O', 'O', 'O', 'O', 'O', }, { 'O', 'C', 'C', 'C', 'O', },
+				{ 'O', 'C', 'M', 'C', 'O', }, { 'O', 'C', 'C', 'C', 'O', }, { 'O', 'O', 'O', 'O', 'O', }, };
+
 		return new MultiblockPattern(new char[][][] { charcoal_O, charcoal, charcoal_Master, charcoal_O }, 2, 2, 2);
 	}
-	
+
 	@Override
 	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
@@ -49,34 +37,32 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 		TileEntity baseTile = base.getWorldObj().getTileEntity(x, y, z);
 		switch (pattern) {
 		case 'C':
-            if (block != FBlockManager.Multiblock_Charcoal_Kiln.block() && !(baseTile instanceof TileCharcoalKiln))
-            {
-                return false;
-            }
-            break;
+			if (block != FBlockManager.Multiblock_Charcoal_Kiln.block() && !(baseTile instanceof TileCharcoalKiln)) {
+				return false;
+			}
+			break;
 		case 'O':
-            if (block == FBlockManager.Multiblock_Charcoal_Kiln.block() && baseTile instanceof TileCharcoalKiln)
-            {
-                return false;
-            }
-            break;
+			if (block == FBlockManager.Multiblock_Charcoal_Kiln.block() && baseTile instanceof TileCharcoalKiln) {
+				return false;
+			}
+			break;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String getMultiblockName() {
 		return "charcoalkiln";
 	}
-	
+
 	@Override
 	public void updateServer(ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
-		if(base.burnTimeTotal == 0)
+		if (base.burnTimeTotal == 0)
 			base.burnTimeTotal = ForestDayConfig.charcoalKilnBurnTime;
-		if(!base.isWorking()) return;
-		if(base.burnTime >= base.burnTimeTotal)
-		{
+		if (!base.isWorking())
+			return;
+		if (base.burnTime >= base.burnTimeTotal) {
 			ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 			for (int x = 0; x < 3; x++) {
 				for (int z = 0; z < 3; z++) {
@@ -85,42 +71,42 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 						int zP = z + base.zCoord - 1;
 						int yP = y + base.yCoord - 1;
 
-						if(base.xCoord == xP && base.yCoord == yP && base.zCoord == zP)
-						{
-								
-						}
-						else{
-							for(ItemStack stack : ((TileCharcoalKiln)base.getWorldObj().getTileEntity(xP, yP, zP)).type.charcoalDropps)
-							{
+						if (base.xCoord == xP && base.yCoord == yP && base.zCoord == zP) {
+
+						} else {
+							for (ItemStack stack : ((TileCharcoalKiln) base.getWorldObj().getTileEntity(xP, yP,
+									zP)).type.charcoalDropps) {
 								items.add(stack);
 							}
-							((TileCharcoalKiln)base.getWorldObj().getTileEntity(xP, yP, zP)).isConsumed = true;
+							((TileCharcoalKiln) base.getWorldObj().getTileEntity(xP, yP, zP)).isConsumed = true;
 							base.getWorldObj().setBlock(xP, yP, zP, Blocks.air);
 						}
 					}
 				}
 			}
-			for(ItemStack stack : ((TileCharcoalKiln)base.getWorldObj().getTileEntity(base.xCoord, base.yCoord, base.zCoord)).type.charcoalDropps)
-			{
+			for (ItemStack stack : ((TileCharcoalKiln) base.getWorldObj().getTileEntity(base.xCoord, base.yCoord,
+					base.zCoord)).type.charcoalDropps) {
 				items.add(stack);
 			}
-			base.getWorldObj().setBlock(base.xCoord, base.yCoord - 1, base.zCoord, FBlockManager.Multiblock_Charcoal_Kiln.block(), 1, 2);
-			((TileCharcoalAsh)base.getWorldObj().getTileEntity(base.xCoord, base.yCoord - 1, base.zCoord)).setDropps(items);
-			((TileCharcoalKiln)base.getWorldObj().getTileEntity(base.xCoord, base.yCoord, base.zCoord)).isConsumed = true;
+			base.getWorldObj().setBlock(base.xCoord, base.yCoord - 1, base.zCoord,
+					FBlockManager.Multiblock_Charcoal_Kiln.block(), 1, 2);
+			((TileCharcoalAsh) base.getWorldObj().getTileEntity(base.xCoord, base.yCoord - 1, base.zCoord))
+					.setDropps(items);
+			((TileCharcoalKiln) base.getWorldObj().getTileEntity(base.xCoord, base.yCoord,
+					base.zCoord)).isConsumed = true;
 			base.getWorldObj().setBlock(base.xCoord, base.yCoord, base.zCoord, Blocks.air);
-		}
-		else
+		} else
 			base.burnTime++;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		
+
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		
+
 	}
 
 }

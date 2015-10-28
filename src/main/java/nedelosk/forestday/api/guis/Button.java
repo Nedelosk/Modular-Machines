@@ -15,17 +15,15 @@ public class Button extends GuiButton {
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-		
+
 	}
-	
-	public ArrayList<String> getTooltip()
-	{
+
+	public ArrayList<String> getTooltip() {
 		return null;
 	}
-	
-	public void onButtonClick(IGuiBase gui)
-	{
-		
+
+	public void onButtonClick(IGuiBase gui) {
+
 	}
 
 }

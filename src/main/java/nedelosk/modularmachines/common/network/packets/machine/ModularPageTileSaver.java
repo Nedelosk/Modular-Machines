@@ -1,23 +1,23 @@
-package nedelosk.modularmachines.common.network.packets.saver;
+package nedelosk.modularmachines.common.network.packets.machine;
 
 import nedelosk.forestday.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModularTileEntitySave implements INBTTagable {
+public class ModularPageTileSaver implements INBTTagable {
 
 	public int x;
 	public int y;
 	public int z;
 	public String page;
 	
-	public ModularTileEntitySave(String page, int x, int y, int z) {
+	public ModularPageTileSaver(String page, int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.page = page;
 	}
 	
-	public ModularTileEntitySave(NBTTagCompound nbt) {
+	public ModularPageTileSaver(NBTTagCompound nbt) {
 		readFromNBT(nbt);
 	}
 

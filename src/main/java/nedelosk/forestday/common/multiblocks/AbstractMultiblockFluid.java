@@ -13,7 +13,8 @@ public abstract class AbstractMultiblockFluid extends AbstractMultiblock {
 
 	public abstract int fill(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doFill);
 
-	public abstract FluidStack drain(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doDrain);
+	public abstract FluidStack drain(TileMultiblockBase tile, ForgeDirection from, FluidStack resource,
+			boolean doDrain);
 
 	public abstract FluidStack drain(TileMultiblockBase tile, ForgeDirection from, int maxDrain, boolean doDrain);
 
@@ -22,5 +23,5 @@ public abstract class AbstractMultiblockFluid extends AbstractMultiblock {
 	public abstract boolean canDrain(TileMultiblockBase tile, ForgeDirection from, Fluid fluid);
 
 	public abstract FluidTankInfo[] getTankInfo(TileMultiblockBase tile, ForgeDirection from);
-	
+
 }

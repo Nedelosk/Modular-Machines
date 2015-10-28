@@ -9,18 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
 
 public class PlayerEvents {
-	
+
 	@SubscribeEvent
-    public void stickDrop(BlockEvent.HarvestDropsEvent event)
-    {
-   	 Random r = new Random();
-   	 if(event.block == Blocks.leaves || event.block == Blocks.leaves2)
-   	 {
-   		 if(r.nextInt(16) == 1)
-   		 {
-   		 event.drops.add(new ItemStack(Items.stick));
-   		 }
-   	 }
-    }
-	
+	public void stickDrop(BlockEvent.HarvestDropsEvent event) {
+		Random r = new Random();
+		if (event.block == Blocks.leaves || event.block == Blocks.leaves2) {
+			if (r.nextInt(16) == 1) {
+				event.drops.add(new ItemStack(Items.stick));
+			}
+		}
+	}
+
 }

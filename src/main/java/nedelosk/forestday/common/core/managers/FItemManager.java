@@ -7,33 +7,16 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum FItemManager {
 
-	//Materials
-	Nature,
-	Crop_Corn,
-	
-	Bucket_Wood,
-	Bucket_Wood_Water,
-	Ingots,
-	Nuggets,
-	Gems,
-	Gears_Wood,
-	
-	//Campfire
-	Curb,
-	Pot,
-	Pot_Holder,
-	
-	//Tools
-	File_Stone,
-	File_Iron,
-	File_Diamond,
-	Knife_Stone,
-	Cutter,
-	Hammer,
-	Adze,
-	Adze_Long,
-	Axe_Flint,
-	Tool_Parts;
+	// Materials
+	Nature, Crop_Corn,
+
+	Bucket_Wood, Bucket_Wood_Water, Ingots, Nuggets, Gems, Gears_Wood,
+
+	// Campfire
+	Curb, Pot, Pot_Holder,
+
+	// Tools
+	File_Stone, File_Iron, File_Diamond, Knife_Stone, Cutter, Hammer, Adze, Adze_Long, Axe_Flint, Tool_Parts;
 
 	private Item item;
 

@@ -10,9 +10,9 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 	public ProducerInventory(String modifier) {
 		super(modifier);
 	}
-	
+
 	public ProducerInventory(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
-	
+
 }

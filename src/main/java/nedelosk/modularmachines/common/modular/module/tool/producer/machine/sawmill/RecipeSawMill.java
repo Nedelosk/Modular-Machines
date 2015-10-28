@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 public class RecipeSawMill extends Recipe {
 
 	public RecipeSawMill(ItemStack input, RecipeItem[] output, int speedModifier, int energy) {
-		super(new RecipeItem[]{new RecipeItem(input)}, output, speedModifier, energy, "SawMill");
+		super(new RecipeItem[] { new RecipeItem(input) }, output, speedModifier, energy, "SawMill");
 	}
 
 }

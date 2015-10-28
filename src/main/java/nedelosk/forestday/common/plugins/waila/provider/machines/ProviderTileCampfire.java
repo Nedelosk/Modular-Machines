@@ -16,17 +16,19 @@ public class ProviderTileCampfire implements IWailaDataProvider {
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
 		return null;
 	}
 
 	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
 		TileCampfire tile = (TileCampfire) accessor.getTileEntity();
-		
+
 		int fuel = tile.fuelStorage;
 		boolean isWorking = tile.isWorking;
-		
+
 		currenttip.add("Fuel: " + fuel);
 		currenttip.add("Is Working: " + isWorking);
 		currenttip.add("Progress: " + tile.getBurnTimeTotal() + " / " + tile.getBurnTime());
@@ -34,7 +36,8 @@ public class ProviderTileCampfire implements IWailaDataProvider {
 	}
 
 	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
 		return null;
 	}
 

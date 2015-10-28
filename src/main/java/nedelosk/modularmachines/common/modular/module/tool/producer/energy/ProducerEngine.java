@@ -20,32 +20,33 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 	public int speedModifier;
 	public String mode;
 	public float progress;
-	
+
 	public ProducerEngine(String modifier, int speedModifier, String mode) {
 		super(modifier);
 		this.speedModifier = speedModifier;
 		this.mode = mode;
 	}
-	
+
 	public ProducerEngine(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModular modular, ModuleStack stack) {
-		if(ModularUtils.getModuleStackMachine(modular).getProducer() != null && ModularUtils.getModuleStackMachine(modular).getProducer().isWorking()){
+		if (ModularUtils.getModuleStackMachine(modular).getProducer() != null
+				&& ModularUtils.getModuleStackMachine(modular).getProducer().isWorking()) {
 			progress += 0.05;
-	
+
 			if (progress > 1) {
 				progress = 0;
 			}
 			PacketHandler.INSTANCE.sendToServer(new PacketProducerEngine(modular.getMachine(), progress));
 		}
 	}
-	
+
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
 		speedModifier = nbt.getInteger("SpeedModifier");
 		mode = nbt.getString("Mode");
@@ -53,25 +54,25 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
 		nbt.setInteger("SpeedModifier", speedModifier);
 		nbt.setString("Mode", mode);
 		nbt.setFloat("Progress", progress);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.EngineRenderer(moduleStack);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.EngineRenderer(moduleStack);
 	}
-	
+
 	@Override
 	public int getSpeedModifier(int tier) {
 		return speedModifier;
@@ -81,12 +82,12 @@ public class ProducerEngine extends Producer implements IProducerEngine {
 	public String getMode() {
 		return mode;
 	}
-	
+
 	@Override
 	public float getProgress() {
 		return progress;
 	}
-	
+
 	@Override
 	public void setProgress(float progress) {
 		this.progress = progress;

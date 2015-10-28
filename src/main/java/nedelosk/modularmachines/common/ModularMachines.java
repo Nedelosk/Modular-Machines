@@ -17,46 +17,43 @@ import nedelosk.modularmachines.common.proxy.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
 
 @Mod(modid = "ModularMachines", version = "0.3.2", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:ForestDay;after:ThermalExpansion")
-public class ModularMachines
-{
+public class ModularMachines {
 	public static Configuration config;
 	public static File configFolder;
-	
+
 	@Mod.Instance("ModularMachines")
 	public static ModularMachines instance;
-    
-	@SidedProxy(clientSide="nedelosk.modularmachines.client.proxy.ClientProxy", serverSide="nedelosk.modularmachines.common.proxy.CommonProxy")
+
+	@SidedProxy(clientSide = "nedelosk.modularmachines.client.proxy.ClientProxy", serverSide = "nedelosk.modularmachines.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	MMCore registry = new MMCore();
-	
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        File configFolderModularMachines = new File(Loader.instance().getConfigDir(), "Modular-Machines");
-        File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
-        config = new Configuration(configFileModularMachines);
-        configFolder = configFolderModularMachines;
-        registry.preInit();
-    	NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-    }
-    
-    @Mod.EventHandler
-	public void init(FMLInitializationEvent event){
-        proxy.init();
-        registry.init();
-    }
-	
-    @Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event){
-        registry.postInit();
-        ModularConfig.postInit();
+
+	@Mod.EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		File configFolderModularMachines = new File(Loader.instance().getConfigDir(), "Modular-Machines");
+		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
+		config = new Configuration(configFileModularMachines);
+		configFolder = configFolderModularMachines;
+		registry.preInit();
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
 	}
-    
-    @Mod.EventHandler
-    public void serverLoad(FMLServerStartingEvent event)
-    {
-    	event.registerServerCommand(new CommandModularMachines());
-    }
-	
+
+	@Mod.EventHandler
+	public void init(FMLInitializationEvent event) {
+		proxy.init();
+		registry.init();
+	}
+
+	@Mod.EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		registry.postInit();
+		ModularConfig.postInit();
+	}
+
+	@Mod.EventHandler
+	public void serverLoad(FMLServerStartingEvent event) {
+		event.registerServerCommand(new CommandModularMachines());
+	}
+
 }

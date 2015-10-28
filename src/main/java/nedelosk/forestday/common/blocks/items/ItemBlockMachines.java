@@ -11,10 +11,11 @@ public class ItemBlockMachines extends ItemBlockForestday {
 	public ItemBlockMachines(Block block) {
 		super(block);
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return FRegistry.setUnlocalizedBlockName(((BlockMachines)getBlock()).blockName + "." + stack.getItemDamage(), "fd");
+		return FRegistry.setUnlocalizedBlockName(((BlockMachines) getBlock()).blockName + "." + stack.getItemDamage(),
+				"fd");
 	}
 
 }

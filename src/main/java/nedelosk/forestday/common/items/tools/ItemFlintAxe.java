@@ -13,7 +13,7 @@ public class ItemFlintAxe extends ItemAxe {
 		this.setTextureName("forestday:tools/axe_flint");
 		setUnlocalizedName(FRegistry.setUnlocalizedItemName("axe.flint", "fd"));
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return FRegistry.setUnlocalizedItemName("axe.flint", "fd");

@@ -13,25 +13,25 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 public class PluginWaila extends Plugin {
 
 	@Optional.Method(modid = "Waila")
-	public static void register(IWailaRegistrar registrar){
+	public static void register(IWailaRegistrar registrar) {
 		final IWailaDataProvider tileKiln = new ProviderTileKiln();
-		
-		registrar.registerBodyProvider( tileKiln, TileKiln.class);
-		
+
+		registrar.registerBodyProvider(tileKiln, TileKiln.class);
+
 		final IWailaDataProvider tileCampfire = new ProviderTileCampfire();
-		
-		registrar.registerBodyProvider( tileCampfire, TileCampfire.class);
+
+		registrar.registerBodyProvider(tileCampfire, TileCampfire.class);
 
 	}
-	
+
 	@Override
 	public String getRequiredMod() {
 		return "Waila";
 	}
-	
+
 	@Override
-	public void init(){
-		FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
+	public void init() {
+		FMLInterModComms.sendMessage("Waila", "register", PluginWaila.class.getName() + ".register");
 	}
-	
+
 }

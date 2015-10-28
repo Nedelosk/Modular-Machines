@@ -10,19 +10,17 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMBlockManager {
 
-	Ore_Others,
-	Metal_Blocks,
-	
-	Modular_Assembler,
-	Modular_Machine;
-	
+	Ore_Others, Metal_Blocks,
+
+	Modular_Assembler, Modular_Machine;
+
 	private Block block;
 
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass) {
 		this.block = block;
 		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
 	}
-	
+
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass, Object... objects) {
 		this.block = block;
 		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);

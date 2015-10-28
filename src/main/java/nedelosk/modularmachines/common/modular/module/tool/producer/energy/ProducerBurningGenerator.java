@@ -18,7 +18,7 @@ public class ProducerBurningGenerator extends ProducerGenerator implements IProd
 	public ProducerBurningGenerator(String modifier) {
 		super(modifier);
 	}
-	
+
 	public ProducerBurningGenerator(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
@@ -41,12 +41,17 @@ public class ProducerBurningGenerator extends ProducerGenerator implements IProd
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		
+
 	}
 
 	@Override
 	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
 		return null;
+	}
+
+	@Override
+	public int getColor() {
+		return 0xC9DC59;
 	}
 
 }

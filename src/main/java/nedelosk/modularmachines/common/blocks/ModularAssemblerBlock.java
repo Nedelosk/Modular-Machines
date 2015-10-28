@@ -24,17 +24,17 @@ public class ModularAssemblerBlock extends ModularBlock {
 		setBlockName("modular.assembler");
 		setBlockTextureName("iron_block");
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return -1;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -44,29 +44,31 @@ public class ModularAssemblerBlock extends ModularBlock {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileModularAssembler(meta + 1);
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
-		if(!world.isRemote){
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
+			float par8, float par9) {
+		if (!world.isRemote) {
 			player.openGui(ModularMachines.instance, 0, world, x, y, z);
 			((ContainerModularAssembler) player.openContainer).syncOnOpen((EntityPlayerMP) player);
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
-		for(int i = 0;i < 6;i++)
+		for (int i = 0; i < 6; i++)
 			list.add(new ItemStack(item, 1, i));
 	}
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		/*if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileModularAssembler)
-		{
-			TileModularAssembler tile = (TileModularAssembler) world.getTileEntity(x, y, z);
-			ItemUtils.dropItem(world, x, y, z, tile.slots);
-		}*/
+		/*
+		 * if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y,
+		 * z) instanceof TileModularAssembler) { TileModularAssembler tile =
+		 * (TileModularAssembler) world.getTileEntity(x, y, z);
+		 * ItemUtils.dropItem(world, x, y, z, tile.slots); }
+		 */
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 

@@ -11,14 +11,19 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerStorageManager extends ProducerManager implements IProducerStorageManager {
-	
+
 	private int storageSlots;
-	
+
+	public ProducerStorageManager() {
+		super("StorageManager");
+		this.storageSlots = 3;
+	}
+
 	public ProducerStorageManager(int storageSlots) {
 		super("StorageManager");
 		this.storageSlots = storageSlots;
 	}
-	
+
 	public ProducerStorageManager(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
@@ -27,18 +32,18 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	public boolean hasCustomInventoryName(ModuleStack stack) {
 		return true;
 	}
-	
+
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-		
+
 		storageSlots = nbt.getInteger("StorageSlots");
 	}
-	
+
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-		
+
 		nbt.setInteger("StorageSlots", storageSlots);
 	}
 
@@ -50,6 +55,11 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
 		return 3;
+	}
+
+	@Override
+	public int getColor() {
+		return 0xD1CA3D;
 	}
 
 }

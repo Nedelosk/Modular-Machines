@@ -32,17 +32,15 @@ public class ButtonManager implements IButtonManager {
 	public void clear() {
 		this.buttons.clear();
 	}
-	
+
 	@Override
 	public ArrayList<Button> getButtons() {
 		return buttons;
 	}
-	
-	public void rendeTooltip(int mX, int mY)
-	{
-		for(Button slot : buttons)
-		{
-			if(slot.isMouseOver(mX, mY))
+
+	public void rendeTooltip(int mX, int mY) {
+		for (Button slot : buttons) {
+			if (slot.isMouseOver(mX, mY))
 				RenderUtils.renderTooltip(mX, mY, slot.getTooltip());
 		}
 	}
@@ -56,13 +54,14 @@ public class ButtonManager implements IButtonManager {
 
 		return null;
 	}
-	
+
 	public void drawWidgets() {
 		gui.setZLevel(100.0F);
 		GuiBase.getItemRenderer().zLevel = 100.0F;
 		for (Button slot : buttons) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			slot.drawButton(minecraft, 0, 0);;
+			slot.drawButton(minecraft, 0, 0);
+			;
 		}
 		gui.setZLevel(0.0F);
 		GuiBase.getItemRenderer().zLevel = 0.0F;

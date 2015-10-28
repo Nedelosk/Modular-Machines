@@ -9,13 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileModularAssembler extends TileBaseInventory {
-	
+
 	public int tier;
-	
+
 	public TileModularAssembler() {
 		super(9);
 	}
-	
+
 	public TileModularAssembler(int tier) {
 		super(9);
 		this.tier = tier;
@@ -43,13 +43,13 @@ public class TileModularAssembler extends TileBaseInventory {
 	@Override
 	public void updateServer() {
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("Tier", tier);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -57,8 +57,7 @@ public class TileModularAssembler extends TileBaseInventory {
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int p_102008_3_) 
-	{
+	public boolean canExtractItem(int slot, ItemStack stack, int p_102008_3_) {
 		return false;
 	}
 

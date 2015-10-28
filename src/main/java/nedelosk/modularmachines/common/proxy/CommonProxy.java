@@ -8,42 +8,41 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import nedelosk.forestday.common.blocks.tiles.TileBaseGui;
 import nedelosk.forestday.common.blocks.tiles.TileBaseInventory;
+import nedelosk.modularmachines.common.network.packets.machine.ModularPageSaver;
 
 public class CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-	    TileEntity tile = world.getTileEntity(x, y, z);
-	    
-	    switch (ID) {
+		TileEntity tile = world.getTileEntity(x, y, z);
+
+		switch (ID) {
 		case 0:
-			if(tile != null && tile instanceof TileBaseGui)
-		    {
+			if (tile != null && tile instanceof TileBaseGui) {
 				return ((TileBaseInventory) tile).getContainer(player.inventory);
-		    }
+			}
 		default:
 			return null;
-	    }
+		}
 	}
-	
-	public void init(){
+
+	public void init() {
 	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-	    TileEntity tile = world.getTileEntity(x, y, z);
-	    if ((world instanceof WorldClient)) {
-		    switch (ID) {
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if ((world instanceof WorldClient)) {
+			switch (ID) {
 			case 0:
-				if(tile instanceof TileBaseGui)
-			    {
-			    	return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
-			    }
+				if (tile instanceof TileBaseGui) {
+					return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
+				}
 			default:
 				return null;
-		    }
-	    }
-	    return null;
+			}
+		}
+		return null;
 	}
-	
+
 }

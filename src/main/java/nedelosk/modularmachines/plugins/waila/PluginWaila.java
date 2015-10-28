@@ -11,23 +11,23 @@ import nedelosk.modularmachines.plugins.waila.provider.ProviderModular;
 public class PluginWaila extends Plugin {
 
 	@Optional.Method(modid = "Waila")
-	public static void register(IWailaRegistrar registrar){
+	public static void register(IWailaRegistrar registrar) {
 		registrar.registerBodyProvider(new ProviderModular(), TileModular.class);
 	}
-	
+
 	@Override
 	public String getRequiredMod() {
 		return "Waila";
 	}
-	
+
 	@Override
-	public void init(){
-		FMLInterModComms.sendMessage( "Waila", "register", PluginWaila.class.getName() + ".register" );
+	public void init() {
+		FMLInterModComms.sendMessage("Waila", "register", PluginWaila.class.getName() + ".register");
 	}
-	
+
 	@Override
 	public boolean getConfigOption() {
 		return ModularConfig.pluginWaila;
 	}
-	
+
 }

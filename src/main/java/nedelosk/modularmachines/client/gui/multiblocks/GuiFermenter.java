@@ -11,15 +11,12 @@ public class GuiFermenter extends GuiBase<TileMultiblockBase<MultiblockFermenter
 
 	public GuiFermenter(TileMultiblockBase<MultiblockFermenter> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		
-		if(!tile.isMaster)
-		{
+
+		if (!tile.isMaster) {
 			widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank, 7, 11));
 			widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank2, 79, 11));
 			widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tankOut, 151, 11));
-		}
-		else
-		{
+		} else {
 			widgetManager.add(new WidgetFluidTank(tile.getMultiblock().tank, 7, 11));
 			widgetManager.add(new WidgetFluidTank(tile.getMultiblock().tank2, 79, 11));
 			widgetManager.add(new WidgetFluidTank(tile.getMultiblock().tankOut, 151, 11));
@@ -28,30 +25,27 @@ public class GuiFermenter extends GuiBase<TileMultiblockBase<MultiblockFermenter
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-		
+
 	}
-	
+
 	@Override
 	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
 		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
-		
-		if(!tile.isMaster)
-		{
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = tile.master.getMultiblock().tank;
-			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = tile.master.getMultiblock().tank2;
-			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = tile.master.getMultiblock().tankOut;
+
+		if (!tile.isMaster) {
+			((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.master.getMultiblock().tank;
+			((WidgetFluidTank) widgetManager.getWidgets().get(1)).tank = tile.master.getMultiblock().tank2;
+			((WidgetFluidTank) widgetManager.getWidgets().get(2)).tank = tile.master.getMultiblock().tankOut;
+		} else {
+			((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getMultiblock().tank;
+			((WidgetFluidTank) widgetManager.getWidgets().get(1)).tank = tile.getMultiblock().tank2;
+			((WidgetFluidTank) widgetManager.getWidgets().get(2)).tank = tile.getMultiblock().tankOut;
 		}
-		else
-		{
-			((WidgetFluidTank)widgetManager.getWidgets().get(0)).tank = tile.getMultiblock().tank;
-			((WidgetFluidTank)widgetManager.getWidgets().get(1)).tank = tile.getMultiblock().tank2;
-			((WidgetFluidTank)widgetManager.getWidgets().get(2)).tank = tile.getMultiblock().tankOut;
-		}
-	}	
+	}
 
 	@Override
 	protected void renderProgressBar() {
-		
+
 	}
 
 	@Override

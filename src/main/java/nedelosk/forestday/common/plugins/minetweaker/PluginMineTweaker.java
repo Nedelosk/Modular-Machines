@@ -10,10 +10,10 @@ public class PluginMineTweaker extends Plugin {
 	public void preInit() {
 		MineTweakerAPI.registerClass(WorkbenchRecipeHandler.class);
 	}
-	
+
 	@Override
 	public String getRequiredMod() {
 		return "MineTweaker3";
 	}
-	
+
 }

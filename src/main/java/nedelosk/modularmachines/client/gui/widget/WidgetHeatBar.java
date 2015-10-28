@@ -27,7 +27,7 @@ public class WidgetHeatBar extends Widget {
 		this.posX = posX;
 		this.posY = posY;
 	}
-	
+
 	@Override
 	public ArrayList<String> getTooltip() {
 		ArrayList<String> description = new ArrayList<String>();
@@ -35,20 +35,21 @@ public class WidgetHeatBar extends Widget {
 		description.add(heat + " Heat / " + heatTotal + " Heat");
 		return description;
 	}
-	
+
 	@Override
 	public void draw(IGuiBase gui) {
-		if(heatTotal == 0)
+		if (heatTotal == 0)
 			return;
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
 		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 0, 12, 69);
-		
-		int energy = (heat * 69) / heatTotal ;
-		
-        this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 69 - energy, 12, 0 + 69 - energy, 12, energy);
+
+		int energy = (heat * 69) / heatTotal;
+
+		this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 69 - energy, 12,
+				0 + 69 - energy, 12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

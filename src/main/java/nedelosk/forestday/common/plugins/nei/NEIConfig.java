@@ -13,7 +13,7 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
-		
+
 		API.registerRecipeHandler(new ResinKilnHandler());
 		API.registerUsageHandler(new ResinKilnHandler());
 		API.registerRecipeHandler(new CharcoalKilnHandler());
@@ -22,10 +22,10 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new WorkbenchHandler());
 		API.registerRecipeHandler(new CampfireHandler());
 		API.registerUsageHandler(new CampfireHandler());
-		
-	    for(int i = 0;i < 16;i++)
-	    	API.hideItem(new ItemStack(FBlockManager.Multiblock_Charcoal_Kiln.item(), 1, i));
-		
+
+		for (int i = 0; i < 16; i++)
+			API.hideItem(new ItemStack(FBlockManager.Multiblock_Charcoal_Kiln.item(), 1, i));
+
 	}
 
 	@Override

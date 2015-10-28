@@ -23,32 +23,6 @@ mm.module.tooltip.name=Name
 mm.module.tooltip.shift=Halte Shift
 
 ####################################
-Material
-####################################
-material.wood=Holz
-material.stone=Stein
-material.iron=Eisen
-material.flint=Feuerstein
-material.bone=Knochen
-material.netherrack=Nether Stein
-material.tin=Zinn
-material.copper=Kupfer
-material.bronze=Bronze
-material.steel=Stahl
-material.niobium=Niobium
-material.tantalum=Tantalum
-material.silver=Silber
-material.plastic=Plastic
-material.diamond=Diamand
-material.emerald=Smaragd
-material.ruby=Rubyn
-material.cobalt=Cobalt
-material.ardite=Ardite
-material.manyullyn=Manyullyn
-material.alumite=Alumite
-material.pigiron=Roh Stahl
-
-####################################
 Components
 ####################################
 component.rods=Stab

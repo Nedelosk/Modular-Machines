@@ -12,27 +12,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IProducer {
-	
+
 	void updateServer(IModular modular, ModuleStack stack);
-	
+
 	void updateClient(IModular modular, ModuleStack stack);
-	
+
 	void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
 
 	void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
-	
+
 	String getName(ModuleStack stack);
-	
+
 	String getModifier(ModuleStack stack);
-	
+
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);
-	
+
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile);
-	
+
 	ArrayList<String> getRequiredModules();
+
+	boolean onBuildModular(IModular modular, ModuleStack stack, ArrayList<String> moduleNames);
 	
-	boolean onBuildModular(IModular modular, ModuleStack stack);
-	
+	boolean hasFluids();
+
 }

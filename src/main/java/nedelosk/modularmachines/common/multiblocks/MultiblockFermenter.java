@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.core.managers.FBlockManager;
-import nedelosk.forestday.common.fluids.FluidTankNedelosk;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
@@ -32,12 +32,12 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class MultiblockFermenter extends MultiblockModularMachines {
-	
-	public FluidTankNedelosk tank;
-	public FluidTankNedelosk tank2;
-	public FluidTankNedelosk tankOut;
+
+	public FluidTankBasic tank;
+	public FluidTankBasic tank2;
+	public FluidTankBasic tankOut;
 	public FluidStack output;
-	
+
 	public MultiblockFermenter() {
 		super();
 	}
@@ -46,12 +46,12 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	public String getMultiblockName() {
 		return "fermenter";
 	}
-	
+
 	@Override
 	public MultiblockPattern createPattern() {
 		return null;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public TileEntitySpecialRenderer getRenderer() {
@@ -61,58 +61,30 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	@Override
 	public ArrayList<MultiblockPattern> createPatterns() {
 		ArrayList<MultiblockPattern> list = new ArrayList<MultiblockPattern>();
-		char[][] layer_0_0_1 = {
-				{ 'O', 'O', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'J', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'O', 'O' }
-		};
-		char[][] layer_0_0_2 = {
-				{ 'O', 'O', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'V', 'O' },
-				{ 'O', 'O', 'O' }
-		};
-		char[][] layer_0_0_0 = {
-				{ 'O', 'O', 'O' },
-				{ 'O', 'O', 'O' },
-				{ 'O', 'O', 'O' },
-				{ 'O', 'O', 'O' },
-				{ 'O', 'O', 'O' }
-		};
-		list.add(new MultiblockPattern(new char[][][]{ layer_0_0_0, layer_0_0_1, layer_0_0_2, layer_0_0_0}, 2, 1, 1, 0));
-		char[][] layer_0_1_1 = {
-				{ 'O', 'O', 'O' },
-				{ 'O', 'V', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'M', 'O' },
-				{ 'O', 'O', 'O' }
-		};
-		list.add(new MultiblockPattern(new char[][][]{ layer_0_0_0, layer_0_0_1, layer_0_1_1, layer_0_0_0}, 2, 1, 1, 1));
-		char[][] layer_1_0_0 = {
-				{ 'O', 'O', 'O', 'O', 'O' },
-				{ 'O', 'O', 'O', 'O', 'O' },
-				{ 'O', 'O', 'O', 'O', 'O' }
-		};
-		char[][] layer_1_0_1 = {
-				{ 'O', 'O', 'O', 'O', 'O' },
-				{ 'O', 'M', 'J', 'M', 'O' },
-				{ 'O', 'O', 'O', 'O', 'O' }
-		};
-		char[][] layer_1_0_2 = {
-				{ 'O', 'O', 'O', 'O', 'O' },
-				{ 'O', 'V', 'M', 'M', 'O' },
-				{ 'O', 'O', 'O', 'O', 'O' }
-		};
-		list.add(new MultiblockPattern(new char[][][]{ layer_1_0_0, layer_1_0_1, layer_1_0_2, layer_1_0_0}, 1, 1, 2, 2));
-		char[][] layer_1_1_1 = {
-				{ 'O', 'O', 'O', 'O', 'O' },
-				{ 'O', 'M', 'M', 'V', 'O' },
-				{ 'O', 'O', 'O', 'O', 'O' }
-		};
-		list.add(new MultiblockPattern(new char[][][]{ layer_1_0_0, layer_1_0_1, layer_1_1_1, layer_1_0_0}, 1, 1, 2, 3));
+		char[][] layer_0_0_1 = { { 'O', 'O', 'O' }, { 'O', 'M', 'O' }, { 'O', 'J', 'O' }, { 'O', 'M', 'O' },
+				{ 'O', 'O', 'O' } };
+		char[][] layer_0_0_2 = { { 'O', 'O', 'O' }, { 'O', 'M', 'O' }, { 'O', 'M', 'O' }, { 'O', 'V', 'O' },
+				{ 'O', 'O', 'O' } };
+		char[][] layer_0_0_0 = { { 'O', 'O', 'O' }, { 'O', 'O', 'O' }, { 'O', 'O', 'O' }, { 'O', 'O', 'O' },
+				{ 'O', 'O', 'O' } };
+		list.add(new MultiblockPattern(new char[][][] { layer_0_0_0, layer_0_0_1, layer_0_0_2, layer_0_0_0 }, 2, 1, 1,
+				0));
+		char[][] layer_0_1_1 = { { 'O', 'O', 'O' }, { 'O', 'V', 'O' }, { 'O', 'M', 'O' }, { 'O', 'M', 'O' },
+				{ 'O', 'O', 'O' } };
+		list.add(new MultiblockPattern(new char[][][] { layer_0_0_0, layer_0_0_1, layer_0_1_1, layer_0_0_0 }, 2, 1, 1,
+				1));
+		char[][] layer_1_0_0 = { { 'O', 'O', 'O', 'O', 'O' }, { 'O', 'O', 'O', 'O', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' } };
+		char[][] layer_1_0_1 = { { 'O', 'O', 'O', 'O', 'O' }, { 'O', 'M', 'J', 'M', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' } };
+		char[][] layer_1_0_2 = { { 'O', 'O', 'O', 'O', 'O' }, { 'O', 'V', 'M', 'M', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' } };
+		list.add(new MultiblockPattern(new char[][][] { layer_1_0_0, layer_1_0_1, layer_1_0_2, layer_1_0_0 }, 1, 1, 2,
+				2));
+		char[][] layer_1_1_1 = { { 'O', 'O', 'O', 'O', 'O' }, { 'O', 'M', 'M', 'V', 'O' },
+				{ 'O', 'O', 'O', 'O', 'O' } };
+		list.add(new MultiblockPattern(new char[][][] { layer_1_0_0, layer_1_0_1, layer_1_1_1, layer_1_0_0 }, 1, 1, 2,
+				3));
 		return list;
 	}
 
@@ -127,40 +99,35 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 		Block block = base.getWorldObj().getBlock(x, y, z);
 		TileEntity tile = base.getWorldObj().getTileEntity(x, y, z);
 		TileMultiblockBase multiblock = null;
-		if(tile instanceof TileMultiblockBase)
+		if (tile instanceof TileMultiblockBase)
 			multiblock = (TileMultiblockBase) tile;
 		switch (pattern) {
 		case 'J':
-		case 'M':
-		{
-            if (block != FBlockManager.Multiblock.block() || multiblock == null)
-            {
-                return false;
-            }
-            break;
+		case 'M': {
+			if (block != FBlockManager.Multiblock.block() || multiblock == null) {
+				return false;
+			}
+			break;
 		}
-		case 'V':
-		{
-            if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null)
-            {
-                return false;
-            }
-            break;
+		case 'V': {
+			if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null) {
+				return false;
+			}
+			break;
 		}
-		case 'O':
-		{
-            if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block() || tile instanceof TileMultiblockBase)
-            {
-                return false;
-            }
-            break;
+		case 'O': {
+			if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block()
+					|| tile instanceof TileMultiblockBase) {
+				return false;
+			}
+			break;
 		}
 		}
-		if(tile != null)
+		if (tile != null)
 			base.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
 		return true;
 	}
-	
+
 	@Override
 	public IIcon getIcon(int side, ITileMultiblock tile) {
 		return null;
@@ -180,85 +147,73 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new GuiFermenter((TileMultiblockBase) tile, inventory);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		NBTUtils.writeTankToNBT("Tank", nbt, tank);
 		NBTUtils.writeTankToNBT("Tank2", nbt, tank2);
 		NBTUtils.writeTankToNBT("TankOut", nbt, tankOut);
-		if(output != null)
-		{
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		output.writeToNBT(nbtTag);
-		nbt.setTag("Output", nbtTag);
+		if (output != null) {
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			output.writeToNBT(nbtTag);
+			nbt.setTag("Output", nbtTag);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-			if(nbt.hasKey("Tank"))
-			{
-				NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
-				tank = new FluidTankNedelosk(nbtTag.getInteger("Capacity"));
-				tank.readFromNBT(nbtTag);
-			}
-			if(nbt.hasKey("Tank"))
-			{
-				NBTTagCompound nbtTag = nbt.getCompoundTag("Tank2");
-				tank2 = new FluidTankNedelosk(nbtTag.getInteger("Capacity"));
-				tank2.readFromNBT(nbtTag);
-			}
-			if(nbt.hasKey("TankOut"))
-			{
-				NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
-				tankOut = new FluidTankNedelosk(nbtTag.getInteger("Capacity"));
-				tankOut.readFromNBT(nbtTag);
-			}
-			if(nbt.hasKey("Output"))
-			{
-				NBTTagCompound nbtTag = nbt.getCompoundTag("Output");
-				output = FluidStack.loadFluidStackFromNBT(nbtTag);
-			}
+		if (nbt.hasKey("Tank")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
+			tank = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank.readFromNBT(nbtTag);
+		}
+		if (nbt.hasKey("Tank")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank2");
+			tank2 = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank2.readFromNBT(nbtTag);
+		}
+		if (nbt.hasKey("TankOut")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
+			tankOut = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankOut.readFromNBT(nbtTag);
+		}
+		if (nbt.hasKey("Output")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("Output");
+			output = FluidStack.loadFluidStackFromNBT(nbtTag);
+		}
 	}
-	
+
 	@Override
 	public void updateServer(ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
-			if(tank == null)
-				tank = new FluidTankNedelosk(32000);
-			if(tank2 == null)
-				tank2 = new FluidTankNedelosk(32000);
-			if(tankOut == null)
-				tankOut = new FluidTankNedelosk(32000);
-		if(base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0)
-		{
+		if (tank == null)
+			tank = new FluidTankBasic(32000);
+		if (tank2 == null)
+			tank2 = new FluidTankBasic(32000);
+		if (tankOut == null)
+			tankOut = new FluidTankBasic(32000);
+		if (base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0) {
 			FluidStack input = tank.getFluid();
 			FluidStack inputFermenterFluid = tank2.getFluid();
-			if(output != null)
-			{
-				if(tankOut.fill(output, true) > 0)
+			if (output != null) {
+				if (tankOut.fill(output, true) > 0)
 					output = null;
-			}
-			else if(input != null && inputFermenterFluid != null && ModularMachinesApi.fermenterFluid.get(inputFermenterFluid.getFluid())  != null && inputFermenterFluid.amount >= 150)
-			{
+			} else if (input != null && inputFermenterFluid != null
+					&& ModularMachinesApi.fermenterFluid.get(inputFermenterFluid.getFluid()) != null
+					&& inputFermenterFluid.amount >= 150) {
 				FermenterRecipe recipe = FermenterRecipeManager.getRecipe(input);
-				if(recipe != null)
-				{
+				if (recipe != null) {
 					output = recipe.getOutput().copy();
-					output.amount*= ModularMachinesApi.fermenterFluid.get(inputFermenterFluid.getFluid());
+					output.amount *= ModularMachinesApi.fermenterFluid.get(inputFermenterFluid.getFluid());
 					tank2.drain(150, true);
 					base.burnTimeTotal = recipe.getBurntTime();
 					base.isWorking = true;
-				}
-				else
+				} else
 					base.isWorking = false;
-			}
-			else
+			} else
 				base.isWorking = false;
-		}
-		else
-		{
+		} else {
 			base.burnTime++;
 		}
 		base.getWorldObj().markBlockForUpdate(base.xCoord, base.yCoord, base.zCoord);
@@ -266,62 +221,54 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 
 	@Override
 	public int fill(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(tile.master.isMultiblock()&& tile.master.isTested())
-		{
-		    if(tile.master.getPattern().tier == 0)
-			{
+		if (tile.master.isMultiblock() && tile.master.isTested()) {
+			if (tile.master.getPattern().tier == 0) {
 				switch (from) {
 				case SOUTH:
-					if(ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
+					if (ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
 						return tank2.fill(resource, doFill);
 					break;
 				case NORTH:
-					if(FermenterRecipeManager.isFluidInput(resource))
+					if (FermenterRecipeManager.isFluidInput(resource))
 						return tank.fill(resource, doFill);
 					break;
 				default:
 					return 0;
 				}
-			}
-		    else if(tile.master.getPattern().tier == 1)
-			{
+			} else if (tile.master.getPattern().tier == 1) {
 				switch (from) {
 				case NORTH:
-					if(ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
+					if (ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
 						return tank2.fill(resource, doFill);
 					break;
 				case SOUTH:
-					if(FermenterRecipeManager.isFluidInput(resource))
+					if (FermenterRecipeManager.isFluidInput(resource))
 						return tank.fill(resource, doFill);
 					break;
 				default:
 					return 0;
 				}
-			}
-			else if(tile.master.getPattern().tier == 2)
-			{
+			} else if (tile.master.getPattern().tier == 2) {
 				switch (from) {
 				case EAST:
-					if(ModularMachinesApi.fermenterFluid.get(resource.getFluid())  != null)
+					if (ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
 						return tank2.fill(resource, doFill);
 					break;
 				case WEST:
-					if(FermenterRecipeManager.isFluidInput(resource))
+					if (FermenterRecipeManager.isFluidInput(resource))
 						return tank.fill(resource, doFill);
 					break;
 				default:
 					return 0;
 				}
-			}
-			else if(tile.master.getPattern().tier == 3)
-			{
+			} else if (tile.master.getPattern().tier == 3) {
 				switch (from) {
 				case EAST:
-					if(FermenterRecipeManager.isFluidInput(resource))
+					if (FermenterRecipeManager.isFluidInput(resource))
 						return tank.fill(resource, doFill);
 					break;
 				case WEST:
-					if(ModularMachinesApi.fermenterFluid.get(resource.getFluid())  != null)
+					if (ModularMachinesApi.fermenterFluid.get(resource.getFluid()) != null)
 						return tank2.fill(resource, doFill);
 					break;
 				default:
@@ -334,88 +281,72 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 
 	@Override
 	public FluidStack drain(TileMultiblockBase tile, ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if(tile.master.isMultiblock() && tile.master.isTested())
-		{
-		    if(tile.master.getPattern().tier == 0)
-				{
-					switch (from) {
-					case EAST:
-						return tankOut.drain(resource, doDrain);
-					default:
-						return null;
-					}
+		if (tile.master.isMultiblock() && tile.master.isTested()) {
+			if (tile.master.getPattern().tier == 0) {
+				switch (from) {
+				case EAST:
+					return tankOut.drain(resource, doDrain);
+				default:
+					return null;
 				}
-			    else if(tile.master.getPattern().tier == 1)
-				{
-					switch (from) {
-					case WEST:
-						return tankOut.drain(resource, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 1) {
+				switch (from) {
+				case WEST:
+					return tankOut.drain(resource, doDrain);
+				default:
+					return null;
 				}
-				else if(tile.master.getPattern().tier == 2)
-				{
-					switch (from) {
-					case SOUTH:
-						return tankOut.drain(resource, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 2) {
+				switch (from) {
+				case SOUTH:
+					return tankOut.drain(resource, doDrain);
+				default:
+					return null;
 				}
-				else if(tile.master.getPattern().tier == 3)
-				{
-					switch (from) {
-					case NORTH:
-						return tankOut.drain(resource, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 3) {
+				switch (from) {
+				case NORTH:
+					return tankOut.drain(resource, doDrain);
+				default:
+					return null;
 				}
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public FluidStack drain(TileMultiblockBase tile, ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(tile.master.isMultiblock() && tile.master.isTested())
-		{
-		    if(tile.master.getPattern().tier == 0)
-				{
-					switch (from) {
-					case EAST:
-						return tankOut.drain(maxDrain, doDrain);
-					default:
-						return null;
-					}
+		if (tile.master.isMultiblock() && tile.master.isTested()) {
+			if (tile.master.getPattern().tier == 0) {
+				switch (from) {
+				case EAST:
+					return tankOut.drain(maxDrain, doDrain);
+				default:
+					return null;
 				}
-			    else if(tile.master.getPattern().tier == 1)
-				{
-					switch (from) {
-					case WEST:
-						return tankOut.drain(maxDrain, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 1) {
+				switch (from) {
+				case WEST:
+					return tankOut.drain(maxDrain, doDrain);
+				default:
+					return null;
 				}
-				else if(tile.master.getPattern().tier == 2)
-				{
-					switch (from) {
-					case SOUTH:
-						return tankOut.drain(maxDrain, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 2) {
+				switch (from) {
+				case SOUTH:
+					return tankOut.drain(maxDrain, doDrain);
+				default:
+					return null;
 				}
-				else if(tile.master.getPattern().tier == 3)
-				{
-					switch (from) {
-					case NORTH:
-						return tankOut.drain(maxDrain, doDrain);
-					default:
-						return null;
-					}
+			} else if (tile.master.getPattern().tier == 3) {
+				switch (from) {
+				case NORTH:
+					return tankOut.drain(maxDrain, doDrain);
+				default:
+					return null;
 				}
+			}
 		}
 		return null;
 	}
@@ -432,8 +363,8 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 
 	@Override
 	public FluidTankInfo[] getTankInfo(TileMultiblockBase tile, ForgeDirection from) {
-		if(tile.master.isMultiblock() && tile.master.isTested())
-			return new FluidTankInfo[]{ tankOut.getInfo(), tank.getInfo(), tank2.getInfo()};
+		if (tile.master.isMultiblock() && tile.master.isTested())
+			return new FluidTankInfo[] { tankOut.getInfo(), tank.getInfo(), tank2.getInfo() };
 		return null;
 	}
 

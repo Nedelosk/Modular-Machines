@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IGuiBase;
@@ -8,39 +10,42 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerController;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
-	
+
 	public int burnTime, burnTimeTotal;
 	public int timer, timerTotal;
 	public boolean isWorking;
-	
+
 	public ProducerMachine(String modifier) {
 		super(modifier);
 	}
-	
+
 	public ProducerMachine(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
-	
+
 	@Override
 	public int getBurnTime(ModuleStack stack) {
 		return burnTime;
 	}
-	
+
 	@Override
 	public int getBurnTimeTotal(ModuleStack stack) {
 		return burnTimeTotal;
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
@@ -50,16 +55,15 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		nbt.setInteger("timerTotal", timerTotal);
 		nbt.setBoolean("isWorking", isWorking);
 	}
-	
+
 	@Override
-	public int getBurnTimeTotal(IModular modular, ModuleStack stack)
-	{
+	public int getBurnTimeTotal(IModular modular, ModuleStack stack) {
 		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
 		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
 		return burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
@@ -69,34 +73,59 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		timerTotal = nbt.getInteger("timerTotal");
 		isWorking = nbt.getBoolean("isWorking");
 	}
-	
+
 	@Override
 	public boolean hasCustomInventoryName(ModuleStack stack) {
 		return true;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		
+
 	}
-	
+
 	@Override
 	public boolean isWorking() {
 		return isWorking;
 	}
-	
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+	}
+	
+	@Override
+	public ArrayList<String> getRequiredModules() {
+		ArrayList<String> modules = new ArrayList();
+		modules.add("Battery");
+		modules.add("Engine");
+		modules.add("Casing");
+		return modules;
+	}
+	
+	@Override
+	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModule, IProducerController> moduleStack) {
+		ArrayList<ModuleStack> modules = new ArrayList();
+		modules.add(moduleStack);
+		for(int i = 1;i < stacks.length;i++){
+			ItemStack stack = stacks[i];
+			if(stack != null)
+				if(ModuleRegistry.getModuleItem(stack) != null && ModuleRegistry.getModuleItem(stack).getModule() != null)
+					modules.add(ModuleRegistry.getModuleItem(stack));
+		}
+		for (ModuleStack<IModule, IProducer> manager : modules)
+			if (manager != null)
+				if (!modular.addModule(manager))
+					return false;
+		return true;
 	}
 
 }

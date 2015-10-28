@@ -19,10 +19,10 @@ public final class RenderUtils {
 
 		renderTooltip(x, y, tooltipData, color, color2);
 	}
-	
+
 	public static void renderTooltip(int x, int y, List<String> tooltipData, int color, int color2) {
 		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-		if(lighting)
+		if (lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
 		if (tooltipData != null && !tooltipData.isEmpty()) {
@@ -62,14 +62,14 @@ public final class RenderUtils {
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		}
-		if(!lighting)
+		if (!lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
 
 	public static void renderTooltip(int x, int y, List<String> tooltipData, int color) {
 		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-		if(lighting)
+		if (lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
 		if (tooltipData != null && !tooltipData.isEmpty()) {
@@ -110,7 +110,7 @@ public final class RenderUtils {
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		}
-		if(!lighting)
+		if (!lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
@@ -143,74 +143,75 @@ public final class RenderUtils {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
-	
-	 public static final ResourceLocation BLOCK_TEX = TextureMap.locationBlocksTexture;
-	 public static final ResourceLocation ITEM_TEX = TextureMap.locationItemsTexture;
-		
-	public static TextureManager engine()
-	{
+
+	public static final ResourceLocation BLOCK_TEX = TextureMap.locationBlocksTexture;
+	public static final ResourceLocation ITEM_TEX = TextureMap.locationItemsTexture;
+
+	public static TextureManager engine() {
 		return Minecraft.getMinecraft().renderEngine;
 	}
-	
-	public static void bindTexture(ResourceLocation tex)
-	{
+
+	public static void bindTexture(ResourceLocation tex) {
 		engine().bindTexture(tex);
 	}
-	
-	public static void bindTexture(String modID, String path)
-	{
+
+	public static void bindTexture(String modID, String path) {
 		engine().bindTexture(new ResourceLocation(modID, path));
 	}
-	
+
 	public static void bindBlockTexture() {
-		   engine().bindTexture(BLOCK_TEX);
+		engine().bindTexture(BLOCK_TEX);
 	}
-	
+
 	public static void bindItemTexture() {
-		   engine().bindTexture(ITEM_TEX);
+		engine().bindTexture(ITEM_TEX);
 	}
-	
-	public static int glDrawScaledString(FontRenderer fontRenderer, String text, int x, int y, float size, int color){
+
+	public static int glDrawScaledString(FontRenderer fontRenderer, String text, int x, int y, float size, int color) {
 		GL11.glPushMatrix();
 		GL11.glScaled(size, size, size);
-		x = (int) ((x*1F) / size);
-		y = (int) ((y*1F) / size);
+		x = (int) ((x * 1F) / size);
+		y = (int) ((y * 1F) / size);
 		fontRenderer.drawString(text, x, y, color);
 		GL11.glPopMatrix();
-		return (int)(10*size);
+		return (int) (10 * size);
 	}
-	  
-	  public static ResourceLocation getResourceLocation(String modName, String fileName, String... subPackages){
-	        String filePath = "textures/";
-	        for(String subPackage : subPackages){
-	            filePath+=subPackage+"/";
-	        }
-	        filePath+=fileName + ".png";
-	        return new ResourceLocation(modName, filePath);
-	    }
-	  
-		public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6) {
-			drawTexturedModalRect(par1, par2, z, par3, par4, par5, par6, 0.00390625F, 0.00390625F);
-		}
 
-		public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6, float f, float f1) {
-			Tessellator tessellator = Tessellator.instance;
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
-			tessellator.addVertexWithUV(par1 + par5, par2 + par6, z, (par3 + par5) * f, (par4 + par6) * f1);
-			tessellator.addVertexWithUV(par1 + par5, par2 + 0, z, (par3 + par5) * f, (par4 + 0) * f1);
-			tessellator.addVertexWithUV(par1 + 0, par2 + 0, z, (par3 + 0) * f, (par4 + 0) * f1);
-			tessellator.draw();
+	public static ResourceLocation getResourceLocation(String modName, String fileName, String... subPackages) {
+		String filePath = "textures/";
+		for (String subPackage : subPackages) {
+			filePath += subPackage + "/";
 		}
-		
-	    public static void drawTexturedModelRectFromIcon(int p_94065_1_, int p_94065_2_, float z, IIcon p_94065_3_, int p_94065_4_, int p_94065_5_)
-	    {
-	        Tessellator tessellator = Tessellator.instance;
-	        tessellator.startDrawingQuads();
-	        tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMinU(), p_94065_3_.getMaxV());
-	        tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMaxU(), p_94065_3_.getMaxV());
-	        tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + 0, z, p_94065_3_.getMaxU(), p_94065_3_.getMinV());
-	        tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + 0, z, p_94065_3_.getMinU(), p_94065_3_.getMinV());
-	        tessellator.draw();
-	    }
+		filePath += fileName + ".png";
+		return new ResourceLocation(modName, filePath);
+	}
+
+	public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6) {
+		drawTexturedModalRect(par1, par2, z, par3, par4, par5, par6, 0.00390625F, 0.00390625F);
+	}
+
+	public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6,
+			float f, float f1) {
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
+		tessellator.addVertexWithUV(par1 + par5, par2 + par6, z, (par3 + par5) * f, (par4 + par6) * f1);
+		tessellator.addVertexWithUV(par1 + par5, par2 + 0, z, (par3 + par5) * f, (par4 + 0) * f1);
+		tessellator.addVertexWithUV(par1 + 0, par2 + 0, z, (par3 + 0) * f, (par4 + 0) * f1);
+		tessellator.draw();
+	}
+
+	public static void drawTexturedModelRectFromIcon(int p_94065_1_, int p_94065_2_, float z, IIcon p_94065_3_,
+			int p_94065_4_, int p_94065_5_) {
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMinU(),
+				p_94065_3_.getMaxV());
+		tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + p_94065_5_, z, p_94065_3_.getMaxU(),
+				p_94065_3_.getMaxV());
+		tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + 0, z, p_94065_3_.getMaxU(),
+				p_94065_3_.getMinV());
+		tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + 0, z, p_94065_3_.getMinU(), p_94065_3_.getMinV());
+		tessellator.draw();
+	}
 }

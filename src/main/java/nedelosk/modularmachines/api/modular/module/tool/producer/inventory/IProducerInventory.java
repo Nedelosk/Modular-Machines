@@ -11,7 +11,7 @@ import net.minecraft.inventory.Slot;
 public interface IProducerInventory extends IProducer {
 
 	ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack);
-	
+
 	int getSizeInventory(ModuleStack stack);
-	
+
 }

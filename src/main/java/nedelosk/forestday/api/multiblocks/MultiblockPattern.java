@@ -7,108 +7,109 @@ import net.minecraft.world.World;
 
 public class MultiblockPattern {
 
-    public final char[][][] pattern;
-    private final int offsetX;
-    private final int offsetY;
-    private final int offsetZ;
-    public final int tier;
+	public final char[][][] pattern;
+	private final int offsetX;
+	private final int offsetY;
+	private final int offsetZ;
+	public final int tier;
 
-    public MultiblockPattern(char[][][] pattern) {
-        this(pattern, 1, 1, 1);
-    }
-    
-    public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ) {
-        this.pattern = pattern;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.offsetZ = offsetZ;
-        this.tier = 1;
-    }
+	public MultiblockPattern(char[][][] pattern) {
+		this(pattern, 1, 1, 1);
+	}
 
-    public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ, int tier) {
-        this.pattern = pattern;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.offsetZ = offsetZ;
-        this.tier = tier;
-    }
+	public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ) {
+		this.pattern = pattern;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.offsetZ = offsetZ;
+		this.tier = 1;
+	}
 
-    public char getPatternMarker(int x, int y, int z) {
-        return pattern[y][x][z];
-    }
+	public MultiblockPattern(char[][][] pattern, int offsetX, int offsetY, int offsetZ, int tier) {
+		this.pattern = pattern;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.offsetZ = offsetZ;
+		this.tier = tier;
+	}
 
-    public int getMasterOffsetX() {
-        return offsetX;
-    }
+	public char getPatternMarker(int x, int y, int z) {
+		return pattern[y][x][z];
+	}
 
-    public int getMasterOffsetY() {
-        return offsetY;
-    }
+	public int getMasterOffsetX() {
+		return offsetX;
+	}
 
-    public int getMasterOffsetZ() {
-        return offsetZ;
-    }
+	public int getMasterOffsetY() {
+		return offsetY;
+	}
 
-    public int getPatternHeight() {
-        return pattern.length;
-    }
+	public int getMasterOffsetZ() {
+		return offsetZ;
+	}
 
-    public int getPatternWidthX() {
-        return pattern[0].length;
-    }
+	public int getPatternHeight() {
+		return pattern.length;
+	}
 
-    public int getPatternWidthZ() {
-        return pattern[0][0].length;
-    }
+	public int getPatternWidthX() {
+		return pattern[0].length;
+	}
 
-    public int getMasterRelativeX(int posX, int patternX) {
-        return (offsetX - patternX) + posX;
-    }
+	public int getPatternWidthZ() {
+		return pattern[0][0].length;
+	}
 
-    public int getMasterRelativeY(int posY, int patternY) {
-        return (offsetY - patternY) + posY;
-    }
+	public int getMasterRelativeX(int posX, int patternX) {
+		return (offsetX - patternX) + posX;
+	}
 
-    public int getMasterRelativeZ(int posZ, int patternZ) {
-        return (offsetZ - patternZ) + posZ;
-    }
+	public int getMasterRelativeY(int posY, int patternY) {
+		return (offsetY - patternY) + posY;
+	}
 
-    public TileEntity placeStructure(World world, int xCoord, int yCoord, int zCoord, Block block, Map<Character, Integer> blockMapping) {
-        if (block == null)
-            return null;
+	public int getMasterRelativeZ(int posZ, int patternZ) {
+		return (offsetZ - patternZ) + posZ;
+	}
 
-        int xWidth = getPatternWidthX();
-        int zWidth = getPatternWidthZ();
-        int height = getPatternHeight();
+	public TileEntity placeStructure(World world, int xCoord, int yCoord, int zCoord, Block block,
+			Map<Character, Integer> blockMapping) {
+		if (block == null)
+			return null;
 
-        int xOffset = xCoord - getMasterOffsetX();
-        int yOffset = yCoord - getMasterOffsetY();
-        int zOffset = zCoord - getMasterOffsetZ();
+		int xWidth = getPatternWidthX();
+		int zWidth = getPatternWidthZ();
+		int height = getPatternHeight();
 
-        TileEntity master = null;
+		int xOffset = xCoord - getMasterOffsetX();
+		int yOffset = yCoord - getMasterOffsetY();
+		int zOffset = zCoord - getMasterOffsetZ();
 
-        for (byte px = 0; px < xWidth; px++) {
-            for (byte py = 0; py < height; py++) {
-                for (byte pz = 0; pz < zWidth; pz++) {
+		TileEntity master = null;
 
-                    char marker = getPatternMarker(px, py, pz);
+		for (byte px = 0; px < xWidth; px++) {
+			for (byte py = 0; py < height; py++) {
+				for (byte pz = 0; pz < zWidth; pz++) {
 
-                    Integer metadata = blockMapping.get(marker);
-                    if (metadata == null)
-                        continue;
+					char marker = getPatternMarker(px, py, pz);
 
-                    int x = px + xOffset;
-                    int y = py + yOffset;
-                    int z = pz + zOffset;
+					Integer metadata = blockMapping.get(marker);
+					if (metadata == null)
+						continue;
 
-                    world.setBlock(x, y, z, block, metadata, 3);
+					int x = px + xOffset;
+					int y = py + yOffset;
+					int z = pz + zOffset;
 
-                    if (px == getMasterOffsetX() && py == getMasterOffsetY() && pz == getMasterOffsetZ())
-                        master = world.getTileEntity(x, y, z);
-                }
-            }
-        }
-        return master;
-    }
+					world.setBlock(x, y, z, block, metadata, 3);
+
+					if (px == getMasterOffsetX() && py == getMasterOffsetY() && pz == getMasterOffsetZ())
+						master = world.getTileEntity(x, y, z);
+				}
+			}
+		}
+		return master;
+	}
 
 }

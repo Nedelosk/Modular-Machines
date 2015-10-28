@@ -7,8 +7,7 @@ import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
 public class OreDictionaryManager {
 
-	public static void init()
-	{
+	public static void init() {
 		registerOre("dustCoal", new ItemStack(MMItemManager.Dusts.item(), 1, 0));
 		registerOre("dustObsidian", new ItemStack(MMItemManager.Dusts.item(), 1, 1));
 		registerOre("dustIron", new ItemStack(MMItemManager.Dusts.item(), 1, 2));
@@ -43,36 +42,36 @@ public class OreDictionaryManager {
 		registerOre("dustAluminium", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 3));
 		registerOre("dustAlumium", new ItemStack(MMItemManager.Dusts_Others.item(), 1, 3));
 		registerOre("blockObsidian", Blocks.obsidian);
-		
-        for(int i = 0;i < ((ItemMachineComponent)MMItemManager.Component_Plates.item()).metas.size();i++) {
-            ItemStack stack = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
-            ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-            registerOre("plate" + (String)component.metas.get(i).get(2), stack);
-        }
-        
-        for(int i = 0;i < ((ItemMachineComponent)MMItemManager.Component_Rods.item()).metas.size();i++) {
-            ItemStack stack = new ItemStack(MMItemManager.Component_Rods.item(), 1, i);
-            ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-            registerOre("rod" + (String)component.metas.get(i).get(2), stack);
-        }
-        
-        for(int i = 0;i < ((ItemMachineComponent)MMItemManager.Component_Screws.item()).metas.size();i++) {
-            ItemStack stack = new ItemStack(MMItemManager.Component_Screws.item(), 1, i);
-            ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-            registerOre("screw" + (String)component.metas.get(i).get(2), stack);
-        }
-        
-        for(int i = 0;i < ((ItemMachineComponent)MMItemManager.Component_Gears.item()).metas.size();i++) {
-            ItemStack stack = new ItemStack(MMItemManager.Component_Gears.item(), 1, i);
-            ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-            registerOre("gear" + (String)component.metas.get(i).get(2), stack);
-        }
-        
-        for(int i = 0;i < ((ItemMachineComponent)MMItemManager.Component_Saw_Blades.item()).metas.size();i++) {
-            ItemStack stack = new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, i);
-            ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-            registerOre("sawBlade" + (String)component.metas.get(i).get(2), stack);
-        }
+
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Plates.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
+			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
+			registerOre("plate" + (String) component.metas.get(i).get(2), stack);
+		}
+
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Rods.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Rods.item(), 1, i);
+			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
+			registerOre("rod" + (String) component.metas.get(i).get(2), stack);
+		}
+
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Screws.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Screws.item(), 1, i);
+			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
+			registerOre("screw" + (String) component.metas.get(i).get(2), stack);
+		}
+
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Gears.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Gears.item(), 1, i);
+			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
+			registerOre("gear" + (String) component.metas.get(i).get(2), stack);
+		}
+
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Saw_Blades.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, i);
+			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
+			registerOre("sawBlade" + (String) component.metas.get(i).get(2), stack);
+		}
 	}
-	
+
 }
