@@ -62,8 +62,8 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList();
 		slots.add(new SlotModular(modular.getMachine(), 0, 36, 35, stack));
-		slots.add(new SlotModularOutput(modular.getMachine(), 2, 116, 35, stack));
-		slots.add(new SlotModularOutput(modular.getMachine(), 3, 134, 35, stack));
+		slots.add(new SlotModularOutput(modular.getMachine(),1, 116, 35, stack));
+		slots.add(new SlotModularOutput(modular.getMachine(), 2, 134, 35, stack));
 		return slots;
 	}
 

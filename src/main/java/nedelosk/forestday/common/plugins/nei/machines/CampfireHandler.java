@@ -7,6 +7,7 @@ import java.util.List;
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.crafting.KilnRecipeManager;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
@@ -28,6 +29,11 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 	public String getGuiTexture() {
 		return "forestday:textures/gui/nei/campfire.png";
 	}
+	
+	@Override
+	public Class<? extends GuiContainer> getGuiClass() {
+		return null;
+	}
 
 	@Override
 	public String getOverlayIdentifier() {
@@ -36,10 +42,8 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15),
-				"ForestDayCampfire", new Object[0]));
-		transferRects.add(
-				new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15), "ForestDayCampfire", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
 	}
 
 	@Override

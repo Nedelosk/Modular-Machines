@@ -200,9 +200,9 @@ public class TileCampfire extends TileMachineBase {
 		int ID = 0;
 		if (stack.getItem() == FItemManager.Curb.item())
 			ID = 0;
-		if (stack.getItem() == FItemManager.Pot_Holder.item())
+		else if (stack.getItem() == FItemManager.Pot_Holder.item())
 			ID = 1;
-		if (stack.getItem() == FItemManager.Curb.item())
+		else if (stack.getItem() == FItemManager.Pot.item())
 			ID = 2;
 		ItemStack stackOld = getStackInSlot(4 + ID);
 		setInventorySlotContents(ID + 4, stack);

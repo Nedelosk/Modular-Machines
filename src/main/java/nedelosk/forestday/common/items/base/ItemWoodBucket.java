@@ -32,7 +32,7 @@ public class ItemWoodBucket extends ItemBucket {
 			return new ItemStack(FItemManager.Bucket_Wood_Water.item());
 		if (result.getItem() == Items.lava_bucket) {
 			player.setFire(10);
-			return new ItemStack(FItemManager.Bucket_Wood_Water.item(), 0);
+			return null;
 		}
 		return result;
 	}
