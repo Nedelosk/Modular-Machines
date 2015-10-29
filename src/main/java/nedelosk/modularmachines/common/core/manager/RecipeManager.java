@@ -195,14 +195,14 @@ public class RecipeManager {
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Plates.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			manager.addRecipe(new OreStack("ingot" + (String) component.metas.get(i).get(2), 2),
-					new OreStack("toolHammer"), stack, 100);
+			for(String oreDict : (String[]) component.metas.get(i).get(2))
+				manager.addRecipe(new OreStack("ingot" + oreDict, 2), new OreStack("toolHammer"), stack, 100);
 		}
-		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Screws.item()).metas.size(); i++) {
-			ItemStack stack = new ItemStack(MMItemManager.Component_Screws.item(), 1, i);
+		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Connection_Wires.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			manager.addRecipe(new OreStack("plate" + (String) component.metas.get(i).get(2), 1),
-					new OreStack("toolCutter"), stack, 100);
+			for(String oreDict : (String[]) component.metas.get(i).get(2))
+				manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
 		}
 		ItemStack platePlastic = new ItemStack(MMItemManager.Component_Plates.item(), 2, 6);
 		manager.addRecipe(new OreStack("hardenedStarch", 1), new OreStack("toolHammer"), platePlastic, 100);

@@ -1,4 +1,6 @@
-package nedelosk.forestday.common.core;
+package nedelosk.forestday.common.events;
+
+import java.util.Random;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
@@ -8,10 +10,13 @@ import nedelosk.forestday.common.types.WoodTypeManager;
 import nedelosk.forestday.common.types.WoodTypeManager.WoodTypeStack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 
 public class EventHandler {
 
@@ -23,8 +28,7 @@ public class EventHandler {
 		int y = event.y;
 		int z = event.z;
 
-		if (player.getCurrentEquippedItem() != null
-				&& player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
+		if (player.getCurrentEquippedItem() != null && (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel || player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(Blocks.torch))) {
 			ItemStack stack = player.getCurrentEquippedItem();
 			for (int xPos = 0; xPos < 3; xPos++) {
 				for (int zPos = 0; zPos < 3; zPos++) {
@@ -58,6 +62,21 @@ public class EventHandler {
 			kiln.setWorking(true);
 			stack.damageItem(1, player);
 			kiln.testMultiblock();
+			if(player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(Blocks.torch)){
+				player.getCurrentEquippedItem().stackSize--;
+				if(player.getCurrentEquippedItem().stackSize == 0)
+					player.setCurrentItemOrArmor(0, null);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void stickDrop(BlockEvent.HarvestDropsEvent event) {
+		Random r = new Random();
+		if (event.block == Blocks.leaves || event.block == Blocks.leaves2) {
+			if (r.nextInt(16) == 0) {
+				event.drops.add(new ItemStack(Items.stick));
+			}
 		}
 	}
 

@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import nedelosk.forestday.common.blocks.tiles.TileBaseGui;
 import nedelosk.forestday.common.blocks.tiles.TileBaseInventory;
-import nedelosk.modularmachines.common.network.packets.machine.ModularPageSaver;
 
 public class CommonProxy implements IGuiHandler {
 

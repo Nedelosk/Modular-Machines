@@ -75,6 +75,8 @@ public class ItemRegistry {
 		MMItemManager.Component_Plates.addMetaData(0xCA9956, "bronze", "Bronze");
 		MMItemManager.Component_Plates.addMetaData(0xA0A0A0, "steel", "Steel");
 		MMItemManager.Component_Plates.addMetaData(0xD4E3E6, "plastic", "Plastic");
+		MMItemManager.Component_Plates.addMetaData(0xA1A48C, "invar", "Invar");
+		MMItemManager.Component_Plates.addMetaData(0xA1A48C, "aluminum", "Aluminum", "Aluminium");
 
 		MMItemManager.Component_Saw_Blades.addMetaData(0x7F7F7F, "stone", "Stone");
 		MMItemManager.Component_Saw_Blades.addMetaData(0xDADADA, "iron", "Iron");

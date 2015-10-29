@@ -8,9 +8,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemBlockForestday extends ItemBlock {
+public class ItemBlockForestDay extends ItemBlock {
 
-	public ItemBlockForestday(Block block) {
+	public ItemBlockForestDay(Block block) {
 		super(block);
 		setHasSubtypes(true);
 	}

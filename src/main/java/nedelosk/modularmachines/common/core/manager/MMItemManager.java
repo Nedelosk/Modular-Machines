@@ -32,7 +32,7 @@ public enum MMItemManager {
 		FRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
 	}
 
-	public void addMetaData(int color, String name, String oreDict) {
+	public void addMetaData(int color, String name, String... oreDict) {
 		if (item instanceof ItemMachineComponent) {
 			ItemMachineComponent.addMetaData(this, color, name, oreDict);
 		}

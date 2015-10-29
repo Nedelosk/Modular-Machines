@@ -87,7 +87,6 @@ public class ModularInventoryManager implements IModularInventoryManager {
 			this.slots.get(page)[i] = null;
 			return itemstack;
 		}
-		;
 		return null;
 	}
 

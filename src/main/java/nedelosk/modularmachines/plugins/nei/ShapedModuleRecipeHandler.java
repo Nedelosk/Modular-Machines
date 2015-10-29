@@ -108,7 +108,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler
     @Override
     public void loadCraftingRecipes(ItemStack result) {
         for (IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
-            if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result) && result.getTagCompound().equals(irecipe.getRecipeOutput().getTagCompound())) {
+            if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result) && result.hasTagCompound() && result.getTagCompound().equals(irecipe.getRecipeOutput().getTagCompound())) {
                 CachedShapedRecipe recipe = null;
 
                 if(irecipe instanceof ShapedModuleRecipe)

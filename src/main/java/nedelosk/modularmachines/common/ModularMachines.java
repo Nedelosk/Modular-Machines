@@ -2,7 +2,6 @@ package nedelosk.modularmachines.common;
 
 import java.io.File;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -31,7 +30,7 @@ public class ModularMachines {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		File configFolderModularMachines = new File(Loader.instance().getConfigDir(), "Modular-Machines");
+		File configFolderModularMachines = new File(event.getModConfigurationDirectory(), "Modular-Machines");
 		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
 		config = new Configuration(configFileModularMachines);
 		configFolder = configFolderModularMachines;

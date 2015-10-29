@@ -2,13 +2,18 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.boiler;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IContainerBase;
+import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
+import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
-
+import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipe;
 import nedelosk.modularmachines.common.modular.utils.RecipeManager;
 import net.minecraft.inventory.Slot;
@@ -40,6 +45,12 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 
 		return new RecipeInput[] { fluids[0], items[1] };
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
+		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
+	}
 
 	@Override
 	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
@@ -50,6 +61,9 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 	@Override
 	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList();
+		slots.add(new SlotModular(modular.getMachine(), 0, 36, 35, stack));
+		slots.add(new SlotModularOutput(modular.getMachine(), 2, 116, 35, stack));
+		slots.add(new SlotModularOutput(modular.getMachine(), 3, 134, 35, stack));
 		return slots;
 	}
 
@@ -65,7 +79,8 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 
 	@Override
 	public ArrayList<String> getRequiredModules() {
-		ArrayList<String> modules = super.getRequiredModules();
+		ArrayList<String> modules = new ArrayList();
+		modules.add("Casing");
 		modules.add("TankManager");
 		return modules;
 	}

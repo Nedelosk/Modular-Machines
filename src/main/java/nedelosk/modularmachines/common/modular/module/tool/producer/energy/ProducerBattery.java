@@ -86,7 +86,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		gui.getWidgetManager().add(new WidgetEnergyField(((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage(), 20, 14));
+		gui.getWidgetManager().add(new WidgetEnergyField(((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage(), 45, 15));
 	}
 
 	@SideOnly(Side.CLIENT)

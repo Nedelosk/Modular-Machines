@@ -2,11 +2,11 @@ package nedelosk.forestday.common.core.registry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.core.EventHandler;
 import nedelosk.forestday.common.core.TabForestday;
 import nedelosk.forestday.common.core.managers.CraftingManager;
 import nedelosk.forestday.common.core.managers.OreDictionaryManager;
 import nedelosk.forestday.common.events.BucketHandler;
+import nedelosk.forestday.common.events.EventHandler;
 import nedelosk.forestday.common.fluids.FluidBlock;
 import nedelosk.forestday.common.items.base.FluidBucket;
 import nedelosk.forestday.common.multiblocks.MultiblockCharcoalKiln;

@@ -13,8 +13,7 @@ import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.blocks.tiles.TileKiln;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.core.managers.FBlockManager;
-import nedelosk.forestday.common.items.blocks.ItemBlockForest;
-import nedelosk.forestday.common.items.blocks.ItemBlockForestday;
+import nedelosk.forestday.common.items.blocks.ItemBlockForestDay;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.forestday.common.multiblocks.TileMultiblockValve;
 import net.minecraft.item.ItemBlock;
@@ -25,16 +24,16 @@ public class BlockRegistry {
 
 		// Blocks
 		FBlockManager.Crop_Corn.registerBlock(new BlockCropCorn(), ItemBlock.class);
-		FBlockManager.Gravel.registerBlock(new BlockGravel(), ItemBlockForestday.class);
+		FBlockManager.Gravel.registerBlock(new BlockGravel(), ItemBlockForestDay.class);
 
-		FBlockManager.Ore.registerBlock(new BlockOre(BlockOre.ores, "forestday"), ItemBlockForest.class);
+		FBlockManager.Ore.registerBlock(new BlockOre(BlockOre.ores, "forestday"), ItemBlockForestDay.class);
 
 		FBlockManager.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class,
 				TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
 		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 1);
 		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 2);
 
-		FBlockManager.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestday.class);
+		FBlockManager.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestDay.class);
 
 		// FBlockManager.Multiblock.registerBlock(new BlockMultiblock(),
 		// ItemBlockMultiblock.class);

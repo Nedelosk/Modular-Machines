@@ -7,7 +7,6 @@ import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.forestday.common.network.GuiHandler;
 import nedelosk.forestday.common.proxy.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -33,7 +32,7 @@ public class ForestDay {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
 
-		File configFileForestdayFolder = new File(Loader.instance().getConfigDir(), "Forest-Day");
+		File configFileForestdayFolder = new File(event.getModConfigurationDirectory(), "Forest-Day");
 		File configFileForestday = new File(configFileForestdayFolder, "Forest-Day.cfg");
 		config_forestday = new Configuration(configFileForestday);
 		ForestDayConfig.loadConfig(configFileForestday);

@@ -56,11 +56,10 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public ModuleStack getModuleWithGui(EntityPlayer player, TileEntity tile) {
 		if(modular != null){
-			if(player.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-				if(((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
-					this.page = ((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page;
-				else
-					page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));;
+			if(player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
+				this.page = ((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page;
+			else
+				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
 		}
 		for (ModuleStack module : getModuleWithGuis()) {
 			if (module.getModule().getName(module).equals(page))
@@ -82,11 +81,10 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Container getContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(modular != null){
-			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-				if(((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-					this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
-				else
-					page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));;
+			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
+				this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
+			else
+				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
 		}
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
@@ -96,11 +94,10 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Object getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory) {
 		if(modular != null){
-			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-				if(((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-					this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
-				else
-					page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));;
+			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
+				this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
+			else
+				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));
 		}
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0));

@@ -46,31 +46,36 @@ public class OreDictionaryManager {
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Plates.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			registerOre("plate" + (String) component.metas.get(i).get(2), stack);
+			for(String oreDict : (String[])component.metas.get(i).get(2))
+				registerOre("plate" + oreDict, stack);
 		}
 
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Rods.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Rods.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			registerOre("rod" + (String) component.metas.get(i).get(2), stack);
+			for(String oreDict : (String[])component.metas.get(i).get(2))
+				registerOre("rod" + oreDict, stack);
 		}
 
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Screws.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Screws.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			registerOre("screw" + (String) component.metas.get(i).get(2), stack);
+			for(String oreDict : (String[])component.metas.get(i).get(2))
+				registerOre("screw" + oreDict, stack);
 		}
 
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Gears.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Gears.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			registerOre("gear" + (String) component.metas.get(i).get(2), stack);
+			for(String oreDict : (String[])component.metas.get(i).get(2))
+				registerOre("gear" + oreDict, stack);
 		}
 
 		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Saw_Blades.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, i);
 			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			registerOre("sawBlade" + (String) component.metas.get(i).get(2), stack);
+			for(String oreDict : (String[])component.metas.get(i).get(2))
+				registerOre("sawBlade" + oreDict, stack);
 		}
 	}
 

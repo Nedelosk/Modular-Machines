@@ -29,7 +29,7 @@ public class ItemMachineComponent extends Item {
 		return addMetaData(item, color, name);
 	}
 
-	public static ItemMachineComponent addMetaData(MMItemManager item, int color, String name, String oreDict) {
+	public static ItemMachineComponent addMetaData(MMItemManager item, int color, String name, String... oreDict) {
 		((ItemMachineComponent) item.item()).metas.add(Lists.newArrayList(color, name, oreDict));
 		return (ItemMachineComponent) item.item();
 	}

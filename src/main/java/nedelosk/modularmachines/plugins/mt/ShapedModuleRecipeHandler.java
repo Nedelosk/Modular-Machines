@@ -1,7 +1,5 @@
 package nedelosk.modularmachines.plugins.mt;
 
-import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,13 +11,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.recipes.ICraftingRecipe;
 import minetweaker.api.recipes.IRecipeFunction;
 import minetweaker.api.recipes.ShapedRecipe;
-import minetweaker.mc1710.recipes.RecipeConverter;
-import minetweaker.mc1710.recipes.ShapedRecipeAdvanced;
-import minetweaker.mc1710.recipes.ShapedRecipeBasic;
 import minetweaker.mc1710.recipes.ShapedRecipeOre;
-import nedelosk.modularmachines.common.crafting.ShapedModuleRecipe;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import stanhebben.zenscript.annotations.Optional;

@@ -5,7 +5,7 @@ import nedelosk.forestday.common.core.registry.FRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockMultiblock extends ItemBlockForest {
+public class ItemBlockMultiblock extends ItemBlockForestDay {
 
 	public ItemBlockMultiblock(Block block) {
 		super(block);
