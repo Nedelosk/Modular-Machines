@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.modular.module.tool.producer.boiler;
+package nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler;
 
 import nedelosk.modularmachines.api.recipes.Recipe;
 import nedelosk.modularmachines.api.recipes.RecipeItem;

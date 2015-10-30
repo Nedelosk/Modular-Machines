@@ -11,11 +11,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class RecipeManagerEnergy implements IRecipeManager {
 
-	public String recipeName;
-	public int energyModifier;
-	public RecipeInput[] inputs;
-	public int speedModifier;
-	public IModular modular;
+	private String recipeName;
+	private int energyModifier;
+	private RecipeInput[] inputs;
+	private int speedModifier;
+	private IModular modular;
 
 	public RecipeManagerEnergy(IModular modular, String recipeName, RecipeInput[] inputs) {
 		this(modular, recipeName, 0, inputs);
@@ -48,7 +48,7 @@ public class RecipeManagerEnergy implements IRecipeManager {
 	}
 
 	@Override
-	public boolean removeEnergy() {
+	public boolean removeMaterial() {
 		if (modular == null || modular.getManager() == null || modular.getManager().getEnergyHandler() == null)
 			return false;
 		if (modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, energyModifier, false) > 0) {

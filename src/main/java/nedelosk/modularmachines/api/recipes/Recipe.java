@@ -6,16 +6,16 @@ public class Recipe implements IRecipe {
 	protected final RecipeItem[] input;
 	protected final RecipeItem[] output;
 	protected int speedModifier;
-	protected int energy;
+	protected int material;
 	protected String recipeName;
 
-	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy, String recipeName,
+	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName,
 			int... modifiers) {
 		this.input = input;
 		this.output = output;
 		this.modifiers = modifiers;
 		this.speedModifier = speedModifier;
-		this.energy = energy;
+		this.material = material;
 		this.recipeName = recipeName;
 	}
 
@@ -50,8 +50,8 @@ public class Recipe implements IRecipe {
 	}
 
 	@Override
-	public int getRequiredEnergy() {
-		return energy;
+	public int getRequiredMaterial() {
+		return material;
 	}
 
 }

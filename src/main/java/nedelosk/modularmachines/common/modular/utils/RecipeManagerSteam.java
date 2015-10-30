@@ -7,23 +7,29 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 
-public class RecipeManager implements IRecipeManager {
+public class RecipeManagerSteam implements IRecipeManager {
 
 	private String recipeName;
+	public int steamModifier;
 	private RecipeInput[] inputs;
 	private int speedModifier;
 	private IModular modular;
 	
-	public RecipeManager(IModular modular, String recipeName, RecipeInput[] inputs) {
+	public RecipeManagerSteam(IModular modular, String recipeName, int steamModifier, RecipeInput[] inputs) {
 		this.inputs = inputs;
 		this.recipeName = recipeName;
 		this.modular = modular;
+		if (steamModifier == 0)
+			steamModifier = 1;
+		this.steamModifier = steamModifier;
 
 		this.speedModifier = RecipeRegistry.getRecipe(recipeName, inputs).getRequiredSpeedModifier();
 	}
 	
-	public RecipeManager() {
+	public RecipeManagerSteam() {
 	}
 
 	@Override
@@ -39,8 +45,14 @@ public class RecipeManager implements IRecipeManager {
 	}
 
 	@Override
-	public boolean removeEnergy() {
-		return true;
+	public boolean removeMaterial() {
+		if (modular == null || modular.getManager() == null || modular.getManager().getFluidHandler() == null)
+			return false;
+		FluidStack drain = modular.getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, steamModifier, true);
+		if (drain.getFluid() != null && drain.amount > 0) {
+			return true;
+		} else
+			return false;
 	}
 
 	@Override
@@ -51,6 +63,7 @@ public class RecipeManager implements IRecipeManager {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) throws Exception {
 		nbt.setString("RecipeName", recipeName);
+		nbt.setInteger("EnergyModifier", steamModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
 		NBTTagList list = new NBTTagList();
 		for (RecipeInput input : inputs) {
@@ -64,7 +77,7 @@ public class RecipeManager implements IRecipeManager {
 	@Override
 	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
 		String recipeName = nbt.getString("RecipeName");
-		int energyModifier = nbt.getInteger("EnergyModifier");
+		int steamModifier = nbt.getInteger("SteamModifier");
 		int speedModifier = nbt.getInteger("SpeedModifier");
 		NBTTagList list = nbt.getTagList("RecipeInput", 10);
 		RecipeInput[] inputs = new RecipeInput[list.tagCount()];
@@ -74,6 +87,6 @@ public class RecipeManager implements IRecipeManager {
 		}
 		if (RecipeRegistry.getRecipe(recipeName, inputs) == null)
 			return null;
-		return new RecipeManager(modular, recipeName, inputs);
+		return new RecipeManagerSteam(modular, recipeName, steamModifier, inputs);
 	}
 }

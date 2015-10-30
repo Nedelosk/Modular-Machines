@@ -7,11 +7,13 @@ import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.modular.machines.modular.ModularMachine;
-import nedelosk.modularmachines.common.modular.module.tool.producer.boiler.ProducerBurningBoiler;
 import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerCapacitor;
-import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerEngine;
+import nedelosk.modularmachines.common.modular.module.tool.producer.engine.ProducerEngine;
+import nedelosk.modularmachines.common.modular.module.tool.producer.engine.ProducerEngineEnergy;
+import nedelosk.modularmachines.common.modular.module.tool.producer.engine.ProducerEngineSteam;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter.ProducerAlloySmelter;
+import nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler.ProducerBurningBoiler;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.ProducerCentrifuge;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.furnace.ProducerFurnace;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer.ProducerPulverizer;
@@ -49,10 +51,10 @@ public class ModularRegistry {
 	}
 
 	public static void registerEnergy() {
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngine("iron_engine", 60, "Steam"), Types.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 1), Modules.ENGINE, new ProducerEngine("bronze_engine", 50, "Steam"), Types.BRONZE);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngine("steel_engine", 45, "Normal"), Types.STEEL);
-		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 3), Modules.ENGINE, new ProducerEngine("magmarium_engine", 40, "Normal"), Types.MAGMARIUM);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngineSteam("iron_engine", 60), Types.IRON);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 1), Modules.ENGINE, new ProducerEngineSteam("bronze_engine", 50), Types.BRONZE);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngineEnergy("steel_engine", 45), Types.STEEL);
+		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Engine.item(), 1, 3), Modules.ENGINE, new ProducerEngineEnergy("magmarium_engine", 40), Types.MAGMARIUM);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 0), Modules.CAPACITOR, new ProducerCapacitor("metal_paper_capacitor", 10, 20), Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 1), Modules.CAPACITOR, new ProducerCapacitor("electrolyte_niobium_capacitor", 20, 30), Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(MMItemManager.Module_Item_Capacitor.item(), 1, 2), Modules.CAPACITOR, new ProducerCapacitor("electrolyte_tantalum_capacitor", 25, 40), Types.IRON);
@@ -80,9 +82,9 @@ public class ModularRegistry {
 	}
 
 	public static void registerMachines() {
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.FURNACE, new ProducerFurnace("Stone"), Types.STONE, true)));
+		/*ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.FURNACE, new ProducerFurnace("Stone"), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.FURNACE, new ProducerFurnace("Iron"), Types.IRON, true)));
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.FURNACE, new ProducerFurnace("Bronze"), Types.BRONZE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.FURNACE, new ProducerFurnace("Bronze"), Types.BRONZE, true)));*/
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter("Stone", 350), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER, new ProducerAlloySmelter("Iron", 300), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter("Bronze", 250), Types.BRONZE, true)));

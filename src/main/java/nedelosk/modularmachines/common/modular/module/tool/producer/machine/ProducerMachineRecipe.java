@@ -32,7 +32,6 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public abstract class ProducerMachineRecipe extends ProducerMachine implements IProducerMachineRecipe {
 
-	public IRecipeManager manager;
 	public int outputs;
 	public int inputs;
 	protected int speed;
@@ -46,28 +45,6 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		this.inputs = inputs;
 		this.outputs = outputs;
 		this.speed = speed;
-	}
-
-	@Override
-	public int getBurnTimeTotal(IModular modular, ModuleStack stack) {
-		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
-		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
-		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
-		return burnTimeTotal2;
-	}
-
-	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack stack) {
-		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
-		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
-		int burnTimeTotal2 = burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
-		return burnTimeTotal2 + (burnTimeTotal2 * speedModifier / 100);
-	}
-
-	@Override
-	public IRecipeManager getRecipeManager(ModuleStack stack) {
-		return manager;
 	}
 
 	public RecipeInput[] getInputItems(IModular modular, ModuleStack moduleStack) {
@@ -136,8 +113,13 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
-				((WidgetProgressBar) widget).burntime = burnTime;
-				((WidgetProgressBar) widget).burntimeTotal = burnTimeTotal;
+				ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
+				if (engine != null)	{
+					int burnTime = engine.getProducer().getBurnTime(engine);
+					int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
+					((WidgetProgressBar) widget).burntime = burnTime;
+					((WidgetProgressBar) widget).burntimeTotal = burnTimeTotal;
+				}
 			}
 		}
 	}
@@ -145,47 +127,45 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		if (tile.getEnergyStored(null) > 0) {
+		ModuleStack<IModule, IProducerEngine> engineStack = ModularUtils.getModuleStackEngine(modular);
+		if (engineStack != null && tile.getEnergyStored(null) > 0) {
+			IProducerEngine engine = engineStack.getProducer();
+			int burnTime = engine.getBurnTime(engineStack);
+			int burnTimeTotal = engine.getBurnTimeTotal(engineStack);
+			IRecipeManager manager = engine.getManager(engineStack);
 			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack));
 				if (manager != null) {
 					if (addOutput(modular, stack)) {
-						manager = null;
-						burnTimeTotal = 0;
-						burnTime = 0;
-						isWorking = false;
+						engine.setManager(null);
+						engine.setBurnTimeTotal(0);
+						engine.setBurnTime(0);
+						engine.setIsWorking(false);
 					}
 				} else if (getInputs(modular, stack) != null
 						&& RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)) != null) {
 					if (ModularUtils.getModuleStackMachine(modular) == null)
 						return;
-					manager = creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredEnergy() / getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack), getInputs(modular, stack));
+					engine.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack), getInputs(modular, stack)));
 					if (!removeInput(modular, stack)) {
-						manager = null;
+						engine.setManager(null);
 						return;
 					}
-					isWorking = true;
-					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack)
-							/ ModularUtils.getModuleStackMachine(modular).getType().getTier();
+					engine.setIsWorking(true);
+					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack) / ModularUtils.getModuleStackMachine(modular).getType().getTier());
 				}
 				if (timer > timerTotal) {
-					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
-							modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 					timer = 0;
 				} else {
 					timer++;
 				}
 			} else {
 				if (timer > timerTotal) {
-					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
-							modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 					timer = 0;
 				} else {
 					timer++;
-
-					if (manager != null)
-						if (manager.removeEnergy())
-							burnTime++;
 				}
 			}
 		}
@@ -194,8 +174,10 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		if (manager.getOutputs() != null) {
-			for (RecipeItem item : manager.getOutputs()) {
+		ModuleStack<IModule, IProducerEngine> engineStack = ModularUtils.getModuleStackEngine(modular);
+		IProducerEngine engine = engineStack.getProducer();
+		if (engine.getManager(engineStack).getOutputs() != null) {
+			for (RecipeItem item : engine.getManager(engineStack).getOutputs()) {
 				if (item != null) {
 					if (!item.isFluid())
 						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs,
@@ -214,19 +196,13 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 			}
 			return true;
 		}
-		manager = null;
+		engine.setManager(null);
 		return false;
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-
-		if (manager != null) {
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			manager.writeToNBT(nbtTag);
-			nbt.setTag("Manager", nbtTag);
-		}
 
 		nbt.setInteger("Inputs", inputs);
 		nbt.setInteger("Outputs", outputs);
@@ -237,11 +213,6 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
 
-		if (nbt.hasKey("Manager")){
-			manager = creatRecipeManager();
-			manager = manager.readFromNBT(nbt.getCompoundTag("Manager"), modular);
-		}
-
 		inputs = nbt.getInteger("Inputs");
 		outputs = nbt.getInteger("Outputs");
 		speed = nbt.getInteger("Speed");
@@ -250,16 +221,6 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public int getSpeed(ModuleStack stack) {
 		return speed;
-	}
-	
-	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs) {
-		return new RecipeManagerEnergy(modular, recipeName, energyModifier, inputs);
-	}
-	
-	@Override
-	public IRecipeManager creatRecipeManager() {
-		return new RecipeManagerEnergy();
 	}
 
 	public abstract int getSpeedModifier();

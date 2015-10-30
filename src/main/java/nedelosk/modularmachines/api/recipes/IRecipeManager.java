@@ -9,7 +9,7 @@ public interface IRecipeManager {
 	
 	IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception;
 
-	boolean removeEnergy();
+	boolean removeMaterial();
 
 	int getSpeedModifier();
 

@@ -14,14 +14,6 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 
 	int getSpeed(ModuleStack stack);
 
-	int getBurnTimeTotal(IModular modular, ModuleStack stack);
-
-	int getBurnTime(ModuleStack stack);
-
-	int getBurnTimeTotal(ModuleStack stack);
-
 	ArrayList<NeiStack> addNEIStacks(ModuleStack stack);
-
-	boolean isWorking();
 
 }

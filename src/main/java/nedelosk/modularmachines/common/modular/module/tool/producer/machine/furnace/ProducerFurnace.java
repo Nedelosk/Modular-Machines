@@ -8,6 +8,9 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachine;
@@ -17,7 +20,8 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class ProducerFurnace extends ProducerMachine {
+@Deprecated
+public class ProducerFurnace { /* extends ProducerMachine {
 
 	public ItemStack output;
 
@@ -62,7 +66,10 @@ public class ProducerFurnace extends ProducerMachine {
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
 		if (tile.getEnergyStored(null) > 0) {
+			int burnTime = engine.getProducer().getBurnTime(engine);
+			int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
 				ItemStack input = tile.getModular().getInventoryManager()
 						.getStackInSlot(stack.getModule().getName(stack), 0);
@@ -70,7 +77,7 @@ public class ProducerFurnace extends ProducerMachine {
 					if (tile.getModular().getInventoryManager().addToOutput(output, 1, 2,
 							stack.getModule().getName(stack))) {
 						output = null;
-						isWorking = false;
+						engine.getProducer().setIsWorking(false);
 					}
 				} else if (input != null) {
 					ItemStack recipeOutput = FurnaceRecipes.smelting().getSmeltingResult(input);
@@ -78,9 +85,9 @@ public class ProducerFurnace extends ProducerMachine {
 						output = recipeOutput.copy();
 						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack), 0, 1);
 						if (burnTimeTotal == 0)
-							burnTimeTotal = getBurnTimeTotal(modular, stack);
+							burnTimeTotal = engine.getProducer().getBurnTimeTotal(modular, stack, engine);
 						burnTime = 0;
-						isWorking = true;
+						engine.getProducer().setIsWorking(true);
 					}
 				}
 				if (timer > timerTotal) {
@@ -131,6 +138,6 @@ public class ProducerFurnace extends ProducerMachine {
 	@Override
 	public int getColor() {
 		return 0x3F3A3A;
-	}
+	}*/
 
 }

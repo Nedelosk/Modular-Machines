@@ -15,10 +15,4 @@ public interface IProducerMachineRecipe extends IProducerMachine {
 
 	RecipeInput[] getInputs(IModular modular, ModuleStack stack);
 
-	IRecipeManager getRecipeManager(ModuleStack stack);
-	
-	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs);
-	
-	IRecipeManager creatRecipeManager();
-
 }

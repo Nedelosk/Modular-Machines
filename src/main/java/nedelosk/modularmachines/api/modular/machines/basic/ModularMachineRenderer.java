@@ -51,10 +51,10 @@ public class ModularMachineRenderer {
 			Window_Engine.setRotationPoint(7.0F, 10.5F, -6.0F);
 			Window_Engine.addBox(0.0F, 0.0F, 0.0F, 1, 12, 12, 0.0F);
 
-			baseTexture = loadTexture("normal", stack.getProducer().getMode().toLowerCase(Locale.ENGLISH), "engine/",
+			baseTexture = loadTexture("normal", stack.getProducer().getType().toLowerCase(Locale.ENGLISH), "engine/",
 					"_base.png");
 			discTexture = loadTexture("iron", stack.getProducer().getModifier(stack), "engine/", ".png");
-			windowTexture = loadTexture("normal", stack.getProducer().getMode().toLowerCase(Locale.ENGLISH), "engine/",
+			windowTexture = loadTexture("normal", stack.getProducer().getType().toLowerCase(Locale.ENGLISH), "engine/",
 					"_window.png");
 		}
 

@@ -12,7 +12,7 @@ public interface IRecipe {
 
 	int getRequiredSpeedModifier();
 
-	int getRequiredEnergy();
+	int getRequiredMaterial();
 
 	String getRecipeName();
 

@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.common.modular.module.tool.producer.boiler;
+package nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler;
 
 import java.util.ArrayList;
 
@@ -9,13 +9,15 @@ import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipe;
-import nedelosk.modularmachines.common.modular.utils.RecipeManager;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -49,6 +51,9 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
+		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
+		int burnTime = engine.getProducer().getBurnTime(engine);
+		int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}
 
@@ -88,16 +93,6 @@ public class ProducerBurningBoiler extends ProducerMachineRecipe {
 	@Override
 	public int getColor() {
 		return 0x850715;
-	}
-	
-	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs) {
-		return new RecipeManager(modular, recipeName, inputs);
-	}
-	
-	@Override
-	public IRecipeManager creatRecipeManager() {
-		return new RecipeManager();
 	}
 
 }

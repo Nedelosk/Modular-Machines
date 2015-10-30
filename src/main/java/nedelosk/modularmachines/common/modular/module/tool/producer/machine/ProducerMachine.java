@@ -24,9 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
 
-	public int burnTime, burnTimeTotal;
-	public int timer, timerTotal;
-	public boolean isWorking;
+	protected int timer, timerTotal;
 
 	public ProducerMachine(String modifier) {
 		super(modifier);
@@ -37,41 +35,17 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	}
 
 	@Override
-	public int getBurnTime(ModuleStack stack) {
-		return burnTime;
-	}
-
-	@Override
-	public int getBurnTimeTotal(ModuleStack stack) {
-		return burnTimeTotal;
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-		nbt.setInteger("burnTime", burnTime);
-		nbt.setInteger("burnTimeTotal", burnTimeTotal);
 		nbt.setInteger("timer", timer);
 		nbt.setInteger("timerTotal", timerTotal);
-		nbt.setBoolean("isWorking", isWorking);
-	}
-
-	@Override
-	public int getBurnTimeTotal(IModular modular, ModuleStack stack) {
-		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
-		int burnTimeTotal = engine.getProducer().getSpeedModifier(engine.getType().getTier()) * getSpeed(stack) / 10;
-		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
-		return burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-		burnTime = nbt.getInteger("burnTime");
-		burnTimeTotal = nbt.getInteger("burnTimeTotal");
 		timer = nbt.getInteger("timer");
 		timerTotal = nbt.getInteger("timerTotal");
-		isWorking = nbt.getBoolean("isWorking");
 	}
 
 	@Override
@@ -83,11 +57,6 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
 
-	}
-
-	@Override
-	public boolean isWorking() {
-		return isWorking;
 	}
 
 	@SideOnly(Side.CLIENT)

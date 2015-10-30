@@ -9,6 +9,9 @@ import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
@@ -67,6 +70,9 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
+		ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
+		int burnTime = engine.getProducer().getBurnTime(engine);
+		int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}
 
