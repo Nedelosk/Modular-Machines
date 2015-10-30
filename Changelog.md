@@ -7,11 +7,12 @@
 - Improve Engine and Recipe System
 - set Producer Boiler to machine
 
-*Plugins*
-- Improve Waila Plugin
+  - **Plugins**
+  - Improve Waila Plugin
 
 # 0.3.2c Beta - Nedelosk
 
 **Forest-Day**
 - Fix the Campfire Curb Item 
 - Fix Furnace Gui NEI Integration
+

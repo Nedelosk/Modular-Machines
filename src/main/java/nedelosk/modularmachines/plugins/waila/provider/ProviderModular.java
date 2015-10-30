@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
@@ -29,10 +30,14 @@ public class ProviderModular implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
 		TileModular modular = (TileModular) accessor.getTileEntity();
+		ModuleStack<IModule, IProducerMachine> stackMachine = ModularUtils.getModuleStackMachine(modular.modular);
 		if (ModularUtils.getModuleStackMachine(modular.modular) != null) {
-			ModuleStack<IModule, IProducerMachine> machine = ModularUtils.getModuleStackMachine(modular.modular);
-			currenttip.add(machine.getProducer().getBurnTime(machine) + " / "
-					+ machine.getProducer().getBurnTimeTotal(machine));
+			IProducerMachine machine = stackMachine.getProducer();
+		}
+		ModuleStack<IModule, IProducerEngine> stackEngine = ModularUtils.getModuleStackEngine(modular.modular);
+		if (ModularUtils.getModuleStackEngine(modular.modular) != null) {
+			IProducerEngine engine = stackEngine.getProducer();
+			currenttip.add(engine.getBurnTime(stackEngine) + " / " + engine.getBurnTimeTotal(stackEngine));
 		}
 		return currenttip;
 	}
