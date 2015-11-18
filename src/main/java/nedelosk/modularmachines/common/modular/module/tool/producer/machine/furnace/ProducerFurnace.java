@@ -1,25 +1,5 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.furnace;
 
-import java.util.ArrayList;
-
-import nedelosk.forestday.api.guis.IContainerBase;
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
-import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.recipes.NeiStack;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachine;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
 @Deprecated
 public class ProducerFurnace { /* extends ProducerMachine {
 

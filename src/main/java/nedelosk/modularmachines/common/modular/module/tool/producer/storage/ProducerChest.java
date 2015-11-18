@@ -7,7 +7,7 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorage;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +43,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 
 	@Override
 	public int getGuiTop(IModular modular, ModuleStack stack) {
-		if (ModularUtils.getModuleStackStorage(modular).getType().getTier() != 1)
+		if (ModuleUtils.getModuleStackStorage(modular).getType().getTier() != 1)
 			return 256;
 		else
 			return 166;
@@ -51,7 +51,7 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 
 	@Override
 	public ResourceLocation getCustomGui(IModular modular, ModuleStack stack) {
-		if (ModularUtils.getModuleStackStorage(modular).getType().getTier() == 3)
+		if (ModuleUtils.getModuleStackStorage(modular).getType().getTier() == 3)
 			return new ResourceLocation("modularmachines", "textures/gui/modular_machine_chest.png");
 		else
 			return null;

@@ -43,9 +43,8 @@ public abstract class Module implements IModule {
 	}
 
 	@Override
-	public String getName(ModuleStack stack) {
-		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "")
-				+ ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "");
+	public String getName(ModuleStack stack, boolean withTypeModifier) {
+		return "module" + getModuleName() + ((getModifier(stack) != null) ? getModifier(stack) : "") + (withTypeModifier ? ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "") : "");
 	}
 
 	@Override

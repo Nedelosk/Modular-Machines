@@ -18,7 +18,7 @@ public class ModuleMachine extends Module {
 
 	@Override
 	public String getModuleName() {
-		return "Producer";
+		return "Machine";
 	}
 
 }

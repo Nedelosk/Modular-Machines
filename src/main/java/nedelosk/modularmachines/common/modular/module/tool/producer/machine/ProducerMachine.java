@@ -12,11 +12,8 @@ import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRendere
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerController;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.item.ItemStack;

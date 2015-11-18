@@ -128,7 +128,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if (sr.getsInput() != null && input != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInput().getOreDict());
 				for (ItemStack stack : list) {
-					if (input.getItem() == stack.getItem() && input.stackSize >= sr.getsInput().getStackSize()) {
+					if (input.getItem() == stack.getItem() && stack.getItemDamage() == input.getItemDamage() && input.stackSize >= sr.getsInput().getStackSize()) {
 						foundInput = true;
 						break;
 					}
@@ -137,7 +137,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if (sr.getsInputPattern() != null && inputPattern != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInputPattern().getOreDict());
 				for (ItemStack stack : list) {
-					if (inputPattern.getItem() == stack.getItem()) {
+					if (inputPattern.getItem() == stack.getItem() && stack.getItemDamage() == input.getItemDamage()) {
 						foundPattern = true;
 						break;
 					}

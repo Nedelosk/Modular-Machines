@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.core.registry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.common.blocks.BlockOre;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestDay;
+import nedelosk.modularmachines.common.blocks.BlockCasing;
 import nedelosk.modularmachines.common.blocks.ModularAssemblerBlock;
 import nedelosk.modularmachines.common.blocks.ModularMachineBlock;
 import nedelosk.modularmachines.common.blocks.item.ItemBlockModularAssembler;
@@ -22,6 +23,7 @@ public class BlockRegistry {
 	public static void preInit() {
 		// Blocks
 		MMBlockManager.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForestDay.class);
+		MMBlockManager.Casings.registerBlock(new BlockCasing(new String[]{ "iron", "bronze" }), ItemBlockForestDay.class);
 		MMBlockManager.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
 		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class,
 				new Object[] { "modular.machine" });

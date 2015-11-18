@@ -28,8 +28,7 @@ public class ShapedModuleRecipe implements IRecipe{
 
     public ShapedModuleRecipe(Block     result, Object... recipe){ this(new ItemStack(result), recipe); }
     public ShapedModuleRecipe(Item      result, Object... recipe){ this(new ItemStack(result), recipe); }
-    public ShapedModuleRecipe(ItemStack result, Object... recipe)
-    {
+    public ShapedModuleRecipe(ItemStack result, Object... recipe){
         output = result.copy();
 
         String shape = "";

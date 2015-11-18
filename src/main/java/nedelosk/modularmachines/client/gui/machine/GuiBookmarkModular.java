@@ -43,7 +43,7 @@ public class GuiBookmarkModular extends GuiButton {
 
 		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
 		RenderUtils.bindTexture(guiTextureOverlay);
-		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1, machine.getTile().getModular().getGuiManager().getPage().equals(stack.getModule().getName(stack)) ? 0 : 28, right ? 214 : 235, 28, 21);
+		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1, machine.getTile().getModular().getGuiManager().getPage().equals(stack.getModule().getName(stack, false)) ? 0 : 28, right ? 214 : 235, 28, 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		Random r = FMLClientHandler.instance().getClient().theWorld.rand;

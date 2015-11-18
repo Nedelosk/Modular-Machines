@@ -12,7 +12,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProduce
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
@@ -58,14 +58,14 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		ModuleStack<IModule, IProducerMachine> stackMachine = ModularUtils.getModuleStackMachine(modular);
+		ModuleStack<IModule, IProducerMachine> stackMachine = ModuleUtils.getModuleStackMachine(modular);
 		if (timer > timerTotal) {
 			modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 			timer = 0;
 		} else {
 			timer++;
 
-			if(stack.getProducer() instanceof IProducerMachineRecipe){
+			if(stackMachine.getProducer() instanceof IProducerMachineRecipe){
 				IProducerMachineRecipe machine = (IProducerMachineRecipe) stackMachine.getProducer();
 				if (manager != null)
 					if (manager.removeMaterial())
@@ -140,6 +140,7 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 		return progress;
 	}
 	
+	@Override
 	public void setManager(IRecipeManager manager) {
 		this.manager = manager;
 	}
@@ -187,14 +188,14 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	@Override
 	public int getBurnTimeTotal(IModular modular, ModuleStack<IModule, IProducerMachine> stackMachine, ModuleStack<IModule, IProducerEngine> stackEngine) {
 		int burnTimeTotal = getSpeedModifier(stackEngine) * stackMachine.getProducer().getSpeed(stackMachine) / 10;
-		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
+		ModuleStack<IModule, IProducerBattery> battery = ModuleUtils.getModuleStackBattery(modular);
 		return burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 	}
 	
 	@Override
 	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModule, IProducerMachine> stackMachine, ModuleStack<IModule, IProducerEngine> stackEngine) {
 		int speed = getSpeedModifier(stackEngine) * stackMachine.getProducer().getSpeed(stackMachine) / 10;
-		ModuleStack<IModule, IProducerBattery> battery = ModularUtils.getModuleStackBattery(modular);
+		ModuleStack<IModule, IProducerBattery> battery = ModuleUtils.getModuleStackBattery(modular);
 		int burnTimeTotal = speed + (speed * battery.getProducer().getSpeedModifier() / 100);
 		return burnTimeTotal + (burnTimeTotal * speedModifier / 100);
 	}

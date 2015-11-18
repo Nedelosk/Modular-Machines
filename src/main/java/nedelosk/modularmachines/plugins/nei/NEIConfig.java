@@ -1,5 +1,10 @@
 package nedelosk.modularmachines.plugins.nei;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
@@ -13,14 +18,16 @@ import net.minecraft.item.ItemStack;
 public class NEIConfig implements IConfigureNEI {
 
 	public static boolean isAdded;
+	public static List<String> producerHandlers = Lists.newArrayList();
 
 	@Override
 	public void loadConfig() {
 		isAdded = false;
 		for (ModuleStack stack : ModuleRegistry.getModuleItems())
 			if (stack.getProducer() instanceof IProducerMachineRecipe) {
-				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack) != null) {
+				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack) != null && !producerHandlers.equals(stack.getModule().getName(stack, false))) {
 					new ModularMachinesHandler(stack);
+					producerHandlers.add(stack.getModule().getName(stack, false));
 				}
 			}
 		isAdded = true;

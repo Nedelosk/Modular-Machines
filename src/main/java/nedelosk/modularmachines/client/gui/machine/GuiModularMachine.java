@@ -89,8 +89,8 @@ public class GuiModularMachine extends GuiBase<TileModular> {
 			GuiBookmarkModular bookmark = (GuiBookmarkModular) button;
 			IModularGuiManager guiManager = tile.getModular().getGuiManager();
 
-			if (!guiManager.getPage().equals(bookmark.stack.getModule().getName(bookmark.stack))) {
-				guiManager.setPage(bookmark.stack.getModule().getName(bookmark.stack));
+			if (!guiManager.getPage().equals(bookmark.stack.getModule().getName(bookmark.stack, false))) {
+				guiManager.setPage(bookmark.stack.getModule().getName(bookmark.stack, false));
 				EntityPlayer entityPlayer = inventory.player;
 				if(entityPlayer.getExtendedProperties(ModularPageSaver.class.getName()) != null)
 					if(((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
@@ -99,7 +99,7 @@ public class GuiModularMachine extends GuiBase<TileModular> {
 						((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).saver.add(new ModularPageTileSaver(guiManager.getPage(), tile.xCoord, tile.yCoord, tile.zCoord));
 				else
 					entityPlayer.registerExtendedProperties(ModularPageSaver.class.getName(), new ModularPageSaver(new ModularPageTileSaver(guiManager.getPage(), tile.xCoord, tile.yCoord, tile.zCoord)));
-				PacketHandler.INSTANCE.sendToServer(new PacketModularSelectPage(this.tile, bookmark.stack.getModule().getName(bookmark.stack)));
+				PacketHandler.INSTANCE.sendToServer(new PacketModularSelectPage(this.tile, bookmark.stack.getModule().getName(bookmark.stack, false)));
 			}
 		}
 	}

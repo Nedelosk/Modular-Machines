@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import nedelosk.forestday.client.gui.GuiCampfire;
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.crafting.KilnRecipeManager;
@@ -20,6 +21,15 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class CampfireHandler extends FurnaceRecipeHandler {
 
+	public CampfireHandler() {
+		List<RecipeTransferRect> list = new ArrayList<>();
+		list.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(85, 35, 22, 15), "ForestDayCampfire", new Object[0]));
+		list.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(65, 35, 13, 13), "fuel", new Object[0]));
+		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), list);
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15), "ForestDayCampfire", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
+	}
+	
 	@Override
 	public String getRecipeName() {
 		return StatCollector.translateToLocal("forestday.nei.campfire");
@@ -32,7 +42,7 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 	
 	@Override
 	public Class<? extends GuiContainer> getGuiClass() {
-		return null;
+		return GuiCampfire.class;
 	}
 
 	@Override
@@ -42,8 +52,6 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15), "ForestDayCampfire", new Object[0]));
-		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
 	}
 
 	@Override

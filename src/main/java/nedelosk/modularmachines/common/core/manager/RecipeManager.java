@@ -46,8 +46,8 @@ public class RecipeManager {
 	}
 
 	public static void registerModuleRecipes() {
-		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron",
-				'W', Blocks.crafting_table);
+		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER), "-+-", "+s+", "-+-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
 	}
 
 	public static void registerSawMillRecipes() {
@@ -133,12 +133,10 @@ public class RecipeManager {
 	}
 
 	public static void registerAlloySmelterRecipes() {
-		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustTin", 1)),
-				new RecipeItem(new OreStack("dustCopper", 3)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 4, 0)) }, 9, 250));
-		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustIron", 2)),
-				new RecipeItem(new OreStack("dustNickel", 1)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 3, 1)) }, 9, 375));
+		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustTin", 1)), new RecipeItem(new OreStack("dustCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 4, 0)) }, 9, 250));
+		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("ingotTin", 1)), new RecipeItem(new OreStack("ingotCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 4, 0)) }, 9, 275));
+		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustIron", 2)), new RecipeItem(new OreStack("dustNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 3, 1)) }, 9, 375));
+		RecipeRegistry.registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(MMItemManager.Alloy_Ingots.item(), 3, 1)) }, 9, 400));
 	}
 
 	public static void registerMetalRecipes() {
@@ -186,7 +184,6 @@ public class RecipeManager {
 				new ItemStack(MMItemManager.Ingots_Others.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts_Others.item(), 1, 3),
 				new ItemStack(MMItemManager.Ingots_Others.item(), 1, 2), 0.5F);
-		addShapedModuleRecipe(ItemProducers.getItem(Types.BRONZE, Modules.BOILER), "+++", "+++", "+++", '+', Blocks.anvil);
 
 	}
 
@@ -204,8 +201,6 @@ public class RecipeManager {
 			for(String oreDict : (String[]) component.metas.get(i).get(2))
 				manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
 		}
-		ItemStack platePlastic = new ItemStack(MMItemManager.Component_Plates.item(), 2, 6);
-		manager.addRecipe(new OreStack("hardenedStarch", 1), new OreStack("toolHammer"), platePlastic, 100);
 	}
 
 	public static void addShapedRecipe(ItemStack stack, Object... obj) {

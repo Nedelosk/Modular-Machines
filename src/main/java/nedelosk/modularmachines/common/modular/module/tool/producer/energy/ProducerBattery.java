@@ -19,7 +19,7 @@ import nedelosk.modularmachines.api.modular.module.basic.basic.handlers.EnergyHa
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerCapacitor;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetEnergyField;
@@ -51,12 +51,12 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			batteryCapacity = getStorage(stack).getMaxEnergyStored();
 		int energyModifier = 0;
 		int speedModifier = 0;
-		if (ModularUtils.getModuleStackCapacitors(modular) != null
-				&& ModularUtils.getModuleStackCapacitors(modular).size() > 0
-				&& (ModularUtils.getModuleStackCapacitors(modular).get(0) != null
-						|| ModularUtils.getModuleStackCapacitors(modular).get(1) != null
-						|| ModularUtils.getModuleStackCapacitors(modular).get(2) != null)) {
-			for (ModuleStack<IModule, IProducerCapacitor> module : ModularUtils.getModuleStackCapacitors(modular)) {
+		if (ModuleUtils.getModuleStackCapacitors(modular) != null
+				&& ModuleUtils.getModuleStackCapacitors(modular).size() > 0
+				&& (ModuleUtils.getModuleStackCapacitors(modular).get(0) != null
+						|| ModuleUtils.getModuleStackCapacitors(modular).get(1) != null
+						|| ModuleUtils.getModuleStackCapacitors(modular).get(2) != null)) {
+			for (ModuleStack<IModule, IProducerCapacitor> module : ModuleUtils.getModuleStackCapacitors(modular)) {
 				if (module != null && module.getModule() != null && module.getProducer() != null) {
 					IProducerCapacitor capacitor = module.getProducer();
 					if (capacitor.canWork(modular)) {

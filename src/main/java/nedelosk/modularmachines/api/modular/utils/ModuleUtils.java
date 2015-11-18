@@ -12,7 +12,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProduce
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorage;
 
-public class ModularUtils {
+public class ModuleUtils {
 
 	public static ModuleStack<IModuleCasing, IProducer> getModuleStackCasing(IModular modular) {
 		return getModuleStack(modular, "Casing", 0);
@@ -31,7 +31,7 @@ public class ModularUtils {
 	}
 
 	public static ModuleStack<IModule, IProducerMachine> getModuleStackMachine(IModular modular) {
-		return getModuleStack(modular, "Producer", 0);
+		return getModuleStack(modular, "Machine", 0);
 	}
 
 	public static IProducerStorage getModuleStorage(IModular modular) {
@@ -70,6 +70,8 @@ public class ModularUtils {
 	}
 
 	public static Vector<ModuleStack> getModuleStack(IModular modular, String moduleName) {
+		if(modular == null)
+			return null;
 		return modular.getModule(moduleName);
 	}
 

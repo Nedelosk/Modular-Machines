@@ -10,7 +10,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMBlockManager {
 
-	Ore_Others, Metal_Blocks,
+	Ore_Others, Metal_Blocks, Casings,
 
 	Modular_Assembler, Modular_Machine;
 

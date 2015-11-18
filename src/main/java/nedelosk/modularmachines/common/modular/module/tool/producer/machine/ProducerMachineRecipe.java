@@ -12,10 +12,9 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
-import nedelosk.modularmachines.api.modular.utils.ModularUtils;
+import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
@@ -23,7 +22,6 @@ import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
-import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -31,7 +29,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public abstract class ProducerMachineRecipe extends ProducerMachine implements IProducerMachineRecipe {
-
+	
 	public int outputs;
 	public int inputs;
 	protected int speed;
@@ -52,7 +50,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		RecipeInput[] inputs = new RecipeInput[this.inputs];
 		for (int i = 0; i < inputs.length; i++) {
 			ItemStack stack = tile.getModular().getInventoryManager()
-					.getStackInSlot(moduleStack.getModule().getName(moduleStack), i);
+					.getStackInSlot(moduleStack.getModule().getName(moduleStack, false), i);
 			inputs[i] = new RecipeInput(i, stack);
 		}
 		return inputs;
@@ -80,10 +78,10 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 			if (input != null) {
 				if (!inputs[i].isFluid()) {
 					if (inputs[i].isOre())
-						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack),
+						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false),
 								input.slotIndex, inputs[i].ore.stackSize);
 					else
-						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack),
+						tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false),
 								input.slotIndex, inputs[i].item.stackSize);
 					continue;
 				} else {
@@ -113,7 +111,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
-				ModuleStack<IModule, IProducerEngine> engine = ModularUtils.getModuleStackEngine(modular);
+				ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
 				if (engine != null)	{
 					int burnTime = engine.getProducer().getBurnTime(engine);
 					int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
@@ -127,7 +125,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModule, IProducerEngine> engineStack = ModularUtils.getModuleStackEngine(modular);
+		ModuleStack<IModule, IProducerEngine> engineStack = ModuleUtils.getModuleStackEngine(modular);
 		if (engineStack != null && tile.getEnergyStored(null) > 0) {
 			IProducerEngine engine = engineStack.getProducer();
 			int burnTime = engine.getBurnTime(engineStack);
@@ -144,7 +142,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 					}
 				} else if (getInputs(modular, stack) != null
 						&& RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)) != null) {
-					if (ModularUtils.getModuleStackMachine(modular) == null)
+					if (ModuleUtils.getModuleStackMachine(modular) == null)
 						return;
 					engine.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack), getInputs(modular, stack)));
 					if (!removeInput(modular, stack)) {
@@ -152,7 +150,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 						return;
 					}
 					engine.setIsWorking(true);
-					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack) / ModularUtils.getModuleStackMachine(modular).getType().getTier());
+					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack) / ModuleUtils.getModuleStackMachine(modular).getType().getTier());
 				}
 				if (timer > timerTotal) {
 					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
@@ -174,14 +172,14 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModule, IProducerEngine> engineStack = ModularUtils.getModuleStackEngine(modular);
+		ModuleStack<IModule, IProducerEngine> engineStack = ModuleUtils.getModuleStackEngine(modular);
 		IProducerEngine engine = engineStack.getProducer();
 		if (engine.getManager(engineStack).getOutputs() != null) {
 			for (RecipeItem item : engine.getManager(engineStack).getOutputs()) {
 				if (item != null) {
 					if (!item.isFluid())
 						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), this.inputs,
-								this.inputs + this.outputs, stack.getModule().getName(stack))) {
+								this.inputs + this.outputs, stack.getModule().getName(stack, false))) {
 							item = null;
 							continue;
 						} else

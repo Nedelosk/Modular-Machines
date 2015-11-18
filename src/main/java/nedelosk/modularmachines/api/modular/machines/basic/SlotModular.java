@@ -16,18 +16,18 @@ public class SlotModular extends Slot {
 
 	@Override
 	public ItemStack getStack() {
-		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().getStackInSlot(stack.getModule().getName(stack), this.getSlotIndex());
+		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().getStackInSlot(stack.getModule().getName(stack, false), this.getSlotIndex());
 	}
 
 	@Override
 	public void putStack(ItemStack p_75215_1_) {
-		((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().setInventorySlotContents(stack.getModule().getName(stack), getSlotIndex(), p_75215_1_);
+		((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().setInventorySlotContents(stack.getModule().getName(stack, false), getSlotIndex(), p_75215_1_);
 		this.onSlotChanged();
 	}
 
 	@Override
 	public ItemStack decrStackSize(int p_75209_1_) {
-		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack), getSlotIndex(), p_75209_1_);
+		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), getSlotIndex(), p_75209_1_);
 	}
 
 }

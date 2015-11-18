@@ -27,7 +27,7 @@ public class ModularInventoryManager implements IModularInventoryManager {
 		for (Vector<ModuleStack> stacks : modular.getModules().values()) {
 			for (ModuleStack module : stacks) {
 				if (module.getProducer() instanceof IProducerInventory)
-					slots.put(module.getModule().getName(module),
+					slots.put(module.getModule().getName(module, false),
 							new ItemStack[((IProducerInventory) module.getProducer()).getSizeInventory(module)]);
 			}
 		}

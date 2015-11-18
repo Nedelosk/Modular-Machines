@@ -52,13 +52,23 @@ public class CampfireRecipeManager implements ICampfireRecipe {
 	public static List<CampfireRecipe> removeRecipes(ItemStack stack) {
 		List<CampfireRecipe> list = new ArrayList();
 		for (CampfireRecipe recipe : recipes) {
-			if (recipe.getOutput().getItem() == stack.getItem()
-					&& recipe.getOutput().getItemDamage() == stack.getItemDamage()
-					&& ItemStack.areItemStackTagsEqual(stack, recipe.getOutput())) {
+			if (recipe.getOutput().getItem() == stack.getItem() && recipe.getOutput().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getOutput())) {
 				list.add(recipe);
 			}
 		}
 		return list;
+	}
+	
+	public static boolean isInput(ItemStack stack) {
+		if(stack == null)
+			return false;
+		List<CampfireRecipe> list = new ArrayList();
+		for (CampfireRecipe recipe : recipes) {
+			if (recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem() && recipe.getInput().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getInput()) || recipe.getInput2() != null && recipe.getInput2().getItem() == stack.getItem() && recipe.getInput2().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getInput2())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static List<CampfireRecipe> getRecipes() {

@@ -92,9 +92,10 @@ public class BlockMachinesWood extends BlockMachines {
 		if (tile instanceof TileCampfire) {
 			TileCampfire campfire = (TileCampfire) tile;
 			ret.add(campfire.getStackInSlot(4));
-			return ret;
+		}else{
+			ret = super.getDrops(world, x, y, z, metadata, fortune);
 		}
-		return new ArrayList<ItemStack>();
+		return ret;
 	}
 
 	@Override

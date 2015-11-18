@@ -2,7 +2,6 @@ package nedelosk.modularmachines.api.modular.module.tool.producer.machine;
 
 import java.util.ArrayList;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerController;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGuiWithWidgets;

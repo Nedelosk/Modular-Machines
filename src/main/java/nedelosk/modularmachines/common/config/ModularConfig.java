@@ -33,7 +33,7 @@ public class ModularConfig {
 		Configuration config = ModularMachines.config;
 		for (ModuleStack module : ModuleRegistry.getModuleItems()) {
 			if (module.getItem() == null || module.getItem().getItem() == null
-					|| !config.getBoolean(module.getModule().getName(module)
+					|| !config.getBoolean(module.getModule().getName(module, true)
 							+ (module.getProducer() != null ? " : " + module.getProducer().getName(module) : "") + " : "
 							+ module.getItem().getUnlocalizedName(), "Modules.Default", true, "")) {
 				ModuleRegistry.getModuleItems().remove(module);

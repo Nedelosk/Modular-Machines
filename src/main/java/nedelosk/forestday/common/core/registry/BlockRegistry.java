@@ -30,8 +30,8 @@ public class BlockRegistry {
 
 		FBlockManager.Machine_Wood_Base.registerBlock(new BlockMachinesWood("wood_base", TileCampfire.class,
 				TileWorkbench.class, TileWorkbench.class, TileKiln.class), ItemBlockMachines.class);
-		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 1);
-		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("Axe", 1, 2);
+		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("axe", 0, 1);
+		FBlockManager.Machine_Wood_Base.block().setHarvestLevel("axe", 0, 2);
 
 		FBlockManager.Multiblock_Charcoal_Kiln.registerBlock(new BlockCharcoalKiln(), ItemBlockForestDay.class);
 

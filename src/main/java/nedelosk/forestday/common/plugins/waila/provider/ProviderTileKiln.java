@@ -1,4 +1,4 @@
-package nedelosk.forestday.common.plugins.waila.provider.machines;
+package nedelosk.forestday.common.plugins.waila.provider;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import nedelosk.forestday.common.blocks.tiles.TileCampfire;
+import nedelosk.forestday.common.blocks.tiles.TileKiln;
 
-public class ProviderTileCampfire implements IWailaDataProvider {
+public class ProviderTileKiln implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -24,13 +24,17 @@ public class ProviderTileCampfire implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
-		TileCampfire tile = (TileCampfire) accessor.getTileEntity();
+		TileKiln tile = (TileKiln) accessor.getTileEntity();
 
-		int fuel = tile.fuelStorage;
-		boolean isWorking = tile.isWorking;
+		int heat = tile.heat;
+		int resinAmount = tile.tank1.getFluidAmount();
+		int tarAmount = tile.tank2.getFluidAmount();
+		int lavaAmount = tile.tankLava.getFluidAmount();
 
-		currenttip.add("Fuel: " + fuel);
-		currenttip.add("Is Working: " + isWorking);
+		currenttip.add("Heat: " + heat + " H");
+		currenttip.add("Tank 1: 16000 mb / " + resinAmount + " mb");
+		currenttip.add("Tank 2: 16000 mb / " + tarAmount + " mb");
+		currenttip.add("Lava Tank: 8000 mb / " + lavaAmount + " mb");
 		currenttip.add("Progress: " + tile.getBurnTimeTotal() + " / " + tile.getBurnTime());
 		return currenttip;
 	}

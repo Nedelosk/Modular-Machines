@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public interface IModule {
 
-	String getName(ModuleStack stack);
+	String getName(ModuleStack stack, boolean withTypeModifier);
 
 	String getRegistryName();
 

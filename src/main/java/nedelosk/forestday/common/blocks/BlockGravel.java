@@ -5,6 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.Tabs;
+import nedelosk.forestday.common.core.registry.FRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,16 +14,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class BlockGravel extends BlockForestday {
+public class BlockGravel extends BlockForest {
 
 	public String[] textures = new String[] { "loam", "ore_gravel" };
 	public IIcon[] icon;
 
 	public BlockGravel() {
-		super("gravel", Material.ground, Tabs.tabForestday);
+		super(Material.ground, Tabs.tabForestday);
 		this.setHardness(1.0f);
 		this.setStepSound(Block.soundTypeGravel);
 		this.setHarvestLevel("shovel", 1, 0);
+		this.setBlockName(FRegistry.setUnlocalizedBlockName("gravel", "fd"));
 	}
 
 	@Override

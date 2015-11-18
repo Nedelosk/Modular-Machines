@@ -16,6 +16,7 @@ public class OreDictionaryManager {
 		registerOre("toolKnife", FItemManager.Knife_Stone.item());
 
 		registerOre("hardenedStarch", new ItemStack(FItemManager.Nature.item(), 1, 11));
+		registerOre("ingotPlastic", new ItemStack(FItemManager.Nature.item(), 1, 11));
 		registerOre("gearWood", new ItemStack(FItemManager.Gears_Wood.item(), 1, 1));
 
 		registerOre("ingotCopper", new ItemStack(FItemManager.Ingots.item(), 1, 0));

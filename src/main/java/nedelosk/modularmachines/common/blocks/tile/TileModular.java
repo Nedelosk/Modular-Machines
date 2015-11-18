@@ -106,7 +106,7 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 				tagCompound.getCompoundTag("Machine"));
 		modular.setMachine(this);
 		modular.initModular();
-		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0)));
+		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0), false));
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 

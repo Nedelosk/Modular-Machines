@@ -30,7 +30,7 @@ public class EventHandler {
 				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": "
 						+ ModuleRegistry.getModuleItem(event.itemStack).getType().getTier());
 				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": "
-						+ StatCollector.translateToLocal(stack.getModule().getName(stack) + ".name"));
+						+ StatCollector.translateToLocal(stack.getModule().getName(stack, true) + ".name"));
 				if (stack.getProducer() != null) {
 					event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.producer.name") + ": "
 							+ StatCollector.translateToLocal(stack.getProducer().getName(stack) + ".name"));

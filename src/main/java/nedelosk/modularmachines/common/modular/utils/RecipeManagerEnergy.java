@@ -3,92 +3,33 @@ package nedelosk.modularmachines.common.modular.utils;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
-import nedelosk.modularmachines.api.recipes.RecipeItem;
-import nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RecipeManagerEnergy implements IRecipeManager {
-
-	private String recipeName;
-	private int energyModifier;
-	private RecipeInput[] inputs;
-	private int speedModifier;
-	private IModular modular;
-
-	public RecipeManagerEnergy(IModular modular, String recipeName, RecipeInput[] inputs) {
-		this(modular, recipeName, 0, inputs);
-	}
-
+public class RecipeManagerEnergy extends RecipeManager {
+	
 	public RecipeManagerEnergy() {
 	}
-
-	public RecipeManagerEnergy(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs) {
-		this.inputs = inputs;
-		this.recipeName = recipeName;
-		if (energyModifier == 0)
-			energyModifier = 1;
-		this.energyModifier = energyModifier;
-		this.modular = modular;
-
-		this.speedModifier = RecipeRegistry.getRecipe(recipeName, inputs).getRequiredSpeedModifier();
+	
+	public RecipeManagerEnergy(IModular modular, String recipeName, RecipeInput[] inputs) {
+		super(modular, recipeName, inputs);
 	}
-
-	@Override
-	public RecipeItem[] getOutputs() {
-		if (RecipeRegistry.getRecipe(recipeName, inputs) == null)
-			return null;
-		return RecipeRegistry.getRecipe(recipeName, inputs).getOutputs();
-	}
-
-	@Override
-	public RecipeInput[] getInputs() {
-		return inputs;
+	
+	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs) {
+		super(modular, recipeName, materialModifier, inputs);
 	}
 
 	@Override
 	public boolean removeMaterial() {
 		if (modular == null || modular.getManager() == null || modular.getManager().getEnergyHandler() == null)
 			return false;
-		if (modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, energyModifier, false) > 0) {
+		if (modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, materialModifier, false) > 0) {
 			return true;
 		} else
 			return false;
 	}
 
 	@Override
-	public int getSpeedModifier() {
-		return speedModifier;
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) throws Exception {
-		nbt.setString("RecipeName", recipeName);
-		nbt.setInteger("EnergyModifier", energyModifier);
-		nbt.setInteger("SpeedModifier", speedModifier);
-		NBTTagList list = new NBTTagList();
-		for (RecipeInput input : inputs) {
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			input.writeToNBT(nbtTag);
-			list.appendTag(nbtTag);
-		}
-		nbt.setTag("RecipeInput", list);
-	}
-
-	@Override
-	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
-		String recipeName = nbt.getString("RecipeName");
-		int energyModifier = nbt.getInteger("EnergyModifier");
-		int speedModifier = nbt.getInteger("SpeedModifier");
-		NBTTagList list = nbt.getTagList("RecipeInput", 10);
-		RecipeInput[] inputs = new RecipeInput[list.tagCount()];
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			inputs[i] = RecipeInput.readFromNBT(nbtTag);
-		}
-		if (RecipeRegistry.getRecipe(recipeName, inputs) == null)
-			return null;
-		return new RecipeManagerEnergy(modular, recipeName, energyModifier, inputs);
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs) {
+		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs);
 	}
 }
