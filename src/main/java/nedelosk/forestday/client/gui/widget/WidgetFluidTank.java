@@ -18,8 +18,7 @@ import org.lwjgl.opengl.GL11;
 
 public class WidgetFluidTank extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestday",
-			"textures/gui/widgets/widget_fluid_tank.png");
+	private final ResourceLocation widget = new ResourceLocation("forestday", "textures/gui/widgets/widget_fluid_tank.png");
 	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
@@ -46,7 +45,7 @@ public class WidgetFluidTank extends Widget {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 0, 18, 73);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 18, 73);
 
 		int iconHeightRemainder = (60 - 4) % 16;
 
@@ -58,22 +57,19 @@ public class WidgetFluidTank extends Widget {
 				IIcon fluidIcon = fluid.getFluid().getStillIcon();
 
 				if (iconHeightRemainder > 0) {
-					drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1,
-							fluidIcon, 16, iconHeightRemainder);
+					RenderUtils.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, gui.getZLevel(), fluidIcon, 16, iconHeightRemainder);
 				}
 				for (int i = 0; i < (60 - 6) / 16; i++) {
-					drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1,
-							gui.getGuiTop() + this.posY + 1 + i * 16 + iconHeightRemainder, fluidIcon, 16, 18);
+					RenderUtils.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1 + i * 16 + iconHeightRemainder, gui.getZLevel(), fluidIcon, 16, 18);
 				}
 
 				RenderUtils.bindTexture(widget);
-				drawTexturedModalRect(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, 1, 1, 16,
-						72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
+				gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16, 72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
 			}
 		}
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, 19, 1, 16, 60);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 19, 1, 16, 60);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

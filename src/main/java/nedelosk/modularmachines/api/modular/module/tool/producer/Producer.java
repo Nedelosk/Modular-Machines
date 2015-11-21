@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
@@ -67,12 +69,12 @@ public abstract class Producer implements IProducer {
 	}
 
 	@Override
-	public ArrayList<String> getRequiredModules() {
+	public List<String> getRequiredModules() {
 		return new ArrayList<String>();
 	}
 
 	@Override
-	public boolean onBuildModular(IModular modular, ModuleStack stack, ArrayList<String> moduleNames) {
+	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
 		ArrayList<String> requiredModules = new ArrayList<>();
 		requiredModules.addAll(getRequiredModules());
 		for (String moduleName : getRequiredModules()) {

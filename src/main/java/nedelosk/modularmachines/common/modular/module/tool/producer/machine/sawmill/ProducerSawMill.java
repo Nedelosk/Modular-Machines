@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.sawmill;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
@@ -27,7 +28,7 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
 		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, stack));
 		list.add(new SlotModular(modular.getMachine(), 1, 116, 35, stack));
@@ -36,7 +37,7 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack) {
 		ArrayList<NeiStack> list = new ArrayList<NeiStack>();
 		list.add(new NeiStack(56, 24, true));
 		list.add(new NeiStack(116, 24, false));

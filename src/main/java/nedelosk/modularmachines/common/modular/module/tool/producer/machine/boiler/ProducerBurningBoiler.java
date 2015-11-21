@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +38,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList<Slot>();
 		slots.add(new SlotModular(modular.getMachine(), 0, 80, 34, stack));
 		return slots;
@@ -57,7 +58,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
+		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetBurningBar) {
 				ProducerBurningBoiler generator = (ProducerBurningBoiler) stack.getProducer();
@@ -72,7 +73,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	}
 
 	@Override
-	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack) {
 		return null;
 	}
 
@@ -144,7 +145,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	}
 	
 	@Override
-	public ArrayList<String> getRequiredModules() {
+	public List<String> getRequiredModules() {
 		ArrayList<String> modules = new ArrayList();
 		modules.add("TankManager");
 		modules.add("Casing");

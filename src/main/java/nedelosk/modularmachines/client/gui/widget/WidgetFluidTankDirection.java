@@ -35,11 +35,10 @@ public class WidgetFluidTankDirection extends Widget<TileModular> {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 18, 0, 18, 18);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
 		StringBuilder builder = new StringBuilder();
 		builder.append(direction.name().charAt(0));
-		RenderUtils.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(),
-				gui.getGuiLeft() + this.posX + 6, gui.getGuiTop() + this.posY + 5, 1.2F, 14737632);
+		RenderUtils.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 14737632);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 

@@ -53,14 +53,13 @@ public class WidgetFluidTankFilter extends Widget<TileModular> {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 36, 0, 18, 18);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 36, 0, 18, 18);
 
 		if (fluid != null) {
 			IIcon icon = fluid.getStillIcon();
 			if (icon != null) {
 				RenderUtils.bindBlockTexture();
-				drawTexturedModelRectFromIcon(gui.getGuiLeft() + this.posX + 1, gui.getGuiTop() + this.posY + 1, icon,
-						16, 16);
+				RenderUtils.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, gui.getZLevel(), icon, 16, 16);
 			}
 		}
 

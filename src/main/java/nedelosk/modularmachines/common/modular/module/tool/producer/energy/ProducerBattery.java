@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.energy;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
@@ -107,7 +108,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 
 	// Inventory
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
 		list.add(new SlotCapacitor(modular.getMachine(), 0, 143, 17, stack));
 		list.add(new SlotCapacitor(modular.getMachine(), 1, 143, 35, stack));
@@ -217,7 +218,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	}
 
 	@Override
-	public boolean onBuildModular(IModular modular, ModuleStack stack, ArrayList<String> moduleNames) {
+	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
 		modular.getManager()
 				.setEnergyHandler(new EnergyHandler(((IProducerBattery) stack.getProducer()).getStorage(stack)));
 		return super.onBuildModular(modular, stack, moduleNames);

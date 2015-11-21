@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.fluids;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.FluidTankBasic;
@@ -50,7 +51,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	@SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
+		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetFluidTank) {
 				int ID = ((WidgetFluidTank) widget).ID;
@@ -104,7 +105,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList<Slot>();
 		slots.add(new SlotTank(modular.getMachine(), 0, 26, 87, stack, 0));
 		slots.add(new SlotTank(modular.getMachine(), 1, 26 + 1 * 51, 87, stack, 1));
@@ -118,7 +119,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	}
 	
 	@Override
-	public boolean onBuildModular(IModular modular, ModuleStack stack, ArrayList<String> moduleNames) {
+	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
 		modular.getManager().setFluidHandler(new FluidHandler(modular));
 		return super.onBuildModular(modular, stack, moduleNames);
 	}

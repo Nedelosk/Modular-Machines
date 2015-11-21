@@ -11,9 +11,10 @@ import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.common.blocks.BlockComponent;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.crafting.ShapedModuleRecipe;
-import nedelosk.modularmachines.common.items.ItemMachineComponent;
+import nedelosk.modularmachines.common.items.ItemComponent;
 import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter.RecipeAlloySmelter;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.RecipeCentrifuge;
@@ -42,12 +43,46 @@ public class RecipeManager {
 		ModularMachinesApi.blastFurnace.addRecipe(10,
 				new FluidStack[] { new FluidStack(FluidRegistry.getFluid("slag"), 1000),
 						new FluidStack(FluidRegistry.getFluid("white_pig_iron"), 220) },
-				new Object[] { new ItemStack(Blocks.iron_ore, 1) }, 1200);
+				new Object[] {new	 ItemStack(Blocks.iron_ore, 1) }, 1200);
 	}
 
 	public static void registerModuleRecipes() {
 		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER), "-+-", "+s+", "-+-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		//Saw Mill
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.SAWMILL),
+		"-s-", "+-+", "-s-", '+', new ItemStack(MMItemManager.Component_Saw_Blades.item()), '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Alloy Smelter
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER),
+		"-s-", "+-+", "-s-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Pulverizer
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.PULVERIZER),
+		"-s-", "+-+", "-s-", '+', Items.flint, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Generator
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.GENERATOR),
+		"-s-", "-+-", "-s-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Tank Manager
+		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.MANAGER_TANK),
+		"-s-", "+++", "-s-", '+', "glass", '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Components
+		addShapelessRecipe(new ItemStack(MMItemManager.Component_Rods.item()), 
+		"cobblestone", "cobblestone", "cobblestone");
+		
+		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item()),
+		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item()), '-', "cobblestone");
+		
+		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 1),
+		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 1), '-', "blockIron");
+		
+		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 2),
+		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 4), '-', "blockBronze");
+		
+		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 3),
+		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 5), '-', "blockSteel");
 	}
 
 	public static void registerSawMillRecipes() {
@@ -189,17 +224,27 @@ public class RecipeManager {
 
 	public static void registerModularComponentRecipes() {
 		IWorkbenchRecipe manager = ForestdayCrafting.workbenchRecipe;
-		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Plates.item()).metas.size(); i++) {
+		manager.addRecipe(new OreStack("cobblestone", 2), new OreStack("toolHammer"), new ItemStack(MMItemManager.Component_Plates.item()), 100);
+		for (int i = 0; i < ((ItemComponent) MMItemManager.Component_Plates.item()).metas.size(); i++) {
 			ItemStack stack = new ItemStack(MMItemManager.Component_Plates.item(), 1, i);
-			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			for(String oreDict : (String[]) component.metas.get(i).get(2))
-				manager.addRecipe(new OreStack("ingot" + oreDict, 2), new OreStack("toolHammer"), stack, 100);
+			ItemComponent component = (ItemComponent) stack.getItem();
+			if(((ItemComponent) MMItemManager.Component_Plates.item()).metas.get(i).get(2) != null)
+				for(String oreDict : (String[]) component.metas.get(i).get(2))
+					manager.addRecipe(new OreStack("ingot" + oreDict, 2), new OreStack("toolHammer"), stack, 100);
 		}
-		for (int i = 0; i < ((ItemMachineComponent) MMItemManager.Component_Connection_Wires.item()).metas.size(); i++) {
-			ItemStack stack = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 1, i);
-			ItemMachineComponent component = (ItemMachineComponent) stack.getItem();
-			for(String oreDict : (String[]) component.metas.get(i).get(2))
-				manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
+		for (int i = 0; i < ((ItemComponent) MMItemManager.Component_Connection_Wires.item()).metas.size(); i++) {
+			ItemStack stack = new ItemStack(MMItemManager.Component_Connection_Wires.item(), 8, i);
+			ItemComponent component = (ItemComponent) stack.getItem();
+			if(((ItemComponent) MMItemManager.Component_Connection_Wires.item()).metas.get(i).get(2) != null)
+				for(String oreDict : (String[]) component.metas.get(i).get(2))
+					manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
+		}
+		
+		for(int i = 0; i < ((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.size(); i++){
+			ItemStack stack = new ItemStack(MMBlockManager.Component_Metal_Blocks.item(), 1, i);
+			if(((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2) != null)
+				for(String oreDict : (String[]) ((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2))
+					addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import cpw.mods.fml.common.Loader;
@@ -96,8 +96,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton,
-			ModuleStack stack) {
+	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack stack) {
 		if (widget instanceof WidgetProgressBar) {
 			if (Loader.isModLoaded("NotEnoughItems")) {
 				GuiCraftingRecipe.openRecipeGui("ModularMachines" + getRecipeName(stack));
@@ -108,7 +107,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
+		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
 				ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);

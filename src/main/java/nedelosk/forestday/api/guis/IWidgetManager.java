@@ -1,14 +1,17 @@
 package nedelosk.forestday.api.guis;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public interface IWidgetManager<G extends IGuiBase> {
 
 	void add(Widget slot);
+	
+	void add(Collection<Widget> slots);
 
 	void remove(Widget slot);
 
-	ArrayList<Widget> getWidgets();
+	List<Widget> getWidgets();
 
 	G getGui();
 

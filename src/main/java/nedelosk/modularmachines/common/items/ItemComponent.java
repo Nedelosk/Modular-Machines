@@ -14,24 +14,20 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemMachineComponent extends Item {
+public class ItemComponent extends Item {
 
 	public ArrayList<List> metas = Lists.newArrayList();
 	public String componentName;
 
-	public ItemMachineComponent(String name) {
+	public ItemComponent(String name) {
 		this.setUnlocalizedName("component." + name);
 		this.setCreativeTab(TabModularMachines.components);
 		this.componentName = name;
 	}
 
-	public static ItemMachineComponent addMetaData(MMItemManager item, int color, String name) {
-		return addMetaData(item, color, name);
-	}
-
-	public static ItemMachineComponent addMetaData(MMItemManager item, int color, String name, String... oreDict) {
-		((ItemMachineComponent) item.item()).metas.add(Lists.newArrayList(color, name, oreDict));
-		return (ItemMachineComponent) item.item();
+	public static ItemComponent addMetaData(MMItemManager item, int color, String name, String... oreDict) {
+		((ItemComponent) item.item()).metas.add(Lists.newArrayList(color, name, oreDict));
+		return (ItemComponent) item.item();
 	}
 
 	@Override

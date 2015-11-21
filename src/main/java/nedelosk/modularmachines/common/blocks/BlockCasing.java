@@ -4,7 +4,6 @@ import java.util.List;
 
 import nedelosk.forestday.common.blocks.BlockForest;
 import nedelosk.modularmachines.common.core.TabModularMachines;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;

@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core.manager;
 
 import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.modularmachines.common.blocks.BlockComponent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -10,7 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMBlockManager {
 
-	Ore_Others, Metal_Blocks, Casings,
+	Ore_Others, Component_Metal_Blocks, Casings,
 
 	Modular_Assembler, Modular_Machine;
 
@@ -67,5 +68,11 @@ public enum MMBlockManager {
 
 	public boolean setBlock(World world, int x, int y, int z, int meta, int flag) {
 		return world.setBlock(x, y, z, block, meta, flag);
+	}
+	
+	public void addMetaData(int color, String name, String... oreDict) {
+		if (block instanceof BlockComponent) {
+			BlockComponent.addMetaData(this, color, name, oreDict);
+		}
 	}
 }

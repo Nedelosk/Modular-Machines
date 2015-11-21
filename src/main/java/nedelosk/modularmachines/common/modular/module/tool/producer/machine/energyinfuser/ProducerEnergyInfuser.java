@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.energyinfuser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
@@ -13,22 +14,22 @@ import nedelosk.modularmachines.common.modular.module.tool.producer.machine.Prod
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerCentrifuge extends ProducerMachineRecipe {
+public class ProducerEnergyInfuser extends ProducerMachineRecipe {
 
-	public ProducerCentrifuge() {
-		super("Centrifuge", 2, 2, 60);
+	public ProducerEnergyInfuser() {
+		this("", 180);
 	}
 
-	public ProducerCentrifuge(String modifier, int speedModifier) {
-		super("Centrifuge" + modifier, 2, 2, speedModifier);
+	public ProducerEnergyInfuser(String modifier, int speedModifier) {
+		super("EnergyInfuser" + modifier, 1, 1, speedModifier);
 	}
 
-	public ProducerCentrifuge(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public ProducerEnergyInfuser(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
 		list.add(new SlotModular(modular.getMachine(), 0, 56, 35, stack));
 		list.add(new SlotModular(modular.getMachine(), 1, 74, 35, stack));
@@ -38,7 +39,7 @@ public class ProducerCentrifuge extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack) {
 		ArrayList<NeiStack> list = new ArrayList<NeiStack>();
 		list.add(new NeiStack(56, 24, true));
 		list.add(new NeiStack(74, 24, true));
@@ -54,7 +55,7 @@ public class ProducerCentrifuge extends ProducerMachineRecipe {
 
 	@Override
 	public String getRecipeName(ModuleStack stack) {
-		return "Centrifuge";
+		return "EnergyInfuser";
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class ProducerCentrifuge extends ProducerMachineRecipe {
 
 	@Override
 	public int getSpeedModifier() {
-		return 120;
+		return 200;
 	}
 
 	@Override

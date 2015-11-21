@@ -2,7 +2,7 @@ package nedelosk.modularmachines.api.recipes;
 
 public class Recipe implements IRecipe {
 
-	protected int[] modifiers;
+	protected Object[] modifiers;
 	protected final RecipeItem[] input;
 	protected final RecipeItem[] output;
 	protected int speedModifier;
@@ -10,7 +10,7 @@ public class Recipe implements IRecipe {
 	protected String recipeName;
 
 	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName,
-			int... modifiers) {
+			Object... modifiers) {
 		this.input = input;
 		this.output = output;
 		this.modifiers = modifiers;
@@ -25,12 +25,12 @@ public class Recipe implements IRecipe {
 	}
 
 	@Override
-	public int[] getModifiers() {
+	public Object[] getModifiers() {
 		return modifiers;
 	}
 
 	@Override
-	public int getModifier(int modifierID) {
+	public Object getModifier(int modifierID) {
 		return getModifiers()[modifierID];
 	}
 

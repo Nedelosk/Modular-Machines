@@ -3,12 +3,16 @@
 # 0.3.3 Beta - Nedelosk
 **Forest-Day**
 - Wood Bucket Fluid Fix
+- Change File Durabilitys Iron 100 = 150, Diamond 150 = 300
 
 **Modular-Machines**
-- Improve IProducerMachine, IProducerMachineRecipe, IProducerEngine API
+- Improve IProducerMachine, IProducerMachineRecipe, IProducerMachineRecipeMode, IProducerEngine API
 - Improve Engine and Recipe System
-- add Boilers
-- add Generators
+- add Boilers Module
+- add Generators Module
+- add Metal Blocks
+- add many Recipes
+- add Lathe Module
 
   - **Plugins**
   - Improve Waila Plugin

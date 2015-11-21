@@ -44,12 +44,11 @@ public class WidgetEnergyBar extends Widget {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 0, 12, 69);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 12, 69);
 
 		int energy = (this.storage.getEnergyStored() * 69) / this.storage.getMaxEnergyStored();
 
-		this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 69 - energy, 12,
-				0 + 69 - energy, 12, energy);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 12, 0 + 69 - energy, 12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

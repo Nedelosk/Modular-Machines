@@ -4,7 +4,6 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
-import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerSteam;
 import net.minecraft.nbt.NBTTagCompound;
 

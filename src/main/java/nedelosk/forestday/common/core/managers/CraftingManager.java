@@ -139,10 +139,10 @@ public class CraftingManager {
 		addShapedRecipe(new ItemStack(FItemManager.Pot.item(), 1, 2), "   ", "+ +", "+++", '+', "ingotIron");
 		addShapedRecipe(new ItemStack(FItemManager.Pot.item(), 1, 3), "   ", "+ +", "+++", '+', "ingotSteel");
 		
-		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item()), "+++", "+ +", "+ +", '+', "logWood");
-		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 1), "+++", "+ +", "+ +", '+', "stone");
-		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 2), "+++", "+ +", "+ +", '+', "ingotBronze");
-		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 3), "+++", "+ +", "+ +", '+', "ingotIron");
+		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item()), "++ ", "+  ", "   ", '+', "logWood");
+		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 1), "++ ", "+  ", "+  ", '+', "stone");
+		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 2), "++ ", "+  ", "+  ", '+', "ingotBronze");
+		addShapedRecipe(new ItemStack(FItemManager.Pot_Holder.item(), 1, 3), "++ ", "+  ", "+  ", '+', "ingotIron");
 		
 		addShapedRecipe(new ItemStack(FBlockManager.Machine_Wood_Base.item(), 1, 1), "---", "+++", "W W", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood");
 		addShapedRecipe(new ItemStack(FBlockManager.Machine_Wood_Base.item(), 1, 2), "---", "+++", "WCW", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood", 'C', Blocks.chest);

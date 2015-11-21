@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,9 +31,9 @@ public interface IProducer {
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile);
 
-	ArrayList<String> getRequiredModules();
+	List<String> getRequiredModules();
 
-	boolean onBuildModular(IModular modular, ModuleStack stack, ArrayList<String> moduleNames);
+	boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames);
 	
 	boolean hasFluids();
 

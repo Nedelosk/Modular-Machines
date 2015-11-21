@@ -1,24 +1,20 @@
 package nedelosk.forestday.api.guis;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class Widget<I extends IInventory> extends Gui {
+public class Widget<I extends IInventory> {
 
 	protected ResourceLocation widget;
-	public int posX, posY;
-	public int width, height;
+	protected Rectangle pos;
 	public Minecraft mc = Minecraft.getMinecraft();
 
 	public Widget(int posX, int posY, int width, int height) {
-		this.posX = posX;
-		this.posY = posY;
-		this.width = width;
-		this.height = height;
+		pos = new Rectangle(posX, posY, width, height);
 	}
 
 	public void draw(IGuiBase<I> gui) {
@@ -29,7 +25,7 @@ public class Widget<I extends IInventory> extends Gui {
 	}
 
 	public boolean isMouseOver(int x, int y) {
-		return x >= posX && y >= posY && x < posX + width && y < posY + height;
+		return x >= pos.x && y >= pos.y && x < pos.x + pos.width && y < pos.y + pos.height;
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
@@ -39,7 +35,7 @@ public class Widget<I extends IInventory> extends Gui {
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if (w.posX == posX && w.posY == posY)
+		if (w.pos.equals(w.pos))
 			return true;
 		return false;
 	}

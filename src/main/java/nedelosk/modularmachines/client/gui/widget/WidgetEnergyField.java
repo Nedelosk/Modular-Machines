@@ -18,13 +18,10 @@ public class WidgetEnergyField extends Widget {
 
 	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 	public IEnergyStorage storage;
-	public int posX, posY;
 
 	public WidgetEnergyField(IEnergyStorage storage, int posX, int posY) {
 		super(posX, posY, 66, 66);
 		this.storage = storage;
-		this.posX = posX;
-		this.posY = posY;
 	}
 
 	@Override
@@ -43,11 +40,11 @@ public class WidgetEnergyField extends Widget {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 190, 66, 66);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
 
 		int energy = (this.storage.getEnergyStored() * 66) / this.storage.getMaxEnergyStored();
 
-		this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

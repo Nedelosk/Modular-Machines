@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.core.manager;
 
 import nedelosk.forestday.common.core.registry.FRegistry;
-import nedelosk.modularmachines.common.items.ItemMachineComponent;
+import nedelosk.modularmachines.common.items.ItemComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -33,8 +33,8 @@ public enum MMItemManager {
 	}
 
 	public void addMetaData(int color, String name, String... oreDict) {
-		if (item instanceof ItemMachineComponent) {
-			ItemMachineComponent.addMetaData(this, color, name, oreDict);
+		if (item instanceof ItemComponent) {
+			ItemComponent.addMetaData(this, color, name, oreDict);
 		}
 	}
 

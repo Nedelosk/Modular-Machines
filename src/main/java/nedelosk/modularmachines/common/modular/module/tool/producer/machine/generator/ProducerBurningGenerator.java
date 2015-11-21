@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.generator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +13,6 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
 import net.minecraft.inventory.Slot;
@@ -35,7 +35,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	}
 
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList<Slot>();
 		slots.add(new SlotModular(modular.getMachine(), 0, 80, 34, stack));
 		return slots;
@@ -55,7 +55,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
-		ArrayList<Widget> widgets = base.getWidgetManager().getWidgets();
+		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetBurningBar) {
 				ProducerBurningGenerator generator = (ProducerBurningGenerator) stack.getProducer();
@@ -67,11 +67,6 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 				}
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
-		return null;
 	}
 
 	@Override
@@ -142,7 +137,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	}
 	
 	@Override
-	public ArrayList<String> getRequiredModules() {
+	public List<String> getRequiredModules() {
 		ArrayList<String> modules = new ArrayList();
 		modules.add("Battery");
 		modules.add("Casing");

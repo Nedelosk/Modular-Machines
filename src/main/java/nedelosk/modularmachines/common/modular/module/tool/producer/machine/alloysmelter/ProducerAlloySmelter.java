@@ -1,11 +1,13 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
@@ -36,7 +38,7 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 
 	// Inventory
 	@Override
-	public ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
+	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
 		list.add(new SlotModular(modular.getMachine(), 0, 36, 35, stack));
 		list.add(new SlotModular(modular.getMachine(), 1, 54, 35, stack));
@@ -55,17 +57,27 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
 		ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
-		int burnTime = engine.getProducer().getBurnTime(engine);
-		int burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
+		int burnTime = 0;
+		int burnTimeTotal = 0;
+		if(engine != null){
+			burnTime = engine.getProducer().getBurnTime(engine);
+			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
+		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
+	}
+	
+	@Override
+	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack) {
+		gui.getWidgetManager().add(new WidgetProgressBar(82, 25, 0, 0));
+		return gui.getWidgetManager().getWidgets();
 	}
 
 	// NEI
 	@Override
-	public ArrayList<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack) {
 		ArrayList<NeiStack> list = new ArrayList<NeiStack>();
-		list.add(new NeiStack(56, 24, true));
-		list.add(new NeiStack(74, 24, true));
+		list.add(new NeiStack(36, 24, true));
+		list.add(new NeiStack(54, 24, true));
 		list.add(new NeiStack(116, 24, false));
 		list.add(new NeiStack(134, 24, false));
 		return list;

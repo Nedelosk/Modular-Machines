@@ -104,6 +104,11 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	public void setZLevel(float zLevel) {
 		this.zLevel = zLevel;
 	}
+	
+	@Override
+	public float getZLevel() {
+		return zLevel;
+	}
 
 	@Override
 	public int getGuiLeft() {

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer.inventory;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
@@ -10,7 +10,7 @@ import net.minecraft.inventory.Slot;
 
 public interface IProducerInventory extends IProducerGui {
 
-	ArrayList<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack);
+	List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack);
 
 	int getSizeInventory(ModuleStack stack);
 

@@ -31,9 +31,9 @@ public class WidgetProgressBar extends Widget {
 		int process = (burntimeTotal == 0) ? 0 : burntime * 22 / burntimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		this.drawTexturedModalRect(sx + posX, sy + posY, 54, 0, 22, 15);
+		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, 22, 15);
 		if (burntime > 0 && burntime <= burntimeTotal) {
-			this.drawTexturedModalRect(sx + posX, sy + posY, 76, 0, process, 15);
+			gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, 15);
 		}
 	}
 

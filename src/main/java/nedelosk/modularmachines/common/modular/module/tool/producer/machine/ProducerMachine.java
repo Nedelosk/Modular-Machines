@@ -1,10 +1,12 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.machine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
@@ -16,6 +18,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.Produ
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.NeiStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -58,6 +61,18 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 
 	@SideOnly(Side.CLIENT)
 	@Override
+	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack) {
+		return new ArrayList();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public List<NeiStack> addNEIStacks(ModuleStack stack) {
+		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
 	}
@@ -69,7 +84,7 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	}
 	
 	@Override
-	public ArrayList<String> getRequiredModules() {
+	public List<String> getRequiredModules() {
 		ArrayList<String> modules = new ArrayList();
 		modules.add("Battery");
 		modules.add("Engine");

@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.plugins.nei;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -25,9 +24,10 @@ public class NEIConfig implements IConfigureNEI {
 		isAdded = false;
 		for (ModuleStack stack : ModuleRegistry.getModuleItems())
 			if (stack.getProducer() instanceof IProducerMachineRecipe) {
-				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack) != null && !producerHandlers.equals(stack.getModule().getName(stack, false))) {
+				String producer = stack.getModule().getName(stack, false);
+				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack) != null && !producerHandlers.contains(producer)) {
 					new ModularMachinesHandler(stack);
-					producerHandlers.add(stack.getModule().getName(stack, false));
+					producerHandlers.add(producer);
 				}
 			}
 		isAdded = true;

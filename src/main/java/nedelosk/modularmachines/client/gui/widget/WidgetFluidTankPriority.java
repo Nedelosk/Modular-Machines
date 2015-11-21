@@ -32,10 +32,9 @@ public class WidgetFluidTankPriority extends Widget<TileModular> {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 0, 18, 18);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 18, 18);
 
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 18 + ((priority - 1) * 18),
-				18, 18);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 18 + ((priority - 1) * 18),  18, 18);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

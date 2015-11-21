@@ -12,8 +12,8 @@ public class ModuleMachine extends Module {
 	}
 
 	@Override
-	public String getName(ModuleStack stack) {
-		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "") + ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "");
+	public String getName(ModuleStack stack, boolean withTypeModifier) {
+		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "") + (withTypeModifier ? ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "") : "");
 	}
 
 	@Override

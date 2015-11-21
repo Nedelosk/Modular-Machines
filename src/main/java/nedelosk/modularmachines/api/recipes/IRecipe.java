@@ -2,9 +2,9 @@ package nedelosk.modularmachines.api.recipes;
 
 public interface IRecipe {
 
-	int[] getModifiers();
+	Object[] getModifiers();
 
-	int getModifier(int modifierID);
+	Object getModifier(int modifierID);
 
 	RecipeItem[] getInputs();
 

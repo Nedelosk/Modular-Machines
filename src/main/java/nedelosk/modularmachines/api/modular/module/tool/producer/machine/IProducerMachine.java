@@ -1,7 +1,11 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer.machine;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerController;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGuiWithWidgets;
@@ -13,6 +17,10 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 
 	int getSpeed(ModuleStack stack);
 
-	ArrayList<NeiStack> addNEIStacks(ModuleStack stack);
+	@SideOnly(Side.CLIENT)
+	List<NeiStack> addNEIStacks(ModuleStack stack);
+	
+	@SideOnly(Side.CLIENT)
+	List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack);
 
 }

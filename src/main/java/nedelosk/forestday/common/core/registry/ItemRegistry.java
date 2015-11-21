@@ -44,9 +44,9 @@ public class ItemRegistry {
 		FItemManager.Pot_Holder.registerItem(new ItemCampfire(ForestDayConfig.campfirePotHolders, "pot_holder"));
 
 		FItemManager.File_Stone.registerItem(new ItemFile(50, 5, "file.stone", "file_stone", 1, Material.Stone));
-		FItemManager.File_Iron.registerItem(new ItemFile(100, 2, "file.iron", "file", 2, Material.Iron));
+		FItemManager.File_Iron.registerItem(new ItemFile(150, 2, "file.iron", "file", 2, Material.Iron));
 		FItemManager.File_Diamond
-				.registerItem(new ItemFile(150, 1, "file.diamond", "file_diamond", 3, Material.Diamond));
+				.registerItem(new ItemFile(300, 1, "file.diamond", "file_diamond", 3, Material.Diamond));
 		FItemManager.Hammer.registerItem(new ItemToolCrafting("hammer", 300, 0, Material.Iron, "hammer", 15));
 		FItemManager.Knife_Stone.registerItem(new ItemToolCrafting("knife", 200, 1, Material.Iron, "knife", 5));
 		FItemManager.Cutter.registerItem(new ItemCutter(250, 10, "cutter", "cutter", 1, Material.Iron));

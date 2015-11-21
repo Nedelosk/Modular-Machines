@@ -8,12 +8,16 @@ public interface IGuiBase<T extends IInventory> {
 
 	IWidgetManager getWidgetManager();
 
-	public T getTile();
+	T getTile();
 
 	void setZLevel(float zLevel);
+	
+	float getZLevel();
 
 	int getGuiLeft();
 
 	int getGuiTop();
+	
+	void drawTexturedModalRect(int x, int y, int tx, int ty, int w, int h);
 
 }

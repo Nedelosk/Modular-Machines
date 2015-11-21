@@ -10,6 +10,11 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import nedelosk.forestday.api.guis.IButtonManager;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.IWidgetManager;
+import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestday.client.gui.WidgetManager;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
@@ -17,16 +22,19 @@ import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ModularMachinesHandler extends TemplateRecipeHandler {
+public class ModularMachinesHandler extends TemplateRecipeHandler implements IGuiBase {
 
 	public ResourceLocation nei_widgets = new ResourceLocation("modularmachines:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
 	public ModuleStack<IModule, IProducerMachineRecipe> producer;
+	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
 
 	public ModularMachinesHandler(ModuleStack<IModule, IProducerMachineRecipe> producer) {
 		this.recipeName = producer.getProducer().getRecipeName(producer);
@@ -35,6 +43,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 			GuiCraftingRecipe.craftinghandlers.add(this);
 			GuiUsageRecipe.usagehandlers.add(this);
 		}
+		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer));
 	}
 
 	@Override
@@ -124,6 +133,18 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 					stacks.add(stack);
 		for (PositionedStack stack : stacks)
 			GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
+		
+		widgetManager.drawWidgets();
+		for(Widget widget : widgetManager.getWidgets()){
+			if(widget instanceof WidgetProgressBar){
+				if(((WidgetProgressBar)widget).burntimeTotal != 100)
+					((WidgetProgressBar)widget).burntimeTotal = 100;
+				if(((WidgetProgressBar)widget).burntime > ((WidgetProgressBar)widget).burntimeTotal)
+					((WidgetProgressBar)widget).burntime = 0;
+				else
+					((WidgetProgressBar)widget).burntime++;
+			}
+		}
 	}
 
 	public class ModularCachedRecipe extends TemplateRecipeHandler.CachedRecipe {
@@ -155,7 +176,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 		public ModularCachedRecipe(RecipeItem[] inputs, RecipeItem[] outputs) {
 			this.input = new ArrayList<PositionedStack>();
 			this.outputs = new ArrayList<PositionedStack>();
-			ArrayList<NeiStack> stacks = producer.getProducer().addNEIStacks(producer);
+			List<NeiStack> stacks = producer.getProducer().addNEIStacks(producer);
 			int input = 0;
 			int output = 0;
 			for (NeiStack stack : stacks) {
@@ -202,6 +223,46 @@ public class ModularMachinesHandler extends TemplateRecipeHandler {
 			return true;
 		}
 
+	}
+
+	@Override
+	public IButtonManager getButtonManager() {
+		return null;
+	}
+
+	@Override
+	public IWidgetManager getWidgetManager() {
+		return widgetManager;
+	}
+
+	@Override
+	public IInventory getTile() {
+		return null;
+	}
+
+	@Override
+	public void setZLevel(float zLevel) {
+		GuiDraw.gui.setZLevel(zLevel);
+	}
+	
+	@Override
+	public float getZLevel() {
+		return GuiDraw.gui.getZLevel();
+	}
+
+	@Override
+	public int getGuiLeft() {
+		return 0;
+	}
+
+	@Override
+	public int getGuiTop() {
+		return 0;
+	}
+	
+	@Override
+	public void drawTexturedModalRect(int x, int y, int tx, int ty, int w, int h) {
+		GuiDraw.drawTexturedModalRect(x, y, tx, ty, w, h);
 	}
 
 }

@@ -1,6 +1,8 @@
 package nedelosk.forestday.client.gui;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.IWidgetManager;
@@ -14,7 +16,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	public final G gui;
 	public final Minecraft minecraft;
-	protected final ArrayList<Widget> widgets = new ArrayList<Widget>();
+	protected final List<Widget> widgets = new ArrayList<Widget>();
 
 	public WidgetManager(G gui) {
 		this.gui = gui;
@@ -25,6 +27,13 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	public void add(Widget slot) {
 		if (!widgets.contains(slot))
 			this.widgets.add(slot);
+	}
+	
+	@Override
+	public void add(Collection<Widget> slots) {
+		for(Widget slot : slots)
+			if (!widgets.contains(slot))
+				widgets.add(slot);
 	}
 
 	@Override
@@ -73,7 +82,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	@Override
-	public ArrayList<Widget> getWidgets() {
+	public List<Widget> getWidgets() {
 		return widgets;
 	}
 
