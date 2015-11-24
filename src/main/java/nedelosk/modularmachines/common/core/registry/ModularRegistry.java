@@ -15,6 +15,7 @@ import nedelosk.modularmachines.common.modular.module.tool.producer.machine.allo
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler.ProducerBurningBoiler;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.ProducerCentrifuge;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.generator.ProducerBurningGenerator;
+import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.ProducerLathe;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer.ProducerPulverizer;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.sawmill.ProducerSawMill;
 import nedelosk.modularmachines.common.modular.module.tool.producer.storage.ProducerChest;
@@ -84,6 +85,9 @@ public class ModularRegistry {
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter("Stone", 350), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER, new ProducerAlloySmelter("Iron", 300), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter("Bronze", 250), Types.BRONZE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE,new ProducerLathe("Stone", 325), Types.STONE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE, new ProducerLathe("Iron", 275), Types.IRON, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE,new ProducerLathe("Bronze", 225), Types.BRONZE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.SAWMILL, new ProducerSawMill("Stone", 350), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.SAWMILL, new ProducerSawMill("Iron", 300), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.SAWMILL, new ProducerSawMill("Bronze", 250), Types.BRONZE, true)));
@@ -102,6 +106,7 @@ public class ModularRegistry {
 		ModuleRegistry.registerModule(Modules.CASING);
 		ModuleRegistry.registerModule(Modules.FURNACE);
 		ModuleRegistry.registerModule(Modules.ALLOYSMELTER);
+		ModuleRegistry.registerModule(Modules.LATHE);
 		ModuleRegistry.registerModule(Modules.GENERATOR);
 		ModuleRegistry.registerModule(Modules.BOILER);
 		ModuleRegistry.registerModule(Modules.CENTRIFUGE);

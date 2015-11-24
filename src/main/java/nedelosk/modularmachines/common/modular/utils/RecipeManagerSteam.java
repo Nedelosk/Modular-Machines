@@ -12,12 +12,8 @@ public class RecipeManagerSteam extends RecipeManager {
 	public RecipeManagerSteam() {
 	}
 	
-	public RecipeManagerSteam(IModular modular, String recipeName, RecipeInput[] inputs) {
-		super(modular, recipeName, inputs);
-	}
-	
-	public RecipeManagerSteam(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs) {
-		super(modular, recipeName, materialModifier, inputs);
+	public RecipeManagerSteam(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		super(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
 	@Override
@@ -32,7 +28,7 @@ public class RecipeManagerSteam extends RecipeManager {
 	}
 
 	@Override
-	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs) {
-		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs);
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 }

@@ -7,6 +7,7 @@ import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipe;
@@ -37,7 +38,7 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public List<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe) {
 		ArrayList<NeiStack> list = new ArrayList<NeiStack>();
 		list.add(new NeiStack(56, 24, true));
 		list.add(new NeiStack(116, 24, false));

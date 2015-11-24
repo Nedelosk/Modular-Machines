@@ -18,6 +18,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.Produ
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +26,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
 
 	protected int timer, timerTotal;
+	@SideOnly(Side.CLIENT)
+	protected IModularRenderer itemRenderer;
+	@SideOnly(Side.CLIENT)
+	protected IModularRenderer machineRenderer;
 
 	public ProducerMachine(String modifier) {
 		super(modifier);
@@ -61,26 +66,30 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack) {
+	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		return new ArrayList();
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe) {
 		return null;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+		if(machineRenderer == null)
+			machineRenderer = new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+		return machineRenderer;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+		if(itemRenderer == null)
+			itemRenderer = new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
+		return itemRenderer;
 	}
 	
 	@Override

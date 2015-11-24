@@ -160,29 +160,29 @@ public class TileCampfire extends TileMachineBase {
 			}
 		}
 
-		if (fuelStorage > 0) {
-			if (timer >= timerMax) {
-				if (isWorking) {
-					if (fuelStorage == 0) {
-						isWorking = false;
-					}
-					if (output == null) {
-						isWorking = false;
-					}
-					fuelStorage -= 5;
+		if (timer >= timerMax) {
+			if (isWorking) {
+				if (fuelStorage == 0) {
+					isWorking = false;
 				}
-				if (burnTime != burnTimeTotal)
-					burnTime++;
+				if (output == null) {
+					isWorking = false;
+				}
+				if (fuelStorage > 0) {
+					fuelStorage -= 5;
+					if (burnTime != burnTimeTotal)
+						burnTime++;
+					if (fuelStorage > ForestDayConfig.campfireFuelStorageMax[getCurbTier()]) {
+						fuelStorage = ForestDayConfig.campfireFuelStorageMax[getCurbTier()];
+					}
+				}
 				if (output != null)
 					isWorking = true;
-				if (fuelStorage > ForestDayConfig.campfireFuelStorageMax[getCurbTier()]) {
-					fuelStorage = ForestDayConfig.campfireFuelStorageMax[getCurbTier()];
-				}
-				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				timer = 0;
-			} else {
-				timer++;
 			}
+		} else {
+			timer++;
 		}
 	}
 

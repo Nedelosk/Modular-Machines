@@ -108,8 +108,7 @@ public class BlockMachinesWood extends BlockMachines {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire
-				&& ((TileCampfire) world.getTileEntity(x, y, z)).isWorking) {
+		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire && ((TileCampfire) world.getTileEntity(x, y, z)).isWorking) {
 			int l = world.getBlockMetadata(x, y, z);
 			float f = x + 0.5F;
 			float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;

@@ -23,8 +23,8 @@ public class ProducerEngineEnergy extends ProducerEngine{
 	}
 
 	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs) {
-		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs);
+	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
 	@Override

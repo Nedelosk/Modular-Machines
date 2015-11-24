@@ -31,11 +31,15 @@ public class Widget<I extends IInventory> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
 
 	}
+	
+	public Rectangle getPos() {
+		return pos;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if (w.pos.equals(w.pos))
+		if (w.pos.equals(pos))
 			return true;
 		return false;
 	}

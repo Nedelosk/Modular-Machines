@@ -34,7 +34,7 @@ public class ModularMachine extends ModularInventory {
 				return null;
 			if (ModuleRegistry.getModuleItem(stacks[0]) != null && ModuleRegistry.getModuleItem(stacks[0]).getProducer() instanceof IProducerController)
 				controller = ModuleRegistry.getModuleItem(stacks[0]);
-			if(controller.getProducer().buildMachine(modular, stacks, controller)){
+			if(controller != null && controller.getProducer().buildMachine(modular, stacks, controller)){
 				ArrayList<String> moduleNames = new ArrayList<>();
 				for (Vector<ModuleStack> moduleStacks : modular.getModules().values()) {
 					for (ModuleStack stack : moduleStacks) {

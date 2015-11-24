@@ -15,6 +15,7 @@ import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
 import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
@@ -46,7 +47,7 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public List<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe) {
 		ArrayList<NeiStack> list = new ArrayList<NeiStack>();
 		list.add(new NeiStack(56, 24, true));
 		list.add(new NeiStack(116, 24, false));
@@ -83,7 +84,7 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 	}
 	
 	@Override
-	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack) {
+	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 25, 0, 0));
 		return gui.getWidgetManager().getWidgets();
 	}

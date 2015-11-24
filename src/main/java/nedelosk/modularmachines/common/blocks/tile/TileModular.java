@@ -36,8 +36,9 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 			nbt.setString("MachineName", modular.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
-			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			Log.err("Error To Write Data From Modular Machine:" + getMachineName() + " on Position " + xCoord + ", "
+			if(!worldObj.isRemote)
+				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			Log.err("Error To Write Data From Modular Machine on Position " + xCoord + ", "
 					+ yCoord + ", " + zCoord);
 		}
 	}
@@ -49,7 +50,7 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
 		if (modular == null || modular.getModules() == null) {
 			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			Log.err("Error To Load Data From Modular Machine: " + getMachineName() + " on Position " + xCoord + ", "
+			Log.err("Error To Load Data From Modular Machine on Position  " + xCoord + ", "
 					+ yCoord + ", " + zCoord);
 		} else
 			modular.setMachine(this);

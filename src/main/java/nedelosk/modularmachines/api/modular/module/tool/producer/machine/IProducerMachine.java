@@ -11,6 +11,7 @@ import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducer
 import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 
 public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWidgets, IProducerWithItem, IProducerController {
@@ -18,9 +19,9 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 	int getSpeed(ModuleStack stack);
 
 	@SideOnly(Side.CLIENT)
-	List<NeiStack> addNEIStacks(ModuleStack stack);
+	List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe);
 	
 	@SideOnly(Side.CLIENT)
-	List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack);
+	List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe);
 
 }

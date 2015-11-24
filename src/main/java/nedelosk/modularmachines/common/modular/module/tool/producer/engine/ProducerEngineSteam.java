@@ -23,8 +23,8 @@ public class ProducerEngineSteam extends ProducerEngine{
 	}
 
 	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs) {
-		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs);
+	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
 	@Override

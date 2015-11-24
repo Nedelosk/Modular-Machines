@@ -1,15 +1,20 @@
 package nedelosk.modularmachines.plugins.nei;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import nedelosk.forestday.api.guis.IButtonManager;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.IWidgetManager;
@@ -23,6 +28,7 @@ import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -43,7 +49,6 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			GuiCraftingRecipe.craftinghandlers.add(this);
 			GuiUsageRecipe.usagehandlers.add(this);
 		}
-		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer));
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 				for (RecipeItem output : outputs) {
 					if (result.getItem() == output.item.getItem()
 							&& result.getItemDamage() == output.item.getItemDamage()) {
-						ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs);
+						ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs, recipe);
 						arecipes.add(res);
 					}
 				}
@@ -88,7 +93,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
 			if (recipes != null) {
 				for (IRecipe recipe : recipes) {
-					ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
+					ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs(), recipe);
 					arecipes.add(res);
 				}
 			}
@@ -102,7 +107,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
 		if (recipes != null) {
 			for (IRecipe recipe : recipes) {
-				ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs());
+				ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs(), recipe);
 				if (res.contains(res.input, ingredient)) {
 					res.setIngredientPermutation(res.input, ingredient);
 					arecipes.add(res);
@@ -115,6 +120,8 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public TemplateRecipeHandler newInstance() {
 		return new ModularMachinesHandler(this.producer);
 	}
+	
+	
 
 	@Override
 	public void drawBackground(int recipeIndex) {
@@ -133,6 +140,8 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 					stacks.add(stack);
 		for (PositionedStack stack : stacks)
 			GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
+		
+		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer, ((ModularCachedRecipe)arecipes.get(recipeIndex)).recipe));
 		
 		widgetManager.drawWidgets();
 		for(Widget widget : widgetManager.getWidgets()){
@@ -153,6 +162,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		private PositionedStack output;
 		private ArrayList<PositionedStack> outputs;
 		public int energy;
+		public IRecipe recipe;
 
 		@Override
 		public List<PositionedStack> getIngredients() {
@@ -173,10 +183,11 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			return input;
 		}
 
-		public ModularCachedRecipe(RecipeItem[] inputs, RecipeItem[] outputs) {
+		public ModularCachedRecipe(RecipeItem[] inputs, RecipeItem[] outputs, IRecipe recipe) {
 			this.input = new ArrayList<PositionedStack>();
 			this.outputs = new ArrayList<PositionedStack>();
-			List<NeiStack> stacks = producer.getProducer().addNEIStacks(producer);
+			this.recipe = recipe;
+			List<NeiStack> stacks = producer.getProducer().addNEIStacks(producer, recipe);
 			int input = 0;
 			int output = 0;
 			for (NeiStack stack : stacks) {
@@ -263,6 +274,31 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	@Override
 	public void drawTexturedModalRect(int x, int y, int tx, int ty, int w, int h) {
 		GuiDraw.drawTexturedModalRect(x, y, tx, ty, w, h);
+	}
+	
+	@Override
+	public List<String> handleTooltip(GuiRecipe guiRecipe, List<String> currenttip, int recipe) {
+		super.handleTooltip(guiRecipe, currenttip, recipe);
+		if (GuiContainerManager.shouldShowTooltip(guiRecipe) && widgetManager != null) {
+			Point mouse = GuiDraw.getMousePosition();
+			Point offset = guiRecipe.getRecipePosition(recipe);
+			Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x, mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
+
+			currenttip = provideTooltip(currenttip, relMouse);
+		}
+		return currenttip;
+	}
+	
+	private List<String> provideTooltip(List<String> currenttip, Point relMouse) {
+		for(Widget widget : widgetManager.getWidgets()){
+			if (widget != null) {
+				if (widget.getPos().contains(relMouse)) {
+					if(widget.getTooltip() != null)
+						currenttip.addAll(widget.getTooltip());
+				}
+			}
+		}
+		return currenttip;
 	}
 
 }

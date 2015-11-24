@@ -18,6 +18,7 @@ public class Modules {
 	public static IModule CHEST = new ModuleBasic("Chest", "Storage");
 	public static IModule FURNACE = new ModuleMachine("Furnarce");
 	public static IModule ALLOYSMELTER = new ModuleMachine("AlloySmelter");
+	public static IModule LATHE = new ModuleMachine("Lathe");
 	public static IModule SAWMILL = new ModuleMachine("SawMill");
 	public static IModule PULVERIZER = new ModuleMachine("Pulverizer");
 	public static IModule CENTRIFUGE = new ModuleMachine("Centrifuge");

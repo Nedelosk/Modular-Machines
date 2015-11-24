@@ -14,10 +14,8 @@ public class TileRendererModular extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
 		if (entity instanceof TileModular) {
 			TileModular machineTile = (TileModular) entity;
-			if (machineTile.modular != null
-					&& machineTile.modular.getMachineRenderer(machineTile.modular, machineTile) != null)
-				machineTile.modular.getMachineRenderer(machineTile.modular, machineTile).renderMachine(machineTile, x,
-						y, z);
+			if (machineTile.modular != null && machineTile.modular.getMachineRenderer(machineTile.modular, machineTile) != null)
+				machineTile.modular.getMachineRenderer(machineTile.modular, machineTile).renderMachine(machineTile, x, y, z);
 		}
 	}
 

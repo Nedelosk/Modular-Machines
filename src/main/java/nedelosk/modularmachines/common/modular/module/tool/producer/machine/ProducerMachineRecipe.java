@@ -43,14 +43,14 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		this.inputs = inputs;
 		this.outputs = outputs;
 		this.speed = speed;
+		this.timerTotal = 50;
 	}
 
 	public RecipeInput[] getInputItems(IModular modular, ModuleStack moduleStack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		RecipeInput[] inputs = new RecipeInput[this.inputs];
 		for (int i = 0; i < inputs.length; i++) {
-			ItemStack stack = tile.getModular().getInventoryManager()
-					.getStackInSlot(moduleStack.getModule().getName(moduleStack, false), i);
+			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(moduleStack.getModule().getName(moduleStack, false), i);
 			inputs[i] = new RecipeInput(i, stack);
 		}
 		return inputs;
@@ -71,7 +71,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public boolean removeInput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack));
+		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 		for (int i = 0; i < getInputs(modular, stack).length; i++) {
 			RecipeInput input = getInputs(modular, stack)[i];
 			RecipeItem[] inputs = recipe.getInputs();
@@ -92,6 +92,11 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 				return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public Object[] getCraftingModifiers(IModular modular, ModuleStack stack) {
+		return null;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -131,7 +136,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 			int burnTimeTotal = engine.getBurnTimeTotal(engineStack);
 			IRecipeManager manager = engine.getManager(engineStack);
 			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
-				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack));
+				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 				if (manager != null) {
 					if (addOutput(modular, stack)) {
 						engine.setManager(null);
@@ -139,19 +144,20 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 						engine.setBurnTime(0);
 						engine.setIsWorking(false);
 					}
-				} else if (getInputs(modular, stack) != null
-						&& RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)) != null) {
+				} else if (getInputs(modular, stack) != null && recipe != null) {
 					if (ModuleUtils.getModuleStackMachine(modular) == null)
 						return;
-					engine.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack), getInputs(modular, stack)));
+					engine.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack), getInputs(modular, stack), getCraftingModifiers(modular, stack)));
 					if (!removeInput(modular, stack)) {
 						engine.setManager(null);
 						return;
 					}
 					engine.setIsWorking(true);
-					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack)).getRequiredSpeedModifier(), stack, engineStack) / ModuleUtils.getModuleStackMachine(modular).getType().getTier());
+					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / ModuleUtils.getModuleStackMachine(modular).getType().getTier());
 				}
 				if (timer > timerTotal) {
+					if(timerTotal == 0)
+						timerTotal = 50;
 					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 					timer = 0;
 				} else {
@@ -159,6 +165,8 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 				}
 			} else {
 				if (timer > timerTotal) {
+					if(timerTotal == 0)
+						timerTotal = 50;
 					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 					timer = 0;
 				} else {
@@ -204,6 +212,15 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		nbt.setInteger("Inputs", inputs);
 		nbt.setInteger("Outputs", outputs);
 		nbt.setInteger("Speed", speed);
+	}
+	
+	@Override
+	public void writeCraftingModifiers(NBTTagCompound nbt, IModular modular, Object[] craftingModifiers) {
+	}
+	
+	@Override
+	public Object[] readCraftingModifiers(NBTTagCompound nbt, IModular modular) {
+		return null;
 	}
 
 	@Override

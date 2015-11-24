@@ -36,7 +36,7 @@ public interface IProducerEngine extends IProducer {
 	
 	void setIsWorking(boolean isWorking);
 	
-	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs);
+	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier);
 	
 	IRecipeManager creatRecipeManager();
 	

@@ -13,6 +13,7 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
@@ -73,7 +74,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	}
 
 	@Override
-	public List<NeiStack> addNEIStacks(ModuleStack stack) {
+	public List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe) {
 		return null;
 	}
 

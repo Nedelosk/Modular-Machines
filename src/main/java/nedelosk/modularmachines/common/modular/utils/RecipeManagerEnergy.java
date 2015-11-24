@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.common.modular.utils;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
+import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -10,12 +12,8 @@ public class RecipeManagerEnergy extends RecipeManager {
 	public RecipeManagerEnergy() {
 	}
 	
-	public RecipeManagerEnergy(IModular modular, String recipeName, RecipeInput[] inputs) {
-		super(modular, recipeName, inputs);
-	}
-	
-	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs) {
-		super(modular, recipeName, materialModifier, inputs);
+	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		super(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
 	@Override
@@ -29,7 +27,7 @@ public class RecipeManagerEnergy extends RecipeManager {
 	}
 
 	@Override
-	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs) {
-		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs);
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 }

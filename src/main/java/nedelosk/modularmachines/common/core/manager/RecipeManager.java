@@ -18,6 +18,8 @@ import nedelosk.modularmachines.common.items.ItemComponent;
 import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter.RecipeAlloySmelter;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.RecipeCentrifuge;
+import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe;
+import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer.RecipePulverizer;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.sawmill.RecipeSawMill;
 import net.minecraft.init.Blocks;
@@ -25,6 +27,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -36,6 +39,7 @@ public class RecipeManager {
 		registerSawMillRecipes();
 		registerPulverizerRecipes();
 		registerAlloySmelterRecipes();
+		registerLatheRecipes();
 		registerCentrifugeRecipes();
 		registerMetalRecipes();
 		registerModuleRecipes();
@@ -55,6 +59,10 @@ public class RecipeManager {
 		//Alloy Smelter
 		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER),
 		"-s-", "+-+", "-s-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
+		
+		//Saw Mill
+		addShapedModuleRecipe(ItemProducers.getItem(Types.IRON, Modules.LATHE),
+		"psp", "+-+", "psp", '+', "blockIron", '-', "blockRedstone", 's', Items.string, 'p', "plateIron");
 		
 		//Pulverizer
 		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.PULVERIZER),
@@ -83,6 +91,15 @@ public class RecipeManager {
 		
 		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 3),
 		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 5), '-', "blockSteel");
+	}
+	
+	public static void registerLatheRecipes(){
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 1)), 1, 375, LatheModes.ROD));
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 2)), 2, 350, LatheModes.ROD));
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 3)), 1, 325, LatheModes.ROD));
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 4)), 2, 450, LatheModes.ROD));
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 5)), 3, 475, LatheModes.ROD));
+		RecipeRegistry.registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotPlastic")), new RecipeItem(new ItemStack(MMItemManager.Component_Rods.item(), 2, 6)), 1, 250, LatheModes.ROD));
 	}
 
 	public static void registerSawMillRecipes() {
@@ -245,6 +262,18 @@ public class RecipeManager {
 			if(((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2) != null)
 				for(String oreDict : (String[]) ((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2))
 					addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
+		}
+		
+		for(int i = 0; i < ((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.size(); i++){
+			ItemStack stack = new ItemStack(MMBlockManager.Component_Metal_Blocks.item(), 1, i);
+			if(((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2) != null)
+				for(String oreDict : (String[]) ((BlockComponent) MMBlockManager.Component_Metal_Blocks.block()).metas.get(i).get(2)){
+					if(OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()){
+						ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0);
+						ore.stackSize = 9;
+						addShapelessRecipe(ore, stack);
+					}
+				}
 		}
 	}
 

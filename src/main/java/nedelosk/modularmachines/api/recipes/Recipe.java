@@ -54,4 +54,9 @@ public class Recipe implements IRecipe {
 		return material;
 	}
 
+	@Override
+	public boolean matches(Object[] craftingModifiers) {
+		return true;
+	}
+
 }

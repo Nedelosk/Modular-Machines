@@ -108,7 +108,7 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 		
 		if (manager != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
-			manager.writeToNBT(nbtTag);
+			manager.writeToNBT(nbtTag, modular);
 			nbt.setTag("Manager", nbtTag);
 		}
 	}
@@ -116,13 +116,13 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		return new ModularMachineRenderer.EngineRenderer(moduleStack);
+		return new ModularMachineRenderer.EngineRenderer(moduleStack, ModuleUtils.getModuleStackCasing(modular));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return new ModularMachineRenderer.EngineRenderer(moduleStack);
+		return new ModularMachineRenderer.EngineRenderer(moduleStack, ModuleUtils.getModuleStackCasing(modular));
 	}
 
 	@Override

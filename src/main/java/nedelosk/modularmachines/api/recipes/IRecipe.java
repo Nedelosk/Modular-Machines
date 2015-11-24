@@ -1,5 +1,8 @@
 package nedelosk.modularmachines.api.recipes;
 
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.World;
+
 public interface IRecipe {
 
 	Object[] getModifiers();
@@ -11,6 +14,8 @@ public interface IRecipe {
 	RecipeItem[] getOutputs();
 
 	int getRequiredSpeedModifier();
+	
+    boolean matches(Object[] craftingModifiers);
 
 	int getRequiredMaterial();
 

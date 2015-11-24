@@ -66,7 +66,7 @@ public class RecipeRegistry {
 		return list;
 	}
 
-	public static IRecipe getRecipe(String recipeName, RecipeInput[] inputs) {
+	public static IRecipe getRecipe(String recipeName, RecipeInput[] inputs, Object... craftingModifiers) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
 		if (recipes == null)
 			return null;
@@ -127,7 +127,8 @@ public class RecipeRegistry {
 
 			}
 			if (!isBreak)
-				return recipe;
+				if(recipe.matches(craftingModifiers))
+					return recipe;
 		}
 		return null;
 	}

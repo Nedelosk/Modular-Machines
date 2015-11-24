@@ -23,8 +23,7 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 	public void initGui() {
 		super.initGui();
 
-		buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(),
-				new ResourceLocation("forestday", "textures/gui/button/workbanch_mode.png")));
+		buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(), new ResourceLocation("forestday", "textures/gui/button/workbanch_mode.png")));
 	}
 
 	@Override

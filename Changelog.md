@@ -4,6 +4,7 @@
 **Forest-Day**
 - Wood Bucket Fluid Fix
 - Change File Durabilitys Iron 100 = 150, Diamond 150 = 300
+- Change Pod Holder Recipe
 
 **Modular-Machines**
 - Improve IProducerMachine, IProducerMachineRecipe, IProducerMachineRecipeMode, IProducerEngine API
