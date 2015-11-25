@@ -2,7 +2,6 @@ package nedelosk.modularmachines.plugins.nei;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -14,7 +13,6 @@ import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import nedelosk.forestday.api.guis.IButtonManager;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.IWidgetManager;
@@ -28,7 +26,6 @@ import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

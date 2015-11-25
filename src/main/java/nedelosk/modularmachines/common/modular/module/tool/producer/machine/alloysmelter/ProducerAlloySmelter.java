@@ -26,11 +26,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ProducerAlloySmelter extends ProducerMachineRecipe {
 
 	public ProducerAlloySmelter() {
-		super("AlloySmelter", 2, 2, 60);
+		this(60);
 	}
 
-	public ProducerAlloySmelter(String modifier, int speedModifier) {
-		super("AlloySmelter" + modifier, 2, 2, speedModifier);
+	public ProducerAlloySmelter(int speedModifier) {
+		super("AlloySmelter", 2, 2, speedModifier);
 	}
 
 	public ProducerAlloySmelter(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

@@ -8,24 +8,19 @@ import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IMachineMode;
-import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipeMode;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.client.gui.widget.WidgetButtonMode;
-import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.common.network.packets.PacketHandler;
 import nedelosk.modularmachines.common.network.packets.machine.PacketModularSwitchMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe {
+public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe implements IProducerMachineRecipeMode {
 	
 	public IMachineMode mode;
 	
@@ -45,7 +40,7 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetButtonMode) {
-				((WidgetButtonMode)widget).mode = mode;
+				((WidgetButtonMode)widget).setMode(getMode());
 			}
 		}
 	}
@@ -56,21 +51,21 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe {
 		super.handleMouseClicked(tile, widget, mouseX, mouseY, mouseButton, stack);
 		if (widget instanceof WidgetButtonMode) {
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			if(mode.ordinal() == getModeClass().getEnumConstants().length - 1){
-				mode = getModeClass().getEnumConstants()[0];
-				((WidgetButtonMode) widget).mode = mode;
+			if(getMode().ordinal() == getModeClass().getEnumConstants().length - 1){
+				setMode(getModeClass().getEnumConstants()[0]);
+				((WidgetButtonMode) widget).setMode(getMode());
 			}else{
-				mode = getModeClass().getEnumConstants()[mode.ordinal()+1];
-				((WidgetButtonMode) widget).mode = mode;
+				setMode(getModeClass().getEnumConstants()[getMode().ordinal()+1]);
+				((WidgetButtonMode) widget).setMode(getMode());
 			}
-			PacketHandler.INSTANCE.sendToServer(new PacketModularSwitchMode((TileModular) tile, mode));
+			PacketHandler.INSTANCE.sendToServer(new PacketModularSwitchMode((TileModular) tile, getMode()));
 		}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-		nbt.setInteger("Mode", mode.ordinal());
+		nbt.setInteger("Mode", getMode().ordinal());
 	}
 	
 	@Override
@@ -84,7 +79,7 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-		mode = getModeClass().getEnumConstants()[nbt.getInteger("Mode")];
+		setMode(getModeClass().getEnumConstants()[nbt.getInteger("Mode")]);
 	}
 	
 	@Override
@@ -96,9 +91,17 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe {
 	
 	@Override
 	public Object[] getCraftingModifiers(IModular modular, ModuleStack stack) {
-		return new Object[]{ mode };
+		return new Object[]{ getMode() };
 	}
 	
-	public abstract Class<? extends IMachineMode> getModeClass();
+	@Override
+	public IMachineMode getMode() {
+		return mode;
+	}
+	
+	@Override
+	public void setMode(IMachineMode mode) {
+		this.mode = mode;
+	}
 	
 }

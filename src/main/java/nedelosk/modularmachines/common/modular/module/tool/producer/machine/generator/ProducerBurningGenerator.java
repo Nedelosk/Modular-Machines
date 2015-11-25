@@ -23,11 +23,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class ProducerBurningGenerator extends ProducerGenerator {
 	
 	public ProducerBurningGenerator() {
-		super("Burning", 1, 2, 15, 10);
+		this(15, 10);
 	}
 	
-	public ProducerBurningGenerator(String modifier, int speed, int energy) {
-		super("Burning" + modifier, 1, 0, speed, energy);
+	public ProducerBurningGenerator(int speed, int energy) {
+		super("Burning", 1, 0, speed, energy);
 	}
 
 	public ProducerBurningGenerator(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

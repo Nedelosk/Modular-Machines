@@ -91,6 +91,12 @@ public class RecipeManager {
 		
 		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 3),
 		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 5), '-', "blockSteel");
+		
+		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item()),
+		"+++", "+ +", "---", '+', new ItemStack(MMItemManager.Component_Plates.item(), 1, 1), '-', Blocks.brick_block);
+		
+		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item(), 1, 1),
+		"+++", "+ +", "---", '+', new ItemStack(MMItemManager.Component_Plates.item(), 1, 4), '-', Blocks.brick_block);
 	}
 	
 	public static void registerLatheRecipes(){

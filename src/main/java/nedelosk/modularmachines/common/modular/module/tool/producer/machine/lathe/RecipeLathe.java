@@ -15,7 +15,7 @@ public class RecipeLathe extends Recipe {
 	}
 	
 	public static enum LatheModes implements IMachineMode{
-		ROD("rod"), PLATE("plate");
+		ROD("rod");
 		
 		String name;
 

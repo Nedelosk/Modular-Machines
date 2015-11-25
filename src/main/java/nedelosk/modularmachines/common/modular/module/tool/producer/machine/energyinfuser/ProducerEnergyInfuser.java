@@ -18,11 +18,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ProducerEnergyInfuser extends ProducerMachineRecipe {
 
 	public ProducerEnergyInfuser() {
-		this("", 180);
+		this(180);
 	}
 
-	public ProducerEnergyInfuser(String modifier, int speedModifier) {
-		super("EnergyInfuser" + modifier, 1, 1, speedModifier);
+	public ProducerEnergyInfuser(int speedModifier) {
+		super("EnergyInfuser", 1, 1, speedModifier);
 	}
 
 	public ProducerEnergyInfuser(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

@@ -3,15 +3,12 @@ package nedelosk.modularmachines.common.modular.module.tool.producer.machine.lat
 import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
@@ -24,7 +21,6 @@ import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.client.gui.widget.WidgetButtonMode;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipe;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipeMode;
 import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe.LatheModes;
 import net.minecraft.inventory.Slot;
@@ -33,11 +29,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ProducerLathe extends ProducerMachineRecipeMode {
 	
 	public ProducerLathe() {
-		super("Lathe", 1, 2, 60, LatheModes.ROD);
+		this(60);
 	}
 
-	public ProducerLathe(String modifier, int speedModifier) {
-		super("Lathe" + modifier, 1, 2, speedModifier, LatheModes.ROD);
+	public ProducerLathe(int speedModifier) {
+		super("Lathe", 1, 2, speedModifier, LatheModes.ROD);
 	}
 
 	public ProducerLathe(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -71,7 +67,7 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
-		gui.getWidgetManager().add(new WidgetButtonMode(86, 13, mode));
+		gui.getWidgetManager().add(new WidgetButtonMode(86, 13, getMode()));
 	}
 	
 	@Override

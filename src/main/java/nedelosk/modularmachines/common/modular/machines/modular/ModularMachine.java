@@ -67,15 +67,14 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null)
+		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null)
 			return null;
-		return ModuleUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular,
-				ModuleUtils.getModuleStackMachine(modular), stack);
+		return ModuleUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular, ModuleUtils.getModuleStackMachine(modular), stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null)
+		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null)
 			return null;
 		return ModuleUtils.getModuleStackMachine(modular).getProducer().getMachineRenderer(modular,
 				ModuleUtils.getModuleStackMachine(modular), tile);

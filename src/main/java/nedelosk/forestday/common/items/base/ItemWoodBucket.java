@@ -6,6 +6,7 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -22,46 +23,82 @@ public class ItemWoodBucket extends ItemBucket {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		int x = 0;
-		int y = 0;
-		int z = 0;
-		Block block = null;
-		int meta = 0;
-		MovingObjectPosition movingobjectposition = getMovingObjectPositionFromPlayer(world, player, this ==  FItemManager.Bucket_Wood.item());
-        if (movingobjectposition != null && movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		MovingObjectPosition target = getMovingObjectPositionFromPlayer(world, player, this ==  FItemManager.Bucket_Wood.item());
+		ItemStack result = itemStack;
+        if (target == null)
         {
-            x = movingobjectposition.blockX;
-            y = movingobjectposition.blockY;
-            z = movingobjectposition.blockZ;
-            block = world.getBlock(x, y, z);
-            meta = world.getBlockMetadata(x, y, z);
+            return itemStack;
         }
-		ItemStack result = super.onItemRightClick(itemStack, world, player);
+        else if(target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK){
+			if (itemStack.getItem() == FItemManager.Bucket_Wood.item()){
+	            int hitX = target.blockX;
+	            int hitY = target.blockY;
+	            int hitZ = target.blockZ;
+	
+	            if (player != null && !player.canPlayerEdit(hitX, hitY, hitZ, target.sideHit, itemStack))
+	            {
+	                return itemStack;
+	            }
+	
+	            Block bID = world.getBlock(hitX, hitY, hitZ);
+	
+	            // water and lava
+	            if(bID == Blocks.water || bID == Blocks.flowing_water)
+	            {
+	                result = new ItemStack(FItemManager.Bucket_Wood_Water.item());
+	                world.setBlockToAir(hitX, hitY, hitZ);
+	            }
+	            else if(bID == Blocks.lava || bID == Blocks.flowing_lava)
+	            {
+	            	player.setFire(10);
+	            }
+	        }else{
+	        	
+                int i = target.blockX;
+                int j = target.blockY;
+                int k = target.blockZ;
 
-		if (result.getItem() == Items.bucket) {
+                if (target.sideHit == 0)
+                {
+                    --j;
+                }
 
-			return new ItemStack(FItemManager.Bucket_Wood.item());
+                if (target.sideHit == 1)
+                {
+                    ++j;
+                }
+
+                if (target.sideHit == 2)
+                {
+                    --k;
+                }
+
+                if (target.sideHit == 3)
+                {
+                    ++k;
+                }
+
+                if (target.sideHit == 4)
+                {
+                    --i;
+                }
+
+                if (target.sideHit == 5)
+                {
+                    ++i;
+                }
+
+                if (!player.canPlayerEdit(i, j, k, target.sideHit, itemStack))
+                {
+                    return itemStack;
+                }
+
+                if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode)
+                {
+                    return new ItemStack(FItemManager.Bucket_Wood.item());
+                }
+	        }
 		}
-		else if (result.getItem() == Items.water_bucket)
-			return new ItemStack(FItemManager.Bucket_Wood_Water.item());
-		else if (result.getItem() == Items.lava_bucket) {
-			player.setFire(10);
-			return null;
-		} else{
-			if(block != null){
-				if(!world.isRemote){
-		            if (!world.canMineBlock(player, x, y, z)){
-		                return new ItemStack(FItemManager.Bucket_Wood.item());
-		            }
-		            
-		            if (!player.canPlayerEdit(x, y, z, movingobjectposition.sideHit, itemStack))
-		            {
-		                return new ItemStack(FItemManager.Bucket_Wood.item());
-		            }
-		            world.setBlock(x, y, z, block, meta, 2);
-				}
-			}
-			return new ItemStack(FItemManager.Bucket_Wood.item());
-		}
+        return result;
 	}
 }

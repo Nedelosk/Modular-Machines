@@ -9,11 +9,12 @@
 **Modular-Machines**
 - Improve IProducerMachine, IProducerMachineRecipe, IProducerMachineRecipeMode, IProducerEngine API
 - Improve Engine and Recipe System
-- add Boilers Module
-- add Generators Module
-- add Metal Blocks
-- add many Recipes
-- add Lathe Module
+- Add Boiler, Generator and Lathe Modules
+- Add Metal Blocks
+- Add many Recipes
+- Add Bronze Casing Texture
+- Improve Iron Casing Texture
+- Improve Engine Window Model and Texture
 
   - **Plugins**
   - Improve Waila Plugin

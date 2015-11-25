@@ -1,8 +1,5 @@
 package nedelosk.modularmachines.api.recipes;
 
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.world.World;
-
 public interface IRecipe {
 
 	Object[] getModifiers();

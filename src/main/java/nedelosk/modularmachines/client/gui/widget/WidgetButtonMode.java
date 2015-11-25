@@ -33,5 +33,13 @@ public class WidgetButtonMode extends Widget {
 		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 0, 18, 18);
 		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 18*mode.ordinal()+18, 18, 18);
 	}
+	
+	public void setMode(IMachineMode mode) {
+		this.mode = mode;
+	}
+	
+	public IMachineMode getMode() {
+		return mode;
+	}
 
 }

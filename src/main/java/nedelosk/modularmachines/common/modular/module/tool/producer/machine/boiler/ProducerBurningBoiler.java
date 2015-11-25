@@ -27,11 +27,11 @@ import net.minecraftforge.fluids.FluidStack;
 public class ProducerBurningBoiler extends ProducerBoiler {
 	
 	public ProducerBurningBoiler() {
-		super("Burning", 1, 2, 25, 100, 1000);
+		this(25, 100, 1000);
 	}
 	
-	public ProducerBurningBoiler(String modifier, int speed, int energy, int water) {
-		super("Burning" + modifier, 2, 1, speed, energy, water);
+	public ProducerBurningBoiler(int speed, int energy, int water) {
+		super("Burning", 2, 1, speed, energy, water);
 	}
 
 	public ProducerBurningBoiler(NBTTagCompound nbt, IModular modular, ModuleStack stack) {

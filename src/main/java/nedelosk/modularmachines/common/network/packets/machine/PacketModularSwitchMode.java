@@ -5,13 +5,10 @@ import nedelosk.forestday.common.network.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IMachineMode;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipeMode;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
-import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.ProducerMachineRecipeMode;
-import net.minecraft.entity.player.EntityPlayerMP;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -48,8 +45,8 @@ public class PacketModularSwitchMode extends PacketTileEntity<TileModular> imple
 			if(tile.getModular() != null){
 				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils.getModuleStackMachine(tile.getModular());
 				if(machineStack != null){
-					ProducerMachineRecipeMode machine = (ProducerMachineRecipeMode) machineStack.getProducer();
-					machine.mode = machine.getModeClass().getEnumConstants()[message.mode];
+					IProducerMachineRecipeMode machine = (IProducerMachineRecipeMode) machineStack.getProducer();
+					machine.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
 					getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 				}
 			}

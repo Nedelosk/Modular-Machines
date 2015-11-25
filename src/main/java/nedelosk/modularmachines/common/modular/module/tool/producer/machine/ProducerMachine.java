@@ -26,10 +26,6 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
 
 	protected int timer, timerTotal;
-	@SideOnly(Side.CLIENT)
-	protected IModularRenderer itemRenderer;
-	@SideOnly(Side.CLIENT)
-	protected IModularRenderer machineRenderer;
 
 	public ProducerMachine(String modifier) {
 		super(modifier);
@@ -79,17 +75,13 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		if(machineRenderer == null)
-			machineRenderer = new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
-		return machineRenderer;
+		return new ModularMachineRenderer.MachineRenderer(moduleStack);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		if(itemRenderer == null)
-			itemRenderer = new ModularMachineRenderer.MachineRenderer(moduleStack.getModule());
-		return itemRenderer;
+		return new ModularMachineRenderer.MachineRenderer(moduleStack);
 	}
 	
 	@Override
