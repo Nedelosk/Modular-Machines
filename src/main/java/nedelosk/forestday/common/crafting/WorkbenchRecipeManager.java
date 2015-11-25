@@ -109,14 +109,12 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 				foundPattern = true;
 			}
 			if (sr.getInput() != null && input != null) {
-				if (sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage()
-						&& input.stackSize >= sr.getInput().stackSize) {
+				if (sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage() && input.stackSize >= sr.getInput().stackSize) {
 					foundInput = true;
 				}
 			}
 			if (sr.getInputPattern() != null && inputPattern != null) {
-				if (sr.getInputPattern().getItem() == inputPattern.getItem()
-						&& sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
+				if (sr.getInputPattern().getItem() == inputPattern.getItem() && sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
 					foundPattern = true;
 				}
 			}
@@ -128,7 +126,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if (sr.getsInput() != null && input != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInput().getOreDict());
 				for (ItemStack stack : list) {
-					if (input.getItem() == stack.getItem() && stack.getItemDamage() == input.getItemDamage() && input.stackSize >= sr.getsInput().getStackSize()) {
+					if (input.getItem() == stack.getItem() && input.stackSize >= sr.getsInput().getStackSize()) {
 						foundInput = true;
 						break;
 					}
@@ -137,7 +135,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if (sr.getsInputPattern() != null && inputPattern != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInputPattern().getOreDict());
 				for (ItemStack stack : list) {
-					if (inputPattern.getItem() == stack.getItem() && stack.getItemDamage() == input.getItemDamage()) {
+					if (inputPattern.getItem() == stack.getItem()) {
 						foundPattern = true;
 						break;
 					}
@@ -175,6 +173,60 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	@Override
 	public ArrayList<ItemStack> getOutputs() {
 		return outputs;
+	}
+	
+	public static boolean isTool(ItemStack stack){
+		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+			return false;
+		for(WorkbenchRecipe recipe : recipes){
+			if(recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem())
+				return true;
+			else if(recipe.getsInputTool() != null){
+				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInputTool().getOreDict());
+				if(ores != null && !ores.isEmpty())
+					for(ItemStack ore : ores){
+						if(ore != null && ore.getItem() == stack.getItem())
+							return true;
+					}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isInput(ItemStack stack){
+		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+			return false;
+		for(WorkbenchRecipe recipe : recipes){
+			if(recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem())
+				return true;
+			else if(recipe.getsInput() != null){
+				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInput().getOreDict());
+				if(ores != null && !ores.isEmpty())
+					for(ItemStack ore : ores){
+						if(ore != null && ore.getItem() == stack.getItem())
+							return true;
+					}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isPattern(ItemStack stack){
+		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+			return false;
+		for(WorkbenchRecipe recipe : recipes){
+			if(recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem())
+				return true;
+			else if(recipe.getsInputPattern() != null){
+				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInputPattern().getOreDict());
+				if(ores != null && !ores.isEmpty())
+					for(ItemStack ore : ores){
+						if(ore != null && ore.getItem() == stack.getItem())
+							return true;
+					}
+			}
+		}
+		return false;
 	}
 
 }

@@ -23,7 +23,7 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 	public void initGui() {
 		super.initGui();
 
-		buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(), new ResourceLocation("forestday", "textures/gui/button/workbanch_mode.png")));
+		buttonList.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(), new ResourceLocation("forestday", "textures/gui/button/workbench_mode.png")));
 	}
 
 	@Override
@@ -33,11 +33,14 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 
 	@Override
 	protected void renderProgressBar() {
+		if (tile.getBurnTime() > 0 && tile.getBurnTime() <= tile.getBurnTimeTotal()) {
+			this.drawTexturedModalRect(guiLeft + 49, guiTop + 37, 30, 234, this.tile.getScaledProcess(76), 22);
+		}
 	}
 
 	@Override
 	protected String getGuiName() {
-		return "machines/workbanch";
+		return "machines/workbench";
 	}
 
 	@Override

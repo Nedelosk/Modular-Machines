@@ -125,6 +125,7 @@ public class TileWorkbench extends TileMachineBase {
 		if (stackSlotTool != null) {
 			if (burnTime < burnTimeTotal) {
 				burnTime++;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			} else if (output != null) {
 				if (mode == Mode.further_processing
 						&& !containsStack(ForestdayCrafting.workbenchRecipe.getOutputs(), output)) {
@@ -137,19 +138,15 @@ public class TileWorkbench extends TileMachineBase {
 					isWorking = false;
 				}
 			} else if (stackSlotInput != null) {
-				WorkbenchRecipe recipe = WorkbenchRecipeManager.getRecipe(stackSlotInput, stackSlotTool,
-						stackSlotPattern);
+				WorkbenchRecipe recipe = WorkbenchRecipeManager.getRecipe(stackSlotInput, stackSlotTool, stackSlotPattern);
 				if (recipe != null) {
-					if (stackSlotTool.attemptDamageItem(((stackSlotTool.getItem() instanceof ITool)
-							? ((ITool) stackSlotTool.getItem()).getDamage() : 2), worldObj.rand)) {
+					if (stackSlotTool.attemptDamageItem(((stackSlotTool.getItem() instanceof ITool) ? ((ITool) stackSlotTool.getItem()).getDamage() : 2), worldObj.rand)) {
 						decrStackSize(2, 1);
 					}
-					decrStackSize(0,
-							(recipe.getInput() != null) ? recipe.getInput().stackSize : recipe.getsInput().stackSize);
+					decrStackSize(0, (recipe.getInput() != null) ? recipe.getInput().stackSize : recipe.getsInput().stackSize);
 					output = recipe.getOutput();
 					burnTime = 0;
-					burnTimeTotal = (recipe.getBurnTime() == -1) ? ForestDayConfig.worktableBurnTime
-							: recipe.getBurnTime();
+					burnTimeTotal = (recipe.getBurnTime() == -1) ? ForestDayConfig.worktableBurnTime : recipe.getBurnTime();
 					isWorking = true;
 				}
 			}
