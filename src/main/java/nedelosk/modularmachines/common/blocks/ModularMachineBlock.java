@@ -79,7 +79,7 @@ public class ModularMachineBlock extends ModularBlock {
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof IModularTileEntity) {

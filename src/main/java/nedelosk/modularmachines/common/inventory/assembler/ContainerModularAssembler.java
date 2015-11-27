@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.common.inventory.ContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularItem;
+import nedelosk.modularmachines.client.gui.assembler.GuiButtonAssembler;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
@@ -34,6 +35,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 	public ContainerModularAssembler(TileModularAssembler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		this.inventory = inventory;
+		this.info = GuiButtonAssembler.info;
 	}
 
 	public void syncOnOpen(EntityPlayerMP playerOpened) {
@@ -66,8 +68,8 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncNewContainer(EntityPlayerMP player) {
 		this.activeSlots = inventoryBase.getSizeInventory() - 1;
-		PacketHandler.INSTANCE.sendTo(
-				new PacketModularAssemblerSelection(inventoryBase, null, inventoryBase.getSizeInventory() - 1), player);
+		PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1), player);
+		onCraftMatrixChanged(null);
 	}
 
 	protected void syncWithOtherContainer(ContainerBase<TileModularAssembler> otherContainer, EntityPlayerMP player) {
@@ -76,9 +78,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncWithOtherContainer(ContainerModularAssembler otherContainer, EntityPlayerMP player) {
 		this.setToolSelection(otherContainer.info, otherContainer.activeSlots);
-		PacketHandler.INSTANCE.sendTo(
-				new PacketModularAssemblerSelection(inventoryBase, otherContainer.info, otherContainer.activeSlots),
-				player);
+		PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
 	}
 
 	public void setToolSelection(AssemblerMachineInfo info, int activeSlots) {
@@ -89,7 +89,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		this.info = info;
 
 		for (int i = 0; i < inventoryBase.getSizeInventory() - 1; i++) {
-			Slot slot = (Slot) inventorySlots.get(i);
+			Slot slot = (Slot) inventorySlots.get(i + 36);
 			if (slot instanceof SlotAssemblerIn) {
 				SlotAssemblerIn slotToolPart = (SlotAssemblerIn) slot;
 
@@ -139,8 +139,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			return null;
 		if (info.machine == null)
 			return null;
-		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(),
-				inventoryBase.tier, info.machine);
+		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(), inventoryBase.tier, info.machine);
 	}
 
 	@Override

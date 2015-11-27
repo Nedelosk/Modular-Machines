@@ -121,7 +121,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		drawBackground(background);
 
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		for (int i = 0; i < tile.getSizeInventory() - 1; i++) {
+		for (int i = 36; i < tile.getSizeInventory() + 35; i++) {
 			Slot slot = inventorySlots.getSlot(i);
 			if (slot instanceof SlotAssemblerIn && (((SlotAssemblerIn) slot).isActivated() || slot.getHasStack())) {
 				SlotBorder.draw(this.guiLeft + slot.xDisplayPosition - 1, this.guiTop + slot.yDisplayPosition - 1);
@@ -139,7 +139,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		for (i = 0; i < activeSlots; i++) {
 			Point point = currentInfo.positions.get(i);
 
-			Slot slot = inventorySlots.getSlot(i);
+			Slot slot = inventorySlots.getSlot(i + 36);
 			slot.xDisplayPosition = point.getX() + 110;
 			slot.yDisplayPosition = point.getY();
 		}
@@ -147,14 +147,13 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		// remaining slots
 		int stillFilled = 0;
 		for (; i < tile.getSizeInventory() - 1; i++) {
-			Slot slot = inventorySlots.getSlot(i);
+			Slot slot = inventorySlots.getSlot(i + 36);
 
 			if (slot.getHasStack()) {
 				slot.xDisplayPosition = 87 + 20 * stillFilled + 110;
 				slot.yDisplayPosition = 62;
 				stillFilled++;
 			} else {
-				// todo: slot.disable
 				slot.xDisplayPosition = 0;
 				slot.yDisplayPosition = 0;
 			}

@@ -10,6 +10,7 @@ import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.IWailaData;
 import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
@@ -110,4 +111,19 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		return true;
 	}
 
+	@Override
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		return currenttip;
+	}
+	
 }

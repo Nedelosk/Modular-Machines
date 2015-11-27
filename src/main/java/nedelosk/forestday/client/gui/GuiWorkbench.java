@@ -33,7 +33,7 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 
 	@Override
 	protected void renderProgressBar() {
-		if (tile.getBurnTime() > 0 && tile.getBurnTime() <= tile.getBurnTimeTotal()) {
+		if (tile.getBurnTime() > 0 && tile.getBurnTime() < tile.getBurnTimeTotal()) {
 			this.drawTexturedModalRect(guiLeft + 49, guiTop + 37, 30, 234, this.tile.getScaledProcess(76), 22);
 		}
 	}

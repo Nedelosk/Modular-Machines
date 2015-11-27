@@ -85,7 +85,6 @@ public class ModularRegistry {
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter(350), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER, new ProducerAlloySmelter(300), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.ALLOYSMELTER,new ProducerAlloySmelter(250), Types.BRONZE, true)));
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE,new ProducerLathe(325), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE, new ProducerLathe(275), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.LATHE,new ProducerLathe(225), Types.BRONZE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.SAWMILL, new ProducerSawMill(350), Types.STONE, true)));

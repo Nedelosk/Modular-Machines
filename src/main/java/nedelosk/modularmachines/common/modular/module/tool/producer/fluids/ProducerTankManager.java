@@ -12,15 +12,20 @@ import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
+import nedelosk.modularmachines.api.modular.module.Modules;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.handlers.FluidHandler;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.ProducerManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerTank;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.ITankManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.manager.TankManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -132,6 +137,16 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	@Override
 	public ITankManager getManager() {
 		return manager;
+	}
+	
+	@Override
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
+		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(stackItem);
+		if(stack != null && stack.getModule() == Modules.TANK && stack.getProducer() != null && stack.getProducer() instanceof IProducerTank){
+			if(mergeItemStack(stackItem, 36, 39, false, container))
+				return true;
+		}
+		return false;
 	}
 	
 	public static class SlotTank extends SlotModular{

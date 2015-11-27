@@ -4,10 +4,20 @@ import java.util.ArrayList;
 
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.module.Modules;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.basic.ProducerManager;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
+import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorage;
 import nedelosk.modularmachines.api.modular.module.tool.producer.storage.IProducerStorageManager;
+import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerStorageManager extends ProducerManager implements IProducerStorageManager {
@@ -45,6 +55,16 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 		super.writeToNBT(nbt, modular, stack);
 
 		nbt.setInteger("StorageSlots", storageSlots);
+	}
+	
+	@Override
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
+		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(tile.getStackInSlot(slotID - 36));
+		if(stack != null && stack.getModule() == Modules.CHEST && stack.getProducer() != null && stack.getProducer() instanceof IProducerStorage){
+			if(mergeItemStack(stackItem, slotID, slotID + 1, false, container))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

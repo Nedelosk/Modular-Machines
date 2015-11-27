@@ -1,5 +1,7 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer.gui;
 
+import java.util.Locale;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.guis.IGuiBase;
@@ -50,7 +52,7 @@ public abstract class ProducerGui extends Producer implements IProducerGui {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getInventoryName(ModuleStack stack) {
-		return StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getModuleName() + ".name");
+		return StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getModuleName().toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@SideOnly(Side.CLIENT)

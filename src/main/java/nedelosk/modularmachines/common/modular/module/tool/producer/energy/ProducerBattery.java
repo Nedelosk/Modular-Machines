@@ -15,15 +15,20 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.SlotModular;
+import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.handlers.EnergyHandler;
+import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerCapacitor;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetEnergyField;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -222,6 +227,16 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		modular.getManager()
 				.setEnergyHandler(new EnergyHandler(((IProducerBattery) stack.getProducer()).getStorage(stack)));
 		return super.onBuildModular(modular, stack, moduleNames);
+	}
+	
+	@Override
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
+		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(stackItem);
+		if(stack != null && stack.getModule() == Modules.CAPACITOR && stack.getProducer() != null && stack.getProducer() instanceof IProducerCapacitor){
+			if(mergeItemStack(stackItem, 36, 39, false, container))
+				return true;
+		}
+		return false;
 	}
 
 }

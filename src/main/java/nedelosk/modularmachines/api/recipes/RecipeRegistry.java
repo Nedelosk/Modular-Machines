@@ -56,14 +56,53 @@ public class RecipeRegistry {
 									|| ItemStack.areItemStackTagsEqual(item.item, removeItem.item)))
 						list.add(recipe);
 				} else if (item.isItem() && removeItem.isOre()) {
-					ArrayList<ItemStack> listOre = OreDictionary.getOres(removeItem.ore.oreDict);
-					for (ItemStack stack : listOre)
-						if (stack.getItem() == item.item.getItem())
+					int ore = OreDictionary.getOreID(removeItem.ore.oreDict);
+					for (int oreID : OreDictionary.getOreIDs(item.item)) {
+						if (ore == oreID) {
 							list.add(recipe);
+						}
+					}
 				}
 			}
 		}
 		return list;
+	}
+	
+	public static RecipeInput isRecipeInput(String recipeName, RecipeInput input) {
+		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
+		if (recipes == null || input == null)
+			return null;
+		for (IRecipe recipe : recipes) {
+			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
+			for (int i = 0;i < recipe.getInputs().length;i++) {
+				RecipeItem item = recipe.getInputs().clone()[i];
+				if (item.isItem())
+					inputR.add(new RecipeInput(i, item.item));
+				else if (item.isFluid())
+					inputR.add(new RecipeInput(i, item.fluid));
+				else
+					inputR.add(new RecipeInput(i, item.ore));
+			}
+			if(inputR.isEmpty()){
+				return null;
+			}
+			for(int i = 0;i < inputR.size();i++){
+				RecipeInput in = inputR.get(i);
+				if(in == null)
+					continue;
+				if(in.isOre() && input.isItem()){
+					int ore = OreDictionary.getOreID(in.ore.getOreDict());
+					for(int oreID : OreDictionary.getOreIDs(input.item)){
+						if (ore == oreID) {
+							return in;
+						}
+					}
+				}else if(in.equals(input)){
+					return in;
+				}
+			}
+		}
+		return null;
 	}
 
 	public static IRecipe getRecipe(String recipeName, RecipeInput[] inputs, Object... craftingModifiers) {
@@ -113,11 +152,10 @@ public class RecipeRegistry {
 							isBreak = true;
 							break;
 						}
-						ArrayList<ItemStack> listOre = OreDictionary.getOres(in.ore.oreDict);
-						for (ItemStack stack : listOre) {
-							ItemStack inputStack = inputs[i].item;
-							if (inputStack.stackSize >= in.ore.stackSize && inputStack.getItem() == stack.getItem()
-									&& stack.getItemDamage() == inputStack.getItemDamage()) {
+						int ore = OreDictionary.getOreID(in.ore.oreDict);
+						ItemStack inputStack = inputs[i].item;
+						for (int oreID : OreDictionary.getOreIDs(inputStack)) {
+							if (ore == oreID) {
 								continue input;
 							}
 						}

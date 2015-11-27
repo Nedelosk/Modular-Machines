@@ -182,12 +182,11 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if(recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem())
 				return true;
 			else if(recipe.getsInputTool() != null){
-				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInputTool().getOreDict());
-				if(ores != null && !ores.isEmpty())
-					for(ItemStack ore : ores){
-						if(ore != null && ore.getItem() == stack.getItem())
-							return true;
-					}
+				int ore = OreDictionary.getOreID(recipe.getsInputTool().getOreDict());
+				for(int oreID : OreDictionary.getOreIDs(stack)){
+					if(oreID == ore)
+						return true;
+				}
 			}
 		}
 		return false;
@@ -200,12 +199,11 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if(recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem())
 				return true;
 			else if(recipe.getsInput() != null){
-				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInput().getOreDict());
-				if(ores != null && !ores.isEmpty())
-					for(ItemStack ore : ores){
-						if(ore != null && ore.getItem() == stack.getItem())
-							return true;
-					}
+				int ore = OreDictionary.getOreID(recipe.getsInput().getOreDict());
+				for(int oreID : OreDictionary.getOreIDs(stack)){
+					if(oreID == ore)
+						return true;
+				}
 			}
 		}
 		return false;
@@ -218,12 +216,11 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			if(recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem())
 				return true;
 			else if(recipe.getsInputPattern() != null){
-				List<ItemStack> ores = OreDictionary.getOres(recipe.getsInputPattern().getOreDict());
-				if(ores != null && !ores.isEmpty())
-					for(ItemStack ore : ores){
-						if(ore != null && ore.getItem() == stack.getItem())
-							return true;
-					}
+				int ore = OreDictionary.getOreID(recipe.getsInputPattern().getOreDict());
+				for(int oreID : OreDictionary.getOreIDs(stack)){
+					if(oreID == ore)
+						return true;
+				}
 			}
 		}
 		return false;

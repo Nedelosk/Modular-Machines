@@ -1,10 +1,13 @@
 package nedelosk.modularmachines.common.modular.module.tool.producer.engine;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularRenderer;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.IWailaData;
 import nedelosk.modularmachines.api.modular.machines.basic.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.Producer;
@@ -198,6 +201,27 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 		ModuleStack<IModule, IProducerBattery> battery = ModuleUtils.getModuleStackBattery(modular);
 		int burnTimeTotal = speed + (speed * battery.getProducer().getSpeedModifier() / 100);
 		return burnTimeTotal + (burnTimeTotal * speedModifier / 100);
+	}
+	
+	@Override
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		IModularTileEntity tile = (IModularTileEntity) data.getTileEntity();
+		ModuleStack<IModule, IProducerEngine> stackEngine = ModuleUtils.getModuleStackEngine(tile.getModular());
+		if (stackEngine != null) {
+			IProducerEngine engine = stackEngine.getProducer();
+			currenttip.add(engine.getBurnTime(stackEngine) + " / " + engine.getBurnTimeTotal(stackEngine));
+		}
+		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		return currenttip;
 	}
 
 }

@@ -17,7 +17,7 @@ public class GuiCampfire extends GuiMachine<TileCampfire> {
 		if (tile.isWorking) {
 			this.drawTexturedModalRect(guiLeft + 66, guiTop + 36, 0, 166, 14, 14);
 		}
-		if (tile.getBurnTime() > 0 && tile.getBurnTime() <= tile.getBurnTimeTotal()) {
+		if (tile.getBurnTime() > 0 && tile.getBurnTime() < tile.getBurnTimeTotal()) {
 			this.drawTexturedModalRect(guiLeft + 84, guiTop + 35, 0, 180, this.tile.getScaledProcess(24), 15);
 		}
 	}

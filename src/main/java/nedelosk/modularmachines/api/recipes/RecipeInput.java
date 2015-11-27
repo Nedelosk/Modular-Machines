@@ -56,6 +56,24 @@ public class RecipeInput {
 			nbt.setTag("ore", nbtTag);
 		}
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof RecipeInput){
+			RecipeInput input = (RecipeInput) obj;
+			if(input.isFluid() && isFluid()){
+				if(fluid.equals(input.fluid))
+					return true;
+			}else if(input.isItem() && isItem()){
+				if(item.equals(input.item))
+					return true;
+			}else if(input.isOre() && isOre()){
+				if(ore.equals(input.ore))
+					return true;
+			}
+		}
+		return false;
+	}
 
 	public static RecipeInput readFromNBT(NBTTagCompound nbt) {
 		ItemStack item = null;

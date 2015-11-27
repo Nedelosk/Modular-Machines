@@ -1,13 +1,17 @@
 package nedelosk.modularmachines.common.inventory.machine;
 
 import nedelosk.forestday.common.inventory.ContainerBase;
+import nedelosk.modularmachines.api.modular.machines.basic.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.gui.IProducerGui;
 import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerModularMachine extends ContainerBase<TileModular> {
 
@@ -52,5 +56,71 @@ public class ContainerModularMachine extends ContainerBase<TileModular> {
 			}
 		}
 	}
+	
+    @Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID){
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(slotID);
+        ModuleStack<IModule, IProducerInventory> stack;
+        try{
+        	stack = inventoryBase.modular.getGuiManager().getModuleWithGui(player, inventoryBase);
+        }catch(Exception e){
+        	stack = null;
+        }
+
+        if (slot != null && slot.getHasStack())
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (slot instanceof SlotModularOutput)
+            {
+                if (!this.mergeItemStack(itemstack1, 0, 36, true))
+                {
+                    return null;
+                }
+
+                slot.onSlotChange(itemstack1, itemstack);
+            }
+            else if (slot instanceof Slot)
+            {
+                if (stack != null && stack.getProducer() != null)
+                {
+                	return stack.getProducer().transferStackInSlot(stack, inventoryBase, player, slotID, this);
+                }else if (slotID >= 0 && slotID < 27){
+                    if (!this.mergeItemStack(itemstack1, 27, 36, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false))
+                {
+                    return null;
+                }
+            }
+            else if (!this.mergeItemStack(itemstack1, 0, 36, false))
+            {
+                return null;
+            }
+
+            if (itemstack1.stackSize == 0)
+            {
+                slot.putStack((ItemStack)null);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
+
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
+
+            slot.onPickupFromSlot(player, itemstack1);
+        }
+
+        return itemstack;
+    }
 
 }

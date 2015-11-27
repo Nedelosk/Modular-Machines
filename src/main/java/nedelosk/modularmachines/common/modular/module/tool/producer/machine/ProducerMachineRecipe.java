@@ -13,6 +13,7 @@ import nedelosk.modularmachines.api.modular.machines.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerEngine;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
@@ -22,6 +23,8 @@ import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.client.gui.widget.WidgetProgressBar;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -124,6 +127,16 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
+		RecipeInput input = RecipeRegistry.isRecipeInput(getRecipeName(stackModule), new RecipeInput(slotID, stackItem));
+		if(input != null){
+			if(mergeItemStack(stackItem, 36 + input.slotIndex, 37 + input.slotIndex, false, container))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

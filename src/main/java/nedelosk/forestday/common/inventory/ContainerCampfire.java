@@ -3,6 +3,7 @@ package nedelosk.forestday.common.inventory;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.slots.SlotOutput;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -41,7 +42,79 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 			}
 		});
 		addSlotToContainer(new SlotOutput(inventoryBase, 3, 116, 35));
-
 	}
+	
+	
+    @Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
+    {
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(slotID);
+
+        if (slot != null && slot.getHasStack())
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (slotID == 39)
+            {
+                if (!this.mergeItemStack(itemstack1, 0, 36, true))
+                {
+                    return null;
+                }
+
+                slot.onSlotChange(itemstack1, itemstack);
+            }
+            else if (slotID != 36 && slotID != 37 && slotID != 38)
+            {
+                if (CampfireRecipeManager.isInput(itemstack1))
+                {
+                    if (!this.mergeItemStack(itemstack1, 36, 38, false))
+                    {
+                        return null;
+                    }
+                }else if (TileEntityFurnace.getItemBurnTime(itemstack1) > 0)
+                {
+                    if (!this.mergeItemStack(itemstack1, 38, 39, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (slotID >= 0 && slotID < 27)
+                {
+                    if (!this.mergeItemStack(itemstack1, 27, 36, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false))
+                {
+                    return null;
+                }
+            }
+            else if (!this.mergeItemStack(itemstack1, 0, 36, false))
+            {
+                return null;
+            }
+
+            if (itemstack1.stackSize == 0)
+            {
+                slot.putStack((ItemStack)null);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
+
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
+
+            slot.onPickupFromSlot(player, itemstack1);
+        }
+
+        return itemstack;
+    }
 
 }

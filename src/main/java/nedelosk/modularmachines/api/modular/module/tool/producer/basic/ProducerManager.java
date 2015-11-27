@@ -1,11 +1,11 @@
 package nedelosk.modularmachines.api.modular.module.tool.producer.basic;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.tool.producer.gui.ProducerGui;
+import nedelosk.modularmachines.api.modular.module.tool.producer.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ProducerManager extends ProducerGui implements IProducerManager {
+public abstract class ProducerManager extends ProducerInventory implements IProducerManager {
 
 	protected Side side;
 

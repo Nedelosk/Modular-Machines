@@ -30,7 +30,7 @@ public class ModularMachine extends ModularInventory {
 		IModular modular = MachineBuilder.createMachine(getName());
 		if (modular != null) {
 			ModuleStack<IModule, IProducerController> controller = null;
-			if (stacks[0] == null)
+			if (stacks.length == 0 || stacks[0] == null)
 				return null;
 			if (ModuleRegistry.getModuleItem(stacks[0]) != null && ModuleRegistry.getModuleItem(stacks[0]).getProducer() instanceof IProducerController)
 				controller = ModuleRegistry.getModuleItem(stacks[0]);

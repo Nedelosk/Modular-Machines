@@ -60,9 +60,9 @@ public class RecipeManager {
 		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER),
 		"-s-", "+-+", "-s-", '+', Blocks.furnace, '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
 		
-		//Saw Mill
+		//Lathe
 		addShapedModuleRecipe(ItemProducers.getItem(Types.IRON, Modules.LATHE),
-		"psp", "+-+", "psp", '+', "blockIron", '-', "blockRedstone", 's', Items.string, 'p', "plateIron");
+		"psp", "+-+", "psp", '+', "blockIron", '-', "blockRedstone", 's', new ItemStack(MMItemManager.Component_Connection_Wires.item()), 'p', "plateIron");
 		
 		//Pulverizer
 		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.PULVERIZER),

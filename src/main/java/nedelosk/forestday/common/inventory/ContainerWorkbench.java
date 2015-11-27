@@ -7,15 +7,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 import thaumcraft.common.container.SlotOutput;
 
 public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 
 	public ContainerWorkbench(TileWorkbench tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		
+	}
+
+	@Override
+	protected void addSlots(InventoryPlayer inventory) {
 		// Input
 		addSlotToContainer(new Slot(inventoryBase, 0, 26, 36){
 			@Override
@@ -64,12 +65,9 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 			addSlotToContainer(new Slot(inventoryBase, 16, 213, 76));
 		}
 	}
-
-	@Override
-	protected void addSlots(InventoryPlayer inventory) {
-	}
 	
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
+    @Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot)this.inventorySlots.get(slotID);
@@ -112,7 +110,7 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
                 }
                 else if (slotID >= 0 && slotID < 27)
                 {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false))
+                    if (!this.mergeItemStack(itemstack1, 27, 36, false))
                     {
                         return null;
                     }

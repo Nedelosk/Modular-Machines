@@ -1,27 +1,34 @@
 package nedelosk.modularmachines.common.modular.machines.modular;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.machines.basic.IModular;
 import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.machines.basic.IWailaData;
+import nedelosk.modularmachines.api.modular.machines.basic.IWailaProvider;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.machines.manager.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.module.basic.IModule;
 import nedelosk.modularmachines.api.modular.module.basic.basic.IModuleCasing;
 import nedelosk.modularmachines.api.modular.module.tool.producer.IProducer;
+import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWaila;
 import nedelosk.modularmachines.api.modular.module.tool.producer.energy.IProducerBattery;
 import nedelosk.modularmachines.api.modular.module.tool.producer.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.modular.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularGuiManager;
 import nedelosk.modularmachines.common.modular.machines.modular.managers.ModularUtilsManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class Modular implements IModular {
+public abstract class Modular implements IModular, IWailaProvider {
 
 	protected HashMap<String, Vector<ModuleStack>> modules = Maps.newHashMap();
 	protected IModularTileEntity machine;
@@ -199,5 +206,44 @@ public abstract class Modular implements IModular {
 	public IModularGuiManager getGuiManager() {
 		return gui;
 	}
-
+	
+	public ArrayList<ModuleStack> getWailaModules(){
+		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
+		for(Entry<String, Vector<ModuleStack>> entrys : modules.entrySet()){
+			for(ModuleStack stack : entrys.getValue()){
+				if(stack.getProducer() != null && stack.getProducer() instanceof IWailaProvider)
+					wailaModules.add(stack);
+			}
+		}
+		return wailaModules;
+	}
+	
+	@Override
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+			currenttip = stack.getProducer().getWailaBody(itemStack, currenttip, data);
+		}
+		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+			currenttip = stack.getProducer().getWailaHead(itemStack, currenttip, data);
+		}
+		return currenttip;
+	}
+	
+	@Override
+	public IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data) {
+		return this;
+	}
+	
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
+		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+			currenttip = stack.getProducer().getWailaTail(itemStack, currenttip, data);
+		}
+		return currenttip;
+	}
 }

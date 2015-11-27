@@ -1,34 +1,44 @@
 ####################################
-Module
+Modular
 ####################################
-Casing.name=Casing
-Battery.name=Battery
-Engine.name=Engine
-Tool.name=Tool
-Producer.name=Producer
-Generator.name=Generator
-Capacitor.name=Capacitor
-TankManager.name=Tank Manager
-StorageManager.name=Storage Manager
-Storage.name=Storage
-Tank.name=Tank
+recipe.shaped.modular=Module Shaped Crafting
+mm.modularmachine.bookmark.battery.name=Battery
+mm.modularmachine.bookmark.machine.name=Machine
 
-mm.modularassembler.bookmark.Basic=Basic
-mm.modularassembler.bookmark.Energy=Energy
-mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
-mm.modularassembler.bookmark.Fluid=Fluid
-mm.modularassembler.bookmark.Storage=Storage
-
-moduleProducerAlloySmelter.name=Alloy Smelter
-moduleProducerCentrifuge.name=Centrifuge
-moduleProducerPulverizer.name=Pulverizer
-moduleProducerSawMill.name=Saw Mill
-
+mm.module.tooltip.type=Type
 mm.module.tooltip.tier=Tier
 mm.module.tooltip.name=Name
+mm.module.tooltip.producer.name=Producer
 mm.module.tooltip.shift=Hold Shift
 
-recipe.shaped.modular=Module Shaped Crafting
+#Mode
+mode.rod.name=Mode Rod
+
+####################################
+Modules
+####################################
+moduleCasing.name=Casing
+moduleAlloySmelter.name=Alloy Smelter
+moduleCentrifuge.name=Centrifuge
+modulePulverizer.name=Pulverizer
+moduleSawMill.name=Saw Mill
+moduleLathe.name=Lathe
+
+####################################
+Producers
+####################################
+producerAlloySmelter.name=Alloy Smelter
+producerCentrifuge.name=Centrifuge
+producerPulverizer.name=Pulverizer
+producerSawMill.name=Saw Mill
+producerLathe.name=Lathe
+
+####################################
+Types
+####################################
+type.stone.name=Stone
+type.iron.name=Iron
+type.bronze.name=Bronze
 
 ####################################
 Components
@@ -77,6 +87,7 @@ fluid.niobium=Molten Niobium
 forest.fd.block.niobium.name=Molten Niobium
 fluid.tantalum=Molten Tantalum
 forest.fd.block.tantalum.name=Molten Tantalum
+tile.modular.name=Modular Machine
 
 ####################################
 Item

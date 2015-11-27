@@ -14,8 +14,8 @@ public abstract class ContainerBase<T extends IInventory> extends Container impl
 
 	public ContainerBase(T tile, InventoryPlayer inventory) {
 		this.inventoryBase = tile;
-		addSlots(inventory);
 		addInventory(inventory);
+		addSlots(inventory);
 	}
 
 	protected void addInventory(InventoryPlayer inventory) {

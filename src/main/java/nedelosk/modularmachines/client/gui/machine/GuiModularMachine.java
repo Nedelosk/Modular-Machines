@@ -54,11 +54,11 @@ public class GuiModularMachine extends GuiBase<TileModular> {
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
 
 		if (guiManager.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile).getProducer() instanceof IProducerInventory) {
-			for (Slot slot : (ArrayList<Slot>) inventorySlots.inventorySlots) {
+			for (int slotID = 36;slotID < inventorySlots.inventorySlots.size();slotID++) {
+				Slot slot = ((ArrayList<Slot>)inventorySlots.inventorySlots).get(slotID);
 				ModuleStack gui = guiManager.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
-				if (slot.slotNumber < ((IProducerInventory) gui.getProducer()).getSizeInventory(gui)) {
-					RenderUtils.drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1,
-							guiTop + slot.yDisplayPosition - 1, 1, 56, 238, 18, 18);
+				if (slot.getSlotIndex() < ((IProducerInventory) gui.getProducer()).getSizeInventory(gui)) {
+					drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 				}
 			}
 		}

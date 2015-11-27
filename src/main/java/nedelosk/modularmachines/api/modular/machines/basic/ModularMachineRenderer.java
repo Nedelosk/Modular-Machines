@@ -438,8 +438,16 @@ public class ModularMachineRenderer {
 				for (ModuleStack moduleStack : stacks) {
 					if (moduleStack != null) {
 						if(moduleStack.getModule() == stack.getModule() && moduleStack.getProducer() != null){
+							Tessellator t = Tessellator.instance;
+							GL11.glPushMatrix();
+							GL11.glTranslated(0.5F, 1.5F, 0.5F);
+							GL11.glRotated(180, 0F, 0F, 1F);
+							GL11.glRotated(180, 0F, 1F, 0F);
+							GL11.glPushMatrix();
 							manager.bindTexture(textureMachine);
 							Machine_Front.render(0.0625F);
+							GL11.glPopMatrix();
+							GL11.glPopMatrix();
 						}else if (moduleStack.getModule() != stack.getModule() && moduleStack.getProducer() == null) {
 							IModularRenderer renderer = moduleStack.getModule().getItemRenderer(machine, moduleStack, itemStack);
 							if (renderer != null)
@@ -462,8 +470,23 @@ public class ModularMachineRenderer {
 				for (ModuleStack stack : stacks) {
 					if(stack != null){
 						if(stack.getModule() == this.stack.getModule() && stack.getProducer() != null){
+							Tessellator t = Tessellator.instance;
+							GL11.glPushMatrix();
+							GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+							GL11.glRotated(180, 0F, 0F, 1F);
+							GL11.glPushMatrix();
+							if (entity.getFacing() == 2) {
+							} else if (entity.getFacing() == 3) {
+								GL11.glRotated(180, 0F, 1F, 0F);
+							} else if (entity.getFacing() == 4) {
+								GL11.glRotated(270, 0F, 1F, 0F);
+							} else if (entity.getFacing() == 5) {
+								GL11.glRotated(90, 0F, 1F, 0F);
+							}
 							manager.bindTexture(textureMachine);
 							Machine_Front.render(0.0625F);
+							GL11.glPopMatrix();
+							GL11.glPopMatrix();
 						}else if (stack.getModule() != this.stack.getModule() && stack.getProducer() == null) {
 							IModularRenderer renderer = stack.getModule().getMachineRenderer(machine, stack, entity);
 							if (renderer != null)
