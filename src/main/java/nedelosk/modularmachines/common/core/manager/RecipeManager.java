@@ -7,8 +7,14 @@ import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.forestday.common.core.managers.FItemManager;
 import nedelosk.modularmachines.api.ModularMachinesApi;
-import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.type.Types;
+import nedelosk.modularmachines.api.modules.Modules;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipeAlloySmelter;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipeCentrifuge;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipeLathe;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipePulverizer;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipeSawMill;
+import nedelosk.modularmachines.api.producers.machines.recipes.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.common.blocks.BlockComponent;
@@ -16,17 +22,9 @@ import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.crafting.ShapedModuleRecipe;
 import nedelosk.modularmachines.common.items.ItemComponent;
 import nedelosk.modularmachines.common.items.ItemProducers;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter.RecipeAlloySmelter;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.RecipeCentrifuge;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.RecipeLathe.LatheModes;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer.RecipePulverizer;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.sawmill.RecipeSawMill;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -44,14 +42,14 @@ public class RecipeManager {
 		registerMetalRecipes();
 		registerModuleRecipes();
 		registerModularComponentRecipes();
-		ModularMachinesApi.blastFurnace.addRecipe(10,
-				new FluidStack[] { new FluidStack(FluidRegistry.getFluid("slag"), 1000),
-						new FluidStack(FluidRegistry.getFluid("white_pig_iron"), 220) },
-				new Object[] {new	 ItemStack(Blocks.iron_ore, 1) }, 1200);
+		//ModularMachinesApi.blastFurnace.addRecipe(10, new FluidStack[] { new FluidStack(FluidRegistry.getFluid("slag"), 1000), new FluidStack(FluidRegistry.getFluid("white_pig_iron"), 220) }, new Object[] {new	 ItemStack(Blocks.iron_ore, 1) }, 1200);
 	}
 
 	public static void registerModuleRecipes() {
-		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateIron", 'W', Blocks.crafting_table);
+		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item()), "+++", "+W+", "+++", '+', "plateStone", 'W', Blocks.crafting_table);
+		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item(), 1, 1), "+++", "+W+", "+++", '+', "plateIron", 'W', new ItemStack(MMBlockManager.Modular_Assembler.item()));
+		addShapedRecipe(new ItemStack(MMBlockManager.Modular_Assembler.item(), 1, 2), "+++", "+W+", "+++", '+', "plateBronze", 'W', new ItemStack(MMBlockManager.Modular_Assembler.item(), 1, 1));
+		
 		//Saw Mill
 		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.SAWMILL),
 		"-s-", "+-+", "-s-", '+', new ItemStack(MMItemManager.Component_Saw_Blades.item()), '-', new ItemStack(MMItemManager.Component_Plates.item(), 1, 0), 's', Items.string);
@@ -92,10 +90,10 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(MMItemManager.Component_Saw_Blades.item(), 1, 3),
 		" + ", "+-+", " + ", '+', new ItemStack(MMItemManager.Component_Rods.item(), 1, 5), '-', "blockSteel");
 		
-		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item()),
+		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item(), 1, 2),
 		"+++", "+ +", "---", '+', new ItemStack(MMItemManager.Component_Plates.item(), 1, 1), '-', Blocks.brick_block);
 		
-		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item(), 1, 1),
+		addShapedRecipe(new ItemStack(MMBlockManager.Casings.item(), 1, 3),
 		"+++", "+ +", "---", '+', new ItemStack(MMItemManager.Component_Plates.item(), 1, 4), '-', Blocks.brick_block);
 	}
 	

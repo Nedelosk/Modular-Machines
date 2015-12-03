@@ -5,12 +5,16 @@ import java.util.HashMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import nedelosk.modularmachines.api.internal.DummyInternalMethodHandler;
+import nedelosk.modularmachines.api.internal.IInternalMethodHandler;
 import nedelosk.modularmachines.api.multiblocks.IAirHeatingPlantRecipe;
 import nedelosk.modularmachines.api.multiblocks.IBlastFurnaceRecipe;
 import net.minecraftforge.fluids.Fluid;
 
 public class ModularMachinesApi {
 
+	public static IInternalMethodHandler handler = new DummyInternalMethodHandler();
+	
 	public static IBlastFurnaceRecipe blastFurnace;
 
 	public static IAirHeatingPlantRecipe airHeatingPlant;

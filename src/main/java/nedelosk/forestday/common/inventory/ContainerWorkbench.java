@@ -1,13 +1,14 @@
 package nedelosk.forestday.common.inventory;
 
+import nedelosk.forestday.api.inventory.ContainerBase;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
+import nedelosk.forestday.common.inventory.slots.SlotOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import thaumcraft.common.container.SlotOutput;
 
 public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 

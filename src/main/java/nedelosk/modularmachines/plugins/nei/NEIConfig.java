@@ -8,9 +8,9 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
-import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.forestday.utils.WorldUtils;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import net.minecraft.block.Block;

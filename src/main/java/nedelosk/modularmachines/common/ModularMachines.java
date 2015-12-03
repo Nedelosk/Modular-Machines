@@ -9,8 +9,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
+import nedelosk.modularmachines.common.core.InternalMethodHandler;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
@@ -30,6 +32,7 @@ public class ModularMachines {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		ModularMachinesApi.handler = new InternalMethodHandler();
 		File configFolderModularMachines = new File(event.getModConfigurationDirectory(), "Modular-Machines");
 		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
 		config = new Configuration(configFileModularMachines);

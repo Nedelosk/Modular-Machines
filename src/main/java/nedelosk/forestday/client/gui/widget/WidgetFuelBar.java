@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.utils.RenderUtils;
+import nedelosk.forestday.api.utils.RenderUtils;
 
 public class WidgetFuelBar extends Widget {
 

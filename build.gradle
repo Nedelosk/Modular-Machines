@@ -71,6 +71,21 @@ dependencies {
 	
 }
 
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task sourceJar(type: Jar, dependsOn:classes) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives deobfJar
+	archives sourceJar
+}
+
 processResources
 {
     inputs.property "version", project.version

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.item;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModularItem;
+import nedelosk.modularmachines.api.modular.basic.IModularItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.block.Block;

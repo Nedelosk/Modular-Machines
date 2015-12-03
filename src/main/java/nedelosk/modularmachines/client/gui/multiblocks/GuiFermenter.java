@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
-import nedelosk.forestday.client.gui.GuiBase;
+import nedelosk.forestday.api.guis.GuiBase;
 import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;

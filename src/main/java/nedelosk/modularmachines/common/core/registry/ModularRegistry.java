@@ -1,25 +1,25 @@
 package nedelosk.modularmachines.common.core.registry;
 
-import nedelosk.modularmachines.api.modular.module.Modules;
 import nedelosk.modularmachines.api.modular.type.Types;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.modules.Modules;
+import nedelosk.modularmachines.api.producers.energy.ProducerCapacitor;
+import nedelosk.modularmachines.api.producers.storage.ProducerChest;
+import nedelosk.modularmachines.api.producers.storage.ProducerStorageManager;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemProducers;
-import nedelosk.modularmachines.common.modular.machines.modular.ModularMachine;
-import nedelosk.modularmachines.common.modular.module.tool.producer.energy.ProducerCapacitor;
-import nedelosk.modularmachines.common.modular.module.tool.producer.engine.ProducerEngineEnergy;
-import nedelosk.modularmachines.common.modular.module.tool.producer.fluids.ProducerTankManager;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.alloysmelter.ProducerAlloySmelter;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.boiler.ProducerBurningBoiler;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.centrifuge.ProducerCentrifuge;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.generator.ProducerBurningGenerator;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.lathe.ProducerLathe;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.pulverizer.ProducerPulverizer;
-import nedelosk.modularmachines.common.modular.module.tool.producer.machine.sawmill.ProducerSawMill;
-import nedelosk.modularmachines.common.modular.module.tool.producer.storage.ProducerChest;
-import nedelosk.modularmachines.common.modular.module.tool.producer.storage.ProducerStorageManager;
+import nedelosk.modularmachines.common.modular.ModularMachine;
+import nedelosk.modularmachines.common.producers.engine.ProducerEngineEnergy;
+import nedelosk.modularmachines.common.producers.fluids.ProducerTankManager;
+import nedelosk.modularmachines.common.producers.machines.alloysmelter.ProducerAlloySmelter;
+import nedelosk.modularmachines.common.producers.machines.boiler.ProducerBurningBoiler;
+import nedelosk.modularmachines.common.producers.machines.centrifuge.ProducerCentrifuge;
+import nedelosk.modularmachines.common.producers.machines.generator.ProducerBurningGenerator;
+import nedelosk.modularmachines.common.producers.machines.lathe.ProducerLathe;
+import nedelosk.modularmachines.common.producers.machines.pulverizer.ProducerPulverizer;
+import nedelosk.modularmachines.common.producers.machines.sawmill.ProducerSawMill;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -74,8 +74,10 @@ public class ModularRegistry {
 		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log2, 1, 0), Modules.CASING, Types.WOOD);
 		ModuleRegistry.addModuleItem(new ItemStack(Blocks.log2, 1, 1), Modules.CASING, Types.WOOD);
 		ModuleRegistry.addModuleItem(new ItemStack(Blocks.stone), Modules.CASING, Types.STONE);
-		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 0), Modules.CASING, Types.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 1), Modules.CASING, Types.BRONZE);
+		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 0), Modules.CASING, Types.STONE);
+		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 1), Modules.CASING, Types.STONE);
+		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 2), Modules.CASING, Types.IRON);
+		ModuleRegistry.addModuleItem(new ItemStack(MMBlockManager.Casings.block(), 1, 3), Modules.CASING, Types.BRONZE);
 	}
 
 	public static void registerMachines() {

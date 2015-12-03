@@ -2,8 +2,8 @@ package nedelosk.modularmachines.common.blocks.tile;
 
 import nedelosk.forestday.api.Log;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularTileEntity;
+import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -58,9 +58,6 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		// if(!worldObj.isRemote)
-		// PacketHandler.INSTANCE.sendTo(new PacketModularMachineNBT(this),
-		// (EntityPlayerMP) inventory.player);
 		if (modular != null)
 			return modular.getGuiManager().getContainer(this, inventory);
 		else
@@ -69,19 +66,6 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 
 	@Override
 	public Object getGUIContainer(InventoryPlayer inventory) {
-		/*
-		 * if(modular != null){
-		 * if(inventory.player.getExtendedProperties(ModularSaveModule.class.
-		 * getName()) != null)
-		 * if(((ModularSaveModule)inventory.player.getExtendedProperties(
-		 * ModularSaveModule.class.getName())).getSave(xCoord, yCoord, zCoord)
-		 * != null) this.page =
-		 * ((ModularSaveModule)inventory.player.getExtendedProperties(
-		 * ModularSaveModule.class.getName())).getSave(xCoord, yCoord,
-		 * zCoord).page; else page =
-		 * modular.getGuiManager().getModuleWithGuis().get(0).getModule().
-		 * getName(); }
-		 */
 		if (modular != null)
 			return modular.getGuiManager().getGUIContainer(this, inventory);
 		else

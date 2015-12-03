@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
+import nedelosk.forestday.api.inventory.ContainerBase;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
-import nedelosk.forestday.common.inventory.ContainerBase;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;

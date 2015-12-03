@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.inventory.ContainerBase;
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
-import nedelosk.modularmachines.api.modular.machines.basic.IModularItem;
+import nedelosk.forestday.api.inventory.ContainerBase;
+import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.basic.IModularItem;
+import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.client.gui.assembler.GuiButtonAssembler;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOut;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
+import nedelosk.modularmachines.common.network.packets.PacketAssembler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,7 +68,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncNewContainer(EntityPlayerMP player) {
 		this.activeSlots = inventoryBase.getSizeInventory() - 1;
-		PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1), player);
+		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1), player);
 		onCraftMatrixChanged(null);
 	}
 
@@ -78,7 +78,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncWithOtherContainer(ContainerModularAssembler otherContainer, EntityPlayerMP player) {
 		this.setToolSelection(otherContainer.info, otherContainer.activeSlots);
-		PacketHandler.INSTANCE.sendTo(new PacketModularAssemblerSelection(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
+		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
 	}
 
 	public void setToolSelection(AssemblerMachineInfo info, int activeSlots) {

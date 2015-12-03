@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 
 public class MMRegistry {
 

@@ -1,10 +1,10 @@
 package nedelosk.forestday.common.network;
 
-import nedelosk.forestday.common.blocks.tiles.TileBaseGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
+import nedelosk.forestday.api.tile.TileBaseGui;
 
 public class GuiHandler implements IGuiHandler {
 

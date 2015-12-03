@@ -5,11 +5,11 @@ import java.util.List;
 import com.google.common.collect.Maps;
 
 import akka.japi.Pair;
-import nedelosk.modularmachines.api.modular.module.basic.IModule;
-import nedelosk.modularmachines.api.modular.module.tool.producer.basic.IProducerWithItem;
 import nedelosk.modularmachines.api.modular.type.Types.Type;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.producers.special.IProducerWithItem;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.TabModularMachines;
 import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -78,7 +78,7 @@ public class ItemProducers extends Item {
 		if (!stack.hasTagCompound())
 			return 16777215;
 		if (pass == 1) {
-			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.moduleFactory.createProducer(stack.getTagCompound().getString("Name"));
+			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory.createProducer(stack.getTagCompound().getString("Name"));
 			return producer.getColor();
 		} else {
 			return 16777215;

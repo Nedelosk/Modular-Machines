@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.module.tool.producer.machine.IProducerMachineRecipe;
-import nedelosk.modularmachines.api.modular.utils.ModuleUtils;
+import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 

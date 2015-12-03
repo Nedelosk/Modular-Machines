@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.LoaderException;
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

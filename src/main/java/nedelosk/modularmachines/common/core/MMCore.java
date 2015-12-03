@@ -1,7 +1,9 @@
 package nedelosk.modularmachines.common.core;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.common.core.manager.RecipeManager;
 import nedelosk.modularmachines.common.core.manager.OreDictionaryManager;
@@ -9,8 +11,8 @@ import nedelosk.modularmachines.common.core.registry.BlockRegistry;
 import nedelosk.modularmachines.common.core.registry.ItemRegistry;
 import nedelosk.modularmachines.common.core.registry.ModularRegistry;
 import nedelosk.modularmachines.common.events.EventHandler;
-import nedelosk.modularmachines.common.modular.utils.ModuleFactory;
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
+import nedelosk.modularmachines.common.modular.utils.ProducerFactory;
+import nedelosk.modularmachines.common.network.packets.PacketAssembler;
 import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import nedelosk.modularmachines.plugins.PluginManager;
 import net.minecraft.block.material.Material;
@@ -33,7 +35,7 @@ public class MMCore {
 
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		ModuleFactory.init();
+		ProducerFactory.init();
 		registerFluids();
 		ModularConfig.preInit();
 		pluginManager.registerPlugins();
@@ -42,6 +44,10 @@ public class MMCore {
 		ItemRegistry.preInit();
 		ModularRegistry.preInit();
 		PacketHandler.preInit();
+		
+		// Assembler
+		PacketHandler.INSTANCE.registerMessage(PacketAssembler.class, PacketAssembler.class, PacketHandler.nextID(), Side.CLIENT);
+		PacketHandler.INSTANCE.registerMessage(PacketAssembler.class, PacketAssembler.class, PacketHandler.nextID(), Side.SERVER);
 	}
 
 	public void init() {

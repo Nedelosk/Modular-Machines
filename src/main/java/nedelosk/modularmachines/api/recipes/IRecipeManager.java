@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.recipes;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.IModular;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IRecipeManager {

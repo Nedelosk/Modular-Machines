@@ -5,7 +5,7 @@ import java.util.List;
 
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.utils.RenderUtils;
+import nedelosk.forestday.api.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.client.gui.assembler;
 
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.core.manager.MMBlockManager;
 import net.minecraft.client.Minecraft;

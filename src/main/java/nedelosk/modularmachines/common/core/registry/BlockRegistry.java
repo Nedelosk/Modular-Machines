@@ -25,7 +25,7 @@ public class BlockRegistry {
 	public static void preInit() {
 		// Blocks
 		MMBlockManager.Ore_Others.registerBlock(new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForestDay.class);
-		MMBlockManager.Casings.registerBlock(new BlockCasing(new String[]{ "iron", "bronze" }), ItemBlockForestDay.class);
+		MMBlockManager.Casings.registerBlock(new BlockCasing(new String[]{ "stone", "stone_brick", "iron", "bronze" }), ItemBlockForestDay.class);
 		MMBlockManager.Component_Metal_Blocks.registerBlock(new BlockComponent(Material.iron, "metal_block"), ItemBlockForestDay.class);
 		MMBlockManager.Modular_Assembler.registerBlock(new ModularAssemblerBlock(), ItemBlockModularAssembler.class);
 		MMBlockManager.Modular_Machine.registerBlock(new ModularMachineBlock(), ItemBlockModular.class, new Object[] { "modular.machine" });

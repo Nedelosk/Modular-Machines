@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.config;
 
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraftforge.common.config.Configuration;
 

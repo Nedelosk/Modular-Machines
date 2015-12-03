@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.events;
 
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.modular.utils.ModuleStack;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;

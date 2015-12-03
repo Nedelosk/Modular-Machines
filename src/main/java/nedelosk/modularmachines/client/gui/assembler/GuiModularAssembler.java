@@ -4,17 +4,17 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 import nedelosk.forestday.api.guis.Button;
-import nedelosk.forestday.client.gui.GuiBase;
-import nedelosk.modularmachines.api.modular.machines.basic.AssemblerMachineInfo;
-import nedelosk.modularmachines.api.modular.utils.ModuleRegistry;
+import nedelosk.forestday.api.guis.GuiBase;
+import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
+import nedelosk.modularmachines.api.packets.PacketHandler;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import nedelosk.modularmachines.common.inventory.slots.SlotAssemblerIn;
-import nedelosk.modularmachines.common.network.packets.PacketHandler;
-import nedelosk.modularmachines.common.network.packets.machine.PacketModularAssemblerSelection;
+import nedelosk.modularmachines.common.network.packets.PacketAssembler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -70,7 +70,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		currentInfo = info;
 
 		((ContainerModularAssembler) inventorySlots).setToolSelection(info, activeSlots);
-		PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerSelection(tile, info, activeSlots));
+		PacketHandler.INSTANCE.sendToServer(new PacketAssembler(tile, info, activeSlots));
 		updateGUI();
 	}
 
@@ -81,7 +81,7 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		}
 	}
 
-	public void onToolSelectionPacket(PacketModularAssemblerSelection packet) {
+	public void onToolSelectionPacket(PacketAssembler packet) {
 		AssemblerMachineInfo info = packet.info;
 		if (info == null) {
 			info = GuiButtonAssembler.info;

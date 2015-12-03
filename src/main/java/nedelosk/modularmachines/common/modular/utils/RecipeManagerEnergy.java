@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import net.minecraftforge.common.util.ForgeDirection;

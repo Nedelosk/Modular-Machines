@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.utils.RenderUtils;
+import nedelosk.forestday.api.utils.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
