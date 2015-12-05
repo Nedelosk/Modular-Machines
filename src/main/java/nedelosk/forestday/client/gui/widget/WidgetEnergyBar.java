@@ -29,7 +29,7 @@ public class WidgetEnergyBar extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
 
 		description.add(storage.getEnergyStored() + " RF / " + storage.getMaxEnergyStored() + " RF");

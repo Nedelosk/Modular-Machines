@@ -36,7 +36,7 @@ public class WidgetFuelBar extends Widget {
 	}
 	
 	@Override
-	public ArrayList getTooltip() {
+	public ArrayList getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
 		description.add(fuel + " Fuel / " + fuelMax + " Fuel");
 		return description;

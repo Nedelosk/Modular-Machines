@@ -19,7 +19,7 @@ public class WidgetButtonMode extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(StatCollector.translateToLocal("mode." + mode.getName() + ".name"));
 		return list;

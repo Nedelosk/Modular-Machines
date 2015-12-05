@@ -6,29 +6,36 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketSelectTankManager extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectTankManager, IMessage> {
+public class PacketTankManager extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketTankManager, IMessage> {
 
-	public int ID;
-	public String producerName;
-	public TankMode mode;
+	private int ID;
+	private int producer = -1;
+	private TankMode mode;
+	private ForgeDirection direction;
 
-	public PacketSelectTankManager() {
+	public PacketTankManager() {
 	}
 	
-	public PacketSelectTankManager(TileEntity tile, TankMode mode, int ID) {
+	public PacketTankManager(TileEntity tile, TankMode mode, int ID) {
 		super(tile);
 		this.mode = mode;
 		this.ID = ID;
 	}
 
-	public PacketSelectTankManager(TileEntity tile, String producerName, int ID) {
+	public PacketTankManager(TileEntity tile, int producer, int ID) {
 		super(tile);
-		this.producerName = producerName;
+		this.producer = producer;
+		this.ID = ID;
+	}
+	
+	public PacketTankManager(TileEntity tile, ForgeDirection direction, int ID) {
+		super(tile);
+		this.direction = direction;
 		this.ID = ID;
 	}
 
@@ -38,9 +45,11 @@ public class PacketSelectTankManager extends PacketTileEntity<TileEntity> implem
 		ID = buf.readInt();
 		int position = buf.readInt();
 		if (position == 0) {
-			producerName = ByteBufUtils.readUTF8String(buf);
+			producer = buf.readInt();
 		} else if (position == 1) {
 			mode = TankMode.values()[buf.readShort()];
+		} else if (position == 2) {
+			direction = ForgeDirection.values()[buf.readShort()];
 		}
 	}
 
@@ -50,23 +59,28 @@ public class PacketSelectTankManager extends PacketTileEntity<TileEntity> implem
 		buf.writeInt(ID);
 		if (mode != null) {
 			buf.writeInt(0);
-			buf.writeInt(mode.ordinal());
-		} else if (producerName != null) {
+			buf.writeShort(mode.ordinal());
+		} else if (producer != -1) {
 			buf.writeInt(1);
-			ByteBufUtils.writeUTF8String(buf, producerName);
-		} else {
+			buf.writeInt(producer);
+		} else if (direction != null) {
 			buf.writeInt(2);
+			buf.writeShort(direction.ordinal());
+		} else {
+			buf.writeInt(3);
 		}
 	}
 
 	@Override
-	public IMessage onMessage(PacketSelectTankManager message, MessageContext ctx) {
+	public IMessage onMessage(PacketTankManager message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 		if (message.mode != null) {
 			tile.getModular().getTankManeger().getProducer().getManager().setTankMode(message.ID, message.mode);
-		} else if (message.producerName != null) {
-			tile.getModular().getTankManeger().getProducer().getManager().setProducer(message.ID, message.producerName);
+		} else if (message.producer != -1) {
+			tile.getModular().getTankManeger().getProducer().getManager().setProducer(message.ID, message.producer);
+		} else if (message.direction != null) {
+			tile.getModular().getTankManeger().getProducer().getManager().setDirection(message.ID, message.direction);
 		}
 		world.markBlockForUpdate(message.x, message.y, message.z);
 		return null;

@@ -75,7 +75,7 @@ public class WidgetFluidTank extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
 
 		if (tank == null || tank.getFluidAmount() == 0) {

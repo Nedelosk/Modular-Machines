@@ -29,7 +29,7 @@ public class WidgetHeatBar extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
 
 		description.add(heat + " Heat / " + heatTotal + " Heat");

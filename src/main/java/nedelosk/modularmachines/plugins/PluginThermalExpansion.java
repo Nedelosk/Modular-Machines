@@ -44,7 +44,7 @@ public class PluginThermalExpansion extends Plugin {
 		frame = GameRegistry.findItem(getRequiredMod(), "Frame");
 		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
 		strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
-		capacitor = GameRegistry.findItem(getRequiredMod(), "Capacitor");
+		capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 0), Modules.CASING, Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 1), Modules.CASING, Electrum);
 		ModuleRegistry.addModuleItem(new ItemStack(frame, 1, 2), Modules.CASING, Signalum);

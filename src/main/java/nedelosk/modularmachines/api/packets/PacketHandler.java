@@ -17,8 +17,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketSwitchMode.class, PacketSwitchMode.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketModularSelectPage.class, PacketModularSelectPage.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketModularSelectPage.class, PacketModularSelectPage.class, nextID(), Side.CLIENT);
-		INSTANCE.registerMessage(PacketSelectTankManager.class, PacketSelectTankManager.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketSelectTankManager.class, PacketSelectTankManager.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketProducerEngine.class, PacketProducerEngine.class, nextID(), Side.SERVER);
 	}
 

@@ -20,7 +20,7 @@ public class Widget<I extends IInventory> {
 	public void draw(IGuiBase<I> gui) {
 	}
 
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase<I> gui) {
 		return null;
 	}
 

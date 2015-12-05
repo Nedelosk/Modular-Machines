@@ -141,8 +141,10 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 
 	@Override
 	public RecipeInput[] getInputs(IModular modular, ModuleStack stack) {
-		if(getInputFluids(modular, stack) != null && getInputFluids(modular, stack).length > 0 && getInputItems(modular, stack) != null && getInputItems(modular, stack).length > 0)
-			return new RecipeInput[]{getInputFluids(modular, stack)[0], getInputItems(modular, stack)[0]};
+		RecipeInput[] fluids = getInputFluids(modular, stack);
+		RecipeInput[] items = getInputItems(modular, stack);
+		if(fluids != null && fluids.length > 0 && items != null && items.length > 0)
+			return new RecipeInput[]{fluids[0], items[0]};
 		return null;
 	}
 

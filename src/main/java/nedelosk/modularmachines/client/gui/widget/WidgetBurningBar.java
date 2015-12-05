@@ -19,7 +19,7 @@ public class WidgetBurningBar extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(fuel + " / " + fuelTotal);
 		return list;

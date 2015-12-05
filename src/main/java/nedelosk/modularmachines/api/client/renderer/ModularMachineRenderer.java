@@ -91,7 +91,7 @@ public class ModularMachineRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.5F, 1.5F, 0.5F);
 			GL11.glRotated(180, 0F, 0F, 1F);
-			GL11.glRotated(180, 0F, 1F, 0F);
+			GL11.glRotated(90, 0F, 1F, 0F);
 			GL11.glPushMatrix();
 
 			manager.bindTexture(baseTexture);
@@ -236,7 +236,7 @@ public class ModularMachineRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.5F, 1.5F, 0.5F);
 			GL11.glRotated(180, 0F, 0F, 1F);
-			GL11.glRotated(180, 0F, 1F, 0F);
+			GL11.glRotated(90, 0F, 1F, 0F);
 			GL11.glPushMatrix();
 
 			manager.bindTexture(baseTexture);
@@ -352,7 +352,7 @@ public class ModularMachineRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.5F, 1.5F, 0.5F);
 			GL11.glRotated(180, 0F, 0F, 1F);
-			GL11.glRotated(180, 0F, 1F, 0F);
+			GL11.glRotated(90, 0F, 1F, 0F);
 			GL11.glPushMatrix();
 
 			manager.bindTexture(baseTextureLeft);
@@ -444,7 +444,7 @@ public class ModularMachineRenderer {
 							GL11.glPushMatrix();
 							GL11.glTranslated(0.5F, 1.5F, 0.5F);
 							GL11.glRotated(180, 0F, 0F, 1F);
-							GL11.glRotated(180, 0F, 1F, 0F);
+							GL11.glRotated(90, 0F, 1F, 0F);
 							GL11.glPushMatrix();
 							manager.bindTexture(textureMachine);
 							Machine_Front.render(0.0625F);

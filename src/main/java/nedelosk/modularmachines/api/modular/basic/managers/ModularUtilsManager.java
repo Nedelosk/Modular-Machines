@@ -38,18 +38,25 @@ public class ModularUtilsManager implements IModularUtilsManager {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("FluidHandler"))
-			fluidHandler = new FluidHandler(nbt);
-		if (nbt.hasKey("EnergyManager"))
+		if (nbt.getBoolean("EH"))
 			energyHandler = new EnergyHandler(nbt);
+		if (nbt.getBoolean("FH"))
+			fluidHandler = new FluidHandler(modular);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		if (fluidHandler != null)
-			fluidHandler.writeToNBT(nbt);
-		if (energyHandler != null)
+		if (energyHandler != null){
+			nbt.setBoolean("EH", true);
 			energyHandler.writeToNBT(nbt);
+		}else{
+			nbt.setBoolean("EH", false);
+		}
+		if (fluidHandler != null){
+			nbt.setBoolean("FH", true);
+		}else{
+			nbt.setBoolean("FH", false);
+		}
 	}
 
 	@Override
