@@ -53,14 +53,14 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawWidgets() {
-		gui.setZLevel(100.0F);
-		GuiBase.getItemRenderer().zLevel = 100.0F;
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.draw(gui);
 		}
-		gui.setZLevel(0.0F);
-		GuiBase.getItemRenderer().zLevel = 0.0F;
+		for (Widget slot : widgets) {
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			slot.drawStrings(gui);
+		}
 
 	}
 

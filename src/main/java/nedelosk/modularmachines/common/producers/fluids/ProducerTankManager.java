@@ -5,12 +5,16 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
 import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
+import nedelosk.modularmachines.api.client.widget.WidgetDirection;
+import nedelosk.modularmachines.api.client.widget.WidgetProducer;
+import nedelosk.modularmachines.api.client.widget.WidgetTankMode;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.handlers.FluidHandler;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
@@ -19,14 +23,13 @@ import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.Modules;
 import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
+import nedelosk.modularmachines.api.producers.fluids.ITankData;
+import nedelosk.modularmachines.api.producers.fluids.TankData;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.managers.ProducerManager;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.common.producers.fluids.manager.TankManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -39,26 +42,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 
 public class ProducerTankManager extends ProducerManager implements IProducerTankManager {
 
-	public FluidTankBasic[] tanks;
-	protected ITankManager manager;
-	public int tankSlots;
+	protected TankData[] datas;
+	protected int tankSlots;
+	protected int tab;
 	
 	public ProducerTankManager() {
 		super("TankManager");
 		this.tankSlots = 2;
-		this.tanks = new FluidTankBasic[tankSlots];
-		this.manager = createManager();
+		this.datas = new TankData[tankSlots];
+		this.tab = 0;
 	}
 	
 	public ProducerTankManager(int tankSlots) {
 		super("TankManager");
 		this.tankSlots = tankSlots;
-		this.tanks = new FluidTankBasic[tankSlots];
-		this.manager = createManager();
+		this.datas = new TankData[tankSlots];
+		this.tab = 0;
 	}
 	
 	public ProducerTankManager(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -68,37 +70,33 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.writeToNBT(nbt, modular, stack);
-		manager.writeToNBT(nbt);
 		nbt.setInteger("TankSlots", tankSlots);
+		nbt.setInteger("Tab", tab);
 		NBTTagList list = new NBTTagList();
-		int[] tankCapacitys = new int[tanks.length];
-		for (int i = 0; i < tanks.length; i++) {
-			if (tanks[i] != null) {
+		for (int i = 0; i < datas.length; i++) {
+			if (datas[i] != null) {
 				NBTTagCompound nbtTag = new NBTTagCompound();
-				tanks[i].writeToNBT(nbtTag);
-				tankCapacitys[i] = tanks[i].getCapacity();
+				datas[i].writeToNBT(nbtTag);
 				nbtTag.setShort("Position", (short) i);
 				list.appendTag(nbtTag);
 			}
 		}
-		nbt.setTag("Tanks", list);
-		nbt.setIntArray("TankCapacitys", tankCapacitys);
+		nbt.setTag("Datas", list);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception{
 		super.readFromNBT(nbt, modular, stack);
-		manager = new TankManager();
-		manager.readFromNBT(nbt);
 		tankSlots = nbt.getInteger("TankSlots");
-		tanks = new FluidTankBasic[tankSlots];
-		NBTTagList list = nbt.getTagList("Tanks", 10);
+		tab = nbt.getInteger("Tab");
+		datas = new TankData[tankSlots];
+		NBTTagList list = nbt.getTagList("Datas", 10);
 		int[] tankCapacitys = nbt.getIntArray("TankCapacitys");
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			short position = nbtTag.getShort("Position");
-			tanks[position] = new FluidTankBasic(tankCapacitys[position]);
-			tanks[position].readFromNBT(nbtTag);
+			datas[position] = new TankData();
+			datas[position].readFromNBT(nbtTag);
 		}
 	}
 	
@@ -144,16 +142,6 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	}
 	
 	@Override
-	public ITankManager getManager() {
-		return manager;
-	}
-	
-	@Override
-	public ITankManager createManager() {
-		return new TankManager();
-	}
-	
-	@Override
 	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
 		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(stackItem);
 		if(stack != null && stack.getModule() == Modules.TANK && stack.getProducer() != null && stack.getProducer() instanceof IProducerTank){
@@ -170,10 +158,33 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		{
 			for(int id = 0;id < tankSlots;id++)
 			{
-				FluidTankBasic tank = getTank(id);
-				WidgetFluidTank widget = new WidgetFluidTank(tank, 36 + id * 51, 18, id);
-				manager.addWidgets(widget, gui);
+				ITankData data = getData(id);
+				WidgetFluidTank widget = new WidgetFluidTank(data.getTank(), 36 + id * 51, 18, id);
+				addWidgets(widget, gui);
 			}
+		}
+	}
+	
+	@Override
+	@SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
+	public void addWidgets(Widget widget, IGuiBase<IModularTileEntity<IModular>> gui) {
+		if (widget != null && widget instanceof WidgetFluidTank) {
+			WidgetFluidTank tank = (WidgetFluidTank) widget;
+			ITankData data = getData(tank.ID);
+			gui.getWidgetManager().add(tank);
+			gui.getWidgetManager().add(new WidgetTankMode(tank.posX - 22, tank.posY, data.getMode(), tank.ID));
+			if(gui.getTile().getModular().getFluidProducers() != null && !gui.getTile().getModular().getFluidProducers().isEmpty())
+				gui.getWidgetManager().add(new WidgetProducer(tank.posX - 22, tank.posY + 21, data.getProducer(), tank.ID));
+			gui.getWidgetManager().add(new WidgetDirection(tank.posX - 22, tank.posY + 42, data.getDirection(), tank.ID));
+		}
+	}
+	
+	@SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
+	@Override
+	public void addButtons(IGuiBase gui, IModular modular, ModuleStack stack) {
+		int tabs = tankSlots / 3 + 1;
+		for(int ID = 0;ID <	tabs;ID++){
+			//gui.getButtonManager().add(new GuiButton);
 		}
 	}
 	
@@ -184,7 +195,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetFluidTank) {
 				int ID = ((WidgetFluidTank) widget).ID;
-				((WidgetFluidTank) widget).tank = getTank(ID);
+				((WidgetFluidTank) widget).tank = getData(ID).getTank();
 			}
 		}
 	}
@@ -193,25 +204,25 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill, ModuleStack stack, IModular modular) {
 		if (!doFill || resource == null)
 			return 0;
-		if (manager != null) {
-			for(int i = 0;i < tanks.length;i++){
-				FluidTankBasic tank = tanks[i];
-				if(tank.isFull())
+		for(int i = 0;i < datas.length;i++){
+			TankData data = datas[i];
+			if(data.getTank().isFull())
+				continue;
+			if(!data.getTank().isEmpty()){
+				if(resource.getFluid() != data.getTank().getFluid().getFluid())
 					continue;
-				if(!tank.isEmpty()){
-					if(resource.getFluid() != tank.getFluid().getFluid())
-						continue;
-				}
-				ModuleStack stackT = modular.getFluidProducers().get(manager.getProducers()[i]);
+			}
+			if(modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()){
+				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
-				if(!(manager.getTankModes()[i] == TankMode.INPUT))
-					continue;
-				if(from == manager.getDirections()[i] || from == ForgeDirection.UNKNOWN || manager.getDirections()[i] == ForgeDirection.UNKNOWN){
-					return tanks[i].fill(resource, doFill);
-				}else
-					continue;	
 			}
+			if(!(data.getMode() == TankMode.INPUT))
+				continue;
+			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+				return data.getTank().fill(resource, doFill);
+			}else
+				continue;	
 		}
 		return 0;
 	}
@@ -220,23 +231,23 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain, ModuleStack stack, IModular modular) {
 		if (!doDrain || resource == null)
 			return null;
-		if (manager != null) {
-			for(int i = 0;i < tanks.length;i++){
-				FluidTankBasic tank = tanks[i];
-				if(tank.isEmpty())
-					continue;
-				if(resource.getFluid() != tank.getFluid().getFluid())
-					continue;
-				ModuleStack stackT = modular.getFluidProducers().get(manager.getProducers()[i]);
+		for(int i = 0;i < datas.length;i++){
+			TankData data = datas[i];
+			if(data.getTank().isEmpty())
+				continue;
+			if(resource.getFluid() != data.getTank().getFluid().getFluid())
+				continue;
+			if(modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()){
+				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
-				if(!(manager.getTankModes()[i] == TankMode.OUTPUT))
-					continue;
-				if(from == manager.getDirections()[i] || from == ForgeDirection.UNKNOWN || manager.getDirections()[i] == ForgeDirection.UNKNOWN){
-					return tanks[i].drain(resource, doDrain);
-				}else
-					continue;	
 			}
+			if(!(data.getMode() == TankMode.OUTPUT))
+				continue;
+			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+				return data.getTank().drain(resource, doDrain);
+			}else
+				continue;	
 		}
 		return null;
 	}
@@ -245,21 +256,21 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain, ModuleStack stack, IModular modular) {
 		if (!doDrain || maxDrain < 0)
 			return null;
-		if (manager != null) {
-			for(int i = 0;i < tanks.length;i++){
-				FluidTankBasic tank = tanks[i];
-				if(tank.isEmpty())
-					continue;
-				if(tank.getFluid().amount < 0)
-					continue;
-				ModuleStack stackT = modular.getFluidProducers().get(manager.getProducers()[i]);
+		for(int i = 0;i < datas.length;i++){
+			TankData data = datas[i];
+			if(data.getTank().isEmpty())
+				continue;
+			if(data.getTank().getFluid().amount < 0)
+				continue;
+			if(modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()){
+				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
-				if(from == manager.getDirections()[i] || from == ForgeDirection.UNKNOWN || manager.getDirections()[i] == ForgeDirection.UNKNOWN){
-					return tanks[i].drain(maxDrain, doDrain);
-				}else
-					continue;	
 			}
+			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+				return data.getTank().drain(maxDrain, doDrain);
+			}else
+				continue;	
 		}
 		return null;
 	}
@@ -277,45 +288,66 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from, ModuleStack stack, IModular modular) {
 		ArrayList<FluidTankInfo> infos = new ArrayList<>();
-		for (int i = 0; i < tanks.length; i++) {
-			if (tanks[i] != null)
-				infos.add(tanks[i].getInfo());
+		for (int i = 0; i < datas.length; i++) {
+			if (datas[i] != null)
+				infos.add(datas[i].getTank().getInfo());
 		}
 		return infos.toArray(new FluidTankInfo[infos.size()]);
 	}
 	
-	public void addTank(int id, IProducerTank tank) {
-		if(tank == null)
-			tanks[id] = null;
-		else
-			tanks[id] = new FluidTankBasic(tank.getCapacity());
+	@Override
+	public int getMaxTabs() {
+		if(datas == null || datas.length == 0)
+			return 1;
+		return 1 + datas.length / 3;
 	}
 	
 	@Override
-	public List<FluidTankBasic> getTanks(IModular modular, ModuleStack producer, TankMode mode) {
-		ArrayList<FluidTankBasic> tanksL = Lists.newArrayList();
+	public void setTab(int tab) {
+		this.tab = tab;
+	}
+	
+	@Override
+	public int getTab() {
+		return tab;
+	}
+	
+	@Override
+	public void addTank(int id, IProducerTank tank) {
+		if(tank == null)
+			datas[id] = null;
+		else
+			datas[id] = new TankData(new FluidTankBasic(tank.getCapacity()));
+	}
+	
+	@Override
+	public List<ITankData> getDatas(IModular modular, ModuleStack producer, TankMode mode) {
+		ArrayList<ITankData> datasL = Lists.newArrayList();
 		if(producer != null){
 			if(modular.getFluidProducers() == null || modular.getFluidProducers().isEmpty() || !modular.getFluidProducers().contains(producer))
-				return tanksL;
-			for(int ID = 0;ID < tanks.length;ID++){
-				FluidTankBasic tank = tanks[ID];
-				if(tank != null){
-					if(mode == manager.getTankModes()[ID]){
-						if(manager.getProducers()[ID] == modular.getFluidProducers().indexOf(producer))
-							tanksL.add(tank);
+				return datasL;
+			for(int ID = 0;ID < datas.length;ID++){
+				TankData data = datas[ID];
+				if(data != null){
+					if(mode == data.getMode()){
+						if(data.getProducer() == modular.getFluidProducers().indexOf(producer))
+							datasL.add(data);
 					}
 				}
 			}
 		}	
-		return tanksL;
-	}
-
-	public FluidTankBasic getTank(int id) {
-		return tanks[id];
+		return datasL;
 	}
 	
-	public FluidTankBasic[] getTanks() {
-		return tanks;
+	
+	@Override
+	public ITankData getData(int id) {
+		return datas[id];
+	}
+	
+	@Override
+	public ITankData[] getDatas() {
+		return datas;
 	}
 	
 	public class SlotTank extends SlotModular{
@@ -328,13 +360,21 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		}
 		
 		@Override
+		public boolean isItemValid(ItemStack stack) {
+			ModuleStack stackModule = ModuleRegistry.getModuleItem(stack);
+			if(stackModule != null && stackModule.getModule() != null && stackModule.getProducer() != null && stackModule.getProducer() instanceof IProducerTank)
+				return true;
+			return false;
+		}
+		
+		@Override
 		public void onPickupFromSlot(EntityPlayer  player, ItemStack stack) {
 			super.onPickupFromSlot( player, stack);
 			IModularTileEntity tileModular = (IModularTileEntity) inventory;
 			IModular modular = tileModular.getModular();
 			ModuleStack module = ModuleRegistry.getModuleItem(stack);
 			if(module != null && module.getModule() != null && module.getProducer() != null && module.getProducer() instanceof IProducerTank){
-				((IProducerTank)module.getProducer()).setStorageFluid(getTank(ID).getFluid(), module, stack);
+				((IProducerTank)module.getProducer()).setStorageFluid(getData(ID).getTank().getFluid(), module, stack); 
 				addTank(ID, null);
 			}
 		}
@@ -347,7 +387,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			ModuleStack module = ModuleRegistry.getModuleItem(stack);
 			if(module != null && module.getModule() != null && module.getProducer() != null && module.getProducer() instanceof IProducerTank){
 				addTank(ID, (IProducerTank) module.getProducer());
-				getTank(ID).setFluid(((IProducerTank)module.getProducer()).getStorageFluid(module, stack));
+				getData(ID).getTank().setFluid(((IProducerTank)module.getProducer()).getStorageFluid(module, stack));
 			}
 		}
 		

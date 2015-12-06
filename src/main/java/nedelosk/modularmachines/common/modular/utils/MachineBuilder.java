@@ -43,29 +43,8 @@ public class MachineBuilder {
 				return modular;
 			}
 		}
-		/*
-		 * HashMap<String, Vector<ModuleStack>> moduleStacks =
-		 * Maps.newHashMap(); ArrayList<String> modules = new ArrayList();
-		 * for(int i = 0;i < slots.length;i++) { ItemStack stack = slots[i];
-		 * ModuleStack module = ModuleRegistry.getModuleStack(stack); if(module
-		 * != null) { if(moduleStacks.get(module.getModuleName()) == null)
-		 * moduleStacks.put(module.getModuleName(), new Vector<ModuleStack>());
-		 * moduleStacks.get(module.getModuleName()).add(module.copy());
-		 * modules.add(module.getModuleName()); } }
-		 * 
-		 * for(String module : ModuleRegistry.getRequiredModule()) {
-		 * if(!modules.contains(module)) return null; } return
-		 * createMachine(moduleStacks, moduleName);
-		 */
 		return null;
 	}
-
-	/*
-	 * public static IModular createMachine(HashMap<String, Vector<ModuleStack>>
-	 * modules, String moduleName) { IModular machine =
-	 * createMachine(moduleName); if(machine != null)
-	 * machine.setModules(modules); return machine; }
-	 */
 
 	public static <M extends IModular> M createMachine(String modularName, Object... ctorArgs) {
 		IModular machine = null;

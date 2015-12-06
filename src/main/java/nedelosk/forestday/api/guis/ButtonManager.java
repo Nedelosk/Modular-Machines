@@ -1,18 +1,19 @@
 package nedelosk.forestday.api.guis;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import nedelosk.forestday.api.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-public class ButtonManager implements IButtonManager {
+public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 
-	public final GuiBase gui;
+	public final G gui;
 	public final Minecraft minecraft;
 	protected final ArrayList<Button> buttons = new ArrayList<Button>();
 
-	public ButtonManager(GuiBase gui) {
+	public ButtonManager(G gui) {
 		this.gui = gui;
 		this.minecraft = Minecraft.getMinecraft();
 	}
@@ -20,6 +21,11 @@ public class ButtonManager implements IButtonManager {
 	@Override
 	public void add(Button slot) {
 		this.buttons.add(slot);
+	}
+	
+	@Override
+	public void add(Collection slots) {
+		this.buttons.addAll(slots);
 	}
 
 	@Override
@@ -36,10 +42,10 @@ public class ButtonManager implements IButtonManager {
 		return buttons;
 	}
 
-	public void rendeTooltip(int mX, int mY) {
+	public void drawTooltip(int mX, int mY) {
 		for (Button slot : buttons) {
 			if (slot.isMouseOver(mX, mY))
-				RenderUtils.renderTooltip(mX, mY, slot.getTooltip());
+				RenderUtils.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip(gui));
 		}
 	}
 
@@ -72,4 +78,10 @@ public class ButtonManager implements IButtonManager {
 			slot.handleMouseClick(mouseX, mouseY, mouseButton);
 		}
 	}
+	
+	@Override
+	public G getGui() {
+		return null;
+	}
+	
 }

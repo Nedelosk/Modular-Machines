@@ -23,7 +23,6 @@ import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
 import nedelosk.modularmachines.api.producers.integration.IProducerWaila;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -169,8 +168,8 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public Vector<ModuleStack> getTankManegers() {
-		return getModule("TankManager");
+	public ModuleStack<IModule, IProducerTankManager> getTankManeger() {
+		return getModule("TankManager", 0);
 	}
 
 	@Override

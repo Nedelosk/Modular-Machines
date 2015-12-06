@@ -8,6 +8,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,12 +18,12 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	protected T tile;
 	protected ButtonManager buttonManager;
 	protected WidgetManager widgetManager;
-	protected InventoryPlayer player;
+	protected EntityPlayer player;
 
 	public GuiBase(T tile, InventoryPlayer inventory) {
 		super(tile.getContainer(inventory));
 		this.tile = tile;
-		this.player = inventory;
+		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
 		guiTexture = RenderUtils.getResourceLocation(getModName(), getGuiName(), "gui");
@@ -67,6 +68,7 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 
 		renderStrings(fontRendererObj, param1, param2);
 		widgetManager.drawTooltip(param1, param2);
+		buttonManager.drawTooltip(param1, param2);
 	}
 
 	@Override
@@ -118,4 +120,14 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 		return this.guiTop;
 	}
 
+	@Override
+	public EntityPlayer getPlayer() {
+		return player;
+	}
+	
+	@Override
+	public FontRenderer getFontRenderer() {
+		return fontRendererObj;
+	}
+	
 }

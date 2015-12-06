@@ -3,7 +3,8 @@ package nedelosk.modularmachines.api.packets;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import nedelosk.modularmachines.api.packets.pages.PacketModularSelectPage;
+import nedelosk.modularmachines.api.packets.pages.PacketSelectPage;
+import nedelosk.modularmachines.api.packets.pages.PacketSelectTankManagerTab;
 
 public class PacketHandler {
 
@@ -15,8 +16,10 @@ public class PacketHandler {
 		
 		//Modular
 		INSTANCE.registerMessage(PacketSwitchMode.class, PacketSwitchMode.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketModularSelectPage.class, PacketModularSelectPage.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketModularSelectPage.class, PacketModularSelectPage.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketSelectPage.class, PacketSelectPage.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSelectPage.class, PacketSelectPage.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketSelectTankManagerTab.class, PacketSelectTankManagerTab.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSelectTankManagerTab.class, PacketSelectTankManagerTab.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketProducerEngine.class, PacketProducerEngine.class, nextID(), Side.SERVER);

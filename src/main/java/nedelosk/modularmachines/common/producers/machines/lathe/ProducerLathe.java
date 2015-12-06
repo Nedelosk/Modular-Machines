@@ -67,7 +67,7 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
-		gui.getWidgetManager().add(new WidgetButtonMode(86, 13, getMode()));
+		gui.getWidgetManager().add(new WidgetButtonMode(86, 16, getMode()));
 	}
 	
 	@Override

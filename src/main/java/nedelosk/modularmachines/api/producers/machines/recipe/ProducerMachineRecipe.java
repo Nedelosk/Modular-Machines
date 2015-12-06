@@ -18,12 +18,11 @@ import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
-import nedelosk.modularmachines.api.producers.factory.IProducerFactory;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
+import nedelosk.modularmachines.api.producers.fluids.ITankData;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.machines.ProducerMachine;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
+import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
@@ -36,8 +35,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
 
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
 public abstract class ProducerMachineRecipe extends ProducerMachine implements IProducerMachineRecipe {
@@ -70,15 +67,15 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 
 	public RecipeInput[] getInputFluids(IModular modular, ModuleStack moduleStack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		List<FluidTankBasic> tanks = Lists.newArrayList();
+		List<ITankData> datas = Lists.newArrayList();
 		for(ModuleStack<IModule, IProducerTankManager> manager : modular.getFluidProducers()){
-			tanks.addAll(manager.getProducer().getTanks(modular, moduleStack, TankMode.INPUT));
+			datas.addAll(manager.getProducer().getDatas(modular, moduleStack, TankMode.INPUT));
 		}
-		RecipeInput[] inputs = new RecipeInput[tanks.size()];
-		for(int ID = 0;ID < tanks.size();ID++){
-			FluidTankBasic tank = tanks.get(ID);
-			if(tank != null && !tank.isEmpty()){
-				inputs[ID] = new RecipeInput(ID, tank.getFluid().copy());
+		RecipeInput[] inputs = new RecipeInput[datas.size()];
+		for(int ID = 0;ID < datas.size();ID++){
+			ITankData data = datas.get(ID);
+			if(data != null && data.getTank() != null && !data.getTank().isEmpty()){
+				inputs[ID] = new RecipeInput(ID, data.getTank().getFluid().copy());
 			}
 		}
 		return inputs;

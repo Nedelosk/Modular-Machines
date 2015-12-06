@@ -42,7 +42,7 @@ public interface IModular {
 
 	ModuleStack<IModuleCasing, IProducer> getCasing();
 	
-	Vector<ModuleStack> getTankManegers();
+	ModuleStack<IModule, IProducerTankManager> getTankManeger();
 
 	boolean addModule(ModuleStack module);
 

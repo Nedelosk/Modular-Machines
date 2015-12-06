@@ -19,6 +19,9 @@ public class Widget<I extends IInventory> {
 
 	public void draw(IGuiBase<I> gui) {
 	}
+	
+	public void drawStrings(IGuiBase<I> gui) {
+	}
 
 	public ArrayList<String> getTooltip(IGuiBase<I> gui) {
 		return null;

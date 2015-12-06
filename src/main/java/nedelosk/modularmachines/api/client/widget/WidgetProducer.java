@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.client.gui.widget;
+package nedelosk.modularmachines.api.client.widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 				else{
 					producer = 0;
 				}
-				gui.getTile().getModular().getTankManeger().getProducer().getManager().setProducer(ID, producer);
+				gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setProducer(producer);
 				PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), producer, ID));
 			}
 		}

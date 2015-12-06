@@ -3,10 +3,13 @@ package nedelosk.modularmachines.api.producers.managers.fluids;
 import java.util.List;
 
 import nedelosk.forestday.api.FluidTankBasic;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
+import nedelosk.modularmachines.api.producers.fluids.ITankData;
+import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithButtons;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.managers.IProducerManager;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -14,21 +17,28 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 
-public interface IProducerTankManager extends IProducerGuiWithWidgets, IProducerManager {
-
-	ITankManager getManager();
-	
-	ITankManager createManager();
+public interface IProducerTankManager extends IProducerGuiWithWidgets, IProducerGuiWithButtons, IProducerManager {
 	
 	void addTank(int id, IProducerTank tank);
 
-	FluidTankBasic getTank(int id);
+	ITankData getData(int id);
 	
-	List<FluidTankBasic> getTanks(IModular modular, ModuleStack producer, TankMode mode);
+	List<ITankData> getDatas(IModular modular, ModuleStack producer, TankMode mode);
 	
-	FluidTankBasic[] getTanks();
+	ITankData[] getDatas();
+	
+	void addWidgets(Widget tank, IGuiBase<IModularTileEntity<IModular>> gui);
+	
+	public static enum TankMode{
+		INPUT, OUTPUT
+	}
+	
+	int getMaxTabs();
+	
+	int getTab();
+	
+	void setTab(int tab);
 	
 	int fill(ForgeDirection from, FluidStack resource, boolean doFill, ModuleStack stack, IModular modular);
 

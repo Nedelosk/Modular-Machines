@@ -10,10 +10,6 @@ import nedelosk.forestday.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.packets.PacketHandler;
-import nedelosk.modularmachines.api.packets.pages.ModularPageSaver;
-import nedelosk.modularmachines.api.packets.pages.ModularPageTileSaver;
-import nedelosk.modularmachines.api.packets.pages.PacketModularSelectPage;
 import nedelosk.modularmachines.api.producers.gui.IProducerGui;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithButtons;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
@@ -21,19 +17,14 @@ import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiModularMachine<T extends TileBaseInventory & IModularTileEntity> extends GuiBase<T> {
 
-	public InventoryPlayer inventory;
-
 	public GuiModularMachine(T tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		this.inventory = inventory;
 		widgetManager = new WidgetManagerModular(this);
 
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
@@ -64,45 +55,24 @@ public class GuiModularMachine<T extends TileBaseInventory & IModularTileEntity>
 			}
 		}
 	}
-
+	
 	@Override
-	public void initGui() {
-		super.initGui();
-
-		int id = 0;
+	public void addButtons() {
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+		
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-
+		
 		for (int i = 0; i < guiManager.getModuleWithGuis().size(); i++) {
-			buttonList.add(new GuiBookmarkModular(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28,
-					(i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i,
-					tile.getModular().getGuiManager().getModuleWithGuis().get(i), i >= 7));
-			id++;
+			buttonManager.add(new ButtonTabPage(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i, tile.getModular().getGuiManager().getModuleWithGuis().get(i), i >= 7));
 		}
-
+		
 		if (gui != null && gui.getProducer() instanceof IProducerGuiWithButtons)
 			((IProducerGuiWithButtons) gui.getProducer()).addButtons(this, tile.getModular(), gui);
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button instanceof GuiBookmarkModular) {
-			GuiBookmarkModular bookmark = (GuiBookmarkModular) button;
-			IModularGuiManager guiManager = tile.getModular().getGuiManager();
-
-			if (!guiManager.getPage().equals(bookmark.stack.getModule().getName(bookmark.stack, false))) {
-				guiManager.setPage(bookmark.stack.getModule().getName(bookmark.stack, false));
-				EntityPlayer entityPlayer = inventory.player;
-				if(entityPlayer.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-					if(((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
-						((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page = guiManager.getPage();
-					else
-						((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).saver.add(new ModularPageTileSaver(guiManager.getPage(), tile.xCoord, tile.yCoord, tile.zCoord));
-				else
-					entityPlayer.registerExtendedProperties(ModularPageSaver.class.getName(), new ModularPageSaver(new ModularPageTileSaver(guiManager.getPage(), tile.xCoord, tile.yCoord, tile.zCoord)));
-				PacketHandler.INSTANCE.sendToServer(new PacketModularSelectPage(this.tile, bookmark.stack.getModule().getName(bookmark.stack, false)));
-			}
-		}
+	public void initGui() {
+		super.initGui();
 	}
 
 	@Override

@@ -1,23 +1,11 @@
 package nedelosk.modularmachines.api.modular.handlers;
 
-import java.util.ArrayList;
-
-import nedelosk.forestday.api.FluidTankBasic;
-import nedelosk.forestday.api.INBTTagable;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
-import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
 
 public class FluidHandler implements IFluidHandler {
 

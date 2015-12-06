@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.client.gui.widget;
+package nedelosk.modularmachines.api.client.widget;
 
 import java.util.ArrayList;
 
@@ -10,57 +10,68 @@ import nedelosk.forestday.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
-import nedelosk.modularmachines.api.producers.fluids.ITankManager.TankMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends Widget<T> {
+public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends Widget<T> {
 
 	protected ResourceLocation widget = RenderUtils.getResourceLocation("modularmachines", "widgets", "gui");
-	public TankMode mode;
+	public ForgeDirection direction;
 	public int ID;
-
-	public WidgetTankMode(int posX, int posY, TankMode mode, int ID) {
+	
+	public WidgetDirection(int posX, int posY, ForgeDirection direction, int ID) {
 		super(posX, posY, 18, 18);
-		this.mode = mode;
 		this.ID = ID;
+		this.direction = direction;
+		if(direction == null)
+			this.direction = ForgeDirection.UNKNOWN;
 	}
-
+	
 	@Override
 	public void draw(IGuiBase<T> gui) {
-		if(mode == null)
-			return;
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
-		StringBuilder builder = new StringBuilder();
-		builder.append(mode.name().charAt(0));
-		RenderUtils.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 14737632);
+
 		GL11.glEnable(GL11.GL_LIGHTING);
-
+		
 	}
-
+	
+	@Override
+	public void drawStrings(IGuiBase<T> gui) {
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glColor3f(1.0F, 1.0F, 1.0F);
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(direction.name().charAt(0));
+		RenderUtils.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
+	}
+	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
-		if (mode != null) {
-			if (mode.ordinal() != ForgeDirection.values().length - 1)
-				mode = TankMode.values()[mode.ordinal() + 1];
+		if(direction != null)
+		{
+			if(direction.ordinal() != ForgeDirection.values().length - 1)
+				direction = ForgeDirection.values()[direction.ordinal() + 1];
 			else
-				mode = TankMode.values()[0];
-			gui.getTile().getModular().getTankManeger().getProducer().getManager().setTankMode(ID, mode);
-			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), mode, ID));
+				direction = ForgeDirection.values()[0];
+			gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setDirection(direction);;
+			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), direction, ID));
 		}
 	}
-
+	
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(mode.name());
+		list.add(direction.name());
 		return list;
 	}
+
 }

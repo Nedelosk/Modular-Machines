@@ -41,8 +41,7 @@ public abstract class ProducerGui extends Producer implements IProducerGui {
 	@Override
 	public void renderString(FontRenderer fontRenderer, int x, int y, int xM, int yM, ModuleStack stack) {
 		if (hasCustomInventoryName(stack))
-			fontRenderer.drawString(getInventoryName(stack),
-					90 - (fontRenderer.getStringWidth(getInventoryName(stack)) / 2), 6, 4210752);
+			fontRenderer.drawString(getInventoryName(stack),90 - (fontRenderer.getStringWidth(getInventoryName(stack)) / 2), 6, 4210752);
 	}
 
 	@Override

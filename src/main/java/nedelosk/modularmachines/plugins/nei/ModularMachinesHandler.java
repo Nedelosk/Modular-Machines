@@ -26,6 +26,8 @@ import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -290,12 +292,17 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		for(Widget widget : widgetManager.getWidgets()){
 			if (widget != null) {
 				if (widget.getPos().contains(relMouse)) {
-					if(widget.getTooltip() != null)
-						currenttip.addAll(widget.getTooltip());
+					if(widget.getTooltip(this) != null)
+						currenttip.addAll(widget.getTooltip(this));
 				}
 			}
 		}
 		return currenttip;
+	}
+
+	@Override
+	public EntityPlayer getPlayer() {
+		return Minecraft.getMinecraft().thePlayer;
 	}
 
 }
