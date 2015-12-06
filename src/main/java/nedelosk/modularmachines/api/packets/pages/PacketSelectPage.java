@@ -14,6 +14,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectPage, IMessage> {
 
@@ -50,13 +51,6 @@ public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IM
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 
 		tile.getModular().getGuiManager().setPage(message.page);
-		/*if(entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-			if(((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).getSave(message.x, message.y, message.z) != null)
-				((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).getSave(message.x, message.y, message.z).page = message.page;
-			else
-				((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).saver.add(new ModularPageTileSaver(message.page, message.x, message.y, message.z));
-		else
-			entityPlayerMP.registerExtendedProperties(ModularPageSaver.class.getName(), new ModularPageSaver(new ModularPageTileSaver(message.page, message.x, message.y, message.z)));*/
 		if(ctx.side == Side.CLIENT){
 		}else{
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;

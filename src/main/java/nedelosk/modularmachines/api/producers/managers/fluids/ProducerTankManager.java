@@ -1,17 +1,17 @@
-package nedelosk.modularmachines.common.producers.fluids;
+package nedelosk.modularmachines.api.producers.managers.fluids;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.forestday.api.guis.IContainerBase;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.client.gui.widget.WidgetFluidTank;
+import nedelosk.forestday.api.guis.WidgetFluidTank;
+import nedelosk.modularmachines.api.client.gui.ButtonTabTankManager;
 import nedelosk.modularmachines.api.client.widget.WidgetDirection;
 import nedelosk.modularmachines.api.client.widget.WidgetProducer;
 import nedelosk.modularmachines.api.client.widget.WidgetTankMode;
@@ -27,7 +27,6 @@ import nedelosk.modularmachines.api.producers.fluids.ITankData;
 import nedelosk.modularmachines.api.producers.fluids.TankData;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.managers.ProducerManager;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
@@ -118,8 +117,12 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	@Override
 	public List<Slot> addSlots(IContainerBase container, IModular modular, ModuleStack stack) {
 		ArrayList<Slot> slots = new ArrayList<Slot>();
-		for(int ID = 0;ID < tankSlots;ID++){
-			slots.add(new SlotTank(modular.getMachine(), ID, 26 + ID * 51, 87, stack, ID));
+		int i = 0;
+		for(int ID = tab * 3;ID < (tab + 1) * 3;ID++){
+			if(!(datas.length <= ID)){
+				slots.add(new SlotTank(modular.getMachine(), ID, 26 + i * 51, 87, stack, ID));
+				i++;
+			}
 		}
 		return slots;
 	}
@@ -156,11 +159,15 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
 		if(modular.getManager().getFluidHandler() != null)
 		{
-			for(int id = 0;id < tankSlots;id++)
+			int i = 0;
+			for(int ID = tab * 3;ID < (tab + 1) * 3;ID++)
 			{
-				ITankData data = getData(id);
-				WidgetFluidTank widget = new WidgetFluidTank(data.getTank(), 36 + id * 51, 18, id);
-				addWidgets(widget, gui);
+				if(!(datas.length <= ID)){
+					ITankData data = getData(ID);
+					WidgetFluidTank widget = new WidgetFluidTank(data == null ? null : data.getTank(), 36 + i * 51, 18, ID);
+					addWidgets(widget, gui);
+					i++;
+				}
 			}
 		}
 	}
@@ -172,10 +179,10 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			WidgetFluidTank tank = (WidgetFluidTank) widget;
 			ITankData data = getData(tank.ID);
 			gui.getWidgetManager().add(tank);
-			gui.getWidgetManager().add(new WidgetTankMode(tank.posX - 22, tank.posY, data.getMode(), tank.ID));
+			gui.getWidgetManager().add(new WidgetTankMode(tank.posX - 22, tank.posY, data == null ? null : data.getMode(), tank.ID));
 			if(gui.getTile().getModular().getFluidProducers() != null && !gui.getTile().getModular().getFluidProducers().isEmpty())
-				gui.getWidgetManager().add(new WidgetProducer(tank.posX - 22, tank.posY + 21, data.getProducer(), tank.ID));
-			gui.getWidgetManager().add(new WidgetDirection(tank.posX - 22, tank.posY + 42, data.getDirection(), tank.ID));
+				gui.getWidgetManager().add(new WidgetProducer(tank.posX - 22, tank.posY + 21, data == null ? -1 : data.getProducer(), tank.ID));
+			gui.getWidgetManager().add(new WidgetDirection(tank.posX - 22, tank.posY + 42, data == null ? null : data.getDirection(), tank.ID));
 		}
 	}
 	
@@ -184,7 +191,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public void addButtons(IGuiBase gui, IModular modular, ModuleStack stack) {
 		int tabs = tankSlots / 3 + 1;
 		for(int ID = 0;ID <	tabs;ID++){
-			//gui.getButtonManager().add(new GuiButton);
+			gui.getButtonManager().add(new ButtonTabTankManager(gui.getButtons().size() + gui.getButtonManager().getButtons().size(), ID > 4 ? 12 + gui.getGuiLeft() + (ID - 5) * 30 : 12 + gui.getGuiLeft() + ID * 30, ID > 4 ? 196 + gui.getGuiTop() : -19 + gui.getGuiTop(), stack, ID > 4 ? true : false, ID));
 		}
 	}
 	
@@ -195,7 +202,26 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetFluidTank) {
 				int ID = ((WidgetFluidTank) widget).ID;
-				((WidgetFluidTank) widget).tank = getData(ID).getTank();
+				if(getData(ID) != null)
+					((WidgetFluidTank) widget).tank = getData(ID).getTank();
+			}else if (widget instanceof WidgetDirection) {
+				int ID = ((WidgetDirection) widget).ID;
+				if(getData(ID) != null)
+					((WidgetDirection) widget).direction = getData(ID).getDirection();
+				else
+					((WidgetDirection) widget).direction = null;
+			} else if (widget instanceof WidgetProducer) {
+				int ID = ((WidgetProducer) widget).ID;
+				if(getData(ID) != null)
+					((WidgetProducer) widget).producer = getData(ID).getProducer();
+				else
+					((WidgetProducer) widget).producer = -1;
+			} else if (widget instanceof WidgetTankMode) {
+				int ID = ((WidgetTankMode) widget).ID;
+				if(getData(ID) != null)
+					((WidgetTankMode) widget).mode = getData(ID).getMode();
+				else
+					((WidgetTankMode) widget).mode = null;
 			}
 		}
 	}

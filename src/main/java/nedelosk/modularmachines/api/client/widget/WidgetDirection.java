@@ -25,12 +25,12 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 		super(posX, posY, 18, 18);
 		this.ID = ID;
 		this.direction = direction;
-		if(direction == null)
-			this.direction = ForgeDirection.UNKNOWN;
 	}
 	
 	@Override
 	public void draw(IGuiBase<T> gui) {
+		if(direction == null)
+			return;
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -44,6 +44,9 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 	
 	@Override
 	public void drawStrings(IGuiBase<T> gui) {
+		if(direction == null)
+			return;
+		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		
@@ -69,6 +72,8 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 	
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
+		if(direction == null)
+			return null;
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(direction.name());
 		return list;

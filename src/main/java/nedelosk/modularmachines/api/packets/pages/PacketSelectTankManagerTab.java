@@ -2,6 +2,7 @@ package nedelosk.modularmachines.api.packets.pages;
 
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestday.api.packets.PacketTileEntity;
+import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import net.minecraft.client.Minecraft;
@@ -47,19 +48,13 @@ public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> imp
 		}
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 
-		tile.getModular().getTankManeger().getProducer().setTab(tabID);
-		/*if(entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-			if(((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).getSave(message.x, message.y, message.z) != null)
-				((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).getSave(message.x, message.y, message.z).page = message.page;
-			else
-				((ModularPageSaver)entityPlayerMP.getExtendedProperties(ModularPageSaver.class.getName())).saver.add(new ModularPageTileSaver(message.page, message.x, message.y, message.z));
-		else
-			entityPlayerMP.registerExtendedProperties(ModularPageSaver.class.getName(), new ModularPageSaver(new ModularPageTileSaver(message.page, message.x, message.y, message.z)));*/
+		tile.getModular().getTankManeger().getProducer().setTab(message.tabID);
 		if(ctx.side == Side.CLIENT){
 		}else{
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
+			ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
 		}
 
 		return null;

@@ -1,5 +1,7 @@
 package nedelosk.forestday.api.guis;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestday.api.tile.TileBaseInventory;
@@ -128,6 +130,11 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	@Override
 	public FontRenderer getFontRenderer() {
 		return fontRendererObj;
+	}
+	
+	@Override
+	public List<GuiButton> getButtons() {
+		return buttonList;
 	}
 	
 }

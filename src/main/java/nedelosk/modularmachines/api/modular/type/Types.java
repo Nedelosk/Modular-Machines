@@ -17,6 +17,13 @@ public class Types {
 	public static Type OBSIDIAN = addType(4, "Obsidian", "obsidian");
 	public static Type STEEL = addType(5, "Steel", "steel");
 	public static Type MAGMARIUM = addType(7, "Magmarium", "magmarium");
+	
+	//Thermal Expansion
+	public static Type Lead = Types.addType(2, "Lead", "lead");
+	public static Type Invar = Types.addType(3, "Invar", "invar");
+	public static Type Electrum = Types.addType(5, "Electrum", "electrum");
+	public static Type Signalum = Types.addType(6, "Signalum", "signalum");
+	public static Type Enderium = Types.addType(7, "Enderium", "enderium");
 
 	public static Type addType(String name, String localName) {
 		Type tier = new Type(0, name, localName, types.size());

@@ -1,10 +1,8 @@
-package nedelosk.forestday.client.gui.widget;
+package nedelosk.forestday.api.guis;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
 import nedelosk.forestday.api.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;

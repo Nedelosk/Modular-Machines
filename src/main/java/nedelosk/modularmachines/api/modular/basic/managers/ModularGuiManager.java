@@ -53,12 +53,6 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	@Override
 	public ModuleStack getModuleWithGui(EntityPlayer player, TileEntity tile) {
-		/*if(modular != null){
-			if(player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord) != null)
-				this.page = ((ModularPageSaver)player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.xCoord, tile.yCoord, tile.zCoord).page;
-			else
-				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
-		}*/
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
 		for (ModuleStack module : getModuleWithGuis()) {
@@ -80,12 +74,6 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	@Override
 	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
-		/*if(modular != null){
-			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-				this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
-			else
-				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
-		}*/
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
 		return new ContainerModularMachine(tile, inventory);
@@ -93,12 +81,6 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	@Override
 	public <T extends TileBaseInventory & IModularTileEntity> Object getGUIContainer(T tile, InventoryPlayer inventory) {
-		/*if(modular != null){
-			if(inventory.player.getExtendedProperties(ModularPageSaver.class.getName()) != null && ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-				this.page = ((ModularPageSaver)inventory.player.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page;
-			else
-				page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
-		}*/
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
 		return new GuiModularMachine(tile, inventory);

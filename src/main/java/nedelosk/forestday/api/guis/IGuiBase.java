@@ -1,6 +1,9 @@
 package nedelosk.forestday.api.guis;
 
+import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
@@ -21,6 +24,8 @@ public interface IGuiBase<T extends IInventory> {
 	int getGuiLeft();
 
 	int getGuiTop();
+	
+	List<GuiButton> getButtons();
 	
 	FontRenderer getFontRenderer();
 	

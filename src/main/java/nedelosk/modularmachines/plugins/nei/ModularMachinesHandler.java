@@ -27,6 +27,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -303,6 +304,16 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	@Override
 	public EntityPlayer getPlayer() {
 		return Minecraft.getMinecraft().thePlayer;
+	}
+	
+	@Override
+	public List getButtons() {
+		return null;
+	}
+
+	@Override
+	public FontRenderer getFontRenderer() {
+		return Minecraft.getMinecraft().fontRenderer;
 	}
 
 }

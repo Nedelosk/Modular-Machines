@@ -30,9 +30,9 @@ public class PluginEnderIO extends Plugin {
 	@Override
 	public void preInit() {
 		ModuleRegistry.addModuleItem(chassis, Modules.CASING, Types.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 1), Modules.BATTERY, new ProducerBattery("CapacitorBankBasic", new EnergyStorage(1000000, 1000, 1000)), Types.IRON);
-		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 2), Modules.BATTERY, new ProducerBattery("CapacitorBank", new EnergyStorage(5000000, 5000, 5000)), Types.BRONZE);
-		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 3), Modules.BATTERY, new ProducerBattery("CapacitorBankVibrant", new EnergyStorage(25000000, 25000, 25000)), Types.STEEL);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 1), Modules.BATTERY, new ProducerBattery("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)), Types.IRON);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 2), Modules.BATTERY, new ProducerBattery("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)), Types.BRONZE);
+		ModuleRegistry.addModuleItem(new ItemStack(capacitorBank, 1, 3), Modules.BATTERY, new ProducerBattery("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)), Types.STEEL);
 		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 0), Modules.CAPACITOR, new ProducerCapacitor("CapacitorBasic", 10, 20), Types.IRON);
 		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 1), Modules.CAPACITOR, new ProducerCapacitor("CapacitorDoubleLayer", 20, 40), Types.BRONZE);
 		ModuleRegistry.addModuleItem(new ItemStack(capacitor, 1, 2), Modules.CAPACITOR, new ProducerCapacitor("CapacitorVibrant", 40, 60), Types.STEEL);

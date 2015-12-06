@@ -2,7 +2,6 @@ package nedelosk.modularmachines.api.producers.managers.fluids;
 
 import java.util.List;
 
-import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.guis.Widget;
 import nedelosk.modularmachines.api.modular.IModular;

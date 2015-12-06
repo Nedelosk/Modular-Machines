@@ -61,18 +61,18 @@ public final class RenderUtils {
 				var7 += 10;
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
-		}
 		if (!lighting)
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		}
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
 
 	public static void renderTooltip(int x, int y, List<String> tooltipData, int color) {
-		boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-		if (lighting)
-			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-
 		if (tooltipData != null && !tooltipData.isEmpty()) {
+			boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
+			if (lighting)
+				net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		
 			int var5 = 0;
 			int var6;
 			int var7;
@@ -109,9 +109,10 @@ public final class RenderUtils {
 				var7 += 10;
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			
+			if (!lighting)
+				net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		}
-		if (!lighting)
-			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
 

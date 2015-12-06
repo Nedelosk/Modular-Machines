@@ -7,7 +7,6 @@ import nedelosk.forestday.api.guis.Button;
 import nedelosk.forestday.api.guis.IGuiBase;
 import nedelosk.forestday.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.packets.PacketHandler;
@@ -43,9 +42,9 @@ public class ButtonTabTankManager extends Button<IModularTileEntity<IModular>> {
 		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
 		IProducerTankManager manager = stack.getProducer();
 		RenderUtils.bindTexture(guiTextureOverlay);
-		machine.drawTexturedModalRect(xPosition, yPosition, manager.getTab() == tabID ? 74 : 103, down ? 218 : 237, 29, 19);
+		machine.drawTexturedModalRect(xPosition, yPosition, manager.getTab() == tabID ? 74 : 103, down ? 237 : 218, 29, 19);
 		RenderUtils.bindTexture(RenderUtils.getResourceLocation("modularmachines", "widgets", "gui"));
-		machine.drawTexturedModalRect(xPosition, yPosition, 0, 18 + id * 18, 18, 18);
+		machine.drawTexturedModalRect(xPosition, yPosition, 0, 18 + tabID * 18, 18, 18);
 		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
@@ -54,21 +53,19 @@ public class ButtonTabTankManager extends Button<IModularTileEntity<IModular>> {
 	
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity<IModular>> gui) {
-		IModularGuiManager guiManager = gui.getTile().getModular().getGuiManager();
 
 		IModularTileEntity<IModular> tile = gui.getTile();
 		IProducerTankManager tankManager = stack.getProducer();
 		
-		if (!(id == tankManager.getTab())) {
+		if (!(tabID == tankManager.getTab())) {
 			tankManager.setTab(tabID);
-			
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectTankManagerTab((TileEntity) tile, tabID));
 		}
 	}
 	
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularTileEntity<IModular>> gui) {
-		return Arrays.asList(Integer.toString(stack.getProducer().getTab()));
+		return Arrays.asList(Integer.toString(tabID + 1));
 	}
 
 }

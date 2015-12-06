@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.core.registry;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modules.Modules;
 import nedelosk.modularmachines.api.producers.energy.ProducerCapacitor;
+import nedelosk.modularmachines.api.producers.managers.fluids.ProducerTankManager;
 import nedelosk.modularmachines.api.producers.storage.ProducerChest;
 import nedelosk.modularmachines.api.producers.storage.ProducerStorageManager;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
@@ -12,7 +13,6 @@ import nedelosk.modularmachines.common.core.manager.MMItemManager;
 import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.producers.engine.ProducerEngineEnergy;
-import nedelosk.modularmachines.common.producers.fluids.ProducerTankManager;
 import nedelosk.modularmachines.common.producers.machines.alloysmelter.ProducerAlloySmelter;
 import nedelosk.modularmachines.common.producers.machines.boiler.ProducerBurningBoiler;
 import nedelosk.modularmachines.common.producers.machines.centrifuge.ProducerCentrifuge;
@@ -58,9 +58,9 @@ public class ModularRegistry {
 	}
 
 	public static void registerManagers() {
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(1), Types.STONE, true)));
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(1), Types.BRONZE, true)));
-		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(2), Types.IRON, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(2), Types.STONE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(4), Types.BRONZE, true)));
+		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_TANK, new ProducerTankManager(6), Types.IRON, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_STORAGE, new ProducerStorageManager(1), Types.STONE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_STORAGE, new ProducerStorageManager(1), Types.BRONZE, true)));
 		ModuleRegistry.addModuleItem(ItemProducers.addModuleItem(new ModuleStack(null, Modules.MANAGER_STORAGE, new ProducerStorageManager(2), Types.IRON, true)));

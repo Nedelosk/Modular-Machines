@@ -69,6 +69,8 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
+		if(mode == null)
+			return null;
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(mode.name());
 		return list;

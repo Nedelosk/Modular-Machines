@@ -63,14 +63,6 @@ public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 		
 		if (!guiManager.getPage().equals(stack.getModule().getName(stack, false))) {
 			guiManager.setPage(stack.getModule().getName(stack, false));
-			/*EntityPlayer entityPlayer = gui.getPlayer();
-			if(entityPlayer.getExtendedProperties(ModularPageSaver.class.getName()) != null)
-				if(((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()) != null)
-					((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).getSave(tile.getXCoord(), tile.getYCoord(), tile.getZCoord()).page = guiManager.getPage();
-				else
-					((ModularPageSaver)entityPlayer.getExtendedProperties(ModularPageSaver.class.getName())).saver.add(new ModularPageTileSaver(guiManager.getPage(), tile.getXCoord(), tile.getYCoord(), tile.getZCoord()));
-			else
-				entityPlayer.registerExtendedProperties(ModularPageSaver.class.getName(), new ModularPageSaver(new ModularPageTileSaver(guiManager.getPage(), tile.getXCoord(), tile.getYCoord(), tile.getZCoord())));*/
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectPage((TileEntity) tile, stack.getModule().getName(stack, false)));
 		}
 	}

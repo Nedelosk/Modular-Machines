@@ -3,7 +3,6 @@ package nedelosk.modularmachines.api.producers.fluids;
 import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public final class TankData implements ITankData {

@@ -3,6 +3,7 @@ Modular
 ####################################
 recipe.shaped.modular=Module Shaped Crafting
 mm.modularmachine.bookmark.battery.name=Battery
+mm.modularmachine.bookmark.tankmanager.name=Tank Manager
 mm.modularmachine.bookmark.machine.name=Machine
 
 mm.module.tooltip.type=Type
