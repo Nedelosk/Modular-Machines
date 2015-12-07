@@ -2,7 +2,6 @@ package nedelosk.modularmachines.api.producers.fluids;
 
 import nedelosk.forestday.api.FluidTankBasic;
 import nedelosk.forestday.api.INBTTagable;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public interface ITankData extends INBTTagable {
@@ -22,5 +21,9 @@ public interface ITankData extends INBTTagable {
 	void setMode(TankMode mode);
 	
 	TankMode getMode();
+	
+	public static enum TankMode{
+		INPUT, OUTPUT, NONE
+	}
 	
 }

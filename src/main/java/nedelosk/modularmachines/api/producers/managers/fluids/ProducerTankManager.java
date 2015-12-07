@@ -24,6 +24,7 @@ import nedelosk.modularmachines.api.modules.Modules;
 import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
 import nedelosk.modularmachines.api.producers.fluids.ITankData;
+import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import nedelosk.modularmachines.api.producers.fluids.TankData;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.managers.ProducerManager;
@@ -120,7 +121,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		int i = 0;
 		for(int ID = tab * 3;ID < (tab + 1) * 3;ID++){
 			if(!(datas.length <= ID)){
-				slots.add(new SlotTank(modular.getMachine(), ID, 26 + i * 51, 87, stack, ID));
+				slots.add(new SlotTank(modular.getMachine(), ID, 37 + i * 51, 87, stack, ID));
 				i++;
 			}
 		}
@@ -212,7 +213,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 					((WidgetDirection) widget).direction = null;
 			} else if (widget instanceof WidgetProducer) {
 				int ID = ((WidgetProducer) widget).ID;
-				if(getData(ID) != null)
+				if(getData(ID) != null && getData(ID).getMode() != null && getData(ID).getMode() != TankMode.NONE)
 					((WidgetProducer) widget).producer = getData(ID).getProducer();
 				else
 					((WidgetProducer) widget).producer = -1;

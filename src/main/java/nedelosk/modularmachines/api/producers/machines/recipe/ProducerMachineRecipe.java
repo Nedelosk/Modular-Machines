@@ -18,10 +18,10 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
 import nedelosk.modularmachines.api.producers.fluids.ITankData;
+import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.machines.ProducerMachine;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
@@ -38,26 +38,39 @@ import net.minecraftforge.common.util.ForgeDirection;
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
 public abstract class ProducerMachineRecipe extends ProducerMachine implements IProducerMachineRecipe {
 	
-	public int outputs;
-	public int inputs;
+	public int itemOutputs;
+	public int itemInputs;
+	public int fluidOutputs;
+	public int fluidInputs;
+	
 	protected int speed;
 
 	public ProducerMachineRecipe(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
 
-	public ProducerMachineRecipe(String modifier, int inputs, int outputs, int speed) {
+	public ProducerMachineRecipe(String modifier, int itemInputs, int itemOutputs, int speed) {
 		super(modifier);
-		this.inputs = inputs;
-		this.outputs = outputs;
+		this.itemInputs = itemInputs;
+		this.itemOutputs = itemOutputs;
+		this.speed = speed;
+		this.timerTotal = 50;
+	}
+	
+	public ProducerMachineRecipe(String modifier, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
+		super(modifier);
+		this.itemInputs = itemInputs;
+		this.itemOutputs = itemOutputs;
+		this.fluidInputs = fluidInputs;
+		this.fluidOutputs = fluidOutputs;
 		this.speed = speed;
 		this.timerTotal = 50;
 	}
 
 	public RecipeInput[] getInputItems(IModular modular, ModuleStack moduleStack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		RecipeInput[] inputs = new RecipeInput[getItemInputs()];
-		for (int i = 0; i < getItemInputs(); i++) {
+		RecipeInput[] inputs = new RecipeInput[getItemInputs(moduleStack)];
+		for (int i = 0; i < getItemInputs(moduleStack); i++) {
 			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(moduleStack.getModule().getName(moduleStack, false), i);
 			inputs[i] = new RecipeInput(i, stack);
 		}
@@ -70,14 +83,17 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 		for(ModuleStack<IModule, IProducerTankManager> manager : modular.getFluidProducers()){
 			datas.addAll(manager.getProducer().getDatas(modular, moduleStack, TankMode.INPUT));
 		}
-		RecipeInput[] inputs = new RecipeInput[datas.size()];
-		for(int ID = 0;ID < datas.size();ID++){
+		RecipeInput[] fluidInputs = new RecipeInput[getFluidInputs(moduleStack)];
+		int inputs = fluidInputs.length;
+		if(datas.size() < fluidInputs.length)
+			inputs = datas.size();
+		for(int ID = 0;ID < inputs;ID++){
 			ITankData data = datas.get(ID);
 			if(data != null && data.getTank() != null && !data.getTank().isEmpty()){
-				inputs[ID] = new RecipeInput(ID, data.getTank().getFluid().copy());
+				fluidInputs[ID] = new RecipeInput(ID, data.getTank().getFluid().copy());
 			}
 		}
-		return inputs;
+		return fluidInputs;
 	}
 
 	@Override
@@ -208,7 +224,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 			for (RecipeItem item : engine.getManager(engineStack).getOutputs()) {
 				if (item != null) {
 					if (!item.isFluid())
-						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), getItemInputs(), getItemInputs() + getItemOutputs(), stack.getModule().getName(stack, false))) {
+						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), getItemInputs(stack), getItemInputs(stack) + getItemOutputs(stack), stack.getModule().getName(stack, false))) {
 							item = null;
 							continue;
 						} else
@@ -230,8 +246,11 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
 
-		nbt.setInteger("Inputs", inputs);
-		nbt.setInteger("Outputs", outputs);
+		nbt.setInteger("itemInputs", itemInputs);
+		nbt.setInteger("itemOutputs", itemOutputs);
+		
+		nbt.setInteger("fluidInputs", fluidInputs);
+		nbt.setInteger("fluidOutputs", fluidOutputs);
 		nbt.setInteger("Speed", speed);
 	}
 	
@@ -248,26 +267,16 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
 
-		inputs = nbt.getInteger("Inputs");
-		outputs = nbt.getInteger("Outputs");
+		itemInputs = nbt.getInteger("itemInputs");
+		itemOutputs = nbt.getInteger("itemOutputs");
+		fluidInputs = nbt.getInteger("fluidInputs");
+		fluidOutputs = nbt.getInteger("fluidOutputs");
 		speed = nbt.getInteger("Speed");
 	}
 
 	@Override
 	public int getSpeed(ModuleStack stack) {
 		return speed;
-	}
-	
-	public int getItemInputs(){
-		return inputs;
-	}
-	
-	public int getItemOutputs(){
-		return outputs;
-	}
-	
-	public int getFluidInputs(){
-		return inputs;
 	}
 
 	public abstract int getSpeedModifier();

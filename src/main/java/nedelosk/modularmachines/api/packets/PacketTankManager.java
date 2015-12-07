@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.packets;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestday.api.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
+import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;

@@ -8,6 +8,7 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
 import nedelosk.modularmachines.api.producers.fluids.ITankData;
+import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithButtons;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.managers.IProducerManager;
@@ -28,10 +29,6 @@ public interface IProducerTankManager extends IProducerGuiWithWidgets, IProducer
 	ITankData[] getDatas();
 	
 	void addWidgets(Widget tank, IGuiBase<IModularTileEntity<IModular>> gui);
-	
-	public static enum TankMode{
-		INPUT, OUTPUT
-	}
 	
 	int getMaxTabs();
 	

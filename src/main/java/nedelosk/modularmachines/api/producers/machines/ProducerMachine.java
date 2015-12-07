@@ -14,6 +14,7 @@ import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.IProducer;
+import nedelosk.modularmachines.api.producers.fluids.IProducerWithFluid;
 import nedelosk.modularmachines.api.producers.inventory.ProducerInventory;
 import nedelosk.modularmachines.api.producers.special.IProducerController;
 import nedelosk.modularmachines.api.recipes.IRecipe;
@@ -23,7 +24,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine {
+public abstract class ProducerMachine extends ProducerInventory implements IProducerMachine, IProducerWithFluid {
 
 	protected int timer, timerTotal;
 
@@ -123,6 +124,32 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
+	}
+	
+	
+	@Override
+	public int getItemInputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
+	}
+	
+	@Override
+	public int getItemOutputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
+	}
+	
+	@Override
+	public boolean useFluids(ModuleStack stack) {
+		return false;
+	}
+	
+	@Override
+	public int getFluidInputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
+	}
+	
+	@Override
+	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
 	}
 	
 }

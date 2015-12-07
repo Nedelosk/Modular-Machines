@@ -21,6 +21,7 @@ import nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
 import nedelosk.modularmachines.api.producers.integration.IProducerWaila;
+import nedelosk.modularmachines.api.producers.machines.IProducerMachine;
 import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
@@ -211,8 +212,8 @@ public abstract class Modular implements IModular, IWailaProvider {
 		List<ModuleStack> stacks = new ArrayList();
 		for(Vector<ModuleStack> stackV : modules.values()){
 			for(ModuleStack stack : stackV){
-				if(stack != null && stack.getModule() != null && stack.getProducer() != null){
-					if(stack.getProducer().useFluids())
+				if(stack != null && stack.getModule() != null && stack.getProducer() != null && stack.getProducer() instanceof IProducerMachine){
+					if(((IProducerMachine)stack.getProducer()).useFluids(stack))
 						stacks.add(stack);
 				}
 			}

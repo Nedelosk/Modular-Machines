@@ -34,7 +34,5 @@ public interface IProducer {
 	List<String> getRequiredModules();
 
 	boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames);
-	
-	boolean useFluids();
 
 }

@@ -87,10 +87,5 @@ public abstract class Producer implements IProducer {
 			return false;
 		return true;
 	}
-	
-	@Override
-	public boolean useFluids() {
-		return false;
-	}
 
 }

@@ -10,7 +10,7 @@ import nedelosk.forestday.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
+import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
