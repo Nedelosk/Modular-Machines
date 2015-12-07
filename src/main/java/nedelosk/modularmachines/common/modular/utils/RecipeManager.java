@@ -1,106 +1,94 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import nedelosk.modularmachines.api.modular.machines.basic.IModular;
+import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class RecipeManager implements IRecipeManager {
+public abstract class RecipeManager implements IRecipeManager {
 
-	public String recipeName;
-	public int energyModifier;
-	public RecipeInput[] inputs;
-	public int speedModifier;
-	public IModular modular;
+	protected String recipeName;
+	protected int materialModifier;
+	protected RecipeInput[] inputs;
+	protected int speedModifier;
+	protected IModular modular;
+	protected Object[] craftingModifiers;
+
+	public RecipeManager() {
+	}
 	
 	public RecipeManager(IModular modular, String recipeName, RecipeInput[] inputs) {
-		this(modular, recipeName, 0, inputs);	
+		this(modular, recipeName, 0, inputs);
 	}
-	
-	private RecipeManager() {	
-	}
-	
-	public RecipeManager(IModular modular, String recipeName, int energyModifier, RecipeInput[] inputs) {
+
+	public RecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifiers) {
 		this.inputs = inputs;
 		this.recipeName = recipeName;
-		if(energyModifier == 0)
-			energyModifier = 1;
-		this.energyModifier = energyModifier;
+		if (materialModifier == 0)
+			materialModifier = 1;
+		this.materialModifier = materialModifier;
 		this.modular = modular;
-		
-		this.speedModifier = RecipeRegistry.getRecipe(recipeName, inputs).getRequiredSpeedModifier();
+		this.craftingModifiers = craftingModifiers;
+
+		this.speedModifier = RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers).getRequiredSpeedModifier();
 	}
-	
+
 	@Override
-	public RecipeItem[] getOutputs()
-	{
-		if(RecipeRegistry.getRecipe(recipeName, inputs) == null)
+	public RecipeItem[] getOutputs() {
+		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null)
 			return null;
-		return RecipeRegistry.getRecipe(recipeName, inputs).getOutputs();
+		return RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers).getOutputs();
 	}
-	
+
 	@Override
 	public RecipeInput[] getInputs() {
 		return inputs;
 	}
-	
-	@Override
-	public boolean removeEnergy()
-	{
-		if(modular == null || modular.getManager() == null || modular.getManager().getEnergyHandler() == null)
-			return  false;
-		if(modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, energyModifier, false) > 0)
-		{
-			return true;
-		}
-		else
-			return  false;
-	}
-	
+
 	@Override
 	public int getSpeedModifier() {
 		return speedModifier;
 	}
-	
+
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) throws Exception
-	{
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception {
 		nbt.setString("RecipeName", recipeName);
-		nbt.setInteger("EnergyModifier", energyModifier);
+		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
+		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		machine.writeCraftingModifiers(nbt, modular, craftingModifiers);
+		
 		NBTTagList list = new NBTTagList();
-		for(RecipeInput input : inputs)
-		{
+		for (RecipeInput input : inputs) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			input.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);
 		}
 		nbt.setTag("RecipeInput", list);
 	}
-	
-	public static IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception
-	{
+
+	@Override
+	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
 		String recipeName = nbt.getString("RecipeName");
-		int energyModifier = nbt.getInteger("EnergyModifier");
+		int materialModifier = nbt.getInteger("MaterialModifier");
 		int speedModifier = nbt.getInteger("SpeedModifier");
 		NBTTagList list = nbt.getTagList("RecipeInput", 10);
 		RecipeInput[] inputs = new RecipeInput[list.tagCount()];
-		for(int i = 0;i < list.tagCount();i++)
-		{
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeInput.readFromNBT(nbtTag);
 		}
-		if(RecipeRegistry.getRecipe(recipeName, inputs) == null)
+		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		Object[] craftingModifiers = machine.readCraftingModifiers(nbt, modular);
+		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null)
 			return null;
-		return new RecipeManager(modular, recipeName, energyModifier, inputs);
+		return createManager(modular, recipeName, speedModifier, materialModifier, inputs, craftingModifiers);
 	}
 	
-	public static IRecipeManager loadManagerFromNBT(NBTTagCompound nbt, IModular modular) throws Exception
-	{
-		return readFromNBT(nbt, modular);
-	}
+	public abstract IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs, Object... craftingModifiers);
 }

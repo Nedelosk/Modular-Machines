@@ -1,19 +1,21 @@
 package nedelosk.modularmachines.api.recipes;
 
 public interface IRecipe {
-	
-	int[] getModifiers();
-	
-	int getModifier(int modifierID);
-	
+
+	Object[] getModifiers();
+
+	Object getModifier(int modifierID);
+
 	RecipeItem[] getInputs();
-	
+
 	RecipeItem[] getOutputs();
 
 	int getRequiredSpeedModifier();
 	
-	int getRequiredEnergy();
-	
+    boolean matches(Object[] craftingModifiers);
+
+	int getRequiredMaterial();
+
 	String getRecipeName();
-	
+
 }

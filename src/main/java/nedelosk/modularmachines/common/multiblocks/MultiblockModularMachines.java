@@ -2,9 +2,9 @@ package nedelosk.modularmachines.common.multiblocks;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.api.multiblock.ITileMultiblock;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockPattern;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.AbstractMultiblockFluid;
+import nedelosk.forestday.api.multiblocks.ITileMultiblock;
+import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import nedelosk.forestday.common.multiblocks.AbstractMultiblockFluid;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,16 +24,15 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	public MultiblockPattern createPattern() {
 		return null;
 	}
-	
+
 	@Override
 	public IIcon getIcon(int side, ITileMultiblock tile) {
 		return null;
 	}
-	
+
 	@Override
-	public float[] getBlockBounds()
-	{
-		return new float[]{0,0,0,1,1,1};
+	public float[] getBlockBounds() {
+		return new float[] { 0, 0, 0, 1, 1, 1 };
 	}
 
 	@Override
@@ -43,12 +42,12 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 
 	@Override
 	public void updateMultiblock() {
-		
+
 	}
-	
+
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
-		
+
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 	public boolean isPatternBlockValid(int x, int y, int z, char pattern, ITileMultiblock tile) {
 		return false;
 	}
-	
+
 	@Override
 	public TileEntitySpecialRenderer getRenderer() {
 		return null;
@@ -68,7 +67,7 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 
 	@Override
 	public void onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side) {
-		
+
 	}
 
 	@Override
@@ -83,14 +82,14 @@ public abstract class MultiblockModularMachines extends AbstractMultiblockFluid 
 
 	@Override
 	public void updateClient(ITileMultiblock base) {
-		
+
 	}
 
 	@Override
 	public void updateServer(ITileMultiblock base) {
-		
+
 	}
-	
+
 	@Override
 	public boolean hasBlockActivatedFunction() {
 		return false;

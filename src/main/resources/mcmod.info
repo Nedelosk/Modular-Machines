@@ -1,6 +1,6 @@
 [
 {
-  "modid": "Forestday",
+  "modid": "ForestDay",
   "name": "Forest Day",
   "description": "",
   "version": "${version}",
@@ -18,38 +18,6 @@
 {
   "modid": "ModularMachines",
   "name": "Modular Machines",
-  "description": "",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Nedelosk"],
-  "credits": "",
-  "logoFile": "/assets/modularmachines/logo.png",
-  "screenshots": [],
-  "dependencies": [
-     "mod_MinecraftForge"
-  ]
-},
-{
-  "modid": "ForestBotany",
-  "name": "Forest Botany",
-  "description": "",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Nedelosk"],
-  "credits": "",
-  "logoFile": "/assets/modularmachines/logo.png",
-  "screenshots": [],
-  "dependencies": [
-     "mod_MinecraftForge"
-  ]
-},
-{
-  "modid": "NedeloskCore",
-  "name": "Nedelosk Core",
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",

@@ -1,52 +1,40 @@
 package nedelosk.modularmachines.common.core.manager;
 
-import nedelosk.modularmachines.common.items.ItemMachineComponent;
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.modularmachines.common.items.ItemComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMItemManager {
 
-	//Metals
-	Dusts,
-	Dusts_Others,
-	Ingots_Others,
-	Nuggets_Others,
-	Alloy_Ingots,
-	Alloy_Nuggets,
-	
-	//Crafting
+	// Metals
+	Dusts, Dusts_Others, Ingots_Others, Nuggets_Others, Alloy_Ingots, Alloy_Nuggets,
+
+	// Crafting
 	Metallic,
-	
-	//Module
-	Module_Item_Capacitor,
-	Module_Item_Engine,
-	
+
+	// Module
+	Module_Item_Capacitor, Module_Item_Engine,
+
 	Producers,
-	
-	//Components
-	Component_Connection_Wires,
-	Component_Rods,
-	Component_Energy_Crystals,
-	Component_Gears,
-	Component_Plates,
-	Component_Screws,
-	Component_Saw_Blades,
-	
-	//Pattern
+
+	// Components
+	Component_Connection_Wires, Component_Rods, Component_Gears, Component_Plates, Component_Screws, Component_Saw_Blades,
+
+	// Pattern
 	WoodPattern;
 
 	private Item item;
 
 	public void registerItem(Item item) {
 		this.item = item;
-		NCRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
+		FRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
 	}
-	
-	public void addMetaData(int color, String name, String oreDict){
-		if(item instanceof ItemMachineComponent){
-			ItemMachineComponent.addMetaData(this, color, name, oreDict);
+
+	public void addMetaData(int color, String name, String... oreDict) {
+		if (item instanceof ItemComponent) {
+			ItemComponent.addMetaData(this, color, name, oreDict);
 		}
 	}
 

@@ -4,9 +4,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestday.common.items.base.ItemForest;
 import nedelosk.modularmachines.common.core.TabModularMachines;
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
-import nedelosk.nedeloskcore.common.items.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,45 +17,40 @@ public class ItemMetallic extends ItemForest {
 
 	public String[] material = new String[] { "coke" };
 	@SideOnly(Side.CLIENT)
-    public IIcon[] itemIcon;
-	
+	public IIcon[] itemIcon;
+
 	public ItemMetallic() {
 		super(null, TabModularMachines.core);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
 
 	}
-	
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons (IIconRegister iconRegister)
-    {
-        this.itemIcon = new IIcon[material.length];
 
-        for (int i = 0; i < this.itemIcon.length; ++i)
-        {
-            this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
-        }
-    }
-    
-    @Override
-    public void getSubItems (Item id, CreativeTabs tab, List list)
-    {
-        for (int i = 0; i < material.length; i++)
-            list.add(new ItemStack(id, 1, i));
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIconFromDamage (int meta)
-    {
-        return itemIcon[meta];
-    }
-    
-    @Override
-    public String getUnlocalizedName (ItemStack itemstack)
-    {
-        return NCRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		this.itemIcon = new IIcon[material.length];
+
+		for (int i = 0; i < this.itemIcon.length; ++i) {
+			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
+		}
+	}
+
+	@Override
+	public void getSubItems(Item id, CreativeTabs tab, List list) {
+		for (int i = 0; i < material.length; i++)
+			list.add(new ItemStack(id, 1, i));
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return itemIcon[meta];
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return FRegistry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "mm");
+	}
 
 }

@@ -2,9 +2,9 @@ package nedelosk.modularmachines.client.gui.widget;
 
 import java.util.ArrayList;
 
-import nedelosk.nedeloskcore.api.machines.IGuiBase;
-import nedelosk.nedeloskcore.api.machines.Widget;
-import nedelosk.nedeloskcore.utils.RenderUtils;
+import nedelosk.forestday.api.guis.IGuiBase;
+import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestday.api.utils.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -27,28 +27,28 @@ public class WidgetHeatBar extends Widget {
 		this.posX = posX;
 		this.posY = posY;
 	}
-	
+
 	@Override
-	public ArrayList<String> getTooltip() {
+	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
 
 		description.add(heat + " Heat / " + heatTotal + " Heat");
 		return description;
 	}
-	
+
 	@Override
 	public void draw(IGuiBase gui) {
-		if(heatTotal == 0)
+		if (heatTotal == 0)
 			return;
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
 		RenderUtils.bindTexture(widget);
-		drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY, 0, 0, 12, 69);
-		
-		int energy = (heat * 69) / heatTotal ;
-		
-        this.drawTexturedModalRect(gui.getGuiLeft() + this.posX, gui.getGuiTop() + this.posY + 69 - energy, 12, 0 + 69 - energy, 12, energy);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 12, 69);
+
+		int energy = (heat * 69) / heatTotal;
+
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 12, 0 + 69 - energy, 12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

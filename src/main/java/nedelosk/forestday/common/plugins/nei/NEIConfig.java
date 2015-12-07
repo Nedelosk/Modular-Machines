@@ -2,8 +2,7 @@ package nedelosk.forestday.common.plugins.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import nedelosk.forestday.common.core.Defaults;
-import nedelosk.forestday.common.managers.BlockManager;
+import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.plugins.nei.machines.CampfireHandler;
 import nedelosk.forestday.common.plugins.nei.machines.CharcoalKilnHandler;
 import nedelosk.forestday.common.plugins.nei.machines.ResinKilnHandler;
@@ -14,7 +13,7 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
-		
+
 		API.registerRecipeHandler(new ResinKilnHandler());
 		API.registerUsageHandler(new ResinKilnHandler());
 		API.registerRecipeHandler(new CharcoalKilnHandler());
@@ -23,10 +22,10 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new WorkbenchHandler());
 		API.registerRecipeHandler(new CampfireHandler());
 		API.registerUsageHandler(new CampfireHandler());
-		
-	    for(int i = 0;i < 16;i++)
-	    	API.hideItem(new ItemStack(BlockManager.Multiblock_Charcoal_Kiln.item(), 1, i));
-		
+
+		for (int i = 0; i < 16; i++)
+			API.hideItem(new ItemStack(FBlockManager.Multiblock_Charcoal_Kiln.item(), 1, i));
+
 	}
 
 	@Override
@@ -36,6 +35,6 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public String getVersion() {
-		return Defaults.VERSION;
+		return "1.0.1";
 	}
 }

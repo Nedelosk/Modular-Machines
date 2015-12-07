@@ -1,32 +1,28 @@
 package nedelosk.forestday.common.items.tools;
 
-import nedelosk.forestday.common.registrys.BlockRegistry;
+import nedelosk.forestday.common.core.registry.BlockRegistry;
 import net.minecraft.item.ItemStack;
 
-public class ItemCutter extends ItemToolCrafting
-{
+public class ItemCutter extends ItemToolCrafting {
 	public static BlockRegistry coreBlocks;
-	
-	public ItemCutter(int damagemax, int damage, String uln, String nameTexture, int tier, Material material){
+
+	public ItemCutter(int damagemax, int damage, String uln, String nameTexture, int tier, Material material) {
 		super(uln, damagemax, tier, material, nameTexture, damage);
 		this.setNoRepair();
 	}
-	
+
 	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
-	{
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack) {
 		return false;
 	}
-	
+
 	@Override
-	public boolean hasContainerItem(ItemStack stack)
-	{
+	public boolean hasContainerItem(ItemStack stack) {
 		return true;
 	}
-	
+
 	@Override
-	public ItemStack getContainerItem(ItemStack stack)
-	{
+	public ItemStack getContainerItem(ItemStack stack) {
 		ItemStack itemstack = stack.copy();
 		itemstack.setItemDamage(itemstack.getItemDamage() + getDamage());
 		itemstack.stackSize = 1;

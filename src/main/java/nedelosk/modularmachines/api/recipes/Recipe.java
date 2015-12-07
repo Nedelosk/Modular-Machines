@@ -2,37 +2,37 @@ package nedelosk.modularmachines.api.recipes;
 
 public class Recipe implements IRecipe {
 
-	protected int[] modifiers;
+	protected Object[] modifiers;
 	protected final RecipeItem[] input;
 	protected final RecipeItem[] output;
 	protected int speedModifier;
-	protected int energy;
+	protected int material;
 	protected String recipeName;
-	
-	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy, String recipeName, int... modifiers) {
+
+	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName, Object... modifiers) {
 		this.input = input;
 		this.output = output;
 		this.modifiers = modifiers;
 		this.speedModifier = speedModifier;
-		this.energy = energy;
+		this.material = material;
 		this.recipeName = recipeName;
 	}
-	
+
 	@Override
 	public int getRequiredSpeedModifier() {
 		return speedModifier;
 	}
 
 	@Override
-	public int[] getModifiers() {
+	public Object[] getModifiers() {
 		return modifiers;
 	}
 
 	@Override
-	public int getModifier(int modifierID) {
+	public Object getModifier(int modifierID) {
 		return getModifiers()[modifierID];
 	}
-	
+
 	@Override
 	public String getRecipeName() {
 		return recipeName;
@@ -47,10 +47,15 @@ public class Recipe implements IRecipe {
 	public RecipeItem[] getOutputs() {
 		return output;
 	}
-	
+
 	@Override
-	public int getRequiredEnergy() {
-		return energy;
+	public int getRequiredMaterial() {
+		return material;
+	}
+
+	@Override
+	public boolean matches(Object[] craftingModifiers) {
+		return true;
 	}
 
 }

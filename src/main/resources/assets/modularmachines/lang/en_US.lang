@@ -1,58 +1,45 @@
 ####################################
-Module
+Modular
 ####################################
-Casing.name=Casing
-Battery.name=Battery
-Engine.name=Engine
-Tool.name=Tool
-Producer.name=Producer
-Generator.name=Generator
-Capacitor.name=Capacitor
-TankManager.name=Tank Manager
-StorageManager.name=Storage Manager
-Storage.name=Storage
-Tank.name=Tank
+recipe.shaped.modular=Module Shaped Crafting
+mm.modularmachine.bookmark.battery.name=Battery
+mm.modularmachine.bookmark.tankmanager.name=Tank Manager
+mm.modularmachine.bookmark.machine.name=Machine
 
-mm.modularassembler.bookmark.Basic=Basic
-mm.modularassembler.bookmark.Energy=Energy
-mm.modularassembler.bookmark.Tool_Pruducer=Tool / Pruducer
-mm.modularassembler.bookmark.Fluid=Fluid
-mm.modularassembler.bookmark.Storage=Storage
-
-moduleProducerAlloySmelter.name=Alloy Smelter
-moduleProducerCentrifuge.name=Centrifuge
-moduleProducerPulverizer.name=Pulverizer
-moduleProducerSawMill.name=Saw Mill
-
+mm.module.tooltip.type=Type
 mm.module.tooltip.tier=Tier
 mm.module.tooltip.name=Name
+mm.module.tooltip.producer.name=Producer
 mm.module.tooltip.shift=Hold Shift
 
+#Mode
+mode.rod.name=Mode Rod
+
 ####################################
-Material
+Modules
 ####################################
-material.wood=Wood
-material.stone=Stone
-material.iron=Iron
-material.flint=Flint
-material.bone=Bone
-material.netherrack=Netherrack
-material.tin=Tin
-material.copper=Copper
-material.bronze=Bronze
-material.steel=Steel
-material.niobium=Niobium
-material.tantalum=Tantalum
-material.silver=Silver
-material.plastic=Plastic
-material.diamond=Diamond
-material.emerald=Emerald
-material.ruby=Ruby
-material.cobalt=Cobalt
-material.ardite=Ardite
-material.manyullyn=Manyullyn
-material.alumite=Alumite
-material.pigiron=Pig Iron
+moduleCasing.name=Casing
+moduleAlloySmelter.name=Alloy Smelter
+moduleCentrifuge.name=Centrifuge
+modulePulverizer.name=Pulverizer
+moduleSawMill.name=Saw Mill
+moduleLathe.name=Lathe
+
+####################################
+Producers
+####################################
+producerAlloySmelter.name=Alloy Smelter
+producerCentrifuge.name=Centrifuge
+producerPulverizer.name=Pulverizer
+producerSawMill.name=Saw Mill
+producerLathe.name=Lathe
+
+####################################
+Types
+####################################
+type.stone.name=Stone
+type.iron.name=Iron
+type.bronze.name=Bronze
 
 ####################################
 Components
@@ -84,23 +71,24 @@ tile.metal.block.name=Metal Block
 Fluids
 ####################################
 fluid.air_hot=Air Hot
-forest.nc.block.air_hot.name=Air Hot
+forest.fd.block.air_hot.name=Air Hot
 fluid.air=Air
 forest.nc.block.air.name=Air
 fluid.slag=Slag
-forest.nc.block.slag.name=Slag
+forest.fd.block.slag.name=Slag
 fluid.steel=Molten Steel
-forest.nc.block.steel.name=Molten Steel
+forest.fd.block.steel.name=Molten Steel
 fluid.gas_blastfurnace=Gas Blastfurnace
-forest.nc.block.gas_blastfurnace.name=Gas Blastfurnace
+forest.fd.block.gas_blastfurnace.name=Gas Blastfurnace
 fluid.white_pig_iron=Molten White Pig Iron
-forest.nc.block.white_pig_iron.name=Molten White Pig Iron
+forest.fd.block.white_pig_iron.name=Molten White Pig Iron
 fluid.gray_pig_iron=Molten Gray Pig Iron
-forest.nc.block.gray_pig_iron.name=Molten Gray Pig Iron
+forest.fd.block.gray_pig_iron.name=Molten Gray Pig Iron
 fluid.niobium=Molten Niobium
-forest.nc.block.niobium.name=Molten Niobium
+forest.fd.block.niobium.name=Molten Niobium
 fluid.tantalum=Molten Tantalum
-forest.nc.block.tantalum.name=Molten Tantalum
+forest.fd.block.tantalum.name=Molten Tantalum
+tile.modular.name=Modular Machine
 
 ####################################
 Item
@@ -109,12 +97,12 @@ forest.mm.item.ingot.alloy.0.name=Bronze Ingot
 forest.mm.item.ingot.alloy.1.name=Invar Ingot
 forest.mm.item.nugget.alloy.0.name=Bronze Nugget
 forest.mm.item.nugget.alloy.1.name=Invar Nugget
-forest.nc.item.ingot.modularmachines.0.name=Niobium Ingot
-forest.nc.item.ingot.modularmachines.1.name=Tantalum Ingot
-forest.nc.item.ingot.modularmachines.2.name=Aluminium Ingot
-forest.nc.item.nugget.modularmachines.0.name=Niobium Nugget
-forest.nc.item.nugget.modularmachines.1.name=Tantalum Nugget
-forest.nc.item.nugget.modularmachines.2.name=Aluminium Nugget
+forest.fd.item.ingot.modularmachines.0.name=Niobium Ingot
+forest.fd.item.ingot.modularmachines.1.name=Tantalum Ingot
+forest.fd.item.ingot.modularmachines.2.name=Aluminium Ingot
+forest.fd.item.nugget.modularmachines.0.name=Niobium Nugget
+forest.fd.item.nugget.modularmachines.1.name=Tantalum Nugget
+forest.fd.item.nugget.modularmachines.2.name=Aluminium Nugget
 forest.mm.item.dust.0.name=Coal Dust
 forest.mm.item.dust.1.name=Obsidian Dust
 forest.mm.item.dust.2.name=Iron Dust
@@ -156,3 +144,43 @@ item.partgrinding_wheel.name=Grinding Wheel
 item.partburning_chamber.name=Burning Chamber
 item.partcentrifuge_chamber.name=Centrifuge Chamber
 item.module.name=Module
+forest.mm.item.engine.0.name=Iron Engine
+forest.mm.item.engine.1.name=Bronze Engine
+forest.mm.item.engine.2.name=Steel Engine
+forest.mm.item.engine.3.name=Magmarium Engine
+component.gears.0.name=Gear Stone
+component.gears.1.name=Gear Iron
+component.gears.2.name=Gear Tin
+component.gears.3.name=Gear Copper
+component.gears.4.name=Gear Bronze
+component.gears.5.name=Gear Steel
+component.plates.0.name=Plate Stone
+component.plates.1.name=Plate Iron
+component.plates.2.name=Plate Tin
+component.plates.3.name=Plate Copper
+component.plates.4.name=Plate Bronze
+component.plates.5.name=Plate Steel
+component.plates.6.name=Plate Plastic
+component.plates.7.name=Plate Invar
+component.plates.8.name=Plate Aluminum
+component.saw_blades.0.name=Saw Blade Stone
+component.saw_blades.1.name=Saw Blade Iron
+component.saw_blades.2.name=Saw Blade Bronze
+component.saw_blades.3.name=Saw Blade Steel
+component.screws.0.name=Screws Iron
+component.screws.1.name=Screws Tin
+component.screws.2.name=Screws Copper
+component.screws.3.name=Screws Bronze
+component.screws.4.name=Screws Steel
+component.rods.0.name=Rod Stone
+component.rods.1.name=Rod Iron
+component.rods.2.name=Rod Tin
+component.rods.3.name=Rod Copper
+component.rods.4.name=Rod Bronze
+component.rods.5.name=Rod Steel
+component.rods.6.name=Rod Plastic
+component.connection_wires.0.name=Connection Wire Iron
+component.connection_wires.1.name=Connection Wire Tin
+component.connection_wires.2.name=Connection Wire Copper
+component.connection_wires.3.name=Connection Wire Bronze
+component.connection_wires.4.name=Connection Wire Steel

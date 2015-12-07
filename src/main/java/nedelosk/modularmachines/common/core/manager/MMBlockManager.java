@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.core.manager;
 
-import nedelosk.nedeloskcore.common.core.registry.NCRegistry;
+import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.modularmachines.common.blocks.BlockComponent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -10,22 +11,20 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MMBlockManager {
 
-	Ore_Others,
-	Metal_Blocks,
-	
-	Modular_Assembler,
-	Modular_Machine;
-	
+	Ore_Others, Component_Metal_Blocks, Casings,
+
+	Modular_Assembler, Modular_Machine;
+
 	private Block block;
 
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass) {
 		this.block = block;
-		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
+		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd");
 	}
-	
+
 	public void registerBlock(Block block, Class<? extends ItemBlock> itemClass, Object... objects) {
 		this.block = block;
-		NCRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);
+		FRegistry.registerBlock(block, itemClass, block.getUnlocalizedName(), "fd", objects);
 	}
 
 	public boolean isItemEqual(ItemStack stack) {
@@ -69,5 +68,11 @@ public enum MMBlockManager {
 
 	public boolean setBlock(World world, int x, int y, int z, int meta, int flag) {
 		return world.setBlock(x, y, z, block, meta, flag);
+	}
+	
+	public void addMetaData(int color, String name, String... oreDict) {
+		if (block instanceof BlockComponent) {
+			BlockComponent.addMetaData(this, color, name, oreDict);
+		}
 	}
 }

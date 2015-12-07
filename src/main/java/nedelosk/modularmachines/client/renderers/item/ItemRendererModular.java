@@ -9,11 +9,11 @@ import net.minecraftforge.client.IItemRenderer;
 public class ItemRendererModular implements IItemRenderer {
 
 	public TileRendererModular modular;
-	
+
 	public ItemRendererModular() {
-		this.modular = (TileRendererModular )ClientProxy.getRenderer(TileModular.class);
+		this.modular = (TileRendererModular) ClientProxy.getRenderer(TileModular.class);
 	}
-	
+
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;

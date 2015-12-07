@@ -15,13 +15,13 @@ public class ItemMachineWoodBase implements IItemRenderer {
 	public TileWorkbenchRenderer rendererWorkbench;
 	public TileKilnRenderer rendererKiln;
 	public TileCampfireRenderer rendererCampfire;
-	
+
 	public ItemMachineWoodBase() {
-		this.rendererWorkbench = (TileWorkbenchRenderer)ClientProxy.getRenderer(TileWorkbench.class);
-		this.rendererKiln = (TileKilnRenderer)ClientProxy.getRenderer(TileKiln.class);
-		this.rendererCampfire = (TileCampfireRenderer)ClientProxy.getRenderer(TileCampfire.class);
+		this.rendererWorkbench = (TileWorkbenchRenderer) ClientProxy.getRenderer(TileWorkbench.class);
+		this.rendererKiln = (TileKilnRenderer) ClientProxy.getRenderer(TileKiln.class);
+		this.rendererCampfire = (TileCampfireRenderer) ClientProxy.getRenderer(TileCampfire.class);
 	}
-	
+
 	@Override
 	public boolean handleRenderType(ItemStack arg0, ItemRenderType arg1) {
 		return true;
@@ -29,16 +29,11 @@ public class ItemMachineWoodBase implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType arg0, ItemStack stack, Object... arg2) {
-		if(stack.getItemDamage() == 0)
-		{
+		if (stack.getItemDamage() == 0) {
 			rendererCampfire.renderItem(stack.getItemDamage(), 0.0D, 0.0D, 0.0D, 0.0F);
-		}
-		else if(stack.getItemDamage() == 1 || stack.getItemDamage() == 2)
-		{
+		} else if (stack.getItemDamage() == 1 || stack.getItemDamage() == 2) {
 			rendererWorkbench.renderItem(stack.getItemDamage(), 0.0D, 0.0D, 0.0D, 0.0F);
-		}
-		else
-		{
+		} else {
 			rendererKiln.renderItem();
 		}
 	}

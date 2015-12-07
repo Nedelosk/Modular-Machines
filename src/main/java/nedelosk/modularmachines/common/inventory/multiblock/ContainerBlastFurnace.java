@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
+import nedelosk.forestday.api.inventory.ContainerBase;
+import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
+import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
-import nedelosk.nedeloskcore.api.multiblock.MultiblockModifierValveType.ValveType;
-import nedelosk.nedeloskcore.common.blocks.multiblocks.TileMultiblockBase;
-import nedelosk.nedeloskcore.common.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -18,22 +18,22 @@ public class ContainerBlastFurnace extends ContainerBase<TileMultiblockBase<Mult
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		if(((TileMultiblockBase)inventoryBase).modifier.filter == null && ((TileMultiblockBase)inventoryBase).master != null && ((TileMultiblockBase)inventoryBase).modifier.valveType == ValveType.INPUT)
-		{
-			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase)inventoryBase).master, 0, 53, 35));
-			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase)inventoryBase).master, 1, 71, 35));
-			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase)inventoryBase).master, 2, 89, 35));
-			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase)inventoryBase).master, 3, 107, 35));
+		if (((TileMultiblockBase) inventoryBase).modifier.filter == null
+				&& ((TileMultiblockBase) inventoryBase).master != null
+				&& ((TileMultiblockBase) inventoryBase).modifier.valveType == ValveType.INPUT) {
+			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase) inventoryBase).master, 0, 53, 35));
+			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase) inventoryBase).master, 1, 71, 35));
+			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase) inventoryBase).master, 2, 89, 35));
+			addSlotToContainer(new SlotBlastFurnace(((TileMultiblockBase) inventoryBase).master, 3, 107, 35));
 		}
 	}
-	
-	public class SlotBlastFurnace extends Slot
-	{
+
+	public class SlotBlastFurnace extends Slot {
 
 		public SlotBlastFurnace(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_) {
 			super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_);
 		}
-		
+
 		@Override
 		public boolean isItemValid(ItemStack stack) {
 			return BlastFurnaceRecipeManager.isItemInput(stack);

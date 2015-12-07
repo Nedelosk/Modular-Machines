@@ -2,7 +2,7 @@ package nedelosk.forestday.common.plugins.minetweaker;
 
 import minetweaker.MineTweakerAPI;
 import nedelosk.forestday.common.plugins.minetweaker.handler.WorkbenchRecipeHandler;
-import nedelosk.nedeloskcore.plugins.basic.Plugin;
+import nedelosk.forestday.plugins.basic.Plugin;
 
 public class PluginMineTweaker extends Plugin {
 
@@ -10,10 +10,10 @@ public class PluginMineTweaker extends Plugin {
 	public void preInit() {
 		MineTweakerAPI.registerClass(WorkbenchRecipeHandler.class);
 	}
-	
+
 	@Override
 	public String getRequiredMod() {
 		return "MineTweaker3";
 	}
-	
+
 }

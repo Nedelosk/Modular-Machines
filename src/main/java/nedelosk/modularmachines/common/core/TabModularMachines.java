@@ -8,17 +8,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class TabModularMachines extends CreativeTabs {
-	
+
 	public static CreativeTabs core = new TabModularMachines(0, "modularmachines");
 	public static CreativeTabs components = new TabModularMachines(1, "modularmachines.components");
 
-	
 	private final int tabIcon;
+
 	public TabModularMachines(int tabIcon, String label) {
 		super(label);
 		this.tabIcon = tabIcon;
 	}
-	
+
 	@Override
 	public ItemStack getIconItemStack() {
 		Item iconItem;

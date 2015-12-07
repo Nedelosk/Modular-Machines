@@ -10,12 +10,12 @@ public class ItemCampfireRenderer implements IItemRenderer {
 
 	public TileCampfireRenderer rendererCampfire;
 	public String texture;
-	
+
 	public ItemCampfireRenderer(String texture) {
-		this.rendererCampfire = (TileCampfireRenderer)ClientProxy.getRenderer(TileCampfire.class);
+		this.rendererCampfire = (TileCampfireRenderer) ClientProxy.getRenderer(TileCampfire.class);
 		this.texture = texture;
 	}
-	
+
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;

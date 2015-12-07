@@ -9,16 +9,16 @@ import org.lwjgl.opengl.GL11;
 import nedelosk.forestday.client.renderer.model.ModelKiln;
 
 public class TileKilnRenderer extends TileEntitySpecialRenderer {
-	
-	public static final ResourceLocation textureModel = new ResourceLocation("forestday", "textures/models/kiln_resin.png");
-	
+
+	public static final ResourceLocation textureModel = new ResourceLocation("forestday",
+			"textures/models/kiln_resin.png");
+
 	private ModelKiln kiln;
-	
-	public TileKilnRenderer()
-	{
+
+	public TileKilnRenderer() {
 		this.kiln = new ModelKiln();
 	}
-	
+
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
@@ -30,7 +30,7 @@ public class TileKilnRenderer extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-	
+
 	public void renderItem() {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5F, 1.5F, 0.5F);
