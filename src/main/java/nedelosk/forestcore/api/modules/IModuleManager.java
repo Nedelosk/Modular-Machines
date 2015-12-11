@@ -2,7 +2,7 @@ package nedelosk.forestcore.api.modules;
 
 import java.util.List;
 
-import nedelosk.forestcore.api.modules.basic.IObjectManager;
+import nedelosk.forestcore.api.modules.manager.IObjectManager;
 
 public interface IModuleManager {
 	

@@ -3,7 +3,7 @@ package nedelosk.forestday.common.world;
 import java.util.Random;
 
 import nedelosk.forestday.common.configs.ForestDayConfig;
-import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -36,19 +36,19 @@ public class WorldGeneratorForestDay implements IWorldGenerator {
 
 	private void generateSurface(World world, Random random, int x, int z) {
 		if (ForestDayConfig.generateOre[0]) {
-			generateOre(FBlockManager.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
 		}
 		if (ForestDayConfig.generateOre[1]) {
-			generateOre(FBlockManager.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
 		}
 		if (ForestDayConfig.generateOre[2]) {
-			generateOre(FBlockManager.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
 		}
 		if (ForestDayConfig.generateOre[3]) {
-			generateOre(FBlockManager.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
 		}
 		if (ForestDayConfig.generateOre[4]) {
-			generateOre(FBlockManager.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
 		}
 	}
 

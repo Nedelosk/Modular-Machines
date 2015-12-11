@@ -2,7 +2,7 @@ package nedelosk.modularmachines.plugins;
 
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestcore.api.plugins.Plugin;
+import nedelosk.forestcore.api.plugins.APlugin;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
 
-public class PluginEnderIO extends Plugin {
+public class PluginEnderIO extends APlugin {
 
 	public ItemStack chassis = GameRegistry.findItemStack(getRequiredMod(), "itemMachinePart", 1);
 	public Item capacitorBank = GameRegistry.findItem(getRequiredMod(), "blockCapBank");

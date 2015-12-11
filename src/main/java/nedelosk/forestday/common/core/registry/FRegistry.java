@@ -3,15 +3,10 @@ package nedelosk.forestday.common.core.registry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.core.TabForestday;
-import nedelosk.forestday.common.core.managers.CraftingManager;
-import nedelosk.forestday.common.core.managers.OreDictionaryManager;
 import nedelosk.forestday.common.events.BucketHandler;
-import nedelosk.forestday.common.events.EventHandler;
 import nedelosk.forestday.common.fluids.FluidBlock;
 import nedelosk.forestday.common.items.base.FluidBucket;
-import nedelosk.forestday.common.multiblocks.MultiblockCharcoalKiln;
-import nedelosk.forestday.common.network.packets.PacketHandler;
-import nedelosk.forestday.common.world.WorldGeneratorForestDay;
+import nedelosk.forestday.common.modules.ModuleManager;
 import nedelosk.forestday.plugins.PluginManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,50 +16,33 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class FRegistry {
 
-	// Register
-
-	public void registerFluids() {
-		registerFluid("tar", 350, Material.lava, true, false).setDensity(3000).setViscosity(6000);
-		registerFluid("resin", 100, Material.water, true, false);
-		registerFluid("rubber", 550, Material.lava, true, false);
-		registerFluid("lubricant", 30, Material.water, true, false);
-	}
-
 	PluginManager manangerPlugin = new PluginManager();
+	ModuleManager managerModule = new ModuleManager();
 
 	public void preInit() {
 		CreativeTabs tabBlocks = Tabs.tabForestday = TabForestday.tabForestdayBlocks;
 
-		registerFluids();
-		PacketHandler.preInit();
-		BlockRegistry.preInit();
-		ItemRegistry.preInit();
-
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
-
-		new MultiblockCharcoalKiln();
-
+		managerModule.registerModules();
+		managerModule.preInit();
+		
 		manangerPlugin.registerPlugins();
 		manangerPlugin.preInitPlugins();
 	}
 
 	public void init() {
-		OreDictionaryManager.preInit();
-		CraftingManager.registerRecipes();
+		managerModule.init();
 		manangerPlugin.initPlugins();
 	}
 
 	public void postInit() {
-		CraftingManager.removeRecipes();
+		managerModule.postInit();
 		manangerPlugin.postInitPlugins();
-		GameRegistry.registerWorldGenerator(new WorldGeneratorForestDay(), 0);
 	}
 
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket,

@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.plugins.mt;
 
 import minetweaker.MineTweakerAPI;
-import nedelosk.forestcore.api.plugins.Plugin;
+import nedelosk.forestcore.api.plugins.APlugin;
 import nedelosk.modularmachines.common.config.ModularConfig;
 
-public class PluginMineTweaker3 extends Plugin {
+public class PluginMineTweaker3 extends APlugin {
 
 	@Override
 	public void preInit() {

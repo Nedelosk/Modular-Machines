@@ -1,8 +1,7 @@
-package nedelosk.forestcore.api.modules.basic;
+package nedelosk.forestcore.api.modules.manager;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -10,7 +9,7 @@ public interface IBlockManager extends IObjectManager<Block> {
 	
 	Item item();
 	
-	IBlockManager register(Block block, Class<? extends ItemBlock> itemClass);
+	Block block();
 
 	boolean isItemEqual(ItemStack stack);
 

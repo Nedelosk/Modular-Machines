@@ -5,7 +5,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
 import nedelosk.forestday.api.crafting.OreStack;
-import nedelosk.forestday.common.core.managers.FItemManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modules.Modules;
@@ -221,15 +221,15 @@ public class RecipeManager {
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 3), new ItemStack(Items.gold_ingot),
 				0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 5),
-				new ItemStack(FItemManager.Ingots.item(), 1, 0), 0.5F);
+				new ItemStack(ModuleCore.ItemManager.Ingots.item(), 1, 0), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 6),
-				new ItemStack(FItemManager.Ingots.item(), 1, 1), 0.5F);
+				new ItemStack(ModuleCore.ItemManager.Ingots.item(), 1, 1), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 7),
-				new ItemStack(FItemManager.Ingots.item(), 1, 2), 0.5F);
+				new ItemStack(ModuleCore.ItemManager.Ingots.item(), 1, 2), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 8),
-				new ItemStack(FItemManager.Ingots.item(), 1, 3), 0.5F);
+				new ItemStack(ModuleCore.ItemManager.Ingots.item(), 1, 3), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 9),
-				new ItemStack(FItemManager.Ingots.item(), 1, 4), 0.5F);
+				new ItemStack(ModuleCore.ItemManager.Ingots.item(), 1, 4), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 10),
 				new ItemStack(MMItemManager.Alloy_Ingots.item(), 1, 0), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(MMItemManager.Dusts.item(), 1, 11),

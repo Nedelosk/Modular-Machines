@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
 import nedelosk.forestcore.api.inventory.ContainerBase;
-import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.inventory.slots.SlotOutput;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
@@ -20,7 +20,7 @@ public class ContainerCokeOven extends ContainerBase<TileMultiblockBase<Multiblo
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		if (((TileMultiblockBase) inventoryBase).master != null
-				&& ((TileMultiblockBase) inventoryBase).getBlockType() == FBlockManager.Multiblock.block()) {
+				&& ((TileMultiblockBase) inventoryBase).getBlockType() == ModuleCore.BlockManager.Multiblock.block()) {
 			addSlotToContainer(new SlotCokeOven(((TileMultiblockBase) inventoryBase).master, 0, 53, 35));
 			addSlotToContainer(new SlotOutput(((TileMultiblockBase) inventoryBase).master, 1, 107, 35));
 		}

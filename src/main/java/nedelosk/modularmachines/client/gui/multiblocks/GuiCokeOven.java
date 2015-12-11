@@ -3,7 +3,7 @@ package nedelosk.modularmachines.client.gui.multiblocks;
 import nedelosk.forestcore.api.gui.GuiBase;
 import nedelosk.forestcore.api.gui.WidgetFluidTank;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
-import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
@@ -14,7 +14,7 @@ public class GuiCokeOven extends GuiBase<TileMultiblockBase<MultiblockCokeOven>>
 
 	public GuiCokeOven(TileMultiblockBase<MultiblockCokeOven> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		if (tile.getBlockType() == FBlockManager.Multiblock.block()) {
+		if (tile.getBlockType() == ModuleCore.BlockManager.Multiblock.block()) {
 			widgetManager.add(
 					new WidgetHeatBar(tile.master.getMultiblock().heat, tile.master.getMultiblock().heatTotal, 82, 8));
 		} else if (tile.master != null) {
@@ -58,7 +58,7 @@ public class GuiCokeOven extends GuiBase<TileMultiblockBase<MultiblockCokeOven>>
 
 	@Override
 	protected String getGuiName() {
-		if (tile.getBlockType() == FBlockManager.Multiblock_Valve.block())
+		if (tile.getBlockType() == ModuleCore.BlockManager.Multiblock_Valve.block())
 			return "gui_blastfurnace_fluid";
 		return "gui_coke_oven";
 	}

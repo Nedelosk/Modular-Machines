@@ -1,4 +1,4 @@
-package nedelosk.forestcore.api.modules.basic;
+package nedelosk.forestcore.api.modules.manager;
 
 public interface IObjectManager<O> {
 

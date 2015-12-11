@@ -1,6 +1,6 @@
 package nedelosk.forestcore.api.plugins;
 
-public abstract class Plugin implements IPlugin {
+public abstract class APlugin implements IPlugin {
 
 	@Override
 	public void preInit() {

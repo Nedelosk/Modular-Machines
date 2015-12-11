@@ -2,7 +2,7 @@ package nedelosk.modularmachines.client.gui.multiblocks;
 
 import nedelosk.forestcore.api.gui.GuiBase;
 import nedelosk.forestcore.api.gui.WidgetFluidTank;
-import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;
 import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
@@ -13,7 +13,7 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 
 	public GuiBlastFurnace(TileMultiblockBase<MultiblockBlastFurnace> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		if (tile.getBlockType() != FBlockManager.Multiblock.block() && tile.master != null && (tile.modifier != null)) {
+		if (tile.getBlockType() != ModuleCore.BlockManager.Multiblock.block() && tile.master != null && (tile.modifier != null)) {
 			if (tile.master.getModifier().filter == "output")
 				widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tank, 79, 12));
 			else if (tile.master.getModifier().filter == "slag")
@@ -23,7 +23,7 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 			else if (tile.master.getModifier().filter == "air.hot")
 				widgetManager.add(new WidgetFluidTank(tile.master.getMultiblock().tankAirHot, 79, 12));
 		}
-		if (tile.getBlockType() == FBlockManager.Multiblock.block()) {
+		if (tile.getBlockType() == ModuleCore.BlockManager.Multiblock.block()) {
 			widgetManager.add(
 					new WidgetHeatBar(tile.master.getMultiblock().heat, tile.master.getMultiblock().heatTotal, 82, 8));
 		}
@@ -66,8 +66,8 @@ public class GuiBlastFurnace extends GuiBase<TileMultiblockBase<MultiblockBlastF
 
 	@Override
 	protected String getGuiName() {
-		if (tile.modifier.filter != null && tile.getBlockType() == FBlockManager.Multiblock_Valve.block()
-				|| tile.getBlockType() == FBlockManager.Multiblock.block())
+		if (tile.modifier.filter != null && tile.getBlockType() == ModuleCore.BlockManager.Multiblock_Valve.block()
+				|| tile.getBlockType() == ModuleCore.BlockManager.Multiblock.block())
 			return "gui_blastfurnace_fluid";
 		return "gui_blastfurnace_item";
 	}

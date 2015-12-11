@@ -1,16 +1,16 @@
 package nedelosk.forestcore.api.modules;
 
-import nedelosk.forestcore.api.modules.basic.IObjectManager;
+import nedelosk.forestcore.api.modules.manager.IObjectManager;
 
 public interface IModule {
 
 	String getName();
 	
-	void preInit();
+	void preInit(IModuleManager manager);
 	
-	void init();
+	void init(IModuleManager manager);
 	
-	void postInit();
+	void postInit(IModuleManager manager);
 	
 	boolean isActive();
 	

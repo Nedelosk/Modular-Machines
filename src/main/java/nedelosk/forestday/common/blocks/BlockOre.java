@@ -5,7 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.core.managers.FItemManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -51,7 +51,7 @@ public class BlockOre extends BlockForest {
 
 			int amount = (2 + world.rand.nextInt(5)) * (fortmod + 1);
 			if (amount > 0) {
-				drops.add(new ItemStack(FItemManager.Gems.item(), amount, 0));
+				drops.add(new ItemStack(ModuleCore.ItemManager.Gems.item(), amount, 0));
 			}
 		} else {
 			drops.add(new ItemStack(this, 1, metadata));

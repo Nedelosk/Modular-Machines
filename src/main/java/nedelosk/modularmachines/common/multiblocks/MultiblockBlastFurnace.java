@@ -7,7 +7,7 @@ import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
-import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiBlastFurnace;
 import nedelosk.modularmachines.common.ModularMachines;
@@ -80,32 +80,32 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			multiblock = (TileMultiblockBase) tile;
 		switch (pattern) {
 		case 'B': {
-			if (block != FBlockManager.Multiblock.block() || multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			}
 			break;
 		}
 		case 'J': {
-			if (block != FBlockManager.Multiblock.block() || multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			}
 			break;
 		}
 		case 'V': {
-			if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block()
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
 					|| multiblock == null) {
 				return false;
-			} else if (block == FBlockManager.Multiblock_Valve.block()) {
+			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "output";
 				multiblock.modifier.valveType = ValveType.OUTPUT;
 			}
 			break;
 		}
 		case 'S': {
-			if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block()
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
 					|| multiblock == null) {
 				return false;
-			} else if (block == FBlockManager.Multiblock_Valve.block()) {
+			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "slag";
 				multiblock.modifier.valveType = ValveType.OUTPUT;
 			}
@@ -118,42 +118,42 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'C': {
-			if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block()
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
 					|| multiblock == null) {
 				return false;
-			} else if (block == FBlockManager.Multiblock_Valve.block()) {
+			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "gas.blastfurnace";
 				multiblock.modifier.valveType = ValveType.OUTPUT;
 			}
 			break;
 		}
 		case 'F': {
-			if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block()
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
 					|| multiblock == null) {
 				return false;
-			} else if (block == FBlockManager.Multiblock_Valve.block()) {
+			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "air.hot";
 				multiblock.modifier.valveType = ValveType.INPUT;
 			}
 			break;
 		}
 		case 'I': {
-			if (block != FBlockManager.Multiblock_Valve.block() && block != FBlockManager.Multiblock.block()
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
 					|| multiblock == null) {
 				return false;
-			} else if (block == FBlockManager.Multiblock_Valve.block()) {
+			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.valveType = ValveType.INPUT;
 			}
 			break;
 		}
 		case 'M': {
-			if (block != FBlockManager.Multiblock.block() && multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock.block() && multiblock == null) {
 				return false;
 			}
 			break;
 		}
 		case 'O': {
-			if (block == FBlockManager.Multiblock.block() || block == FBlockManager.Multiblock_Valve.block()
+			if (block == ModuleCore.BlockManager.Multiblock.block() || block == ModuleCore.BlockManager.Multiblock_Valve.block()
 					|| tile instanceof TileMultiblockBase) {
 				return false;
 			}

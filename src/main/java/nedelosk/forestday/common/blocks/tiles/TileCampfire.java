@@ -2,11 +2,11 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import nedelosk.forestday.client.gui.GuiCampfire;
 import nedelosk.forestday.common.configs.ForestDayConfig;
-import nedelosk.forestday.common.core.managers.FItemManager;
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerCampfire;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
+import nedelosk.forestday.common.modules.ModuleCore.ItemManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -198,11 +198,11 @@ public class TileCampfire extends TileMachineBase {
 
 	public ItemStack setCampfireItem(ItemStack stack) {
 		int ID = 0;
-		if (stack.getItem() == FItemManager.Curb.item())
+		if (stack.getItem() == ItemManager.Curb.item())
 			ID = 0;
-		else if (stack.getItem() == FItemManager.Pot_Holder.item())
+		else if (stack.getItem() == ItemManager.Pot_Holder.item())
 			ID = 1;
-		else if (stack.getItem() == FItemManager.Pot.item())
+		else if (stack.getItem() == ItemManager.Pot.item())
 			ID = 2;
 		ItemStack stackOld = getStackInSlot(4 + ID);
 		setInventorySlotContents(ID + 4, stack);

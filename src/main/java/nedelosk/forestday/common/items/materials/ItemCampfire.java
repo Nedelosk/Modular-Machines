@@ -4,10 +4,9 @@ import java.util.List;
 
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
-import nedelosk.forestday.common.core.managers.FBlockManager;
-import nedelosk.forestday.common.core.managers.FItemManager;
 import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.forestday.common.items.base.ItemForest;
+import nedelosk.forestday.common.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,9 +38,9 @@ public class ItemCampfire extends ItemForest {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
 			float hitX, float hitY, float hitZ) {
-		if (this == FItemManager.Curb.item()) {
+		if (this == ModuleCore.ItemManager.Curb.getObject()) {
 			Block block = world.getBlock(x, y, z);
-			Block blockC = FBlockManager.Machine_Wood_Base.block();
+			Block blockC = ModuleCore.BlockManager.Machine.getObject();
 
 			if (block == Blocks.snow_layer && (world.getBlockMetadata(x, y, z) & 7) < 1) {
 				side = 1;
@@ -99,7 +98,7 @@ public class ItemCampfire extends ItemForest {
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
 			float hitX, float hitY, float hitZ, int metadata) {
 
-		Block blockC = FBlockManager.Machine_Wood_Base.block();
+		Block blockC = ModuleCore.BlockManager.Machine.getObject();
 
 		if (!world.setBlock(x, y, z, blockC, metadata, 3)) {
 			return false;

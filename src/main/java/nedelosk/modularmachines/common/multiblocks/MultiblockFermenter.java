@@ -8,7 +8,7 @@ import nedelosk.forestcore.api.FluidTankBasic;
 import nedelosk.forestcore.utils.NBTUtils;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
-import nedelosk.forestday.common.core.managers.FBlockManager;
+import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
@@ -104,19 +104,19 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 		switch (pattern) {
 		case 'J':
 		case 'M': {
-			if (block != FBlockManager.Multiblock.block() || multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			}
 			break;
 		}
 		case 'V': {
-			if (block != FBlockManager.Multiblock_Valve.block() || multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() || multiblock == null) {
 				return false;
 			}
 			break;
 		}
 		case 'O': {
-			if (block == FBlockManager.Multiblock_Valve.block() || block == FBlockManager.Multiblock.block()
+			if (block == ModuleCore.BlockManager.Multiblock_Valve.block() || block == ModuleCore.BlockManager.Multiblock.block()
 					|| tile instanceof TileMultiblockBase) {
 				return false;
 			}

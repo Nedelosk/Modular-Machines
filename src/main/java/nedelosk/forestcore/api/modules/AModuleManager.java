@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nedelosk.forestcore.api.modules.basic.IObjectManager;
+import nedelosk.forestcore.api.modules.manager.IObjectManager;
 
 public abstract class AModuleManager implements IModuleManager{
 
@@ -36,7 +36,7 @@ public abstract class AModuleManager implements IModuleManager{
 	public void preInit() {
 		for (IModule modules : modules) {
 			if (modules.isActive()) {
-				modules.preInit();
+				modules.preInit(this);
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public abstract class AModuleManager implements IModuleManager{
 	public void init() {
 		for (IModule modules : modules) {
 			if (modules.isActive()) {
-				modules.init();
+				modules.init(this);
 			}
 		}
 	}
@@ -54,7 +54,7 @@ public abstract class AModuleManager implements IModuleManager{
 	public void postInit() {
 		for (IModule modules : modules) {
 			if (modules.isActive()) {
-				modules.postInit();
+				modules.postInit(this);
 			}
 		}
 	}

@@ -7,7 +7,6 @@ import java.util.List;
 import nedelosk.forestday.client.gui.GuiCampfire;
 import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
-import nedelosk.forestday.common.crafting.KilnRecipeManager;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -87,7 +86,6 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		KilnRecipeManager.getInstance();
 		List<CampfireRecipe> recipes = CampfireRecipeManager.getRecipes();
 		for (CampfireRecipe recipe : recipes) {
 			ItemStack output = recipe.getOutput();

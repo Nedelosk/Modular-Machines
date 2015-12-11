@@ -2,7 +2,7 @@ package nedelosk.modularmachines.plugins;
 
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestcore.api.plugins.Plugin;
+import nedelosk.forestcore.api.plugins.APlugin;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-public class PluginThermalExpansion extends Plugin {
+public class PluginThermalExpansion extends APlugin {
 
 	public static IModule STRONGBOX = new ModuleBasic("Storage", "Storage");
 
