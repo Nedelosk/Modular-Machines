@@ -6,10 +6,10 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.utils.WorldUtils;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.multiblocks.BlockMultiblockBase;
-import nedelosk.forestday.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

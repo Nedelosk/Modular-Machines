@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.producers.machines.sawmill;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.api.guis.IContainerBase;
+import nedelosk.forestcore.api.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;

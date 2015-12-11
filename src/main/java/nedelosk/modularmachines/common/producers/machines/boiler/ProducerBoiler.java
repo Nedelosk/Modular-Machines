@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.common.producers.machines.boiler;
 
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.machines.boiler.IProducerBoiler;
 import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -17,8 +19,8 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		super(nbt, modular, stack);
 	}
 
-	public ProducerBoiler(String modifier, int inputs, int outputs, int speed, int steam, int water) {
-		super("Boiler" + modifier, inputs, outputs, speed);
+	public ProducerBoiler(String modifier, int inputsItem, int outputsItem, int inputsFluid, int outputsFluid, int speed, int steam, int water) {
+		super("Boiler" + modifier, inputsItem, outputsItem, inputsFluid, outputsFluid, speed);
 		this.steam = steam;
 		this.water = water;
 	}
@@ -44,13 +46,7 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 	}
 	
 	@Override
-	public int getItemInputs() {
-		return 1;
+	public boolean useFluids(ModuleStack stack) {
+		return true;
 	}
-	
-	@Override
-	public int getFluidInputs() {
-		return 1;
-	}
-
 }

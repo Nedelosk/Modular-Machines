@@ -6,9 +6,9 @@ import java.util.Locale;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import nedelosk.forestday.api.guis.Button;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.gui.Button;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;

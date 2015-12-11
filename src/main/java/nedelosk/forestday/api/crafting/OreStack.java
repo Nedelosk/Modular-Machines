@@ -1,6 +1,6 @@
 package nedelosk.forestday.api.crafting;
 
-import nedelosk.forestday.api.INBTTagable;
+import nedelosk.forestcore.api.INBTTagable;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class OreStack implements INBTTagable {

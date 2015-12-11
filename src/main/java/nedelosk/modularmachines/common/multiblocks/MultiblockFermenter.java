@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.FluidTankBasic;
+import nedelosk.forestcore.api.FluidTankBasic;
+import nedelosk.forestcore.utils.NBTUtils;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
-import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererMultiblockFermenter;

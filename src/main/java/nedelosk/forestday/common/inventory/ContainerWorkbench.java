@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.inventory;
 
-import nedelosk.forestday.api.inventory.ContainerBase;
+import nedelosk.forestcore.api.inventory.ContainerBase;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;

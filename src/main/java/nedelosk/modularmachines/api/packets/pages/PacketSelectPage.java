@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.packets.pages;
 
 import io.netty.buffer.ByteBuf;
-import nedelosk.forestday.api.packets.PacketTileEntity;
+import nedelosk.forestcore.api.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;

@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestday.api.guis.GuiBase;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.gui.GuiBase;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.packets.PacketHandler;
@@ -46,7 +46,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		
 		ModuleStack<IModule, IProducer> stack = gui.getTile().getModular().getFluidProducers().get(producer);
 		if(stack.getItem() != null)
-			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItem(), gui.getGuiLeft() + pos.x - 1, gui.getGuiTop() + pos.y - 1);
+			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItem(), gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1);
 		GL11.glEnable(GL11.GL_LIGHTING);
 
 	}

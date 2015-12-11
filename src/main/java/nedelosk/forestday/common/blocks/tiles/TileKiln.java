@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.blocks.tiles;
 
-import nedelosk.forestday.api.FluidTankBasic;
+import nedelosk.forestcore.api.FluidTankBasic;
 import nedelosk.forestday.client.gui.GuiKiln;
 import nedelosk.forestday.common.configs.ForestDayConfig;
 import nedelosk.forestday.common.crafting.KilnRecipe;

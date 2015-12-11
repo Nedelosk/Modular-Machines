@@ -5,8 +5,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;

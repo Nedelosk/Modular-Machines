@@ -3,11 +3,11 @@ package nedelosk.forestday.common.blocks;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import nedelosk.forestcore.utils.WorldUtils;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.client.proxy.ClientProxy;
 import nedelosk.forestday.common.ForestDay;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
-import nedelosk.forestday.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;

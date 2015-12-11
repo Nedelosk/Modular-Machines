@@ -31,7 +31,7 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 
 	public static boolean isFluidInput(FluidStack stack) {
 		for (FermenterRecipe sr : FermenterRecipeManager.recipes) {
-			if (sr.getInput().fluid == stack.fluid)
+			if (sr.getInput().getFluid() == stack.getFluid())
 				return true;
 		}
 		return false;

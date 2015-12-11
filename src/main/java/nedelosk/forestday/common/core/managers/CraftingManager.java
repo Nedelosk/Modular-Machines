@@ -1,6 +1,7 @@
 package nedelosk.forestday.common.core.managers;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestcore.utils.CraftingUtils;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.ICampfireRecipe;
 import nedelosk.forestday.api.crafting.IKilnRecipe;
@@ -12,7 +13,6 @@ import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.crafting.KilnRecipeManager;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import nedelosk.forestday.common.types.WoodTypeManager;
-import nedelosk.forestday.utils.CraftingHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,7 @@ public class CraftingManager {
 	
 	public static void removeRecipes()
 	{
-		CraftingHelper.removeFurnaceRecipe(Items.brick);
+		CraftingUtils.removeFurnaceRecipe(Items.brick);
 	}
 	
 	public static void registerRecipes()
@@ -127,7 +127,7 @@ public class CraftingManager {
 	public static void addMachineRecipes(){
 		
 		//Furenace
-		CraftingHelper.removeAnyRecipe(new ItemStack(Blocks.furnace));
+		CraftingUtils.removeAnyRecipe(new ItemStack(Blocks.furnace));
 		addShapedRecipe(new ItemStack(Blocks.furnace), "SSS", "BHB", "BBB", 'S', "stone", 'B', Blocks.stonebrick);
 		
 		//Campfire

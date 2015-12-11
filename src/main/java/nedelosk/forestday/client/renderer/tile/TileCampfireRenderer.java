@@ -1,6 +1,6 @@
 package nedelosk.forestday.client.renderer.tile;
 
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.forestday.client.renderer.model.ModelCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.configs.ForestDayConfig;

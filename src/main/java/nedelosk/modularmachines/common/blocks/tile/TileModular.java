@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.forestday.api.Log;
+import nedelosk.forestcore.api.Log;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;

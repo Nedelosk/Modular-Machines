@@ -5,9 +5,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.guis.IContainerBase;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.api.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
@@ -31,7 +31,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	}
 	
 	public ProducerBurningBoiler(int speed, int energy, int water) {
-		super("Burning", 2, 1, speed, energy, water);
+		super("Burning", 1, 0, 1, 1, speed, energy, water);
 	}
 
 	public ProducerBurningBoiler(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
@@ -91,9 +91,10 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 				fuel--;
 				modular.getManager().getFluidHandler().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true);
 			}else{
-				if(getInputs(modular, stack) != null){
-					if(getInputs(modular, stack)[1].isItem() && TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[1].item) > 0){
-						int burnTime = TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[1].item);
+				RecipeInput[] inputs = getInputs(modular, stack);
+				if(inputs != null){
+					if(inputs[1].isItem() && TileEntityFurnace.getItemBurnTime(inputs[1].item) > 0){
+						int burnTime = TileEntityFurnace.getItemBurnTime(inputs[1].item);
 						if(!removeInputs(modular, stack, 1))
 							return;
 						fuel = burnTime;

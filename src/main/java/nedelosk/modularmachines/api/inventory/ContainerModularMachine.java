@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.inventory;
 
-import nedelosk.forestday.api.inventory.ContainerBase;
-import nedelosk.forestday.api.tile.TileBaseInventory;
+import nedelosk.forestcore.api.inventory.ContainerBase;
+import nedelosk.forestcore.api.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;

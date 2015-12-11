@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.plugins.mt;
 
 import minetweaker.MineTweakerAPI;
-import nedelosk.forestday.plugins.basic.Plugin;
+import nedelosk.forestcore.api.plugins.Plugin;
 import nedelosk.modularmachines.common.config.ModularConfig;
 
 public class PluginMineTweaker3 extends Plugin {

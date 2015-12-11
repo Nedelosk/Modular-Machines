@@ -2,6 +2,7 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import java.util.ArrayList;
 
+import nedelosk.forestcore.utils.ItemUtils;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.ITool;
 import nedelosk.forestday.client.gui.GuiWorkbench;
@@ -9,7 +10,6 @@ import nedelosk.forestday.common.configs.ForestDayConfig;
 import nedelosk.forestday.common.crafting.WorkbenchRecipe;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerWorkbench;
-import nedelosk.forestday.utils.ItemUtils;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

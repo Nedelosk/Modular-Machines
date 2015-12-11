@@ -6,8 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import nedelosk.forestday.api.tile.TileBaseGui;
-import nedelosk.forestday.api.tile.TileBaseInventory;
+import nedelosk.forestcore.api.tile.TileBaseGui;
+import nedelosk.forestcore.api.tile.TileBaseInventory;
 
 public class CommonProxy implements IGuiHandler {
 

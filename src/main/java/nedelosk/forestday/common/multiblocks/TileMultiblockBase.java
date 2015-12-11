@@ -9,7 +9,7 @@ import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
-import nedelosk.forestday.utils.misc.TileCache;
+import nedelosk.forestday.utils.TileCache;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

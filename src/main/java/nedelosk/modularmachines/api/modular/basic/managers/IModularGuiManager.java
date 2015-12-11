@@ -2,8 +2,8 @@ package nedelosk.modularmachines.api.modular.basic.managers;
 
 import java.util.ArrayList;
 
-import nedelosk.forestday.api.INBTTagable;
-import nedelosk.forestday.api.tile.TileBaseInventory;
+import nedelosk.forestcore.api.INBTTagable;
+import nedelosk.forestcore.api.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModuleStack;

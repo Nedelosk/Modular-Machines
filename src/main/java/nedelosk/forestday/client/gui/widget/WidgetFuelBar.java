@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.api.utils.RenderUtils;
 
 public class WidgetFuelBar extends Widget {
 

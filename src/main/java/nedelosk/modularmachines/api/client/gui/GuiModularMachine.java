@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestday.api.guis.GuiBase;
-import nedelosk.forestday.api.tile.TileBaseInventory;
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.gui.GuiBase;
+import nedelosk.forestcore.api.tile.TileBaseInventory;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -88,8 +88,7 @@ public class GuiModularMachine<T extends TileBaseInventory & IModularTileEntity>
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
-		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if (gui != null && gui.getProducer().getCustomGui(tile.getModular(), gui) != null)

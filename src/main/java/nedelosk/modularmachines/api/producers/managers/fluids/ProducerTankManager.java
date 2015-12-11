@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.FluidTankBasic;
-import nedelosk.forestday.api.guis.IContainerBase;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.api.guis.WidgetFluidTank;
+import nedelosk.forestcore.api.FluidTankBasic;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.api.gui.WidgetFluidTank;
+import nedelosk.forestcore.api.inventory.IContainerBase;
 import nedelosk.modularmachines.api.client.gui.ButtonTabTankManager;
 import nedelosk.modularmachines.api.client.widget.WidgetDirection;
 import nedelosk.modularmachines.api.client.widget.WidgetProducer;
@@ -205,6 +205,8 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 				int ID = ((WidgetFluidTank) widget).ID;
 				if(getData(ID) != null)
 					((WidgetFluidTank) widget).tank = getData(ID).getTank();
+				else 
+					((WidgetFluidTank) widget).tank = null;
 			}else if (widget instanceof WidgetDirection) {
 				int ID = ((WidgetDirection) widget).ID;
 				if(getData(ID) != null)
@@ -233,7 +235,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			return 0;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
-			if(data.getTank().isFull())
+			if(data == null || data.getTank().isFull())
 				continue;
 			if(!data.getTank().isEmpty()){
 				if(resource.getFluid() != data.getTank().getFluid().getFluid())
@@ -244,12 +246,13 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
 			}
-			if(!(data.getMode() == TankMode.INPUT))
-				continue;
-			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
-				return data.getTank().fill(resource, doFill);
+			if(data.getMode() == TankMode.OUTPUT && stack != null || data.getMode() == TankMode.INPUT && stack == null){
+				if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+					return data.getTank().fill(resource, doFill);
+				}else
+					continue;	
 			}else
-				continue;	
+				continue;
 		}
 		return 0;
 	}
@@ -260,7 +263,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			return null;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
-			if(data.getTank().isEmpty())
+			if(data == null || data.getTank().isEmpty())
 				continue;
 			if(resource.getFluid() != data.getTank().getFluid().getFluid())
 				continue;
@@ -269,10 +272,11 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
 			}
-			if(!(data.getMode() == TankMode.OUTPUT))
-				continue;
-			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
-				return data.getTank().drain(resource, doDrain);
+			if(!(data.getMode() == TankMode.NONE)){
+				if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+					return data.getTank().drain(resource, doDrain);
+				}else
+					continue;
 			}else
 				continue;	
 		}
@@ -285,7 +289,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			return null;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
-			if(data.getTank().isEmpty())
+			if(data == null || data.getTank().isEmpty())
 				continue;
 			if(data.getTank().getFluid().amount < 0)
 				continue;
@@ -294,8 +298,11 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 				if(!(stack == null) && !stack.equals(stackT))
 					continue;
 			}
-			if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
-				return data.getTank().drain(maxDrain, doDrain);
+			if(!(data.getMode() == TankMode.NONE)){
+				if(from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN){
+					return data.getTank().drain(maxDrain, doDrain);
+				}else
+					continue;	
 			}else
 				continue;	
 		}

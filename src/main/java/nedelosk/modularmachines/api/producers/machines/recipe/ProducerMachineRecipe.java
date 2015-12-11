@@ -9,13 +9,14 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.guis.Widget;
-import nedelosk.forestday.api.guis.WidgetProgressBar;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.api.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
 import nedelosk.modularmachines.api.producers.fluids.ITankData;
 import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
@@ -79,10 +80,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 
 	public RecipeInput[] getInputFluids(IModular modular, ModuleStack moduleStack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		List<ITankData> datas = Lists.newArrayList();
-		for(ModuleStack<IModule, IProducerTankManager> manager : modular.getFluidProducers()){
-			datas.addAll(manager.getProducer().getDatas(modular, moduleStack, TankMode.INPUT));
-		}
+		List<ITankData> datas = modular.getTankManeger().getProducer().getDatas(modular, moduleStack, TankMode.INPUT);
 		RecipeInput[] fluidInputs = new RecipeInput[getFluidInputs(moduleStack)];
 		int inputs = fluidInputs.length;
 		if(datas.size() < fluidInputs.length)
@@ -113,7 +111,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 								input.slotIndex, inputs[i].item.stackSize);
 					continue;
 				} else {
-					tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true);
+					tile.getModular().getTankManeger().getProducer().drain(ForgeDirection.UNKNOWN, input.fluid, true, stack, modular);
 					continue;
 				}
 			} else
@@ -229,7 +227,7 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 							continue;
 						} else
 							return false;
-					else if (tile.getModular().getManager().getFluidHandler().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true) != 0) {
+					else if (tile.getModular().getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true, stack, modular) != 0) {
 						item = null;
 						continue;
 					} else
@@ -277,6 +275,26 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	@Override
 	public int getSpeed(ModuleStack stack) {
 		return speed;
+	}
+	
+	@Override
+	public int getItemInputs(ModuleStack<IModule, IProducer> stack) {
+		return itemInputs;
+	}
+	
+	@Override
+	public int getItemOutputs(ModuleStack<IModule, IProducer> stack) {
+		return itemOutputs;
+	}
+	
+	@Override
+	public int getFluidInputs(ModuleStack<IModule, IProducer> stack) {
+		return fluidInputs;
+	}
+	
+	@Override
+	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
+		return fluidOutputs;
 	}
 
 	public abstract int getSpeedModifier();

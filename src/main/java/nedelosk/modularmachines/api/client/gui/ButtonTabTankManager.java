@@ -3,9 +3,10 @@ package nedelosk.modularmachines.api.client.gui;
 import java.util.Arrays;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
-import nedelosk.forestday.api.guis.Button;
-import nedelosk.forestday.api.guis.IGuiBase;
-import nedelosk.forestday.api.utils.RenderUtils;
+
+import nedelosk.forestcore.api.gui.Button;
+import nedelosk.forestcore.api.gui.IGuiBase;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;

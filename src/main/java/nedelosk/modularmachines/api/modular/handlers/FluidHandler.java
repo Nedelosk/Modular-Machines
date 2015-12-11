@@ -1,6 +1,10 @@
 package nedelosk.modularmachines.api.modular.handlers;
 
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.producers.IProducer;
+import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -21,32 +25,32 @@ public class FluidHandler implements IFluidHandler {
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return 0;
+		return machine.getTankManeger().getProducer().fill(from, resource, doFill, null, machine);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		return null;
+		return machine.getTankManeger().getProducer().drain(from, resource, doDrain, null, machine);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return null;
+		return machine.getTankManeger().getProducer().drain(from, maxDrain, doDrain, null, machine);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return false;
+		return machine.getTankManeger().getProducer().canFill(from, fluid, null, machine);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return false;
+		return machine.getTankManeger().getProducer().canDrain(from, fluid, null, machine);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return null;
+		return machine.getTankManeger().getProducer().getTankInfo(from, null, machine);
 	}
 
 }

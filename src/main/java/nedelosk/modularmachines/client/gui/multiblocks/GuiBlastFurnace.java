@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
-import nedelosk.forestday.api.guis.GuiBase;
-import nedelosk.forestday.api.guis.WidgetFluidTank;
+import nedelosk.forestcore.api.gui.GuiBase;
+import nedelosk.forestcore.api.gui.WidgetFluidTank;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.gui.widget.WidgetHeatBar;

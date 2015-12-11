@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.modular.basic.managers;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import nedelosk.forestday.api.tile.TileBaseInventory;
+import nedelosk.forestcore.api.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.client.gui.GuiModularMachine;
 import nedelosk.modularmachines.api.inventory.ContainerModularMachine;
 import nedelosk.modularmachines.api.modular.IModular;

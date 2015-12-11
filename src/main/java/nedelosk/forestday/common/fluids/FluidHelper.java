@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.fluids;
 
-import nedelosk.forestday.utils.ItemUtils;
+import nedelosk.forestcore.utils.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

@@ -2,7 +2,7 @@ package nedelosk.modularmachines.plugins;
 
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestday.plugins.basic.Plugin;
+import nedelosk.forestcore.api.plugins.Plugin;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.type.Types;
 import nedelosk.modularmachines.api.modules.IModule;

@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.inventory;
 
-import nedelosk.forestday.api.inventory.ContainerBase;
+import nedelosk.forestcore.api.inventory.ContainerBase;
 import nedelosk.forestday.common.blocks.tiles.TileKiln;
 import nedelosk.forestday.common.inventory.slots.SlotOutput;
 import net.minecraft.entity.player.EntityPlayer;

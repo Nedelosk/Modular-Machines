@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.modular.tile;
 import com.mojang.authlib.GameProfile;
 
 import cofh.api.energy.IEnergyHandler;
-import nedelosk.forestday.api.INBTTagable;
+import nedelosk.forestcore.api.INBTTagable;
 import nedelosk.modularmachines.api.modular.IModular;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.world.World;

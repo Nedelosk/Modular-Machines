@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.multiblocks;
 
-import nedelosk.forestday.api.FluidTankBasic;
+import nedelosk.forestcore.api.FluidTankBasic;
+import nedelosk.forestcore.utils.NBTUtils;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
@@ -8,7 +9,6 @@ import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
-import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiBlastFurnace;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;

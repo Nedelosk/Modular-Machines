@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.multiblocks;
 
-import nedelosk.forestday.api.FluidTankBasic;
+import nedelosk.forestcore.api.FluidTankBasic;
+import nedelosk.forestcore.utils.NBTUtils;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
-import nedelosk.forestday.utils.NBTUtils;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiAirHeatingPlant;
 import nedelosk.modularmachines.common.ModularMachines;
@@ -218,8 +218,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 		} else {
 			if (tankGas.getFluid() != null && tankGas.getFluid().amount > 0) {
 
-				int heat = tankGas.getFluid().fluid.getTemperature()
-						/ ((heatTotal / tankGas.getFluid().fluid.getTemperature()) / 30);
+				int heat = tankGas.getFluid().getFluid().getTemperature()
+						/ ((heatTotal / tankGas.getFluid().getFluid().getTemperature()) / 30);
 				if (tankGas.drain(30, true) != null & tankGas.drain(30, true).amount >= 30)
 					heat += heat;
 			}

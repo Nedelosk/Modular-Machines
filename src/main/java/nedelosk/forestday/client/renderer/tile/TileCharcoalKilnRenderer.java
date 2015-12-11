@@ -2,7 +2,7 @@ package nedelosk.forestday.client.renderer.tile;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestday.api.utils.RenderUtils;
+import nedelosk.forestcore.api.utils.RenderUtils;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import net.minecraft.block.Block;

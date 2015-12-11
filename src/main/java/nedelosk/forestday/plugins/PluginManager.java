@@ -3,7 +3,7 @@ package nedelosk.forestday.plugins;
 import nedelosk.forestday.common.plugins.minetweaker.PluginMineTweaker;
 import nedelosk.forestday.common.plugins.waila.PluginWaila;
 
-public class PluginManager extends nedelosk.forestday.plugins.basic.PluginManager {
+public class PluginManager extends nedelosk.forestcore.api.plugins.PluginManager {
 
 	@Override
 	public void preInit() {

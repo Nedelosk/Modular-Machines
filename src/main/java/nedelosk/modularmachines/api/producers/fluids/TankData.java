@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.api.producers.fluids;
 
-import nedelosk.forestday.api.FluidTankBasic;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager.TankMode;
+import nedelosk.forestcore.api.FluidTankBasic;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -23,14 +22,14 @@ public final class TankData implements ITankData {
 		this.tank = null;
 		this.producer = 0;
 		this.direction = ForgeDirection.UNKNOWN;
-		this.mode = TankMode.OUTPUT;
+		this.mode = TankMode.NONE;
 	}
 	
 	public TankData(FluidTankBasic tank) {
 		this.tank = tank;
 		this.producer = 0;
 		this.direction = ForgeDirection.UNKNOWN;
-		this.mode = TankMode.OUTPUT;
+		this.mode = TankMode.NONE;
 	}
 	
 	@Override
@@ -88,7 +87,7 @@ public final class TankData implements ITankData {
 		if (tank != null) {
 			NBTTagCompound nbtTank = new NBTTagCompound();
 			tank.writeToNBT(nbtTank);
-			nbt.setInteger("Capacity", tank.getCapacity());
+			nbtTank.setInteger("Capacity", tank.getCapacity());
 			nbt.setTag("Tank", nbtTank);
 		}
 	}

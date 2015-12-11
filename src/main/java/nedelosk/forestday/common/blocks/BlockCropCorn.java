@@ -2,9 +2,9 @@ package nedelosk.forestday.common.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.utils.WorldUtils;
 import nedelosk.forestday.common.core.managers.FBlockManager;
 import nedelosk.forestday.common.core.managers.FItemManager;
-import nedelosk.forestday.utils.WorldUtils;
 
 import java.util.ArrayList;
 import java.util.Random;

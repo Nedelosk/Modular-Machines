@@ -2,7 +2,7 @@ package nedelosk.modularmachines.api.producers.inventory;
 
 import java.util.List;
 
-import nedelosk.forestday.api.guis.IContainerBase;
+import nedelosk.forestcore.api.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
