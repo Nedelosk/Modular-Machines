@@ -1,11 +1,13 @@
 package nedelosk.modularmachines.plugins;
 
+import nedelosk.forestcore.api.plugins.APluginManager;
 import nedelosk.modularmachines.plugins.mt.PluginMineTweaker3;
 import nedelosk.modularmachines.plugins.tconstruct.PluginTConstruct;
 import nedelosk.modularmachines.plugins.waila.PluginWaila;
 
-public class PluginManager extends nedelosk.forestcore.api.plugins.PluginManager {
+public class PluginManager extends APluginManager {
 
+	@Override
 	public void registerPlugins() {
 		registerPlugin(new PluginEnderIO());
 		registerPlugin(new PluginMineTweaker3());

@@ -3,7 +3,6 @@ package nedelosk.forestday.common.core.managers;
 import nedelosk.forestday.common.core.registry.FRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public enum FItemManager {
 
@@ -35,24 +34,5 @@ public enum FItemManager {
 
 	public Item item() {
 		return item;
-	}
-
-	public ItemStack getWildcard() {
-		return getItemStack(1, OreDictionary.WILDCARD_VALUE);
-	}
-
-	public ItemStack getItemStack() {
-		return getItemStack(1, 0);
-	}
-
-	public ItemStack getItemStack(int qty) {
-		return getItemStack(qty, 0);
-	}
-
-	public ItemStack getItemStack(int qty, int meta) {
-		if (item == null) {
-			return null;
-		}
-		return new ItemStack(item, qty, meta);
 	}
 }

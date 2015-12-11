@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import cpw.mods.fml.common.Loader;
 import nedelosk.forestcore.api.Log;
 
-public class PluginManager {
+public abstract class APluginManager {
 
 	public ArrayList<IPlugin> plugins = new ArrayList<IPlugin>();
 	
@@ -43,17 +43,9 @@ public class PluginManager {
 			}
 		}
 	}
-
-	public void preInit() {
-		preInitPlugins();
-	}
-
-	public void init() {
-		initPlugins();
-	}
-
-	public void postInit() {
-		postInitPlugins();
+	
+	public void registerPlugins() {
+		
 	}
 
 }

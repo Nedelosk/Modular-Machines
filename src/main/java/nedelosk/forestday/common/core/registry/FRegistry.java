@@ -51,18 +51,19 @@ public class FRegistry {
 
 		new MultiblockCharcoalKiln();
 
-		manangerPlugin.preInit();
+		manangerPlugin.registerPlugins();
+		manangerPlugin.preInitPlugins();
 	}
 
 	public void init() {
 		OreDictionaryManager.preInit();
 		CraftingManager.registerRecipes();
-		manangerPlugin.init();
+		manangerPlugin.initPlugins();
 	}
 
 	public void postInit() {
 		CraftingManager.removeRecipes();
-		manangerPlugin.postInit();
+		manangerPlugin.postInitPlugins();
 		GameRegistry.registerWorldGenerator(new WorldGeneratorForestDay(), 0);
 	}
 

@@ -1,8 +1,6 @@
 package nedelosk.modularmachines.common.producers.machines.boiler;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.machines.boiler.IProducerBoiler;
 import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleStack;

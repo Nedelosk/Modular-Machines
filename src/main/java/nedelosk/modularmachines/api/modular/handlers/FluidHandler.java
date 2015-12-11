@@ -1,10 +1,6 @@
 package nedelosk.modularmachines.api.modular.handlers;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.IProducer;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
-import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;

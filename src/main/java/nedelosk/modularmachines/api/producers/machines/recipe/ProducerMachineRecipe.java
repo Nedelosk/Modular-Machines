@@ -2,8 +2,6 @@ package nedelosk.modularmachines.api.producers.machines.recipe;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
@@ -22,7 +20,6 @@ import nedelosk.modularmachines.api.producers.fluids.ITankData;
 import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.producers.machines.ProducerMachine;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeInput;

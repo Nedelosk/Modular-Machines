@@ -6,8 +6,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.api.gui.IGuiBase;
 import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.integration.IProducerWaila;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;

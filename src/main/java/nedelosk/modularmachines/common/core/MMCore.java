@@ -39,7 +39,7 @@ public class MMCore {
 		registerFluids();
 		ModularConfig.preInit();
 		pluginManager.registerPlugins();
-		pluginManager.preInit();
+		pluginManager.preInitPlugins();
 		BlockRegistry.preInit();
 		ItemRegistry.preInit();
 		ModularRegistry.preInit();
@@ -53,11 +53,11 @@ public class MMCore {
 	public void init() {
 		OreDictionaryManager.init();
 		RecipeManager.init();
-		pluginManager.init();
+		pluginManager.initPlugins();
 	}
 
 	public void postInit() {
-		pluginManager.postInit();
+		pluginManager.postInitPlugins();
 		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
 		ModularRegistry.postInit();
 	}
