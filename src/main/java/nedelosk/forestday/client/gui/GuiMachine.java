@@ -1,6 +1,6 @@
 package nedelosk.forestday.client.gui;
 
-import nedelosk.forestcore.api.gui.GuiBase;
+import nedelosk.forestcore.library.gui.GuiBase;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;

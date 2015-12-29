@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.forestcore.api.tile.TileBaseInventory;
+import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import net.minecraft.entity.player.InventoryPlayer;

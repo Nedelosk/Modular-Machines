@@ -3,8 +3,8 @@ package nedelosk.modularmachines.client.gui.assembler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import nedelosk.forestcore.api.gui.Button;
-import nedelosk.forestcore.api.gui.GuiBase;
+import nedelosk.forestcore.library.gui.Button;
+import nedelosk.forestcore.library.gui.GuiBase;
 import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;

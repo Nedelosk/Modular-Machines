@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.producers.machines.energyinfuser;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestcore.api.inventory.IContainerBase;
+import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
@@ -62,11 +62,6 @@ public class ProducerEnergyInfuser extends ProducerMachineRecipe {
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
 		return 4;
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 200;
 	}
 
 	@Override

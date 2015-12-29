@@ -1,7 +1,7 @@
 package nedelosk.forestday.common.plugins.minetweaker;
 
 import minetweaker.MineTweakerAPI;
-import nedelosk.forestcore.api.plugins.APlugin;
+import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.forestday.common.plugins.minetweaker.handler.WorkbenchRecipeHandler;
 
 public class PluginMineTweaker extends APlugin {

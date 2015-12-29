@@ -2,7 +2,7 @@ package nedelosk.forestday.common.plugins.waila;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import nedelosk.forestcore.api.plugins.APlugin;
+import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.plugins.waila.provider.ProviderTileCampfire;
 import cpw.mods.fml.common.Optional;

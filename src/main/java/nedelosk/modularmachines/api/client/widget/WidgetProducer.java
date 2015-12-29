@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.GuiBase;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.GuiBase;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.packets.PacketHandler;
@@ -21,7 +21,7 @@ import net.minecraft.util.StatCollector;
 
 public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends Widget<T> {
 
-	protected ResourceLocation widget = RenderUtils.getResourceLocation("modularmachines", "widgets", "gui");
+	protected ResourceLocation widget = RenderUtil.getResourceLocation("modularmachines", "widgets", "gui");
 	public int producer;
 	public int ID;
 
@@ -38,7 +38,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
-		RenderUtils.bindTexture(widget);
+		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
 		
 		if(gui.getTile().getModular().getFluidProducers().isEmpty())

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.utils.RenderUtil;
 
 public class WidgetFuelBar extends Widget {
 
@@ -25,7 +25,7 @@ public class WidgetFuelBar extends Widget {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
-		RenderUtils.bindTexture(widget);
+		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(pos.x + gui.getGuiLeft(), pos.y + gui.getGuiTop(), 0, 0, 12, 69);
 
 		int fuel = (this.fuel * 69) / this.fuelMax;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.integration.IProducerWaila;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
@@ -24,5 +24,8 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 	
 	@SideOnly(Side.CLIENT)
 	List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe);
+	
+	@SideOnly(Side.CLIENT)
+	String getFilePath(ModuleStack stack);
 
 }

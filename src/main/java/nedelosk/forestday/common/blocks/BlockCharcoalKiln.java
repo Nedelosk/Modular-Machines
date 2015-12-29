@@ -6,7 +6,7 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.utils.WorldUtils;
+import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.multiblocks.BlockMultiblockBase;
@@ -132,7 +132,7 @@ public class BlockCharcoalKiln extends BlockMultiblockBase {
 			if (!kiln.isConsumed)
 				list.add(kiln.type.wood);
 		}
-		WorldUtils.dropItem(world, x, y, z, list);
+		WorldUtil.dropItem(world, x, y, z, list);
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 

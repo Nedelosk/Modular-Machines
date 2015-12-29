@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.common.multiblocks;
 
-import nedelosk.forestcore.api.FluidTankBasic;
-import nedelosk.forestcore.utils.NBTUtils;
+import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
@@ -188,10 +188,10 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 
-		NBTUtils.writeTankToNBT("TankGas", nbt, tankGas);
-		NBTUtils.writeTankToNBT("TankAirHot", nbt, tankAirHot);
-		NBTUtils.writeTankToNBT("Tank", nbt, tank);
-		NBTUtils.writeTankToNBT("TankSlag", nbt, tankSlag);
+		NBTUtil.writeTankToNBT("TankGas", nbt, tankGas);
+		NBTUtil.writeTankToNBT("TankAirHot", nbt, tankAirHot);
+		NBTUtil.writeTankToNBT("Tank", nbt, tank);
+		NBTUtil.writeTankToNBT("TankSlag", nbt, tankSlag);
 
 		if (outputs != null) {
 			if (outputs[0] == null) {

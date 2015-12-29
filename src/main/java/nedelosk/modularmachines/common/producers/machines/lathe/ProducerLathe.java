@@ -5,10 +5,10 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.gui.WidgetProgressBar;
-import nedelosk.forestcore.api.inventory.IContainerBase;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.gui.WidgetProgressBar;
+import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.client.widget.WidgetButtonMode;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
@@ -96,11 +96,6 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 	@Override
 	public String getRecipeName(ModuleStack stack) {
 		return "Lathe";
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 95;
 	}
 
 	@Override

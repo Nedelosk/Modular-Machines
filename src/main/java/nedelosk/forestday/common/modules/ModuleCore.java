@@ -6,11 +6,12 @@ import java.util.Random;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestcore.api.modules.AModule;
-import nedelosk.forestcore.api.modules.IModuleManager;
-import nedelosk.forestcore.api.modules.manager.IBlockManager;
-import nedelosk.forestcore.api.modules.manager.IItemManager;
-import nedelosk.forestcore.utils.CraftingUtils;
+import nedelosk.forestcore.library.core.Registry;
+import nedelosk.forestcore.library.modules.AModule;
+import nedelosk.forestcore.library.modules.IModuleManager;
+import nedelosk.forestcore.library.modules.manager.IBlockManager;
+import nedelosk.forestcore.library.modules.manager.IItemManager;
+import nedelosk.forestcore.library.utils.CraftingUtil;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.ICampfireRecipe;
 import nedelosk.forestday.api.crafting.IWorkbenchRecipe;
@@ -23,7 +24,6 @@ import nedelosk.forestday.common.blocks.items.ItemBlockMachines;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.configs.ForestDayConfig;
-import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import nedelosk.forestday.common.items.base.ItemGearWood;
@@ -164,7 +164,7 @@ public class ModuleCore extends AModule {
 	}
 	
 	public static void removeRecipes(){
-		CraftingUtils.removeFurnaceRecipe(Items.brick);
+		CraftingUtil.removeFurnaceRecipe(Items.brick);
 	}
 	
 	public static void registerRecipes(){
@@ -246,7 +246,7 @@ public class ModuleCore extends AModule {
 	public static void addMachineRecipes(){
 		
 		//Furenace
-		CraftingUtils.removeAnyRecipe(new ItemStack(Blocks.furnace));
+		CraftingUtil.removeAnyRecipe(new ItemStack(Blocks.furnace));
 		addShapedRecipe(new ItemStack(Blocks.furnace), "SSS", "BHB", "BBB", 'S', "stone", 'B', Blocks.stonebrick);
 		
 		//Campfire
@@ -300,7 +300,7 @@ public class ModuleCore extends AModule {
 		@Override
 		public void register(Block block, Object... objects) {
 			this.block = block;
-			FRegistry.registerBlock(block, (Class<? extends ItemBlock>) objects[0], block.getUnlocalizedName().replace("tile.", ""), "fd");
+			Registry.registerBlock(block, (Class<? extends ItemBlock>) objects[0], block.getUnlocalizedName().replace("tile.", ""), "fd");
 		}
 
 		@Override
@@ -368,7 +368,7 @@ public class ModuleCore extends AModule {
 		@Override
 		public void register(Item item, Object... objects) {
 			this.item = item;
-			FRegistry.registerItem(item, item.getUnlocalizedName(), "fd");
+			Registry.registerItem(item, item.getUnlocalizedName(), "fd");
 		}
 
 		@Override

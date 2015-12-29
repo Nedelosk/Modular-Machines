@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
-import nedelosk.forestcore.api.inventory.ContainerBase;
+import nedelosk.forestcore.library.inventory.ContainerBase;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;

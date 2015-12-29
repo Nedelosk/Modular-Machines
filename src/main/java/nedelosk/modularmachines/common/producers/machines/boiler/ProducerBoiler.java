@@ -12,15 +12,17 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 	protected int fuelTotal;
 	protected int steam;
 	protected int water;
+	protected String name;
 	
 	public ProducerBoiler(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
 
-	public ProducerBoiler(String modifier, int inputsItem, int outputsItem, int inputsFluid, int outputsFluid, int speed, int steam, int water) {
-		super("Boiler" + modifier, inputsItem, outputsItem, inputsFluid, outputsFluid, speed);
+	public ProducerBoiler(String name, int inputsItem, int outputsItem, int inputsFluid, int outputsFluid, int speed, int steam, int water) {
+		super("Boiler" +name, inputsItem, outputsItem, inputsFluid, outputsFluid, speed);
 		this.steam = steam;
 		this.water = water;
+		this.name = name;
 	}
 	
 	@Override
@@ -31,6 +33,7 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		nbt.setInteger("FuelTotal", fuelTotal);
 		nbt.setInteger("Steam", steam);
 		nbt.setInteger("Water", water);
+		nbt.setString("Name", name);
 	}
 	
 	@Override
@@ -41,10 +44,16 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		fuelTotal = nbt.getInteger("FuelTotal");
 		steam = nbt.getInteger("Steam");
 		water = nbt.getInteger("Water");
+		name = nbt.getString("Name");
 	}
 	
 	@Override
 	public boolean useFluids(ModuleStack stack) {
 		return true;
+	}
+	
+	@Override
+	public String getFilePath(ModuleStack stack) {
+		return "boiler/" + name;
 	}
 }

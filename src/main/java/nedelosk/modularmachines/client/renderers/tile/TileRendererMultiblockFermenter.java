@@ -3,7 +3,7 @@ package nedelosk.modularmachines.client.renderers.tile;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.client.renderers.model.ModelFermenter;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -33,7 +33,7 @@ public class TileRendererMultiblockFermenter extends TileEntitySpecialRenderer {
 			if (((TileMultiblockBase) tile).pattern.tier == 3)
 				GL11.glRotated(90, 0F, 1F, 0F);
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-			RenderUtils.bindTexture(textureModel);
+			RenderUtil.bindTexture(textureModel);
 			GL11.glPushMatrix();
 			fermenter.render(null, 0, 0, 0, 0, 0, 0.0625F);
 			GL11.glPopMatrix();

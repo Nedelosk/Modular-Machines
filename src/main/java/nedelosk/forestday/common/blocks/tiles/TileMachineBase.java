@@ -2,7 +2,7 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import com.mojang.authlib.GameProfile;
 
-import nedelosk.forestcore.api.tile.TileBaseInventory;
+import nedelosk.forestcore.library.tile.TileBaseInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 

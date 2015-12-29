@@ -2,9 +2,9 @@ package nedelosk.forestday.common.items.materials;
 
 import java.util.List;
 
+import nedelosk.forestcore.library.core.Registry;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
-import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.forestday.common.items.base.ItemForest;
 import nedelosk.forestday.common.modules.ModuleCore;
 import net.minecraft.block.Block;
@@ -117,7 +117,7 @@ public class ItemCampfire extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return FRegistry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage(), "fd");
 	}
 
 }

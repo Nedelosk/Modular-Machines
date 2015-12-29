@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.plugins;
 
-import nedelosk.forestcore.api.plugins.APluginManager;
+import nedelosk.forestcore.library.plugins.APluginManager;
 import nedelosk.modularmachines.plugins.mt.PluginMineTweaker3;
 import nedelosk.modularmachines.plugins.tconstruct.PluginTConstruct;
 import nedelosk.modularmachines.plugins.waila.PluginWaila;

@@ -50,7 +50,7 @@ public abstract class Module implements IModule {
 	public String getRegistryName() {
 		return "module" + getModuleName() + moduleModifier;
 	}
-
+	
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return null;

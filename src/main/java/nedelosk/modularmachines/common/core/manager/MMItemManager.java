@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.core.manager;
 
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import nedelosk.modularmachines.common.items.ItemComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ public enum MMItemManager {
 
 	public void registerItem(Item item) {
 		this.item = item;
-		FRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
+		Registry.registerItem(item, item.getUnlocalizedName().replace("item.", ""), "mm");
 	}
 
 	public void addMetaData(int color, String name, String... oreDict) {

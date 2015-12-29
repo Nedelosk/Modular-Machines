@@ -5,9 +5,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.inventory.IContainerBase;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
@@ -88,13 +88,14 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if(modular.getManager().getFluidHandler() != null){
 			if(fuel > 0){
-				fuel--;
-				modular.getManager().getFluidHandler().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true);
+				int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack, modular);
+				if(fluid >= steam)
+					fuel--;
 			}else{
 				RecipeInput[] inputs = getInputs(modular, stack);
 				if(inputs != null){
-					if(inputs[1].isItem() && TileEntityFurnace.getItemBurnTime(inputs[1].item) > 0){
-						int burnTime = TileEntityFurnace.getItemBurnTime(inputs[1].item);
+					if(inputs[0].isItem() && TileEntityFurnace.getItemBurnTime(inputs[0].item) > 0){
+						int burnTime = TileEntityFurnace.getItemBurnTime(inputs[0].item);
 						if(!removeInputs(modular, stack, 1))
 							return;
 						fuel = burnTime;
@@ -117,12 +118,13 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 			RecipeInput input = getInputs(modular, stack)[i];
 			if (input != null) {
 				if (!input.isFluid()) {
-					if (input.isOre())
+					if (input.isOre()){
 						if(tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
 							return false;
-					else
+					} else {
 						if(tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
 							return false;
+					}
 					continue;
 				} else if(input.isFluid()) {
 					if(tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), true) == null)
@@ -142,16 +144,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 
 	@Override
 	public RecipeInput[] getInputs(IModular modular, ModuleStack stack) {
-		RecipeInput[] fluids = getInputFluids(modular, stack);
-		RecipeInput[] items = getInputItems(modular, stack);
-		if(fluids != null && fluids.length > 0 && items != null && items.length > 0)
-			return new RecipeInput[]{fluids[0], items[0]};
-		return null;
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 10;
+		return getInputItems(modular, stack);
 	}
 	
 	@Override

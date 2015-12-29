@@ -2,16 +2,16 @@ package nedelosk.forestday.common.modules;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import nedelosk.forestcore.api.modules.AModule;
-import nedelosk.forestcore.api.modules.IModuleManager;
-import nedelosk.forestcore.api.modules.manager.IBlockManager;
+import nedelosk.forestcore.library.core.Registry;
+import nedelosk.forestcore.library.modules.AModule;
+import nedelosk.forestcore.library.modules.IModuleManager;
+import nedelosk.forestcore.library.modules.manager.IBlockManager;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.IWoodTypeManager;
 import nedelosk.forestday.common.blocks.BlockCharcoalKiln;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.configs.ForestDayConfig;
-import nedelosk.forestday.common.core.registry.FRegistry;
 import nedelosk.forestday.common.items.blocks.ItemBlockForestDay;
 import nedelosk.forestday.common.modules.ModuleCore.ItemManager;
 import nedelosk.forestday.common.multiblocks.MultiblockCharcoalKiln;
@@ -75,7 +75,7 @@ public class ModuleCoal extends AModule {
 		@Override
 		public void register(Block block, Object... objects) {
 			this.block = block;
-			FRegistry.registerBlock(block, (Class<? extends ItemBlock>) objects[0], block.getUnlocalizedName().replace("tile.", ""), "fd");
+			Registry.registerBlock(block, (Class<? extends ItemBlock>) objects[0], block.getUnlocalizedName().replace("tile.", ""), "fd");
 		}
 
 		@Override

@@ -5,8 +5,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
@@ -150,6 +150,11 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@Override
 	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
 		return 0;
+	}
+	
+	@Override
+	public String getFilePath(ModuleStack stack) {
+		return getModifier(stack);
 	}
 	
 }

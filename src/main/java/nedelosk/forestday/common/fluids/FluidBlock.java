@@ -5,7 +5,7 @@ import java.util.Locale;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -60,7 +60,7 @@ public class FluidBlock extends BlockFluidClassic {
 
 	@Override
 	public String getUnlocalizedName() {
-		return FRegistry.setUnlocalizedBlockName(fluidName, "nc");
+		return Registry.setUnlocalizedBlockName(fluidName, "nc");
 	}
 
 }

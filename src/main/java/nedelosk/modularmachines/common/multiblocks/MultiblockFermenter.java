@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.FluidTankBasic;
-import nedelosk.forestcore.utils.NBTUtils;
+import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.modules.ModuleCore;
@@ -150,9 +150,9 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		NBTUtils.writeTankToNBT("Tank", nbt, tank);
-		NBTUtils.writeTankToNBT("Tank2", nbt, tank2);
-		NBTUtils.writeTankToNBT("TankOut", nbt, tankOut);
+		NBTUtil.writeTankToNBT("Tank", nbt, tank);
+		NBTUtil.writeTankToNBT("Tank2", nbt, tank2);
+		NBTUtil.writeTankToNBT("TankOut", nbt, tankOut);
 		if (output != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			output.writeToNBT(nbtTag);

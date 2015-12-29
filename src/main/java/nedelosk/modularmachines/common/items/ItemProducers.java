@@ -1,10 +1,16 @@
 package nedelosk.modularmachines.common.items;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.google.common.collect.Maps;
 
 import akka.japi.Pair;
+import nedelosk.forestcore.library.utils.MapUtil;
 import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.special.IProducerWithItem;
@@ -22,7 +28,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemProducers extends Item {
 
-	private static HashMap<Pair<Type, IModule>, ItemStack> subItems = Maps.newHashMap();
+	private static LinkedHashMap<Pair<Type, IModule>, ItemStack> subItems = Maps.newLinkedHashMap();
 	private IIcon[] icons;
 
 	public ItemProducers() {
@@ -56,8 +62,23 @@ public class ItemProducers extends Item {
 		nbtTag.setString("ModuleName", moduleStack.getModule().getModuleName());
 		itemStack.setTagCompound(nbtTag);
 		subItems.put(new Pair(moduleStack.getType(), moduleStack.getModule()), itemStack);
+		subItems = (LinkedHashMap<Pair<Type, IModule>, ItemStack>) MapUtil.sort(subItems, new ModuleComparator());
 		moduleStack.setItemStack(itemStack);
 		return moduleStack;
+	}
+	
+	private static class ModuleComparator implements Comparator<Map.Entry<Pair<Type, IModule>, ItemStack>>{
+
+		@Override
+		public int compare(Entry<Pair<Type, IModule>, ItemStack> o1, Entry<Pair<Type, IModule>, ItemStack> o2) {
+			if(o1.getKey().first().getTier() > o2.getKey().first().getTier())
+				return 1;
+			else if(o1.getKey().first().getTier() < o2.getKey().first().getTier())
+				return -1;
+			else
+				return 0;
+		}
+		
 	}
 
 	@Override

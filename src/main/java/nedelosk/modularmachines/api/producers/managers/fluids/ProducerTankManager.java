@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.FluidTankBasic;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.gui.WidgetFluidTank;
-import nedelosk.forestcore.api.inventory.IContainerBase;
+import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.gui.WidgetFluidTank;
+import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.client.gui.ButtonTabTankManager;
 import nedelosk.modularmachines.api.client.widget.WidgetDirection;
 import nedelosk.modularmachines.api.client.widget.WidgetProducer;
@@ -149,7 +149,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
 		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(stackItem);
 		if(stack != null && stack.getModule() == Modules.TANK && stack.getProducer() != null && stack.getProducer() instanceof IProducerTank){
-			if(mergeItemStack(stackItem, 36, 39, false, container))
+			if(mergeItemStack(stackItem, 36, container.inventorySlots.size(), false, container))
 				return true;
 		}
 		return false;
@@ -231,7 +231,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 	
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill, ModuleStack stack, IModular modular) {
-		if (!doFill || resource == null)
+		if (resource == null)
 			return 0;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
@@ -259,7 +259,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain, ModuleStack stack, IModular modular) {
-		if (!doDrain || resource == null)
+		if (resource == null)
 			return null;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
@@ -285,7 +285,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain, ModuleStack stack, IModular modular) {
-		if (!doDrain || maxDrain < 0)
+		if (maxDrain < 0)
 			return null;
 		for(int i = 0;i < datas.length;i++){
 			TankData data = datas[i];
@@ -391,6 +391,11 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 		public SlotTank(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_, ModuleStack stack, int ID) {
 			super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_, stack);
 			this.ID = ID;
+		}
+		
+		@Override
+		public int getSlotStackLimit() {
+			return 1;
 		}
 		
 		@Override

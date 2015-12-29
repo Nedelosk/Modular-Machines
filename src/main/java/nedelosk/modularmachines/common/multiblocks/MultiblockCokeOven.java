@@ -2,8 +2,8 @@ package nedelosk.modularmachines.common.multiblocks;
 
 import java.util.ArrayList;
 
-import nedelosk.forestcore.api.FluidTankBasic;
-import nedelosk.forestcore.utils.NBTUtils;
+import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
@@ -299,8 +299,8 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		NBTUtils.writeTankToNBT("Tank", nbt, tank);
-		NBTUtils.writeTankToNBT("TankGas", nbt, tankGas);
+		NBTUtil.writeTankToNBT("Tank", nbt, tank);
+		NBTUtil.writeTankToNBT("TankGas", nbt, tankGas);
 		if (output != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			output.writeToNBT(nbtTag);

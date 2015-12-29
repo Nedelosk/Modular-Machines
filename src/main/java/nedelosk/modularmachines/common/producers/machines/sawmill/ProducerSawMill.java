@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.producers.machines.sawmill;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestcore.api.inventory.IContainerBase;
+import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
@@ -59,11 +59,6 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	@Override
 	public int getSizeInventory(ModuleStack stack) {
 		return 3;
-	}
-
-	@Override
-	public int getSpeedModifier() {
-		return 85;
 	}
 
 	@Override

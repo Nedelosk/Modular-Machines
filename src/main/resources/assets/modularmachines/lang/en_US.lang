@@ -24,6 +24,8 @@ moduleCentrifuge.name=Centrifuge
 modulePulverizer.name=Pulverizer
 moduleSawMill.name=Saw Mill
 moduleLathe.name=Lathe
+moduleBoiler.name=Boiler
+moduleGenerator.name=Generator
 
 ####################################
 Producers
@@ -33,6 +35,8 @@ producerCentrifuge.name=Centrifuge
 producerPulverizer.name=Pulverizer
 producerSawMill.name=Saw Mill
 producerLathe.name=Lathe
+producerBoilerBurning.name=Burning Boiler
+producerGeneratorBurning.name=Burning Generator
 
 ####################################
 Types

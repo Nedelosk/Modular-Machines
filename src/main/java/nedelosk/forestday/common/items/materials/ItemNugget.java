@@ -4,7 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import nedelosk.forestday.common.items.base.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -52,7 +52,7 @@ public class ItemNugget extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return FRegistry.setUnlocalizedItemName("nugget." + modID + "." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("nugget." + modID + "." + itemstack.getItemDamage(), "fd");
 	}
 
 }

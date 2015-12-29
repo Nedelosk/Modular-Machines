@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.items.base;
 
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,6 +26,6 @@ public class ItemForest extends Item {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return FRegistry.setUnlocalizedItemName(unl + ((hasMeta) ? itemstack.getItemDamage() : ""), "fd");
+		return Registry.setUnlocalizedItemName(unl + ((hasMeta) ? itemstack.getItemDamage() : ""), "fd");
 	}
 }

@@ -1,6 +1,6 @@
 package nedelosk.forestday.plugins;
 
-import nedelosk.forestcore.api.plugins.APluginManager;
+import nedelosk.forestcore.library.plugins.APluginManager;
 import nedelosk.forestday.common.plugins.minetweaker.PluginMineTweaker;
 import nedelosk.forestday.common.plugins.waila.PluginWaila;
 

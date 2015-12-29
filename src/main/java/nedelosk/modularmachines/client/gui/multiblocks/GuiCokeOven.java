@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
-import nedelosk.forestcore.api.gui.GuiBase;
-import nedelosk.forestcore.api.gui.WidgetFluidTank;
+import nedelosk.forestcore.library.gui.GuiBase;
+import nedelosk.forestcore.library.gui.WidgetFluidTank;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
 import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;

@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.fluids;
 
-import nedelosk.forestcore.utils.ItemUtils;
+import nedelosk.forestcore.library.utils.ItemUtil;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class FluidHelper {
 		ItemStack output = inv.getStackInSlot(outputSlot);
 		ItemStack filled = getFilledContainer(fluidToFill, input);
 		if (filled != null && (output == null
-				|| (output.stackSize < output.getMaxStackSize() && ItemUtils.isItemEqual(filled, output)))) {
+				|| (output.stackSize < output.getMaxStackSize() && ItemUtil.isItemEqual(filled, output)))) {
 			FluidStack fluidInContainer = getFluidStackInContainer(filled);
 			FluidStack drain = fluidHandler.drain(ForgeDirection.UNKNOWN, fluidInContainer, false);
 			if (drain != null && drain.amount == fluidInContainer.amount) {
@@ -44,7 +44,7 @@ public class FluidHelper {
 			FluidStack fluidInContainer = getFluidStackInContainer(input);
 			ItemStack emptyItem = input.getItem().getContainerItem(input);
 			if (fluidInContainer != null && (emptyItem == null || output == null
-					|| (output.stackSize < output.getMaxStackSize() && ItemUtils.isItemEqual(output, emptyItem)))) {
+					|| (output.stackSize < output.getMaxStackSize() && ItemUtil.isItemEqual(output, emptyItem)))) {
 				int used = fluidHandler.fill(ForgeDirection.UNKNOWN, fluidInContainer, false);
 				if (used >= fluidInContainer.amount) {
 					fluidHandler.fill(ForgeDirection.UNKNOWN, fluidInContainer, true);

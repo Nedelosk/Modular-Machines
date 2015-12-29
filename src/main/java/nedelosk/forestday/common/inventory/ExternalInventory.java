@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.inventory;
 
-import nedelosk.forestcore.api.INBTTagable;
+import nedelosk.forestcore.library.INBTTagable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

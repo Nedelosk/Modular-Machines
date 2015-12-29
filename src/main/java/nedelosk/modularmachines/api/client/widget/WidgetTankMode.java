@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends Widget<T> {
 
-	protected ResourceLocation widget = RenderUtils.getResourceLocation("modularmachines", "widgets", "gui");
+	protected ResourceLocation widget = RenderUtil.getResourceLocation("modularmachines", "widgets", "gui");
 	public TankMode mode;
 	public int ID;
 
@@ -35,7 +35,7 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
-		RenderUtils.bindTexture(widget);
+		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
 		GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -50,7 +50,7 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append(mode.name().charAt(0));
-		RenderUtils.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
+		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

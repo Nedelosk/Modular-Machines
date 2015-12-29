@@ -2,7 +2,7 @@ package nedelosk.modularmachines.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.Button;
+import nedelosk.forestcore.library.gui.Button;
 import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;

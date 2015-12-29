@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.modules;
 
-import nedelosk.forestcore.api.modules.AModuleManager;
+import nedelosk.forestcore.library.modules.AModuleManager;
 
 public class ModuleManager extends AModuleManager {
 

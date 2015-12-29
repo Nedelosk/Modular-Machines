@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.GuiBase;
-import nedelosk.forestcore.api.tile.TileBaseInventory;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.GuiBase;
+import nedelosk.forestcore.library.tile.TileBaseInventory;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -92,15 +92,15 @@ public class GuiModularMachine<T extends TileBaseInventory & IModularTileEntity>
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if (gui != null && gui.getProducer().getCustomGui(tile.getModular(), gui) != null)
-			RenderUtils.bindTexture(gui.getProducer().getCustomGui(tile.getModular(), gui));
+			RenderUtil.bindTexture(gui.getProducer().getCustomGui(tile.getModular(), gui));
 		else
-			RenderUtils.bindTexture(guiTexture);
+			RenderUtil.bindTexture(guiTexture);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-		RenderUtils.bindTexture(new ResourceLocation(getModName(), "textures/gui/inventory_player.png"));
+		RenderUtil.bindTexture(new ResourceLocation(getModName(), "textures/gui/inventory_player.png"));
 		drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - 83, 7, 83, 162, 76);
 
-		RenderUtils.bindTexture(guiTexture);
+		RenderUtil.bindTexture(guiTexture);
 		renderProgressBar();
 		gui.getProducer().updateGui(this, guiLeft, guiTop, tile.getModular(), gui);
 		widgetManager.drawWidgets();

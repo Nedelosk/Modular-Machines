@@ -6,13 +6,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class TabForestday extends CreativeTabs {
+public class TabForestDay extends CreativeTabs {
 
-	public static CreativeTabs tabForestdayBlocks = Tabs.tabForestday = new TabForestday(0, "forestday");
+	public static CreativeTabs tabForestdayBlocks = Tabs.tabForestday = new TabForestDay(0, "forestday");
 
 	private final int tabIcon;
 
-	public TabForestday(int tabIcon, String label) {
+	public TabForestDay(int tabIcon, String label) {
 		super(label);
 		this.tabIcon = tabIcon;
 	}

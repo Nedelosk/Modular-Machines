@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.items.base;
 
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import nedelosk.forestday.common.modules.ModuleCore;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.block.Block;
@@ -15,7 +15,7 @@ public class ItemWoodBucket extends ItemBucket {
 
 	public ItemWoodBucket(Block contents, String name) {
 		super(contents);
-		setUnlocalizedName(FRegistry.setUnlocalizedItemName(name, "fd"));
+		setUnlocalizedName(Registry.setUnlocalizedItemName(name, "fd"));
 		setTextureName("forestday:bucket.wood." + contents.getUnlocalizedName().replaceAll("tile.", ""));
 		setCreativeTab(CreativeTabs.tabMisc);
 	}

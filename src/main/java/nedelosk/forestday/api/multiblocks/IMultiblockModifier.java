@@ -1,6 +1,6 @@
 package nedelosk.forestday.api.multiblocks;
 
-import nedelosk.forestcore.api.INBTTagable;
+import nedelosk.forestcore.library.INBTTagable;
 
 public interface IMultiblockModifier extends INBTTagable {
 

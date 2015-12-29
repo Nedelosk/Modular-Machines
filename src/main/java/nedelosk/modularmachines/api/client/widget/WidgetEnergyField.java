@@ -2,9 +2,9 @@ package nedelosk.modularmachines.api.client.widget;
 
 import java.util.ArrayList;
 
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -39,7 +39,7 @@ public class WidgetEnergyField extends Widget {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
-		RenderUtils.bindTexture(widget);
+		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
 
 		int energy = (this.storage.getEnergyStored() * 66) / this.storage.getMaxEnergyStored();

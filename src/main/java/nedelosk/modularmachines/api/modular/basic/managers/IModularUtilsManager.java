@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
 import cofh.api.energy.IEnergyHandler;
-import nedelosk.forestcore.api.INBTTagable;
+import nedelosk.forestcore.library.INBTTagable;
 import nedelosk.modularmachines.api.modular.IModular;
 import net.minecraftforge.fluids.IFluidHandler;
 

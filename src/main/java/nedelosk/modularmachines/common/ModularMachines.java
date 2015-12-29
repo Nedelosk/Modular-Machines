@@ -8,7 +8,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
 import nedelosk.modularmachines.common.config.ModularConfig;
@@ -37,19 +36,18 @@ public class ModularMachines {
 		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
 		config = new Configuration(configFileModularMachines);
 		configFolder = configFolderModularMachines;
-		registry.preInit();
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
+		registry.preInit(instance, event);
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
-		registry.init();
+		registry.init(instance, event);
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		registry.postInit();
+		registry.postInit(instance, event);
 		ModularConfig.postInit();
 	}
 

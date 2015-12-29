@@ -6,9 +6,9 @@ import java.util.Locale;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import nedelosk.forestcore.api.gui.Button;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.Button;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -24,7 +24,7 @@ import net.minecraft.util.StatCollector;
 
 public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtils.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
 
 	public ModuleStack stack;
 	public boolean right;
@@ -43,8 +43,8 @@ public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 
 		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
-		RenderUtils.bindTexture(guiTextureOverlay);
-		RenderUtils.drawTexturedModalRect(xPosition, yPosition, 1, ((IModularTileEntity)machine.getTile()).getModular().getGuiManager().getPage().equals(stack.getModule().getName(stack, false)) ? 0 : 28, right ? 214 : 235, 28, 21);
+		RenderUtil.bindTexture(guiTextureOverlay);
+		RenderUtil.drawTexturedModalRect(xPosition, yPosition, 1, ((IModularTileEntity)machine.getTile()).getModular().getGuiManager().getPage().equals(stack.getModule().getName(stack, false)) ? 0 : 28, right ? 214 : 235, 28, 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		ItemStack item = stack.getItem();

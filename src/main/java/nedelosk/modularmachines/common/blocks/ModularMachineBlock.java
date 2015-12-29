@@ -3,7 +3,7 @@ package nedelosk.modularmachines.common.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestcore.utils.WorldUtils;
+import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
@@ -66,13 +66,13 @@ public class ModularMachineBlock extends ModularBlock {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof IModularTileEntity) {
 			IModularTileEntity modular = (IModularTileEntity) tile;
-			EntityPlayer player = WorldUtils.getPlayer(world, modular.getOwner());
+			EntityPlayer player = WorldUtil.getPlayer(world, modular.getOwner());
 			if (player == null || !player.capabilities.isCreativeMode) {
 				ItemStack stack = new ItemStack(block, 1, meta);
 				NBTTagCompound nbtTag = new NBTTagCompound();
 				modular.writeToNBT(nbtTag);
 				stack.setTagCompound(nbtTag);
-				WorldUtils.dropItem(world, x, y, z, stack);
+				WorldUtil.dropItem(world, x, y, z, stack);
 			}
 		}
 		super.breakBlock(world, x, y, z, block, meta);

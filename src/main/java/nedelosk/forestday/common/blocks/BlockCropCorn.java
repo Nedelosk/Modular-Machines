@@ -2,7 +2,7 @@ package nedelosk.forestday.common.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.utils.WorldUtils;
+import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.forestday.common.modules.ModuleCore;
 
 import java.util.ArrayList;
@@ -156,7 +156,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 		} else if (world.getBlock(x, y - 1, z) != this && world.getBlock(x, y + 1, z) != this) {
 			ret.add(new ItemStack(getFruit(), 1));
 		}
-		WorldUtils.dropItem(world, x, y, z, ret);
+		WorldUtil.dropItem(world, x, y, z, ret);
 		if (world.getBlock(x, y - 1, z) == this)
 			world.setBlockToAir(x, y - 1, z);
 		if (world.getBlock(x, y + 1, z) == this)

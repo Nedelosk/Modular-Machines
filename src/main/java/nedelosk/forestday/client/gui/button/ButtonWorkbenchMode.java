@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -32,15 +32,15 @@ public class ButtonWorkbenchMode extends GuiButton {
 
 		int i = (mode == Mode.stop_processing) ? 20 : 0;
 		GL11.glPushMatrix();
-		RenderUtils.bindTexture(texture);
-		RenderUtils.drawTexturedModalRect(xPosition, yPosition, zLevel * 2, 0 + i, 0, 20, 20, 1F / 40F, 1F / 20F);
+		RenderUtil.bindTexture(texture);
+		RenderUtil.drawTexturedModalRect(xPosition, yPosition, zLevel * 2, 0 + i, 0, 20, 20, 1F / 40F, 1F / 20F);
 		GL11.glPopMatrix();
 
 		if (mode != null && inside) {
 			ArrayList tooltip = new ArrayList();
 			tooltip.add(StatCollector.translateToLocal("forestday.tooltip.workbanch.mode." + mode.ordinal()));
 			int tooltipY = (tooltip.size() - 1) * 10;
-			RenderUtils.renderTooltip(mx, my + tooltipY, tooltip);
+			RenderUtil.renderTooltip(mx, my + tooltipY, tooltip);
 		}
 	}
 

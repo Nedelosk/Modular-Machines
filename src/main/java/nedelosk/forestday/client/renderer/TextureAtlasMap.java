@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import org.apache.logging.log4j.Level;
 
-import nedelosk.forestcore.api.Log;
+import nedelosk.forestcore.library.Log;
 
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;

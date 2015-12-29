@@ -3,7 +3,7 @@ package nedelosk.modularmachines.plugins.waila;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import nedelosk.forestcore.api.plugins.APlugin;
+import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
 import nedelosk.modularmachines.common.config.ModularConfig;
 import nedelosk.modularmachines.plugins.waila.provider.ProviderModular;

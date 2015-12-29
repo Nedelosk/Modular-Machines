@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.gui.Button;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.gui.Button;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ButtonTabTankManager extends Button<IModularTileEntity<IModular>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtils.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
 
 	public ModuleStack<IModule, IProducerTankManager> stack;
 	public boolean down;
@@ -42,9 +42,9 @@ public class ButtonTabTankManager extends Button<IModularTileEntity<IModular>> {
 
 		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
 		IProducerTankManager manager = stack.getProducer();
-		RenderUtils.bindTexture(guiTextureOverlay);
+		RenderUtil.bindTexture(guiTextureOverlay);
 		machine.drawTexturedModalRect(xPosition, yPosition, manager.getTab() == tabID ? 74 : 103, down ? 237 : 218, 29, 19);
-		RenderUtils.bindTexture(RenderUtils.getResourceLocation("modularmachines", "widgets", "gui"));
+		RenderUtil.bindTexture(RenderUtil.getResourceLocation("modularmachines", "widgets", "gui"));
 		machine.drawTexturedModalRect(xPosition, yPosition, 0, 18 + tabID * 18, 18, 18);
 		
 		GL11.glEnable(GL11.GL_BLEND);

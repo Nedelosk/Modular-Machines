@@ -1,6 +1,6 @@
 package nedelosk.forestday.common.inventory;
 
-import nedelosk.forestcore.api.inventory.ContainerBase;
+import nedelosk.forestcore.library.inventory.ContainerBase;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.slots.SlotOutput;

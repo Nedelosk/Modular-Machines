@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.common.inventory.multiblock;
 
-import nedelosk.forestcore.api.inventory.ContainerBase;
+import nedelosk.forestcore.library.inventory.ContainerBase;
 import nedelosk.forestday.common.inventory.slots.SlotOutput;
 import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;

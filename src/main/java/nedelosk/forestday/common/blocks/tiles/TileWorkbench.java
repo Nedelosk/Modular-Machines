@@ -2,7 +2,7 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import java.util.ArrayList;
 
-import nedelosk.forestcore.utils.ItemUtils;
+import nedelosk.forestcore.library.utils.ItemUtil;
 import nedelosk.forestday.api.crafting.ForestdayCrafting;
 import nedelosk.forestday.api.crafting.ITool;
 import nedelosk.forestday.client.gui.GuiWorkbench;
@@ -155,7 +155,7 @@ public class TileWorkbench extends TileMachineBase {
 
 	public boolean containsStack(ArrayList<ItemStack> outputs, ItemStack stackOutput) {
 		for (ItemStack stack : outputs) {
-			if (ItemUtils.isItemEqual(stack, stackOutput))
+			if (ItemUtil.isItemEqual(stack, stackOutput))
 				return true;
 		}
 		return false;

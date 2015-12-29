@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.client.gui.multiblocks;
 
-import nedelosk.forestcore.api.gui.GuiBase;
-import nedelosk.forestcore.api.gui.WidgetFluidTank;
+import nedelosk.forestcore.library.gui.GuiBase;
+import nedelosk.forestcore.library.gui.WidgetFluidTank;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
 import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
 import net.minecraft.client.gui.FontRenderer;

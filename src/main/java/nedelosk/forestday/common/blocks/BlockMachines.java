@@ -3,7 +3,7 @@ package nedelosk.forestday.common.blocks;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import nedelosk.forestcore.utils.WorldUtils;
+import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.client.proxy.ClientProxy;
 import nedelosk.forestday.common.ForestDay;
@@ -48,7 +48,7 @@ public class BlockMachines extends BlockContainerForest {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
 		if (!world.isRemote) {
-			WorldUtils.dropItems(world, x, y, z);
+			WorldUtil.dropItems(world, x, y, z);
 		}
 		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
 	}

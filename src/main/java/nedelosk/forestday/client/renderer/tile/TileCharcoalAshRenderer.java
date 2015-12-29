@@ -2,7 +2,7 @@ package nedelosk.forestday.client.renderer.tile;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.api.utils.RenderUtils;
+import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -27,7 +27,7 @@ public class TileCharcoalAshRenderer extends TileEntitySpecialRenderer {
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 
-		RenderUtils.bindBlockTexture();
+		RenderUtil.bindBlockTexture();
 
 		IIcon dirtIcon = /*
 							 * FBlocks.Multiblock_Charcoal_Kiln.block().getIcon(0,

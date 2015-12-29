@@ -7,9 +7,9 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.gui.IGuiBase;
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.gui.WidgetProgressBar;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -293,6 +293,4 @@ public abstract class ProducerMachineRecipe extends ProducerMachine implements I
 	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
 		return fluidOutputs;
 	}
-
-	public abstract int getSpeedModifier();
 }

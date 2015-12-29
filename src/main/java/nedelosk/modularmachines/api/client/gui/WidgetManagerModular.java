@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.client.gui;
 
-import nedelosk.forestcore.api.gui.Widget;
-import nedelosk.forestcore.api.gui.WidgetManager;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.gui.WidgetManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.gui.IProducerGui;

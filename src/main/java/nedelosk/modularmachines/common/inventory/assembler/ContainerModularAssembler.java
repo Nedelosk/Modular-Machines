@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.api.inventory.ContainerBase;
+import nedelosk.forestcore.library.inventory.ContainerBase;
 import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.modular.basic.IModularItem;
 import nedelosk.modularmachines.api.packets.PacketHandler;

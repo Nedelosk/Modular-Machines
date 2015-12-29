@@ -11,14 +11,16 @@ public abstract class ProducerGenerator extends ProducerMachineRecipe implements
 	protected int fuel;
 	protected int fuelTotal;
 	protected int energy;
+	protected String name;
 	
 	public ProducerGenerator(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
 	}
 
-	public ProducerGenerator(String modifier, int inputs, int outputs, int speed, int energy) {
-		super("Generator" + modifier, inputs, outputs, speed);
+	public ProducerGenerator(String name, int inputs, int outputs, int speed, int energy) {
+		super("Generator" + name, inputs, outputs, speed);
 		this.energy = energy;
+		this.name = name;
 	}
 	
 	@Override
@@ -28,6 +30,7 @@ public abstract class ProducerGenerator extends ProducerMachineRecipe implements
 		nbt.setInteger("Fuel", fuel);
 		nbt.setInteger("FuelTotal", fuelTotal);
 		nbt.setInteger("Energy", energy);
+		nbt.setString("Name", name);
 	}
 	
 	@Override
@@ -37,6 +40,12 @@ public abstract class ProducerGenerator extends ProducerMachineRecipe implements
 		fuel = nbt.getInteger("Fuel");
 		fuelTotal = nbt.getInteger("FuelTotal");
 		energy = nbt.getInteger("Energy");
+		name = nbt.getString("Name");
+	}
+	
+	@Override
+	public String getFilePath(ModuleStack stack) {
+		return "generator/" + name;
 	}
 
 }

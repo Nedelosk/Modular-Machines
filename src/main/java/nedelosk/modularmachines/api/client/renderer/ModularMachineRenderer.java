@@ -12,6 +12,7 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
 import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
+import nedelosk.modularmachines.api.producers.machines.IProducerMachine;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.client.Minecraft;
@@ -423,14 +424,14 @@ public class ModularMachineRenderer {
 		public ModelBase model = new ModelBase() {
 		};
 
-		public MachineRenderer(ModuleStack stack) {
+		public MachineRenderer(ModuleStack<IModule, IProducerMachine> stack) {
 			this.stack = stack;
 			
 	        Machine_Front = new ModelRenderer(model, 0, 0);
 	        Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);
 	        Machine_Front.addBox(0.0F, 0.0F, 0.0F, 13, 10, 1, 0.0F);
 	        
-	        textureMachine = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH), "producer/" + stack.getProducer().getModifier(stack).toLowerCase(Locale.ENGLISH) + "/", ".png");
+	        textureMachine = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH), "producer/" + stack.getProducer().getFilePath(stack).toLowerCase(Locale.ENGLISH) + "/", ".png");
 		}
 
 		@Override

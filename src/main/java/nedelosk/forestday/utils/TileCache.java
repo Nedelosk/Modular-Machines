@@ -1,6 +1,6 @@
 package nedelosk.forestday.utils;
 
-import nedelosk.forestcore.utils.WorldUtils;
+import nedelosk.forestcore.library.utils.WorldUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -14,7 +14,7 @@ public final class TileCache {
 	}
 
 	public TileEntity searchSide(ForgeDirection side) {
-		return WorldUtils.getTileEntityOnSide(source.getWorldObj(), source.xCoord, source.yCoord, source.zCoord, side);
+		return WorldUtil.getTileEntityOnSide(source.getWorldObj(), source.xCoord, source.yCoord, source.zCoord, side);
 	}
 
 	public void refresh() {
@@ -34,7 +34,7 @@ public final class TileCache {
 	public TileEntity getTileOnSide(ForgeDirection side) {
 		int s = side.ordinal();
 		if (cache[s] != null)
-			if (cache[s].isInvalid() || !WorldUtils.areCoordinatesOnSide(source.xCoord, source.yCoord, source.zCoord,
+			if (cache[s].isInvalid() || !WorldUtil.areCoordinatesOnSide(source.xCoord, source.yCoord, source.zCoord,
 					side, cache[s].xCoord, cache[s].yCoord, cache[s].zCoord))
 				setTile(s, null);
 			else

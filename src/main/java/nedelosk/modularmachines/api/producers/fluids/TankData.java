@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.producers.fluids;
 
-import nedelosk.forestcore.api.FluidTankBasic;
+import nedelosk.forestcore.library.FluidTankBasic;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 

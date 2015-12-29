@@ -4,7 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestday.common.core.registry.FRegistry;
+import nedelosk.forestcore.library.core.Registry;
 import nedelosk.modularmachines.common.items.ModularItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -54,7 +54,7 @@ public class ItemDusts extends ModularItem {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return FRegistry.setUnlocalizedItemName("dust" + uln + "." + itemstack.getItemDamage(), "mm");
+		return Registry.setUnlocalizedItemName("dust" + uln + "." + itemstack.getItemDamage(), "mm");
 	}
 
 }

@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.producers.fluids;
 
-import nedelosk.forestcore.api.FluidTankBasic;
-import nedelosk.forestcore.api.INBTTagable;
+import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.INBTTagable;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public interface ITankData extends INBTTagable {

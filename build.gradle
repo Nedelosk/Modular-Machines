@@ -81,9 +81,17 @@ task sourceJar(type: Jar, dependsOn:classes) {
     from sourceSets.main.allJava
 }
 
+task libJar(type: Jar) {
+    from(sourceSets.main.java) {
+        include "nedelosk/forestcore/library/**"
+    }
+    classifier = 'lib'
+}
+
 artifacts {
     archives deobfJar
 	archives sourceJar
+	archives libJar
 }
 
 processResources

@@ -1,8 +1,14 @@
 package nedelosk.modularmachines.common.config;
 
+import java.util.ArrayList;
+
+import com.google.common.collect.Lists;
+
+import akka.japi.Pair;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
+import nedelosk.modularmachines.common.items.ItemProducers;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModularConfig {
@@ -31,12 +37,11 @@ public class ModularConfig {
 	public static void postInit() {
 		load();
 		Configuration config = ModularMachines.config;
-		for (ModuleStack module : ModuleRegistry.getModuleItems()) {
-			if (module.getItem() == null || module.getItem().getItem() == null
-					|| !config.getBoolean(module.getModule().getName(module, true)
-							+ (module.getProducer() != null ? " : " + module.getProducer().getName(module) : "") + " : "
-							+ module.getItem().getUnlocalizedName(), "Modules.Default", true, "")) {
+		ArrayList<ModuleStack> stacks = Lists.newArrayList(ModuleRegistry.getModuleItems().iterator());
+		for (ModuleStack module : stacks) {
+			if (module.getItem() == null || module.getItem().getItem() == null || !config.getBoolean(module.getModule().getName(module, true) + (module.getProducer() != null ? " : " + module.getProducer().getName(module) : "") + " : " + module.getType().getLocalName() + " : " + module.getItem().getUnlocalizedName(), "Modules.Default", true, "")) {
 				ModuleRegistry.getModuleItems().remove(module);
+				ItemProducers.getItems().remove(new Pair(module.getType(), module.getModule()));
 			}
 		}
 		save();
