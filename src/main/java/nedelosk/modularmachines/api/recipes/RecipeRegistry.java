@@ -67,14 +67,14 @@ public class RecipeRegistry {
 		}
 		return list;
 	}
-	
+
 	public static RecipeInput isRecipeInput(String recipeName, RecipeInput input) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
 		if (recipes == null || input == null)
 			return null;
 		for (IRecipe recipe : recipes) {
 			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
-			for (int i = 0;i < recipe.getInputs().length;i++) {
+			for (int i = 0; i < recipe.getInputs().length; i++) {
 				RecipeItem item = recipe.getInputs().clone()[i];
 				if (item.isItem())
 					inputR.add(new RecipeInput(i, item.item));
@@ -83,21 +83,23 @@ public class RecipeRegistry {
 				else
 					inputR.add(new RecipeInput(i, item.ore));
 			}
-			if(inputR.isEmpty()){
+			if (inputR.isEmpty()) {
 				return null;
 			}
-			for(int i = 0;i < inputR.size();i++){
+			for (int i = 0; i < inputR.size(); i++) {
 				RecipeInput in = inputR.get(i);
-				if(in == null)
+				if (in == null)
 					continue;
-				if(in.isOre() && input.isItem()){
+				if (in.isOre() && input.isItem()) {
+					if (!(in.ore.stackSize <= input.item.stackSize))
+						continue;
 					int ore = OreDictionary.getOreID(in.ore.getOreDict());
-					for(int oreID : OreDictionary.getOreIDs(input.item)){
+					for (int oreID : OreDictionary.getOreIDs(input.item)) {
 						if (ore == oreID) {
 							return in;
 						}
 					}
-				}else if(in.equals(input)){
+				} else if (in.equals(input)) {
 					return in;
 				}
 			}
@@ -165,7 +167,7 @@ public class RecipeRegistry {
 
 			}
 			if (!isBreak)
-				if(recipe.matches(craftingModifiers))
+				if (recipe.matches(craftingModifiers))
 					return recipe;
 		}
 		return null;

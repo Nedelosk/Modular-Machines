@@ -8,7 +8,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerEngineEnergy extends ProducerEngine{
+public class ProducerEngineEnergy extends ProducerEngine {
 
 	public ProducerEngineEnergy(String modifier, int speedModifier) {
 		super(modifier, speedModifier, "Energy");
@@ -24,7 +24,8 @@ public class ProducerEngineEnergy extends ProducerEngine{
 	}
 
 	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier,
+			RecipeInput[] inputs, Object... craftingModifier) {
 		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
@@ -32,5 +33,5 @@ public class ProducerEngineEnergy extends ProducerEngine{
 	public IRecipeManager creatRecipeManager() {
 		return new RecipeManagerEnergy();
 	}
-	
+
 }

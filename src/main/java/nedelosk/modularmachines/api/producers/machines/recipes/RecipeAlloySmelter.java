@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.producers.machines.recipes;
 import nedelosk.modularmachines.api.recipes.Recipe;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 
-public class RecipeAlloySmelter extends Recipe {
+public final class RecipeAlloySmelter extends Recipe {
 
 	public RecipeAlloySmelter(RecipeItem input1, RecipeItem input2, RecipeItem[] output, int speedModifier,
 			int energy) {

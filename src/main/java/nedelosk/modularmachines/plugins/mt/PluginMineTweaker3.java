@@ -2,7 +2,7 @@ package nedelosk.modularmachines.plugins.mt;
 
 import minetweaker.MineTweakerAPI;
 import nedelosk.forestcore.library.plugins.APlugin;
-import nedelosk.modularmachines.common.config.ModularConfig;
+import nedelosk.modularmachines.common.config.Config;
 
 public class PluginMineTweaker3 extends APlugin {
 
@@ -18,7 +18,7 @@ public class PluginMineTweaker3 extends APlugin {
 
 	@Override
 	public boolean getConfigOption() {
-		return ModularConfig.pluginMineTweaker3;
+		return Config.pluginMineTweaker3;
 	}
 
 }

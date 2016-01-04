@@ -48,11 +48,6 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 		return list;
 	}
 
-	@Override
-	public int getSizeInventory(ModuleStack stack) {
-		return 4;
-	}
-
 	// Gui
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -60,13 +55,13 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 		ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
 		int burnTime = 0;
 		int burnTimeTotal = 0;
-		if(engine != null){
+		if (engine != null) {
 			burnTime = engine.getProducer().getBurnTime(engine);
 			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}
-	
+
 	@Override
 	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 25, 0, 0));

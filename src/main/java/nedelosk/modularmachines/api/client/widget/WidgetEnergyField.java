@@ -44,7 +44,8 @@ public class WidgetEnergyField extends Widget {
 
 		int energy = (this.storage.getEnergyStored() * 66) / this.storage.getMaxEnergyStored();
 
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66,
+				190 + 66 - energy, 66, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

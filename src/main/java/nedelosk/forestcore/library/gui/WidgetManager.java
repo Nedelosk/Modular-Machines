@@ -26,10 +26,10 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		if (!widgets.contains(slot))
 			this.widgets.add(slot);
 	}
-	
+
 	@Override
 	public void add(Collection<Widget> slots) {
-		for(Widget slot : slots)
+		for (Widget slot : slots)
 			if (!widgets.contains(slot))
 				widgets.add(slot);
 	}

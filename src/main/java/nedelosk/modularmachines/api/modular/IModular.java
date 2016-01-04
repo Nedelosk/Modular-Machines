@@ -41,7 +41,7 @@ public interface IModular {
 	ModuleStack<IModule, IProducerBattery> getBattery();
 
 	ModuleStack<IModuleCasing, IProducer> getCasing();
-	
+
 	ModuleStack<IModule, IProducerTankManager> getTankManeger();
 
 	boolean addModule(ModuleStack module);
@@ -57,7 +57,7 @@ public interface IModular {
 	void setMachine(IModularTileEntity machine);
 
 	IModularUtilsManager getManager();
-	
+
 	List<ModuleStack> getFluidProducers();
 
 	// Gui
@@ -72,7 +72,7 @@ public interface IModular {
 
 	// Item
 	IModular buildItem(ItemStack[] stacks);
-	
+
 	IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data);
 
 }

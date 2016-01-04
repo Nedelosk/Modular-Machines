@@ -27,7 +27,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ProducerLathe extends ProducerMachineRecipeMode {
-	
+
 	public ProducerLathe() {
 		this(60);
 	}
@@ -50,11 +50,6 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 		return list;
 	}
 
-	@Override
-	public int getSizeInventory(ModuleStack stack) {
-		return 3;
-	}
-
 	// Gui
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -62,18 +57,18 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 		ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
 		int burnTime = 0;
 		int burnTimeTotal = 0;
-		if(engine != null){
+		if (engine != null) {
 			burnTime = engine.getProducer().getBurnTime(engine);
 			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 		gui.getWidgetManager().add(new WidgetButtonMode(86, 16, getMode()));
 	}
-	
+
 	@Override
 	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 25, 0, 0));
-		gui.getWidgetManager().add(new WidgetButtonMode(86, 0, (IMachineMode)recipe.getModifiers()[0]));
+		gui.getWidgetManager().add(new WidgetButtonMode(86, 0, (IMachineMode) recipe.getModifiers()[0]));
 		return gui.getWidgetManager().getWidgets();
 	}
 

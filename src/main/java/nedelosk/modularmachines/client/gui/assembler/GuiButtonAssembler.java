@@ -2,8 +2,9 @@ package nedelosk.modularmachines.client.gui.assembler;
 
 import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
-import nedelosk.modularmachines.common.core.manager.MMBlockManager;
+import nedelosk.modularmachines.modules.ModuleModular;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
 public class GuiButtonAssembler extends GuiButtonItem {
@@ -24,7 +25,7 @@ public class GuiButtonAssembler extends GuiButtonItem {
 		int y = 18 + 36 / 2 - 8;
 
 		info = new AssemblerMachineInfo();
-		info.machine = MMBlockManager.Modular_Machine.getItemStack();
+		info.machine = new ItemStack(ModuleModular.BlockManager.Modular_Machine.item());
 
 		info.addSlotPosition(x, y - 23);
 		info.addSlotPosition(x - 22, y - 5);

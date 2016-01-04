@@ -1,12 +1,6 @@
 package nedelosk.forestcore.library.tile;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import nedelosk.forestcore.library.inventory.IGuiHandler;
 
-public abstract class TileBaseGui extends TileBase {
-
-	public abstract Container getContainer(InventoryPlayer inventory);
-
-	public abstract Object getGUIContainer(InventoryPlayer inventory);
-
+public abstract class TileBaseGui extends TileBase implements IGuiHandler {
 }

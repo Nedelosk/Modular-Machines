@@ -20,9 +20,9 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.nedelosk.mm.shapde.modular")
 public class ShapedModuleRecipeHandler {
-	
+
 	private final List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-	
+
 	@ZenMethod
 	public void addShaped(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function) {
 		addShaped(output, ingredients, function, false);
@@ -32,11 +32,11 @@ public class ShapedModuleRecipeHandler {
 	public void addShapedMirrored(IItemStack output, IIngredient[][] ingredients, @Optional IRecipeFunction function) {
 		addShaped(output, ingredients, function, true);
 	}
-	
+
 	private class ActionRemoveRecipes implements IUndoableAction {
 		private final List<Integer> removingIndices;
 		private final List<IRecipe> removingRecipes;
-		
+
 		public ActionRemoveRecipes(List<IRecipe> recipes, List<Integer> indices) {
 			this.removingIndices = indices;
 			this.removingRecipes = recipes;
@@ -77,11 +77,11 @@ public class ShapedModuleRecipeHandler {
 			return null;
 		}
 	}
-	
+
 	private class ActionAddRecipe implements IUndoableAction {
 		private final IRecipe recipe;
 		private final ICraftingRecipe craftingRecipe;
-		
+
 		public ActionAddRecipe(IRecipe recipe, ICraftingRecipe craftingRecipe) {
 			this.recipe = recipe;
 			this.craftingRecipe = craftingRecipe;
@@ -117,13 +117,13 @@ public class ShapedModuleRecipeHandler {
 			return null;
 		}
 	}
-	
+
 	private void addShaped(IItemStack output, IIngredient[][] ingredients, IRecipeFunction function, boolean mirrored) {
 		ShapedRecipe recipe = new ShapedRecipe(output, ingredients, function, mirrored);
 		IRecipe irecipe = convert(recipe);
 		MineTweakerAPI.apply(new ActionAddRecipe(irecipe, recipe));
 	}
-	
+
 	public static IRecipe convert(ShapedRecipe recipe) {
 		IIngredient[] ingredients = recipe.getIngredients();
 		byte[] posx = recipe.getIngredientsX();
@@ -132,7 +132,7 @@ public class ShapedModuleRecipeHandler {
 		for (int i = 0; i < ingredients.length; i++) {
 			converted[posx[i] + posy[i] * recipe.getWidth()] = ingredients[i].getInternal();
 		}
-		
+
 		int counter = 0;
 		String[] parts = new String[recipe.getHeight()];
 		ArrayList rarguments = new ArrayList();
@@ -151,10 +151,10 @@ public class ShapedModuleRecipeHandler {
 			}
 			parts[i] = new String(pattern);
 		}
-		
+
 		rarguments.addAll(0, Arrays.asList(parts));
-		
+
 		return new ShapedRecipeOre(rarguments.toArray(), recipe);
 	}
-	
+
 }

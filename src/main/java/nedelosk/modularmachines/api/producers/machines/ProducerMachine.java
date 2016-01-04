@@ -36,6 +36,7 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		super(nbt, modular, stack);
 	}
 
+	/* NBT */
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
@@ -50,11 +51,7 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		timerTotal = nbt.getInteger("timerTotal");
 	}
 
-	@Override
-	public boolean hasCustomInventoryName(ModuleStack stack) {
-		return true;
-	}
-
+	/* GUI */
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
@@ -66,7 +63,7 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		return new ArrayList();
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<NeiStack> addNEIStacks(ModuleStack stack, IRecipe recipe) {
@@ -84,7 +81,34 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.MachineRenderer(moduleStack);
 	}
-	
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public String getFilePath(ModuleStack stack) {
+		return getModifier(stack);
+	}
+
+	/* INVENTORY */
+	@Override
+	public boolean hasCustomInventoryName(ModuleStack stack) {
+		return true;
+	}
+
+	@Override
+	public boolean useFluids(ModuleStack stack) {
+		return false;
+	}
+
+	@Override
+	public int getFluidInputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
+	}
+
+	@Override
+	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
+		return 0;
+	}
+
 	@Override
 	public List<String> getRequiredModules() {
 		ArrayList<String> modules = new ArrayList();
@@ -93,16 +117,17 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		modules.add("Casing");
 		return modules;
 	}
-	
+
 	@Override
-	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModule, IProducerController> moduleStack) {
+	public boolean buildMachine(IModular modular, ItemStack[] stacks,
+			ModuleStack<IModule, IProducerController> moduleStack) {
 		ArrayList<ModuleStack> modules = new ArrayList();
 		modules.add(moduleStack);
-		for(int i = 1;i < stacks.length;i++){
+		for (int i = 1; i < stacks.length; i++) {
 			ItemStack stack = stacks[i];
-			if(stack != null)
-				if(ModuleRegistry.getModuleItem(stack) != null && ModuleRegistry.getModuleItem(stack).getModule() != null)
-					modules.add(ModuleRegistry.getModuleItem(stack));
+			if (stack != null)
+				if (ModuleRegistry.getProducer(stack) != null && ModuleRegistry.getProducer(stack).getModule() != null)
+					modules.add(ModuleRegistry.getProducer(stack));
 		}
 		for (ModuleStack<IModule, IProducer> manager : modules)
 			if (manager != null)
@@ -111,50 +136,20 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 		return true;
 	}
 
+	/* WAILA */
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
 	}
-	
+
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
 	}
-	
+
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
 	}
-	
-	
-	@Override
-	public int getItemInputs(ModuleStack<IModule, IProducer> stack) {
-		return 0;
-	}
-	
-	@Override
-	public int getItemOutputs(ModuleStack<IModule, IProducer> stack) {
-		return 0;
-	}
-	
-	@Override
-	public boolean useFluids(ModuleStack stack) {
-		return false;
-	}
-	
-	@Override
-	public int getFluidInputs(ModuleStack<IModule, IProducer> stack) {
-		return 0;
-	}
-	
-	@Override
-	public int getFluidOutputs(ModuleStack<IModule, IProducer> stack) {
-		return 0;
-	}
-	
-	@Override
-	public String getFilePath(ModuleStack stack) {
-		return getModifier(stack);
-	}
-	
+
 }

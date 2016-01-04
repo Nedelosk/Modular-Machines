@@ -80,9 +80,10 @@ public class ProducerChest extends ProducerInventory implements IProducerStorage
 	public int getSizeInventory(ModuleStack stack) {
 		return slots;
 	}
-	
+
 	@Override
-	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile,
+			EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		return false;
 	}
 

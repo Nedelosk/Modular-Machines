@@ -1,19 +1,19 @@
 package nedelosk.modularmachines.common.multiblocks;
 
-import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
-import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
-import nedelosk.modularmachines.client.gui.multiblocks.GuiBlastFurnace;
+import nedelosk.forestday.modules.ModuleCore;
+import nedelosk.modularmachines.client.gui.multiblock.GuiBlastFurnaceFluidPort;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
-import nedelosk.modularmachines.common.inventory.multiblock.ContainerBlastFurnace;
+import nedelosk.modularmachines.common.inventory.multiblocks.ContainerBlastFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -30,10 +30,10 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
-	public FluidTankBasic tankSlag;
-	public FluidTankBasic tank;
-	public FluidTankBasic tankAirHot;
-	public FluidTankBasic tankGas;
+	public FluidTankSimple tankSlag;
+	public FluidTankSimple tank;
+	public FluidTankSimple tankAirHot;
+	public FluidTankSimple tankGas;
 	public FluidStack[] outputs;
 	public int heat;
 	public int heatTotal;
@@ -92,8 +92,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'V': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "output";
@@ -102,8 +102,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'S': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "slag";
@@ -118,8 +118,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'C': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "gas.blastfurnace";
@@ -128,8 +128,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'F': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "air.hot";
@@ -138,8 +138,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'I': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.valveType = ValveType.INPUT;
@@ -153,7 +153,8 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 			break;
 		}
 		case 'O': {
-			if (block == ModuleCore.BlockManager.Multiblock.block() || block == ModuleCore.BlockManager.Multiblock_Valve.block()
+			if (block == ModuleCore.BlockManager.Multiblock.block()
+					|| block == ModuleCore.BlockManager.Multiblock_Valve.block()
 					|| tile instanceof TileMultiblockBase) {
 				return false;
 			}
@@ -177,7 +178,7 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 
 	@Override
 	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
-		return new GuiBlastFurnace((TileMultiblockBase) tile, inventory);
+		return new GuiBlastFurnaceFluidPort((TileMultiblockBase) tile, inventory);
 	}
 
 	@Override
@@ -214,22 +215,22 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("TankGas")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
-			tankGas = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankGas = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankGas.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("TankAirHot")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankAirHot");
-			tankAirHot = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankAirHot = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankAirHot.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
-			tank = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tank.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("TankSlag")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankSlag");
-			tankSlag = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankSlag = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankSlag.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Output1"))
@@ -254,13 +255,13 @@ public class MultiblockBlastFurnace extends MultiblockModularMachines {
 		if (base.slots == null || base.slots.length == 0)
 			base.slots = new ItemStack[4];
 		if (tankGas == null)
-			tankGas = new FluidTankBasic(32000);
+			tankGas = new FluidTankSimple(32000);
 		if (tankSlag == null)
-			tankSlag = new FluidTankBasic(32000);
+			tankSlag = new FluidTankSimple(32000);
 		if (tank == null)
-			tank = new FluidTankBasic(24000);
+			tank = new FluidTankSimple(24000);
 		if (tankAirHot == null)
-			tankAirHot = new FluidTankBasic(32000);
+			tankAirHot = new FluidTankSimple(32000);
 		if (heat >= heatTotal || heatTotal == 0) {
 			if (base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0) {
 				ItemStack[] inputs = new ItemStack[4];

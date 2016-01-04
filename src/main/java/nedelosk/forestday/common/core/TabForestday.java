@@ -1,7 +1,7 @@
 package nedelosk.forestday.common.core;
 
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.modules.ModuleCore.BlockManager;
+import nedelosk.forestday.modules.ModuleCore.BlockManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

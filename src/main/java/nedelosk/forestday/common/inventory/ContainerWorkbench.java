@@ -19,7 +19,7 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		// Input
-		addSlotToContainer(new Slot(inventoryBase, 0, 26, 36){
+		addSlotToContainer(new Slot(inventoryBase, 0, 26, 36) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return WorkbenchRecipeManager.isInput(stack);
@@ -30,7 +30,7 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 		addSlotToContainer(new SlotOutput(inventoryBase, 1, 134, 36));
 
 		// Tool
-		addSlotToContainer(new Slot(inventoryBase, 2, 80, 13){
+		addSlotToContainer(new Slot(inventoryBase, 2, 80, 13) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return WorkbenchRecipeManager.isTool(stack);
@@ -38,7 +38,7 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 		});
 
 		// Pattern
-		addSlotToContainer(new Slot(inventoryBase, 3, 26, 13){
+		addSlotToContainer(new Slot(inventoryBase, 3, 26, 13) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return WorkbenchRecipeManager.isPattern(stack);
@@ -66,84 +66,60 @@ public class ContainerWorkbench extends ContainerBase<TileWorkbench> {
 			addSlotToContainer(new Slot(inventoryBase, 16, 213, 76));
 		}
 	}
-	
-    @Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
-    {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(slotID);
 
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
-            if (slotID == 37)
-            {
-                if (!this.mergeItemStack(itemstack1, 0, 36, true))
-                {
-                    return null;
-                }
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (slotID != 36 && slotID != 38 && slotID != 39)
-            {
-                if (WorkbenchRecipeManager.isInput(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 36, 37, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (WorkbenchRecipeManager.isTool(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 38, 39, false))
-                    {
-                        return null;
-                    }
-                }else if (WorkbenchRecipeManager.isPattern(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 39, 40, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (slotID >= 0 && slotID < 27)
-                {
-                    if (!this.mergeItemStack(itemstack1, 27, 36, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 0, 36, false))
-            {
-                return null;
-            }
+			if (slotID == 37) {
+				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
+					return null;
+				}
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (slotID != 36 && slotID != 38 && slotID != 39) {
+				if (WorkbenchRecipeManager.isInput(itemstack1)) {
+					if (!this.mergeItemStack(itemstack1, 36, 37, false)) {
+						return null;
+					}
+				} else if (WorkbenchRecipeManager.isTool(itemstack1)) {
+					if (!this.mergeItemStack(itemstack1, 38, 39, false)) {
+						return null;
+					}
+				} else if (WorkbenchRecipeManager.isPattern(itemstack1)) {
+					if (!this.mergeItemStack(itemstack1, 39, 40, false)) {
+						return null;
+					}
+				} else if (slotID >= 0 && slotID < 27) {
+					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
+						return null;
+					}
+				} else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
+				return null;
+			}
 
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
-                return null;
-            }
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-            slot.onPickupFromSlot(player, itemstack1);
-        }
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
 
-        return itemstack;
-    }
+			slot.onPickupFromSlot(player, itemstack1);
+		}
+
+		return itemstack;
+	}
 
 }

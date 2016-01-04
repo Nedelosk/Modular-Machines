@@ -9,7 +9,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public interface IModularTileEntity<M extends IModular> extends ISidedInventory, INBTTagable, IFluidHandler, IEnergyHandler {
+public interface IModularTileEntity<M extends IModular>
+		extends ISidedInventory, INBTTagable, IFluidHandler, IEnergyHandler {
 
 	World getWorldObj();
 

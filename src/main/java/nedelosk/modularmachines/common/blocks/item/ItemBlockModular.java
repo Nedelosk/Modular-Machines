@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.blocks.item;
 
 import nedelosk.modularmachines.api.modular.basic.IModularItem;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.core.manager.MMBlockManager;
+import nedelosk.modularmachines.modules.ModuleModular;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -60,7 +60,7 @@ public class ItemBlockModular extends ItemBlock implements IModularItem {
 		if (!player.canPlayerEdit(x, z, y, p_77648_7_, stack)) {
 			return false;
 		} else if (!world.isRemote) {
-			boolean placed = world.setBlock(x, y, z, MMBlockManager.Modular_Machine.block(), 0, 2);
+			boolean placed = world.setBlock(x, y, z, ModuleModular.BlockManager.Modular_Machine.block(), 0, 2);
 			if (!placed) {
 				return false;
 			}

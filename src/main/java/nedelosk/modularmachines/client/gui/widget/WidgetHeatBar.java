@@ -48,7 +48,8 @@ public class WidgetHeatBar extends Widget {
 
 		int energy = (heat * 69) / heatTotal;
 
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 12, 0 + 69 - energy, 12, energy);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 12, 0 + 69 - energy,
+				12, energy);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

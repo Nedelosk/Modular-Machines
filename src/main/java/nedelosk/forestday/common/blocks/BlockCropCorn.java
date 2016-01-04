@@ -3,9 +3,10 @@ package nedelosk.forestday.common.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.utils.WorldUtil;
-import nedelosk.forestday.common.modules.ModuleCore;
+import nedelosk.forestday.modules.ModuleCore;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -32,12 +33,12 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 		this.setHardness(0.0F);
 		this.setStepSound(soundTypeGrass);
 		this.disableStats();
-		this.setBlockName("corn");
+		this.setBlockName("cropcorn");
 	}
 
 	@Override
 	protected boolean canPlaceBlockOn(Block block) {
-		return block == Blocks.farmland || block == this;
+		return block == Blocks.farmland;
 	}
 
 	@Override
@@ -208,6 +209,10 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 
 		for (int i = 0; i < 6; ++i)
 			this.icons[i] = p_149651_1_.registerIcon("forestday:crops/corn_stage_" + i);
+	}
+
+	@Override
+	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
 	}
 
 	@Override

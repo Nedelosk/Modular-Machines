@@ -55,12 +55,14 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 
 		nbt.setInteger("StorageSlots", storageSlots);
 	}
-	
+
 	@Override
-	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container, ItemStack stackItem){
-		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getModuleItem(tile.getStackInSlot(slotID - 36));
-		if(stack != null && stack.getModule() == Modules.CHEST && stack.getProducer() != null && stack.getProducer() instanceof IProducerStorage){
-			if(mergeItemStack(stackItem, slotID, slotID + 1, false, container))
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile,
+			EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
+		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getProducer(tile.getStackInSlot(slotID - 36));
+		if (stack != null && stack.getModule() == Modules.CHEST && stack.getProducer() != null
+				&& stack.getProducer() instanceof IProducerStorage) {
+			if (mergeItemStack(stackItem, slotID, slotID + 1, false, container))
 				return true;
 		}
 		return false;

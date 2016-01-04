@@ -21,12 +21,13 @@ public abstract class RecipeManager implements IRecipeManager {
 
 	public RecipeManager() {
 	}
-	
+
 	public RecipeManager(IModular modular, String recipeName, RecipeInput[] inputs) {
 		this(modular, recipeName, 0, inputs);
 	}
 
-	public RecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifiers) {
+	public RecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs,
+			Object... craftingModifiers) {
 		this.inputs = inputs;
 		this.recipeName = recipeName;
 		if (materialModifier == 0)
@@ -60,9 +61,10 @@ public abstract class RecipeManager implements IRecipeManager {
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
-		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular)
+				.getProducer();
 		machine.writeCraftingModifiers(nbt, modular, craftingModifiers);
-		
+
 		NBTTagList list = new NBTTagList();
 		for (RecipeInput input : inputs) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
@@ -83,12 +85,14 @@ public abstract class RecipeManager implements IRecipeManager {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeInput.readFromNBT(nbtTag);
 		}
-		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular)
+				.getProducer();
 		Object[] craftingModifiers = machine.readCraftingModifiers(nbt, modular);
 		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null)
 			return null;
 		return createManager(modular, recipeName, speedModifier, materialModifier, inputs, craftingModifiers);
 	}
-	
-	public abstract IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs, Object... craftingModifiers);
+
+	public abstract IRecipeManager createManager(IModular modular, String recipeName, int speedModifier,
+			int materialModifier, RecipeInput[] inputs, Object... craftingModifiers);
 }

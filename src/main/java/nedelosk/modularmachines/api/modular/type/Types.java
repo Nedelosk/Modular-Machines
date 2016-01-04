@@ -17,8 +17,8 @@ public class Types {
 	public static Type OBSIDIAN = addType(4, "Obsidian", "obsidian");
 	public static Type STEEL = addType(5, "Steel", "steel");
 	public static Type MAGMARIUM = addType(7, "Magmarium", "magmarium");
-	
-	//Thermal Expansion
+
+	// Thermal Expansion
 	public static Type Lead = Types.addType(2, "Lead", "lead");
 	public static Type Invar = Types.addType(3, "Invar", "invar");
 	public static Type Electrum = Types.addType(5, "Electrum", "electrum");
@@ -81,12 +81,12 @@ public class Types {
 		public String getLocalName() {
 			return StatCollector.translateToLocal("type." + localName + ".name");
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(obj instanceof Type){
+			if (obj instanceof Type) {
 				Type type = (Type) obj;
-				if(type.getName().equals(getName()) && type.getTier() == getTier())
+				if (type.getName().equals(getName()) && type.getTier() == getTier())
 					return true;
 			}
 			return false;

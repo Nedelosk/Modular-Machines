@@ -46,15 +46,15 @@ public class ModularUtilsManager implements IModularUtilsManager {
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		if (energyHandler != null){
+		if (energyHandler != null) {
 			nbt.setBoolean("EH", true);
 			energyHandler.writeToNBT(nbt);
-		}else{
+		} else {
 			nbt.setBoolean("EH", false);
 		}
-		if (fluidHandler != null){
+		if (fluidHandler != null) {
 			nbt.setBoolean("FH", true);
-		}else{
+		} else {
 			nbt.setBoolean("FH", false);
 		}
 	}

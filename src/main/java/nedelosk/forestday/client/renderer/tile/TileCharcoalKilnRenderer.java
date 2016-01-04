@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
-import nedelosk.forestday.common.modules.ModuleCore;
+import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

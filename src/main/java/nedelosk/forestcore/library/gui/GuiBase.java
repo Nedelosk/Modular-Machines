@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import nedelosk.forestcore.library.tile.TileBaseInventory;
+import nedelosk.forestcore.library.inventory.IGuiHandler;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer implements IGuiBase<T> {
+public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implements IGuiBase<T> {
 
 	protected ResourceLocation guiTexture;
 	protected T tile;
@@ -106,7 +106,7 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	public void setZLevel(float zLevel) {
 		this.zLevel = zLevel;
 	}
-	
+
 	@Override
 	public float getZLevel() {
 		return zLevel;
@@ -126,15 +126,15 @@ public abstract class GuiBase<T extends TileBaseInventory> extends GuiContainer 
 	public EntityPlayer getPlayer() {
 		return player;
 	}
-	
+
 	@Override
 	public FontRenderer getFontRenderer() {
 		return fontRendererObj;
 	}
-	
+
 	@Override
 	public List<GuiButton> getButtons() {
 		return buttonList;
 	}
-	
+
 }

@@ -28,7 +28,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.WorldServer;
 
-public class PacketAssembler extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketAssembler, IMessage> {
+public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
+		implements IMessageHandler<PacketAssembler, IMessage> {
 
 	public int activeSlots;
 	public AssemblerMachineInfo info;

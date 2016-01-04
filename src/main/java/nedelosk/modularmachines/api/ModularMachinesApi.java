@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.Fluid;
 public class ModularMachinesApi {
 
 	public static IInternalMethodHandler handler = new DummyInternalMethodHandler();
-	
+
 	public static IBlastFurnaceRecipe blastFurnace;
 
 	public static IAirHeatingPlantRecipe airHeatingPlant;

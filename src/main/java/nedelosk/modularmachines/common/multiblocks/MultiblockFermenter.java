@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
-import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.modules.ModuleCore;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiFermenter;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererMultiblockFermenter;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager.FermenterRecipe;
-import nedelosk.modularmachines.common.inventory.multiblock.ContainerFermenter;
+import nedelosk.modularmachines.common.inventory.multiblocks.ContainerFermenter;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,9 +33,9 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class MultiblockFermenter extends MultiblockModularMachines {
 
-	public FluidTankBasic tank;
-	public FluidTankBasic tank2;
-	public FluidTankBasic tankOut;
+	public FluidTankSimple tank;
+	public FluidTankSimple tank2;
+	public FluidTankSimple tankOut;
 	public FluidStack output;
 
 	public MultiblockFermenter() {
@@ -116,8 +116,8 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 			break;
 		}
 		case 'O': {
-			if (block == ModuleCore.BlockManager.Multiblock_Valve.block() || block == ModuleCore.BlockManager.Multiblock.block()
-					|| tile instanceof TileMultiblockBase) {
+			if (block == ModuleCore.BlockManager.Multiblock_Valve.block()
+					|| block == ModuleCore.BlockManager.Multiblock.block() || tile instanceof TileMultiblockBase) {
 				return false;
 			}
 			break;
@@ -165,17 +165,17 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
-			tank = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tank.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank2");
-			tank2 = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank2 = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tank2.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("TankOut")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
-			tankOut = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankOut = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankOut.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Output")) {
@@ -188,11 +188,11 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	public void updateServer(ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
 		if (tank == null)
-			tank = new FluidTankBasic(32000);
+			tank = new FluidTankSimple(32000);
 		if (tank2 == null)
-			tank2 = new FluidTankBasic(32000);
+			tank2 = new FluidTankSimple(32000);
 		if (tankOut == null)
-			tankOut = new FluidTankBasic(32000);
+			tankOut = new FluidTankSimple(32000);
 		if (base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0) {
 			FluidStack input = tank.getFluid();
 			FluidStack inputFermenterFluid = tank2.getFluid();

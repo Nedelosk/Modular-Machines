@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
-import nedelosk.forestday.common.modules.ModuleCore;
+import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,7 +86,7 @@ public class BlockMachinesWood extends BlockMachines {
 		if (tile instanceof TileCampfire) {
 			TileCampfire campfire = (TileCampfire) tile;
 			ret.add(campfire.getStackInSlot(4));
-		}else{
+		} else {
 			ret = super.getDrops(world, x, y, z, metadata, fortune);
 		}
 		return ret;
@@ -101,7 +101,8 @@ public class BlockMachinesWood extends BlockMachines {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire && ((TileCampfire) world.getTileEntity(x, y, z)).isWorking) {
+		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire
+				&& ((TileCampfire) world.getTileEntity(x, y, z)).isWorking) {
 			int l = world.getBlockMetadata(x, y, z);
 			float f = x + 0.5F;
 			float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;

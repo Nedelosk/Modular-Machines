@@ -60,10 +60,6 @@ public class ProducerCentrifuge extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public int getSizeInventory(ModuleStack stack) {
-		return 4;
-	}
-	@Override
 	public int getColor() {
 		return 0xABA8A8;
 	}

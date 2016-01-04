@@ -14,7 +14,8 @@ public class FluidBucket extends ItemBucket {
 		super(fluid);
 		this.setContainerItem(Items.bucket);
 		this.setCreativeTab(CreativeTabs.tabMisc);
-		this.setTextureName(Loader.instance().activeModContainer().getModId().toLowerCase(Locale.ENGLISH) + ":bucket_" + nameFluid);
+		this.setTextureName(
+				Loader.instance().activeModContainer().getModId().toLowerCase(Locale.ENGLISH) + ":bucket_" + nameFluid);
 		this.setUnlocalizedName("bucket." + nameFluid);
 	}
 

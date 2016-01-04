@@ -9,7 +9,8 @@ public class Recipe implements IRecipe {
 	protected int material;
 	protected String recipeName;
 
-	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName, Object... modifiers) {
+	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName,
+			Object... modifiers) {
 		this.input = input;
 		this.output = output;
 		this.modifiers = modifiers;

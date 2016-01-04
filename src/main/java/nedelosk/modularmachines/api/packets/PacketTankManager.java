@@ -11,7 +11,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTankManager extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketTankManager, IMessage> {
+public class PacketTankManager extends PacketTileEntity<TileEntity>
+		implements IMessageHandler<PacketTankManager, IMessage> {
 
 	private int ID;
 	private int producer = -1;
@@ -20,7 +21,7 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 
 	public PacketTankManager() {
 	}
-	
+
 	public PacketTankManager(TileEntity tile, TankMode mode, int ID) {
 		super(tile);
 		this.mode = mode;
@@ -32,7 +33,7 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		this.producer = producer;
 		this.ID = ID;
 	}
-	
+
 	public PacketTankManager(TileEntity tile, ForgeDirection direction, int ID) {
 		super(tile);
 		this.direction = direction;

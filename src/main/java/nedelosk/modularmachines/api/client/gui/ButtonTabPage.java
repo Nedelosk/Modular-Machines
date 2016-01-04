@@ -24,7 +24,8 @@ import net.minecraft.util.StatCollector;
 
 public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine",
+			"gui");
 
 	public ModuleStack stack;
 	public boolean right;
@@ -42,9 +43,13 @@ public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 
-		GuiModularMachine machine = (GuiModularMachine) mc.currentScreen;
+		GuiModular machine = (GuiModular) mc.currentScreen;
 		RenderUtil.bindTexture(guiTextureOverlay);
-		RenderUtil.drawTexturedModalRect(xPosition, yPosition, 1, ((IModularTileEntity)machine.getTile()).getModular().getGuiManager().getPage().equals(stack.getModule().getName(stack, false)) ? 0 : 28, right ? 214 : 235, 28, 21);
+		RenderUtil
+				.drawTexturedModalRect(
+						xPosition, yPosition, 1, ((IModularTileEntity) machine.getTile()).getModular().getGuiManager()
+								.getPage().equals(stack.getModule().getName(stack, false)) ? 0 : 28,
+						right ? 214 : 235, 28, 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		ItemStack item = stack.getItem();
@@ -54,22 +59,24 @@ public class ButtonTabPage extends Button<IModularTileEntity<IModular>> {
 		GL11.glPopMatrix();
 
 	}
-	
+
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity<IModular>> gui) {
 		IModularGuiManager guiManager = gui.getTile().getModular().getGuiManager();
 
 		IModularTileEntity<IModular> tile = gui.getTile();
-		
+
 		if (!guiManager.getPage().equals(stack.getModule().getName(stack, false))) {
 			guiManager.setPage(stack.getModule().getName(stack, false));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectPage((TileEntity) tile, stack.getModule().getName(stack, false)));
+			PacketHandler.INSTANCE
+					.sendToServer(new PacketSelectPage((TileEntity) tile, stack.getModule().getName(stack, false)));
 		}
 	}
-	
+
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularTileEntity<IModular>> gui) {
-		return Arrays.asList(StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getModuleName().toLowerCase(Locale.ENGLISH) + ".name"));
+		return Arrays.asList(StatCollector.translateToLocal("mm.modularmachine.bookmark."
+				+ stack.getModule().getModuleName().toLowerCase(Locale.ENGLISH) + ".name"));
 	}
 
 }

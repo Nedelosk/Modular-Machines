@@ -30,8 +30,8 @@ public class TileCharcoalAshRenderer extends TileEntitySpecialRenderer {
 		RenderUtil.bindBlockTexture();
 
 		IIcon dirtIcon = /*
-							 * FBlocks.Multiblock_Charcoal_Kiln.block().getIcon(0,
-							 * 0);
+							 * FBlocks.Multiblock_Charcoal_Kiln.block().getIcon(
+							 * 0, 0);
 							 */ Blocks.dirt.getIcon(0, 0);
 
 		t.startDrawingQuads();

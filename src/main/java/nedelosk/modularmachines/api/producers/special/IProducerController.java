@@ -7,7 +7,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
 public interface IProducerController extends IProducer {
-	
+
 	boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModule, IProducerController> moduleStack);
-	
+
 }

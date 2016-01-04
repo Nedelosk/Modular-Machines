@@ -5,7 +5,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.config.ModularConfig;
+import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.plugins.waila.provider.ProviderModular;
 
 public class PluginWaila extends APlugin {
@@ -27,7 +27,7 @@ public class PluginWaila extends APlugin {
 
 	@Override
 	public boolean getConfigOption() {
-		return ModularConfig.pluginWaila;
+		return Config.pluginWaila;
 	}
 
 }

@@ -26,48 +26,49 @@ public abstract class Registry {
 
 	public final AModuleManager moduleManager = getModuleManager();
 	public final APluginManager pluginManager = getPluginManager();
-	
+
 	public final IGuiHandler guiHandler = getGuiHandler();
-	
-	public void preInit(Object instance, FMLPreInitializationEvent event){
-		
+
+	public void preInit(Object instance, FMLPreInitializationEvent event) {
+
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
-		
-		if(moduleManager != null){
+
+		if (moduleManager != null) {
 			moduleManager.registerModules();
 			moduleManager.preInit();
 		}
-		if(pluginManager != null){
+		if (pluginManager != null) {
 			pluginManager.registerPlugins();
 			pluginManager.preInit();
 		}
 	}
-	
-	public void init(Object instance, FMLInitializationEvent event){
-		if(moduleManager != null){
+
+	public void init(Object instance, FMLInitializationEvent event) {
+		if (moduleManager != null) {
 			moduleManager.init();
 		}
-		if(pluginManager != null){
+		if (pluginManager != null) {
 			pluginManager.init();
 		}
 	}
-	
-	public void postInit(Object instance, FMLPostInitializationEvent event){
-		if(moduleManager != null){
+
+	public void postInit(Object instance, FMLPostInitializationEvent event) {
+		if (moduleManager != null) {
 			moduleManager.postInit();
 		}
-		if(pluginManager != null){
+		if (pluginManager != null) {
 			pluginManager.postInit();
 		}
 	}
-	
+
 	public abstract AModuleManager getModuleManager();
-	
+
 	public abstract APluginManager getPluginManager();
-	
+
 	public abstract IGuiHandler getGuiHandler();
-	
-	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas) {
+
+	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket,
+			boolean isGas) {
 		if (FluidRegistry.getFluid(fluidName) == null) {
 			Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
 			if (material == Material.lava)
@@ -89,18 +90,18 @@ public abstract class Registry {
 		}
 		return FluidRegistry.getFluid(fluidName);
 	}
-	
+
 	public static Block registerBlock(Block block, String name, String modName) {
 		GameRegistry.registerBlock(block, name);
 		return block;
 	}
 
-	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName) {
+	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name) {
 		GameRegistry.registerBlock(block, itemblock, name);
 		return block;
 	}
 
-	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, String modName,
+	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name,
 			Object... objects) {
 		GameRegistry.registerBlock(block, itemblock, name, objects);
 		return block;
@@ -114,7 +115,7 @@ public abstract class Registry {
 		return "forest." + modName + ".block." + name;
 	}
 
-	public static Item registerItem(Item item, String name, String modName) {
+	public static Item registerItem(Item item, String name) {
 		GameRegistry.registerItem(item, name);
 		return item;
 	}
@@ -122,5 +123,5 @@ public abstract class Registry {
 	public static String setUnlocalizedItemName(String name, String modName) {
 		return "forest." + modName + ".item." + name;
 	}
-	
+
 }

@@ -53,7 +53,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal(producer.getModule().getName(producer, false) + ".name");
+		return StatCollector.translateToLocal(producer.getProducer().getRecipeName(producer) + ".name");
 	}
 
 	@Override
@@ -78,7 +78,9 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 				RecipeItem[] outputs = recipe.getOutputs();
 				for (RecipeItem output : outputs) {
 					if (result.getItem() == output.item.getItem()
-							&& result.getItemDamage() == output.item.getItemDamage()) {
+							&& result.getItemDamage() == output.item.getItemDamage()
+							&& (!result.hasTagCompound() && !output.item.hasTagCompound()
+									|| result.getTagCompound().equals(output.item.getTagCompound()))) {
 						ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs, recipe);
 						arecipes.add(res);
 					}
@@ -120,8 +122,6 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public TemplateRecipeHandler newInstance() {
 		return new ModularMachinesHandler(this.producer);
 	}
-	
-	
 
 	@Override
 	public void drawBackground(int recipeIndex) {
@@ -140,18 +140,19 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 					stacks.add(stack);
 		for (PositionedStack stack : stacks)
 			GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
-		
-		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer, ((ModularCachedRecipe)arecipes.get(recipeIndex)).recipe));
-		
+
+		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer,
+				((ModularCachedRecipe) arecipes.get(recipeIndex)).recipe));
+
 		widgetManager.drawWidgets();
-		for(Widget widget : widgetManager.getWidgets()){
-			if(widget instanceof WidgetProgressBar){
-				if(((WidgetProgressBar)widget).burntimeTotal != 100)
-					((WidgetProgressBar)widget).burntimeTotal = 100;
-				if(((WidgetProgressBar)widget).burntime > ((WidgetProgressBar)widget).burntimeTotal)
-					((WidgetProgressBar)widget).burntime = 0;
+		for (Widget widget : widgetManager.getWidgets()) {
+			if (widget instanceof WidgetProgressBar) {
+				if (((WidgetProgressBar) widget).burntimeTotal != 100)
+					((WidgetProgressBar) widget).burntimeTotal = 100;
+				if (((WidgetProgressBar) widget).burntime > ((WidgetProgressBar) widget).burntimeTotal)
+					((WidgetProgressBar) widget).burntime = 0;
 				else
-					((WidgetProgressBar)widget).burntime++;
+					((WidgetProgressBar) widget).burntime++;
 			}
 		}
 	}
@@ -255,7 +256,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public void setZLevel(float zLevel) {
 		GuiDraw.gui.setZLevel(zLevel);
 	}
-	
+
 	@Override
 	public float getZLevel() {
 		return GuiDraw.gui.getZLevel();
@@ -270,30 +271,31 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public int getGuiTop() {
 		return 0;
 	}
-	
+
 	@Override
 	public void drawTexturedModalRect(int x, int y, int tx, int ty, int w, int h) {
 		GuiDraw.drawTexturedModalRect(x, y, tx, ty, w, h);
 	}
-	
+
 	@Override
 	public List<String> handleTooltip(GuiRecipe guiRecipe, List<String> currenttip, int recipe) {
 		super.handleTooltip(guiRecipe, currenttip, recipe);
 		if (GuiContainerManager.shouldShowTooltip(guiRecipe) && widgetManager != null) {
 			Point mouse = GuiDraw.getMousePosition();
 			Point offset = guiRecipe.getRecipePosition(recipe);
-			Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x, mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
+			Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x,
+					mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
 
 			currenttip = provideTooltip(currenttip, relMouse);
 		}
 		return currenttip;
 	}
-	
+
 	private List<String> provideTooltip(List<String> currenttip, Point relMouse) {
-		for(Widget widget : widgetManager.getWidgets()){
+		for (Widget widget : widgetManager.getWidgets()) {
 			if (widget != null) {
 				if (widget.getPos().contains(relMouse)) {
-					if(widget.getTooltip(this) != null)
+					if (widget.getTooltip(this) != null)
 						currenttip.addAll(widget.getTooltip(this));
 				}
 			}
@@ -305,7 +307,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public EntityPlayer getPlayer() {
 		return Minecraft.getMinecraft().thePlayer;
 	}
-	
+
 	@Override
 	public List getButtons() {
 		return null;

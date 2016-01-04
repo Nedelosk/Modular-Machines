@@ -15,14 +15,15 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSwitchMode, IMessage> {
+public class PacketSwitchMode extends PacketTileEntity<TileEntity>
+		implements IMessageHandler<PacketSwitchMode, IMessage> {
 
 	public int mode;
 
 	public PacketSwitchMode() {
 		super();
 	}
-	
+
 	public PacketSwitchMode(TileEntity tile, IMachineMode mode) {
 		super(tile);
 		this.mode = mode.ordinal();
@@ -42,17 +43,19 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IM
 
 	@Override
 	public IMessage onMessage(PacketSwitchMode message, MessageContext ctx) {
-		try{
-			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
-			if(tile.getModular() != null){
-				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils.getModuleStackMachine(tile.getModular());
-				if(machineStack != null){
+		try {
+			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message
+					.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+			if (tile.getModular() != null) {
+				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils
+						.getModuleStackMachine(tile.getModular());
+				if (machineStack != null) {
 					IProducerMachineRecipeMode machine = (IProducerMachineRecipeMode) machineStack.getProducer();
 					machine.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
 					getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

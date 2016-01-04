@@ -7,7 +7,7 @@ import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalAsh;
 import nedelosk.forestday.common.blocks.tiles.TileCharcoalKiln;
 import nedelosk.forestday.common.configs.ForestDayConfig;
-import nedelosk.forestday.common.modules.ModuleCoal;
+import nedelosk.forestday.modules.ModuleCoal;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -37,12 +37,14 @@ public class MultiblockCharcoalKiln extends MultiblockForestday {
 		TileEntity baseTile = base.getWorldObj().getTileEntity(x, y, z);
 		switch (pattern) {
 		case 'C':
-			if (block != ModuleCoal.BlockManager.Multiblock_Charcoal_Kiln.block() && !(baseTile instanceof TileCharcoalKiln)) {
+			if (block != ModuleCoal.BlockManager.Multiblock_Charcoal_Kiln.block()
+					&& !(baseTile instanceof TileCharcoalKiln)) {
 				return false;
 			}
 			break;
 		case 'O':
-			if (block == ModuleCoal.BlockManager.Multiblock_Charcoal_Kiln.block() && baseTile instanceof TileCharcoalKiln) {
+			if (block == ModuleCoal.BlockManager.Multiblock_Charcoal_Kiln.block()
+					&& baseTile instanceof TileCharcoalKiln) {
 				return false;
 			}
 			break;

@@ -10,7 +10,7 @@ import nedelosk.forestcore.library.Log;
 public abstract class APluginManager {
 
 	public ArrayList<IPlugin> plugins = new ArrayList<IPlugin>();
-	
+
 	public void registerPlugin(IPlugin plugin) {
 		plugins.add(plugin);
 		Log.logPluginManager(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());
@@ -43,9 +43,9 @@ public abstract class APluginManager {
 			}
 		}
 	}
-	
+
 	public void registerPlugins() {
-		
+
 	}
 
 }

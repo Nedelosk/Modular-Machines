@@ -3,11 +3,10 @@ package nedelosk.forestcore.library.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerBase<T extends IInventory> extends Container implements IContainerBase<T> {
+public abstract class ContainerBase<T extends IGuiHandler> extends Container implements IContainerBase<T> {
 
 	protected T inventoryBase;
 

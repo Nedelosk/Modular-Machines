@@ -68,7 +68,9 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncNewContainer(EntityPlayerMP player) {
 		this.activeSlots = inventoryBase.getSizeInventory() - 1;
-		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1), player);
+		PacketHandler.INSTANCE.sendTo(
+				new PacketAssembler(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1),
+				player);
 		onCraftMatrixChanged(null);
 	}
 
@@ -78,7 +80,8 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncWithOtherContainer(ContainerModularAssembler otherContainer, EntityPlayerMP player) {
 		this.setToolSelection(otherContainer.info, otherContainer.activeSlots);
-		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
+		PacketHandler.INSTANCE
+				.sendTo(new PacketAssembler(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
 	}
 
 	public void setToolSelection(AssemblerMachineInfo info, int activeSlots) {
@@ -139,7 +142,8 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			return null;
 		if (info.machine == null)
 			return null;
-		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(), inventoryBase.tier, info.machine);
+		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(),
+				inventoryBase.tier, info.machine);
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package nedelosk.forestcore.library.gui;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
@@ -17,7 +15,8 @@ import nedelosk.forestcore.library.utils.RenderUtil;
 
 public class WidgetFluidTank extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestday", "textures/gui/widgets/widget_fluid_tank.png");
+	private final ResourceLocation widget = new ResourceLocation("forestday",
+			"textures/gui/widgets/widget_fluid_tank.png");
 	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
@@ -56,14 +55,18 @@ public class WidgetFluidTank extends Widget {
 				IIcon fluidIcon = fluid.getFluid().getStillIcon();
 
 				if (iconHeightRemainder > 0) {
-					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, gui.getZLevel(), fluidIcon, 16, iconHeightRemainder);
+					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1,
+							gui.getZLevel(), fluidIcon, 16, iconHeightRemainder);
 				}
 				for (int i = 0; i < (60 - 6) / 16; i++) {
-					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1 + i * 16 + iconHeightRemainder, gui.getZLevel(), fluidIcon, 16, 18);
+					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1,
+							gui.getGuiTop() + pos.y + 1 + i * 16 + iconHeightRemainder, gui.getZLevel(), fluidIcon, 16,
+							18);
 				}
 
 				RenderUtil.bindTexture(widget);
-				gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16, 72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
+				gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16,
+						72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
 			}
 		}
 

@@ -21,11 +21,11 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ProducerBurningGenerator extends ProducerGenerator {
-	
+
 	public ProducerBurningGenerator() {
 		this(15, 10);
 	}
-	
+
 	public ProducerBurningGenerator(int speed, int energy) {
 		super("Burning", 1, 0, speed, energy);
 	}
@@ -41,17 +41,12 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		return slots;
 	}
 
-	@Override
-	public int getSizeInventory(ModuleStack stack) {
-		return 1;
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		gui.getWidgetManager().add(new WidgetBurningBar( 80, 54, fuel, fuelTotal));
+		gui.getWidgetManager().add(new WidgetBurningBar(80, 54, fuel, fuelTotal));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
@@ -59,7 +54,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		for (Widget widget : widgets) {
 			if (widget instanceof WidgetBurningBar) {
 				ProducerBurningGenerator generator = (ProducerBurningGenerator) stack.getProducer();
-				if (generator != null)	{
+				if (generator != null) {
 					int fuel = generator.fuel;
 					int fuelTotal = generator.fuelTotal;
 					((WidgetBurningBar) widget).fuel = fuel;
@@ -73,52 +68,59 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	public int getColor() {
 		return 0xC9DC59;
 	}
-	
+
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		if(modular.getManager().getEnergyHandler() != null){
-			if(fuel > 0){
-				if(modular.getManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy, false) >= energy)
+		if (modular.getManager().getEnergyHandler() != null) {
+			if (fuel > 0) {
+				if (modular.getManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy,
+						false) >= energy)
 					fuel--;
-			}else{
-				if(getInputs(modular, stack) != null){
-					if(getInputs(modular, stack)[0].isItem() && TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item) > 0){
+			} else {
+				if (getInputs(modular, stack) != null) {
+					if (getInputs(modular, stack)[0].isItem()
+							&& TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item) > 0) {
 						int burnTime = TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item);
-						if(removeInputs(modular, stack, 1)){
+						if (removeInputs(modular, stack, 1)) {
 							fuel = burnTime;
 							fuelTotal = burnTime;
-							if(tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), 0, 1) == null)
+							if (tile.getModular().getInventoryManager()
+									.decrStackSize(stack.getModule().getName(stack, false), 0, 1) == null)
 								return;
 						}
 					}
 				}
 			}
 			if (timer > timerTotal) {
-				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
+						modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
 				timer = 0;
 			} else {
-					timer++;
+				timer++;
 			}
 		}
 	}
-	
+
 	public boolean removeInputs(IModular modular, ModuleStack stack, int size) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		for (int i = 0; i < getInputs(modular, stack).length; i++) {
 			RecipeInput input = getInputs(modular, stack)[i];
 			if (input != null) {
 				if (!input.isFluid()) {
-					if (input.isOre()){
-						if(tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+					if (input.isOre()) {
+						if (tile.getModular().getInventoryManager()
+								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
 							return false;
-					}else{
-						if(tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+					} else {
+						if (tile.getModular().getInventoryManager()
+								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
 							return false;
 					}
 					continue;
 				} else {
-					if(tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true) == null)
+					if (tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid,
+							true) == null)
 						return false;
 					continue;
 				}
@@ -127,7 +129,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String getRecipeName(ModuleStack stack) {
 		return null;
@@ -137,7 +139,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	public RecipeInput[] getInputs(IModular modular, ModuleStack stack) {
 		return getInputItems(modular, stack);
 	}
-	
+
 	@Override
 	public List<String> getRequiredModules() {
 		ArrayList<String> modules = new ArrayList();

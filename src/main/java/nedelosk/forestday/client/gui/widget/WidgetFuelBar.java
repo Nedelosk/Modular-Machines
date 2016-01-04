@@ -19,7 +19,7 @@ public class WidgetFuelBar extends Widget {
 		this.fuel = fuel;
 		this.fuelMax = fuelMax;
 	}
-	
+
 	@Override
 	public void draw(IGuiBase gui) {
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -30,11 +30,12 @@ public class WidgetFuelBar extends Widget {
 
 		int fuel = (this.fuel * 69) / this.fuelMax;
 
-		gui.drawTexturedModalRect(pos.x + gui.getGuiLeft(), pos.y + gui.getGuiTop() + 69 - fuel, 12, 0 + 69 - fuel, 12, fuel);
+		gui.drawTexturedModalRect(pos.x + gui.getGuiLeft(), pos.y + gui.getGuiTop() + 69 - fuel, 12, 0 + 69 - fuel, 12,
+				fuel);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
-	
+
 	@Override
 	public ArrayList getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();

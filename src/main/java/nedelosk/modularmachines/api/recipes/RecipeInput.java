@@ -56,19 +56,19 @@ public class RecipeInput {
 			nbt.setTag("ore", nbtTag);
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof RecipeInput){
+		if (obj instanceof RecipeInput) {
 			RecipeInput input = (RecipeInput) obj;
-			if(input.isFluid() && isFluid()){
-				if(fluid.equals(input.fluid))
+			if (input.isFluid() && isFluid()) {
+				if (fluid.equals(input.fluid))
 					return true;
-			}else if(input.isItem() && isItem()){
-				if(item.equals(input.item))
+			} else if (input.isItem() && isItem()) {
+				if (item.equals(input.item))
 					return true;
-			}else if(input.isOre() && isOre()){
-				if(ore.equals(input.ore))
+			} else if (input.isOre() && isOre()) {
+				if (ore.equals(input.ore))
 					return true;
 			}
 		}

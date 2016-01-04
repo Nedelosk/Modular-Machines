@@ -1,18 +1,18 @@
 package nedelosk.modularmachines.common.multiblocks;
 
-import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
-import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.modules.ModuleCore;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiAirHeatingPlant;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipe;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipeManager;
-import nedelosk.modularmachines.common.inventory.multiblock.ContainerAirHeatingPlant;
+import nedelosk.modularmachines.common.inventory.multiblocks.ContainerAirHeatingPlant;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -27,9 +27,9 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 
-	public FluidTankBasic tank;
-	public FluidTankBasic tankInput;
-	public FluidTankBasic tankGas;
+	public FluidTankSimple tank;
+	public FluidTankSimple tankInput;
+	public FluidTankSimple tankGas;
 	public FluidStack output;
 	public int heat;
 	public int heatTotal = 750;
@@ -82,8 +82,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 			break;
 		}
 		case 'F': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "fluid";
@@ -92,8 +92,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 			break;
 		}
 		case 'V': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.filter = "gas";
@@ -102,8 +102,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 			break;
 		}
 		case 'N': {
-			if (block != ModuleCore.BlockManager.Multiblock_Valve.block() && block != ModuleCore.BlockManager.Multiblock.block()
-					|| multiblock == null) {
+			if (block != ModuleCore.BlockManager.Multiblock_Valve.block()
+					&& block != ModuleCore.BlockManager.Multiblock.block() || multiblock == null) {
 				return false;
 			} else if (block == ModuleCore.BlockManager.Multiblock_Valve.block()) {
 				multiblock.modifier.valveType = ValveType.INPUT;
@@ -117,8 +117,8 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 			break;
 		}
 		case 'O': {
-			if (block == ModuleCore.BlockManager.Multiblock_Valve.block() || block == ModuleCore.BlockManager.Multiblock.block()
-					|| tile instanceof TileMultiblockBase) {
+			if (block == ModuleCore.BlockManager.Multiblock_Valve.block()
+					|| block == ModuleCore.BlockManager.Multiblock.block() || tile instanceof TileMultiblockBase) {
 				return false;
 			}
 			break;
@@ -167,17 +167,17 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("TankGas")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
-			tankGas = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankGas = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankGas.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
-			tank = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tank.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("TankInput")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankInput");
-			tankInput = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankInput = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankInput.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Output")) {
@@ -193,11 +193,11 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	public void updateServer(ITileMultiblock tile) {
 		TileMultiblockBase base = (TileMultiblockBase) tile;
 		if (tankGas == null)
-			tankGas = new FluidTankBasic(32000);
+			tankGas = new FluidTankSimple(32000);
 		if (tank == null)
-			tank = new FluidTankBasic(32000);
+			tank = new FluidTankSimple(32000);
 		if (tankInput == null)
-			tankInput = new FluidTankBasic(32000);
+			tankInput = new FluidTankSimple(32000);
 		if (heat >= heatTotal || heatTotal == 0) {
 			if (base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0) {
 				FluidStack input = tankInput.getFluid();

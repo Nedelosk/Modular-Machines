@@ -11,8 +11,8 @@ public interface IRecipe {
 	RecipeItem[] getOutputs();
 
 	int getRequiredSpeedModifier();
-	
-    boolean matches(Object[] craftingModifiers);
+
+	boolean matches(Object[] craftingModifiers);
 
 	int getRequiredMaterial();
 

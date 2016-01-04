@@ -8,7 +8,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerSteam;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerEngineSteam extends ProducerEngine{
+public class ProducerEngineSteam extends ProducerEngine {
 
 	public ProducerEngineSteam(String modifier, int speedModifier) {
 		super(modifier, speedModifier, "Steam");
@@ -24,7 +24,8 @@ public class ProducerEngineSteam extends ProducerEngine{
 	}
 
 	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier,
+			RecipeInput[] inputs, Object... craftingModifier) {
 		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
@@ -32,5 +33,5 @@ public class ProducerEngineSteam extends ProducerEngine{
 	public IRecipeManager creatRecipeManager() {
 		return new RecipeManagerSteam();
 	}
-	
+
 }

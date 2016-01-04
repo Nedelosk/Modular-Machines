@@ -10,9 +10,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.producers.client.IProducerWithRenderer;
 import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
 import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
 import nedelosk.modularmachines.api.producers.machines.IProducerMachine;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.client.Minecraft;
@@ -35,12 +37,12 @@ public class ModularMachineRenderer {
 
 		public ModelRenderer Base_Engine;
 		public ModelRenderer Disc_Engine;
-		
-	    public ModelRenderer Window_Engine_Top;
-	    public ModelRenderer Window_Engine_Down;
-	    public ModelRenderer Window_Engine_Left;
-	    public ModelRenderer Window_Engine_Right;
-	    public ModelRenderer Window_Engine_Glass;
+
+		public ModelRenderer Window_Engine_Top;
+		public ModelRenderer Window_Engine_Down;
+		public ModelRenderer Window_Engine_Left;
+		public ModelRenderer Window_Engine_Right;
+		public ModelRenderer Window_Engine_Glass;
 
 		public final ModuleStack<IModule, IProducerEngine> stack;
 		public ResourceLocation baseTexture;
@@ -61,28 +63,40 @@ public class ModularMachineRenderer {
 			Disc_Engine.setRotationPoint(1.0F, 14.0F, -5.0F);
 			Disc_Engine.addBox(0.0F, 0.0F, 0.0F, 5, 5, 3, 0.0F);
 			Window_Engine_Down = new ModelRenderer(model, 0, 0);
-	        Window_Engine_Down.setRotationPoint(7.0F, 21.5F, -6.0F);
-	        Window_Engine_Down.addBox(0.0F, 0.0F, 0.0F, 1, 1, 12, 0.0F);
+			Window_Engine_Down.setRotationPoint(7.0F, 21.5F, -6.0F);
+			Window_Engine_Down.addBox(0.0F, 0.0F, 0.0F, 1, 1, 12, 0.0F);
 			Window_Engine_Left = new ModelRenderer(model, 0, 0);
-	        Window_Engine_Left.setRotationPoint(7.0F, 11.5F, -6.0F);
-	        Window_Engine_Left.addBox(0.0F, 0.0F, 0.0F, 1, 10, 1, 0.0F);
+			Window_Engine_Left.setRotationPoint(7.0F, 11.5F, -6.0F);
+			Window_Engine_Left.addBox(0.0F, 0.0F, 0.0F, 1, 10, 1, 0.0F);
 			Window_Engine_Right = new ModelRenderer(model, 0, 0);
-	      	Window_Engine_Right.setRotationPoint(7.0F, 11.5F, 5.0F);
-	        Window_Engine_Right.addBox(0.0F, 0.0F, 0.0F, 1, 10, 1, 0.0F);
+			Window_Engine_Right.setRotationPoint(7.0F, 11.5F, 5.0F);
+			Window_Engine_Right.addBox(0.0F, 0.0F, 0.0F, 1, 10, 1, 0.0F);
 			Window_Engine_Top = new ModelRenderer(model, 0, 0);
-	        Window_Engine_Top.setRotationPoint(7.0F, 10.5F, -6.0F);
-	        Window_Engine_Top.addBox(0.0F, 0.0F, 0.0F, 1, 1, 12, 0.0F);
-	        Window_Engine_Glass = new ModelRenderer(model, 0, 0);
-	        Window_Engine_Glass.setRotationPoint(7.0F, 11.5F, -5.0F);
-	        Window_Engine_Glass.addBox(0.0F, 0.0F, 0.0F, 1, 10, 10, 0.0F);
+			Window_Engine_Top.setRotationPoint(7.0F, 10.5F, -6.0F);
+			Window_Engine_Top.addBox(0.0F, 0.0F, 0.0F, 1, 1, 12, 0.0F);
+			Window_Engine_Glass = new ModelRenderer(model, 0, 0);
+			Window_Engine_Glass.setRotationPoint(7.0F, 11.5F, -5.0F);
+			Window_Engine_Glass.addBox(0.0F, 0.0F, 0.0F, 1, 10, 10, 0.0F);
 
-			baseTexture = loadTexture("normal", stackEngine.getProducer().getType().toLowerCase(Locale.ENGLISH), "engine/", "_base.png");
-			discTexture = loadTexture("iron", stackEngine.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "engine/", ".png");
-			windowLeftTexture = loadTexture("iron", stackCasing.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/", "_window_left.png");
-			windowRightTexture = loadTexture("iron", stackCasing.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/", "_window_right.png");
-			windowTopTexture = loadTexture("iron", stackCasing.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/", "_window_down.png");
-			windowDownTexture = loadTexture("iron", stackCasing.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/", "_window_top.png");
-			windowGlassTexture = loadTexture("iron", stackCasing.getModule().getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/", "_window_glass.png");
+			baseTexture = loadTexture("normal", stackEngine.getProducer().getType().toLowerCase(Locale.ENGLISH),
+					"engine/", "_base.png");
+			discTexture = loadTexture("iron", ModuleRegistry.getTypeModifier(stackEngine).toLowerCase(Locale.ENGLISH),
+					"engine/", ".png");
+			windowLeftTexture = loadTexture("iron",
+					ModuleRegistry.getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/",
+					"_window_left.png");
+			windowRightTexture = loadTexture("iron",
+					ModuleRegistry.getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/",
+					"_window_right.png");
+			windowTopTexture = loadTexture("iron",
+					ModuleRegistry.getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/",
+					"_window_down.png");
+			windowDownTexture = loadTexture("iron",
+					ModuleRegistry.getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/",
+					"_window_top.png");
+			windowGlassTexture = loadTexture("iron",
+					ModuleRegistry.getTypeModifier(stackCasing).toLowerCase(Locale.ENGLISH), "casing/window/",
+					"_window_glass.png");
 		}
 
 		@Override
@@ -108,7 +122,7 @@ public class ModularMachineRenderer {
 			manager.bindTexture(windowRightTexture);
 			Window_Engine_Right.render(0.0625F);
 			manager.bindTexture(windowGlassTexture);
-	        Window_Engine_Glass.render(0.0625F);
+			Window_Engine_Glass.render(0.0625F);
 
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
@@ -122,7 +136,7 @@ public class ModularMachineRenderer {
 			GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 			GL11.glRotated(180, 0F, 0F, 1F);
 			GL11.glPushMatrix();
-			
+
 			if (entity.getFacing() == 2) {
 			} else if (entity.getFacing() == 3) {
 				GL11.glRotated(180, 0F, 1F, 0F);
@@ -131,7 +145,7 @@ public class ModularMachineRenderer {
 			} else if (entity.getFacing() == 5) {
 				GL11.glRotated(90, 0F, 1F, 0F);
 			}
-			
+
 			float step;
 			float progress = stack.getProducer().getProgress();
 
@@ -143,18 +157,18 @@ public class ModularMachineRenderer {
 
 			float tfactor = step / 16;
 			ForgeDirection direction = null;
-			if(entity.getFacing() == 2){
-				direction =	ForgeDirection.values()[entity.getFacing() + 1];
-			}else if(entity.getFacing() == 3){
-				direction =	ForgeDirection.values()[entity.getFacing()];
-			}else if(entity.getFacing() == 4){
-				direction =	ForgeDirection.values()[entity.getFacing() - 1];
-			}else if(entity.getFacing() == 5){
-				direction =	ForgeDirection.values()[entity.getFacing() - 2];
-			}else{
-				direction =	ForgeDirection.values()[entity.getFacing()];
+			if (entity.getFacing() == 2) {
+				direction = ForgeDirection.values()[entity.getFacing() + 1];
+			} else if (entity.getFacing() == 3) {
+				direction = ForgeDirection.values()[entity.getFacing()];
+			} else if (entity.getFacing() == 4) {
+				direction = ForgeDirection.values()[entity.getFacing() - 1];
+			} else if (entity.getFacing() == 5) {
+				direction = ForgeDirection.values()[entity.getFacing() - 2];
+			} else {
+				direction = ForgeDirection.values()[entity.getFacing()];
 			}
-			
+
 			manager.bindTexture(discTexture);
 			GL11.glTranslatef(direction.offsetX * tfactor, direction.offsetY * tfactor, direction.offsetZ * tfactor);
 			Disc_Engine.render(0.0625F);
@@ -171,7 +185,7 @@ public class ModularMachineRenderer {
 			manager.bindTexture(windowRightTexture);
 			Window_Engine_Right.render(0.0625F);
 			manager.bindTexture(windowGlassTexture);
-	        Window_Engine_Glass.render(0.0625F);
+			Window_Engine_Glass.render(0.0625F);
 
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
@@ -325,24 +339,24 @@ public class ModularMachineRenderer {
 			this.Base_Casing_Left = new ModelRenderer(model, 0, 0);
 			this.Base_Casing_Left.setRotationPoint(-7.0F, 9.0F, -5.0F);
 			this.Base_Casing_Left.addBox(0.0F, 0.0F, 0.0F, 7, 15, 10, 0.0F);
-	        this.Base_Casing_Right = new ModelRenderer(model, 0, 0);
-	        this.Base_Casing_Right.setRotationPoint(0.0F, 9.0F, -5.0F);
-	        this.Base_Casing_Right.addBox(0.0F, 0.0F, 0.0F, 7, 15, 10, 0.0F);
+			this.Base_Casing_Right = new ModelRenderer(model, 0, 0);
+			this.Base_Casing_Right.setRotationPoint(0.0F, 9.0F, -5.0F);
+			this.Base_Casing_Right.addBox(0.0F, 0.0F, 0.0F, 7, 15, 10, 0.0F);
 			this.Down_Right_Casing = new ModelRenderer(model, 0, 0);
 			this.Down_Right_Casing.setRotationPoint(0.0F, 22.0F, -5.0F);
 			this.Down_Right_Casing.addBox(0.0F, 0.0F, 0.0F, 7, 2, 10, 0.0F);
 
-			baseTextureLeft = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			baseTextureLeft = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_base_left.png");
-			baseTextureRight = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			baseTextureRight = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_base_right.png");
-			frontTexture = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			frontTexture = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_front.png");
-			backTexture = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			backTexture = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_back.png");
-			topTexture = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			topTexture = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_top.png");
-			downTexture = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+			downTexture = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
 					"casing/", "_down.png");
 		}
 
@@ -358,10 +372,10 @@ public class ModularMachineRenderer {
 
 			manager.bindTexture(baseTextureLeft);
 			Base_Casing_Left.render(0.0625F);
-			if(ModuleUtils.getModuleStackEngine(machine) == null){
+			if (ModuleUtils.getModuleStackEngine(machine) == null) {
 				manager.bindTexture(baseTextureRight);
 				Base_Casing_Right.render(0.0625F);
-			}else{
+			} else {
 				manager.bindTexture(topTexture);
 				Top_Right_Casing.render(0.0625F);
 				manager.bindTexture(downTexture);
@@ -393,13 +407,12 @@ public class ModularMachineRenderer {
 				GL11.glRotated(90, 0F, 1F, 0F);
 			}
 
-			
 			manager.bindTexture(baseTextureLeft);
 			Base_Casing_Left.render(0.0625F);
-			if(ModuleUtils.getModuleStackEngine(entity.getModular()) == null){
+			if (ModuleUtils.getModuleStackEngine(entity.getModular()) == null) {
 				manager.bindTexture(baseTextureRight);
 				Base_Casing_Right.render(0.0625F);
-			}else{
+			} else {
 				manager.bindTexture(topTexture);
 				Top_Right_Casing.render(0.0625F);
 				manager.bindTexture(downTexture);
@@ -426,12 +439,13 @@ public class ModularMachineRenderer {
 
 		public MachineRenderer(ModuleStack<IModule, IProducerMachine> stack) {
 			this.stack = stack;
-			
-	        Machine_Front = new ModelRenderer(model, 0, 0);
-	        Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);
-	        Machine_Front.addBox(0.0F, 0.0F, 0.0F, 13, 10, 1, 0.0F);
-	        
-	        textureMachine = loadTexture("iron", stack.getModule().getTypeModifier(stack).toLowerCase(Locale.ENGLISH), "producer/" + stack.getProducer().getFilePath(stack).toLowerCase(Locale.ENGLISH) + "/", ".png");
+
+			Machine_Front = new ModelRenderer(model, 0, 0);
+			Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);
+			Machine_Front.addBox(0.0F, 0.0F, 0.0F, 13, 10, 1, 0.0F);
+
+			textureMachine = loadTexture("iron", ModuleRegistry.getTypeModifier(stack).toLowerCase(Locale.ENGLISH),
+					"producer/" + stack.getProducer().getFilePath(stack).toLowerCase(Locale.ENGLISH) + "/", ".png");
 		}
 
 		@Override
@@ -440,7 +454,7 @@ public class ModularMachineRenderer {
 			for (Vector<ModuleStack> stacks : machine.getModules().values()) {
 				for (ModuleStack moduleStack : stacks) {
 					if (moduleStack != null) {
-						if(moduleStack.getModule() == stack.getModule() && moduleStack.getProducer() != null){
+						if (moduleStack.getModule() == stack.getModule() && moduleStack.getProducer() != null) {
 							Tessellator t = Tessellator.instance;
 							GL11.glPushMatrix();
 							GL11.glTranslated(0.5F, 1.5F, 0.5F);
@@ -451,12 +465,14 @@ public class ModularMachineRenderer {
 							Machine_Front.render(0.0625F);
 							GL11.glPopMatrix();
 							GL11.glPopMatrix();
-						}else if (moduleStack.getModule() != stack.getModule() && moduleStack.getProducer() == null) {
-							IModularRenderer renderer = moduleStack.getModule().getItemRenderer(machine, moduleStack, itemStack);
+						} else if (moduleStack.getModule() != stack.getModule() && moduleStack.getProducer() == null) {
+							IModularRenderer renderer = moduleStack.getModule().getItemRenderer(machine, moduleStack,
+									itemStack);
 							if (renderer != null)
 								renderer.renderMachineItemStack(machine, itemStack);
 						} else if (moduleStack.getModule() != stack.getModule() && moduleStack.getProducer() != null) {
-							IModularRenderer renderer = moduleStack.getProducer().getItemRenderer(machine, moduleStack, itemStack);
+							IModularRenderer renderer = ((IProducerWithRenderer) moduleStack.getProducer())
+									.getItemRenderer(machine, moduleStack, itemStack);
 							if (renderer != null)
 								renderer.renderMachineItemStack(machine, itemStack);
 						}
@@ -471,8 +487,8 @@ public class ModularMachineRenderer {
 			TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 			for (Vector<ModuleStack> stacks : machine.getModules().values()) {
 				for (ModuleStack stack : stacks) {
-					if(stack != null){
-						if(stack.getModule() == this.stack.getModule() && stack.getProducer() != null){
+					if (stack != null) {
+						if (stack.getModule() == this.stack.getModule() && stack.getProducer() != null) {
 							Tessellator t = Tessellator.instance;
 							GL11.glPushMatrix();
 							GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
@@ -490,12 +506,14 @@ public class ModularMachineRenderer {
 							Machine_Front.render(0.0625F);
 							GL11.glPopMatrix();
 							GL11.glPopMatrix();
-						}else if (stack.getModule() != this.stack.getModule() && stack.getProducer() == null) {
+						} else if (stack.getModule() != this.stack.getModule() && stack.getProducer() == null) {
 							IModularRenderer renderer = stack.getModule().getMachineRenderer(machine, stack, entity);
 							if (renderer != null)
 								renderer.renderMachine(entity, x, y, z);
-						} else if (stack.getModule() != this.stack.getModule() && stack.getProducer() != null) {
-							IModularRenderer renderer = stack.getProducer().getMachineRenderer(machine, stack, entity);
+						} else if (stack.getModule() != this.stack.getModule() && stack.getProducer() != null
+								&& stack.getProducer() instanceof IProducerWithRenderer) {
+							IModularRenderer renderer = ((IProducerWithRenderer) stack.getProducer())
+									.getMachineRenderer(machine, stack, entity);
 							if (renderer != null)
 								renderer.renderMachine(entity, x, y, z);
 						}
@@ -508,12 +526,16 @@ public class ModularMachineRenderer {
 
 	public static ResourceLocation loadTexture(String defaultName, String name, String befor, String after) {
 		try {
-			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
-			if (manager.getResource(new ResourceLocation("modularmachines", "textures/models/modules/" + befor + name + after)) != null) {
+			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getMinecraft()
+					.getResourceManager();
+			if (manager.getResource(new ResourceLocation("modularmachines",
+					"textures/models/modules/" + befor + name + after)) != null) {
 				return new ResourceLocation("modularmachines", "textures/models/modules/" + befor + name + after);
 			}
 		} catch (Exception e) {
-			//Log.err("Dont can find Texture " +  new ResourceLocation("modularmachines", "textures/models/modules/" + befor + name + after).toString());
+			// Log.err("Dont can find Texture " + new
+			// ResourceLocation("modularmachines", "textures/models/modules/" +
+			// befor + name + after).toString());
 			return new ResourceLocation("modularmachines", "textures/models/modules/" + befor + defaultName + after);
 		}
 		return null;

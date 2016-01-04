@@ -9,34 +9,38 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public abstract class AModule implements IModule {
 
 	public final String name;
-	
+
 	public AModule(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
-	
-	public static void addShapedRecipe(ItemStack stack, Object... obj){
+
+	public static void addShapedRecipe(ItemStack stack, Object... obj) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
 	}
-	
-	public static void addShapelessRecipe(ItemStack stack, Object... obj){
+
+	public static void addShapelessRecipe(ItemStack stack, Object... obj) {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
 
 	@Override
-	public void preInit(IModuleManager manager) {}
+	public void preInit(IModuleManager manager) {
+	}
 
 	@Override
-	public void init(IModuleManager manager) {	}
+	public void init(IModuleManager manager) {
+	}
 
 	@Override
-	public void postInit(IModuleManager manager) {}
+	public void postInit(IModuleManager manager) {
+	}
 
 	@Override
-	public void onRegisterObject(IObjectManager manager) {}
+	public void onRegisterObject(IObjectManager manager) {
+	}
 
 }

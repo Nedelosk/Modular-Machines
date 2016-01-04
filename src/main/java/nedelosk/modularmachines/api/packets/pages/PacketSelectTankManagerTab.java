@@ -14,7 +14,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 
-public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectTankManagerTab, IMessage> {
+public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity>
+		implements IMessageHandler<PacketSelectTankManagerTab, IMessage> {
 
 	public int tabID;
 
@@ -41,20 +42,21 @@ public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> imp
 	@Override
 	public IMessage onMessage(PacketSelectTankManagerTab message, MessageContext ctx) {
 		World world;
-		if(ctx.side == Side.CLIENT){
+		if (ctx.side == Side.CLIENT) {
 			world = Minecraft.getMinecraft().theWorld;
-		}else{
+		} else {
 			world = ctx.getServerHandler().playerEntity.worldObj;
 		}
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 
 		tile.getModular().getTankManeger().getProducer().setTab(message.tabID);
-		if(ctx.side == Side.CLIENT){
-		}else{
+		if (ctx.side == Side.CLIENT) {
+		} else {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
-			ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
+			ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y,
+					message.z);
 		}
 
 		return null;

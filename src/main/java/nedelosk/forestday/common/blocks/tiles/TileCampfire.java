@@ -6,7 +6,7 @@ import nedelosk.forestday.common.crafting.CampfireRecipe;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerCampfire;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
-import nedelosk.forestday.common.modules.ModuleCore.ItemManager;
+import nedelosk.forestday.modules.ModuleCore.ItemManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

@@ -70,6 +70,15 @@ tile.modular.machine.name=Modular Machine
 forest.nc.item.tile.oremodularmachines.0.name=Columbite Ore
 forest.nc.item.tile.oremodularmachines.1.name=Aluminium Ore
 tile.metal.block.name=Metal Block
+forest.fd.item.tile.casing.0.name=Stone Brick Casing
+forest.fd.item.tile.casing.1.name=Brick Casing
+forest.fd.item.tile.casing.2.name=Iron Casing
+forest.fd.item.tile.casing.3.name=Bronze Casing
+forest.fd.item.tile.component.metal_block.0.name=Block of Tin
+forest.fd.item.tile.component.metal_block.1.name=Block of Copper
+forest.fd.item.tile.component.metal_block.2.name=Block of Bronze
+forest.fd.item.tile.component.metal_block.3.name=Block of Steel
+forest.fd.item.tile.component.metal_block.4.name=Block of Invar
 
 ####################################
 Fluids
@@ -183,8 +192,8 @@ component.rods.3.name=Rod Copper
 component.rods.4.name=Rod Bronze
 component.rods.5.name=Rod Steel
 component.rods.6.name=Rod Plastic
-component.connection_wires.0.name=Connection Wire Iron
-component.connection_wires.1.name=Connection Wire Tin
-component.connection_wires.2.name=Connection Wire Copper
-component.connection_wires.3.name=Connection Wire Bronze
-component.connection_wires.4.name=Connection Wire Steel
+component.wires.0.name=Wire Iron
+component.wires.1.name=Wire Tin
+component.wires.2.name=Wire Copper
+component.wires.3.name=Wire Bronze
+component.wires.4.name=Wire Steel

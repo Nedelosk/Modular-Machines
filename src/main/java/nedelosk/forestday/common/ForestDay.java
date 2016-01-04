@@ -2,9 +2,11 @@ package nedelosk.forestday.common;
 
 import java.io.File;
 
+import nedelosk.forestcore.library.multiblock.MultiblockEventHandler;
 import nedelosk.forestday.common.configs.ForestDayConfig;
 import nedelosk.forestday.common.core.FRegistry;
 import nedelosk.forestday.common.proxy.CommonProxy;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -26,6 +28,10 @@ public class ForestDay {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+
+		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
+
+		proxy.registerTickHandlers();
 
 		File configFileForestdayFolder = new File(event.getModConfigurationDirectory(), "Forest-Day");
 		File configFileForestday = new File(configFileForestdayFolder, "Forest-Day.cfg");

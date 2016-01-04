@@ -61,8 +61,8 @@ public final class RenderUtil {
 				var7 += 10;
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
-		if (!lighting)
-			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+			if (!lighting)
+				net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		}
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
@@ -72,7 +72,7 @@ public final class RenderUtil {
 			boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
 			if (lighting)
 				net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-		
+
 			int var5 = 0;
 			int var6;
 			int var7;
@@ -109,7 +109,7 @@ public final class RenderUtil {
 				var7 += 10;
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			
+
 			if (!lighting)
 				net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		}

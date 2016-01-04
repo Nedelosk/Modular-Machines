@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import nedelosk.forestcore.library.tile.TileBaseInventory;
-import nedelosk.modularmachines.api.client.gui.GuiModularMachine;
+import nedelosk.modularmachines.api.client.gui.GuiModular;
 import nedelosk.modularmachines.api.inventory.ContainerModularMachine;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.producers.gui.IProducerGui;
+import nedelosk.modularmachines.api.producers.client.IProducerGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -73,17 +73,19 @@ public class ModularGuiManager implements IModularGuiManager {
 	}
 
 	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
+	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile,
+			InventoryPlayer inventory) {
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
 		return new ContainerModularMachine(tile, inventory);
 	}
 
 	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> Object getGUIContainer(T tile, InventoryPlayer inventory) {
+	public <T extends TileBaseInventory & IModularTileEntity> Object getGUIContainer(T tile,
+			InventoryPlayer inventory) {
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
-		return new GuiModularMachine(tile, inventory);
+		return new GuiModular(tile, inventory);
 	}
 
 }

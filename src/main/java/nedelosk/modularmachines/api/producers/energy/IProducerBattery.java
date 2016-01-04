@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.producers.energy;
 
 import cofh.api.energy.EnergyStorage;
-import nedelosk.modularmachines.api.producers.gui.IProducerGuiWithWidgets;
+import nedelosk.modularmachines.api.producers.client.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 

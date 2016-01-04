@@ -10,12 +10,14 @@ public abstract class GuiMachine<T extends TileMachineBase> extends GuiBase<T> {
 	public GuiMachine(T tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
-	
+
 	@Override
-	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {}
-	
+	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
+	}
+
 	@Override
-	protected void renderProgressBar() {}
+	protected void renderProgressBar() {
+	}
 
 	@Override
 	protected String getModName() {

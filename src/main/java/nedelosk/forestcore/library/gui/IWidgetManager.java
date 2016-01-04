@@ -6,7 +6,7 @@ import java.util.List;
 public interface IWidgetManager<G extends IGuiBase> {
 
 	void add(Widget slot);
-	
+
 	void add(Collection<Widget> slots);
 
 	void remove(Widget slot);

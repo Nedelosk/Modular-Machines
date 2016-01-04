@@ -7,7 +7,7 @@ public class DummyInternalMethodHandler implements IInternalMethodHandler {
 
 	@Override
 	public void openGui(EntityPlayer entityPlayer, int modGuiId, World world, int x, int y, int z) {
-		
+
 	}
-	
+
 }

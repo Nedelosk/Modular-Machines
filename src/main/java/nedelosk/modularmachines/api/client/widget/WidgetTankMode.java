@@ -29,9 +29,9 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public void draw(IGuiBase<T> gui) {
-		if(mode == null)
+		if (mode == null)
 			return;
-		
+
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
@@ -40,21 +40,22 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 		GL11.glEnable(GL11.GL_LIGHTING);
 
 	}
-	
+
 	@Override
 	public void drawStrings(IGuiBase<T> gui) {
-		if(mode == null)
+		if (mode == null)
 			return;
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append(mode.name().charAt(0));
-		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
-		
+		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(),
+				gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
+
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
-	
+
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
 		if (mode != null) {
@@ -69,7 +70,7 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
-		if(mode == null)
+		if (mode == null)
 			return null;
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(mode.name());

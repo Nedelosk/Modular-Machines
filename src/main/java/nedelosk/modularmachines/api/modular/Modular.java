@@ -79,7 +79,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 			String key = modulesTag.getString("key");
 			Vector<ModuleStack> moduleV = new Vector<ModuleStack>();
 			for (int r = 0; r < modulesTagList.tagCount(); r++) {
-				ModuleStack stack = ModuleStack.loadStackFromNBT(modulesTagList.getCompoundTagAt(r), this);
+				ModuleStack stack = new ModuleStack(modulesTagList.getCompoundTagAt(r), this);
 				moduleV.add(stack);
 			}
 			modules.put(key, moduleV);
@@ -206,56 +206,57 @@ public abstract class Modular implements IModular, IWailaProvider {
 	public IModularGuiManager getGuiManager() {
 		return gui;
 	}
-	
+
 	@Override
 	public List<ModuleStack> getFluidProducers() {
 		List<ModuleStack> stacks = new ArrayList();
-		for(Vector<ModuleStack> stackV : modules.values()){
-			for(ModuleStack stack : stackV){
-				if(stack != null && stack.getModule() != null && stack.getProducer() != null && stack.getProducer() instanceof IProducerWithFluid){
-					if(((IProducerWithFluid)stack.getProducer()).useFluids(stack))
+		for (Vector<ModuleStack> stackV : modules.values()) {
+			for (ModuleStack stack : stackV) {
+				if (stack != null && stack.getModule() != null && stack.getProducer() != null
+						&& stack.getProducer() instanceof IProducerWithFluid) {
+					if (((IProducerWithFluid) stack.getProducer()).useFluids(stack))
 						stacks.add(stack);
 				}
 			}
 		}
 		return stacks;
 	}
-	
-	public ArrayList<ModuleStack> getWailaModules(){
+
+	public ArrayList<ModuleStack> getWailaModules() {
 		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
-		for(Entry<String, Vector<ModuleStack>> entrys : modules.entrySet()){
-			for(ModuleStack stack : entrys.getValue()){
-				if(stack.getProducer() != null && stack.getProducer() instanceof IWailaProvider)
+		for (Entry<String, Vector<ModuleStack>> entrys : modules.entrySet()) {
+			for (ModuleStack stack : entrys.getValue()) {
+				if (stack.getProducer() != null && stack.getProducer() instanceof IWailaProvider)
 					wailaModules.add(stack);
 			}
 		}
 		return wailaModules;
 	}
-	
+
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
 			currenttip = stack.getProducer().getWailaBody(itemStack, currenttip, data);
 		}
 		return currenttip;
 	}
-	
+
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
 			currenttip = stack.getProducer().getWailaHead(itemStack, currenttip, data);
 		}
 		return currenttip;
 	}
-	
+
 	@Override
 	public IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data) {
 		return this;
 	}
-	
+
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for(ModuleStack<IModule, IProducerWaila> stack : getWailaModules()){
+		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
 			currenttip = stack.getProducer().getWailaTail(itemStack, currenttip, data);
 		}
 		return currenttip;

@@ -14,7 +14,8 @@ public class ItemBlockMachines extends ItemBlockForestDay {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedBlockName(((BlockMachines) getBlock()).blockName + "." + stack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedBlockName(((BlockMachines) getBlock()).blockName + "." + stack.getItemDamage(),
+				"fd");
 	}
 
 }

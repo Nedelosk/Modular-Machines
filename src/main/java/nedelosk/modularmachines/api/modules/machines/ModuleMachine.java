@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.api.modules.machines;
 
 import nedelosk.modularmachines.api.modules.Module;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 public class ModuleMachine extends Module {
@@ -14,7 +15,10 @@ public class ModuleMachine extends Module {
 
 	@Override
 	public String getName(ModuleStack stack, boolean withTypeModifier) {
-		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "") + (withTypeModifier ? ((getTypeModifier(stack) != null) ? getTypeModifier(stack) : "") : "");
+		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "")
+				+ (withTypeModifier
+						? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "")
+						: "");
 	}
 
 	@Override

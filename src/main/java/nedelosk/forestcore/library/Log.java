@@ -28,4 +28,20 @@ public class Log {
 		log(Loader.instance().activeModContainer().getModId() + " INFO", Level.INFO, msg, args);
 	}
 
+	public static void severe(String message, Object param) {
+		log(Level.FATAL, message, param);
+	}
+
+	public static void severe(String message, Object... params) {
+		log(Level.FATAL, message, params);
+	}
+
+	public static void warn(String message, Object... params) {
+		log("Modular Machines", Level.WARN, message, params);
+	}
+
+	public static void fatal(String message, Object... params) {
+		log("Modular Machines", Level.FATAL, message, params);
+	}
+
 }

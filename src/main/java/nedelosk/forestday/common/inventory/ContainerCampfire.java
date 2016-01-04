@@ -18,104 +18,82 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		addSlotToContainer(new Slot(inventoryBase, 0, 25, 35){
+		addSlotToContainer(new Slot(inventoryBase, 0, 25, 35) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if(CampfireRecipeManager.isInput(stack))
+				if (CampfireRecipeManager.isInput(stack))
 					return true;
 				return false;
 			}
 		});
-		addSlotToContainer(new Slot(inventoryBase, 1, 43, 35){
+		addSlotToContainer(new Slot(inventoryBase, 1, 43, 35) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if(CampfireRecipeManager.isInput(stack))
+				if (CampfireRecipeManager.isInput(stack))
 					return true;
 				return false;
 			}
 		});
-		addSlotToContainer(new Slot(inventoryBase, 2, 65, 53){
+		addSlotToContainer(new Slot(inventoryBase, 2, 65, 53) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if(TileEntityFurnace.getItemBurnTime(stack) > 0)
+				if (TileEntityFurnace.getItemBurnTime(stack) > 0)
 					return true;
 				return false;
 			}
 		});
 		addSlotToContainer(new SlotOutput(inventoryBase, 3, 116, 35));
 	}
-	
-	
-    @Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
-    {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(slotID);
 
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
-            if (slotID == 39)
-            {
-                if (!this.mergeItemStack(itemstack1, 0, 36, true))
-                {
-                    return null;
-                }
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (slotID != 36 && slotID != 37 && slotID != 38)
-            {
-                if (CampfireRecipeManager.isInput(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 36, 38, false))
-                    {
-                        return null;
-                    }
-                }else if (TileEntityFurnace.getItemBurnTime(itemstack1) > 0)
-                {
-                    if (!this.mergeItemStack(itemstack1, 38, 39, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (slotID >= 0 && slotID < 27)
-                {
-                    if (!this.mergeItemStack(itemstack1, 27, 36, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 0, 36, false))
-            {
-                return null;
-            }
+			if (slotID == 39) {
+				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
+					return null;
+				}
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (slotID != 36 && slotID != 37 && slotID != 38) {
+				if (CampfireRecipeManager.isInput(itemstack1)) {
+					if (!this.mergeItemStack(itemstack1, 36, 38, false)) {
+						return null;
+					}
+				} else if (TileEntityFurnace.getItemBurnTime(itemstack1) > 0) {
+					if (!this.mergeItemStack(itemstack1, 38, 39, false)) {
+						return null;
+					}
+				} else if (slotID >= 0 && slotID < 27) {
+					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
+						return null;
+					}
+				} else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
+				return null;
+			}
 
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
-                return null;
-            }
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-            slot.onPickupFromSlot(player, itemstack1);
-        }
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
 
-        return itemstack;
-    }
+			slot.onPickupFromSlot(player, itemstack1);
+		}
+
+		return itemstack;
+	}
 
 }

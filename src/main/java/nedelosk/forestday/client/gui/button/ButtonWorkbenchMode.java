@@ -1,17 +1,22 @@
 package nedelosk.forestday.client.gui.button;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.forestcore.library.gui.Button;
+import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.utils.RenderUtil;
+import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench.Mode;
+import nedelosk.forestday.common.network.packets.PacketHandler;
+import nedelosk.forestday.common.network.packets.machines.PacketSwitchMode;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public class ButtonWorkbenchMode extends GuiButton {
+public class ButtonWorkbenchMode extends Button<TileWorkbench> {
 
 	private Mode mode;
 	private final ResourceLocation texture;
@@ -28,20 +33,29 @@ public class ButtonWorkbenchMode extends GuiButton {
 
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mx, int my) {
-		boolean inside = mx >= xPosition && my >= yPosition && mx < xPosition + width && my < yPosition + height;
-
-		int i = (mode == Mode.stop_processing) ? 20 : 0;
 		GL11.glPushMatrix();
 		RenderUtil.bindTexture(texture);
-		RenderUtil.drawTexturedModalRect(xPosition, yPosition, zLevel * 2, 0 + i, 0, 20, 20, 1F / 40F, 1F / 20F);
+		RenderUtil.drawTexturedModalRect(xPosition, yPosition, zLevel * 2,
+				0 + ((mode == Mode.stop_processing) ? 20 : 0), 0, 20, 20, 1F / 40F, 1F / 20F);
 		GL11.glPopMatrix();
+	}
 
-		if (mode != null && inside) {
+	@Override
+	public List getTooltip(IGuiBase gui) {
+		if (mode != null) {
 			ArrayList tooltip = new ArrayList();
 			tooltip.add(StatCollector.translateToLocal("forestday.tooltip.workbanch.mode." + mode.ordinal()));
-			int tooltipY = (tooltip.size() - 1) * 10;
-			RenderUtil.renderTooltip(mx, my + tooltipY, tooltip);
+			return tooltip;
 		}
+		return null;
+	}
+
+	@Override
+	public void onButtonClick(IGuiBase<TileWorkbench> gui) {
+		TileWorkbench bench = gui.getTile();
+		bench.setMode(bench.getMode() == Mode.further_processing ? Mode.stop_processing : Mode.further_processing);
+		setMode(bench.getMode());
+		PacketHandler.INSTANCE.sendToServer(new PacketSwitchMode(gui.getTile()));
 	}
 
 }

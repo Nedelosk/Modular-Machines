@@ -1,21 +1,23 @@
 # Changelog
 
 # 0.4.0 Beta - Nedelosk
+**Forest-Core Libary**
+- add Dorest-Core libary
+
 **Forest-Day**
 - Wood Bucket Fluid Fix
 - Change File Durabilitys Iron 100 = 150, Diamond 150 = 300
 - Change Pod Holder Recipe
 
 **Modular-Machines**
-- Improve all API
+- Improve API
 - Improve Engine and Recipe System
-- Add Boiler, Generator and Lathe Modules
+- Add Boiler, Generator, Assembler and Lathe Modules
 - Add Metal Blocks
 - Add many Recipes
-- Add Casings
-- Improve Iron Casing Texture
+- Add new Casings
+- Improve Casing Texture
 - Improve Engine Window Model and Texture
-- Improve Waila System
 
   - **Plugins**
   - Improve Waila Plugin

@@ -11,7 +11,7 @@ import codechicken.nei.recipe.GuiUsageRecipe;
 import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.common.core.manager.MMBlockManager;
+import nedelosk.modularmachines.modules.ModuleModular;
 import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI {
@@ -22,10 +22,11 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		isAdded = false;
-		for (ModuleStack stack : ModuleRegistry.getModuleItems())
+		for (ModuleStack stack : ModuleRegistry.getProducers())
 			if (stack.getProducer() instanceof IProducerMachineRecipe) {
 				String producer = stack.getModule().getName(stack, false);
-				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack, null) != null && !producerHandlers.contains(producer)) {
+				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack, null) != null
+						&& !producerHandlers.contains(producer)) {
 					new ModularMachinesHandler(stack);
 					producerHandlers.add(producer);
 				}
@@ -34,8 +35,8 @@ public class NEIConfig implements IConfigureNEI {
 
 		GuiCraftingRecipe.craftinghandlers.add(new ShapedModuleRecipeHandler());
 		GuiUsageRecipe.usagehandlers.add(new ShapedModuleRecipeHandler());
-		
-		API.hideItem(new ItemStack(MMBlockManager.Modular_Machine.item(), 1, 0));
+
+		API.hideItem(new ItemStack(ModuleModular.BlockManager.Modular_Machine.item(), 1, 0));
 	}
 
 	@Override

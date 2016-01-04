@@ -109,12 +109,14 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 				foundPattern = true;
 			}
 			if (sr.getInput() != null && input != null) {
-				if (sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage() && input.stackSize >= sr.getInput().stackSize) {
+				if (sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage()
+						&& input.stackSize >= sr.getInput().stackSize) {
 					foundInput = true;
 				}
 			}
 			if (sr.getInputPattern() != null && inputPattern != null) {
-				if (sr.getInputPattern().getItem() == inputPattern.getItem() && sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
+				if (sr.getInputPattern().getItem() == inputPattern.getItem()
+						&& sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
 					foundPattern = true;
 				}
 			}
@@ -174,51 +176,51 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	public ArrayList<ItemStack> getOutputs() {
 		return outputs;
 	}
-	
-	public static boolean isTool(ItemStack stack){
-		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+
+	public static boolean isTool(ItemStack stack) {
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
 			return false;
-		for(WorkbenchRecipe recipe : recipes){
-			if(recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem())
+		for (WorkbenchRecipe recipe : recipes) {
+			if (recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem())
 				return true;
-			else if(recipe.getsInputTool() != null){
+			else if (recipe.getsInputTool() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInputTool().getOreDict());
-				for(int oreID : OreDictionary.getOreIDs(stack)){
-					if(oreID == ore)
+				for (int oreID : OreDictionary.getOreIDs(stack)) {
+					if (oreID == ore)
 						return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	public static boolean isInput(ItemStack stack){
-		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+
+	public static boolean isInput(ItemStack stack) {
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
 			return false;
-		for(WorkbenchRecipe recipe : recipes){
-			if(recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem())
+		for (WorkbenchRecipe recipe : recipes) {
+			if (recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem())
 				return true;
-			else if(recipe.getsInput() != null){
+			else if (recipe.getsInput() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInput().getOreDict());
-				for(int oreID : OreDictionary.getOreIDs(stack)){
-					if(oreID == ore)
+				for (int oreID : OreDictionary.getOreIDs(stack)) {
+					if (oreID == ore)
 						return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	public static boolean isPattern(ItemStack stack){
-		if(stack == null || stack.getItem() == null || stack.stackSize == 0)
+
+	public static boolean isPattern(ItemStack stack) {
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
 			return false;
-		for(WorkbenchRecipe recipe : recipes){
-			if(recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem())
+		for (WorkbenchRecipe recipe : recipes) {
+			if (recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem())
 				return true;
-			else if(recipe.getsInputPattern() != null){
+			else if (recipe.getsInputPattern() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInputPattern().getOreDict());
-				for(int oreID : OreDictionary.getOreIDs(stack)){
-					if(oreID == ore)
+				for (int oreID : OreDictionary.getOreIDs(stack)) {
+					if (oreID == ore)
 						return true;
 				}
 			}

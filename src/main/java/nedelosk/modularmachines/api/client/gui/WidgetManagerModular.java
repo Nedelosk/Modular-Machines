@@ -4,13 +4,13 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.gui.IProducerGui;
+import nedelosk.modularmachines.api.producers.client.IProducerGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 
-public class WidgetManagerModular extends WidgetManager<GuiModularMachine> {
+public class WidgetManagerModular extends WidgetManager<GuiModular> {
 
-	public WidgetManagerModular(GuiModularMachine gui) {
+	public WidgetManagerModular(GuiModular gui) {
 		super(gui);
 	}
 
@@ -19,9 +19,11 @@ public class WidgetManagerModular extends WidgetManager<GuiModularMachine> {
 		Widget widget = getAtPosition(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
 		if (widget != null) {
 			widget.handleMouseClick(mouseX, mouseY, mouseButton, gui);
-			ModuleStack<IModule, IProducerGui> gui = ((IModularTileEntity) getGui().getTile()).getModular().getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, this.gui.getTile());
+			ModuleStack<IModule, IProducerGui> gui = ((IModularTileEntity) getGui().getTile()).getModular()
+					.getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, this.gui.getTile());
 
-			gui.getProducer().handleMouseClicked((IModularTileEntity) getGui().getTile(), widget, mouseX, mouseY, mouseButton, gui);
+			gui.getProducer().handleMouseClicked((IModularTileEntity) getGui().getTile(), widget, mouseX, mouseY,
+					mouseButton, gui);
 		}
 	}
 

@@ -60,13 +60,13 @@ public class ProducerAssembler extends ProducerMachineRecipe {
 		ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
 		int burnTime = 0;
 		int burnTimeTotal = 0;
-		if(engine != null){
+		if (engine != null) {
 			burnTime = engine.getProducer().getBurnTime(engine);
 			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}
-	
+
 	@Override
 	public List<Widget> addNEIWidgets(IGuiBase gui, ModuleStack stack, IRecipe recipe) {
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 25, 0, 0));
@@ -97,7 +97,7 @@ public class ProducerAssembler extends ProducerMachineRecipe {
 
 	@Override
 	public int getColor() {
-		return 0xB22222;
+		return 0x601C93;
 	}
 
 }

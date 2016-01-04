@@ -28,9 +28,9 @@ public class ProducerFactory implements IProducerFactory {
 		try {
 			IProducer i = null;
 			if (name != null) {
-				if (ModuleRegistry.getProducer(name) == null)
+				if (ModuleRegistry.getProducerClass(name) == null)
 					return null;
-				i = ModuleRegistry.getProducer(name)
+				i = ModuleRegistry.getProducerClass(name)
 						.getConstructor(new Class[] { NBTTagCompound.class, IModular.class, ModuleStack.class })
 						.newInstance(nbt, modular, stack);
 			}
@@ -50,9 +50,9 @@ public class ProducerFactory implements IProducerFactory {
 		try {
 			IProducer i = null;
 			if (name != null) {
-				if (ModuleRegistry.getProducer(name) == null)
+				if (ModuleRegistry.getProducerClass(name) == null)
 					return null;
-				i = ModuleRegistry.getProducer(name).newInstance();
+				i = ModuleRegistry.getProducerClass(name).newInstance();
 			}
 			if (i != null) {
 				return (P) i;

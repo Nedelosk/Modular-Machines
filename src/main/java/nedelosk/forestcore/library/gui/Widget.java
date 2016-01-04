@@ -3,11 +3,11 @@ package nedelosk.forestcore.library.gui;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import nedelosk.forestcore.library.inventory.IGuiHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class Widget<I extends IInventory> {
+public class Widget<I extends IGuiHandler> {
 
 	protected ResourceLocation widget;
 	protected Rectangle pos;
@@ -19,7 +19,7 @@ public class Widget<I extends IInventory> {
 
 	public void draw(IGuiBase<I> gui) {
 	}
-	
+
 	public void drawStrings(IGuiBase<I> gui) {
 	}
 
@@ -34,7 +34,7 @@ public class Widget<I extends IInventory> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
 
 	}
-	
+
 	public Rectangle getPos() {
 		return pos;
 	}

@@ -23,7 +23,7 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	public void add(Button slot) {
 		this.buttons.add(slot);
 	}
-	
+
 	@Override
 	public void add(Collection slots) {
 		this.buttons.addAll(slots);
@@ -73,16 +73,9 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 
 	}
 
-	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		Button slot = getAtPosition(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
-		if (slot != null) {
-			slot.handleMouseClick(mouseX, mouseY, mouseButton);
-		}
-	}
-	
 	@Override
 	public G getGui() {
 		return null;
 	}
-	
+
 }

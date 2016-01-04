@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
@@ -18,10 +17,6 @@ public interface IModule {
 	String getModuleName();
 
 	String getModifier(ModuleStack stack);
-
-	String getTypeModifier(ModuleStack stack);
-
-	void addType(Type tier, String modifier);
 
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);

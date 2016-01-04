@@ -57,10 +57,12 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	public static BlastFurnaceRecipe getRecipe(ItemStack[] inputs) {
 		for (BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes) {
 			boolean isBreak = false;
-			for (int i = 0; i < sr.getInput().length; i++) {
+			Inputs: for (int i = 0; i < sr.getInput().length; i++) {
 				if (sr.getInput()[i] != null) {
-					if (inputs[i] == null)
+					if (inputs[i] == null) {
 						isBreak = true;
+						break;
+					}
 					if (sr.getInput()[i] instanceof ItemStack)
 						if (((ItemStack) sr.getInput()[i]).getItem() == inputs[i].getItem()
 								&& ((ItemStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize
@@ -68,13 +70,15 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 								&& ItemStack.areItemStackTagsEqual(inputs[i], (ItemStack) sr.getInput()[i]))
 							continue;
 					if (sr.getInput()[i] instanceof OreStack) {
-						List<ItemStack> list = OreDictionary.getOres(((OreStack) sr.getInput()[i]).oreDict);
-						for (ItemStack stack : list) {
-							if (stack.getItem() == inputs[i].getItem()
-									&& ((OreStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize
-									&& stack.getItemDamage() == inputs[i].getItemDamage()
-									&& ItemStack.areItemStackTagsEqual(inputs[i], stack))
-								continue;
+						if (!(((OreStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize)) {
+							isBreak = true;
+							break;
+						}
+						int ore = OreDictionary.getOreID(((OreStack) sr.getInput()[i]).getOreDict());
+						for (int oreID : OreDictionary.getOreIDs(inputs[i])) {
+							if (oreID == ore) {
+								continue Inputs;
+							}
 						}
 					}
 					isBreak = true;

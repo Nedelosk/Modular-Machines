@@ -70,7 +70,7 @@ public class ModuleUtils {
 	}
 
 	public static Vector<ModuleStack> getModuleStack(IModular modular, String moduleName) {
-		if(modular == null)
+		if (modular == null)
 			return null;
 		return modular.getModule(moduleName);
 	}

@@ -8,7 +8,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
-import nedelosk.modularmachines.common.core.manager.MMBlockManager;
+import nedelosk.modularmachines.modules.ModuleModular;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -19,7 +19,7 @@ public class MachineBuilder {
 		if (machine != null) {
 			if (tier >= machine.getTier()) {
 				try {
-					ItemStack stack = MMBlockManager.Modular_Machine.getItemStack();
+					ItemStack stack = new ItemStack(ModuleModular.BlockManager.Modular_Machine.item());
 					stack.setTagCompound(new NBTTagCompound());
 					NBTTagCompound nbtTag = new NBTTagCompound();
 					machine.writeToNBT(nbtTag);

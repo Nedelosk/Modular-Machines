@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public final class TileCache {
-	
+
 	private final TileEntity[] cache = new TileEntity[6];
 	private final TileEntity source;
 

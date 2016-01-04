@@ -8,11 +8,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.producers.client.IProducerWithRenderer;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class Producer implements IProducer {
+public abstract class Producer implements IProducer, IProducerWithRenderer {
 
 	public String modifier;
 
@@ -48,14 +49,6 @@ public abstract class Producer implements IProducer {
 		return modifier;
 	}
 
-	@Override
-	public void updateServer(IModular modular, ModuleStack stack) {
-	}
-
-	@Override
-	public void updateClient(IModular modular, ModuleStack stack) {
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
@@ -69,6 +62,14 @@ public abstract class Producer implements IProducer {
 	}
 
 	@Override
+	public void updateServer(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
+	public void updateClient(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
 	public List<String> getRequiredModules() {
 		return new ArrayList<String>();
 	}
@@ -78,7 +79,7 @@ public abstract class Producer implements IProducer {
 		ArrayList<String> requiredModules = new ArrayList<>();
 		requiredModules.addAll(getRequiredModules());
 		for (String moduleName : getRequiredModules()) {
-			if(moduleNames.contains(moduleName))
+			if (moduleNames.contains(moduleName))
 				requiredModules.remove(moduleName);
 			else
 				return false;

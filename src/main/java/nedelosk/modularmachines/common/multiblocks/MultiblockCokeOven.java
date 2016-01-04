@@ -2,21 +2,21 @@ package nedelosk.modularmachines.common.multiblocks;
 
 import java.util.ArrayList;
 
-import nedelosk.forestcore.library.FluidTankBasic;
+import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.forestcore.library.utils.NBTUtil;
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.api.multiblocks.MultiblockModifierValveType.ValveType;
 import nedelosk.forestday.client.renderer.TextureAtlasMap;
 import nedelosk.forestday.common.blocks.BlockMultiblock;
-import nedelosk.forestday.common.modules.ModuleCore;
 import nedelosk.forestday.common.multiblocks.TileMultiblockBase;
+import nedelosk.forestday.modules.ModuleCore;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.client.gui.multiblocks.GuiCokeOven;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager.CokeOvenRecipe;
-import nedelosk.modularmachines.common.inventory.multiblock.ContainerCokeOven;
+import nedelosk.modularmachines.common.inventory.multiblocks.ContainerCokeOven;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +34,8 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class MultiblockCokeOven extends MultiblockModularMachines {
 
-	public FluidTankBasic tank;
-	public FluidTankBasic tankGas;
+	public FluidTankSimple tank;
+	public FluidTankSimple tankGas;
 	public ItemStack output;
 	public int heat;
 	public int heatTotal = 1350;
@@ -200,8 +200,8 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 			break;
 		}
 		case 'O': {
-			if (block == ModuleCore.BlockManager.Multiblock_Valve.block() || block == ModuleCore.BlockManager.Multiblock.block()
-					|| tile instanceof TileMultiblockBase) {
+			if (block == ModuleCore.BlockManager.Multiblock_Valve.block()
+					|| block == ModuleCore.BlockManager.Multiblock.block() || tile instanceof TileMultiblockBase) {
 				return false;
 			}
 			break;
@@ -315,12 +315,12 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Tank");
-			tank = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tank = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tank.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("TankGas")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("TankGas");
-			tankGas = new FluidTankBasic(nbtTag.getInteger("Capacity"));
+			tankGas = new FluidTankSimple(nbtTag.getInteger("Capacity"));
 			tankGas.readFromNBT(nbtTag);
 		}
 		if (nbt.hasKey("Output")) {
@@ -338,9 +338,9 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 		if (base.slots == null)
 			base.slots = new ItemStack[2];
 		if (tank == null)
-			tank = new FluidTankBasic(32000);
+			tank = new FluidTankSimple(32000);
 		if (tankGas == null)
-			tankGas = new FluidTankBasic(32000);
+			tankGas = new FluidTankSimple(32000);
 		if (heat >= heatTotal || heatTotal == 0) {
 			if (base.burnTime >= base.burnTimeTotal || base.burnTimeTotal == 0) {
 				ItemStack input = tile.getStackInSlot(0);

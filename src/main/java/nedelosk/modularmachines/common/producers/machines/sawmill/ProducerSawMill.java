@@ -57,11 +57,6 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	}
 
 	@Override
-	public int getSizeInventory(ModuleStack stack) {
-		return 3;
-	}
-
-	@Override
 	public int getColor() {
 		return 0xA65005;
 	}

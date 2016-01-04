@@ -6,7 +6,7 @@ import nedelosk.forestcore.library.core.Registry;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.items.base.ItemForest;
-import nedelosk.forestday.common.modules.ModuleCore;
+import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

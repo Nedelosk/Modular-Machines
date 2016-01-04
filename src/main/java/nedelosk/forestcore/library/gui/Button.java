@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import nedelosk.forestcore.library.inventory.IGuiHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class Button<I extends IInventory> extends GuiButton {
-	
+public class Button<I extends IGuiHandler> extends GuiButton {
+
 	protected RenderItem itemRender = RenderItem.getInstance();
 
 	public Button(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, int p_i1021_4_, int p_i1021_5_, String p_i1021_6_) {
@@ -23,14 +23,10 @@ public class Button<I extends IInventory> extends GuiButton {
 		return x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
 	}
 
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-
-	}
-
 	public List<String> getTooltip(IGuiBase<I> gui) {
 		return null;
 	}
-	
+
 	protected void drawItemStack(ItemStack stack, int x, int y) {
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 		this.zLevel = 200.0F;

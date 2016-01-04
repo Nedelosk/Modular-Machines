@@ -37,7 +37,7 @@ public interface IWailaData {
 	double getPartialFrame();
 
 	ForgeDirection getSide();
-	
+
 	/*
 	 * Returns a set of all the currently loaded modules in the config handler
 	 */
@@ -69,5 +69,5 @@ public interface IWailaData {
 	public boolean getConfig(String key);
 
 	public void setConfig(String key, boolean value);
-	
+
 }

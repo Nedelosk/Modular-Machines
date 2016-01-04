@@ -32,10 +32,11 @@ public class ForestDayConfig {
 		charcoalKilnBurnTime = config.get("Charcoal Kiln", "BurnTime", 12000).getInt();
 
 		// Ores
-		generateOre = config.get("World Generation", "Ore Generation", new boolean[] { true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel.").getBooleanList();
+		generateOre = config.get("World Generation", "Ore Generation", new boolean[] { true, true, true, true, true },
+				"Ore Generation for Copper, Tin, Silver, Lead, Nickel.").getBooleanList();
 
 		isModuleCoalActive = config.get("Modules", "Module Charcoal", true).getBoolean();
-		
+
 		config.save();
 
 	}
@@ -61,7 +62,7 @@ public class ForestDayConfig {
 	public static int charcoalKilnBurnTime;
 
 	public static boolean[] generateOre;
-	
+
 	public static boolean isModuleCoalActive;
 
 }

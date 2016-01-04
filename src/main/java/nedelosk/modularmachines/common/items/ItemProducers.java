@@ -17,7 +17,7 @@ import nedelosk.modularmachines.api.producers.special.IProducerWithItem;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.TabModularMachines;
-import nedelosk.modularmachines.common.core.manager.MMItemManager;
+import nedelosk.modularmachines.modules.ModuleModular;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -54,8 +54,8 @@ public class ItemProducers extends Item {
 		return icons[pass];
 	}
 
-	public static ModuleStack addModuleItem(ModuleStack moduleStack) {
-		ItemStack itemStack = new ItemStack(MMItemManager.Producers.item());
+	public static ModuleStack addProducer(ModuleStack moduleStack) {
+		ItemStack itemStack = new ItemStack(ModuleModular.ItemManager.Producers.item());
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("Type", moduleStack.getType().getName());
 		nbtTag.setString("Name", moduleStack.getProducer().getName(moduleStack));
@@ -66,19 +66,19 @@ public class ItemProducers extends Item {
 		moduleStack.setItemStack(itemStack);
 		return moduleStack;
 	}
-	
-	private static class ModuleComparator implements Comparator<Map.Entry<Pair<Type, IModule>, ItemStack>>{
+
+	private static class ModuleComparator implements Comparator<Map.Entry<Pair<Type, IModule>, ItemStack>> {
 
 		@Override
 		public int compare(Entry<Pair<Type, IModule>, ItemStack> o1, Entry<Pair<Type, IModule>, ItemStack> o2) {
-			if(o1.getKey().first().getTier() > o2.getKey().first().getTier())
+			if (o1.getKey().first().getTier() > o2.getKey().first().getTier())
 				return 1;
-			else if(o1.getKey().first().getTier() < o2.getKey().first().getTier())
+			else if (o1.getKey().first().getTier() < o2.getKey().first().getTier())
 				return -1;
 			else
 				return 0;
 		}
-		
+
 	}
 
 	@Override
@@ -96,25 +96,24 @@ public class ItemProducers extends Item {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
-		if (!stack.hasTagCompound())
-			return 16777215;
-		if (pass == 1) {
-			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory.createProducer(stack.getTagCompound().getString("Name"));
+		if (pass == 1 && stack.hasTagCompound()) {
+			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory
+					.createProducer(stack.getTagCompound().getString("Name"));
 			return producer.getColor();
 		} else {
 			return 16777215;
 		}
 	}
-	
-	public static HashMap<Pair<Type, IModule>, ItemStack> getItems(){
+
+	public static HashMap<Pair<Type, IModule>, ItemStack> getItems() {
 		return subItems;
 	}
-	
-	public static ItemStack getItem(Pair<Type, IModule> pair){
+
+	public static ItemStack getItem(Pair<Type, IModule> pair) {
 		return subItems.get(pair);
 	}
-	
-	public static ItemStack getItem(Type type, IModule module){
+
+	public static ItemStack getItem(Type type, IModule module) {
 		return subItems.get(new Pair<Type, IModule>(type, module));
 	}
 

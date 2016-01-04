@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.core;
 
-import nedelosk.modularmachines.common.core.manager.MMBlockManager;
-import nedelosk.modularmachines.common.core.manager.MMItemManager;
+import nedelosk.modularmachines.modules.ModuleCore;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -25,12 +24,13 @@ public class TabModularMachines extends CreativeTabs {
 		int iconMeta;
 		switch (tabIcon) {
 		case 0:
-			iconItem = MMBlockManager.Modular_Assembler.item();
-			iconMeta = 2;
+			iconItem = ModuleCore.ItemManager.Component_Gears.item();
+			iconMeta = 5;
 			break;
 		case 1:
-			ItemStack stack = new ItemStack(MMItemManager.Component_Gears.item(), 0, 1);
-			return stack;
+			iconItem = ModuleCore.ItemManager.Component_Gears.item();
+			iconMeta = 3;
+			break;
 		default:
 			iconItem = Items.apple;
 			iconMeta = 0;
