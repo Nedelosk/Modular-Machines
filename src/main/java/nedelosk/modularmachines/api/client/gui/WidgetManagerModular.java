@@ -6,7 +6,6 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.client.IProducerGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.client.Minecraft;
 
 public class WidgetManagerModular extends WidgetManager<GuiModular> {
 
@@ -20,7 +19,7 @@ public class WidgetManagerModular extends WidgetManager<GuiModular> {
 		if (widget != null) {
 			widget.handleMouseClick(mouseX, mouseY, mouseButton, gui);
 			ModuleStack<IModule, IProducerGui> gui = ((IModularTileEntity) getGui().getTile()).getModular()
-					.getGuiManager().getModuleWithGui(Minecraft.getMinecraft().thePlayer, this.gui.getTile());
+					.getGuiManager().getModuleWithGui();
 
 			gui.getProducer().handleMouseClicked((IModularTileEntity) getGui().getTile(), widget, mouseX, mouseY,
 					mouseButton, gui);

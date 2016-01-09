@@ -18,6 +18,7 @@ import nedelosk.modularmachines.common.crafting.FermenterRecipeManager;
 import nedelosk.modularmachines.common.crafting.FermenterRecipeManager.FermenterRecipe;
 import nedelosk.modularmachines.common.inventory.multiblocks.ContainerFermenter;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -144,7 +145,7 @@ public class MultiblockFermenter extends MultiblockModularMachines {
 	}
 
 	@Override
-	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new GuiFermenter((TileMultiblockBase) tile, inventory);
 	}
 

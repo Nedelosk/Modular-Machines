@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import nedelosk.forestcore.library.tile.TileBaseGui;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -16,8 +15,8 @@ public class GuiHandler implements IGuiHandler {
 		if (tile == null)
 			return null;
 
-		if (tile instanceof TileBaseGui) {
-			return ((TileBaseGui) tile).getContainer(player.inventory);
+		if (tile instanceof nedelosk.forestcore.library.inventory.IGuiHandler) {
+			return ((nedelosk.forestcore.library.inventory.IGuiHandler) tile).getContainer(player.inventory);
 		}
 		return null;
 	}
@@ -29,8 +28,8 @@ public class GuiHandler implements IGuiHandler {
 		if (tile == null)
 			return null;
 
-		if (tile instanceof TileBaseGui) {
-			return ((TileBaseGui) tile).getGUIContainer(player.inventory);
+		if (tile instanceof nedelosk.forestcore.library.inventory.IGuiHandler) {
+			return ((nedelosk.forestcore.library.inventory.IGuiHandler) tile).getGUIContainer(player.inventory);
 		}
 		return null;
 	}

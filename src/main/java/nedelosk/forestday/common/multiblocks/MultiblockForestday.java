@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nedelosk.forestday.api.multiblocks.ITileMultiblock;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,7 +76,7 @@ public abstract class MultiblockForestday extends AbstractMultiblock {
 	}
 
 	@Override
-	public Object getGUIContainer(ITileMultiblock base, InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(ITileMultiblock base, InventoryPlayer inventory) {
 		return null;
 	}
 

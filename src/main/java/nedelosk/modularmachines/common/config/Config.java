@@ -36,6 +36,7 @@ public class Config {
 		pluginMineTweaker3 = config.get("Plugins", "Mine Tweaker 3", true).getBoolean();
 
 		bastFurnaceMaxHeat = config.get("Multiblocks", "Blast Furnace", 1500).getInt();
+		airHeatingPlantMaxHeat = config.get("Multiblocks", "Air Heating Plant", 750).getInt();
 
 		save();
 	}
@@ -67,6 +68,7 @@ public class Config {
 	}
 
 	public static int bastFurnaceMaxHeat;
+	public static int airHeatingPlantMaxHeat;
 
 	public static boolean generateColumbiteOre;
 	public static boolean generateAluminiumOre;

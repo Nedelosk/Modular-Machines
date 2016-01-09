@@ -7,16 +7,15 @@ import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
 
 public interface IModularGuiManager extends INBTTagable {
 
 	ArrayList<ModuleStack> getModuleWithGuis();
 
-	ModuleStack getModuleWithGui(EntityPlayer player, TileEntity tile);
+	ModuleStack getModuleWithGui();
 
 	String getPage();
 
@@ -24,7 +23,7 @@ public interface IModularGuiManager extends INBTTagable {
 
 	<T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory);
 
-	<T extends TileBaseInventory & IModularTileEntity> Object getGUIContainer(T tile, InventoryPlayer inventory);
+	<T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile, InventoryPlayer inventory);
 
 	void setModular(IModular modular);
 

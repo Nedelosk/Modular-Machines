@@ -28,12 +28,12 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerTickHandlers() {
+		super.registerTickHandlers();
 		FMLCommonHandler.instance().bus().register(new MultiblockClientTickHandler());
 	}
 
 	@Override
 	public void registerRenderers() {
-		;
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCampfire.class, new TileCampfireRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileWorkbench.class, new TileWorkbenchRenderer());
 		MinecraftForgeClient.registerItemRenderer(ModuleCore.BlockManager.Machine.item(), new ItemMachineWoodBase());

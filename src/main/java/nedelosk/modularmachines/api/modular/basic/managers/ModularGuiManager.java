@@ -10,11 +10,10 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.producers.client.IProducerGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public class ModularGuiManager implements IModularGuiManager {
 
@@ -52,7 +51,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	}
 
 	@Override
-	public ModuleStack getModuleWithGui(EntityPlayer player, TileEntity tile) {
+	public ModuleStack getModuleWithGui() {
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
 		for (ModuleStack module : getModuleWithGuis()) {
@@ -81,7 +80,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	}
 
 	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> Object getGUIContainer(T tile,
+	public <T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile,
 			InventoryPlayer inventory) {
 		if (page == null || page.length() == 0 || page.length() < 0)
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);

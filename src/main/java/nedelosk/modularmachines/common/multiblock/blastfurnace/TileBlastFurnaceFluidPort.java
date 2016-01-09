@@ -3,11 +3,13 @@ package nedelosk.modularmachines.common.multiblock.blastfurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.fluids.TankManager;
+import nedelosk.forestcore.library.multiblock.MultiblockValidationException;
 import nedelosk.modularmachines.client.gui.multiblock.GuiBlastFurnaceFluidPort;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerBlastFurnaceFluidPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -17,14 +19,19 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class TileBlastFurnaceFluidPort extends TileBlastFurnaceBase implements IFluidHandler {
 
 	public static enum PortType {
-		INPUT_AIR_HOT, SLAG, OUTPUT, Gas_Blast_Furnace;
+		AIR, SLAG, OUTPUT, GAS;
 	}
 
 	private PortType type;
 
 	public TileBlastFurnaceFluidPort() {
 		super();
-		type = PortType.INPUT_AIR_HOT;
+		type = PortType.AIR;
+	}
+
+	public TileBlastFurnaceFluidPort(PortType type) {
+		super();
+		this.type = type;
 	}
 
 	public PortType getType() {
@@ -32,33 +39,75 @@ public class TileBlastFurnaceFluidPort extends TileBlastFurnaceBase implements I
 	}
 
 	@Override
+	public void isGoodForFrame() throws MultiblockValidationException {
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's frame",
+						xCoord, yCoord, zCoord));
+	}
+
+	@Override
+	public void isGoodForSides() throws MultiblockValidationException {
+		if (type != PortType.AIR && type != PortType.OUTPUT)
+			throw new MultiblockValidationException(
+					String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's side",
+							xCoord, yCoord, zCoord));
+	}
+
+	@Override
+	public void isGoodForTop() throws MultiblockValidationException {
+		if (type != PortType.GAS)
+			throw new MultiblockValidationException(
+					String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's top",
+							xCoord, yCoord, zCoord));
+	}
+
+	@Override
+	public void isGoodForBottom() throws MultiblockValidationException {
+		if (type != PortType.SLAG)
+			throw new MultiblockValidationException(String.format(
+					"%d, %d, %d - This blast furnace part may not be placed in the blast furnace's bottom", xCoord,
+					yCoord, zCoord));
+	}
+
+	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if (!isConnected() || type != PortType.INPUT_AIR_HOT || from != getOutwardsDir()) {
-			return 0;
+		if (isConnected() && from == getOutwardsDir() && type == PortType.AIR) {
+			return getController().getTankManager().getTank(0).fill(resource, doFill);
 		}
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
-		return tm.fill(from, resource, doFill);
+		return 0;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if (!isConnected() || from != getOutwardsDir()) {
-			return null;
+		if (isConnected() && from == getOutwardsDir()) {
+			if (type == PortType.AIR)
+				return getController().getTankManager().getTank(0).drain(resource, doDrain);
+			else if (type == PortType.SLAG)
+				return getController().getTankManager().getTank(1).drain(resource, doDrain);
+			else if (type == PortType.OUTPUT)
+				return getController().getTankManager().getTank(2).drain(resource, doDrain);
+			else if (type == PortType.GAS)
+				return getController().getTankManager().getTank(3).drain(resource, doDrain);
 		}
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
-		return tm.drain(from, resource, doDrain);
+		return null;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if (!isConnected() || from != getOutwardsDir()) {
-			return null;
+		if (isConnected() && from == getOutwardsDir()) {
+			if (type == PortType.AIR)
+				return getController().getTankManager().getTank(0).drain(maxDrain, doDrain);
+			else if (type == PortType.SLAG)
+				return getController().getTankManager().getTank(1).drain(maxDrain, doDrain);
+			else if (type == PortType.OUTPUT)
+				return getController().getTankManager().getTank(2).drain(maxDrain, doDrain);
+			else if (type == PortType.GAS)
+				return getController().getTankManager().getTank(3).drain(maxDrain, doDrain);
 		}
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
-		return tm.drain(from, maxDrain, doDrain);
+		return null;
 	}
 
 	@Override
@@ -67,11 +116,11 @@ public class TileBlastFurnaceFluidPort extends TileBlastFurnaceBase implements I
 			return false;
 		}
 
-		if (!(type == PortType.INPUT_AIR_HOT)) {
+		if (!(type == PortType.AIR)) {
 			return false;
 		} // Prevent pipes from filling up the output tank inadvertently
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
+		TankManager tm = getController().getTankManager();
 		return tm.canFill(from, fluid);
 	}
 
@@ -81,7 +130,7 @@ public class TileBlastFurnaceFluidPort extends TileBlastFurnaceBase implements I
 			return false;
 		}
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
+		TankManager tm = getController().getTankManager();
 		return tm.canDrain(from, fluid);
 	}
 
@@ -91,8 +140,22 @@ public class TileBlastFurnaceFluidPort extends TileBlastFurnaceBase implements I
 			return new FluidTankInfo[0];
 		}
 
-		TankManager tm = getBlastFurnaceController().getTankManager();
+		TankManager tm = getController().getTankManager();
 		return tm.getTankInfo(from);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound data) {
+		super.writeToNBT(data);
+
+		data.setInteger("Type", type.ordinal());
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound data) {
+		super.readFromNBT(data);
+
+		type = PortType.values()[data.getInteger("Type")];
 	}
 
 	@Override

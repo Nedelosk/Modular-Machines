@@ -2,6 +2,7 @@ package nedelosk.forestday.common.blocks.tiles;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ public class TileCharcoalAsh extends TileMachineBase {
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return null;
 	}
 

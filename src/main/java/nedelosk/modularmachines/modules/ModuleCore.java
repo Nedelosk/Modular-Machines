@@ -27,6 +27,8 @@ import nedelosk.modularmachines.common.items.ItemComponent;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
 import nedelosk.modularmachines.common.items.materials.ItemDusts;
+import nedelosk.modularmachines.common.multiblock.blastfurnace.BlockBlastFurnace;
+import nedelosk.modularmachines.common.multiblock.cowper.BlockCowper;
 import nedelosk.modularmachines.common.world.WorldGeneratorModularMachines;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -73,6 +75,9 @@ public class ModuleCore extends AModule {
 		BlockManager.Component_Metal_Blocks.addMetaData(0xCA9956, "bronze", "Bronze");
 		BlockManager.Component_Metal_Blocks.addMetaData(0xA0A0A0, "steel", "Steel");
 		BlockManager.Component_Metal_Blocks.addMetaData(0xA1A48C, "invar", "Invar");
+
+		manager.register(BlockManager.Blast_Furnace, new BlockBlastFurnace(), ItemBlockForestDay.class);
+		manager.register(BlockManager.Cowper, new BlockCowper(), ItemBlockForestDay.class);
 
 		manager.register(ItemManager.Dusts, new ItemDusts(ItemDusts.dusts, ""));
 		manager.register(ItemManager.Dusts_Others, new ItemDusts(ItemDusts.dustsOtherOres, ".other"));
@@ -254,7 +259,9 @@ public class ModuleCore extends AModule {
 
 	public static enum BlockManager implements IBlockManager {
 
-		Ore_Others, Component_Metal_Blocks;
+		Ore_Others, Component_Metal_Blocks,
+
+		Blast_Furnace, Cowper;
 
 		private Block block;
 

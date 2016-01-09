@@ -19,6 +19,7 @@ import nedelosk.forestcore.library.gui.IWidgetManager;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetManager;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
+import nedelosk.forestcore.library.inventory.IGuiHandler;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
@@ -29,7 +30,6 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -248,7 +248,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	}
 
 	@Override
-	public IInventory getTile() {
+	public IGuiHandler getTile() {
 		return null;
 	}
 

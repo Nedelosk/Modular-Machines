@@ -14,6 +14,7 @@ import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipe;
 import nedelosk.modularmachines.common.crafting.AirHeatingPlantRecipeManager;
 import nedelosk.modularmachines.common.inventory.multiblocks.ContainerAirHeatingPlant;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -140,7 +141,7 @@ public class MultiblockAirHeatingPlant extends MultiblockModularMachines {
 	}
 
 	@Override
-	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new GuiAirHeatingPlant((TileMultiblockBase) tile, inventory);
 	}
 

@@ -10,6 +10,7 @@ import nedelosk.forestday.api.multiblocks.MultiblockModifierValveTypeString;
 import nedelosk.forestday.api.multiblocks.MultiblockPattern;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.utils.TileCache;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -422,7 +423,7 @@ public class TileMultiblockBase<M extends IMultiblock> extends TileMachineBase i
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return master.getMultiblock().getGUIContainer(this, inventory);
 	}
 

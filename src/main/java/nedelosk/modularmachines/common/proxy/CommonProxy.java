@@ -6,8 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import nedelosk.forestcore.library.tile.TileBaseGui;
-import nedelosk.forestcore.library.tile.TileBaseInventory;
 
 public class CommonProxy implements IGuiHandler {
 
@@ -17,8 +15,8 @@ public class CommonProxy implements IGuiHandler {
 
 		switch (ID) {
 		case 0:
-			if (tile != null && tile instanceof TileBaseGui) {
-				return ((TileBaseInventory) tile).getContainer(player.inventory);
+			if (tile != null && tile instanceof nedelosk.forestcore.library.inventory.IGuiHandler) {
+				return ((nedelosk.forestcore.library.inventory.IGuiHandler) tile).getContainer(player.inventory);
 			}
 		default:
 			return null;
@@ -34,8 +32,8 @@ public class CommonProxy implements IGuiHandler {
 		if ((world instanceof WorldClient)) {
 			switch (ID) {
 			case 0:
-				if (tile instanceof TileBaseGui) {
-					return ((TileBaseInventory) tile).getGUIContainer(player.inventory);
+				if (tile instanceof nedelosk.forestcore.library.inventory.IGuiHandler) {
+					return ((nedelosk.forestcore.library.inventory.IGuiHandler) tile).getGUIContainer(player.inventory);
 				}
 			default:
 				return null;

@@ -18,6 +18,7 @@ import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager;
 import nedelosk.modularmachines.common.crafting.CokeOvenRecipeManager.CokeOvenRecipe;
 import nedelosk.modularmachines.common.inventory.multiblocks.ContainerCokeOven;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -293,7 +294,7 @@ public class MultiblockCokeOven extends MultiblockModularMachines {
 	}
 
 	@Override
-	public Object getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(ITileMultiblock tile, InventoryPlayer inventory) {
 		return new GuiCokeOven((TileMultiblockBase<MultiblockCokeOven>) tile, inventory);
 	}
 

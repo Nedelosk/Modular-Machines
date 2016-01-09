@@ -10,6 +10,7 @@ import nedelosk.forestday.common.configs.ForestDayConfig;
 import nedelosk.forestday.common.crafting.WorkbenchRecipe;
 import nedelosk.forestday.common.crafting.WorkbenchRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerWorkbench;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -68,7 +69,7 @@ public class TileWorkbench extends TileMachineBase {
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return new GuiWorkbench(this, inventory);
 	}
 

@@ -47,8 +47,10 @@ import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.items.ModularMetaItem;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import nedelosk.modularmachines.common.modular.utils.ProducerFactory;
+import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceAccessPort;
+import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceBase;
+import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceFluidPort;
 import nedelosk.modularmachines.common.multiblocks.MultiblockAirHeatingPlant;
-import nedelosk.modularmachines.common.multiblocks.MultiblockBlastFurnace;
 import nedelosk.modularmachines.common.multiblocks.MultiblockCokeOven;
 import nedelosk.modularmachines.common.multiblocks.MultiblockFermenter;
 import nedelosk.modularmachines.common.network.packets.PacketAssembler;
@@ -87,9 +89,12 @@ public class ModuleModular extends AModule {
 
 		GameRegistry.registerTileEntity(TileModularAssembler.class, "tile.modular.assenbler");
 		GameRegistry.registerTileEntity(TileModular.class, "tile.modular");
+		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "tile.blastfurnace.accessport");
+		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "tile.blastfurnace.fluidport");
+		GameRegistry.registerTileEntity(TileBlastFurnaceBase.class, "tile.blastfurnace.base");
 
 		new MultiblockAirHeatingPlant();
-		new MultiblockBlastFurnace();
+		// new MultiblockBlastFurnace();
 		new MultiblockCokeOven();
 		new MultiblockFermenter();
 

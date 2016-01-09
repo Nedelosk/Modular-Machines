@@ -27,7 +27,7 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		this.inventory = inventoryPlayer;
 
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
-		ModuleStack stack = guiManager.getModuleWithGui(inventoryPlayer.player, inventoryBase);
+		ModuleStack stack = guiManager.getModuleWithGui();
 
 		if (stack.getProducer() instanceof IProducerInventory) {
 			if (((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack) != null
@@ -45,7 +45,7 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	protected void addInventory(InventoryPlayer inventory) {
 
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
-		ModuleStack stack = guiManager.getModuleWithGui(inventory.player, inventoryBase);
+		ModuleStack stack = guiManager.getModuleWithGui();
 
 		if (stack.getProducer() instanceof IProducerInventory) {
 			int i = ((IProducerGui) stack.getProducer()).getGuiTop(inventoryBase.getModular(), stack) - 82;
@@ -67,7 +67,7 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 		ModuleStack<IModule, IProducerInventory> stack;
 		try {
-			stack = inventoryBase.getModular().getGuiManager().getModuleWithGui(player, inventoryBase);
+			stack = inventoryBase.getModular().getGuiManager().getModuleWithGui();
 		} catch (Exception e) {
 			stack = null;
 		}

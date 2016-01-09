@@ -15,7 +15,6 @@ import nedelosk.modularmachines.api.producers.client.IProducerGuiWithButtons;
 import nedelosk.modularmachines.api.producers.client.IProducerGuiWithWidgets;
 import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -27,8 +26,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 		super(tile, inventory);
 		widgetManager = new WidgetManagerModular(this);
 
-		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager()
-				.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
 
 		if (gui != null && gui.getProducer() instanceof IProducerGuiWithWidgets)
 			((IProducerGuiWithWidgets) gui.getProducer()).addWidgets(this, tile.getModular(), gui);
@@ -37,8 +35,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-		ModuleStack<IModule, IProducerGui> stack = tile.getModular().getGuiManager()
-				.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+		ModuleStack<IModule, IProducerGui> stack = tile.getModular().getGuiManager().getModuleWithGui();
 		stack.getProducer().renderString(fontRenderer, guiLeft, guiTop, x, y, stack);
 	}
 
@@ -47,11 +44,10 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
 
-		if (guiManager.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile)
-				.getProducer() instanceof IProducerInventory) {
+		if (guiManager.getModuleWithGui().getProducer() instanceof IProducerInventory) {
 			for (int slotID = 36; slotID < inventorySlots.inventorySlots.size(); slotID++) {
 				Slot slot = ((ArrayList<Slot>) inventorySlots.inventorySlots).get(slotID);
-				ModuleStack gui = guiManager.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+				ModuleStack gui = guiManager.getModuleWithGui();
 				if (slot.getSlotIndex() < ((IProducerInventory) gui.getProducer()).getSizeInventory(gui)) {
 					drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 56,
 							238, 18, 18);
@@ -62,8 +58,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 
 	@Override
 	public void addButtons() {
-		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager()
-				.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
 
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
 
@@ -94,8 +89,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager()
-				.getModuleWithGui(Minecraft.getMinecraft().thePlayer, tile);
+		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

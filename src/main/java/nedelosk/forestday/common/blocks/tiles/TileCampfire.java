@@ -7,6 +7,7 @@ import nedelosk.forestday.common.crafting.CampfireRecipeManager;
 import nedelosk.forestday.common.inventory.ContainerCampfire;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.forestday.modules.ModuleCore.ItemManager;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -62,7 +63,7 @@ public class TileCampfire extends TileMachineBase {
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return new GuiCampfire(this, inventory);
 	}
 

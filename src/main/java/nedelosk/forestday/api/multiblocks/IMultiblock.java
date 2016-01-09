@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.INBTTagable;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +39,7 @@ public interface IMultiblock extends INBTTagable {
 
 	Container getContainer(ITileMultiblock base, InventoryPlayer inventory);
 
-	Object getGUIContainer(ITileMultiblock base, InventoryPlayer inventory);
+	GuiContainer getGUIContainer(ITileMultiblock base, InventoryPlayer inventory);
 
 	void updateClient(ITileMultiblock base);
 

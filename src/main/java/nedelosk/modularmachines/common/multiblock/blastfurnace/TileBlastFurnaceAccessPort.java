@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.inventory.FakeInventoryAdapter;
 import nedelosk.forestcore.library.inventory.IInventoryAdapter;
+import nedelosk.forestcore.library.multiblock.MultiblockValidationException;
 import nedelosk.modularmachines.client.gui.multiblock.GuiBlastFurnaceAccessPort;
 import nedelosk.modularmachines.common.inventory.multiblock.ContainerBlastFurnaceAccessPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -19,10 +20,31 @@ public class TileBlastFurnaceAccessPort extends TileBlastFurnaceBase implements 
 		super();
 	}
 
+	@Override
+	public void isGoodForFrame() throws MultiblockValidationException {
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's frame",
+						xCoord, yCoord, zCoord));
+	}
+
+	@Override
+	public void isGoodForSides() throws MultiblockValidationException {
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's side",
+						xCoord, yCoord, zCoord));
+	}
+
+	@Override
+	public void isGoodForBottom() throws MultiblockValidationException {
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's bottom",
+						xCoord, yCoord, zCoord));
+	}
+
 	private IInventoryAdapter getInventory() {
 		if (!isConnected())
 			return FakeInventoryAdapter.instance();
-		return getBlastFurnaceController().getInventory();
+		return getController().getInventory();
 	}
 
 	@Override

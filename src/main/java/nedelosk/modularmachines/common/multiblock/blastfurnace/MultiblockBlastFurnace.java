@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nedelosk.forestcore.library.Log;
-import nedelosk.forestcore.library.fluids.FluidTankFilter;
 import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.forestcore.library.fluids.TankManager;
 import nedelosk.forestcore.library.inventory.InventoryAdapter;
@@ -16,33 +15,43 @@ import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipeManager;
+import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceFluidPort.PortType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BlastFurnaceController extends RectangularMultiblockControllerBase {
+public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase {
 
-	private InventoryAdapter inventory = new InventoryAdapter(4, "BlastFurnace", 16);
-	private TankManager tankManager = new TankManager(new FluidTankFilter(16000, "air.hot"),
-			new FluidTankFilter(16000, "slag"), new FluidTankSimple(16000),
-			new FluidTankFilter(16000, "gas.blastfurnace"));
+	private InventoryAdapter inventory = new InventoryAdapter(4, "BlastFurnace", 64);
+	private TankManager tankManager = new TankManager(
+			new FluidTankSimple(16000), //Air
+			new FluidTankSimple(16000), //Slag
+			new FluidTankSimple(16000), //Output
+			new FluidTankSimple(16000)); //Gas
 
 	private Set<TileBlastFurnaceAccessPort> attachedAccessPorts;
 	private Set<TileBlastFurnaceFluidPort> attachedFluidPorts;
+	private Set<TileBlastFurnaceFluidPort> attachedFluidPortsAir;
+	private Set<TileBlastFurnaceFluidPort> attachedFluidPortsSlag;
+	private Set<TileBlastFurnaceFluidPort> attachedFluidPortsGas;
 	private int heat;
 	private int heatTotal;
 	private int burnTime;
 	private int burnTimeTotal;
 	private int heatMax = Config.bastFurnaceMaxHeat;
+	private boolean isActive;
 	private FluidStack[] outputs;
 
-	public BlastFurnaceController(World world) {
+	public MultiblockBlastFurnace(World world) {
 		super(world);
 
 		attachedAccessPorts = new HashSet<TileBlastFurnaceAccessPort>();
 		attachedFluidPorts = new HashSet<TileBlastFurnaceFluidPort>();
+		attachedFluidPortsSlag = new HashSet<TileBlastFurnaceFluidPort>();
+		attachedFluidPortsAir = new HashSet<TileBlastFurnaceFluidPort>();
+		attachedFluidPortsGas = new HashSet<TileBlastFurnaceFluidPort>();
 	}
 
 	@Override
@@ -55,7 +64,15 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 		if (part instanceof TileBlastFurnaceAccessPort) {
 			attachedAccessPorts.add((TileBlastFurnaceAccessPort) part);
 		} else if (part instanceof TileBlastFurnaceFluidPort) {
-			attachedFluidPorts.add((TileBlastFurnaceFluidPort) part);
+			TileBlastFurnaceFluidPort port = (TileBlastFurnaceFluidPort) part;
+			if (port.getType() == PortType.OUTPUT)
+				attachedFluidPorts.add((TileBlastFurnaceFluidPort) part);
+			else if (port.getType() == PortType.AIR)
+				attachedFluidPortsAir.add((TileBlastFurnaceFluidPort) part);
+			else if (port.getType() == PortType.GAS)
+				attachedFluidPortsGas.add((TileBlastFurnaceFluidPort) part);
+			else if (port.getType() == PortType.SLAG)
+				attachedFluidPortsSlag.add((TileBlastFurnaceFluidPort) part);
 		}
 	}
 
@@ -64,16 +81,34 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 		if (part instanceof TileBlastFurnaceAccessPort) {
 			attachedAccessPorts.remove(part);
 		} else if (part instanceof TileBlastFurnaceFluidPort) {
-			attachedFluidPorts.remove(part);
+			TileBlastFurnaceFluidPort port = (TileBlastFurnaceFluidPort) part;
+			if (port.getType() == PortType.OUTPUT)
+				attachedFluidPorts.remove(part);
+			else if (port.getType() == PortType.AIR)
+				attachedFluidPortsAir.remove(part);
+			else if (port.getType() == PortType.GAS)
+				attachedFluidPortsGas.remove(part);
+			else if (port.getType() == PortType.SLAG)
+				attachedFluidPortsSlag.remove(part);
 		}
 	}
 
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
-		// Ensure that there is at least one controller and control rod
-		// attached.
-		if (attachedFluidPorts.size() < 3) {
-			throw new MultiblockValidationException("Not enough fluid ports. Blast Furnace require at least 3.");
+		if (attachedFluidPorts.size() < 1) {
+			throw new MultiblockValidationException("Not enough output fluid ports. Blast Furnace require at least 1.");
+		}
+
+		if (attachedFluidPortsAir.size() < 1) {
+			throw new MultiblockValidationException("Not enough air ports. Blast Furnace require at least 1.");
+		}
+
+		if (attachedFluidPortsSlag.size() < 1) {
+			throw new MultiblockValidationException("Not enough slag ports. Blast Furnace require at least 1.");
+		}
+
+		if (attachedFluidPortsGas.size() < 1) {
+			throw new MultiblockValidationException("Not enough gas ports. Blast Furnace require at least 1.");
 		}
 
 		if (attachedAccessPorts.size() < 1) {
@@ -89,6 +124,7 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 
 	@Override
 	protected void onMachineDisassembled() {
+		isActive = false;
 	}
 
 	@Override
@@ -136,9 +172,9 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase otherMachine) {
-		if (!(otherMachine instanceof BlastFurnaceController)) {
+		if (!(otherMachine instanceof MultiblockBlastFurnace)) {
 			Log.warn(
-					"[%s] Blast Furnace @ %s is attempting to assimilate a non-Reactor machine! That machine's data will be lost!",
+					"[%s] Blast Furnace @ %s is attempting to assimilate a non-Blast Funace machine! That machine's data will be lost!",
 					worldObj.isRemote ? "CLIENT" : "SERVER", getReferenceCoord());
 			return;
 		}
@@ -148,57 +184,68 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 	protected void onAssimilated(MultiblockControllerBase assimilator) {
 		this.attachedAccessPorts.clear();
 		this.attachedFluidPorts.clear();
+		this.attachedFluidPortsAir.clear();
+		this.attachedFluidPortsGas.clear();
+		this.attachedFluidPortsSlag.clear();
 	}
 
 	@Override
 	protected boolean updateServer() {
-		if (heat >= heatTotal || heatTotal == 0) {
-			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
-				if (outputs != null) {
-					if (outputs[0] != null)
-						if (getTankManager().getTank(1).fill(outputs[0], true) >= outputs[0].amount)
-							outputs[0] = null;
-					if (outputs[1] != null)
-						if (getTankManager().getTank(2).fill(outputs[1], true) >= outputs[1].amount)
-							outputs[1] = null;
-					if (outputs[0] == null && outputs[1] == null)
-						outputs = null;
-				} else {
-					ItemStack[] inputs = new ItemStack[4];
-					for (int i = 0; i < inputs.length; i++)
-						inputs[i] = getInventory().getStackInSlot(i);
-					if (inputs[0] != null) {
-						BlastFurnaceRecipe recipe = BlastFurnaceRecipeManager.getRecipe(inputs);
-						if (recipe != null) {
-							for (int i = 0; i < recipe.getInput().length; i++) {
-								if (recipe.getInput()[i] instanceof ItemStack)
-									getInventory().decrStackSize(i, ((ItemStack) recipe.getInput()[i]).stackSize);
-								if (recipe.getInput()[i] instanceof OreStack)
-									getInventory().decrStackSize(i, ((OreStack) recipe.getInput()[i]).stackSize);
+		if (isActive) {
+			if (heat >= heatTotal || heatTotal == 0) {
+				if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
+					if (outputs != null) {
+						if (outputs[0] != null)
+							if (getTankManager().getTank(1).fill(outputs[0], true) >= outputs[0].amount)
+								outputs[0] = null;
+						if (outputs[1] != null)
+							if (getTankManager().getTank(2).fill(outputs[1], true) >= outputs[1].amount)
+								outputs[1] = null;
+						if (outputs[0] == null && outputs[1] == null)
+							outputs = null;
+					} else {
+						ItemStack[] inputs = new ItemStack[4];
+						for (int i = 0; i < inputs.length; i++)
+							inputs[i] = getInventory().getStackInSlot(i);
+						if (inputs[0] != null) {
+							BlastFurnaceRecipe recipe = BlastFurnaceRecipeManager.getRecipe(inputs);
+							if (recipe != null) {
+								for (int i = 0; i < recipe.getInput().length; i++) {
+									if (recipe.getInput()[i] instanceof ItemStack)
+										getInventory().decrStackSize(i, ((ItemStack) recipe.getInput()[i]).stackSize);
+									if (recipe.getInput()[i] instanceof OreStack)
+										getInventory().decrStackSize(i, ((OreStack) recipe.getInput()[i]).stackSize);
+								}
+								outputs = recipe.getOutput().clone();
+								burnTimeTotal = recipe.getBurntTime();
+								heatTotal = recipe.getHeat();
+								return true;
 							}
-							outputs = recipe.getOutput().clone();
-							burnTimeTotal = recipe.getBurntTime();
-							heatTotal = recipe.getHeat();
-							return true;
 						}
 					}
+				} else {
+					burnTime++;
+					heat--;
 				}
 			} else {
-				burnTime++;
-				heat--;
+				if (heat < heatMax)
+					if (worldObj.rand.nextInt(40) == 20)
+						if (getTankManager().getTank(0) != null && getTankManager().getTank(0).drain(50, true) != null
+								&& getTankManager().getTank(0).drain(50, true).amount >= 50)
+							if (getTankManager().getTank(3).fill(
+									new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >= 150) {
+								heat += 15;
+								return true;
+							}
 			}
-		} else {
-			if (heat < heatMax)
-				if (worldObj.rand.nextInt(40) == 20)
-					if (getTankManager().getTank(0) != null && getTankManager().getTank(0).drain(50, true) != null
-							&& getTankManager().getTank(0).drain(50, true).amount >= 50)
-						if (getTankManager().getTank(3)
-								.fill(new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >= 150) {
-							heat += 15;
-							return true;
-						}
 		}
 		return false;
+	}
+
+	@Override
+	protected void isBlockGoodForInterior(World world, int x, int y, int z) throws MultiblockValidationException {
+		if (!world.isAirBlock(x, y, z))
+			super.isBlockGoodForInterior(world, x, y, z);
 	}
 
 	@Override
@@ -274,6 +321,11 @@ public class BlastFurnaceController extends RectangularMultiblockControllerBase 
 
 	public InventoryAdapter getInventory() {
 		return inventory;
+	}
+
+	@Override
+	public boolean isActive() {
+		return isActive;
 	}
 
 }

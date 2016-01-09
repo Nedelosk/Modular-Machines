@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.blocks.tile;
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.client.gui.assembler.GuiModularAssembler;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public class TileModularAssembler extends TileBaseInventory {
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return new GuiModularAssembler(this, inventory);
 	}
 

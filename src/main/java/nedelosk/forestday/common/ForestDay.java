@@ -9,6 +9,7 @@ import nedelosk.forestday.common.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -26,12 +27,9 @@ public class ForestDay {
 	@SidedProxy(clientSide = "nedelosk.forestday.client.proxy.ClientProxy", serverSide = "nedelosk.forestday.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
-	@Mod.EventHandler
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
 		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
-
-		proxy.registerTickHandlers();
 
 		File configFileForestdayFolder = new File(event.getModConfigurationDirectory(), "Forest-Day");
 		File configFileForestday = new File(configFileForestdayFolder, "Forest-Day.cfg");
@@ -40,15 +38,16 @@ public class ForestDay {
 		registry.preInit(instance, event);
 	}
 
-	@Mod.EventHandler
+	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
 		registry.init(instance, event);
 
 		proxy.registerRenderers();
+		proxy.registerTickHandlers();
 	}
 
-	@Mod.EventHandler
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		registry.postInit(instance, event);
 	}

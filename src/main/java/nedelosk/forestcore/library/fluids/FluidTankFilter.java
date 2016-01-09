@@ -25,13 +25,18 @@ public class FluidTankFilter extends FluidTankSimple {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		nbt.setString("FilterName", FluidRegistry.getFluidName(filter));
+		if (filter != null) {
+			String fN = FluidRegistry.getFluidName(filter);
+			nbt.setString("FilterName", FluidRegistry.getFluidName(filter));
+		}
 		return super.writeToNBT(nbt);
 	}
 
 	@Override
 	public FluidTank readFromNBT(NBTTagCompound nbt) {
-		filter = FluidRegistry.getFluid(nbt.getString("FilterName"));
+		if (nbt.hasKey("FilterName")) {
+			filter = FluidRegistry.getFluid(nbt.getString("FilterName"));
+		}
 		return super.readFromNBT(nbt);
 	}
 

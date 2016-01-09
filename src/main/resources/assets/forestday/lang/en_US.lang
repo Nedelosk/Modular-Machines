@@ -1,5 +1,5 @@
 ####################################
-Blocks
+#Blocks
 ####################################
 forest.fd.block.wood_base.0.name=Campfire
 forest.fd.block.wood_base.1.name=Workbench
@@ -17,7 +17,7 @@ forest.fd.item.tile.oreforestday.4.name=Nickel Ore
 forest.fd.item.tile.oreforestday.5.name=Ruby Ore
 
 ####################################
-Fluids
+#Fluids
 ####################################
 fluid.tar=Molten Tar
 forest.fd.block.tar.name=Molten Tar
@@ -30,7 +30,7 @@ forest.fd.block.lubricant.name=Molten Lubricant
 nc.tooltip.nonefluid=None Fluid
 
 ####################################
-Items
+#Items
 ####################################
 item.bucket.tar.name=Tar Bucket
 item.bucket.resin.name=Resin Bucket
@@ -109,7 +109,7 @@ forest.fd.item.multiblock.name=Multiblock
 forest.fd.item.multiblock_valve.name=Multiblock Valve
 
 ####################################
-Containers
+#Containers
 ####################################
 container.machine.furnace.coke=Coke Furnace
 container.machine.generator.burning=Heat Generator
@@ -117,12 +117,12 @@ container.machine.furnace.fluidheater=Fluid heater
 container.machine.kiln.resin=Resin Kiln
 
 ####################################
-Tabs
+#Tabs
 ####################################
 itemGroup.forestday=Forest Day
 
 ####################################
-Tooltips
+#Tooltips
 ####################################
 forestday.tooltip.tool.energy=Energy: 
 forestday.tooltip.damage=Durability: 
@@ -136,8 +136,20 @@ forestday.tooltip.workbench.mode.0.name=Forward
 forestday.tooltip.workbench.mode.1.name=Stop
 
 ####################################
-Gui Nei
+#Gui Nei
 ####################################
 forestday.nei.kiln.resin=Resin Kiln
 forestday.nei.kiln.charcoal=Charcoal Kiln
 forestday.nei.burning=Burning
+
+####################################
+#Multiblocks
+####################################
+multiblock.error.notConnected=The MultiBlock is not connected to a controller. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block.
+multiblock.error.small=Machine is too small.
+multiblock.error.large.x=The multiblock is too large, it may be at most %d blocks in the X dimension.
+multiblock.error.large.y=The multiblock is too large, it may be at most %d blocks in the Y dimension.
+multiblock.error.large.z=The multiblock is too large, it may be at most %d blocks in the Z dimension.
+multiblock.error.small.x=The multiblock is too small, it must be at least %d blocks in the X dimension.
+multiblock.error.small.y=The multiblock is too small, it must be at least %d blocks in the Y dimension.
+multiblock.error.small.z=The multiblock is too small, it must be at least %d blocks in the Z dimension.

@@ -5,6 +5,7 @@ import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,7 +65,7 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	}
 
 	@Override
-	public Object getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		if (modular != null)
 			return modular.getGuiManager().getGUIContainer(this, inventory);
 		else

@@ -79,6 +79,21 @@ forest.fd.item.tile.component.metal_block.1.name=Block of Copper
 forest.fd.item.tile.component.metal_block.2.name=Block of Bronze
 forest.fd.item.tile.component.metal_block.3.name=Block of Steel
 forest.fd.item.tile.component.metal_block.4.name=Block of Invar
+forest.fd.item.tile.blast_furnace.0.name=Blast Furnace Casing
+forest.fd.item.tile.blast_furnace.1.name=Blast Furnace Controller
+forest.fd.item.tile.blast_furnace.2.name=Blast Furnace Access Port
+forest.fd.item.tile.blast_furnace.3.name=Blast Furnace Air Port
+forest.fd.item.tile.blast_furnace.4.name=Blast Furnace Slag Port
+forest.fd.item.tile.blast_furnace.5.name=Blast Furnace Output Port
+forest.fd.item.tile.blast_furnace.6.name=Blast Furnace Gas Port
+forest.fd.item.tile.cowper.0.name=Cowper Brick
+forest.fd.item.tile.cowper.1.name=Cowper Controller
+forest.fd.item.tile.cowper.2.name=Cowper Fuel Port
+forest.fd.item.tile.cowper.3.name=Cowper Input Port
+forest.fd.item.tile.cowper.4.name=Cowper Fuel Fluid Port
+forest.fd.item.tile.cowper.5.name=Cowper Output Port
+forest.fd.item.tile.cowper.5.name=Cowper Steam Port
+forest.fd.item.tile.cowper.5.name=Cowper Muffler
 
 ####################################
 Fluids
