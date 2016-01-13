@@ -1,5 +1,8 @@
 package nedelosk.modularmachines.api.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -7,12 +10,8 @@ import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTankManager extends PacketTileEntity<TileEntity>
-		implements IMessageHandler<PacketTankManager, IMessage> {
+public class PacketTankManager extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketTankManager, IMessage> {
 
 	private int ID;
 	private int producer = -1;
@@ -86,5 +85,4 @@ public class PacketTankManager extends PacketTileEntity<TileEntity>
 		world.markBlockForUpdate(message.x, message.y, message.z);
 		return null;
 	}
-
 }

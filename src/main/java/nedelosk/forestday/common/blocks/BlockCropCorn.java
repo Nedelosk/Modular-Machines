@@ -1,14 +1,13 @@
 package nedelosk.forestday.common.blocks;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.library.utils.WorldUtil;
-import nedelosk.forestday.modules.ModuleCore;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.utils.WorldUtil;
+import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -23,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCropCorn extends BlockBush implements IGrowable {
+
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 	private static final String __OBFID = "CL_00000222";
@@ -44,13 +44,10 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random r) {
 		super.updateTick(world, x, y, z, r);
-
 		if (world.getBlockLightValue(x, y + 1, z) >= 9) {
 			int l = world.getBlockMetadata(x, y, z);
-
 			if (l < 2) {
 				float f = this.func_149864_n(world, x, y, z);
-
 				if (r.nextInt((int) (25.0F / f) + 1) == 0) {
 					++l;
 					world.setBlockMetadataWithNotify(x, y, z, l, 2);
@@ -61,7 +58,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 				}
 			} else if (world.getBlock(x, y - 1, z) == this) {
 				float f = this.func_149864_n(world, x, y, z);
-
 				if (r.nextInt((int) (25.0F / f) + 1) == 0) {
 					if (world.getBlockMetadata(x, y, z) != 5) {
 						++l;
@@ -74,7 +70,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 
 	public void func_149863_m(World world, int x, int y, int z) {
 		int l = world.getBlockMetadata(x, y, z) + MathHelper.getRandomIntegerInRange(world.rand, 2, 5);
-
 		if (world.getBlock(x, y + 1, z) == this) {
 			if (l > 5) {
 				l = 5;
@@ -91,7 +86,6 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 		if (l > 2) {
 			l = 2;
 		}
-
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 		if (l == 2) {
 			world.setBlock(x, y + 1, z, ModuleCore.BlockManager.Crop_Corn.block());
@@ -112,32 +106,24 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 		boolean flag = block2 == this || block3 == this;
 		boolean flag1 = block == this || block1 == this;
 		boolean flag2 = block4 == this || block5 == this || block6 == this || block7 == this;
-
-		for (int l = p_149864_2_ - 1; l <= p_149864_2_ + 1; ++l) {
-			for (int i1 = p_149864_4_ - 1; i1 <= p_149864_4_ + 1; ++i1) {
+		for ( int l = p_149864_2_ - 1; l <= p_149864_2_ + 1; ++l ) {
+			for ( int i1 = p_149864_4_ - 1; i1 <= p_149864_4_ + 1; ++i1 ) {
 				float f1 = 0.0F;
-
-				if (p_149864_1_.getBlock(l, p_149864_3_ - 1, i1).canSustainPlant(p_149864_1_, l, p_149864_3_ - 1, i1,
-						ForgeDirection.UP, this)) {
+				if (p_149864_1_.getBlock(l, p_149864_3_ - 1, i1).canSustainPlant(p_149864_1_, l, p_149864_3_ - 1, i1, ForgeDirection.UP, this)) {
 					f1 = 1.0F;
-
 					if (p_149864_1_.getBlock(l, p_149864_3_ - 1, i1).isFertile(p_149864_1_, l, p_149864_3_ - 1, i1)) {
 						f1 = 3.0F;
 					}
 				}
-
 				if (l != p_149864_2_ || i1 != p_149864_4_) {
 					f1 /= 4.0F;
 				}
-
 				f += f1;
 			}
 		}
-
 		if (flag2 || flag && flag1) {
 			f /= 2.0F;
 		}
-
 		return f;
 	}
 
@@ -145,23 +131,23 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 	public void breakBlock(World world, int x, int y, int z, Block Block, int meta) {
 		super.breakBlock(world, x, y, z, Block, meta);
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-
 		int metadata = world.getBlockMetadata(x, y, z);
 		Block block = world.getBlock(x, y + 1, z);
 		if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && metadata >= 5
 				|| world.getBlock(x, y + 1, z) == this && world.getBlockMetadata(x, y + 1, z) >= 5) {
 			ret.add(new ItemStack(getFruit(), 3));
-		} else if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this
-				&& !(metadata >= 5)) {
+		} else if (world.getBlockMetadata(x, y - 1, z) == 2 && world.getBlock(x, y - 1, z) == this && !(metadata >= 5)) {
 			ret.add(new ItemStack(getFruit(), 1));
 		} else if (world.getBlock(x, y - 1, z) != this && world.getBlock(x, y + 1, z) != this) {
 			ret.add(new ItemStack(getFruit(), 1));
 		}
 		WorldUtil.dropItem(world, x, y, z, ret);
-		if (world.getBlock(x, y - 1, z) == this)
+		if (world.getBlock(x, y - 1, z) == this) {
 			world.setBlockToAir(x, y - 1, z);
-		if (world.getBlock(x, y + 1, z) == this)
+		}
+		if (world.getBlock(x, y + 1, z) == this) {
 			world.setBlockToAir(x, y + 1, z);
+		}
 	}
 
 	@Override
@@ -186,13 +172,11 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 
 	@Override
 	public boolean func_149851_a(World world, int x, int y, int z, boolean p_149851_5_) {
-		return world.getBlockMetadata(x, y, z) != 2
-				|| world.getBlock(x, y, z) == this && world.getBlockMetadata(x, y, z) != 5;
+		return world.getBlockMetadata(x, y, z) != 2 || world.getBlock(x, y, z) == this && world.getBlockMetadata(x, y, z) != 5;
 	}
 
 	@Override
-	public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_,
-			int p_149852_5_) {
+	public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_) {
 		return true;
 	}
 
@@ -206,9 +190,9 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
 		this.icons = new IIcon[6];
-
-		for (int i = 0; i < 6; ++i)
+		for ( int i = 0; i < 6; ++i ) {
 			this.icons[i] = p_149651_1_.registerIcon("forestday:crops/corn_stage_" + i);
+		}
 	}
 
 	@Override
@@ -216,8 +200,7 @@ public class BlockCropCorn extends BlockBush implements IGrowable {
 	}
 
 	@Override
-	public void func_149853_b(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_,
-			int p_149853_5_) {
+	public void func_149853_b(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_, int p_149853_5_) {
 		this.func_149863_m(p_149853_1_, p_149853_3_, p_149853_4_, p_149853_5_);
 	}
 

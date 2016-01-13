@@ -48,5 +48,4 @@ public class FluidHandler implements IFluidHandler {
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		return machine.getTankManeger().getProducer().getTankInfo(from, null, machine);
 	}
-
 }

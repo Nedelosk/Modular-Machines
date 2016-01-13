@@ -5,8 +5,8 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.core.Registry;
+import nedelosk.forestcore.library.items.ItemForest;
 import nedelosk.forestday.api.Tabs;
-import nedelosk.forestday.common.items.base.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -15,8 +15,8 @@ import net.minecraft.util.IIcon;
 
 public class ItemNature extends ItemForest {
 
-	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash",
-			"mortar", "starch", "starch", "hardened_starch" };
+	public String[] material = new String[] { "bark", "sawdust", "rubber", "resin", "peat", "mud", "dirt", "ash", "mortar", "starch", "starch",
+			"hardened_starch" };
 	@SideOnly(Side.CLIENT)
 	public IIcon[] itemIcon;
 
@@ -30,16 +30,16 @@ public class ItemNature extends ItemForest {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[material.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon("forestday:" + material[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < material.length; i++)
+		for ( int i = 0; i < material.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -52,5 +52,4 @@ public class ItemNature extends ItemForest {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
 	}
-
 }

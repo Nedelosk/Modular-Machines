@@ -3,12 +3,9 @@
  */
 package nedelosk.forestday.api.crafting;
 
-public class ForestdayCrafting {
+public class ForestDayCrafting {
 
 	public static IWorkbenchRecipe workbenchRecipe;
-
 	public static ICampfireRecipe campfireRecipe;
-
 	public static IWoodTypeManager woodManager;
-
 }

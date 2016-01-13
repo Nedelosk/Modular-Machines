@@ -13,5 +13,4 @@ public class ContainerCowperFluidPort extends ContainerBase<TileCowperBase> {
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 	}
-
 }

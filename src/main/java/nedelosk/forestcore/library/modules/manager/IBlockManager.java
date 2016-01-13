@@ -19,5 +19,4 @@ public interface IBlockManager extends IObjectManager<Block> {
 	boolean isBlockEqual(Block i);
 
 	boolean isBlockEqual(World world, int x, int y, int z);
-
 }

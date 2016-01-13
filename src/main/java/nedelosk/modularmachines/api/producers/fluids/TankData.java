@@ -83,7 +83,6 @@ public final class TankData implements ITankData {
 		if (mode != null) {
 			nbt.setInteger("Mode", mode.ordinal());
 		}
-
 		if (tank != null) {
 			NBTTagCompound nbtTank = new NBTTagCompound();
 			tank.writeToNBT(nbtTank);
@@ -103,14 +102,10 @@ public final class TankData implements ITankData {
 		if (nbt.hasKey("Mode")) {
 			mode = TankMode.values()[nbt.getInteger("Mode")];
 		}
-
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTank = nbt.getCompoundTag("Tank");
-
 			tank = new FluidTankSimple(nbtTank.getInteger("Capacity"));
 			tank.readFromNBT(nbtTank);
 		}
-
 	}
-
 }

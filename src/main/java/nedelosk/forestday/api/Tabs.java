@@ -8,5 +8,4 @@ import net.minecraft.creativetab.CreativeTabs;
 public class Tabs {
 
 	public static CreativeTabs tabForestday;
-
 }

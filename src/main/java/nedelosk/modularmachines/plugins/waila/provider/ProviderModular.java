@@ -27,24 +27,21 @@ public class ProviderModular implements IWailaDataProvider {
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModular modular = (TileModular) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaHead(itemStack, currenttip, data);
 	}
 
 	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModular modular = (TileModular) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaBody(itemStack, currenttip, data);
 	}
 
 	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModular modular = (TileModular) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaTail(itemStack, currenttip, data);
@@ -144,7 +141,5 @@ public class ProviderModular implements IWailaDataProvider {
 		public void setConfig(String key, boolean value) {
 			config.setConfig(key, value);
 		}
-
 	}
-
 }

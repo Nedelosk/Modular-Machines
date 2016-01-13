@@ -33,5 +33,4 @@ public interface IWorkbenchRecipe {
 	void addOutput(ItemStack stack);
 
 	ArrayList<ItemStack> getOutputs();
-
 }

@@ -10,5 +10,4 @@ public interface IProducerCapacitor extends IProducer {
 	int getEnergyModifier();
 
 	boolean canWork(IModular modular);
-
 }

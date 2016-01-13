@@ -51,7 +51,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
-		for (Widget widget : widgets) {
+		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetBurningBar) {
 				ProducerBurningGenerator generator = (ProducerBurningGenerator) stack.getProducer();
 				if (generator != null) {
@@ -74,27 +74,26 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		if (modular.getManager().getEnergyHandler() != null) {
 			if (fuel > 0) {
-				if (modular.getManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy,
-						false) >= energy)
+				if (modular.getManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy, false) >= energy) {
 					fuel--;
+				}
 			} else {
 				if (getInputs(modular, stack) != null) {
-					if (getInputs(modular, stack)[0].isItem()
-							&& TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item) > 0) {
+					if (getInputs(modular, stack)[0].isItem() && TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item) > 0) {
 						int burnTime = TileEntityFurnace.getItemBurnTime(getInputs(modular, stack)[0].item);
 						if (removeInputs(modular, stack, 1)) {
 							fuel = burnTime;
 							fuelTotal = burnTime;
-							if (tile.getModular().getInventoryManager()
-									.decrStackSize(stack.getModule().getName(stack, false), 0, 1) == null)
+							if (tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), 0, 1) == null) {
 								return;
+							}
 						}
 					}
 				}
 			}
 			if (timer > timerTotal) {
-				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
-						modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(),
+						modular.getMachine().getZCoord());
 				timer = 0;
 			} else {
 				timer++;
@@ -104,28 +103,29 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 
 	public boolean removeInputs(IModular modular, ModuleStack stack, int size) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		for (int i = 0; i < getInputs(modular, stack).length; i++) {
+		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
 			RecipeInput input = getInputs(modular, stack)[i];
 			if (input != null) {
 				if (!input.isFluid()) {
 					if (input.isOre()) {
-						if (tile.getModular().getInventoryManager()
-								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+						if (tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null) {
 							return false;
+						}
 					} else {
-						if (tile.getModular().getInventoryManager()
-								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+						if (tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null) {
 							return false;
+						}
 					}
 					continue;
 				} else {
-					if (tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid,
-							true) == null)
+					if (tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true) == null) {
 						return false;
+					}
 					continue;
 				}
-			} else
+			} else {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -147,5 +147,4 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		modules.add("Casing");
 		return modules;
 	}
-
 }

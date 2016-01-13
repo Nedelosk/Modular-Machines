@@ -25,5 +25,4 @@ public interface IModuleManager {
 	void init();
 
 	void postInit();
-
 }

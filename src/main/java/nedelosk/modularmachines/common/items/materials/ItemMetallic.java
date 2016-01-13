@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.core.Registry;
-import nedelosk.forestday.common.items.base.ItemForest;
+import nedelosk.forestcore.library.items.ItemForest;
 import nedelosk.modularmachines.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -23,23 +23,22 @@ public class ItemMetallic extends ItemForest {
 		super(null, TabModularMachines.core);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
-
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[material.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + material[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < material.length; i++)
+		for ( int i = 0; i < material.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -52,5 +51,4 @@ public class ItemMetallic extends ItemForest {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "mm");
 	}
-
 }

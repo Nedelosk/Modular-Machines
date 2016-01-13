@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.core.Registry;
-import nedelosk.forestday.common.items.base.ItemForest;
+import nedelosk.forestcore.library.items.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -32,16 +32,16 @@ public class ItemIngot extends ItemForest {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[ingot.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon(modID + ":ingots/ingot" + ingot[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < ingot.length; i++)
+		for ( int i = 0; i < ingot.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -54,5 +54,4 @@ public class ItemIngot extends ItemForest {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("ingot." + modID + "." + itemstack.getItemDamage(), "fd");
 	}
-
 }

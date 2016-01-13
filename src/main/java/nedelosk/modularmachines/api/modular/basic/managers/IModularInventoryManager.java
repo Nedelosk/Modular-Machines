@@ -33,5 +33,4 @@ public interface IModularInventoryManager extends INBTTagable {
 	boolean canExtractItem(int slot, ItemStack stack, ForgeDirection side);
 
 	boolean addToOutput(ItemStack output, int minSlot, int maxSlot, String page);
-
 }

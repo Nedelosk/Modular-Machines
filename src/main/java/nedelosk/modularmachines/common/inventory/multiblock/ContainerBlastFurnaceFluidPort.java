@@ -13,5 +13,4 @@ public class ContainerBlastFurnaceFluidPort extends ContainerBase<TileBlastFurna
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 	}
-
 }

@@ -15,5 +15,4 @@ public class ModuleBasic extends Module {
 	public String getModuleName() {
 		return moduleName;
 	}
-
 }

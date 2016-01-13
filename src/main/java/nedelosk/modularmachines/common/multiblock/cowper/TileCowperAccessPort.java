@@ -22,25 +22,24 @@ public class TileCowperAccessPort extends TileCowperBase implements ISidedInvent
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format(
-				"%d, %d, %d - This cowper part may not be placed in the cowper's frame", xCoord, yCoord, zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - This cowper part may not be placed in the cowper's frame", xCoord, yCoord, zCoord));
 	}
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String
-				.format("%d, %d, %d - This cowper part may not be placed in the cowper's top", xCoord, yCoord, zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - This cowper part may not be placed in the cowper's top", xCoord, yCoord, zCoord));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format(
-				"%d, %d, %d - This cowper part may not be placed in the cowper's bottom", xCoord, yCoord, zCoord));
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This cowper part may not be placed in the cowper's bottom", xCoord, yCoord, zCoord));
 	}
 
 	private IInventoryAdapter getInventory() {
-		if (!isConnected())
+		if (!isConnected()) {
 			return FakeInventoryAdapter.instance();
+		}
 		return getController().getInventory();
 	}
 
@@ -121,17 +120,18 @@ public class TileCowperAccessPort extends TileCowperBase implements ISidedInvent
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		if (!isConnected())
+		if (!isConnected() && !getController().isAssembled()) {
 			return null;
+		}
 		return new ContainerCowperAccessPort(this, inventory);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (!isConnected())
+		if (!isConnected() && !getController().isAssembled()) {
 			return null;
+		}
 		return new GuiCowperAccessPort(this, inventory);
 	}
-
 }

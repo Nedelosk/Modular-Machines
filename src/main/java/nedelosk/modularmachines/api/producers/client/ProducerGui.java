@@ -41,9 +41,9 @@ public abstract class ProducerGui extends Producer implements IProducerGui {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void renderString(FontRenderer fontRenderer, int x, int y, int xM, int yM, ModuleStack stack) {
-		if (hasCustomInventoryName(stack))
-			fontRenderer.drawString(getInventoryName(stack),
-					90 - (fontRenderer.getStringWidth(getInventoryName(stack)) / 2), 6, 4210752);
+		if (hasCustomInventoryName(stack)) {
+			fontRenderer.drawString(getInventoryName(stack), 90 - (fontRenderer.getStringWidth(getInventoryName(stack)) / 2), 6, 4210752);
+		}
 	}
 
 	@Override
@@ -53,8 +53,7 @@ public abstract class ProducerGui extends Producer implements IProducerGui {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getInventoryName(ModuleStack stack) {
-		return StatCollector.translateToLocal("mm.modularmachine.bookmark."
-				+ stack.getModule().getModuleName().toLowerCase(Locale.ENGLISH) + ".name");
+		return StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getModuleName().toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -64,8 +63,6 @@ public abstract class ProducerGui extends Producer implements IProducerGui {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton,
-			ModuleStack stack) {
+	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack stack) {
 	}
-
 }

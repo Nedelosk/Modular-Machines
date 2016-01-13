@@ -37,8 +37,9 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 			nbt.setString("MachineName", modular.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (!worldObj.isRemote)
+			if (!worldObj.isRemote) {
 				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			}
 			Log.err("Error To Write Data From Modular Machine on Position " + xCoord + ", " + yCoord + ", " + zCoord);
 			e.printStackTrace();
 		}
@@ -47,29 +48,31 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
 		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
 		if (modular == null || modular.getModules() == null) {
 			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			Log.err("Error To Load Data From Modular Machine on Position  " + xCoord + ", " + yCoord + ", " + zCoord);
-		} else
+		} else {
 			modular.setMachine(this);
+		}
 	}
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		if (modular != null)
+		if (modular != null) {
 			return modular.getGuiManager().getContainer(this, inventory);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (modular != null)
+		if (modular != null) {
 			return modular.getGuiManager().getGUIContainer(this, inventory);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	@Override
@@ -87,12 +90,11 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	}
 
 	public void setMachine(NBTTagCompound tagCompound) {
-		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"),
-				tagCompound.getCompoundTag("Machine"));
+		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
 		modular.setMachine(this);
 		modular.initModular();
-		modular.getGuiManager().setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule()
-				.getName(modular.getGuiManager().getModuleWithGuis().get(0), false));
+		modular.getGuiManager()
+				.setPage(modular.getGuiManager().getModuleWithGuis().get(0).getModule().getName(modular.getGuiManager().getModuleWithGuis().get(0), false));
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
@@ -113,122 +115,155 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if (modular == null)
+		if (modular == null) {
 			return 0;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return 0;
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return 0;
+		}
 		return modular.getManager().getFluidHandler().fill(from, resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if (modular == null)
+		if (modular == null) {
 			return null;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return null;
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return null;
+		}
 		return modular.getManager().getFluidHandler().drain(from, resource, doDrain);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if (modular == null)
+		if (modular == null) {
 			return null;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return null;
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return null;
+		}
 		return modular.getManager().getFluidHandler().drain(from, maxDrain, doDrain);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if (modular == null)
+		if (modular == null) {
 			return false;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return false;
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return false;
+		}
 		return modular.getManager().getFluidHandler().canFill(from, fluid);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if (modular == null)
+		if (modular == null) {
 			return false;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return false;
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return false;
+		}
 		return modular.getManager().getFluidHandler().canDrain(from, fluid);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if (modular == null)
+		if (modular == null) {
 			return new FluidTankInfo[0];
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return new FluidTankInfo[0];
-		if (modular.getManager().getFluidHandler() == null)
+		}
+		if (modular.getManager().getFluidHandler() == null) {
 			return new FluidTankInfo[0];
+		}
 		return modular.getManager().getFluidHandler().getTankInfo(from);
 	}
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		if (modular == null)
+		if (modular == null) {
 			return 0;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return 0;
-		if (modular.getManager().getEnergyHandler() == null)
+		}
+		if (modular.getManager().getEnergyHandler() == null) {
 			return 0;
+		}
 		return modular.getManager().getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		if (modular == null)
+		if (modular == null) {
 			return 0;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return 0;
-		if (modular.getManager().getEnergyHandler() == null)
+		}
+		if (modular.getManager().getEnergyHandler() == null) {
 			return 0;
+		}
 		return modular.getManager().getEnergyHandler().extractEnergy(from, maxExtract, simulate);
 	}
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		if (modular == null)
+		if (modular == null) {
 			return 0;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return 0;
-		if (modular.getManager().getEnergyHandler() == null)
+		}
+		if (modular.getManager().getEnergyHandler() == null) {
 			return 0;
+		}
 		return modular.getManager().getEnergyHandler().getEnergyStored(from);
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		if (modular == null)
+		if (modular == null) {
 			return 0;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return 0;
-		if (modular.getManager().getEnergyHandler() == null)
+		}
+		if (modular.getManager().getEnergyHandler() == null) {
 			return 0;
+		}
 		return modular.getManager().getEnergyHandler().getMaxEnergyStored(from);
 	}
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		if (modular == null)
+		if (modular == null) {
 			return false;
-		if (modular.getManager() == null)
+		}
+		if (modular.getManager() == null) {
 			return false;
-		if (modular.getManager().getEnergyHandler() == null)
+		}
+		if (modular.getManager().getEnergyHandler() == null) {
 			return false;
+		}
 		return modular.getManager().getEnergyHandler().canConnectEnergy(from);
 	}
 
@@ -241,5 +276,4 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	public String getMachineName() {
 		return null;
 	}
-
 }

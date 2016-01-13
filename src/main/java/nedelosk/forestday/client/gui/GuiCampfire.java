@@ -10,9 +10,7 @@ public class GuiCampfire extends GuiMachine<TileCampfire> {
 	public GuiCampfire(TileCampfire tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		widgetManager.add(new WidgetFuelBar(tile.fuelStorage,
-				ForestDayConfig.campfireFuelStorageMax[(tile.getStackInSlot(4) != null)
-						? tile.getStackInSlot(4).getItemDamage() : 0],
-				7, 9));
+				ForestDayConfig.campfireFuelStorageMax[(tile.getStackInSlot(4) != null) ? tile.getStackInSlot(4).getItemDamage() : 0], 7, 9));
 	}
 
 	@Override
@@ -29,5 +27,4 @@ public class GuiCampfire extends GuiMachine<TileCampfire> {
 	protected String getGuiName() {
 		return "machines/campfire";
 	}
-
 }

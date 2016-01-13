@@ -15,7 +15,6 @@ public abstract class TileBase extends TileEntity {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
 		if (this.worldObj.isRemote) {
 			updateClient();
 		} else {
@@ -43,7 +42,6 @@ public abstract class TileBase extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-
 		nbt.setTag("Base", new NBTTagCompound());
 		nbt.getCompoundTag("Base").setBoolean("isWork", this.isWorking);
 		nbt.getCompoundTag("Base").setInteger("burnTime", this.burnTime);
@@ -53,7 +51,6 @@ public abstract class TileBase extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
 		this.isWorking = nbt.getCompoundTag("Base").getBoolean("isWork");
 		this.burnTime = nbt.getCompoundTag("Base").getInteger("burnTime");
 		this.burnTimeTotal = nbt.getCompoundTag("Base").getInteger("burnTimeTotal");

@@ -11,5 +11,4 @@ public interface IProducerWithFluid {
 	int getFluidInputs(ModuleStack<IModule, IProducer> stack);
 
 	int getFluidOutputs(ModuleStack<IModule, IProducer> stack);
-
 }

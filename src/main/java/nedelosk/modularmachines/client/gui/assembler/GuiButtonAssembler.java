@@ -23,15 +23,12 @@ public class GuiButtonAssembler extends GuiButtonItem {
 	static {
 		int x = 7 + 82 / 2 - 14;
 		int y = 18 + 36 / 2 - 8;
-
 		info = new AssemblerMachineInfo();
 		info.machine = new ItemStack(ModuleModular.BlockManager.Modular_Machine.item());
-
 		info.addSlotPosition(x, y - 23);
 		info.addSlotPosition(x - 22, y - 5);
 		info.addSlotPosition(x, y);
 		info.addSlotPosition(x + 22, y - 5);
-
 		info.addSlotPosition(x - 18, y + 20);
 		info.addSlotPosition(x + 18, y + 20);
 		info.addSlotPosition(x - 14, y + 43);

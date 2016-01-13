@@ -12,5 +12,4 @@ public interface IProducerManager extends IProducerInventory, IProducerWithItem 
 	public enum Side {
 		LEFT, RIGHT, BACK
 	}
-
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.blocks.BlockForest;
 import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -42,13 +43,11 @@ public class BlockOre extends BlockForest {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-
 		if (metadata == 5) {
 			int fortmod = world.rand.nextInt(fortune + 2) - 1;
 			if (fortmod < 0) {
 				fortmod = 0;
 			}
-
 			int amount = (2 + world.rand.nextInt(5)) * (fortmod + 1);
 			if (amount > 0) {
 				drops.add(new ItemStack(ModuleCore.ItemManager.Gems.item(), amount, 0));
@@ -63,8 +62,7 @@ public class BlockOre extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.oreIcon = new IIcon[ore.length];
-
-		for (int i = 0; i < this.oreIcon.length; ++i) {
+		for ( int i = 0; i < this.oreIcon.length; ++i ) {
 			this.oreIcon[i] = iconRegister.registerIcon(this.modID + ":ore" + ore[i]);
 		}
 	}
@@ -72,8 +70,8 @@ public class BlockOre extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for (int i = 0; i < ore.length; i++)
+		for ( int i = 0; i < ore.length; i++ ) {
 			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
-
 }

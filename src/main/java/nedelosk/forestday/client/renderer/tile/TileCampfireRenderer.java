@@ -1,5 +1,7 @@
 package nedelosk.forestday.client.renderer.tile;
 
+import org.lwjgl.opengl.GL11;
+
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.forestday.client.renderer.model.ModelCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
@@ -8,15 +10,10 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-import org.lwjgl.opengl.GL11;
-
 public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 
-	public static final ResourceLocation textureModelWood = new ResourceLocation("forestday",
-			"textures/models/campfire_wood.png");
-	public static final ResourceLocation textureModelItem = new ResourceLocation("forestday",
-			"textures/models/campfire_item.png");
-
+	public static final ResourceLocation textureModelWood = new ResourceLocation("forestday", "textures/models/campfire_wood.png");
+	public static final ResourceLocation textureModelItem = new ResourceLocation("forestday", "textures/models/campfire_item.png");
 	private ModelCampfire model;
 
 	public TileCampfireRenderer() {
@@ -35,26 +32,19 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 			model.renderWood();
 		}
 		if (((TileCampfire) entity).getStackInSlot(4) != null) {
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
-					"textures/models/campfire_" + "curbs_"
-							+ ForestDayConfig.campfireCurbs[((TileCampfire) entity).getStackInSlot(4).getItemDamage()]
-							+ ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_"
+					+ ForestDayConfig.campfireCurbs[((TileCampfire) entity).getStackInSlot(4).getItemDamage()] + ".png"));
 			model.renderCubs();
 		}
 		if (((TileCampfire) entity).getStackInSlot(5) != null) {
 			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_"
-					+ ForestDayConfig.campfirePotHolders[((TileCampfire) entity).getStackInSlot(5).getItemDamage()]
-					+ ".png"));
+					+ ForestDayConfig.campfirePotHolders[((TileCampfire) entity).getStackInSlot(5).getItemDamage()] + ".png"));
 			model.renderPotHolder();
 		}
 		if (((TileCampfire) entity).getStackInSlot(6) != null) {
-
 			RenderUtil.bindTexture(new ResourceLocation("forestday",
-					"textures/models/campfire_" + "pots_"
-							+ ForestDayConfig.campfirePots[((TileCampfire) entity).getStackInSlot(6).getItemDamage()]
-							+ ".png"));
+					"textures/models/campfire_" + "pots_" + ForestDayConfig.campfirePots[((TileCampfire) entity).getStackInSlot(6).getItemDamage()] + ".png"));
 			model.renderPot();
-
 		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -66,18 +56,16 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 		if (texture == "curb") {
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
-					"textures/models/campfire_" + "curbs_" + ForestDayConfig.campfireCurbs[meta] + ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + ForestDayConfig.campfireCurbs[meta] + ".png"));
 			model.renderCubs();
 		} else if (texture == "pot_holder") {
 			GL11.glTranslated(0, 0.2, 0);
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
-					"textures/models/campfire_" + "pot_holders_" + ForestDayConfig.campfirePotHolders[meta] + ".png"));
+			RenderUtil.bindTexture(
+					new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + ForestDayConfig.campfirePotHolders[meta] + ".png"));
 			model.renderPotHolder();
 		} else if (texture == "pot") {
 			GL11.glTranslated(0, 0.7, 0);
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
-					"textures/models/campfire_" + "pots_" + ForestDayConfig.campfirePots[meta] + ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + ForestDayConfig.campfirePots[meta] + ".png"));
 			model.renderPot();
 		}
 		GL11.glPopMatrix();
@@ -94,5 +82,4 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-
 }

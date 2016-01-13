@@ -19,5 +19,4 @@ public class InventoryCraftingEditor extends InventoryCrafting {
 		list[7] = stackList[7];
 		list[8] = stackList[8];
 	}
-
 }

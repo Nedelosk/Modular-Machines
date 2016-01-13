@@ -18,15 +18,12 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderer() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModular.class, new TileRendererModular());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileRendererModularAssembler());
-		MinecraftForgeClient.registerItemRenderer(ModuleModular.BlockManager.Modular_Machine.item(),
-				new ItemRendererModular());
-		MinecraftForgeClient.registerItemRenderer(ModuleModular.BlockManager.Modular_Assembler.item(),
-				new ItemRendererModularAssembler());
+		MinecraftForgeClient.registerItemRenderer(ModuleModular.BlockManager.Modular_Machine.item(), new ItemRendererModular());
+		MinecraftForgeClient.registerItemRenderer(ModuleModular.BlockManager.Modular_Assembler.item(), new ItemRendererModularAssembler());
 	}
 
 	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass) {
-		return (TileEntitySpecialRenderer) TileEntityRendererDispatcher.instance.mapSpecialRenderers
-				.get(tileEntityClass);
+		return (TileEntitySpecialRenderer) TileEntityRendererDispatcher.instance.mapSpecialRenderers.get(tileEntityClass);
 	}
 
 	@Override

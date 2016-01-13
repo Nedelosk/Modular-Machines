@@ -1,21 +1,19 @@
 package nedelosk.forestcore.library.packets;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import io.netty.buffer.ByteBuf;
-import nedelosk.forestcore.library.Log;
-
 import java.nio.charset.StandardCharsets;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
+import nedelosk.forestcore.library.Log;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class PacketTileEntity<T extends TileEntity> implements IMessage {
 
 	protected int x;
 	protected int y;
 	protected int z;
-
 	private Class<? extends TileEntity> tileClass;
 
 	protected PacketTileEntity() {
@@ -35,7 +33,6 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 		buf.writeInt(z);
 		buf.writeInt(tileClass.getName().getBytes().length);
 		buf.writeBytes(tileClass.getName().getBytes());
-
 	}
 
 	@Override
@@ -49,7 +46,6 @@ public class PacketTileEntity<T extends TileEntity> implements IMessage {
 			buf.readBytes(bytes);
 			str = new String(bytes, StandardCharsets.UTF_8);
 		} catch (Exception e) {
-
 		}
 		try {
 			tileClass = (Class<TileEntity>) Class.forName(str);

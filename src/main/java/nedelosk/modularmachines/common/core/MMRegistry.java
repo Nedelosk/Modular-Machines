@@ -21,5 +21,4 @@ public class MMRegistry {
 	public static HashMap<String, AssemblerMachineInfo> getAssemblerInfos() {
 		return assemblerInfos;
 	}
-
 }

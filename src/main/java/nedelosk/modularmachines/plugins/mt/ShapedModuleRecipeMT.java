@@ -8,5 +8,4 @@ public class ShapedModuleRecipeMT extends ShapedRecipeOre {
 	public ShapedModuleRecipeMT(Object[] contents, ShapedRecipe recipe) {
 		super(contents, recipe);
 	}
-
 }

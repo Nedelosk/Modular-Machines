@@ -10,5 +10,4 @@ public interface IProducerGuiWithButtons extends IProducerGui {
 
 	@SideOnly(Side.CLIENT)
 	void addButtons(IGuiBase gui, IModular modular, ModuleStack stack);
-
 }

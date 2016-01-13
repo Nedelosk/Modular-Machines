@@ -16,8 +16,7 @@ public class ProducerTankEnderIO extends ProducerTank {
 	}
 
 	@Override
-	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack,
-			ItemStack itemStack) {
+	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
 		if (stack != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTTagCompound fluidTag = new NBTTagCompound();
@@ -27,8 +26,7 @@ public class ProducerTankEnderIO extends ProducerTank {
 			nbtTag.setInteger("voidMode", 2);
 			nbtTag.setByte("eio.abstractMachine", (byte) 1);
 			NBTTagCompound displayTag = new NBTTagCompound();
-			displayTag.setString("Name",
-					itemStack.getItemDamage() == 0 ? "Fluid Tank (Configured)" : "Pressurized Fluid Tank (Configured)");
+			displayTag.setString("Name", itemStack.getItemDamage() == 0 ? "Fluid Tank (Configured)" : "Pressurized Fluid Tank (Configured)");
 			nbtTag.setTag("display", displayTag);
 			nbtTag.setTag("Items", new NBTTagList());
 			nbtTag.setInteger("slotLayoutVersion", 1);
@@ -39,13 +37,14 @@ public class ProducerTankEnderIO extends ProducerTank {
 
 	@Override
 	public FluidStack getStorageFluid(ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
-		if (!itemStack.hasTagCompound())
+		if (!itemStack.hasTagCompound()) {
 			return null;
-		if (!itemStack.getTagCompound().hasKey("tankContents"))
+		}
+		if (!itemStack.getTagCompound().hasKey("tankContents")) {
 			return null;
+		}
 		NBTTagCompound tag = itemStack.getTagCompound();
 		NBTTagCompound fluidTag = tag.getCompoundTag("tankContents");
 		return FluidStack.loadFluidStackFromNBT(fluidTag);
 	}
-
 }

@@ -28,8 +28,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.WorldServer;
 
-public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
-		implements IMessageHandler<PacketAssembler, IMessage> {
+public class PacketAssembler extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketAssembler, IMessage> {
 
 	public int activeSlots;
 	public AssemblerMachineInfo info;
@@ -45,11 +44,11 @@ public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
 
 	@Override
 	public IMessage onMessage(PacketAssembler message, MessageContext ctx) {
-
-		if (ctx.side == Side.CLIENT)
+		if (ctx.side == Side.CLIENT) {
 			message.handleClientSide(ctx.getClientHandler());
-		else
+		} else {
 			message.handleServerSide(ctx.getServerHandler());
+		}
 		return null;
 	}
 
@@ -67,11 +66,11 @@ public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
 		Container container = netHandler.playerEntity.openContainer;
 		if (container instanceof ContainerModularAssembler) {
 			((ContainerModularAssembler) container).setToolSelection(info, activeSlots);
-
 			WorldServer server = netHandler.playerEntity.getServerForPlayer();
-			for (EntityPlayer player : (ArrayList<EntityPlayer>) server.playerEntities) {
-				if (player == netHandler.playerEntity)
+			for ( EntityPlayer player : (ArrayList<EntityPlayer>) server.playerEntities ) {
+				if (player == netHandler.playerEntity) {
 					continue;
+				}
 				if (player.openContainer instanceof ContainerModularAssembler) {
 					if (((ContainerBase) container).sameGui((ContainerBase) player.openContainer)) {
 						((ContainerModularAssembler) player.openContainer).setToolSelection(info, activeSlots);
@@ -92,14 +91,12 @@ public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
 			List<Point> positions = Lists.newArrayList();
 			int points = buf.readShort();
 			if (points > 0) {
-				for (int i = 0; i < points; i++) {
+				for ( int i = 0; i < points; i++ ) {
 					positions.add(new Point(buf.readInt(), buf.readInt()));
 				}
 			}
 			info.positions = positions;
-
 		}
-
 		activeSlots = buf.readInt();
 	}
 
@@ -111,20 +108,18 @@ public class PacketAssembler extends PacketTileEntity<TileModularAssembler>
 			if (info.machine != null) {
 				ByteBufUtils.writeItemStack(buf, info.machine);
 			}
-
 			if (info.positions != null) {
 				buf.writeShort(info.positions.size());
-				for (Point point : info.positions) {
+				for ( Point point : info.positions ) {
 					if (point != null) {
 						buf.writeInt(point.getX());
 						buf.writeInt(point.getY());
 					}
 				}
-			} else
+			} else {
 				buf.writeShort(0);
+			}
 		}
-
 		buf.writeInt(activeSlots);
 	}
-
 }

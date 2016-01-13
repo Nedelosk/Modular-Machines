@@ -20,5 +20,4 @@ public class PluginMineTweaker3 extends APlugin {
 	public boolean getConfigOption() {
 		return Config.pluginMineTweaker3;
 	}
-
 }

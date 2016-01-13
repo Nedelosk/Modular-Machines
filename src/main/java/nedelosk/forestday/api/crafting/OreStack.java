@@ -41,5 +41,4 @@ public class OreStack implements INBTTagable {
 		nbt.setString("oreDict", oreDict);
 		nbt.setInteger("stackSize", stackSize);
 	}
-
 }

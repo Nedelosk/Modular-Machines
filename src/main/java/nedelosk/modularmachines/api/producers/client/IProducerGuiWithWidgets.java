@@ -10,5 +10,4 @@ public interface IProducerGuiWithWidgets extends IProducerGui {
 
 	@SideOnly(Side.CLIENT)
 	void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack);
-
 }

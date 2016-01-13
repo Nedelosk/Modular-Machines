@@ -42,5 +42,4 @@ public abstract class AModule implements IModule {
 	@Override
 	public void onRegisterObject(IObjectManager manager) {
 	}
-
 }

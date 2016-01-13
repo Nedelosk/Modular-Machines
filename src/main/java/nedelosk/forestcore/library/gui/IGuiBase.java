@@ -30,5 +30,4 @@ public interface IGuiBase<T extends IGuiHandler> {
 	FontRenderer getFontRenderer();
 
 	void drawTexturedModalRect(int x, int y, int tx, int ty, int w, int h);
-
 }

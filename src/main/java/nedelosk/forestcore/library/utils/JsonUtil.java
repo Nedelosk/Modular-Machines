@@ -42,9 +42,9 @@ public class JsonUtil {
 
 	public static JsonElement writeItem(ItemStack item) {
 		String itemName = GameData.itemRegistry.getNameForObject(item.getItem()) + ":" + item.getItemDamage();
-		if (item.hasTagCompound())
+		if (item.hasTagCompound()) {
 			itemName += ":" + item.getTagCompound().toString();
+		}
 		return new JsonPrimitive(itemName);
 	}
-
 }

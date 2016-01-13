@@ -3,10 +3,10 @@ package nedelosk.forestcore.library.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestcore.library.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
 
 public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 
@@ -44,38 +44,36 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for (Button slot : buttons) {
-			if (slot.isMouseOver(mX, mY))
+		for ( Button slot : buttons ) {
+			if (slot.isMouseOver(mX, mY)) {
 				RenderUtil.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip(gui));
+			}
 		}
 	}
 
 	protected Button getAtPosition(int mX, int mY) {
-		for (Button slot : buttons) {
+		for ( Button slot : buttons ) {
 			if (slot.isMouseOver(mX, mY)) {
 				return slot;
 			}
 		}
-
 		return null;
 	}
 
 	public void drawWidgets() {
 		gui.setZLevel(100.0F);
 		GuiBase.getItemRenderer().zLevel = 100.0F;
-		for (Button slot : buttons) {
+		for ( Button slot : buttons ) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawButton(minecraft, 0, 0);
 			;
 		}
 		gui.setZLevel(0.0F);
 		GuiBase.getItemRenderer().zLevel = 0.0F;
-
 	}
 
 	@Override
 	public G getGui() {
 		return null;
 	}
-
 }

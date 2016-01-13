@@ -25,16 +25,12 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
-
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
 		ModuleStack stack = guiManager.getModuleWithGui();
-
 		if (stack.getProducer() instanceof IProducerInventory) {
 			if (((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack) != null
-					&& !((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack)
-							.isEmpty()) {
-				for (Slot slot : ((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(),
-						stack)) {
+					&& !((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack).isEmpty()) {
+				for ( Slot slot : ((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack) ) {
 					addSlotToContainer(slot);
 				}
 			}
@@ -43,19 +39,16 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 
 	@Override
 	protected void addInventory(InventoryPlayer inventory) {
-
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
 		ModuleStack stack = guiManager.getModuleWithGui();
-
 		if (stack.getProducer() instanceof IProducerInventory) {
 			int i = ((IProducerGui) stack.getProducer()).getGuiTop(inventoryBase.getModular(), stack) - 82;
-			for (int i1 = 0; i1 < 3; i1++) {
-				for (int l1 = 0; l1 < 9; l1++) {
+			for ( int i1 = 0; i1 < 3; i1++ ) {
+				for ( int l1 = 0; l1 < 9; l1++ ) {
 					addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));
 				}
 			}
-
-			for (int j1 = 0; j1 < 9; j1++) {
+			for ( int j1 = 0; j1 < 9; j1++ ) {
 				addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, i + 58));
 			}
 		}
@@ -71,16 +64,13 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		} catch (Exception e) {
 			stack = null;
 		}
-
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
 			if (slot instanceof SlotModularOutput) {
 				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slot instanceof Slot) {
 				if (stack != null && stack.getProducer() != null) {
@@ -95,21 +85,16 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
 				return null;
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(player, itemstack1);
 		}
-
 		return itemstack;
 	}
-
 }

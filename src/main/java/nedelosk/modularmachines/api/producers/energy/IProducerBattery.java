@@ -10,5 +10,4 @@ public interface IProducerBattery extends IProducerGuiWithWidgets, IProducerInve
 	EnergyStorage getStorage(ModuleStack stack);
 
 	int getSpeedModifier();
-
 }

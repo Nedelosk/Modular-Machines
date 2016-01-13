@@ -44,7 +44,7 @@ public class TankManager implements ITankManager {
 		if (tanks != null) {
 			nbt.setInteger("Size", tanks.length);
 			NBTTagList listTag = new NBTTagList();
-			for (int i = 0; i < tanks.length; i++) {
+			for ( int i = 0; i < tanks.length; i++ ) {
 				FluidTankSimple tank = tanks[i];
 				if (tank != null) {
 					NBTTagCompound nbtTag = new NBTTagCompound();
@@ -64,7 +64,7 @@ public class TankManager implements ITankManager {
 		if (nbt.hasKey("Size")) {
 			tanks = new FluidTankSimple[nbt.getInteger("Size")];
 			NBTTagList listTag = nbt.getTagList("Tanks", 10);
-			for (int i = 0; i < listTag.tagCount(); i++) {
+			for ( int i = 0; i < listTag.tagCount(); i++ ) {
 				NBTTagCompound nbtTag = listTag.getCompoundTagAt(i);
 				FluidTankSimple tank;
 				if (nbtTag.getBoolean("Filter")) {
@@ -81,11 +81,13 @@ public class TankManager implements ITankManager {
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if (tanks == null)
+		if (tanks == null) {
 			return 0;
-		for (FluidTankSimple tank : tanks) {
-			if (tank == null || tank.isFull())
+		}
+		for ( FluidTankSimple tank : tanks ) {
+			if (tank == null || tank.isFull()) {
 				continue;
+			}
 			if (tank.isEmpty() || tank.getFluid().getFluid() == resource.getFluid()) {
 				return tank.fill(resource, doFill);
 			}
@@ -95,11 +97,13 @@ public class TankManager implements ITankManager {
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if (tanks == null)
+		if (tanks == null) {
 			return null;
-		for (FluidTankSimple tank : tanks) {
-			if (tank == null || tank.isEmpty())
+		}
+		for ( FluidTankSimple tank : tanks ) {
+			if (tank == null || tank.isEmpty()) {
 				continue;
+			}
 			if (tank.getFluid().getFluid() == resource.getFluid()) {
 				return tank.drain(resource, doDrain);
 			}
@@ -109,11 +113,13 @@ public class TankManager implements ITankManager {
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if (tanks == null)
+		if (tanks == null) {
 			return null;
-		for (FluidTankSimple tank : tanks) {
-			if (tank == null || tank.isEmpty())
+		}
+		for ( FluidTankSimple tank : tanks ) {
+			if (tank == null || tank.isEmpty()) {
 				continue;
+			}
 			if (tank.getFluid().amount > maxDrain) {
 				return tank.drain(maxDrain, doDrain);
 			}
@@ -133,16 +139,17 @@ public class TankManager implements ITankManager {
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if (tanks == null)
+		if (tanks == null) {
 			return null;
+		}
 		FluidTankInfo[] infos = new FluidTankInfo[tanks.length];
-		for (int i = 0; i < tanks.length; i++) {
+		for ( int i = 0; i < tanks.length; i++ ) {
 			FluidTankSimple tank = tanks[i];
-			if (tank == null)
+			if (tank == null) {
 				infos[i] = null;
+			}
 			infos[i] = tanks[i].getInfo();
 		}
 		return infos;
 	}
-
 }

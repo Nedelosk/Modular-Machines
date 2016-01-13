@@ -62,14 +62,17 @@ public class RecipeInput {
 		if (obj instanceof RecipeInput) {
 			RecipeInput input = (RecipeInput) obj;
 			if (input.isFluid() && isFluid()) {
-				if (fluid.equals(input.fluid))
+				if (fluid.equals(input.fluid)) {
 					return true;
+				}
 			} else if (input.isItem() && isItem()) {
-				if (item.equals(input.item))
+				if (item.equals(input.item)) {
 					return true;
+				}
 			} else if (input.isOre() && isOre()) {
-				if (ore.equals(input.ore))
+				if (ore.equals(input.ore)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -104,5 +107,4 @@ public class RecipeInput {
 	public boolean isOre() {
 		return ore != null;
 	}
-
 }

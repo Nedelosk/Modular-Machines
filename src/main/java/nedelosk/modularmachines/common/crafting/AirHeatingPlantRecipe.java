@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.crafting;
 import net.minecraftforge.fluids.FluidStack;
 
 public class AirHeatingPlantRecipe {
+
 	private FluidStack input;
 	private FluidStack output;
 	private int burntTime;
@@ -24,5 +25,4 @@ public class AirHeatingPlantRecipe {
 	public FluidStack getOutput() {
 		return output;
 	}
-
 }

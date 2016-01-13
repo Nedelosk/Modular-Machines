@@ -23,5 +23,4 @@ public abstract class GuiMachine<T extends TileMachineBase> extends GuiBase<T> {
 	protected String getModName() {
 		return "forestday";
 	}
-
 }

@@ -88,5 +88,4 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 	public int getColor() {
 		return 0x88A7D1;
 	}
-
 }

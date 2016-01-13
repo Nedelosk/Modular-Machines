@@ -11,7 +11,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class CokeOvenRecipeManager implements ICokeOvenRecipe {
 
 	private static ArrayList<CokeOvenRecipe> recipes = new ArrayList();
-
 	public static CokeOvenRecipeManager instance;
 
 	public static void addRecipe(CokeOvenRecipe recipe) {
@@ -37,19 +36,21 @@ public class CokeOvenRecipeManager implements ICokeOvenRecipe {
 	}
 
 	public static boolean isItemInput(ItemStack stack) {
-		for (CokeOvenRecipe sr : CokeOvenRecipeManager.recipes) {
+		for ( CokeOvenRecipe sr : CokeOvenRecipeManager.recipes ) {
 			Object obj = sr.getInput();
 			if (obj instanceof ItemStack) {
 				ItemStack stackInput = (ItemStack) obj;
 				if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
-						&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+						&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 					return true;
+				}
 			} else if (obj instanceof OreStack) {
 				List<ItemStack> list = OreDictionary.getOres(((OreStack) obj).oreDict);
-				for (ItemStack stackInput : list) {
+				for ( ItemStack stackInput : list ) {
 					if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
-							&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+							&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 						return true;
+					}
 				}
 			}
 		}
@@ -57,19 +58,21 @@ public class CokeOvenRecipeManager implements ICokeOvenRecipe {
 	}
 
 	public static CokeOvenRecipe getRecipe(ItemStack stack) {
-		for (CokeOvenRecipe sr : CokeOvenRecipeManager.recipes) {
+		for ( CokeOvenRecipe sr : CokeOvenRecipeManager.recipes ) {
 			Object obj = sr.getInput();
 			if (obj instanceof ItemStack) {
 				ItemStack stackInput = (ItemStack) obj;
 				if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
-						&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+						&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 					return sr;
+				}
 			} else if (obj instanceof OreStack) {
 				List<ItemStack> list = OreDictionary.getOres(((OreStack) obj).oreDict);
-				for (ItemStack stackInput : list) {
+				for ( ItemStack stackInput : list ) {
 					if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
-							&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+							&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 						return sr;
+					}
 				}
 			}
 		}
@@ -85,6 +88,7 @@ public class CokeOvenRecipeManager implements ICokeOvenRecipe {
 	}
 
 	public class CokeOvenRecipe {
+
 		private Object input;
 		private ItemStack output;
 		private int burntTime;
@@ -112,7 +116,5 @@ public class CokeOvenRecipeManager implements ICokeOvenRecipe {
 		public ItemStack getOutput() {
 			return output;
 		}
-
 	}
-
 }

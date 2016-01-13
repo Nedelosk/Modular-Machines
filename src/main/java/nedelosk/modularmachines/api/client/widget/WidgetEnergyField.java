@@ -2,16 +2,15 @@ package nedelosk.modularmachines.api.client.widget;
 
 import java.util.ArrayList;
 
-import nedelosk.forestcore.library.gui.IGuiBase;
-import nedelosk.forestcore.library.gui.Widget;
-import nedelosk.forestcore.library.utils.RenderUtil;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import cofh.api.energy.IEnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.gui.IGuiBase;
+import nedelosk.forestcore.library.gui.Widget;
+import nedelosk.forestcore.library.utils.RenderUtil;
+import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends Widget {
@@ -27,26 +26,21 @@ public class WidgetEnergyField extends Widget {
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
-
 		description.add(storage.getEnergyStored() + " RF / " + storage.getMaxEnergyStored() + " RF");
 		return description;
 	}
 
 	@Override
 	public void draw(IGuiBase gui) {
-		if (storage == null)
+		if (storage == null) {
 			return;
+		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
-
 		int energy = (this.storage.getEnergyStored() * 66) / this.storage.getMaxEnergyStored();
-
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66,
-				190 + 66 - energy, 66, energy);
-
+		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 }

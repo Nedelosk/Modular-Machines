@@ -31,5 +31,4 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 	protected String getGuiName() {
 		return "machines/workbench";
 	}
-
 }

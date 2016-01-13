@@ -17,17 +17,18 @@ public class TileCowperBase extends TileMultiblockBase<MultiblockCowper> {
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		if (BlockCowper.isMuffler(blockMetadata))
+		if (BlockCowper.isMuffler(blockMetadata)) {
 			throw new MultiblockValidationException(
-					String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's frame", xCoord,
-							yCoord, zCoord));
+					String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's frame", xCoord, yCoord, zCoord));
+		}
 	}
 
 	@Override
 	public void isGoodForSides() throws MultiblockValidationException {
-		if (BlockCowper.isMuffler(blockMetadata))
-			throw new MultiblockValidationException(String.format(
-					"%d, %d, %d - This cowper part may not be placed in theair cowper's side", xCoord, yCoord, zCoord));
+		if (BlockCowper.isMuffler(blockMetadata)) {
+			throw new MultiblockValidationException(
+					String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's side", xCoord, yCoord, zCoord));
+		}
 	}
 
 	@Override
@@ -36,27 +37,23 @@ public class TileCowperBase extends TileMultiblockBase<MultiblockCowper> {
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		if (BlockCowper.isMuffler(blockMetadata))
+		if (BlockCowper.isMuffler(blockMetadata)) {
 			throw new MultiblockValidationException(
-					String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's bottom", xCoord,
-							yCoord, zCoord));
-
+					String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's bottom", xCoord, yCoord, zCoord));
+		}
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format(
-				"%d, %d, %d - This cowper part may not be placed in theair cowper's interior", xCoord, yCoord, zCoord));
+		throw new MultiblockValidationException(
+				String.format("%d, %d, %d - This cowper part may not be placed in theair cowper's interior", xCoord, yCoord, zCoord));
 	}
 
 	@Override
 	public void onMachineActivated() {
-
 	}
 
 	@Override
 	public void onMachineDeactivated() {
-
 	}
-
 }

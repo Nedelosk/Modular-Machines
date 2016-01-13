@@ -27,16 +27,16 @@ public class ItemAlloyNugget extends ModularItem {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[ingot.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:nuggets/nugget" + ingot[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < ingot.length; i++)
+		for ( int i = 0; i < ingot.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -49,5 +49,4 @@ public class ItemAlloyNugget extends ModularItem {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("nugget.alloy." + itemstack.getItemDamage(), "mm");
 	}
-
 }

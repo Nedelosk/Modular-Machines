@@ -16,8 +16,8 @@ import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWidgets, IProducerWithItem,
-		IProducerController, IProducerWaila, IProducerWithRenderer {
+public interface IProducerMachine
+		extends IProducerInventory, IProducerGuiWithWidgets, IProducerWithItem, IProducerController, IProducerWaila, IProducerWithRenderer {
 
 	int getSpeed(ModuleStack stack);
 
@@ -29,5 +29,4 @@ public interface IProducerMachine extends IProducerInventory, IProducerGuiWithWi
 
 	@SideOnly(Side.CLIENT)
 	String getFilePath(ModuleStack stack);
-
 }

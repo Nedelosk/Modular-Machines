@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
 public class ModelWorkbench extends ModelBase {
+
 	ModelRenderer Leg1;
 	ModelRenderer Leg2;
 	ModelRenderer Leg3;
@@ -17,7 +18,6 @@ public class ModelWorkbench extends ModelBase {
 	public ModelWorkbench() {
 		textureWidth = 64;
 		textureHeight = 64;
-
 		Leg1 = new ModelRenderer(this, 0, 0);
 		Leg1.addBox(0F, 0F, 0F, 2, 8, 2);
 		Leg1.setRotationPoint(-8F, 16F, 6F);
@@ -94,5 +94,4 @@ public class ModelWorkbench extends ModelBase {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
 }

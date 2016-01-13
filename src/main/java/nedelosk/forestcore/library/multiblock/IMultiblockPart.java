@@ -2,7 +2,7 @@ package nedelosk.forestcore.library.multiblock;
 
 import java.util.Set;
 
-import nedelosk.forestcore.library.CoordTriplet;
+import nedelosk.forestcore.library.BlockPos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
  * {@link erogenousbeef.core.multiblock.MultiblockTileEntityBase}
  */
 public abstract class IMultiblockPart extends TileEntity {
+
 	public static final int INVALID_DISTANCE = Integer.MAX_VALUE;
 
 	/**
@@ -35,10 +36,9 @@ public abstract class IMultiblockPart extends TileEntity {
 	 * @return A CoordTriplet with its x,y,z members set to the location of this
 	 *         tile entity in the world.
 	 */
-	public abstract CoordTriplet getWorldLocation();
+	public abstract BlockPos getWorldLocation();
 
 	// Multiblock connection-logic callbacks
-
 	/**
 	 * Called after this block has been attached to a new multiblock controller.
 	 * 
@@ -73,8 +73,7 @@ public abstract class IMultiblockPart extends TileEntity {
 	 *            The number of connected blocks in the controller after
 	 *            shedding orphans.
 	 */
-	public abstract void onOrphaned(MultiblockControllerBase oldController, int oldControllerSize,
-			int newControllerSize);
+	public abstract void onOrphaned(MultiblockControllerBase oldController, int oldControllerSize, int newControllerSize);
 
 	// Multiblock fuse/split helper methods. Here there be dragons.
 	/**
@@ -109,7 +108,6 @@ public abstract class IMultiblockPart extends TileEntity {
 	// Multiblock connection data access.
 	// You generally shouldn't toy with these!
 	// They're for use by Multiblock Controllers.
-
 	/**
 	 * Set that this block has been visited by your validation algorithms.
 	 */

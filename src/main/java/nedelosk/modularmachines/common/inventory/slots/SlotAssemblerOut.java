@@ -2,10 +2,11 @@ package nedelosk.modularmachines.common.inventory.slots;
 
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotAssemblerOut extends Slot {
+
 	public ContainerModularAssembler parent;
 
 	public SlotAssemblerOut(int par3, int par4, int par5, ContainerModularAssembler parent) {
@@ -22,7 +23,6 @@ public class SlotAssemblerOut extends Slot {
 	public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
 		parent.onResultTaken(playerIn, stack);
 		stack.onCrafting(playerIn.getEntityWorld(), playerIn, 1);
-
 		super.onPickupFromSlot(playerIn, stack);
 	}
 }

@@ -18,8 +18,7 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		super(nbt, modular, stack);
 	}
 
-	public ProducerBoiler(String name, int inputsItem, int outputsItem, int inputsFluid, int outputsFluid, int speed,
-			int steam, int water) {
+	public ProducerBoiler(String name, int inputsItem, int outputsItem, int inputsFluid, int outputsFluid, int speed, int steam, int water) {
 		super("Boiler" + name, inputsItem, outputsItem, inputsFluid, outputsFluid, speed);
 		this.steam = steam;
 		this.water = water;
@@ -29,7 +28,6 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-
 		nbt.setInteger("Fuel", fuel);
 		nbt.setInteger("FuelTotal", fuelTotal);
 		nbt.setInteger("Steam", steam);
@@ -40,7 +38,6 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-
 		fuel = nbt.getInteger("Fuel");
 		fuelTotal = nbt.getInteger("FuelTotal");
 		steam = nbt.getInteger("Steam");

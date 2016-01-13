@@ -36,15 +36,12 @@ public interface IProducerEngine extends IProducerWaila {
 
 	void setIsWorking(boolean isWorking);
 
-	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs,
-			Object... craftingModifier);
+	IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier);
 
 	IRecipeManager creatRecipeManager();
 
 	int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModule, IProducerMachine> stackMachine,
 			ModuleStack<IModule, IProducerEngine> stackEngine);
 
-	int getBurnTimeTotal(IModular modular, ModuleStack<IModule, IProducerMachine> stackMachine,
-			ModuleStack<IModule, IProducerEngine> stackEngine);
-
+	int getBurnTimeTotal(IModular modular, ModuleStack<IModule, IProducerMachine> stackMachine, ModuleStack<IModule, IProducerEngine> stackEngine);
 }

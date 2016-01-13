@@ -14,5 +14,4 @@ public class SlotModularOutput extends SlotModular {
 	public boolean isItemValid(ItemStack stack) {
 		return false;
 	}
-
 }

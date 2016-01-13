@@ -18,15 +18,13 @@ import net.minecraftforge.common.config.Configuration;
 
 @Mod(modid = "ModularMachines", version = "${version}", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:ForestDay;after:ThermalExpansion")
 public class ModularMachines {
+
 	public static Configuration config;
 	public static File configFolder;
-
 	@Mod.Instance("ModularMachines")
 	public static ModularMachines instance;
-
 	@SidedProxy(clientSide = "nedelosk.modularmachines.client.proxy.ClientProxy", serverSide = "nedelosk.modularmachines.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
-
 	MMCore registry = new MMCore();
 
 	@Mod.EventHandler
@@ -55,5 +53,4 @@ public class ModularMachines {
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandModularMachines());
 	}
-
 }

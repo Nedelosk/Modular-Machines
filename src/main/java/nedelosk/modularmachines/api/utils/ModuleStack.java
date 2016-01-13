@@ -30,8 +30,9 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 		this.type = type;
 		this.hasNbt = hasNbt;
 		this.producer = producer;
-		if (ModuleRegistry.getModule(module.getRegistryName()) == null)
+		if (ModuleRegistry.getModule(module.getRegistryName()) == null) {
 			ModuleRegistry.registerModule(module);
+		}
 		ModuleRegistry.addTypeModifier(module, type, producer == null ? type.getName() : producer.getName(this));
 	}
 
@@ -39,17 +40,18 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 	public boolean equals(Object obj) {
 		if (obj instanceof ModuleStack) {
 			ModuleStack stackModule = (ModuleStack) obj;
-			if (stackModule.item.getItem() == null || item.getItem() == null)
+			if (stackModule.item.getItem() == null || item.getItem() == null) {
 				return false;
-			if (stackModule.item.getItem() == item.getItem()
-					&& stackModule.item.getItemDamage() == item.getItemDamage())
+			}
+			if (stackModule.item.getItem() == item.getItem() && stackModule.item.getItemDamage() == item.getItemDamage()) {
 				if (stackModule.item.getTagCompound() != null && item.getTagCompound() != null
-						&& stackModule.item.getTagCompound().equals(item.getTagCompound())
-						|| !stackModule.hasNbt() && !hasNbt())
-					if (stackModule.type == type && stackModule.module == module
-							&& (producer == null && stackModule.getProducer() == null
-									|| producer.getName(this).equals(stackModule.getProducer().getName(stackModule))))
+						&& stackModule.item.getTagCompound().equals(item.getTagCompound()) || !stackModule.hasNbt() && !hasNbt()) {
+					if (stackModule.type == type && stackModule.module == module && (producer == null && stackModule.getProducer() == null
+							|| producer.getName(this).equals(stackModule.getProducer().getName(stackModule)))) {
 						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -111,5 +113,4 @@ public final class ModuleStack<M extends IModule, P extends IProducer> {
 	public ModuleStack copy() {
 		return new ModuleStack(item, module, producer, type, hasNbt);
 	}
-
 }

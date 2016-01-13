@@ -25,11 +25,10 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 	public GuiModular(T tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		widgetManager = new WidgetManagerModular(this);
-
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
-
-		if (gui != null && gui.getProducer() instanceof IProducerGuiWithWidgets)
+		if (gui != null && gui.getProducer() instanceof IProducerGuiWithWidgets) {
 			((IProducerGuiWithWidgets) gui.getProducer()).addWidgets(this, tile.getModular(), gui);
+		}
 		ySize = gui.getProducer().getGuiTop(tile.getModular(), gui);
 	}
 
@@ -41,16 +40,13 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 
 	@Override
 	protected void renderProgressBar() {
-
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-
 		if (guiManager.getModuleWithGui().getProducer() instanceof IProducerInventory) {
-			for (int slotID = 36; slotID < inventorySlots.inventorySlots.size(); slotID++) {
+			for ( int slotID = 36; slotID < inventorySlots.inventorySlots.size(); slotID++ ) {
 				Slot slot = ((ArrayList<Slot>) inventorySlots.inventorySlots).get(slotID);
 				ModuleStack gui = guiManager.getModuleWithGui();
 				if (slot.getSlotIndex() < ((IProducerInventory) gui.getProducer()).getSizeInventory(gui)) {
-					drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 56,
-							238, 18, 18);
+					drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 				}
 			}
 		}
@@ -59,17 +55,14 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 	@Override
 	public void addButtons() {
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
-
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-
-		for (int i = 0; i < guiManager.getModuleWithGuis().size(); i++) {
-			buttonManager.add(new ButtonTabPage(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28,
-					(i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i,
+		for ( int i = 0; i < guiManager.getModuleWithGuis().size(); i++ ) {
+			buttonManager.add(new ButtonTabPage(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i,
 					tile.getModular().getGuiManager().getModuleWithGuis().get(i), i >= 7));
 		}
-
-		if (gui != null && gui.getProducer() instanceof IProducerGuiWithButtons)
+		if (gui != null && gui.getProducer() instanceof IProducerGuiWithButtons) {
 			((IProducerGuiWithButtons) gui.getProducer()).addButtons(this, tile.getModular(), gui);
+		}
 	}
 
 	@Override
@@ -90,23 +83,18 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity> extend
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		ModuleStack<IModule, IProducerGui> gui = tile.getModular().getGuiManager().getModuleWithGui();
-
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		if (gui != null && gui.getProducer().getCustomGui(tile.getModular(), gui) != null)
+		if (gui != null && gui.getProducer().getCustomGui(tile.getModular(), gui) != null) {
 			RenderUtil.bindTexture(gui.getProducer().getCustomGui(tile.getModular(), gui));
-		else
+		} else {
 			RenderUtil.bindTexture(guiTexture);
+		}
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
 		RenderUtil.bindTexture(new ResourceLocation(getModName(), "textures/gui/inventory_player.png"));
 		drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - 83, 7, 83, 162, 76);
-
 		RenderUtil.bindTexture(guiTexture);
 		renderProgressBar();
 		gui.getProducer().updateGui(this, guiLeft, guiTop, tile.getModular(), gui);
 		widgetManager.drawWidgets();
-
 	}
-
 }

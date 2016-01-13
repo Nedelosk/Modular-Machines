@@ -79,5 +79,4 @@ public class RecipeItem {
 	public boolean isOre() {
 		return ore != null;
 	}
-
 }

@@ -55,7 +55,6 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -119,20 +118,24 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	}
 
 	@Override
-	public boolean buildMachine(IModular modular, ItemStack[] stacks,
-			ModuleStack<IModule, IProducerController> moduleStack) {
+	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModule, IProducerController> moduleStack) {
 		ArrayList<ModuleStack> modules = new ArrayList();
 		modules.add(moduleStack);
-		for (int i = 1; i < stacks.length; i++) {
+		for ( int i = 1; i < stacks.length; i++ ) {
 			ItemStack stack = stacks[i];
-			if (stack != null)
-				if (ModuleRegistry.getProducer(stack) != null && ModuleRegistry.getProducer(stack).getModule() != null)
+			if (stack != null) {
+				if (ModuleRegistry.getProducer(stack) != null && ModuleRegistry.getProducer(stack).getModule() != null) {
 					modules.add(ModuleRegistry.getProducer(stack));
+				}
+			}
 		}
-		for (ModuleStack<IModule, IProducer> manager : modules)
-			if (manager != null)
-				if (!modular.addModule(manager))
+		for ( ModuleStack<IModule, IProducer> manager : modules ) {
+			if (manager != null) {
+				if (!modular.addModule(manager)) {
 					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -151,5 +154,4 @@ public abstract class ProducerMachine extends ProducerInventory implements IProd
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
 	}
-
 }

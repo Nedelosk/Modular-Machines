@@ -32,7 +32,6 @@ public abstract class TileMachineBase extends TileBaseInventory {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("facing", facing);
-
 		if (this.owner != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTUtil.func_152460_a(nbtTag, owner);
@@ -44,7 +43,6 @@ public abstract class TileMachineBase extends TileBaseInventory {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		facing = nbt.getShort("facing");
-
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.func_152459_a(nbt.getCompoundTag("owner"));
 		}
@@ -65,5 +63,4 @@ public abstract class TileMachineBase extends TileBaseInventory {
 	public void setOwner(GameProfile owner) {
 		this.owner = owner;
 	}
-
 }

@@ -12,5 +12,4 @@ public class InternalMethodHandler implements IInternalMethodHandler {
 	public void openGui(EntityPlayer entityPlayer, int modGuiId, World world, int x, int y, int z) {
 		FMLNetworkHandler.openGui(entityPlayer, ModularMachines.instance, modGuiId, world, x, y, z);
 	}
-
 }

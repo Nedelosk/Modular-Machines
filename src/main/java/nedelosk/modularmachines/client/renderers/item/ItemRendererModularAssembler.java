@@ -28,5 +28,4 @@ public class ItemRendererModularAssembler implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		assembler.renderItem(item);
 	}
-
 }

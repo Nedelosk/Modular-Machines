@@ -40,8 +40,7 @@ public class ItemToolForestday extends Item {
 
 	@Override
 	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
-		aList.add(StatCollector.translateToLocal("forestday.tooltip.damage")
-				+ (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
+		aList.add(StatCollector.translateToLocal("forestday.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
 		aList.add(StatCollector.translateToLocal("forestday.tooltip.tier") + (getTier()));
 		aList.add(StatCollector.translateToLocal("forestday.tooltip.material") + (material.getMaterial()));
 	}

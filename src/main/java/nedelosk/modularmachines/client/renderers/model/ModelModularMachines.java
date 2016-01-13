@@ -11,7 +11,6 @@ public class ModelModularMachines extends ModelBase {
 
 	// Manager Top
 	public ModelRenderer Base_Manager_Top;
-
 	// Manager Back
 	public ModelRenderer Base_Manager_Back;
 

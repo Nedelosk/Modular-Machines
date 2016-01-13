@@ -7,5 +7,4 @@ public interface IContainerBase<T extends IGuiHandler> {
 	void addSlot(Slot slot);
 
 	T getInventoryBase();
-
 }

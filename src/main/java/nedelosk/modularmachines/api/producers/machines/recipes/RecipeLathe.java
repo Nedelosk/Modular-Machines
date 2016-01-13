@@ -6,8 +6,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 
 public final class RecipeLathe extends Recipe {
 
-	public RecipeLathe(RecipeItem input, RecipeItem output0, RecipeItem output1, int speedModifier, int energy,
-			LatheModes mode) {
+	public RecipeLathe(RecipeItem input, RecipeItem output0, RecipeItem output1, int speedModifier, int energy, LatheModes mode) {
 		super(new RecipeItem[] { input }, new RecipeItem[] { output0, output1 }, speedModifier, energy, "Lathe", mode);
 	}
 
@@ -28,7 +27,5 @@ public final class RecipeLathe extends Recipe {
 		public String getName() {
 			return name;
 		}
-
 	}
-
 }

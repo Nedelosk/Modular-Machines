@@ -8,7 +8,6 @@ public class Modules {
 
 	public static IModule MANAGERTANK = new ModuleBasic("TankManager", "TankManager");
 	public static IModule MANAGERSTORAGE = new ModuleBasic("StorageManager", "StorageManager");
-
 	public static IModule CASING = new ModuleCasing("Casing");
 	public static IModule TANK = new ModuleBasic("Tank", "Tank");
 	public static IModule BATTERY = new ModuleBasic("Battery", "Battery");

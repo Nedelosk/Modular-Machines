@@ -32,17 +32,17 @@ public class Button<I extends IGuiHandler> extends GuiButton {
 		this.zLevel = 200.0F;
 		itemRender.zLevel = 200.0F;
 		FontRenderer font = null;
-		if (stack != null)
+		if (stack != null) {
 			font = stack.getItem().getFontRenderer(stack);
-		if (font == null)
+		}
+		if (font == null) {
 			font = Minecraft.getMinecraft().fontRenderer;
+		}
 		itemRender.renderItemAndEffectIntoGUI(font, Minecraft.getMinecraft().getTextureManager(), stack, x, y);
 		this.zLevel = 0.0F;
 		itemRender.zLevel = 0.0F;
 	}
 
 	public void onButtonClick(IGuiBase<I> gui) {
-
 	}
-
 }

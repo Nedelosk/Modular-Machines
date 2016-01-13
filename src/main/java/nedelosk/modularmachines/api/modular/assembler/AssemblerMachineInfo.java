@@ -24,5 +24,4 @@ public class AssemblerMachineInfo {
 	public void addSlotPosition(int x, int y) {
 		positions.add(new Point(x, y));
 	}
-
 }

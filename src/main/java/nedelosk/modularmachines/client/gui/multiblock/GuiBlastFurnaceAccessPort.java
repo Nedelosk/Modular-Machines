@@ -28,5 +28,4 @@ public class GuiBlastFurnaceAccessPort extends GuiBase<TileBlastFurnaceAccessPor
 	protected String getModName() {
 		return "modularmachines";
 	}
-
 }

@@ -14,10 +14,9 @@ import net.minecraft.util.IIcon;
 
 public class ItemDusts extends ModularItem {
 
-	public static String[] dusts = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond", "Copper", "Tin",
-			"Silver", "Lead", "Nickel", "Bronze", "Invar", "Ruby" };
-	public static String[] dustsOtherOres = new String[] { "Columbite", "Niobium", "Tantalum", "Aluminum", "Steel",
-			"White_Steel", "Gray_Steel" };
+	public static String[] dusts = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond", "Copper", "Tin", "Silver", "Lead", "Nickel", "Bronze", "Invar",
+			"Ruby" };
+	public static String[] dustsOtherOres = new String[] { "Columbite", "Niobium", "Tantalum", "Aluminum", "Steel", "White_Steel", "Gray_Steel" };
 	public String[] name;
 	@SideOnly(Side.CLIENT)
 	public IIcon[] itemIcon;
@@ -34,16 +33,16 @@ public class ItemDusts extends ModularItem {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[name.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:dusts/dust" + name[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < name.length; i++)
+		for ( int i = 0; i < name.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -56,5 +55,4 @@ public class ItemDusts extends ModularItem {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("dust" + uln + "." + itemstack.getItemDamage(), "mm");
 	}
-
 }

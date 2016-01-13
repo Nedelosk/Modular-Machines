@@ -3,14 +3,11 @@ package nedelosk.forestcore.library.multiblock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.inventory.IGuiHandler;
-import nedelosk.forestcore.library.multiblock.MultiblockControllerBase;
-import nedelosk.forestcore.library.multiblock.rectangular.RectangularMultiblockTileEntityBase;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
-public abstract class TileMultiblockBase<M extends MultiblockControllerBase> extends RectangularMultiblockTileEntityBase
-		implements IGuiHandler {
+public abstract class TileMultiblockBase<M extends MultiblockControllerBase> extends RectangularMultiblockTileEntityBase implements IGuiHandler {
 
 	public TileMultiblockBase() {
 		super();
@@ -23,7 +20,6 @@ public abstract class TileMultiblockBase<M extends MultiblockControllerBase> ext
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
-
 		// Re-render this block on the client
 		if (worldObj.isRemote) {
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -33,7 +29,6 @@ public abstract class TileMultiblockBase<M extends MultiblockControllerBase> ext
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-
 		// Re-render this block on the client
 		if (worldObj.isRemote) {
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -56,5 +51,4 @@ public abstract class TileMultiblockBase<M extends MultiblockControllerBase> ext
 	public Container getContainer(InventoryPlayer inventory) {
 		return null;
 	}
-
 }

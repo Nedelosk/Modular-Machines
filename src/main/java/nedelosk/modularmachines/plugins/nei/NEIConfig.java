@@ -22,20 +22,18 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		isAdded = false;
-		for (ModuleStack stack : ModuleRegistry.getProducers())
+		for ( ModuleStack stack : ModuleRegistry.getProducers() ) {
 			if (stack.getProducer() instanceof IProducerMachineRecipe) {
 				String producer = stack.getModule().getName(stack, false);
-				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack, null) != null
-						&& !producerHandlers.contains(producer)) {
+				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack, null) != null && !producerHandlers.contains(producer)) {
 					new ModularMachinesHandler(stack);
 					producerHandlers.add(producer);
 				}
 			}
+		}
 		isAdded = true;
-
 		GuiCraftingRecipe.craftinghandlers.add(new ShapedModuleRecipeHandler());
 		GuiUsageRecipe.usagehandlers.add(new ShapedModuleRecipeHandler());
-
 		API.hideItem(new ItemStack(ModuleModular.BlockManager.Modular_Machine.item(), 1, 0));
 	}
 

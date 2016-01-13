@@ -74,5 +74,4 @@ public interface IModular {
 	IModular buildItem(ItemStack[] stacks);
 
 	IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data);
-
 }

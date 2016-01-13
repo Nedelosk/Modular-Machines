@@ -4,32 +4,28 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.forestday.client.gui.GuiCampfire;
-import nedelosk.forestday.common.crafting.CampfireRecipe;
-import nedelosk.forestday.common.crafting.CampfireRecipeManager;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import nedelosk.forestday.client.gui.GuiCampfire;
+import nedelosk.forestday.common.crafting.CampfireRecipeManager;
+import nedelosk.forestday.common.crafting.CampfireRecipeManager.CampfireRecipe;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 public class CampfireHandler extends FurnaceRecipeHandler {
 
 	public CampfireHandler() {
 		List<RecipeTransferRect> list = new ArrayList<>();
-		list.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(85, 35, 22, 15), "ForestDayCampfire",
-				new Object[0]));
+		list.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(85, 35, 22, 15), "ForestDayCampfire", new Object[0]));
 		list.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(65, 35, 13, 13), "fuel", new Object[0]));
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), list);
-		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15),
-				"ForestDayCampfire", new Object[0]));
-		transferRects.add(
-				new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(99, 23, 22, 15), "ForestDayCampfire", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(76, 23, 13, 13), "fuel", new Object[0]));
 	}
 
 	@Override
@@ -61,23 +57,21 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 		if (result == null) {
 			return;
 		}
-
 		List<CampfireRecipe> recipes = CampfireRecipeManager.getRecipes();
-		for (CampfireRecipe recipe : recipes) {
+		for ( CampfireRecipe recipe : recipes ) {
 			ItemStack output = recipe.getOutput();
 			if (result.getItem() == output.getItem() && result.getItemDamage() == output.getItemDamage()) {
 				CampfireCachedRecipe res = new CampfireCachedRecipe(recipe.getInput(), recipe.getInput2(), output);
 				arecipes.add(res);
 			}
 		}
-
 	}
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("ForestDayCampfire") && getClass() == CampfireHandler.class) {
 			List<CampfireRecipe> recipes = CampfireRecipeManager.getRecipes();
-			for (CampfireRecipe recipe : recipes) {
+			for ( CampfireRecipe recipe : recipes ) {
 				ItemStack output = recipe.getOutput();
 				CampfireCachedRecipe res = new CampfireCachedRecipe(recipe.getInput(), recipe.getInput2(), output);
 				arecipes.add(res);
@@ -90,7 +84,7 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		List<CampfireRecipe> recipes = CampfireRecipeManager.getRecipes();
-		for (CampfireRecipe recipe : recipes) {
+		for ( CampfireRecipe recipe : recipes ) {
 			ItemStack output = recipe.getOutput();
 			CampfireCachedRecipe res = new CampfireCachedRecipe(recipe.getInput(), recipe.getInput2(), output);
 			if (res.contains(res.input, ingredient)) {
@@ -121,15 +115,17 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 
 		@Override
 		public PositionedStack getOtherStack() {
-			if (fuels == null)
+			if (fuels == null) {
 				fuels = cloneList(afuels);
+			}
 			return fuels.get((cycleticks / 48) % afuels.size());
 		}
 
 		public ArrayList<PositionedStack> cloneList(List<FuelPair> list) {
 			ArrayList<PositionedStack> clone = new ArrayList(list.size());
-			for (FuelPair item : list)
+			for ( FuelPair item : list ) {
 				clone.add(new PositionedStack(item.stack.items, 75, 40));
+			}
 			return clone;
 		}
 
@@ -153,9 +149,6 @@ public class CampfireHandler extends FurnaceRecipeHandler {
 			if (output != null) {
 				this.output = new PositionedStack(output, 131, 22);
 			}
-
 		}
-
 	}
-
 }

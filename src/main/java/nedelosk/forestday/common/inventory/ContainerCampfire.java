@@ -1,9 +1,9 @@
 package nedelosk.forestday.common.inventory;
 
 import nedelosk.forestcore.library.inventory.ContainerBase;
+import nedelosk.forestcore.library.inventory.slots.SlotOutput;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.crafting.CampfireRecipeManager;
-import nedelosk.forestday.common.inventory.slots.SlotOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -19,26 +19,32 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		addSlotToContainer(new Slot(inventoryBase, 0, 25, 35) {
+
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if (CampfireRecipeManager.isInput(stack))
+				if (CampfireRecipeManager.isInput(stack)) {
 					return true;
+				}
 				return false;
 			}
 		});
 		addSlotToContainer(new Slot(inventoryBase, 1, 43, 35) {
+
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if (CampfireRecipeManager.isInput(stack))
+				if (CampfireRecipeManager.isInput(stack)) {
 					return true;
+				}
 				return false;
 			}
 		});
 		addSlotToContainer(new Slot(inventoryBase, 2, 65, 53) {
+
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				if (TileEntityFurnace.getItemBurnTime(stack) > 0)
+				if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
 					return true;
+				}
 				return false;
 			}
 		});
@@ -49,16 +55,13 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
 			if (slotID == 39) {
 				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slotID != 36 && slotID != 37 && slotID != 38) {
 				if (CampfireRecipeManager.isInput(itemstack1)) {
@@ -79,21 +82,16 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
 				return null;
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(player, itemstack1);
 		}
-
 		return itemstack;
 	}
-
 }

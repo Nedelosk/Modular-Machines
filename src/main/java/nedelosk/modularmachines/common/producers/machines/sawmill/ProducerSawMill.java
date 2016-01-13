@@ -60,5 +60,4 @@ public class ProducerSawMill extends ProducerMachineRecipe {
 	public int getColor() {
 		return 0xA65005;
 	}
-
 }

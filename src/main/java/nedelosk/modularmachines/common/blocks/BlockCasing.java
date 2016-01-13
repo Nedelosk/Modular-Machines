@@ -2,7 +2,7 @@ package nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
 
-import nedelosk.forestday.common.blocks.BlockForest;
+import nedelosk.forestcore.library.blocks.BlockForest;
 import nedelosk.modularmachines.common.core.TabModularMachines;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,7 +25,7 @@ public class BlockCasing extends BlockForest {
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
 		icons = new IIcon[textures.length][3];
-		for (int i = 0; i < textures.length; i++) {
+		for ( int i = 0; i < textures.length; i++ ) {
 			String texture = textures[i];
 			icons[i][0] = IIconRegister.registerIcon("modularmachines:casing/" + texture + "_down");
 			icons[i][1] = IIconRegister.registerIcon("modularmachines:casing/" + texture + "_top");
@@ -35,17 +35,17 @@ public class BlockCasing extends BlockForest {
 
 	@Override
 	public IIcon getIcon(int side, int meta) {
-		if (side > 1)
+		if (side > 1) {
 			return icons[meta][2];
-		else
+		} else {
 			return icons[meta][side];
+		}
 	}
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		for (int i = 0; i < textures.length; i++) {
+		for ( int i = 0; i < textures.length; i++ ) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
-
 }

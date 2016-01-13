@@ -31,29 +31,33 @@ public class ModularMachine extends ModularInventory {
 		IModular modular = MachineBuilder.createMachine(getName());
 		if (modular != null) {
 			ModuleStack<IModule, IProducerController> controller = null;
-			if (stacks.length == 0 || stacks[0] == null)
+			if (stacks.length == 0 || stacks[0] == null) {
 				return null;
-			if (ModuleRegistry.getProducer(stacks[0]) != null
-					&& ModuleRegistry.getProducer(stacks[0]).getProducer() instanceof IProducerController)
+			}
+			if (ModuleRegistry.getProducer(stacks[0]) != null && ModuleRegistry.getProducer(stacks[0]).getProducer() instanceof IProducerController) {
 				controller = ModuleRegistry.getProducer(stacks[0]);
+			}
 			if (controller != null && controller.getProducer().buildMachine(modular, stacks, controller)) {
 				ArrayList<String> moduleNames = new ArrayList<>();
-				for (Vector<ModuleStack> moduleStacks : modular.getModules().values()) {
-					for (ModuleStack stack : moduleStacks) {
+				for ( Vector<ModuleStack> moduleStacks : modular.getModules().values() ) {
+					for ( ModuleStack stack : moduleStacks ) {
 						if (stack != null && stack.getModule() != null) {
-							if (!moduleNames.contains(stack.getModule().getModuleName()))
+							if (!moduleNames.contains(stack.getModule().getModuleName())) {
 								moduleNames.add(stack.getModule().getModuleName());
-							else
+							} else {
 								return null;
+							}
 						}
 					}
 				}
-				for (Vector<ModuleStack> moduleStacks : modular.getModules().values()) {
-					for (ModuleStack stack : moduleStacks) {
-						if (stack.getProducer() == null)
+				for ( Vector<ModuleStack> moduleStacks : modular.getModules().values() ) {
+					for ( ModuleStack stack : moduleStacks ) {
+						if (stack.getProducer() == null) {
 							continue;
-						if (!stack.getProducer().onBuildModular(modular, stack, moduleNames))
+						}
+						if (!stack.getProducer().onBuildModular(modular, stack, moduleNames)) {
 							return null;
+						}
 					}
 				}
 				return modular;
@@ -69,20 +73,17 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null
-				|| ModuleUtils.getModuleStackMachine(modular).getProducer() == null)
+		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null) {
 			return null;
-		return ModuleUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular,
-				ModuleUtils.getModuleStackMachine(modular), stack);
+		}
+		return ModuleUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular, ModuleUtils.getModuleStackMachine(modular), stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null
-				|| ModuleUtils.getModuleStackMachine(modular).getProducer() == null)
+		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null) {
 			return null;
-		return ModuleUtils.getModuleStackMachine(modular).getProducer().getMachineRenderer(modular,
-				ModuleUtils.getModuleStackMachine(modular), tile);
+		}
+		return ModuleUtils.getModuleStackMachine(modular).getProducer().getMachineRenderer(modular, ModuleUtils.getModuleStackMachine(modular), tile);
 	}
-
 }

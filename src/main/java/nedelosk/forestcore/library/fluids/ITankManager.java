@@ -8,5 +8,4 @@ public interface ITankManager extends IFluidHandler, INBTTagable {
 	FluidTankSimple[] getTanks();
 
 	FluidTankSimple getTank(int position);
-
 }

@@ -22,5 +22,4 @@ public class NBTUtil {
 			tank.readFromNBT(nbtTag);
 		}
 	}
-
 }

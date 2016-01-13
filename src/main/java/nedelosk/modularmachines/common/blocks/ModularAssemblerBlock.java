@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
+
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
@@ -46,8 +47,7 @@ public class ModularAssemblerBlock extends ModularBlock {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
-			float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
 		if (!world.isRemote) {
 			player.openGui(ModularMachines.instance, 0, world, x, y, z);
 			((ContainerModularAssembler) player.openContainer).syncOnOpen((EntityPlayerMP) player);
@@ -57,8 +57,9 @@ public class ModularAssemblerBlock extends ModularBlock {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
-		for (int i = 0; i < 6; i++)
+		for ( int i = 0; i < 6; i++ ) {
 			list.add(new ItemStack(item, 1, i));
+		}
 	}
 
 	@Override
@@ -71,5 +72,4 @@ public class ModularAssemblerBlock extends ModularBlock {
 		 */
 		super.breakBlock(world, x, y, z, block, meta);
 	}
-
 }

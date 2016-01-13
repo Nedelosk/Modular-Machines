@@ -18,5 +18,4 @@ public class ContainerBlastFurnaceAccessPort extends ContainerBase<TileBlastFurn
 		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 2, 89, 35));
 		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 3, 107, 35));
 	}
-
 }

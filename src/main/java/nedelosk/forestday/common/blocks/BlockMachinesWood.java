@@ -1,17 +1,29 @@
 package nedelosk.forestday.common.blocks;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.LoaderException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.blocks.BlockContainerForest;
+import nedelosk.forestcore.library.utils.WorldUtil;
+import nedelosk.forestday.api.Tabs;
+import nedelosk.forestday.common.ForestDay;
 import nedelosk.forestday.common.blocks.tiles.TileCampfire;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.forestday.common.items.materials.ItemCampfire;
 import nedelosk.forestday.modules.ModuleCore;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -19,15 +31,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMachinesWood extends BlockMachines {
+public class BlockMachinesWood extends BlockContainerForest {
+
+	private final Class<? extends TileMachineBase>[] tiles;
 
 	public BlockMachinesWood(String blockName, Class<? extends TileMachineBase>... tiles) {
-		super(blockName, tiles);
+		super(Material.wood);
 		setStepSound(soundTypeWood);
+		setCreativeTab(Tabs.tabForestday);
+		setBlockName(blockName);
+		this.tiles = tiles;
 	}
 
 	@Override
@@ -93,12 +111,6 @@ public class BlockMachinesWood extends BlockMachines {
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		list.add(new ItemStack(item, 1, 1));
-		list.add(new ItemStack(item, 1, 2));
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileCampfire
@@ -109,37 +121,35 @@ public class BlockMachinesWood extends BlockMachines {
 			float f2 = z + 0.5F;
 			float f3 = 0.52F;
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
-
 			world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("smoke", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("flame", f + f3 - 0.5, f1 + 0.3, f2 + f4, 0.0D, 0.0D, 0.0D);
-
 			world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("smoke", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("flame", f + f3 - 0.5, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-
-			world.playSound(x + 0.5F, y + 0.5F, z + 0.5F, "fire.fire", 1.0F + random.nextFloat(),
-					random.nextFloat() * 0.7F + 0.3F, false);
+			world.playSound(x + 0.5F, y + 0.5F, z + 0.5F, "fire.fire", 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
-			float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
 		if (player.getCurrentEquippedItem() != null) {
 			TileEntity tile = world.getTileEntity(x, y, z);
 			if (tile instanceof TileCampfire) {
 				TileCampfire campfile = (TileCampfire) tile;
 				if (player.getCurrentEquippedItem().getItem() instanceof ItemCampfire) {
-					player.inventory.setInventorySlotContents(player.inventory.currentItem,
-							campfile.setCampfireItem(player.getCurrentEquippedItem()));
+					player.inventory.setInventorySlotContents(player.inventory.currentItem, campfile.setCampfireItem(player.getCurrentEquippedItem()));
 					return true;
 				}
 			}
 		}
-		return super.onBlockActivated(world, x, y, z, player, side, par7, par8, par9);
+		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileMachineBase) {
+			player.openGui(ForestDay.instance, 0, player.worldObj, x, y, z);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -157,4 +167,104 @@ public class BlockMachinesWood extends BlockMachines {
 		return false;
 	}
 
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_) {
+		if (!world.isRemote) {
+			WorldUtil.dropItems(world, x, y, z);
+		}
+		super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		try {
+			TileMachineBase i = null;
+			if (tiles[meta] != null) {
+				Constructor<? extends TileMachineBase> itemCtor = tiles[meta].getConstructor();
+				i = itemCtor.newInstance();
+			}
+			if (i != null) {
+				return i;
+			}
+			return null;
+		} catch (Exception e) {
+			FMLLog.log(Level.ERROR, e, "Caught an exception during TileEntity registration in Forestday:BlockMachines " + tiles[meta].getName());
+			throw new LoaderException(e);
+		}
+	}
+
+	public String getNameFromSide(int side) {
+		switch (side) {
+			case 0:
+				return "down";
+			case 1:
+				return "top";
+			case 2:
+				return "back";
+			case 3:
+				return "front";
+			case 4:
+				return "side";
+			case 5:
+				return "side";
+			default:
+				return null;
+		}
+	}
+
+	public String getFileFromTier(int tier) {
+		switch (tier) {
+			case 0:
+				return "bricks";
+			case 1:
+				return "iron";
+			case 2:
+				return "base";
+			case 3:
+				return "steel";
+			case 4:
+				return "forest_steel";
+			default:
+				return "base";
+		}
+	}
+
+	@Override
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for ( int i = 0; i < tiles.length; i++ ) {
+			list.add(new ItemStack(item, 1, i));
+		}
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+		super.onBlockPlacedBy(world, x, y, z, player, stack);
+		int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);
+		tile.facing = getFacingForHeading(heading);
+		if (world.isRemote) {
+			return;
+		}
+		world.markBlockForUpdate(x, y, z);
+	}
+
+	protected short getFacingForHeading(int heading) {
+		switch (heading) {
+			case 0:
+				return 2;
+			case 1:
+				return 5;
+			case 2:
+				return 3;
+			case 3:
+			default:
+				return 4;
+		}
+	}
+
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+		world.markBlockForUpdate(x, y, z);
+	}
 }

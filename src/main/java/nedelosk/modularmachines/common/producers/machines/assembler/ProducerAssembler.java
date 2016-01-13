@@ -99,5 +99,4 @@ public class ProducerAssembler extends ProducerMachineRecipe {
 	public int getColor() {
 		return 0x601C93;
 	}
-
 }

@@ -8,8 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class TabForestDay extends CreativeTabs {
 
-	public static CreativeTabs tabForestdayBlocks = Tabs.tabForestday = new TabForestDay(0, "forestday");
-
+	public static CreativeTabs tabForestday = Tabs.tabForestday = new TabForestDay(0, "forestday");
 	private final int tabIcon;
 
 	public TabForestDay(int tabIcon, String label) {
@@ -22,10 +21,10 @@ public class TabForestDay extends CreativeTabs {
 		Item iconItem;
 		int iconMeta;
 		switch (tabIcon) {
-		default:
-			iconItem = BlockManager.Machine.item();
-			iconMeta = 2;
-			break;
+			default:
+				iconItem = BlockManager.Machine.item();
+				iconMeta = 2;
+				break;
 		}
 		return new ItemStack(iconItem, 1, iconMeta);
 	}
@@ -34,5 +33,4 @@ public class TabForestDay extends CreativeTabs {
 	public Item getTabIconItem() {
 		return null;
 	}
-
 }

@@ -13,5 +13,4 @@ public class ItemBlockModularAssembler extends ItemBlock {
 	public int getMetadata(int i) {
 		return i;
 	}
-
 }

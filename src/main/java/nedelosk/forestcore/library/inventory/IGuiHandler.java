@@ -12,5 +12,4 @@ public interface IGuiHandler {
 	GuiContainer getGUIContainer(InventoryPlayer inventory);
 
 	Container getContainer(InventoryPlayer inventory);
-
 }

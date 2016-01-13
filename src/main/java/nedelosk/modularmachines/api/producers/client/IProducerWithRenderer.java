@@ -16,5 +16,4 @@ public interface IProducerWithRenderer extends IProducer {
 
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile);
-
 }

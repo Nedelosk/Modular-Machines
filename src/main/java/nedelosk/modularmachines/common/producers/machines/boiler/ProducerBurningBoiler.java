@@ -56,7 +56,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
-		for (Widget widget : widgets) {
+		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetBurningBar) {
 				ProducerBurningBoiler generator = (ProducerBurningBoiler) stack.getProducer();
 				if (generator != null) {
@@ -85,15 +85,14 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 		if (modular.getManager().getFluidHandler() != null) {
 			if (fuel > 0) {
 				IFluidHandler handler = tile.getModular().getManager().getFluidHandler();
-				FluidStack waterF = handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water),
-						false);
+				FluidStack waterF = handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), false);
 				if (waterF != null && waterF.amount >= water) {
 					handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), false);
-					int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN,
-							new FluidStack(FluidRegistry.getFluid("steam"), steam), false, stack, modular);
+					int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam),
+							false, stack, modular);
 					if (fluid >= steam) {
-						modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN,
-								new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack, modular);
+						modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack,
+								modular);
 					}
 				}
 				fuel--;
@@ -102,16 +101,17 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 				if (inputs != null) {
 					if (inputs[0].isItem() && TileEntityFurnace.getItemBurnTime(inputs[0].item) > 0) {
 						int burnTime = TileEntityFurnace.getItemBurnTime(inputs[0].item);
-						if (!removeInputs(modular, stack, 1))
+						if (!removeInputs(modular, stack, 1)) {
 							return;
+						}
 						fuel = burnTime;
 						fuelTotal = burnTime;
 					}
 				}
 			}
 			if (timer > timerTotal) {
-				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
-						modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+				modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(),
+						modular.getMachine().getZCoord());
 				timer = 0;
 			} else {
 				timer++;
@@ -121,23 +121,24 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 
 	public boolean removeInputs(IModular modular, ModuleStack stack, int size) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		for (int i = 0; i < getInputs(modular, stack).length; i++) {
+		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
 			RecipeInput input = getInputs(modular, stack)[i];
 			if (input != null) {
 				if (!input.isFluid()) {
 					if (input.isOre()) {
-						if (tile.getModular().getInventoryManager()
-								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+						if (tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null) {
 							return false;
+						}
 					} else {
-						if (tile.getModular().getInventoryManager()
-								.decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null)
+						if (tile.getModular().getInventoryManager().decrStackSize(stack.getModule().getName(stack, false), input.slotIndex, size) == null) {
 							return false;
+						}
 					}
 					continue;
 				}
-			} else
+			} else {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -159,5 +160,4 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 		modules.add("Casing");
 		return modules;
 	}
-
 }

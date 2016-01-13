@@ -11,5 +11,4 @@ public interface IWailaProvider {
 	List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data);
 
 	List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data);
-
 }

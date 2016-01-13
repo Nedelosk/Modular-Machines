@@ -102,5 +102,4 @@ public class ProducerLathe extends ProducerMachineRecipeMode {
 	public Class<? extends IMachineMode> getModeClass() {
 		return LatheModes.class;
 	}
-
 }

@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelKiln extends ModelBase {
+
 	// fields
 	ModelRenderer Dirt;
 	ModelRenderer Output;
@@ -23,7 +24,6 @@ public class ModelKiln extends ModelBase {
 	public ModelKiln() {
 		textureWidth = 64;
 		textureHeight = 64;
-
 		Dirt = new ModelRenderer(this, 0, 0);
 		Dirt.addBox(0F, 0F, 0F, 12, 16, 12);
 		Dirt.setRotationPoint(-6F, 8F, -6F);
@@ -149,5 +149,4 @@ public class ModelKiln extends ModelBase {
 	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 	}
-
 }

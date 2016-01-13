@@ -13,5 +13,4 @@ public interface IProducerTank extends IProducer {
 	void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack);
 
 	FluidStack getStorageFluid(ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack);
-
 }

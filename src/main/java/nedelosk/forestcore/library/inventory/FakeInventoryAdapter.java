@@ -16,7 +16,6 @@ public class FakeInventoryAdapter implements IInventoryAdapter {
 	}
 
 	private FakeInventoryAdapter() {
-
 	}
 
 	@Override
@@ -56,7 +55,6 @@ public class FakeInventoryAdapter implements IInventoryAdapter {
 
 	@Override
 	public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {
-
 	}
 
 	@Override
@@ -76,7 +74,6 @@ public class FakeInventoryAdapter implements IInventoryAdapter {
 
 	@Override
 	public void markDirty() {
-
 	}
 
 	@Override
@@ -86,12 +83,10 @@ public class FakeInventoryAdapter implements IInventoryAdapter {
 
 	@Override
 	public void openInventory() {
-
 	}
 
 	@Override
 	public void closeInventory() {
-
 	}
 
 	@Override
@@ -101,12 +96,9 @@ public class FakeInventoryAdapter implements IInventoryAdapter {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
-
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
-
 	}
-
 }

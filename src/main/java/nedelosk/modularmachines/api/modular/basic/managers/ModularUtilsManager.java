@@ -38,10 +38,12 @@ public class ModularUtilsManager implements IModularUtilsManager {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		if (nbt.getBoolean("EH"))
+		if (nbt.getBoolean("EH")) {
 			energyHandler = new EnergyHandler(nbt);
-		if (nbt.getBoolean("FH"))
+		}
+		if (nbt.getBoolean("FH")) {
 			fluidHandler = new FluidHandler(modular);
+		}
 	}
 
 	@Override
@@ -62,8 +64,8 @@ public class ModularUtilsManager implements IModularUtilsManager {
 	@Override
 	public void setModular(IModular modular) {
 		this.modular = modular;
-		if (fluidHandler != null)
+		if (fluidHandler != null) {
 			fluidHandler.setMachine(modular);
+		}
 	}
-
 }

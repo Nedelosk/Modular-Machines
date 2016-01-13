@@ -31,5 +31,4 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
 		return new ModularMachineRenderer.CasingRenderer(moduleStack);
 	}
-
 }

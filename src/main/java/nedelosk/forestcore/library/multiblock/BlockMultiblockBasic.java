@@ -1,5 +1,10 @@
 package nedelosk.forestcore.library.multiblock;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.BlockPos;
+import nedelosk.modularmachines.common.ModularMachines;
+import nedelosk.modularmachines.common.core.TabModularMachines;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -16,88 +21,70 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.forestcore.library.CoordTriplet;
-import nedelosk.forestcore.library.multiblock.rectangular.PartPosition;
-import nedelosk.forestcore.library.multiblock.rectangular.RectangularMultiblockControllerBase;
-import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.core.TabModularMachines;
 
 public abstract class BlockMultiblockBasic<M extends RectangularMultiblockControllerBase> extends BlockContainer {
 
 	public static final int METADATA_CASING = 0;
 	public static final int METADATA_CONTROLLER = 1;
-	
 	private static final int CONTROLLER_OFF = 0;
 	private static final int CONTROLLER_IDLE = 1;
 	private static final int CONTROLLER_ACTIVE = 2;
-
 	protected String[] subBlocks;
-
 	protected String[][] states;
-
-	protected IIcon[][] icons = new IIcon[states.length][];
+	protected IIcon[][] icons;
 
 	public static boolean isCasing(int metadata) {
 		return metadata == METADATA_CASING;
 	}
 
-	public static boolean isController(int metadata){
+	public static boolean isController(int metadata) {
 		return metadata == METADATA_CONTROLLER;
 	}
-	
+
 	protected Class<? extends M> multiblockClass;
 
 	public BlockMultiblockBasic(Material material, Class<? extends M> multiblockClass, String[] subBlocks, String[][] states) {
 		super(material);
-
 		setStepSound(soundTypeMetal);
 		setHardness(2.0f);
 		setCreativeTab(TabModularMachines.core);
-		
 		this.multiblockClass = multiblockClass;
 		this.subBlocks = subBlocks;
 		this.states = states;
+		if (states != null) {
+			this.icons = new IIcon[states.length][];
+		}
 	}
-	
+
 	public abstract String getMultiblockName();
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		String prefix = "modularmachines:" + getMultiblockName() + "/";
-
-		for (int metadata = 0; metadata < states.length; ++metadata) {
+		for ( int metadata = 0; metadata < states.length; ++metadata ) {
 			String[] blockStates = states[metadata];
 			icons[metadata] = new IIcon[blockStates.length];
-
-			for (int state = 0; state < blockStates.length; state++) {
-				icons[metadata][state] = par1IconRegister
-						.registerIcon(prefix + subBlocks[metadata] + "/" + blockStates[state]);
+			for ( int state = 0; state < blockStates.length; state++ ) {
+				icons[metadata][state] = par1IconRegister.registerIcon(prefix + subBlocks[metadata] + "/" + blockStates[state]);
 			}
 		}
-
 		this.blockIcon = par1IconRegister.registerIcon("modularmachines:" + getMultiblockName() + "/default");
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7,
-			float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if (player.isSneaking()) {
 			return false;
 		}
-
 		int metadata = world.getBlockMetadata(x, y, z);
 		TileEntity te = world.getTileEntity(x, y, z);
 		IMultiblockPart part = null;
 		MultiblockControllerBase controller = null;
-
 		if (te instanceof IMultiblockPart) {
 			part = (IMultiblockPart) te;
 			controller = part.getMultiblockController();
 		}
-
 		if (isCasing(metadata)) {
 			// If the player's hands are empty and they rightclick on a
 			// multiblock, they get a
@@ -114,22 +101,19 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 					return true;
 				}
 			}
-
 			// If nonempty, or there was no error, just fall through
 			return false;
 		}
-
 		if ((whenMultiblockNotAssembled(metadata)) && (controller == null || !controller.isAssembled())) {
 			return false;
 		}
-
 		if (!world.isRemote) {
 			player.openGui(ModularMachines.instance, 0, world, x, y, z);
 		}
 		return true;
 	}
-	
-	public boolean whenMultiblockNotAssembled(int metadata){
+
+	public boolean whenMultiblockNotAssembled(int metadata) {
 		return isController(metadata);
 	}
 
@@ -154,7 +138,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof IInventory) {
 			IInventory inventory = ((IInventory) te);
-			inv: for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			inv : for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
 				ItemStack itemstack = inventory.getStackInSlot(i);
 				if (itemstack == null) {
 					continue;
@@ -184,7 +168,6 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 				} while (true);
 			}
 		}
-
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 
@@ -196,10 +179,9 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 	protected IIcon getControllerIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
 		TileEntity te = blockAccess.getTileEntity(x, y, z);
 		if (te instanceof TileMultiblockBase) {
-			if(((TileMultiblockBase) te).getMultiblockControllerType().equals(multiblockClass)){
+			if (((TileMultiblockBase) te).getMultiblockControllerType().equals(multiblockClass)) {
 				TileMultiblockBase<M> part = (TileMultiblockBase<M>) te;
 				M m = part.getController();
-	
 				if (m == null || !m.isAssembled()) {
 					return icons[METADATA_CONTROLLER][CONTROLLER_OFF];
 				} else if (!isOutwardsSide(part, side)) {
@@ -213,41 +195,40 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 		}
 		return blockIcon;
 	}
-	
+
 	private static final int DEFAULT = 0;
 	private static final int FACE = 1;
 	private static final int CORNER = 2;
 	private static final int EASTWEST = 3;
 	private static final int NORTHSOUTH = 4;
 	private static final int VERTICAL = 5;
-	
+
 	protected IIcon getCasingIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
 		TileEntity te = blockAccess.getTileEntity(x, y, z);
 		if (te instanceof TileMultiblockBase) {
-			if(((TileMultiblockBase) te).getMultiblockControllerType().equals(multiblockClass)){
+			if (((TileMultiblockBase) te).getMultiblockControllerType().equals(multiblockClass)) {
 				TileMultiblockBase<M> part = (TileMultiblockBase<M>) te;
 				PartPosition position = part.getPartPosition();
 				M m = part.getController();
 				if (m == null || !m.isAssembled()) {
 					return icons[METADATA_CASING][DEFAULT];
 				}
-	
 				switch (position) {
-				case BottomFace:
-				case TopFace:
-				case EastFace:
-				case WestFace:
-				case NorthFace:
-				case SouthFace:
-					return icons[METADATA_CASING][FACE];
-				case FrameCorner:
-					return icons[METADATA_CASING][CORNER];
-				case Frame:
-					return getCasingEdgeIcon(part, m, side);
-				case Interior:
-				case Unknown:
-				default:
-					return icons[METADATA_CASING][DEFAULT];
+					case BottomFace:
+					case TopFace:
+					case EastFace:
+					case WestFace:
+					case NorthFace:
+					case SouthFace:
+						return icons[METADATA_CASING][FACE];
+					case FrameCorner:
+						return icons[METADATA_CASING][CORNER];
+					case Frame:
+						return getCasingEdgeIcon(part, m, side);
+					case Interior:
+					case Unknown:
+					default:
+						return icons[METADATA_CASING][DEFAULT];
 				}
 			}
 		}
@@ -258,13 +239,10 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 		if (m == null || !m.isAssembled()) {
 			return icons[METADATA_CASING][DEFAULT];
 		}
-
-		CoordTriplet minCoord = m.getMinimumCoord();
-		CoordTriplet maxCoord = m.getMaximumCoord();
-
+		BlockPos minCoord = m.getMinimumCoord();
+		BlockPos maxCoord = m.getMaximumCoord();
 		boolean xExtreme, yExtreme, zExtreme;
 		xExtreme = yExtreme = zExtreme = false;
-
 		if (part.xCoord == minCoord.x || part.xCoord == maxCoord.x) {
 			xExtreme = true;
 		}
@@ -274,7 +252,6 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 		if (part.zCoord == minCoord.z || part.zCoord == maxCoord.z) {
 			zExtreme = true;
 		}
-
 		int idx = DEFAULT;
 		if (!xExtreme) {
 			if (side < 4) {

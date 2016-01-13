@@ -26,5 +26,4 @@ public class ItemFile extends ItemToolCrafting {
 		itemstack.stackSize = 1;
 		return itemstack;
 	}
-
 }

@@ -26,9 +26,7 @@ public abstract class Module implements IModule {
 	@Override
 	public String getName(ModuleStack stack, boolean withTypeModifier) {
 		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "")
-				+ (withTypeModifier
-						? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "")
-						: "");
+				+ (withTypeModifier ? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "") : "");
 	}
 
 	@Override
@@ -50,10 +48,10 @@ public abstract class Module implements IModule {
 	public boolean equals(Object obj) {
 		if (obj instanceof IModule) {
 			IModule module = (IModule) obj;
-			if (module.getModuleName().equals(getModuleName()) && module.getRegistryName().equals(getRegistryName()))
+			if (module.getModuleName().equals(getModuleName()) && module.getRegistryName().equals(getRegistryName())) {
 				return true;
+			}
 		}
 		return false;
 	}
-
 }

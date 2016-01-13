@@ -41,22 +41,27 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public ArrayList<ModuleStack> getModuleWithGuis() {
 		ArrayList<ModuleStack> guis = new ArrayList<ModuleStack>();
-		for (Vector<ModuleStack> stacks : modular.getModules().values())
-			for (ModuleStack module : stacks) {
-				if (module != null && module.getProducer() != null)
-					if (module.getProducer() instanceof IProducerGui)
+		for ( Vector<ModuleStack> stacks : modular.getModules().values() ) {
+			for ( ModuleStack module : stacks ) {
+				if (module != null && module.getProducer() != null) {
+					if (module.getProducer() instanceof IProducerGui) {
 						guis.add(module);
+					}
+				}
 			}
+		}
 		return guis;
 	}
 
 	@Override
 	public ModuleStack getModuleWithGui() {
-		if (page == null || page.length() == 0 || page.length() < 0)
+		if (page == null || page.length() == 0 || page.length() < 0) {
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
-		for (ModuleStack module : getModuleWithGuis()) {
-			if (module.getModule().getName(module, false).equals(page))
+		}
+		for ( ModuleStack module : getModuleWithGuis() ) {
+			if (module.getModule().getName(module, false).equals(page)) {
 				return module;
+			}
 		}
 		return null;
 	}
@@ -72,19 +77,18 @@ public class ModularGuiManager implements IModularGuiManager {
 	}
 
 	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile,
-			InventoryPlayer inventory) {
-		if (page == null || page.length() == 0 || page.length() < 0)
+	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
+		if (page == null || page.length() == 0 || page.length() < 0) {
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
+		}
 		return new ContainerModularMachine(tile, inventory);
 	}
 
 	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile,
-			InventoryPlayer inventory) {
-		if (page == null || page.length() == 0 || page.length() < 0)
+	public <T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile, InventoryPlayer inventory) {
+		if (page == null || page.length() == 0 || page.length() < 0) {
 			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
+		}
 		return new GuiModular(tile, inventory);
 	}
-
 }

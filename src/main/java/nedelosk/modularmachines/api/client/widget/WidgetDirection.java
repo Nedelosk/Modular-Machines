@@ -29,42 +29,38 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 
 	@Override
 	public void draw(IGuiBase<T> gui) {
-		if (direction == null)
+		if (direction == null) {
 			return;
-
+		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
-
 		GL11.glEnable(GL11.GL_LIGHTING);
-
 	}
 
 	@Override
 	public void drawStrings(IGuiBase<T> gui) {
-		if (direction == null)
+		if (direction == null) {
 			return;
-
+		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 		StringBuilder builder = new StringBuilder();
 		builder.append(direction.name().charAt(0));
-		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(),
-				gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
-
+		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5,
+				1.2F, 4210752);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
 		if (direction != null) {
-			if (direction.ordinal() != ForgeDirection.values().length - 1)
+			if (direction.ordinal() != ForgeDirection.values().length - 1) {
 				direction = ForgeDirection.values()[direction.ordinal() + 1];
-			else
+			} else {
 				direction = ForgeDirection.values()[0];
+			}
 			gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setDirection(direction);
 			;
 			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), direction, ID));
@@ -73,11 +69,11 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
-		if (direction == null)
+		if (direction == null) {
 			return null;
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(direction.name());
 		return list;
 	}
-
 }

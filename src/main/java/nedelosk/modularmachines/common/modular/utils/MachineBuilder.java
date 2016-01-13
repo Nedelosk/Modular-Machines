@@ -36,7 +36,7 @@ public class MachineBuilder {
 	}
 
 	public static IModular buildMachine(ItemStack[] slots, String moduleName) {
-		for (Entry<String, Class<? extends IModular>> entry : ModuleRegistry.getModular().entrySet()) {
+		for ( Entry<String, Class<? extends IModular>> entry : ModuleRegistry.getModular().entrySet() ) {
 			IModular modularType = createMachine(moduleName);
 			IModular modular = modularType.buildItem(slots);
 			if (modular != null) {
@@ -49,23 +49,24 @@ public class MachineBuilder {
 	public static <M extends IModular> M createMachine(String modularName, Object... ctorArgs) {
 		IModular machine = null;
 		try {
-			if (ctorArgs == null || ctorArgs.length == 0)
-				if (ModuleRegistry.getModular().get(modularName) != null)
+			if (ctorArgs == null || ctorArgs.length == 0) {
+				if (ModuleRegistry.getModular().get(modularName) != null) {
 					return (M) ModuleRegistry.getModular().get(modularName).getConstructor().newInstance();
+				}
+			}
 			Class<?>[] ctorArgClasses = new Class<?>[ctorArgs.length];
-			for (int idx = 0; idx < ctorArgClasses.length; idx++) {
+			for ( int idx = 0; idx < ctorArgClasses.length; idx++ ) {
 				ctorArgClasses[idx] = ctorArgs[idx].getClass();
 			}
-			if (ModuleRegistry.getModular().get(modularName) != null)
-				machine = ModuleRegistry.getModular().get(modularName).getConstructor(ctorArgClasses)
-						.newInstance(ctorArgs);
-			else
+			if (ModuleRegistry.getModular().get(modularName) != null) {
+				machine = ModuleRegistry.getModular().get(modularName).getConstructor(ctorArgClasses).newInstance(ctorArgs);
+			} else {
 				return null;
+			}
 		} catch (Exception e) {
 			FMLLog.log(Level.ERROR, e, "Caught an exception during IModular registration in :" + modularName);
 			throw new LoaderException(e);
 		}
 		return (M) machine;
 	}
-
 }

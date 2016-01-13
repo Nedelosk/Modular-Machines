@@ -34,6 +34,7 @@ public class ShapedModuleRecipeHandler {
 	}
 
 	private class ActionRemoveRecipes implements IUndoableAction {
+
 		private final List<Integer> removingIndices;
 		private final List<IRecipe> removingRecipes;
 
@@ -44,7 +45,7 @@ public class ShapedModuleRecipeHandler {
 
 		@Override
 		public void apply() {
-			for (int i = removingIndices.size() - 1; i >= 0; i--) {
+			for ( int i = removingIndices.size() - 1; i >= 0; i-- ) {
 				recipes.remove((int) removingIndices.get(i));
 			}
 		}
@@ -56,7 +57,7 @@ public class ShapedModuleRecipeHandler {
 
 		@Override
 		public void undo() {
-			for (int i = 0; i < removingIndices.size(); i++) {
+			for ( int i = 0; i < removingIndices.size(); i++ ) {
 				int index = Math.min(recipes.size(), removingIndices.get(i));
 				recipes.add(index, removingRecipes.get(i));
 			}
@@ -79,6 +80,7 @@ public class ShapedModuleRecipeHandler {
 	}
 
 	private class ActionAddRecipe implements IUndoableAction {
+
 		private final IRecipe recipe;
 		private final ICraftingRecipe craftingRecipe;
 
@@ -129,16 +131,15 @@ public class ShapedModuleRecipeHandler {
 		byte[] posx = recipe.getIngredientsX();
 		byte[] posy = recipe.getIngredientsY();
 		Object[] converted = new Object[recipe.getHeight() * recipe.getWidth()];
-		for (int i = 0; i < ingredients.length; i++) {
+		for ( int i = 0; i < ingredients.length; i++ ) {
 			converted[posx[i] + posy[i] * recipe.getWidth()] = ingredients[i].getInternal();
 		}
-
 		int counter = 0;
 		String[] parts = new String[recipe.getHeight()];
 		ArrayList rarguments = new ArrayList();
-		for (int i = 0; i < recipe.getHeight(); i++) {
+		for ( int i = 0; i < recipe.getHeight(); i++ ) {
 			char[] pattern = new char[recipe.getWidth()];
-			for (int j = 0; j < recipe.getWidth(); j++) {
+			for ( int j = 0; j < recipe.getWidth(); j++ ) {
 				int off = i * recipe.getWidth() + j;
 				if (converted[off] == null) {
 					pattern[j] = ' ';
@@ -151,10 +152,7 @@ public class ShapedModuleRecipeHandler {
 			}
 			parts[i] = new String(pattern);
 		}
-
 		rarguments.addAll(0, Arrays.asList(parts));
-
 		return new ShapedRecipeOre(rarguments.toArray(), recipe);
 	}
-
 }

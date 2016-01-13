@@ -9,7 +9,6 @@ import net.minecraft.util.StatCollector;
 public class Types {
 
 	private static ArrayList<Type> types = Lists.newArrayList();
-
 	public static Type WOOD = addType(0, "Wood", "wood");
 	public static Type STONE = addType(1, "Stone", "stone");
 	public static Type IRON = addType(2, "Iron", "iron");
@@ -17,7 +16,6 @@ public class Types {
 	public static Type OBSIDIAN = addType(4, "Obsidian", "obsidian");
 	public static Type STEEL = addType(5, "Steel", "steel");
 	public static Type MAGMARIUM = addType(7, "Magmarium", "magmarium");
-
 	// Thermal Expansion
 	public static Type Lead = Types.addType(2, "Lead", "lead");
 	public static Type Invar = Types.addType(3, "Invar", "invar");
@@ -46,9 +44,11 @@ public class Types {
 	}
 
 	public static Type getType(String name) {
-		for (Type tier : types)
-			if (tier.getName().equals(name))
+		for ( Type tier : types ) {
+			if (tier.getName().equals(name)) {
 				return tier;
+			}
+		}
 		return null;
 	}
 
@@ -86,11 +86,11 @@ public class Types {
 		public boolean equals(Object obj) {
 			if (obj instanceof Type) {
 				Type type = (Type) obj;
-				if (type.getName().equals(getName()) && type.getTier() == getTier())
+				if (type.getName().equals(getName()) && type.getTier() == getTier()) {
 					return true;
+				}
 			}
 			return false;
 		}
 	}
-
 }

@@ -19,7 +19,6 @@ public interface IProducerInventory extends IProducerGui {
 
 	int getSizeInventory(ModuleStack stack);
 
-	ItemStack transferStackInSlot(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile,
-			EntityPlayer player, int slotID, Container container);
-
+	ItemStack transferStackInSlot(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile, EntityPlayer player, int slotID,
+			Container container);
 }

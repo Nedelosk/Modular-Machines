@@ -45,25 +45,23 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-
 		storageSlots = nbt.getInteger("StorageSlots");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-
 		nbt.setInteger("StorageSlots", storageSlots);
 	}
 
 	@Override
-	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile,
-			EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID,
+			Container container, ItemStack stackItem) {
 		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getProducer(tile.getStackInSlot(slotID - 36));
-		if (stack != null && stack.getModule() == Modules.CHEST && stack.getProducer() != null
-				&& stack.getProducer() instanceof IProducerStorage) {
-			if (mergeItemStack(stackItem, slotID, slotID + 1, false, container))
+		if (stack != null && stack.getModule() == Modules.CHEST && stack.getProducer() != null && stack.getProducer() instanceof IProducerStorage) {
+			if (mergeItemStack(stackItem, slotID, slotID + 1, false, container)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -82,5 +80,4 @@ public class ProducerStorageManager extends ProducerManager implements IProducer
 	public int getColor() {
 		return 0xD1CA3D;
 	}
-
 }

@@ -32,7 +32,6 @@ public class Widget<I extends IGuiHandler> {
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
-
 	}
 
 	public Rectangle getPos() {
@@ -42,9 +41,9 @@ public class Widget<I extends IGuiHandler> {
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if (w.pos.equals(pos))
+		if (w.pos.equals(pos)) {
 			return true;
+		}
 		return false;
 	}
-
 }

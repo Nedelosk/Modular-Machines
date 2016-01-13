@@ -36,5 +36,4 @@ public class ItemToolCrafting extends ItemToolForestday implements ITool {
 	public int getDamage() {
 		return damage;
 	}
-
 }

@@ -40,9 +40,10 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	public void syncOnOpen(EntityPlayerMP playerOpened) {
 		WorldServer server = playerOpened.getServerForPlayer();
-		for (EntityPlayer player : (ArrayList<EntityPlayer>) server.playerEntities) {
-			if (player == playerOpened)
+		for ( EntityPlayer player : (ArrayList<EntityPlayer>) server.playerEntities ) {
+			if (player == playerOpened) {
 				continue;
+			}
 			if (player.openContainer instanceof ContainerModularAssembler) {
 				if (sameGui((ContainerBase<TileModularAssembler>) player.openContainer)) {
 					syncWithOtherContainer((ContainerBase<TileModularAssembler>) player.openContainer, playerOpened);
@@ -56,10 +57,9 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		int i;
-		for (i = 0; i < inventoryBase.getSizeInventory() - 1; i++) {
+		for ( i = 0; i < inventoryBase.getSizeInventory() - 1; i++ ) {
 			addSlotToContainer(new SlotAssemblerIn(inventoryBase, i, 0, 0, this));
 		}
-
 		// output slot
 		out = new SlotAssemblerOut(i, 234, 38, this);
 		addSlotToContainer(out);
@@ -68,9 +68,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncNewContainer(EntityPlayerMP player) {
 		this.activeSlots = inventoryBase.getSizeInventory() - 1;
-		PacketHandler.INSTANCE.sendTo(
-				new PacketAssembler(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1),
-				player);
+		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, GuiButtonAssembler.info, inventoryBase.getSizeInventory() - 1), player);
 		onCraftMatrixChanged(null);
 	}
 
@@ -80,22 +78,19 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	protected void syncWithOtherContainer(ContainerModularAssembler otherContainer, EntityPlayerMP player) {
 		this.setToolSelection(otherContainer.info, otherContainer.activeSlots);
-		PacketHandler.INSTANCE
-				.sendTo(new PacketAssembler(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
+		PacketHandler.INSTANCE.sendTo(new PacketAssembler(inventoryBase, otherContainer.info, otherContainer.activeSlots), player);
 	}
 
 	public void setToolSelection(AssemblerMachineInfo info, int activeSlots) {
-		if (activeSlots > inventoryBase.getSizeInventory() - 1)
+		if (activeSlots > inventoryBase.getSizeInventory() - 1) {
 			activeSlots = inventoryBase.getSizeInventory() - 1;
-
+		}
 		this.activeSlots = activeSlots;
 		this.info = info;
-
-		for (int i = 0; i < inventoryBase.getSizeInventory() - 1; i++) {
+		for ( int i = 0; i < inventoryBase.getSizeInventory() - 1; i++ ) {
 			Slot slot = (Slot) inventorySlots.get(i + 36);
 			if (slot instanceof SlotAssemblerIn) {
 				SlotAssemblerIn slotToolPart = (SlotAssemblerIn) slot;
-
 				if (i >= activeSlots) {
 					slotToolPart.deactivate();
 				} else {
@@ -127,7 +122,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 	}
 
 	public void onResultTaken(EntityPlayer playerIn, ItemStack stack) {
-		for (int i = 0; i < inventoryBase.getSizeInventory() - 1; i++) {
+		for ( int i = 0; i < inventoryBase.getSizeInventory() - 1; i++ ) {
 			inventoryBase.decrStackSize(i, 1);
 		}
 		onCraftMatrixChanged(null);
@@ -135,28 +130,27 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	private ItemStack buildMachine() {
 		ItemStack[] input = new ItemStack[activeSlots];
-		for (int i = 0; i < activeSlots; i++) {
+		for ( int i = 0; i < activeSlots; i++ ) {
 			input[i] = inventoryBase.getStackInSlot(i);
 		}
-		if (info == null)
+		if (info == null) {
 			return null;
-		if (info.machine == null)
+		}
+		if (info.machine == null) {
 			return null;
-		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(),
-				inventoryBase.tier, info.machine);
+		}
+		return MachineBuilder.buildMachineItem(input, ((IModularItem) info.machine.getItem()).getMachineName(), inventoryBase.tier, info.machine);
 	}
 
 	@Override
 	protected void addInventory(InventoryPlayer inventory) {
-		for (int i1 = 0; i1 < 3; i1++) {
-			for (int l1 = 0; l1 < 9; l1++) {
+		for ( int i1 = 0; i1 < 3; i1++ ) {
+			for ( int l1 = 0; l1 < 9; l1++ ) {
 				addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18 + 110, 92 + i1 * 18));
 			}
 		}
-
-		for (int j1 = 0; j1 < 9; j1++) {
+		for ( int j1 = 0; j1 < 9; j1++ ) {
 			addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18 + 110, 150));
 		}
 	}
-
 }

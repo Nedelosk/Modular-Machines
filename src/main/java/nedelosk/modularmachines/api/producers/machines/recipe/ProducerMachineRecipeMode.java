@@ -37,7 +37,7 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe im
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
 		super.updateGui(base, x, y, modular, stack);
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
-		for (Widget widget : widgets) {
+		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetButtonMode) {
 				((WidgetButtonMode) widget).setMode(getMode());
 			}
@@ -46,12 +46,10 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe im
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton,
-			ModuleStack stack) {
+	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack stack) {
 		super.handleMouseClicked(tile, widget, mouseX, mouseY, mouseButton, stack);
 		if (widget instanceof WidgetButtonMode) {
-			Minecraft.getMinecraft().getSoundHandler()
-					.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if (getMode().ordinal() == getModeClass().getEnumConstants().length - 1) {
 				setMode(getModeClass().getEnumConstants()[0]);
 				((WidgetButtonMode) widget).setMode(getMode());
@@ -104,5 +102,4 @@ public abstract class ProducerMachineRecipeMode extends ProducerMachineRecipe im
 	public void setMode(IMachineMode mode) {
 		this.mode = mode;
 	}
-
 }

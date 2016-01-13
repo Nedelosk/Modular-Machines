@@ -15,7 +15,7 @@ public class FRegistry extends Registry {
 
 	@Override
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
-		CreativeTabs tabBlocks = Tabs.tabForestday = TabForestDay.tabForestdayBlocks;
+		CreativeTabs tabBlocks = Tabs.tabForestday = TabForestDay.tabForestday;
 		super.preInit(instance, event);
 	}
 
@@ -33,5 +33,4 @@ public class FRegistry extends Registry {
 	public IGuiHandler getGuiHandler() {
 		return new GuiHandler();
 	}
-
 }

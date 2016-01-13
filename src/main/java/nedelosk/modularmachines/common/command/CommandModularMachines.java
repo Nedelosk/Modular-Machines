@@ -2,11 +2,13 @@ package nedelosk.modularmachines.common.command;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandModularMachines extends CommandBase {
+
 	private List aliases;
 
 	public CommandModularMachines() {
@@ -50,32 +52,18 @@ public class CommandModularMachines extends CommandBase {
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		if (astring.length == 0) {
 			icommandsender.addChatMessage(new ChatComponentTranslation("§cInvalid arguments", new Object[0]));
-
-			icommandsender.addChatMessage(
-					new ChatComponentTranslation("§cUse /modularmachines help to get help", new Object[0]));
-
+			icommandsender.addChatMessage(new ChatComponentTranslation("§cUse /modularmachines help to get help", new Object[0]));
 			return;
 		}
 		if (astring[0].equalsIgnoreCase("help")) {
-			icommandsender.addChatMessage(new ChatComponentTranslation(
-					"§3You can also use /modular or /mm instead of /modularmachines.", new Object[0]));
-
-			icommandsender.addChatMessage(
-					new ChatComponentTranslation("§3Use this to give entry to a player.", new Object[0]));
-
-			icommandsender.addChatMessage(new ChatComponentTranslation(
-					"  /modularmachines entry <list|player> <all|reset|<entry>>", new Object[0]));
-
-			icommandsender.addChatMessage(
-					new ChatComponentTranslation("§3Use this to give techpoints to a player.", new Object[0]));
-
-			icommandsender.addChatMessage(new ChatComponentTranslation(
-					"/modularmachines techpoint <player> <pointType|all> <amount>", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("§3You can also use /modular or /mm instead of /modularmachines.", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("§3Use this to give entry to a player.", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("  /modularmachines entry <list|player> <all|reset|<entry>>", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("§3Use this to give techpoints to a player.", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("/modularmachines techpoint <player> <pointType|all> <amount>", new Object[0]));
 		} else {
 			icommandsender.addChatMessage(new ChatComponentTranslation("§cInvalid arguments", new Object[0]));
-
-			icommandsender.addChatMessage(
-					new ChatComponentTranslation("§cUse /modularmachines help to get help", new Object[0]));
+			icommandsender.addChatMessage(new ChatComponentTranslation("§cUse /modularmachines help to get help", new Object[0]));
 		}
 	}
 }

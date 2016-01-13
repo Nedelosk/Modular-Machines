@@ -17,5 +17,4 @@ public interface IRecipe {
 	int getRequiredMaterial();
 
 	String getRecipeName();
-
 }

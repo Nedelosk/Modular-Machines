@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-
 import org.lwjgl.opengl.GL11;
 
 import nedelosk.forestcore.library.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
 
 public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
@@ -23,15 +22,18 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	@Override
 	public void add(Widget slot) {
-		if (!widgets.contains(slot))
+		if (!widgets.contains(slot)) {
 			this.widgets.add(slot);
+		}
 	}
 
 	@Override
 	public void add(Collection<Widget> slots) {
-		for (Widget slot : slots)
-			if (!widgets.contains(slot))
+		for ( Widget slot : slots ) {
+			if (!widgets.contains(slot)) {
 				widgets.add(slot);
+			}
+		}
 	}
 
 	@Override
@@ -44,31 +46,30 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	protected Widget getAtPosition(int mX, int mY) {
-		for (Widget slot : widgets) {
+		for ( Widget slot : widgets ) {
 			if (slot.isMouseOver(mX, mY)) {
 				return slot;
 			}
 		}
-
 		return null;
 	}
 
 	public void drawWidgets() {
-		for (Widget slot : widgets) {
+		for ( Widget slot : widgets ) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.draw(gui);
 		}
-		for (Widget slot : widgets) {
+		for ( Widget slot : widgets ) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawStrings(gui);
 		}
-
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for (Widget slot : widgets) {
-			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop()))
+		for ( Widget slot : widgets ) {
+			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
 				RenderUtil.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip(gui));
+			}
 		}
 	}
 

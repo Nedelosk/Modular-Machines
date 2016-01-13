@@ -54,5 +54,4 @@ public interface IEnergyContainerItem {
 	 * Get the max amount of energy that can be stored in the container item.
 	 */
 	int getMaxEnergyStored(ItemStack container);
-
 }

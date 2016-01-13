@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+
+import javax.imageio.ImageIO;
+
 import org.apache.logging.log4j.Level;
 
 import nedelosk.forestcore.library.Log;
-
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -32,7 +33,7 @@ public class TextureAtlasMap extends TextureAtlasSprite {
 		TextureMap textureMap = (TextureMap) iconRegister;
 		int numIcons = rows * columns;
 		IIcon[] icons = new IIcon[numIcons];
-		for (int i = 0; i < numIcons; i++) {
+		for ( int i = 0; i < numIcons; i++ ) {
 			String texName = name + "." + i;
 			TextureAtlasMap texture = new TextureAtlasMap(texName, i, rows, columns);
 			textureMap.setTextureEntry(texName, texture);
@@ -55,35 +56,30 @@ public class TextureAtlasMap extends TextureAtlasSprite {
 
 	@Override
 	public boolean load(IResourceManager manager, ResourceLocation location) {
-		location = new ResourceLocation(location.getResourceDomain(),
-				location.getResourcePath().replace("." + index, ""));
+		location = new ResourceLocation(location.getResourceDomain(), location.getResourcePath().replace("." + index, ""));
 		int split = location.getResourcePath().indexOf(':');
-		if (split != -1)
-			location = new ResourceLocation(location.getResourceDomain(),
-					location.getResourcePath().substring(0, split));
-		location = new ResourceLocation(location.getResourceDomain(),
-				"textures/blocks/" + location.getResourcePath() + ".png");
-
+		if (split != -1) {
+			location = new ResourceLocation(location.getResourceDomain(), location.getResourcePath().substring(0, split));
+		}
+		location = new ResourceLocation(location.getResourceDomain(), "textures/blocks/" + location.getResourcePath() + ".png");
 		BufferedImage image;
 		IResource resource = null;
 		try {
 			resource = manager.getResource(location);
 			image = ImageIO.read(resource.getInputStream());
 		} catch (IOException ex) {
-			Log.log(Level.WARN, "Failed to load sub-texture from {0}: {1}", location.getResourcePath(),
-					ex.getLocalizedMessage());
+			Log.log(Level.WARN, "Failed to load sub-texture from {0}: {1}", location.getResourcePath(), ex.getLocalizedMessage());
 			return true;
 		} finally {
-			if (resource != null)
+			if (resource != null) {
 				try {
 					resource.getInputStream().close();
 				} catch (IOException e) {
 				}
+			}
 		}
-
 		Field mipmapLevel;
 		Field anisotropicFiltering;
-
 		try {
 			mipmapLevel = TextureMap.class.getDeclaredField("field_147636_j");
 			anisotropicFiltering = TextureMap.class.getDeclaredField("field_147637_k");
@@ -95,27 +91,23 @@ public class TextureAtlasMap extends TextureAtlasSprite {
 				throw new RuntimeException(f);
 			}
 		}
-
 		mipmapLevel.setAccessible(true);
 		anisotropicFiltering.setAccessible(true);
 		int mipmapLevels;
-
 		try {
 			mipmapLevels = mipmapLevel.getInt(Minecraft.getMinecraft().getTextureMapBlocks());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 		int size = image.getHeight() / rows;
 		int x = index % columns;
 		int y = index / columns;
-
 		BufferedImage subImage;
 		try {
 			subImage = image.getSubimage(x * size, y * size, size, size);
 		} catch (RasterFormatException ex) {
-			Log.log(Level.WARN, "Failed to load sub-texture from {0} - {1}x{2}: {3}", location.getResourcePath(),
-					image.getWidth(), image.getHeight(), ex.getLocalizedMessage());
+			Log.log(Level.WARN, "Failed to load sub-texture from {0} - {1}x{2}: {3}", location.getResourcePath(), image.getWidth(), image.getHeight(),
+					ex.getLocalizedMessage());
 			return true;
 		}
 		this.height = subImage.getHeight();
@@ -127,5 +119,4 @@ public class TextureAtlasMap extends TextureAtlasSprite {
 		framesTextureData.add(imageData);
 		return false;
 	}
-
 }

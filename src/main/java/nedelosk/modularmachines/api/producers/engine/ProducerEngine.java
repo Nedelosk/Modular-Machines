@@ -28,11 +28,8 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	protected int timer, timerTotal;
 	protected int speedModifier;
 	protected boolean isWorking;
-
 	protected String type;
-
 	public IRecipeManager manager;
-
 	protected float progress;
 
 	public ProducerEngine(String modifier, int speedModifier, String type) {
@@ -50,7 +47,6 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	public void updateClient(IModular modular, ModuleStack stack) {
 		if (isWorking) {
 			progress += 0.05;
-
 			if (progress > 1) {
 				progress = 0;
 			}
@@ -62,17 +58,18 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	public void updateServer(IModular modular, ModuleStack stack) {
 		ModuleStack<IModule, IProducerMachine> stackMachine = ModuleUtils.getModuleStackMachine(modular);
 		if (timer > timerTotal) {
-			modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(),
-					modular.getMachine().getYCoord(), modular.getMachine().getZCoord());
+			modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(),
+					modular.getMachine().getZCoord());
 			timer = 0;
 		} else {
 			timer++;
-
 			if (stackMachine.getProducer() instanceof IProducerMachineRecipe) {
 				IProducerMachineRecipe machine = (IProducerMachineRecipe) stackMachine.getProducer();
-				if (manager != null)
-					if (manager.removeMaterial())
+				if (manager != null) {
+					if (manager.removeMaterial()) {
 						burnTime++;
+					}
+				}
 			} /*
 				 * else if(stack.getProducer() instanceof IProducerMachine){
 				 * IProducerMachine machine = stackMachine.getProducer(); }
@@ -91,7 +88,6 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 		timer = nbt.getInteger("timer");
 		timerTotal = nbt.getInteger("timerTotal");
 		isWorking = nbt.getBoolean("isWorking");
-
 		if (nbt.hasKey("Manager")) {
 			manager = creatRecipeManager();
 			manager = manager.readFromNBT(nbt.getCompoundTag("Manager"), modular);
@@ -109,7 +105,6 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 		nbt.setInteger("timer", timer);
 		nbt.setInteger("timerTotal", timerTotal);
 		nbt.setBoolean("isWorking", isWorking);
-
 		if (manager != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			manager.writeToNBT(nbtTag, modular);
@@ -190,16 +185,15 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	}
 
 	@Override
-	public int getBurnTimeTotal(IModular modular, ModuleStack<IModule, IProducerMachine> stackMachine,
-			ModuleStack<IModule, IProducerEngine> stackEngine) {
+	public int getBurnTimeTotal(IModular modular, ModuleStack<IModule, IProducerMachine> stackMachine, ModuleStack<IModule, IProducerEngine> stackEngine) {
 		int burnTimeTotal = getSpeedModifier(stackEngine) * stackMachine.getProducer().getSpeed(stackMachine) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModuleUtils.getModuleStackBattery(modular);
 		return burnTimeTotal + (burnTimeTotal * battery.getProducer().getSpeedModifier() / 100);
 	}
 
 	@Override
-	public int getBurnTimeTotal(IModular modular, int speedModifier,
-			ModuleStack<IModule, IProducerMachine> stackMachine, ModuleStack<IModule, IProducerEngine> stackEngine) {
+	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModule, IProducerMachine> stackMachine,
+			ModuleStack<IModule, IProducerEngine> stackEngine) {
 		int speed = getSpeedModifier(stackEngine) * stackMachine.getProducer().getSpeed(stackMachine) / 10;
 		ModuleStack<IModule, IProducerBattery> battery = ModuleUtils.getModuleStackBattery(modular);
 		int burnTimeTotal = speed + (speed * battery.getProducer().getSpeedModifier() / 100);
@@ -226,5 +220,4 @@ public abstract class ProducerEngine extends Producer implements IProducerEngine
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		return currenttip;
 	}
-
 }

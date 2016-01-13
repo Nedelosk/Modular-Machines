@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 public class PacketProducerEngine implements IMessage, IMessageHandler<PacketProducerEngine, IMessage> {
 
 	public float progress;
-
 	protected int x;
 	protected int y;
 	protected int z;
@@ -61,9 +60,9 @@ public class PacketProducerEngine implements IMessage, IMessageHandler<PacketPro
 	@Override
 	public IMessage onMessage(PacketProducerEngine message, MessageContext ctx) {
 		IModularTileEntity modular = message.getTileEntity(getWorld(ctx));
-		if (modular != null)
+		if (modular != null) {
 			ModuleUtils.getModuleStackEngine(modular.getModular()).getProducer().setProgress(message.progress);
+		}
 		return null;
 	}
-
 }

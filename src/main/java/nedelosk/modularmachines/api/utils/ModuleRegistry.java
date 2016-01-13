@@ -44,7 +44,7 @@ public class ModuleRegistry {
 	}
 
 	public static Pair<Type, String> getTypeAndModifier(ModuleStack stack) {
-		for (Pair<Type, String> modifiers : typeModifiers.get(stack.getModule().getRegistryName())) {
+		for ( Pair<Type, String> modifiers : typeModifiers.get(stack.getModule().getRegistryName()) ) {
 			if (modifiers.first().equals(stack.getType())) {
 				return modifiers;
 			}
@@ -62,7 +62,7 @@ public class ModuleRegistry {
 			list.add(new Pair(tier, modifier));
 			typeModifiers.put(module, list);
 		} else {
-			for (Pair<Type, String> modifiers : typeModifiers.get(module)) {
+			for ( Pair<Type, String> modifiers : typeModifiers.get(module) ) {
 				if (modifiers.first().equals(tier)) {
 					return;
 				}
@@ -84,8 +84,9 @@ public class ModuleRegistry {
 			MinecraftForge.EVENT_BUS.post(new ProducerRegisterEvent(stack));
 		}
 		if (stack.getProducer() != null) {
-			if (getProducerClass(stack.getProducer().getName(stack)) == null)
+			if (getProducerClass(stack.getProducer().getName(stack)) == null) {
 				registerProducerClass(stack.getProducer().getClass(), stack.getProducer().getName(stack));
+			}
 		}
 	}
 
@@ -106,12 +107,15 @@ public class ModuleRegistry {
 	}
 
 	public static ModuleStack getProducer(ItemStack stack) {
-		if (stack == null)
+		if (stack == null) {
 			return null;
-		for (ModuleStack item : producers) {
-			if (stack.getItem() == item.getItem().getItem() && stack.getItemDamage() == item.getItem().getItemDamage())
-				if (ItemStack.areItemStackTagsEqual(stack, item.getItem()) || !item.hasNbt())
+		}
+		for ( ModuleStack item : producers ) {
+			if (stack.getItem() == item.getItem().getItem() && stack.getItemDamage() == item.getItem().getItemDamage()) {
+				if (ItemStack.areItemStackTagsEqual(stack, item.getItem()) || !item.hasNbt()) {
 					return item;
+				}
+			}
 		}
 		return null;
 	}
@@ -146,14 +150,14 @@ public class ModuleRegistry {
 
 	// Producer Factory
 	public static IProducerFactory producerFactory;
-
 	// Module Producer
 	private static HashMap<String, Class<? extends IProducer>> producerClasses = Maps.newHashMap();
 
 	public static Class<? extends IProducer> getProducerClass(String name) {
-		for (Map.Entry<String, Class<? extends IProducer>> entry : producerClasses.entrySet()) {
-			if (entry.getKey().equals(name))
+		for ( Map.Entry<String, Class<? extends IProducer>> entry : producerClasses.entrySet() ) {
+			if (entry.getKey().equals(name)) {
 				return entry.getValue();
+			}
 		}
 		return null;
 	}
@@ -164,6 +168,7 @@ public class ModuleRegistry {
 	}
 
 	public static class ModuleRegisterEvent extends Event {
+
 		public final IModule module;
 
 		public ModuleRegisterEvent(IModule module) {
@@ -172,6 +177,7 @@ public class ModuleRegistry {
 	}
 
 	public static class ProducerRegisterEvent extends Event {
+
 		public final ModuleStack module;
 
 		public ProducerRegisterEvent(ModuleStack module) {
@@ -180,6 +186,7 @@ public class ModuleRegistry {
 	}
 
 	public static class ModuleFarmRegisterEvent extends Event {
+
 		public final IFarm farm;
 
 		public ModuleFarmRegisterEvent(IFarm farm) {
@@ -188,6 +195,7 @@ public class ModuleRegistry {
 	}
 
 	public static class ProducerClassRegisterEvent extends Event {
+
 		public final Class<? extends IProducer> producer;
 
 		public ProducerClassRegisterEvent(Class<? extends IProducer> producer) {
@@ -196,6 +204,7 @@ public class ModuleRegistry {
 	}
 
 	public static class ModularRegisterEvent extends Event {
+
 		public final Class<? extends IModular> modular;
 		public final String name;
 
@@ -204,5 +213,4 @@ public class ModuleRegistry {
 			this.name = name;
 		}
 	}
-
 }

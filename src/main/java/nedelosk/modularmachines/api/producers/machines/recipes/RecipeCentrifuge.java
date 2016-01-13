@@ -12,5 +12,4 @@ public final class RecipeCentrifuge extends Recipe {
 	public RecipeCentrifuge(RecipeItem input, RecipeItem[] output, int speedModifier, int energy) {
 		super(new RecipeItem[] { input }, output, speedModifier, energy, "Centrifuge");
 	}
-
 }

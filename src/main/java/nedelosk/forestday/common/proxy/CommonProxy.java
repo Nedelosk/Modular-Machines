@@ -11,5 +11,4 @@ public class CommonProxy {
 	public void registerTickHandlers() {
 		FMLCommonHandler.instance().bus().register(new MultiblockServerTickHandler());
 	}
-
 }

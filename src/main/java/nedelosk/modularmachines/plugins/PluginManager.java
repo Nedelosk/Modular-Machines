@@ -15,5 +15,4 @@ public class PluginManager extends APluginManager {
 		registerPlugin(new PluginThermalExpansion());
 		registerPlugin(new PluginWaila());
 	}
-
 }

@@ -10,7 +10,7 @@ import nedelosk.forestcore.library.inventory.InventoryAdapter;
 import nedelosk.forestcore.library.multiblock.IMultiblockPart;
 import nedelosk.forestcore.library.multiblock.MultiblockControllerBase;
 import nedelosk.forestcore.library.multiblock.MultiblockValidationException;
-import nedelosk.forestcore.library.multiblock.rectangular.RectangularMultiblockControllerBase;
+import nedelosk.forestcore.library.multiblock.RectangularMultiblockControllerBase;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.multiblock.cowper.TileCowperFluidPort.PortType;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,12 +20,11 @@ import net.minecraftforge.fluids.FluidStack;
 public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	private InventoryAdapter inventory = new InventoryAdapter(1, "Cowper", 64);
-	private TankManager tankManager = new TankManager(
-			new FluidTankSimple(16000), // Input,
+	private TankManager tankManager = new TankManager(new FluidTankSimple(16000), // Input,
 			new FluidTankSimple(16000), // Fuel
 			new FluidTankSimple(16000), // Output
 			new FluidTankSimple(16000)); // Steam
-	private Set<TileCowperAccessPort> attachedAccessPort;
+	private Set<TileCowperAccessPort> attachedAccessPorts;
 	private Set<TileCowperFluidPort> attachedFluidPortsInput;
 	private Set<TileCowperFluidPort> attachedFluidPortsFuel;
 	private Set<TileCowperFluidPort> attachedFluidPortsOutput;
@@ -38,7 +37,7 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	public MultiblockCowper(World world) {
 		super(world);
-		attachedAccessPort = new HashSet<TileCowperAccessPort>();
+		attachedAccessPorts = new HashSet<TileCowperAccessPort>();
 		attachedFluidPortsInput = new HashSet<TileCowperFluidPort>();
 		attachedFluidPortsFuel = new HashSet<TileCowperFluidPort>();
 		attachedFluidPortsOutput = new HashSet<TileCowperFluidPort>();
@@ -56,40 +55,36 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 		if (attachedFluidPortsInput.size() < 1) {
 			throw new MultiblockValidationException("Not enough input fluid ports. Cowper require at least 1.");
 		}
-
 		if (attachedFluidPortsFuel.size() < 1) {
 			throw new MultiblockValidationException("Not enough fluid fuel ports. Cowper require at least 1.");
 		}
-
 		if (attachedFluidPortsOutput.size() < 1) {
 			throw new MultiblockValidationException("Not enough output ports. Cowper require at least 1.");
 		}
-
 		if (attachedFluidPortsSteam.size() < 1 && attachedMuffler.size() < 1) {
 			throw new MultiblockValidationException("Not steam output. Cowper require at least 1.");
 		}
-
-		if (attachedAccessPort.size() < 1) {
+		if (attachedAccessPorts.size() < 1) {
 			throw new MultiblockValidationException("Not enough fuel ports. Cowper require at least 1.");
 		}
-
 		super.isMachineWhole();
 	}
 
 	@Override
 	protected void onBlockAdded(IMultiblockPart part) {
 		if (part instanceof TileCowperAccessPort) {
-			attachedAccessPort.add((TileCowperAccessPort) part);
+			attachedAccessPorts.add((TileCowperAccessPort) part);
 		} else if (part instanceof TileCowperFluidPort) {
 			TileCowperFluidPort port = (TileCowperFluidPort) part;
-			if (port.getType() == PortType.INPUT)
+			if (port.getType() == PortType.INPUT) {
 				attachedFluidPortsInput.add((TileCowperFluidPort) part);
-			else if (port.getType() == PortType.FUEL)
+			} else if (port.getType() == PortType.FUEL) {
 				attachedFluidPortsFuel.add((TileCowperFluidPort) part);
-			else if (port.getType() == PortType.OUTPUT)
+			} else if (port.getType() == PortType.OUTPUT) {
 				attachedFluidPortsOutput.add((TileCowperFluidPort) part);
-			else if (port.getType() == PortType.STEAM)
+			} else if (port.getType() == PortType.STEAM) {
 				attachedFluidPortsSteam.add((TileCowperFluidPort) part);
+			}
 		} else if (part instanceof TileCowperBase && BlockCowper.isMuffler(part.getBlockMetadata())) {
 			attachedMuffler.add((TileCowperBase) part);
 		}
@@ -98,17 +93,18 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	@Override
 	protected void onBlockRemoved(IMultiblockPart part) {
 		if (part instanceof TileCowperAccessPort) {
-			attachedAccessPort.remove(part);
+			attachedAccessPorts.remove(part);
 		} else if (part instanceof TileCowperFluidPort) {
 			TileCowperFluidPort port = (TileCowperFluidPort) part;
-			if (port.getType() == PortType.INPUT)
+			if (port.getType() == PortType.INPUT) {
 				attachedFluidPortsInput.remove(part);
-			else if (port.getType() == PortType.FUEL)
+			} else if (port.getType() == PortType.FUEL) {
 				attachedFluidPortsFuel.remove(part);
-			else if (port.getType() == PortType.OUTPUT)
+			} else if (port.getType() == PortType.OUTPUT) {
 				attachedFluidPortsOutput.remove(part);
-			else if (port.getType() == PortType.STEAM)
+			} else if (port.getType() == PortType.STEAM) {
 				attachedFluidPortsSteam.remove(part);
+			}
 		} else if (part instanceof TileCowperBase && BlockCowper.isMuffler(part.getBlockMetadata())) {
 			attachedMuffler.remove(part);
 		}
@@ -120,17 +116,16 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onMachineRestored() {
-
 	}
 
 	@Override
 	protected void onMachinePaused() {
-
 	}
 
 	@Override
 	protected void onMachineDisassembled() {
 		isActive = false;
+		heat = 0;
 	}
 
 	@Override
@@ -171,8 +166,7 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	@Override
 	protected void onAssimilate(MultiblockControllerBase otherMachine) {
 		if (!(otherMachine instanceof MultiblockCowper)) {
-			Log.warn(
-					"[%s] Cowper @ %s is attempting to assimilate a non-Cowper machine! That machine's data will be lost!",
+			Log.warn("[%s] Cowper @ %s is attempting to assimilate a non-Cowper machine! That machine's data will be lost!",
 					worldObj.isRemote ? "CLIENT" : "SERVER", getReferenceCoord());
 			return;
 		}
@@ -180,7 +174,7 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onAssimilated(MultiblockControllerBase assimilator) {
-		this.attachedAccessPort.clear();
+		this.attachedAccessPorts.clear();
 		this.attachedFluidPortsInput.clear();
 		this.attachedFluidPortsFuel.clear();
 		this.attachedFluidPortsOutput.clear();
@@ -194,17 +188,14 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void updateClient() {
-
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
-
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
-
 	}
 
 	@Override
@@ -229,5 +220,4 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	public boolean isActive() {
 		return isActive;
 	}
-
 }

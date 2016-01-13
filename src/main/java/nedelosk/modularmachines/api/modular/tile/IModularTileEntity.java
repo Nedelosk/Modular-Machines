@@ -10,8 +10,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public interface IModularTileEntity<M extends IModular>
-		extends ISidedInventory, INBTTagable, IFluidHandler, IEnergyHandler, IGuiHandler {
+public interface IModularTileEntity<M extends IModular> extends ISidedInventory, INBTTagable, IFluidHandler, IEnergyHandler, IGuiHandler {
 
 	World getWorldObj();
 
@@ -30,5 +29,4 @@ public interface IModularTileEntity<M extends IModular>
 	void setFacing(short facing);
 
 	void setOwner(GameProfile owner);
-
 }

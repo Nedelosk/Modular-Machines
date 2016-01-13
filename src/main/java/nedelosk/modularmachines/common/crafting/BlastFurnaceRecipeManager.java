@@ -12,7 +12,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 
 	private static ArrayList<BlastFurnaceRecipe> recipes = new ArrayList();
-
 	public static BlastFurnaceRecipeManager instance;
 
 	public static void addRecipe(BlastFurnaceRecipe recipe) {
@@ -33,20 +32,21 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	}
 
 	public static boolean isItemInput(ItemStack stack) {
-		for (BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes) {
-			for (Object oj : sr.getInput()) {
+		for ( BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes ) {
+			for ( Object oj : sr.getInput() ) {
 				if (oj instanceof ItemStack) {
 					ItemStack stackInput = (ItemStack) oj;
 					if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
-							&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+							&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 						return true;
+					}
 				} else if (oj instanceof OreStack) {
 					List<ItemStack> list = OreDictionary.getOres(((OreStack) oj).oreDict);
-					for (ItemStack stackInput : list) {
-						if (stackInput.getItem() == stack.getItem()
-								&& stackInput.getItemDamage() == stack.getItemDamage()
-								&& ItemStack.areItemStackTagsEqual(stack, stackInput))
+					for ( ItemStack stackInput : list ) {
+						if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
+								&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 							return true;
+						}
 					}
 				}
 			}
@@ -55,27 +55,28 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	}
 
 	public static BlastFurnaceRecipe getRecipe(ItemStack[] inputs) {
-		for (BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes) {
+		for ( BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes ) {
 			boolean isBreak = false;
-			Inputs: for (int i = 0; i < sr.getInput().length; i++) {
+			Inputs : for ( int i = 0; i < sr.getInput().length; i++ ) {
 				if (sr.getInput()[i] != null) {
 					if (inputs[i] == null) {
 						isBreak = true;
 						break;
 					}
-					if (sr.getInput()[i] instanceof ItemStack)
-						if (((ItemStack) sr.getInput()[i]).getItem() == inputs[i].getItem()
-								&& ((ItemStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize
+					if (sr.getInput()[i] instanceof ItemStack) {
+						if (((ItemStack) sr.getInput()[i]).getItem() == inputs[i].getItem() && ((ItemStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize
 								&& ((ItemStack) sr.getInput()[i]).getItemDamage() == inputs[i].getItemDamage()
-								&& ItemStack.areItemStackTagsEqual(inputs[i], (ItemStack) sr.getInput()[i]))
+								&& ItemStack.areItemStackTagsEqual(inputs[i], (ItemStack) sr.getInput()[i])) {
 							continue;
+						}
+					}
 					if (sr.getInput()[i] instanceof OreStack) {
 						if (!(((OreStack) sr.getInput()[i]).stackSize <= inputs[i].stackSize)) {
 							isBreak = true;
 							break;
 						}
 						int ore = OreDictionary.getOreID(((OreStack) sr.getInput()[i]).getOreDict());
-						for (int oreID : OreDictionary.getOreIDs(inputs[i])) {
+						for ( int oreID : OreDictionary.getOreIDs(inputs[i]) ) {
 							if (oreID == ore) {
 								continue Inputs;
 							}
@@ -84,8 +85,9 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 					isBreak = true;
 				}
 			}
-			if (!isBreak)
+			if (!isBreak) {
 				return sr;
+			}
 		}
 		return null;
 	}
@@ -97,5 +99,4 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	public static BlastFurnaceRecipeManager getInstance() {
 		return instance;
 	}
-
 }

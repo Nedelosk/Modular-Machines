@@ -43,5 +43,4 @@ public class Log {
 	public static void fatal(String message, Object... params) {
 		log("Modular Machines", Level.FATAL, message, params);
 	}
-
 }

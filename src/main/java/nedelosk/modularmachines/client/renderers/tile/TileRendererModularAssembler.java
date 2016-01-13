@@ -22,8 +22,9 @@ public class TileRendererModularAssembler extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
-		if (damage == -1)
+		if (damage == -1) {
 			damage = 0;
+		}
 		bindTexture(new ResourceLocation("modularmachines", "textures/models/modular_assembler_" + damage + ".png"));
 		GL11.glPushMatrix();
 		assembler.render();
@@ -36,13 +37,13 @@ public class TileRendererModularAssembler extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5F, 1.5F, 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
-		if (damage == -1)
+		if (damage == -1) {
 			damage = 0;
+		}
 		bindTexture(new ResourceLocation("modularmachines", "textures/models/modular_assembler_" + damage + ".png"));
 		GL11.glPushMatrix();
 		assembler.render();
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-
 }

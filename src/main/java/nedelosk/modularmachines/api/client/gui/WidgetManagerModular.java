@@ -18,12 +18,8 @@ public class WidgetManagerModular extends WidgetManager<GuiModular> {
 		Widget widget = getAtPosition(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
 		if (widget != null) {
 			widget.handleMouseClick(mouseX, mouseY, mouseButton, gui);
-			ModuleStack<IModule, IProducerGui> gui = ((IModularTileEntity) getGui().getTile()).getModular()
-					.getGuiManager().getModuleWithGui();
-
-			gui.getProducer().handleMouseClicked((IModularTileEntity) getGui().getTile(), widget, mouseX, mouseY,
-					mouseButton, gui);
+			ModuleStack<IModule, IProducerGui> gui = ((IModularTileEntity) getGui().getTile()).getModular().getGuiManager().getModuleWithGui();
+			gui.getProducer().handleMouseClicked((IModularTileEntity) getGui().getTile(), widget, mouseX, mouseY, mouseButton, gui);
 		}
 	}
-
 }

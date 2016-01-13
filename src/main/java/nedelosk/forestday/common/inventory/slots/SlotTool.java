@@ -18,5 +18,4 @@ public class SlotTool extends Slot {
 		}
 		return false;
 	}
-
 }

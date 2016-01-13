@@ -3,13 +3,15 @@ package nedelosk.modularmachines.client.gui.assembler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.gui.Button;
 import nedelosk.forestcore.library.gui.GuiBase;
 import nedelosk.modularmachines.api.modular.assembler.AssemblerMachineInfo;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
-import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.client.gui.GuiButtonItem;
+import nedelosk.modularmachines.client.gui.assembler.element.GuiElement;
 import nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import nedelosk.modularmachines.common.core.MMRegistry;
 import nedelosk.modularmachines.common.inventory.assembler.ContainerModularAssembler;
@@ -21,8 +23,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
@@ -30,16 +30,12 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	public static final GuiElement ICON_Button = new GuiElement(180, 216, 18, 18);
 	public static final GuiElement ICON_ButtonHover = new GuiElement(180 + 18 * 2, 216, 18, 18);
 	public static final GuiElement ICON_ButtonPressed = new GuiElement(180 - 18 * 2, 216, 18, 18);
-
 	private static final GuiElement SlotBorder = new GuiElement(176, 0, 18, 18);
 	private static final GuiElement SlotBackground = new GuiElement(194, 0, 18, 18);
-
 	public TileModularAssembler assembler;
 	public InventoryPlayer inventory;
 	protected int activeSlots;
-
 	protected int selectedSlot = 0;
-
 	public AssemblerMachineInfo currentInfo = GuiButtonAssembler.info;
 
 	public GuiModularAssembler(TileModularAssembler tile, InventoryPlayer inventory) {
@@ -68,14 +64,13 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	public void onToolSelection(AssemblerMachineInfo info) {
 		activeSlots = Math.min(info.positions.size(), tile.getSizeInventory() - 1);
 		currentInfo = info;
-
 		((ContainerModularAssembler) inventorySlots).setToolSelection(info, activeSlots);
 		PacketHandler.INSTANCE.sendToServer(new PacketAssembler(tile, info, activeSlots));
 		updateGUI();
 	}
 
 	public void setSelectedButtonByTool(ItemStack stack) {
-		for (Object o : buttonList) {
+		for ( Object o : buttonList ) {
 			GuiButtonItem<AssemblerMachineInfo> btn = (GuiButtonItem<AssemblerMachineInfo>) o;
 			btn.pressed = ItemStack.areItemStacksEqual(btn.data.machine, stack);
 		}
@@ -88,25 +83,21 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 		}
 		activeSlots = packet.activeSlots;
 		currentInfo = info;
-
 		setSelectedButtonByTool(currentInfo.machine);
-
 		updateGUI();
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		for (Object o : buttonList) {
+		for ( Object o : buttonList ) {
 			((GuiButtonItem) o).pressed = false;
 		}
 		((GuiButtonItem) button).pressed = true;
 		selectedSlot = button.id;
-
 		onToolSelection(((GuiButtonItem<AssemblerMachineInfo>) button).data);
 	}
 
-	private static final ResourceLocation background = new ResourceLocation("modularmachines",
-			"textures/gui/modular_assembler.png");
+	private static final ResourceLocation background = new ResourceLocation("modularmachines", "textures/gui/modular_assembler.png");
 	private static final ResourceLocation icons = new ResourceLocation("modularmachines", "textures/gui/icons.png");
 
 	protected void drawBackground(ResourceLocation background) {
@@ -119,9 +110,8 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mX, int mY) {
 		drawBackground(background);
-
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		for (int i = 36; i < tile.getSizeInventory() + 35; i++) {
+		for ( int i = 36; i < tile.getSizeInventory() + 35; i++ ) {
 			Slot slot = inventorySlots.getSlot(i);
 			if (slot instanceof SlotAssemblerIn && (((SlotAssemblerIn) slot).isActivated() || slot.getHasStack())) {
 				SlotBorder.draw(this.guiLeft + slot.xDisplayPosition - 1, this.guiTop + slot.yDisplayPosition - 1);
@@ -136,19 +126,16 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 
 	public void updateGUI() {
 		int i;
-		for (i = 0; i < activeSlots; i++) {
+		for ( i = 0; i < activeSlots; i++ ) {
 			Point point = currentInfo.positions.get(i);
-
 			Slot slot = inventorySlots.getSlot(i + 36);
 			slot.xDisplayPosition = point.getX() + 110;
 			slot.yDisplayPosition = point.getY();
 		}
-
 		// remaining slots
 		int stillFilled = 0;
-		for (; i < tile.getSizeInventory() - 1; i++) {
+		for ( ; i < tile.getSizeInventory() - 1; i++ ) {
 			Slot slot = inventorySlots.getSlot(i + 36);
-
 			if (slot.getHasStack()) {
 				slot.xDisplayPosition = 87 + 20 * stillFilled + 110;
 				slot.yDisplayPosition = 62;
@@ -163,24 +150,20 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	@Override
 	public void addButtons() {
 		int index = 0;
-
 		{
 			GuiButtonItem button = new GuiButtonAssembler(index++, -1, -1);
 			shiftButton(button, 0, -18);
 			addButton(button);
-
 			if (index - 1 == selectedSlot) {
 				button.pressed = true;
 			}
 		}
-
-		for (String modular : ModuleRegistry.getModular().keySet()) {
+		for ( String modular : ModuleRegistry.getModular().keySet() ) {
 			AssemblerMachineInfo info = MMRegistry.getAssemblerInfo(modular);
 			if (info != null) {
 				GuiButtonItem button = new GuiButtonItem<AssemblerMachineInfo>(index++, -1, -1, info.machine, info);
 				shiftButton(button, 0, -18);
 				addButton(button);
-
 				if (index - 1 == selectedSlot) {
 					button.pressed = true;
 				}
@@ -191,15 +174,12 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 
 	public void addButton(Button button) {
 		int count = buttonManager.getButtons().size();
-
 		int columns = 5;
 		int spacing = 5;
 		int xI = button.id % columns;
 		int yI = button.id / spacing;
-
 		button.xPosition = guiLeft + xI * (button.width + 2);
 		button.yPosition = guiTop + yI * (button.height + 2);
-
 		buttonManager.add(button);
 	}
 
@@ -214,12 +194,9 @@ public class GuiModularAssembler extends GuiBase<TileModularAssembler> {
 	}
 
 	public void updateDisplay() {
-
 	}
 
 	protected void shiftButton(GuiButtonItem button, int xd, int yd) {
-		button.setGraphics(ICON_Button.shift(xd, yd), ICON_ButtonHover.shift(xd, yd), ICON_ButtonPressed.shift(xd, yd),
-				GuiButtonItem.locBackground);
+		button.setGraphics(ICON_Button.shift(xd, yd), ICON_ButtonHover.shift(xd, yd), ICON_ButtonPressed.shift(xd, yd), GuiButtonItem.locBackground);
 	}
-
 }

@@ -47,5 +47,4 @@ public interface IProducerTankManager extends IProducerGuiWithWidgets, IProducer
 	boolean canDrain(ForgeDirection from, Fluid fluid, ModuleStack stack, IModular modular);
 
 	FluidTankInfo[] getTankInfo(ForgeDirection from, ModuleStack stack, IModular modular);
-
 }

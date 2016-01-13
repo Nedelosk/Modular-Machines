@@ -16,14 +16,11 @@ public class ModuleMachine extends Module {
 	@Override
 	public String getName(ModuleStack stack, boolean withTypeModifier) {
 		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "")
-				+ (withTypeModifier
-						? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "")
-						: "");
+				+ (withTypeModifier ? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "") : "");
 	}
 
 	@Override
 	public String getModuleName() {
 		return "Machine";
 	}
-
 }

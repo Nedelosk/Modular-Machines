@@ -50,5 +50,4 @@ public class FluidTankSimple extends FluidTank {
 		}
 		return drain(resource.amount, doDrain);
 	}
-
 }

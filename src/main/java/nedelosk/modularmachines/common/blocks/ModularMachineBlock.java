@@ -52,8 +52,7 @@ public class ModularMachineBlock extends ModularBlock {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
-			float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
 		player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
 		return true;
 	}
@@ -113,16 +112,15 @@ public class ModularMachineBlock extends ModularBlock {
 
 	protected short getFacingForHeading(int heading) {
 		switch (heading) {
-		case 0:
-			return 2;
-		case 1:
-			return 5;
-		case 2:
-			return 3;
-		case 3:
-		default:
-			return 4;
+			case 0:
+				return 2;
+			case 1:
+				return 5;
+			case 2:
+				return 3;
+			case 3:
+			default:
+				return 4;
 		}
 	}
-
 }

@@ -15,5 +15,4 @@ public interface IModule {
 	boolean isActive();
 
 	void onRegisterObject(IObjectManager manager);
-
 }

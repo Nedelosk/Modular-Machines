@@ -15,5 +15,4 @@ public class ContainerCowperAccessPort extends ContainerBase<TileCowperAccessPor
 	protected void addSlots(InventoryPlayer inventory) {
 		addSlotToContainer(new SlotAirHeatingPlant(inventoryBase, 0, 53, 35));
 	}
-
 }

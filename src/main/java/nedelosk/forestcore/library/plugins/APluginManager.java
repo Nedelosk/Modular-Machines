@@ -17,27 +17,24 @@ public abstract class APluginManager {
 	}
 
 	public void preInit() {
-		for (IPlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
-					&& plugin.getConfigOption()) {
+		for ( IPlugin plugin : plugins ) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
 				plugin.preInit();
 			}
 		}
 	}
 
 	public void postInit() {
-		for (IPlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
-					&& plugin.getConfigOption()) {
+		for ( IPlugin plugin : plugins ) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
 				plugin.postInit();
 			}
 		}
 	}
 
 	public void init() {
-		for (IPlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null)
-					&& plugin.getConfigOption()) {
+		for ( IPlugin plugin : plugins ) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
 				plugin.init();
 				plugin.registerRecipes();
 			}
@@ -45,7 +42,5 @@ public abstract class APluginManager {
 	}
 
 	public void registerPlugins() {
-
 	}
-
 }

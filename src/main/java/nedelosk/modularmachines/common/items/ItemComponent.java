@@ -37,7 +37,7 @@ public class ItemComponent extends Item {
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for (int i = 0; i < metas.size(); i++) {
+		for ( int i = 0; i < metas.size(); i++ ) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
@@ -50,9 +50,9 @@ public class ItemComponent extends Item {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int renderpass) {
-		if (metas.size() > stack.getItemDamage() && metas.get(stack.getItemDamage()) != null)
+		if (metas.size() > stack.getItemDamage() && metas.get(stack.getItemDamage()) != null) {
 			return (int) metas.get(stack.getItemDamage()).get(0);
+		}
 		return super.getColorFromItemStack(stack, renderpass);
 	}
-
 }

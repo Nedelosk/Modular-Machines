@@ -12,5 +12,4 @@ public class ModuleManager extends AModuleManager {
 		registerModule(core = new ModuleCore());
 		registerModule(coal = new ModuleCoal());
 	}
-
 }

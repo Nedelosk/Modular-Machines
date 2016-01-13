@@ -20,8 +20,7 @@ public class ProducerTankThermalExpansion extends ProducerTank {
 	}
 
 	@Override
-	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack,
-			ItemStack itemStack) {
+	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
 		if (stack != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTTagCompound fluidTag = new NBTTagCompound();
@@ -33,12 +32,13 @@ public class ProducerTankThermalExpansion extends ProducerTank {
 
 	@Override
 	public FluidStack getStorageFluid(ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
-		if (!itemStack.hasTagCompound())
+		if (!itemStack.hasTagCompound()) {
 			return null;
-		if (!itemStack.getTagCompound().hasKey("Fluid"))
+		}
+		if (!itemStack.getTagCompound().hasKey("Fluid")) {
 			return null;
+		}
 		NBTTagCompound fluidTag = itemStack.getTagCompound().getCompoundTag("Fluid");
 		return FluidStack.loadFluidStackFromNBT(fluidTag);
 	}
-
 }

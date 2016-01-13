@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class AirHeatingPlantRecipeManager implements IAirHeatingPlantRecipe {
 
 	private static ArrayList<AirHeatingPlantRecipe> recipes = new ArrayList();
-
 	public static AirHeatingPlantRecipeManager instance;
 
 	public static void addRecipe(AirHeatingPlantRecipe recipe) {
@@ -30,17 +29,19 @@ public class AirHeatingPlantRecipeManager implements IAirHeatingPlantRecipe {
 	}
 
 	public static boolean isFluidInput(FluidStack stack) {
-		for (AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes) {
-			if (stack.getFluid() == sr.getInput().getFluid())
+		for ( AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes ) {
+			if (stack.getFluid() == sr.getInput().getFluid()) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	public static AirHeatingPlantRecipe getRecipe(FluidStack stack) {
-		for (AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes) {
-			if (stack.getFluid() == sr.getInput().getFluid() && sr.getInput().amount <= stack.amount)
+		for ( AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes ) {
+			if (stack.getFluid() == sr.getInput().getFluid() && sr.getInput().amount <= stack.amount) {
 				return sr;
+			}
 		}
 		return null;
 	}
@@ -52,5 +53,4 @@ public class AirHeatingPlantRecipeManager implements IAirHeatingPlantRecipe {
 	public static AirHeatingPlantRecipeManager getInstance() {
 		return instance;
 	}
-
 }

@@ -24,29 +24,27 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class ModularRecipeHandler {
 
 	@ZenMethod
-	public static void add(IIngredient[] inputs, IIngredient[] outputs, int speedModifier, int energy,
-			String recipeName, int... modifiers) {
-
+	public static void add(IIngredient[] inputs, IIngredient[] outputs, int speedModifier, int energy, String recipeName, int... modifiers) {
 		RecipeItem[] inputItems = new RecipeItem[inputs.length];
-		for (int i = 0; i < inputs.length; i++) {
+		for ( int i = 0; i < inputs.length; i++ ) {
 			IIngredient input = inputs[i];
-			if (input instanceof ILiquidStack)
+			if (input instanceof ILiquidStack) {
 				inputItems[i] = new RecipeItem(MineTweakerMC.getLiquidStack((ILiquidStack) input));
-			else if (input instanceof IItemStack)
+			} else if (input instanceof IItemStack) {
 				inputItems[i] = new RecipeItem(MineTweakerMC.getItemStack(input));
-			else if (input instanceof IOreDictEntry) {
+			} else if (input instanceof IOreDictEntry) {
 				inputItems[i] = new RecipeItem(new OreStack(((IOreDictEntry) input).getName()));
 			}
 		}
 		RecipeItem[] outputItems = new RecipeItem[outputs.length];
-		for (int i = 0; i < outputs.length; i++) {
+		for ( int i = 0; i < outputs.length; i++ ) {
 			IIngredient output = outputs[i];
-			if (output instanceof ILiquidStack)
+			if (output instanceof ILiquidStack) {
 				outputItems[i] = new RecipeItem(MineTweakerMC.getLiquidStack((ILiquidStack) output));
-			else if (output instanceof IItemStack)
+			} else if (output instanceof IItemStack) {
 				outputItems[i] = new RecipeItem(MineTweakerMC.getItemStack(output));
+			}
 		}
-
 		MineTweakerAPI.apply(new AddAction(inputItems, outputItems, speedModifier, energy, recipeName, modifiers));
 	}
 
@@ -59,8 +57,7 @@ public class ModularRecipeHandler {
 			FluidStack resultToRemove = MineTweakerMC.getLiquidStack((ILiquidStack) result);
 			MineTweakerAPI.apply(new RemoveAction(new RecipeItem(resultToRemove), recipeName));
 		} else if (result instanceof IOreDictEntry) {
-			MineTweakerAPI.apply(
-					new RemoveAction(new RecipeItem(new OreStack(((IOreDictEntry) result).getName())), recipeName));
+			MineTweakerAPI.apply(new RemoveAction(new RecipeItem(new OreStack(((IOreDictEntry) result).getName())), recipeName));
 		}
 	}
 
@@ -68,8 +65,7 @@ public class ModularRecipeHandler {
 
 		private final IRecipe recipe;
 
-		public AddAction(RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy, String recipeName,
-				int[] modifiers) {
+		public AddAction(RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy, String recipeName, int[] modifiers) {
 			recipe = new Recipe(input, output, speedModifier, energy, recipeName, modifiers);
 		}
 
@@ -118,7 +114,6 @@ public class ModularRecipeHandler {
 		@Override
 		public void apply() {
 			removedRecipes = RecipeRegistry.removeRecipes(recipeName, result);
-
 		}
 
 		@Override
@@ -133,28 +128,24 @@ public class ModularRecipeHandler {
 
 		@Override
 		public String describe() {
-			if (result.isItem())
-				return "Removing all " + recipeName + " Recipe where '" + result.item.getDisplayName()
-						+ "' is the result.";
-			else if (result.isFluid())
-				return "Removing all " + recipeName + " Recipe where '" + result.fluid.getLocalizedName()
-						+ "' is the result.";
-			else
+			if (result.isItem()) {
+				return "Removing all " + recipeName + " Recipe where '" + result.item.getDisplayName() + "' is the result.";
+			} else if (result.isFluid()) {
+				return "Removing all " + recipeName + " Recipe where '" + result.fluid.getLocalizedName() + "' is the result.";
+			} else {
 				return "Removing all " + recipeName + " Recipe where '" + result.ore.getOreDict() + "' is the result.";
-
+			}
 		}
 
 		@Override
 		public String describeUndo() {
-			if (result.isItem())
-				return "Adding back in all " + recipeName + "Recipe where '" + result.item.getDisplayName()
-						+ "' is the result.";
-			else if (result.isFluid())
-				return "Adding back in all " + recipeName + "Recipe where '" + result.fluid.getLocalizedName()
-						+ "' is the result.";
-			else
-				return "Adding back in all " + recipeName + "Recipe where '" + result.ore.getOreDict()
-						+ "' is the result.";
+			if (result.isItem()) {
+				return "Adding back in all " + recipeName + "Recipe where '" + result.item.getDisplayName() + "' is the result.";
+			} else if (result.isFluid()) {
+				return "Adding back in all " + recipeName + "Recipe where '" + result.fluid.getLocalizedName() + "' is the result.";
+			} else {
+				return "Adding back in all " + recipeName + "Recipe where '" + result.ore.getOreDict() + "' is the result.";
+			}
 		}
 
 		@Override

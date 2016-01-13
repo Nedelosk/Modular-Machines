@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import nedelosk.forestcore.library.blocks.BlockForest;
 import nedelosk.forestday.api.Tabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -36,8 +37,7 @@ public class BlockGravel extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.icon = new IIcon[textures.length];
-
-		for (int i = 0; i < this.icon.length; ++i) {
+		for ( int i = 0; i < this.icon.length; ++i ) {
 			this.icon[i] = iconRegister.registerIcon("forestday:" + textures[i]);
 		}
 	}
@@ -45,8 +45,8 @@ public class BlockGravel extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for (int i = 0; i < 1; i++)
+		for ( int i = 0; i < 1; i++ ) {
 			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
-
 }

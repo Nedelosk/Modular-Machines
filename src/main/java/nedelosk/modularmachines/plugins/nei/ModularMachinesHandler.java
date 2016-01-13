@@ -71,16 +71,13 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		if (result == null) {
 			return;
 		}
-
 		List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
 		if (recipes != null) {
-			for (IRecipe recipe : recipes) {
+			for ( IRecipe recipe : recipes ) {
 				RecipeItem[] outputs = recipe.getOutputs();
-				for (RecipeItem output : outputs) {
-					if (result.getItem() == output.item.getItem()
-							&& result.getItemDamage() == output.item.getItemDamage()
-							&& (!result.hasTagCompound() && !output.item.hasTagCompound()
-									|| result.getTagCompound().equals(output.item.getTagCompound()))) {
+				for ( RecipeItem output : outputs ) {
+					if (result.getItem() == output.item.getItem() && result.getItemDamage() == output.item.getItemDamage()
+							&& (!result.hasTagCompound() && !output.item.hasTagCompound() || result.getTagCompound().equals(output.item.getTagCompound()))) {
 						ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), outputs, recipe);
 						arecipes.add(res);
 					}
@@ -94,7 +91,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		if (outputId.equals("ModularMachines" + recipeName) && getClass() == ModularMachinesHandler.class) {
 			List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
 			if (recipes != null) {
-				for (IRecipe recipe : recipes) {
+				for ( IRecipe recipe : recipes ) {
 					ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs(), recipe);
 					arecipes.add(res);
 				}
@@ -108,7 +105,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public void loadUsageRecipes(ItemStack ingredient) {
 		List<IRecipe> recipes = RecipeRegistry.getRecipes().get(recipeName);
 		if (recipes != null) {
-			for (IRecipe recipe : recipes) {
+			for ( IRecipe recipe : recipes ) {
 				ModularCachedRecipe res = new ModularCachedRecipe(recipe.getInputs(), recipe.getOutputs(), recipe);
 				if (res.contains(res.input, ingredient)) {
 					res.setIngredientPermutation(res.input, ingredient);
@@ -128,31 +125,34 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GuiDraw.changeTexture(getGuiTexture());
 		GuiDraw.drawTexturedModalRect(0, 0, 0, 0, 166, 65);
-
 		GuiDraw.changeTexture(nei_widgets);
 		ArrayList<PositionedStack> stacks = new ArrayList<PositionedStack>();
 		stacks.add(getResultStack(recipeIndex));
-		for (PositionedStack stack : getIngredientStacks(recipeIndex))
+		for ( PositionedStack stack : getIngredientStacks(recipeIndex) ) {
 			stacks.add(stack);
-		if (getOtherStacks(recipeIndex) != null)
-			for (PositionedStack stack : getOtherStacks(recipeIndex))
-				if (stack != null)
+		}
+		if (getOtherStacks(recipeIndex) != null) {
+			for ( PositionedStack stack : getOtherStacks(recipeIndex) ) {
+				if (stack != null) {
 					stacks.add(stack);
-		for (PositionedStack stack : stacks)
+				}
+			}
+		}
+		for ( PositionedStack stack : stacks ) {
 			GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
-
-		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer,
-				((ModularCachedRecipe) arecipes.get(recipeIndex)).recipe));
-
+		}
+		widgetManager.add(producer.getProducer().addNEIWidgets(this, producer, ((ModularCachedRecipe) arecipes.get(recipeIndex)).recipe));
 		widgetManager.drawWidgets();
-		for (Widget widget : widgetManager.getWidgets()) {
+		for ( Widget widget : widgetManager.getWidgets() ) {
 			if (widget instanceof WidgetProgressBar) {
-				if (((WidgetProgressBar) widget).burntimeTotal != 100)
+				if (((WidgetProgressBar) widget).burntimeTotal != 100) {
 					((WidgetProgressBar) widget).burntimeTotal = 100;
-				if (((WidgetProgressBar) widget).burntime > ((WidgetProgressBar) widget).burntimeTotal)
+				}
+				if (((WidgetProgressBar) widget).burntime > ((WidgetProgressBar) widget).burntimeTotal) {
 					((WidgetProgressBar) widget).burntime = 0;
-				else
+				} else {
 					((WidgetProgressBar) widget).burntime++;
+				}
 			}
 		}
 	}
@@ -191,25 +191,27 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			List<NeiStack> stacks = producer.getProducer().addNEIStacks(producer, recipe);
 			int input = 0;
 			int output = 0;
-			for (NeiStack stack : stacks) {
+			for ( NeiStack stack : stacks ) {
 				if (stack.isInput) {
 					if (inputs.length != input) {
-						if (inputs[input].isItem())
+						if (inputs[input].isItem()) {
 							this.input.add(new PositionedStack(inputs[input].item, stack.x, stack.y));
-						else if (inputs[input].isOre()) {
+						} else if (inputs[input].isOre()) {
 							ArrayList<ItemStack> listOre = OreDictionary.getOres(inputs[input].ore.oreDict);
-							for (ItemStack stackOre : listOre)
+							for ( ItemStack stackOre : listOre ) {
 								stackOre.stackSize = inputs[input].ore.stackSize;
+							}
 							this.input.add(new PositionedStack(listOre, stack.x, stack.y));
 						}
 					}
 					input++;
 				} else {
-					if (output == 0)
+					if (output == 0) {
 						this.output = new PositionedStack(outputs[output].item, stack.x, stack.y);
-					else {
-						if (outputs.length - 1 >= output)
+					} else {
+						if (outputs.length - 1 >= output) {
 							this.outputs.add(new PositionedStack(outputs[output].item, stack.x, stack.y));
+						}
 					}
 					output++;
 				}
@@ -218,23 +220,25 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof ModularCachedRecipe))
+			if (!(obj instanceof ModularCachedRecipe)) {
 				return false;
+			}
 			ModularCachedRecipe recipe = (ModularCachedRecipe) obj;
 			output.equals(recipe.output);
-			for (int i = 0; i < outputs.size(); i++) {
+			for ( int i = 0; i < outputs.size(); i++ ) {
 				PositionedStack stack = outputs.get(i);
-				if (!stack.equals(recipe.outputs.get(i)))
+				if (!stack.equals(recipe.outputs.get(i))) {
 					return false;
+				}
 			}
-			for (int i = 0; i < input.size(); i++) {
+			for ( int i = 0; i < input.size(); i++ ) {
 				PositionedStack stack = input.get(i);
-				if (!stack.equals(recipe.input.get(i)))
+				if (!stack.equals(recipe.input.get(i))) {
 					return false;
+				}
 			}
 			return true;
 		}
-
 	}
 
 	@Override
@@ -283,20 +287,19 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		if (GuiContainerManager.shouldShowTooltip(guiRecipe) && widgetManager != null) {
 			Point mouse = GuiDraw.getMousePosition();
 			Point offset = guiRecipe.getRecipePosition(recipe);
-			Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x,
-					mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
-
+			Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x, mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
 			currenttip = provideTooltip(currenttip, relMouse);
 		}
 		return currenttip;
 	}
 
 	private List<String> provideTooltip(List<String> currenttip, Point relMouse) {
-		for (Widget widget : widgetManager.getWidgets()) {
+		for ( Widget widget : widgetManager.getWidgets() ) {
 			if (widget != null) {
 				if (widget.getPos().contains(relMouse)) {
-					if (widget.getTooltip(this) != null)
+					if (widget.getTooltip(this) != null) {
 						currenttip.addAll(widget.getTooltip(this));
+					}
 				}
 			}
 		}
@@ -317,5 +320,4 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public FontRenderer getFontRenderer() {
 		return Minecraft.getMinecraft().fontRenderer;
 	}
-
 }

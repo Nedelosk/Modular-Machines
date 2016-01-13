@@ -11,5 +11,4 @@ public class PluginManager extends APluginManager {
 		registerPlugin(new PluginWaila());
 		registerPlugin(new PluginMineTweaker());
 	}
-
 }

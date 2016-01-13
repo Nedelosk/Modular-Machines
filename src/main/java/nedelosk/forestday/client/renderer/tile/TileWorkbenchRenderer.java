@@ -1,18 +1,16 @@
 package nedelosk.forestday.client.renderer.tile;
 
+import org.lwjgl.opengl.GL11;
+
 import nedelosk.forestday.client.renderer.model.ModelWorkbench;
 import nedelosk.forestday.common.blocks.tiles.TileWorkbench;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-import org.lwjgl.opengl.GL11;
-
 public class TileWorkbenchRenderer extends TileEntitySpecialRenderer {
 
-	public static final ResourceLocation textureModel = new ResourceLocation("forestday",
-			"textures/models/workbench.png");
-
+	public static final ResourceLocation textureModel = new ResourceLocation("forestday", "textures/models/workbench.png");
 	private ModelWorkbench table;
 
 	public TileWorkbenchRenderer() {
@@ -57,5 +55,4 @@ public class TileWorkbenchRenderer extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-
 }

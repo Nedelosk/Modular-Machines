@@ -36,5 +36,4 @@ public class ItemMachineWoodBase implements IItemRenderer {
 	public boolean shouldUseRenderHelper(ItemRenderType arg0, ItemStack arg1, ItemRendererHelper arg2) {
 		return true;
 	}
-
 }

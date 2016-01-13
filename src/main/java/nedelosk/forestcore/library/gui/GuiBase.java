@@ -40,7 +40,6 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	}
 
 	public void addButtons() {
-
 	}
 
 	@Override
@@ -61,13 +60,11 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-
 		widgetManager.handleMouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
-
 		renderStrings(fontRendererObj, param1, param2);
 		widgetManager.drawTooltip(param1, param2);
 		buttonManager.drawTooltip(param1, param2);
@@ -78,16 +75,15 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(guiTexture);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
 		renderProgressBar();
-
 		widgetManager.drawWidgets();
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button instanceof Button)
+		if (button instanceof Button) {
 			((Button) button).onButtonClick(this);
+		}
 	}
 
 	protected abstract void renderStrings(FontRenderer fontRenderer, int x, int y);
@@ -136,5 +132,4 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	public List<GuiButton> getButtons() {
 		return buttonList;
 	}
-
 }

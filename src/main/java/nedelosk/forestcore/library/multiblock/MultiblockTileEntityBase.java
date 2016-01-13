@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nedelosk.forestcore.library.CoordTriplet;
+import nedelosk.forestcore.library.BlockPos;
 import nedelosk.forestcore.library.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -20,9 +20,9 @@ import net.minecraft.world.chunk.IChunkProvider;
  * abstract methods.
  */
 public abstract class MultiblockTileEntityBase extends IMultiblockPart {
+
 	private MultiblockControllerBase controller;
 	private boolean visited;
-
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
 	private boolean paused;
@@ -41,35 +41,30 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	public Set<MultiblockControllerBase> attachToNeighbors() {
 		Set<MultiblockControllerBase> controllers = null;
 		MultiblockControllerBase bestController = null;
-
 		// Look for a compatible controller in our neighboring parts.
 		IMultiblockPart[] partsToCheck = getNeighboringParts();
-		for (IMultiblockPart neighborPart : partsToCheck) {
+		for ( IMultiblockPart neighborPart : partsToCheck ) {
 			if (neighborPart.isConnected()) {
 				MultiblockControllerBase candidate = neighborPart.getMultiblockController();
 				if (!candidate.getClass().equals(this.getMultiblockControllerType())) {
 					// Skip multiblocks with incompatible types
 					continue;
 				}
-
 				if (controllers == null) {
 					controllers = new HashSet<MultiblockControllerBase>();
 					bestController = candidate;
 				} else if (!controllers.contains(candidate) && candidate.shouldConsume(bestController)) {
 					bestController = candidate;
 				}
-
 				controllers.add(candidate);
 			}
 		}
-
 		// If we've located a valid neighboring controller, attach to it.
 		if (bestController != null) {
 			// attachBlock will call onAttached, which will set the controller.
 			this.controller = bestController;
 			bestController.attachBlock(this);
 		}
-
 		return controllers;
 	}
 
@@ -84,11 +79,9 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	}
 
 	///// Overrides from base TileEntity methods
-
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
-
 		// We can't directly initialize a multiblock controller yet, so we cache
 		// the data here until
 		// we receive a validate() call, which creates the controller and hands
@@ -101,7 +94,6 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
-
 		if (isMultiblockSaveDelegate() && isConnected()) {
 			NBTTagCompound multiblockData = new NBTTagCompound();
 			this.controller.writeToNBT(multiblockData);
@@ -234,7 +226,6 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	}
 
 	///// Game logic callbacks (IMultiblockPart)
-
 	@Override
 	public abstract void onMachineAssembled(MultiblockControllerBase multiblockControllerBase);
 
@@ -249,7 +240,6 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 
 	///// Miscellaneous multiblock-assembly callbacks and support methods
 	///// (IMultiblockPart)
-
 	@Override
 	public boolean isConnected() {
 		return (controller != null);
@@ -261,8 +251,8 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	}
 
 	@Override
-	public CoordTriplet getWorldLocation() {
-		return new CoordTriplet(this.xCoord, this.yCoord, this.zCoord);
+	public BlockPos getWorldLocation() {
+		return new BlockPos(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
@@ -316,22 +306,18 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 
 	@Override
 	public IMultiblockPart[] getNeighboringParts() {
-		CoordTriplet[] neighbors = new CoordTriplet[] { new CoordTriplet(this.xCoord - 1, this.yCoord, this.zCoord),
-				new CoordTriplet(this.xCoord, this.yCoord - 1, this.zCoord),
-				new CoordTriplet(this.xCoord, this.yCoord, this.zCoord - 1),
-				new CoordTriplet(this.xCoord, this.yCoord, this.zCoord + 1),
-				new CoordTriplet(this.xCoord, this.yCoord + 1, this.zCoord),
-				new CoordTriplet(this.xCoord + 1, this.yCoord, this.zCoord) };
-
+		BlockPos[] neighbors = new BlockPos[] { new BlockPos(this.xCoord - 1, this.yCoord, this.zCoord),
+				new BlockPos(this.xCoord, this.yCoord - 1, this.zCoord), new BlockPos(this.xCoord, this.yCoord, this.zCoord - 1),
+				new BlockPos(this.xCoord, this.yCoord, this.zCoord + 1), new BlockPos(this.xCoord, this.yCoord + 1, this.zCoord),
+				new BlockPos(this.xCoord + 1, this.yCoord, this.zCoord) };
 		TileEntity te;
 		List<IMultiblockPart> neighborParts = new ArrayList<IMultiblockPart>();
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
-		for (CoordTriplet neighbor : neighbors) {
+		for ( BlockPos neighbor : neighbors ) {
 			if (!chunkProvider.chunkExists(neighbor.getChunkX(), neighbor.getChunkZ())) {
 				// Chunk not loaded, skip it.
 				continue;
 			}
-
 			te = this.worldObj.getTileEntity(neighbor.x, neighbor.y, neighbor.z);
 			if (te instanceof IMultiblockPart) {
 				neighborParts.add((IMultiblockPart) te);
@@ -365,11 +351,9 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 		if (this.controller != null) {
 			// Clean part out of controller
 			this.controller.detachBlock(this, chunkUnloading);
-
 			// The above should call onDetached, but, just in case...
 			this.controller = null;
 		}
-
 		// Clean part out of lists in the registry
 		MultiblockRegistry.onPartRemovedFromWorld(worldObj, this);
 	}

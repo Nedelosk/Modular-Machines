@@ -34,10 +34,8 @@ public class ModelCampfire extends ModelBase {
 	public ModelCampfire() {
 		textureWidth = 32;
 		textureHeight = 32;
-
 		textureWidth = 32;
 		textureHeight = 32;
-
 		Stone0 = new ModelRenderer(this, 0, 4);
 		Stone0.addBox(0F, 0F, 0F, 6, 2, 2);
 		Stone0.setRotationPoint(-3F, 22F, 6F);
@@ -226,7 +224,6 @@ public class ModelCampfire extends ModelBase {
 		Pot2.render(pixel);
 		Pot3.render(pixel);
 		Pot4.render(pixel);
-
 	}
 
 	public void renderPotHolder() {
@@ -235,7 +232,6 @@ public class ModelCampfire extends ModelBase {
 		Iron1.render(pixel);
 		Iron2.render(pixel);
 		Iron3.render(pixel);
-
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
@@ -243,5 +239,4 @@ public class ModelCampfire extends ModelBase {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
 }

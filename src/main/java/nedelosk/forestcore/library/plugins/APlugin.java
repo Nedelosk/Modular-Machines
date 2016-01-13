@@ -4,22 +4,18 @@ public abstract class APlugin implements IPlugin {
 
 	@Override
 	public void preInit() {
-
 	}
 
 	@Override
 	public void init() {
-
 	}
 
 	@Override
 	public void postInit() {
-
 	}
 
 	@Override
 	public void registerRecipes() {
-
 	}
 
 	@Override
@@ -31,5 +27,4 @@ public abstract class APlugin implements IPlugin {
 	public boolean getConfigOption() {
 		return true;
 	}
-
 }

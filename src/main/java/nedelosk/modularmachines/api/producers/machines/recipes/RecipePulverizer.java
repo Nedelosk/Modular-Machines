@@ -14,5 +14,4 @@ public final class RecipePulverizer extends Recipe {
 	public RecipePulverizer(OreStack input, RecipeItem[] output, int speedModifier, int energy) {
 		super(new RecipeItem[] { new RecipeItem(input) }, output, speedModifier, energy, "Pulverizer");
 	}
-
 }

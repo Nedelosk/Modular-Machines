@@ -49,5 +49,4 @@ public class ProducerCapacitor extends Producer implements IProducerCapacitor {
 	public boolean canWork(IModular modular) {
 		return true;
 	}
-
 }

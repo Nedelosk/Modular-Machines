@@ -61,5 +61,4 @@ public class TileModularAssembler extends TileBaseInventory {
 	public boolean canExtractItem(int slot, ItemStack stack, int p_102008_3_) {
 		return false;
 	}
-
 }

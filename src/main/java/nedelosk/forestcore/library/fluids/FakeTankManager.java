@@ -11,8 +11,9 @@ public class FakeTankManager implements ITankManager {
 	private static FakeTankManager instance;
 
 	public static FakeTankManager instance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new FakeTankManager();
+		}
 		return instance;
 	}
 
@@ -66,5 +67,4 @@ public class FakeTankManager implements ITankManager {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 	}
-
 }

@@ -13,5 +13,4 @@ public interface IPlugin {
 	String getRequiredMod();
 
 	boolean getConfigOption();
-
 }

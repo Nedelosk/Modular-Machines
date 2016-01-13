@@ -35,5 +35,4 @@ public class SlotAssemblerIn extends Slot {
 	public boolean func_111238_b() {
 		return isActivated;
 	}
-
 }

@@ -63,5 +63,4 @@ public class ProducerEnergyInfuser extends ProducerMachineRecipe {
 	public int getColor() {
 		return 0xABA8A8;
 	}
-
 }

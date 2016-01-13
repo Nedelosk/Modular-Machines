@@ -34,5 +34,4 @@ public class WidgetProgressBar extends Widget {
 			gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, 15);
 		}
 	}
-
 }

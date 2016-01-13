@@ -14,5 +14,4 @@ public interface IWidgetManager<G extends IGuiBase> {
 	List<Widget> getWidgets();
 
 	G getGui();
-
 }

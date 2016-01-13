@@ -71,22 +71,22 @@ public class ItemProducers extends Item {
 
 		@Override
 		public int compare(Entry<Pair<Type, IModule>, ItemStack> o1, Entry<Pair<Type, IModule>, ItemStack> o2) {
-			if (o1.getKey().first().getTier() > o2.getKey().first().getTier())
+			if (o1.getKey().first().getTier() > o2.getKey().first().getTier()) {
 				return 1;
-			else if (o1.getKey().first().getTier() < o2.getKey().first().getTier())
+			} else if (o1.getKey().first().getTier() < o2.getKey().first().getTier()) {
 				return -1;
-			else
+			} else {
 				return 0;
+			}
 		}
-
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if (stack.hasTagCompound())
+		if (stack.hasTagCompound()) {
 			return StatCollector.translateToLocal("item.module.name");
-		return StatCollector.translateToLocal("item.module.name") + " "
-				+ StatCollector.translateToLocal(stack.getTagCompound().getString("Name") + ".name");
+		}
+		return StatCollector.translateToLocal("item.module.name") + " " + StatCollector.translateToLocal(stack.getTagCompound().getString("Name") + ".name");
 	}
 
 	@Override
@@ -97,8 +97,7 @@ public class ItemProducers extends Item {
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
 		if (pass == 1 && stack.hasTagCompound()) {
-			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory
-					.createProducer(stack.getTagCompound().getString("Name"));
+			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory.createProducer(stack.getTagCompound().getString("Name"));
 			return producer.getColor();
 		} else {
 			return 16777215;
@@ -116,5 +115,4 @@ public class ItemProducers extends Item {
 	public static ItemStack getItem(Type type, IModule module) {
 		return subItems.get(new Pair<Type, IModule>(type, module));
 	}
-
 }

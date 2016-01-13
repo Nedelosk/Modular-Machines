@@ -24,15 +24,13 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 
 	/* INEVNTORY */
 	@Override
-	public ItemStack transferStackInSlot(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile,
-			EntityPlayer player, int slotID, Container container) {
+	public ItemStack transferStackInSlot(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile, EntityPlayer player, int slotID,
+			Container container) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) container.inventorySlots.get(slotID);
-
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
 			if (slot instanceof Slot && !(slot instanceof SlotModular)) {
 				if (!transferInput(stack, tile, player, slotID, container, itemstack1)) {
 					return null;
@@ -40,48 +38,38 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 			} else if (!mergeItemStack(itemstack1, 0, 36, false, container)) {
 				return null;
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(player, itemstack1);
 		}
-
 		return itemstack;
 	}
 
-	public abstract boolean transferInput(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile,
-			EntityPlayer player, int slotID, Container container, ItemStack stackItem);
+	public abstract boolean transferInput(ModuleStack<IModule, IProducerInventory> stack, IModularTileEntity tile, EntityPlayer player, int slotID,
+			Container container, ItemStack stackItem);
 
-	protected boolean mergeItemStack(ItemStack p_75135_1_, int p_75135_2_, int p_75135_3_, boolean p_75135_4_,
-			Container container) {
+	protected boolean mergeItemStack(ItemStack p_75135_1_, int p_75135_2_, int p_75135_3_, boolean p_75135_4_, Container container) {
 		boolean flag1 = false;
 		int k = p_75135_2_;
-
 		if (p_75135_4_) {
 			k = p_75135_3_ - 1;
 		}
-
 		Slot slot;
 		ItemStack itemstack1;
-
 		if (p_75135_1_.isStackable()) {
 			while (p_75135_1_.stackSize > 0 && (!p_75135_4_ && k < p_75135_3_ || p_75135_4_ && k >= p_75135_2_)) {
 				slot = (Slot) container.inventorySlots.get(k);
 				itemstack1 = slot.getStack();
-
 				if (itemstack1 != null && itemstack1.getItem() == p_75135_1_.getItem()
 						&& (!p_75135_1_.getHasSubtypes() || p_75135_1_.getItemDamage() == itemstack1.getItemDamage())
 						&& ItemStack.areItemStackTagsEqual(p_75135_1_, itemstack1)) {
 					int l = itemstack1.stackSize + p_75135_1_.stackSize;
-
 					if (l <= p_75135_1_.getMaxStackSize()) {
 						p_75135_1_.stackSize = 0;
 						itemstack1.stackSize = l;
@@ -94,7 +82,6 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 						flag1 = true;
 					}
 				}
-
 				if (p_75135_4_) {
 					--k;
 				} else {
@@ -102,18 +89,15 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 				}
 			}
 		}
-
 		if (p_75135_1_.stackSize > 0) {
 			if (p_75135_4_) {
 				k = p_75135_3_ - 1;
 			} else {
 				k = p_75135_2_;
 			}
-
 			while (!p_75135_4_ && k < p_75135_3_ || p_75135_4_ && k >= p_75135_2_) {
 				slot = (Slot) container.inventorySlots.get(k);
 				itemstack1 = slot.getStack();
-
 				if (itemstack1 == null) {
 					slot.putStack(p_75135_1_.copy());
 					slot.onSlotChanged();
@@ -121,7 +105,6 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 					flag1 = true;
 					break;
 				}
-
 				if (p_75135_4_) {
 					--k;
 				} else {
@@ -129,8 +112,6 @@ public abstract class ProducerInventory extends ProducerGui implements IProducer
 				}
 			}
 		}
-
 		return flag1;
 	}
-
 }

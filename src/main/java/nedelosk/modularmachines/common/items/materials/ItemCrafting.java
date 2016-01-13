@@ -31,16 +31,16 @@ public class ItemCrafting extends ModularItem {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[name.length];
-
-		for (int i = 0; i < this.itemIcon.length; ++i) {
+		for ( int i = 0; i < this.itemIcon.length; ++i ) {
 			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:crafting/" + name[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for (int i = 0; i < name.length; i++)
+		for ( int i = 0; i < name.length; i++ ) {
 			list.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -53,5 +53,4 @@ public class ItemCrafting extends ModularItem {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName("crafting" + uln + "." + itemstack.getItemDamage(), "mm");
 	}
-
 }

@@ -26,5 +26,4 @@ public abstract class ProducerManager extends ProducerInventory implements IProd
 	public void setSide(Side side) {
 		this.side = side;
 	}
-
 }

@@ -3,6 +3,7 @@ package nedelosk.modularmachines.common.crafting;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BlastFurnaceRecipe {
+
 	private Object[] input;
 	private FluidStack[] output = new FluidStack[2];
 	private int burntTime;
@@ -30,5 +31,4 @@ public class BlastFurnaceRecipe {
 	public int getHeat() {
 		return heat;
 	}
-
 }

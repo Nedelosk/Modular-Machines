@@ -29,40 +29,38 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public void draw(IGuiBase<T> gui) {
-		if (mode == null)
+		if (mode == null) {
 			return;
-
+		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
 		GL11.glEnable(GL11.GL_LIGHTING);
-
 	}
 
 	@Override
 	public void drawStrings(IGuiBase<T> gui) {
-		if (mode == null)
+		if (mode == null) {
 			return;
+		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 		StringBuilder builder = new StringBuilder();
 		builder.append(mode.name().charAt(0));
-		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(),
-				gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5, 1.2F, 4210752);
-
+		RenderUtil.glDrawScaledString(Minecraft.getMinecraft().fontRenderer, builder.toString(), gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y + 5,
+				1.2F, 4210752);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
 		if (mode != null) {
-			if (mode.ordinal() != TankMode.values().length - 1)
+			if (mode.ordinal() != TankMode.values().length - 1) {
 				mode = TankMode.values()[mode.ordinal() + 1];
-			else
+			} else {
 				mode = TankMode.values()[0];
+			}
 			gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setMode(mode);
 			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), mode, ID));
 		}
@@ -70,8 +68,9 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase<T> gui) {
-		if (mode == null)
+		if (mode == null) {
 			return null;
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(mode.name());
 		return list;

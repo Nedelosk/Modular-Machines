@@ -1,5 +1,8 @@
 package nedelosk.modularmachines.api.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.IModular;
@@ -11,12 +14,8 @@ import nedelosk.modularmachines.api.recipes.IMachineMode;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketSwitchMode extends PacketTileEntity<TileEntity>
-		implements IMessageHandler<PacketSwitchMode, IMessage> {
+public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSwitchMode, IMessage> {
 
 	public int mode;
 
@@ -44,11 +43,9 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity>
 	@Override
 	public IMessage onMessage(PacketSwitchMode message, MessageContext ctx) {
 		try {
-			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message
-					.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 			if (tile.getModular() != null) {
-				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils
-						.getModuleStackMachine(tile.getModular());
+				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils.getModuleStackMachine(tile.getModular());
 				if (machineStack != null) {
 					IProducerMachineRecipeMode machine = (IProducerMachineRecipeMode) machineStack.getProducer();
 					machine.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
@@ -60,5 +57,4 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity>
 		}
 		return null;
 	}
-
 }

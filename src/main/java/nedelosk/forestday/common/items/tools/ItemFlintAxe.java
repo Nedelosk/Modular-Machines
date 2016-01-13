@@ -18,5 +18,4 @@ public class ItemFlintAxe extends ItemAxe {
 	public String getUnlocalizedName(ItemStack stack) {
 		return Registry.setUnlocalizedItemName("axe.flint", "fd");
 	}
-
 }

@@ -6,19 +6,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.oredict.OreDictionary;
-
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import nedelosk.forestday.common.types.WoodType;
-import nedelosk.forestday.common.types.WoodTypeManager;
+import nedelosk.forestday.api.crafting.ForestDayCrafting;
+import nedelosk.forestday.api.crafting.WoodType;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CharcoalKilnHandler extends TemplateRecipeHandler {
 
@@ -39,8 +38,7 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(69, 23, 22, 15),
-				"ForestDayKilnCharcoal", new Object[0]));
+		transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(69, 23, 22, 15), "ForestDayKilnCharcoal", new Object[0]));
 	}
 
 	@Override
@@ -48,13 +46,12 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 		if (result == null) {
 			return;
 		}
-
-		Iterator<WoodType> types = WoodTypeManager.woodTypes.values().iterator();
+		Iterator<WoodType> types = ForestDayCrafting.woodManager.getWoodTypes().values().iterator();
 		while (types.hasNext()) {
 			WoodType type = types.next();
-			for (ItemStack charcoal : type.charcoalDropps) {
+			for ( ItemStack charcoal : type.getCharcoalDropps() ) {
 				if (result.getItem() == charcoal.getItem() && result.getItemDamage() == charcoal.getItemDamage()) {
-					KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.charcoalDropps, type.wood);
+					KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.getCharcoalDropps(), type.getWood());
 					arecipes.add(res);
 				}
 			}
@@ -66,11 +63,10 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 				Item item = items.next();
 				item.getSubItems(item, null, stacks);
 			}
-			for (ItemStack stack : stacks) {
-				for (int i : OreDictionary.getOreIDs(stack)) {
+			for ( ItemStack stack : stacks ) {
+				for ( int i : OreDictionary.getOreIDs(stack) ) {
 					if (OreDictionary.getOreName(i).contains("log")) {
-						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(
-								Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
+						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
 						arecipes.add(res);
 					}
 				}
@@ -81,11 +77,10 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("ForestDayKilnCharcoal") && getClass() == CharcoalKilnHandler.class) {
-			Iterator<WoodType> types = WoodTypeManager.woodTypes.values().iterator();
+			Iterator<WoodType> types = ForestDayCrafting.woodManager.getWoodTypes().values().iterator();
 			while (types.hasNext()) {
 				WoodType type = types.next();
-				ItemStack wood = type.wood;
-				KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.charcoalDropps, wood);
+				KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.getCharcoalDropps(), type.getWood());
 				arecipes.add(res);
 			}
 			Iterator<Item> items = Item.itemRegistry.iterator();
@@ -94,11 +89,10 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 				Item item = items.next();
 				item.getSubItems(item, null, stacks);
 			}
-			for (ItemStack stack : stacks) {
-				for (int i : OreDictionary.getOreIDs(stack)) {
+			for ( ItemStack stack : stacks ) {
+				for ( int i : OreDictionary.getOreIDs(stack) ) {
 					if (OreDictionary.getOreName(i).contains("log")) {
-						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(
-								Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
+						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
 						arecipes.add(res);
 					}
 				}
@@ -111,11 +105,10 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		boolean foundType = false;
-		Iterator<WoodType> types = WoodTypeManager.woodTypes.values().iterator();
+		Iterator<WoodType> types = ForestDayCrafting.woodManager.getWoodTypes().values().iterator();
 		while (types.hasNext()) {
 			WoodType type = types.next();
-			ItemStack wood = type.wood;
-			KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.charcoalDropps, wood);
+			KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.getCharcoalDropps(), type.getWood());
 			if (res.contains(res.input, ingredient)) {
 				res.setIngredientPermutation(res.input, ingredient);
 				arecipes.add(res);
@@ -123,10 +116,9 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 			}
 		}
 		if (!foundType) {
-			for (int i : OreDictionary.getOreIDs(ingredient)) {
+			for ( int i : OreDictionary.getOreIDs(ingredient) ) {
 				if (OreDictionary.getOreName(i).contains("log")) {
-					KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(
-							Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), ingredient);
+					KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), ingredient);
 					arecipes.add(res);
 				}
 			}
@@ -174,22 +166,22 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 			if (outputs != null) {
 				this.output = new PositionedStack(outputs.get(0), 113, 14);
 				if (outputs.size() > 1) {
-					for (int i = 1; i < 4; i++) {
+					for ( int i = 1; i < 4; i++ ) {
 						int x = 0;
 						int y = 0;
 						switch (i) {
-						case 1:
-							x = 131;
-							y = 14;
-							break;
-						case 2:
-							x = 113;
-							y = 32;
-							break;
-						case 3:
-							x = 131;
-							y = 32;
-							break;
+							case 1:
+								x = 131;
+								y = 14;
+								break;
+							case 2:
+								x = 113;
+								y = 32;
+								break;
+							case 3:
+								x = 131;
+								y = 32;
+								break;
 						}
 						if (outputs.size() > i && outputs.get(i) != null) {
 							this.outputs.add(new PositionedStack(outputs.get(i), x, y));
@@ -199,5 +191,4 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 			}
 		}
 	}
-
 }

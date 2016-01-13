@@ -29,5 +29,4 @@ public class PluginWaila extends APlugin {
 	public boolean getConfigOption() {
 		return Config.pluginWaila;
 	}
-
 }

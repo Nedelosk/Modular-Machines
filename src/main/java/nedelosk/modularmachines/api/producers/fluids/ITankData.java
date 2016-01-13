@@ -25,5 +25,4 @@ public interface ITankData extends INBTTagable {
 	public static enum TankMode {
 		INPUT, OUTPUT, NONE
 	}
-
 }

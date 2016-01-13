@@ -8,5 +8,4 @@ public interface IFluidManager extends IObjectManager<Fluid> {
 	boolean isFluidEqual(FluidStack stack);
 
 	boolean isFluidEqual(Fluid fluid);
-
 }

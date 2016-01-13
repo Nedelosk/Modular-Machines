@@ -78,15 +78,16 @@ public abstract class Producer implements IProducer, IProducerWithRenderer {
 	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
 		ArrayList<String> requiredModules = new ArrayList<>();
 		requiredModules.addAll(getRequiredModules());
-		for (String moduleName : getRequiredModules()) {
-			if (moduleNames.contains(moduleName))
+		for ( String moduleName : getRequiredModules() ) {
+			if (moduleNames.contains(moduleName)) {
 				requiredModules.remove(moduleName);
-			else
+			} else {
 				return false;
+			}
 		}
-		if (!requiredModules.isEmpty())
+		if (!requiredModules.isEmpty()) {
 			return false;
+		}
 		return true;
 	}
-
 }

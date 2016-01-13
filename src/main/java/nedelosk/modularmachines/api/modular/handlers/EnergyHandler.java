@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.api.modular.handlers;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import nedelosk.forestcore.library.INBTTagable;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EnergyHandler implements IEnergyHandler, INBTTagable {
 
@@ -26,8 +26,7 @@ public class EnergyHandler implements IEnergyHandler, INBTTagable {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyManager");
-		storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"),
-				nbtTag.getInteger("MaxExtract"));
+		storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
 		storage.readFromNBT(nbtTag);
 	}
 
@@ -64,5 +63,4 @@ public class EnergyHandler implements IEnergyHandler, INBTTagable {
 	public EnergyStorage getStorage() {
 		return storage;
 	}
-
 }

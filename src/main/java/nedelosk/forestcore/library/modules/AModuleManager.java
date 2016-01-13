@@ -19,7 +19,7 @@ public abstract class AModuleManager implements IModuleManager {
 	@Override
 	public void register(IBlockManager manager, Block object, Class<? extends ItemBlock> item, Object... objects) {
 		manager.register(object, item, objects);
-		for (IModule modules : modules) {
+		for ( IModule modules : modules ) {
 			if (modules.isActive()) {
 				modules.onRegisterObject(manager);
 			}
@@ -29,7 +29,7 @@ public abstract class AModuleManager implements IModuleManager {
 	@Override
 	public void register(IItemManager manager, Item object, Object... objects) {
 		manager.register(object, objects);
-		for (IModule modules : modules) {
+		for ( IModule modules : modules ) {
 			if (modules.isActive()) {
 				modules.onRegisterObject(manager);
 			}
@@ -49,18 +49,19 @@ public abstract class AModuleManager implements IModuleManager {
 
 	@Override
 	public void preInit() {
-		for (IModule modules : modules) {
+		for ( IModule modules : modules ) {
 			if (modules.isActive()) {
 				modules.preInit(this);
-				if (!loadedNodules.contains(modules.getName()))
+				if (!loadedNodules.contains(modules.getName())) {
 					loadedNodules.add(modules.getName());
+				}
 			}
 		}
 	}
 
 	@Override
 	public void init() {
-		for (IModule modules : modules) {
+		for ( IModule modules : modules ) {
 			if (modules.isActive()) {
 				modules.init(this);
 			}
@@ -69,7 +70,7 @@ public abstract class AModuleManager implements IModuleManager {
 
 	@Override
 	public void postInit() {
-		for (IModule modules : modules) {
+		for ( IModule modules : modules ) {
 			if (modules.isActive()) {
 				modules.postInit(this);
 			}
@@ -79,5 +80,4 @@ public abstract class AModuleManager implements IModuleManager {
 	public static boolean isModuleLoaded(String moduleName) {
 		return loadedNodules.contains(moduleName);
 	}
-
 }

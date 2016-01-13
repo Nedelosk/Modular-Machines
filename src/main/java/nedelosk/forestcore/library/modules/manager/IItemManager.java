@@ -12,5 +12,4 @@ public interface IItemManager extends IObjectManager<Item> {
 	boolean isItemEqual(Item item);
 
 	Item item();
-
 }

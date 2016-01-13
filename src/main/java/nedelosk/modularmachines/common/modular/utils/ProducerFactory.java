@@ -18,20 +18,20 @@ public class ProducerFactory implements IProducerFactory {
 
 	public static void init() {
 		instance = new ProducerFactory();
-		if (ModuleRegistry.producerFactory == null)
+		if (ModuleRegistry.producerFactory == null) {
 			ModuleRegistry.producerFactory = instance;
+		}
 	}
 
 	@Override
-	public <P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular,
-			ModuleStack stack) {
+	public <P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		try {
 			IProducer i = null;
 			if (name != null) {
-				if (ModuleRegistry.getProducerClass(name) == null)
+				if (ModuleRegistry.getProducerClass(name) == null) {
 					return null;
-				i = ModuleRegistry.getProducerClass(name)
-						.getConstructor(new Class[] { NBTTagCompound.class, IModular.class, ModuleStack.class })
+				}
+				i = ModuleRegistry.getProducerClass(name).getConstructor(new Class[] { NBTTagCompound.class, IModular.class, ModuleStack.class })
 						.newInstance(nbt, modular, stack);
 			}
 			if (i != null) {
@@ -39,8 +39,7 @@ public class ProducerFactory implements IProducerFactory {
 			}
 			return null;
 		} catch (Exception e) {
-			FMLLog.log(Level.ERROR, e, "Caught an exception during IProducer creation in "
-					+ Loader.instance().activeModContainer().getModId() + ":" + name);
+			FMLLog.log(Level.ERROR, e, "Caught an exception during IProducer creation in " + Loader.instance().activeModContainer().getModId() + ":" + name);
 			throw new LoaderException(e);
 		}
 	}
@@ -50,8 +49,9 @@ public class ProducerFactory implements IProducerFactory {
 		try {
 			IProducer i = null;
 			if (name != null) {
-				if (ModuleRegistry.getProducerClass(name) == null)
+				if (ModuleRegistry.getProducerClass(name) == null) {
 					return null;
+				}
 				i = ModuleRegistry.getProducerClass(name).newInstance();
 			}
 			if (i != null) {
@@ -67,5 +67,4 @@ public class ProducerFactory implements IProducerFactory {
 	public static IProducerFactory getInstance() {
 		return instance;
 	}
-
 }

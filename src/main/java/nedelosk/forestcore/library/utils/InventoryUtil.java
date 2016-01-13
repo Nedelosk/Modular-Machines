@@ -11,10 +11,8 @@ public class InventoryUtil {
 		if (!nbtTag.hasKey(inventory.getInventoryName())) {
 			return;
 		}
-
 		NBTTagList nbttaglist = nbtTag.getTagList(inventory.getInventoryName(), 10);
-
-		for (int j = 0; j < nbttaglist.tagCount(); ++j) {
+		for ( int j = 0; j < nbttaglist.tagCount(); ++j ) {
 			NBTTagCompound nbtTag2 = nbttaglist.getCompoundTagAt(j);
 			int index = nbtTag2.getByte("Slot");
 			inventory.setInventorySlotContents(index, ItemStack.loadItemStackFromNBT(nbtTag2));
@@ -23,7 +21,7 @@ public class InventoryUtil {
 
 	public static void writeToNBT(IInventory inventory, NBTTagCompound nbtTag) {
 		NBTTagList nbttaglist = new NBTTagList();
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+		for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
 			if (inventory.getStackInSlot(i) != null) {
 				NBTTagCompound nbtTag2 = new NBTTagCompound();
 				nbtTag2.setByte("Slot", (byte) i);
@@ -33,5 +31,4 @@ public class InventoryUtil {
 		}
 		nbtTag.setTag(inventory.getInventoryName(), nbttaglist);
 	}
-
 }

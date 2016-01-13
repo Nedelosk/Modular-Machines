@@ -42,15 +42,17 @@ public class FluidTankFilter extends FluidTankSimple {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (resource == null || filter == null || resource.getFluid() != filter)
+		if (resource == null || filter == null || resource.getFluid() != filter) {
 			return 0;
+		}
 		return super.fill(resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (resource == null || filter == null || resource.getFluid() != filter)
+		if (resource == null || filter == null || resource.getFluid() != filter) {
 			return null;
+		}
 		return super.drain(resource, doDrain);
 	}
 
@@ -58,5 +60,4 @@ public class FluidTankFilter extends FluidTankSimple {
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		return super.drain(maxDrain, doDrain);
 	}
-
 }

@@ -35,8 +35,7 @@ public class ButtonWorkbenchMode extends Button<TileWorkbench> {
 	public void drawButton(Minecraft par1Minecraft, int mx, int my) {
 		GL11.glPushMatrix();
 		RenderUtil.bindTexture(texture);
-		RenderUtil.drawTexturedModalRect(xPosition, yPosition, zLevel * 2,
-				0 + ((mode == Mode.stop_processing) ? 20 : 0), 0, 20, 20, 1F / 40F, 1F / 20F);
+		RenderUtil.drawTexturedModalRect(xPosition, yPosition, zLevel * 2, 0 + ((mode == Mode.stop_processing) ? 20 : 0), 0, 20, 20, 1F / 40F, 1F / 20F);
 		GL11.glPopMatrix();
 	}
 
@@ -57,5 +56,4 @@ public class ButtonWorkbenchMode extends Button<TileWorkbench> {
 		setMode(bench.getMode());
 		PacketHandler.INSTANCE.sendToServer(new PacketSwitchMode(gui.getTile()));
 	}
-
 }

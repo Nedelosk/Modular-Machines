@@ -16,5 +16,4 @@ public interface IRecipeManager {
 	RecipeItem[] getOutputs();
 
 	RecipeInput[] getInputs();
-
 }

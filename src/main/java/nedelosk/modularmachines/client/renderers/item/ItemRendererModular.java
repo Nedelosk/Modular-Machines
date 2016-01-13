@@ -28,5 +28,4 @@ public class ItemRendererModular implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		modular.renderTileEntityItem(item);
 	}
-
 }

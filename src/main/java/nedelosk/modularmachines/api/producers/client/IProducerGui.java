@@ -26,13 +26,11 @@ public interface IProducerGui extends IProducer {
 	void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack);
 
 	@SideOnly(Side.CLIENT)
-	void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton,
-			ModuleStack stack);
+	void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack stack);
 
 	@SideOnly(Side.CLIENT)
 	boolean hasCustomInventoryName(ModuleStack stack);
 
 	@SideOnly(Side.CLIENT)
 	String getInventoryName(ModuleStack stack);
-
 }

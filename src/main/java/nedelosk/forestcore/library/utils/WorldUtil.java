@@ -24,8 +24,9 @@ public class WorldUtil {
 		int sx = getXOnSide(x, side);
 		int sy = getYOnSide(y, side);
 		int sz = getZOnSide(z, side);
-		if (isBlockExists(world, sx, sy, sz) && getBlock(world, sx, sy, sz) != Blocks.air)
+		if (isBlockExists(world, sx, sy, sz) && getBlock(world, sx, sy, sz) != Blocks.air) {
 			return getBlockTile(world, sx, sy, sz);
+		}
 		return null;
 	}
 
@@ -37,8 +38,7 @@ public class WorldUtil {
 		return world.getBlock(x, y, z);
 	}
 
-	public static boolean areCoordinatesOnSide(int x, int y, int z, ForgeDirection side, int xCoord, int yCoord,
-			int zCoord) {
+	public static boolean areCoordinatesOnSide(int x, int y, int z, ForgeDirection side, int xCoord, int yCoord, int zCoord) {
 		return x + side.offsetX == xCoord && y + side.offsetY == yCoord && z + side.offsetZ == zCoord;
 	}
 
@@ -62,11 +62,9 @@ public class WorldUtil {
 		if (world == null) {
 			throw new IllegalArgumentException("World cannot be null");
 		}
-
 		if (profile == null || profile.getName() == null) {
 			return FakePlayerFactory.getMinecraft((WorldServer) world);
 		}
-
 		EntityPlayer player = world.getPlayerEntityByName(profile.getName());
 		if (player != null) {
 			return player;
@@ -78,17 +76,14 @@ public class WorldUtil {
 	public static void dropItems(World world, int x, int y, int z) {
 		Random rand = new Random();
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if (tile == null || !(tile instanceof IInventory))
+		if (tile == null || !(tile instanceof IInventory)) {
 			return;
+		}
 		IInventory inventory = (IInventory) tile;
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+		for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
 			ItemStack item = inventory.getStackInSlot(i);
 			if (item != null && item.stackSize > 0) {
-				float rx = rand.nextFloat() * 0.8F + 0.1F;
-				float ry = rand.nextFloat() * 0.8F + 0.1F;
-				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				EntityItem entityItem = new EntityItem(world, x, y, z, item.copy());
-				world.spawnEntityInWorld(entityItem);
+				dropItem(world, x, y, z, item);
 				inventory.setInventorySlotContents(i, null);
 			}
 		}
@@ -97,18 +92,12 @@ public class WorldUtil {
 	public static void dropItem(World world, int x, int y, int z, int ID) {
 		Random rand = new Random();
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if (tile == null || !(tile instanceof IInventory))
+		if (tile == null || !(tile instanceof IInventory)) {
 			return;
+		}
 		IInventory inventory = (IInventory) tile;
 		ItemStack item = inventory.getStackInSlot(ID);
-		if (item != null && item.stackSize > 0) {
-			float rx = rand.nextFloat() * 0.8F + 0.1F;
-			float ry = rand.nextFloat() * 0.8F + 0.1F;
-			float rz = rand.nextFloat() * 0.8F + 0.1F;
-			EntityItem entityItem = new EntityItem(world, x, y, z, item.copy());
-			world.spawnEntityInWorld(entityItem);
-			inventory.setInventorySlotContents(ID, null);
-		}
+		dropItem(world, x, y, z, item);
 	}
 
 	public static void dropItem(World world, int x, int y, int z, ItemStack item) {
@@ -123,34 +112,13 @@ public class WorldUtil {
 		}
 	}
 
-	public static void dropItem(World world, int x, int y, int z, ItemStack[] items) {
-		for (int i = 0; i < items.length; i++) {
-			ItemStack item = items[i];
-			Random rand = new Random();
-			if (item != null && item.stackSize > 0) {
-				float rx = rand.nextFloat() * 0.8F + 0.1F;
-				float ry = rand.nextFloat() * 0.8F + 0.1F;
-				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				EntityItem entityItem = new EntityItem(world, x, y, z, item.copy());
-				world.spawnEntityInWorld(entityItem);
-				item = null;
-			}
+	public static void dropItem(World world, int x, int y, int z, ItemStack[] stacks) {
+		for ( ItemStack stack : stacks ) {
+			dropItem(world, x, y, z, stack);
 		}
 	}
 
 	public static void dropItem(World world, int x, int y, int z, List<ItemStack> items) {
-		for (int i = 0; i < items.size(); i++) {
-			ItemStack item = items.get(i);
-			Random rand = new Random();
-			if (item != null && item.stackSize > 0) {
-				float rx = rand.nextFloat() * 0.8F + 0.1F;
-				float ry = rand.nextFloat() * 0.8F + 0.1F;
-				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				EntityItem entityItem = new EntityItem(world, x, y, z, item.copy());
-				world.spawnEntityInWorld(entityItem);
-				item = null;
-			}
-		}
+		dropItem(world, x, y, z, items.toArray(new ItemStack[items.size()]));
 	}
-
 }

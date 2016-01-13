@@ -8,5 +8,4 @@ public interface IFarm {
 	void updateFarm(ModuleStack stack, IModular modular);
 
 	String getName();
-
 }

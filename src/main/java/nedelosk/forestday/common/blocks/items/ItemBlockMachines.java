@@ -1,12 +1,11 @@
 package nedelosk.forestday.common.blocks.items;
 
 import nedelosk.forestcore.library.core.Registry;
-import nedelosk.forestday.common.blocks.BlockMachines;
-import nedelosk.forestday.common.items.blocks.ItemBlockForestDay;
+import nedelosk.forestcore.library.items.ItemBlockForest;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockMachines extends ItemBlockForestDay {
+public class ItemBlockMachines extends ItemBlockForest {
 
 	public ItemBlockMachines(Block block) {
 		super(block);
@@ -14,8 +13,6 @@ public class ItemBlockMachines extends ItemBlockForestDay {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedBlockName(((BlockMachines) getBlock()).blockName + "." + stack.getItemDamage(),
-				"fd");
+		return Registry.setUnlocalizedBlockName("wood_base" + "." + stack.getItemDamage(), "fd");
 	}
-
 }

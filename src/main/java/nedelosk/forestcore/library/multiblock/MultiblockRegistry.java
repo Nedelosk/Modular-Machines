@@ -13,6 +13,7 @@ import net.minecraft.world.World;
  * @author Erogenous Beef
  */
 public class MultiblockRegistry {
+
 	// World > WorldRegistry map
 	private static HashMap<World, MultiblockWorldRegistry> registries = new HashMap<World, MultiblockWorldRegistry>();
 
@@ -72,7 +73,6 @@ public class MultiblockRegistry {
 		if (registries.containsKey(world)) {
 			registries.get(world).onPartRemovedFromWorld(part);
 		}
-
 	}
 
 	/**
@@ -102,8 +102,7 @@ public class MultiblockRegistry {
 		if (registries.containsKey(world)) {
 			registries.get(world).addDirtyController(controller);
 		} else {
-			throw new IllegalArgumentException(
-					"Adding a dirty controller to a world that has no registered controllers!");
+			throw new IllegalArgumentException("Adding a dirty controller to a world that has no registered controllers!");
 		}
 	}
 
@@ -120,9 +119,7 @@ public class MultiblockRegistry {
 		if (registries.containsKey(world)) {
 			registries.get(world).addDeadController(controller);
 		} else {
-			Log.warn(
-					"Controller %d in world %s marked as dead, but that world is not tracked! Controller is being ignored.",
-					controller.hashCode(), world);
+			Log.warn("Controller %d in world %s marked as dead, but that world is not tracked! Controller is being ignored.", controller.hashCode(), world);
 		}
 	}
 
@@ -140,7 +137,6 @@ public class MultiblockRegistry {
 	}
 
 	/// *** PRIVATE HELPERS *** ///
-
 	private static MultiblockWorldRegistry getOrCreateRegistry(World world) {
 		if (registries.containsKey(world)) {
 			return registries.get(world);
@@ -150,5 +146,4 @@ public class MultiblockRegistry {
 			return newRegistry;
 		}
 	}
-
 }

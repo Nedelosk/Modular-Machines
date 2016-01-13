@@ -6,11 +6,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import nedelosk.forestcore.library.fluids.FluidBlock;
+import nedelosk.forestcore.library.items.FluidBucket;
 import nedelosk.forestcore.library.modules.AModuleManager;
 import nedelosk.forestcore.library.plugins.APluginManager;
 import nedelosk.forestday.common.events.BucketHandler;
-import nedelosk.forestday.common.fluids.FluidBlock;
-import nedelosk.forestday.common.items.base.FluidBucket;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
@@ -26,13 +26,10 @@ public abstract class Registry {
 
 	public final AModuleManager moduleManager = getModuleManager();
 	public final APluginManager pluginManager = getPluginManager();
-
 	public final IGuiHandler guiHandler = getGuiHandler();
 
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
-
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
-
 		if (moduleManager != null) {
 			moduleManager.registerModules();
 			moduleManager.preInit();
@@ -67,14 +64,15 @@ public abstract class Registry {
 
 	public abstract IGuiHandler getGuiHandler();
 
-	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket,
-			boolean isGas) {
+	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas) {
 		if (FluidRegistry.getFluid(fluidName) == null) {
 			Fluid fluid = new Fluid(fluidName).setTemperature(temperature);
-			if (material == Material.lava)
+			if (material == Material.lava) {
 				fluid.setLuminosity(12);
-			if (isGas)
+			}
+			if (isGas) {
 				fluid.isGaseous();
+			}
 			FluidRegistry.registerFluid(fluid);
 			Block fluidBlock = new FluidBlock(fluid, material, fluidName);
 			fluid.setUnlocalizedName(fluidName);
@@ -82,8 +80,7 @@ public abstract class Registry {
 		}
 		if (createBucket) {
 			Item bucket = new FluidBucket(FluidRegistry.getFluid(fluidName).getBlock(), fluidName);
-			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket),
-					new ItemStack(Items.bucket));
+			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid(fluidName), new ItemStack(bucket), new ItemStack(Items.bucket));
 			BucketHandler.INSTANCE.buckets.put(FluidRegistry.getFluid(fluidName).getBlock(), bucket);
 			GameRegistry.registerItem(bucket, "bucket_" + fluidName);
 			return FluidRegistry.getFluid(fluidName);
@@ -101,8 +98,7 @@ public abstract class Registry {
 		return block;
 	}
 
-	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name,
-			Object... objects) {
+	public static Block registerBlock(Block block, Class<? extends ItemBlock> itemblock, String name, Object... objects) {
 		GameRegistry.registerBlock(block, itemblock, name, objects);
 		return block;
 	}
@@ -123,5 +119,4 @@ public abstract class Registry {
 	public static String setUnlocalizedItemName(String name, String modName) {
 		return "forest." + modName + ".item." + name;
 	}
-
 }

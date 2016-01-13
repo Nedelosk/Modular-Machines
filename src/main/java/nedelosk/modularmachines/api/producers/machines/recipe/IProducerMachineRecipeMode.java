@@ -9,5 +9,4 @@ public interface IProducerMachineRecipeMode extends IProducerMachineRecipe {
 	void setMode(IMachineMode mode);
 
 	Class<? extends IMachineMode> getModeClass();
-
 }

@@ -10,7 +10,7 @@ import nedelosk.forestcore.library.inventory.InventoryAdapter;
 import nedelosk.forestcore.library.multiblock.IMultiblockPart;
 import nedelosk.forestcore.library.multiblock.MultiblockControllerBase;
 import nedelosk.forestcore.library.multiblock.MultiblockValidationException;
-import nedelosk.forestcore.library.multiblock.rectangular.RectangularMultiblockControllerBase;
+import nedelosk.forestcore.library.multiblock.RectangularMultiblockControllerBase;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.crafting.BlastFurnaceRecipe;
@@ -25,12 +25,10 @@ import net.minecraftforge.fluids.FluidStack;
 public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase {
 
 	private InventoryAdapter inventory = new InventoryAdapter(4, "BlastFurnace", 64);
-	private TankManager tankManager = new TankManager(
-			new FluidTankSimple(16000), //Air
-			new FluidTankSimple(16000), //Slag
-			new FluidTankSimple(16000), //Output
-			new FluidTankSimple(16000)); //Gas
-
+	private TankManager tankManager = new TankManager(new FluidTankSimple(16000), // Air
+			new FluidTankSimple(16000), // Slag
+			new FluidTankSimple(16000), // Output
+			new FluidTankSimple(16000)); // Gas
 	private Set<TileBlastFurnaceAccessPort> attachedAccessPorts;
 	private Set<TileBlastFurnaceFluidPort> attachedFluidPorts;
 	private Set<TileBlastFurnaceFluidPort> attachedFluidPortsAir;
@@ -40,13 +38,12 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	private int heatTotal;
 	private int burnTime;
 	private int burnTimeTotal;
-	private int heatMax = Config.bastFurnaceMaxHeat;
+	private static int heatMax = Config.bastFurnaceMaxHeat;
 	private boolean isActive;
 	private FluidStack[] outputs;
 
 	public MultiblockBlastFurnace(World world) {
 		super(world);
-
 		attachedAccessPorts = new HashSet<TileBlastFurnaceAccessPort>();
 		attachedFluidPorts = new HashSet<TileBlastFurnaceFluidPort>();
 		attachedFluidPortsSlag = new HashSet<TileBlastFurnaceFluidPort>();
@@ -65,14 +62,15 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 			attachedAccessPorts.add((TileBlastFurnaceAccessPort) part);
 		} else if (part instanceof TileBlastFurnaceFluidPort) {
 			TileBlastFurnaceFluidPort port = (TileBlastFurnaceFluidPort) part;
-			if (port.getType() == PortType.OUTPUT)
+			if (port.getType() == PortType.OUTPUT) {
 				attachedFluidPorts.add((TileBlastFurnaceFluidPort) part);
-			else if (port.getType() == PortType.AIR)
+			} else if (port.getType() == PortType.AIR) {
 				attachedFluidPortsAir.add((TileBlastFurnaceFluidPort) part);
-			else if (port.getType() == PortType.GAS)
+			} else if (port.getType() == PortType.GAS) {
 				attachedFluidPortsGas.add((TileBlastFurnaceFluidPort) part);
-			else if (port.getType() == PortType.SLAG)
+			} else if (port.getType() == PortType.SLAG) {
 				attachedFluidPortsSlag.add((TileBlastFurnaceFluidPort) part);
+			}
 		}
 	}
 
@@ -82,14 +80,15 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 			attachedAccessPorts.remove(part);
 		} else if (part instanceof TileBlastFurnaceFluidPort) {
 			TileBlastFurnaceFluidPort port = (TileBlastFurnaceFluidPort) part;
-			if (port.getType() == PortType.OUTPUT)
+			if (port.getType() == PortType.OUTPUT) {
 				attachedFluidPorts.remove(part);
-			else if (port.getType() == PortType.AIR)
+			} else if (port.getType() == PortType.AIR) {
 				attachedFluidPortsAir.remove(part);
-			else if (port.getType() == PortType.GAS)
+			} else if (port.getType() == PortType.GAS) {
 				attachedFluidPortsGas.remove(part);
-			else if (port.getType() == PortType.SLAG)
+			} else if (port.getType() == PortType.SLAG) {
 				attachedFluidPortsSlag.remove(part);
+			}
 		}
 	}
 
@@ -98,23 +97,18 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 		if (attachedFluidPorts.size() < 1) {
 			throw new MultiblockValidationException("Not enough output fluid ports. Blast Furnace require at least 1.");
 		}
-
 		if (attachedFluidPortsAir.size() < 1) {
 			throw new MultiblockValidationException("Not enough air ports. Blast Furnace require at least 1.");
 		}
-
 		if (attachedFluidPortsSlag.size() < 1) {
 			throw new MultiblockValidationException("Not enough slag ports. Blast Furnace require at least 1.");
 		}
-
 		if (attachedFluidPortsGas.size() < 1) {
 			throw new MultiblockValidationException("Not enough gas ports. Blast Furnace require at least 1.");
 		}
-
 		if (attachedAccessPorts.size() < 1) {
 			throw new MultiblockValidationException("Not enough access ports. Blast Furnace require at least 1.");
 		}
-
 		super.isMachineWhole();
 	}
 
@@ -125,6 +119,7 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	@Override
 	protected void onMachineDisassembled() {
 		isActive = false;
+		heat = 0;
 	}
 
 	@Override
@@ -173,8 +168,7 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase otherMachine) {
 		if (!(otherMachine instanceof MultiblockBlastFurnace)) {
-			Log.warn(
-					"[%s] Blast Furnace @ %s is attempting to assimilate a non-Blast Funace machine! That machine's data will be lost!",
+			Log.warn("[%s] Blast Furnace @ %s is attempting to assimilate a non-Blast Funace machine! That machine's data will be lost!",
 					worldObj.isRemote ? "CLIENT" : "SERVER", getReferenceCoord());
 			return;
 		}
@@ -195,26 +189,34 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 			if (heat >= heatTotal || heatTotal == 0) {
 				if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
 					if (outputs != null) {
-						if (outputs[0] != null)
-							if (getTankManager().getTank(1).fill(outputs[0], true) >= outputs[0].amount)
+						if (outputs[0] != null) {
+							if (getTankManager().getTank(1).fill(outputs[0], true) >= outputs[0].amount) {
 								outputs[0] = null;
-						if (outputs[1] != null)
-							if (getTankManager().getTank(2).fill(outputs[1], true) >= outputs[1].amount)
+							}
+						}
+						if (outputs[1] != null) {
+							if (getTankManager().getTank(2).fill(outputs[1], true) >= outputs[1].amount) {
 								outputs[1] = null;
-						if (outputs[0] == null && outputs[1] == null)
+							}
+						}
+						if (outputs[0] == null && outputs[1] == null) {
 							outputs = null;
+						}
 					} else {
 						ItemStack[] inputs = new ItemStack[4];
-						for (int i = 0; i < inputs.length; i++)
+						for ( int i = 0; i < inputs.length; i++ ) {
 							inputs[i] = getInventory().getStackInSlot(i);
+						}
 						if (inputs[0] != null) {
 							BlastFurnaceRecipe recipe = BlastFurnaceRecipeManager.getRecipe(inputs);
 							if (recipe != null) {
-								for (int i = 0; i < recipe.getInput().length; i++) {
-									if (recipe.getInput()[i] instanceof ItemStack)
+								for ( int i = 0; i < recipe.getInput().length; i++ ) {
+									if (recipe.getInput()[i] instanceof ItemStack) {
 										getInventory().decrStackSize(i, ((ItemStack) recipe.getInput()[i]).stackSize);
-									if (recipe.getInput()[i] instanceof OreStack)
+									}
+									if (recipe.getInput()[i] instanceof OreStack) {
 										getInventory().decrStackSize(i, ((OreStack) recipe.getInput()[i]).stackSize);
+									}
 								}
 								outputs = recipe.getOutput().clone();
 								burnTimeTotal = recipe.getBurntTime();
@@ -228,15 +230,17 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 					heat--;
 				}
 			} else {
-				if (heat < heatMax)
-					if (worldObj.rand.nextInt(40) == 20)
+				if (heat < heatMax) {
+					if (worldObj.rand.nextInt(40) == 20) {
 						if (getTankManager().getTank(0) != null && getTankManager().getTank(0).drain(50, true) != null
-								&& getTankManager().getTank(0).drain(50, true).amount >= 50)
-							if (getTankManager().getTank(3).fill(
-									new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >= 150) {
+								&& getTankManager().getTank(0).drain(50, true).amount >= 50) {
+							if (getTankManager().getTank(3).fill(new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >= 150) {
 								heat += 15;
 								return true;
 							}
+						}
+					}
+				}
 			}
 		}
 		return false;
@@ -244,8 +248,9 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 
 	@Override
 	protected void isBlockGoodForInterior(World world, int x, int y, int z) throws MultiblockValidationException {
-		if (!world.isAirBlock(x, y, z))
+		if (!world.isAirBlock(x, y, z)) {
 			super.isBlockGoodForInterior(world, x, y, z);
+		}
 	}
 
 	@Override
@@ -254,16 +259,16 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		tankManager.writeToNBT(nbtTag);
-		data.setTag("TankManager", nbtTag);
-		inventory.writeToNBT(data);
-
+		NBTTagCompound nbtManager = new NBTTagCompound();
+		tankManager.writeToNBT(nbtManager);
+		data.setTag("TankManager", nbtManager);
+		NBTTagCompound nbtInventory = new NBTTagCompound();
+		inventory.writeToNBT(nbtInventory);
+		data.setTag("Inventory", nbtInventory);
 		data.setInteger("BurnTime", burnTime);
 		data.setInteger("BurnTimeTotal", burnTimeTotal);
 		data.setInteger("Heat", heat);
 		data.setInteger("HeatTotal", heatTotal);
-
 		if (outputs != null) {
 			if (outputs[0] == null) {
 				NBTTagCompound nbtTagOutput = new NBTTagCompound();
@@ -282,14 +287,13 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	public void readFromNBT(NBTTagCompound data) {
 		NBTTagCompound nbtTank = data.getCompoundTag("TankManager");
 		tankManager = new TankManager(nbtTank);
+		NBTTagCompound nbtInventory = data.getCompoundTag("Inventory");
 		inventory = new InventoryAdapter(4, "BlastFurnace", 16);
-		inventory.readFromNBT(data);
-
+		inventory.readFromNBT(nbtInventory);
 		burnTime = data.getInteger("BurnTime");
 		burnTimeTotal = data.getInteger("BurnTimeTotal");
 		heat = data.getInteger("Heat");
 		heatTotal = data.getInteger("HeatTotal");
-
 		if (data.hasKey("Output2")) {
 			outputs = new FluidStack[2];
 		} else if (data.hasKey("Output1")) {
@@ -327,5 +331,4 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	public boolean isActive() {
 		return isActive;
 	}
-
 }

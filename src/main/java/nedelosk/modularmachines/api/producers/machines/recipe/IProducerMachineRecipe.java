@@ -27,5 +27,4 @@ public interface IProducerMachineRecipe extends IProducerMachine {
 	int getItemInputs(ModuleStack<IModule, IProducer> stack);
 
 	int getItemOutputs(ModuleStack<IModule, IProducer> stack);
-
 }

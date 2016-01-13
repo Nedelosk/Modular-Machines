@@ -27,16 +27,16 @@ public abstract class ProducerFarm extends ProducerMachine {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-		if (farm != null)
+		if (farm != null) {
 			nbt.setString("Farm", farm.getName());
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.readFromNBT(nbt, modular, stack);
-		if (nbt.hasKey("Farm"))
+		if (nbt.hasKey("Farm")) {
 			farm = ModuleRegistry.getFarm(nbt.getString("Farm"));
-
+		}
 	}
-
 }

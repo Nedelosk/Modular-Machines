@@ -52,14 +52,17 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void update(boolean isServer) {
-		for (Vector<ModuleStack> moduleV : modules.values())
-			for (ModuleStack stack : moduleV)
-				if (stack != null && stack.getModule() != null && stack.getProducer() != null)
-					if (isServer)
+		for ( Vector<ModuleStack> moduleV : modules.values() ) {
+			for ( ModuleStack stack : moduleV ) {
+				if (stack != null && stack.getModule() != null && stack.getProducer() != null) {
+					if (isServer) {
 						stack.getProducer().updateServer(this, stack);
-					else
+					} else {
 						stack.getProducer().updateClient(this, stack);
-
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -70,15 +73,16 @@ public abstract class Modular implements IModular, IWailaProvider {
 		gui = new ModularGuiManager();
 		gui.readFromNBT(nbt);
 		gui.setModular(this);
-		if (modules == null)
+		if (modules == null) {
 			modules = Maps.newHashMap();
+		}
 		NBTTagList listTag = nbt.getTagList("Modules", 10);
-		for (int i = 0; i < listTag.tagCount(); i++) {
+		for ( int i = 0; i < listTag.tagCount(); i++ ) {
 			NBTTagCompound modulesTag = listTag.getCompoundTagAt(i);
 			NBTTagList modulesTagList = modulesTag.getTagList("modules", 10);
 			String key = modulesTag.getString("key");
 			Vector<ModuleStack> moduleV = new Vector<ModuleStack>();
-			for (int r = 0; r < modulesTagList.tagCount(); r++) {
+			for ( int r = 0; r < modulesTagList.tagCount(); r++ ) {
 				ModuleStack stack = new ModuleStack(modulesTagList.getCompoundTagAt(r), this);
 				moduleV.add(stack);
 			}
@@ -93,14 +97,15 @@ public abstract class Modular implements IModular, IWailaProvider {
 			utils.setModular(this);
 		}
 		utils.writeToNBT(nbt);
-		if (gui == null)
+		if (gui == null) {
 			gui = new ModularGuiManager();
+		}
 		gui.writeToNBT(nbt);
 		NBTTagList listTag = new NBTTagList();
-		for (Entry<String, Vector<ModuleStack>> moduleV : modules.entrySet()) {
+		for ( Entry<String, Vector<ModuleStack>> moduleV : modules.entrySet() ) {
 			NBTTagCompound modulesTag = new NBTTagCompound();
 			NBTTagList modulesTagList = new NBTTagList();
-			for (ModuleStack stack : moduleV.getValue()) {
+			for ( ModuleStack stack : moduleV.getValue() ) {
 				if (stack != null) {
 					NBTTagCompound nbtTag = new NBTTagCompound();
 					stack.writeToNBT(nbtTag, this);
@@ -119,9 +124,9 @@ public abstract class Modular implements IModular, IWailaProvider {
 		if (getCasing() != null) {
 			int tiers = 0;
 			int size = 0;
-			for (Vector<ModuleStack> modules : modules.values()) {
+			for ( Vector<ModuleStack> modules : modules.values() ) {
 				if (modules != null) {
-					for (ModuleStack module : modules) {
+					for ( ModuleStack module : modules ) {
 						if (module != null) {
 							tiers += module.getType().getTier();
 							size++;
@@ -175,25 +180,29 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public boolean addModule(ModuleStack stack) {
-		if (stack == null || stack.getModule() == null)
+		if (stack == null || stack.getModule() == null) {
 			return false;
-		if (modules.get(stack.getModule().getModuleName()) == null)
+		}
+		if (modules.get(stack.getModule().getModuleName()) == null) {
 			modules.put(stack.getModule().getModuleName(), new Vector<ModuleStack>());
+		}
 		modules.get(stack.getModule().getModuleName()).add(stack);
 		return true;
 	}
 
 	@Override
 	public ModuleStack getModule(String moduleName, int id) {
-		if (getModule(moduleName) == null)
+		if (getModule(moduleName) == null) {
 			return null;
+		}
 		return getModule(moduleName).get(id);
 	}
 
 	@Override
 	public Vector<ModuleStack> getModule(String moduleName) {
-		if (modules.get(moduleName) == null)
+		if (modules.get(moduleName) == null) {
 			return null;
+		}
 		return modules.get(moduleName);
 	}
 
@@ -210,12 +219,12 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public List<ModuleStack> getFluidProducers() {
 		List<ModuleStack> stacks = new ArrayList();
-		for (Vector<ModuleStack> stackV : modules.values()) {
-			for (ModuleStack stack : stackV) {
-				if (stack != null && stack.getModule() != null && stack.getProducer() != null
-						&& stack.getProducer() instanceof IProducerWithFluid) {
-					if (((IProducerWithFluid) stack.getProducer()).useFluids(stack))
+		for ( Vector<ModuleStack> stackV : modules.values() ) {
+			for ( ModuleStack stack : stackV ) {
+				if (stack != null && stack.getModule() != null && stack.getProducer() != null && stack.getProducer() instanceof IProducerWithFluid) {
+					if (((IProducerWithFluid) stack.getProducer()).useFluids(stack)) {
 						stacks.add(stack);
+					}
 				}
 			}
 		}
@@ -224,10 +233,11 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	public ArrayList<ModuleStack> getWailaModules() {
 		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
-		for (Entry<String, Vector<ModuleStack>> entrys : modules.entrySet()) {
-			for (ModuleStack stack : entrys.getValue()) {
-				if (stack.getProducer() != null && stack.getProducer() instanceof IWailaProvider)
+		for ( Entry<String, Vector<ModuleStack>> entrys : modules.entrySet() ) {
+			for ( ModuleStack stack : entrys.getValue() ) {
+				if (stack.getProducer() != null && stack.getProducer() instanceof IWailaProvider) {
 					wailaModules.add(stack);
+				}
 			}
 		}
 		return wailaModules;
@@ -235,7 +245,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
+		for ( ModuleStack<IModule, IProducerWaila> stack : getWailaModules() ) {
 			currenttip = stack.getProducer().getWailaBody(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -243,7 +253,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
+		for ( ModuleStack<IModule, IProducerWaila> stack : getWailaModules() ) {
 			currenttip = stack.getProducer().getWailaHead(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -256,7 +266,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for (ModuleStack<IModule, IProducerWaila> stack : getWailaModules()) {
+		for ( ModuleStack<IModule, IProducerWaila> stack : getWailaModules() ) {
 			currenttip = stack.getProducer().getWailaTail(itemStack, currenttip, data);
 		}
 		return currenttip;

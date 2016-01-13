@@ -3,6 +3,7 @@ package nedelosk.modularmachines.api.producers.energy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,6 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ProducerBattery extends ProducerInventory implements IProducerBattery {
 
 	public EnergyStorage storage;
-
 	private int batteryCapacity;
 	private int speedModifier;
 	private int energyModifier;
@@ -50,16 +50,15 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		if (batteryCapacity == 0)
+		if (batteryCapacity == 0) {
 			batteryCapacity = getStorage(stack).getMaxEnergyStored();
+		}
 		int energyModifier = 0;
 		int speedModifier = 0;
-		if (ModuleUtils.getModuleStackCapacitors(modular) != null
-				&& ModuleUtils.getModuleStackCapacitors(modular).size() > 0
-				&& (ModuleUtils.getModuleStackCapacitors(modular).get(0) != null
-						|| ModuleUtils.getModuleStackCapacitors(modular).get(1) != null
+		if (ModuleUtils.getModuleStackCapacitors(modular) != null && ModuleUtils.getModuleStackCapacitors(modular).size() > 0
+				&& (ModuleUtils.getModuleStackCapacitors(modular).get(0) != null || ModuleUtils.getModuleStackCapacitors(modular).get(1) != null
 						|| ModuleUtils.getModuleStackCapacitors(modular).get(2) != null)) {
-			for (ModuleStack<IModule, IProducerCapacitor> module : ModuleUtils.getModuleStackCapacitors(modular)) {
+			for ( ModuleStack<IModule, IProducerCapacitor> module : ModuleUtils.getModuleStackCapacitors(modular) ) {
 				if (module != null && module.getModule() != null && module.getProducer() != null) {
 					IProducerCapacitor capacitor = module.getProducer();
 					if (capacitor.canWork(modular)) {
@@ -71,15 +70,14 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			this.speedModifier = speedModifier;
 			this.energyModifier = energyModifier;
 			int capacity = batteryCapacity + ((batteryCapacity * (energyModifier / 10)) / 10);
-			if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() != capacity)
+			if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() != capacity) {
 				((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().setCapacity(capacity);
+			}
 		} else {
-			if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage()
-					.getMaxEnergyStored() > batteryCapacity) {
-				if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage()
-						.getEnergyStored() > batteryCapacity)
-					((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage()
-							.setEnergyStored(batteryCapacity);
+			if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().getMaxEnergyStored() > batteryCapacity) {
+				if (((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().getEnergyStored() > batteryCapacity) {
+					((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().setEnergyStored(batteryCapacity);
+				}
 				((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage().setCapacity(batteryCapacity);
 			}
 		}
@@ -89,8 +87,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		gui.getWidgetManager().add(
-				new WidgetEnergyField(((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage(), 45, 15));
+		gui.getWidgetManager().add(new WidgetEnergyField(((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage(), 45, 15));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -102,10 +99,9 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
-		for (Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets()) {
+		for ( Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets() ) {
 			if (widget instanceof WidgetEnergyField) {
-				((WidgetEnergyField) widget).storage = ((EnergyHandler) modular.getManager().getEnergyHandler())
-						.getStorage();
+				((WidgetEnergyField) widget).storage = ((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage();
 			}
 		}
 	}
@@ -129,7 +125,6 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
 		super.writeToNBT(nbt, modular, stack);
-
 		if (storage != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			storage.writeToNBT(nbtTag);
@@ -148,8 +143,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		super.readFromNBT(nbt, modular, stack);
 		if (nbt.hasKey("Storage")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Storage");
-			storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"),
-					nbtTag.getInteger("MaxExtract"));
+			storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
 			storage.readFromNBT(nbtTag);
 		}
 		batteryCapacity = nbt.getInteger("BatteryCapacity");
@@ -176,8 +170,9 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 		@Override
 		public boolean isItemValid(ItemStack stack) {
 			if (ModuleRegistry.getProducer(stack) != null && ModuleRegistry.getProducer(stack).getProducer() != null
-					&& ModuleRegistry.getProducer(stack).getProducer() instanceof IProducerCapacitor)
+					&& ModuleRegistry.getProducer(stack).getProducer() instanceof IProducerCapacitor) {
 				return true;
+			}
 			return false;
 		}
 
@@ -187,7 +182,7 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 			if (((IModularTileEntity) inventory).getModular().getModules().get("Capacitor") == null
 					|| ((IModularTileEntity) inventory).getModular().getModules().get("Capacitor").size() < 3) {
 				Vector<ModuleStack> modules = new Vector<ModuleStack>(3);
-				for (int i = 0; i < 3; i++) {
+				for ( int i = 0; i < 3; i++ ) {
 					modules.add(null);
 				}
 				((IModularTileEntity) inventory).getModular().getModules().put("Capacitor", modules);
@@ -198,15 +193,12 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 					modules.set(getSlotIndex(), null);
 				}
 			} else {
-				if (ModuleRegistry.getProducer(getStack()) != null
-						&& ModuleRegistry.getProducer(getStack()).getProducer() != null
+				if (ModuleRegistry.getProducer(getStack()) != null && ModuleRegistry.getProducer(getStack()).getProducer() != null
 						&& ModuleRegistry.getProducer(getStack()).getProducer() instanceof IProducerCapacitor) {
-					((IModularTileEntity) inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(),
-							ModuleRegistry.getProducer(getStack()));
+					((IModularTileEntity) inventory).getModular().getModules().get("Capacitor").set(getSlotIndex(), ModuleRegistry.getProducer(getStack()));
 				}
 			}
 		}
-
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -223,21 +215,19 @@ public class ProducerBattery extends ProducerInventory implements IProducerBatte
 
 	@Override
 	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
-		modular.getManager()
-				.setEnergyHandler(new EnergyHandler(((IProducerBattery) stack.getProducer()).getStorage(stack)));
+		modular.getManager().setEnergyHandler(new EnergyHandler(((IProducerBattery) stack.getProducer()).getStorage(stack)));
 		return super.onBuildModular(modular, stack, moduleNames);
 	}
 
 	@Override
-	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile,
-			EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
+	public boolean transferInput(ModuleStack<IModule, IProducerInventory> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID,
+			Container container, ItemStack stackItem) {
 		ModuleStack<IModule, IProducer> stack = ModuleRegistry.getProducer(stackItem);
-		if (stack != null && stack.getModule() == Modules.CAPACITOR && stack.getProducer() != null
-				&& stack.getProducer() instanceof IProducerCapacitor) {
-			if (mergeItemStack(stackItem, 36, 39, false, container))
+		if (stack != null && stack.getModule() == Modules.CAPACITOR && stack.getProducer() != null && stack.getProducer() instanceof IProducerCapacitor) {
+			if (mergeItemStack(stackItem, 36, 39, false, container)) {
 				return true;
+			}
 		}
 		return false;
 	}
-
 }

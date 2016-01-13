@@ -41,5 +41,4 @@ public class WidgetButtonMode extends Widget {
 	public IMachineMode getMode() {
 		return mode;
 	}
-
 }

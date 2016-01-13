@@ -10,21 +10,19 @@ import net.minecraft.client.renderer.Tessellator;
  */
 @SideOnly(Side.CLIENT)
 public class GuiElement {
+
 	public static int defaultTexW = 256;
 	public static int defaultTexH = 256;
-
 	public final int x;
 	public final int y;
 	public final int w;
 	public final int h;
-
 	public int texW;
 	public int texH;
 
 	public GuiElement(int x, int y, int w, int h, int texW, int texH) {
 		this(x, y, w, h);
 		setTextureSize(texW, texH);
-
 		defaultTexW = texW;
 		defaultTexH = texH;
 	}
@@ -40,7 +38,6 @@ public class GuiElement {
 	public GuiElement setTextureSize(int w, int h) {
 		texW = w;
 		texH = h;
-
 		return this;
 	}
 
@@ -53,8 +50,7 @@ public class GuiElement {
 		return w;
 	}
 
-	public void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height,
-			float textureWidth, float textureHeight) {
+	public void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight) {
 		float f4 = 1.0F / textureWidth;
 		float f5 = 1.0F / textureHeight;
 		Tessellator tessellator = Tessellator.instance;
@@ -67,6 +63,7 @@ public class GuiElement {
 	}
 
 	public static class Builder {
+
 		public int w;
 		public int h;
 

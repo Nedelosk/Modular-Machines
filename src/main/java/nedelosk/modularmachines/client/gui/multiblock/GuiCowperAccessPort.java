@@ -28,5 +28,4 @@ public class GuiCowperAccessPort extends GuiBase<TileCowperAccessPort> {
 	protected String getModName() {
 		return "modularmachines";
 	}
-
 }

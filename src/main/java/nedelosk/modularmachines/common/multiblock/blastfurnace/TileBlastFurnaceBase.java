@@ -12,29 +12,24 @@ public class TileBlastFurnaceBase extends TileMultiblockBase<MultiblockBlastFurn
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-
 	}
 
 	@Override
 	public void isGoodForSides() throws MultiblockValidationException {
-
 	}
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
 		throw new MultiblockValidationException(
-				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's interior",
-						xCoord, yCoord, zCoord));
+				String.format("%d, %d, %d - This blast furnace part may not be placed in the blast furnace's interior", xCoord, yCoord, zCoord));
 	}
 
 	@Override
@@ -72,5 +67,4 @@ public class TileBlastFurnaceBase extends TileMultiblockBase<MultiblockBlastFurn
 	public Class<? extends MultiblockBlastFurnace> getMultiblockControllerType() {
 		return MultiblockBlastFurnace.class;
 	}
-
 }

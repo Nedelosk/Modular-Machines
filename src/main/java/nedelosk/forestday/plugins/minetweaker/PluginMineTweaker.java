@@ -15,5 +15,4 @@ public class PluginMineTweaker extends APlugin {
 	public String getRequiredMod() {
 		return "MineTweaker3";
 	}
-
 }

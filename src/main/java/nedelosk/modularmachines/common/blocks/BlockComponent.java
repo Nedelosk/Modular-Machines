@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nedelosk.forestcore.library.blocks.BlockForest;
 import nedelosk.forestcore.library.modules.manager.IBlockManager;
-import nedelosk.forestday.common.blocks.BlockForest;
 import nedelosk.modularmachines.common.core.TabModularMachines;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -49,9 +49,8 @@ public class BlockComponent extends BlockForest {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		for (int i = 0; i < metas.size(); i++) {
+		for ( int i = 0; i < metas.size(); i++ ) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
-
 }

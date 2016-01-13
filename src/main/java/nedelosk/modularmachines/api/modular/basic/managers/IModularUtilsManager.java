@@ -16,5 +16,4 @@ public interface IModularUtilsManager extends INBTTagable {
 	void setEnergyHandler(IEnergyHandler energyHandler);
 
 	void setModular(IModular modular);
-
 }

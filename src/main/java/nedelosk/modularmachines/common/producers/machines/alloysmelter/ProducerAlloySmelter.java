@@ -94,5 +94,4 @@ public class ProducerAlloySmelter extends ProducerMachineRecipe {
 	public int getColor() {
 		return 0xB22222;
 	}
-
 }

@@ -26,5 +26,4 @@ public interface IModularGuiManager extends INBTTagable {
 	<T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile, InventoryPlayer inventory);
 
 	void setModular(IModular modular);
-
 }

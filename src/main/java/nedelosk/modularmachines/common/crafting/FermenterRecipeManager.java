@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class FermenterRecipeManager implements IFermenterRecipe {
 
 	private static ArrayList<FermenterRecipe> recipes = new ArrayList();
-
 	public static FermenterRecipeManager instance;
 
 	public static void addRecipe(FermenterRecipe recipe) {
@@ -30,18 +29,20 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 	}
 
 	public static boolean isFluidInput(FluidStack stack) {
-		for (FermenterRecipe sr : FermenterRecipeManager.recipes) {
-			if (sr.getInput().getFluid() == stack.getFluid())
+		for ( FermenterRecipe sr : FermenterRecipeManager.recipes ) {
+			if (sr.getInput().getFluid() == stack.getFluid()) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	public static FermenterRecipe getRecipe(FluidStack stack) {
-		for (FermenterRecipe sr : FermenterRecipeManager.recipes) {
+		for ( FermenterRecipe sr : FermenterRecipeManager.recipes ) {
 			FluidStack stackInput = sr.getInput();
-			if (stackInput.getFluid() == stack.getFluid() && stackInput.amount <= stack.amount)
+			if (stackInput.getFluid() == stack.getFluid() && stackInput.amount <= stack.amount) {
 				return sr;
+			}
 		}
 		return null;
 	}
@@ -55,6 +56,7 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 	}
 
 	public class FermenterRecipe {
+
 		private FluidStack input;
 		private FluidStack output;
 		private int burntTime;
@@ -76,7 +78,5 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 		public FluidStack getOutput() {
 			return output;
 		}
-
 	}
-
 }

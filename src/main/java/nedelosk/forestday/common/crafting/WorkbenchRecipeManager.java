@@ -12,7 +12,6 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 
 	private static ArrayList<WorkbenchRecipe> recipes = new ArrayList();
 	private static ArrayList<ItemStack> outputs = new ArrayList();
-
 	public static WorkbenchRecipeManager instance;
 
 	public static void addRecipe(WorkbenchRecipe recipe) {
@@ -29,9 +28,8 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 
 	public static List<WorkbenchRecipe> removeRecipes(ItemStack stack) {
 		List<WorkbenchRecipe> list = new ArrayList();
-		for (WorkbenchRecipe recipe : recipes) {
-			if (recipe.getOutput().getItem() == stack.getItem()
-					&& recipe.getOutput().getItemDamage() == stack.getItemDamage()) {
+		for ( WorkbenchRecipe recipe : recipes ) {
+			if (recipe.getOutput().getItem() == stack.getItem() && recipe.getOutput().getItemDamage() == stack.getItemDamage()) {
 				list.add(recipe);
 			}
 		}
@@ -59,8 +57,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	}
 
 	@Override
-	public void addRecipe(ItemStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output,
-			int burnTime) {
+	public void addRecipe(ItemStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime) {
 		recipes.add(new WorkbenchRecipe(input, inputTool, inputPattern, output, burnTime));
 	}
 
@@ -100,11 +97,10 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	}
 
 	public static WorkbenchRecipe getRecipe(ItemStack input, ItemStack inputTool, ItemStack inputPattern) {
-		for (WorkbenchRecipe sr : WorkbenchRecipeManager.recipes) {
+		for ( WorkbenchRecipe sr : WorkbenchRecipeManager.recipes ) {
 			boolean foundInput = false;
 			boolean foundTool = false;
 			boolean foundPattern = false;
-
 			if (sr.getInputPattern() == null && sr.getsInputPattern() == null) {
 				foundPattern = true;
 			}
@@ -115,8 +111,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 				}
 			}
 			if (sr.getInputPattern() != null && inputPattern != null) {
-				if (sr.getInputPattern().getItem() == inputPattern.getItem()
-						&& sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
+				if (sr.getInputPattern().getItem() == inputPattern.getItem() && sr.getInputPattern().getItemDamage() == inputPattern.getItemDamage()) {
 					foundPattern = true;
 				}
 			}
@@ -127,7 +122,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			}
 			if (sr.getsInput() != null && input != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInput().getOreDict());
-				for (ItemStack stack : list) {
+				for ( ItemStack stack : list ) {
 					if (input.getItem() == stack.getItem() && input.stackSize >= sr.getsInput().getStackSize()) {
 						foundInput = true;
 						break;
@@ -136,7 +131,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			}
 			if (sr.getsInputPattern() != null && inputPattern != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInputPattern().getOreDict());
-				for (ItemStack stack : list) {
+				for ( ItemStack stack : list ) {
 					if (inputPattern.getItem() == stack.getItem()) {
 						foundPattern = true;
 						break;
@@ -145,7 +140,7 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 			}
 			if (sr.getsInputTool() != null && inputTool != null) {
 				List<ItemStack> list = OreDictionary.getOres(sr.getsInputTool().getOreDict());
-				for (ItemStack stack : list) {
+				for ( ItemStack stack : list ) {
 					if (inputTool.getItem() == stack.getItem()) {
 						foundTool = true;
 						break;
@@ -178,16 +173,18 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	}
 
 	public static boolean isTool(ItemStack stack) {
-		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0) {
 			return false;
-		for (WorkbenchRecipe recipe : recipes) {
-			if (recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem())
+		}
+		for ( WorkbenchRecipe recipe : recipes ) {
+			if (recipe.getInputTool() != null && recipe.getInputTool().getItem() == stack.getItem()) {
 				return true;
-			else if (recipe.getsInputTool() != null) {
+			} else if (recipe.getsInputTool() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInputTool().getOreDict());
-				for (int oreID : OreDictionary.getOreIDs(stack)) {
-					if (oreID == ore)
+				for ( int oreID : OreDictionary.getOreIDs(stack) ) {
+					if (oreID == ore) {
 						return true;
+					}
 				}
 			}
 		}
@@ -195,16 +192,18 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	}
 
 	public static boolean isInput(ItemStack stack) {
-		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0) {
 			return false;
-		for (WorkbenchRecipe recipe : recipes) {
-			if (recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem())
+		}
+		for ( WorkbenchRecipe recipe : recipes ) {
+			if (recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem()) {
 				return true;
-			else if (recipe.getsInput() != null) {
+			} else if (recipe.getsInput() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInput().getOreDict());
-				for (int oreID : OreDictionary.getOreIDs(stack)) {
-					if (oreID == ore)
+				for ( int oreID : OreDictionary.getOreIDs(stack) ) {
+					if (oreID == ore) {
 						return true;
+					}
 				}
 			}
 		}
@@ -212,20 +211,153 @@ public class WorkbenchRecipeManager implements IWorkbenchRecipe {
 	}
 
 	public static boolean isPattern(ItemStack stack) {
-		if (stack == null || stack.getItem() == null || stack.stackSize == 0)
+		if (stack == null || stack.getItem() == null || stack.stackSize == 0) {
 			return false;
-		for (WorkbenchRecipe recipe : recipes) {
-			if (recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem())
+		}
+		for ( WorkbenchRecipe recipe : recipes ) {
+			if (recipe.getInputPattern() != null && recipe.getInputPattern().getItem() == stack.getItem()) {
 				return true;
-			else if (recipe.getsInputPattern() != null) {
+			} else if (recipe.getsInputPattern() != null) {
 				int ore = OreDictionary.getOreID(recipe.getsInputPattern().getOreDict());
-				for (int oreID : OreDictionary.getOreIDs(stack)) {
-					if (oreID == ore)
+				for ( int oreID : OreDictionary.getOreIDs(stack) ) {
+					if (oreID == ore) {
 						return true;
+					}
 				}
 			}
 		}
 		return false;
 	}
 
+	public static final class WorkbenchRecipe {
+
+		private ItemStack input, inputPattern, inputTool;
+		private ItemStack output;
+		private OreStack sInput, sInputPattern, sInputTool;
+		private int burnTime;
+
+		public WorkbenchRecipe(ItemStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime) {
+			this.input = input;
+			this.inputTool = inputTool;
+			this.inputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, ItemStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.inputTool = inputTool;
+			this.inputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, ItemStack inputTool, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.inputTool = inputTool;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, OreStack inputTool, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.sInputTool = inputTool;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(ItemStack input, OreStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime) {
+			this.input = input;
+			this.sInputTool = inputTool;
+			this.inputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(ItemStack input, ItemStack inputTool, OreStack inputPattern, ItemStack output, int burnTime) {
+			this.input = input;
+			this.inputTool = inputTool;
+			this.sInputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, ItemStack inputTool, OreStack inputPattern, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.inputTool = inputTool;
+			this.sInputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(ItemStack input, OreStack inputTool, OreStack inputPattern, ItemStack output, int burnTime) {
+			this.input = input;
+			this.sInputTool = inputTool;
+			this.sInputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, OreStack inputTool, OreStack inputPattern, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.sInputTool = inputTool;
+			this.sInputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(ItemStack input, OreStack inputTool, ItemStack output, int burnTime) {
+			this.input = input;
+			this.sInputTool = inputTool;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(OreStack input, OreStack inputTool, ItemStack inputPattern, ItemStack output, int burnTime) {
+			this.sInput = input;
+			this.sInputTool = inputTool;
+			this.inputPattern = inputPattern;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public WorkbenchRecipe(ItemStack input, ItemStack inputTool, ItemStack output, int burnTime) {
+			this.input = input;
+			this.inputTool = inputTool;
+			this.output = output;
+			this.burnTime = burnTime;
+		}
+
+		public ItemStack getInput() {
+			return this.input;
+		}
+
+		public OreStack getsInputTool() {
+			return sInputTool;
+		}
+
+		public ItemStack getInputPattern() {
+			return inputPattern;
+		}
+
+		public OreStack getsInput() {
+			return sInput;
+		}
+
+		public ItemStack getInputTool() {
+			return inputTool;
+		}
+
+		public OreStack getsInputPattern() {
+			return sInputPattern;
+		}
+
+		public ItemStack getOutput() {
+			return this.output.copy();
+		}
+
+		public int getBurnTime() {
+			return burnTime;
+		}
+	}
 }
