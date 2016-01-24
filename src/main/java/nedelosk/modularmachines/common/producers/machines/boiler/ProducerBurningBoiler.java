@@ -87,9 +87,8 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 				IFluidHandler handler = tile.getModular().getManager().getFluidHandler();
 				FluidStack waterF = handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), false);
 				if (waterF != null && waterF.amount >= water) {
-					handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), false);
-					int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam),
-							false, stack, modular);
+					handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), true);
+					int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), false, stack, modular);
 					if (fluid >= steam) {
 						modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack,
 								modular);

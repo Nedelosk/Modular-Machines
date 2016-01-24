@@ -8,8 +8,11 @@ import nedelosk.forestcore.library.multiblock.MultiblockValidationException;
 import nedelosk.forestcore.library.multiblock.RectangularMultiblockControllerBase;
 import nedelosk.forestday.api.crafting.ForestDayCrafting;
 import nedelosk.forestday.api.crafting.WoodType;
+import nedelosk.forestday.common.blocks.tiles.TileAsh;
 import nedelosk.forestday.common.configs.ForestDayConfig;
+import nedelosk.forestday.modules.ModuleCore;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -19,6 +22,7 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 	private int burnTimeTotal = ForestDayConfig.charcoalKilnBurnTime;
 	private boolean isActive;
 	private WoodType woodType;
+	private int timer;
 
 	public MultiblockCharcoalKiln(World world) {
 		super(world);
@@ -34,6 +38,14 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 	@Override
 	public boolean isActive() {
 		return isActive;
+	}
+	
+	public int getBurnTime() {
+		return burnTime;
+	}
+	
+	public int getBurnTimeTotal() {
+		return burnTimeTotal;
 	}
 
 	@Override
@@ -125,16 +137,30 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 			BlockPos max = getMaximumCoord();
 			for ( int x = min.x; x < max.x + 1; x++ ) {
 				for ( int z = min.z; z < max.z + 1; z++ ) {
-					for ( int y = min.y; y < max.y + 1; y++ ) {
-						((TileCharcoalKiln) worldObj.getTileEntity(x, y, z)).setIsAsh();
-						worldObj.markBlockForUpdate(x, y, z);
+					for ( int y = min.y; y < max.y + 1;y++) {
+						TileCharcoalKiln kiln = (TileCharcoalKiln) worldObj.getTileEntity(x, y, z);
+						if(kiln.getLevel() == 0){
+							TileCharcoalKiln kiln1 = (TileCharcoalKiln) worldObj.getTileEntity(x, y + 1, z);
+							worldObj.setBlock(x, y, z, ModuleCore.BlockManager.Gravel.block(), 1, 3);
+							TileEntity tile = worldObj.getTileEntity(x, y, z);
+							if(tile instanceof TileAsh){
+								((TileAsh) tile).setWoodTypes(new WoodType[]{kiln.getWoodType(), kiln1.getWoodType()});
+							}
+							worldObj.markBlockForUpdate(x, y, z);
+						}else{
+							worldObj.setBlockToAir(x, y, z);
+						}
 					}
 				}
 			}
 		} else {
 			burnTime++;
+			if(timer >= 50){
+				markReferenceCoordForUpdate();
+			}
+			timer++;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -142,25 +168,11 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 	}
 
 	@Override
-	protected void isMachineWhole() throws MultiblockValidationException {
-		super.isMachineWhole();
-		WoodType type = null;
-		for ( IMultiblockPart part : connectedParts ) {
-			TileCharcoalKiln kiln = (TileCharcoalKiln) part;
-			if (type == null) {
-				type = kiln.getWoodType();
-			} else if (type.equals(kiln.getWoodType())) {
-				continue;
-			}
-			throw new MultiblockValidationException(StatCollector.translateToLocal("multiblock.error.charcoalkiln.notWoodType"));
-		}
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger("BurnTime", burnTime);
 		data.setInteger("BurnTimeTotal", burnTimeTotal);
 		data.setBoolean("IsActive", isActive);
+		data.setInteger("Timer", timer);
 		if (woodType != null) {
 			data.setString("WoodType", woodType.getName());
 		}
@@ -171,6 +183,7 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 		burnTime = data.getInteger("BurnTime");
 		burnTimeTotal = data.getInteger("BurnTimeTotal");
 		isActive = data.getBoolean("IsActive");
+		timer = data.getInteger("Timer");
 		if (data.hasKey("WoodType")) {
 			woodType = ForestDayCrafting.woodManager.get(data.getString("WoodType"));
 		}

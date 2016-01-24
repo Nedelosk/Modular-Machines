@@ -17,7 +17,6 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 	public TileCharcoalKiln() {
 		super();
 		this.kilnPosition = CharcoalKilnPosition.UNKNOWN;
-		this.isAsh = false;
 		this.level = 0;
 		this.woodType = null;
 	}
@@ -30,20 +29,20 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 		return woodType;
 	}
 
-	public boolean isAsh() {
-		return isAsh;
-	}
-
-	public void setIsAsh() {
-		isAsh = true;
-	}
-
 	public byte getLevel() {
 		return level;
 	}
 
 	public CharcoalKilnPosition getKilnPosition() {
 		return kilnPosition;
+	}
+	
+	public boolean isAsh() {
+		return isAsh;
+	}
+	
+	public void setIsAsh() {
+		isAsh = true;
 	}
 
 	@Override
@@ -67,8 +66,8 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 		if (woodType != null) {
 			nbt.setString("WoodType", woodType.getName());
 		}
-		nbt.setBoolean("IsAsh", isAsh);
 		nbt.setByte("Level", level);
+		nbt.setBoolean("IsAsh", isAsh);
 		nbt.setInteger("KilnPosition", kilnPosition.ordinal());
 	}
 
@@ -78,8 +77,8 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 		if (nbt.hasKey("WoodType")) {
 			woodType = ForestDayCrafting.woodManager.get(nbt.getString("WoodType"));
 		}
-		isAsh = nbt.getBoolean("IsAsh");
 		level = nbt.getByte("Level");
+		isAsh = nbt.getBoolean("IsAsh");
 		kilnPosition = CharcoalKilnPosition.values()[nbt.getInteger("KilnPosition")];
 	}
 

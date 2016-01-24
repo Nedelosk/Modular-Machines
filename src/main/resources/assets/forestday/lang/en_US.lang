@@ -7,6 +7,7 @@ forest.fd.block.wood_base.2.name=Workbench (Chest)
 forest.fd.block.wood_base.3.name=Resin Kiln
 tile.cropcorn.name=Corn
 forest.fd.item.tile.gravel.0.name=Loam
+forest.fd.item.tile.gravel.1.name=Charcoal Ash
 tile.kiln.charcoal.name=Charcoal Kiln
 forest.fd.item.tile.oreforestday.0.name=Copper Ore
 forest.fd.item.tile.oreforestday.1.name=Tin Ore

@@ -13,6 +13,8 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 	protected int steam;
 	protected int water;
 	protected String name;
+	protected int heat;
+	protected int heatTotal;
 
 	public ProducerBoiler(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super(nbt, modular, stack);
@@ -33,6 +35,8 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		nbt.setInteger("Steam", steam);
 		nbt.setInteger("Water", water);
 		nbt.setString("Name", name);
+		nbt.setInteger("Heat", heat);
+		nbt.setInteger("HeatTotal", heatTotal);
 	}
 
 	@Override
@@ -43,6 +47,17 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		steam = nbt.getInteger("Steam");
 		water = nbt.getInteger("Water");
 		name = nbt.getString("Name");
+		heat = nbt.getInteger("Heat");
+		heatTotal = nbt.getInteger("HeatTotal");
+	}
+	
+	@Override
+	public int getHeatTotal() {
+		return heatTotal;
+	}
+	
+	public int getHeat() {
+		return heat;
 	}
 
 	@Override

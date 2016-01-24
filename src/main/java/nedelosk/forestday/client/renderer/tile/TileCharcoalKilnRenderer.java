@@ -33,8 +33,8 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		if (kiln.getWoodType() == null) {
 			return;
 		}
-		boolean isAsh = kiln.isAsh();
-		if (kiln.isConnected() && (kiln.getController().isAssembled() || isAsh)) {
+		boolean withWood = false;
+		if (kiln.isConnected() && kiln.getController().isAssembled()) {
 			GL11.glPushMatrix();
 			GL11.glTranslated((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
 			Tessellator t = Tessellator.instance;
@@ -46,67 +46,67 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			IIcon loamIcon = ModuleCore.BlockManager.Gravel.block().getIcon(0, 0);
 			IIcon woodIcon = Block.getBlockFromItem(kiln.getWoodType().getWood().getItem()).getIcon(4, kiln.getWoodType().getWood().getItemDamage());
 			if (pos == BACK && level == 0) {
-				renderFront(loamIcon, woodIcon, isAsh);
+				renderFront(loamIcon, woodIcon, withWood);
 			} else if (pos == FRONT && level == 0) {
 				GL11.glRotated(180, 0F, 0F, 1F);
 				GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
-				renderFront(loamIcon, woodIcon, isAsh);
+				renderFront(loamIcon, woodIcon, withWood);
 			} else if (pos == LEFT && level == 0) {
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderFront(loamIcon, woodIcon, isAsh);
+				renderFront(loamIcon, woodIcon, withWood);
 			} else if (pos == RIGHT && level == 0) {
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderFront(loamIcon, woodIcon, isAsh);
+				renderFront(loamIcon, woodIcon, withWood);
 			} else if (pos == BACK_RIGHT && level == 0) {
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCorner(loamIcon, woodIcon, isAsh);
+				renderCorner(loamIcon, woodIcon, withWood);
 			} else if (pos == BACK_LEFT && level == 0) {
 				GL11.glRotated(90, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCorner(loamIcon, woodIcon, isAsh);
+				renderCorner(loamIcon, woodIcon, withWood);
 			} else if (pos == FRONT_LEFT && level == 0) {
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCorner(loamIcon, woodIcon, isAsh);
+				renderCorner(loamIcon, woodIcon, withWood);
 			} else if (pos == FRONT_RIGHT && level == 0) {
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCorner(loamIcon, woodIcon, isAsh);
+				renderCorner(loamIcon, woodIcon, withWood);
 			} else if (pos == INTERIOR && level == 0) {
 				renderDown(loamIcon, (int) x, (int) y, (int) z);
 			} else if (pos == FRONT_RIGHT && level == 1) {
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCornerTop(loamIcon, woodIcon, isAsh);
+				renderCornerTop(loamIcon, woodIcon, withWood);
 			} else if (pos == BACK_RIGHT && level == 1) {
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCornerTop(loamIcon, woodIcon, isAsh);
+				renderCornerTop(loamIcon, woodIcon, withWood);
 			} else if (pos == FRONT_LEFT && level == 1) {
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCornerTop(loamIcon, woodIcon, isAsh);
+				renderCornerTop(loamIcon, woodIcon, withWood);
 			} else if (pos == BACK_LEFT && level == 1) {
 				GL11.glRotated(90, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderCornerTop(loamIcon, woodIcon, isAsh);
+				renderCornerTop(loamIcon, woodIcon, withWood);
 			} else if (pos == FRONT && level == 1) {
 				GL11.glRotated(180, 0F, 0F, 1F);
 				GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
-				renderFrontTop(loamIcon, woodIcon, isAsh);
+				renderFrontTop(loamIcon, woodIcon, withWood);
 			} else if (pos == BACK && level == 1) {
 				GL11.glRotated(270, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderFrontTop(loamIcon, woodIcon, isAsh);
+				renderFrontTop(loamIcon, woodIcon, withWood);
 			} else if (pos == RIGHT && level == 1) {
 				GL11.glRotated(180, 0F, 1F, 0F);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderFrontTop(loamIcon, woodIcon, isAsh);
+				renderFrontTop(loamIcon, woodIcon, withWood);
 			} else if (pos == LEFT && level == 1) {
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				renderFrontTop(loamIcon, woodIcon, isAsh);
+				renderFrontTop(loamIcon, woodIcon, withWood);
 			} else if (pos == INTERIOR && level == 1) {
-				renderTop(loamIcon, isAsh);
+				renderTop(loamIcon, withWood);
 			}
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
@@ -172,11 +172,11 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		}
 	}
 
-	public void renderTop(IIcon dirtIcon, boolean isAsh) {
+	public void renderTop(IIcon dirtIcon, boolean withWood) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
-		if (isAsh) {
+		if (withWood) {
 			t.addVertexWithUV(-0.5, 0.1, -0.5, dirtIcon.getMinU(), dirtIcon.getMinV());
 			t.addVertexWithUV(-0.5, 0.1, 0.5, dirtIcon.getMaxU(), dirtIcon.getMinV());
 			t.addVertexWithUV(0.5, 0.1, 0.5, dirtIcon.getMaxU(), dirtIcon.getMaxV());
@@ -201,7 +201,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		t.draw();
 	}
 
-	public void renderFront(IIcon dirtIcon, IIcon woodIcon, boolean isAsh) {
+	public void renderFront(IIcon dirtIcon, IIcon woodIcon, boolean withWood) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
@@ -247,7 +247,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		t.addVertexWithUV(0.5, -0.5, 0.5, dirtIcon.getMaxU(), dirtIcon.getMaxV());
 		t.addVertexWithUV(0.5, 0.5, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 		t.draw();
-		if (!isAsh) {
+		if (!withWood) {
 			// Wood
 			// 0
 			// Front
@@ -343,7 +343,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		}
 	}
 
-	public void renderCorner(IIcon dirtIcon, IIcon woodIcon, boolean isAsh) {
+	public void renderCorner(IIcon dirtIcon, IIcon woodIcon, boolean withWood) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
@@ -366,7 +366,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		t.addVertexWithUV(-0.5, -0.5, -0.3, dirtIcon.getMaxU(), dirtIcon.getMaxV());
 		t.addVertexWithUV(-0.5, 0.5, 0.2, dirtIcon.getMinU(), dirtIcon.getMaxV());
 		t.draw();
-		if (!isAsh) {
+		if (!withWood) {
 			// Front
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
@@ -416,7 +416,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 	}
 
-	public void renderFrontTop(IIcon dirtIcon, IIcon woodIcon, boolean isAsh) {
+	public void renderFrontTop(IIcon dirtIcon, IIcon woodIcon, boolean withWood) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);
@@ -425,7 +425,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		t.addVertexWithUV(-0.5, -0.5, 0.2, dirtIcon.getMaxU(), dirtIcon.getMaxV());
 		t.addVertexWithUV(-0.5, 0.1, 0.5, dirtIcon.getMinU(), dirtIcon.getMaxV());
 		t.draw();
-		if (!isAsh) {
+		if (!withWood) {
 			// Wood 0
 			t.startDrawingQuads();
 			t.setNormal(0, 1, 0);
@@ -517,7 +517,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 		}
 	}
 
-	public void renderCornerTop(IIcon dirtIcon, IIcon woodIcon, boolean isAsh) {
+	public void renderCornerTop(IIcon dirtIcon, IIcon woodIcon, boolean withWood) {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		t.setNormal(0, 1, 0);

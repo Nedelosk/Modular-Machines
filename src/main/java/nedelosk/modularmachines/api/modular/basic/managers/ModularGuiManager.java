@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ModularGuiManager implements IModularGuiManager {
 
 	public IModular modular;
+	private 
 	private String page = "";
 
 	public ModularGuiManager() {

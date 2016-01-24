@@ -35,15 +35,4 @@ public final class WoodType {
 	public ItemStack getWood() {
 		return wood;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof WoodType) {
-			if (!((WoodType) obj).name.equals(name)) {
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
 }

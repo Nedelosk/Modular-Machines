@@ -11,7 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
-public interface IModularGuiManager extends INBTTagable {
+public interface IModularGuiManager extends IModularManager {
 
 	ArrayList<ModuleStack> getModuleWithGuis();
 

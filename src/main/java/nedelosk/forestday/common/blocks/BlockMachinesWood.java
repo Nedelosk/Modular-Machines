@@ -231,7 +231,7 @@ public class BlockMachinesWood extends BlockContainerForest {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for ( int i = 0; i < tiles.length; i++ ) {
+		for ( int i = 1; i < tiles.length; i++ ) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}

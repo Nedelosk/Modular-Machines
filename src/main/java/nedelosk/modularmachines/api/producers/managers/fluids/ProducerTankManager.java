@@ -291,7 +291,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 					continue;
 				}
 			}
-			if (!(data.getMode() == TankMode.NONE)) {
+			if (data.getMode() == TankMode.OUTPUT || data.getMode() == TankMode.INPUT && stack != null) {
 				if (from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN) {
 					return data.getTank().drain(resource, doDrain);
 				} else {
@@ -323,7 +323,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 					continue;
 				}
 			}
-			if (!(data.getMode() == TankMode.NONE)) {
+			if (data.getMode() == TankMode.OUTPUT || data.getMode() == TankMode.INPUT && stack != null) {
 				if (from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN) {
 					return data.getTank().drain(maxDrain, doDrain);
 				} else {
@@ -448,6 +448,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			if (module != null && module.getModule() != null && module.getProducer() != null && module.getProducer() instanceof IProducerTank) {
 				((IProducerTank) module.getProducer()).setStorageFluid(getData(ID).getTank().getFluid(), module, stack);
 				addTank(ID, null);
+				tileModular.getWorldObj().markBlockForUpdate(tileModular.getXCoord(), tileModular.getYCoord(), tileModular.getZCoord());
 			}
 		}
 
@@ -460,6 +461,7 @@ public class ProducerTankManager extends ProducerManager implements IProducerTan
 			if (module != null && module.getModule() != null && module.getProducer() != null && module.getProducer() instanceof IProducerTank) {
 				addTank(ID, (IProducerTank) module.getProducer());
 				getData(ID).getTank().setFluid(((IProducerTank) module.getProducer()).getStorageFluid(module, stack));
+				tileModular.getWorldObj().markBlockForUpdate(tileModular.getXCoord(), tileModular.getYCoord(), tileModular.getZCoord());
 			}
 		}
 	}

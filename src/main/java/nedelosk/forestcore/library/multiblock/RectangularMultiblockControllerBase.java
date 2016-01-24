@@ -132,6 +132,23 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 			}
 		}
 	}
+	
+	protected void markReferenceCoordForUpdate() {
+		BlockPos rc = getReferenceCoord();
+		if(worldObj != null && rc != null) {
+			worldObj.markBlockForUpdate(rc.x, rc.y, rc.z);
+		}
+	}
+	
+	protected void markReferenceCoordDirty() {
+		if(worldObj == null || worldObj.isRemote) { return; }
+
+		BlockPos referenceCoord = getReferenceCoord();
+		if(referenceCoord == null) { return; }
+
+		TileEntity saveTe = worldObj.getTileEntity(referenceCoord.x, referenceCoord.y, referenceCoord.z);
+		worldObj.markTileEntityChunkModified(referenceCoord.x, referenceCoord.y, referenceCoord.z, saveTe);
+	}
 
 	public void setIsActive() {
 	}
