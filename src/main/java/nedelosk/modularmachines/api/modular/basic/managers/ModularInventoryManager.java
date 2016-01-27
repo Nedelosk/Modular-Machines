@@ -1,32 +1,42 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Vector;
 
 import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
+import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
+import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ModularInventoryManager implements IModularInventoryManager {
+public class ModularInventoryManager implements IModularInventoryManager<IModularInventory> {
 
-	public HashMap<String, ItemStack[]> slots = Maps.newHashMap();
+	private HashMap<String, ItemStack[]> slots = Maps.newHashMap();
+	private IModularInventory modular;
 
 	public ModularInventoryManager(NBTTagCompound nbt) {
 		readFromNBT(nbt);
 	}
 
 	public ModularInventoryManager(IModularInventory modular) {
-		for ( Vector<ModuleStack> stacks : modular.getModules().values() ) {
-			for ( ModuleStack module : stacks ) {
-				if (module.getProducer() instanceof IProducerInventory) {
-					slots.put(module.getModule().getName(module, false), new ItemStack[((IProducerInventory) module.getProducer()).getSizeInventory(module)]);
+		for ( IModuleContainer container : modular.getModuleContainers().values() ) {
+			if (container instanceof ISingleModuleContainer) {
+				ISingleModuleContainer single = (ISingleModuleContainer) container;
+			} else if (container instanceof IMultiModuleContainer) {
+				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> multi = (IMultiModuleContainer) container;
+				for ( ModuleStack stack : multi.getStacks() ) {
+					if (stack.getModule() instanceof IModuleInventory) {
+						slots.put(module.getModule().getName(module, false), new ItemStack[((IModuleInventory) stack.getModule()).getSizeInventory(stack)]);
+					}
 				}
 			}
 		}
@@ -183,5 +193,15 @@ public class ModularInventoryManager implements IModularInventoryManager {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public IModularInventory getModular() {
+		return modular;
+	}
+
+	@Override
+	public void setModular(IModularInventory modular) {
+		this.modular = modular;
 	}
 }

@@ -41,7 +41,6 @@ import nedelosk.forestday.common.items.tools.ItemFlintAxe;
 import nedelosk.forestday.common.items.tools.ItemToolCrafting;
 import nedelosk.forestday.common.items.tools.ItemToolForestday.Material;
 import nedelosk.forestday.common.items.tools.ItemToolParts;
-import nedelosk.forestday.common.multiblock.TileCharcoalKiln;
 import nedelosk.forestday.common.network.packets.PacketHandler;
 import nedelosk.forestday.common.world.WorldGeneratorFD;
 import net.minecraft.block.Block;
@@ -81,7 +80,6 @@ public class ModuleCore extends AModule {
 		GameRegistry.registerTileEntity(TileAsh.class, "machine.wood.ash");
 		BlockManager.Machine.block().setHarvestLevel("axe", 0, 1);
 		BlockManager.Machine.block().setHarvestLevel("axe", 0, 2);
-		
 		manager.register(ItemManager.Gears_Wood, new ItemGearWood());
 		manager.register(ItemManager.Nature, new ItemNature());
 		manager.register(ItemManager.Crop_Corn, new ItemSeedFood(2, 0.4F, BlockManager.Crop_Corn.getObject(), Blocks.farmland) {

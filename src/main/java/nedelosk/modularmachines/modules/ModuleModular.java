@@ -3,7 +3,6 @@ package nedelosk.modularmachines.modules;
 import static nedelosk.forestday.modules.ModuleCore.ItemManager.Ingots;
 import static nedelosk.modularmachines.api.recipes.RecipeRegistry.registerRecipe;
 import static nedelosk.modularmachines.api.utils.ModuleRegistry.registerModular;
-import static nedelosk.modularmachines.api.utils.ModuleRegistry.registerProducer;
 import static nedelosk.modularmachines.common.items.ItemProducers.addProducer;
 import static nedelosk.modularmachines.modules.ModuleCore.ItemManager.Alloy_Ingots;
 import static nedelosk.modularmachines.modules.ModuleCore.ItemManager.Alloy_Nuggets;
@@ -25,21 +24,18 @@ import nedelosk.forestcore.library.modules.IModuleManager;
 import nedelosk.forestcore.library.modules.manager.IBlockManager;
 import nedelosk.forestcore.library.modules.manager.IItemManager;
 import nedelosk.forestday.api.crafting.OreStack;
-import nedelosk.modularmachines.api.modular.type.Types;
-import nedelosk.modularmachines.api.modules.Modules;
+import nedelosk.modularmachines.api.modular.type.Materials;
+import nedelosk.modularmachines.api.modules.energy.ModuleCapacitor;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeAlloySmelter;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeAssembler;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeCentrifuge;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeModuleAssembler;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipePulverizer;
+import nedelosk.modularmachines.api.modules.machines.recipes.RecipeSawMill;
+import nedelosk.modularmachines.api.modules.managers.fluids.ModuleTankManager;
 import nedelosk.modularmachines.api.packets.PacketHandler;
-import nedelosk.modularmachines.api.producers.energy.ProducerCapacitor;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeAlloySmelter;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeAssembler;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeCentrifuge;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeLathe;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeLathe.LatheModes;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeModuleAssembler;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipePulverizer;
-import nedelosk.modularmachines.api.producers.machines.recipes.RecipeSawMill;
-import nedelosk.modularmachines.api.producers.managers.fluids.ProducerTankManager;
-import nedelosk.modularmachines.api.producers.storage.ProducerChest;
-import nedelosk.modularmachines.api.producers.storage.ProducerStorageManager;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.blocks.BlockCasing;
@@ -213,50 +209,52 @@ public class ModuleModular extends AModule {
 	}
 
 	public static void registerStorage() {
-		registerProducer(new ItemStack(Blocks.chest), Modules.CHEST, new ProducerChest("Chest", 27), Types.WOOD);
+		registerProducer(new ItemStack(Blocks.chest), Modules.CHEST, new ModuleSimpleChest("Chest", 27), Materials.WOOD);
 	}
 
 	public static void registerEnergy() {
-		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(15, 5), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(13, 15), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(10, 45), Types.BRONZE, true)));
-		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngineEnergy("EngineIron", 60), Types.IRON);
+		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(15, 5), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(13, 15), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(10, 45), Materials.BRONZE, true)));
+		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 0), Modules.ENGINE, new ProducerEngineEnergy("EngineIron", 60),
+				Materials.IRON);
 		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 1), Modules.ENGINE, new ProducerEngineEnergy("EngineBronze", 50),
-				Types.BRONZE);
-		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngineEnergy("EngineSteel", 45), Types.STEEL);
+				Materials.BRONZE);
+		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 2), Modules.ENGINE, new ProducerEngineEnergy("EngineSteel", 45),
+				Materials.STEEL);
 		registerProducer(new ItemStack(ItemManager.Module_Item_Engine.item(), 1, 3), Modules.ENGINE, new ProducerEngineEnergy("EngineMagmarium", 40),
-				Types.MAGMARIUM);
-		registerProducer(new ItemStack(ItemManager.Module_Item_Capacitor.item(), 1, 0), Modules.CAPACITOR,
-				new ProducerCapacitor("metal_paper_capacitor", 10, 20), Types.IRON);
+				Materials.MAGMARIUM);
+		registerProducer(new ItemStack(ItemManager.Module_Item_Capacitor.item(), 1, 0), Modules.CAPACITOR, new ModuleCapacitor("metal_paper_capacitor", 10, 20),
+				Materials.IRON);
 		registerProducer(new ItemStack(ItemManager.Module_Item_Capacitor.item(), 1, 1), Modules.CAPACITOR,
-				new ProducerCapacitor("electrolyte_niobium_capacitor", 20, 30), Types.IRON);
+				new ModuleCapacitor("electrolyte_niobium_capacitor", 20, 30), Materials.IRON);
 		registerProducer(new ItemStack(ItemManager.Module_Item_Capacitor.item(), 1, 2), Modules.CAPACITOR,
-				new ProducerCapacitor("electrolyte_tantalum_capacitor", 25, 40), Types.IRON);
+				new ModuleCapacitor("electrolyte_tantalum_capacitor", 25, 40), Materials.IRON);
 		registerProducer(new ItemStack(ItemManager.Module_Item_Capacitor.item(), 1, 3), Modules.CAPACITOR,
-				new ProducerCapacitor("double_layer_capacitor", 40, 60), Types.BRONZE);
+				new ModuleCapacitor("double_layer_capacitor", 40, 60), Materials.BRONZE);
 	}
 
 	public static void registerManagers() {
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ProducerTankManager(2), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ProducerTankManager(4), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ProducerTankManager(6), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ProducerStorageManager(1), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ProducerStorageManager(1), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ProducerStorageManager(2), Types.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ModuleTankManager(2), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ModuleTankManager(4), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERTANK, new ModuleTankManager(6), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ModuleStorageManager(1), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ModuleStorageManager(1), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.MANAGERSTORAGE, new ModuleStorageManager(2), Materials.IRON, true)));
 	}
 
 	public static void registerCasings() {
-		registerProducer(new ItemStack(Blocks.log, 1, 0), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.log, 1, 1), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.log, 1, 2), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.log, 1, 3), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.log2, 1, 0), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.log2, 1, 1), Modules.CASING, Types.WOOD);
-		registerProducer(new ItemStack(Blocks.stone), Modules.CASING, Types.STONE);
-		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 0), Modules.CASING, Types.STONE);
-		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 1), Modules.CASING, Types.STONE);
-		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 2), Modules.CASING, Types.IRON);
-		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 3), Modules.CASING, Types.BRONZE);
+		registerProducer(new ItemStack(Blocks.log, 1, 0), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.log, 1, 1), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.log, 1, 2), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.log, 1, 3), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.log2, 1, 0), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.log2, 1, 1), Modules.CASING, Materials.WOOD);
+		registerProducer(new ItemStack(Blocks.stone), Modules.CASING, Materials.STONE);
+		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 0), Modules.CASING, Materials.STONE);
+		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 1), Modules.CASING, Materials.STONE);
+		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 2), Modules.CASING, Materials.IRON);
+		registerProducer(new ItemStack(BlockManager.Casings.block(), 1, 3), Modules.CASING, Materials.BRONZE);
 	}
 
 	public static void registerRecipes() {
@@ -266,25 +264,26 @@ public class ModuleModular extends AModule {
 		addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item(), 1, 2), "+++", "+W+", "+++", '+', "plateBronze", 'W',
 				new ItemStack(BlockManager.Modular_Assembler.item(), 1, 1));
 		// Saw Mill
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.SAWMILL), "-s-", "+-+", "-s-", '+', new ItemStack(Component_Saw_Blades.item()), '-',
-				new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.STONE, Modules.SAWMILL), "-s-", "+-+", "-s-", '+', new ItemStack(Component_Saw_Blades.item()),
+				'-', new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
 		// Alloy Smelter
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER), "-s-", "+-+", "-s-", '+', Blocks.furnace, '-',
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.STONE, Modules.ALLOYSMELTER), "-s-", "+-+", "-s-", '+', Blocks.furnace, '-',
 				new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
 		// Assembler
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.ALLOYSMELTER), "-s-", "+-*", "-s-", '+', new ItemStack(Component_Saw_Blades.item()),
-				'*', new ItemStack(Component_Gears.item()), '-', new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.STONE, Modules.ALLOYSMELTER), "-s-", "+-*", "-s-", '+',
+				new ItemStack(Component_Saw_Blades.item()), '*', new ItemStack(Component_Gears.item()), '-', new ItemStack(Component_Plates.item(), 1, 0), 's',
+				Items.string);
 		// Lathe
-		addShapedModuleRecipe(ItemProducers.getItem(Types.IRON, Modules.LATHE), "psp", "+-+", "psp", '+', "blockIron", '-', "blockRedstone", 's', "wireIron",
-				'p', "plateIron");
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.IRON, Modules.LATHE), "psp", "+-+", "psp", '+', "blockIron", '-', "blockRedstone", 's',
+				"wireIron", 'p', "plateIron");
 		// Pulverizer
-		registerRecipe(new RecipeModuleAssembler(new RecipeItem(ItemProducers.getItem(Types.STONE, Modules.PULVERIZER)), 1, 150, "-s-", "+-+", "-s-", '+',
+		registerRecipe(new RecipeModuleAssembler(new RecipeItem(ItemProducers.getItem(Materials.STONE, Modules.PULVERIZER)), 1, 150, "-s-", "+-+", "-s-", '+',
 				Items.flint, '-', new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string));
 		// Generator
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.GENERATOR), "-s-", "-+-", "-s-", '+', Blocks.furnace, '-',
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.STONE, Modules.GENERATOR), "-s-", "-+-", "-s-", '+', Blocks.furnace, '-',
 				new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
 		// Tank Manager
-		addShapedModuleRecipe(ItemProducers.getItem(Types.STONE, Modules.MANAGERTANK), "-s-", "+++", "-s-", '+', "glass", '-',
+		addShapedModuleRecipe(ItemProducers.getItem(Materials.STONE, Modules.MANAGERTANK), "-s-", "+++", "-s-", '+', "glass", '-',
 				new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
 		addShapedRecipe(new ItemStack(BlockManager.Casings.item()), "+++", "+ +", "---", '+', new ItemStack(Component_Plates.item()), '-', Blocks.brick_block);
 		addShapedRecipe(new ItemStack(BlockManager.Casings.item(), 1, 1), "+++", "+ +", "---", '+', new ItemStack(Component_Plates.item()), '-',
@@ -296,29 +295,29 @@ public class ModuleModular extends AModule {
 	}
 
 	public static void registerMachines() {
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(350), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(300), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(250), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(300), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(250), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(200), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(300), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(250), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(200), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(275), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(225), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(350), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(300), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(250), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(350), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(300), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(250), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(350), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(300), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(250), Types.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(15, 100, 1000), Types.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(13, 250, 1500), Types.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(10, 500, 2000), Types.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(300), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(250), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(200), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(300), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(250), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(200), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(275), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(225), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(15, 100, 1000), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(13, 250, 1500), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(10, 500, 2000), Materials.BRONZE, true)));
 	}
 
 	public static void registerLatheRecipes() {

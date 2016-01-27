@@ -47,7 +47,7 @@ public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> imp
 			world = ctx.getServerHandler().playerEntity.worldObj;
 		}
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
-		tile.getModular().getTankManeger().getProducer().setTab(message.tabID);
+		tile.getModular().getTankManeger().getModule().setTab(message.tabID);
 		if (ctx.side == Side.CLIENT) {
 		} else {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;

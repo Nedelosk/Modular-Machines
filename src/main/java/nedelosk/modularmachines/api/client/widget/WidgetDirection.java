@@ -61,7 +61,7 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 			} else {
 				direction = ForgeDirection.values()[0];
 			}
-			gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setDirection(direction);
+			gui.getTile().getModular().getTankManeger().getModule().getData(ID).setDirection(direction);
 			;
 			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), direction, ID));
 		}

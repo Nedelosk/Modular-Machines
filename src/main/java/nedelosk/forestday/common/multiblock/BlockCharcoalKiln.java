@@ -13,7 +13,6 @@ import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.api.crafting.ForestDayCrafting;
 import nedelosk.forestday.api.crafting.WoodType;
 import nedelosk.forestday.modules.ModuleCoal;
-import nedelosk.modularmachines.common.ModularMachines;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -111,12 +110,12 @@ public class BlockCharcoalKiln extends BlockContainer {
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return -1;
@@ -130,7 +129,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 		}
 		return super.getPickBlock(target, world, x, y, z);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if (player.isSneaking()) {
@@ -153,7 +152,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 				}
 			} else {
 				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("multiblock.error.notConnected", "charcoalkiln")));
-					return true;
+				return true;
 			}
 		}
 		// If nonempty, or there was no error, just fall through

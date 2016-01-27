@@ -1,81 +1,72 @@
 package nedelosk.modularmachines.api.utils;
 
-import java.util.Vector;
+import java.util.Collection;
 
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.casing.IModuleCasing;
-import nedelosk.modularmachines.api.producers.IProducer;
-import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
-import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
-import nedelosk.modularmachines.api.producers.machines.IProducerMachine;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
-import nedelosk.modularmachines.api.producers.storage.IProducerStorage;
+import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 
 public class ModuleUtils {
 
-	public static ModuleStack<IModuleCasing, IProducer> getModuleStackCasing(IModular modular) {
-		return getModuleStack(modular, "Casing", 0);
+	public static ISingleModuleContainer getCasing(IModular modular) {
+		return getSingleContainer(modular, ModuleCategoryUIDs.CASING);
 	}
 
-	public static ModuleStack<IModule, IProducerTankManager> getModuleStackTankManager(IModular modular) {
-		return getModuleStack(modular, "TankManager", 0);
+	public static ModuleStack<IModuleTankManager> getTankManager(IModular modular) {
+		return getModuleStack(modular, ModuleCategoryUIDs.MANAGERS, ModuleCategoryUIDs.MANAGER_TANK);
 	}
 
-	public static ModuleStack<IModule, IProducerBattery> getModuleStackBattery(IModular modular) {
-		return getModuleStack(modular, "Battery", 0);
+	public static ISingleModuleContainer getBattery(IModular modular) {
+		return getSingleContainer(modular, ModuleCategoryUIDs.BATTERY);
 	}
 
-	public static ModuleStack<IModule, IProducerEngine> getModuleStackEngine(IModular modular) {
-		return getModuleStack(modular, "Engine", 0);
+	public static ISingleModuleContainer getEngine(IModular modular) {
+		return getSingleContainer(modular, ModuleCategoryUIDs.ENGINE);
 	}
 
-	public static ModuleStack<IModule, IProducerMachine> getModuleStackMachine(IModular modular) {
-		return getModuleStack(modular, "Machine", 0);
+	public static ISingleModuleContainer getMachine(IModular modular) {
+		return getSingleContainer(modular, ModuleCategoryUIDs.MACHINE);
 	}
 
-	public static IProducerStorage getModuleStorage(IModular modular) {
-		return getModule(modular, "Storage");
+	public static IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> getStorages(IModular modular) {
+		return getMultiContainer(modular, ModuleCategoryUIDs.STORAGES);
 	}
 
-	public static ModuleStack<IModule, IProducerStorage> getModuleStackStorage(IModular modular) {
-		return getModuleStack(modular, "Storage", 0);
+	public static IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> getCapacitors(IModular modular) {
+		return getMultiContainer(modular, ModuleCategoryUIDs.CAPACITOR);
 	}
 
-	public static Vector<ModuleStack> getModuleStackCapacitors(IModular modular) {
-		return getModuleStacks(modular, "Capacitor");
-	}
-
-	public static <M extends IModule> M getModule(IModular modular, String moduleName) {
-		if (getModuleStack(modular, moduleName, 0) == null) {
+	public static IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> getMultiContainer(IModular modular, String categoryUID) {
+		IModuleContainer container = getModuleStack(modular, categoryUID);
+		if (container == null || !(container instanceof IMultiModuleContainer)) {
 			return null;
 		}
-		return (M) getModuleStack(modular, moduleName, 0).getModule();
+		return (IMultiModuleContainer) container;
 	}
 
-	public static Vector<ModuleStack> getModuleStacks(IModular modular, String moduleName) {
-		Vector<ModuleStack> v = getModuleStack(modular, moduleName);
-		return v;
-	}
-
-	public static <M extends IModule> M getModule(IModular modular, String moduleName, int ID) {
-		if (getModuleStack(modular, moduleName, ID) == null) {
+	public static ModuleStack getModuleStack(IModular modular, String categoryUID, String moduleUID) {
+		IMultiModuleContainer container = getMultiContainer(modular, categoryUID);
+		if (container == null) {
 			return null;
 		}
-		return (M) getModuleStack(modular, moduleName, ID).getModule();
+		return container.getStack(moduleUID);
 	}
 
-	public static ModuleStack getModuleStack(IModular modular, String moduleName, int ID) {
-		if (getModuleStack(modular, moduleName) == null) {
+	public static ISingleModuleContainer getSingleContainer(IModular modular, String categoryUID) {
+		IModuleContainer container = getModuleStack(modular, categoryUID);
+		if (container == null || !(container instanceof ISingleModuleContainer)) {
 			return null;
 		}
-		return getModuleStack(modular, moduleName).get(ID);
+		return (ISingleModuleContainer) container;
 	}
 
-	public static Vector<ModuleStack> getModuleStack(IModular modular, String moduleName) {
+	public static IModuleContainer getModuleStack(IModular modular, String categoryUID) {
 		if (modular == null) {
 			return null;
 		}
-		return modular.getModule(moduleName);
+		return modular.getModule(categoryUID);
 	}
 }

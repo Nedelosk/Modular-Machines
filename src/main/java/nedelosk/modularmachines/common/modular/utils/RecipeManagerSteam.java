@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.modular.utils;
 
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;

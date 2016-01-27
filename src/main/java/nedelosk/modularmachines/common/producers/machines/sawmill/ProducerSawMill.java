@@ -3,18 +3,18 @@ package nedelosk.modularmachines.common.producers.machines.sawmill;
 import java.util.ArrayList;
 import java.util.List;
 
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
-import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerSawMill extends ProducerMachineRecipe {
+public class ProducerSawMill extends ModuleMachineRecipe {
 
 	public ProducerSawMill(int speedModifier) {
 		super("SawMill", 1, 2, speedModifier);

@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.producers.machines.boiler;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.machines.boiler.IProducerBoiler;
-import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.machines.boiler.IModuleBoiler;
+import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ProducerBoiler extends ProducerMachineRecipe implements IProducerBoiler {
+public abstract class ProducerBoiler extends ModuleMachineRecipe implements IModuleBoiler {
 
 	protected int fuel;
 	protected int fuelTotal;
@@ -50,12 +50,13 @@ public abstract class ProducerBoiler extends ProducerMachineRecipe implements IP
 		heat = nbt.getInteger("Heat");
 		heatTotal = nbt.getInteger("HeatTotal");
 	}
-	
+
 	@Override
 	public int getHeatTotal() {
 		return heatTotal;
 	}
-	
+
+	@Override
 	public int getHeat() {
 		return heat;
 	}

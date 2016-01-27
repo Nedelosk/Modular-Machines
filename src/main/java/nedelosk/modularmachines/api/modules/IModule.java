@@ -1,26 +1,42 @@
 package nedelosk.modularmachines.api.modules;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
-public interface IModule {
+public interface IModule<S extends IModuleSaver> {
 
-	String getName(ModuleStack stack, boolean withTypeModifier);
+	void updateServer(IModular modular, ModuleStack stack);
 
-	String getRegistryName();
+	void updateClient(IModular modular, ModuleStack stack);
 
-	String getModuleName();
+	String getName(ModuleStack stack);
+
+	String getUnlocalizedName(ModuleStack stack);
 
 	String getModifier(ModuleStack stack);
 
-	@SideOnly(Side.CLIENT)
-	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);
+	List<String> getRequiredModules();
+
+	void setRegistry(ResourceLocation registry);
+
+	ResourceLocation getRegistry();
+
+	String getCategoryUID();
+
+	String getModuleUID();
+
+	boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames);
+
+	S getSaver(ModuleStack stack);
 
 	@SideOnly(Side.CLIENT)
-	IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile);
+	IModuleGui getGui(ModuleStack stack);
+
+	IModuleInventory getInventory(ModuleStack stack);
 }

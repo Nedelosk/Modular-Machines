@@ -1,21 +1,16 @@
 package nedelosk.modularmachines.common.producers.engine;
 
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.engine.ProducerEngine;
+import nedelosk.modularmachines.api.modules.engine.ModuleEngine;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
-import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerEngineEnergy extends ProducerEngine {
+public class ProducerEngineEnergy extends ModuleEngine {
 
 	public ProducerEngineEnergy(String modifier, int speedModifier) {
 		super(modifier, speedModifier, "Energy");
-	}
-
-	public ProducerEngineEnergy(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		super(nbt, modular, stack);
 	}
 
 	@Override

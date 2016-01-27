@@ -8,7 +8,7 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
-import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.modules.ModuleModular;
@@ -23,9 +23,9 @@ public class NEIConfig implements IConfigureNEI {
 	public void loadConfig() {
 		isAdded = false;
 		for ( ModuleStack stack : ModuleRegistry.getProducers() ) {
-			if (stack.getProducer() instanceof IProducerMachineRecipe) {
+			if (stack.getModule() instanceof IModuleMachineRecipe) {
 				String producer = stack.getModule().getName(stack, false);
-				if (((IProducerMachineRecipe) stack.getProducer()).addNEIStacks(stack, null) != null && !producerHandlers.contains(producer)) {
+				if (((IModuleMachineRecipe) stack.getModule()).addNEIStacks(stack, null) != null && !producerHandlers.contains(producer)) {
 					new ModularMachinesHandler(stack);
 					producerHandlers.add(producer);
 				}

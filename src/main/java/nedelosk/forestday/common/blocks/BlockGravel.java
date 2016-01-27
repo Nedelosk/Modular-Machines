@@ -6,7 +6,6 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.blocks.BlockForest;
-import nedelosk.forestcore.library.utils.ItemUtil;
 import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.forestday.api.Tabs;
 import nedelosk.forestday.api.crafting.WoodType;
@@ -25,7 +24,6 @@ import net.minecraft.world.World;
 public class BlockGravel extends BlockForest implements ITileEntityProvider {
 
 	public String[] textures = new String[] { "loam", "ash" };
-	
 	@SideOnly(Side.CLIENT)
 	public IIcon[] icon;
 
@@ -60,14 +58,14 @@ public class BlockGravel extends BlockForest implements ITileEntityProvider {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile instanceof TileAsh){
+		if (tile instanceof TileAsh) {
 			TileAsh ash = (TileAsh) tile;
-			if(ash.getWoodTypes() != null){
-				for(WoodType type : ash.getWoodTypes()){
+			if (ash.getWoodTypes() != null) {
+				for ( WoodType type : ash.getWoodTypes() ) {
 					WorldUtil.dropItem(world, x, y, z, type.getCharcoalDropps());
 				}
 			}
@@ -75,27 +73,27 @@ public class BlockGravel extends BlockForest implements ITileEntityProvider {
 		world.removeTileEntity(x, y, z);
 		super.breakBlock(world, x, y, z, block, metadata);
 	}
-	
+
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-		if(metadata == 1){
+		if (metadata == 1) {
 			return new ArrayList<>();
 		}
 		return super.getDrops(world, x, y, z, metadata, fortune);
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		if(p_149915_2_ == 1){
+		if (p_149915_2_ == 1) {
 			return new TileAsh();
 		}
 		return null;
 	}
 
-    public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_)
-    {
-        super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
-        TileEntity tileentity = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
-        return tileentity != null ? tileentity.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
-    }
+	@Override
+	public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_) {
+		super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
+		TileEntity tileentity = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
+		return tileentity != null ? tileentity.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
+	}
 }

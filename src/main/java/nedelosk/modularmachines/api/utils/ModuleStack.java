@@ -1,116 +1,60 @@
 package nedelosk.modularmachines.api.utils;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.type.Types;
-import nedelosk.modularmachines.api.modular.type.Types.Type;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.IProducer;
-import net.minecraft.item.ItemStack;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
-public final class ModuleStack<M extends IModule, P extends IProducer> {
+public final class ModuleStack<M extends IModule> {
 
-	private ItemStack item;
 	private M module;
-	private Type type;
-	private P producer;
-	private boolean hasNbt;
+	private IModuleSaver saver;
 
-	public ModuleStack(NBTTagCompound nbt, IModular modular) throws Exception {
-		readFromNBT(nbt, modular);
-	}
-
-	public ModuleStack(M module, P producer, Type type, boolean hasNbt) {
-		this(null, module, producer, type, hasNbt);
-	}
-
-	public ModuleStack(ItemStack item, M module, P producer, Type type, boolean hasNbt) {
-		this.item = item;
+	public ModuleStack(M module) {
 		this.module = module;
-		this.type = type;
-		this.hasNbt = hasNbt;
-		this.producer = producer;
-		if (ModuleRegistry.getModule(module.getRegistryName()) == null) {
-			ModuleRegistry.registerModule(module);
-		}
-		ModuleRegistry.addTypeModifier(module, type, producer == null ? type.getName() : producer.getName(this));
+		this.saver = module.getSaver(this);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ModuleStack) {
-			ModuleStack stackModule = (ModuleStack) obj;
-			if (stackModule.item.getItem() == null || item.getItem() == null) {
-				return false;
-			}
-			if (stackModule.item.getItem() == item.getItem() && stackModule.item.getItemDamage() == item.getItemDamage()) {
-				if (stackModule.item.getTagCompound() != null && item.getTagCompound() != null
-						&& stackModule.item.getTagCompound().equals(item.getTagCompound()) || !stackModule.hasNbt() && !hasNbt()) {
-					if (stackModule.type == type && stackModule.module == module && (producer == null && stackModule.getProducer() == null
-							|| producer.getName(this).equals(stackModule.getProducer().getName(stackModule)))) {
-						return true;
-					}
-				}
+			ModuleStack producerStack = (ModuleStack) obj;
+			if (module == null && producerStack.getModule() == null || module.getName(this).equals(producerStack.getModule().getName(producerStack))) {
+				return true;
 			}
 		}
 		return false;
 	}
 
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
-		module = (M) ModuleRegistry.getModule(nbt.getString("ModuleName"));
-		item = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
-		type = Types.getType(nbt.getString("Type"));
-		hasNbt = nbt.getBoolean("hasNbt");
-		if (nbt.hasKey("Producer")) {
-			NBTTagCompound nbtTag = nbt.getCompoundTag("Producer");
-			producer = ModuleRegistry.producerFactory.createProducer(nbtTag.getString("Name"), nbtTag, modular, this);
+	public static ModuleStack loadFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+		ResourceLocation registry = new ResourceLocation(nbt.getString("Registry"));
+		IModule producer = ModuleRegistry.getProducer(registry);
+		ModuleStack stack = new ModuleStack(producer);
+		if (stack.saver != null) {
+			stack.saver.readFromNBT(nbt.getCompoundTag("saver"), modular, stack);
 		}
+		return stack;
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception {
-		nbt.setString("ModuleName", module.getRegistryName());
-		nbt.setString("Type", type.getName());
-		nbt.setBoolean("hasNbt", hasNbt);
-		if (producer != null) {
+		nbt.setString("Registry", module.getRegistry().toString());
+		if (saver != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
-			producer.writeToNBT(nbtTag, modular, this);
-			nbtTag.setString("Name", producer.getName(this));
-			nbt.setTag("Producer", nbtTag);
+			saver.writeToNBT(nbtTag, modular, this);
+			nbt.setTag("saver", nbtTag);
 		}
-		NBTTagCompound itemNBT = new NBTTagCompound();
-		item.writeToNBT(itemNBT);
-		nbt.setTag("Item", itemNBT);
-	}
-
-	public ItemStack getItem() {
-		return item;
-	}
-
-	public void setItemStack(ItemStack item) {
-		this.item = item;
 	}
 
 	public M getModule() {
 		return module;
 	}
 
-	public P getProducer() {
-		return producer;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public boolean hasNbt() {
-		return hasNbt;
-	}
-
-	public String getModuleName() {
-		return module.getModuleName();
+	public IModuleSaver getSaver() {
+		return saver;
 	}
 
 	public ModuleStack copy() {
-		return new ModuleStack(item, module, producer, type, hasNbt);
+		return new ModuleStack(module);
 	}
 }

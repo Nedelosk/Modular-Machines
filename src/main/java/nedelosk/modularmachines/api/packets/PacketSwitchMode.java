@@ -7,9 +7,8 @@ import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.machines.IProducerMachine;
-import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipeMode;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
+import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipeMode;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
@@ -45,9 +44,9 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IM
 		try {
 			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 			if (tile.getModular() != null) {
-				ModuleStack<IModule, IProducerMachine> machineStack = ModuleUtils.getModuleStackMachine(tile.getModular());
+				ModuleStack<IModuleMachine> machineStack = ModuleUtils.getMachine(tile.getModular());
 				if (machineStack != null) {
-					IProducerMachineRecipeMode machine = (IProducerMachineRecipeMode) machineStack.getProducer();
+					IModuleMachineRecipeMode machine = (IModuleMachineRecipeMode) machineStack.getModule();
 					machine.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
 					getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 				}

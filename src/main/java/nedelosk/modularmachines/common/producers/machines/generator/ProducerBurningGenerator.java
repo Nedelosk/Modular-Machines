@@ -5,6 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.inventory.IContainerBase;
@@ -12,7 +13,6 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
 import net.minecraft.inventory.Slot;
@@ -53,7 +53,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetBurningBar) {
-				ProducerBurningGenerator generator = (ProducerBurningGenerator) stack.getProducer();
+				ProducerBurningGenerator generator = (ProducerBurningGenerator) stack.getModule();
 				if (generator != null) {
 					int fuel = generator.fuel;
 					int fuelTotal = generator.fuelTotal;

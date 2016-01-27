@@ -5,10 +5,10 @@ import java.util.Vector;
 
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.ModularInventory;
+import nedelosk.modularmachines.api.modular.basic.ModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.special.IProducerController;
+import nedelosk.modularmachines.api.modules.special.IProducerController;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
@@ -34,12 +34,12 @@ public class ModularMachine extends ModularInventory {
 			if (stacks.length == 0 || stacks[0] == null) {
 				return null;
 			}
-			if (ModuleRegistry.getProducer(stacks[0]) != null && ModuleRegistry.getProducer(stacks[0]).getProducer() instanceof IProducerController) {
+			if (ModuleRegistry.getProducer(stacks[0]) != null && ModuleRegistry.getProducer(stacks[0]).getModule() instanceof IProducerController) {
 				controller = ModuleRegistry.getProducer(stacks[0]);
 			}
-			if (controller != null && controller.getProducer().buildMachine(modular, stacks, controller)) {
+			if (controller != null && controller.getModule().buildMachine(modular, stacks, controller)) {
 				ArrayList<String> moduleNames = new ArrayList<>();
-				for ( Vector<ModuleStack> moduleStacks : modular.getModules().values() ) {
+				for ( Vector<ModuleStack> moduleStacks : modular.getModuleContainers().values() ) {
 					for ( ModuleStack stack : moduleStacks ) {
 						if (stack != null && stack.getModule() != null) {
 							if (!moduleNames.contains(stack.getModule().getModuleName())) {
@@ -50,12 +50,12 @@ public class ModularMachine extends ModularInventory {
 						}
 					}
 				}
-				for ( Vector<ModuleStack> moduleStacks : modular.getModules().values() ) {
+				for ( Vector<ModuleStack> moduleStacks : modular.getModuleContainers().values() ) {
 					for ( ModuleStack stack : moduleStacks ) {
-						if (stack.getProducer() == null) {
+						if (stack.getModule() == null) {
 							continue;
 						}
-						if (!stack.getProducer().onBuildModular(modular, stack, moduleNames)) {
+						if (!stack.getModule().onBuildModular(modular, stack, moduleNames)) {
 							return null;
 						}
 					}
@@ -73,17 +73,17 @@ public class ModularMachine extends ModularInventory {
 
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null) {
+		if (ModuleUtils.getMachine(modular) == null || ModuleUtils.getMachine(modular).getModule() == null) {
 			return null;
 		}
-		return ModuleUtils.getModuleStackMachine(modular).getProducer().getItemRenderer(modular, ModuleUtils.getModuleStackMachine(modular), stack);
+		return ModuleUtils.getMachine(modular).getModule().getItemRenderer(modular, ModuleUtils.getMachine(modular), stack);
 	}
 
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		if (ModuleUtils.getModuleStackMachine(modular) == null || ModuleUtils.getModuleStackMachine(modular).getProducer() == null) {
+		if (ModuleUtils.getMachine(modular) == null || ModuleUtils.getMachine(modular).getModule() == null) {
 			return null;
 		}
-		return ModuleUtils.getModuleStackMachine(modular).getProducer().getMachineRenderer(modular, ModuleUtils.getModuleStackMachine(modular), tile);
+		return ModuleUtils.getMachine(modular).getModule().getMachineRenderer(modular, ModuleUtils.getMachine(modular), tile);
 	}
 }

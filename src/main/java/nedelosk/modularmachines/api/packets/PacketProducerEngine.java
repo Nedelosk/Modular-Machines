@@ -61,7 +61,7 @@ public class PacketProducerEngine implements IMessage, IMessageHandler<PacketPro
 	public IMessage onMessage(PacketProducerEngine message, MessageContext ctx) {
 		IModularTileEntity modular = message.getTileEntity(getWorld(ctx));
 		if (modular != null) {
-			ModuleUtils.getModuleStackEngine(modular.getModular()).getProducer().setProgress(message.progress);
+			ModuleUtils.getEngine(modular.getModular()).getModule().setProgress(message.progress);
 		}
 		return null;
 	}

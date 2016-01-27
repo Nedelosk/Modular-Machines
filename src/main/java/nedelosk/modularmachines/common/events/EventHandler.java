@@ -15,14 +15,14 @@ public class EventHandler {
 	public void tooltipEvent(ItemTooltipEvent event) {
 		ModuleStack stack = ModuleRegistry.getProducer(event.itemStack);
 		if (stack != null) {
-			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + stack.getType().getLocalName());
+			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + stack.getMaterial().getLocalName());
 			event.toolTip
-					.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModuleRegistry.getProducer(event.itemStack).getType().getTier());
+					.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + ModuleRegistry.getProducer(event.itemStack).getMaterial().getTier());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": "
 					+ StatCollector.translateToLocal(stack.getModule().getName(stack, false) + ".name"));
-			if (stack.getProducer() != null) {
+			if (stack.getModule() != null) {
 				event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.producer.name") + ": "
-						+ StatCollector.translateToLocal(stack.getProducer().getName(stack) + ".name"));
+						+ StatCollector.translateToLocal(stack.getModule().getName(stack) + ".name"));
 			}
 		}
 	}

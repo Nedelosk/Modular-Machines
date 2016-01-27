@@ -5,6 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.inventory.IContainerBase;
@@ -14,7 +15,6 @@ import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
 import net.minecraft.inventory.Slot;
@@ -58,7 +58,7 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetBurningBar) {
-				ProducerBurningBoiler generator = (ProducerBurningBoiler) stack.getProducer();
+				ProducerBurningBoiler generator = (ProducerBurningBoiler) stack.getModule();
 				if (generator != null) {
 					int fuel = generator.fuel;
 					int fuelTotal = generator.fuelTotal;
@@ -88,9 +88,10 @@ public class ProducerBurningBoiler extends ProducerBoiler {
 				FluidStack waterF = handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), false);
 				if (waterF != null && waterF.amount >= water) {
 					handler.drain(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.WATER, water), true);
-					int fluid = modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), false, stack, modular);
+					int fluid = modular.getTankManeger().getModule().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), false,
+							stack, modular);
 					if (fluid >= steam) {
-						modular.getTankManeger().getProducer().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack,
+						modular.getTankManeger().getModule().fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.getFluid("steam"), steam), true, stack,
 								modular);
 					}
 				}

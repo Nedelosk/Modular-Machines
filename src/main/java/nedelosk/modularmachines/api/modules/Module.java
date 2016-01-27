@@ -1,57 +1,97 @@
 package nedelosk.modularmachines.api.modules;
 
-import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
+import java.util.ArrayList;
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
-public abstract class Module implements IModule {
+public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
-	protected String moduleModifier;
+	public String modifier;
+	protected ResourceLocation registry;
 
-	public Module() {
+	public Module(String modifier) {
+		this.modifier = modifier;
 	}
 
-	public Module(String moduleModifier) {
-		this.moduleModifier = moduleModifier;
+	@Override
+	public String getName(ModuleStack stack) {
+		return registry.getResourcePath() + "." + modifier;
+	}
+
+	@Override
+	public String getUnlocalizedName(ModuleStack stack) {
+		return "producer." + getName(stack) + ".name";
 	}
 
 	@Override
 	public String getModifier(ModuleStack stack) {
-		return moduleModifier;
+		return modifier;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
-	public String getName(ModuleStack stack, boolean withTypeModifier) {
-		return "module" + ((getModifier(stack) != null) ? getModifier(stack) : "")
-				+ (withTypeModifier ? ((ModuleRegistry.getTypeModifier(stack) != null) ? ModuleRegistry.getTypeModifier(stack) : "") : "");
-	}
-
-	@Override
-	public String getRegistryName() {
-		return "module" + getModuleName() + moduleModifier;
-	}
-
-	@Override
-	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
+	public IModuleGui getGui(ModuleStack stack) {
 		return null;
 	}
 
 	@Override
-	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
+	public S getSaver(ModuleStack stack) {
 		return null;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof IModule) {
-			IModule module = (IModule) obj;
-			if (module.getModuleName().equals(getModuleName()) && module.getRegistryName().equals(getRegistryName())) {
-				return true;
+	public IModuleInventory getInventory(ModuleStack stack) {
+		return null;
+	}
+
+	@Override
+	public void updateServer(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
+	public void updateClient(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
+	public List<String> getRequiredModules() {
+		return new ArrayList<String>();
+	}
+
+	@Override
+	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
+		ArrayList<String> requiredModules = new ArrayList<>();
+		requiredModules.addAll(getRequiredModules());
+		for ( String moduleName : getRequiredModules() ) {
+			if (moduleNames.contains(moduleName)) {
+				requiredModules.remove(moduleName);
+			} else {
+				return false;
 			}
 		}
-		return false;
+		if (!requiredModules.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public ResourceLocation getRegistry() {
+		return registry;
+	}
+
+	@Override
+	public void setRegistry(ResourceLocation registry) {
+		this.registry = registry;
+	}
+
+	@Override
+	public String getModuleUID() {
+		return null;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
@@ -13,17 +14,16 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.engine.IProducerEngine;
-import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerPulverizer extends ProducerMachineRecipe {
+public class ProducerPulverizer extends ModuleMachineRecipe {
 
 	public ProducerPulverizer() {
 		this(65);
@@ -68,12 +68,12 @@ public class ProducerPulverizer extends ProducerMachineRecipe {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack stack) {
-		ModuleStack<IModule, IProducerEngine> engine = ModuleUtils.getModuleStackEngine(modular);
+		ModuleStack<IModule, IModuleEngine> engine = ModuleUtils.getEngine(modular);
 		int burnTime = 0;
 		int burnTimeTotal = 0;
 		if (engine != null) {
-			burnTime = engine.getProducer().getBurnTime(engine);
-			burnTimeTotal = engine.getProducer().getBurnTimeTotal(engine);
+			burnTime = engine.getModule().getBurnTime(engine);
+			burnTimeTotal = engine.getModule().getBurnTimeTotal(engine);
 		}
 		gui.getWidgetManager().add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}

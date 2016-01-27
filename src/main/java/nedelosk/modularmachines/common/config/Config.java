@@ -42,12 +42,13 @@ public class Config {
 		for ( ModuleStack module : stacks ) {
 			String[] s = GameData.getItemRegistry().getNameForObject(module.getItem().getItem()).split(":");
 			if (module.getItem() == null || module.getItem().getItem() == null
-					|| !config.getBoolean(
-							module.getModule().getName(module, false) + (module.getProducer() != null ? " : " + module.getProducer().getName(module) : "")
-									+ " : " + module.getType().getLocalName() + " : " + module.getItem().getUnlocalizedName(),
-							"Modules." + s[0], true, "")) {
+					|| !config
+							.getBoolean(
+									module.getModule().getName(module, false) + (module.getModule() != null ? " : " + module.getModule().getName(module) : "")
+											+ " : " + module.getMaterial().getLocalName() + " : " + module.getItem().getUnlocalizedName(),
+									"Modules." + s[0], true, "")) {
 				ModuleRegistry.getProducers().remove(module);
-				ItemProducers.getItems().remove(new Pair(module.getType(), module.getModule()));
+				ItemProducers.getItems().remove(new Pair(module.getMaterial(), module.getModule()));
 			}
 		}
 		save();

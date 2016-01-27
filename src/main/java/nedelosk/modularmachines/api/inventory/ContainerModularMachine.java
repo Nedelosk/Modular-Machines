@@ -6,8 +6,8 @@ import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.client.IProducerGui;
-import nedelosk.modularmachines.api.producers.inventory.IProducerInventory;
+import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -27,10 +27,10 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		this.inventory = inventoryPlayer;
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
 		ModuleStack stack = guiManager.getModuleWithGui();
-		if (stack.getProducer() instanceof IProducerInventory) {
-			if (((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack) != null
-					&& !((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack).isEmpty()) {
-				for ( Slot slot : ((IProducerInventory) stack.getProducer()).addSlots(this, inventoryBase.getModular(), stack) ) {
+		if (stack.getModule() instanceof IModuleInventory) {
+			if (((IModuleInventory) stack.getModule()).addSlots(this, inventoryBase.getModular(), stack) != null
+					&& !((IModuleInventory) stack.getModule()).addSlots(this, inventoryBase.getModular(), stack).isEmpty()) {
+				for ( Slot slot : ((IModuleInventory) stack.getModule()).addSlots(this, inventoryBase.getModular(), stack) ) {
 					addSlotToContainer(slot);
 				}
 			}
@@ -41,8 +41,8 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	protected void addInventory(InventoryPlayer inventory) {
 		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
 		ModuleStack stack = guiManager.getModuleWithGui();
-		if (stack.getProducer() instanceof IProducerInventory) {
-			int i = ((IProducerGui) stack.getProducer()).getGuiTop(inventoryBase.getModular(), stack) - 82;
+		if (stack.getModule() instanceof IModuleInventory) {
+			int i = ((IModuleGui) stack.getModule()).getGuiTop(inventoryBase.getModular(), stack) - 82;
 			for ( int i1 = 0; i1 < 3; i1++ ) {
 				for ( int l1 = 0; l1 < 9; l1++ ) {
 					addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));
@@ -58,7 +58,7 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		ModuleStack<IModule, IProducerInventory> stack;
+		ModuleStack<IModule> stack;
 		try {
 			stack = inventoryBase.getModular().getGuiManager().getModuleWithGui();
 		} catch (Exception e) {
@@ -73,8 +73,8 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slot instanceof Slot) {
-				if (stack != null && stack.getProducer() != null) {
-					return stack.getProducer().transferStackInSlot(stack, inventoryBase, player, slotID, this);
+				if (stack != null && stack.getModule() != null) {
+					return stack.getModule().transferStackInSlot(stack, inventoryBase, player, slotID, this);
 				} else if (slotID >= 0 && slotID < 27) {
 					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
 						return null;

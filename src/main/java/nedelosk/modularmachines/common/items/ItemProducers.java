@@ -11,9 +11,9 @@ import com.google.common.collect.Maps;
 
 import akka.japi.Pair;
 import nedelosk.forestcore.library.utils.MapUtil;
-import nedelosk.modularmachines.api.modular.type.Types.Type;
+import nedelosk.modularmachines.api.modular.type.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.special.IProducerWithItem;
+import nedelosk.modularmachines.api.modules.special.IProducerWithItem;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.TabModularMachines;
@@ -28,7 +28,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemProducers extends Item {
 
-	private static LinkedHashMap<Pair<Type, IModule>, ItemStack> subItems = Maps.newLinkedHashMap();
+	private static LinkedHashMap<Pair<Material, IModule>, ItemStack> subItems = Maps.newLinkedHashMap();
 	private IIcon[] icons;
 
 	public ItemProducers() {
@@ -57,20 +57,20 @@ public class ItemProducers extends Item {
 	public static ModuleStack addProducer(ModuleStack moduleStack) {
 		ItemStack itemStack = new ItemStack(ModuleModular.ItemManager.Producers.item());
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("Type", moduleStack.getType().getName());
-		nbtTag.setString("Name", moduleStack.getProducer().getName(moduleStack));
+		nbtTag.setString("Type", moduleStack.getMaterial().getName());
+		nbtTag.setString("Name", moduleStack.getModule().getName(moduleStack));
 		nbtTag.setString("ModuleName", moduleStack.getModule().getModuleName());
 		itemStack.setTagCompound(nbtTag);
-		subItems.put(new Pair(moduleStack.getType(), moduleStack.getModule()), itemStack);
-		subItems = (LinkedHashMap<Pair<Type, IModule>, ItemStack>) MapUtil.sort(subItems, new ModuleComparator());
+		subItems.put(new Pair(moduleStack.getMaterial(), moduleStack.getModule()), itemStack);
+		subItems = (LinkedHashMap<Pair<Material, IModule>, ItemStack>) MapUtil.sort(subItems, new ModuleComparator());
 		moduleStack.setItemStack(itemStack);
 		return moduleStack;
 	}
 
-	private static class ModuleComparator implements Comparator<Map.Entry<Pair<Type, IModule>, ItemStack>> {
+	private static class ModuleComparator implements Comparator<Map.Entry<Pair<Material, IModule>, ItemStack>> {
 
 		@Override
-		public int compare(Entry<Pair<Type, IModule>, ItemStack> o1, Entry<Pair<Type, IModule>, ItemStack> o2) {
+		public int compare(Entry<Pair<Material, IModule>, ItemStack> o1, Entry<Pair<Material, IModule>, ItemStack> o2) {
 			if (o1.getKey().first().getTier() > o2.getKey().first().getTier()) {
 				return 1;
 			} else if (o1.getKey().first().getTier() < o2.getKey().first().getTier()) {
@@ -104,15 +104,15 @@ public class ItemProducers extends Item {
 		}
 	}
 
-	public static HashMap<Pair<Type, IModule>, ItemStack> getItems() {
+	public static HashMap<Pair<Material, IModule>, ItemStack> getItems() {
 		return subItems;
 	}
 
-	public static ItemStack getItem(Pair<Type, IModule> pair) {
+	public static ItemStack getItem(Pair<Material, IModule> pair) {
 		return subItems.get(pair);
 	}
 
-	public static ItemStack getItem(Type type, IModule module) {
-		return subItems.get(new Pair<Type, IModule>(type, module));
+	public static ItemStack getItem(Material type, IModule module) {
+		return subItems.get(new Pair<Material, IModule>(type, module));
 	}
 }

@@ -1,10 +1,10 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
-import nedelosk.forestcore.library.INBTTagable;
+import nedelosk.modularmachines.api.modular.IModular;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IModularInventoryManager extends INBTTagable {
+public interface IModularInventoryManager<M extends IModular> extends IModularManager<M> {
 
 	int getSizeInventory(String page);
 

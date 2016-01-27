@@ -6,8 +6,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderException;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.IProducer;
-import nedelosk.modularmachines.api.producers.factory.IProducerFactory;
+import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,9 +23,9 @@ public class ProducerFactory implements IProducerFactory {
 	}
 
 	@Override
-	public <P extends IProducer> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack) {
+	public <P extends IModule> P createProducer(String name, NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		try {
-			IProducer i = null;
+			IModule i = null;
 			if (name != null) {
 				if (ModuleRegistry.getProducerClass(name) == null) {
 					return null;
@@ -45,9 +44,9 @@ public class ProducerFactory implements IProducerFactory {
 	}
 
 	@Override
-	public <P extends IProducer> P createProducer(String name) {
+	public <P extends IModule> P createProducer(String name) {
 		try {
-			IProducer i = null;
+			IModule i = null;
 			if (name != null) {
 				if (ModuleRegistry.getProducerClass(name) == null) {
 					return null;

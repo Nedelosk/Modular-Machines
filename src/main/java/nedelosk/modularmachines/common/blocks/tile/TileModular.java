@@ -49,7 +49,7 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
-		if (modular == null || modular.getModules() == null) {
+		if (modular == null || modular.getModuleContainers() == null) {
 			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			Log.err("Error To Load Data From Modular Machine on Position  " + xCoord + ", " + yCoord + ", " + zCoord);
 		} else {

@@ -75,28 +75,28 @@ public class RecipeRegistry {
 		return list;
 	}
 
-	public static RecipeInput isRecipeInput(String recipeName, RecipeInput input) {
+	public static RecipeItem isRecipeInput(String recipeName, RecipeItem input) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
 		if (recipes == null || input == null) {
 			return null;
 		}
 		for ( IRecipe recipe : recipes ) {
-			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
+			ArrayList<RecipeItem> inputR = new ArrayList<RecipeItem>();
 			for ( int i = 0; i < recipe.getInputs().length; i++ ) {
 				RecipeItem item = recipe.getInputs().clone()[i];
 				if (item.isItem()) {
-					inputR.add(new RecipeInput(i, item.item));
+					inputR.add(new RecipeItem(i, item.item));
 				} else if (item.isFluid()) {
-					inputR.add(new RecipeInput(i, item.fluid));
+					inputR.add(new RecipeItem(i, item.fluid));
 				} else {
-					inputR.add(new RecipeInput(i, item.ore));
+					inputR.add(new RecipeItem(i, item.ore));
 				}
 			}
 			if (inputR.isEmpty()) {
 				return null;
 			}
 			for ( int i = 0; i < inputR.size(); i++ ) {
-				RecipeInput in = inputR.get(i);
+				RecipeItem in = inputR.get(i);
 				if (in == null) {
 					continue;
 				}
@@ -118,25 +118,25 @@ public class RecipeRegistry {
 		return null;
 	}
 
-	public static IRecipe getRecipe(String recipeName, RecipeInput[] inputs, Object... craftingModifiers) {
+	public static IRecipe getRecipe(String recipeName, RecipeItem[] inputs, Object... craftingModifiers) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
 		if (recipes == null) {
 			return null;
 		}
 		for ( IRecipe recipe : recipes ) {
 			boolean isBreak = false;
-			ArrayList<RecipeInput> inputR = new ArrayList<RecipeInput>();
+			ArrayList<RecipeItem> inputR = new ArrayList<RecipeItem>();
 			for ( RecipeItem item : recipe.getInputs().clone() ) {
 				if (item.isItem()) {
-					inputR.add(new RecipeInput(0, item.item));
+					inputR.add(new RecipeItem(0, item.item));
 				} else if (item.isFluid()) {
-					inputR.add(new RecipeInput(0, item.fluid));
+					inputR.add(new RecipeItem(0, item.fluid));
 				} else {
-					inputR.add(new RecipeInput(0, item.ore));
+					inputR.add(new RecipeItem(0, item.ore));
 				}
 			}
 			input : for ( int i = 0; i < inputR.size(); i++ ) {
-				RecipeInput in = inputR.get(i);
+				RecipeItem in = inputR.get(i);
 				if (inputs[i] != null) {
 					if (in.isItem()) {
 						if (inputs[i].item == null) {

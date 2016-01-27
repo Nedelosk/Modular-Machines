@@ -21,31 +21,31 @@ public class FluidHandler implements IFluidHandler {
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return machine.getTankManeger().getProducer().fill(from, resource, doFill, null, machine);
+		return machine.getTankManeger().getStack().getModule().fill(from, resource, doFill, null, machine, false);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		return machine.getTankManeger().getProducer().drain(from, resource, doDrain, null, machine);
+		return machine.getTankManeger().getStack().getModule().drain(from, resource, doDrain, null, machine, false);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return machine.getTankManeger().getProducer().drain(from, maxDrain, doDrain, null, machine);
+		return machine.getTankManeger().getStack().getModule().drain(from, maxDrain, doDrain, null, machine, false);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return machine.getTankManeger().getProducer().canFill(from, fluid, null, machine);
+		return machine.getTankManeger().getStack().getModule().canFill(from, fluid, null, machine);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return machine.getTankManeger().getProducer().canDrain(from, fluid, null, machine);
+		return machine.getTankManeger().getStack().getModule().canDrain(from, fluid, null, machine);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return machine.getTankManeger().getProducer().getTankInfo(from, null, machine);
+		return machine.getTankManeger().getStack().getModule().getTankInfo(from, null, machine);
 	}
 }

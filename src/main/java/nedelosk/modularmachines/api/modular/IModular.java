@@ -2,28 +2,30 @@ package nedelosk.modularmachines.api.modular;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.integration.IWailaProvider;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.casing.IModuleCasing;
-import nedelosk.modularmachines.api.producers.IProducer;
-import nedelosk.modularmachines.api.producers.energy.IProducerBattery;
-import nedelosk.modularmachines.api.producers.managers.fluids.IProducerTankManager;
+import nedelosk.modularmachines.api.modular.type.Materials.Material;
+import nedelosk.modularmachines.api.modules.basic.IModuleCasing;
+import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
+import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
+import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModular {
 
-	int getTier();
+	Material getMaterial();
 
 	void update(boolean isServer);
 
@@ -38,30 +40,39 @@ public interface IModular {
 	void writeToNBT(NBTTagCompound nbt) throws Exception;
 
 	// Utils
-	ModuleStack<IModule, IProducerBattery> getBattery();
+	ISingleModuleContainer<IModuleBattery> getBattery();
 
-	ModuleStack<IModuleCasing, IProducer> getCasing();
+	ISingleModuleContainer<IModuleCasing> getCasing();
 
-	ModuleStack<IModule, IProducerTankManager> getTankManeger();
+	ISingleModuleContainer<IModuleTankManager> getTankManeger();
 
-	boolean addModule(ModuleStack module);
+	IMultiModuleContainer getManagers();
 
-	Vector<ModuleStack> getModule(String moduleName);
+	boolean addModule(ModuleStack stack);
 
-	ModuleStack getModule(String moduleName, int id);
+	IModuleContainer getModule(String moduleName);
 
-	HashMap<String, Vector<ModuleStack>> getModules();
+	ISingleModuleContainer getSingleModule(String moduleName);
 
-	void setModules(HashMap<String, Vector<ModuleStack>> modules);
+	IMultiModuleContainer getMultiModule(String moduleName);
+
+	HashMap<String, IModuleContainer> getModuleContainers();
+
+	List<ModuleStack> getModuleStacks();
+
+	void setModules(HashMap<String, IModuleContainer> modules);
 
 	void setMachine(IModularTileEntity machine);
 
 	IModularUtilsManager getManager();
 
-	List<ModuleStack> getFluidProducers();
+	List<ModuleStack<IModuleWithFluid>> getFluidProducers();
 
 	// Gui
 	IModularGuiManager getGuiManager();
+
+	// Item
+	IModular buildItem(ItemStack[] stacks);
 
 	// Renderer
 	@SideOnly(Side.CLIENT)
@@ -69,9 +80,6 @@ public interface IModular {
 
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile);
-
-	// Item
-	IModular buildItem(ItemStack[] stacks);
 
 	IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data);
 }

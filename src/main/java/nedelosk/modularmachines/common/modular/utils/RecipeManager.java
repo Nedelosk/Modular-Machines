@@ -1,9 +1,9 @@
 package nedelosk.modularmachines.common.modular.utils;
 
+import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.machines.recipe.IProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
-import nedelosk.modularmachines.api.recipes.RecipeInput;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.api.utils.ModuleUtils;
@@ -61,7 +61,7 @@ public abstract class RecipeManager implements IRecipeManager {
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
-		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModuleUtils.getMachine(modular).getModule();
 		machine.writeCraftingModifiers(nbt, modular, craftingModifiers);
 		NBTTagList list = new NBTTagList();
 		for ( RecipeInput input : inputs ) {
@@ -83,7 +83,7 @@ public abstract class RecipeManager implements IRecipeManager {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeInput.readFromNBT(nbtTag);
 		}
-		IProducerMachineRecipe machine = (IProducerMachineRecipe) ModuleUtils.getModuleStackMachine(modular).getProducer();
+		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModuleUtils.getMachine(modular).getModule();
 		Object[] craftingModifiers = machine.readCraftingModifiers(nbt, modular);
 		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null) {
 			return null;

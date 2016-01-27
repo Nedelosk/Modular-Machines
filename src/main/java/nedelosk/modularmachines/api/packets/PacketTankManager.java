@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.producers.fluids.ITankData.TankMode;
+import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager.TankMode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -76,11 +76,11 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 		if (message.mode != null) {
-			tile.getModular().getTankManeger().getProducer().getData(message.ID).setMode(message.mode);
+			tile.getModular().getTankManeger().getModule().getData(message.ID).setMode(message.mode);
 		} else if (message.producer != -1) {
-			tile.getModular().getTankManeger().getProducer().getData(message.ID).setProducer(message.producer);
+			tile.getModular().getTankManeger().getModule().getData(message.ID).setProducer(message.producer);
 		} else if (message.direction != null) {
-			tile.getModular().getTankManeger().getProducer().getData(message.ID).setDirection(message.direction);
+			tile.getModular().getTankManeger().getModule().getData(message.ID).setDirection(message.direction);
 		}
 		world.markBlockForUpdate(message.x, message.y, message.z);
 		return null;

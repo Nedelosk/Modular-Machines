@@ -1,20 +1,15 @@
 package nedelosk.modularmachines.plugins.thermalexpansion;
 
-import static nedelosk.modularmachines.api.utils.ModuleRegistry.registerProducer;
-
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.type.Types;
+import nedelosk.modularmachines.api.modular.type.Materials;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.Modules;
-import nedelosk.modularmachines.api.modules.basic.ModuleBasic;
-import nedelosk.modularmachines.api.producers.energy.ProducerBattery;
-import nedelosk.modularmachines.api.producers.energy.ProducerCapacitor;
-import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
-import nedelosk.modularmachines.api.producers.fluids.ProducerTank;
-import nedelosk.modularmachines.api.producers.storage.ProducerChest;
+import nedelosk.modularmachines.api.modules.energy.ModuleBattery;
+import nedelosk.modularmachines.api.modules.energy.ModuleCapacitor;
+import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
+import nedelosk.modularmachines.api.modules.fluids.ModuleTank;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.config.Config;
 import net.minecraft.item.Item;
@@ -38,31 +33,31 @@ public class PluginThermalExpansion extends APlugin {
 		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
 		strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
 		capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
-		registerProducer(new ItemStack(frame, 1, 0), Modules.CASING, Types.IRON);
-		registerProducer(new ItemStack(frame, 1, 1), Modules.CASING, Types.Electrum);
-		registerProducer(new ItemStack(frame, 1, 2), Modules.CASING, Types.Signalum);
-		registerProducer(new ItemStack(frame, 1, 3), Modules.CASING, Types.Enderium);
-		registerProducer(new ItemStack(tank, 1, 1), Modules.TANK, new ProducerTankTE("TankIron", 8000), Types.IRON);
-		registerProducer(new ItemStack(tank, 1, 2), Modules.TANK, new ProducerTankTE("TankInvar", 32000), Types.Invar);
-		registerProducer(new ItemStack(tank, 1, 3), Modules.TANK, new ProducerTankTE("TankObsidian", 128000), Types.OBSIDIAN);
-		registerProducer(new ItemStack(tank, 1, 4), Modules.TANK, new ProducerTankTE("TankEnderium", 512000), Types.Enderium);
-		registerProducer(new ItemStack(cell, 1, 1), Modules.BATTERY, new ProducerBattery("EnergyCellLeadstone", new EnergyStorage(100000, 100, 100)),
-				Types.Lead);
-		registerProducer(new ItemStack(cell, 1, 2), Modules.BATTERY, new ProducerBattery("EnergyCellHardened", new EnergyStorage(500000, 400, 400)),
-				Types.Invar);
-		registerProducer(new ItemStack(cell, 1, 3), Modules.BATTERY, new ProducerBattery("EnergyCellRedstone", new EnergyStorage(5000000, 4000, 4000)),
-				Types.Electrum);
-		registerProducer(new ItemStack(cell, 1, 4), Modules.BATTERY, new ProducerBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)),
-				Types.Enderium);
-		registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new ProducerChest("StrongBox", 18), Types.IRON);
-		registerProducer(new ItemStack(strongBox, 1, 2), STRONGBOX, new ProducerChest("StrongBoxHardende", 36), Types.Invar);
-		registerProducer(new ItemStack(strongBox, 1, 3), STRONGBOX, new ProducerChest("StrongBoxReinforced", 54), Types.OBSIDIAN);
-		registerProducer(new ItemStack(strongBox, 1, 4), STRONGBOX, new ProducerChest("StrongBoxResonant", 72), Types.Enderium);
-		registerProducer(new ItemStack(capacitor, 1, 1), Modules.CAPACITOR, new ProducerCapacitor("CapacitorWood", 7, 15), Types.WOOD);
-		registerProducer(new ItemStack(capacitor, 1, 2), Modules.CAPACITOR, new ProducerCapacitor("CapacitorLead", 10, 20), Types.Lead);
-		registerProducer(new ItemStack(capacitor, 1, 3), Modules.CAPACITOR, new ProducerCapacitor("CapacitorInvar", 15, 30), Types.Invar);
-		registerProducer(new ItemStack(capacitor, 1, 4), Modules.CAPACITOR, new ProducerCapacitor("CapacitorElectrum", 20, 40), Types.Electrum);
-		registerProducer(new ItemStack(capacitor, 1, 5), Modules.CAPACITOR, new ProducerCapacitor("CapacitorEnderium", 40, 80), Types.Enderium);
+		registerProducer(new ItemStack(frame, 1, 0), Modules.CASING, Materials.IRON);
+		registerProducer(new ItemStack(frame, 1, 1), Modules.CASING, Materials.Electrum);
+		registerProducer(new ItemStack(frame, 1, 2), Modules.CASING, Materials.Signalum);
+		registerProducer(new ItemStack(frame, 1, 3), Modules.CASING, Materials.Enderium);
+		registerProducer(new ItemStack(tank, 1, 1), Modules.TANK, new ProducerTankTE("TankIron", 8000), Materials.IRON);
+		registerProducer(new ItemStack(tank, 1, 2), Modules.TANK, new ProducerTankTE("TankInvar", 32000), Materials.Invar);
+		registerProducer(new ItemStack(tank, 1, 3), Modules.TANK, new ProducerTankTE("TankObsidian", 128000), Materials.OBSIDIAN);
+		registerProducer(new ItemStack(tank, 1, 4), Modules.TANK, new ProducerTankTE("TankEnderium", 512000), Materials.Enderium);
+		registerProducer(new ItemStack(cell, 1, 1), Modules.BATTERY, new ModuleBattery("EnergyCellLeadstone", new EnergyStorage(100000, 100, 100)),
+				Materials.Lead);
+		registerProducer(new ItemStack(cell, 1, 2), Modules.BATTERY, new ModuleBattery("EnergyCellHardened", new EnergyStorage(500000, 400, 400)),
+				Materials.Invar);
+		registerProducer(new ItemStack(cell, 1, 3), Modules.BATTERY, new ModuleBattery("EnergyCellRedstone", new EnergyStorage(5000000, 4000, 4000)),
+				Materials.Electrum);
+		registerProducer(new ItemStack(cell, 1, 4), Modules.BATTERY, new ModuleBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)),
+				Materials.Enderium);
+		registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new ModuleSimpleChest("StrongBox", 18), Materials.IRON);
+		registerProducer(new ItemStack(strongBox, 1, 2), STRONGBOX, new ModuleSimpleChest("StrongBoxHardende", 36), Materials.Invar);
+		registerProducer(new ItemStack(strongBox, 1, 3), STRONGBOX, new ModuleSimpleChest("StrongBoxReinforced", 54), Materials.OBSIDIAN);
+		registerProducer(new ItemStack(strongBox, 1, 4), STRONGBOX, new ModuleSimpleChest("StrongBoxResonant", 72), Materials.Enderium);
+		registerProducer(new ItemStack(capacitor, 1, 1), Modules.CAPACITOR, new ModuleCapacitor("CapacitorWood", 7, 15), Materials.WOOD);
+		registerProducer(new ItemStack(capacitor, 1, 2), Modules.CAPACITOR, new ModuleCapacitor("CapacitorLead", 10, 20), Materials.Lead);
+		registerProducer(new ItemStack(capacitor, 1, 3), Modules.CAPACITOR, new ModuleCapacitor("CapacitorInvar", 15, 30), Materials.Invar);
+		registerProducer(new ItemStack(capacitor, 1, 4), Modules.CAPACITOR, new ModuleCapacitor("CapacitorElectrum", 20, 40), Materials.Electrum);
+		registerProducer(new ItemStack(capacitor, 1, 5), Modules.CAPACITOR, new ModuleCapacitor("CapacitorEnderium", 40, 80), Materials.Enderium);
 	}
 
 	@Override
@@ -75,7 +70,7 @@ public class PluginThermalExpansion extends APlugin {
 		return Config.pluginThermalExpansion;
 	}
 
-	private static class ProducerTankTE extends ProducerTank {
+	private static class ProducerTankTE extends ModuleTank {
 
 		public ProducerTankTE(String modifier, int capacity) {
 			super(modifier, capacity);
@@ -86,7 +81,7 @@ public class PluginThermalExpansion extends APlugin {
 		}
 
 		@Override
-		public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
+		public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IModuleTank> moduleStack, ItemStack itemStack) {
 			if (stack != null) {
 				NBTTagCompound nbtTag = new NBTTagCompound();
 				NBTTagCompound fluidTag = new NBTTagCompound();
@@ -97,7 +92,7 @@ public class PluginThermalExpansion extends APlugin {
 		}
 
 		@Override
-		public FluidStack getStorageFluid(ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
+		public FluidStack getStorageFluid(ModuleStack<IModule, IModuleTank> moduleStack, ItemStack itemStack) {
 			if (!itemStack.hasTagCompound()) {
 				return null;
 			}

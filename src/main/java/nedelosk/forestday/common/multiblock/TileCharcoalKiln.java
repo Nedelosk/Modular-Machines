@@ -36,11 +36,11 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 	public CharcoalKilnPosition getKilnPosition() {
 		return kilnPosition;
 	}
-	
+
 	public boolean isAsh() {
 		return isAsh;
 	}
-	
+
 	public void setIsAsh() {
 		isAsh = true;
 	}

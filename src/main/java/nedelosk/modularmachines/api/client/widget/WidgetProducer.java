@@ -13,7 +13,6 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
-import nedelosk.modularmachines.api.producers.IProducer;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -43,7 +42,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		if (gui.getTile().getModular().getFluidProducers().isEmpty()) {
 			return;
 		}
-		ModuleStack<IModule, IProducer> stack = gui.getTile().getModular().getFluidProducers().get(producer);
+		ModuleStack<IModule, IModule> stack = gui.getTile().getModular().getFluidProducers().get(producer);
 		if (stack.getItem() != null) {
 			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItem(), gui.getGuiLeft() + pos.x + 1,
 					gui.getGuiTop() + pos.y + 1);
@@ -65,7 +64,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 				} else {
 					producer = 0;
 				}
-				gui.getTile().getModular().getTankManeger().getProducer().getData(ID).setProducer(producer);
+				gui.getTile().getModular().getTankManeger().getModule().getData(ID).setProducer(producer);
 				PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), producer, ID));
 			}
 		}
@@ -82,7 +81,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 			return list;
 		}
 		ModuleStack stack = stacks.get(producer);
-		list.add(StatCollector.translateToLocal(stack.getProducer().getName(stack) + ".name"));
+		list.add(StatCollector.translateToLocal(stack.getModule().getName(stack) + ".name"));
 		return list;
 	}
 }

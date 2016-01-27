@@ -2,14 +2,14 @@ package nedelosk.modularmachines.plugins.thermalexpansion;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.producers.fluids.IProducerTank;
-import nedelosk.modularmachines.api.producers.fluids.ProducerTank;
+import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
+import nedelosk.modularmachines.api.modules.fluids.ModuleTank;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ProducerTankThermalExpansion extends ProducerTank {
+public class ProducerTankThermalExpansion extends ModuleTank {
 
 	public ProducerTankThermalExpansion(String modifier, int capacity) {
 		super(modifier, capacity);
@@ -20,7 +20,7 @@ public class ProducerTankThermalExpansion extends ProducerTank {
 	}
 
 	@Override
-	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
+	public void setStorageFluid(FluidStack stack, ModuleStack<IModule, IModuleTank> moduleStack, ItemStack itemStack) {
 		if (stack != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTTagCompound fluidTag = new NBTTagCompound();
@@ -31,7 +31,7 @@ public class ProducerTankThermalExpansion extends ProducerTank {
 	}
 
 	@Override
-	public FluidStack getStorageFluid(ModuleStack<IModule, IProducerTank> moduleStack, ItemStack itemStack) {
+	public FluidStack getStorageFluid(ModuleStack<IModule, IModuleTank> moduleStack, ItemStack itemStack) {
 		if (!itemStack.hasTagCompound()) {
 			return null;
 		}

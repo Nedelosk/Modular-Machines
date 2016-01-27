@@ -1,12 +1,12 @@
 package nedelosk.modularmachines.common.producers.machines.generator;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.producers.machines.generator.IProducerGenerator;
-import nedelosk.modularmachines.api.producers.machines.recipe.ProducerMachineRecipe;
+import nedelosk.modularmachines.api.modules.machines.generator.IModuleGenerator;
+import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ProducerGenerator extends ProducerMachineRecipe implements IProducerGenerator {
+public abstract class ProducerGenerator extends ModuleMachineRecipe implements IModuleGenerator {
 
 	protected int fuel;
 	protected int fuelTotal;

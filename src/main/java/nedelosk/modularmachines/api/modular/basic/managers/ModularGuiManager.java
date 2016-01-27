@@ -1,14 +1,26 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.client.gui.GuiModular;
 import nedelosk.modularmachines.api.inventory.ContainerModularMachine;
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.basic.container.gui.IGuiContainer;
+import nedelosk.modularmachines.api.modular.basic.container.gui.IMultiGuiContainer;
+import nedelosk.modularmachines.api.modular.basic.container.gui.ISingleGuiContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
+import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.producers.client.IProducerGui;
+import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,8 +30,8 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ModularGuiManager implements IModularGuiManager {
 
 	public IModular modular;
-	private 
-	private String page = "";
+	private HashMap<String, IGuiContainer> guis = Maps.newHashMap();
+	private IModuleGui currentGui;
 
 	public ModularGuiManager() {
 	}
@@ -31,65 +43,146 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		page = nbt.getString("Page");
+		String guiName = nbt.getString("Gui");
+		if (guiName == null) {
+			currentGui = getCasingGui();
+		}
+		currentGui = getGui(guiName);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setString("Page", page);
+		if (currentGui == null) {
+			currentGui = getCasingGui();
+		}
+		nbt.setString("Gui", currentGui.getCategoryUID() + ":" + currentGui.getModuleUID());
+	}
+
+	private IModuleGui getCasingGui() {
+		ISingleGuiContainer container = (ISingleGuiContainer) guis.get(ModuleCategoryUIDs.CASING);
+		return container.getGui();
+	}
+
+	private IModuleGui getGui(String guiName) {
+		String[] guiNames = guiName.split(":");
+		IGuiContainer container = guis.get(guiNames[0]);
+		if (container instanceof ISingleGuiContainer) {
+			ISingleGuiContainer single = (ISingleGuiContainer) container;
+			if (single.getGui() != null) {
+				return single.getGui();
+			}
+		} else if (container instanceof IMultiGuiContainer) {
+			IMultiGuiContainer multi = (IMultiGuiContainer) container;
+			IModuleGui gui = multi.getGui(guiNames[1]);
+			if (gui != null) {
+				return gui;
+			}
+		}
+		return currentGui;
 	}
 
 	@Override
-	public ArrayList<ModuleStack> getModuleWithGuis() {
-		ArrayList<ModuleStack> guis = new ArrayList<ModuleStack>();
-		for ( Vector<ModuleStack> stacks : modular.getModules().values() ) {
-			for ( ModuleStack module : stacks ) {
-				if (module != null && module.getProducer() != null) {
-					if (module.getProducer() instanceof IProducerGui) {
-						guis.add(module);
-					}
-				}
-			}
+	public Map<String, IGuiContainer> getGuis() {
+		if (guis.isEmpty()) {
+			testForGuis();
 		}
 		return guis;
 	}
 
 	@Override
-	public ModuleStack getModuleWithGui() {
-		if (page == null || page.length() == 0 || page.length() < 0) {
-			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
+	public void testForGuis() {
+		if (modular == null) {
+			return;
 		}
-		for ( ModuleStack module : getModuleWithGuis() ) {
-			if (module.getModule().getName(module, false).equals(page)) {
-				return module;
+		for ( IModuleContainer container : modular.getModuleContainers().values() ) {
+			if (container instanceof ISingleModuleContainer) {
+				if (!testForGuis(((ISingleModuleContainer) container).getStack(), container)) {
+					continue;
+				}
+			} else if (container instanceof IMultiModuleContainer) {
+				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> multiContainer = (IMultiModuleContainer) container;
+				for ( ModuleStack stack : multiContainer.getStacks() ) {
+					if (!testForGuis(stack, container)) {
+						continue;
+					}
+				}
 			}
 		}
-		return null;
+	}
+
+	protected boolean testForGuis(ModuleStack stack, IModuleContainer container) {
+		IModule module = stack.getModule();
+		if (module == null) {
+			return false;
+		}
+		IModuleGui gui = stack.getModule().getGui(stack);
+		if (gui == null) {
+			return false;
+		}
+		addGui(gui, stack, container);
+		return true;
 	}
 
 	@Override
-	public String getPage() {
-		return page;
+	public void addGui(IModuleGui gui, ModuleStack stack, IModuleContainer moduleContainer) {
+		if (guis.get(gui.getCategoryUID()) == null) {
+			Class<? extends IGuiContainer> containerClass = ModuleRegistry.getCategory(gui.getCategoryUID()).getGuiContainerClass();
+			IGuiContainer container;
+			try {
+				if (containerClass.isInterface()) {
+					return;
+				}
+				container = containerClass.newInstance();
+			} catch (Exception e) {
+				return;
+			}
+			if (container instanceof ISingleGuiContainer) {
+				((ISingleGuiContainer) container).setGui(gui);
+			} else if (container instanceof IMultiGuiContainer) {
+				if (!(moduleContainer instanceof IMultiModuleContainer)) {
+					return;
+				}
+				int index = ((IMultiModuleContainer) moduleContainer).getIndex(stack);
+				((IMultiGuiContainer) container).addGui(index, gui);
+			}
+			guis.put(gui.getCategoryUID(), container);
+		}
 	}
 
 	@Override
-	public void setPage(String page) {
-		this.page = page;
+	public IModuleGui getCurrentGui() {
+		if (currentGui == null) {
+			currentGui = getCasingGui();
+		}
+		return currentGui;
+	}
+
+	@Override
+	public void setCurrentGui(IModuleGui gui) {
+		if (gui == null || gui.getCategoryUID().equals(currentGui.getCategoryUID()) && gui.getModuleUID().equals(currentGui.getModuleUID())) {
+			return;
+		}
+		currentGui = gui;
 	}
 
 	@Override
 	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
-		if (page == null || page.length() == 0 || page.length() < 0) {
-			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
+		if (currentGui == null) {
+			currentGui = getCasingGui();
 		}
 		return new ContainerModularMachine(tile, inventory);
 	}
 
 	@Override
 	public <T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile, InventoryPlayer inventory) {
-		if (page == null || page.length() == 0 || page.length() < 0) {
-			page = getModuleWithGuis().get(0).getModule().getName(getModuleWithGuis().get(0), false);
+		if (currentGui == null) {
+			currentGui = getCasingGui();
 		}
 		return new GuiModular(tile, inventory);
+	}
+
+	@Override
+	public IModular getModular() {
+		return modular;
 	}
 }
