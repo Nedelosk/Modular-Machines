@@ -1,16 +1,16 @@
 package nedelosk.modularmachines.common.producers.engine;
 
-import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.engine.ModuleEngine;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
 
 public class ProducerEngineEnergy extends ModuleEngine {
 
-	public ProducerEngineEnergy(String modifier, int speedModifier) {
-		super(modifier, speedModifier, "Energy");
+	public ProducerEngineEnergy(String moduleUID, int speedModifier) {
+		super(moduleUID, speedModifier, "Energy");
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class ProducerEngineEnergy extends ModuleEngine {
 	}
 
 	@Override
-	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+	public IRecipeManager creatRecipeManager(IModular modular, String recipeName, int materialModifier, RecipeItem[] inputs, Object... craftingModifier) {
 		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 

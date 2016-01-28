@@ -1,12 +1,7 @@
 package nedelosk.modularmachines.api.modules.energy;
 
-import cofh.api.energy.EnergyStorage;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.utils.ModuleStack;
+import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
 
-public interface IModuleBattery extends IModule {
-
-	EnergyStorage getStorage(ModuleStack stack);
-
-	int getSpeedModifier();
+public interface IModuleBattery<S extends IModuleBatterySaver> extends IModule<S>, IModuleWithRenderer<S> {
 }

@@ -1,15 +1,11 @@
 package nedelosk.modularmachines.common.config;
 
-import java.util.ArrayList;
+import java.util.Map.Entry;
 
-import com.google.common.collect.Lists;
-
-import akka.japi.Pair;
-import cpw.mods.fml.common.registry.GameData;
+import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.items.ItemProducers;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 
 public class Config {
@@ -35,22 +31,29 @@ public class Config {
 		save();
 	}
 
-	public static void postInit() {
+	public static void init() {
 		load();
 		Configuration config = ModularMachines.config;
-		ArrayList<ModuleStack> stacks = Lists.newArrayList(ModuleRegistry.getProducers().iterator());
-		for ( ModuleStack module : stacks ) {
-			String[] s = GameData.getItemRegistry().getNameForObject(module.getItem().getItem()).split(":");
-			if (module.getItem() == null || module.getItem().getItem() == null
-					|| !config
-							.getBoolean(
-									module.getModule().getName(module, false) + (module.getModule() != null ? " : " + module.getModule().getName(module) : "")
-											+ " : " + module.getMaterial().getLocalName() + " : " + module.getItem().getUnlocalizedName(),
-									"Modules." + s[0], true, "")) {
-				ModuleRegistry.getProducers().remove(module);
-				ItemProducers.getItems().remove(new Pair(module.getMaterial(), module.getModule()));
+		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleRegistry().getProducers().entrySet() ) {
+			if (!config.get("Module Registry", entry.getKey().toString(), true).getBoolean()) {
+				ModuleRegistry.getModuleRegistry().getProducers().remove(entry.getKey());
 			}
 		}
+		/*
+		 * ArrayList<ModuleStack> stacks =
+		 * Lists.newArrayList(ModuleRegistry.getProducers().iterator()); for (
+		 * ModuleStack module : stacks ) { String[] s =
+		 * GameData.getItemRegistry().getNameForObject(module.getItem().getItem(
+		 * )).split(":"); if (module.getItem() == null ||
+		 * module.getItem().getItem() == null || !config .getBoolean(
+		 * module.getModule().getName(module, false) + (module.getModule() !=
+		 * null ? " : " + module.getModule().getName(module) : "") + " : " +
+		 * module.getMaterial().getLocalName() + " : " +
+		 * module.getItem().getUnlocalizedName(), "Modules." + s[0], true, ""))
+		 * { ModuleRegistry.getProducers().remove(module);
+		 * ItemProducers.getItems().remove(new Pair(module.getMaterial(),
+		 * module.getModule())); } }
+		 */
 		save();
 	}
 

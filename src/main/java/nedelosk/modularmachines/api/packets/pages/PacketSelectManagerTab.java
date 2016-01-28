@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.packets.pages;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -8,38 +9,44 @@ import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.modules.managers.IModuleManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectTankManagerTab, IMessage> {
+public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectManagerTab, IMessage> {
 
 	public int tabID;
+	public String moduleUID;
 
-	public PacketSelectTankManagerTab() {
+	public PacketSelectManagerTab() {
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		tabID = buf.readInt();
+		moduleUID = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeInt(tabID);
+		ByteBufUtils.writeUTF8String(buf, moduleUID);
 	}
 
-	public PacketSelectTankManagerTab(TileEntity tile, int tabID) {
+	public PacketSelectManagerTab(TileEntity tile, int tabID, String moduleUID) {
 		super(tile);
 		this.tabID = tabID;
+		this.moduleUID = moduleUID;
 	}
 
 	@Override
-	public IMessage onMessage(PacketSelectTankManagerTab message, MessageContext ctx) {
+	public IMessage onMessage(PacketSelectManagerTab message, MessageContext ctx) {
 		World world;
 		if (ctx.side == Side.CLIENT) {
 			world = Minecraft.getMinecraft().theWorld;
@@ -47,9 +54,8 @@ public class PacketSelectTankManagerTab extends PacketTileEntity<TileEntity> imp
 			world = ctx.getServerHandler().playerEntity.worldObj;
 		}
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
-		tile.getModular().getTankManeger().getModule().setTab(message.tabID);
-		if (ctx.side == Side.CLIENT) {
-		} else {
+		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleUID).getSaver()).setTab(message.tabID);
+		if (ctx.side == Side.SERVER) {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);

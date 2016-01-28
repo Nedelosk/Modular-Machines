@@ -13,8 +13,8 @@ public abstract class ModuleMachineRecipeMode extends ModuleMachineRecipe implem
 
 	public IMachineMode defaultMode;
 
-	public ModuleMachineRecipeMode(String modifier, int inputs, int outputs, int speed, IMachineMode defaultMode) {
-		super(modifier, inputs, outputs, speed);
+	public ModuleMachineRecipeMode(String moduleUID, int inputs, int outputs, int speed, IMachineMode defaultMode) {
+		super(moduleUID, inputs, outputs, speed);
 		this.defaultMode = defaultMode;
 	}
 

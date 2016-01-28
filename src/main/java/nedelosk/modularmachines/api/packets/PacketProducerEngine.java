@@ -5,7 +5,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
+import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -61,7 +62,7 @@ public class PacketProducerEngine implements IMessage, IMessageHandler<PacketPro
 	public IMessage onMessage(PacketProducerEngine message, MessageContext ctx) {
 		IModularTileEntity modular = message.getTileEntity(getWorld(ctx));
 		if (modular != null) {
-			ModuleUtils.getEngine(modular.getModular()).getModule().setProgress(message.progress);
+			((IModuleEngineSaver) ModularUtils.getEngine(modular.getModular()).getStack().getSaver()).setProgress(message.progress);
 		}
 		return null;
 	}

@@ -9,8 +9,8 @@ public class ModuleCapacitor extends Module implements IModuleCapacitor {
 	private final int speedModifier;
 	private final int energyModifier;
 
-	public ModuleCapacitor(String modifier, int speedModifier, int energyModifier) {
-		super(modifier);
+	public ModuleCapacitor(String categoryUID, String moduleUID, int speedModifier, int energyModifier) {
+		super(categoryUID, moduleUID);
 		this.speedModifier = speedModifier;
 		this.energyModifier = energyModifier;
 	}

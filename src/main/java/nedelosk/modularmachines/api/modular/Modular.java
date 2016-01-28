@@ -8,14 +8,13 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import nedelosk.modularmachines.api.modular.basic.container.gui.IMultiGuiContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.ModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.MultiModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularUtilsManager;
-import nedelosk.modularmachines.api.modular.basic.managers.ModularGuiManager;
 import nedelosk.modularmachines.api.modular.basic.managers.ModularUtilsManager;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.integration.IWailaProvider;
@@ -23,11 +22,9 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.type.Materials;
 import nedelosk.modularmachines.api.modular.type.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.integration.IModuleWaila;
-import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,14 +35,12 @@ public abstract class Modular implements IModular, IWailaProvider {
 	protected HashMap<String, IModuleContainer> modules = Maps.newHashMap();
 	protected IModularTileEntity machine;
 	protected IModularUtilsManager utils;
-	protected IModularGuiManager gui;
 	protected String page;
 	protected Material material;
 
 	public Modular() {
 		utils = new ModularUtilsManager();
 		utils.setModular(this);
-		gui = new ModularGuiManager();
 	}
 
 	public Modular(NBTTagCompound nbt) {
@@ -77,11 +72,6 @@ public abstract class Modular implements IModular, IWailaProvider {
 		}
 		utils.readFromNBT(nbt);
 		utils.setModular(this);
-		if (gui == null) {
-			gui = new ModularGuiManager();
-		}
-		gui.readFromNBT(nbt);
-		gui.setModular(this);
 		if (modules == null) {
 			modules = Maps.newHashMap();
 		}
@@ -122,10 +112,6 @@ public abstract class Modular implements IModular, IWailaProvider {
 			utils.setModular(this);
 		}
 		utils.writeToNBT(nbt);
-		if (gui == null) {
-			gui = new ModularGuiManager();
-		}
-		gui.writeToNBT(nbt);
 		NBTTagList listTag = new NBTTagList();
 		for ( Entry<String, IModuleContainer> module : modules.entrySet() ) {
 			NBTTagCompound modulesTag = new NBTTagCompound();
@@ -169,43 +155,38 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public ISingleModuleContainer<IModuleBattery> getBattery() {
-		return getSingleModule("Battery");
-	}
-
-	@Override
-	public ISingleModuleContainer<IModuleCasing> getCasing() {
-		return getSingleModule("Casing");
-	}
-
-	@Override
-	public ISingleModuleContainer<IModuleTankManager> getTankManeger() {
-		return getSingleModule("TankManager");
-	}
-
-	@Override
 	public boolean addModule(ModuleStack stack) {
 		if (stack == null) {
 			return false;
 		}
-		IModule producer = stack.getModule();
-		if (modules.get(producer.getCategoryUID()) == null) {
-			if (producer.hasMultiContainer()) {
-				modules.put(producer.getCategoryUID(), new MultiModuleContainer(stack.copy()));
-				return true;
-			} else {
-				modules.put(producer.getCategoryUID(), new ModuleContainer(stack.copy()));
-				return true;
-			}
-		} else if (producer.hasMultiContainer()) {
-			if (modules.get(producer.getCategoryUID()) instanceof IMultiModuleContainer) {
+		IModule module = stack.getModule();
+		if (module == null) {
+			return false;
+		}
+		if (modules.get(module.getCategoryUID()) == null) {
+			Class<? extends IModuleContainer> containerClass = ModuleRegistry.getCategory(module.getCategoryUID()).getModuleContainerClass();
+			IModuleContainer container;
+			try {
+				if (containerClass.isInterface()) {
+					return false;
+				}
+				container = containerClass.newInstance();
+			} catch (Exception e) {
 				return false;
 			}
-			IMultiModuleContainer conatiner = (IMultiModuleContainer) modules.get(producer.getCategoryUID());
-			conatiner.addStack(stack);
-			return true;
+			if (container instanceof ISingleModuleContainer) {
+				((ISingleModuleContainer) container).setStack(stack);
+			} else if (container instanceof IMultiModuleContainer) {
+				((IMultiModuleContainer) container).addStack(stack);
+			}
+			modules.put(module.getCategoryUID(), container);
+		} else {
+			IModuleContainer container = modules.get(module.getCategoryUID());
+			if (container instanceof IMultiGuiContainer) {
+				((IMultiModuleContainer) container).addStack(stack);
+			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -238,13 +219,28 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public IModularUtilsManager getManager() {
-		return utils;
+	public ModuleStack getModuleFromUID(String UID) {
+		if (UID == null) {
+			return null;
+		}
+		String[] uids = UID.split(":");
+		if (uids == null || uids.length < 1 || 2 < uids.length) {
+			return null;
+		}
+		IModuleContainer container = getModule(uids[0]);
+		if (container != null) {
+			if (container instanceof ISingleModuleContainer) {
+				return ((ISingleModuleContainer) container).getStack();
+			} else if (container instanceof IMultiModuleContainer) {
+				return ((IMultiModuleContainer) container).getStack(uids[1]);
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public IModularGuiManager getGuiManager() {
-		return gui;
+	public IModularUtilsManager getManager() {
+		return utils;
 	}
 
 	@Override

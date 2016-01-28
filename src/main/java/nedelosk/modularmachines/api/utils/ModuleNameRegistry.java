@@ -32,4 +32,8 @@ public class ModuleNameRegistry {
 		}
 		return null;
 	}
+
+	public HashMap<ResourceLocation, IModule> getProducers() {
+		return producers;
+	}
 }

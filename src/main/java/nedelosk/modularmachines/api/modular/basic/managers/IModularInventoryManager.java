@@ -1,36 +1,48 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
-import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.utils.ModuleStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IModularInventoryManager<M extends IModular> extends IModularManager<M> {
+public interface IModularInventoryManager<M extends IModularInventory> extends IModularManager<M> {
 
-	int getSizeInventory(String page);
+	int getSizeInventory(ModuleStack moduleStack);
 
-	ItemStack getStackInSlot(String page, int slot);
+	ItemStack getStackInSlot(int index, ModuleStack moduleStack);
 
-	ItemStack decrStackSize(String page, int slot, int amount);
+	ItemStack decrStackSize(int index, int stacksize, ModuleStack moduleStack);
 
-	ItemStack getStackInSlotOnClosing(String page, int slot);
+	ItemStack getStackInSlotOnClosing(int index, ModuleStack moduleStack);
 
-	void setInventorySlotContents(String page, int slot, ItemStack p_70299_2_);
+	void setInventorySlotContents(int index, ItemStack itemStack, ModuleStack moduleStack);
 
-	int getInventoryStackLimit();
+	String getInventoryName(ModuleStack moduleStack);
 
-	void markDirty();
+	boolean hasCustomInventoryName(ModuleStack moduleStack);
 
-	void openInventory();
+	int getInventoryStackLimit(ModuleStack moduleStack);
 
-	void closeInventory();
+	void markDirty(ModuleStack moduleStack);
 
-	boolean isItemValidForSlot(String page, int slot, ItemStack stack);
+	boolean isUseableByPlayer(EntityPlayer player, ModuleStack moduleStack);
 
-	int[] getAccessibleSlotsFromSide(ForgeDirection side);
+	void openInventory(ModuleStack moduleStack);
 
-	boolean canInsertItem(int slot, ItemStack stack, ForgeDirection side);
+	void closeInventory(ModuleStack moduleStack);
 
-	boolean canExtractItem(int slot, ItemStack stack, ForgeDirection side);
+	boolean isItemValidForSlot(int index, ItemStack itemStack, ModuleStack moduleStack);
 
-	boolean addToOutput(ItemStack output, int minSlot, int maxSlot, String page);
+	int[] getAccessibleSlotsFromSide(int side, ModuleStack moduleStack);
+
+	boolean canInsertItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack);
+
+	boolean canExtractItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack);
+
+	boolean addToOutput(ItemStack output, int slotMin, int slotMax, ModuleStack moduleStack);
+
+	void setInventorys();
+
+	IModuleInventory getInventory(ModuleStack stack);
 }

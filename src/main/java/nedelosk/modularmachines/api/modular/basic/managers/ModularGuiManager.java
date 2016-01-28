@@ -1,7 +1,9 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -63,9 +65,10 @@ public class ModularGuiManager implements IModularGuiManager {
 		return container.getGui();
 	}
 
-	private IModuleGui getGui(String guiName) {
-		String[] guiNames = guiName.split(":");
-		IGuiContainer container = guis.get(guiNames[0]);
+	@Override
+	public IModuleGui getGui(String UID) {
+		String[] UIDS = UID.split(":");
+		IGuiContainer container = guis.get(UIDS[0]);
 		if (container instanceof ISingleGuiContainer) {
 			ISingleGuiContainer single = (ISingleGuiContainer) container;
 			if (single.getGui() != null) {
@@ -73,12 +76,18 @@ public class ModularGuiManager implements IModularGuiManager {
 			}
 		} else if (container instanceof IMultiGuiContainer) {
 			IMultiGuiContainer multi = (IMultiGuiContainer) container;
-			IModuleGui gui = multi.getGui(guiNames[1]);
+			IModuleGui gui = multi.getGui(UIDS[1]);
 			if (gui != null) {
 				return gui;
 			}
 		}
 		return currentGui;
+	}
+
+	@Override
+	public IModuleGui getGui(ModuleStack stack) {
+		IModule module = stack.getModule();
+		return getGui(module.getCategoryUID() + ":" + module.getModuleUID());
 	}
 
 	@Override
@@ -137,6 +146,9 @@ public class ModularGuiManager implements IModularGuiManager {
 				return;
 			}
 			if (container instanceof ISingleGuiContainer) {
+				if (!(moduleContainer instanceof ISingleModuleContainer)) {
+					return;
+				}
 				((ISingleGuiContainer) container).setGui(gui);
 			} else if (container instanceof IMultiGuiContainer) {
 				if (!(moduleContainer instanceof IMultiModuleContainer)) {
@@ -146,6 +158,15 @@ public class ModularGuiManager implements IModularGuiManager {
 				((IMultiGuiContainer) container).addGui(index, gui);
 			}
 			guis.put(gui.getCategoryUID(), container);
+		} else {
+			IGuiContainer container = guis.get(gui.getCategoryUID());
+			if (container instanceof IMultiGuiContainer) {
+				if (!(moduleContainer instanceof IMultiModuleContainer)) {
+					return;
+				}
+				int index = ((IMultiModuleContainer) moduleContainer).getIndex(stack);
+				((IMultiGuiContainer) container).addGui(index, gui);
+			}
 		}
 	}
 
@@ -178,7 +199,20 @@ public class ModularGuiManager implements IModularGuiManager {
 		if (currentGui == null) {
 			currentGui = getCasingGui();
 		}
-		return new GuiModular(tile, inventory);
+		return new GuiModular(tile, inventory, currentGui);
+	}
+
+	@Override
+	public List<IModuleGui> getAllGuis() {
+		List<IModuleGui> guis = new ArrayList();
+		for ( IGuiContainer container : this.guis.values() ) {
+			if (container instanceof ISingleGuiContainer) {
+				guis.add(((ISingleGuiContainer) container).getGui());
+			} else if (container instanceof IMultiGuiContainer) {
+				guis.addAll(((IMultiGuiContainer) container).getGuis());
+			}
+		}
+		return guis;
 	}
 
 	@Override

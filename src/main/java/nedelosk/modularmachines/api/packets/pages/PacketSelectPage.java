@@ -8,7 +8,10 @@ import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.ModularMachinesApi;
+import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,7 +20,7 @@ import net.minecraft.world.World;
 
 public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectPage, IMessage> {
 
-	public String page;
+	public String UID;
 
 	public PacketSelectPage() {
 	}
@@ -25,18 +28,23 @@ public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IM
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		page = ByteBufUtils.readUTF8String(buf);
+		UID = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		ByteBufUtils.writeUTF8String(buf, page);
+		ByteBufUtils.writeUTF8String(buf, UID);
 	}
 
-	public PacketSelectPage(TileEntity tile, String page) {
+	public PacketSelectPage(TileEntity tile, IModuleGui gui) {
 		super(tile);
-		this.page = page;
+		this.UID = gui.getCategoryUID() + ":" + gui.getModuleUID();
+	}
+
+	public PacketSelectPage(TileEntity tile, String UID) {
+		super(tile);
+		this.UID = UID;
 	}
 
 	@Override
@@ -47,10 +55,10 @@ public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IM
 		} else {
 			world = ctx.getServerHandler().playerEntity.worldObj;
 		}
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
-		tile.getModular().getGuiManager().setPage(message.page);
-		if (ctx.side == Side.CLIENT) {
-		} else {
+		IModularTileEntity<IModularInventory> tile = (IModularTileEntity) message.getTileEntity(world);
+		IModularGuiManager guiManager = tile.getModular().getGuiManager();
+		guiManager.setCurrentGui(guiManager.getGui(message.UID));
+		if (ctx.side == Side.SERVER) {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);

@@ -19,8 +19,6 @@ public interface IModule<S extends IModuleSaver> {
 
 	String getUnlocalizedName(ModuleStack stack);
 
-	String getModifier(ModuleStack stack);
-
 	List<String> getRequiredModules();
 
 	void setRegistry(ResourceLocation registry);

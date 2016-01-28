@@ -25,12 +25,12 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	protected final int tankSlots;
 
 	public ModuleTankManager() {
-		super("TankManager");
+		super(ModuleCategoryUIDs.MANAGER_TANK);
 		this.tankSlots = 2;
 	}
 
 	public ModuleTankManager(int tankSlots) {
-		super("TankManager");
+		super(ModuleCategoryUIDs.MANAGER_TANK);
 		this.tankSlots = tankSlots;
 	}
 

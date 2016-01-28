@@ -32,7 +32,7 @@ public class ModularMachines {
 		ModularMachinesApi.handler = new InternalMethodHandler();
 		File configFolderModularMachines = new File(event.getModConfigurationDirectory(), "Modular-Machines");
 		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
-		config = new Configuration(configFileModularMachines);
+		config = new Configuration(configFileModularMachines, "2.0");
 		configFolder = configFolderModularMachines;
 		registry.preInit(instance, event);
 	}

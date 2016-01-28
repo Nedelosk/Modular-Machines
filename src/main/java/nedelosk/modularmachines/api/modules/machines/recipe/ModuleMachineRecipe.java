@@ -9,21 +9,25 @@ import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.ModuleMachine;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager.TankMode;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import nedelosk.modularmachines.api.utils.ModularUtils;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleRegistry.ModuleItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> extends ModuleMachine<S> implements IModuleMachineRecipe<S> {
+public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends ModuleMachine<S> implements IModuleMachineRecipe<S> {
 
 	protected final int itemOutputs;
 	protected final int itemInputs;
@@ -31,8 +35,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 	protected final int fluidInputs;
 	protected final int speed;
 
-	public ModuleMachineRecipe(String modifier, int itemInputs, int itemOutputs, int speed) {
-		super(modifier);
+	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int speed) {
+		super(moduleUID);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = 0;
@@ -40,8 +44,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 		this.speed = speed;
 	}
 
-	public ModuleMachineRecipe(String modifier, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
-		super(modifier);
+	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
+		super(moduleUID);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = fluidInputs;
@@ -54,7 +58,7 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		RecipeItem[] inputs = new RecipeItem[getItemInputs(stackProducer)];
 		for ( int i = 0; i < getItemInputs(stackProducer); i++ ) {
-			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(getName(stackProducer), i);
+			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(i, stackProducer);
 			inputs[i] = new RecipeItem(i, stack);
 		}
 		return inputs;
@@ -62,7 +66,7 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 
 	public RecipeItem[] getInputFluids(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		List<TankData> datas = modular.getTankManeger().getStack().getModule().getDatas(modular, stack, TankMode.INPUT);
+		List<TankData> datas = ModularUtils.getTankManager(modular).getModule().getDatas(modular, stack, TankMode.INPUT);
 		RecipeItem[] fluidInputs = new RecipeItem[getFluidInputs(stack)];
 		int inputs = fluidInputs.length;
 		if (datas.size() < fluidInputs.length) {
@@ -87,13 +91,13 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 			if (input != null) {
 				if (!inputs[i].isFluid()) {
 					if (inputs[i].isOre()) {
-						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].ore.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(input.slotIndex, inputs[i].ore.stackSize, stack);
 					} else {
-						tile.getModular().getInventoryManager().decrStackSize(getName(stack), input.slotIndex, inputs[i].item.stackSize);
+						tile.getModular().getInventoryManager().decrStackSize(input.slotIndex, inputs[i].item.stackSize, stack);
 					}
 					continue;
 				} else {
-					tile.getModular().getTankManeger().getStack().getModule().drain(ForgeDirection.UNKNOWN, input.fluid, true, stack, modular, true);
+					ModularUtils.getTankManager(modular).getModule().drain(ForgeDirection.UNKNOWN, input.fluid, true, stack, modular, true);
 					continue;
 				}
 			} else {
@@ -111,36 +115,38 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine> engineStack = ModuleUtils.getEngine(modular).getStack();
+		ModuleStack<IModuleEngine> engineStack = ModularUtils.getEngine(modular).getStack();
 		S saver = (S) stack.getSaver();
 		if (engineStack != null && tile.getEnergyStored(null) > 0) {
+			IModuleEngineSaver engineSaver = (IModuleEngineSaver) engineStack.getSaver();
 			IModuleEngine engine = engineStack.getModule();
-			int burnTime = engine.getBurnTime(engineStack);
-			int burnTimeTotal = engine.getBurnTimeTotal(engineStack);
-			IRecipeManager manager = engine.getManager(engineStack);
+			int burnTime = engineSaver.getBurnTime(engineStack);
+			int burnTimeTotal = engineSaver.getBurnTimeTotal(engineStack);
+			IRecipeManager manager = engineSaver.getManager(engineStack);
 			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 				if (manager != null) {
 					if (addOutput(modular, stack)) {
-						engine.setManager(null);
-						engine.setBurnTimeTotal(0);
-						engine.setBurnTime(0);
-						engine.setIsWorking(false);
+						engineSaver.setManager(null);
+						engineSaver.setBurnTimeTotal(0);
+						engineSaver.setBurnTime(0);
+						engineSaver.setIsWorking(false);
 					}
 				} else if (getInputs(modular, stack) != null && recipe != null) {
-					if (ModuleUtils.getMachine(modular) == null) {
+					if (ModularUtils.getMachine(modular) == null) {
 						return;
 					}
-					engine.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(),
+					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(),
 							recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack),
 							getInputs(modular, stack), getCraftingModifiers(modular, stack)));
 					if (!removeInput(modular, stack)) {
-						engine.setManager(null);
+						engineSaver.setManager(null);
 						return;
 					}
-					engine.setIsWorking(true);
-					engine.setBurnTimeTotal(engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack)
-							/ ModuleUtils.getMachine(modular).getStack().getMaterial().getTier());
+					engineSaver.setIsWorking(true);
+					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
+					engineSaver.setBurnTimeTotal(
+							engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier());
 				}
 				if (saver.getTimer() > saver.getTimerTotal()) {
 					modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(),
@@ -164,20 +170,20 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine> engineStack = ModuleUtils.getEngine(modular).getStack();
-		IModuleEngine engine = engineStack.getModule();
-		if (engine.getManager(engineStack).getOutputs() != null) {
-			for ( RecipeItem item : engine.getManager(engineStack).getOutputs() ) {
+		ModuleStack<IModuleEngine> engineStack = ModularUtils.getEngine(modular).getStack();
+		IModuleEngineSaver engineSaver = (IModuleEngineSaver) engineStack.getSaver();
+		if (engineSaver.getManager(engineStack).getOutputs() != null) {
+			for ( RecipeItem item : engineSaver.getManager(engineStack).getOutputs() ) {
 				if (item != null) {
 					if (!item.isFluid()) {
 						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), getItemInputs(stack),
-								getItemInputs(stack) + getItemOutputs(stack), getName(stack))) {
+								getItemInputs(stack) + getItemOutputs(stack), stack)) {
 							item = null;
 							continue;
 						} else {
 							return false;
 						}
-					} else if (tile.getModular().getTankManeger().getStack().getModule().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true, stack, modular,
+					} else if (ModularUtils.getTankManager(modular).getModule().fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true, stack, modular,
 							true) != 0) {
 						item = null;
 						continue;
@@ -188,7 +194,7 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineRecipeSaver> e
 			}
 			return true;
 		}
-		engine.setManager(null);
+		engineSaver.setManager(null);
 		return false;
 	}
 

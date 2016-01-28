@@ -3,15 +3,18 @@ package nedelosk.modularmachines.common.modular;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.ModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.special.IProducerController;
+import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
+import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,12 +33,12 @@ public class ModularMachine extends ModularInventory {
 	public IModular buildItem(ItemStack[] stacks) {
 		IModular modular = MachineBuilder.createMachine(getName());
 		if (modular != null) {
-			ModuleStack<IModule, IProducerController> controller = null;
+			ModuleStack<IModule, IModuleController> controller = null;
 			if (stacks.length == 0 || stacks[0] == null) {
 				return null;
 			}
-			if (ModuleRegistry.getProducer(stacks[0]) != null && ModuleRegistry.getProducer(stacks[0]).getModule() instanceof IProducerController) {
-				controller = ModuleRegistry.getProducer(stacks[0]);
+			if (ModuleRegistry.getModule(stacks[0]) != null && ModuleRegistry.getModule(stacks[0]).getModule() instanceof IModuleController) {
+				controller = ModuleRegistry.getModule(stacks[0]);
 			}
 			if (controller != null && controller.getModule().buildMachine(modular, stacks, controller)) {
 				ArrayList<String> moduleNames = new ArrayList<>();
@@ -71,19 +74,23 @@ public class ModularMachine extends ModularInventory {
 		return "modular.machine";
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ItemStack stack) {
-		if (ModuleUtils.getMachine(modular) == null || ModuleUtils.getMachine(modular).getModule() == null) {
+		if (ModularUtils.getMachine(modular) == null || ModularUtils.getMachine(modular).getStack().getModule() == null) {
 			return null;
 		}
-		return ModuleUtils.getMachine(modular).getModule().getItemRenderer(modular, ModuleUtils.getMachine(modular), stack);
+		return ((IModuleWithRenderer) ModularUtils.getMachine(modular).getStack().getModule()).getItemRenderer(modular,
+				ModularUtils.getMachine(modular).getStack(), stack);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile) {
-		if (ModuleUtils.getMachine(modular) == null || ModuleUtils.getMachine(modular).getModule() == null) {
+		if (ModularUtils.getMachine(modular) == null || ModularUtils.getMachine(modular).getStack().getModule() == null) {
 			return null;
 		}
-		return ModuleUtils.getMachine(modular).getModule().getMachineRenderer(modular, ModuleUtils.getMachine(modular), tile);
+		return ((IModuleWithRenderer) ModularUtils.getMachine(modular).getStack().getModule()).getMachineRenderer(modular,
+				ModularUtils.getMachine(modular).getStack(), tile);
 	}
 }

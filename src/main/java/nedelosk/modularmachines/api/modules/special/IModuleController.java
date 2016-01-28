@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public interface IProducerController<S extends IModuleSaver> extends IModule<S> {
+public interface IModuleController<S extends IModuleSaver> extends IModule<S> {
 
-	boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IProducerController> moduleStack);
+	boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModuleController> moduleStack);
 }

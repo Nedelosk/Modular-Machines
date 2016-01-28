@@ -6,8 +6,8 @@ public abstract class ModuleTank extends Module implements IModuleTank {
 
 	private final int capacity;
 
-	public ModuleTank(String modifier, int capacity) {
-		super(modifier);
+	public ModuleTank(String categoryUID, String moduleUID, int capacity) {
+		super(categoryUID, moduleUID);
 		this.capacity = capacity;
 	}
 

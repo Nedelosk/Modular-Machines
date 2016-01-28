@@ -14,8 +14,9 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
@@ -44,10 +45,10 @@ public class ModuleMachineRecipeGui<P extends IModuleMachineRecipe> extends Modu
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetProgressBar) {
-				ModuleStack<IModuleEngine> engine = ModuleUtils.getEngine(modular).getStack();
+				ModuleStack<IModuleEngine> engine = ModularUtils.getEngine(modular).getStack();
 				if (engine != null) {
-					int burnTime = engine.getModule().getBurnTime(engine);
-					int burnTimeTotal = engine.getModule().getBurnTimeTotal(engine);
+					int burnTime = ((IModuleEngineSaver) engine.getSaver()).getBurnTime(engine);
+					int burnTimeTotal = ((IModuleEngineSaver) engine.getSaver()).getBurnTimeTotal(engine);
 					((WidgetProgressBar) widget).burntime = burnTime;
 					((WidgetProgressBar) widget).burntimeTotal = burnTimeTotal;
 				}

@@ -7,11 +7,11 @@ import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
 import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipeMode;
+import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipeModeSaver;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.tileentity.TileEntity;
 
 public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSwitchMode, IMessage> {
@@ -44,10 +44,11 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IM
 		try {
 			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 			if (tile.getModular() != null) {
-				ModuleStack<IModuleMachine> machineStack = ModuleUtils.getMachine(tile.getModular());
+				ModuleStack<IModuleMachineRecipeMode> machineStack = ModularUtils.getMachine(tile.getModular()).getStack();
 				if (machineStack != null) {
-					IModuleMachineRecipeMode machine = (IModuleMachineRecipeMode) machineStack.getModule();
-					machine.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
+					IModuleMachineRecipeModeSaver machineSaver = (IModuleMachineRecipeModeSaver) machineStack.getSaver();
+					IModuleMachineRecipeMode machine = machineStack.getModule();
+					machineSaver.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
 					getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 				}
 			}

@@ -2,6 +2,7 @@ package nedelosk.modularmachines.modules;
 
 import static nedelosk.forestday.modules.ModuleCore.ItemManager.Ingots;
 import static nedelosk.modularmachines.api.recipes.RecipeRegistry.registerRecipe;
+import static nedelosk.modularmachines.api.utils.ModuleRegistry.addModuleToItem;
 import static nedelosk.modularmachines.api.utils.ModuleRegistry.registerModular;
 import static nedelosk.modularmachines.common.items.ItemProducers.addProducer;
 import static nedelosk.modularmachines.modules.ModuleCore.ItemManager.Alloy_Ingots;
@@ -51,21 +52,20 @@ import nedelosk.modularmachines.common.items.ItemCapacitor;
 import nedelosk.modularmachines.common.items.ItemProducers;
 import nedelosk.modularmachines.common.items.ModularMetaItem;
 import nedelosk.modularmachines.common.modular.ModularMachine;
-import nedelosk.modularmachines.common.modular.utils.ProducerFactory;
 import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceAccessPort;
 import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceBase;
 import nedelosk.modularmachines.common.multiblock.blastfurnace.TileBlastFurnaceFluidPort;
 import nedelosk.modularmachines.common.network.packets.PacketAssembler;
 import nedelosk.modularmachines.common.producers.engine.ProducerEngineEnergy;
-import nedelosk.modularmachines.common.producers.machines.alloysmelter.ProducerAlloySmelter;
-import nedelosk.modularmachines.common.producers.machines.assembler.ProducerAssembler;
-import nedelosk.modularmachines.common.producers.machines.assembler.ProducerModuleAssembler;
-import nedelosk.modularmachines.common.producers.machines.boiler.ProducerBurningBoiler;
-import nedelosk.modularmachines.common.producers.machines.centrifuge.ProducerCentrifuge;
+import nedelosk.modularmachines.common.producers.machines.alloysmelter.ModuleAlloySmelter;
+import nedelosk.modularmachines.common.producers.machines.assembler.ModuleAssembler;
+import nedelosk.modularmachines.common.producers.machines.assembler.module.ModuleModuleAssembler;
+import nedelosk.modularmachines.common.producers.machines.boiler.ModuleBurningBoiler;
+import nedelosk.modularmachines.common.producers.machines.centrifuge.ModuleCentrifuge;
 import nedelosk.modularmachines.common.producers.machines.generator.ProducerBurningGenerator;
-import nedelosk.modularmachines.common.producers.machines.lathe.ProducerLathe;
-import nedelosk.modularmachines.common.producers.machines.pulverizer.ProducerPulverizer;
-import nedelosk.modularmachines.common.producers.machines.sawmill.ProducerSawMill;
+import nedelosk.modularmachines.common.producers.machines.lathe.ModuleLathe;
+import nedelosk.modularmachines.common.producers.machines.pulverizer.ModulePulverizer;
+import nedelosk.modularmachines.common.producers.machines.sawmill.ModuleSawMill;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -103,7 +103,6 @@ public class ModuleModular extends AModule {
 
 	@Override
 	public void init(IModuleManager manager) {
-		ProducerFactory.init();
 		registerCasings();
 		registerMachines();
 		registerManagers();
@@ -213,6 +212,7 @@ public class ModuleModular extends AModule {
 	}
 
 	public static void registerEnergy() {
+		addModuleToItem(stack, module, material);
 		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(15, 5), Materials.STONE, true)));
 		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(13, 15), Materials.IRON, true)));
 		registerProducer(addProducer(new ModuleStack(Modules.GENERATOR, new ProducerBurningGenerator(10, 45), Materials.BRONZE, true)));
@@ -295,29 +295,29 @@ public class ModuleModular extends AModule {
 	}
 
 	public static void registerMachines() {
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(350), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(300), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ProducerAlloySmelter(250), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(300), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(250), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ProducerAssembler(200), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(300), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(250), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ProducerModuleAssembler(200), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(275), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ProducerLathe(225), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(350), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(300), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ProducerSawMill(250), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(350), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(300), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ProducerPulverizer(250), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(350), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(300), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ProducerCentrifuge(250), Materials.BRONZE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(15, 100, 1000), Materials.STONE, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(13, 250, 1500), Materials.IRON, true)));
-		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ProducerBurningBoiler(10, 500, 2000), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ModuleAlloySmelter(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ModuleAlloySmelter(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ALLOYSMELTER, new ModuleAlloySmelter(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ModuleAssembler(300), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ModuleAssembler(250), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLER, new ModuleAssembler(200), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ModuleModuleAssembler(300), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ModuleModuleAssembler(250), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.ASSEMBLERMODULE, new ModuleModuleAssembler(200), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ModuleLathe(275), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.LATHE, new ModuleLathe(225), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ModuleSawMill(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ModuleSawMill(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.SAWMILL, new ModuleSawMill(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ModulePulverizer(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ModulePulverizer(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.PULVERIZER, new ModulePulverizer(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ModuleCentrifuge(350), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ModuleCentrifuge(300), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.CENTRIFUGE, new ModuleCentrifuge(250), Materials.BRONZE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ModuleBurningBoiler(15, 100, 1000), Materials.STONE, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ModuleBurningBoiler(13, 250, 1500), Materials.IRON, true)));
+		registerProducer(addProducer(new ModuleStack(Modules.BOILER, new ModuleBurningBoiler(10, 500, 2000), Materials.BRONZE, true)));
 	}
 
 	public static void registerLatheRecipes() {

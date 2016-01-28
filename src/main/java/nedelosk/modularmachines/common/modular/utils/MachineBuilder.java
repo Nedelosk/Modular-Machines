@@ -17,7 +17,7 @@ public class MachineBuilder {
 	public static ItemStack buildMachineItem(ItemStack[] inputs, String moduleName, int tier, ItemStack part) {
 		IModular machine = buildMachine(inputs, moduleName);
 		if (machine != null) {
-			if (tier >= machine.getTier()) {
+			if (tier >= machine.getMaterial().getTier()) {
 				try {
 					ItemStack stack = new ItemStack(ModuleModular.BlockManager.Modular_Machine.item());
 					stack.setTagCompound(new NBTTagCompound());

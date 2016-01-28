@@ -18,7 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class ModuleRegistry {
 
 	// Module Registry
-	private static ModuleNameRegistry producerRegistry = new ModuleNameRegistry();
+	private static ModuleNameRegistry moduleRegistry = new ModuleNameRegistry();
 	private static HashMap<String, IModuleCategory> categorys = Maps.newHashMap();
 	private static ArrayList<ModuleItem> moduleItems = Lists.newArrayList();
 
@@ -30,16 +30,20 @@ public class ModuleRegistry {
 		return categorys.get(categoryUID);
 	}
 
-	public static IModule registerProducer(IModule producer, String name) {
-		return producerRegistry.register(producer, name);
+	public static IModule registerModule(IModule producer, String name) {
+		return moduleRegistry.register(producer, name);
 	}
 
-	public static IModule getProducer(ResourceLocation registry) {
-		return producerRegistry.get(registry);
+	public static IModule getModule(ResourceLocation registry) {
+		return moduleRegistry.get(registry);
+	}
+
+	public static ModuleNameRegistry getModuleRegistry() {
+		return moduleRegistry;
 	}
 
 	public static void addModuleToItem(ItemStack stack, IModule module, Material material, boolean ignorNBT) {
-		addModuleToItem(stack, new ModuleStack(module), material, ignorNBT);
+		addModuleToItem(stack, new ModuleStack(stack, module), material, ignorNBT);
 	}
 
 	public static void addModuleToItem(ItemStack stack, IModule module, Material material) {

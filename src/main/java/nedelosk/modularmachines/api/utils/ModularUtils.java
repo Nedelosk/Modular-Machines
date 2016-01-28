@@ -3,20 +3,28 @@ package nedelosk.modularmachines.api.utils;
 import java.util.Collection;
 
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 
-public class ModuleUtils {
+public class ModularUtils {
 
+	/* MODULES FROM MODULAR */
 	public static ISingleModuleContainer getCasing(IModular modular) {
 		return getSingleContainer(modular, ModuleCategoryUIDs.CASING);
 	}
 
 	public static ModuleStack<IModuleTankManager> getTankManager(IModular modular) {
 		return getModuleStack(modular, ModuleCategoryUIDs.MANAGERS, ModuleCategoryUIDs.MANAGER_TANK);
+	}
+
+	public static IMultiModuleContainer getManagers(IModular modular) {
+		return getMultiContainer(modular, ModuleCategoryUIDs.MANAGERS);
 	}
 
 	public static ISingleModuleContainer getBattery(IModular modular) {
@@ -48,11 +56,7 @@ public class ModuleUtils {
 	}
 
 	public static ModuleStack getModuleStack(IModular modular, String categoryUID, String moduleUID) {
-		IMultiModuleContainer container = getMultiContainer(modular, categoryUID);
-		if (container == null) {
-			return null;
-		}
-		return container.getStack(moduleUID);
+		return modular.getModuleFromUID(categoryUID + ":" + moduleUID);
 	}
 
 	public static ISingleModuleContainer getSingleContainer(IModular modular, String categoryUID) {
@@ -68,5 +72,13 @@ public class ModuleUtils {
 			return null;
 		}
 		return modular.getModule(categoryUID);
+	}
+
+	public static <M extends IModule> ModuleStack<M> getModuleStackFromGui(IModularInventory modular, IModuleGui<M> gui) {
+		return modular.getModuleFromUID(gui.getCategoryUID() + ":" + gui.getModuleUID());
+	}
+
+	public static <M extends IModule> ModuleStack<M> getModuleStackFromInventory(IModularInventory modular, IModuleInventory<M> inv) {
+		return modular.getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
 	}
 }

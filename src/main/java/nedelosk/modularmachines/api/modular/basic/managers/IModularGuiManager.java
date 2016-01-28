@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.modular.basic.managers;
 
+import java.util.List;
 import java.util.Map;
 
 import nedelosk.forestcore.library.tile.TileBaseInventory;
@@ -16,11 +17,17 @@ public interface IModularGuiManager extends IModularManager {
 
 	Map<String, IGuiContainer> getGuis();
 
+	List<IModuleGui> getAllGuis();
+
 	IModuleGui getCurrentGui();
 
 	void setCurrentGui(IModuleGui gui);
 
 	void testForGuis();
+
+	IModuleGui getGui(ModuleStack stack);
+
+	IModuleGui getGui(String UID);
 
 	void addGui(IModuleGui gui, ModuleStack stack, IModuleContainer moduleContainer);
 

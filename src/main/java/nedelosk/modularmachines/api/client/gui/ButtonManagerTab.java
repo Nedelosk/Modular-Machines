@@ -13,7 +13,7 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.managers.IModuleManager;
 import nedelosk.modularmachines.api.modules.managers.IModuleManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
-import nedelosk.modularmachines.api.packets.pages.PacketSelectTankManagerTab;
+import nedelosk.modularmachines.api.packets.pages.PacketSelectManagerTab;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
@@ -57,7 +57,7 @@ public class ButtonManagerTab<P extends IModuleManager> extends Button<IModularT
 		IModuleManagerSaver managerSaver = (IModuleManagerSaver) stack.getSaver();
 		if (!(tabID == managerSaver.getTab())) {
 			managerSaver.setTab(tabID);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectTankManagerTab((TileEntity) tile, tabID));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID));
 		}
 	}
 

@@ -9,8 +9,10 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager.TankMode;
+import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -61,7 +63,7 @@ public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends W
 			} else {
 				mode = TankMode.values()[0];
 			}
-			gui.getTile().getModular().getTankManeger().getModule().getData(ID).setMode(mode);
+			((IModuleTankManagerSaver) ModularUtils.getTankManager(gui.getTile().getModular()).getSaver()).getData(ID).setMode(mode);
 			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), mode, ID));
 		}
 	}

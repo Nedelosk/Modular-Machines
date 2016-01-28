@@ -13,7 +13,7 @@ import akka.japi.Pair;
 import nedelosk.forestcore.library.utils.MapUtil;
 import nedelosk.modularmachines.api.modular.type.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.special.IProducerWithItem;
+import nedelosk.modularmachines.api.modules.special.IModuleWithItem;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.core.TabModularMachines;
@@ -97,8 +97,8 @@ public class ItemProducers extends Item {
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
 		if (pass == 1 && stack.hasTagCompound()) {
-			IProducerWithItem producer = (IProducerWithItem) ModuleRegistry.producerFactory.createProducer(stack.getTagCompound().getString("Name"));
-			return producer.getColor();
+			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModuleFromItem(stack).moduleStack.getModule();
+			return module.getColor();
 		} else {
 			return 16777215;
 		}

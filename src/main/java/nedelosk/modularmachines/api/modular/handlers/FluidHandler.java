@@ -1,6 +1,7 @@
 package nedelosk.modularmachines.api.modular.handlers;
 
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -21,31 +22,31 @@ public class FluidHandler implements IFluidHandler {
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return machine.getTankManeger().getStack().getModule().fill(from, resource, doFill, null, machine, false);
+		return ModularUtils.getTankManager(machine).getModule().fill(from, resource, doFill, null, machine, false);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		return machine.getTankManeger().getStack().getModule().drain(from, resource, doDrain, null, machine, false);
+		return ModularUtils.getTankManager(machine).getModule().drain(from, resource, doDrain, null, machine, false);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return machine.getTankManeger().getStack().getModule().drain(from, maxDrain, doDrain, null, machine, false);
+		return ModularUtils.getTankManager(machine).getModule().drain(from, maxDrain, doDrain, null, machine, false);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return machine.getTankManeger().getStack().getModule().canFill(from, fluid, null, machine);
+		return ModularUtils.getTankManager(machine).getModule().canFill(from, fluid, null, machine);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return machine.getTankManeger().getStack().getModule().canDrain(from, fluid, null, machine);
+		return ModularUtils.getTankManager(machine).getModule().canDrain(from, fluid, null, machine);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return machine.getTankManeger().getStack().getModule().getTankInfo(from, null, machine);
+		return ModularUtils.getTankManager(machine).getModule().getTankInfo(from, null, machine);
 	}
 }

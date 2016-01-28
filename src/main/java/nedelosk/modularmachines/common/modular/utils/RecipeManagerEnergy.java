@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class RecipeManagerEnergy extends RecipeManager {
@@ -10,7 +10,7 @@ public class RecipeManagerEnergy extends RecipeManager {
 	public RecipeManagerEnergy() {
 	}
 
-	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeItem[] inputs, Object... craftingModifier) {
 		super(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
@@ -27,7 +27,7 @@ public class RecipeManagerEnergy extends RecipeManager {
 	}
 
 	@Override
-	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs,
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeItem[] inputs,
 			Object... craftingModifier) {
 		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}

@@ -12,26 +12,23 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
-	public String modifier;
 	protected ResourceLocation registry;
+	private String moduleUID;
+	private String categoryUID;
 
-	public Module(String modifier) {
-		this.modifier = modifier;
+	public Module(String categoryUID, String moduleUID) {
+		this.categoryUID = categoryUID;
+		this.moduleUID = moduleUID;
 	}
 
 	@Override
 	public String getName(ModuleStack stack) {
-		return registry.getResourcePath() + "." + modifier;
+		return registry.getResourcePath() + "." + getModuleUID();
 	}
 
 	@Override
 	public String getUnlocalizedName(ModuleStack stack) {
 		return "producer." + getName(stack) + ".name";
-	}
-
-	@Override
-	public String getModifier(ModuleStack stack) {
-		return modifier;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -92,6 +89,11 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
 	@Override
 	public String getModuleUID() {
-		return null;
+		return moduleUID;
+	}
+
+	@Override
+	public String getCategoryUID() {
+		return categoryUID;
 	}
 }

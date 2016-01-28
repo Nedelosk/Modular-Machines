@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
+import nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -12,7 +12,7 @@ public class RecipeManagerSteam extends RecipeManager {
 	public RecipeManagerSteam() {
 	}
 
-	public RecipeManagerSteam(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifier) {
+	public RecipeManagerSteam(IModular modular, String recipeName, int materialModifier, RecipeItem[] inputs, Object... craftingModifier) {
 		super(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}
 
@@ -31,7 +31,7 @@ public class RecipeManagerSteam extends RecipeManager {
 	}
 
 	@Override
-	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs,
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeItem[] inputs,
 			Object... craftingModifier) {
 		return new RecipeManagerSteam(modular, recipeName, materialModifier, inputs, craftingModifier);
 	}

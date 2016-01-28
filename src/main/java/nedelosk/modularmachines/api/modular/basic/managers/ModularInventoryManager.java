@@ -7,175 +7,235 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.container.gui.IMultiGuiContainer;
+import nedelosk.modularmachines.api.modular.basic.container.gui.ISingleGuiContainer;
+import nedelosk.modularmachines.api.modular.basic.container.inventory.IInventoryContainer;
+import nedelosk.modularmachines.api.modular.basic.container.inventory.IMultiInventoryContainer;
+import nedelosk.modularmachines.api.modular.basic.container.inventory.ISingleInventoryContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class ModularInventoryManager implements IModularInventoryManager<IModularInventory> {
 
 	private HashMap<String, ItemStack[]> slots = Maps.newHashMap();
+	private HashMap<String, IInventoryContainer> inventorys = Maps.newHashMap();
 	private IModularInventory modular;
 
-	public ModularInventoryManager(NBTTagCompound nbt) {
-		readFromNBT(nbt);
+	public ModularInventoryManager() {
 	}
 
-	public ModularInventoryManager(IModularInventory modular) {
-		for ( IModuleContainer container : modular.getModuleContainers().values() ) {
-			if (container instanceof ISingleModuleContainer) {
-				ISingleModuleContainer single = (ISingleModuleContainer) container;
-			} else if (container instanceof IMultiModuleContainer) {
-				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> multi = (IMultiModuleContainer) container;
-				for ( ModuleStack stack : multi.getStacks() ) {
-					if (stack.getModule() instanceof IModuleInventory) {
-						slots.put(module.getModule().getName(module, false), new ItemStack[((IModuleInventory) stack.getModule()).getSizeInventory(stack)]);
-					}
+	@Override
+	public void setInventorys() {
+		for ( Entry<String, IModuleContainer> entryContainer : modular.getModuleContainers().entrySet() ) {
+			Class<? extends IInventoryContainer> containerClass = ModuleRegistry.getCategory(entryContainer.getKey()).getInventoryContainerClass();
+			IInventoryContainer container;
+			try {
+				if (containerClass.isInterface()) {
+					return;
+				}
+				container = containerClass.newInstance();
+			} catch (Exception e) {
+				return;
+			}
+			if (container instanceof ISingleGuiContainer) {
+				if (!(entryContainer.getValue() instanceof ISingleModuleContainer)) {
+					return;
+				}
+				ModuleStack stack = ((ISingleModuleContainer) entryContainer.getValue()).getStack();
+				((ISingleInventoryContainer) container).setInventory(stack.getModule().getInventory(stack));
+			} else if (container instanceof IMultiGuiContainer) {
+				if (!(entryContainer.getValue() instanceof IMultiModuleContainer)) {
+					return;
+				}
+				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> moduleContainer = (IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>>) entryContainer
+						.getValue();
+				for ( ModuleStack stack : moduleContainer.getStacks() ) {
+					int index = moduleContainer.getIndex(stack);
+					((IMultiInventoryContainer) container).addInventory(index, stack.getModule().getInventory(stack));
 				}
 			}
+			inventorys.put(entryContainer.getKey(), container);
 		}
+	}
+
+	@Override
+	public IModuleInventory getInventory(ModuleStack stack) {
+		IModule module = stack.getModule();
+		IInventoryContainer container = inventorys.get(module.getCategoryUID());
+		IModuleInventory inventory = null;
+		if (container instanceof ISingleInventoryContainer) {
+			inventory = ((ISingleInventoryContainer) container).getInventory();
+		} else if (container instanceof IMultiInventoryContainer) {
+			inventory = ((IMultiInventoryContainer) container).getInventory(module.getModuleUID());
+		}
+		return inventory;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		NBTTagList nbtList = nbt.getTagList("slots", 10);
-		for ( int i = 0; i < nbtList.tagCount(); i++ ) {
-			NBTTagCompound compound = nbtList.getCompoundTagAt(i);
-			String key = compound.getString("Key");
-			NBTTagList nbtTagList = compound.getTagList("slots", 10);
-			ItemStack[] slots = new ItemStack[compound.getInteger("Size")];
-			for ( int r = 0; r < nbtTagList.tagCount(); r++ ) {
-				NBTTagCompound item = nbtTagList.getCompoundTagAt(r);
-				byte itemLocation = item.getByte("item");
-				if (itemLocation >= 0 && itemLocation < slots.length) {
-					slots[itemLocation] = ItemStack.loadItemStackFromNBT(item);
-				}
-			}
-			this.slots.put(key, slots);
-		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		NBTTagList nbtList = new NBTTagList();
-		for ( Entry<String, ItemStack[]> entry : slots.entrySet() ) {
-			NBTTagCompound compound = new NBTTagCompound();
-			compound.setString("Key", entry.getKey());
-			compound.setInteger("Size", entry.getValue().length);
-			NBTTagList nbtTagList = new NBTTagList();
-			for ( int i = 0; i < entry.getValue().length; i++ ) {
-				if (entry.getValue()[i] != null) {
-					NBTTagCompound item = new NBTTagCompound();
-					item.setByte("item", (byte) i);
-					entry.getValue()[i].writeToNBT(item);
-					nbtTagList.appendTag(item);
-				}
-			}
-			compound.setTag("slots", nbtTagList);
-			nbtList.appendTag(compound);
+	}
+
+	@Override
+	public int getSizeInventory(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getSizeInventory(moduleStack, modular);
 		}
-		nbt.setTag("slots", nbtList);
+		return 0;
 	}
 
 	@Override
-	public int getSizeInventory(String page) {
-		return slots.get(page).length;
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(String page, int i) {
-		if (this.slots.get(page)[i] != null) {
-			ItemStack itemstack = this.slots.get(page)[i];
-			this.slots.get(page)[i] = null;
-			return itemstack;
+	public ItemStack getStackInSlot(int index, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getStackInSlot(index, moduleStack, modular);
 		}
 		return null;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(String page, int i) {
-		return this.slots.get(page)[i];
-	}
-
-	@Override
-	public ItemStack decrStackSize(String page, int i, int amount) {
-		if (this.slots.get(page)[i] != null) {
-			ItemStack itemstack;
-			if (this.slots.get(page)[i].stackSize <= amount) {
-				itemstack = this.slots.get(page)[i];
-				this.slots.get(page)[i] = null;
-				return itemstack;
-			} else {
-				itemstack = this.slots.get(page)[i].splitStack(amount);
-				if (this.slots.get(page)[i].stackSize == 0) {
-					this.slots.get(page)[i] = null;
-				}
-				return itemstack;
-			}
+	public ItemStack decrStackSize(int index, int stacksize, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.decrStackSize(index, stacksize, moduleStack, modular);
 		}
 		return null;
 	}
 
 	@Override
-	public void setInventorySlotContents(String page, int slot, ItemStack itemstack) {
-		this.slots.get(page)[slot] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
-			itemstack.stackSize = getInventoryStackLimit();
+	public ItemStack getStackInSlotOnClosing(int index, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getStackInSlotOnClosing(index, moduleStack, modular);
+		}
+		return null;
+	}
+
+	@Override
+	public void setInventorySlotContents(int index, ItemStack itemStack, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			inventory.setInventorySlotContents(index, itemStack, moduleStack, modular);
 		}
 	}
 
 	@Override
-	public void markDirty() {
+	public String getInventoryName(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getInventoryName(moduleStack, modular);
+		}
+		return null;
 	}
 
 	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(String page, int slot, ItemStack stack) {
+	public boolean hasCustomInventoryName(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.hasCustomInventoryName(moduleStack, modular);
+		}
 		return false;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(ForgeDirection side) {
-		return new int[0];
+	public int getInventoryStackLimit(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getInventoryStackLimit(moduleStack, modular);
+		}
+		return 0;
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, ForgeDirection side) {
+	public void markDirty(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			inventory.markDirty(moduleStack, modular);
+		}
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.isUseableByPlayer(player, moduleStack, modular);
+		}
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, ForgeDirection side) {
+	public void openInventory(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			inventory.openInventory(moduleStack, modular);
+		}
+	}
+
+	@Override
+	public void closeInventory(ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			inventory.closeInventory(moduleStack, modular);
+		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack itemStack, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.isItemValidForSlot(index, itemStack, moduleStack, modular);
+		}
 		return false;
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
-		return 64;
+	public int[] getAccessibleSlotsFromSide(int side, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.getAccessibleSlotsFromSide(side, moduleStack, modular);
+		}
+		return null;
 	}
 
 	@Override
-	public boolean addToOutput(ItemStack output, int slotMin, int slotMax, String page) {
+	public boolean canInsertItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.canInsertItem(index, itemStack, side, moduleStack, modular);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack) {
+		IModuleInventory inventory = getInventory(moduleStack);
+		if (inventory != null) {
+			return inventory.canExtractItem(index, itemStack, side, moduleStack, modular);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addToOutput(ItemStack output, int slotMin, int slotMax, ModuleStack moduleStack) {
 		if (output == null) {
 			return true;
 		}
 		for ( int i = slotMin; i < slotMax; i++ ) {
-			ItemStack itemStack = getStackInSlot(page, i);
+			ItemStack itemStack = getStackInSlot(i, moduleStack);
 			if (itemStack == null) {
-				setInventorySlotContents(page, i, output);
+				setInventorySlotContents(i, output, moduleStack);
 				return true;
 			} else {
 				if (itemStack.getItem() == output.getItem() && itemStack.getItemDamage() == output.getItemDamage()) {
@@ -183,7 +243,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 						int avaiableSpaceOnStack = itemStack.getMaxStackSize() - itemStack.stackSize;
 						if (avaiableSpaceOnStack >= output.stackSize) {
 							itemStack.stackSize = itemStack.stackSize + output.stackSize;
-							setInventorySlotContents(page, i, itemStack);
+							setInventorySlotContents(i, itemStack, moduleStack);
 							return true;
 						} else {
 							return false;

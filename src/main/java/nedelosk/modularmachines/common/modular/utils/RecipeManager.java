@@ -1,12 +1,11 @@
 package nedelosk.modularmachines.common.modular.utils;
 
-import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -14,7 +13,7 @@ public abstract class RecipeManager implements IRecipeManager {
 
 	protected String recipeName;
 	protected int materialModifier;
-	protected RecipeInput[] inputs;
+	protected RecipeItem[] inputs;
 	protected int speedModifier;
 	protected IModular modular;
 	protected Object[] craftingModifiers;
@@ -22,11 +21,11 @@ public abstract class RecipeManager implements IRecipeManager {
 	public RecipeManager() {
 	}
 
-	public RecipeManager(IModular modular, String recipeName, RecipeInput[] inputs) {
+	public RecipeManager(IModular modular, String recipeName, RecipeItem[] inputs) {
 		this(modular, recipeName, 0, inputs);
 	}
 
-	public RecipeManager(IModular modular, String recipeName, int materialModifier, RecipeInput[] inputs, Object... craftingModifiers) {
+	public RecipeManager(IModular modular, String recipeName, int materialModifier, RecipeItem[] inputs, Object... craftingModifiers) {
 		this.inputs = inputs;
 		this.recipeName = recipeName;
 		if (materialModifier == 0) {
@@ -47,7 +46,7 @@ public abstract class RecipeManager implements IRecipeManager {
 	}
 
 	@Override
-	public RecipeInput[] getInputs() {
+	public RecipeItem[] getInputs() {
 		return inputs;
 	}
 
@@ -61,10 +60,10 @@ public abstract class RecipeManager implements IRecipeManager {
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
-		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModuleUtils.getMachine(modular).getModule();
+		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModularUtils.getMachine(modular).getStack().getModule();
 		machine.writeCraftingModifiers(nbt, modular, craftingModifiers);
 		NBTTagList list = new NBTTagList();
-		for ( RecipeInput input : inputs ) {
+		for ( RecipeItem input : inputs ) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			input.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);
@@ -78,12 +77,12 @@ public abstract class RecipeManager implements IRecipeManager {
 		int materialModifier = nbt.getInteger("MaterialModifier");
 		int speedModifier = nbt.getInteger("SpeedModifier");
 		NBTTagList list = nbt.getTagList("RecipeInput", 10);
-		RecipeInput[] inputs = new RecipeInput[list.tagCount()];
+		RecipeItem[] inputs = new RecipeItem[list.tagCount()];
 		for ( int i = 0; i < list.tagCount(); i++ ) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			inputs[i] = RecipeInput.readFromNBT(nbtTag);
+			inputs[i] = RecipeItem.readFromNBT(nbtTag);
 		}
-		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModuleUtils.getMachine(modular).getModule();
+		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModularUtils.getMachine(modular).getStack().getModule();
 		Object[] craftingModifiers = machine.readCraftingModifiers(nbt, modular);
 		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null) {
 			return null;
@@ -91,6 +90,6 @@ public abstract class RecipeManager implements IRecipeManager {
 		return createManager(modular, recipeName, speedModifier, materialModifier, inputs, craftingModifiers);
 	}
 
-	public abstract IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeInput[] inputs,
+	public abstract IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeItem[] inputs,
 			Object... craftingModifiers);
 }

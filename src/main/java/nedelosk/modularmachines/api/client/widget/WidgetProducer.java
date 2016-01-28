@@ -10,9 +10,11 @@ import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
+import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -42,9 +44,9 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		if (gui.getTile().getModular().getFluidProducers().isEmpty()) {
 			return;
 		}
-		ModuleStack<IModule, IModule> stack = gui.getTile().getModular().getFluidProducers().get(producer);
-		if (stack.getItem() != null) {
-			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItem(), gui.getGuiLeft() + pos.x + 1,
+		ModuleStack<IModuleWithFluid> stack = gui.getTile().getModular().getFluidProducers().get(producer);
+		if (stack.getItemStack() != null) {
+			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItemStack(), gui.getGuiLeft() + pos.x + 1,
 					gui.getGuiTop() + pos.y + 1);
 		}
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -53,7 +55,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
 		if (gui.getTile() != null && gui.getTile().getModular() != null && gui.getTile().getModular().getFluidProducers() != null && producer != -1) {
-			List<ModuleStack> stacks = gui.getTile().getModular().getFluidProducers();
+			List<ModuleStack<IModuleWithFluid>> stacks = gui.getTile().getModular().getFluidProducers();
 			if (stacks.isEmpty()) {
 				return;
 			}
@@ -64,7 +66,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 				} else {
 					producer = 0;
 				}
-				gui.getTile().getModular().getTankManeger().getModule().getData(ID).setProducer(producer);
+				((IModuleTankManagerSaver) ModularUtils.getTankManager(gui.getTile().getModular()).getSaver()).getData(ID).setProducer(producer);
 				PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), producer, ID));
 			}
 		}
@@ -76,7 +78,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 			return null;
 		}
 		ArrayList<String> list = new ArrayList<String>();
-		List<ModuleStack> stacks = gui.getTile().getModular().getFluidProducers();
+		List<ModuleStack<IModuleWithFluid>> stacks = gui.getTile().getModular().getFluidProducers();
 		if (stacks.isEmpty()) {
 			return list;
 		}

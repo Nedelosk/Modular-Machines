@@ -9,16 +9,12 @@ import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.integration.IWailaProvider;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modular.type.Materials.Material;
-import nedelosk.modularmachines.api.modules.basic.IModuleCasing;
-import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
-import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,18 +35,11 @@ public interface IModular {
 
 	void writeToNBT(NBTTagCompound nbt) throws Exception;
 
-	// Utils
-	ISingleModuleContainer<IModuleBattery> getBattery();
-
-	ISingleModuleContainer<IModuleCasing> getCasing();
-
-	ISingleModuleContainer<IModuleTankManager> getTankManeger();
-
-	IMultiModuleContainer getManagers();
-
 	boolean addModule(ModuleStack stack);
 
-	IModuleContainer getModule(String moduleName);
+	IModuleContainer getModule(String categoryUID);
+
+	ModuleStack getModuleFromUID(String UID);
 
 	ISingleModuleContainer getSingleModule(String moduleName);
 
@@ -67,9 +56,6 @@ public interface IModular {
 	IModularUtilsManager getManager();
 
 	List<ModuleStack<IModuleWithFluid>> getFluidProducers();
-
-	// Gui
-	IModularGuiManager getGuiManager();
 
 	// Item
 	IModular buildItem(ItemStack[] stacks);

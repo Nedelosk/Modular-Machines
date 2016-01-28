@@ -15,15 +15,16 @@ import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.Module;
 import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
-import nedelosk.modularmachines.api.modules.special.IProducerController;
+import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
 public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Module<S> implements IModuleMachine<S>, IModuleWithFluid<S> {
 
-	public ModuleMachine(String modifier) {
-		super(modifier);
+	public ModuleMachine(String moduleUID) {
+		super(ModuleCategoryUIDs.MACHINE, moduleUID);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -41,7 +42,7 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 	@SideOnly(Side.CLIENT)
 	@Override
 	public String getFilePath(ModuleStack stack) {
-		return getModifier(stack);
+		return getModuleUID();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -76,7 +77,7 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 	}
 
 	@Override
-	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IProducerController> moduleStack) {
+	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModuleController> moduleStack) {
 		ArrayList<ModuleStack> modules = new ArrayList();
 		modules.add(moduleStack);
 		for ( int i = 1; i < stacks.length; i++ ) {

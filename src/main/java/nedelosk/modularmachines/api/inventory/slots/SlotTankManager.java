@@ -6,6 +6,7 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSaver;
+import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,6 +45,7 @@ public class SlotTankManager<M extends IModuleTankManager> extends SlotModular<M
 		if (module != null && module.getModule() != null && module.getModule() instanceof IModuleTank) {
 			((IModuleTank) module.getModule()).setStorageFluid(getSaver().getData(ID).getTank().getFluid(), module, stack);
 			moduleStack.getModule().addTank(ID, null, moduleStack);
+			modular.getMultiModule(ModuleCategoryUIDs.TANKS).addStack(ID, null);
 			tileModular.getWorldObj().markBlockForUpdate(tileModular.getXCoord(), tileModular.getYCoord(), tileModular.getZCoord());
 		}
 	}
@@ -57,6 +59,7 @@ public class SlotTankManager<M extends IModuleTankManager> extends SlotModular<M
 		if (module != null && module.getModule() != null && module.getModule() instanceof IModuleTank) {
 			moduleStack.getModule().addTank(ID, (IModuleTank) module.getModule(), moduleStack);
 			getSaver().getData(ID).getTank().setFluid(((IModuleTank) module.getModule()).getStorageFluid(module, stack));
+			modular.getMultiModule(ModuleCategoryUIDs.TANKS).addStack(ID, module);
 			tileModular.getWorldObj().markBlockForUpdate(tileModular.getXCoord(), tileModular.getYCoord(), tileModular.getZCoord());
 		}
 	}

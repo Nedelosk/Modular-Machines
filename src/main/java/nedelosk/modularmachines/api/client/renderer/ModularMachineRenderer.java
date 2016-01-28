@@ -13,9 +13,9 @@ import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
 import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.api.utils.ModuleUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -323,7 +323,7 @@ public class ModularMachineRenderer {
 			GL11.glPushMatrix();
 			manager.bindTexture(baseTextureLeft);
 			Base_Casing_Left.render(0.0625F);
-			if (ModuleUtils.getEngine(machine) == null) {
+			if (ModularUtils.getEngine(machine) == null) {
 				manager.bindTexture(baseTextureRight);
 				Base_Casing_Right.render(0.0625F);
 			} else {
@@ -358,7 +358,7 @@ public class ModularMachineRenderer {
 			}
 			manager.bindTexture(baseTextureLeft);
 			Base_Casing_Left.render(0.0625F);
-			if (ModuleUtils.getEngine(entity.getModular()) == null) {
+			if (ModularUtils.getEngine(entity.getModular()) == null) {
 				manager.bindTexture(baseTextureRight);
 				Base_Casing_Right.render(0.0625F);
 			} else {
