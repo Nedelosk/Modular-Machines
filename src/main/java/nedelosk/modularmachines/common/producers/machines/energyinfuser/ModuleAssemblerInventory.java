@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.forestcore.library.inventory.IContainerBase;
+import nedelosk.modularmachines.api.inventory.slots.SlotModular;
+import nedelosk.modularmachines.api.inventory.slots.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.inventory.SlotModular;
-import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.producers.machines.assembler.ModuleAssembler;

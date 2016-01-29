@@ -2,7 +2,7 @@ package nedelosk.modularmachines.client.renderers.item;
 
 import nedelosk.modularmachines.client.proxy.ClientProxy;
 import nedelosk.modularmachines.client.renderers.tile.TileRendererModular;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -11,7 +11,7 @@ public class ItemRendererModular implements IItemRenderer {
 	public TileRendererModular modular;
 
 	public ItemRendererModular() {
-		this.modular = (TileRendererModular) ClientProxy.getRenderer(TileModular.class);
+		this.modular = (TileRendererModular) ClientProxy.getRenderer(TileModularMachine.class);
 	}
 
 	@Override

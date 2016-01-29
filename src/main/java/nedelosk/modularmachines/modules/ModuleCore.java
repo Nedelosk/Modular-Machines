@@ -4,9 +4,7 @@ import static nedelosk.modularmachines.api.recipes.RecipeRegistry.registerRecipe
 import static nedelosk.modularmachines.modules.ModuleCore.ItemManager.Component_Rods;
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 import nedelosk.forestcore.library.core.Registry;
 import nedelosk.forestcore.library.items.ItemBlockForest;
 import nedelosk.forestcore.library.modules.AModule;
@@ -24,7 +22,7 @@ import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheMo
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.common.blocks.BlockComponent;
 import nedelosk.modularmachines.common.config.Config;
-import nedelosk.modularmachines.common.events.ClientEventHandler;
+import nedelosk.modularmachines.common.events.EventHandler;
 import nedelosk.modularmachines.common.items.ItemComponent;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyIngot;
 import nedelosk.modularmachines.common.items.materials.ItemAlloyNugget;
@@ -63,9 +61,7 @@ public class ModuleCore extends AModule {
 	public void preInit(IModuleManager manager) {
 		registerFluids();
 		Config.preInit();
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-		}
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		manager.register(BlockManager.Ore_Others, new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
 		manager.register(BlockManager.Component_Metal_Blocks, new BlockComponent(Material.iron, "metal_block"), ItemBlockForest.class);
 		BlockManager.Component_Metal_Blocks.addMetaData(0xCACECF, "tin", "Tin");
@@ -127,7 +123,6 @@ public class ModuleCore extends AModule {
 
 	@Override
 	public void init(IModuleManager manager) {
-		Config.init();
 		registerOre("dustCoal", new ItemStack(ItemManager.Dusts.item(), 1, 0));
 		registerOre("dustObsidian", new ItemStack(ItemManager.Dusts.item(), 1, 1));
 		registerOre("dustIron", new ItemStack(ItemManager.Dusts.item(), 1, 2));
@@ -231,6 +226,7 @@ public class ModuleCore extends AModule {
 
 	@Override
 	public void postInit(IModuleManager manager) {
+		Config.init();
 		GameRegistry.registerWorldGenerator(new WorldGeneratorModularMachines(), 0);
 	}
 

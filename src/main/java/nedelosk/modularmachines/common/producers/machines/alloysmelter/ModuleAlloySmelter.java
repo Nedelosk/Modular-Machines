@@ -19,11 +19,11 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 public class ModuleAlloySmelter extends ModuleMachineRecipe {
 
 	public ModuleAlloySmelter() {
-		this(60);
+		this("", 60);
 	}
 
-	public ModuleAlloySmelter(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, 2, 2, speedModifier);
+	public ModuleAlloySmelter(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, moduleModifier, 2, 2, speedModifier);
 	}
 
 	@Override
@@ -61,11 +61,11 @@ public class ModuleAlloySmelter extends ModuleMachineRecipe {
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleAlloySmelterGui(getCategoryUID(), getModuleUID());
+		return new ModuleAlloySmelterGui(getCategoryUID(), getName(stack));
 	}
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleAlloySmelterInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModuleAlloySmelterInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 }

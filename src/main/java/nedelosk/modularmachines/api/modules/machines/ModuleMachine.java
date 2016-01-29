@@ -10,21 +10,19 @@ import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleGui;
-import nedelosk.modularmachines.api.modules.Module;
+import nedelosk.modularmachines.api.modules.ModuleAddable;
 import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
-import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Module<S> implements IModuleMachine<S>, IModuleWithFluid<S> {
+public abstract class ModuleMachine<S extends IModuleMachineSaver> extends ModuleAddable<S> implements IModuleMachine<S>, IModuleWithFluid<S> {
 
-	public ModuleMachine(String moduleUID) {
-		super(ModuleCategoryUIDs.MACHINE, moduleUID);
+	public ModuleMachine(String moduleUID, String moduleModifier) {
+		super(ModuleCategoryUIDs.MACHINE, moduleUID + "." + moduleModifier);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -77,24 +75,7 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 	}
 
 	@Override
-	public boolean buildMachine(IModular modular, ItemStack[] stacks, ModuleStack<IModuleController> moduleStack) {
-		ArrayList<ModuleStack> modules = new ArrayList();
-		modules.add(moduleStack);
-		for ( int i = 1; i < stacks.length; i++ ) {
-			ItemStack stack = stacks[i];
-			if (stack != null) {
-				if (ModuleRegistry.getModuleFromItem(stack) != null && ModuleRegistry.getModuleFromItem(stack).moduleStack.getModule() != null) {
-					modules.add(ModuleRegistry.getModuleFromItem(stack).moduleStack);
-				}
-			}
-		}
-		for ( ModuleStack<IModule> manager : modules ) {
-			if (manager != null) {
-				if (!modular.addModule(manager)) {
-					return false;
-				}
-			}
-		}
+	public boolean canBuildModular(IModular modular, ModuleStack<IModuleController> moduleStack) {
 		return true;
 	}
 

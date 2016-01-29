@@ -18,11 +18,10 @@ import nedelosk.modularmachines.api.modular.basic.managers.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.basic.managers.ModularUtilsManager;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.integration.IWailaProvider;
+import nedelosk.modularmachines.api.modular.material.Materials;
+import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modular.type.Materials;
-import nedelosk.modularmachines.api.modular.type.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -34,13 +33,13 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	protected HashMap<String, IModuleContainer> modules = Maps.newHashMap();
 	protected IModularTileEntity machine;
-	protected IModularUtilsManager utils;
+	protected IModularUtilsManager utilsManager;
 	protected String page;
 	protected Material material;
 
 	public Modular() {
-		utils = new ModularUtilsManager();
-		utils.setModular(this);
+		utilsManager = new ModularUtilsManager();
+		utilsManager.setModular(this);
 	}
 
 	public Modular(NBTTagCompound nbt) {
@@ -53,7 +52,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void update(boolean isServer) {
-		List<ModuleStack> stacks = getStacks();
+		List<ModuleStack> stacks = getModuleStacks();
 		for ( ModuleStack stack : stacks ) {
 			if (stack != null && stack.getModule() != null) {
 				if (isServer) {
@@ -66,12 +65,9 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) throws Exception {
-		if (utils == null) {
-			utils = new ModularUtilsManager();
-		}
-		utils.readFromNBT(nbt);
-		utils.setModular(this);
+	public void readFromNBT(NBTTagCompound nbt) {
+		getUtilsManager().readFromNBT(nbt.getCompoundTag("UtilsManager"));
+		getUtilsManager().setModular(this);
 		if (modules == null) {
 			modules = Maps.newHashMap();
 		}
@@ -79,39 +75,37 @@ public abstract class Modular implements IModular, IWailaProvider {
 		for ( int i = 0; i < listTag.tagCount(); i++ ) {
 			NBTTagCompound modulesTag = listTag.getCompoundTagAt(i);
 			IModuleContainer container;
-			IModule producer;
+			IModule module;
 			if (modulesTag.getBoolean("IsMulti")) {
 				container = new MultiModuleContainer();
 			} else {
 				container = new ModuleContainer();
 			}
-			container.readFromNBT(modulesTag.getCompoundTag("Container"), this);
+			container.readFromNBT(modulesTag, this);
 			if (modulesTag.getBoolean("IsMulti")) {
 				if (((IMultiModuleContainer) container).getStacks().isEmpty() || ((IMultiModuleContainer) container).getStack(0) == null) {
 					continue;
 				}
-				producer = ((IMultiModuleContainer) container).getStack(0).getModule();
+				module = ((IMultiModuleContainer) container).getStack(0).getModule();
 			} else {
 				if (((ISingleModuleContainer) container).getStack() == null) {
 					continue;
 				}
-				producer = ((ISingleModuleContainer) container).getStack().getModule();
+				module = ((ISingleModuleContainer) container).getStack().getModule();
 			}
-			if (producer == null) {
+			if (module == null) {
 				continue;
 			}
-			modules.put(producer.getCategoryUID(), container);
+			modules.put(module.getCategoryUID(), container);
 		}
 		material = Materials.getMaterial(nbt.getString("Material"));
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) throws Exception {
-		if (utils == null) {
-			utils = new ModularUtilsManager();
-			utils.setModular(this);
-		}
-		utils.writeToNBT(nbt);
+	public void writeToNBT(NBTTagCompound nbt) {
+		NBTTagCompound nbtTagUtils = new NBTTagCompound();
+		getUtilsManager().writeToNBT(nbtTagUtils);
+		nbt.setTag("UtilsManager", nbtTagUtils);
 		NBTTagList listTag = new NBTTagList();
 		for ( Entry<String, IModuleContainer> module : modules.entrySet() ) {
 			NBTTagCompound modulesTag = new NBTTagCompound();
@@ -137,11 +131,6 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public HashMap<String, IModuleContainer> getModuleContainers() {
 		return modules;
-	}
-
-	@Override
-	public void setModules(HashMap<String, IModuleContainer> modules) {
-		this.modules = modules;
 	}
 
 	@Override
@@ -239,26 +228,17 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public IModularUtilsManager getManager() {
-		return utils;
-	}
-
-	@Override
-	public List<ModuleStack<IModuleWithFluid>> getFluidProducers() {
-		List<ModuleStack<IModuleWithFluid>> stacks = new ArrayList();
-		for ( ModuleStack stack : getStacks() ) {
-			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleWithFluid) {
-				if (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
-					stacks.add(stack);
-				}
-			}
+	public IModularUtilsManager getUtilsManager() {
+		if (utilsManager == null) {
+			utilsManager = new ModularUtilsManager();
+			utilsManager.setModular(this);
 		}
-		return stacks;
+		return utilsManager;
 	}
 
 	private ArrayList<ModuleStack> getWailaModules() {
 		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
-		for ( ModuleStack stack : getStacks() ) {
+		for ( ModuleStack stack : getModuleStacks() ) {
 			if (stack.getModule() != null && stack.getModule() instanceof IWailaProvider) {
 				wailaModules.add(stack);
 			}
@@ -295,7 +275,8 @@ public abstract class Modular implements IModular, IWailaProvider {
 		return this;
 	}
 
-	private List<ModuleStack> getStacks() {
+	@Override
+	public List<ModuleStack> getModuleStacks() {
 		List<ModuleStack> stacks = new ArrayList();
 		for ( IModuleContainer module : modules.values() ) {
 			if (module instanceof ISingleModuleContainer) {

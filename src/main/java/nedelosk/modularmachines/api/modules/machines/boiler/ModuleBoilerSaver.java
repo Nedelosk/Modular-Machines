@@ -13,7 +13,7 @@ public class ModuleBoilerSaver extends ModuleMachineSaver implements IModuleBoil
 	protected int heatTotal;
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.writeToNBT(nbt, modular, stack);
 		nbt.setInteger("Fuel", fuel);
 		nbt.setInteger("FuelTotal", fuelTotal);
@@ -22,7 +22,7 @@ public class ModuleBoilerSaver extends ModuleMachineSaver implements IModuleBoil
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.readFromNBT(nbt, modular, stack);
 		fuel = nbt.getInteger("Fuel");
 		fuelTotal = nbt.getInteger("FuelTotal");

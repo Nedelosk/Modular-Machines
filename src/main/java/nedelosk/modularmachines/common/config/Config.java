@@ -34,9 +34,9 @@ public class Config {
 	public static void init() {
 		load();
 		Configuration config = ModularMachines.config;
-		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleRegistry().getProducers().entrySet() ) {
+		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleRegistry().getModules().entrySet() ) {
 			if (!config.get("Module Registry", entry.getKey().toString(), true).getBoolean()) {
-				ModuleRegistry.getModuleRegistry().getProducers().remove(entry.getKey());
+				ModuleRegistry.getModuleRegistry().getModules().remove(entry.getKey());
 			}
 		}
 		/*

@@ -22,6 +22,8 @@ public interface IModularTileEntity<M extends IModular> extends ISidedInventory,
 
 	M getModular();
 
+	void setModular(M modular);
+
 	short getFacing();
 
 	GameProfile getOwner();

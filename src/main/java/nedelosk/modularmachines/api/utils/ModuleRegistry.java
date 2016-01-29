@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.type.Materials.Material;
+import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleCategory;
 import net.minecraft.item.ItemStack;
@@ -30,8 +30,12 @@ public class ModuleRegistry {
 		return categorys.get(categoryUID);
 	}
 
-	public static IModule registerModule(IModule producer, String name) {
-		return moduleRegistry.register(producer, name);
+	public static IModule registerModule(IModule module, String name) {
+		return moduleRegistry.register(module, name);
+	}
+
+	public static IModule registerModule(IModule module) {
+		return registerModule(module, module.getCategoryUID() + "." + module.getModuleUID());
 	}
 
 	public static IModule getModule(ResourceLocation registry) {
@@ -43,23 +47,26 @@ public class ModuleRegistry {
 	}
 
 	public static void addModuleToItem(ItemStack stack, IModule module, Material material, boolean ignorNBT) {
-		addModuleToItem(stack, new ModuleStack(stack, module), material, ignorNBT);
+		addModuleToItem(new ModuleStack(stack, module, material), ignorNBT);
 	}
 
 	public static void addModuleToItem(ItemStack stack, IModule module, Material material) {
 		addModuleToItem(stack, module, material, false);
 	}
 
-	public static void addModuleToItem(ItemStack stack, ModuleStack moduleStack, Material material, boolean ignorNBT) {
-		ModuleItem producerItem = new ModuleItem(stack, moduleStack, material, ignorNBT);
-		if (!moduleItems.equals(producerItem)) {
-			moduleItems.add(producerItem);
-			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(producerItem));
+	public static void addModuleToItem(ModuleStack moduleStack, boolean ignorNBT) {
+		ModuleItem moduleItem = new ModuleItem(moduleStack.getItemStack(), moduleStack, moduleStack.getMaterial(), ignorNBT);
+		if (moduleStack.getModule().getRegistry() == null) {
+			registerModule(moduleStack.getModule());
+		}
+		if (!moduleItems.equals(moduleItem)) {
+			moduleItems.add(moduleItem);
+			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(moduleItem));
 		}
 	}
 
-	public static void addProducerToItem(ItemStack stack, ModuleStack moduleStack, Material material) {
-		addModuleToItem(stack, moduleStack, material, false);
+	public static void addProducerToItem(ModuleStack moduleStack) {
+		addModuleToItem(moduleStack, false);
 	}
 
 	public static ModuleItem getModuleFromItem(ItemStack stack) {
@@ -74,6 +81,10 @@ public class ModuleRegistry {
 			}
 		}
 		return null;
+	}
+
+	public static ArrayList<ModuleItem> getModuleItems() {
+		return moduleItems;
 	}
 
 	// Modular Registry

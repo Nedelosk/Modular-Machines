@@ -68,4 +68,9 @@ public class ModularUtilsManager implements IModularUtilsManager {
 			fluidHandler.setMachine(modular);
 		}
 	}
+
+	@Override
+	public IModular getModular() {
+		return modular;
+	}
 }

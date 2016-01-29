@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -28,21 +28,21 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaHead(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaBody(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
 		IWailaData data = new WailaData(accessor, config);
 		return modular.getModular().getWailaProvider(modular, data).getWailaTail(itemStack, currenttip, data);
 	}

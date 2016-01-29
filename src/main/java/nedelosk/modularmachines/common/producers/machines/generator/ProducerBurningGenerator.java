@@ -9,9 +9,9 @@ import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.inventory.IContainerBase;
+import nedelosk.modularmachines.api.inventory.slots.SlotModular;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
@@ -72,9 +72,9 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		if (modular.getManager().getEnergyHandler() != null) {
+		if (modular.getUtilsManager().getEnergyHandler() != null) {
 			if (fuel > 0) {
-				if (modular.getManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy, false) >= energy) {
+				if (modular.getUtilsManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy, false) >= energy) {
 					fuel--;
 				}
 			} else {
@@ -118,7 +118,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 					}
 					continue;
 				} else {
-					if (tile.getModular().getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true) == null) {
+					if (tile.getModular().getUtilsManager().getFluidHandler().drain(ForgeDirection.UNKNOWN, input.fluid, true) == null) {
 						return false;
 					}
 					continue;

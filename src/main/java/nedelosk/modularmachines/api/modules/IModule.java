@@ -6,6 +6,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,11 +17,13 @@ public interface IModule<S extends IModuleSaver> {
 
 	void updateClient(IModular modular, ModuleStack stack);
 
+	List<String> getRequiredModules();
+
+	boolean canBuildModular(IModular modular, ModuleStack stack, ModuleStack<IModuleController> controller, List<ModuleStack> modules) throws ModularException;
+
 	String getName(ModuleStack stack);
 
 	String getUnlocalizedName(ModuleStack stack);
-
-	List<String> getRequiredModules();
 
 	void setRegistry(ResourceLocation registry);
 
@@ -28,8 +32,6 @@ public interface IModule<S extends IModuleSaver> {
 	String getCategoryUID();
 
 	String getModuleUID();
-
-	boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames);
 
 	S getSaver(ModuleStack stack);
 

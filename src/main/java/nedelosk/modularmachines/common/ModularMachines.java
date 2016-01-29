@@ -10,7 +10,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
-import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.core.InternalMethodHandler;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
@@ -46,7 +45,6 @@ public class ModularMachines {
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		registry.postInit(instance, event);
-		Config.postInit();
 	}
 
 	@Mod.EventHandler

@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.api.modular.inventory;
+package nedelosk.modularmachines.api.inventory.slots;
 
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -19,20 +19,23 @@ public class SlotModular<M extends IModule> extends Slot {
 
 	@Override
 	public ItemStack getStack() {
-		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager()
-				.getStackInSlot(moduleStack.getModule().getName(moduleStack), this.getSlotIndex());
+		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().getStackInSlot(this.getSlotIndex(), moduleStack);
 	}
 
 	@Override
 	public void putStack(ItemStack p_75215_1_) {
-		((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager()
-				.setInventorySlotContents(moduleStack.getModule().getName(moduleStack), getSlotIndex(), p_75215_1_);
+		((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().setInventorySlotContents(getSlotIndex(), p_75215_1_,
+				moduleStack);
 		this.onSlotChanged();
 	}
 
 	@Override
+	public int getSlotStackLimit() {
+		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().getInventoryStackLimit(moduleStack);
+	}
+
+	@Override
 	public ItemStack decrStackSize(int p_75209_1_) {
-		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager()
-				.decrStackSize(moduleStack.getModule().getName(moduleStack), getSlotIndex(), p_75209_1_);
+		return ((IModularTileEntity<IModularInventory>) inventory).getModular().getInventoryManager().decrStackSize(getSlotIndex(), p_75209_1_, moduleStack);
 	}
 }

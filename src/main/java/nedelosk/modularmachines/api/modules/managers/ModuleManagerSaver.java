@@ -13,12 +13,12 @@ public class ModuleManagerSaver implements IModuleManagerSaver {
 	protected int tab;
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		nbt.setInteger("Tab", tab);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		tab = nbt.getInteger("Tab");
 	}
 

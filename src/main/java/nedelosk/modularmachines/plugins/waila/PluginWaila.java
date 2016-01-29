@@ -4,15 +4,16 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import nedelosk.forestcore.library.plugins.APlugin;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.plugins.waila.provider.ProviderModular;
 
+@Optional.Interface(modid = "Waila", iface = "mcp.mobius.waila.api.IWailaRegistrar")
 public class PluginWaila extends APlugin {
 
 	@Optional.Method(modid = "Waila")
 	public static void register(IWailaRegistrar registrar) {
-		registrar.registerBodyProvider(new ProviderModular(), TileModular.class);
+		registrar.registerBodyProvider(new ProviderModular(), TileModularMachine.class);
 	}
 
 	@Override

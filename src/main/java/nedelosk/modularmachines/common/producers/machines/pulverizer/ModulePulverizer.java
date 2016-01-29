@@ -19,11 +19,11 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 public class ModulePulverizer extends ModuleMachineRecipe {
 
 	public ModulePulverizer() {
-		this(65);
+		this("", 65);
 	}
 
-	public ModulePulverizer(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_PULVERIZER, 1, 2, speedModifier);
+	public ModulePulverizer(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_PULVERIZER, moduleModifier, 1, 2, speedModifier);
 	}
 
 	@Override
@@ -58,11 +58,11 @@ public class ModulePulverizer extends ModuleMachineRecipe {
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModulePulverizerInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModulePulverizerInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModulePulverizerGui(getCategoryUID(), getModuleUID());
+		return new ModulePulverizerGui(getCategoryUID(), getName(stack));
 	}
 }

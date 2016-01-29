@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectManagerTab, IMessage> {
 
 	public int tabID;
-	public String moduleUID;
+	public String moduleName;
 
 	public PacketSelectManagerTab() {
 	}
@@ -29,20 +29,20 @@ public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> impleme
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		tabID = buf.readInt();
-		moduleUID = ByteBufUtils.readUTF8String(buf);
+		moduleName = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeInt(tabID);
-		ByteBufUtils.writeUTF8String(buf, moduleUID);
+		ByteBufUtils.writeUTF8String(buf, moduleName);
 	}
 
 	public PacketSelectManagerTab(TileEntity tile, int tabID, String moduleUID) {
 		super(tile);
 		this.tabID = tabID;
-		this.moduleUID = moduleUID;
+		this.moduleName = moduleUID;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> impleme
 			world = ctx.getServerHandler().playerEntity.worldObj;
 		}
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
-		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleUID).getSaver()).setTab(message.tabID);
+		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleName).getSaver()).setTab(message.tabID);
 		if (ctx.side == Side.SERVER) {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);

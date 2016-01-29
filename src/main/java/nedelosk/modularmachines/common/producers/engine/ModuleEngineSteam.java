@@ -7,9 +7,9 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerSteam;
 
-public class ProducerEngineSteam extends ModuleEngine {
+public class ModuleEngineSteam extends ModuleEngine {
 
-	public ProducerEngineSteam(String moduleUID, int speedModifier) {
+	public ModuleEngineSteam(String moduleUID, int speedModifier) {
 		super(moduleUID, speedModifier, "Steam");
 	}
 

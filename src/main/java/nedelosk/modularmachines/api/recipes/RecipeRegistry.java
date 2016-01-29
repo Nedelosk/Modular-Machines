@@ -75,7 +75,7 @@ public class RecipeRegistry {
 		return list;
 	}
 
-	public static RecipeItem isRecipeInput(String recipeName, RecipeItem input) {
+	public static RecipeItem getRecipeInput(String recipeName, RecipeItem input) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
 		if (recipes == null || input == null) {
 			return null;

@@ -35,8 +35,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	protected final int fluidInputs;
 	protected final int speed;
 
-	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int speed) {
-		super(moduleUID);
+	public ModuleMachineRecipe(String moduleUID, String moduleModifier, int itemInputs, int itemOutputs, int speed) {
+		super(moduleUID, moduleModifier);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = 0;
@@ -44,8 +44,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 		this.speed = speed;
 	}
 
-	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
-		super(moduleUID);
+	public ModuleMachineRecipe(String moduleUID, String moduleModifier, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
+		super(moduleUID, moduleModifier);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = fluidInputs;
@@ -136,15 +136,15 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 					if (ModularUtils.getMachine(modular) == null) {
 						return;
 					}
-					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(),
-							recipe.getRequiredMaterial() / engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack),
+					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
+					int burnTimeEngine = engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier();
+					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / burnTimeEngine,
 							getInputs(modular, stack), getCraftingModifiers(modular, stack)));
 					if (!removeInput(modular, stack)) {
 						engineSaver.setManager(null);
 						return;
 					}
 					engineSaver.setIsWorking(true);
-					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
 					engineSaver.setBurnTimeTotal(
 							engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier());
 				}

@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.api.inventory.slots;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.inventory.SlotModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;

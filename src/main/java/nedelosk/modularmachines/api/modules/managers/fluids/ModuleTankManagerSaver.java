@@ -17,7 +17,7 @@ public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModul
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.readFromNBT(nbt, modular, stack);
 		NBTTagList list = new NBTTagList();
 		for ( int i = 0; i < datas.length; i++ ) {
@@ -32,7 +32,7 @@ public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModul
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.writeToNBT(nbt, modular, stack);
 		NBTTagList list = nbt.getTagList("Datas", 10);
 		int[] tankCapacitys = nbt.getIntArray("TankCapacitys");

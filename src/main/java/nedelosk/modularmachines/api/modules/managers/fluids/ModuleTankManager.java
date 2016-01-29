@@ -13,6 +13,8 @@ import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.managers.ModuleManager;
+import nedelosk.modularmachines.api.utils.ModularException;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -35,11 +37,9 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	}
 
 	@Override
-	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
-		if (modular.getManager().getFluidHandler() == null) {
-			modular.getManager().setFluidHandler(new FluidHandler(modular));
-		}
-		return super.onBuildModular(modular, stack, moduleNames);
+	public void onAddInModular(IModular modular, ModuleStack stack) throws ModularException {
+		modular.getUtilsManager().setFluidHandler(new FluidHandler(modular));
+		super.onAddInModular(modular, stack);
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 					continue;
 				}
 			}
-			if (modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()) {
-				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
+			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -96,8 +96,8 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 			if (resource.getFluid() != data.getTank().getFluid().getFluid()) {
 				continue;
 			}
-			if (modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()) {
-				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
+			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -129,8 +129,8 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 			if (data.getTank().getFluid().amount < 0) {
 				continue;
 			}
-			if (modular.getFluidProducers() != null && !modular.getFluidProducers().isEmpty()) {
-				ModuleStack stackT = modular.getFluidProducers().get(data.getProducer());
+			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -191,7 +191,8 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	public List<TankData> getDatas(IModular modular, ModuleStack stack, TankMode mode) {
 		ArrayList<TankData> datasL = Lists.newArrayList();
 		if (stack != null) {
-			if (modular.getFluidProducers() == null || modular.getFluidProducers().isEmpty() || !modular.getFluidProducers().contains(stack)) {
+			if (ModularUtils.getFluidProducers(modular) == null || ModularUtils.getFluidProducers(modular).isEmpty()
+					|| !ModularUtils.getFluidProducers(modular).contains(stack)) {
 				return datasL;
 			}
 			IModuleTankManagerSaver saver = (IModuleTankManagerSaver) stack.getSaver();
@@ -199,7 +200,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				TankData data = saver.getData(ID);
 				if (data != null) {
 					if (mode == data.getMode()) {
-						if (data.getProducer() == modular.getFluidProducers().indexOf(stack)) {
+						if (data.getProducer() == ModularUtils.getFluidProducers(modular).indexOf(stack)) {
 							datasL.add(data);
 						}
 					}

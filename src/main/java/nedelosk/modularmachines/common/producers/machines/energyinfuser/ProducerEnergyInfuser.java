@@ -5,9 +5,9 @@ import java.util.List;
 
 import crazypants.enderio.machine.recipe.RecipeInput;
 import nedelosk.forestcore.library.inventory.IContainerBase;
+import nedelosk.modularmachines.api.inventory.slots.SlotModular;
+import nedelosk.modularmachines.api.inventory.slots.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.inventory.SlotModular;
-import nedelosk.modularmachines.api.modular.inventory.SlotModularOutput;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;

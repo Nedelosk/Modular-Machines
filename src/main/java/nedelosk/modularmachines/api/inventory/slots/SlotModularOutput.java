@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.api.modular.inventory;
+package nedelosk.modularmachines.api.inventory.slots;
 
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.inventory.IInventory;

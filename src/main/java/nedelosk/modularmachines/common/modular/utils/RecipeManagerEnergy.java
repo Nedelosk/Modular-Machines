@@ -16,10 +16,10 @@ public class RecipeManagerEnergy extends RecipeManager {
 
 	@Override
 	public boolean removeMaterial() {
-		if (modular == null || modular.getManager() == null || modular.getManager().getEnergyHandler() == null) {
+		if (modular == null || modular.getUtilsManager() == null || modular.getUtilsManager().getEnergyHandler() == null) {
 			return false;
 		}
-		if (modular.getManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, materialModifier, false) > 0) {
+		if (modular.getUtilsManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, materialModifier, false) > 0) {
 			return true;
 		} else {
 			return false;

@@ -22,7 +22,7 @@ public class ModuleBatteryGui<P extends IModuleBattery> extends ModuleDefaultGui
 
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P> stack, List<Widget> widgets) {
-		widgets.add(new WidgetEnergyField(((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage(), 45, 15));
+		widgets.add(new WidgetEnergyField(((EnergyHandler) modular.getUtilsManager().getEnergyHandler()).getStorage(), 45, 15));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class ModuleBatteryGui<P extends IModuleBattery> extends ModuleDefaultGui
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
 		for ( Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets() ) {
 			if (widget instanceof WidgetEnergyField) {
-				((WidgetEnergyField) widget).storage = ((EnergyHandler) modular.getManager().getEnergyHandler()).getStorage();
+				((WidgetEnergyField) widget).storage = ((EnergyHandler) modular.getUtilsManager().getEnergyHandler()).getStorage();
 			}
 		}
 	}

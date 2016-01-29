@@ -18,10 +18,10 @@ public class RecipeManagerSteam extends RecipeManager {
 
 	@Override
 	public boolean removeMaterial() {
-		if (modular == null || modular.getManager() == null || modular.getManager().getFluidHandler() == null) {
+		if (modular == null || modular.getUtilsManager() == null || modular.getUtilsManager().getFluidHandler() == null) {
 			return false;
 		}
-		FluidStack drain = modular.getManager().getFluidHandler().drain(ForgeDirection.UNKNOWN,
+		FluidStack drain = modular.getUtilsManager().getFluidHandler().drain(ForgeDirection.UNKNOWN,
 				new FluidStack(FluidRegistry.getFluid("steam"), materialModifier), true);
 		if (drain != null && drain.amount > 0) {
 			return true;

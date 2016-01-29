@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.api.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
@@ -9,10 +11,23 @@ import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleC
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager;
 
 public class ModularUtils {
+
+	public static List<ModuleStack<IModuleWithFluid>> getFluidProducers(IModular modular) {
+		List<ModuleStack<IModuleWithFluid>> stacks = new ArrayList();
+		for ( ModuleStack stack : modular.getModuleStacks() ) {
+			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleWithFluid) {
+				if (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
+					stacks.add(stack);
+				}
+			}
+		}
+		return stacks;
+	}
 
 	/* MODULES FROM MODULAR */
 	public static ISingleModuleContainer getCasing(IModular modular) {

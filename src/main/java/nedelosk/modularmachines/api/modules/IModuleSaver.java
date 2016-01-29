@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModuleSaver {
 
-	void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
+	void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack);
 
-	void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception;
+	void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack);
 }

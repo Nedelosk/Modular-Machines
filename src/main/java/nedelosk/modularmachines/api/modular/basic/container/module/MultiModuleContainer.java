@@ -65,7 +65,7 @@ public class MultiModuleContainer<M extends IModule> implements IMultiModuleCont
 
 	/* NBT */
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
 		if (nbt.hasKey("Stacks")) {
 			NBTTagList nbtList = nbt.getTagList("Stacks", 10);
 			moduleStacks = new ArrayList<ModuleStack<M>>();
@@ -77,7 +77,7 @@ public class MultiModuleContainer<M extends IModule> implements IMultiModuleCont
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
 		if (moduleStacks != null && moduleStacks.isEmpty()) {
 			NBTTagList nbtList = new NBTTagList();
 			for ( ModuleStack<M> stack : moduleStacks ) {

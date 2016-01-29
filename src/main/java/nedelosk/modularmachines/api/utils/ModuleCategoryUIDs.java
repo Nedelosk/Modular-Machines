@@ -13,6 +13,7 @@ public class ModuleCategoryUIDs {
 	public static final String BATTERY = "Battery";
 	public static final String STORAGES = "Storages";
 	public static final String CAPACITOR = "Capacitor";
+	// Module UID's
 	public static final String MANAGER_TANK = "Manager_Tank";
 	public static final String MANAGER_STORAGE = "Manager_Storage";
 	public static final String MANAGER_TRANSPORT = "Manager_Transport";

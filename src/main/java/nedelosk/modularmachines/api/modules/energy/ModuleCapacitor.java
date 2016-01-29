@@ -2,6 +2,7 @@ package nedelosk.modularmachines.api.modules.energy;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.Module;
+import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 public class ModuleCapacitor extends Module implements IModuleCapacitor {
@@ -9,8 +10,8 @@ public class ModuleCapacitor extends Module implements IModuleCapacitor {
 	private final int speedModifier;
 	private final int energyModifier;
 
-	public ModuleCapacitor(String categoryUID, String moduleUID, int speedModifier, int energyModifier) {
-		super(categoryUID, moduleUID);
+	public ModuleCapacitor(String moduleUID, int speedModifier, int energyModifier) {
+		super(ModuleCategoryUIDs.CAPACITOR, moduleUID);
 		this.speedModifier = speedModifier;
 		this.energyModifier = energyModifier;
 	}

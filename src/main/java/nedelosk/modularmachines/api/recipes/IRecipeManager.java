@@ -5,9 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IRecipeManager {
 
-	void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception;
+	void writeToNBT(NBTTagCompound nbt, IModular modular);
 
-	IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception;
+	IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular);
 
 	boolean removeMaterial();
 

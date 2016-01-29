@@ -74,7 +74,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 		if (container instanceof ISingleInventoryContainer) {
 			inventory = ((ISingleInventoryContainer) container).getInventory();
 		} else if (container instanceof IMultiInventoryContainer) {
-			inventory = ((IMultiInventoryContainer) container).getInventory(module.getModuleUID());
+			inventory = ((IMultiInventoryContainer) container).getInventory(module.getName(stack));
 		}
 		return inventory;
 	}

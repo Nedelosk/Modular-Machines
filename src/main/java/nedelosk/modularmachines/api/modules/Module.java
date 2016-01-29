@@ -7,8 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
@@ -23,12 +26,12 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
 	@Override
 	public String getName(ModuleStack stack) {
-		return registry.getResourcePath() + "." + getModuleUID();
+		return getCategoryUID() + "." + getModuleUID() + "." + stack.getMaterial().getName();
 	}
 
 	@Override
 	public String getUnlocalizedName(ModuleStack stack) {
-		return "producer." + getName(stack) + ".name";
+		return "module." + getCategoryUID() + "." + getModuleUID() + ".name";
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -43,6 +46,32 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 	}
 
 	@Override
+	public List<String> getRequiredModules() {
+		return new ArrayList<String>();
+	}
+
+	@Override
+	public boolean canBuildModular(IModular modular, ModuleStack stackModule, ModuleStack<IModuleController> controller, List<ModuleStack> modules)
+			throws ModularException {
+		if (getRequiredModules().isEmpty()) {
+			return true;
+		}
+		ArrayList<String> requiredModules = new ArrayList<>();
+		requiredModules.addAll(getRequiredModules());
+		for ( ModuleStack stack : modules ) {
+			if (requiredModules.contains(stack.getModule().getName(stack))) {
+				requiredModules.remove(stack.getModule().getName(stack));
+			} else {
+				throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.module", stack.getModule().getName(stack)));
+			}
+		}
+		if (!requiredModules.isEmpty()) {
+			throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.modules", requiredModules));
+		}
+		return true;
+	}
+
+	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
 		return null;
 	}
@@ -53,28 +82,6 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 
 	@Override
 	public void updateClient(IModular modular, ModuleStack stack) {
-	}
-
-	@Override
-	public List<String> getRequiredModules() {
-		return new ArrayList<String>();
-	}
-
-	@Override
-	public boolean onBuildModular(IModular modular, ModuleStack stack, List<String> moduleNames) {
-		ArrayList<String> requiredModules = new ArrayList<>();
-		requiredModules.addAll(getRequiredModules());
-		for ( String moduleName : getRequiredModules() ) {
-			if (moduleNames.contains(moduleName)) {
-				requiredModules.remove(moduleName);
-			} else {
-				return false;
-			}
-		}
-		if (!requiredModules.isEmpty()) {
-			return false;
-		}
-		return true;
 	}
 
 	@Override

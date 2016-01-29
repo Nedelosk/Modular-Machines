@@ -22,11 +22,11 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 public class ModuleLathe extends ModuleMachineRecipeMode {
 
 	public ModuleLathe() {
-		this(60);
+		this("", 60);
 	}
 
-	public ModuleLathe(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_LATHE, 1, 2, speedModifier, LatheModes.ROD);
+	public ModuleLathe(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_LATHE, moduleModifier, 1, 2, speedModifier, LatheModes.ROD);
 	}
 
 	@Override
@@ -69,11 +69,11 @@ public class ModuleLathe extends ModuleMachineRecipeMode {
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleLatheInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModuleLatheInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleLatheGui(getCategoryUID(), getModuleUID());
+		return new ModuleLatheGui(getCategoryUID(), getName(stack));
 	}
 }

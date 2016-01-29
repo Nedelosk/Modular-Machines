@@ -15,13 +15,14 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
 import nedelosk.modularmachines.api.modules.managers.ModuleManagerGui;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager.TankMode;
+import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
 public class ModuleTankManagerGui<P extends IModuleTankManager> extends ModuleManagerGui<P> {
 
-	public ModuleTankManagerGui(String guiName) {
-		super(guiName);
+	public ModuleTankManagerGui(String categoryUID, String guiName) {
+		super(categoryUID, guiName);
 	}
 
 	@Override
@@ -34,7 +35,8 @@ public class ModuleTankManagerGui<P extends IModuleTankManager> extends ModuleMa
 				WidgetFluidTank tank = widget;
 				widgets.add(tank);
 				widgets.add(new WidgetTankMode(tank.posX - 22, tank.posY, data == null ? null : data.getMode(), tabID));
-				if (gui.getTile().getModular().getFluidProducers() != null && !gui.getTile().getModular().getFluidProducers().isEmpty()) {
+				if (ModularUtils.getFluidProducers(gui.getTile().getModular()) != null
+						&& !ModularUtils.getFluidProducers(gui.getTile().getModular()).isEmpty()) {
 					widgets.add(new WidgetProducer(tank.posX - 22, tank.posY + 21, data == null ? -1 : data.getProducer(), tabID));
 				}
 				widgets.add(new WidgetDirection(tank.posX - 22, tank.posY + 42, data == null ? null : data.getDirection(), tabID));

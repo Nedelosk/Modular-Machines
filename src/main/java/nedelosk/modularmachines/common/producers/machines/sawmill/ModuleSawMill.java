@@ -16,12 +16,12 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 
 public class ModuleSawMill extends ModuleMachineRecipe {
 
-	public ModuleSawMill(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, 1, 2, speedModifier);
+	public ModuleSawMill(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, moduleModifier, 1, 2, speedModifier);
 	}
 
 	public ModuleSawMill() {
-		this(60);
+		this("", 60);
 	}
 
 	@Override
@@ -55,11 +55,11 @@ public class ModuleSawMill extends ModuleMachineRecipe {
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleSawMillInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModuleSawMillInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleSawMillGui(getCategoryUID(), getModuleUID());
+		return new ModuleSawMillGui(getCategoryUID(), getName(stack));
 	}
 }

@@ -19,7 +19,7 @@ public class ModuleEngineSaver implements IModuleEngineSaver {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		progress = nbt.getFloat("Progress");
 		burnTime = nbt.getInteger("burnTime");
 		burnTimeTotal = nbt.getInteger("burnTimeTotal");
@@ -32,7 +32,7 @@ public class ModuleEngineSaver implements IModuleEngineSaver {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		nbt.setFloat("Progress", progress);
 		nbt.setInteger("burnTime", burnTime);
 		nbt.setInteger("burnTimeTotal", burnTimeTotal);

@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.api.modular.type;
+package nedelosk.modularmachines.api.modular.material;
 
 import java.util.ArrayList;
 

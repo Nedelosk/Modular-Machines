@@ -41,10 +41,10 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(widget);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 18, 0, 18, 18);
-		if (gui.getTile().getModular().getFluidProducers().isEmpty()) {
+		if (ModularUtils.getFluidProducers(gui.getTile().getModular()).isEmpty()) {
 			return;
 		}
-		ModuleStack<IModuleWithFluid> stack = gui.getTile().getModular().getFluidProducers().get(producer);
+		ModuleStack<IModuleWithFluid> stack = ModularUtils.getFluidProducers(gui.getTile().getModular()).get(producer);
 		if (stack.getItemStack() != null) {
 			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItemStack(), gui.getGuiLeft() + pos.x + 1,
 					gui.getGuiTop() + pos.y + 1);
@@ -54,8 +54,9 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
-		if (gui.getTile() != null && gui.getTile().getModular() != null && gui.getTile().getModular().getFluidProducers() != null && producer != -1) {
-			List<ModuleStack<IModuleWithFluid>> stacks = gui.getTile().getModular().getFluidProducers();
+		if (gui.getTile() != null && gui.getTile().getModular() != null && ModularUtils.getFluidProducers(gui.getTile().getModular()) != null
+				&& producer != -1) {
+			List<ModuleStack<IModuleWithFluid>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
 			if (stacks.isEmpty()) {
 				return;
 			}
@@ -78,7 +79,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 			return null;
 		}
 		ArrayList<String> list = new ArrayList<String>();
-		List<ModuleStack<IModuleWithFluid>> stacks = gui.getTile().getModular().getFluidProducers();
+		List<ModuleStack<IModuleWithFluid>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
 		if (stacks.isEmpty()) {
 			return list;
 		}

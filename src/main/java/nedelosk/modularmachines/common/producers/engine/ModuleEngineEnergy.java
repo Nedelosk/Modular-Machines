@@ -7,9 +7,9 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.modular.utils.RecipeManagerEnergy;
 
-public class ProducerEngineEnergy extends ModuleEngine {
+public class ModuleEngineEnergy extends ModuleEngine {
 
-	public ProducerEngineEnergy(String moduleUID, int speedModifier) {
+	public ModuleEngineEnergy(String moduleUID, int speedModifier) {
 		super(moduleUID, speedModifier, "Energy");
 	}
 

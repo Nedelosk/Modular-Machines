@@ -1,7 +1,6 @@
 package nedelosk.modularmachines.common.modular;
 
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,17 +8,18 @@ import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.ModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModularUtils;
-import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 
 public class ModularMachine extends ModularInventory {
+
+	private ModularException lastException;
 
 	public ModularMachine() {
 		super();
@@ -30,43 +30,21 @@ public class ModularMachine extends ModularInventory {
 	}
 
 	@Override
-	public IModular buildItem(ItemStack[] stacks) {
-		IModular modular = MachineBuilder.createMachine(getName());
-		if (modular != null) {
-			ModuleStack<IModule, IModuleController> controller = null;
-			if (stacks.length == 0 || stacks[0] == null) {
-				return null;
-			}
-			if (ModuleRegistry.getModule(stacks[0]) != null && ModuleRegistry.getModule(stacks[0]).getModule() instanceof IModuleController) {
-				controller = ModuleRegistry.getModule(stacks[0]);
-			}
-			if (controller != null && controller.getModule().buildMachine(modular, stacks, controller)) {
-				ArrayList<String> moduleNames = new ArrayList<>();
-				for ( Vector<ModuleStack> moduleStacks : modular.getModuleContainers().values() ) {
-					for ( ModuleStack stack : moduleStacks ) {
-						if (stack != null && stack.getModule() != null) {
-							if (!moduleNames.contains(stack.getModule().getModuleName())) {
-								moduleNames.add(stack.getModule().getModuleName());
-							} else {
-								return null;
-							}
-						}
-					}
-				}
-				for ( Vector<ModuleStack> moduleStacks : modular.getModuleContainers().values() ) {
-					for ( ModuleStack stack : moduleStacks ) {
-						if (stack.getModule() == null) {
-							continue;
-						}
-						if (!stack.getModule().onBuildModular(modular, stack, moduleNames)) {
-							return null;
-						}
-					}
-				}
-				return modular;
+	public void build() throws ModularException {
+		ModuleStack<IModuleController> controller = null;
+		for ( ModuleStack stack : getModuleStacks() ) {
+			if (stack.getModule() instanceof IModuleController) {
+				controller = stack;
 			}
 		}
-		return null;
+		if (controller == null) {
+			throw new ModularException(StatCollector.translateToLocal("modular.ex.find.controller"));
+		}
+		List<ModuleStack> modules = getModuleStacks();
+		for ( ModuleStack stack : getModuleStacks() ) {
+			stack.getModule().canBuildModular(this, stack, controller, modules);
+		}
+		controller.getModule().canBuildModular(this, controller);
 	}
 
 	@Override

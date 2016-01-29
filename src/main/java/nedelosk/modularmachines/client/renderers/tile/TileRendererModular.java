@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.google.common.collect.Lists;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
-import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
+import nedelosk.modularmachines.common.modular.ModularMachine;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,8 +18,8 @@ public class TileRendererModular extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
-		if (entity instanceof TileModular) {
-			TileModular machineTile = (TileModular) entity;
+		if (entity instanceof TileModularMachine) {
+			TileModularMachine machineTile = (TileModularMachine) entity;
 			if (machineTile.modular != null && machineTile.modular.getMachineRenderer(machineTile.modular, machineTile) != null) {
 				machineTile.modular.getMachineRenderer(machineTile.modular, machineTile).renderMachine(machineTile, x, y, z);
 			}
@@ -33,7 +33,7 @@ public class TileRendererModular extends TileEntitySpecialRenderer {
 		}
 		IModular machine;
 		if (getEntry(stack) == null) {
-			machine = setEntry(MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getTag("Machine")), stack).modular;
+			machine = setEntry(new ModularMachine(tagCompound.getCompoundTag("Machine")), stack).modular;
 		} else {
 			machine = getEntry(stack).modular;
 		}

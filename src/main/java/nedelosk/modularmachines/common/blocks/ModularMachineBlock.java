@@ -5,8 +5,9 @@ import java.util.List;
 
 import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.common.ModularMachines;
-import nedelosk.modularmachines.common.blocks.tile.TileModular;
+import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -48,11 +49,15 @@ public class ModularMachineBlock extends ModularBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileModular();
+		return new TileModularMachine();
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
+		if (player.getCurrentEquippedItem() != null) {
+			if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null) {
+			}
+		}
 		player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
 		return true;
 	}

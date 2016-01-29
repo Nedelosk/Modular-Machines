@@ -15,13 +15,13 @@ public class ModuleMachineRecipeModeSaver extends ModuleMachineSaver implements 
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.writeToNBT(nbt, modular, stack);
 		nbt.setInteger("Mode", getMode().ordinal());
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		super.readFromNBT(nbt, modular, stack);
 		setMode(((IModuleMachineRecipeMode) stack.getModule()).getModeClass().getEnumConstants()[nbt.getInteger("Mode")]);
 	}

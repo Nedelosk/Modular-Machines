@@ -2,10 +2,10 @@ package nedelosk.modularmachines.common.blocks.tile;
 
 import nedelosk.forestcore.library.Log;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
-import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.common.modular.utils.MachineBuilder;
+import nedelosk.modularmachines.api.utils.ModularException;
+import nedelosk.modularmachines.common.modular.ModularMachine;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -15,11 +15,11 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class TileModular<M extends IModular> extends TileMachineBase implements IModularTileEntity {
+public class TileModularMachine extends TileMachineBase implements IModularTileEntity<ModularMachine> {
 
-	public M modular;
+	public ModularMachine modular;
 
-	public TileModular() {
+	public TileModularMachine() {
 		super(0);
 	}
 
@@ -35,7 +35,6 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 			NBTTagCompound machineTag = new NBTTagCompound();
 			modular.writeToNBT(machineTag);
 			nbt.setTag("Machine", machineTag);
-			nbt.setString("MachineName", modular.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (!worldObj.isRemote) {
@@ -49,7 +48,7 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		modular = MachineBuilder.createMachine(nbt.getString("MachineName"), nbt.getCompoundTag("Machine"));
+		modular = new ModularMachine(nbt.getCompoundTag("Machine"));
 		if (modular == null || modular.getModuleContainers() == null) {
 			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			Log.err("Error To Load Data From Modular Machine on Position  " + xCoord + ", " + yCoord + ", " + zCoord);
@@ -90,11 +89,20 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		}
 	}
 
-	public void setMachine(NBTTagCompound tagCompound) {
-		modular = MachineBuilder.createMachine(tagCompound.getString("MachineName"), tagCompound.getCompoundTag("Machine"));
-		modular.setMachine(this);
+	public void buildModular() throws ModularException {
+		modular.build();
 		modular.initModular();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+
+	@Override
+	public void setModular(ModularMachine modular) {
+		this.modular = modular;
+	}
+
+	@Override
+	public ModularMachine getModular() {
+		return modular;
 	}
 
 	@Override
@@ -117,13 +125,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return 0;
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return 0;
 		}
-		return modular.getManager().getFluidHandler().fill(from, resource, doFill);
+		return modular.getUtilsManager().getFluidHandler().fill(from, resource, doFill);
 	}
 
 	@Override
@@ -131,13 +139,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return null;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return null;
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return null;
 		}
-		return modular.getManager().getFluidHandler().drain(from, resource, doDrain);
+		return modular.getUtilsManager().getFluidHandler().drain(from, resource, doDrain);
 	}
 
 	@Override
@@ -145,13 +153,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return null;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return null;
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return null;
 		}
-		return modular.getManager().getFluidHandler().drain(from, maxDrain, doDrain);
+		return modular.getUtilsManager().getFluidHandler().drain(from, maxDrain, doDrain);
 	}
 
 	@Override
@@ -159,13 +167,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return false;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return false;
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return false;
 		}
-		return modular.getManager().getFluidHandler().canFill(from, fluid);
+		return modular.getUtilsManager().getFluidHandler().canFill(from, fluid);
 	}
 
 	@Override
@@ -173,13 +181,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return false;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return false;
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return false;
 		}
-		return modular.getManager().getFluidHandler().canDrain(from, fluid);
+		return modular.getUtilsManager().getFluidHandler().canDrain(from, fluid);
 	}
 
 	@Override
@@ -187,13 +195,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return new FluidTankInfo[0];
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return new FluidTankInfo[0];
 		}
-		if (modular.getManager().getFluidHandler() == null) {
+		if (modular.getUtilsManager().getFluidHandler() == null) {
 			return new FluidTankInfo[0];
 		}
-		return modular.getManager().getFluidHandler().getTankInfo(from);
+		return modular.getUtilsManager().getFluidHandler().getTankInfo(from);
 	}
 
 	@Override
@@ -201,13 +209,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return 0;
 		}
-		if (modular.getManager().getEnergyHandler() == null) {
+		if (modular.getUtilsManager().getEnergyHandler() == null) {
 			return 0;
 		}
-		return modular.getManager().getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
+		return modular.getUtilsManager().getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
 	}
 
 	@Override
@@ -215,13 +223,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return 0;
 		}
-		if (modular.getManager().getEnergyHandler() == null) {
+		if (modular.getUtilsManager().getEnergyHandler() == null) {
 			return 0;
 		}
-		return modular.getManager().getEnergyHandler().extractEnergy(from, maxExtract, simulate);
+		return modular.getUtilsManager().getEnergyHandler().extractEnergy(from, maxExtract, simulate);
 	}
 
 	@Override
@@ -229,13 +237,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return 0;
 		}
-		if (modular.getManager().getEnergyHandler() == null) {
+		if (modular.getUtilsManager().getEnergyHandler() == null) {
 			return 0;
 		}
-		return modular.getManager().getEnergyHandler().getEnergyStored(from);
+		return modular.getUtilsManager().getEnergyHandler().getEnergyStored(from);
 	}
 
 	@Override
@@ -243,13 +251,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return 0;
 		}
-		if (modular.getManager().getEnergyHandler() == null) {
+		if (modular.getUtilsManager().getEnergyHandler() == null) {
 			return 0;
 		}
-		return modular.getManager().getEnergyHandler().getMaxEnergyStored(from);
+		return modular.getUtilsManager().getEnergyHandler().getMaxEnergyStored(from);
 	}
 
 	@Override
@@ -257,18 +265,13 @@ public class TileModular<M extends IModular> extends TileMachineBase implements 
 		if (modular == null) {
 			return false;
 		}
-		if (modular.getManager() == null) {
+		if (modular.getUtilsManager() == null) {
 			return false;
 		}
-		if (modular.getManager().getEnergyHandler() == null) {
+		if (modular.getUtilsManager().getEnergyHandler() == null) {
 			return false;
 		}
-		return modular.getManager().getEnergyHandler().canConnectEnergy(from);
-	}
-
-	@Override
-	public M getModular() {
-		return modular;
+		return modular.getUtilsManager().getEnergyHandler().canConnectEnergy(from);
 	}
 
 	@Override

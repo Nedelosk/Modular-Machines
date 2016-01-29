@@ -56,7 +56,7 @@ public abstract class RecipeManager implements IRecipeManager {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
@@ -72,7 +72,7 @@ public abstract class RecipeManager implements IRecipeManager {
 	}
 
 	@Override
-	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public IRecipeManager readFromNBT(NBTTagCompound nbt, IModular modular) {
 		String recipeName = nbt.getString("RecipeName");
 		int materialModifier = nbt.getInteger("MaterialModifier");
 		int speedModifier = nbt.getInteger("SpeedModifier");

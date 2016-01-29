@@ -27,6 +27,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	public IModularInventoryManager getInventoryManager() {
 		if (inventoryManager == null) {
 			inventoryManager = new ModularInventoryManager();
+			inventoryManager.setModular(this);
 		}
 		return inventoryManager;
 	}
@@ -35,12 +36,13 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	public IModularGuiManager getGuiManager() {
 		if (guiManager == null) {
 			guiManager = new ModularGuiManager();
+			guiManager.setModular(this);
 		}
 		return guiManager;
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagCompound inventory = new NBTTagCompound();
 		getInventoryManager().writeToNBT(inventory);
@@ -51,7 +53,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		getInventoryManager().readFromNBT(nbt.getCompoundTag("InventoryManager"));
 		getInventoryManager().setModular(this);

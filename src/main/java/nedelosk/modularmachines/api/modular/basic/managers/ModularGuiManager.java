@@ -87,7 +87,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
 		IModule module = stack.getModule();
-		return getGui(module.getCategoryUID() + ":" + module.getModuleUID());
+		return getGui(module.getCategoryUID() + ":" + module.getName(stack));
 	}
 
 	@Override

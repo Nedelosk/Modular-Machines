@@ -28,14 +28,14 @@ public class ModuleContainer<P extends IModule> implements ISingleModuleContaine
 
 	/* NBT */
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
 		if (moduleStack != null) {
 			moduleStack.writeToNBT(nbt, modular);
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
 		moduleStack = ModuleStack.loadFromNBT(nbt, modular);
 	}
 }

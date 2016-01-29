@@ -17,7 +17,7 @@ public class ModuleBatterySaver implements IModuleBatterySaver {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		if (storage != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			storage.writeToNBT(nbtTag);
@@ -32,7 +32,7 @@ public class ModuleBatterySaver implements IModuleBatterySaver {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
 		if (nbt.hasKey("Storage")) {
 			NBTTagCompound nbtTag = nbt.getCompoundTag("Storage");
 			storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));

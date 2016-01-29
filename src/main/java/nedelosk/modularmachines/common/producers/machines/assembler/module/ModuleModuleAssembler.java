@@ -21,11 +21,11 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 public class ModuleModuleAssembler extends ModuleMachineRecipe {
 
 	public ModuleModuleAssembler() {
-		this(75);
+		this("", 75);
 	}
 
-	public ModuleModuleAssembler(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_ASSEMBLER_MODULE, 9, 2, speedModifier);
+	public ModuleModuleAssembler(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_ASSEMBLER_MODULE, moduleModifier, 9, 2, speedModifier);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -72,11 +72,11 @@ public class ModuleModuleAssembler extends ModuleMachineRecipe {
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleModuleAssemblerInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModuleModuleAssemblerInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleModuleAssemblerGui(getCategoryUID(), getModuleUID());
+		return new ModuleModuleAssemblerGui(getCategoryUID(), getName(stack));
 	}
 }

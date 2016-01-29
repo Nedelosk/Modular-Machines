@@ -17,11 +17,11 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 public class ModuleCentrifuge extends ModuleMachineRecipe {
 
 	public ModuleCentrifuge() {
-		this(60);
+		this("", 60);
 	}
 
-	public ModuleCentrifuge(int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_CENTRIFUGE, 2, 2, speedModifier);
+	public ModuleCentrifuge(String moduleModifier, int speedModifier) {
+		super(ModuleCategoryUIDs.MACHINE_CENTRIFUGE, moduleModifier, 2, 2, speedModifier);
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public class ModuleCentrifuge extends ModuleMachineRecipe {
 
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleCentrifugeInventory(getCategoryUID(), getModuleUID(), itemInputs + itemOutputs);
+		return new ModuleCentrifugeInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleCentrifugeGui(getCategoryUID(), getModuleUID());
+		return new ModuleCentrifugeGui(getCategoryUID(), getName(stack));
 	}
 
 	@Override

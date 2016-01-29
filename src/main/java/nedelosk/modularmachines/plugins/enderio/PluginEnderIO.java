@@ -1,9 +1,12 @@
 package nedelosk.modularmachines.plugins.enderio;
 
+import static nedelosk.modularmachines.api.utils.ModuleRegistry.addModuleToItem;
+
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestcore.library.plugins.APlugin;
-import nedelosk.modularmachines.api.modular.type.Materials;
+import nedelosk.modularmachines.api.modular.material.Materials;
+import nedelosk.modularmachines.api.modules.basic.ModuleCasing;
 import nedelosk.modularmachines.api.modules.energy.ModuleBattery;
 import nedelosk.modularmachines.api.modules.energy.ModuleCapacitor;
 import nedelosk.modularmachines.common.config.Config;
@@ -19,18 +22,16 @@ public class PluginEnderIO extends APlugin {
 
 	@Override
 	public void init() {
-		registerProducer(chassis, Modules.CASING, Materials.IRON);
-		registerProducer(new ItemStack(capacitorBank, 1, 1), Modules.BATTERY, new ModuleBattery("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)),
-				Materials.IRON);
-		registerProducer(new ItemStack(capacitorBank, 1, 2), Modules.BATTERY, new ModuleBattery("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)),
-				Materials.BRONZE);
-		registerProducer(new ItemStack(capacitorBank, 1, 3), Modules.BATTERY,
-				new ModuleBattery("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)), Materials.STEEL);
-		registerProducer(new ItemStack(capacitor, 1, 0), Modules.CAPACITOR, new ModuleCapacitor("CapacitorBasic", 10, 20), Materials.IRON);
-		registerProducer(new ItemStack(capacitor, 1, 1), Modules.CAPACITOR, new ModuleCapacitor("CapacitorDoubleLayer", 20, 40), Materials.BRONZE);
-		registerProducer(new ItemStack(capacitor, 1, 2), Modules.CAPACITOR, new ModuleCapacitor("CapacitorVibrant", 40, 60), Materials.STEEL);
-		registerProducer(new ItemStack(tanks), Modules.TANK, new ProducerTankEnderIO("TankFluid", 16000), Materials.IRON);
-		registerProducer(new ItemStack(tanks, 1, 1), Modules.TANK, new ProducerTankEnderIO("TankFluidPressurized", 32000), Materials.BRONZE);
+		addModuleToItem(chassis, new ModuleCasing<>("chassis"), Materials.IRON);
+		addModuleToItem(new ItemStack(capacitorBank, 1, 1), new ModuleBattery("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)), Materials.IRON);
+		addModuleToItem(new ItemStack(capacitorBank, 1, 2), new ModuleBattery("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)), Materials.BRONZE);
+		addModuleToItem(new ItemStack(capacitorBank, 1, 3), new ModuleBattery("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)),
+				Materials.STEEL);
+		addModuleToItem(new ItemStack(capacitor, 1, 0), new ModuleCapacitor("CapacitorBasic", 10, 20), Materials.IRON);
+		addModuleToItem(new ItemStack(capacitor, 1, 1), new ModuleCapacitor("CapacitorDoubleLayer", 20, 40), Materials.BRONZE);
+		addModuleToItem(new ItemStack(capacitor, 1, 2), new ModuleCapacitor("CapacitorVibrant", 40, 60), Materials.STEEL);
+		addModuleToItem(new ItemStack(tanks), new ModuleTankEnderIO("TankFluid", 16000), Materials.IRON);
+		addModuleToItem(new ItemStack(tanks, 1, 1), new ModuleTankEnderIO("TankFluidPressurized", 32000), Materials.BRONZE);
 	}
 
 	@Override
