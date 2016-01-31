@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.modules.managers;
 
-import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.ModuleAddable;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
@@ -12,10 +12,10 @@ public abstract class ModuleManager<S extends IModuleManagerSaver> extends Modul
 	}
 
 	@Override
-	public abstract IModuleGui getGui(ModuleStack stack);
+	public abstract IModuleGui createGui(ModuleStack stack);
 
 	@Override
-	public S getSaver(ModuleStack stack) {
+	public S createSaver(ModuleStack stack) {
 		return (S) new ModuleManagerSaver();
 	}
 }

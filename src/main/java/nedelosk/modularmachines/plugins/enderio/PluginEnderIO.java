@@ -8,7 +8,7 @@ import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.modularmachines.api.modular.material.Materials;
 import nedelosk.modularmachines.api.modules.basic.ModuleCasing;
 import nedelosk.modularmachines.api.modules.energy.ModuleBattery;
-import nedelosk.modularmachines.api.modules.energy.ModuleCapacitor;
+import nedelosk.modularmachines.api.modules.storage.capacitors.ModuleCapacitor;
 import nedelosk.modularmachines.common.config.Config;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

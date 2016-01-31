@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.packets;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -7,7 +8,6 @@ import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManager.TankMode;
-import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSaver;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,9 +16,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class PacketTankManager extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketTankManager, IMessage> {
 
 	private int ID;
-	private int producer = -1;
-	private TankMode mode;
-	private ForgeDirection direction;
+	private String module = null;
+	private TankMode mode = null;
+	private ForgeDirection direction = null;
+	private int capacity = -1;
 
 	public PacketTankManager() {
 	}
@@ -29,15 +30,21 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		this.ID = ID;
 	}
 
-	public PacketTankManager(TileEntity tile, int producer, int ID) {
+	public PacketTankManager(TileEntity tile, String module, int ID) {
 		super(tile);
-		this.producer = producer;
+		this.module = module;
 		this.ID = ID;
 	}
 
 	public PacketTankManager(TileEntity tile, ForgeDirection direction, int ID) {
 		super(tile);
 		this.direction = direction;
+		this.ID = ID;
+	}
+
+	public PacketTankManager(TileEntity tile, int capacity, int ID) {
+		super(tile);
+		this.capacity = capacity;
 		this.ID = ID;
 	}
 
@@ -49,9 +56,11 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		if (position == 0) {
 			mode = TankMode.values()[buf.readShort()];
 		} else if (position == 1) {
-			producer = buf.readInt();
+			module = ByteBufUtils.readUTF8String(buf);
 		} else if (position == 2) {
 			direction = ForgeDirection.values()[buf.readShort()];
+		} else if (position == 3) {
+			capacity = buf.readInt();
 		}
 	}
 
@@ -62,14 +71,17 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		if (mode != null) {
 			buf.writeInt(0);
 			buf.writeShort(mode.ordinal());
-		} else if (producer != -1) {
+		} else if (module != null) {
 			buf.writeInt(1);
-			buf.writeInt(producer);
+			ByteBufUtils.writeUTF8String(buf, module);
 		} else if (direction != null) {
 			buf.writeInt(2);
 			buf.writeShort(direction.ordinal());
-		} else {
+		} else if (capacity != -1) {
 			buf.writeInt(3);
+			buf.writeInt(capacity);
+		} else {
+			buf.writeInt(4);
 		}
 	}
 
@@ -78,11 +90,14 @@ public class PacketTankManager extends PacketTileEntity<TileEntity> implements I
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 		if (message.mode != null) {
-			((IModuleTankManagerSaver) ModularUtils.getTankManager(tile.getModular()).getSaver()).getData(message.ID).setMode(message.mode);
-		} else if (message.producer != -1) {
-			((IModuleTankManagerSaver) ModularUtils.getTankManager(tile.getModular()).getSaver()).getData(message.ID).setProducer(message.producer);
+			ModularUtils.getTankManager(tile.getModular()).getSaver().getData(message.ID).setMode(message.mode);
+		} else if (message.module != null) {
+			ModularUtils.getTankManager(tile.getModular()).getSaver().getData(message.ID).setModule(message.module);
 		} else if (message.direction != null) {
-			((IModuleTankManagerSaver) ModularUtils.getTankManager(tile.getModular()).getSaver()).getData(message.ID).setDirection(message.direction);
+			ModularUtils.getTankManager(tile.getModular()).getSaver().getData(message.ID).setDirection(message.direction);
+		} else if (message.capacity != -1) {
+			ModularUtils.getTankManager(tile.getModular()).getSaver().getData(message.ID).setCapacity(message.capacity);
+			ModularUtils.getTankManager(tile.getModular()).getSaver().setUnusedCapacity(-message.capacity);
 		}
 		world.markBlockForUpdate(message.x, message.y, message.z);
 		return null;

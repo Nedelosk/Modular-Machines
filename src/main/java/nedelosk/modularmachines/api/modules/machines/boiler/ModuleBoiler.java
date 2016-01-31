@@ -28,7 +28,7 @@ public abstract class ModuleBoiler<S extends IModuleBoilerSaver> extends ModuleM
 	}
 
 	@Override
-	public S getSaver(ModuleStack stack) {
+	public S createSaver(ModuleStack stack) {
 		return (S) new ModuleBoilerSaver();
 	}
 }

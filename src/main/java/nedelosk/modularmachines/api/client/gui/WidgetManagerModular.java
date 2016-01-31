@@ -4,7 +4,7 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetManager;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 

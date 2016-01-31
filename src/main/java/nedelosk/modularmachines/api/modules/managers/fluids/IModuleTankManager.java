@@ -4,9 +4,9 @@ import java.util.List;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
-import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
 import nedelosk.modularmachines.api.modules.managers.IModuleManager;
+import nedelosk.modularmachines.api.modules.storage.tanks.IModuleTank;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;

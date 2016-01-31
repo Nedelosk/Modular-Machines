@@ -14,7 +14,7 @@ import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularInventoryManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -105,5 +105,12 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 		renderProgressBar();
 		currentGui.updateGui(this, guiLeft, guiTop, tile.getModular(), guiStack);
 		widgetManager.drawWidgets();
+	}
+
+	@Override
+	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+		if (widgetManager.keyTyped(p_73869_1_, p_73869_2_)) {
+			super.keyTyped(p_73869_1_, p_73869_2_);
+		}
 	}
 }

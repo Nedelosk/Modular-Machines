@@ -1,11 +1,12 @@
 package nedelosk.modularmachines.api.modular.basic.container.module;
 
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface ISingleModuleContainer<P extends IModule> extends IModuleContainer {
+public interface ISingleModuleContainer<M extends IModule<S>, S extends IModuleSaver> extends IModuleContainer {
 
-	void setStack(ModuleStack<P> stack);
+	void setStack(ModuleStack<M, S> stack);
 
-	ModuleStack<P> getStack();
+	ModuleStack<M, S> getStack();
 }

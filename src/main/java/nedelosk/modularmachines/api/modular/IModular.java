@@ -65,7 +65,9 @@ public interface IModular {
 	IModularUtilsManager getUtilsManager();
 
 	/* BUILD */
-	void build() throws ModularException;
+	void assemble() throws ModularException;
+
+	boolean isAssembled();
 
 	/* NBT */
 	void readFromNBT(NBTTagCompound nbt);

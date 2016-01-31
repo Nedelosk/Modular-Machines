@@ -4,6 +4,7 @@ import nedelosk.modularmachines.api.inventory.slots.SlotModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -12,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
+public abstract class ModuleInventory<M extends IModule<S>, S extends IModuleSaver> implements IModuleInventory<M, S> {
 
 	protected ItemStack[] slots;
 	protected final String moduleUID;
@@ -26,7 +27,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 
 	/* INEVNTORY */
 	@Override
-	public ItemStack transferStackInSlot(ModuleStack<M> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container) {
+	public ItemStack transferStackInSlot(ModuleStack<M, S> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) container.inventorySlots.get(slotID);
 		if (slot != null && slot.getHasStack()) {
@@ -52,7 +53,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 		return itemstack;
 	}
 
-	public abstract boolean transferInput(ModuleStack<M> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container,
+	public abstract boolean transferInput(ModuleStack<M, S> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container,
 			ItemStack stackItem);
 
 	protected boolean mergeItemStack(ItemStack p_75135_1_, int p_75135_2_, int p_75135_3_, boolean p_75135_4_, Container container) {
@@ -127,7 +128,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M> stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception {
 		NBTTagList nbttaglist = new NBTTagList();
 		for ( int i = 0; i < this.slots.length; ++i ) {
 			if (this.slots[i] != null) {
@@ -141,7 +142,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M> stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception {
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[this.getSizeInventory(stack, modular)];
 		for ( int i = 0; i < nbttaglist.tagCount(); ++i ) {
@@ -154,17 +155,17 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public int getSizeInventory(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public int getSizeInventory(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return slots.length;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public ItemStack getStackInSlot(int index, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return index >= 0 && index < this.slots.length ? this.slots[index] : null;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int stacksize, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public ItemStack decrStackSize(int index, int stacksize, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		if (this.slots[index] != null) {
 			ItemStack itemstack;
 			if (this.slots[index].stackSize <= stacksize) {
@@ -186,7 +187,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public ItemStack getStackInSlotOnClosing(int index, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		if (this.slots[index] != null) {
 			ItemStack itemstack = this.slots[index];
 			this.slots[index] = null;
@@ -197,7 +198,7 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack itemStack, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public void setInventorySlotContents(int index, ItemStack itemStack, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		this.slots[index] = itemStack;
 		if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit(moduleStack, modular)) {
 			itemStack.stackSize = this.getInventoryStackLimit(moduleStack, modular);
@@ -206,54 +207,54 @@ public abstract class ModuleInventory<M extends IModule> implements IModuleInven
 	}
 
 	@Override
-	public String getInventoryName(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public String getInventoryName(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return null;
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public boolean hasCustomInventoryName(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return false;
 	}
 
 	@Override
-	public void markDirty(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public void markDirty(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public boolean isUseableByPlayer(EntityPlayer player, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return true;
 	}
 
 	@Override
-	public void openInventory(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public void openInventory(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 	}
 
 	@Override
-	public void closeInventory(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public void closeInventory(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 	}
 
 	@Override
-	public int getInventoryStackLimit(ModuleStack<M> moduleStack, IModularInventory modular) {
+	public int getInventoryStackLimit(ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return 64;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int index, ItemStack itemStack, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public boolean isItemValidForSlot(int index, ItemStack itemStack, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return true;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public int[] getAccessibleSlotsFromSide(int side, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return null;
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStack, int side, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public boolean canInsertItem(int index, ItemStack itemStack, int side, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return true;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack itemStack, int side, ModuleStack<M> moduleStack, IModularInventory modular) {
+	public boolean canExtractItem(int index, ItemStack itemStack, int side, ModuleStack<M, S> moduleStack, IModularInventory modular) {
 		return false;
 	}
 }

@@ -14,24 +14,24 @@ import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeM
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleLatheGui extends ModuleMachineRecipeModeGui<ModuleLathe> {
+public class ModuleLatheGui extends ModuleMachineRecipeModeGui<ModuleLathe, IModuleMachineRecipeModeSaver> {
 
 	public ModuleLatheGui(String categoryUID, String guiName) {
 		super(categoryUID, guiName);
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleLathe> stack, List<Widget> widgets) {
-		ModuleStack<IModuleEngine> engine = ModularUtils.getEngine(modular).getStack();
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleLathe, IModuleMachineRecipeModeSaver> stack, List<Widget> widgets) {
+		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 		int burnTime = 0;
 		int burnTimeTotal = 0;
 		if (engine != null) {
-			IModuleEngineSaver saver = (IModuleEngineSaver) engine.getSaver();
+			IModuleEngineSaver saver = engine.getSaver();
 			burnTime = saver.getBurnTime(engine);
 			burnTimeTotal = saver.getBurnTimeTotal(engine);
 		}
 		widgets.add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
-		IModuleMachineRecipeModeSaver saver = (IModuleMachineRecipeModeSaver) stack.getSaver();
+		IModuleMachineRecipeModeSaver saver = stack.getSaver();
 		gui.getWidgetManager().add(new WidgetButtonMode(86, 16, saver.getMode()));
 	}
 }

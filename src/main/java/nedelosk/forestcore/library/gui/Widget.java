@@ -20,6 +20,10 @@ public class Widget<I extends IGuiHandler> {
 	public void draw(IGuiBase<I> gui) {
 	}
 
+	public boolean keyTyped(char keyChar, int keyCode, IGuiBase<I> gui) {
+		return false;
+	}
+
 	public void drawStrings(IGuiBase<I> gui) {
 	}
 

@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModuleTankManagerSaver {
 
 	protected final TankData[] datas;
+	protected int unusedCapacity;
 
 	public ModuleTankManagerSaver(int tanksLots) {
 		super();
@@ -29,6 +30,7 @@ public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModul
 			}
 		}
 		nbt.setTag("Datas", list);
+		nbt.setInteger("unusedCapacity", unusedCapacity);
 	}
 
 	@Override
@@ -42,6 +44,7 @@ public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModul
 			datas[position] = new TankData();
 			datas[position].readFromNBT(nbtTag);
 		}
+		unusedCapacity = nbt.getInteger("unusedCapacity");
 	}
 
 	@Override
@@ -57,5 +60,15 @@ public class ModuleTankManagerSaver extends ModuleManagerSaver implements IModul
 	@Override
 	public TankData[] getDatas() {
 		return datas;
+	}
+
+	@Override
+	public void setUnusedCapacity(int unusedCapacity) {
+		this.unusedCapacity = unusedCapacity;
+	}
+
+	@Override
+	public int getUnusedCapacity() {
+		return unusedCapacity;
 	}
 }

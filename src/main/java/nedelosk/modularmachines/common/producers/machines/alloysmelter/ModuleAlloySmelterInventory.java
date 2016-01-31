@@ -7,18 +7,19 @@ import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.inventory.slots.SlotModularInput;
 import nedelosk.modularmachines.api.inventory.slots.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.inventory.Slot;
 
-public class ModuleAlloySmelterInventory extends ModuleMachineRecipeInventory<ModuleAlloySmelter> {
+public class ModuleAlloySmelterInventory extends ModuleMachineRecipeInventory<ModuleAlloySmelter, IModuleMachineSaver> {
 
 	public ModuleAlloySmelterInventory(String categoryUID, String moduleUID, int slots) {
 		super(categoryUID, moduleUID, slots);
 	}
 
 	@Override
-	public List<Slot> addSlots(IContainerBase container, IModularInventory modular, ModuleStack<ModuleAlloySmelter> stack) {
+	public List<Slot> addSlots(IContainerBase container, IModularInventory modular, ModuleStack<ModuleAlloySmelter, IModuleMachineSaver> stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
 		list.add(new SlotModularInput(modular.getMachine(), 0, 36, 35, stack));
 		list.add(new SlotModularInput(modular.getMachine(), 1, 54, 35, stack));

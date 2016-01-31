@@ -10,7 +10,7 @@ import cpw.mods.fml.common.eventhandler.Event;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleCategory;
+import nedelosk.modularmachines.api.modules.basic.IModuleCategory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;

@@ -10,11 +10,10 @@ import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.ModuleAddable;
-import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
-import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
@@ -45,8 +44,8 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleDefaultGui(getCategoryUID(), getName(stack));
+	public IModuleGui createGui(ModuleStack stack) {
+		return new ModuleGuiDefault(getCategoryUID(), getName(stack));
 	}
 
 	/* INVENTORY */
@@ -75,7 +74,7 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 	}
 
 	@Override
-	public boolean canBuildModular(IModular modular, ModuleStack<IModuleController> moduleStack) {
+	public boolean canAssembleModular(IModular modular, ModuleStack moduleStack) {
 		return true;
 	}
 

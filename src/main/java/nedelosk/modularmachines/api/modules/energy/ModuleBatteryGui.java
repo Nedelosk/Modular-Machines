@@ -10,11 +10,11 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.modularmachines.api.client.widget.WidgetEnergyField;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.handlers.EnergyHandler;
-import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
+import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
-public class ModuleBatteryGui<P extends IModuleBattery> extends ModuleDefaultGui<P> {
+public class ModuleBatteryGui<P extends IModuleBattery> extends ModuleGuiDefault<P> {
 
 	public ModuleBatteryGui(String categoryUID, String guiName) {
 		super(categoryUID, guiName);

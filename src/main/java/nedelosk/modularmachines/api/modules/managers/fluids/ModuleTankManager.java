@@ -8,11 +8,10 @@ import com.google.common.collect.Lists;
 import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.handlers.FluidHandler;
-import nedelosk.modularmachines.api.modules.IModuleGui;
-import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
-import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.managers.ModuleManager;
+import nedelosk.modularmachines.api.modules.storage.tanks.IModuleTank;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
@@ -43,11 +42,6 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	}
 
 	@Override
-	public int getColor() {
-		return 0x1719A4;
-	}
-
-	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill, ModuleStack stack, IModular modular, boolean canFillOutput) {
 		if (resource == null) {
 			return 0;
@@ -64,7 +58,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				}
 			}
 			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
-				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getModule());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -97,7 +91,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				continue;
 			}
 			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
-				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getModule());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -130,7 +124,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				continue;
 			}
 			if (ModularUtils.getFluidProducers(modular) != null && !ModularUtils.getFluidProducers(modular).isEmpty()) {
-				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getProducer());
+				ModuleStack stackT = ModularUtils.getFluidProducers(modular).get(data.getModule());
 				if (!(stack == null) && !stack.equals(stackT)) {
 					continue;
 				}
@@ -192,7 +186,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 		ArrayList<TankData> datasL = Lists.newArrayList();
 		if (stack != null) {
 			if (ModularUtils.getFluidProducers(modular) == null || ModularUtils.getFluidProducers(modular).isEmpty()
-					|| !ModularUtils.getFluidProducers(modular).contains(stack)) {
+					|| !ModularUtils.getFluidProducers(modular).containsValue(stack)) {
 				return datasL;
 			}
 			IModuleTankManagerSaver saver = (IModuleTankManagerSaver) stack.getSaver();
@@ -200,7 +194,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				TankData data = saver.getData(ID);
 				if (data != null) {
 					if (mode == data.getMode()) {
-						if (data.getProducer() == ModularUtils.getFluidProducers(modular).indexOf(stack)) {
+						if (data.getModule() == stack.getModule().getName(stack)) {
 							datasL.add(data);
 						}
 					}
@@ -211,18 +205,13 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	}
 
 	@Override
-	public ModuleTankManagerSaver getSaver(ModuleStack stack) {
+	public ModuleTankManagerSaver createSaver(ModuleStack stack) {
 		return new ModuleTankManagerSaver(tankSlots);
 	}
 
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
-		return new ModuleTankManagerGui<>(getName(stack));
-	}
-
-	@Override
-	public IModuleInventory getInventory(ModuleStack stack) {
-		return new ModuleTankManagerInventory<>(getModuleUID(), getModuleUID(), tankSlots);
+	public IModuleGui createGui(ModuleStack stack) {
+		return new ModuleTankManagerGui<>(getCategoryUID(), getName(stack));
 	}
 
 	@Override
@@ -233,5 +222,10 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 	@Override
 	public String getModuleUID() {
 		return ModuleCategoryUIDs.MANAGER_TANK;
+	}
+
+	@Override
+	public int getColor() {
+		return 0x1719A4;
 	}
 }

@@ -8,6 +8,7 @@ import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.inventory.slots.SlotModular;
 import nedelosk.modularmachines.api.inventory.slots.SlotModularOutput;
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -15,7 +16,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ProducerEnergyInfuser extends ModuleMachineRecipe {
+public class ProducerEnergyInfuser extends ModuleMachineRecipe<IModuleMachineSaver> {
 
 	public ProducerEnergyInfuser() {
 		this(180);

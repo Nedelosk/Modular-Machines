@@ -37,7 +37,7 @@ public class InventoryContainer<M extends IModule> implements ISingleInventoryCo
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack stack) throws Exception {
-		inventory = stack.getModule().getInventory(stack);
+		inventory = stack.getModule().createInventory(stack);
 		inventory.readFromNBT(nbt, modular, stack);
 	}
 }

@@ -2,14 +2,15 @@ package nedelosk.modularmachines.api.modular.basic.container.module;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleContainer<P extends IModule> implements ISingleModuleContainer<P> {
+public class ModuleContainer<M extends IModule<S>, S extends IModuleSaver> implements ISingleModuleContainer<M, S> {
 
-	private ModuleStack<P> moduleStack;
+	private ModuleStack<M, S> moduleStack;
 
-	public ModuleContainer(ModuleStack<P> stack) {
+	public ModuleContainer(ModuleStack<M, S> stack) {
 		this.moduleStack = stack;
 	}
 
@@ -17,12 +18,12 @@ public class ModuleContainer<P extends IModule> implements ISingleModuleContaine
 	}
 
 	@Override
-	public ModuleStack<P> getStack() {
+	public ModuleStack<M, S> getStack() {
 		return moduleStack;
 	}
 
 	@Override
-	public void setStack(ModuleStack<P> moduleStack) {
+	public void setStack(ModuleStack<M, S> moduleStack) {
 		this.moduleStack = moduleStack;
 	}
 

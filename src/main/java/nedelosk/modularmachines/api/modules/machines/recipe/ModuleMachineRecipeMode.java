@@ -3,13 +3,12 @@ package nedelosk.modularmachines.api.modules.machines.recipe;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleGui;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ModuleMachineRecipeMode extends ModuleMachineRecipe implements IModuleMachineRecipeMode {
+public abstract class ModuleMachineRecipeMode<S extends IModuleMachineRecipeModeSaver> extends ModuleMachineRecipe<S> implements IModuleMachineRecipeMode<S> {
 
 	public IMachineMode defaultMode;
 
@@ -40,12 +39,12 @@ public abstract class ModuleMachineRecipeMode extends ModuleMachineRecipe implem
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleMachineRecipeGui(getCategoryUID(), getName(stack));
 	}
 
 	@Override
-	public IModuleSaver getSaver(ModuleStack stack) {
-		return new ModuleMachineRecipeModeSaver(defaultMode);
+	public S createSaver(ModuleStack stack) {
+		return (S) new ModuleMachineRecipeModeSaver(defaultMode);
 	}
 }

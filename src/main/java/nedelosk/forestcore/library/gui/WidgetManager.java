@@ -65,6 +65,15 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		}
 	}
 
+	public boolean keyTyped(char keyChar, int keyCode) {
+		for ( Widget slot : widgets ) {
+			if (slot.keyTyped(keyChar, keyCode)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void drawTooltip(int mX, int mY) {
 		for ( Widget slot : widgets ) {
 			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {

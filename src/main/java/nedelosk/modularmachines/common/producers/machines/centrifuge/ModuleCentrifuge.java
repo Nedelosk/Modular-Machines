@@ -5,8 +5,9 @@ import java.util.List;
 
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -14,7 +15,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleCentrifuge extends ModuleMachineRecipe {
+public class ModuleCentrifuge extends ModuleMachineRecipe<IModuleMachineSaver> {
 
 	public ModuleCentrifuge() {
 		this("", 60);
@@ -50,12 +51,12 @@ public class ModuleCentrifuge extends ModuleMachineRecipe {
 	}
 
 	@Override
-	public IModuleInventory getInventory(ModuleStack stack) {
+	public IModuleInventory createInventory(ModuleStack stack) {
 		return new ModuleCentrifugeInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleCentrifugeGui(getCategoryUID(), getName(stack));
 	}
 

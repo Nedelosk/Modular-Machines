@@ -3,10 +3,7 @@ package nedelosk.modularmachines.api.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -34,14 +31,8 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 		return "module." + getCategoryUID() + "." + getModuleUID() + ".name";
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
-		return null;
-	}
-
-	@Override
-	public S getSaver(ModuleStack stack) {
+	public S createSaver(ModuleStack stack) {
 		return null;
 	}
 
@@ -51,8 +42,8 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 	}
 
 	@Override
-	public boolean canBuildModular(IModular modular, ModuleStack stackModule, ModuleStack<IModuleController> controller, List<ModuleStack> modules)
-			throws ModularException {
+	public boolean canAssembleModular(IModular modular, ModuleStack stackModule, ModuleStack<IModuleController<IModuleSaver>, IModuleSaver> controller,
+			List<ModuleStack> modules) throws ModularException {
 		if (getRequiredModules().isEmpty()) {
 			return true;
 		}
@@ -69,11 +60,6 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 			throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.modules", requiredModules));
 		}
 		return true;
-	}
-
-	@Override
-	public IModuleInventory getInventory(ModuleStack stack) {
-		return null;
 	}
 
 	@Override

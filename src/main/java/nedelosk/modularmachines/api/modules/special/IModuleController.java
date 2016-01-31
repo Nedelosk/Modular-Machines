@@ -7,5 +7,5 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 
 public interface IModuleController<S extends IModuleSaver> extends IModule<S> {
 
-	boolean canBuildModular(IModular modular, ModuleStack<IModuleController> moduleStack);
+	boolean canAssembleModular(IModular modular, ModuleStack<IModuleController<S>, S> moduleStack);
 }

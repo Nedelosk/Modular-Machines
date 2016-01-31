@@ -8,7 +8,6 @@ import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketTankManager;
 import nedelosk.modularmachines.api.utils.ModularUtils;
@@ -63,7 +62,7 @@ public class WidgetDirection<T extends TileEntity & IModularTileEntity> extends 
 			} else {
 				direction = ForgeDirection.values()[0];
 			}
-			((IModuleTankManagerSaver) ModularUtils.getTankManager(gui.getTile().getModular()).getSaver()).getData(ID).setDirection(direction);
+			ModularUtils.getTankManager(gui.getTile().getModular()).getSaver().getData(ID).setDirection(direction);
 			PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), direction, ID));
 		}
 	}

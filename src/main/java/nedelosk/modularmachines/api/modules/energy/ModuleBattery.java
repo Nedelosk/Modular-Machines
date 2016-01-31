@@ -9,8 +9,9 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.handlers.EnergyHandler;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.ModuleAddable;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
+import nedelosk.modularmachines.api.modules.storage.capacitors.IModuleCapacitor;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
@@ -82,12 +83,12 @@ public class ModuleBattery<S extends IModuleBatterySaver> extends ModuleAddable<
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleBatteryGui<>(getCategoryUID(), getName(stack));
 	}
 
 	@Override
-	public S getSaver(ModuleStack stack) {
+	public S createSaver(ModuleStack stack) {
 		return (S) new ModuleBatterySaver(storage);
 	}
 }

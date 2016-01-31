@@ -25,9 +25,8 @@ import nedelosk.forestcore.library.modules.manager.IBlockManager;
 import nedelosk.forestcore.library.modules.manager.IItemManager;
 import nedelosk.forestday.api.crafting.OreStack;
 import nedelosk.modularmachines.api.modular.material.Materials;
-import nedelosk.modularmachines.api.modules.ModuleCategory;
 import nedelosk.modularmachines.api.modules.basic.ModuleCasing;
-import nedelosk.modularmachines.api.modules.energy.ModuleCapacitor;
+import nedelosk.modularmachines.api.modules.basic.ModuleCategory;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeAlloySmelter;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeAssembler;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeCentrifuge;
@@ -36,6 +35,7 @@ import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheMo
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipePulverizer;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeSawMill;
 import nedelosk.modularmachines.api.modules.managers.fluids.ModuleTankManager;
+import nedelosk.modularmachines.api.modules.storage.capacitors.ModuleCapacitor;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
@@ -77,7 +77,7 @@ public class ModuleModular extends AModule {
 	public void preInit(IModuleManager manager) {
 		registerCategorys();
 		manager.register(BlockManager.Casings, new BlockCasing(new String[] { "stone", "stone_brick", "iron", "bronze" }), ItemBlockForest.class);
-		manager.register(BlockManager.Modular_Machine, new ModularMachineBlock(), ItemBlockForest.class, new Object[] { "modular.machine" });
+		manager.register(BlockManager.Modular_Machine, new ModularMachineBlock(), ItemBlockForest.class);
 		GameRegistry.registerTileEntity(TileModularMachine.class, "tile.modular");
 		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "tile.blastfurnace.accessport");
 		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "tile.blastfurnace.fluidport");
@@ -203,13 +203,12 @@ public class ModuleModular extends AModule {
 
 	public static void registerCategorys() {
 		registerCategory(new ModuleCategory(ModuleCategoryUIDs.CASING, false));
-		registerCategory(new ModuleCategory(ModuleCategoryUIDs.TANKS, true));
+		registerCategory(new ModuleCategory(ModuleCategoryUIDs.TANK, false));
 		registerCategory(new ModuleCategory(ModuleCategoryUIDs.MACHINE, false));
 		registerCategory(new ModuleCategory(ModuleCategoryUIDs.ENGINE, false));
 		registerCategory(new ModuleCategory(ModuleCategoryUIDs.MANAGERS, true));
 		registerCategory(new ModuleCategory(ModuleCategoryUIDs.BATTERY, false));
-		registerCategory(new ModuleCategory(ModuleCategoryUIDs.STORAGES, true));
-		registerCategory(new ModuleCategory(ModuleCategoryUIDs.CAPACITOR, true));
+		registerCategory(new ModuleCategory(ModuleCategoryUIDs.CAPACITOR, false));
 	}
 
 	public static void registerEnergy() {

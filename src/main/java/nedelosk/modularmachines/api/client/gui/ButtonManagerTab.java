@@ -19,14 +19,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class ButtonManagerTab<P extends IModuleManager> extends Button<IModularTileEntity<IModular>> {
+public class ButtonManagerTab<M extends IModuleManager<S>, S extends IModuleManagerSaver> extends Button<IModularTileEntity<IModular>> {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
-	public ModuleStack<P> stack;
+	public ModuleStack<M, S> stack;
 	public boolean down;
 	public int tabID;
 
-	public ButtonManagerTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleStack<P> stack, boolean down, int tabID) {
+	public ButtonManagerTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleStack<M, S> stack, boolean down, int tabID) {
 		super(p_i1021_1_, p_i1021_2_, p_i1021_3_, 28, 21, null);
 		this.stack = stack;
 		this.down = down;
@@ -41,7 +41,7 @@ public class ButtonManagerTab<P extends IModuleManager> extends Button<IModularT
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		GuiModular machine = (GuiModular) mc.currentScreen;
 		IModuleManager manager = stack.getModule();
-		IModuleManagerSaver managerSaver = (IModuleManagerSaver) stack.getSaver();
+		IModuleManagerSaver managerSaver = stack.getSaver();
 		RenderUtil.bindTexture(guiTextureOverlay);
 		machine.drawTexturedModalRect(xPosition, yPosition, managerSaver.getTab() == tabID ? 74 : 103, down ? 237 : 218, 29, 19);
 		RenderUtil.bindTexture(RenderUtil.getResourceLocation("modularmachines", "widgets", "gui"));
@@ -54,7 +54,7 @@ public class ButtonManagerTab<P extends IModuleManager> extends Button<IModularT
 	public void onButtonClick(IGuiBase<IModularTileEntity<IModular>> gui) {
 		IModularTileEntity<IModular> tile = gui.getTile();
 		IModuleManager manager = stack.getModule();
-		IModuleManagerSaver managerSaver = (IModuleManagerSaver) stack.getSaver();
+		IModuleManagerSaver managerSaver = stack.getSaver();
 		if (!(tabID == managerSaver.getTab())) {
 			managerSaver.setTab(tabID);
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID, manager.getName(stack)));

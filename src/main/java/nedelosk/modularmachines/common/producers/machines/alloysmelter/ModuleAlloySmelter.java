@@ -7,8 +7,9 @@ import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -16,7 +17,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleAlloySmelter extends ModuleMachineRecipe {
+public class ModuleAlloySmelter extends ModuleMachineRecipe<IModuleMachineSaver> {
 
 	public ModuleAlloySmelter() {
 		this("", 60);
@@ -60,12 +61,12 @@ public class ModuleAlloySmelter extends ModuleMachineRecipe {
 	}
 
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleAlloySmelterGui(getCategoryUID(), getName(stack));
 	}
 
 	@Override
-	public IModuleInventory getInventory(ModuleStack stack) {
+	public IModuleInventory createInventory(ModuleStack stack) {
 		return new ModuleAlloySmelterInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 }

@@ -3,6 +3,7 @@ package nedelosk.modularmachines.api.modules.machines.recipe;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.inventory.ModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -10,14 +11,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecipe> extends ModuleInventory<M> {
+public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecipe<S>, S extends IModuleMachineSaver> extends ModuleInventory<M, S> {
 
 	public ModuleMachineRecipeInventory(String categoryUID, String moduleUID, int slots) {
 		super(categoryUID, moduleUID, slots);
 	}
 
 	@Override
-	public boolean transferInput(ModuleStack<M> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container,
+	public boolean transferInput(ModuleStack<M, S> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container,
 			ItemStack stackItem) {
 		RecipeItem input = RecipeRegistry.getRecipeInput(stackModule.getModule().getRecipeName(stackModule), new RecipeItem(slotID, stackItem));
 		if (input != null) {
@@ -29,7 +30,7 @@ public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecip
 	}
 
 	@Override
-	public int getSizeInventory(ModuleStack<M> stack, IModularInventory modular) {
+	public int getSizeInventory(ModuleStack<M, S> stack, IModularInventory modular) {
 		return stack.getModule().getItemInputs(stack) + stack.getModule().getItemOutputs(stack);
 	}
 }

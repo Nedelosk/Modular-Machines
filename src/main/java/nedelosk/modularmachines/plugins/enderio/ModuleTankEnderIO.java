@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.plugins.enderio;
 
-import nedelosk.modularmachines.api.modules.fluids.IModuleTank;
-import nedelosk.modularmachines.api.modules.fluids.ModuleTank;
+import nedelosk.modularmachines.api.modules.storage.tanks.IModuleTank;
+import nedelosk.modularmachines.api.modules.storage.tanks.ModuleTank;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

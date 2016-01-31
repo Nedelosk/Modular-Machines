@@ -9,23 +9,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public final class ModuleStack<M extends IModule> {
+public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
 
 	private M module;
-	private IModuleSaver saver;
+	private S saver;
 	private ItemStack itemStack;
 	private Material material;
+	private int ID;
 
 	public ModuleStack(ItemStack itemStack, M module, Material material) {
 		this.module = module;
 		this.itemStack = itemStack;
 		this.material = material;
-		this.saver = module.getSaver(this);
+		this.saver = module.createSaver(this);
 	}
 
 	public ModuleStack(M module, Material material) {
 		this.module = module;
-		this.saver = module.getSaver(this);
+		this.saver = module.createSaver(this);
 		this.material = material;
 		this.itemStack = null;
 	}
@@ -72,7 +73,7 @@ public final class ModuleStack<M extends IModule> {
 		return module;
 	}
 
-	public IModuleSaver getSaver() {
+	public S getSaver() {
 		return saver;
 	}
 
@@ -86,6 +87,14 @@ public final class ModuleStack<M extends IModule> {
 
 	public Material getMaterial() {
 		return material;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public int getID() {
+		return ID;
 	}
 
 	public void setMaterial(Material material) {

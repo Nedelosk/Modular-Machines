@@ -6,12 +6,11 @@ public class ModuleCategoryUIDs {
 	}
 
 	public static final String CASING = "Casing";
-	public static final String TANKS = "Tanks";
+	public static final String TANK = "Tank";
 	public static final String MACHINE = "Machine";
 	public static final String ENGINE = "Engine";
 	public static final String MANAGERS = "Manager";
 	public static final String BATTERY = "Battery";
-	public static final String STORAGES = "Storages";
 	public static final String CAPACITOR = "Capacitor";
 	// Module UID's
 	public static final String MANAGER_TANK = "Manager_Tank";

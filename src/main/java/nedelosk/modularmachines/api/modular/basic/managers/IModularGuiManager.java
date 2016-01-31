@@ -7,7 +7,7 @@ import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.modular.basic.container.gui.IGuiContainer;
 import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,7 +23,7 @@ public interface IModularGuiManager extends IModularManager {
 
 	void setCurrentGui(IModuleGui gui);
 
-	void testForGuis();
+	void searchForGuis();
 
 	IModuleGui getGui(ModuleStack stack);
 

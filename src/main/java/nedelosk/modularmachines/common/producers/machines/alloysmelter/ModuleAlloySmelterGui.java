@@ -8,23 +8,24 @@ import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeGui;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleAlloySmelterGui extends ModuleMachineRecipeGui<ModuleAlloySmelter> {
+public class ModuleAlloySmelterGui extends ModuleMachineRecipeGui<ModuleAlloySmelter, IModuleMachineSaver> {
 
 	public ModuleAlloySmelterGui(String categoryUID, String guiName) {
 		super(categoryUID, guiName);
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleAlloySmelter> stack, List<Widget> widgets) {
-		ModuleStack<IModuleEngine> engine = ModularUtils.getEngine(modular).getStack();
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleAlloySmelter, IModuleMachineSaver> stack, List<Widget> widgets) {
+		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 		int burnTime = 0;
 		int burnTimeTotal = 0;
 		if (engine != null) {
-			IModuleEngineSaver saver = (IModuleEngineSaver) engine.getSaver();
+			IModuleEngineSaver saver = engine.getSaver();
 			burnTime = saver.getBurnTime(engine);
 			burnTimeTotal = saver.getBurnTimeTotal(engine);
 		}

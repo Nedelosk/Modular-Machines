@@ -1,7 +1,7 @@
 package nedelosk.modularmachines.api.modular.basic.container.gui;
 
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
 public class GuiContainer<P extends IModule> implements ISingleGuiContainer<P> {
 

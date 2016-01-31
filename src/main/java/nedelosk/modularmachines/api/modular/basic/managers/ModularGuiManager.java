@@ -20,7 +20,8 @@ import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleC
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.IModuleDefault;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -93,25 +94,25 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Map<String, IGuiContainer> getGuis() {
 		if (guis.isEmpty()) {
-			testForGuis();
+			searchForGuis();
 		}
 		return guis;
 	}
 
 	@Override
-	public void testForGuis() {
+	public void searchForGuis() {
 		if (modular == null) {
 			return;
 		}
 		for ( IModuleContainer container : modular.getModuleContainers().values() ) {
 			if (container instanceof ISingleModuleContainer) {
-				if (!testForGuis(((ISingleModuleContainer) container).getStack(), container)) {
+				if (!searchForGuis(((ISingleModuleContainer) container).getStack(), container)) {
 					continue;
 				}
 			} else if (container instanceof IMultiModuleContainer) {
 				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> multiContainer = (IMultiModuleContainer) container;
 				for ( ModuleStack stack : multiContainer.getStacks() ) {
-					if (!testForGuis(stack, container)) {
+					if (!searchForGuis(stack, container)) {
 						continue;
 					}
 				}
@@ -119,12 +120,12 @@ public class ModularGuiManager implements IModularGuiManager {
 		}
 	}
 
-	protected boolean testForGuis(ModuleStack stack, IModuleContainer container) {
+	protected boolean searchForGuis(ModuleStack stack, IModuleContainer container) {
 		IModule module = stack.getModule();
-		if (module == null) {
+		if (module == null || !(module instanceof IModuleDefault)) {
 			return false;
 		}
-		IModuleGui gui = stack.getModule().getGui(stack);
+		IModuleGui gui = ((IModuleDefault) module).createGui(stack);
 		if (gui == null) {
 			return false;
 		}

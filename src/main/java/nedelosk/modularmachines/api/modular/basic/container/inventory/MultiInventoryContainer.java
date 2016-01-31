@@ -72,7 +72,7 @@ public class MultiInventoryContainer<M extends IModule> implements IMultiInvento
 			inventorys = new ArrayList<IModuleInventory<M>>();
 			for ( int i = 0; i < nbtList.tagCount(); i++ ) {
 				NBTTagCompound nbtTag = nbtList.getCompoundTagAt(i);
-				IModuleInventory inv = stack.getModule().getInventory(stack);
+				IModuleInventory inv = stack.getModule().createInventory(stack);
 				inv.readFromNBT(nbtTag, modular, stack);
 				inventorys.add(inv);
 			}

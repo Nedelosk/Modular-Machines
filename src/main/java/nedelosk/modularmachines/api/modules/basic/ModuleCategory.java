@@ -1,4 +1,4 @@
-package nedelosk.modularmachines.api.modules;
+package nedelosk.modularmachines.api.modules.basic;
 
 import nedelosk.modularmachines.api.modular.basic.container.gui.GuiContainer;
 import nedelosk.modularmachines.api.modular.basic.container.gui.IGuiContainer;

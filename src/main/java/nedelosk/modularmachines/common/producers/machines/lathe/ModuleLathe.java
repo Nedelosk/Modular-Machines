@@ -8,8 +8,9 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.client.widget.WidgetButtonMode;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipeModeSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeMode;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
@@ -19,7 +20,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleLathe extends ModuleMachineRecipeMode {
+public class ModuleLathe extends ModuleMachineRecipeMode<IModuleMachineRecipeModeSaver> {
 
 	public ModuleLathe() {
 		this("", 60);
@@ -68,12 +69,12 @@ public class ModuleLathe extends ModuleMachineRecipeMode {
 	}
 
 	@Override
-	public IModuleInventory getInventory(ModuleStack stack) {
+	public IModuleInventory createInventory(ModuleStack stack) {
 		return new ModuleLatheInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
 	}
 
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleLatheGui(getCategoryUID(), getName(stack));
 	}
 }

@@ -89,8 +89,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 		}
 	}
 
-	public void buildModular() throws ModularException {
-		modular.build();
+	public void assembleModular() throws ModularException {
+		modular.assemble();
 		modular.initModular();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}

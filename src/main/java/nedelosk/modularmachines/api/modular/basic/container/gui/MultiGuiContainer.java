@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
 public class MultiGuiContainer<P extends IModule> implements IMultiGuiContainer<P, List<IModuleGui<P>>> {
 

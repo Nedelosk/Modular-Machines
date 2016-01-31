@@ -7,10 +7,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.ModuleMachine;
@@ -115,10 +115,10 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine> engineStack = ModularUtils.getEngine(modular).getStack();
+		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
 		S saver = (S) stack.getSaver();
 		if (engineStack != null && tile.getEnergyStored(null) > 0) {
-			IModuleEngineSaver engineSaver = (IModuleEngineSaver) engineStack.getSaver();
+			IModuleEngineSaver engineSaver = engineStack.getSaver();
 			IModuleEngine engine = engineStack.getModule();
 			int burnTime = engineSaver.getBurnTime(engineStack);
 			int burnTimeTotal = engineSaver.getBurnTimeTotal(engineStack);
@@ -170,8 +170,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine> engineStack = ModularUtils.getEngine(modular).getStack();
-		IModuleEngineSaver engineSaver = (IModuleEngineSaver) engineStack.getSaver();
+		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
+		IModuleEngineSaver engineSaver = engineStack.getSaver();
 		if (engineSaver.getManager(engineStack).getOutputs() != null) {
 			for ( RecipeItem item : engineSaver.getManager(engineStack).getOutputs() ) {
 				if (item != null) {
@@ -234,10 +234,10 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleGui getGui(ModuleStack stack) {
+	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleMachineRecipeGui(getCategoryUID(), getName(stack));
 	}
 
 	@Override
-	public abstract IModuleInventory getInventory(ModuleStack stack);
+	public abstract IModuleInventory createInventory(ModuleStack stack);
 }

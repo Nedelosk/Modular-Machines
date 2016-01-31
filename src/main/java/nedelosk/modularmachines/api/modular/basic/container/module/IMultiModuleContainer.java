@@ -3,21 +3,24 @@ package nedelosk.modularmachines.api.modular.basic.container.module;
 import java.util.Collection;
 
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IMultiModuleContainer<P extends IModule, O extends Collection<ModuleStack<P>>> extends IModuleContainer {
+public interface IMultiModuleContainer<M extends IModule<S>, S extends IModuleSaver, O extends Collection<ModuleStack<M, S>>> extends IModuleContainer {
 
-	void addStack(ModuleStack<P> stack);
+	void addStack(ModuleStack<M, S> stack);
 
-	void addStack(int index, ModuleStack<P> stack);
+	void addStack(int index, ModuleStack<M, S> stack);
 
 	void setStacks(O collection);
 
-	int getIndex(ModuleStack<P> stack);
+	void setStack(ModuleStack<M, S> stack, String moduleUID);
+
+	int getIndex(ModuleStack<M, S> stack);
 
 	O getStacks();
 
-	ModuleStack<P> getStack(int index);
+	ModuleStack<M, S> getStack(int index);
 
-	ModuleStack<P> getStack(String moduleUID);
+	ModuleStack<M, S> getStack(String moduleUID);
 }

@@ -10,9 +10,11 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
 import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
+import nedelosk.modularmachines.api.modules.energy.IModuleBatterySaver;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
@@ -39,7 +41,7 @@ public class ModularMachineRenderer {
 		public ModelRenderer Window_Engine_Left;
 		public ModelRenderer Window_Engine_Right;
 		public ModelRenderer Window_Engine_Glass;
-		public final ModuleStack<IModuleEngine> stack;
+		public final ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stack;
 		public ResourceLocation baseTexture;
 		public ResourceLocation discTexture;
 		public ResourceLocation windowTopTexture;
@@ -48,7 +50,7 @@ public class ModularMachineRenderer {
 		public ResourceLocation windowRightTexture;
 		public ResourceLocation windowGlassTexture;
 
-		public EngineRenderer(ModuleStack<IModuleEngine> stackEngine, ModuleStack stackCasing) {
+		public EngineRenderer(ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stackEngine, ModuleStack stackCasing) {
 			this.stack = stackEngine;
 			Base_Engine = new ModelRenderer(model, 0, 0);
 			Base_Engine.setRotationPoint(2.0F, 15.0F, -5.0F);
@@ -124,7 +126,7 @@ public class ModularMachineRenderer {
 				GL11.glRotated(90, 0F, 1F, 0F);
 			}
 			float step;
-			float progress = ((IModuleEngineSaver) stack.getSaver()).getProgress();
+			float progress = stack.getSaver().getProgress();
 			if (progress > 0.5) {
 				step = 5.99F - (progress - 0.5F) * 2F * 5.99F;
 			} else {
@@ -173,14 +175,14 @@ public class ModularMachineRenderer {
 		public ModelRenderer Battery_Down;
 		public ModelRenderer Battery_Right;
 		public ModelRenderer Battery_Left;
-		public final ModuleStack<IModuleBattery> stack;
+		public final ModuleStack<IModuleBattery<IModuleBatterySaver>, IModuleBatterySaver> stack;
 		public ResourceLocation baseTexture;
 		public ResourceLocation topTexture;
 		public ResourceLocation downTexture;
 		public ResourceLocation rightTexture;
 		public ResourceLocation leftTexture;
 
-		public BatteryRenderer(ModuleStack<IModuleBattery> stack, IModular modular) {
+		public BatteryRenderer(ModuleStack<IModuleBattery<IModuleBatterySaver>, IModuleBatterySaver> stack, IModular modular) {
 			this.stack = stack;
 			this.Battery_Left = new ModelRenderer(model, 0, 0);
 			this.Battery_Left.setRotationPoint(-8.0F, 12.5F, -6.0F);
@@ -378,7 +380,7 @@ public class ModularMachineRenderer {
 		public ModelBase model = new ModelBase() {
 		};
 
-		public MachineRenderer(ModuleStack<IModuleMachine> stack) {
+		public MachineRenderer(ModuleStack<IModuleMachine<IModuleMachineSaver>, IModuleMachineSaver> stack) {
 			this.stack = stack;
 			Machine_Front = new ModelRenderer(model, 0, 0);
 			Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);

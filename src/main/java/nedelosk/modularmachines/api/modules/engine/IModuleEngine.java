@@ -4,6 +4,7 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
 import nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.recipes.IRecipeManager;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -20,7 +21,6 @@ public interface IModuleEngine<S extends IModuleEngineSaver> extends IModuleWail
 
 	IRecipeManager creatRecipeManager();
 
-	int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine> stackMachine, ModuleStack<IModuleEngine> stackEngine);
-
-	int getBurnTimeTotal(IModular modular, ModuleStack<IModuleMachine> stackMachine, ModuleStack<IModuleEngine> stackEngine);
+	int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine<IModuleMachineSaver>, IModuleMachineSaver> stackMachine,
+			ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stackEngine);
 }

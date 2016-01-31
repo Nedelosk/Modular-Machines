@@ -10,4 +10,8 @@ public interface IModuleTankManagerSaver extends IModuleManagerSaver {
 	void setData(int id, TankData data);
 
 	TankData[] getDatas();
+
+	int getUnusedCapacity();
+
+	void setUnusedCapacity(int unusedCapacity);
 }

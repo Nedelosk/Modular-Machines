@@ -1,10 +1,10 @@
-package nedelosk.modularmachines.api.modules.energy;
+package nedelosk.modularmachines.api.modules.storage.capacitors;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleAddable;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IModuleCapacitor extends IModule {
+public interface IModuleCapacitor extends IModuleAddable {
 
 	int getSpeedModifier();
 

@@ -22,12 +22,16 @@ import nedelosk.modularmachines.api.modular.material.Materials;
 import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.integration.IModuleWaila;
+import nedelosk.modularmachines.api.modules.special.IModuleController;
+import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.StatCollector;
 
 public abstract class Modular implements IModular, IWailaProvider {
 
@@ -36,6 +40,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 	protected IModularUtilsManager utilsManager;
 	protected String page;
 	protected Material material;
+	private boolean isAssembled;
 
 	public Modular() {
 		utilsManager = new ModularUtilsManager();
@@ -47,6 +52,26 @@ public abstract class Modular implements IModular, IWailaProvider {
 			readFromNBT(nbt);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void assemble() throws ModularException {
+		ModuleStack<IModuleController<IModuleSaver>, IModuleSaver> controller = null;
+		for ( ModuleStack stack : getModuleStacks() ) {
+			if (stack.getModule() instanceof IModuleController) {
+				controller = stack;
+			}
+		}
+		if (controller == null) {
+			throw new ModularException(StatCollector.translateToLocal("modular.ex.find.controller"));
+		}
+		List<ModuleStack> modules = getModuleStacks();
+		for ( ModuleStack stack : getModuleStacks() ) {
+			stack.getModule().canAssembleModular(this, stack, controller, modules);
+		}
+		if (controller.getModule().canAssembleModular(this, controller)) {
+			isAssembled = true;
 		}
 	}
 
@@ -71,6 +96,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 		if (modules == null) {
 			modules = Maps.newHashMap();
 		}
+		isAssembled = nbt.getBoolean("isAssembled");
 		NBTTagList listTag = nbt.getTagList("Modules", 10);
 		for ( int i = 0; i < listTag.tagCount(); i++ ) {
 			NBTTagCompound modulesTag = listTag.getCompoundTagAt(i);
@@ -117,6 +143,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 		}
 		nbt.setTag("Modules", listTag);
 		nbt.setString("Material", material.getName());
+		nbt.setBoolean("isAssembled", isAssembled);
 	}
 
 	@Override
@@ -248,7 +275,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List getWailaBody(ItemStack itemStack, List currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaBody(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -256,7 +283,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaHead(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -264,7 +291,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaTail(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -286,5 +313,10 @@ public abstract class Modular implements IModular, IWailaProvider {
 			}
 		}
 		return stacks;
+	}
+
+	@Override
+	public boolean isAssembled() {
+		return isAssembled;
 	}
 }

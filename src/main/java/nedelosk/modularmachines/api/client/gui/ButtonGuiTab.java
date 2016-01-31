@@ -12,9 +12,9 @@ import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.packets.PacketHandler;
-import nedelosk.modularmachines.api.packets.pages.PacketSelectPage;
+import nedelosk.modularmachines.api.packets.pages.PacketSelectGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -65,7 +65,7 @@ public class ButtonGuiTab extends Button<IModularTileEntity<IModularInventory>> 
 		IModuleGui currentGui = guiManager.getCurrentGui();
 		if (!currentGui.getCategoryUID().equals(moduleGui.getCategoryUID()) && (moduleGui.getModuleUID().equals(currentGui.getModuleUID()))) {
 			guiManager.setCurrentGui(moduleGui);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectPage(((TileEntity) gui.getTile()), moduleGui));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectGui(((TileEntity) gui.getTile()), moduleGui));
 		}
 	}
 

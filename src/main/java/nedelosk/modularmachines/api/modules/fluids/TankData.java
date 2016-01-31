@@ -8,29 +8,34 @@ import net.minecraftforge.common.util.ForgeDirection;
 public final class TankData {
 
 	private FluidTankSimple tank;
-	private int producer;
+	private String module;
 	private ForgeDirection direction;
 	private TankMode mode;
+	private int capacity;
 
-	public TankData(FluidTankSimple tank, int producer, ForgeDirection direction, TankMode mode) {
+	public TankData(FluidTankSimple tank, String module, ForgeDirection direction, TankMode mode, int capacity) {
 		this.tank = tank;
-		this.producer = producer;
+		tank.setCapacity(capacity);
+		this.module = module;
 		this.direction = direction;
 		this.mode = mode;
+		this.capacity = capacity;
 	}
 
 	public TankData() {
 		this.tank = null;
-		this.producer = 0;
+		this.module = null;
 		this.direction = ForgeDirection.UNKNOWN;
 		this.mode = TankMode.NONE;
+		this.capacity = 0;
 	}
 
 	public TankData(FluidTankSimple tank) {
 		this.tank = tank;
-		this.producer = 0;
+		this.module = null;
 		this.direction = ForgeDirection.UNKNOWN;
 		this.mode = TankMode.NONE;
+		this.capacity = tank.getCapacity();
 	}
 
 	public void setTank(FluidTankSimple tank) {
@@ -41,12 +46,12 @@ public final class TankData {
 		return tank;
 	}
 
-	public void setProducer(int producer) {
-		this.producer = producer;
+	public void setModule(String module) {
+		this.module = module;
 	}
 
-	public int getProducer() {
-		return producer;
+	public String getModule() {
+		return module;
 	}
 
 	public void setDirection(ForgeDirection direction) {
@@ -65,9 +70,17 @@ public final class TankData {
 		return mode;
 	}
 
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
 	public void writeToNBT(NBTTagCompound nbt) {
-		if (producer != -1) {
-			nbt.setInteger("Producer", producer);
+		if (module != null) {
+			nbt.setString("Module", module);
 		}
 		if (direction != null) {
 			nbt.setInteger("Direction", direction.ordinal());
@@ -78,14 +91,14 @@ public final class TankData {
 		if (tank != null) {
 			NBTTagCompound nbtTank = new NBTTagCompound();
 			tank.writeToNBT(nbtTank);
-			nbtTank.setInteger("Capacity", tank.getCapacity());
+			nbtTank.setInteger("Capacity", capacity);
 			nbt.setTag("Tank", nbtTank);
 		}
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("Producer")) {
-			producer = nbt.getInteger("Producer");
+		if (nbt.hasKey("Module")) {
+			module = nbt.getString("Module");
 		}
 		if (nbt.hasKey("Direction")) {
 			direction = ForgeDirection.values()[nbt.getInteger("Direction")];
@@ -95,7 +108,8 @@ public final class TankData {
 		}
 		if (nbt.hasKey("Tank")) {
 			NBTTagCompound nbtTank = nbt.getCompoundTag("Tank");
-			tank = new FluidTankSimple(nbtTank.getInteger("Capacity"));
+			tank = new FluidTankSimple(capacity);
+			capacity = tank.getCapacity();
 			tank.readFromNBT(nbtTank);
 		}
 	}

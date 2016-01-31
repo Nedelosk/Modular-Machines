@@ -8,11 +8,11 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.modularmachines.api.client.gui.ButtonManagerTab;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.ModuleDefaultGui;
+import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ModuleManagerGui<P extends IModuleManager> extends ModuleDefaultGui<P> {
+public abstract class ModuleManagerGui<M extends IModuleManager<S>, S extends IModuleManagerSaver> extends ModuleGuiDefault<M, S> {
 
 	public ModuleManagerGui(String categoryUID, String guiName) {
 		super(categoryUID, guiName);
@@ -29,20 +29,20 @@ public abstract class ModuleManagerGui<P extends IModuleManager> extends ModuleD
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P> stack, List<Widget> widgets) {
-		IModuleManagerSaver saver = (IModuleManagerSaver) stack.getSaver();
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Widget> widgets) {
+		IModuleManagerSaver saver = stack.getSaver();
 		for ( int ID = saver.getTab() * 3; ID < (saver.getTab() + 1) * 3; ID++ ) {
 			addWidgets(ID, gui, stack, widgets);
 		}
 	}
 
-	protected abstract void addWidgets(int tabID, IGuiBase<IModularTileEntity<IModular>> gui, ModuleStack<P> stack, List<Widget> widgets);
+	protected abstract void addWidgets(int tabID, IGuiBase<IModularTileEntity<IModular>> gui, ModuleStack<M, S> stack, List<Widget> widgets);
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular, ModuleStack<P> stack, List<Button> buttons) {
+	public void addButtons(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Button> buttons) {
 		IModuleManager manager = stack.getModule();
 		for ( int ID = 0; ID < manager.getMaxTabs(); ID++ ) {
-			buttons.add(new ButtonManagerTab<P>(gui.getButtons().size() + gui.getButtonManager().getButtons().size(),
+			buttons.add(new ButtonManagerTab<M, S>(gui.getButtons().size() + gui.getButtonManager().getButtons().size(),
 					ID > 4 ? 12 + gui.getGuiLeft() + (ID - 5) * 30 : 12 + gui.getGuiLeft() + ID * 30, ID > 4 ? 196 + gui.getGuiTop() : -19 + gui.getGuiTop(),
 					stack, ID > 4 ? true : false, ID));
 		}

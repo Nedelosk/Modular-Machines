@@ -2,10 +2,7 @@ package nedelosk.modularmachines.api.modules;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -19,7 +16,8 @@ public interface IModule<S extends IModuleSaver> {
 
 	List<String> getRequiredModules();
 
-	boolean canBuildModular(IModular modular, ModuleStack stack, ModuleStack<IModuleController> controller, List<ModuleStack> modules) throws ModularException;
+	boolean canAssembleModular(IModular modular, ModuleStack stack, ModuleStack<IModuleController<IModuleSaver>, IModuleSaver> controller,
+			List<ModuleStack> modules) throws ModularException;
 
 	String getName(ModuleStack stack);
 
@@ -33,10 +31,5 @@ public interface IModule<S extends IModuleSaver> {
 
 	String getModuleUID();
 
-	S getSaver(ModuleStack stack);
-
-	@SideOnly(Side.CLIENT)
-	IModuleGui getGui(ModuleStack stack);
-
-	IModuleInventory getInventory(ModuleStack stack);
+	S createSaver(ModuleStack stack);
 }

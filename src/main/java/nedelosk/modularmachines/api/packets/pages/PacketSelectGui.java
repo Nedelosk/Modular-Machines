@@ -11,18 +11,18 @@ import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleGui;
+import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectPage, IMessage> {
+public class PacketSelectGui extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectGui, IMessage> {
 
 	public String UID;
 
-	public PacketSelectPage() {
+	public PacketSelectGui() {
 	}
 
 	@Override
@@ -37,18 +37,18 @@ public class PacketSelectPage extends PacketTileEntity<TileEntity> implements IM
 		ByteBufUtils.writeUTF8String(buf, UID);
 	}
 
-	public PacketSelectPage(TileEntity tile, IModuleGui gui) {
+	public PacketSelectGui(TileEntity tile, IModuleGui gui) {
 		super(tile);
 		this.UID = gui.getCategoryUID() + ":" + gui.getModuleUID();
 	}
 
-	public PacketSelectPage(TileEntity tile, String UID) {
+	public PacketSelectGui(TileEntity tile, String UID) {
 		super(tile);
 		this.UID = UID;
 	}
 
 	@Override
-	public IMessage onMessage(PacketSelectPage message, MessageContext ctx) {
+	public IMessage onMessage(PacketSelectGui message, MessageContext ctx) {
 		World world;
 		if (ctx.side == Side.CLIENT) {
 			world = Minecraft.getMinecraft().theWorld;
