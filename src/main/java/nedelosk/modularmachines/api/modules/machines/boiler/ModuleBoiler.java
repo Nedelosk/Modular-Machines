@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.modules.machines.boiler;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public abstract class ModuleBoiler<S extends IModuleBoilerSaver> extends ModuleMachineRecipe<S> implements IModuleBoiler<S> {
+public abstract class ModuleBoiler extends ModuleMachineRecipe implements IModuleBoiler {
 
 	protected final int steam;
 	protected final int water;

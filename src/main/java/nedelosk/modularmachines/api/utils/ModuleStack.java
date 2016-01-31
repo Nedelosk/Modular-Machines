@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
+public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
 
 	private M module;
 	private S saver;
@@ -21,12 +21,12 @@ public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
 		this.module = module;
 		this.itemStack = itemStack;
 		this.material = material;
-		this.saver = module.createSaver(this);
+		this.saver = (S) module.createSaver(this);
 	}
 
 	public ModuleStack(M module, Material material) {
 		this.module = module;
-		this.saver = module.createSaver(this);
+		this.saver = (S) module.createSaver(this);
 		this.material = material;
 		this.itemStack = null;
 	}
@@ -38,7 +38,7 @@ public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
 		}
 		ModuleStack stack = (ModuleStack) obj;
 		if (material != null && stack.material != null && material.equals(stack.material) && module != null && stack.getModule() != null
-				&& module.getName(this).equals(stack.getModule().getName(stack))) {
+				&& module.getUID().equals(stack.getModule().getUID())) {
 			return true;
 		}
 		return false;
@@ -46,8 +46,8 @@ public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
 
 	public static ModuleStack loadFromNBT(NBTTagCompound nbt, IModular modular) {
 		ItemStack itemStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
-		ResourceLocation registry = new ResourceLocation(nbt.getString("Registry"));
-		IModule module = ModuleRegistry.getModule(registry);
+		ResourceLocation UID = new ResourceLocation(nbt.getString("UID"));
+		IModule module = ModuleRegistry.getModule(UID);
 		Material material = Materials.getMaterial(nbt.getString("Material"));
 		ModuleStack stack = new ModuleStack(itemStack, module, material);
 		if (stack.saver != null) {
@@ -57,7 +57,7 @@ public final class ModuleStack<M extends IModule<S>, S extends IModuleSaver> {
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
-		nbt.setString("Registry", module.getRegistry().toString());
+		nbt.setString("UID", module.getUID());
 		if (saver != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			saver.writeToNBT(nbtTag, modular, this);

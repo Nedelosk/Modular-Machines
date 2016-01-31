@@ -22,7 +22,7 @@ public class PluginEnderIO extends APlugin {
 
 	@Override
 	public void init() {
-		addModuleToItem(chassis, new ModuleCasing<>("chassis"), Materials.IRON);
+		addModuleToItem(chassis, new ModuleCasing("chassis"), Materials.IRON);
 		addModuleToItem(new ItemStack(capacitorBank, 1, 1), new ModuleBattery("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)), Materials.IRON);
 		addModuleToItem(new ItemStack(capacitorBank, 1, 2), new ModuleBattery("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)), Materials.BRONZE);
 		addModuleToItem(new ItemStack(capacitorBank, 1, 3), new ModuleBattery("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)),

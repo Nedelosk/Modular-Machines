@@ -3,7 +3,6 @@ package nedelosk.modularmachines.api.modules.managers.fluids;
 import java.util.List;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.fluids.TankData;
 import nedelosk.modularmachines.api.modules.managers.IModuleManager;
 import nedelosk.modularmachines.api.modules.storage.tanks.IModuleTank;
@@ -13,7 +12,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public interface IModuleTankManager<S extends IModuleSaver> extends IModuleManager<S> {
+public interface IModuleTankManager extends IModuleManager {
 
 	void addTank(int id, IModuleTank tank, ModuleStack stack);
 

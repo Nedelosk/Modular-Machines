@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.special.IModuleWithItem;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -49,14 +50,12 @@ public class ItemModule extends Item {
 
 	public static <M extends IModule> ModuleStack addModule(M module, Material material) {
 		ItemStack itemStack = new ItemStack(ModuleModular.ItemManager.Producers.item());
-		ModuleStack moduleStack = new ModuleStack<M>(module, material);
-		if (module.getRegistry() == null) {
+		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, material);
+		if (ModuleRegistry.getModule(moduleStack.getModule().getModuleUID()) == null) {
 			ModuleRegistry.registerModule(module);
 		}
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("Name", module.getName(moduleStack));
-		nbtTag.setString("CategoryUID", module.getCategoryUID());
-		nbtTag.setString("ModuleUID", module.getModuleUID());
+		nbtTag.setString("UID", module.getUID());
 		itemStack.setTagCompound(nbtTag);
 		subItems.add(itemStack);
 		moduleStack.setItemStack(itemStack);
@@ -87,12 +86,13 @@ public class ItemModule extends Item {
 		}
 	}
 
-	public static ItemStack getItem(String categoryUID, String moduleUID) {
+	public static ItemStack getItem(String moduleUID) {
 		for ( ItemStack stack : subItems ) {
-			String cUID = stack.getTagCompound().getString("CategoryUID");
-			String mUID = stack.getTagCompound().getString("ModuleUID");
-			if (cUID.equals(categoryUID) && mUID.equals(moduleUID)) {
-				return stack;
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("UID")) {
+				String UID = stack.getTagCompound().getString("UID");
+				if (UID.equals(moduleUID)) {
+					return stack;
+				}
 			}
 		}
 		return null;

@@ -18,7 +18,7 @@ import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleMachine<S extends IModuleMachineSaver> extends ModuleAddable<S> implements IModuleMachine<S>, IModuleWithFluid<S> {
+public abstract class ModuleMachine extends ModuleAddable implements IModuleMachine, IModuleWithFluid {
 
 	public ModuleMachine(String moduleUID, String moduleModifier) {
 		super(ModuleCategoryUIDs.MACHINE, moduleUID + "." + moduleModifier);
@@ -45,7 +45,7 @@ public abstract class ModuleMachine<S extends IModuleMachineSaver> extends Modul
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModuleGuiDefault(getCategoryUID(), getName(stack));
+		return new ModuleGuiDefault(getUID());
 	}
 
 	/* INVENTORY */

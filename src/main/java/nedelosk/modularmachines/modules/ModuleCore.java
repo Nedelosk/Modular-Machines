@@ -20,6 +20,7 @@ import nedelosk.forestday.common.items.materials.ItemNugget;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
+import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.BlockComponent;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.events.EventHandler;
@@ -38,6 +39,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -52,6 +54,7 @@ public class ModuleCore extends AModule {
 	public static Fluid Air;
 	public static String[] oreOtherOres = new String[] { "Columbite", "Aluminum" };
 	public static String[] ingotsOther = new String[] { "Niobium", "Tantalum", "Aluminum", "Steel", "White_Steel", "Gray_Steel" };
+	public static Config config;
 
 	public ModuleCore() {
 		super("MCore");
@@ -60,7 +63,9 @@ public class ModuleCore extends AModule {
 	@Override
 	public void preInit(IModuleManager manager) {
 		registerFluids();
-		Config.preInit();
+		config = new Config();
+		Config.config = new Configuration(ModularMachines.configFile, "2.0");
+		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		manager.register(BlockManager.Ore_Others, new BlockOre(oreOtherOres, "modularmachines"), ItemBlockForest.class);
 		manager.register(BlockManager.Component_Metal_Blocks, new BlockComponent(Material.iron, "metal_block"), ItemBlockForest.class);

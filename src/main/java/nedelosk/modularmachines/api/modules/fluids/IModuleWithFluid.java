@@ -1,10 +1,9 @@
 package nedelosk.modularmachines.api.modules.fluids;
 
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IModuleWithFluid<S extends IModuleSaver> extends IModule<S> {
+public interface IModuleWithFluid extends IModule {
 
 	boolean useFluids(ModuleStack stack);
 

@@ -20,10 +20,10 @@ import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
-public class ModuleTankManagerGui<M extends IModuleTankManager<S>, S extends IModuleTankManagerSaver> extends ModuleManagerGui<M, S> {
+public class ModuleTankManagerGui<M extends IModuleTankManager, S extends IModuleTankManagerSaver> extends ModuleManagerGui<M, S> {
 
-	public ModuleTankManagerGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleTankManagerGui(String UID) {
+		super(UID);
 	}
 
 	@Override

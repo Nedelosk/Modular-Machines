@@ -53,7 +53,7 @@ public class ModuleCategory implements IModuleCategory {
 	}
 
 	@Override
-	public String getCategoryUID() {
+	public String getUID() {
 		return UID;
 	}
 

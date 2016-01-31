@@ -14,8 +14,8 @@ import net.minecraft.inventory.Slot;
 
 public class ModuleCentrifugeInventory extends ModuleMachineRecipeInventory<ModuleCentrifuge, IModuleMachineSaver> {
 
-	public ModuleCentrifugeInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModuleCentrifugeInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

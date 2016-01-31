@@ -10,7 +10,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class MultiModuleContainer<M extends IModule<S>, S extends IModuleSaver> implements IMultiModuleContainer<M, S, List<ModuleStack<M, S>>> {
+public class MultiModuleContainer<M extends IModule, S extends IModuleSaver> implements IMultiModuleContainer<M, S, List<ModuleStack<M, S>>> {
 
 	private List<ModuleStack<M, S>> moduleStacks = new ArrayList();
 
@@ -39,7 +39,7 @@ public class MultiModuleContainer<M extends IModule<S>, S extends IModuleSaver> 
 	@Override
 	public void setStack(ModuleStack<M, S> stackModule, String moduleUID) {
 		for ( ModuleStack<M, S> stack : moduleStacks ) {
-			if (stack.getModule().getName(stack).equals(moduleUID)) {
+			if (stack.getModule().getUID().equals(moduleUID)) {
 				moduleStacks.set(moduleStacks.indexOf(stack), stackModule);
 			}
 		}
@@ -53,7 +53,7 @@ public class MultiModuleContainer<M extends IModule<S>, S extends IModuleSaver> 
 	@Override
 	public ModuleStack<M, S> getStack(String moduleUID) {
 		for ( ModuleStack<M, S> stack : moduleStacks ) {
-			if (stack.getModule().getName(stack).equals(moduleUID)) {
+			if (stack.getModule().getUID().equals(moduleUID)) {
 				return stack;
 			}
 		}

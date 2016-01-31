@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleDefault<S extends IModuleSaver> extends Module<S> implements IModuleDefault<S> {
+public class ModuleDefault extends Module implements IModuleDefault {
 
 	public ModuleDefault(String categoryUID, String moduleUID) {
 		super(categoryUID, moduleUID);

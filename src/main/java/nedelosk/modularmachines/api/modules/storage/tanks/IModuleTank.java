@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface IModuleTank extends IModuleAddable<IModuleSaver> {
+public interface IModuleTank extends IModuleAddable {
 
 	int getCapacity();
 

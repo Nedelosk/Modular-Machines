@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecipe<S>, S extends IModuleMachineSaver> extends ModuleInventory<M, S> {
+public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecipe, S extends IModuleMachineSaver> extends ModuleInventory<M, S> {
 
-	public ModuleMachineRecipeInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModuleMachineRecipeInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

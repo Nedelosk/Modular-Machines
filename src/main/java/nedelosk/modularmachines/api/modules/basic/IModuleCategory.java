@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContai
 
 public interface IModuleCategory {
 
-	String getCategoryUID();
+	String getUID();
 
 	Class<? extends IModuleContainer> getModuleContainerClass();
 

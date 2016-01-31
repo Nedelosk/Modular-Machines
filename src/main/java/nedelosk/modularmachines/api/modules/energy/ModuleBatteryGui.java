@@ -14,14 +14,14 @@ import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
-public class ModuleBatteryGui<P extends IModuleBattery> extends ModuleGuiDefault<P> {
+public class ModuleBatteryGui<P extends IModuleBattery, S extends IModuleBatterySaver> extends ModuleGuiDefault<P, S> {
 
-	public ModuleBatteryGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleBatteryGui(String UID) {
+		super(UID);
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P> stack, List<Widget> widgets) {
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P, S> stack, List<Widget> widgets) {
 		widgets.add(new WidgetEnergyField(((EnergyHandler) modular.getUtilsManager().getEnergyHandler()).getStorage(), 45, 15));
 	}
 

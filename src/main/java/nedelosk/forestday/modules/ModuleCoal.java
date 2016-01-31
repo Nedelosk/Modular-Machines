@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 public class ModuleCoal extends AModule {
 
@@ -118,7 +119,7 @@ public class ModuleCoal extends AModule {
 
 	@SubscribeEvent
 	public void onPlayerUse(PlayerInteractEvent event) {
-		if (!event.world.isRemote) {
+		if (!event.world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK) {
 			EntityPlayer player = event.entityPlayer;
 			World world = event.world;
 			int x = event.x;

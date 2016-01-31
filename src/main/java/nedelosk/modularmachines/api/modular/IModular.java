@@ -41,9 +41,9 @@ public interface IModular {
 
 	ModuleStack getModuleFromUID(String UID);
 
-	ISingleModuleContainer getSingleModule(String moduleName);
+	ISingleModuleContainer getSingleModule(String categoryUID);
 
-	IMultiModuleContainer getMultiModule(String moduleName);
+	IMultiModuleContainer getMultiModule(String categoryUID);
 
 	/**
 	 * @return All modules in a HashMap
@@ -83,4 +83,6 @@ public interface IModular {
 
 	// Waila
 	IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data);
+
+	ModularException getLastException();
 }

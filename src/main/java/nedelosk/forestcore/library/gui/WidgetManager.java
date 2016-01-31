@@ -67,7 +67,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	public boolean keyTyped(char keyChar, int keyCode) {
 		for ( Widget slot : widgets ) {
-			if (slot.keyTyped(keyChar, keyCode)) {
+			if (slot.keyTyped(keyChar, keyCode, gui)) {
 				return true;
 			}
 		}

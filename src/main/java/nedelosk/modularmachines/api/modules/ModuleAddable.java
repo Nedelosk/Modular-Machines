@@ -4,7 +4,7 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public abstract class ModuleAddable<S extends IModuleSaver> extends ModuleDefault<S> implements IModuleAddable<S> {
+public abstract class ModuleAddable extends ModuleDefault implements IModuleAddable {
 
 	public ModuleAddable(String categoryUID, String moduleUID) {
 		super(categoryUID, moduleUID);

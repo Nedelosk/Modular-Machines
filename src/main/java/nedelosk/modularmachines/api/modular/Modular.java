@@ -23,6 +23,7 @@ import nedelosk.modularmachines.api.modular.material.Materials.Material;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
+import nedelosk.modularmachines.api.modules.basic.IModuleUpdatable;
 import nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
 import nedelosk.modularmachines.api.utils.ModularException;
@@ -41,6 +42,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 	protected String page;
 	protected Material material;
 	private boolean isAssembled;
+	protected ModularException lastException;
 
 	public Modular() {
 		utilsManager = new ModularUtilsManager();
@@ -56,19 +58,23 @@ public abstract class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public void assemble() throws ModularException {
-		ModuleStack<IModuleController<IModuleSaver>, IModuleSaver> controller = null;
+	public void assemble() {
+		ModuleStack<IModuleController, IModuleSaver> controller = null;
 		for ( ModuleStack stack : getModuleStacks() ) {
 			if (stack.getModule() instanceof IModuleController) {
 				controller = stack;
 			}
 		}
 		if (controller == null) {
-			throw new ModularException(StatCollector.translateToLocal("modular.ex.find.controller"));
+			lastException = new ModularException(StatCollector.translateToLocal("modular.ex.find.controller"));
 		}
 		List<ModuleStack> modules = getModuleStacks();
 		for ( ModuleStack stack : getModuleStacks() ) {
-			stack.getModule().canAssembleModular(this, stack, controller, modules);
+			try {
+				stack.getModule().canAssembleModular(this, stack, controller, modules);
+			} catch (ModularException e) {
+				lastException = e;
+			}
 		}
 		if (controller.getModule().canAssembleModular(this, controller)) {
 			isAssembled = true;
@@ -79,11 +85,11 @@ public abstract class Modular implements IModular, IWailaProvider {
 	public void update(boolean isServer) {
 		List<ModuleStack> stacks = getModuleStacks();
 		for ( ModuleStack stack : stacks ) {
-			if (stack != null && stack.getModule() != null) {
+			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleUpdatable) {
 				if (isServer) {
-					stack.getModule().updateServer(this, stack);
+					((IModuleUpdatable) stack.getModule()).updateServer(this, stack);
 				} else {
-					stack.getModule().updateClient(this, stack);
+					((IModuleUpdatable) stack.getModule()).updateClient(this, stack);
 				}
 			}
 		}
@@ -275,7 +281,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List getWailaBody(ItemStack itemStack, List currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaBody(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -283,7 +289,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaHead(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -291,7 +297,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		for ( ModuleStack<IModuleWaila<IModuleSaver>, IModuleSaver> stack : getWailaModules() ) {
+		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
 			currenttip = stack.getModule().getWailaTail(itemStack, currenttip, data);
 		}
 		return currenttip;
@@ -318,5 +324,10 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public boolean isAssembled() {
 		return isAssembled;
+	}
+
+	@Override
+	public ModularException getLastException() {
+		return lastException;
 	}
 }

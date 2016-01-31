@@ -9,6 +9,7 @@ import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModularUtils;
@@ -64,7 +65,7 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		ModuleStack<IModule> stack;
+		ModuleStack<IModule, IModuleSaver> stack;
 		IModularInventory modular = inventoryBase.getModular();
 		try {
 			stack = ModularUtils.getModuleStackFromGui(modular, modular.getGuiManager().getCurrentGui());

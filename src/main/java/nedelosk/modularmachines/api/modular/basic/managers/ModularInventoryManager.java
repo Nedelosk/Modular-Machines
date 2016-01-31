@@ -17,6 +17,7 @@ import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleC
 import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -58,7 +59,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 				if (!(entryContainer.getValue() instanceof IMultiModuleContainer)) {
 					return;
 				}
-				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> moduleContainer = (IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>>) entryContainer
+				IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>> moduleContainer = (IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>>) entryContainer
 						.getValue();
 				for ( ModuleStack stack : moduleContainer.getStacks() ) {
 					int index = moduleContainer.getIndex(stack);
@@ -79,7 +80,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 		if (container instanceof ISingleInventoryContainer) {
 			inventory = ((ISingleInventoryContainer) container).getInventory();
 		} else if (container instanceof IMultiInventoryContainer) {
-			inventory = ((IMultiInventoryContainer) container).getInventory(module.getName(stack));
+			inventory = ((IMultiInventoryContainer) container).getInventory(module.getUID());
 		}
 		return inventory;
 	}

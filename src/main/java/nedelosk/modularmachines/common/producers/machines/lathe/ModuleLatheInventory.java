@@ -14,8 +14,8 @@ import net.minecraft.inventory.Slot;
 
 public class ModuleLatheInventory extends ModuleMachineRecipeInventory<ModuleLathe, IModuleMachineRecipeModeSaver> {
 
-	public ModuleLatheInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModuleLatheInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

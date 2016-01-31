@@ -21,6 +21,7 @@ import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModule
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
@@ -88,7 +89,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public IModuleGui getGui(ModuleStack stack) {
 		IModule module = stack.getModule();
-		return getGui(module.getCategoryUID() + ":" + module.getName(stack));
+		return getGui(module.getCategoryUID() + ":" + module.getUID());
 	}
 
 	@Override
@@ -110,7 +111,7 @@ public class ModularGuiManager implements IModularGuiManager {
 					continue;
 				}
 			} else if (container instanceof IMultiModuleContainer) {
-				IMultiModuleContainer<IModule, Collection<ModuleStack<IModule>>> multiContainer = (IMultiModuleContainer) container;
+				IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>> multiContainer = (IMultiModuleContainer) container;
 				for ( ModuleStack stack : multiContainer.getStacks() ) {
 					if (!searchForGuis(stack, container)) {
 						continue;

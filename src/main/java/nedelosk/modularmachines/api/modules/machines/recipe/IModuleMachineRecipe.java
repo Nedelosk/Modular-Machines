@@ -1,13 +1,12 @@
 package nedelosk.modularmachines.api.modules.machines.recipe;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModuleMachineRecipe<S extends IModuleSaver> extends IModuleMachine<S> {
+public interface IModuleMachineRecipe extends IModuleMachine {
 
 	boolean addOutput(IModular modular, ModuleStack stack);
 

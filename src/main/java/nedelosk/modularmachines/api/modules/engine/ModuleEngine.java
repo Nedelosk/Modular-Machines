@@ -9,6 +9,7 @@ import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.Module;
 import nedelosk.modularmachines.api.modules.energy.IModuleBatterySaver;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
@@ -21,7 +22,7 @@ import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleEngine<S extends IModuleEngineSaver> extends Module<S> implements IModuleEngine<S> {
+public abstract class ModuleEngine extends Module implements IModuleEngine {
 
 	protected final int speedModifier;
 	protected final String type;
@@ -47,7 +48,7 @@ public abstract class ModuleEngine<S extends IModuleEngineSaver> extends Module<
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		ModuleStack<IModuleMachine<IModuleMachineSaver>, IModuleMachineSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
+		ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
 		IModuleEngineSaver saver = (IModuleEngineSaver) stack.getSaver();
 		if (saver.getTimer() > saver.getTimerTotal()) {
 			modular.getMachine().getWorldObj().markBlockForUpdate(modular.getMachine().getXCoord(), modular.getMachine().getYCoord(),
@@ -89,8 +90,8 @@ public abstract class ModuleEngine<S extends IModuleEngineSaver> extends Module<
 	}
 
 	@Override
-	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine<IModuleMachineSaver>, IModuleMachineSaver> stackMachine,
-			ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stackEngine) {
+	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine,
+			ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine) {
 		int speed = getSpeedModifier(stackEngine) * stackMachine.getModule().getSpeed(stackMachine) / 10;
 		IModuleBatterySaver batterySaver = (IModuleBatterySaver) ModularUtils.getBattery(modular).getStack().getSaver();
 		int burnTimeTotal = speed + (speed * batterySaver.getSpeedModifier() / 100);
@@ -100,7 +101,7 @@ public abstract class ModuleEngine<S extends IModuleEngineSaver> extends Module<
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		IModularTileEntity tile = (IModularTileEntity) data.getTileEntity();
-		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stackEngine = ModularUtils.getEngine(tile.getModular()).getStack();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine = ModularUtils.getEngine(tile.getModular()).getStack();
 		if (stackEngine != null) {
 			IModuleEngineSaver engine = stackEngine.getSaver();
 			currenttip.add(engine.getBurnTime(stackEngine) + " / " + engine.getBurnTimeTotal(stackEngine));
@@ -119,7 +120,7 @@ public abstract class ModuleEngine<S extends IModuleEngineSaver> extends Module<
 	}
 
 	@Override
-	public S createSaver(ModuleStack stack) {
-		return (S) new ModuleEngineSaver();
+	public IModuleSaver createSaver(ModuleStack stack) {
+		return new ModuleEngineSaver();
 	}
 }

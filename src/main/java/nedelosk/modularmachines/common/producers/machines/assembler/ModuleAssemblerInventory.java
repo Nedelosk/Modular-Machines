@@ -14,8 +14,8 @@ import net.minecraft.inventory.Slot;
 
 public class ModuleAssemblerInventory extends ModuleMachineRecipeInventory<ModuleAssembler, IModuleMachineSaver> {
 
-	public ModuleAssemblerInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModuleAssemblerInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

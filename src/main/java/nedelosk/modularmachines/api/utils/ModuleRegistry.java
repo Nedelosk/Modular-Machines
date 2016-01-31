@@ -23,23 +23,23 @@ public class ModuleRegistry {
 	private static ArrayList<ModuleItem> moduleItems = Lists.newArrayList();
 
 	public static IModuleCategory registerCategory(IModuleCategory category) {
-		return categorys.put(category.getCategoryUID(), category);
+		return categorys.put(category.getUID(), category);
 	}
 
 	public static IModuleCategory getCategory(String categoryUID) {
 		return categorys.get(categoryUID);
 	}
 
-	public static IModule registerModule(IModule module, String name) {
-		return moduleRegistry.register(module, name);
-	}
-
 	public static IModule registerModule(IModule module) {
-		return registerModule(module, module.getCategoryUID() + "." + module.getModuleUID());
+		return moduleRegistry.register(module, module.getUID());
 	}
 
-	public static IModule getModule(ResourceLocation registry) {
-		return moduleRegistry.get(registry);
+	public static IModule getModule(ResourceLocation uid) {
+		return moduleRegistry.get(uid);
+	}
+
+	public static IModule getModule(String uid) {
+		return moduleRegistry.get(new ResourceLocation(uid));
 	}
 
 	public static ModuleNameRegistry getModuleRegistry() {
@@ -56,7 +56,7 @@ public class ModuleRegistry {
 
 	public static void addModuleToItem(ModuleStack moduleStack, boolean ignorNBT) {
 		ModuleItem moduleItem = new ModuleItem(moduleStack.getItemStack(), moduleStack, moduleStack.getMaterial(), ignorNBT);
-		if (moduleStack.getModule().getRegistry() == null) {
+		if (getModule(moduleStack.getModule().getModuleUID()) == null) {
 			registerModule(moduleStack.getModule());
 		}
 		if (!moduleItems.equals(moduleItem)) {

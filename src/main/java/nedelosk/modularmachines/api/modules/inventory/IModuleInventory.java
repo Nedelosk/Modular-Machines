@@ -14,7 +14,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModuleInventory<M extends IModule<S>, S extends IModuleSaver> {
+public interface IModuleInventory<M extends IModule, S extends IModuleSaver> {
 
 	List<Slot> addSlots(IContainerBase container, IModularInventory modular, ModuleStack<M, S> stack);
 
@@ -27,6 +27,8 @@ public interface IModuleInventory<M extends IModule<S>, S extends IModuleSaver> 
 	String getModuleUID();
 
 	String getCategoryUID();
+
+	String getUID();
 
 	int getSizeInventory(ModuleStack<M, S> moduleStack, IModularInventory modular);
 

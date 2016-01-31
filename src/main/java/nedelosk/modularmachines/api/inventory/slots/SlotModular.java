@@ -9,7 +9,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotModular<M extends IModule<S>, S extends IModuleSaver> extends Slot {
+public class SlotModular<M extends IModule, S extends IModuleSaver> extends Slot {
 
 	public ModuleStack<M, S> moduleStack;
 

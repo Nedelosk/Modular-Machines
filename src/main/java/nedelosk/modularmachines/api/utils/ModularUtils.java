@@ -29,12 +29,12 @@ public class ModularUtils {
 	 * (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
 	 * stacks.add(stack); } } } return stacks; }
 	 */
-	public static HashMap<String, ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver>> getFluidProducers(IModular modular) {
-		HashMap<String, ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver>> stacks = Maps.newHashMap();
+	public static HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> getFluidProducers(IModular modular) {
+		HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = Maps.newHashMap();
 		for ( ModuleStack stack : modular.getModuleStacks() ) {
 			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleWithFluid) {
 				if (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
-					stacks.put(stack.getModule().getName(stack), stack);
+					stacks.put(stack.getModule().getUID(), stack);
 				}
 			}
 		}
@@ -46,7 +46,7 @@ public class ModularUtils {
 		return getSingleContainer(modular, ModuleCategoryUIDs.CASING);
 	}
 
-	public static ModuleStack<IModuleTankManager<IModuleTankManagerSaver>, IModuleTankManagerSaver> getTankManager(IModular modular) {
+	public static ModuleStack<IModuleTankManager, IModuleTankManagerSaver> getTankManager(IModular modular) {
 		return getModuleStack(modular, ModuleCategoryUIDs.MANAGERS, ModuleCategoryUIDs.MANAGER_TANK);
 	}
 
@@ -70,7 +70,7 @@ public class ModularUtils {
 		return getSingleContainer(modular, ModuleCategoryUIDs.CAPACITOR);
 	}
 
-	public static IMultiModuleContainer<IModule, Collection<ModuleStack<IModule<IModuleSaver>, IModuleSaver>>> getMultiContainer(IModular modular,
+	public static IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>> getMultiContainer(IModular modular,
 			String categoryUID) {
 		IModuleContainer container = getModuleStack(modular, categoryUID);
 		if (container == null || !(container instanceof IMultiModuleContainer)) {
@@ -98,11 +98,11 @@ public class ModularUtils {
 		return modular.getModule(categoryUID);
 	}
 
-	public static <M extends IModule<S>, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularInventory modular, IModuleGui<M, S> gui) {
+	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularInventory modular, IModuleGui<M, S> gui) {
 		return modular.getModuleFromUID(gui.getCategoryUID() + ":" + gui.getModuleUID());
 	}
 
-	public static <M extends IModule<S>, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularInventory modular,
+	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularInventory modular,
 			IModuleInventory<M, S> inv) {
 		return modular.getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
 	}

@@ -20,6 +20,7 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetManager;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.forestcore.library.inventory.IGuiHandler;
+import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -38,10 +39,10 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	public ResourceLocation nei_widgets = new ResourceLocation("modularmachines:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
-	public ModuleStack<IModuleMachineRecipe> stack;
+	public ModuleStack<IModuleMachineRecipe, IModuleMachineSaver> stack;
 	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
 
-	public ModularMachinesHandler(ModuleStack<IModuleMachineRecipe> stack) {
+	public ModularMachinesHandler(ModuleStack<IModuleMachineRecipe, IModuleMachineSaver> stack) {
 		this.recipeName = stack.getModule().getRecipeName(stack);
 		this.stack = stack;
 		if (!NEIConfig.isAdded) {

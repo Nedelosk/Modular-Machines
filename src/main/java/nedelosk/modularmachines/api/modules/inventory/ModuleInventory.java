@@ -13,15 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class ModuleInventory<M extends IModule<S>, S extends IModuleSaver> implements IModuleInventory<M, S> {
+public abstract class ModuleInventory<M extends IModule, S extends IModuleSaver> implements IModuleInventory<M, S> {
 
 	protected ItemStack[] slots;
-	protected final String moduleUID;
-	protected final String categoryUID;
+	protected final String UID;
 
-	public ModuleInventory(String categoryUID, String moduleUID, int slots) {
-		this.moduleUID = moduleUID;
-		this.categoryUID = categoryUID;
+	public ModuleInventory(String UID, int slots) {
+		this.UID = UID;
 		this.slots = new ItemStack[slots];
 	}
 
@@ -119,12 +117,17 @@ public abstract class ModuleInventory<M extends IModule<S>, S extends IModuleSav
 
 	@Override
 	public String getModuleUID() {
-		return moduleUID;
+		return UID.split(":")[1];
 	}
 
 	@Override
 	public String getCategoryUID() {
-		return categoryUID;
+		return UID.split(":")[0];
+	}
+
+	@Override
+	public String getUID() {
+		return null;
 	}
 
 	@Override

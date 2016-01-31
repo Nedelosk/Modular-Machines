@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
-public class MultiGuiContainer<P extends IModule> implements IMultiGuiContainer<P, List<IModuleGui<P>>> {
+public class MultiGuiContainer<M extends IModule, S extends IModuleSaver> implements IMultiGuiContainer<M, S, List<IModuleGui<M, S>>> {
 
-	private List<IModuleGui<P>> guis = new ArrayList();
+	private List<IModuleGui<M, S>> guis = new ArrayList();
 
-	public MultiGuiContainer(IModuleGui<P> gui) {
+	public MultiGuiContainer(IModuleGui<M, S> gui) {
 		guis.add(gui);
 	}
 
@@ -18,37 +19,37 @@ public class MultiGuiContainer<P extends IModule> implements IMultiGuiContainer<
 	}
 
 	@Override
-	public void addGui(IModuleGui<P> gui) {
+	public void addGui(IModuleGui<M, S> gui) {
 		this.guis.add(gui);
 	}
 
 	@Override
-	public void addGui(int index, IModuleGui<P> gui) {
+	public void addGui(int index, IModuleGui<M, S> gui) {
 		this.guis.add(index, gui);
 	}
 
 	@Override
-	public void setGuis(List<IModuleGui<P>> collection) {
+	public void setGuis(List<IModuleGui<M, S>> collection) {
 		this.guis = collection;
 	}
 
 	@Override
-	public int getIndex(IModuleGui<P> gui) {
+	public int getIndex(IModuleGui<M, S> gui) {
 		return guis.indexOf(gui);
 	}
 
 	@Override
-	public List<IModuleGui<P>> getGuis() {
+	public List<IModuleGui<M, S>> getGuis() {
 		return guis;
 	}
 
 	@Override
-	public IModuleGui<P> getGui(int index) {
+	public IModuleGui<M, S> getGui(int index) {
 		return guis.get(index);
 	}
 
 	@Override
-	public IModuleGui<P> getGui(String guiName) {
+	public IModuleGui<M, S> getGui(String guiName) {
 		for ( IModuleGui gui : guis ) {
 			if (gui.getModuleUID().equals(guiName)) {
 				return gui;

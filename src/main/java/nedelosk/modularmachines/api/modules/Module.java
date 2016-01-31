@@ -7,12 +7,10 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
 import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.api.utils.ModuleStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public abstract class Module<S extends IModuleSaver> implements IModule<S> {
+public abstract class Module implements IModule {
 
-	protected ResourceLocation registry;
 	private String moduleUID;
 	private String categoryUID;
 
@@ -22,17 +20,17 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 	}
 
 	@Override
-	public String getName(ModuleStack stack) {
-		return getCategoryUID() + "." + getModuleUID() + "." + stack.getMaterial().getName();
+	public String getUID() {
+		return getCategoryUID() + ":" + getModuleUID();
 	}
 
 	@Override
 	public String getUnlocalizedName(ModuleStack stack) {
-		return "module." + getCategoryUID() + "." + getModuleUID() + ".name";
+		return "module." + getCategoryUID() + "." + getModuleUID() + "." + stack.getMaterial().getName() + ".name";
 	}
 
 	@Override
-	public S createSaver(ModuleStack stack) {
+	public IModuleSaver createSaver(ModuleStack stack) {
 		return null;
 	}
 
@@ -42,7 +40,7 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 	}
 
 	@Override
-	public boolean canAssembleModular(IModular modular, ModuleStack stackModule, ModuleStack<IModuleController<IModuleSaver>, IModuleSaver> controller,
+	public boolean canAssembleModular(IModular modular, ModuleStack stackModule, ModuleStack<IModuleController, IModuleSaver> controller,
 			List<ModuleStack> modules) throws ModularException {
 		if (getRequiredModules().isEmpty()) {
 			return true;
@@ -50,34 +48,16 @@ public abstract class Module<S extends IModuleSaver> implements IModule<S> {
 		ArrayList<String> requiredModules = new ArrayList<>();
 		requiredModules.addAll(getRequiredModules());
 		for ( ModuleStack stack : modules ) {
-			if (requiredModules.contains(stack.getModule().getName(stack))) {
-				requiredModules.remove(stack.getModule().getName(stack));
+			if (requiredModules.contains(stack.getModule().getUID())) {
+				requiredModules.remove(stack.getModule().getUID());
 			} else {
-				throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.module", stack.getModule().getName(stack)));
+				throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.module", stack.getModule().getUID()));
 			}
 		}
 		if (!requiredModules.isEmpty()) {
 			throw new ModularException(StatCollector.translateToLocalFormatted("modular.ex.find.modules", requiredModules));
 		}
 		return true;
-	}
-
-	@Override
-	public void updateServer(IModular modular, ModuleStack stack) {
-	}
-
-	@Override
-	public void updateClient(IModular modular, ModuleStack stack) {
-	}
-
-	@Override
-	public ResourceLocation getRegistry() {
-		return registry;
-	}
-
-	@Override
-	public void setRegistry(ResourceLocation registry) {
-		this.registry = registry;
 	}
 
 	@Override

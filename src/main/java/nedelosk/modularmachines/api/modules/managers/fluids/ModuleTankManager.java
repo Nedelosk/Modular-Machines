@@ -21,7 +21,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> implements IModuleTankManager<ModuleTankManagerSaver> {
+public class ModuleTankManager extends ModuleManager implements IModuleTankManager {
 
 	protected final int tankSlots;
 
@@ -194,7 +194,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 				TankData data = saver.getData(ID);
 				if (data != null) {
 					if (mode == data.getMode()) {
-						if (data.getModule() == stack.getModule().getName(stack)) {
+						if (data.getModule() == stack.getModule().getUID()) {
 							datasL.add(data);
 						}
 					}
@@ -211,7 +211,7 @@ public class ModuleTankManager extends ModuleManager<ModuleTankManagerSaver> imp
 
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModuleTankManagerGui<>(getCategoryUID(), getName(stack));
+		return new ModuleTankManagerGui<>(getUID());
 	}
 
 	@Override

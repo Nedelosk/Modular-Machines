@@ -14,8 +14,8 @@ import net.minecraft.inventory.Slot;
 
 public class ModuleAlloySmelterInventory extends ModuleMachineRecipeInventory<ModuleAlloySmelter, IModuleMachineSaver> {
 
-	public ModuleAlloySmelterInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModuleAlloySmelterInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

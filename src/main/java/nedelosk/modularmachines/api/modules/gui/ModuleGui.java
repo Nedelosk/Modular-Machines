@@ -18,14 +18,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 @SideOnly(Side.CLIENT)
-public abstract class ModuleGui<P extends IModule<S>, S extends IModuleSaver> implements IModuleGui<P, S> {
+public abstract class ModuleGui<P extends IModule, S extends IModuleSaver> implements IModuleGui<P, S> {
 
-	protected final String moduleUID;
-	protected final String categoryUID;
+	protected final String UID;
 
-	public ModuleGui(String categoryUID, String moduleUID) {
-		this.moduleUID = moduleUID;
-		this.categoryUID = categoryUID;
+	public ModuleGui(String UID) {
+		this.UID = UID;
 	}
 
 	@Override
@@ -35,12 +33,17 @@ public abstract class ModuleGui<P extends IModule<S>, S extends IModuleSaver> im
 
 	@Override
 	public String getModuleUID() {
-		return moduleUID;
+		return UID.split(":")[1];
 	}
 
 	@Override
 	public String getCategoryUID() {
-		return categoryUID;
+		return UID.split(":")[0];
+	}
+
+	@Override
+	public String getUID() {
+		return UID;
 	}
 
 	@Override
@@ -57,7 +60,8 @@ public abstract class ModuleGui<P extends IModule<S>, S extends IModuleSaver> im
 
 	@Override
 	public String getInventoryName(ModuleStack<P, S> stack) {
-		return StatCollector.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getName(stack).toLowerCase(Locale.ENGLISH) + ".name");
+		return StatCollector
+				.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getUID().replace(":", ".").toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@Override

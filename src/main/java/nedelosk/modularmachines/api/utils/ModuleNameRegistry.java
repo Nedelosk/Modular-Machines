@@ -12,17 +12,16 @@ public class ModuleNameRegistry {
 
 	private HashMap<ResourceLocation, IModule> modules = Maps.newHashMap();
 
-	public IModule register(IModule module, String registryName) {
-		if (module == null || registryName == null) {
+	public IModule register(IModule module, String uidName) {
+		if (module == null || uidName == null) {
 			return null;
 		}
 		String modID = Loader.instance().activeModContainer().getModId();
-		ResourceLocation registry = new ResourceLocation(modID, registryName);
-		if (modules.containsKey(registry)) {
+		ResourceLocation uid = new ResourceLocation(uidName);
+		if (modules.containsKey(uid)) {
 			return null;
 		}
-		module.setRegistry(registry);
-		modules.put(registry, module);
+		modules.put(uid, module);
 		return module;
 	}
 

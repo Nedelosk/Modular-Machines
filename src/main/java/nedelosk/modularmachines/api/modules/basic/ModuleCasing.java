@@ -6,13 +6,12 @@ import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.Module;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public class ModuleCasing<S extends IModuleSaver> extends Module<S> implements IModuleCasing<S> {
+public class ModuleCasing extends Module implements IModuleCasing {
 
 	public ModuleCasing(String moduleUID) {
 		super(ModuleCategoryUIDs.CASING, moduleUID);
@@ -28,5 +27,15 @@ public class ModuleCasing<S extends IModuleSaver> extends Module<S> implements I
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
 		return new ModularMachineRenderer.CasingRenderer(moduleStack);
+	}
+
+	@Override
+	public int getMaxHeat() {
+		return 0;
+	}
+
+	@Override
+	public int getResistance() {
+		return 0;
 	}
 }

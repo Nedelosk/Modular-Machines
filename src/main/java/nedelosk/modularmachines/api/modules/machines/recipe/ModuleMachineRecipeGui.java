@@ -21,10 +21,10 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
-public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe<S>, S extends IModuleMachineSaver> extends ModuleGuiDefault<M, S> {
+public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe, S extends IModuleMachineSaver> extends ModuleGuiDefault<M, S> {
 
-	public ModuleMachineRecipeGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleMachineRecipeGui(String UID) {
+		super(UID);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe<S>, S extends
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for ( Widget widget : widgets ) {
 			if (widget instanceof WidgetProgressBar) {
-				ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
+				ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 				if (engine != null) {
 					int burnTime = engine.getSaver().getBurnTime(engine);
 					int burnTimeTotal = engine.getSaver().getBurnTimeTotal(engine);

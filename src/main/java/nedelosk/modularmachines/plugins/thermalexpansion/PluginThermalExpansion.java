@@ -28,10 +28,10 @@ public class PluginThermalExpansion extends APlugin {
 		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
 		strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
 		capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
-		addModuleToItem(new ItemStack(frame, 1, 0), new ModuleCasing<>("TE_Iron"), Materials.IRON);
-		addModuleToItem(new ItemStack(frame, 1, 1), new ModuleCasing<>("TE_Electrum"), Materials.Electrum);
-		addModuleToItem(new ItemStack(frame, 1, 2), new ModuleCasing<>("TE_Signalum"), Materials.Signalum);
-		addModuleToItem(new ItemStack(frame, 1, 3), new ModuleCasing<>("TE_Enderium"), Materials.Enderium);
+		addModuleToItem(new ItemStack(frame, 1, 0), new ModuleCasing("TE_Iron"), Materials.IRON);
+		addModuleToItem(new ItemStack(frame, 1, 1), new ModuleCasing("TE_Electrum"), Materials.Electrum);
+		addModuleToItem(new ItemStack(frame, 1, 2), new ModuleCasing("TE_Signalum"), Materials.Signalum);
+		addModuleToItem(new ItemStack(frame, 1, 3), new ModuleCasing("TE_Enderium"), Materials.Enderium);
 		addModuleToItem(new ItemStack(tank, 1, 1), new ModuleTankThermalExpansion("TankIron", 8000), Materials.IRON);
 		addModuleToItem(new ItemStack(tank, 1, 2), new ModuleTankThermalExpansion("TankInvar", 32000), Materials.Invar);
 		addModuleToItem(new ItemStack(tank, 1, 3), new ModuleTankThermalExpansion("TankObsidian", 128000), Materials.OBSIDIAN);

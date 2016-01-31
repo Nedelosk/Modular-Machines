@@ -9,7 +9,6 @@ import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
-import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -17,7 +16,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModulePulverizer extends ModuleMachineRecipe<IModuleMachineSaver> {
+public class ModulePulverizer extends ModuleMachineRecipe {
 
 	public ModulePulverizer() {
 		this("", 65);
@@ -59,11 +58,11 @@ public class ModulePulverizer extends ModuleMachineRecipe<IModuleMachineSaver> {
 
 	@Override
 	public IModuleInventory createInventory(ModuleStack stack) {
-		return new ModulePulverizerInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
+		return new ModulePulverizerInventory(getUID(), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModulePulverizerGui(getCategoryUID(), getName(stack));
+		return new ModulePulverizerGui(getUID());
 	}
 }

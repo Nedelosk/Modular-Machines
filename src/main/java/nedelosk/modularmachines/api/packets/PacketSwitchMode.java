@@ -44,9 +44,9 @@ public class PacketSwitchMode extends PacketTileEntity<TileEntity> implements IM
 		try {
 			IModularTileEntity<IModular> tile = (IModularTileEntity<IModular>) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 			if (tile.getModular() != null) {
-				ModuleStack<IModuleMachineRecipeMode> machineStack = ModularUtils.getMachine(tile.getModular()).getStack();
+				ModuleStack<IModuleMachineRecipeMode, IModuleMachineRecipeModeSaver> machineStack = ModularUtils.getMachine(tile.getModular()).getStack();
 				if (machineStack != null) {
-					IModuleMachineRecipeModeSaver machineSaver = (IModuleMachineRecipeModeSaver) machineStack.getSaver();
+					IModuleMachineRecipeModeSaver machineSaver = machineStack.getSaver();
 					IModuleMachineRecipeMode machine = machineStack.getModule();
 					machineSaver.setMode(machine.getModeClass().getEnumConstants()[message.mode]);
 					getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);

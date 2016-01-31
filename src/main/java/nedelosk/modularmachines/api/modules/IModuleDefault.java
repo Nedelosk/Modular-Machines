@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IModuleDefault<S extends IModuleSaver> extends IModule<S> {
+public interface IModuleDefault extends IModule {
 
 	@SideOnly(Side.CLIENT)
 	IModuleGui createGui(ModuleStack stack);

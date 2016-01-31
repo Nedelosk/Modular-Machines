@@ -6,11 +6,10 @@ import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public interface IModuleWithRenderer<S extends IModuleSaver> extends IModule<S> {
+public interface IModuleWithRenderer extends IModule {
 
 	@SideOnly(Side.CLIENT)
 	IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack);

@@ -12,10 +12,10 @@ import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ModuleManagerGui<M extends IModuleManager<S>, S extends IModuleManagerSaver> extends ModuleGuiDefault<M, S> {
+public abstract class ModuleManagerGui<M extends IModuleManager, S extends IModuleManagerSaver> extends ModuleGuiDefault<M, S> {
 
-	public ModuleManagerGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleManagerGui(String UID) {
+		super(UID);
 	}
 
 	@Override

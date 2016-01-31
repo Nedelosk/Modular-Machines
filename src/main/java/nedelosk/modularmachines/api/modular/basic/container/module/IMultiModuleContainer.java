@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public interface IMultiModuleContainer<M extends IModule<S>, S extends IModuleSaver, O extends Collection<ModuleStack<M, S>>> extends IModuleContainer {
+public interface IMultiModuleContainer<M extends IModule, S extends IModuleSaver, O extends Collection<ModuleStack<M, S>>> extends IModuleContainer {
 
 	void addStack(ModuleStack<M, S> stack);
 

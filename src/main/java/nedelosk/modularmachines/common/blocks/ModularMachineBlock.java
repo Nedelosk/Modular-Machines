@@ -6,6 +6,7 @@ import java.util.List;
 import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
+import nedelosk.modularmachines.api.utils.ModuleRegistry.ModuleItem;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -54,12 +56,30 @@ public class ModularMachineBlock extends ModularBlock {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
-		if (player.getCurrentEquippedItem() != null) {
-			if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null) {
+		if (!world.isRemote) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if (tile instanceof TileModularMachine) {
+				TileModularMachine modularMachine = (TileModularMachine) tile;
+				if (modularMachine.getModular().isAssembled()) {
+					player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
+					return true;
+				}
+				if (player.getCurrentEquippedItem() != null) {
+					if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null) {
+						ModuleItem item = ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem());
+					}
+				} else {
+					Exception e = modularMachine.getModular().getLastException();
+					if (e != null) {
+						player.addChatMessage(new ChatComponentText(e.getMessage()));
+						return true;
+					}
+				}
 			}
+			player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
+			return true;
 		}
-		player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
-		return true;
+		return false;
 	}
 
 	@Override

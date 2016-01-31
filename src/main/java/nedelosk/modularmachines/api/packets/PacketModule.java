@@ -14,8 +14,7 @@ import net.minecraft.world.World;
 
 public class PacketModule<T extends TileEntity & IModularTileEntity> extends PacketTileEntity<T> implements IMessageHandler<PacketModule, IMessage> {
 
-	private String categoryUID;
-	private String moduleName;
+	private String UID;
 	private NBTTagCompound nbt;
 	private boolean onlySaver;
 
@@ -24,8 +23,7 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 
 	public PacketModule(T tile, ModuleStack stack, boolean onlySaver) {
 		super(tile);
-		this.categoryUID = stack.getModule().getCategoryUID();
-		this.moduleName = stack.getModule().getName(stack);
+		this.UID = stack.getModule().getUID();
 		this.onlySaver = onlySaver;
 		NBTTagCompound nbt = new NBTTagCompound();
 		if (onlySaver) {
@@ -39,8 +37,7 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		categoryUID = ByteBufUtils.readUTF8String(buf);
-		moduleName = ByteBufUtils.readUTF8String(buf);
+		UID = ByteBufUtils.readUTF8String(buf);
 		nbt = ByteBufUtils.readTag(buf);
 		onlySaver = buf.readBoolean();
 	}
@@ -48,8 +45,7 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		ByteBufUtils.writeUTF8String(buf, categoryUID);
-		ByteBufUtils.writeUTF8String(buf, moduleName);
+		ByteBufUtils.writeUTF8String(buf, UID);
 		ByteBufUtils.writeTag(buf, nbt);
 		buf.writeBoolean(onlySaver);
 	}
@@ -58,12 +54,12 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		T tile = (T) message.getTileEntity(world);
-		ModuleStack stack = tile.getModular().getMultiModule(message.categoryUID).getStack(message.moduleName);
+		ModuleStack stack = tile.getModular().getMultiModule(message.UID.split(":")[0]).getStack(message.UID.split(":")[1]);
 		if (message.onlySaver) {
 			stack.getSaver().readFromNBT(message.nbt, tile.getModular(), stack);
 		} else {
 			stack = ModuleStack.loadFromNBT(message.nbt, tile.getModular());
-			tile.getModular().getMultiModule(message.categoryUID).setStack(stack, message.moduleName);
+			tile.getModular().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
 		}
 		return null;
 	}

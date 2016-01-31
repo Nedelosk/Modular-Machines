@@ -41,7 +41,7 @@ public class ModularMachineRenderer {
 		public ModelRenderer Window_Engine_Left;
 		public ModelRenderer Window_Engine_Right;
 		public ModelRenderer Window_Engine_Glass;
-		public final ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stack;
+		public final ModuleStack<IModuleEngine, IModuleEngineSaver> stack;
 		public ResourceLocation baseTexture;
 		public ResourceLocation discTexture;
 		public ResourceLocation windowTopTexture;
@@ -50,7 +50,7 @@ public class ModularMachineRenderer {
 		public ResourceLocation windowRightTexture;
 		public ResourceLocation windowGlassTexture;
 
-		public EngineRenderer(ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> stackEngine, ModuleStack stackCasing) {
+		public EngineRenderer(ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine, ModuleStack stackCasing) {
 			this.stack = stackEngine;
 			Base_Engine = new ModelRenderer(model, 0, 0);
 			Base_Engine.setRotationPoint(2.0F, 15.0F, -5.0F);
@@ -175,14 +175,14 @@ public class ModularMachineRenderer {
 		public ModelRenderer Battery_Down;
 		public ModelRenderer Battery_Right;
 		public ModelRenderer Battery_Left;
-		public final ModuleStack<IModuleBattery<IModuleBatterySaver>, IModuleBatterySaver> stack;
+		public final ModuleStack<IModuleBattery, IModuleBatterySaver> stack;
 		public ResourceLocation baseTexture;
 		public ResourceLocation topTexture;
 		public ResourceLocation downTexture;
 		public ResourceLocation rightTexture;
 		public ResourceLocation leftTexture;
 
-		public BatteryRenderer(ModuleStack<IModuleBattery<IModuleBatterySaver>, IModuleBatterySaver> stack, IModular modular) {
+		public BatteryRenderer(ModuleStack<IModuleBattery, IModuleBatterySaver> stack, IModular modular) {
 			this.stack = stack;
 			this.Battery_Left = new ModelRenderer(model, 0, 0);
 			this.Battery_Left.setRotationPoint(-8.0F, 12.5F, -6.0F);
@@ -380,7 +380,7 @@ public class ModularMachineRenderer {
 		public ModelBase model = new ModelBase() {
 		};
 
-		public MachineRenderer(ModuleStack<IModuleMachine<IModuleMachineSaver>, IModuleMachineSaver> stack) {
+		public MachineRenderer(ModuleStack<IModuleMachine, IModuleMachineSaver> stack) {
 			this.stack = stack;
 			Machine_Front = new ModelRenderer(model, 0, 0);
 			Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);

@@ -27,7 +27,7 @@ public class EventHandler {
 	public void onBlockActivated(PlayerInteractEvent event) {
 		EntityPlayer player = event.entityPlayer;
 		World world = event.world;
-		if (event.action == Action.RIGHT_CLICK_BLOCK && player.getCurrentEquippedItem() != null) {
+		if (event.action == Action.RIGHT_CLICK_BLOCK && !world.isRemote && player.getCurrentEquippedItem() != null) {
 			Block block = world.getBlock(event.x, event.y, event.z);
 			int meta = world.getBlockMetadata(event.x, event.y, event.z);
 			TileEntity tileOld = world.getTileEntity(event.x, event.y, event.z);
@@ -56,6 +56,13 @@ public class EventHandler {
 						}
 					}
 					modularTile.setModular(machine);
+					ItemStack currentItem = player.getCurrentEquippedItem();
+					if (currentItem.stackSize < 2) {
+						currentItem = null;
+					} else {
+						currentItem.stackSize--;
+					}
+					player.setCurrentItemOrArmor(0, currentItem);
 				}
 			}
 		}
@@ -69,7 +76,7 @@ public class EventHandler {
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + moduleItem.material.getLocalName());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + moduleItem.material.getTier());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": "
-					+ StatCollector.translateToLocal(moduleItem.moduleStack.getModule().getName(moduleItem.moduleStack) + ".name"));
+					+ StatCollector.translateToLocal(moduleItem.moduleStack.getModule().getUID() + ".name"));
 		}
 	}
 }

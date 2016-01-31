@@ -19,7 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class ButtonManagerTab<M extends IModuleManager<S>, S extends IModuleManagerSaver> extends Button<IModularTileEntity<IModular>> {
+public class ButtonManagerTab<M extends IModuleManager, S extends IModuleManagerSaver> extends Button<IModularTileEntity<IModular>> {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
 	public ModuleStack<M, S> stack;
@@ -57,7 +57,7 @@ public class ButtonManagerTab<M extends IModuleManager<S>, S extends IModuleMana
 		IModuleManagerSaver managerSaver = stack.getSaver();
 		if (!(tabID == managerSaver.getTab())) {
 			managerSaver.setTab(tabID);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID, manager.getName(stack)));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID, manager.getUID()));
 		}
 	}
 

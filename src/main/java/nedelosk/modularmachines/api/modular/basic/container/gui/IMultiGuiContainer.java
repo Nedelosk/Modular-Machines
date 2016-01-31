@@ -3,21 +3,22 @@ package nedelosk.modularmachines.api.modular.basic.container.gui;
 import java.util.Collection;
 
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
-public interface IMultiGuiContainer<P extends IModule, O extends Collection<IModuleGui<P>>> extends IGuiContainer {
+public interface IMultiGuiContainer<M extends IModule, S extends IModuleSaver, O extends Collection<IModuleGui<M, S>>> extends IGuiContainer {
 
-	void addGui(IModuleGui<P> gui);
+	void addGui(IModuleGui<M, S> gui);
 
-	void addGui(int index, IModuleGui<P> gui);
+	void addGui(int index, IModuleGui<M, S> gui);
 
 	void setGuis(O collection);
 
-	int getIndex(IModuleGui<P> gui);
+	int getIndex(IModuleGui<M, S> gui);
 
 	O getGuis();
 
-	IModuleGui<P> getGui(int index);
+	IModuleGui<M, S> getGui(int index);
 
-	IModuleGui<P> getGui(String guiName);
+	IModuleGui<M, S> getGui(String guiName);
 }

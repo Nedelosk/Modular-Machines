@@ -47,7 +47,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 		if (ModularUtils.getFluidProducers(gui.getTile().getModular()).isEmpty()) {
 			return;
 		}
-		ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver> stack = ModularUtils.getFluidProducers(gui.getTile().getModular()).get(module);
+		ModuleStack<IModuleWithFluid, IModuleSaver> stack = ModularUtils.getFluidProducers(gui.getTile().getModular()).get(module);
 		if (stack.getItemStack() != null) {
 			GuiBase.getItemRenderer().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack.getItemStack(), gui.getGuiLeft() + pos.x + 1,
 					gui.getGuiTop() + pos.y + 1);
@@ -59,8 +59,8 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
 		if (gui.getTile() != null && gui.getTile().getModular() != null && ModularUtils.getFluidProducers(gui.getTile().getModular()) != null
 				&& module != null) {
-			HashMap<String, ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
-			List<ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver>> stacksList = Lists.newArrayList();
+			HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
+			List<ModuleStack<IModuleWithFluid, IModuleSaver>> stacksList = Lists.newArrayList();
 			stacksList.addAll(stacks.values());
 			if (stacks.isEmpty()) {
 				return;
@@ -73,7 +73,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 				} else {
 					m = stacksList.get(0);
 				}
-				module = m.getModule().getName(m);
+				module = m.getModule().getUID();
 				ModularUtils.getTankManager(gui.getTile().getModular()).getSaver().getData(ID).setModule(module);
 				PacketHandler.INSTANCE.sendToServer(new PacketTankManager(gui.getTile(), module, ID));
 			}
@@ -86,12 +86,12 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 			return null;
 		}
 		ArrayList<String> list = new ArrayList<String>();
-		HashMap<String, ModuleStack<IModuleWithFluid<IModuleSaver>, IModuleSaver>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
+		HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = ModularUtils.getFluidProducers(gui.getTile().getModular());
 		if (stacks.isEmpty()) {
 			return list;
 		}
 		ModuleStack stack = stacks.get(module);
-		list.add(StatCollector.translateToLocal(stack.getModule().getName(stack) + ".name"));
+		list.add(StatCollector.translateToLocal(stack.getModule().getUID() + ".name"));
 		return list;
 	}
 }

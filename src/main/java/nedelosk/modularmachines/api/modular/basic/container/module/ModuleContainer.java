@@ -6,7 +6,7 @@ import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleContainer<M extends IModule<S>, S extends IModuleSaver> implements ISingleModuleContainer<M, S> {
+public class ModuleContainer<M extends IModule, S extends IModuleSaver> implements ISingleModuleContainer<M, S> {
 
 	private ModuleStack<M, S> moduleStack;
 

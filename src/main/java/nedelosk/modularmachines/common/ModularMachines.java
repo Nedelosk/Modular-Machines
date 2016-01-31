@@ -10,16 +10,16 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.common.command.CommandModularMachines;
+import nedelosk.modularmachines.common.config.Constants;
 import nedelosk.modularmachines.common.core.InternalMethodHandler;
 import nedelosk.modularmachines.common.core.MMCore;
 import nedelosk.modularmachines.common.proxy.CommonProxy;
-import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = "ModularMachines", version = "${version}", dependencies = "after:NotEnoughItems;after:EnderIO;required-after:ForestDay;after:ThermalExpansion")
+@Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "nedelosk.modularmachines.common.config.ConfigFactory")
 public class ModularMachines {
 
-	public static Configuration config;
 	public static File configFolder;
+	public static File configFile;
 	@Mod.Instance("ModularMachines")
 	public static ModularMachines instance;
 	@SidedProxy(clientSide = "nedelosk.modularmachines.client.proxy.ClientProxy", serverSide = "nedelosk.modularmachines.common.proxy.CommonProxy")
@@ -29,10 +29,8 @@ public class ModularMachines {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ModularMachinesApi.handler = new InternalMethodHandler();
-		File configFolderModularMachines = new File(event.getModConfigurationDirectory(), "Modular-Machines");
-		File configFileModularMachines = new File(configFolderModularMachines, "Modular-Machines.cfg");
-		config = new Configuration(configFileModularMachines, "2.0");
-		configFolder = configFolderModularMachines;
+		configFolder = new File(event.getModConfigurationDirectory(), "Modular-Machines");
+		configFile = new File(configFolder, "Modular-Machines.cfg");
 		registry.preInit(instance, event);
 	}
 

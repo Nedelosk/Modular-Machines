@@ -11,7 +11,6 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketSwitchMode;
-import nedelosk.modularmachines.api.recipes.IMachineMode;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -19,10 +18,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class ModuleMachineRecipeModeGui<M extends IModuleMachineRecipeMode<S>, S extends IModuleMachineRecipeModeSaver> extends ModuleMachineRecipeGui<M, S> {
+public class ModuleMachineRecipeModeGui<M extends IModuleMachineRecipeMode, S extends IModuleMachineRecipeModeSaver> extends ModuleMachineRecipeGui<M, S> {
 
-	public ModuleMachineRecipeModeGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleMachineRecipeModeGui(String UID) {
+		super(UID);
 	}
 
 	@Override
@@ -45,10 +44,10 @@ public class ModuleMachineRecipeModeGui<M extends IModuleMachineRecipeMode<S>, S
 		if (widget instanceof WidgetButtonMode) {
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if (moduleSaver.getMode().ordinal() == module.getModeClass().getEnumConstants().length - 1) {
-				moduleSaver.setMode((IMachineMode) module.getModeClass().getEnumConstants()[0]);
+				moduleSaver.setMode(module.getModeClass().getEnumConstants()[0]);
 				((WidgetButtonMode) widget).setMode(moduleSaver.getMode());
 			} else {
-				moduleSaver.setMode((IMachineMode) module.getModeClass().getEnumConstants()[moduleSaver.getMode().ordinal() + 1]);
+				moduleSaver.setMode(module.getModeClass().getEnumConstants()[moduleSaver.getMode().ordinal() + 1]);
 				((WidgetButtonMode) widget).setMode(moduleSaver.getMode());
 			}
 			PacketHandler.INSTANCE.sendToServer(new PacketSwitchMode((TileEntity) tile, moduleSaver.getMode()));

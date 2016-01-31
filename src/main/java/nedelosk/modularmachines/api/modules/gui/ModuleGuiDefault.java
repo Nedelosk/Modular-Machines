@@ -7,10 +7,10 @@ import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
 @SideOnly(Side.CLIENT)
-public class ModuleGuiDefault<M extends IModule<S>, S extends IModuleSaver> extends ModuleGui<M, S> {
+public class ModuleGuiDefault<M extends IModule, S extends IModuleSaver> extends ModuleGui<M, S> {
 
-	public ModuleGuiDefault(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleGuiDefault(String UID) {
+		super(UID);
 	}
 
 	@Override

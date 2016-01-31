@@ -15,13 +15,13 @@ import nedelosk.modularmachines.api.utils.ModuleStack;
 
 public class ModuleModuleAssemblerGui extends ModuleMachineRecipeGui<ModuleModuleAssembler, IModuleMachineSaver> {
 
-	public ModuleModuleAssemblerGui(String categoryUID, String guiName) {
-		super(categoryUID, guiName);
+	public ModuleModuleAssemblerGui(String UID) {
+		super(UID);
 	}
 
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleModuleAssembler, IModuleMachineSaver> stack, List<Widget> widgets) {
-		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 		int burnTime = 0;
 		int burnTimeTotal = 0;
 		if (engine != null) {

@@ -27,7 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends ModuleMachine<S> implements IModuleMachineRecipe<S> {
+public abstract class ModuleMachineRecipe extends ModuleMachine implements IModuleMachineRecipe {
 
 	protected final int itemOutputs;
 	protected final int itemInputs;
@@ -115,8 +115,8 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
-		S saver = (S) stack.getSaver();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
+		IModuleMachineSaver saver = (IModuleMachineSaver) stack.getSaver();
 		if (engineStack != null && tile.getEnergyStored(null) > 0) {
 			IModuleEngineSaver engineSaver = engineStack.getSaver();
 			IModuleEngine engine = engineStack.getModule();
@@ -170,7 +170,7 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
-		ModuleStack<IModuleEngine<IModuleEngineSaver>, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
 		IModuleEngineSaver engineSaver = engineStack.getSaver();
 		if (engineSaver.getManager(engineStack).getOutputs() != null) {
 			for ( RecipeItem item : engineSaver.getManager(engineStack).getOutputs() ) {
@@ -235,7 +235,7 @@ public abstract class ModuleMachineRecipe<S extends IModuleMachineSaver> extends
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModuleMachineRecipeGui(getCategoryUID(), getName(stack));
+		return new ModuleMachineRecipeGui(getUID());
 	}
 
 	@Override

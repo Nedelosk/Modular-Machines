@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.plugins.enderio;
 
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.storage.tanks.IModuleTank;
 import nedelosk.modularmachines.api.modules.storage.tanks.ModuleTank;
 import nedelosk.modularmachines.api.utils.ModuleStack;
@@ -15,7 +16,7 @@ public class ModuleTankEnderIO extends ModuleTank {
 	}
 
 	@Override
-	public void setStorageFluid(FluidStack stack, ModuleStack<IModuleTank> moduleStack, ItemStack itemStack) {
+	public void setStorageFluid(FluidStack stack, ModuleStack<IModuleTank, IModuleSaver> moduleStack, ItemStack itemStack) {
 		if (stack != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTTagCompound fluidTag = new NBTTagCompound();
@@ -35,7 +36,7 @@ public class ModuleTankEnderIO extends ModuleTank {
 	}
 
 	@Override
-	public FluidStack getStorageFluid(ModuleStack<IModuleTank> moduleStack, ItemStack itemStack) {
+	public FluidStack getStorageFluid(ModuleStack<IModuleTank, IModuleSaver> moduleStack, ItemStack itemStack) {
 		if (!itemStack.hasTagCompound()) {
 			return null;
 		}

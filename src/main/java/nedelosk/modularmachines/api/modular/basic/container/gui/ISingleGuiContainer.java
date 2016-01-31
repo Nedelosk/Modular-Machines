@@ -1,11 +1,12 @@
 package nedelosk.modularmachines.api.modular.basic.container.gui;
 
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
-public interface ISingleGuiContainer<P extends IModule> extends IGuiContainer {
+public interface ISingleGuiContainer<M extends IModule, S extends IModuleSaver> extends IGuiContainer {
 
-	void setGui(IModuleGui<P> gui);
+	void setGui(IModuleGui<M, S> gui);
 
-	IModuleGui<P> getGui();
+	IModuleGui<M, S> getGui();
 }

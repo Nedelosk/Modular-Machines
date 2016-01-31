@@ -16,13 +16,15 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public interface IModuleGui<M extends IModule<S>, S extends IModuleSaver> {
+public interface IModuleGui<M extends IModule, S extends IModuleSaver> {
 
 	int getGuiTop(IModular modular, ModuleStack<M, S> stack);
 
 	String getModuleUID();
 
 	String getCategoryUID();
+
+	String getUID();
 
 	ResourceLocation getCustomGui(IModular modular, ModuleStack<M, S> stack);
 

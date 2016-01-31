@@ -10,7 +10,6 @@ import nedelosk.modularmachines.api.client.widget.WidgetButtonMode;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
-import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipeModeSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeMode;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
@@ -20,7 +19,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleLathe extends ModuleMachineRecipeMode<IModuleMachineRecipeModeSaver> {
+public class ModuleLathe extends ModuleMachineRecipeMode {
 
 	public ModuleLathe() {
 		this("", 60);
@@ -70,11 +69,11 @@ public class ModuleLathe extends ModuleMachineRecipeMode<IModuleMachineRecipeMod
 
 	@Override
 	public IModuleInventory createInventory(ModuleStack stack) {
-		return new ModuleLatheInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
+		return new ModuleLatheInventory(getUID(), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModuleLatheGui(getCategoryUID(), getName(stack));
+		return new ModuleLatheGui(getUID());
 	}
 }

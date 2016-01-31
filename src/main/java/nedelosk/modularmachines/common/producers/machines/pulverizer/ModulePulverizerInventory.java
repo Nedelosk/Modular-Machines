@@ -14,8 +14,8 @@ import net.minecraft.inventory.Slot;
 
 public class ModulePulverizerInventory extends ModuleMachineRecipeInventory<ModulePulverizer, IModuleMachineSaver> {
 
-	public ModulePulverizerInventory(String categoryUID, String moduleUID, int slots) {
-		super(categoryUID, moduleUID, slots);
+	public ModulePulverizerInventory(String UID, int slots) {
+		super(UID, slots);
 	}
 
 	@Override

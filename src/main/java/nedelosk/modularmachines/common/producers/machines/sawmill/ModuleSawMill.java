@@ -7,7 +7,6 @@ import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
-import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipe;
 import nedelosk.modularmachines.api.recipes.IRecipe;
 import nedelosk.modularmachines.api.recipes.NeiStack;
@@ -15,7 +14,7 @@ import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 
-public class ModuleSawMill extends ModuleMachineRecipe<IModuleMachineSaver> {
+public class ModuleSawMill extends ModuleMachineRecipe {
 
 	public ModuleSawMill(String moduleModifier, int speedModifier) {
 		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, moduleModifier, 1, 2, speedModifier);
@@ -56,11 +55,11 @@ public class ModuleSawMill extends ModuleMachineRecipe<IModuleMachineSaver> {
 
 	@Override
 	public IModuleInventory createInventory(ModuleStack stack) {
-		return new ModuleSawMillInventory(getCategoryUID(), getName(stack), itemInputs + itemOutputs);
+		return new ModuleSawMillInventory(getUID(), itemInputs + itemOutputs);
 	}
 
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
-		return new ModuleSawMillGui(getCategoryUID(), getName(stack));
+		return new ModuleSawMillGui(getUID());
 	}
 }
