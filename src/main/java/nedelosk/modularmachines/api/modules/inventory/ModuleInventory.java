@@ -131,7 +131,7 @@ public abstract class ModuleInventory<M extends IModule, S extends IModuleSaver>
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception {
+	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) {
 		NBTTagList nbttaglist = new NBTTagList();
 		for ( int i = 0; i < this.slots.length; ++i ) {
 			if (this.slots[i] != null) {
@@ -145,7 +145,7 @@ public abstract class ModuleInventory<M extends IModule, S extends IModuleSaver>
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception {
+	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) {
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[this.getSizeInventory(stack, modular)];
 		for ( int i = 0; i < nbttaglist.tagCount(); ++i ) {

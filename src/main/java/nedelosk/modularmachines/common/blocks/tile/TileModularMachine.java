@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
-import nedelosk.forestcore.library.Log;
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -31,28 +30,18 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		try {
+		if (modular != null) {
 			NBTTagCompound machineTag = new NBTTagCompound();
 			modular.writeToNBT(machineTag);
 			nbt.setTag("Machine", machineTag);
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (!worldObj.isRemote) {
-				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			}
-			Log.err("Error To Write Data From Modular Machine on Position " + xCoord + ", " + yCoord + ", " + zCoord);
-			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		modular = new ModularMachine(nbt.getCompoundTag("Machine"));
-		if (modular == null || modular.getModuleContainers() == null) {
-			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			Log.err("Error To Load Data From Modular Machine on Position  " + xCoord + ", " + yCoord + ", " + zCoord);
-		} else {
+		if (nbt.hasKey("Machine")) {
+			modular = new ModularMachine(nbt.getCompoundTag("Machine"));
 			modular.setMachine(this);
 		}
 	}
@@ -89,7 +78,7 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 		}
 	}
 
-	public void assembleModular() throws ModularException {
+	public void assembleModular(){
 		modular.assemble();
 		modular.initModular();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -97,6 +86,7 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public void setModular(ModularMachine modular) {
+		modular.setMachine(this);
 		this.modular = modular;
 	}
 

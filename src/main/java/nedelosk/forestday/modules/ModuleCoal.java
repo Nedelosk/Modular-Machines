@@ -1,5 +1,8 @@
 package nedelosk.forestday.modules;
 
+import java.util.Map.Entry;
+import java.util.Set;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestcore.library.BlockPos;
@@ -16,7 +19,6 @@ import nedelosk.forestday.common.configs.ForestDayConfig;
 import nedelosk.forestday.common.crafting.WoodTypeManager;
 import nedelosk.forestday.common.multiblock.BlockCharcoalKiln;
 import nedelosk.forestday.common.multiblock.TileCharcoalKiln;
-import nedelosk.forestday.modules.ModuleCore.ItemManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,6 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,19 +50,15 @@ public class ModuleCoal extends AModule {
 	}
 
 	@Override
-	public void init(IModuleManager manager) {
-		woodManager.add("oak", new ItemStack(Blocks.log, 1, 0), new ItemStack(Items.coal, 2, 1));
-		woodManager.add("spruce", new ItemStack(Blocks.log, 1, 1), new ItemStack(Items.coal, 1, 1), new ItemStack(ItemManager.Nature.item(), 1, 3));
-		woodManager.add("birch", new ItemStack(Blocks.log, 1, 2), new ItemStack(Items.coal, 2, 1));
-		woodManager.add("jungle", new ItemStack(Blocks.log, 1, 3), new ItemStack(Items.coal, 2, 1));
-		woodManager.add("acacia", new ItemStack(Blocks.log2, 1, 0), new ItemStack(Items.coal, 2, 1));
-		woodManager.add("big_oak", new ItemStack(Blocks.log2, 1, 1), new ItemStack(Items.coal, 2, 1));
-		registerCharcoalKilnRecipes();
-	}
-
-	@Override
 	public void postInit(IModuleManager manager) {
-		CraftingUtil.removeFurnaceRecipe(Items.coal);
+		for ( Entry<ItemStack, ItemStack> recipes : (Set<Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet() ) {
+			if (recipes.getValue().getItem() == Items.coal && recipes.getValue().getItemDamage() == 1
+					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null) {
+				woodManager.add(recipes.getKey().getUnlocalizedName(), recipes.getKey(), recipes.getValue());
+			}
+		}
+		registerCharcoalKilnRecipes();
+		CraftingUtil.removeFurnaceRecipe(Items.coal, 1);
 	}
 
 	private void registerCharcoalKilnRecipes() {

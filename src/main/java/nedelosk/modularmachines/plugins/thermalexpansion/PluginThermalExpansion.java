@@ -7,7 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import nedelosk.forestcore.library.plugins.APlugin;
 import nedelosk.modularmachines.api.modular.material.Materials;
 import nedelosk.modularmachines.api.modules.basic.ModuleCasing;
-import nedelosk.modularmachines.api.modules.energy.ModuleBattery;
+import nedelosk.modularmachines.api.modules.storage.battery.ModuleBattery;
 import nedelosk.modularmachines.api.modules.storage.capacitors.ModuleCapacitor;
 import nedelosk.modularmachines.common.config.Config;
 import net.minecraft.item.Item;
@@ -22,7 +22,7 @@ public class PluginThermalExpansion extends APlugin {
 	public static Item capacitor;
 
 	@Override
-	public void init() {
+	public void postInit() {
 		cell = GameRegistry.findItem(getRequiredMod(), "Cell");
 		frame = GameRegistry.findItem(getRequiredMod(), "Frame");
 		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
@@ -36,10 +36,10 @@ public class PluginThermalExpansion extends APlugin {
 		addModuleToItem(new ItemStack(tank, 1, 2), new ModuleTankThermalExpansion("TankInvar", 32000), Materials.Invar);
 		addModuleToItem(new ItemStack(tank, 1, 3), new ModuleTankThermalExpansion("TankObsidian", 128000), Materials.OBSIDIAN);
 		addModuleToItem(new ItemStack(tank, 1, 4), new ModuleTankThermalExpansion("TankEnderium", 512000), Materials.Enderium);
-		addModuleToItem(new ItemStack(cell, 1, 1), new ModuleBattery("EnergyCellLeadstone", new EnergyStorage(100000, 100, 100)), Materials.Lead);
-		addModuleToItem(new ItemStack(cell, 1, 2), new ModuleBattery("EnergyCellHardened", new EnergyStorage(500000, 400, 400)), Materials.Invar);
-		addModuleToItem(new ItemStack(cell, 1, 3), new ModuleBattery("EnergyCellRedstone", new EnergyStorage(5000000, 4000, 4000)), Materials.Electrum);
-		addModuleToItem(new ItemStack(cell, 1, 4), new ModuleBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)), Materials.Enderium);
+		addModuleToItem(new ItemStack(cell, 1, 1), new ModuleBattery("EnergyCellLeadstone", new EnergyStorage(100000, 100, 100)), Materials.Lead, true);
+		addModuleToItem(new ItemStack(cell, 1, 2), new ModuleBattery("EnergyCellHardened", new EnergyStorage(500000, 400, 400)), Materials.Invar, true);
+		addModuleToItem(new ItemStack(cell, 1, 3), new ModuleBattery("EnergyCellRedstone", new EnergyStorage(5000000, 4000, 4000)), Materials.Electrum, true);
+		addModuleToItem(new ItemStack(cell, 1, 4), new ModuleBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)), Materials.Enderium, true);
 		/*
 		 * registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new
 		 * ModuleSimpleChest("StrongBox", 18), Materials.IRON);

@@ -8,9 +8,12 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
 import nedelosk.modularmachines.api.client.widget.WidgetButtonMode;
 import nedelosk.modularmachines.api.modular.IModular;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.machines.ModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeMode;
+import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeModeSaver;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import nedelosk.modularmachines.api.recipes.IMachineMode;
 import nedelosk.modularmachines.api.recipes.IRecipe;
@@ -75,5 +78,10 @@ public class ModuleLathe extends ModuleMachineRecipeMode {
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleLatheGui(getUID());
+	}
+	
+	@Override
+	public IModuleSaver createSaver(ModuleStack stack){
+		return new ModuleMachineRecipeModeSaver(defaultMode);
 	}
 }

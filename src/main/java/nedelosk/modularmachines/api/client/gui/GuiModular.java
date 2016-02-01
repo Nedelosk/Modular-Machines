@@ -11,8 +11,8 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularInventoryManager;
+import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.managers.IModularInventoryManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
@@ -35,6 +35,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 		currentGui.addWidgets(this, tile.getModular(), guiStack, widgets);
 		widgetManager.add(widgets);
 		ySize = currentGui.getGuiTop(tile.getModular(), guiStack);
+		this.currentGui = currentGui;
 	}
 
 	@Override
@@ -45,6 +46,9 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 
 	@Override
 	protected void renderProgressBar() {
+		if (currentGui == null) {
+			return;
+		}
 		IModularInventoryManager invManager = tile.getModular().getInventoryManager();
 		ModuleStack guiStack = ModularUtils.getModuleStackFromGui(tile.getModular(), currentGui);
 		IModuleInventory inv = invManager.getInventory(guiStack);
@@ -60,6 +64,9 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 
 	@Override
 	public void addButtons() {
+		if (currentGui == null) {
+			return;
+		}
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
 		ModuleStack guiStack = ModularUtils.getModuleStackFromGui(tile.getModular(), currentGui);
 		for ( int i = 0; i < guiManager.getAllGuis().size(); i++ ) {
@@ -75,11 +82,6 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 	}
 
 	@Override
-	public void initGui() {
-		super.initGui();
-	}
-
-	@Override
 	protected String getGuiName() {
 		return "modular_machine";
 	}
@@ -91,6 +93,9 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+		if (currentGui == null) {
+			return;
+		}
 		ModuleStack guiStack = ModularUtils.getModuleStackFromGui(tile.getModular(), currentGui);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if (currentGui.getCustomGui(tile.getModular(), guiStack) != null) {
@@ -109,7 +114,7 @@ public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModula
 
 	@Override
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
-		if (widgetManager.keyTyped(p_73869_1_, p_73869_2_)) {
+		if (!widgetManager.keyTyped(p_73869_1_, p_73869_2_)) {
 			super.keyTyped(p_73869_1_, p_73869_2_);
 		}
 	}

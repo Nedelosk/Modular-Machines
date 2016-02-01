@@ -1,6 +1,8 @@
 package nedelosk.modularmachines.api.modules.basic;
 
-public interface IModuleCasing extends IModuleWithRenderer {
+import nedelosk.modularmachines.api.modules.IModuleDefault;
+
+public interface IModuleCasing extends IModuleDefault, IModuleWithRenderer {
 
 	int getMaxHeat();
 

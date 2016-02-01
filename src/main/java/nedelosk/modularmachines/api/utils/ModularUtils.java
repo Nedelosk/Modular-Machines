@@ -2,16 +2,17 @@ package nedelosk.modularmachines.api.utils;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
+import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modules.container.module.IMultiModuleContainer;
+import nedelosk.modularmachines.api.modules.container.module.ISingleModuleContainer;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
@@ -31,7 +32,7 @@ public class ModularUtils {
 	 */
 	public static HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> getFluidProducers(IModular modular) {
 		HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = Maps.newHashMap();
-		for ( ModuleStack stack : modular.getModuleStacks() ) {
+		for ( ModuleStack stack : (List<ModuleStack>) modular.getModuleManager().getModuleStacks() ) {
 			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleWithFluid) {
 				if (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
 					stacks.put(stack.getModule().getUID(), stack);
@@ -80,7 +81,7 @@ public class ModularUtils {
 	}
 
 	public static ModuleStack getModuleStack(IModular modular, String categoryUID, String moduleUID) {
-		return modular.getModuleFromUID(categoryUID + ":" + moduleUID);
+		return modular.getModuleManager().getModuleFromUID(categoryUID + ":" + moduleUID);
 	}
 
 	public static ISingleModuleContainer getSingleContainer(IModular modular, String categoryUID) {
@@ -95,15 +96,18 @@ public class ModularUtils {
 		if (modular == null) {
 			return null;
 		}
-		return modular.getModule(categoryUID);
+		return modular.getModuleManager().getModule(categoryUID);
 	}
 
 	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularInventory modular, IModuleGui<M, S> gui) {
-		return modular.getModuleFromUID(gui.getCategoryUID() + ":" + gui.getModuleUID());
+		if (gui == null) {
+			return null;
+		}
+		return modular.getModuleManager().getModuleFromUID(gui.getUID());
 	}
 
 	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularInventory modular,
 			IModuleInventory<M, S> inv) {
-		return modular.getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
+		return modular.getModuleManager().getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
 	}
 }

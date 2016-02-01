@@ -54,12 +54,12 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		T tile = (T) message.getTileEntity(world);
-		ModuleStack stack = tile.getModular().getMultiModule(message.UID.split(":")[0]).getStack(message.UID.split(":")[1]);
+		ModuleStack stack = tile.getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).getStack(message.UID.split(":")[1]);
 		if (message.onlySaver) {
 			stack.getSaver().readFromNBT(message.nbt, tile.getModular(), stack);
 		} else {
 			stack = ModuleStack.loadFromNBT(message.nbt, tile.getModular());
-			tile.getModular().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
+			tile.getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
 		}
 		return null;
 	}

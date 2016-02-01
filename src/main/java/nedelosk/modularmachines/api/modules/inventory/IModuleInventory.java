@@ -20,9 +20,9 @@ public interface IModuleInventory<M extends IModule, S extends IModuleSaver> {
 
 	ItemStack transferStackInSlot(ModuleStack<M, S> stack, IModularTileEntity tile, EntityPlayer player, int slotID, Container container);
 
-	void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception;
+	void readFromNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack);
 
-	void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack) throws Exception;
+	void writeToNBT(NBTTagCompound nbt, IModularInventory modular, ModuleStack<M, S> stack);
 
 	String getModuleUID();
 

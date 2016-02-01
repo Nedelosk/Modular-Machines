@@ -1,10 +1,12 @@
 package nedelosk.modularmachines.api.modular.basic;
 
 import nedelosk.modularmachines.api.modular.Modular;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularInventoryManager;
-import nedelosk.modularmachines.api.modular.basic.managers.ModularGuiManager;
-import nedelosk.modularmachines.api.modular.basic.managers.ModularInventoryManager;
+import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.managers.IModularInventoryManager;
+import nedelosk.modularmachines.api.modular.managers.IModularModuleManager;
+import nedelosk.modularmachines.api.modular.managers.ModularGuiManager;
+import nedelosk.modularmachines.api.modular.managers.ModularInventoryManager;
+import nedelosk.modularmachines.api.modular.managers.ModularModuleManager;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModularInventory extends Modular implements IModularInventory {
@@ -48,7 +50,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 		getInventoryManager().writeToNBT(inventory);
 		nbt.setTag("InventoryManager", inventory);
 		NBTTagCompound gui = new NBTTagCompound();
-		getGuiManager().writeToNBT(nbt);
+		getGuiManager().writeToNBT(gui);
 		nbt.setTag("GuiManager", gui);
 	}
 
@@ -56,8 +58,6 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		getInventoryManager().readFromNBT(nbt.getCompoundTag("InventoryManager"));
-		getInventoryManager().setModular(this);
 		getGuiManager().readFromNBT(nbt.getCompoundTag("GuiManager"));
-		getGuiManager().setModular(this);
 	}
 }

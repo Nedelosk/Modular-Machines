@@ -1,7 +1,9 @@
 package nedelosk.forestcore.library.utils;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -61,7 +63,13 @@ public class CraftingUtil {
 
 	public static void removeFurnaceRecipe(ItemStack resultItem) {
 		Map<ItemStack, ItemStack> recipes = FurnaceRecipes.smelting().getSmeltingList();
-		recipes.remove(resultItem);
+		Iterator<Entry<ItemStack, ItemStack>> i = recipes.entrySet().iterator();
+		while (i.hasNext()) {
+			Entry<ItemStack, ItemStack> entry = i.next();
+			if (entry.getValue().getItem() == resultItem.getItem() && entry.getValue().getItemDamage() == resultItem.getItemDamage()) {
+				i.remove();
+			}
+		}
 	}
 
 	public static void removeFurnaceRecipe(Item i, int metadata) {

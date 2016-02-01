@@ -1,5 +1,6 @@
 package nedelosk.modularmachines.api.client.renderer;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
@@ -9,12 +10,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.basic.IModuleWithRenderer;
-import nedelosk.modularmachines.api.modules.energy.IModuleBattery;
-import nedelosk.modularmachines.api.modules.energy.IModuleBatterySaver;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
+import nedelosk.modularmachines.api.modules.storage.battery.IModuleBattery;
+import nedelosk.modularmachines.api.modules.storage.battery.IModuleBatterySaver;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
@@ -372,6 +373,39 @@ public class ModularMachineRenderer {
 		}
 	}
 
+	public static class ModularRenderer implements IModularRenderer {
+
+		public ModularRenderer() {
+		}
+
+		@Override
+		public void renderMachineItemStack(IModular machine, ItemStack itemStack) {
+			TextureManager manager = Minecraft.getMinecraft().getTextureManager();
+			for ( ModuleStack moduleStack : (List<ModuleStack>) machine.getModuleManager().getModuleStacks() ) {
+				if (moduleStack != null && moduleStack.getModule() instanceof IModuleWithRenderer) {
+					IModularRenderer renderer = ((IModuleWithRenderer) moduleStack.getModule()).getItemRenderer(machine, moduleStack, itemStack);
+					if (renderer != null) {
+						renderer.renderMachineItemStack(machine, itemStack);
+					}
+				}
+			}
+		}
+
+		@Override
+		public void renderMachine(IModularTileEntity entity, double x, double y, double z) {
+			IModular machine = entity.getModular();
+			TextureManager manager = Minecraft.getMinecraft().getTextureManager();
+			for ( ModuleStack stack : (List<ModuleStack>) machine.getModuleManager().getModuleStacks() ) {
+				if (stack != null && stack.getModule() instanceof IModuleWithRenderer) {
+					IModularRenderer renderer = ((IModuleWithRenderer) stack.getModule()).getMachineRenderer(machine, stack, entity);
+					if (renderer != null) {
+						renderer.renderMachine(entity, x, y, z);
+					}
+				}
+			}
+		}
+	}
+
 	public static class MachineRenderer implements IModularRenderer {
 
 		public ModuleStack stack;
@@ -392,62 +426,39 @@ public class ModularMachineRenderer {
 		@Override
 		public void renderMachineItemStack(IModular machine, ItemStack itemStack) {
 			TextureManager manager = Minecraft.getMinecraft().getTextureManager();
-			for ( ModuleStack moduleStack : machine.getModuleStacks() ) {
-				if (moduleStack != null) {
-					if (moduleStack.getModule() == stack.getModule() && moduleStack.getModule() != null) {
-						Tessellator t = Tessellator.instance;
-						GL11.glPushMatrix();
-						GL11.glTranslated(0.5F, 1.5F, 0.5F);
-						GL11.glRotated(180, 0F, 0F, 1F);
-						GL11.glRotated(90, 0F, 1F, 0F);
-						GL11.glPushMatrix();
-						manager.bindTexture(textureMachine);
-						Machine_Front.render(0.0625F);
-						GL11.glPopMatrix();
-						GL11.glPopMatrix();
-					} else if (moduleStack.getModule() != null && moduleStack.getModule() instanceof IModuleWithRenderer
-							&& moduleStack.getModule() != stack.getModule()) {
-						IModularRenderer renderer = ((IModuleWithRenderer) moduleStack.getModule()).getItemRenderer(machine, moduleStack, itemStack);
-						if (renderer != null) {
-							renderer.renderMachineItemStack(machine, itemStack);
-						}
-					}
-				}
-			}
+			Tessellator t = Tessellator.instance;
+			GL11.glPushMatrix();
+			GL11.glTranslated(0.5F, 1.5F, 0.5F);
+			GL11.glRotated(180, 0F, 0F, 1F);
+			GL11.glRotated(90, 0F, 1F, 0F);
+			GL11.glPushMatrix();
+			manager.bindTexture(textureMachine);
+			Machine_Front.render(0.0625F);
+			GL11.glPopMatrix();
+			GL11.glPopMatrix();
 		}
 
 		@Override
 		public void renderMachine(IModularTileEntity entity, double x, double y, double z) {
 			IModular machine = entity.getModular();
 			TextureManager manager = Minecraft.getMinecraft().getTextureManager();
-			for ( ModuleStack stack : machine.getModuleStacks() ) {
-				if (stack != null) {
-					if (stack.getModule() == this.stack.getModule() && stack.getModule() != null) {
-						Tessellator t = Tessellator.instance;
-						GL11.glPushMatrix();
-						GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-						GL11.glRotated(180, 0F, 0F, 1F);
-						GL11.glPushMatrix();
-						if (entity.getFacing() == 2) {
-						} else if (entity.getFacing() == 3) {
-							GL11.glRotated(180, 0F, 1F, 0F);
-						} else if (entity.getFacing() == 4) {
-							GL11.glRotated(270, 0F, 1F, 0F);
-						} else if (entity.getFacing() == 5) {
-							GL11.glRotated(90, 0F, 1F, 0F);
-						}
-						manager.bindTexture(textureMachine);
-						Machine_Front.render(0.0625F);
-						GL11.glPopMatrix();
-						GL11.glPopMatrix();
-					} else if (stack.getModule() != this.stack.getModule() && stack.getModule() != null && stack.getModule() instanceof IModuleWithRenderer) {
-						IModularRenderer renderer = ((IModuleWithRenderer) stack.getModule()).getMachineRenderer(machine, stack, entity);
-						if (renderer != null) {
-							renderer.renderMachine(entity, x, y, z);
-						}
-					}
-				}
+			Tessellator t = Tessellator.instance;
+			GL11.glPushMatrix();
+			GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+			GL11.glRotated(180, 0F, 0F, 1F);
+			GL11.glPushMatrix();
+			if (entity.getFacing() == 2) {
+			} else if (entity.getFacing() == 3) {
+				GL11.glRotated(180, 0F, 1F, 0F);
+			} else if (entity.getFacing() == 4) {
+				GL11.glRotated(270, 0F, 1F, 0F);
+			} else if (entity.getFacing() == 5) {
+				GL11.glRotated(90, 0F, 1F, 0F);
 			}
+			manager.bindTexture(textureMachine);
+			Machine_Front.render(0.0625F);
+			GL11.glPopMatrix();
+			GL11.glPopMatrix();
 		}
 	}
 

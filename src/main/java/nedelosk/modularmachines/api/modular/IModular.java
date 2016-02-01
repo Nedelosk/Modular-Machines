@@ -1,30 +1,23 @@
 package nedelosk.modularmachines.api.modular;
 
-import java.util.HashMap;
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
-import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.IMultiModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.ISingleModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.integration.IWailaProvider;
-import nedelosk.modularmachines.api.modular.material.Materials.Material;
+import nedelosk.modularmachines.api.modular.managers.IModularModuleManager;
+import nedelosk.modularmachines.api.modular.managers.IModularUtilsManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModularException;
-import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModular {
 
 	/**
-	 * @return The material from the casing of the machine
+	 * @return The tier from of the modular
 	 */
-	Material getMaterial();
+	int getTier();
 
 	void update(boolean isServer);
 
@@ -35,26 +28,6 @@ public interface IModular {
 	 */
 	String getName();
 
-	boolean addModule(ModuleStack stack);
-
-	IModuleContainer getModule(String categoryUID);
-
-	ModuleStack getModuleFromUID(String UID);
-
-	ISingleModuleContainer getSingleModule(String categoryUID);
-
-	IMultiModuleContainer getMultiModule(String categoryUID);
-
-	/**
-	 * @return All modules in a HashMap
-	 */
-	HashMap<String, IModuleContainer> getModuleContainers();
-
-	/**
-	 * @return All modules as ModuleStack
-	 */
-	List<ModuleStack> getModuleStacks();
-
 	IModularTileEntity getMachine();
 
 	void setMachine(IModularTileEntity machine);
@@ -63,6 +36,8 @@ public interface IModular {
 	 * @return The urils manager of the modular
 	 */
 	IModularUtilsManager getUtilsManager();
+
+	IModularModuleManager getModuleManager();
 
 	/* BUILD */
 	void assemble() throws ModularException;

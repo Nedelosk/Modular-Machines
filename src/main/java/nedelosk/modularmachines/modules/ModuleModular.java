@@ -40,7 +40,8 @@ import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.recipes.RecipeItem;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.common.blocks.BlockCasing;
-import nedelosk.modularmachines.common.blocks.ModularMachineBlock;
+import nedelosk.modularmachines.common.blocks.BlockModularMachine;
+import nedelosk.modularmachines.common.blocks.item.ItemBlockModularMachine;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import nedelosk.modularmachines.common.config.Config;
 import nedelosk.modularmachines.common.crafting.ShapedModuleRecipe;
@@ -77,7 +78,7 @@ public class ModuleModular extends AModule {
 	public void preInit(IModuleManager manager) {
 		registerCategorys();
 		manager.register(BlockManager.Casings, new BlockCasing(new String[] { "stone", "stone_brick", "iron", "bronze" }), ItemBlockForest.class);
-		manager.register(BlockManager.Modular_Machine, new ModularMachineBlock(), ItemBlockForest.class);
+		manager.register(BlockManager.Modular_Machine, new BlockModularMachine(), ItemBlockModularMachine.class);
 		GameRegistry.registerTileEntity(TileModularMachine.class, "tile.modular");
 		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "tile.blastfurnace.accessport");
 		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "tile.blastfurnace.fluidport");

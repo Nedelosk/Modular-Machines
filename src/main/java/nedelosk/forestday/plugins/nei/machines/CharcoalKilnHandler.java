@@ -2,7 +2,6 @@ package nedelosk.forestday.plugins.nei.machines;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,11 +12,8 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import nedelosk.forestday.api.crafting.ForestDayCrafting;
 import nedelosk.forestday.api.crafting.WoodType;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class CharcoalKilnHandler extends TemplateRecipeHandler {
 
@@ -56,22 +52,6 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 				}
 			}
 		}
-		if (result.getItem() == Items.coal && result.getItemDamage() == 1) {
-			Iterator<Item> items = Item.itemRegistry.iterator();
-			List<ItemStack> stacks = new ArrayList<>();
-			while (items.hasNext()) {
-				Item item = items.next();
-				item.getSubItems(item, null, stacks);
-			}
-			for ( ItemStack stack : stacks ) {
-				for ( int i : OreDictionary.getOreIDs(stack) ) {
-					if (OreDictionary.getOreName(i).contains("log")) {
-						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
-						arecipes.add(res);
-					}
-				}
-			}
-		}
 	}
 
 	@Override
@@ -82,20 +62,6 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 				WoodType type = types.next();
 				KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(type.getCharcoalDropps(), type.getWood());
 				arecipes.add(res);
-			}
-			Iterator<Item> items = Item.itemRegistry.iterator();
-			List<ItemStack> stacks = new ArrayList<>();
-			while (items.hasNext()) {
-				Item item = items.next();
-				item.getSubItems(item, null, stacks);
-			}
-			for ( ItemStack stack : stacks ) {
-				for ( int i : OreDictionary.getOreIDs(stack) ) {
-					if (OreDictionary.getOreName(i).contains("log")) {
-						KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), stack);
-						arecipes.add(res);
-					}
-				}
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -113,14 +79,6 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 				res.setIngredientPermutation(res.input, ingredient);
 				arecipes.add(res);
 				foundType = true;
-			}
-		}
-		if (!foundType) {
-			for ( int i : OreDictionary.getOreIDs(ingredient) ) {
-				if (OreDictionary.getOreName(i).contains("log")) {
-					KilnCharcoalCachedRecipe res = new KilnCharcoalCachedRecipe(Arrays.asList(new ItemStack[] { new ItemStack(Items.coal, 1, 1) }), ingredient);
-					arecipes.add(res);
-				}
 			}
 		}
 	}

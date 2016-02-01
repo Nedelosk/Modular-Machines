@@ -31,4 +31,6 @@ public interface IModularTileEntity<M extends IModular> extends ISidedInventory,
 	void setFacing(short facing);
 
 	void setOwner(GameProfile owner);
+	
+	void assembleModular();
 }

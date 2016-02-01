@@ -10,7 +10,7 @@ import nedelosk.forestcore.library.gui.Button;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.utils.RenderUtil;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.packets.PacketHandler;
@@ -47,9 +47,7 @@ public class ButtonGuiTab extends Button<IModularTileEntity<IModularInventory>> 
 		IModularGuiManager guiManager = ((IModularTileEntity<IModularInventory>) machine.getTile()).getModular().getGuiManager();
 		IModuleGui currentGui = guiManager.getCurrentGui();
 		RenderUtil.bindTexture(guiTextureOverlay);
-		RenderUtil.drawTexturedModalRect(xPosition, yPosition, 1,
-				currentGui.getCategoryUID().equals(moduleGui.getCategoryUID()) && (moduleGui.getModuleUID().equals(currentGui.getModuleUID())) ? 0 : 28,
-				right ? 214 : 235, 28, 21);
+		RenderUtil.drawTexturedModalRect(xPosition, yPosition, 1, (moduleGui.getUID().equals(currentGui.getUID())) ? 0 : 28, right ? 214 : 235, 28, 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		ItemStack item = stack.getItemStack();
@@ -63,7 +61,7 @@ public class ButtonGuiTab extends Button<IModularTileEntity<IModularInventory>> 
 	public void onButtonClick(IGuiBase<IModularTileEntity<IModularInventory>> gui) {
 		IModularGuiManager guiManager = gui.getTile().getModular().getGuiManager();
 		IModuleGui currentGui = guiManager.getCurrentGui();
-		if (!currentGui.getCategoryUID().equals(moduleGui.getCategoryUID()) && (moduleGui.getModuleUID().equals(currentGui.getModuleUID()))) {
+		if (!currentGui.getUID().equals(moduleGui.getUID())) {
 			guiManager.setCurrentGui(moduleGui);
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectGui(((TileEntity) gui.getTile()), moduleGui));
 		}

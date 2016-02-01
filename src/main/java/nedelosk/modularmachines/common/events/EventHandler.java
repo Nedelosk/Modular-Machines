@@ -1,9 +1,11 @@
 package nedelosk.modularmachines.common.events;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modules.IModuleAddable;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.basic.IModuleCasing;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleRegistry.ModuleItem;
@@ -27,42 +29,60 @@ public class EventHandler {
 	public void onBlockActivated(PlayerInteractEvent event) {
 		EntityPlayer player = event.entityPlayer;
 		World world = event.world;
-		if (event.action == Action.RIGHT_CLICK_BLOCK && !world.isRemote && player.getCurrentEquippedItem() != null) {
+		if (event.action == Action.RIGHT_CLICK_BLOCK && player.getCurrentEquippedItem() != null) {
 			Block block = world.getBlock(event.x, event.y, event.z);
 			int meta = world.getBlockMetadata(event.x, event.y, event.z);
 			TileEntity tileOld = world.getTileEntity(event.x, event.y, event.z);
 			ItemStack blockStack = new ItemStack(block, 1, meta);
 			if (ModuleRegistry.getModuleFromItem(blockStack) != null
 					&& ModuleRegistry.getModuleFromItem(blockStack).moduleStack.getModule() instanceof IModuleCasing) {
+				ModuleStack<IModuleCasing, IModuleSaver> casingStack = ModuleRegistry.getModuleFromItem(blockStack).moduleStack;
 				if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null
-						&& ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleAddable) {
-					ModuleStack stack = ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack;
-					world.setBlock(event.x, event.y, event.z, ModuleModular.BlockManager.Modular_Machine.block());
-					TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
-					if (!(tile instanceof TileModularMachine)) {
-						event.setCanceled(true);
-						return;
-					}
-					TileModularMachine modularTile = (TileModularMachine) tile;
-					ModularMachine machine = new ModularMachine();
-					machine.addModule(stack);
-					if (stack.getModule() instanceof IModuleAddable) {
-						try {
-							((IModuleAddable) stack.getModule()).onAddInModular(machine, stack);
-						} catch (Exception e) {
-							world.setBlock(event.x, event.y, event.z, block, meta, 3);
-							world.setTileEntity(event.x, event.y, event.z, tileOld);
+						&& ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleAddable
+						&& !(ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleCasing)){
+					if(!world.isRemote){
+						ModuleStack stack = ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack;
+						world.setBlock(event.x, event.y, event.z, ModuleModular.BlockManager.Modular_Machine.block());
+						TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
+						if (!(tile instanceof TileModularMachine)) {
+							event.setCanceled(true);
 							return;
 						}
+						TileModularMachine modularTile = (TileModularMachine) tile;
+						ModularMachine machine = new ModularMachine();
+						stack.setItemStack(player.getCurrentEquippedItem());
+						casingStack.setItemStack(player.getCurrentEquippedItem());
+						machine.getModuleManager().addModule(casingStack);
+						machine.getModuleManager().addModule(stack);
+						if (casingStack.getModule() instanceof IModuleAddable) {
+							try {
+								((IModuleAddable) casingStack.getModule()).onAddInModular(machine, casingStack);
+							} catch (Exception e) {
+								world.setBlock(event.x, event.y, event.z, block, meta, 3);
+								world.setTileEntity(event.x, event.y, event.z, tileOld);
+								return;
+							}
+						}
+						if (stack.getModule() instanceof IModuleAddable) {
+							try {
+								((IModuleAddable) stack.getModule()).onAddInModular(machine, stack);
+							} catch (Exception e) {
+								world.setBlock(event.x, event.y, event.z, block, meta, 3);
+								world.setTileEntity(event.x, event.y, event.z, tileOld);
+								return;
+							}
+						}
+						modularTile.setModular(machine);
+						if (!player.capabilities.isCreativeMode) {
+							ItemStack currentItem = player.getCurrentEquippedItem();
+							if (currentItem.stackSize < 2) {
+								currentItem = null;
+							} else {
+								currentItem.stackSize--;
+							}
+							player.setCurrentItemOrArmor(0, currentItem);
+						}
 					}
-					modularTile.setModular(machine);
-					ItemStack currentItem = player.getCurrentEquippedItem();
-					if (currentItem.stackSize < 2) {
-						currentItem = null;
-					} else {
-						currentItem.stackSize--;
-					}
-					player.setCurrentItemOrArmor(0, currentItem);
 				}
 			}
 		}
@@ -76,7 +96,7 @@ public class EventHandler {
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + moduleItem.material.getLocalName());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + moduleItem.material.getTier());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": "
-					+ StatCollector.translateToLocal(moduleItem.moduleStack.getModule().getUID() + ".name"));
+					+ StatCollector.translateToLocal(moduleItem.moduleStack.getModule().getUnlocalizedName(moduleItem.moduleStack)));
 		}
 	}
 }

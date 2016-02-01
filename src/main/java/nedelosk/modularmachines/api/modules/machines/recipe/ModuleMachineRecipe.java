@@ -113,11 +113,17 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	}
 
 	@Override
+	public void updateClient(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
+		if(!modular.isAssembled())
+			return;
 		IModularTileEntity<IModularInventory> tile = modular.getMachine();
 		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
 		IModuleMachineSaver saver = (IModuleMachineSaver) stack.getSaver();
-		if (engineStack != null && tile.getEnergyStored(null) > 0) {
+		if (engineStack != null && tile.getEnergyStored(null) > 0 && saver != null) {
 			IModuleEngineSaver engineSaver = engineStack.getSaver();
 			IModuleEngine engine = engineStack.getModule();
 			int burnTime = engineSaver.getBurnTime(engineStack);

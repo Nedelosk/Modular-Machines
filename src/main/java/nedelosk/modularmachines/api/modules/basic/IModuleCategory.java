@@ -1,8 +1,8 @@
 package nedelosk.modularmachines.api.modules.basic;
 
-import nedelosk.modularmachines.api.modular.basic.container.gui.IGuiContainer;
-import nedelosk.modularmachines.api.modular.basic.container.inventory.IInventoryContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modules.container.gui.IGuiContainer;
+import nedelosk.modularmachines.api.modules.container.inventory.IInventoryContainer;
+import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
 
 public interface IModuleCategory {
 

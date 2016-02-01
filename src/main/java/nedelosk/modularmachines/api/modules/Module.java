@@ -2,6 +2,7 @@ package nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.special.IModuleController;
@@ -26,7 +27,8 @@ public abstract class Module implements IModule {
 
 	@Override
 	public String getUnlocalizedName(ModuleStack stack) {
-		return "module." + getCategoryUID() + "." + getModuleUID() + "." + stack.getMaterial().getName() + ".name";
+		return "module." + getCategoryUID().toLowerCase(Locale.ENGLISH) + "." + getModuleUID().toLowerCase(Locale.ENGLISH) + "."
+				+ stack.getMaterial().getName().toLowerCase(Locale.ENGLISH) + ".name";
 	}
 
 	@Override

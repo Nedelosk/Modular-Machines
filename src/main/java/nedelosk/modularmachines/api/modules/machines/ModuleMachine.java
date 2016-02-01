@@ -10,6 +10,7 @@ import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.ModuleAddable;
 import nedelosk.modularmachines.api.modules.fluids.IModuleWithFluid;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
@@ -77,7 +78,12 @@ public abstract class ModuleMachine extends ModuleAddable implements IModuleMach
 	public boolean canAssembleModular(IModular modular, ModuleStack moduleStack) {
 		return true;
 	}
-
+	
+	@Override
+	public IModuleSaver createSaver(ModuleStack stack){
+		return new ModuleMachineSaver();
+	}
+	
 	/* WAILA */
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {

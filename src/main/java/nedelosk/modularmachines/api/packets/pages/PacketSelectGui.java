@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.basic.managers.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.packets.PacketHandler;
@@ -39,7 +39,7 @@ public class PacketSelectGui extends PacketTileEntity<TileEntity> implements IMe
 
 	public PacketSelectGui(TileEntity tile, IModuleGui gui) {
 		super(tile);
-		this.UID = gui.getCategoryUID() + ":" + gui.getModuleUID();
+		this.UID = gui.getUID();
 	}
 
 	public PacketSelectGui(TileEntity tile, String UID) {
@@ -50,20 +50,20 @@ public class PacketSelectGui extends PacketTileEntity<TileEntity> implements IMe
 	@Override
 	public IMessage onMessage(PacketSelectGui message, MessageContext ctx) {
 		World world;
-		if (ctx.side == Side.CLIENT) {
-			world = Minecraft.getMinecraft().theWorld;
-		} else {
+		//if (ctx.side == Side.CLIENT) {
+			//world = Minecraft.getMinecraft().theWorld;
+		//} else {
 			world = ctx.getServerHandler().playerEntity.worldObj;
-		}
+		//}
 		IModularTileEntity<IModularInventory> tile = (IModularTileEntity) message.getTileEntity(world);
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
 		guiManager.setCurrentGui(guiManager.getGui(message.UID));
-		if (ctx.side == Side.SERVER) {
+		//if (ctx.side == Side.SERVER) {
 			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
+			//PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
 			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 			ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
-		}
+		//}
 		return null;
 	}
 }

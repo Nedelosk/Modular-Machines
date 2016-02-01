@@ -91,7 +91,7 @@ public class WidgetProducer<T extends TileEntity & IModularTileEntity> extends W
 			return list;
 		}
 		ModuleStack stack = stacks.get(module);
-		list.add(StatCollector.translateToLocal(stack.getModule().getUID() + ".name"));
+		list.add(StatCollector.translateToLocal(stack.getModule().getUnlocalizedName(stack)));
 		return list;
 	}
 }

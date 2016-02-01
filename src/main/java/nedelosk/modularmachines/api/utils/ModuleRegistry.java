@@ -60,8 +60,8 @@ public class ModuleRegistry {
 			registerModule(moduleStack.getModule());
 		}
 		if (!moduleItems.equals(moduleItem)) {
-			moduleItems.add(moduleItem);
 			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(moduleItem));
+			moduleItems.add(moduleItem);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class ModuleRegistry {
 		for ( ModuleItem item : moduleItems ) {
 			if (stack.getItem() == item.stack.getItem() && stack.getItemDamage() == item.stack.getItemDamage()) {
 				if (item.ignorNBT || ItemStack.areItemStackTagsEqual(stack, item.stack)) {
-					return item;
+					return item.copy();
 				}
 			}
 		}
@@ -165,6 +165,10 @@ public class ModuleRegistry {
 				}
 			}
 			return false;
+		}
+		
+		public ModuleItem copy(){
+			return new ModuleItem(stack, moduleStack, material, ignorNBT);
 		}
 	}
 }

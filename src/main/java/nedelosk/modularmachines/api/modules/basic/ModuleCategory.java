@@ -1,14 +1,14 @@
 package nedelosk.modularmachines.api.modules.basic;
 
-import nedelosk.modularmachines.api.modular.basic.container.gui.GuiContainer;
-import nedelosk.modularmachines.api.modular.basic.container.gui.IGuiContainer;
-import nedelosk.modularmachines.api.modular.basic.container.gui.MultiGuiContainer;
-import nedelosk.modularmachines.api.modular.basic.container.inventory.IInventoryContainer;
-import nedelosk.modularmachines.api.modular.basic.container.inventory.InventoryContainer;
-import nedelosk.modularmachines.api.modular.basic.container.inventory.MultiInventoryContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.IModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.ModuleContainer;
-import nedelosk.modularmachines.api.modular.basic.container.module.MultiModuleContainer;
+import nedelosk.modularmachines.api.modules.container.gui.GuiContainer;
+import nedelosk.modularmachines.api.modules.container.gui.IGuiContainer;
+import nedelosk.modularmachines.api.modules.container.gui.MultiGuiContainer;
+import nedelosk.modularmachines.api.modules.container.inventory.IInventoryContainer;
+import nedelosk.modularmachines.api.modules.container.inventory.InventoryContainer;
+import nedelosk.modularmachines.api.modules.container.inventory.MultiInventoryContainer;
+import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
+import nedelosk.modularmachines.api.modules.container.module.ModuleContainer;
+import nedelosk.modularmachines.api.modules.container.module.MultiModuleContainer;
 
 public class ModuleCategory implements IModuleCategory {
 
@@ -17,7 +17,7 @@ public class ModuleCategory implements IModuleCategory {
 	private final Class<? extends IGuiContainer> guiContainer;
 	private final Class<? extends IInventoryContainer> inventoryContainer;
 
-	public ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer, Class<? extends IGuiContainer> guiContainer,
+	private ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer, Class<? extends IGuiContainer> guiContainer,
 			Class<? extends IInventoryContainer> inventoryContainer) {
 		this.UID = UID;
 		this.moduleContainer = moduleContainer;
@@ -25,14 +25,14 @@ public class ModuleCategory implements IModuleCategory {
 		this.inventoryContainer = inventoryContainer;
 	}
 
-	public ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer, Class<? extends IGuiContainer> guiContainer) {
+	private ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer, Class<? extends IGuiContainer> guiContainer) {
 		this.UID = UID;
 		this.moduleContainer = moduleContainer;
 		this.guiContainer = guiContainer;
 		this.inventoryContainer = InventoryContainer.class;
 	}
 
-	public ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer) {
+	private ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer) {
 		this.UID = UID;
 		this.moduleContainer = moduleContainer;
 		this.inventoryContainer = InventoryContainer.class;

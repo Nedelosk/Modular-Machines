@@ -10,11 +10,11 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.integration.IWailaData;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
-import nedelosk.modularmachines.api.modules.Module;
-import nedelosk.modularmachines.api.modules.energy.IModuleBatterySaver;
+import nedelosk.modularmachines.api.modules.ModuleAddable;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachine;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.IModuleMachineRecipe;
+import nedelosk.modularmachines.api.modules.storage.battery.IModuleBatterySaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.packets.PacketProducerEngine;
 import nedelosk.modularmachines.api.utils.ModularUtils;
@@ -22,7 +22,7 @@ import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public abstract class ModuleEngine extends Module implements IModuleEngine {
+public abstract class ModuleEngine extends ModuleAddable implements IModuleEngine {
 
 	protected final int speedModifier;
 	protected final String type;
@@ -48,6 +48,9 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
+		if (ModularUtils.getMachine(modular) == null) {
+			return;
+		}
 		ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
 		IModuleEngineSaver saver = (IModuleEngineSaver) stack.getSaver();
 		if (saver.getTimer() > saver.getTimerTotal()) {
