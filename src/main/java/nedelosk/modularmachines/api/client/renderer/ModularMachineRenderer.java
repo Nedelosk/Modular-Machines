@@ -200,8 +200,17 @@ public class ModularMachineRenderer {
 			this.Battery_Base = new ModelRenderer(model, 0, 0);
 			this.Battery_Base.setRotationPoint(-7.5F, 12.5F, -4.0F);
 			this.Battery_Base.addBox(0.0F, 0.0F, 0.0F, 1, 8, 8, 0.0F);
-			int energy = (modular.getUtilsManager().getEnergyHandler().getEnergyStored(ForgeDirection.EAST)
-					/ (modular.getUtilsManager().getEnergyHandler().getMaxEnergyStored(ForgeDirection.EAST) / 8));
+			int energy;
+			if(modular.isAssembled()){
+				if(modular.getUtilsManager().getEnergyHandler() != null){
+				energy = (modular.getUtilsManager().getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
+						/ (modular.getUtilsManager().getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
+				}else{
+					energy = 0;
+				}
+			}else{
+				energy = 0;
+			}
 			baseTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_base_" + energy + ".png");
 			topTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_top.png");
 			downTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_down.png");

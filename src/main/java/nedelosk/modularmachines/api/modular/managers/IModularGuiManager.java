@@ -11,7 +11,6 @@ import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 
 public interface IModularGuiManager extends IModularManager {
 
@@ -30,8 +29,6 @@ public interface IModularGuiManager extends IModularManager {
 	IModuleGui getGui(String UID);
 
 	void addGui(IModuleGui gui, ModuleStack stack, IModuleContainer moduleContainer);
-
-	<T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory);
 
 	<T extends TileBaseInventory & IModularTileEntity> GuiContainer getGUIContainer(T tile, InventoryPlayer inventory);
 }

@@ -9,6 +9,8 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.ModuleDefault;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.gui.ModuleGuiDefault;
+import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.modules.inventory.ModuleInventoryDefault;
 import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
@@ -39,6 +41,11 @@ public class ModuleCasing extends ModuleDefault implements IModuleCasing {
 	@Override
 	public int getResistance() {
 		return 0;
+	}
+
+	@Override
+	public IModuleInventory createInventory(ModuleStack stack) {
+		return new ModuleInventoryDefault(getUID(), 0);
 	}
 
 	@SideOnly(Side.CLIENT)

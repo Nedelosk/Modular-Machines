@@ -5,8 +5,7 @@ import java.util.List;
 import nedelosk.forestcore.library.inventory.ContainerBase;
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.inventory.slots.SlotModularOutput;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
-import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
@@ -18,22 +17,22 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerModularMachine<T extends TileBaseInventory & IModularTileEntity<IModularInventory>> extends ContainerBase<T> {
+public class ContainerModularMachine<T extends TileBaseInventory & IModularTileEntity<IModularDefault>> extends ContainerBase<T> {
 
 	public InventoryPlayer inventory;
+	public IModuleInventory currentInventory;
 
-	public ContainerModularMachine(T tileModularMachine, InventoryPlayer inventory) {
+	public ContainerModularMachine(T tileModularMachine, InventoryPlayer inventory, IModuleInventory currentInventory) {
 		super(tileModularMachine, inventory);
+		this.currentInventory = currentInventory;
 	}
 
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		this.inventory = inventoryPlayer;
-		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
-		ModuleStack stack = ModularUtils.getModuleStackFromGui(inventoryBase.getModular(), guiManager.getCurrentGui());
-		IModuleInventory inventory = inventoryBase.getModular().getInventoryManager().getInventory(stack);
-		if (inventory != null) {
-			List<Slot> slots = inventory.addSlots(this, inventoryBase.getModular(), stack);
+		ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
+		if (currentInventory != null) {
+			List<Slot> slots = currentInventory.addSlots(this, inventoryBase.getModular(), stack);
 			if (slots != null && !slots.isEmpty()) {
 				for ( Slot slot : slots ) {
 					addSlotToContainer(slot);
@@ -44,9 +43,8 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 
 	@Override
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
-		IModularGuiManager guiManager = inventoryBase.getModular().getGuiManager();
-		ModuleStack stack = ModularUtils.getModuleStackFromGui(inventoryBase.getModular(), guiManager.getCurrentGui());
-		int i = guiManager.getCurrentGui().getGuiTop(inventoryBase.getModular(), stack) - 82;
+		ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
+		int i = currentInventory.getPlayerInventoryYPosition(inventoryBase.getModular(), stack);
 		for ( int i1 = 0; i1 < 3; i1++ ) {
 			for ( int l1 = 0; l1 < 9; l1++ ) {
 				addSlotToContainer(new Slot(inventoryPlayer, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));
@@ -62,9 +60,9 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 		ModuleStack<IModule, IModuleSaver> stack;
-		IModularInventory modular = inventoryBase.getModular();
+		IModularDefault modular = inventoryBase.getModular();
 		try {
-			stack = ModularUtils.getModuleStackFromGui(modular, modular.getGuiManager().getCurrentGui());
+			stack = ModularUtils.getModuleStackFromInventory(modular, currentInventory);
 		} catch (Exception e) {
 			stack = null;
 		}

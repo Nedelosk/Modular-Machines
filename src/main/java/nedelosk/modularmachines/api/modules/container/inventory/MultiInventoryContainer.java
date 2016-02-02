@@ -3,7 +3,7 @@ package nedelosk.modularmachines.api.modules.container.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
@@ -70,7 +70,7 @@ public class MultiInventoryContainer<M extends IModule, S extends IModuleSaver> 
 
 	/* NBT */
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular) {
+	public void readFromNBT(NBTTagCompound nbt, IModularDefault modular) {
 		categoryUID = nbt.getString("CategoryUID");
 		if (nbt.hasKey("Inv")) {
 			NBTTagList nbtList = nbt.getTagList("Inv", 10);
@@ -87,7 +87,7 @@ public class MultiInventoryContainer<M extends IModule, S extends IModuleSaver> 
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular) {
+	public void writeToNBT(NBTTagCompound nbt, IModularDefault modular) {
 		nbt.setString("CategoryUID", categoryUID);
 		if (inventorys != null && inventorys.isEmpty()) {
 			IMultiModuleContainer container = modular.getModuleManager().getMultiModule(categoryUID);
@@ -103,11 +103,12 @@ public class MultiInventoryContainer<M extends IModule, S extends IModuleSaver> 
 			nbt.setTag("Inv", nbtList);
 		}
 	}
-	
+
+	@Override
 	public String getCategoryUID() {
 		return categoryUID;
 	}
-	
+
 	@Override
 	public void setCategoryUID(String categoryUID) {
 		this.categoryUID = categoryUID;

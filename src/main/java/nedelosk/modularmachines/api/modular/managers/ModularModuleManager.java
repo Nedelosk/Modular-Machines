@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModule;
-import nedelosk.modularmachines.api.modules.container.gui.IMultiGuiContainer;
 import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.ISingleModuleContainer;
@@ -116,7 +115,7 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 			modules.put(module.getCategoryUID(), container);
 		} else {
 			IModuleContainer container = modules.get(module.getCategoryUID());
-			if (container instanceof IMultiGuiContainer) {
+			if (container instanceof IMultiModuleContainer) {
 				((IMultiModuleContainer) container).addStack(stack);
 			}
 		}

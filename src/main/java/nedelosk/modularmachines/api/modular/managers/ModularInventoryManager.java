@@ -7,12 +7,13 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.forestcore.library.tile.TileBaseInventory;
+import nedelosk.modularmachines.api.inventory.ContainerModularMachine;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
+import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
-import nedelosk.modularmachines.api.modules.container.gui.IMultiGuiContainer;
-import nedelosk.modularmachines.api.modules.container.gui.ISingleGuiContainer;
 import nedelosk.modularmachines.api.modules.container.inventory.IInventoryContainer;
 import nedelosk.modularmachines.api.modules.container.inventory.IMultiInventoryContainer;
 import nedelosk.modularmachines.api.modules.container.inventory.ISingleInventoryContainer;
@@ -21,26 +22,28 @@ import nedelosk.modularmachines.api.modules.container.inventory.MultiInventoryCo
 import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.ISingleModuleContainer;
-import nedelosk.modularmachines.api.modules.container.module.ModuleContainer;
-import nedelosk.modularmachines.api.modules.container.module.MultiModuleContainer;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
+import nedelosk.modularmachines.api.utils.ModuleCategoryUIDs;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class ModularInventoryManager implements IModularInventoryManager<IModularInventory> {
+public class ModularInventoryManager implements IModularInventoryManager<IModularDefault> {
 
 	private HashMap<String, IInventoryContainer> inventorys = Maps.newHashMap();
-	private IModularInventory modular;
+	private IModularDefault modular;
+	private IModuleInventory currentInventory;
 
 	public ModularInventoryManager() {
 	}
 
 	@Override
-	public void addInventorys() {
+	public void searchForInventorys() {
 		for ( Entry<String, IModuleContainer> entryContainer : (Set<Entry<String, IModuleContainer>>) modular.getModuleManager().getModuleContainers()
 				.entrySet() ) {
 			Class<? extends IInventoryContainer> containerClass = ModuleRegistry.getCategory(entryContainer.getKey()).getInventoryContainerClass();
@@ -58,7 +61,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 					return;
 				}
 				ModuleStack stack = ((ISingleModuleContainer) entryContainer.getValue()).getStack();
-				if (stack.getModule() instanceof IModuleDefault && ((IModuleDefault)stack.getModule()).createInventory(stack) != null) {
+				if (stack.getModule() instanceof IModuleDefault && ((IModuleDefault) stack.getModule()).createInventory(stack) != null) {
 					((ISingleInventoryContainer) container).setInventory(((IModuleDefault) stack.getModule()).createInventory(stack));
 				}
 			} else if (container instanceof IMultiInventoryContainer) {
@@ -74,7 +77,8 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 					}
 				}
 			}
-			if(container instanceof ISingleInventoryContainer && ((ISingleInventoryContainer)container).getInventory() != null || container instanceof IMultiInventoryContainer && !((IMultiInventoryContainer)container).getInventorys().isEmpty()){
+			if (container instanceof ISingleInventoryContainer && ((ISingleInventoryContainer) container).getInventory() != null
+					|| container instanceof IMultiInventoryContainer && !((IMultiInventoryContainer) container).getInventorys().isEmpty()) {
 				container.setCategoryUID(entryContainer.getKey());
 				inventorys.put(entryContainer.getKey(), container);
 			}
@@ -84,7 +88,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
 		if (inventorys.isEmpty()) {
-			addInventorys();
+			searchForInventorys();
 		}
 		IModule module = stack.getModule();
 		IInventoryContainer container = inventorys.get(module.getCategoryUID());
@@ -95,6 +99,25 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 			inventory = ((IMultiInventoryContainer) container).getInventory(module.getUID());
 		}
 		return inventory;
+	}
+
+	@Override
+	public IModuleInventory getInventory(String UID) {
+		String[] UIDS = UID.split(":");
+		IInventoryContainer container = getInventorys().get(UIDS[0]);
+		if (container instanceof ISingleInventoryContainer) {
+			ISingleInventoryContainer single = (ISingleInventoryContainer) container;
+			if (single.getInventory() != null) {
+				return single.getInventory();
+			}
+		} else if (container instanceof IMultiInventoryContainer) {
+			IMultiInventoryContainer multi = (IMultiInventoryContainer) container;
+			IModuleInventory gui = multi.getInventory(UIDS[1]);
+			if (gui != null) {
+				return gui;
+			}
+		}
+		return currentInventory;
 	}
 
 	@Override
@@ -126,6 +149,12 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 			}
 			inventorys.put(inventory.getCategoryUID(), container);
 		}
+		String inventoryUID = nbt.getString("Inventory");
+		if (inventoryUID == null || inventoryUID.equals("")) {
+			currentInventory = getCasingInventory();
+		} else {
+			currentInventory = getInventory(inventoryUID);
+		}
 	}
 
 	@Override
@@ -139,6 +168,10 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 			listTag.appendTag(modulesTag);
 		}
 		nbt.setTag("Inventorys", listTag);
+		if (currentInventory == null) {
+			currentInventory = getCasingInventory();
+		}
+		nbt.setString("Inventory", currentInventory.getUID());
 	}
 
 	@Override
@@ -310,12 +343,46 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	}
 
 	@Override
-	public IModularInventory getModular() {
+	public IModularDefault getModular() {
 		return modular;
 	}
 
 	@Override
-	public void setModular(IModularInventory modular) {
+	public void setModular(IModularDefault modular) {
 		this.modular = modular;
+	}
+
+	@Override
+	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
+		if (currentInventory == null) {
+			currentInventory = getCasingInventory();
+		}
+		return new ContainerModularMachine(tile, inventory, currentInventory);
+	}
+
+	private IModuleInventory getCasingInventory() {
+		ISingleInventoryContainer container = (ISingleInventoryContainer) getInventorys().get(ModuleCategoryUIDs.CASING);
+		if (container == null) {
+			return null;
+		}
+		return container.getInventory();
+	}
+
+	@Override
+	public HashMap<String, IInventoryContainer> getInventorys() {
+		return inventorys;
+	}
+
+	@Override
+	public IModuleInventory getCurrentInventory() {
+		if (inventorys.isEmpty()) {
+			searchForInventorys();
+		}
+		return currentInventory;
+	}
+
+	@Override
+	public void setCurrentInventory(IModuleInventory currentInventory) {
+		this.currentInventory = currentInventory;
 	}
 }

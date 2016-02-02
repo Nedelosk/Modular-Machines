@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.modularmachines.api.client.gui.GuiModular;
-import nedelosk.modularmachines.api.inventory.ContainerModularMachine;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
@@ -28,7 +27,6 @@ import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModularGuiManager implements IModularGuiManager {
@@ -47,7 +45,7 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		if(guis.isEmpty()){
+		if (guis.isEmpty()) {
 			searchForGuis();
 		}
 		String guiName = nbt.getString("Gui");
@@ -68,8 +66,9 @@ public class ModularGuiManager implements IModularGuiManager {
 
 	private IModuleGui getCasingGui() {
 		ISingleGuiContainer container = (ISingleGuiContainer) getGuis().get(ModuleCategoryUIDs.CASING);
-		if(container == null)
+		if (container == null) {
 			return null;
+		}
 		return container.getGui();
 	}
 
@@ -157,7 +156,8 @@ public class ModularGuiManager implements IModularGuiManager {
 				if (!(moduleContainer instanceof ISingleModuleContainer)) {
 					return;
 				}
-				((ISingleGuiContainer) container).setGui(gui);;
+				((ISingleGuiContainer) container).setGui(gui);
+				;
 			} else if (container instanceof IMultiGuiContainer) {
 				if (!(moduleContainer instanceof IMultiModuleContainer)) {
 					return;
@@ -196,14 +196,6 @@ public class ModularGuiManager implements IModularGuiManager {
 			return;
 		}
 		currentGui = gui;
-	}
-
-	@Override
-	public <T extends TileBaseInventory & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory) {
-		if (currentGui == null) {
-			currentGui = getCasingGui();
-		}
-		return new ContainerModularMachine(tile, inventory);
 	}
 
 	@Override

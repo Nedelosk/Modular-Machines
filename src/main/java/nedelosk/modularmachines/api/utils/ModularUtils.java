@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
@@ -99,14 +99,14 @@ public class ModularUtils {
 		return modular.getModuleManager().getModule(categoryUID);
 	}
 
-	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularInventory modular, IModuleGui<M, S> gui) {
+	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularDefault modular, IModuleGui<M, S> gui) {
 		if (gui == null) {
 			return null;
 		}
 		return modular.getModuleManager().getModuleFromUID(gui.getUID());
 	}
 
-	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularInventory modular,
+	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularDefault modular,
 			IModuleInventory<M, S> inv) {
 		return modular.getModuleManager().getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
 	}

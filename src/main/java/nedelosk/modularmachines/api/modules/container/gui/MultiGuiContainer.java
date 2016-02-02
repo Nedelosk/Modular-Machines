@@ -3,10 +3,13 @@ package nedelosk.modularmachines.api.modules.container.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 
+@SideOnly(Side.CLIENT)
 public class MultiGuiContainer<M extends IModule, S extends IModuleSaver> implements IMultiGuiContainer<M, S, List<IModuleGui<M, S>>> {
 
 	private List<IModuleGui<M, S>> guis = new ArrayList();
@@ -19,11 +22,13 @@ public class MultiGuiContainer<M extends IModule, S extends IModuleSaver> implem
 
 	public MultiGuiContainer() {
 	}
-	
+
+	@Override
 	public String getCategoryUID() {
 		return categoryUID;
 	}
-	
+
+	@Override
 	public void setCategoryUID(String categoryUID) {
 		this.categoryUID = categoryUID;
 	}

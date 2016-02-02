@@ -10,7 +10,7 @@ import nedelosk.forestcore.library.gui.GuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.tile.TileBaseInventory;
 import nedelosk.forestcore.library.utils.RenderUtil;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.managers.IModularInventoryManager;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
@@ -23,7 +23,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModularInventory>> extends GuiBase<T> {
+public class GuiModular<T extends TileBaseInventory & IModularTileEntity<IModularDefault>> extends GuiBase<T> {
 
 	private IModuleGui currentGui;
 

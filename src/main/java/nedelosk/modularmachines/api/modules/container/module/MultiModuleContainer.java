@@ -56,11 +56,12 @@ public class MultiModuleContainer<M extends IModule, S extends IModuleSaver> imp
 			}
 		}
 	}
-	
+
+	@Override
 	public String getCategoryUID() {
 		return categoryUID;
 	}
-	
+
 	@Override
 	public void setCategoryUID(String categoryUID) {
 		this.categoryUID = categoryUID;

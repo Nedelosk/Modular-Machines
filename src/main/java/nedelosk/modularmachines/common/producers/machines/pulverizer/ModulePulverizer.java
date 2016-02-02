@@ -3,6 +3,8 @@ package nedelosk.modularmachines.common.producers.machines.pulverizer;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
@@ -61,6 +63,7 @@ public class ModulePulverizer extends ModuleMachineRecipe {
 		return new ModulePulverizerInventory(getUID(), itemInputs + itemOutputs);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModulePulverizerGui(getUID());

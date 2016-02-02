@@ -75,6 +75,7 @@ public class ModuleModuleAssembler extends ModuleMachineRecipe {
 		return new ModuleModuleAssemblerInventory(getUID(), itemInputs + itemOutputs);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleModuleAssemblerGui(getUID());

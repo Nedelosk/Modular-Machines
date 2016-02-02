@@ -1,27 +1,31 @@
 package nedelosk.modularmachines.api.modular.basic;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.Modular;
 import nedelosk.modularmachines.api.modular.managers.IModularGuiManager;
 import nedelosk.modularmachines.api.modular.managers.IModularInventoryManager;
-import nedelosk.modularmachines.api.modular.managers.IModularModuleManager;
 import nedelosk.modularmachines.api.modular.managers.ModularGuiManager;
 import nedelosk.modularmachines.api.modular.managers.ModularInventoryManager;
-import nedelosk.modularmachines.api.modular.managers.ModularModuleManager;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ModularInventory extends Modular implements IModularInventory {
+public abstract class ModularDefault extends Modular implements IModularDefault {
 
+	@SideOnly(Side.CLIENT)
 	protected IModularGuiManager guiManager;
 	protected IModularInventoryManager inventoryManager;
 
-	public ModularInventory() {
+	public ModularDefault() {
 		inventoryManager = new ModularInventoryManager();
 		inventoryManager.setModular(this);
-		guiManager = new ModularGuiManager();
-		guiManager.setModular(this);
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			guiManager = new ModularGuiManager();
+			guiManager.setModular(this);
+		}
 	}
 
-	public ModularInventory(NBTTagCompound nbt) {
+	public ModularDefault(NBTTagCompound nbt) {
 		super(nbt);
 	}
 
@@ -34,6 +38,7 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 		return inventoryManager;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularGuiManager getGuiManager() {
 		if (guiManager == null) {
@@ -49,15 +54,19 @@ public abstract class ModularInventory extends Modular implements IModularInvent
 		NBTTagCompound inventory = new NBTTagCompound();
 		getInventoryManager().writeToNBT(inventory);
 		nbt.setTag("InventoryManager", inventory);
-		NBTTagCompound gui = new NBTTagCompound();
-		getGuiManager().writeToNBT(gui);
-		nbt.setTag("GuiManager", gui);
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			NBTTagCompound gui = new NBTTagCompound();
+			getGuiManager().writeToNBT(gui);
+			nbt.setTag("GuiManager", gui);
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		getInventoryManager().readFromNBT(nbt.getCompoundTag("InventoryManager"));
-		getGuiManager().readFromNBT(nbt.getCompoundTag("GuiManager"));
+		if (nbt.hasKey("GuiManager")) {
+			getGuiManager().readFromNBT(nbt.getCompoundTag("GuiManager"));
+		}
 	}
 }

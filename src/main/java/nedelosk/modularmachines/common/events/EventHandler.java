@@ -1,6 +1,5 @@
 package nedelosk.modularmachines.common.events;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,8 +38,8 @@ public class EventHandler {
 				ModuleStack<IModuleCasing, IModuleSaver> casingStack = ModuleRegistry.getModuleFromItem(blockStack).moduleStack;
 				if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null
 						&& ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleAddable
-						&& !(ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleCasing)){
-					if(!world.isRemote){
+						&& !(ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack.getModule() instanceof IModuleCasing)) {
+					if (!world.isRemote) {
 						ModuleStack stack = ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()).moduleStack;
 						world.setBlock(event.x, event.y, event.z, ModuleModular.BlockManager.Modular_Machine.block());
 						TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
@@ -50,8 +49,8 @@ public class EventHandler {
 						}
 						TileModularMachine modularTile = (TileModularMachine) tile;
 						ModularMachine machine = new ModularMachine();
+						modularTile.setModular(machine);
 						stack.setItemStack(player.getCurrentEquippedItem());
-						casingStack.setItemStack(player.getCurrentEquippedItem());
 						machine.getModuleManager().addModule(casingStack);
 						machine.getModuleManager().addModule(stack);
 						if (casingStack.getModule() instanceof IModuleAddable) {
@@ -72,7 +71,6 @@ public class EventHandler {
 								return;
 							}
 						}
-						modularTile.setModular(machine);
 						if (!player.capabilities.isCreativeMode) {
 							ItemStack currentItem = player.getCurrentEquippedItem();
 							if (currentItem.stackSize < 2) {
@@ -82,6 +80,7 @@ public class EventHandler {
 							}
 							player.setCurrentItemOrArmor(0, currentItem);
 						}
+						world.markBlockForUpdate(event.x, event.y, event.z);
 					}
 				}
 			}

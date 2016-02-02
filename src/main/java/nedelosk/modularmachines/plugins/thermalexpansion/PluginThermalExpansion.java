@@ -39,7 +39,8 @@ public class PluginThermalExpansion extends APlugin {
 		addModuleToItem(new ItemStack(cell, 1, 1), new ModuleBattery("EnergyCellLeadstone", new EnergyStorage(100000, 100, 100)), Materials.Lead, true);
 		addModuleToItem(new ItemStack(cell, 1, 2), new ModuleBattery("EnergyCellHardened", new EnergyStorage(500000, 400, 400)), Materials.Invar, true);
 		addModuleToItem(new ItemStack(cell, 1, 3), new ModuleBattery("EnergyCellRedstone", new EnergyStorage(5000000, 4000, 4000)), Materials.Electrum, true);
-		addModuleToItem(new ItemStack(cell, 1, 4), new ModuleBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)), Materials.Enderium, true);
+		addModuleToItem(new ItemStack(cell, 1, 4), new ModuleBattery("EnergyCellResonant", new EnergyStorage(20000000, 16000, 16000)), Materials.Enderium,
+				true);
 		/*
 		 * registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new
 		 * ModuleSimpleChest("StrongBox", 18), Materials.IRON);

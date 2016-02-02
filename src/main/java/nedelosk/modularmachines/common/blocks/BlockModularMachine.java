@@ -6,12 +6,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import buildcraft.api.tools.IToolWrench;
-import crazypants.enderio.item.ItemYetaWrench;
 import nedelosk.forestcore.library.utils.WorldUtil;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
+import nedelosk.modularmachines.api.packets.PacketClientManagers;
+import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
-import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.api.utils.ModuleRegistry.ModuleItem;
+import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.common.ModularMachines;
 import nedelosk.modularmachines.common.blocks.tile.TileModularMachine;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -70,15 +72,17 @@ public class BlockModularMachine extends BlockModular {
 					return true;
 				}
 				if (player.getCurrentEquippedItem() != null) {
-					if(player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+					if (player.getCurrentEquippedItem().getItem() instanceof IToolWrench) {
 						modularMachine.assembleModular();
 						Exception e = modularMachine.getModular().getLastException();
 						if (e != null) {
 							player.addChatMessage(new ChatComponentText(e.getMessage()));
+						} else {
+							modularMachine.getModular().getInventoryManager().searchForInventorys();
+							PacketHandler.INSTANCE.sendTo(new PacketClientManagers(modularMachine), (EntityPlayerMP) player);
 						}
 						return true;
-					}
-					else if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null) {
+					} else if (ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem()) != null) {
 						ModuleItem item = ModuleRegistry.getModuleFromItem(player.getCurrentEquippedItem());
 						item.moduleStack.setItemStack(player.getCurrentEquippedItem());
 						boolean addModule = modularMachine.getModular().getModuleManager().addModule(item.moduleStack);
@@ -93,6 +97,8 @@ public class BlockModularMachine extends BlockModular {
 								player.setCurrentItemOrArmor(0, currentItem);
 							}
 						}
+						modularMachine.getModular().getInventoryManager().searchForInventorys();
+						PacketHandler.INSTANCE.sendTo(new PacketClientManagers(modularMachine), (EntityPlayerMP) player);
 						return addModule;
 					}
 				} else {
@@ -116,10 +122,10 @@ public class BlockModularMachine extends BlockModular {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof IModularTileEntity) {
 			IModularTileEntity modular = (IModularTileEntity) tile;
-			if(modular.getModular() != null && modular.getModular().getModuleManager() != null){
+			if (modular.getModular() != null && modular.getModular().getModuleManager() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
-				for(ModuleStack stack : (List<ModuleStack>)modular.getModular().getModuleManager().getModuleStacks()){
-					if(stack != null){
+				for ( ModuleStack stack : (List<ModuleStack>) modular.getModular().getModuleManager().getModuleStacks() ) {
+					if (stack != null) {
 						drops.add(stack.getItemStack());
 					}
 				}

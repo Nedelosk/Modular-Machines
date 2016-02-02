@@ -146,7 +146,7 @@ public abstract class Modular implements IModular, IWailaProvider {
 		}
 		return moduleManager;
 	}
-	
+
 	private ArrayList<ModuleStack> getWailaModules() {
 		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
 		for ( ModuleStack stack : (List<ModuleStack>) moduleManager.getModuleStacks() ) {

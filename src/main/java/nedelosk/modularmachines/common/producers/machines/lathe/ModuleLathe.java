@@ -3,6 +3,8 @@ package nedelosk.modularmachines.common.producers.machines.lathe;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.gui.WidgetProgressBar;
@@ -11,7 +13,6 @@ import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
 import nedelosk.modularmachines.api.modules.inventory.IModuleInventory;
-import nedelosk.modularmachines.api.modules.machines.ModuleMachineSaver;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeMode;
 import nedelosk.modularmachines.api.modules.machines.recipe.ModuleMachineRecipeModeSaver;
 import nedelosk.modularmachines.api.modules.machines.recipes.RecipeLathe.LatheModes;
@@ -75,13 +76,14 @@ public class ModuleLathe extends ModuleMachineRecipeMode {
 		return new ModuleLatheInventory(getUID(), itemInputs + itemOutputs);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleLatheGui(getUID());
 	}
-	
+
 	@Override
-	public IModuleSaver createSaver(ModuleStack stack){
+	public IModuleSaver createSaver(ModuleStack stack) {
 		return new ModuleMachineRecipeModeSaver(defaultMode);
 	}
 }

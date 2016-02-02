@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.fluids.FluidTankSimple;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modular.handlers.FluidHandler;
@@ -209,6 +211,7 @@ public class ModuleTankManager extends ModuleManager implements IModuleTankManag
 		return new ModuleTankManagerSaver(tankSlots);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleTankManagerGui<>(getUID());

@@ -10,9 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlocksModule extends Block {
+public class BlockModule extends Block {
 
-	public BlocksModule() {
+	public BlockModule() {
 		super(Material.iron);
 		setStepSound(soundTypeMetal);
 		setHardness(2.0F);

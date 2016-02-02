@@ -13,7 +13,7 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.managers.IModuleManager;
 import nedelosk.modularmachines.api.modules.managers.IModuleManagerSaver;
 import nedelosk.modularmachines.api.packets.PacketHandler;
-import nedelosk.modularmachines.api.packets.pages.PacketSelectManagerTab;
+import nedelosk.modularmachines.api.packets.PacketSelectManagerTab;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;

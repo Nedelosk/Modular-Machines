@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.modules.container.inventory;
 
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
@@ -31,19 +31,20 @@ public class InventoryContainer<M extends IModule, S extends IModuleSaver> imple
 	public void setInventory(IModuleInventory<M, S> inv) {
 		this.inventory = inv;
 	}
-	
+
 	@Override
 	public String getCategoryUID() {
 		return categoryUID;
 	}
-	
+
+	@Override
 	public void setCategoryUID(String categoryUID) {
 		this.categoryUID = categoryUID;
 	}
 
 	/* NBT */
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModularInventory modular) {
+	public void writeToNBT(NBTTagCompound nbt, IModularDefault modular) {
 		nbt.setString("CategoryUID", categoryUID);
 		if (inventory != null) {
 			nbt.setString("Module", inventory.getModuleUID());
@@ -53,7 +54,7 @@ public class InventoryContainer<M extends IModule, S extends IModuleSaver> imple
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModularInventory modular) {
+	public void readFromNBT(NBTTagCompound nbt, IModularDefault modular) {
 		categoryUID = nbt.getString("CategoryUID");
 		if (nbt.hasKey("Module")) {
 			String m = nbt.getString("Module");

@@ -3,6 +3,8 @@ package nedelosk.modularmachines.common.producers.machines.sawmill;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.forestcore.library.gui.IGuiBase;
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.gui.IModuleGui;
@@ -58,6 +60,7 @@ public class ModuleSawMill extends ModuleMachineRecipe {
 		return new ModuleSawMillInventory(getUID(), itemInputs + itemOutputs);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleSawMillGui(getUID());

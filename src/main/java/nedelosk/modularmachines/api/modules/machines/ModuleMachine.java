@@ -78,12 +78,12 @@ public abstract class ModuleMachine extends ModuleAddable implements IModuleMach
 	public boolean canAssembleModular(IModular modular, ModuleStack moduleStack) {
 		return true;
 	}
-	
+
 	@Override
-	public IModuleSaver createSaver(ModuleStack stack){
+	public IModuleSaver createSaver(ModuleStack stack) {
 		return new ModuleMachineSaver();
 	}
-	
+
 	/* WAILA */
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {

@@ -1,6 +1,6 @@
 package nedelosk.modularmachines.api.modules.machines.recipe;
 
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.inventory.ModuleInventory;
 import nedelosk.modularmachines.api.modules.machines.IModuleMachineSaver;
@@ -30,7 +30,7 @@ public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecip
 	}
 
 	@Override
-	public int getSizeInventory(ModuleStack<M, S> stack, IModularInventory modular) {
+	public int getSizeInventory(ModuleStack<M, S> stack, IModularDefault modular) {
 		return stack.getModule().getItemInputs(stack) + stack.getModule().getItemOutputs(stack);
 	}
 }

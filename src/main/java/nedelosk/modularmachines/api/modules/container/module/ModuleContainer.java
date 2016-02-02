@@ -28,11 +28,12 @@ public class ModuleContainer<M extends IModule, S extends IModuleSaver> implemen
 	public void setStack(ModuleStack<M, S> moduleStack) {
 		this.moduleStack = moduleStack;
 	}
-	
+
+	@Override
 	public void setCategoryUID(String categoryUID) {
 		this.categoryUID = categoryUID;
 	}
-	
+
 	@Override
 	public String getCategoryUID() {
 		return categoryUID;

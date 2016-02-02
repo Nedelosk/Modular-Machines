@@ -5,12 +5,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.client.renderer.IModularRenderer;
 import nedelosk.modularmachines.api.client.renderer.ModularMachineRenderer;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.basic.ModularInventory;
+import nedelosk.modularmachines.api.modular.basic.ModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModularMachine extends ModularInventory {
+public class ModularMachine extends ModularDefault {
 
 	public ModularMachine() {
 		super();

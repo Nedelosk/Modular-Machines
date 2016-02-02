@@ -1,9 +1,8 @@
 package nedelosk.modularmachines.common.blocks.tile;
 
 import nedelosk.forestday.common.blocks.tiles.TileMachineBase;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
-import nedelosk.modularmachines.api.utils.ModularException;
 import nedelosk.modularmachines.common.modular.ModularMachine;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -48,8 +47,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		if (modular != null && modular instanceof IModularInventory) {
-			return ((IModularInventory) modular).getGuiManager().getContainer(this, inventory);
+		if (modular != null && modular instanceof IModularDefault) {
+			return ((IModularDefault) modular).getInventoryManager().getContainer(this, inventory);
 		} else {
 			return null;
 		}
@@ -57,8 +56,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (modular != null && modular instanceof IModularInventory) {
-			return ((IModularInventory) modular).getGuiManager().getGUIContainer(this, inventory);
+		if (modular != null && modular instanceof IModularDefault) {
+			return ((IModularDefault) modular).getGuiManager().getGUIContainer(this, inventory);
 		} else {
 			return null;
 		}
@@ -78,7 +77,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 		}
 	}
 
-	public void assembleModular(){
+	@Override
+	public void assembleModular() {
 		modular.assemble();
 		modular.initModular();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

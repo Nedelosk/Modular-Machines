@@ -1,16 +1,16 @@
-package nedelosk.modularmachines.api.packets.pages;
+package nedelosk.modularmachines.api.packets;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import nedelosk.forestcore.library.packets.PacketTileEntity;
 import nedelosk.modularmachines.api.ModularMachinesApi;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.managers.IModuleManagerSaver;
-import nedelosk.modularmachines.api.packets.PacketHandler;
 import nedelosk.modularmachines.api.utils.ModularUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -49,18 +49,27 @@ public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> impleme
 	public IMessage onMessage(PacketSelectManagerTab message, MessageContext ctx) {
 		World world;
 		if (ctx.side == Side.CLIENT) {
-			world = Minecraft.getMinecraft().theWorld;
+			handleClient(message, ctx);
 		} else {
-			world = ctx.getServerHandler().playerEntity.worldObj;
-		}
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
-		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleName).getSaver()).setTab(message.tabID);
-		if (ctx.side == Side.SERVER) {
-			EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-			PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
-			getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
-			ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
+			handleServer(message, ctx);
 		}
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void handleClient(PacketSelectManagerTab message, MessageContext ctx) {
+		World world = Minecraft.getMinecraft().theWorld;
+		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
+		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleName).getSaver()).setTab(message.tabID);
+	}
+
+	private void handleServer(PacketSelectManagerTab message, MessageContext ctx) {
+		World world = ctx.getServerHandler().playerEntity.worldObj;
+		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
+		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleName).getSaver()).setTab(message.tabID);
+		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
+		PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
+		getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
+		ModularMachinesApi.handler.openGui(entityPlayerMP, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
 	}
 }

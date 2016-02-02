@@ -1,5 +1,8 @@
 package nedelosk.modularmachines.api.modules.basic;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modules.container.gui.GuiContainer;
 import nedelosk.modularmachines.api.modules.container.gui.IGuiContainer;
 import nedelosk.modularmachines.api.modules.container.gui.MultiGuiContainer;
@@ -13,9 +16,10 @@ import nedelosk.modularmachines.api.modules.container.module.MultiModuleContaine
 public class ModuleCategory implements IModuleCategory {
 
 	private final String UID;
-	private final Class<? extends IModuleContainer> moduleContainer;
-	private final Class<? extends IGuiContainer> guiContainer;
-	private final Class<? extends IInventoryContainer> inventoryContainer;
+	private Class<? extends IModuleContainer> moduleContainer;
+	@SideOnly(Side.CLIENT)
+	private Class<? extends IGuiContainer> guiContainer;
+	private Class<? extends IInventoryContainer> inventoryContainer;
 
 	private ModuleCategory(String UID, Class<? extends IModuleContainer> moduleContainer, Class<? extends IGuiContainer> guiContainer,
 			Class<? extends IInventoryContainer> inventoryContainer) {
@@ -44,11 +48,15 @@ public class ModuleCategory implements IModuleCategory {
 		if (isMulti) {
 			this.moduleContainer = MultiModuleContainer.class;
 			this.inventoryContainer = MultiInventoryContainer.class;
-			this.guiContainer = MultiGuiContainer.class;
+			if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+				this.guiContainer = MultiGuiContainer.class;
+			}
 		} else {
 			this.moduleContainer = ModuleContainer.class;
 			this.inventoryContainer = InventoryContainer.class;
-			this.guiContainer = GuiContainer.class;
+			if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+				this.guiContainer = GuiContainer.class;
+			}
 		}
 	}
 
@@ -62,6 +70,7 @@ public class ModuleCategory implements IModuleCategory {
 		return moduleContainer;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public Class<? extends IGuiContainer> getGuiContainerClass() {
 		return guiContainer;

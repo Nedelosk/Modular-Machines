@@ -11,7 +11,7 @@ import nedelosk.forestcore.library.gui.Widget;
 import nedelosk.forestcore.library.inventory.IContainerBase;
 import nedelosk.modularmachines.api.inventory.slots.SlotModular;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import nedelosk.modularmachines.client.gui.widget.WidgetBurningBar;
@@ -71,7 +71,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		if (modular.getUtilsManager().getEnergyHandler() != null) {
 			if (fuel > 0) {
 				if (modular.getUtilsManager().getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, energy, false) >= energy) {
@@ -102,7 +102,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	}
 
 	public boolean removeInputs(IModular modular, ModuleStack stack, int size) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
 			RecipeInput input = getInputs(modular, stack)[i];
 			if (input != null) {

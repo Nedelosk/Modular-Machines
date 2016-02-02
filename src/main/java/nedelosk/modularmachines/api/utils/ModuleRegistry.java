@@ -166,8 +166,8 @@ public class ModuleRegistry {
 			}
 			return false;
 		}
-		
-		public ModuleItem copy(){
+
+		public ModuleItem copy() {
 			return new ModuleItem(stack, moduleStack, material, ignorNBT);
 		}
 	}

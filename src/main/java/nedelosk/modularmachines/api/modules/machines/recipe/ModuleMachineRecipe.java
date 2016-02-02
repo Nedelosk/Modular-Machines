@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import nedelosk.modularmachines.api.modular.IModular;
-import nedelosk.modularmachines.api.modular.basic.IModularInventory;
+import nedelosk.modularmachines.api.modular.basic.IModularDefault;
 import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import nedelosk.modularmachines.api.modules.engine.IModuleEngineSaver;
@@ -55,7 +55,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 
 	/* RECIPE */
 	public RecipeItem[] getInputItems(IModular modular, ModuleStack stackProducer) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		RecipeItem[] inputs = new RecipeItem[getItemInputs(stackProducer)];
 		for ( int i = 0; i < getItemInputs(stackProducer); i++ ) {
 			ItemStack stack = tile.getModular().getInventoryManager().getStackInSlot(i, stackProducer);
@@ -65,7 +65,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	}
 
 	public RecipeItem[] getInputFluids(IModular modular, ModuleStack stack) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		List<TankData> datas = ModularUtils.getTankManager(modular).getModule().getDatas(modular, stack, TankMode.INPUT);
 		RecipeItem[] fluidInputs = new RecipeItem[getFluidInputs(stack)];
 		int inputs = fluidInputs.length;
@@ -83,7 +83,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 
 	@Override
 	public boolean removeInput(IModular modular, ModuleStack stack) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
 			RecipeItem input = getInputs(modular, stack)[i];
@@ -118,9 +118,10 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		if(!modular.isAssembled())
+		if (!modular.isAssembled()) {
 			return;
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		}
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
 		IModuleMachineSaver saver = (IModuleMachineSaver) stack.getSaver();
 		if (engineStack != null && tile.getEnergyStored(null) > 0 && saver != null) {
@@ -175,7 +176,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 
 	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
-		IModularTileEntity<IModularInventory> tile = modular.getMachine();
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
 		IModuleEngineSaver engineSaver = engineStack.getSaver();
 		if (engineSaver.getManager(engineStack).getOutputs() != null) {
