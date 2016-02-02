@@ -57,7 +57,7 @@ public class ButtonManagerTab<M extends IModuleManager, S extends IModuleManager
 		IModuleManagerSaver managerSaver = stack.getSaver();
 		if (!(tabID == managerSaver.getTab())) {
 			managerSaver.setTab(tabID);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID, manager.getUID()));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectManagerTab((TileEntity) tile, tabID, manager.getModuleUID()));
 		}
 	}
 

@@ -75,7 +75,7 @@ public class MultiModuleContainer<M extends IModule, S extends IModuleSaver> imp
 	@Override
 	public ModuleStack<M, S> getStack(String moduleUID) {
 		for ( ModuleStack<M, S> stack : moduleStacks ) {
-			if (stack.getModule().getUID().equals(moduleUID)) {
+			if (stack.getModule().getModuleUID().equals(moduleUID)) {
 				return stack;
 			}
 		}

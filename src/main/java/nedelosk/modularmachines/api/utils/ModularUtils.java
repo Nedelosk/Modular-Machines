@@ -21,15 +21,6 @@ import nedelosk.modularmachines.api.modules.managers.fluids.IModuleTankManagerSa
 
 public class ModularUtils {
 
-	/*
-	 * public static List<ModuleStack<IModuleWithFluid>>
-	 * getFluidProducers(IModular modular) { List<ModuleStack<IModuleWithFluid>>
-	 * stacks = new ArrayList(); for ( ModuleStack stack :
-	 * modular.getModuleStacks() ) { if (stack != null && stack.getModule() !=
-	 * null && stack.getModule() instanceof IModuleWithFluid) { if
-	 * (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
-	 * stacks.add(stack); } } } return stacks; }
-	 */
 	public static HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> getFluidProducers(IModular modular) {
 		HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = Maps.newHashMap();
 		for ( ModuleStack stack : (List<ModuleStack>) modular.getModuleManager().getModuleStacks() ) {
@@ -108,6 +99,9 @@ public class ModularUtils {
 
 	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularDefault modular,
 			IModuleInventory<M, S> inv) {
+		if (inv == null) {
+			return null;
+		}
 		return modular.getModuleManager().getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
 	}
 }

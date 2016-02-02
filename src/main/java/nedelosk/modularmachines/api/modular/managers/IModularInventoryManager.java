@@ -59,7 +59,7 @@ public interface IModularInventoryManager<M extends IModularDefault> extends IMo
 
 	boolean addToOutput(ItemStack output, int slotMin, int slotMax, ModuleStack moduleStack);
 
-	void searchForInventorys();
+	void addInventorys();
 
 	IModuleInventory getInventory(ModuleStack stack);
 }

@@ -30,8 +30,8 @@ public class PacketClientManagers extends PacketTileEntity<TileEntity> implement
 		IModularTileEntity<IModularDefault> tile = (IModularTileEntity) message.getTileEntity(world);
 		IModularInventoryManager inventoryManager = tile.getModular().getInventoryManager();
 		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-		inventoryManager.searchForInventorys();
-		guiManager.searchForGuis();
+		inventoryManager.addInventorys();
+		guiManager.addGuis();
 		return null;
 	}
 }

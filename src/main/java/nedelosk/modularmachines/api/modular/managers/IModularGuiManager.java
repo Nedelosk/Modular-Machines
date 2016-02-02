@@ -22,7 +22,7 @@ public interface IModularGuiManager extends IModularManager {
 
 	void setCurrentGui(IModuleGui gui);
 
-	void searchForGuis();
+	void addGuis();
 
 	IModuleGui getGui(ModuleStack stack);
 

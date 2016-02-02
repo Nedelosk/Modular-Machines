@@ -80,7 +80,6 @@ public class EventHandler {
 							}
 							player.setCurrentItemOrArmor(0, currentItem);
 						}
-						world.markBlockForUpdate(event.x, event.y, event.z);
 					}
 				}
 			}

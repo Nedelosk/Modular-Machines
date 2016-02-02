@@ -46,7 +46,7 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (guis.isEmpty()) {
-			searchForGuis();
+			addGuis();
 		}
 		String guiName = nbt.getString("Gui");
 		if (guiName == null || guiName.equals("")) {
@@ -100,25 +100,25 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public Map<String, IGuiContainer> getGuis() {
 		if (guis.isEmpty()) {
-			searchForGuis();
+			addGuis();
 		}
 		return guis;
 	}
 
 	@Override
-	public void searchForGuis() {
+	public void addGuis() {
 		if (modular == null) {
 			return;
 		}
 		for ( IModuleContainer container : (Collection<IModuleContainer>) modular.getModuleManager().getModuleContainers().values() ) {
 			if (container instanceof ISingleModuleContainer) {
-				if (!searchForGuis(((ISingleModuleContainer) container).getStack(), container)) {
+				if (!addGuis(((ISingleModuleContainer) container).getStack(), container)) {
 					continue;
 				}
 			} else if (container instanceof IMultiModuleContainer) {
 				IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>> multiContainer = (IMultiModuleContainer) container;
 				for ( ModuleStack stack : multiContainer.getStacks() ) {
-					if (!searchForGuis(stack, container)) {
+					if (!addGuis(stack, container)) {
 						continue;
 					}
 				}
@@ -126,7 +126,7 @@ public class ModularGuiManager implements IModularGuiManager {
 		}
 	}
 
-	protected boolean searchForGuis(ModuleStack stack, IModuleContainer container) {
+	protected boolean addGuis(ModuleStack stack, IModuleContainer container) {
 		IModule module = stack.getModule();
 		if (module == null || !(module instanceof IModuleDefault)) {
 			return false;
@@ -142,7 +142,13 @@ public class ModularGuiManager implements IModularGuiManager {
 	@Override
 	public void addGui(IModuleGui gui, ModuleStack stack, IModuleContainer moduleContainer) {
 		if (guis.get(gui.getCategoryUID()) == null) {
+			if (ModuleRegistry.getCategory(gui.getCategoryUID()) == null) {
+				return;
+			}
 			Class<? extends IGuiContainer> containerClass = ModuleRegistry.getCategory(gui.getCategoryUID()).getGuiContainerClass();
+			if (containerClass == null) {
+				return;
+			}
 			IGuiContainer container;
 			try {
 				if (containerClass.isInterface()) {
@@ -165,8 +171,10 @@ public class ModularGuiManager implements IModularGuiManager {
 				int index = ((IMultiModuleContainer) moduleContainer).getIndex(stack);
 				((IMultiGuiContainer) container).addGui(index, gui);
 			}
-			container.setCategoryUID(stack.getModule().getCategoryUID());
-			guis.put(gui.getCategoryUID(), container);
+			if (container != null) {
+				container.setCategoryUID(stack.getModule().getCategoryUID());
+				guis.put(gui.getCategoryUID(), container);
+			}
 		} else {
 			IGuiContainer container = guis.get(gui.getCategoryUID());
 			if (container instanceof IMultiGuiContainer) {

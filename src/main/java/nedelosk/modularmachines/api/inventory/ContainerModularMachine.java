@@ -22,20 +22,24 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 	public InventoryPlayer inventory;
 	public IModuleInventory currentInventory;
 
-	public ContainerModularMachine(T tileModularMachine, InventoryPlayer inventory, IModuleInventory currentInventory) {
-		super(tileModularMachine, inventory);
+	public ContainerModularMachine(T tileModularMachine, InventoryPlayer inventoryPlayer, IModuleInventory currentInventory) {
+		super(tileModularMachine, inventoryPlayer);
 		this.currentInventory = currentInventory;
+		addInventory(inventoryPlayer);
+		addSlots(inventoryPlayer);
 	}
 
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
-		this.inventory = inventoryPlayer;
-		ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
 		if (currentInventory != null) {
-			List<Slot> slots = currentInventory.addSlots(this, inventoryBase.getModular(), stack);
-			if (slots != null && !slots.isEmpty()) {
-				for ( Slot slot : slots ) {
-					addSlotToContainer(slot);
+			this.inventory = inventoryPlayer;
+			ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
+			if (currentInventory != null) {
+				List<Slot> slots = currentInventory.addSlots(this, inventoryBase.getModular(), stack);
+				if (slots != null && !slots.isEmpty()) {
+					for ( Slot slot : slots ) {
+						addSlotToContainer(slot);
+					}
 				}
 			}
 		}
@@ -43,15 +47,17 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 
 	@Override
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
-		ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
-		int i = currentInventory.getPlayerInventoryYPosition(inventoryBase.getModular(), stack);
-		for ( int i1 = 0; i1 < 3; i1++ ) {
-			for ( int l1 = 0; l1 < 9; l1++ ) {
-				addSlotToContainer(new Slot(inventoryPlayer, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));
+		if (currentInventory != null) {
+			ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
+			int i = currentInventory.getPlayerInventoryYPosition(inventoryBase.getModular(), stack);
+			for ( int i1 = 0; i1 < 3; i1++ ) {
+				for ( int l1 = 0; l1 < 9; l1++ ) {
+					addSlotToContainer(new Slot(inventoryPlayer, l1 + i1 * 9 + 9, 8 + l1 * 18, i + i1 * 18));
+				}
 			}
-		}
-		for ( int j1 = 0; j1 < 9; j1++ ) {
-			addSlotToContainer(new Slot(inventoryPlayer, j1, 8 + j1 * 18, i + 58));
+			for ( int j1 = 0; j1 < 9; j1++ ) {
+				addSlotToContainer(new Slot(inventoryPlayer, j1, 8 + j1 * 18, i + 58));
+			}
 		}
 	}
 

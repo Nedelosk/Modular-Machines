@@ -26,8 +26,8 @@ public class MultiInventoryContainer<M extends IModule, S extends IModuleSaver> 
 	}
 
 	@Override
-	public void addInventory(int index, IModuleInventory<M, S> stack) {
-		inventorys.add(index, stack);
+	public void addInventory(int index, IModuleInventory<M, S> inventory) {
+		inventorys.add(index, inventory);
 	}
 
 	@Override

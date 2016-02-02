@@ -9,11 +9,11 @@ import com.google.common.collect.Maps;
 
 import nedelosk.modularmachines.api.modular.IModular;
 import nedelosk.modularmachines.api.modules.IModule;
+import nedelosk.modularmachines.api.modules.IModuleAddable;
+import nedelosk.modularmachines.api.modules.basic.IModuleCategory;
 import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.ISingleModuleContainer;
-import nedelosk.modularmachines.api.modules.container.module.ModuleContainer;
-import nedelosk.modularmachines.api.modules.container.module.MultiModuleContainer;
 import nedelosk.modularmachines.api.utils.ModuleRegistry;
 import nedelosk.modularmachines.api.utils.ModuleStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,29 +32,23 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 		NBTTagList listTag = nbt.getTagList("Modules", 10);
 		for ( int i = 0; i < listTag.tagCount(); i++ ) {
 			NBTTagCompound modulesTag = listTag.getCompoundTagAt(i);
-			IModuleContainer container;
-			IModule module;
-			if (modulesTag.getBoolean("IsMulti")) {
-				container = new MultiModuleContainer();
-			} else {
-				container = new ModuleContainer();
-			}
-			container.readFromNBT(modulesTag, modular);
-			if (modulesTag.getBoolean("IsMulti")) {
-				if (((IMultiModuleContainer) container).getStacks().isEmpty() || ((IMultiModuleContainer) container).getStack(0) == null) {
-					continue;
-				}
-				module = ((IMultiModuleContainer) container).getStack(0).getModule();
-			} else {
-				if (((ISingleModuleContainer) container).getStack() == null) {
-					continue;
-				}
-				module = ((ISingleModuleContainer) container).getStack().getModule();
-			}
-			if (module == null) {
+			String categoryUID = modulesTag.getString("CategoryUID");
+			IModuleCategory category = ModuleRegistry.getCategory(categoryUID);
+			if (category == null) {
 				continue;
 			}
-			modules.put(module.getCategoryUID(), container);
+			Class<? extends IModuleContainer> containerClass = category.getModuleContainerClass();
+			IModuleContainer container;
+			try {
+				if (containerClass.isInterface()) {
+					continue;
+				}
+				container = containerClass.newInstance();
+			} catch (Exception e) {
+				continue;
+			}
+			container.readFromNBT(modulesTag, modular);
+			modules.put(categoryUID, container);
 		}
 	}
 
@@ -65,7 +59,7 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 			NBTTagCompound modulesTag = new NBTTagCompound();
 			IModuleContainer container = module.getValue();
 			container.writeToNBT(modulesTag, modular);
-			modulesTag.setBoolean("IsMulti", container instanceof IMultiModuleContainer);
+			modulesTag.setString("CategoryUID", container.getCategoryUID());
 			listTag.appendTag(modulesTag);
 		}
 		nbt.setTag("Modules", listTag);
@@ -96,6 +90,9 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 			return false;
 		}
 		if (modules.get(module.getCategoryUID()) == null) {
+			if (ModuleRegistry.getCategory(module.getCategoryUID()) == null) {
+				return false;
+			}
 			Class<? extends IModuleContainer> containerClass = ModuleRegistry.getCategory(module.getCategoryUID()).getModuleContainerClass();
 			IModuleContainer container;
 			try {
@@ -106,6 +103,13 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 			} catch (Exception e) {
 				return false;
 			}
+			if (stack.getModule() instanceof IModuleAddable) {
+				try {
+					((IModuleAddable) stack.getModule()).onAddInModular(modular, stack);
+				} catch (Exception e) {
+					return false;
+				}
+			}
 			if (container instanceof ISingleModuleContainer) {
 				((ISingleModuleContainer) container).setStack(stack);
 			} else if (container instanceof IMultiModuleContainer) {
@@ -113,13 +117,25 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 			}
 			container.setCategoryUID(stack.getModule().getCategoryUID());
 			modules.put(module.getCategoryUID(), container);
+			return true;
 		} else {
 			IModuleContainer container = modules.get(module.getCategoryUID());
 			if (container instanceof IMultiModuleContainer) {
-				((IMultiModuleContainer) container).addStack(stack);
+				if (((IMultiModuleContainer) container).getStack(stack.getModule().getModuleUID()) == null) {
+					if (stack.getModule() instanceof IModuleAddable) {
+						try {
+							((IModuleAddable) stack.getModule()).onAddInModular(modular, stack);
+						} catch (Exception e) {
+							return false;
+						}
+					}
+					((IMultiModuleContainer) container).addStack(stack);
+					return true;
+				}
+				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

@@ -201,14 +201,14 @@ public class ModularMachineRenderer {
 			this.Battery_Base.setRotationPoint(-7.5F, 12.5F, -4.0F);
 			this.Battery_Base.addBox(0.0F, 0.0F, 0.0F, 1, 8, 8, 0.0F);
 			int energy;
-			if(modular.isAssembled()){
-				if(modular.getUtilsManager().getEnergyHandler() != null){
-				energy = (modular.getUtilsManager().getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
-						/ (modular.getUtilsManager().getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
-				}else{
+			if (modular.isAssembled()) {
+				if (modular.getUtilsManager().getEnergyHandler() != null) {
+					energy = (modular.getUtilsManager().getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
+							/ (modular.getUtilsManager().getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
+				} else {
 					energy = 0;
 				}
-			}else{
+			} else {
 				energy = 0;
 			}
 			baseTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_base_" + energy + ".png");

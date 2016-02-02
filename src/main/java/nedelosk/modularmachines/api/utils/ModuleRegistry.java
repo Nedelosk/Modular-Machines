@@ -27,18 +27,30 @@ public class ModuleRegistry {
 	}
 
 	public static IModuleCategory getCategory(String categoryUID) {
+		if (categoryUID == null) {
+			return null;
+		}
 		return categorys.get(categoryUID);
 	}
 
 	public static IModule registerModule(IModule module) {
+		if (module == null) {
+			return null;
+		}
 		return moduleRegistry.register(module, module.getUID());
 	}
 
 	public static IModule getModule(ResourceLocation uid) {
+		if (uid == null) {
+			return null;
+		}
 		return moduleRegistry.get(uid);
 	}
 
 	public static IModule getModule(String uid) {
+		if (uid == null) {
+			return null;
+		}
 		return moduleRegistry.get(new ResourceLocation(uid));
 	}
 

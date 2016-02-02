@@ -78,7 +78,7 @@ public class BlockModularMachine extends BlockModular {
 						if (e != null) {
 							player.addChatMessage(new ChatComponentText(e.getMessage()));
 						} else {
-							modularMachine.getModular().getInventoryManager().searchForInventorys();
+							modularMachine.getModular().getInventoryManager().addInventorys();
 							PacketHandler.INSTANCE.sendTo(new PacketClientManagers(modularMachine), (EntityPlayerMP) player);
 						}
 						return true;
@@ -96,9 +96,8 @@ public class BlockModularMachine extends BlockModular {
 								}
 								player.setCurrentItemOrArmor(0, currentItem);
 							}
+							modularMachine.getModular().getInventoryManager().addInventorys();
 						}
-						modularMachine.getModular().getInventoryManager().searchForInventorys();
-						PacketHandler.INSTANCE.sendTo(new PacketClientManagers(modularMachine), (EntityPlayerMP) player);
 						return addModule;
 					}
 				} else {

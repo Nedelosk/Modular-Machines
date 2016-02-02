@@ -14,11 +14,10 @@ import nedelosk.modularmachines.api.modular.tile.IModularTileEntity;
 import nedelosk.modularmachines.api.modules.IModule;
 import nedelosk.modularmachines.api.modules.IModuleDefault;
 import nedelosk.modularmachines.api.modules.IModuleSaver;
+import nedelosk.modularmachines.api.modules.basic.IModuleCategory;
 import nedelosk.modularmachines.api.modules.container.inventory.IInventoryContainer;
 import nedelosk.modularmachines.api.modules.container.inventory.IMultiInventoryContainer;
 import nedelosk.modularmachines.api.modules.container.inventory.ISingleInventoryContainer;
-import nedelosk.modularmachines.api.modules.container.inventory.InventoryContainer;
-import nedelosk.modularmachines.api.modules.container.inventory.MultiInventoryContainer;
 import nedelosk.modularmachines.api.modules.container.module.IModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.IMultiModuleContainer;
 import nedelosk.modularmachines.api.modules.container.module.ISingleModuleContainer;
@@ -43,7 +42,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	}
 
 	@Override
-	public void searchForInventorys() {
+	public void addInventorys() {
 		for ( Entry<String, IModuleContainer> entryContainer : (Set<Entry<String, IModuleContainer>>) modular.getModuleManager().getModuleContainers()
 				.entrySet() ) {
 			Class<? extends IInventoryContainer> containerClass = ModuleRegistry.getCategory(entryContainer.getKey()).getInventoryContainerClass();
@@ -88,7 +87,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	@Override
 	public IModuleInventory getInventory(ModuleStack stack) {
 		if (inventorys.isEmpty()) {
-			searchForInventorys();
+			addInventorys();
 		}
 		IModule module = stack.getModule();
 		IInventoryContainer container = inventorys.get(module.getCategoryUID());
@@ -124,30 +123,24 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagList listTag = nbt.getTagList("Inventorys", 10);
 		for ( int i = 0; i < listTag.tagCount(); i++ ) {
-			NBTTagCompound modulesTag = listTag.getCompoundTagAt(i);
-			IInventoryContainer container;
-			IModuleInventory inventory;
-			if (modulesTag.getBoolean("IsMulti")) {
-				container = new MultiInventoryContainer();
-			} else {
-				container = new InventoryContainer();
-			}
-			container.readFromNBT(modulesTag, modular);
-			if (modulesTag.getBoolean("IsMulti")) {
-				if (((IMultiInventoryContainer) container).getInventorys().isEmpty() || ((IMultiInventoryContainer) container).getInventory(0) == null) {
-					continue;
-				}
-				inventory = ((IMultiInventoryContainer) container).getInventory(0);
-			} else {
-				if (((ISingleInventoryContainer) container).getInventory() == null) {
-					continue;
-				}
-				inventory = ((ISingleInventoryContainer) container).getInventory();
-			}
-			if (inventory == null) {
+			NBTTagCompound inventoryTag = listTag.getCompoundTagAt(i);
+			String categoryUID = inventoryTag.getString("CategoryUID");
+			IModuleCategory category = ModuleRegistry.getCategory(categoryUID);
+			if (category == null) {
 				continue;
 			}
-			inventorys.put(inventory.getCategoryUID(), container);
+			Class<? extends IInventoryContainer> containerClass = category.getInventoryContainerClass();
+			IInventoryContainer container;
+			try {
+				if (containerClass.isInterface()) {
+					continue;
+				}
+				container = containerClass.newInstance();
+			} catch (Exception e) {
+				continue;
+			}
+			container.readFromNBT(inventoryTag, modular);
+			inventorys.put(categoryUID, container);
 		}
 		String inventoryUID = nbt.getString("Inventory");
 		if (inventoryUID == null || inventoryUID.equals("")) {
@@ -161,11 +154,11 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	public void writeToNBT(NBTTagCompound nbt) {
 		NBTTagList listTag = new NBTTagList();
 		for ( Entry<String, IInventoryContainer> module : inventorys.entrySet() ) {
-			NBTTagCompound modulesTag = new NBTTagCompound();
+			NBTTagCompound inventoryTag = new NBTTagCompound();
 			IInventoryContainer container = module.getValue();
-			container.writeToNBT(modulesTag, modular);
-			modulesTag.setBoolean("IsMulti", container instanceof IMultiInventoryContainer);
-			listTag.appendTag(modulesTag);
+			container.writeToNBT(inventoryTag, modular);
+			inventoryTag.setString("CategoryUID", container.getCategoryUID());
+			listTag.appendTag(inventoryTag);
 		}
 		nbt.setTag("Inventorys", listTag);
 		if (currentInventory == null) {
@@ -376,7 +369,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 	@Override
 	public IModuleInventory getCurrentInventory() {
 		if (inventorys.isEmpty()) {
-			searchForInventorys();
+			addInventorys();
 		}
 		return currentInventory;
 	}
