@@ -4,6 +4,7 @@ import java.util.Random;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import de.nedelosk.forestmods.common.config.Config;
+import de.nedelosk.forestmods.common.core.modules.ModuleCore;
 import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -30,25 +31,25 @@ public class WorldGenerator implements IWorldGenerator {
 
 	private void generateSurface(World world, Random random, int x, int z) {
 		if (Config.generateOre[0]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 0, world, random, x, z, 5 + random.nextInt(6), 20, 10, 70);
 		}
 		if (Config.generateOre[1]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 1, world, random, x, z, 3 + random.nextInt(2), 10, 0, 40);
 		}
 		if (Config.generateOre[2]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 2, world, random, x, z, 7 + random.nextInt(3), 8, 7, 55);
 		}
 		if (Config.generateOre[3]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 3, world, random, x, z, 4 + random.nextInt(2), 8, 16, 36);
 		}
 		if (Config.generateOre[4]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 4, world, random, x, z, 3 + random.nextInt(2), 8, 11, 27);
 		}
 		if (Config.generateOre[5]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 5, world, random, x, z, 2 + random.nextInt(3), 1, 0, 25);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 5, world, random, x, z, 2 + random.nextInt(3), 1, 0, 25);
 		}
 		if (Config.generateOre[6]) {
-			generateOre(ModuleForestDay.BlockManager.Ore.block(), 6, world, random, x, z, 4 + random.nextInt(3), 3, 20, 6);
+			generateOre(ModuleCore.BlockManager.Ore.block(), 6, world, random, x, z, 4 + random.nextInt(3), 3, 6, 20);
 		}
 	}
 

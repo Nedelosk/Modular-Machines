@@ -1,31 +1,15 @@
 [
 {
-  "modid": "ForestDay",
-  "name": "Forest Day",
+  "modid": "ForestMods",
+  "name": "Forest-Mods",
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2371822-forest-day",
+  "url": "http://minecraft.curseforge.com/projects/forest-mods",
   "updateUrl": "",
   "authorList": ["Nedelosk"],
   "credits": "",
-  "logoFile": "/assets/forestday/logo.png",
-  "screenshots": [],
-  "dependencies": [
-     "mod_MinecraftForge"
-  ]
-},
-{
-  "modid": "ModularMachines",
-  "name": "Modular Machines",
-  "description": "",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Nedelosk"],
-  "credits": "",
-  "logoFile": "/assets/modularmachines/logo.png",
+  "logoFile": "/assets/forestmods/logo.png",
   "screenshots": [],
   "dependencies": [
      "mod_MinecraftForge"

@@ -133,7 +133,7 @@ public class ModuleForestDay extends AModule {
 	public void postInit(IModuleManager manager) {
 		for ( Entry<ItemStack, ItemStack> recipes : (Set<Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet() ) {
 			if (recipes.getValue().getItem() == Items.coal && recipes.getValue().getItemDamage() == 1
-					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null) {
+					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null&& Block.getBlockFromItem(recipes.getKey().getItem()) != Blocks.air) {
 				woodManager.add(recipes.getKey().getUnlocalizedName(), recipes.getKey(), recipes.getValue());
 			}
 		}
