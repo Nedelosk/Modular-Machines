@@ -1,0 +1,34 @@
+package de.nedelosk.forestmods.common.modular.recipes;
+
+import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.recipes.IRecipeManager;
+import de.nedelosk.forestmods.api.recipes.RecipeItem;
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class RecipeManagerEnergy extends RecipeManager {
+
+	public RecipeManagerEnergy() {
+	}
+
+	public RecipeManagerEnergy(IModular modular, String recipeName, int materialModifier, RecipeItem[] inputs, Object... craftingModifier) {
+		super(modular, recipeName, materialModifier, inputs, craftingModifier);
+	}
+
+	@Override
+	public boolean removeMaterial() {
+		if (modular == null || modular.getUtilsManager() == null || modular.getUtilsManager().getEnergyHandler() == null) {
+			return false;
+		}
+		if (modular.getUtilsManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, materialModifier, false) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public IRecipeManager createManager(IModular modular, String recipeName, int speedModifier, int materialModifier, RecipeItem[] inputs,
+			Object... craftingModifier) {
+		return new RecipeManagerEnergy(modular, recipeName, materialModifier, inputs, craftingModifier);
+	}
+}
