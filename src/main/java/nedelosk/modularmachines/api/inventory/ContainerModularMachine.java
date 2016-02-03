@@ -34,12 +34,10 @@ public class ContainerModularMachine<T extends TileBaseInventory & IModularTileE
 		if (currentInventory != null) {
 			this.inventory = inventoryPlayer;
 			ModuleStack stack = ModularUtils.getModuleStackFromInventory(inventoryBase.getModular(), currentInventory);
-			if (currentInventory != null) {
-				List<Slot> slots = currentInventory.addSlots(this, inventoryBase.getModular(), stack);
-				if (slots != null && !slots.isEmpty()) {
-					for ( Slot slot : slots ) {
-						addSlotToContainer(slot);
-					}
+			List<Slot> slots = currentInventory.addSlots(this, inventoryBase.getModular(), stack);
+			if (slots != null && !slots.isEmpty()) {
+				for ( Slot slot : slots ) {
+					addSlotToContainer(slot);
 				}
 			}
 		}
