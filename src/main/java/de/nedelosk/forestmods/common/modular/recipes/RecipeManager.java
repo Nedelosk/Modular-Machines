@@ -1,11 +1,10 @@
 package de.nedelosk.forestmods.common.modular.recipes;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
+import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
 import de.nedelosk.forestmods.api.recipes.IRecipeManager;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -60,8 +59,10 @@ public abstract class RecipeManager implements IRecipeManager {
 		nbt.setString("RecipeName", recipeName);
 		nbt.setInteger("MaterialModifier", materialModifier);
 		nbt.setInteger("SpeedModifier", speedModifier);
-		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModularUtils.getMachine(modular).getStack().getModule();
-		machine.writeCraftingModifiers(nbt, modular, craftingModifiers);
+		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeName);
+		if (handler != null) {
+			handler.writeCraftingModifiers(nbt, craftingModifiers);
+		}
 		NBTTagList list = new NBTTagList();
 		for ( RecipeItem input : inputs ) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
@@ -82,8 +83,11 @@ public abstract class RecipeManager implements IRecipeManager {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeItem.readFromNBT(nbtTag);
 		}
-		IModuleMachineRecipe machine = (IModuleMachineRecipe) ModularUtils.getMachine(modular).getStack().getModule();
-		Object[] craftingModifiers = machine.readCraftingModifiers(nbt, modular);
+		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeName);
+		Object[] craftingModifiers = null;
+		if (handler != null) {
+			craftingModifiers = handler.readCraftingModifiers(nbt);
+		}
 		if (RecipeRegistry.getRecipe(recipeName, inputs, craftingModifiers) == null) {
 			return null;
 		}

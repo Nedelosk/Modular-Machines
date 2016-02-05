@@ -11,11 +11,11 @@ public class ItemFlintAxe extends ItemAxe {
 		super(mat);
 		this.setCreativeTab(Tabs.tabForestMods);
 		this.setTextureName("forestday:tools/axe_flint");
-		setUnlocalizedName(Registry.setUnlocalizedItemName("axe.flint", "fd"));
+		setUnlocalizedName(Registry.setUnlocalizedItemName("axe.flint"));
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedItemName("axe.flint", "fd");
+		return Registry.setUnlocalizedItemName("axe.flint");
 	}
 }

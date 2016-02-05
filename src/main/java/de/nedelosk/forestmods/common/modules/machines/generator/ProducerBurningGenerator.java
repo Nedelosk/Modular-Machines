@@ -131,7 +131,7 @@ public class ProducerBurningGenerator extends ProducerGenerator {
 	}
 
 	@Override
-	public String getRecipeName(ModuleStack stack) {
+	public String getRecipeCategory(ModuleStack stack) {
 		return null;
 	}
 

@@ -39,7 +39,7 @@ public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe, S extends IM
 
 	@Optional.Method(modid = "NotEnoughItems")
 	protected void openNEI(ModuleStack<M, S> stack) {
-		GuiCraftingRecipe.openRecipeGui("ModularMachines" + stack.getModule().getRecipeName(stack));
+		GuiCraftingRecipe.openRecipeGui("ModularMachines" + stack.getModule().getRecipeCategory(stack));
 	}
 
 	@Override

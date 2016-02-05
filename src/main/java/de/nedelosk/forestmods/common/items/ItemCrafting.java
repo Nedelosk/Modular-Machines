@@ -50,6 +50,6 @@ public class ItemCrafting extends ModularItem {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("crafting" + uln + "." + itemstack.getItemDamage(), "mm");
+		return Registry.setUnlocalizedItemName("crafting" + uln + "." + itemstack.getItemDamage());
 	}
 }

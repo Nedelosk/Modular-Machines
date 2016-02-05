@@ -116,7 +116,7 @@ public abstract class Registry {
 		return item;
 	}
 
-	public static String setUnlocalizedItemName(String name, String modName) {
-		return "forest." + modName + ".item." + name;
+	public static String setUnlocalizedItemName(String name) {
+		return "forest.item." + name;
 	}
 }

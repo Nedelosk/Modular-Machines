@@ -23,7 +23,7 @@ public class ItemToolForestday extends Item {
 		this.setMaxStackSize(1);
 		this.name = name;
 		this.setTextureName("forestday:tools/" + name);
-		setUnlocalizedName(Registry.setUnlocalizedItemName("tool." + name, "fd"));
+		setUnlocalizedName(Registry.setUnlocalizedItemName("tool." + name));
 	}
 
 	protected int tier;

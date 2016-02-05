@@ -12,24 +12,29 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public final class RecipeModuleAssembler extends Recipe {
 
-	private RecipeModuleAssembler(RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy) {
-		super(input, output, speedModifier, energy, "AssemblerModule");
+	public RecipeModuleAssembler(String recipeName, RecipeItem[] inputs, RecipeItem[] outputs, int speedModifier, int energy, String recipeCategory,
+			Object[] objects) {
+		super(recipeName, inputs, outputs, speedModifier, energy, recipeCategory, objects);
 	}
 
-	public RecipeModuleAssembler(RecipeItem[] input, RecipeItem output, int speedModifier, int energy) {
-		this(input, new RecipeItem[] { output }, speedModifier, energy);
+	private RecipeModuleAssembler(String recipeName, RecipeItem[] input, RecipeItem[] output, int speedModifier, int energy) {
+		super(recipeName, input, output, speedModifier, energy, "AssemblerModule");
 	}
 
-	public RecipeModuleAssembler(RecipeItem[] input, RecipeItem output, RecipeItem output1, int speedModifier, int energy) {
-		this(input, new RecipeItem[] { output, output1 }, speedModifier, energy);
+	public RecipeModuleAssembler(String recipeName, RecipeItem[] input, RecipeItem output, int speedModifier, int energy) {
+		this(recipeName, input, new RecipeItem[] { output }, speedModifier, energy);
 	}
 
-	public RecipeModuleAssembler(RecipeItem output, RecipeItem output1, int speedModifier, int energy, Object... inputs) {
-		this(parseItems(inputs), new RecipeItem[] { output, output1 }, speedModifier, energy);
+	public RecipeModuleAssembler(String recipeName, RecipeItem[] input, RecipeItem output, RecipeItem output1, int speedModifier, int energy) {
+		this(recipeName, input, new RecipeItem[] { output, output1 }, speedModifier, energy);
 	}
 
-	public RecipeModuleAssembler(RecipeItem output, int speedModifier, int energy, Object... inputs) {
-		this(parseItems(inputs), new RecipeItem[] { output }, speedModifier, energy);
+	public RecipeModuleAssembler(String recipeName, RecipeItem output, RecipeItem output1, int speedModifier, int energy, Object... inputs) {
+		this(recipeName, parseItems(inputs), new RecipeItem[] { output, output1 }, speedModifier, energy);
+	}
+
+	public RecipeModuleAssembler(String recipeName, RecipeItem output, int speedModifier, int energy, Object... inputs) {
+		this(recipeName, parseItems(inputs), new RecipeItem[] { output }, speedModifier, energy);
 	}
 
 	private static RecipeItem[] parseItems(Object[] recipe) {

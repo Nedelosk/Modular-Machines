@@ -15,7 +15,7 @@ public class SlotModularInput extends SlotModular {
 	public <M extends IModuleMachineRecipe, S extends IModuleMachineSaver> SlotModularInput(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_,
 			int p_i1824_4_, ModuleStack<M, S> stack) {
 		super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_, stack);
-		this.recipeName = stack.getModule().getRecipeName(stack);
+		this.recipeName = stack.getModule().getRecipeCategory(stack);
 	}
 
 	@Override

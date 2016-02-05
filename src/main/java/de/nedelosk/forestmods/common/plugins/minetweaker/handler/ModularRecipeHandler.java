@@ -86,12 +86,12 @@ public class ModularRecipeHandler {
 
 		@Override
 		public String describe() {
-			return "Adding " + recipe.getRecipeName() + " Recipe";
+			return "Adding " + recipe.getRecipeCategory() + " Recipe";
 		}
 
 		@Override
 		public String describeUndo() {
-			return "Removing" + recipe.getRecipeName() + " Recipe";
+			return "Removing" + recipe.getRecipeCategory() + " Recipe";
 		}
 
 		@Override

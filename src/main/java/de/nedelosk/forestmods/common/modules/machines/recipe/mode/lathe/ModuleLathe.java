@@ -12,6 +12,7 @@ import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe;
 import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
@@ -57,8 +58,13 @@ public class ModuleLathe extends ModuleMachineRecipeMode {
 	}
 
 	@Override
-	public String getRecipeName(ModuleStack stack) {
+	public String getRecipeCategory(ModuleStack stack) {
 		return "Lathe";
+	}
+
+	@Override
+	public Class<? extends IRecipe> getRecipeClass() {
+		return RecipeLathe.class;
 	}
 
 	@Override

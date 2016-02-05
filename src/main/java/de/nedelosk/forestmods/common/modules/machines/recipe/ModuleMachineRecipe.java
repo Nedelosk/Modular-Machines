@@ -2,6 +2,8 @@ package de.nedelosk.forestmods.common.modules.machines.recipe;
 
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.utils.WorldUtil;
@@ -17,6 +19,7 @@ import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
 import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManager.TankMode;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
+import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
 import de.nedelosk.forestmods.api.recipes.IRecipeManager;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
@@ -48,6 +51,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 		this.fluidInputs = 0;
 		this.fluidOutputs = 0;
 		this.speed = speed;
+		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
 	public ModuleMachineRecipe(String moduleUID, String moduleModifier, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
@@ -57,6 +61,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 		this.fluidInputs = fluidInputs;
 		this.fluidOutputs = fluidOutputs;
 		this.speed = speed;
+		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
 	/* RECIPE */
@@ -90,7 +95,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	@Override
 	public boolean removeInput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularDefault> tile = modular.getMachine();
-		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
+		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
 			RecipeItem input = getInputs(modular, stack)[i];
 			RecipeItem[] inputs = recipe.getInputs();
@@ -137,7 +142,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 			int burnTimeTotal = engineSaver.getBurnTimeTotal(engineStack);
 			IRecipeManager manager = engineSaver.getManager(engineStack);
 			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
-				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeName(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
+				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
 				if (manager != null) {
 					if (addOutput(modular, stack)) {
 						engineSaver.setManager(null);
@@ -151,7 +156,7 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 					}
 					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
 					int burnTimeEngine = engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier();
-					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeName(), recipe.getRequiredMaterial() / burnTimeEngine,
+					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeCategory(), recipe.getRequiredMaterial() / burnTimeEngine,
 							getInputs(modular, stack), getCraftingModifiers(modular, stack)));
 					if (!removeInput(modular, stack)) {
 						engineSaver.setManager(null);
@@ -212,11 +217,21 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	}
 
 	@Override
-	public void writeCraftingModifiers(NBTTagCompound nbt, IModular modular, Object[] craftingModifiers) {
+	public void writeCraftingModifiers(NBTTagCompound nbt, Object[] craftingModifiers) {
 	}
 
 	@Override
-	public Object[] readCraftingModifiers(NBTTagCompound nbt, IModular modular) {
+	public Object[] readCraftingModifiers(NBTTagCompound nbt) {
+		return null;
+	}
+
+	@Override
+	public Object[] parseCraftingModifiers(JsonObject object) {
+		return null;
+	}
+
+	@Override
+	public JsonObject writeCraftingModifiers(Object[] objects) {
 		return null;
 	}
 
@@ -251,6 +266,41 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 		return new ModuleMachineRecipeGui(getUID());
 	}
 
+	public abstract Class<? extends IRecipe> getRecipeClass();
+
 	@Override
 	public abstract IModuleInventory createInventory(ModuleStack stack);
+
+	public class ModuleRecipeHandler implements IRecipeHandler {
+
+		@Override
+		public JsonObject writeCraftingModifiers(Object[] objects) {
+			return ModuleMachineRecipe.this.writeCraftingModifiers(objects);
+		}
+
+		@Override
+		public Object[] parseCraftingModifiers(JsonObject object) {
+			return ModuleMachineRecipe.this.parseCraftingModifiers(object);
+		}
+
+		@Override
+		public void writeCraftingModifiers(NBTTagCompound nbt, Object[] craftingModifiers) {
+			ModuleMachineRecipe.this.writeCraftingModifiers(nbt, craftingModifiers);
+		}
+
+		@Override
+		public Object[] readCraftingModifiers(NBTTagCompound nbt) {
+			return ModuleMachineRecipe.this.readCraftingModifiers(nbt);
+		}
+
+		@Override
+		public String getRecipeCategory() {
+			return ModuleMachineRecipe.this.getRecipeCategory(null);
+		}
+
+		@Override
+		public Class<? extends IRecipe> getRecipeClass() {
+			return ModuleMachineRecipe.this.getRecipeClass();
+		}
+	}
 }

@@ -21,7 +21,7 @@ public abstract class ModuleMachineRecipeInventory<M extends IModuleMachineRecip
 	@Override
 	public boolean transferInput(ModuleStack<M, S> stackModule, IModularTileEntity tile, EntityPlayer player, int slotID, Container container,
 			ItemStack stackItem) {
-		RecipeItem input = RecipeRegistry.getRecipeInput(stackModule.getModule().getRecipeName(stackModule), new RecipeItem(slotID, stackItem));
+		RecipeItem input = RecipeRegistry.getRecipeInput(stackModule.getModule().getRecipeCategory(stackModule), new RecipeItem(slotID, stackItem));
 		if (input != null) {
 			if (mergeItemStack(stackItem, 36 + input.slotIndex, 37 + input.slotIndex, false, container)) {
 				return true;

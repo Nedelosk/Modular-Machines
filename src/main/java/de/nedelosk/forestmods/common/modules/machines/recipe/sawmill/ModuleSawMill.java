@@ -9,6 +9,7 @@ import de.nedelosk.forestcore.library.gui.IGuiBase;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeSawMill;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
@@ -46,8 +47,13 @@ public class ModuleSawMill extends ModuleMachineRecipe {
 	}
 
 	@Override
-	public String getRecipeName(ModuleStack stack) {
+	public String getRecipeCategory(ModuleStack stack) {
 		return "SawMill";
+	}
+
+	@Override
+	public Class<? extends IRecipe> getRecipeClass() {
+		return RecipeSawMill.class;
 	}
 
 	@Override

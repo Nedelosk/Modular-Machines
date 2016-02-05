@@ -5,7 +5,6 @@ import java.util.Random;
 import cpw.mods.fml.common.IWorldGenerator;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.core.modules.ModuleCore;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

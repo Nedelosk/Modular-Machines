@@ -48,6 +48,6 @@ public class ItemGem extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("gem." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("gem." + itemstack.getItemDamage());
 	}
 }

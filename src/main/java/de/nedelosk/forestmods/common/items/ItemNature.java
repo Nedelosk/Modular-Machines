@@ -49,6 +49,6 @@ public class ItemNature extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage());
 	}
 }

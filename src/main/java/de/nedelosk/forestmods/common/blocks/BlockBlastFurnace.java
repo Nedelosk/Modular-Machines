@@ -161,5 +161,4 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 	public void openGui(EntityPlayer player, World world, int x, int y, int z) {
 		player.openGui(ForestMods.instance, 0, world, x, y, z);
 	}
-
 }

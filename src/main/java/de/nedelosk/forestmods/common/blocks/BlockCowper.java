@@ -169,7 +169,7 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 		}
 		return blockIcon;
 	}
-	
+
 	@Override
 	public void openGui(EntityPlayer player, World world, int x, int y, int z) {
 		player.openGui(ForestMods.instance, 0, world, x, y, z);

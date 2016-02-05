@@ -56,7 +56,7 @@ public class ProducerEnergyInfuser extends ModuleMachineRecipe<IModuleMachineSav
 	}
 
 	@Override
-	public String getRecipeName(ModuleStack stack) {
+	public String getRecipeCategory(ModuleStack stack) {
 		return "EnergyInfuser";
 	}
 

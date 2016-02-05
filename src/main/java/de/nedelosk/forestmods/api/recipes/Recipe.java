@@ -7,15 +7,17 @@ public class Recipe implements IRecipe {
 	protected final RecipeItem[] output;
 	protected int speedModifier;
 	protected int material;
+	protected String recipeCategory;
 	protected String recipeName;
 
-	public Recipe(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName, Object... modifiers) {
+	public Recipe(String recipeName, RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeCategory, Object... modifiers) {
+		this.recipeName = recipeName;
 		this.input = input;
 		this.output = output;
 		this.modifiers = modifiers;
 		this.speedModifier = speedModifier;
 		this.material = material;
-		this.recipeName = recipeName;
+		this.recipeCategory = recipeCategory;
 	}
 
 	@Override
@@ -31,6 +33,11 @@ public class Recipe implements IRecipe {
 	@Override
 	public Object getModifier(int modifierID) {
 		return getModifiers()[modifierID];
+	}
+
+	@Override
+	public String getRecipeCategory() {
+		return recipeCategory;
 	}
 
 	@Override

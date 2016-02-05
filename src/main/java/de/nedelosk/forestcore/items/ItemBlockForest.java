@@ -32,6 +32,6 @@ public class ItemBlockForest extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + itemstack.getItemDamage());
 	}
 }

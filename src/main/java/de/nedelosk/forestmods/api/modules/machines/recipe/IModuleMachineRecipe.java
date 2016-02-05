@@ -1,5 +1,7 @@
 package de.nedelosk.forestmods.api.modules.machines.recipe;
 
+import com.google.gson.JsonObject;
+
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.machines.IModuleMachine;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
@@ -14,11 +16,15 @@ public interface IModuleMachineRecipe extends IModuleMachine {
 
 	Object[] getCraftingModifiers(IModular modular, ModuleStack stack);
 
-	void writeCraftingModifiers(NBTTagCompound nbt, IModular modular, Object[] craftingModifiers);
+	void writeCraftingModifiers(NBTTagCompound nbt, Object[] craftingModifiers);
 
-	Object[] readCraftingModifiers(NBTTagCompound nbt, IModular modular);
+	Object[] readCraftingModifiers(NBTTagCompound nbt);
 
-	String getRecipeName(ModuleStack stack);
+	Object[] parseCraftingModifiers(JsonObject object);
+
+	JsonObject writeCraftingModifiers(Object[] objects);
+
+	String getRecipeCategory(ModuleStack stack);
 
 	RecipeItem[] getInputs(IModular modular, ModuleStack stack);
 

@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import de.nedelosk.forestcore.multiblock.MultiblockEventHandler;
 import de.nedelosk.forestmods.api.ForestModsApi;
+import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.forestmods.common.config.ConfigFactory")
@@ -42,5 +43,6 @@ public class ForestMods {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		registry.postInit(instance, event);
+		RecipeManager.checkRecipes();
 	}
 }

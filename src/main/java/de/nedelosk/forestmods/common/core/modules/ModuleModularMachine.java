@@ -1,15 +1,13 @@
 package de.nedelosk.forestmods.common.core.modules;
 
-import static de.nedelosk.forestmods.api.recipes.RecipeRegistry.registerRecipe;
 import static de.nedelosk.forestmods.api.utils.ModuleRegistry.addModuleToItem;
 import static de.nedelosk.forestmods.api.utils.ModuleRegistry.registerCategory;
 import static de.nedelosk.forestmods.api.utils.ModuleRegistry.registerModular;
-import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Alloy_Ingots;
-import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Alloy_Nuggets;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Component_Gears;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Component_Rods;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Component_Saw_Blades;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Dusts;
+import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Ingots;
 import static de.nedelosk.forestmods.common.items.ItemModule.addModule;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -22,13 +20,7 @@ import de.nedelosk.forestcore.modules.manager.IItemManager;
 import de.nedelosk.forestcore.utils.OreStack;
 import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.api.modules.basic.ModuleCategory;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeAlloySmelter;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeAssembler;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeCentrifuge;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe;
 import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe.LatheModes;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipePulverizer;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeSawMill;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.common.blocks.BlockCasing;
@@ -54,6 +46,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.pulverizer.ModulePu
 import de.nedelosk.forestmods.common.modules.machines.recipe.sawmill.ModuleSawMill;
 import de.nedelosk.forestmods.common.modules.managers.ModuleTankManager;
 import de.nedelosk.forestmods.common.modules.storage.ModuleCapacitor;
+import de.nedelosk.forestmods.common.utils.RecipeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -330,98 +323,124 @@ public class ModuleModularMachine extends AModule {
 	}
 
 	public static void registerLatheRecipes() {
-		registerRecipe(
-				new RecipeLathe(new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 1)), 1, 375, LatheModes.ROD));
-		registerRecipe(
-				new RecipeLathe(new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 2)), 2, 350, LatheModes.ROD));
-		registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 3)), 1, 325,
-				LatheModes.ROD));
-		registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 4)), 2, 450,
-				LatheModes.ROD));
-		registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 5)), 3, 475,
-				LatheModes.ROD));
-		registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("ingotPlastic")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 6)), 1, 250,
-				LatheModes.ROD));
+		RecipeUtils.addLathe("IronRod", new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 1)), 1, 375,
+				LatheModes.ROD);
+		RecipeUtils.addLathe("TinRod", new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 2)), 2, 350,
+				LatheModes.ROD);
+		RecipeUtils.addLathe("CopperRod", new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 3)), 1, 325,
+				LatheModes.ROD);
+		RecipeUtils.addLathe("BronzeRod", new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 4)), 2, 450,
+				LatheModes.ROD);
+		RecipeUtils.addLathe("SteelRod", new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(Component_Rods.item(), 2, 5)), 3, 475,
+				LatheModes.ROD);
 	}
 
 	public static void registerAssemblerRecipes() {
-		registerRecipe(new RecipeAssembler(new RecipeItem(new ItemStack(Component_Rods.item(), 4, 1)), new RecipeItem(new OreStack("blockIron", 1)),
-				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 1)), 1, 250));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new ItemStack(Component_Rods.item(), 4, 4)), new RecipeItem(new OreStack("blockBronze", 1)),
-				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 2)), 1, 275));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new ItemStack(Component_Rods.item(), 4, 5)), new RecipeItem(new OreStack("blockSteel", 1)),
-				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 3)), 1, 300));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new OreStack("plateIron", 4)), new RecipeItem(new OreStack("screwIron", 1)),
-				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 1)), 1, 250));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new OreStack("plateTin", 4)), new RecipeItem(new OreStack("screwTin", 1)),
-				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 2)), 1, 250));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new OreStack("plateCopper", 4)), new RecipeItem(new OreStack("screwCopper", 1)),
-				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 3)), 1, 250));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new OreStack("plateBronze", 4)), new RecipeItem(new OreStack("screwBronze", 1)),
-				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 4)), 1, 250));
-		registerRecipe(new RecipeAssembler(new RecipeItem(new OreStack("plateSteel", 4)), new RecipeItem(new OreStack("screwSteel", 1)),
-				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 5)), 1, 250));
+		RecipeUtils.addAssembler("IronSaw", new RecipeItem(new ItemStack(Component_Rods.item(), 4, 1)), new RecipeItem(new OreStack("blockIron", 1)),
+				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 1)), 1, 250);
+		RecipeUtils.addAssembler("BronzeSaw", new RecipeItem(new ItemStack(Component_Rods.item(), 4, 4)), new RecipeItem(new OreStack("blockBronze", 1)),
+				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 2)), 1, 275);
+		RecipeUtils.addAssembler("SteelSaw", new RecipeItem(new ItemStack(Component_Rods.item(), 4, 5)), new RecipeItem(new OreStack("blockSteel", 1)),
+				new RecipeItem(new ItemStack(Component_Saw_Blades.item(), 1, 3)), 1, 300);
+		RecipeUtils.addAssembler("IronGear", new RecipeItem(new OreStack("plateIron", 4)), new RecipeItem(new OreStack("screwIron", 1)),
+				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 1)), 1, 250);
+		RecipeUtils.addAssembler("TinGear", new RecipeItem(new OreStack("plateTin", 4)), new RecipeItem(new OreStack("screwTin", 1)),
+				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 2)), 1, 250);
+		RecipeUtils.addAssembler("CopperGear", new RecipeItem(new OreStack("plateCopper", 4)), new RecipeItem(new OreStack("screwCopper", 1)),
+				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 3)), 1, 250);
+		RecipeUtils.addAssembler("BronzeGear", new RecipeItem(new OreStack("plateBronze", 4)), new RecipeItem(new OreStack("screwBronze", 1)),
+				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 4)), 1, 250);
+		RecipeUtils.addAssembler("SteelGear", new RecipeItem(new OreStack("plateSteel", 4)), new RecipeItem(new OreStack("screwSteel", 1)),
+				new RecipeItem(new ItemStack(Component_Gears.item(), 1, 5)), 1, 250);
 	}
 
 	public static void registerSawMillRecipes() {
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 0)) }, 10, 300));
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 1)) }, 10, 300));
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log, 1, 2), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 2)) }, 10, 300));
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log, 1, 3), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 3)) }, 10, 300));
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log2, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 4)) }, 10, 300));
-		registerRecipe(new RecipeSawMill(new ItemStack(Blocks.log2, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 5)) }, 10, 300));
+		RecipeUtils.addSawMill("OakPlanks", new ItemStack(Blocks.log, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 0)) }, 10, 300);
+		RecipeUtils.addSawMill("SprucePlanks", new ItemStack(Blocks.log, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 1)) }, 10,
+				300);
+		RecipeUtils.addSawMill("BirchPlanks", new ItemStack(Blocks.log, 1, 2), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 2)) }, 10,
+				300);
+		RecipeUtils.addSawMill("JunglePlanks", new ItemStack(Blocks.log, 1, 3), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 3)) }, 10,
+				300);
+		RecipeUtils.addSawMill("AcaciaPlanks", new ItemStack(Blocks.log2, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 4)) }, 10,
+				300);
+		RecipeUtils.addSawMill("DarkOakPlanks", new ItemStack(Blocks.log2, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.planks, 6, 5)) }, 10,
+				300);
 	}
 
 	public static void registerCentrifugeRecipes() {
-		registerRecipe(new RecipeCentrifuge(new RecipeItem(new OreStack("dustColumbite", 6)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 14)), new RecipeItem(new ItemStack(Dusts.item(), 1, 15)) }, 9,
-				560));
+		RecipeUtils.addCentrifuge("ColumbiteToDust", new RecipeItem(new OreStack("dustColumbite", 6)),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 3, 26)), new RecipeItem(new ItemStack(Dusts.item(), 2, 27)) }, 9, 560);
 	}
 
 	public static void registerPulverizerRecipes() {
-		registerRecipe(new RecipePulverizer(new OreStack("oreCoal"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 0)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("blockObsidian"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 1)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreIron"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 2)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreGold"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 3)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreDiamond"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 4)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreCopper"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 5)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreTin"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 6)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreSilver"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 7)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreLead"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 8)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 9)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreRuby"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 12)) }, 15, 250));
-		registerRecipe(
-				new RecipePulverizer(new OreStack("oreColumbite"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 13)) }, 15, 250));
-		registerRecipe(
-				new RecipePulverizer(new OreStack("oreAluminum"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 16)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new OreStack("oreRedstone"), new RecipeItem[] { new RecipeItem(new ItemStack(Items.redstone, 8)) }, 15, 250));
-		registerRecipe(new RecipePulverizer(new ItemStack(Items.coal), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 0)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotIron"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 2)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotGold"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 3)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("gemDiamond"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 4)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotCopper"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 5)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotTin"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 6)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotSilver"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 7)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotLead"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 8)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 9)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotBronze"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 10)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("ingotInvar"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 11)) }, 7, 125));
-		registerRecipe(
-				new RecipePulverizer(new OreStack("ingotNiobium"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 14)) }, 7, 125));
-		registerRecipe(
-				new RecipePulverizer(new OreStack("ingotTantalum"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 15)) }, 7, 125));
-		registerRecipe(new RecipePulverizer(new OreStack("gemRuby"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 12)) }, 7, 125));
+		/* ORES */
+		RecipeUtils.addPulverizer("CoalOreToDust", new OreStack("oreCoal"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 0)) }, 15, 250);
+		RecipeUtils.addPulverizer("ObsidianBlockToDust", new OreStack("blockObsidian"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 1)) },
+				15, 250);
+		RecipeUtils.addPulverizer("IronOreToDust", new OreStack("oreIron"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 2)) }, 15, 250);
+		RecipeUtils.addPulverizer("GoldOreToDust", new OreStack("oreGold"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 3)) }, 15, 250);
+		RecipeUtils.addPulverizer("DiamondOreToDust", new OreStack("oreDiamond"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 4)) }, 15,
+				250);
+		RecipeUtils.addPulverizer("CopperOreToDust", new OreStack("oreCopper"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 20)) }, 15,
+				250);
+		RecipeUtils.addPulverizer("TinOreToDust", new OreStack("oreTin"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 21)) }, 15, 250);
+		RecipeUtils.addPulverizer("SilverOreToDust", new OreStack("oreSilver"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 22)) }, 15,
+				250);
+		RecipeUtils.addPulverizer("LeadOreToDust", new OreStack("oreLead"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 23)) }, 15, 250);
+		RecipeUtils.addPulverizer("NickelOreToDust", new OreStack("oreNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 24)) }, 15,
+				250);
+		RecipeUtils.addPulverizer("ColumbiteOreToDust", new OreStack("oreColumbite"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 10)) },
+				15, 250);
+		RecipeUtils.addPulverizer("RubyOreToDust", new OreStack("oreRuby"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 11)) }, 15, 250);
+		RecipeUtils.addPulverizer("AluminumOreToDust", new OreStack("oreAluminum"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 25)) }, 15,
+				25);
+		RecipeUtils.addPulverizer("AluminiumOreToDust", new OreStack("oreAluminium"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 2, 25)) },
+				15, 250);
+		RecipeUtils.addPulverizer("RedstoneOreToDust", new OreStack("oreRedstone"), new RecipeItem[] { new RecipeItem(new ItemStack(Items.redstone, 8)) }, 15,
+				250);
+		RecipeUtils.addPulverizer("CoalToDust", new OreStack("itemCoal"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 0)) }, 7, 125);
+		/* INGOTS */
+		RecipeUtils.addPulverizer("IronIngotToDust", new OreStack("ingotIron"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 2)) }, 7, 125);
+		RecipeUtils.addPulverizer("GoldIngotToDust", new OreStack("ingotGold"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 3)) }, 7, 125);
+		RecipeUtils.addPulverizer("DiamondGemToDust", new OreStack("gemDiamond"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 4)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("CopperIngotToDust", new OreStack("ingotCopper"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 20)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("TinIngotToDust", new OreStack("ingotTin"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 21)) }, 7, 125);
+		RecipeUtils.addPulverizer("SilverIngotToDust", new OreStack("ingotSilver"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 22)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("LeadIngotToDust", new OreStack("ingotLead"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 23)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("NickelIngotToDust", new OreStack("ingotNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 24)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("AluminumIngotToDust", new OreStack("ingotAluminum"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 25)) },
+				7, 125);
+		RecipeUtils.addPulverizer("AluminiumIngotToDust", new OreStack("ingotAluminium"),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 25)) }, 7, 125);
+		RecipeUtils.addPulverizer("NiobiumIngotToDust", new OreStack("ingotNiobium"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 26)) },
+				7, 125);
+		RecipeUtils.addPulverizer("TantalumIngotToDust", new OreStack("ingotTantalum"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 27)) },
+				7, 125);
+		RecipeUtils.addPulverizer("BronzeIngotToDust", new OreStack("ingotBronze"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 30)) }, 7,
+				125);
+		RecipeUtils.addPulverizer("InvarIngotToDust", new OreStack("ingotInvar"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 31)) }, 7,
+				125);
+		/* GEMS */
+		RecipeUtils.addPulverizer("RubyGemToDust", new OreStack("gemRuby"), new RecipeItem[] { new RecipeItem(new ItemStack(Dusts.item(), 1, 11)) }, 7, 125);
 	}
 
 	public static void registerAlloySmelterRecipes() {
-		registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustTin", 1)), new RecipeItem(new OreStack("dustCopper", 3)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(Alloy_Ingots.item(), 4, 0)) }, 9, 250));
-		registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("ingotTin", 1)), new RecipeItem(new OreStack("ingotCopper", 3)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(Alloy_Ingots.item(), 4, 0)) }, 9, 275));
-		registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("dustIron", 2)), new RecipeItem(new OreStack("dustNickel", 1)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(Alloy_Ingots.item(), 3, 1)) }, 9, 375));
-		registerRecipe(new RecipeAlloySmelter(new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)),
-				new RecipeItem[] { new RecipeItem(new ItemStack(Alloy_Ingots.item(), 3, 1)) }, 9, 400));
+		/* BRONZE */
+		RecipeUtils.addAlloySmelter("DustDustToBronze", new RecipeItem(new OreStack("dustTin", 1)), new RecipeItem(new OreStack("dustCopper", 3)),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Ingots.item(), 4, 10)) }, 9, 250);
+		RecipeUtils.addAlloySmelter("DustIngotToBronze", new RecipeItem(new OreStack("ingotTin", 1)), new RecipeItem(new OreStack("ingotCopper", 3)),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Ingots.item(), 4, 10)) }, 9, 275);
+		/* INVAR */
+		RecipeUtils.addAlloySmelter("DustDustToInvar", new RecipeItem(new OreStack("dustIron", 2)), new RecipeItem(new OreStack("dustNickel", 1)),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Ingots.item(), 3, 11)) }, 9, 375);
+		RecipeUtils.addAlloySmelter("DustIngotToInvar", new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)),
+				new RecipeItem[] { new RecipeItem(new ItemStack(Ingots.item(), 3, 11)) }, 9, 400);
 	}
 
 	public static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

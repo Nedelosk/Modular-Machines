@@ -26,6 +26,6 @@ public class ItemForest extends Item {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(unl + ((hasMeta) ? itemstack.getItemDamage() : ""), "fd");
+		return Registry.setUnlocalizedItemName(unl + ((hasMeta) ? itemstack.getItemDamage() : ""));
 	}
 }

@@ -2,7 +2,6 @@ package de.nedelosk.forestmods.common.items;
 
 import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestmods.common.core.modules.ModuleCore;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +15,7 @@ public class ItemWoodBucket extends ItemBucket {
 
 	public ItemWoodBucket(Block contents, String name) {
 		super(contents);
-		setUnlocalizedName(Registry.setUnlocalizedItemName(name, "fd"));
+		setUnlocalizedName(Registry.setUnlocalizedItemName(name));
 		setTextureName("forestmods:bucket.wood." + contents.getUnlocalizedName().replaceAll("tile.", ""));
 		setCreativeTab(CreativeTabs.tabMisc);
 	}

@@ -153,9 +153,8 @@ public class Config {
 		// Charcoal Kiln
 		charcoalKilnBurnTime = config.get(machineCharcoalKiln.name, "BurnTime", 12000).getInt();
 		// Ores
-		generateOre = config
-				.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium, Columbite.")
-				.getBooleanList();
+		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true, true },
+				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium, Columbite.").getBooleanList();
 	}
 
 	public static void init() {

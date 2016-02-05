@@ -51,6 +51,6 @@ public class ModularMetaItem extends ModularItem {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage(), "mm");
+		return Registry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage());
 	}
 }

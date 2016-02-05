@@ -102,6 +102,6 @@ public class ItemCampfire extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("campfire." + itemName + "." + itemstack.getItemDamage());
 	}
 }

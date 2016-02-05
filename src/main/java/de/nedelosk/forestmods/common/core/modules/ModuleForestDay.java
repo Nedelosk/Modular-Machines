@@ -25,7 +25,6 @@ import de.nedelosk.forestmods.api.crafting.WoodType;
 import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.BlockGravel;
 import de.nedelosk.forestmods.common.blocks.BlockMachinesWood;
-import de.nedelosk.forestmods.common.blocks.BlockOre;
 import de.nedelosk.forestmods.common.blocks.tile.TileAsh;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
@@ -40,13 +39,10 @@ import de.nedelosk.forestmods.common.items.ItemFile;
 import de.nedelosk.forestmods.common.items.ItemFlintAxe;
 import de.nedelosk.forestmods.common.items.ItemGearWood;
 import de.nedelosk.forestmods.common.items.ItemGem;
-import de.nedelosk.forestmods.common.items.ItemIngot;
 import de.nedelosk.forestmods.common.items.ItemNature;
-import de.nedelosk.forestmods.common.items.ItemNugget;
 import de.nedelosk.forestmods.common.items.ItemToolCrafting;
 import de.nedelosk.forestmods.common.items.ItemToolForestday.Material;
 import de.nedelosk.forestmods.common.items.ItemToolParts;
-import de.nedelosk.forestmods.common.items.ItemWoodBucket;
 import de.nedelosk.forestmods.common.items.block.ItemBlockCharcoalKiln;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
@@ -56,7 +52,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,8 +61,6 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class ModuleForestDay extends AModule {
 
@@ -88,7 +81,8 @@ public class ModuleForestDay extends AModule {
 		MinecraftForge.EVENT_BUS.register(this);
 		PacketHandler.preInit();
 		manager.register(BlockManager.Gravel, new BlockGravel(), ItemBlockForest.class);
-		manager.register(BlockManager.Machine, new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class), ItemBlockMachines.class);
+		manager.register(BlockManager.Machine, new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class),
+				ItemBlockMachines.class);
 		GameRegistry.registerTileEntity(TileWorkbench.class, "machine.wood.workbench");
 		GameRegistry.registerTileEntity(TileCampfire.class, "machine.wood.campfire");
 		GameRegistry.registerTileEntity(TileAsh.class, "machine.wood.ash");
@@ -133,7 +127,7 @@ public class ModuleForestDay extends AModule {
 	public void postInit(IModuleManager manager) {
 		for ( Entry<ItemStack, ItemStack> recipes : (Set<Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet() ) {
 			if (recipes.getValue().getItem() == Items.coal && recipes.getValue().getItemDamage() == 1
-					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null&& Block.getBlockFromItem(recipes.getKey().getItem()) != Blocks.air) {
+					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null && Block.getBlockFromItem(recipes.getKey().getItem()) != Blocks.air) {
 				woodManager.add(recipes.getKey().getUnlocalizedName(), recipes.getKey(), recipes.getValue());
 			}
 		}
@@ -197,7 +191,8 @@ public class ModuleForestDay extends AModule {
 				Config.worktableBurnTime);
 		workbench.addRecipe(new ItemStack(ItemManager.Gears_Wood.item(), 1, 2), new OreStack("toolFile"), new ItemStack(ItemManager.Gears_Wood.item(), 1, 1),
 				Config.worktableBurnTime);
-		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolKnife"), new ItemStack(ModuleCore.ItemManager.Bucket_Wood.item()), Config.worktableBurnTime);
+		workbench.addRecipe(new OreStack("plankWood"), new OreStack("toolKnife"), new ItemStack(ModuleCore.ItemManager.Bucket_Wood.item()),
+				Config.worktableBurnTime);
 		workbench.addOutput(new ItemStack(ModuleCore.ItemManager.Bucket_Wood.item()));
 		workbench.addOutput(new ItemStack(ItemManager.Gears_Wood.item(), 1, 1));
 	}

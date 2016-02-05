@@ -11,6 +11,7 @@ import de.nedelosk.forestcore.library.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeAssembler;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
@@ -52,8 +53,13 @@ public class ModuleAssembler extends ModuleMachineRecipe {
 	}
 
 	@Override
-	public String getRecipeName(ModuleStack stack) {
+	public String getRecipeCategory(ModuleStack stack) {
 		return "Assembler";
+	}
+
+	@Override
+	public Class<? extends IRecipe> getRecipeClass() {
+		return RecipeAssembler.class;
 	}
 
 	@Override

@@ -50,6 +50,6 @@ public class ItemToolParts extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("parts." + itemstack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedItemName("parts." + itemstack.getItemDamage());
 	}
 }

@@ -13,44 +13,62 @@ import net.minecraftforge.oredict.OreDictionary;
 public class RecipeRegistry {
 
 	private static final HashMap<String, ArrayList<IRecipe>> recipes = Maps.newHashMap();
+	private static final HashMap<String, IRecipeHandler> handlers = Maps.newHashMap();
 
 	public static boolean registerRecipe(IRecipe recipe) {
-		if (recipes.get(recipe.getRecipeName()) == null) {
-			recipes.put(recipe.getRecipeName(), new ArrayList<IRecipe>());
+		if (recipes.get(recipe.getRecipeCategory()) == null) {
+			recipes.put(recipe.getRecipeCategory(), new ArrayList<IRecipe>());
 		}
-		return recipes.get(recipe.getRecipeName()).add(recipe);
+		return recipes.get(recipe.getRecipeCategory()).add(recipe);
 	}
 
 	public static boolean registerRecipes(Collection<IRecipe> recipes) {
-		if (RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeName()) == null) {
-			RecipeRegistry.recipes.put(((Recipe) recipes.toArray()[0]).getRecipeName(), new ArrayList<IRecipe>());
+		if (RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeCategory()) == null) {
+			RecipeRegistry.recipes.put(((Recipe) recipes.toArray()[0]).getRecipeCategory(), new ArrayList<IRecipe>());
 		}
-		return RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeName()).addAll(recipes);
+		return RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeCategory()).addAll(recipes);
 	}
 
 	public static boolean removeRecipe(IRecipe recipe) {
-		if (recipes.get(recipe.getRecipeName()) == null) {
+		if (recipes.get(recipe.getRecipeCategory()) == null) {
 			return false;
 		}
-		if (!recipes.get(recipe.getRecipeName()).contains(recipe)) {
+		if (!recipes.get(recipe.getRecipeCategory()).contains(recipe)) {
 			return false;
 		}
-		return recipes.get(recipe.getRecipeName()).remove(recipe);
+		return recipes.get(recipe.getRecipeCategory()).remove(recipe);
 	}
 
 	public static boolean removeRecipes(Collection<IRecipe> recipes) {
 		if (recipes.isEmpty()) {
 			return false;
 		}
-		if (RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeName()) == null) {
+		if (RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeCategory()) == null) {
 			return false;
 		}
-		return RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeName()).removeAll(recipes);
+		return RecipeRegistry.recipes.get(((Recipe) recipes.toArray()[0]).getRecipeCategory()).removeAll(recipes);
 	}
 
-	public static List<IRecipe> removeRecipes(String recipeName, RecipeItem removeItem) {
+	public static boolean recipeExists(IRecipe recipe) {
+		List<IRecipe> recipes = RecipeRegistry.recipes.get(recipe.getRecipeCategory());
+		if (recipes == null || recipes.isEmpty()) {
+			return false;
+		}
+		for ( IRecipe r : recipes ) {
+			int i = 0;
+			for ( RecipeItem item : r.getInputs() ) {
+				if (item != null && recipe.getInputs()[i] != null && recipe.getInputs()[i].equals(item)) {
+					return true;
+				}
+				i++;
+			}
+		}
+		return true;
+	}
+
+	public static List<IRecipe> removeRecipes(String recipeCategory, RecipeItem removeItem) {
 		List<IRecipe> list = new ArrayList();
-		for ( IRecipe recipe : recipes.get(recipeName) ) {
+		for ( IRecipe recipe : recipes.get(recipeCategory) ) {
 			for ( RecipeItem item : recipe.getOutputs() ) {
 				if (item.isFluid() && removeItem.isFluid()) {
 					if (item.fluid.isFluidEqual(removeItem.fluid)) {
@@ -75,8 +93,8 @@ public class RecipeRegistry {
 		return list;
 	}
 
-	public static RecipeItem getRecipeInput(String recipeName, RecipeItem input) {
-		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
+	public static RecipeItem getRecipeInput(String recipeCategory, RecipeItem input) {
+		ArrayList<IRecipe> recipes = getRecipes().get(recipeCategory);
 		if (recipes == null || input == null) {
 			return null;
 		}
@@ -118,8 +136,8 @@ public class RecipeRegistry {
 		return null;
 	}
 
-	public static IRecipe getRecipe(String recipeName, RecipeItem[] inputs, Object... craftingModifiers) {
-		ArrayList<IRecipe> recipes = getRecipes().get(recipeName);
+	public static IRecipe getRecipe(String recipeCategory, RecipeItem[] inputs, Object... craftingModifiers) {
+		ArrayList<IRecipe> recipes = getRecipes().get(recipeCategory);
 		if (recipes == null) {
 			return null;
 		}
@@ -189,5 +207,16 @@ public class RecipeRegistry {
 
 	public static HashMap<String, ArrayList<IRecipe>> getRecipes() {
 		return recipes;
+	}
+
+	public static void registerRecipeHandler(String recipeCategory, IRecipeHandler handler) {
+		if (handlers.get(recipeCategory) != null) {
+			return;
+		}
+		handlers.put(recipeCategory, handler);
+	}
+
+	public static IRecipeHandler getRecipeHandler(String recipeCategory) {
+		return handlers.get(recipeCategory);
 	}
 }

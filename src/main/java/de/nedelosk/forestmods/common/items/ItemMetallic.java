@@ -49,6 +49,6 @@ public class ItemMetallic extends ItemForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage(), "mm");
+		return Registry.setUnlocalizedItemName("nature." + itemstack.getItemDamage());
 	}
 }

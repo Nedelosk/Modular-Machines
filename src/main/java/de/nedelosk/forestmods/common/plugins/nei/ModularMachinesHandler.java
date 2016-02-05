@@ -43,7 +43,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
 
 	public ModularMachinesHandler(ModuleStack<IModuleMachineRecipe, IModuleMachineSaver> stack) {
-		this.recipeName = stack.getModule().getRecipeName(stack);
+		this.recipeName = stack.getModule().getRecipeCategory(stack);
 		this.stack = stack;
 		if (!NEIConfig.isAdded) {
 			GuiCraftingRecipe.craftinghandlers.add(this);
@@ -53,7 +53,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal(stack.getModule().getRecipeName(stack) + ".name");
+		return StatCollector.translateToLocal(stack.getModule().getRecipeCategory(stack) + ".name");
 	}
 
 	@Override

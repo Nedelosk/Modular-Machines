@@ -3,8 +3,6 @@ package de.nedelosk.forestcore.multiblock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestmods.common.core.ForestMods;
-import de.nedelosk.forestmods.common.core.TabForestMods;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -107,7 +105,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 			return false;
 		}
 		if (!world.isRemote) {
-			openGui(player,  world, x, y, z);
+			openGui(player, world, x, y, z);
 		}
 		return true;
 	}
@@ -115,7 +113,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 	public boolean whenMultiblockNotAssembled(int metadata) {
 		return isController(metadata);
 	}
-	
+
 	public abstract void openGui(EntityPlayer player, World world, int x, int y, int z);
 
 	@Override

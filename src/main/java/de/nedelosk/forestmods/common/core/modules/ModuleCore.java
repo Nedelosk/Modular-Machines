@@ -1,8 +1,5 @@
 package de.nedelosk.forestmods.common.core.modules;
 
-import static de.nedelosk.forestmods.api.recipes.RecipeRegistry.registerRecipe;
-import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Alloy_Ingots;
-import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Alloy_Nuggets;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Component_Rods;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Dusts;
 import static de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager.Ingots;
@@ -20,7 +17,6 @@ import de.nedelosk.forestcore.modules.manager.IItemManager;
 import de.nedelosk.forestcore.utils.OreStack;
 import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
 import de.nedelosk.forestmods.api.crafting.IWorkbenchRecipe;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe;
 import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe.LatheModes;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.common.blocks.BlockBlastFurnace;
@@ -30,16 +26,11 @@ import de.nedelosk.forestmods.common.blocks.BlockOre;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.core.Constants;
 import de.nedelosk.forestmods.common.core.ForestMods;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay.BlockManager;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay.ItemManager;
 import de.nedelosk.forestmods.common.events.EventHandler;
-import de.nedelosk.forestmods.common.items.ItemAlloyIngot;
-import de.nedelosk.forestmods.common.items.ItemAlloyNugget;
 import de.nedelosk.forestmods.common.items.ItemComponent;
-import de.nedelosk.forestmods.common.items.ItemDusts;
-import de.nedelosk.forestmods.common.items.ItemIngot;
-import de.nedelosk.forestmods.common.items.ItemNugget;
+import de.nedelosk.forestmods.common.items.ItemMetal;
 import de.nedelosk.forestmods.common.items.ItemWoodBucket;
+import de.nedelosk.forestmods.common.utils.RecipeUtils;
 import de.nedelosk.forestmods.common.world.WorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -66,6 +57,14 @@ public class ModuleCore extends AModule {
 	public static Fluid Air_Hot;
 	public static Fluid Air;
 	public static Config config;
+	private static String[] alloys = new String[] { "Bronze", "Invar" };
+	private static String[] steels = new String[] { "Steel", "White_Steel", "Gray_Steel" };
+	private static String[] default_metals = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Aluminum", "Niobium", "Tantalum" };
+	private static String[] only_dust = new String[] { "Columbite", "Ruby" };
+	private static String[] vanilla = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond" };
+	/* metal for ingots, nuggets, blocks */
+	public static String[][] metals = new String[][] { default_metals, alloys, steels };
+	public static String[][] dusts = new String[][] { vanilla, only_dust, default_metals, alloys, steels };
 
 	public ModuleCore() {
 		super("Core");
@@ -87,11 +86,9 @@ public class ModuleCore extends AModule {
 		BlockManager.Metal_Blocks.addMetaData(0xA1A48C, "invar", "Invar");
 		manager.register(BlockManager.Blast_Furnace, new BlockBlastFurnace(), ItemBlockForest.class);
 		manager.register(BlockManager.Cowper, new BlockCowper(), ItemBlockForest.class);
-		manager.register(ItemManager.Dusts, new ItemDusts());
-		manager.register(ItemManager.Alloy_Ingots, new ItemAlloyIngot());
-		manager.register(ItemManager.Ingots, new ItemIngot());
-		manager.register(ItemManager.Alloy_Nuggets, new ItemAlloyNugget());
-		manager.register(ItemManager.Nuggets, new ItemNugget());
+		manager.register(ItemManager.Dusts, new ItemMetal("dusts", "dust", dusts));
+		manager.register(ItemManager.Ingots, new ItemMetal("ingots", "ingot", metals));
+		manager.register(ItemManager.Nuggets, new ItemMetal("nuggets", "nugget", metals));
 		manager.register(ItemManager.Component_Wire, new ItemComponent("wires"));
 		manager.register(ItemManager.Component_Rods, new ItemComponent("rods"));
 		manager.register(ItemManager.Component_Screws, new ItemComponent("screws"));
@@ -143,10 +140,22 @@ public class ModuleCore extends AModule {
 
 	@Override
 	public void init(IModuleManager manager) {
-		registerOre("ingotBronze", new ItemStack(ItemManager.Alloy_Ingots.item(), 1, 0));
-		registerOre("ingotInvar", new ItemStack(ItemManager.Alloy_Ingots.item(), 1, 1));
-		registerOre("nuggetBronze", new ItemStack(ItemManager.Alloy_Nuggets.item(), 1, 0));
-		registerOre("nuggetInvar", new ItemStack(ItemManager.Alloy_Nuggets.item(), 1, 1));
+		for ( int m = 0; m < metals.length; m++ ) {
+			String[] metal = metals[m];
+			for ( int i = 0; i < metal.length; ++i ) {
+				registerOre("ingot" + metal[i], new ItemStack(Ingots.item(), 1, m * 10 + i));
+				registerOre("nugget" + metal[i], new ItemStack(Nuggets.item(), 1, m * 10 + i));
+			}
+		}
+		for ( int d = 0; d < dusts.length; d++ ) {
+			String[] dust = dusts[d];
+			for ( int i = 0; i < dust.length; ++i ) {
+				registerOre("dust" + dust[i], new ItemStack(Dusts.item(), 1, d * 10 + i));
+			}
+		}
+		registerOre("ingotAluminium", new ItemStack(Ingots.item(), 1, 5));
+		registerOre("nuggetAluminium", new ItemStack(Nuggets.item(), 1, 5));
+		registerOre("dustAluminium", new ItemStack(Dusts.item(), 1, 25));
 		registerOre("oreCopper", new ItemStack(BlockManager.Ore.getObject(), 1, 0));
 		registerOre("oreTin", new ItemStack(BlockManager.Ore.getObject(), 1, 1));
 		registerOre("oreSilver", new ItemStack(BlockManager.Ore.getObject(), 1, 2));
@@ -156,48 +165,12 @@ public class ModuleCore extends AModule {
 		registerOre("oreColumbite", new ItemStack(BlockManager.Ore.item(), 1, 6));
 		registerOre("oreAluminium", new ItemStack(BlockManager.Ore.item(), 1, 7));
 		registerOre("oreAluminum", new ItemStack(BlockManager.Ore.item(), 1, 7));
-		registerOre("ingotCopper", new ItemStack(ItemManager.Ingots.getObject(), 1, 0));
-		registerOre("nuggetCopper", new ItemStack(ItemManager.Nuggets.getObject(), 1, 0));
-		registerOre("ingotTin", new ItemStack(ItemManager.Ingots.getObject(), 1, 1));
-		registerOre("nuggetTin", new ItemStack(ItemManager.Nuggets.getObject(), 1, 1));
-		registerOre("ingotSilver", new ItemStack(ItemManager.Ingots.getObject(), 1, 2));
-		registerOre("nuggetSilver", new ItemStack(ItemManager.Nuggets.getObject(), 1, 2));
-		registerOre("ingotLead", new ItemStack(ItemManager.Ingots.getObject(), 1, 3));
-		registerOre("nuggetLead", new ItemStack(ItemManager.Nuggets.getObject(), 1, 3));
-		registerOre("nuggetNickel", new ItemStack(ItemManager.Nuggets.getObject(), 1, 4));
-		registerOre("ingotNickel", new ItemStack(ItemManager.Ingots.getObject(), 1, 4));
-		registerOre("nuggetIron", new ItemStack(ItemManager.Nuggets.getObject(), 1, 5));
-		registerOre("ingotNiobium", new ItemStack(ItemManager.Ingots.item(), 1, 6));
-		registerOre("nuggetNiobium", new ItemStack(ItemManager.Nuggets.item(), 1, 6));
-		registerOre("ingotTantalum", new ItemStack(ItemManager.Ingots.item(), 1, 7));
-		registerOre("nuggetTantalum", new ItemStack(ItemManager.Nuggets.item(), 1, 7));
-		registerOre("ingotAluminium", new ItemStack(ItemManager.Ingots.item(), 1, 8));
-		registerOre("nuggetAluminium", new ItemStack(ItemManager.Nuggets.item(), 1, 8));
-		registerOre("ingotAluminum", new ItemStack(ItemManager.Ingots.item(), 1, 8));
-		registerOre("nuggetAluminum", new ItemStack(ItemManager.Nuggets.item(), 1, 8));
-		registerOre("dustCoal", new ItemStack(ItemManager.Dusts.item(), 1, 0));
-		registerOre("dustObsidian", new ItemStack(ItemManager.Dusts.item(), 1, 1));
-		registerOre("dustIron", new ItemStack(ItemManager.Dusts.item(), 1, 2));
-		registerOre("dustGold", new ItemStack(ItemManager.Dusts.item(), 1, 3));
-		registerOre("dustDiamond", new ItemStack(ItemManager.Dusts.item(), 1, 4));
-		registerOre("dustCopper", new ItemStack(ItemManager.Dusts.item(), 1, 5));
-		registerOre("dustTin", new ItemStack(ItemManager.Dusts.item(), 1, 6));
-		registerOre("dustSilver", new ItemStack(ItemManager.Dusts.item(), 1, 7));
-		registerOre("dustLead", new ItemStack(ItemManager.Dusts.item(), 1, 8));
-		registerOre("dustNickel", new ItemStack(ItemManager.Dusts.item(), 1, 9));
-		registerOre("dustBronze", new ItemStack(ItemManager.Dusts.item(), 1, 10));
-		registerOre("dustInvar", new ItemStack(ItemManager.Dusts.item(), 1, 11));
-		registerOre("dustRuby", new ItemStack(ItemManager.Dusts.item(), 1, 12));
-		registerOre("dustColumbite", new ItemStack(ItemManager.Dusts.item(), 1, 13));
-		registerOre("dustNiobium", new ItemStack(ItemManager.Dusts.item(), 1, 14));
-		registerOre("dustTantalum", new ItemStack(ItemManager.Dusts.item(), 1, 15));
-		registerOre("dustAluminium", new ItemStack(ItemManager.Dusts.item(), 1, 16));
-		registerOre("dustAlumium", new ItemStack(ItemManager.Dusts.item(), 1, 16));
 		registerOre("blockObsidian", Blocks.obsidian);
 		registerOre("plateStone", new ItemStack(ItemManager.Component_Plates.item()));
 		registerOre("sawBladeStone", new ItemStack(ItemManager.Component_Saw_Blades.item()));
 		registerOre("gearStone", new ItemStack(ItemManager.Component_Gears.item()));
 		registerOre("rodStone", new ItemStack(ItemManager.Component_Rods.item()));
+		registerOre("itemCoal", new ItemStack(Items.coal));
 		for ( int i = 0; i < ((ItemComponent) ItemManager.Component_Plates.item()).metas.size(); i++ ) {
 			ItemStack stack = new ItemStack(ItemManager.Component_Plates.item(), 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
@@ -333,7 +306,7 @@ public class ModuleCore extends AModule {
 
 	public static enum ItemManager implements IItemManager {
 		// Metals
-		Dusts, Ingots, Bucket_Wood, Bucket_Wood_Water, Nuggets, Alloy_Ingots, Alloy_Nuggets,
+		Dusts, Ingots, Bucket_Wood, Bucket_Wood_Water, Nuggets,
 		// Crafting
 		Metallic,
 		// Components
@@ -373,53 +346,32 @@ public class ModuleCore extends AModule {
 			}
 		}
 	}
-	
-	public static void registerMetalRecipes(){
-		GameRegistry.addSmelting(new ItemStack(BlockManager.Ore.item(), 1, 0), new ItemStack(ItemManager.Ingots.item(), 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(BlockManager.Ore.item(), 1, 1), new ItemStack(ItemManager.Ingots.item(), 1, 1), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(BlockManager.Ore.item(), 1, 2), new ItemStack(ItemManager.Ingots.item(), 1, 2), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(BlockManager.Ore.item(), 1, 3), new ItemStack(ItemManager.Ingots.item(), 1, 3), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(BlockManager.Ore.item(), 1, 4), new ItemStack(ItemManager.Ingots.item(), 1, 4), 0.5F);
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(ItemManager.Nuggets.item(), 1, 0));
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(ItemManager.Nuggets.item(), 1, 1));
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.Ingots.item(), 1, 2), "+++", "+++", "+++", '+', new ItemStack(ItemManager.Nuggets.item(), 1, 2));
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.Ingots.item(), 1, 3), "+++", "+++", "+++", '+', new ItemStack(ItemManager.Nuggets.item(), 1, 3));
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.Ingots.item(), 1, 4), "+++", "+++", "+++", '+', new ItemStack(ItemManager.Nuggets.item(), 1, 4));
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 6), new ItemStack(Ingots.item(), 1, 6), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 7), new ItemStack(Ingots.item(), 1, 7), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 8), new ItemStack(Ingots.item(), 1, 8), 0.5F);
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemManager.Nuggets.item(), 9, 0), new ItemStack(ItemManager.Ingots.item(), 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemManager.Nuggets.item(), 9, 1), new ItemStack(ItemManager.Ingots.item(), 1, 1));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemManager.Nuggets.item(), 9, 2), new ItemStack(ItemManager.Ingots.item(), 1, 2));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemManager.Nuggets.item(), 9, 3), new ItemStack(ItemManager.Ingots.item(), 1, 3));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemManager.Nuggets.item(), 9, 4), new ItemStack(ItemManager.Ingots.item(), 1, 4));
-		
-		GameRegistry.addShapedRecipe(new ItemStack(Alloy_Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(Alloy_Nuggets.item(), 1, 0));
-		GameRegistry.addShapedRecipe(new ItemStack(Alloy_Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(Alloy_Nuggets.item(), 1, 1));
-		GameRegistry.addShapelessRecipe(new ItemStack(Alloy_Nuggets.item(), 9, 0), new ItemStack(Alloy_Ingots.item(), 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(Alloy_Nuggets.item(), 9, 1), new ItemStack(Alloy_Ingots.item(), 1, 1));
-		GameRegistry.addShapedRecipe(new ItemStack(Ingots.item(), 1, 0), "+++", "+++", "+++", '+', new ItemStack(Nuggets.item(), 1, 0));
-		GameRegistry.addShapedRecipe(new ItemStack(Ingots.item(), 1, 1), "+++", "+++", "+++", '+', new ItemStack(Nuggets.item(), 1, 1));
-		GameRegistry.addShapedRecipe(new ItemStack(Ingots.item(), 1, 2), "+++", "+++", "+++", '+', new ItemStack(Nuggets.item(), 1, 2));
-		GameRegistry.addShapelessRecipe(new ItemStack(Nuggets.item(), 9, 0), new ItemStack(Ingots.item(), 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(Nuggets.item(), 9, 1), new ItemStack(Ingots.item(), 1, 1));
-		GameRegistry.addShapelessRecipe(new ItemStack(Nuggets.item(), 9, 2), new ItemStack(Ingots.item(), 1, 2));
+
+	public static void registerMetalRecipes() {
+		for ( int m = 0; m < metals.length; m++ ) {
+			String[] metal = metals[m];
+			for ( int i = 0; i < metal.length; ++i ) {
+				addShapedRecipe(new ItemStack(Ingots.item(), 1, m * 10 + i), "+++", "+++", "+++", '+', "nugget" + metal[i]);
+				addShapelessRecipe(new ItemStack(Nuggets.item(), 9, m * 10 + i), "ingot" + metal[i]);
+			}
+		}
 		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 2), new ItemStack(Items.iron_ingot), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 3), new ItemStack(Items.gold_ingot), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 5), new ItemStack(Ingots.item(), 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 6), new ItemStack(Ingots.item(), 1, 1), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 7), new ItemStack(Ingots.item(), 1, 2), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 8), new ItemStack(Ingots.item(), 1, 3), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 9), new ItemStack(Ingots.item(), 1, 4), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 10), new ItemStack(Alloy_Ingots.item(), 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 11), new ItemStack(Alloy_Ingots.item(), 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 20), new ItemStack(Ingots.item(), 1, 0), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 21), new ItemStack(Ingots.item(), 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 22), new ItemStack(Ingots.item(), 1, 2), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 23), new ItemStack(Ingots.item(), 1, 3), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 24), new ItemStack(Ingots.item(), 1, 4), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 25), new ItemStack(Ingots.item(), 1, 5), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 26), new ItemStack(Ingots.item(), 1, 6), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(Dusts.item(), 1, 27), new ItemStack(Ingots.item(), 1, 7), 0.5F);
 	}
 
 	public static void registerComponentRecipes() {
-		if(!AModuleManager.isModuleLoaded("ForestDay")){
+		if (!AModuleManager.isModuleLoaded("ForestDay")) {
 			addShapedRecipe(new ItemStack(ItemManager.Bucket_Wood.item()), "   ", "W W", " W ", 'W', "logWood");
 		}
-		if(AModuleManager.isModuleLoaded("ForestDay")){
+		if (AModuleManager.isModuleLoaded("ForestDay")) {
 			IWorkbenchRecipe manager = ForestDayCrafting.workbenchRecipe;
 			manager.addRecipe(new OreStack("cobblestone", 2), new OreStack("toolHammer"), new ItemStack(ItemManager.Component_Plates.item()), 100);
 			for ( int i = 0; i < ((ItemComponent) ItemManager.Component_Plates.item()).metas.size(); i++ ) {
@@ -439,8 +391,8 @@ public class ModuleCore extends AModule {
 						if (!oreDict.equals("Bronze") && !oreDict.equals("Steel")) {
 							manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
 						} else {
-							registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("plate" + oreDict)),
-									new RecipeItem(new ItemStack(ItemManager.Component_Wire.item(), 8, i)), 1, 250, LatheModes.WIRE));
+							RecipeUtils.addLathe("plate" + oreDict + "ToWire", new RecipeItem(new OreStack("plate" + oreDict)),
+									new RecipeItem(new ItemStack(ItemManager.Component_Wire.item(), 8, i)), 1, 250, LatheModes.WIRE);
 						}
 					}
 				}
@@ -451,7 +403,8 @@ public class ModuleCore extends AModule {
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
 				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
-					registerRecipe(new RecipeLathe(new RecipeItem(new OreStack("wire" + oreDict, 2)), new RecipeItem(stack), 1, 250, LatheModes.SCREW));
+					RecipeUtils.addLathe("wire" + oreDict + "ToScrew", new RecipeItem(new OreStack("wire" + oreDict, 2)), new RecipeItem(stack), 1, 250,
+							LatheModes.SCREW);
 				}
 			}
 		}
