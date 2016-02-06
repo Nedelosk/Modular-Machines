@@ -8,11 +8,12 @@ import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class PacketModule<T extends TileEntity & IModularTileEntity> extends PacketTileEntity<T> implements IMessageHandler<PacketModule, IMessage> {
+public class PacketModule extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketModule, IMessage> {
 
 	private String UID;
 	private NBTTagCompound nbt;
@@ -21,7 +22,7 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 	public PacketModule() {
 	}
 
-	public PacketModule(T tile, ModuleStack stack, boolean onlySaver) {
+	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleStack stack, boolean onlySaver) {
 		super(tile);
 		this.UID = stack.getModule().getUID();
 		this.onlySaver = onlySaver;
@@ -52,14 +53,14 @@ public class PacketModule<T extends TileEntity & IModularTileEntity> extends Pac
 
 	@Override
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
-		World world = ctx.getServerHandler().playerEntity.worldObj;
-		T tile = (T) message.getTileEntity(world);
-		ModuleStack stack = tile.getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).getStack(message.UID.split(":")[1]);
+		World world = Minecraft.getMinecraft().theWorld;
+		TileEntity tile = message.getTileEntity(world);
+		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleManager().getModuleFromUID(message.UID);
 		if (message.onlySaver) {
-			stack.getSaver().readFromNBT(message.nbt, tile.getModular(), stack);
+			stack.getSaver().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular(), stack);
 		} else {
-			stack = ModuleStack.loadFromNBT(message.nbt, tile.getModular());
-			tile.getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
+			stack = ModuleStack.loadFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
+			((IModularTileEntity) tile).getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
 		}
 		return null;
 	}

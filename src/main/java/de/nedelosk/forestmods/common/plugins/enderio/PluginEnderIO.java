@@ -8,7 +8,6 @@ import de.nedelosk.forestcore.plugins.APlugin;
 import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
-import de.nedelosk.forestmods.common.modules.storage.ModuleBattery;
 import de.nedelosk.forestmods.common.modules.storage.ModuleCapacitor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,10 +22,11 @@ public class PluginEnderIO extends APlugin {
 	@Override
 	public void postInit() {
 		addModuleToItem(chassis, new ModuleCasing("chassis"), Materials.IRON);
-		addModuleToItem(new ItemStack(capacitorBank, 1, 1), new ModuleBattery("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)), Materials.IRON,
+		addModuleToItem(new ItemStack(capacitorBank, 1, 1), new ModuleCapitorBank("CapacitorBankBasic", new EnergyStorage(250000, 1000, 500)), Materials.IRON,
 				true);
-		addModuleToItem(new ItemStack(capacitorBank, 1, 2), new ModuleBattery("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)), Materials.BRONZE, true);
-		addModuleToItem(new ItemStack(capacitorBank, 1, 3), new ModuleBattery("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)),
+		addModuleToItem(new ItemStack(capacitorBank, 1, 2), new ModuleCapitorBank("CapacitorBank", new EnergyStorage(1250000, 2500, 2500)), Materials.BRONZE,
+				true);
+		addModuleToItem(new ItemStack(capacitorBank, 1, 3), new ModuleCapitorBank("CapacitorBankVibrant", new EnergyStorage(6250000, 12500, 12500)),
 				Materials.STEEL, true);
 		addModuleToItem(new ItemStack(capacitor, 1, 0), new ModuleCapacitor("CapacitorBasic", 10, 20), Materials.IRON);
 		addModuleToItem(new ItemStack(capacitor, 1, 1), new ModuleCapacitor("CapacitorDoubleLayer", 20, 40), Materials.BRONZE);

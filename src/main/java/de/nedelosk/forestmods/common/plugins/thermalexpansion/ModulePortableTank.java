@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ModuleTankThermalExpansion extends ModuleTank {
+public class ModulePortableTank extends ModuleTank {
 
-	public ModuleTankThermalExpansion(String modifier, int capacity) {
+	public ModulePortableTank(String modifier, int capacity) {
 		super(modifier, capacity);
 	}
 

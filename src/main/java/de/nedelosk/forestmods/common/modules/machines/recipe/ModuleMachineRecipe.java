@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.utils.WorldUtil;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
@@ -30,7 +29,6 @@ import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.machines.ModuleMachine;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -167,16 +165,14 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 							engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier());
 				}
 				if (saver.getTimer() > saver.getTimerTotal()) {
-					PacketHandler.INSTANCE.sendTo(new PacketModule((TileEntity) modular.getMachine(), stack, true),
-							(EntityPlayerMP) WorldUtil.getPlayer(modular.getMachine().getWorldObj(), modular.getMachine().getOwner()));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
 					saver.setTimer(0);
 				} else {
 					saver.addTimer(1);
 				}
 			} else {
 				if (saver.getTimer() > saver.getTimerTotal()) {
-					PacketHandler.INSTANCE.sendTo(new PacketModule((TileEntity) modular.getMachine(), stack, true),
-							(EntityPlayerMP) WorldUtil.getPlayer(modular.getMachine().getWorldObj(), modular.getMachine().getOwner()));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
 					saver.setTimer(0);
 				} else {
 					saver.addTimer(1);

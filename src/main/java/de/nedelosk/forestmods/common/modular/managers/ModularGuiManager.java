@@ -89,7 +89,7 @@ public class ModularGuiManager implements IModularGuiManager {
 				return gui;
 			}
 		}
-		return currentGui;
+		return getCasingGui();
 	}
 
 	@Override

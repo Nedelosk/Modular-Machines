@@ -31,7 +31,7 @@ public class NEIConfig implements IConfigureNEI {
 			for ( ModuleItem item : ModuleRegistry.getModuleItems() ) {
 				ModuleStack stack = item.moduleStack;
 				if (stack.getModule() instanceof IModuleMachineRecipe) {
-					String module = stack.getModule().getUID();
+					String module = ((IModuleMachineRecipe) stack.getModule()).getRecipeCategory(stack);
 					if (((IModuleMachineRecipe) stack.getModule()).addNEIStacks(stack, null) != null && !producerHandlers.contains(module)) {
 						new ModularMachinesHandler(stack);
 						producerHandlers.add(module);

@@ -17,14 +17,15 @@ import de.nedelosk.forestmods.client.render.modules.ModuleRenderer;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.ModuleAddable;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class ModuleBattery extends ModuleAddable implements IModuleBattery {
+public abstract class ModuleBattery extends ModuleAddable implements IModuleBattery {
 
-	public final EnergyStorage storage;
+	public final EnergyStorage defaultStorage;
 
-	public ModuleBattery(String moduleUID, EnergyStorage storage) {
+	public ModuleBattery(String moduleUID, EnergyStorage defaultStorage) {
 		super(ModuleCategoryUIDs.BATTERY, moduleUID);
-		this.storage = storage;
+		this.defaultStorage = defaultStorage;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -42,7 +43,10 @@ public class ModuleBattery extends ModuleAddable implements IModuleBattery {
 	@Override
 	public void onAddInModular(IModular modular, ModuleStack stack) throws ModularException {
 		IModuleBatterySaver saver = (IModuleBatterySaver) stack.getSaver();
-		modular.getUtilsManager().setEnergyHandler(new EnergyHandler(saver.getStorage(stack)));
+		int energy = getStorageEnergy(stack, stack.getItemStack().copy());
+		EnergyStorage storage = new EnergyStorage(defaultStorage.getMaxEnergyStored(), defaultStorage.getMaxReceive(), defaultStorage.getMaxExtract());
+		storage.setEnergyStored(energy);
+		modular.getUtilsManager().setEnergyHandler(new EnergyHandler(storage));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -53,6 +57,13 @@ public class ModuleBattery extends ModuleAddable implements IModuleBattery {
 
 	@Override
 	public IModuleSaver createSaver(ModuleStack stack) {
-		return new ModuleBatterySaver(storage);
+		return new ModuleBatterySaver();
+	}
+
+	@Override
+	public ItemStack onDropItem(ModuleStack stackModule, IModular modular) {
+		ItemStack stack = stackModule.getItemStack().copy();
+		setStorageEnergy(modular.getUtilsManager().getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN), stackModule, stack);
+		return stack;
 	}
 }

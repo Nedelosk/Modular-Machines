@@ -122,6 +122,9 @@ public class RecipeRegistry {
 					if (!(in.ore.stackSize <= input.item.stackSize)) {
 						continue;
 					}
+					if (in.slotIndex != input.slotIndex) {
+						continue;
+					}
 					int ore = OreDictionary.getOreID(in.ore.getOreDict());
 					for ( int oreID : OreDictionary.getOreIDs(input.item) ) {
 						if (ore == oreID) {

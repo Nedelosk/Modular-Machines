@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import buildcraft.api.tools.IToolWrench;
 import de.nedelosk.forestcore.utils.WorldUtil;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modules.IModuleDropped;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -125,7 +126,11 @@ public class BlockModularMachine extends BlockModular {
 				List<ItemStack> drops = Lists.newArrayList();
 				for ( ModuleStack stack : (List<ModuleStack>) modular.getModular().getModuleManager().getModuleStacks() ) {
 					if (stack != null) {
-						drops.add(stack.getItemStack());
+						if (stack.getModule() instanceof IModuleDropped) {
+							drops.add(((IModuleDropped) stack.getModule()).onDropItem(stack, modular.getModular()).copy());
+						} else {
+							drops.add(stack.getItemStack().copy());
+						}
 					}
 				}
 				WorldUtil.dropItem(world, x, y, z, drops);

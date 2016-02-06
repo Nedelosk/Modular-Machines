@@ -30,6 +30,7 @@ import de.nedelosk.forestmods.common.events.EventHandler;
 import de.nedelosk.forestmods.common.items.ItemComponent;
 import de.nedelosk.forestmods.common.items.ItemMetal;
 import de.nedelosk.forestmods.common.items.ItemWoodBucket;
+import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.utils.RecipeUtils;
 import de.nedelosk.forestmods.common.world.WorldGenerator;
 import net.minecraft.block.Block;
@@ -77,6 +78,7 @@ public class ModuleCore extends AModule {
 		Config.config = new Configuration(ForestMods.configFile, Constants.VERSION);
 		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		PacketHandler.preInit();
 		manager.register(BlockManager.Ore, new BlockOre(), ItemBlockForest.class);
 		manager.register(BlockManager.Metal_Blocks, new BlockComponent(Material.iron, "metal_block"), ItemBlockForest.class);
 		BlockManager.Metal_Blocks.addMetaData(0xCACECF, "tin", "Tin");

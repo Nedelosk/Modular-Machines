@@ -45,7 +45,6 @@ import de.nedelosk.forestmods.common.items.ItemToolForestday.Material;
 import de.nedelosk.forestmods.common.items.ItemToolParts;
 import de.nedelosk.forestmods.common.items.block.ItemBlockCharcoalKiln;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
-import de.nedelosk.forestmods.common.network.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -79,7 +78,6 @@ public class ModuleForestDay extends AModule {
 		workbench = ForestDayCrafting.workbenchRecipe;
 		campfire = ForestDayCrafting.campfireRecipe;
 		MinecraftForge.EVENT_BUS.register(this);
-		PacketHandler.preInit();
 		manager.register(BlockManager.Gravel, new BlockGravel(), ItemBlockForest.class);
 		manager.register(BlockManager.Machine, new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class),
 				ItemBlockMachines.class);

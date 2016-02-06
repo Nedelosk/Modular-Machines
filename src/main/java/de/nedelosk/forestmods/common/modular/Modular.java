@@ -71,13 +71,15 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void update(boolean isServer) {
-		List<ModuleStack> stacks = moduleManager.getModuleStacks();
-		for ( ModuleStack stack : stacks ) {
-			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleUpdatable) {
-				if (isServer) {
-					((IModuleUpdatable) stack.getModule()).updateServer(this, stack);
-				} else {
-					((IModuleUpdatable) stack.getModule()).updateClient(this, stack);
+		if (isAssembled) {
+			List<ModuleStack> stacks = moduleManager.getModuleStacks();
+			for ( ModuleStack stack : stacks ) {
+				if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleUpdatable) {
+					if (isServer) {
+						((IModuleUpdatable) stack.getModule()).updateServer(this, stack);
+					} else {
+						((IModuleUpdatable) stack.getModule()).updateClient(this, stack);
+					}
 				}
 			}
 		}

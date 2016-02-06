@@ -117,7 +117,7 @@ public class ModularInventoryManager implements IModularInventoryManager<IModula
 				return gui;
 			}
 		}
-		return currentInventory;
+		return getCasingInventory();
 	}
 
 	@Override

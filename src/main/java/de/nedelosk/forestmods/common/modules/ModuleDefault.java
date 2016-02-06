@@ -6,6 +6,7 @@ import de.nedelosk.forestmods.api.modules.IModuleDefault;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.common.modules.inventory.ModuleInventoryDefault;
 
 public class ModuleDefault extends Module implements IModuleDefault {
 
@@ -15,7 +16,7 @@ public class ModuleDefault extends Module implements IModuleDefault {
 
 	@Override
 	public IModuleInventory createInventory(ModuleStack stack) {
-		return null;
+		return new ModuleInventoryDefault(getUID(), 0);
 	}
 
 	@SideOnly(Side.CLIENT)

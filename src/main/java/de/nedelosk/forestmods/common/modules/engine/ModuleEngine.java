@@ -4,7 +4,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.utils.WorldUtil;
 import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.integration.IWailaData;
@@ -24,7 +23,6 @@ import de.nedelosk.forestmods.common.modules.ModuleAddable;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncEngineProgress;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -60,8 +58,7 @@ public abstract class ModuleEngine extends ModuleAddable implements IModuleEngin
 		ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
 		IModuleEngineSaver saver = (IModuleEngineSaver) stack.getSaver();
 		if (saver.getTimer() > saver.getTimerTotal()) {
-			PacketHandler.INSTANCE.sendTo(new PacketModule((TileEntity) modular.getMachine(), stack, true),
-					(EntityPlayerMP) WorldUtil.getPlayer(modular.getMachine().getWorldObj(), modular.getMachine().getOwner()));
+			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
 			saver.setTimer(0);
 		} else {
 			saver.addTimer(1);

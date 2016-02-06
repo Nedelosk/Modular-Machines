@@ -51,7 +51,7 @@ public class PacketSelectInventory extends PacketTileEntity<TileEntity> implemen
 		IModularInventoryManager inventoryManager = tile.getModular().getInventoryManager();
 		inventoryManager.setCurrentInventory(inventoryManager.getInventory(message.UID));
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-		getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
+		// getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
 		entityPlayerMP.openGui(ForestMods.instance, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
 		return null;
 	}

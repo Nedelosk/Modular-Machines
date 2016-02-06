@@ -3,6 +3,7 @@ package de.nedelosk.forestmods.common.network;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import de.nedelosk.forestmods.common.network.packets.PacketModule;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectInventory;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectManagerTab;
 import de.nedelosk.forestmods.common.network.packets.PacketSwitchMachineMode;
@@ -25,6 +26,7 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketSelectManagerTab.class, PacketSelectManagerTab.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSyncEngineProgress.class, PacketSyncEngineProgress.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
 	}
 
 	public static int nextID() {
