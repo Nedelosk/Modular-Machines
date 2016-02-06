@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
@@ -43,7 +43,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			RenderUtil.bindBlockTexture();
 			CharcoalKilnPosition pos = kiln.getKilnPosition();
 			int level = kiln.getLevel();
-			IIcon loamIcon = ModuleForestDay.BlockManager.Gravel.block().getIcon(0, 0);
+			IIcon loamIcon = BlockManager.blockGravel.getIcon(0, 0);
 			IIcon woodIcon = Block.getBlockFromItem(kiln.getWoodType().getWood().getItem()).getIcon(4, kiln.getWoodType().getWood().getItemDamage());
 			if (pos == BACK && level == 0) {
 				renderFront(loamIcon, woodIcon, withWood);

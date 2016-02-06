@@ -57,7 +57,7 @@ public class ItemMetal extends ModularItem {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + getName(itemstack.getItemDamage()));
+		return Registry.setUnlocalizedItemName(iconName + getName(itemstack.getItemDamage()));
 	}
 
 	private String getName(int id) {

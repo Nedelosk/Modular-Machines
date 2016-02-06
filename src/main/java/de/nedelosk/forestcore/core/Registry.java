@@ -8,7 +8,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.fluids.FluidBlock;
 import de.nedelosk.forestcore.items.FluidBucket;
-import de.nedelosk.forestcore.modules.AModuleManager;
 import de.nedelosk.forestcore.plugins.APluginManager;
 import de.nedelosk.forestmods.common.events.BucketHandler;
 import net.minecraft.block.Block;
@@ -24,16 +23,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 public abstract class Registry {
 
-	public final AModuleManager moduleManager = getModuleManager();
 	public final APluginManager pluginManager = getPluginManager();
 	public final IGuiHandler guiHandler = getGuiHandler();
 
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
-		if (moduleManager != null) {
-			moduleManager.registerModules();
-			moduleManager.preInit();
-		}
 		if (pluginManager != null) {
 			pluginManager.registerPlugins();
 			pluginManager.preInit();
@@ -41,24 +35,16 @@ public abstract class Registry {
 	}
 
 	public void init(Object instance, FMLInitializationEvent event) {
-		if (moduleManager != null) {
-			moduleManager.init();
-		}
 		if (pluginManager != null) {
 			pluginManager.init();
 		}
 	}
 
 	public void postInit(Object instance, FMLPostInitializationEvent event) {
-		if (moduleManager != null) {
-			moduleManager.postInit();
-		}
 		if (pluginManager != null) {
 			pluginManager.postInit();
 		}
 	}
-
-	public abstract AModuleManager getModuleManager();
 
 	public abstract APluginManager getPluginManager();
 
@@ -107,8 +93,8 @@ public abstract class Registry {
 		GameRegistry.registerTileEntity(tile, "forest." + modName + "." + name);
 	}
 
-	public static String setUnlocalizedBlockName(String name, String modName) {
-		return "forest." + modName + ".block." + name;
+	public static String setUnlocalizedBlockName(String name) {
+		return "forest." + ".block." + name;
 	}
 
 	public static Item registerItem(Item item, String name) {

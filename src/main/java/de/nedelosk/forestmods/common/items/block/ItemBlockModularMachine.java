@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items.block;
 
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.core.modules.ModuleModularMachine;
+import de.nedelosk.forestmods.common.core.BlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -48,7 +48,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 		if (!player.canPlayerEdit(x, z, y, p_77648_7_, stack)) {
 			return false;
 		} else if (!world.isRemote) {
-			boolean placed = world.setBlock(x, y, z, ModuleModularMachine.BlockManager.Modular_Machine.block(), 0, 2);
+			boolean placed = world.setBlock(x, y, z, BlockManager.blockModularMachines, 0, 2);
 			if (!placed) {
 				return false;
 			}

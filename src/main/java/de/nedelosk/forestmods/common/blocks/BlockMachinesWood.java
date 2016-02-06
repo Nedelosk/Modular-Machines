@@ -17,7 +17,7 @@ import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileMachineBase;
 import de.nedelosk.forestmods.common.core.ForestMods;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.items.ItemCampfire;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -94,7 +94,7 @@ public class BlockMachinesWood extends BlockContainerForest {
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-		return new ItemStack(ModuleForestDay.ItemManager.Curb.item(), 1, 0);
+		return new ItemStack(ItemManager.itemCampfireCurb, 1, 0);
 	}
 
 	@Override

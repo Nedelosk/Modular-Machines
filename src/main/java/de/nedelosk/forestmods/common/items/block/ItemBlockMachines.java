@@ -13,6 +13,6 @@ public class ItemBlockMachines extends ItemBlockForest {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedBlockName("wood_base" + "." + stack.getItemDamage(), "fd");
+		return Registry.setUnlocalizedBlockName("wood_base" + "." + stack.getItemDamage());
 	}
 }

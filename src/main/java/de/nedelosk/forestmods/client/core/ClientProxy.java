@@ -15,11 +15,12 @@ import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
+import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.core.CommonProxy;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
-import de.nedelosk.forestmods.common.core.modules.ModuleModularMachine;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
@@ -36,12 +37,12 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileWorkbench.class, new TileWorkbenchRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalKiln.class, new TileCharcoalKilnRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularMachine.class, new TileModularMachineRenderer());
-		MinecraftForgeClient.registerItemRenderer(ModuleForestDay.ItemManager.Curb.item(), new ItemCampfireRenderer("curb"));
-		MinecraftForgeClient.registerItemRenderer(ModuleForestDay.ItemManager.Pot.item(), new ItemCampfireRenderer("pot"));
-		MinecraftForgeClient.registerItemRenderer(ModuleForestDay.ItemManager.Pot_Holder.item(), new ItemCampfireRenderer("pot_holder"));
-		MinecraftForgeClient.registerItemRenderer(ModuleForestDay.BlockManager.Multiblock_Charcoal_Kiln.item(), new ItemCharcoalKiln());
-		MinecraftForgeClient.registerItemRenderer(ModuleModularMachine.BlockManager.Modular_Machine.item(), new ItemRendererModular());
-		MinecraftForgeClient.registerItemRenderer(ModuleForestDay.BlockManager.Machine.item(), new ItemMachineWoodBase());
+		MinecraftForgeClient.registerItemRenderer(ItemManager.itemCampfireCurb, new ItemCampfireRenderer("curb"));
+		MinecraftForgeClient.registerItemRenderer(ItemManager.itemCampfirePot, new ItemCampfireRenderer("pot"));
+		MinecraftForgeClient.registerItemRenderer(ItemManager.itemCampfirePotHolder, new ItemCampfireRenderer("pot_holder"));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockCharcoalKiln), new ItemCharcoalKiln());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockModularMachines), new ItemRendererModular());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockMachines), new ItemMachineWoodBase());
 	}
 
 	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass) {

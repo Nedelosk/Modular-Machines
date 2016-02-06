@@ -3,6 +3,7 @@ package de.nedelosk.forestmods.common.blocks;
 import java.util.List;
 
 import de.nedelosk.forestcore.multiblock.BlockMultiblockBasic;
+import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort;
@@ -60,6 +61,7 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 	public BlockCowper() {
 		super(Material.ground, MultiblockCowper.class, subBlocks, states);
 		setBlockName("cowper");
+		setCreativeTab(Tabs.tabForestMods);
 	}
 
 	@Override

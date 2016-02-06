@@ -6,7 +6,8 @@ import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestcore.items.ItemForest;
 import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.BlockManager;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,9 +39,9 @@ public class ItemCampfire extends ItemForest {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-		if (this == ModuleForestDay.ItemManager.Curb.getObject()) {
+		if (this == ItemManager.itemCampfireCurb) {
 			Block block = world.getBlock(x, y, z);
-			Block blockC = ModuleForestDay.BlockManager.Machine.getObject();
+			Block blockC = BlockManager.blockMachines;
 			if (block == Blocks.snow_layer && (world.getBlockMetadata(x, y, z) & 7) < 1) {
 				side = 1;
 			} else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world, x, y, z)) {
@@ -87,7 +88,7 @@ public class ItemCampfire extends ItemForest {
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
 			int metadata) {
-		Block blockC = ModuleForestDay.BlockManager.Machine.getObject();
+		Block blockC = BlockManager.blockMachines;
 		if (!world.setBlock(x, y, z, blockC, metadata, 3)) {
 			return false;
 		}

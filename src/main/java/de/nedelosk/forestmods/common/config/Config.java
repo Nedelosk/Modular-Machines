@@ -100,7 +100,7 @@ public class Config {
 				load();
 			}
 			processConfig();
-			init();
+			postInit();
 		} catch (Exception e) {
 			Log.err("Modular Machines has a problem loading it's configuration");
 			e.printStackTrace();
@@ -157,7 +157,7 @@ public class Config {
 				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium, Columbite.").getBooleanList();
 	}
 
-	public static void init() {
+	public static void postInit() {
 		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleRegistry().getModules().entrySet() ) {
 			if (!config.get(moduleRegistry.name, entry.getKey().toString(), true).getBoolean()) {
 				ModuleRegistry.getModuleRegistry().getModules().remove(entry.getKey());

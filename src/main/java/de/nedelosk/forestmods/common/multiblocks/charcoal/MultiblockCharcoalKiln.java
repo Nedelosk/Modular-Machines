@@ -10,7 +10,7 @@ import de.nedelosk.forestmods.api.crafting.WoodType;
 import de.nedelosk.forestmods.common.blocks.tile.TileAsh;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.config.Config;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.BlockManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -140,7 +140,7 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 						TileCharcoalKiln kiln = (TileCharcoalKiln) worldObj.getTileEntity(x, y, z);
 						if (kiln.getLevel() == 0) {
 							TileCharcoalKiln kiln1 = (TileCharcoalKiln) worldObj.getTileEntity(x, y + 1, z);
-							worldObj.setBlock(x, y, z, ModuleForestDay.BlockManager.Gravel.block(), 1, 3);
+							worldObj.setBlock(x, y, z, BlockManager.blockGravel, 1, 3);
 							TileEntity tile = worldObj.getTileEntity(x, y, z);
 							if (tile instanceof TileAsh) {
 								((TileAsh) tile).setWoodTypes(new WoodType[] { kiln.getWoodType(), kiln1.getWoodType() });

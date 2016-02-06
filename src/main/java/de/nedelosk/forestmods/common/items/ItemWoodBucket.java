@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items;
 
 import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestmods.common.core.modules.ModuleCore;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,12 +22,12 @@ public class ItemWoodBucket extends ItemBucket {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		MovingObjectPosition target = getMovingObjectPositionFromPlayer(world, player, this == ModuleCore.ItemManager.Bucket_Wood.getObject());
+		MovingObjectPosition target = getMovingObjectPositionFromPlayer(world, player, this == ItemManager.itemWoodBucket);
 		ItemStack result = itemStack;
 		if (target == null) {
 			return itemStack;
 		} else if (target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-			if (itemStack.getItem() == ModuleCore.ItemManager.Bucket_Wood.getObject()) {
+			if (itemStack.getItem() == ItemManager.itemWoodBucket) {
 				int hitX = target.blockX;
 				int hitY = target.blockY;
 				int hitZ = target.blockZ;
@@ -37,7 +37,7 @@ public class ItemWoodBucket extends ItemBucket {
 				Block bID = world.getBlock(hitX, hitY, hitZ);
 				// water and lava
 				if (bID == Blocks.water || bID == Blocks.flowing_water) {
-					result = new ItemStack(ModuleCore.ItemManager.Bucket_Wood_Water.getObject());
+					result = new ItemStack(ItemManager.itemWoodBucketWater);
 					world.setBlockToAir(hitX, hitY, hitZ);
 				} else if (bID == Blocks.lava || bID == Blocks.flowing_lava) {
 					player.setFire(10);
@@ -68,7 +68,7 @@ public class ItemWoodBucket extends ItemBucket {
 					return itemStack;
 				}
 				if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode) {
-					return new ItemStack(ModuleCore.ItemManager.Bucket_Wood.getObject());
+					return new ItemStack(ItemManager.itemWoodBucket);
 				}
 			}
 		}

@@ -10,8 +10,8 @@ import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.special.IModuleWithItem;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.core.TabForestMods;
-import de.nedelosk.forestmods.common.core.modules.ModuleModularMachine;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -49,7 +49,7 @@ public class ItemModule extends Item {
 	}
 
 	public static <M extends IModule> ModuleStack addModule(M module, Material material) {
-		ItemStack itemStack = new ItemStack(ModuleModularMachine.ItemManager.Producers.item());
+		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
 		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, material);
 		if (ModuleRegistry.getModule(moduleStack.getModule().getModuleUID()) == null) {
 			ModuleRegistry.registerModule(module);

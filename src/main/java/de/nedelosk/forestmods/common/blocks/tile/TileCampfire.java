@@ -2,7 +2,7 @@ package de.nedelosk.forestmods.common.blocks.tile;
 
 import de.nedelosk.forestmods.client.gui.GuiCampfire;
 import de.nedelosk.forestmods.common.config.Config;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay.ItemManager;
+import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager.CampfireRecipe;
 import de.nedelosk.forestmods.common.inventory.ContainerCampfire;
@@ -186,11 +186,11 @@ public class TileCampfire extends TileMachineBase {
 
 	public ItemStack setCampfireItem(ItemStack stack) {
 		int ID = 0;
-		if (stack.getItem() == ItemManager.Curb.item()) {
+		if (stack.getItem() == ItemManager.itemCampfireCurb) {
 			ID = 0;
-		} else if (stack.getItem() == ItemManager.Pot_Holder.item()) {
+		} else if (stack.getItem() == ItemManager.itemCampfirePotHolder) {
 			ID = 1;
-		} else if (stack.getItem() == ItemManager.Pot.item()) {
+		} else if (stack.getItem() == ItemManager.itemCampfirePot) {
 			ID = 2;
 		}
 		ItemStack stackOld = getStackInSlot(4 + ID);

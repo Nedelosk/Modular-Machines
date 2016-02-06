@@ -2,7 +2,7 @@ package de.nedelosk.forestmods.client.render.item;
 
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.api.crafting.WoodType;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.RecipeManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,7 @@ public class ItemCharcoalKiln implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		RenderUtil.bindBlockTexture();
-		WoodType typeWood = ModuleForestDay.readFromStack(item);
+		WoodType typeWood = RecipeManager.readFromStack(item);
 		if (typeWood != null) {
 			RenderBlocks.getInstance().renderBlockAsItem(Block.getBlockFromItem(typeWood.getWood().getItem()), typeWood.getWood().getItemDamage(), 1.0F);
 		}

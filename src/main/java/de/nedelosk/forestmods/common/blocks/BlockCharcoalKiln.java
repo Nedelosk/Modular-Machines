@@ -13,7 +13,7 @@ import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
 import de.nedelosk.forestmods.api.crafting.WoodType;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay;
+import de.nedelosk.forestmods.common.core.RecipeManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -86,7 +86,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 		for ( WoodType type : ForestDayCrafting.woodManager.getWoodTypes().values() ) {
-			subItems.add(ModuleForestDay.writeWoodType(type));
+			subItems.add(RecipeManager.writeWoodType(type));
 		}
 	}
 
@@ -96,7 +96,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 		if (tile instanceof TileCharcoalKiln && !((TileCharcoalKiln) tile).isAsh()) {
 			TileCharcoalKiln kiln = (TileCharcoalKiln) tile;
 			ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-			list.add(ModuleForestDay.writeWoodType(kiln.getWoodType()));
+			list.add(RecipeManager.writeWoodType(kiln.getWoodType()));
 			WorldUtil.dropItem(world, x, y, z, list);
 		}
 		super.breakBlock(world, x, y, z, block, meta);
@@ -126,7 +126,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileCharcoalKiln) {
-			return ModuleForestDay.writeWoodType(((TileCharcoalKiln) tile).getWoodType());
+			return RecipeManager.writeWoodType(((TileCharcoalKiln) tile).getWoodType());
 		}
 		return super.getPickBlock(target, world, x, y, z);
 	}

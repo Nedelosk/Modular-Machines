@@ -3,6 +3,7 @@ package de.nedelosk.forestmods.common.blocks;
 import java.util.List;
 
 import de.nedelosk.forestcore.multiblock.BlockMultiblockBasic;
+import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
@@ -52,6 +53,7 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 	public BlockBlastFurnace() {
 		super(Material.iron, MultiblockBlastFurnace.class, subBlocks, states);
 		setBlockName("blast_furnace");
+		setCreativeTab(Tabs.tabForestMods);
 	}
 
 	@Override

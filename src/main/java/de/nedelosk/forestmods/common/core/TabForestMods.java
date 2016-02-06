@@ -2,8 +2,6 @@ package de.nedelosk.forestmods.common.core;
 
 import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
-import de.nedelosk.forestmods.common.core.modules.ModuleCore.ItemManager;
-import de.nedelosk.forestmods.common.core.modules.ModuleForestDay.BlockManager;
 import de.nedelosk.forestmods.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -28,13 +26,13 @@ public class TabForestMods extends CreativeTabs {
 		ItemStack stack = null;
 		switch (tabIcon) {
 			case 0:
-				stack = new ItemStack(BlockManager.Machine.item(), 1, 2);
+				stack = new ItemStack(BlockManager.blockMachines, 1, 2);
 				break;
 			case 1:
-				stack = new ItemStack(ItemManager.Component_Gears.item(), 1, 5);
+				stack = new ItemStack(ItemManager.itemCompGears, 1, 5);
 				break;
 			case 2:
-				stack = ItemModule.getItem(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER);
+				stack = ItemModule.getItem(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER + ":stone");
 				break;
 		}
 		return stack;

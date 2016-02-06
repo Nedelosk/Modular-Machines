@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.modules.manager.IItemManager;
 import de.nedelosk.forestmods.common.core.TabForestMods;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,9 +24,9 @@ public class ItemComponent extends Item {
 		this.componentName = name;
 	}
 
-	public static ItemComponent addMetaData(IItemManager item, int color, String name, String... oreDict) {
-		((ItemComponent) item.item()).metas.add(Lists.newArrayList(color, name, oreDict));
-		return (ItemComponent) item.item();
+	public ItemComponent addMetaData(int color, String name, String... oreDict) {
+		metas.add(Lists.newArrayList(color, name, oreDict));
+		return this;
 	}
 
 	@Override

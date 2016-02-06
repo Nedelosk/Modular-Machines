@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.forestcore.blocks.BlockForest;
-import de.nedelosk.forestcore.modules.manager.IBlockManager;
 import de.nedelosk.forestmods.common.core.TabForestMods;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -26,9 +25,9 @@ public class BlockComponent extends BlockForest {
 		this.name = name;
 	}
 
-	public static BlockComponent addMetaData(IBlockManager item, int color, String name, String... oreDict) {
-		((BlockComponent) item.block()).metas.add(Lists.newArrayList(color, name, oreDict));
-		return (BlockComponent) item.block();
+	public BlockComponent addMetaData(int color, String name, String... oreDict) {
+		metas.add(Lists.newArrayList(color, name, oreDict));
+		return this;
 	}
 
 	@Override
