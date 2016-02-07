@@ -98,6 +98,7 @@ public class BlockModularMachine extends BlockModular {
 								player.setCurrentItemOrArmor(0, currentItem);
 							}
 							modularMachine.getModular().getInventoryManager().addInventorys();
+							world.markBlockForUpdate(x, y, z);
 						}
 						return addModule;
 					}

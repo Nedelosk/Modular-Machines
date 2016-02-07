@@ -4,6 +4,8 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -51,10 +53,13 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 		buf.writeBoolean(onlySaver);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
+		if(tile == null || ((IModularTileEntity) tile).getModular() == null || ((IModularTileEntity) tile).getModular().getModuleManager() == null)
+			return null;
 		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleManager().getModuleFromUID(message.UID);
 		if (message.onlySaver) {
 			stack.getSaver().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular(), stack);

@@ -5,10 +5,10 @@ import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeMo
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeModeSaver;
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.machines.ModuleMachineSaver;
+import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipeSaver;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleMachineRecipeModeSaver extends ModuleMachineSaver implements IModuleMachineRecipeModeSaver {
+public class ModuleMachineRecipeModeSaver extends ModuleMachineRecipeSaver implements IModuleMachineRecipeModeSaver {
 
 	public IMachineMode mode;
 
@@ -18,13 +18,11 @@ public class ModuleMachineRecipeModeSaver extends ModuleMachineSaver implements 
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		super.writeToNBT(nbt, modular, stack);
 		nbt.setInteger("Mode", getMode().ordinal());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		super.readFromNBT(nbt, modular, stack);
 		setMode(((IModuleMachineRecipeMode) stack.getModule()).getModeClass().getEnumConstants()[nbt.getInteger("Mode")]);
 	}
 

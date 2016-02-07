@@ -76,7 +76,6 @@ public class ButtonGuiTab extends Button<IModularTileEntity<IModularDefault>> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularTileEntity<IModularDefault>> gui) {
-		return Arrays
-				.asList(StatCollector.translateToLocal("mm.modularmachine.bookmark." + moduleGui.getCategoryUID() + "." + moduleGui.getModuleUID() + ".name"));
+		return Arrays.asList(StatCollector.translateToLocal("forest.gui." + moduleGui.getCategoryUID() + "." + moduleGui.getModuleUID() + ".name"));
 	}
 }

@@ -10,7 +10,7 @@ public class RecipeItem {
 	public final FluidStack fluid;
 	public final ItemStack item;
 	public final OreStack ore;
-	public final int slotIndex;
+	public int slotIndex;
 
 	public RecipeItem(ItemStack item) {
 		this.item = item;

@@ -9,17 +9,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
 import de.nedelosk.forestmods.api.modules.fluids.TankData;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
-import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
+import de.nedelosk.forestmods.api.modules.machines.recipe.IMachineRecipeHandler;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
+import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeSaver;
 import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManager.TankMode;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
-import de.nedelosk.forestmods.api.recipes.IRecipeManager;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
@@ -36,26 +36,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class ModuleMachineRecipe extends ModuleMachine implements IModuleMachineRecipe {
 
-	protected final int itemOutputs;
-	protected final int itemInputs;
-	protected final int fluidOutputs;
-	protected final int fluidInputs;
-
 	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs) {
-		super(moduleUID);
-		this.itemInputs = itemInputs;
-		this.itemOutputs = itemOutputs;
-		this.fluidInputs = 0;
-		this.fluidOutputs = 0;
+		super(moduleUID, itemInputs, itemOutputs);
 		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
-	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
-		super(moduleUID);
-		this.itemInputs = itemInputs;
-		this.itemOutputs = itemOutputs;
-		this.fluidInputs = fluidInputs;
-		this.fluidOutputs = fluidOutputs;
+	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs) {
+		super(moduleUID, itemInputs, itemOutputs, fluidInputs, fluidOutputs);
 		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
@@ -91,19 +78,19 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	public boolean removeInput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularDefault> tile = modular.getMachine();
 		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
-		for ( int i = 0; i < getInputs(modular, stack).length; i++ ) {
-			RecipeItem input = getInputs(modular, stack)[i];
-			RecipeItem[] inputs = recipe.getInputs();
-			if (input != null) {
-				if (!inputs[i].isFluid()) {
-					if (inputs[i].isOre()) {
-						tile.getModular().getInventoryManager().decrStackSize(input.slotIndex, inputs[i].ore.stackSize, stack);
+		RecipeItem[] recipeInputs = recipe.getInputs();
+		for ( int i = 0; i < recipeInputs.length; i++ ) {
+			RecipeItem recipeInput = recipeInputs[i];
+			if (recipeInput != null) {
+				if (!recipeInput.isFluid()) {
+					if (recipeInput.isOre()) {
+						tile.getModular().getInventoryManager().decrStackSize(recipeInput.slotIndex, recipeInput.ore.stackSize, stack);
 					} else {
-						tile.getModular().getInventoryManager().decrStackSize(input.slotIndex, inputs[i].item.stackSize, stack);
+						tile.getModular().getInventoryManager().decrStackSize(recipeInput.slotIndex, recipeInput.item.stackSize, stack);
 					}
 					continue;
 				} else {
-					ModularUtils.getTankManager(modular).getModule().drain(ForgeDirection.UNKNOWN, input.fluid, true, stack, modular, true);
+					ModularUtils.getTankManager(modular).getModule().drain(ForgeDirection.UNKNOWN, recipeInput.fluid, true, stack, modular, true);
 					continue;
 				}
 			} else {
@@ -114,77 +101,11 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	}
 
 	@Override
-	public Object[] getCraftingModifiers(IModular modular, ModuleStack stack) {
-		return null;
-	}
-
-	@Override
-	public void updateClient(IModular modular, ModuleStack stack) {
-	}
-
-	@Override
-	public void updateServer(IModular modular, ModuleStack stack) {
-		if (!modular.isAssembled()) {
-			return;
-		}
-		IModularTileEntity<IModularDefault> tile = modular.getMachine();
-		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
-		IModuleMachineSaver saver = (IModuleMachineSaver) stack.getSaver();
-		if (engineStack != null && tile.getEnergyStored(null) > 0 && saver != null) {
-			IModuleEngineSaver engineSaver = engineStack.getSaver();
-			IModuleEngine engine = engineStack.getModule();
-			int burnTime = engineSaver.getBurnTime(engineStack);
-			int burnTimeTotal = engineSaver.getBurnTimeTotal(engineStack);
-			IRecipeManager manager = engineSaver.getManager(engineStack);
-			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
-				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(stack), getInputs(modular, stack), getCraftingModifiers(modular, stack));
-				if (manager != null) {
-					if (addOutput(modular, stack)) {
-						engineSaver.setManager(null);
-						engineSaver.setBurnTimeTotal(0);
-						engineSaver.setBurnTime(0);
-						engineSaver.setIsWorking(false);
-					}
-				} else if (getInputs(modular, stack) != null && recipe != null) {
-					if (ModularUtils.getMachine(modular) == null) {
-						return;
-					}
-					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
-					int burnTimeEngine = engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier();
-					engineSaver.setManager(engine.creatRecipeManager(modular, recipe.getRecipeCategory(), recipe.getRequiredMaterial() / burnTimeEngine,
-							getInputs(modular, stack), getCraftingModifiers(modular, stack)));
-					if (!removeInput(modular, stack)) {
-						engineSaver.setManager(null);
-						return;
-					}
-					engineSaver.setIsWorking(true);
-					engineSaver.setBurnTimeTotal(
-							engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier());
-				}
-				if (saver.getTimer() > saver.getTimerTotal()) {
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
-					saver.setTimer(0);
-				} else {
-					saver.addTimer(1);
-				}
-			} else {
-				if (saver.getTimer() > saver.getTimerTotal()) {
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
-					saver.setTimer(0);
-				} else {
-					saver.addTimer(1);
-				}
-			}
-		}
-	}
-
-	@Override
 	public boolean addOutput(IModular modular, ModuleStack stack) {
 		IModularTileEntity<IModularDefault> tile = modular.getMachine();
-		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
-		IModuleEngineSaver engineSaver = engineStack.getSaver();
-		if (engineSaver.getManager(engineStack).getOutputs() != null) {
-			for ( RecipeItem item : engineSaver.getManager(engineStack).getOutputs() ) {
+		IModuleMachineRecipeSaver saver = (IModuleMachineRecipeSaver) stack.getSaver();
+		if (saver.getRecipeManager().getOutputs() != null) {
+			for ( RecipeItem item : saver.getRecipeManager().getOutputs() ) {
 				if (item != null) {
 					if (!item.isFluid()) {
 						if (tile.getModular().getInventoryManager().addToOutput(item.item.copy(), getItemInputs(stack),
@@ -205,8 +126,61 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 			}
 			return true;
 		}
-		engineSaver.setManager(null);
 		return false;
+	}
+
+	@Override
+	public Object[] getCraftingModifiers(IModular modular, ModuleStack stack) {
+		return null;
+	}
+
+	@Override
+	public void updateClient(IModular modular, ModuleStack stack) {
+	}
+
+	@Override
+	public void updateServer(IModular modular, ModuleStack stack) {
+		if (!modular.isAssembled()) {
+			return;
+		}
+		IModularTileEntity<IModularDefault> tile = modular.getMachine();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack = ModularUtils.getEngine(modular).getStack();
+		IModuleMachineRecipeSaver saver = (IModuleMachineRecipeSaver) stack.getSaver();
+		if (engineStack != null && tile.getEnergyStored(null) > 0) {
+			IModuleEngineSaver engineSaver = engineStack.getSaver();
+			IModuleEngine engine = engineStack.getModule();
+			int burnTime = engineSaver.getBurnTime(engineStack);
+			int burnTimeTotal = engineSaver.getBurnTimeTotal(engineStack);
+			IMachineRecipeHandler manager = saver.getRecipeManager();
+			if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
+				RecipeItem[] inputs = getInputs(modular, stack);
+				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(stack), inputs, getCraftingModifiers(modular, stack));
+				if (manager != null) {
+					if (addOutput(modular, stack)) {
+						saver.setRecipeManager(null);
+						engineSaver.setBurnTimeTotal(0);
+						engineSaver.setBurnTime(0);
+						engineSaver.setIsWorking(false);
+						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) tile, engineStack, true));
+					}
+				} else if (recipe != null) {
+					if (ModularUtils.getMachine(modular) == null) {
+						return;
+					}
+					ModuleItem item = ModuleRegistry.getModuleFromItem(ModularUtils.getMachine(modular).getStack().getItemStack());
+					int burnTimeEngine = engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier();
+					saver.setRecipeManager(new MachineRecipeHandler(modular, recipe.getRecipeCategory(), recipe.getRequiredMaterial() / burnTimeEngine,
+							recipe.getInputs().clone(), getCraftingModifiers(modular, stack)));
+					if (!removeInput(modular, stack)) {
+						saver.setRecipeManager(null);
+						return;
+					}
+					engineSaver.setIsWorking(true);
+					engineSaver.setBurnTimeTotal(
+							engine.getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), stack, engineStack) / item.material.getTier());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -228,36 +202,18 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 		return null;
 	}
 
-	@Override
-	public int getItemInputs(ModuleStack stack) {
-		return itemInputs;
-	}
-
-	@Override
-	public int getItemOutputs(ModuleStack stack) {
-		return itemOutputs;
-	}
-
-	@Override
-	public int getFluidInputs(ModuleStack stack) {
-		return fluidInputs;
-	}
-
-	@Override
-	public int getFluidOutputs(ModuleStack stack) {
-		return fluidOutputs;
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleGui createGui(ModuleStack stack) {
 		return new ModuleMachineRecipeGui(getUID());
 	}
 
-	public abstract Class<? extends IRecipe> getRecipeClass();
-
 	@Override
-	public abstract IModuleInventory createInventory(ModuleStack stack);
+	public IModuleSaver createSaver(ModuleStack stack) {
+		return new ModuleMachineRecipeSaver();
+	}
+
+	public abstract Class<? extends IRecipe> getRecipeClass();
 
 	public class ModuleRecipeHandler implements IRecipeHandler {
 

@@ -61,8 +61,7 @@ public abstract class ModuleGui<M extends IModule, S extends IModuleSaver> imple
 
 	@Override
 	public String getInventoryName(ModuleStack<M, S> stack) {
-		return StatCollector
-				.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getUID().replace(":", ".").toLowerCase(Locale.ENGLISH) + ".name");
+		return StatCollector.translateToLocal("forest.gui." + stack.getModule().getUID().replace(":", ".").toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@Override

@@ -10,11 +10,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.basic.IModuleWithRenderer;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
 import de.nedelosk.forestmods.api.modules.machines.IModuleMachine;
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
@@ -75,7 +75,7 @@ public class ModuleRenderer {
 			Window_Engine_Glass = new ModelRenderer(model, 0, 0);
 			Window_Engine_Glass.setRotationPoint(7.0F, 11.5F, -5.0F);
 			Window_Engine_Glass.addBox(0.0F, 0.0F, 0.0F, 1, 10, 10, 0.0F);
-			baseTexture = loadTexture("normal", stackEngine.getModule().getType().toLowerCase(Locale.ENGLISH), "engine/", "_base.png");
+			baseTexture = loadTexture("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", "_base.png");
 			discTexture = loadTexture("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", ".png");
 			windowLeftTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_left.png");
 			windowRightTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_right.png");
@@ -424,7 +424,7 @@ public class ModuleRenderer {
 		public ModelBase model = new ModelBase() {
 		};
 
-		public MachineRenderer(ModuleStack<IModuleMachine, IModuleMachineSaver> stack) {
+		public MachineRenderer(ModuleStack<IModuleMachine, IModuleSaver> stack) {
 			this.stack = stack;
 			Machine_Front = new ModelRenderer(model, 0, 0);
 			Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);

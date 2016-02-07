@@ -23,7 +23,7 @@ public class ModuleBatteryGui<M extends IModuleBattery, S extends IModuleBattery
 
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Widget> widgets) {
-		widgets.add(new WidgetEnergyField(stack.getSaver().getStorage(), 45, 15));
+		widgets.add(new WidgetEnergyField(stack.getSaver().getStorage(), 55, 15));
 	}
 
 	@Override

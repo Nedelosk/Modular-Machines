@@ -32,7 +32,7 @@ public class ModularMetaItem extends ModularItem {
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[names.length];
 		for ( int i = 0; i < this.itemIcon.length; ++i ) {
-			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + names[i]);
+			this.itemIcon[i] = iconRegister.registerIcon("modularmachines:" + uln + "/" + names[i]);
 		}
 	}
 

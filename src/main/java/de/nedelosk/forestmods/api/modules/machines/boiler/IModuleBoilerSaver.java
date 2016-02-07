@@ -1,7 +1,5 @@
 package de.nedelosk.forestmods.api.modules.machines.boiler;
 
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
-
 public interface IModuleBoilerSaver extends IModuleMachineSaver {
 
 	int getHeat();

@@ -12,9 +12,9 @@ import de.nedelosk.forestcore.library.gui.Widget;
 import de.nedelosk.forestcore.library.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -22,7 +22,7 @@ import de.nedelosk.forestmods.common.modules.gui.ModuleGuiDefault;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
-public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe, S extends IModuleMachineSaver> extends ModuleGuiDefault<M, S> {
+public class ModuleMachineRecipeGui<M extends IModuleMachineRecipe, S extends IModuleSaver> extends ModuleGuiDefault<M, S> {
 
 	public ModuleMachineRecipeGui(String UID) {
 		super(UID);

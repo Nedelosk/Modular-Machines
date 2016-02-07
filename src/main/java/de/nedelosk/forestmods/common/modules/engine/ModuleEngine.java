@@ -13,8 +13,9 @@ import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineType;
 import de.nedelosk.forestmods.api.modules.machines.IModuleMachine;
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
+import de.nedelosk.forestmods.api.modules.machines.recipe.IMachineRecipeHandler;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
+import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeSaver;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeType;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
@@ -27,14 +28,12 @@ import de.nedelosk.forestmods.common.network.packets.PacketModule;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncEngineProgress;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class ModuleEngine extends ModuleAddable implements IModuleEngine {
+public class ModuleEngine extends ModuleAddable implements IModuleEngine {
 
-	protected final String type;
-
-	public ModuleEngine(String moduleUID, String type) {
+	public ModuleEngine(String moduleUID) {
 		super(ModuleCategoryUIDs.ENGINE, moduleUID);
-		this.type = type;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -55,19 +54,15 @@ public abstract class ModuleEngine extends ModuleAddable implements IModuleEngin
 		if (ModularUtils.getMachine(modular) == null) {
 			return;
 		}
-		ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
+		ModuleStack<IModuleMachine, IModuleMachineRecipeSaver> stackMachine = ModularUtils.getMachine(modular).getStack();
 		IModuleEngineSaver saver = (IModuleEngineSaver) stack.getSaver();
-		if (saver.getTimer() > saver.getTimerTotal()) {
-			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
-			saver.setTimer(0);
-		} else {
-			saver.addTimer(1);
-			if (stackMachine.getModule() instanceof IModuleMachineRecipe) {
-				IModuleMachineRecipe machine = (IModuleMachineRecipe) stackMachine.getModule();
-				if (saver.getManager(stack) != null) {
-					if (saver.getManager(stack).removeMaterial()) {
-						saver.addBurnTime(1);
-					}
+		IModuleMachineRecipeSaver machineSaver = stackMachine.getSaver();
+		if (stackMachine.getModule() instanceof IModuleMachineRecipe) {
+			IModuleMachineRecipe machine = (IModuleMachineRecipe) stackMachine.getModule();
+			if (machineSaver.getRecipeManager() != null && saver.getBurnTime(stack) <= saver.getBurnTimeTotal(stack)) {
+				if (removeMaterial(modular, stack, stackMachine)) {
+					saver.addBurnTime(1);
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getMachine(), stack, true));
 				}
 			}
 		}
@@ -86,18 +81,27 @@ public abstract class ModuleEngine extends ModuleAddable implements IModuleEngin
 	}
 
 	@Override
-	public String getType() {
-		return type;
-	}
-
-	@Override
-	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine,
+	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine, IModuleMachineRecipeSaver> stackMachine,
 			ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine) {
 		int speed = ((IModuleEngineType) stackEngine.getType()).getSpeedModifier(stackEngine)
 				* ((IModuleMachineRecipeType) stackMachine.getType()).getSpeed(stackMachine) / 10;
 		IModuleBatterySaver batterySaver = (IModuleBatterySaver) ModularUtils.getBattery(modular).getStack().getSaver();
 		int burnTimeTotal = speed + (speed * batterySaver.getSpeedModifier() / 100);
 		return burnTimeTotal + (burnTimeTotal * speedModifier / 100);
+	}
+
+	@Override
+	public boolean removeMaterial(IModular modular, ModuleStack<IModuleEngine, IModuleEngineSaver> engineStack,
+			ModuleStack<IModuleMachine, IModuleMachineRecipeSaver> machineStack) {
+		if (modular == null || modular.getUtilsManager() == null || modular.getUtilsManager().getEnergyHandler() == null) {
+			return false;
+		}
+		IMachineRecipeHandler handler = machineStack.getSaver().getRecipeManager();
+		if (modular.getUtilsManager().getEnergyHandler().extractEnergy(ForgeDirection.UNKNOWN, handler.getMaterialToRemove(), false) > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

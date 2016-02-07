@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -88,6 +89,15 @@ public class EventHandler {
 							}
 							player.setCurrentItemOrArmor(0, currentItem);
 						}
+						ItemStack stackModular = new ItemStack(BlockManager.blockModularMachines);
+						NBTTagCompound nbt = new NBTTagCompound();
+						stackModular.writeToNBT(nbt);
+						stackModular.setTagCompound(nbt);
+						BlockManager.blockModularMachines.onBlockPlacedBy(world, event.x, event.y, event.z, player, stackModular);
+						if (world.isRemote) {
+							return;
+						}
+						world.markBlockForUpdate(event.x, event.y, event.z);
 					}
 				}
 			}

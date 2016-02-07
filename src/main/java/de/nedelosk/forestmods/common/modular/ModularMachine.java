@@ -15,8 +15,8 @@ public class ModularMachine extends ModularDefault {
 		super();
 	}
 
-	public ModularMachine(NBTTagCompound nbt) {
-		super(nbt);
+	public ModularMachine(NBTTagCompound nbt, IModularTileEntity machine) {
+		super(nbt, machine);
 	}
 
 	@Override

@@ -11,12 +11,12 @@ import de.nedelosk.forestmods.common.items.ItemGearWood;
 import de.nedelosk.forestmods.common.items.ItemGem;
 import de.nedelosk.forestmods.common.items.ItemMetal;
 import de.nedelosk.forestmods.common.items.ItemModule;
-import de.nedelosk.forestmods.common.items.ItemModuleItem;
 import de.nedelosk.forestmods.common.items.ItemNature;
 import de.nedelosk.forestmods.common.items.ItemToolCrafting;
 import de.nedelosk.forestmods.common.items.ItemToolForestday.Material;
 import de.nedelosk.forestmods.common.items.ItemToolParts;
 import de.nedelosk.forestmods.common.items.ItemWoodBucket;
+import de.nedelosk.forestmods.common.items.ModularMetaItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,7 +55,7 @@ public class ItemManager {
 	public static ItemComponent itemCompScrews;
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemCapacitors;
-	public static Item itemEngines;
+	public static Item itemEngine;
 	public static Item itemModules;
 	private static String[] alloys = new String[] { "Bronze", "Invar" };
 	private static String[] steels = new String[] { "Steel", "White_Steel", "Gray_Steel" };
@@ -94,9 +94,9 @@ public class ItemManager {
 		itemCompSawBlades = register(new ItemComponent("saw_blades"));
 		itemWoodBucket = register(new ItemWoodBucket(Blocks.air, "bucket.wood").setMaxStackSize(16));
 		itemWoodBucketWater = register(new ItemWoodBucket(Blocks.water, "bucket.wood.water").setContainerItem(itemWoodBucket)).setMaxStackSize(16);
-		itemCapacitors = register(new ItemModuleItem("capacitor", "capacitor",
-				new String[] { "metal_paper_capacitor", "electrolyte_niobium_capacitor", "electrolyte_tantalum_capacitor", "double_layer_capacitor" }));
-		itemEngines = register(new ItemModuleItem("engine", "engine", new String[] { "iron_engine", "bronze_engine", "steel_engine", "magmarium_engine" }));
+		itemCapacitors = register(
+				new ModularMetaItem("capacitor", new String[] { "metal_paper", "electrolyte_niobium", "electrolyte_tantalum", "double_layer" }));
+		itemEngine = register(new ModularMetaItem("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");
 		itemCompWires.addMetaData(0xCACECF, "tin", "Tin");

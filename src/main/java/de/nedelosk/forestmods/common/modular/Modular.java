@@ -40,7 +40,8 @@ public abstract class Modular implements IModular, IWailaProvider {
 		isAssembled = false;
 	}
 
-	public Modular(NBTTagCompound nbt) {
+	public Modular(NBTTagCompound nbt, IModularTileEntity machine) {
+		setMachine(machine);
 		readFromNBT(nbt);
 	}
 
@@ -87,8 +88,8 @@ public abstract class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		getUtilsManager().readFromNBT(nbt.getCompoundTag("UtilsManager"));
 		getModuleManager().readFromNBT(nbt.getCompoundTag("ModuleManager"));
+		getUtilsManager().readFromNBT(nbt.getCompoundTag("UtilsManager"));
 		isAssembled = nbt.getBoolean("isAssembled");
 		NBTTagList listTag = nbt.getTagList("Modules", 10);
 		tier = nbt.getInteger("Tier");
@@ -163,7 +164,9 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public List getWailaBody(ItemStack itemStack, List currenttip, IWailaData data) {
 		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
-			currenttip = stack.getModule().getWailaBody(itemStack, currenttip, data);
+			if (stack.getModule().getWailaBody(itemStack, currenttip, data) != null) {
+				currenttip = stack.getModule().getWailaBody(itemStack, currenttip, data);
+			}
 		}
 		return currenttip;
 	}
@@ -171,7 +174,9 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
-			currenttip = stack.getModule().getWailaHead(itemStack, currenttip, data);
+			if (stack.getModule().getWailaHead(itemStack, currenttip, data) != null) {
+				currenttip = stack.getModule().getWailaHead(itemStack, currenttip, data);
+			}
 		}
 		return currenttip;
 	}
@@ -179,7 +184,9 @@ public abstract class Modular implements IModular, IWailaProvider {
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
 		for ( ModuleStack<IModuleWaila, IModuleSaver> stack : getWailaModules() ) {
-			currenttip = stack.getModule().getWailaTail(itemStack, currenttip, data);
+			if (stack.getModule().getWailaTail(itemStack, currenttip, data) != null) {
+				currenttip = stack.getModule().getWailaTail(itemStack, currenttip, data);
+			}
 		}
 		return currenttip;
 	}

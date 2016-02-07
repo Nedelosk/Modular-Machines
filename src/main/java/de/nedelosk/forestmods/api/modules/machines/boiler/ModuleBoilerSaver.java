@@ -2,7 +2,6 @@ package de.nedelosk.forestmods.api.modules.machines.boiler;
 
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.machines.ModuleMachineSaver;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleBoilerSaver extends ModuleMachineSaver implements IModuleBoilerSaver {

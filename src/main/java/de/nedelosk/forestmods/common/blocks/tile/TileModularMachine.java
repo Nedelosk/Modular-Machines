@@ -39,8 +39,7 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("Machine")) {
-			modular = new ModularMachine(nbt.getCompoundTag("Machine"));
-			modular.setMachine(this);
+			modular = new ModularMachine(nbt.getCompoundTag("Machine"), this);
 		}
 	}
 

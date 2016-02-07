@@ -86,6 +86,7 @@ public class ModularModuleManager<M extends IModular> implements IModularModuleM
 		if (stack == null) {
 			return false;
 		}
+		stack = stack.copy();
 		IModule module = stack.getModule();
 		if (module == null) {
 			return false;

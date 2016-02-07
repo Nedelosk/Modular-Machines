@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
 import de.nedelosk.forestmods.api.modular.managers.IModularGuiManager;
 import de.nedelosk.forestmods.api.modular.managers.IModularInventoryManager;
+import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.common.modular.managers.ModularGuiManager;
 import de.nedelosk.forestmods.common.modular.managers.ModularInventoryManager;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,8 +26,8 @@ public abstract class ModularDefault extends Modular implements IModularDefault 
 		}
 	}
 
-	public ModularDefault(NBTTagCompound nbt) {
-		super(nbt);
+	public ModularDefault(NBTTagCompound nbt, IModularTileEntity machine) {
+		super(nbt, machine);
 	}
 
 	@Override

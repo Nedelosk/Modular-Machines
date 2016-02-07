@@ -19,7 +19,9 @@ public class WidgetProgressBar extends Widget {
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(burntime + " / " + burntimeTotal);
+		if (burntimeTotal != 0) {
+			list.add(burntime + " / " + burntimeTotal);
+		}
 		return list;
 	}
 
@@ -30,7 +32,7 @@ public class WidgetProgressBar extends Widget {
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
 		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, 22, 15);
-		if (burntime > 0 && burntime <= burntimeTotal) {
+		if (burntime > 0) {
 			gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, 15);
 		}
 	}

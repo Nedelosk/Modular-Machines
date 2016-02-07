@@ -18,7 +18,7 @@ import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.common.modular.ModularMachine;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasingType;
-import de.nedelosk.forestmods.common.modules.engine.ModuleEngineEnergy;
+import de.nedelosk.forestmods.common.modules.engine.ModuleEngine;
 import de.nedelosk.forestmods.common.modules.engine.ModuleEngineType;
 import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipeType;
 import de.nedelosk.forestmods.common.modules.machines.recipe.alloysmelter.ModuleAlloySmelter;
@@ -83,11 +83,12 @@ public class ModuleManager {
 		 * registerProducer(addModule(new ModuleStack(Modules.GENERATOR, new
 		 * ProducerBurningGenerator(10, 45), Materials.BRONZE, true)));
 		 */
-		moduleEngine = ModuleRegistry.registerModule(new ModuleEngineEnergy("Noraml"));
-		addModuleToItem(new ItemStack(ItemManager.itemEngines, 1, 0), moduleEngine, new ModuleEngineType(60), Materials.IRON);
-		addModuleToItem(new ItemStack(ItemManager.itemEngines, 1, 1), moduleEngine, new ModuleEngineType(50), Materials.BRONZE);
-		addModuleToItem(new ItemStack(ItemManager.itemEngines, 1, 2), moduleEngine, new ModuleEngineType(45), Materials.STEEL);
-		addModuleToItem(new ItemStack(ItemManager.itemEngines, 1, 3), moduleEngine, new ModuleEngineType(40), Materials.MAGMARIUM);
+		moduleEngine = ModuleRegistry.registerModule(new ModuleEngine("Default"));
+		addModuleToItem(new ItemStack(ItemManager.itemEngine, 1, 0), moduleEngine, new ModuleEngineType(75), Materials.STONE);
+		addModuleToItem(new ItemStack(ItemManager.itemEngine, 1, 1), moduleEngine, new ModuleEngineType(60), Materials.IRON);
+		addModuleToItem(new ItemStack(ItemManager.itemEngine, 1, 2), moduleEngine, new ModuleEngineType(50), Materials.BRONZE);
+		addModuleToItem(new ItemStack(ItemManager.itemEngine, 1, 3), moduleEngine, new ModuleEngineType(45), Materials.STEEL);
+		addModuleToItem(new ItemStack(ItemManager.itemEngine, 1, 4), moduleEngine, new ModuleEngineType(40), Materials.MAGMARIUM);
 		// addModuleToItem(new ItemStack(ItemManager.itemCapacitors, 1, 0), new
 		// ModuleCapacitor("metal_paper_capacitor", 10, 20), Materials.IRON);
 		// addModuleToItem(new ItemStack(ItemManager.itemCapacitors, 1, 1), new

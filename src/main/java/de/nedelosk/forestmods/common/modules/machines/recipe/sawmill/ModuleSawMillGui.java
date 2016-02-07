@@ -6,21 +6,21 @@ import de.nedelosk.forestcore.library.gui.IGuiBase;
 import de.nedelosk.forestcore.library.gui.Widget;
 import de.nedelosk.forestcore.library.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
-import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipeGui;
 
-public class ModuleSawMillGui extends ModuleMachineRecipeGui<ModuleSawMill, IModuleMachineSaver> {
+public class ModuleSawMillGui extends ModuleMachineRecipeGui<ModuleSawMill, IModuleSaver> {
 
 	public ModuleSawMillGui(String UID) {
 		super(UID);
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleSawMill, IModuleMachineSaver> stack, List<Widget> widgets) {
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleSawMill, IModuleSaver> stack, List<Widget> widgets) {
 		ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 		int burnTime = 0;
 		int burnTimeTotal = 0;

@@ -3,22 +3,18 @@ package de.nedelosk.forestmods.common.modules.machines.generator;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.machines.generator.IModuleGenerator;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe;
+import de.nedelosk.forestmods.common.modules.machines.ModuleMachine;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ProducerGenerator extends ModuleMachineRecipe implements IModuleGenerator {
+public abstract class ProducerGenerator extends ModuleMachine implements IModuleGenerator {
 
 	protected int fuel;
 	protected int fuelTotal;
 	protected int energy;
 	protected String name;
 
-	public ProducerGenerator(NBTTagCompound nbt, IModular modular, ModuleStack stack) {
-		super(nbt, modular, stack);
-	}
-
-	public ProducerGenerator(String name, int inputs, int outputs, int speed, int energy) {
-		super("Generator" + name, inputs, outputs, speed);
+	public ProducerGenerator(String name, int inputs, int outputs, int energy) {
+		super("Generator" + name, inputs, outputs);
 		this.energy = energy;
 		this.name = name;
 	}
