@@ -10,6 +10,7 @@ import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
+import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatteryType;
 import de.nedelosk.forestmods.api.utils.ModularException;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -21,11 +22,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class ModuleBattery extends ModuleAddable implements IModuleBattery {
 
-	public final EnergyStorage defaultStorage;
-
-	public ModuleBattery(String moduleUID, EnergyStorage defaultStorage) {
+	public ModuleBattery(String moduleUID) {
 		super(ModuleCategoryUIDs.BATTERY, moduleUID);
-		this.defaultStorage = defaultStorage;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -43,10 +41,13 @@ public abstract class ModuleBattery extends ModuleAddable implements IModuleBatt
 	@Override
 	public void onAddInModular(IModular modular, ModuleStack stack) throws ModularException {
 		IModuleBatterySaver saver = (IModuleBatterySaver) stack.getSaver();
+		IModuleBatteryType type = (IModuleBatteryType) stack.getType();
 		int energy = getStorageEnergy(stack, stack.getItemStack().copy());
-		EnergyStorage storage = new EnergyStorage(defaultStorage.getMaxEnergyStored(), defaultStorage.getMaxReceive(), defaultStorage.getMaxExtract());
+		EnergyStorage storage = new EnergyStorage(type.getDefaultStorage().getMaxEnergyStored(), type.getDefaultStorage().getMaxReceive(),
+				type.getDefaultStorage().getMaxExtract());
 		storage.setEnergyStored(energy);
-		modular.getUtilsManager().setEnergyHandler(new EnergyHandler(storage));
+		saver.setStorage(storage);
+		modular.getUtilsManager().setEnergyHandler(new EnergyHandler(modular));
 	}
 
 	@SideOnly(Side.CLIENT)

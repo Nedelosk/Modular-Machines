@@ -22,11 +22,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe
 public class ModuleModuleAssembler extends ModuleMachineRecipe {
 
 	public ModuleModuleAssembler() {
-		this("", 75);
-	}
-
-	public ModuleModuleAssembler(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_ASSEMBLER_MODULE, moduleModifier, 9, 2, speedModifier);
+		super(ModuleCategoryUIDs.MACHINE_ASSEMBLER_MODULE, 9, 2);
 	}
 
 	@SideOnly(Side.CLIENT)

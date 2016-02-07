@@ -9,7 +9,7 @@ import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
 import de.nedelosk.forestmods.api.modular.managers.IModularInventoryManager;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
-import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.ModularMachines;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
@@ -52,7 +52,7 @@ public class PacketSelectInventory extends PacketTileEntity<TileEntity> implemen
 		inventoryManager.setCurrentInventory(inventoryManager.getInventory(message.UID));
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 		// getWorld(ctx).markBlockForUpdate(message.x, message.y, message.z);
-		entityPlayerMP.openGui(ForestMods.instance, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
+		entityPlayerMP.openGui(ModularMachines.instance, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
 		return null;
 	}
 }

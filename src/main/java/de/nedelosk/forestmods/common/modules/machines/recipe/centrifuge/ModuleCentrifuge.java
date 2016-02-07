@@ -20,11 +20,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe
 public class ModuleCentrifuge extends ModuleMachineRecipe {
 
 	public ModuleCentrifuge() {
-		this("", 60);
-	}
-
-	public ModuleCentrifuge(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_CENTRIFUGE, moduleModifier, 2, 2, speedModifier);
+		super(ModuleCategoryUIDs.MACHINE_CENTRIFUGE, 2, 2);
 	}
 
 	@Override

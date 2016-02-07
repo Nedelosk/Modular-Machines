@@ -1,20 +1,21 @@
 package de.nedelosk.forestmods.common.core;
 
 import de.nedelosk.forestmods.api.Tabs;
+import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class TabForestMods extends CreativeTabs {
+public class TabModularMachines extends CreativeTabs {
 
-	public static CreativeTabs tabForestMods = Tabs.tabForestMods = new TabForestMods(0, "forestmods");
-	public static CreativeTabs tabComponents = Tabs.tabComponents = new TabForestMods(1, "forestmods.components");
-	public static CreativeTabs tabModules = Tabs.tabModule = new TabForestMods(2, "forestmods.modules");
+	public static CreativeTabs tabForestMods = Tabs.tabForestMods = new TabModularMachines(0, "forestmods");
+	public static CreativeTabs tabComponents = Tabs.tabComponents = new TabModularMachines(1, "forestmods.components");
+	public static CreativeTabs tabModules = Tabs.tabModule = new TabModularMachines(2, "forestmods.modules");
 	private final int tabIcon;
 
-	private TabForestMods(int tabIcon, String label) {
+	private TabModularMachines(int tabIcon, String label) {
 		super(label);
 		this.tabIcon = tabIcon;
 	}
@@ -32,7 +33,7 @@ public class TabForestMods extends CreativeTabs {
 				stack = new ItemStack(ItemManager.itemCompGears, 1, 5);
 				break;
 			case 2:
-				stack = ItemModule.getItem(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER + ":stone");
+				stack = ItemModule.getItem(ModuleCategoryUIDs.MACHINE + ":" + ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, Materials.BRONZE);
 				break;
 		}
 		return stack;

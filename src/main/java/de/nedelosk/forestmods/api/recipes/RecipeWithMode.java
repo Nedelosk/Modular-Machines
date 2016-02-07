@@ -2,8 +2,9 @@ package de.nedelosk.forestmods.api.recipes;
 
 public class RecipeWithMode extends Recipe {
 
-	public RecipeWithMode(RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeName, Object[] modifiers) {
-		super(input, output, speedModifier, material, recipeName, modifiers);
+	public RecipeWithMode(String recipeName, RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeCategory,
+			Object... modifiers) {
+		super(recipeName, input, output, speedModifier, material, recipeCategory, modifiers);
 	}
 
 	@Override

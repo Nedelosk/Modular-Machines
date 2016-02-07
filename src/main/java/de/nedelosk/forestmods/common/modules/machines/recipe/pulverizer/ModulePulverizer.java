@@ -22,11 +22,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe
 public class ModulePulverizer extends ModuleMachineRecipe {
 
 	public ModulePulverizer() {
-		this("", 65);
-	}
-
-	public ModulePulverizer(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_PULVERIZER, moduleModifier, 1, 2, speedModifier);
+		super(ModuleCategoryUIDs.MACHINE_PULVERIZER, 1, 2);
 	}
 
 	@Override

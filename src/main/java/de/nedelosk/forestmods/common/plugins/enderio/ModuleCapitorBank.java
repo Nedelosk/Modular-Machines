@@ -1,6 +1,5 @@
 package de.nedelosk.forestmods.common.plugins.enderio;
 
-import cofh.api.energy.EnergyStorage;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -9,8 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class ModuleCapitorBank extends ModuleBattery {
 
-	public ModuleCapitorBank(String moduleUID, EnergyStorage defaultStorage) {
-		super(moduleUID, defaultStorage);
+	public ModuleCapitorBank(String moduleUID) {
+		super(moduleUID);
 	}
 
 	@Override

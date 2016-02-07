@@ -4,14 +4,16 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.api.modular.material.Materials.Material;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
+import de.nedelosk.forestmods.api.modules.IModuleType;
 import de.nedelosk.forestmods.api.modules.special.IModuleWithItem;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.core.ItemManager;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -27,7 +29,7 @@ public class ItemModule extends Item {
 
 	public ItemModule() {
 		setUnlocalizedName("producers");
-		setCreativeTab(TabForestMods.tabModules);
+		setCreativeTab(TabModularMachines.tabModules);
 		setHasSubtypes(true);
 	}
 
@@ -48,14 +50,15 @@ public class ItemModule extends Item {
 		return icons[pass];
 	}
 
-	public static <M extends IModule> ModuleStack addModule(M module, Material material) {
+	public static <M extends IModule> ModuleStack addModule(M module, IModuleType type, Material material) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
-		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, material);
+		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, type, material);
 		if (ModuleRegistry.getModule(moduleStack.getModule().getModuleUID()) == null) {
 			ModuleRegistry.registerModule(module);
 		}
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("UID", module.getUID());
+		nbtTag.setString("Material", moduleStack.getMaterial().getName());
 		itemStack.setTagCompound(nbtTag);
 		subItems.add(itemStack);
 		moduleStack.setItemStack(itemStack);
@@ -68,7 +71,8 @@ public class ItemModule extends Item {
 		if (!stack.hasTagCompound()) {
 			return StatCollector.translateToLocal("item.module.name");
 		}
-		return StatCollector.translateToLocal("item.module.name") + " " + StatCollector.translateToLocal(stack.getTagCompound().getString("Name") + ".name");
+		return StatCollector.translateToLocal("item.module.name") + " "
+				+ StatCollector.translateToLocal(stack.getTagCompound().getString("Material") + ".name");
 	}
 
 	@Override
@@ -86,11 +90,12 @@ public class ItemModule extends Item {
 		}
 	}
 
-	public static ItemStack getItem(String moduleUID) {
+	public static ItemStack getItem(String moduleUID, Material material) {
 		for ( ItemStack stack : subItems ) {
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("UID")) {
 				String UID = stack.getTagCompound().getString("UID");
-				if (UID.equals(moduleUID)) {
+				Material m = Materials.getMaterial(stack.getTagCompound().getString("Material"));
+				if (UID.equals(moduleUID) && m.equals(material)) {
 					return stack;
 				}
 			}

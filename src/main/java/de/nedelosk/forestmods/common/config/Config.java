@@ -158,9 +158,9 @@ public class Config {
 	}
 
 	public static void postInit() {
-		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleRegistry().getModules().entrySet() ) {
+		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleMaps().getModules().entrySet() ) {
 			if (!config.get(moduleRegistry.name, entry.getKey().toString(), true).getBoolean()) {
-				ModuleRegistry.getModuleRegistry().getModules().remove(entry.getKey());
+				ModuleRegistry.getModuleMaps().getModules().remove(entry.getKey());
 			}
 		}
 		/*

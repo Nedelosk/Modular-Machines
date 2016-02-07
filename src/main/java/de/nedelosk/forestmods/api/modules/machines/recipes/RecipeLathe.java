@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.api.modules.machines.recipes;
 
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
-import de.nedelosk.forestmods.api.recipes.Recipe;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
+import de.nedelosk.forestmods.api.recipes.RecipeWithMode;
 
-public final class RecipeLathe extends Recipe {
+public final class RecipeLathe extends RecipeWithMode {
 
 	public RecipeLathe(String recipeName, RecipeItem[] inputs, RecipeItem[] outputs, int speedModifier, int energy, String recipeCategory, Object[] objects) {
 		super(recipeName, inputs, outputs, speedModifier, energy, recipeCategory, objects);

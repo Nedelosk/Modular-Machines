@@ -1,5 +1,6 @@
 package de.nedelosk.forestmods.api.modules.storage.battery;
 
+import cofh.api.energy.EnergyStorage;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
 
 public interface IModuleBatterySaver extends IModuleSaver {
@@ -15,4 +16,8 @@ public interface IModuleBatterySaver extends IModuleSaver {
 	int getEnergyModifier();
 
 	void setEnergyModifier(int energyModifier);
+
+	EnergyStorage getStorage();
+
+	void setStorage(EnergyStorage storage);
 }

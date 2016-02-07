@@ -1,7 +1,7 @@
 [
 {
-  "modid": "ForestMods",
-  "name": "Forest-Mods",
+  "modid": "ModularMachines",
+  "name": "Modular Machine's",
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",

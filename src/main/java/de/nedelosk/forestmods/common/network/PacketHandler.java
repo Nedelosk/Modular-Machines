@@ -8,6 +8,7 @@ import de.nedelosk.forestmods.common.network.packets.PacketSelectInventory;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectManagerTab;
 import de.nedelosk.forestmods.common.network.packets.PacketSwitchMachineMode;
 import de.nedelosk.forestmods.common.network.packets.PacketSwitchWorktableMode;
+import de.nedelosk.forestmods.common.network.packets.PacketSyncEnergy;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncEngineProgress;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncManagers;
 import de.nedelosk.forestmods.common.network.packets.PacketTankManager;
@@ -27,6 +28,7 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketTankManager.class, PacketTankManager.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSyncEngineProgress.class, PacketSyncEngineProgress.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketSyncEnergy.class, PacketSyncEnergy.class, nextID(), Side.CLIENT);
 	}
 
 	public static int nextID() {

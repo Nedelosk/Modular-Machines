@@ -11,8 +11,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTankEnderIO extends ModuleTank {
 
-	public ModuleTankEnderIO(String modifier, int capacity) {
-		super(modifier, capacity);
+	public ModuleTankEnderIO(String modifier) {
+		super(modifier);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package de.nedelosk.forestmods.common.core;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -19,14 +20,14 @@ import de.nedelosk.forestmods.common.world.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
-public class FMRegistry extends Registry {
+public class MMRegistry extends Registry {
 
 	public static Config config;
 
 	@Override
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
 		config = new Config();
-		Config.config = new Configuration(ForestMods.configFile, Constants.VERSION);
+		Config.config = new Configuration(ModularMachines.configFile, Constants.VERSION);
 		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		PacketHandler.preInit();
@@ -43,8 +44,13 @@ public class FMRegistry extends Registry {
 
 	@Override
 	public void init(Object instance, FMLInitializationEvent event) {
+		AchievementManager achManager = new AchievementManager();
+		MinecraftForge.EVENT_BUS.register(achManager);
+		FMLCommonHandler.instance().bus().register(achManager);
+		OreManager.registerOres();
 		RecipeManager.registerRecipes();
 		ModuleManager.registerModuels();
+		AchievementManager.registerPage();
 		super.init(instance, event);
 	}
 
@@ -63,6 +69,6 @@ public class FMRegistry extends Registry {
 
 	@Override
 	public IGuiHandler getGuiHandler() {
-		return ForestMods.proxy;
+		return ModularMachines.proxy;
 	}
 }

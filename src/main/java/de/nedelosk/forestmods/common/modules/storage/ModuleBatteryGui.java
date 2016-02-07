@@ -12,19 +12,18 @@ import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetEnergyField;
-import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.gui.ModuleGuiDefault;
 
 @SideOnly(Side.CLIENT)
-public class ModuleBatteryGui<P extends IModuleBattery, S extends IModuleBatterySaver> extends ModuleGuiDefault<P, S> {
+public class ModuleBatteryGui<M extends IModuleBattery, S extends IModuleBatterySaver> extends ModuleGuiDefault<M, S> {
 
 	public ModuleBatteryGui(String UID) {
 		super(UID);
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P, S> stack, List<Widget> widgets) {
-		widgets.add(new WidgetEnergyField(((EnergyHandler) modular.getUtilsManager().getEnergyHandler()).getStorage(), 45, 15));
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Widget> widgets) {
+		widgets.add(new WidgetEnergyField(stack.getSaver().getStorage(), 45, 15));
 	}
 
 	@Override
@@ -33,10 +32,10 @@ public class ModuleBatteryGui<P extends IModuleBattery, S extends IModuleBattery
 	}
 
 	@Override
-	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack stack) {
+	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack<M, S> stack) {
 		for ( Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets() ) {
 			if (widget instanceof WidgetEnergyField) {
-				((WidgetEnergyField) widget).storage = ((EnergyHandler) modular.getUtilsManager().getEnergyHandler()).getStorage();
+				((WidgetEnergyField) widget).storage = stack.getSaver().getStorage();
 			}
 		}
 	}

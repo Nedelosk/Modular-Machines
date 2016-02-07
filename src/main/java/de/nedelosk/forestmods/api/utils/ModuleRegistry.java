@@ -10,6 +10,7 @@ import cpw.mods.fml.common.eventhandler.Event;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.material.Materials.Material;
 import de.nedelosk.forestmods.api.modules.IModule;
+import de.nedelosk.forestmods.api.modules.IModuleType;
 import de.nedelosk.forestmods.api.modules.basic.IModuleCategory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class ModuleRegistry {
 
 	// Module Registry
-	private static ModuleNameRegistry moduleRegistry = new ModuleNameRegistry();
+	private static ModuleMaps moduleMaps = new ModuleMaps();
 	private static HashMap<String, IModuleCategory> categorys = Maps.newHashMap();
 	private static ArrayList<ModuleItem> moduleItems = Lists.newArrayList();
 
@@ -33,43 +34,60 @@ public class ModuleRegistry {
 		return categorys.get(categoryUID);
 	}
 
-	public static IModule registerModule(IModule module) {
+	public static <M extends IModule> M registerModule(M module) {
 		if (module == null) {
 			return null;
 		}
-		return moduleRegistry.register(module, module.getUID());
+		return moduleMaps.registerModule(module, module.getUID());
 	}
 
 	public static IModule getModule(ResourceLocation uid) {
 		if (uid == null) {
 			return null;
 		}
-		return moduleRegistry.get(uid);
+		return moduleMaps.getModule(uid);
 	}
 
 	public static IModule getModule(String uid) {
 		if (uid == null) {
 			return null;
 		}
-		return moduleRegistry.get(new ResourceLocation(uid));
+		return moduleMaps.getModule(new ResourceLocation(uid));
 	}
 
-	public static ModuleNameRegistry getModuleRegistry() {
-		return moduleRegistry;
+	public static IModuleType registerModuleType(IModuleType type, IModule module, Material material) {
+		if (type == null || module == null || material == null) {
+			return null;
+		}
+		return moduleMaps.registerModuleType(module, material, type);
 	}
 
-	public static void addModuleToItem(ItemStack stack, IModule module, Material material, boolean ignorNBT) {
-		addModuleToItem(new ModuleStack(stack, module, material), ignorNBT);
+	public static IModuleType getModuleType(IModule module, Material material) {
+		if (module == null || material == null) {
+			return null;
+		}
+		return moduleMaps.getModuleType(module, material);
 	}
 
-	public static void addModuleToItem(ItemStack stack, IModule module, Material material) {
-		addModuleToItem(stack, module, material, false);
+	public static ModuleMaps getModuleMaps() {
+		return moduleMaps;
+	}
+
+	public static void addModuleToItem(ItemStack stack, IModule module, IModuleType type, Material material, boolean ignorNBT) {
+		addModuleToItem(new ModuleStack(stack, module, type, material), ignorNBT);
+	}
+
+	public static void addModuleToItem(ItemStack stack, IModule module, IModuleType type, Material material) {
+		addModuleToItem(stack, module, type, material, false);
 	}
 
 	public static void addModuleToItem(ModuleStack moduleStack, boolean ignorNBT) {
 		ModuleItem moduleItem = new ModuleItem(moduleStack.getItemStack(), moduleStack, moduleStack.getMaterial(), ignorNBT);
 		if (getModule(moduleStack.getModule().getModuleUID()) == null) {
 			registerModule(moduleStack.getModule());
+		}
+		if (moduleStack.getType() == null || moduleStack.getType() != getModuleType(moduleStack.getModule(), moduleStack.getMaterial())) {
+			return;
 		}
 		if (!moduleItems.equals(moduleItem)) {
 			MinecraftForge.EVENT_BUS.post(new ModuleItemRegisterEvent(moduleItem));

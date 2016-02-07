@@ -8,8 +8,8 @@ import de.nedelosk.forestmods.common.modular.recipes.RecipeManagerEnergy;
 
 public class ModuleEngineEnergy extends ModuleEngine {
 
-	public ModuleEngineEnergy(String moduleUID, int speedModifier) {
-		super(moduleUID, speedModifier, "Energy");
+	public ModuleEngineEnergy(String moduleUID) {
+		super(moduleUID, "Energy");
 	}
 
 	@Override

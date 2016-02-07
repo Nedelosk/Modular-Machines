@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 @SideOnly(Side.CLIENT)
-public abstract class ModuleGui<P extends IModule, S extends IModuleSaver> implements IModuleGui<P, S> {
+public abstract class ModuleGui<M extends IModule, S extends IModuleSaver> implements IModuleGui<M, S> {
 
 	protected final String UID;
 
@@ -28,7 +28,7 @@ public abstract class ModuleGui<P extends IModule, S extends IModuleSaver> imple
 	}
 
 	@Override
-	public int getGuiTop(IModular modular, ModuleStack<P, S> stack) {
+	public int getGuiTop(IModular modular, ModuleStack<M, S> stack) {
 		return 166;
 	}
 
@@ -48,36 +48,36 @@ public abstract class ModuleGui<P extends IModule, S extends IModuleSaver> imple
 	}
 
 	@Override
-	public ResourceLocation getCustomGui(IModular modular, ModuleStack<P, S> stack) {
+	public ResourceLocation getCustomGui(IModular modular, ModuleStack<M, S> stack) {
 		return null;
 	}
 
 	@Override
-	public void renderString(FontRenderer fontRenderer, int x, int y, int xM, int yM, ModuleStack<P, S> stack) {
+	public void renderString(FontRenderer fontRenderer, int x, int y, int xM, int yM, ModuleStack<M, S> stack) {
 		if (hasCustomInventoryName(stack)) {
 			fontRenderer.drawString(getInventoryName(stack), 90 - (fontRenderer.getStringWidth(getInventoryName(stack)) / 2), 6, 4210752);
 		}
 	}
 
 	@Override
-	public String getInventoryName(ModuleStack<P, S> stack) {
+	public String getInventoryName(ModuleStack<M, S> stack) {
 		return StatCollector
 				.translateToLocal("mm.modularmachine.bookmark." + stack.getModule().getUID().replace(":", ".").toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@Override
-	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack<P, S> stack) {
+	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack<M, S> stack) {
 	}
 
 	@Override
-	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack<P, S> stack) {
+	public void handleMouseClicked(IModularTileEntity tile, Widget widget, int mouseX, int mouseY, int mouseButton, ModuleStack<M, S> stack) {
 	}
 
 	@Override
-	public void addButtons(IGuiBase gui, IModular modular, ModuleStack<P, S> stack, List<Button> buttons) {
+	public void addButtons(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Button> buttons) {
 	}
 
 	@Override
-	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<P, S> stack, List<Widget> widgets) {
+	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<M, S> stack, List<Widget> widgets) {
 	}
 }

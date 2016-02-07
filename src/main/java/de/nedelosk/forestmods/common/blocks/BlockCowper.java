@@ -8,7 +8,7 @@ import de.nedelosk.forestmods.common.blocks.tile.TileCowperAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort.PortType;
-import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.ModularMachines;
 import de.nedelosk.forestmods.common.multiblocks.cowper.MultiblockCowper;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -174,6 +174,6 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 
 	@Override
 	public void openGui(EntityPlayer player, World world, int x, int y, int z) {
-		player.openGui(ForestMods.instance, 0, world, x, y, z);
+		player.openGui(ModularMachines.instance, 0, world, x, y, z);
 	}
 }

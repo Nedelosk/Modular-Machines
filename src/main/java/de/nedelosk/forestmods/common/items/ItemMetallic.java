@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestcore.items.ItemForest;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class ItemMetallic extends ItemForest {
 	public IIcon[] itemIcon;
 
 	public ItemMetallic() {
-		super(null, TabForestMods.tabForestMods);
+		super(null, TabModularMachines.tabForestMods);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
 	}

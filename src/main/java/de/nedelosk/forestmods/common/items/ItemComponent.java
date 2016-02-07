@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class ItemComponent extends Item {
 
 	public ItemComponent(String name) {
 		this.setUnlocalizedName("component." + name);
-		this.setCreativeTab(TabForestMods.tabComponents);
+		this.setCreativeTab(TabModularMachines.tabComponents);
 		this.componentName = name;
 	}
 

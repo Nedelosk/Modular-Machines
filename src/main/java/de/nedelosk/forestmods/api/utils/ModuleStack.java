@@ -5,6 +5,7 @@ import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.api.modular.material.Materials.Material;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
+import de.nedelosk.forestmods.api.modules.IModuleType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -15,13 +16,40 @@ public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
 	private S saver;
 	private ItemStack itemStack;
 	private Material material;
-	private int ID;
+	private IModuleType type;
+
+	public ModuleStack(ItemStack itemStack, M module, IModuleType type, Material material) {
+		this.module = module;
+		this.itemStack = itemStack;
+		this.material = material;
+		this.saver = (S) module.createSaver(this);
+		if (ModuleRegistry.getModuleType(module, material) == null) {
+			ModuleRegistry.registerModuleType(type, module, material);
+		} else if (type != ModuleRegistry.getModuleType(module, material)) {
+			type = ModuleRegistry.getModuleType(module, material);
+		}
+		this.type = type;
+	}
 
 	public ModuleStack(ItemStack itemStack, M module, Material material) {
 		this.module = module;
 		this.itemStack = itemStack;
 		this.material = material;
 		this.saver = (S) module.createSaver(this);
+		this.type = ModuleRegistry.getModuleType(module, material);
+	}
+
+	public ModuleStack(M module, IModuleType type, Material material) {
+		this.module = module;
+		this.saver = (S) module.createSaver(this);
+		this.material = material;
+		this.itemStack = null;
+		if (ModuleRegistry.getModuleType(module, material) == null) {
+			ModuleRegistry.registerModuleType(type, module, material);
+		} else if (type != ModuleRegistry.getModuleType(module, material)) {
+			type = ModuleRegistry.getModuleType(module, material);
+		}
+		this.type = type;
 	}
 
 	public ModuleStack(M module, Material material) {
@@ -29,6 +57,7 @@ public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
 		this.saver = (S) module.createSaver(this);
 		this.material = material;
 		this.itemStack = null;
+		this.type = ModuleRegistry.getModuleType(module, material);
 	}
 
 	@Override
@@ -89,16 +118,12 @@ public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
 		return material;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
-	}
-
-	public int getID() {
-		return ID;
-	}
-
 	public void setMaterial(Material material) {
 		this.material = material;
+	}
+
+	public IModuleType getType() {
+		return type;
 	}
 
 	public ModuleStack copy() {

@@ -13,8 +13,6 @@ import de.nedelosk.forestmods.api.utils.ModuleStack;
 
 public interface IModuleMachine extends IModuleNEI, IModuleUpdatable, IModuleWithItem, IModuleController, IModuleWaila, IModuleWithRenderer, IModuleAddable {
 
-	int getSpeed(ModuleStack stack);
-
 	@SideOnly(Side.CLIENT)
 	String getFilePath(ModuleStack stack);
 }

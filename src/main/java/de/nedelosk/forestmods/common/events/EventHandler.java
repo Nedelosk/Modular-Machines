@@ -130,8 +130,8 @@ public class EventHandler {
 	@SubscribeEvent
 	public void stickDrop(BlockEvent.HarvestDropsEvent event) {
 		Random r = new Random();
-		if (event.block == Blocks.leaves || event.block == Blocks.leaves2) {
-			if (r.nextInt(16) == 0) {
+		if (event.block.isLeaves(event.world, event.x, event.y, event.z)) {
+			if (r.nextInt(31) == 0) {
 				event.drops.add(new ItemStack(Items.stick));
 			}
 		}

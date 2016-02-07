@@ -22,8 +22,8 @@ import net.minecraft.item.ItemStack;
 
 public abstract class ModuleMachine extends ModuleAddable implements IModuleMachine, IModuleWithFluid {
 
-	public ModuleMachine(String moduleUID, String moduleModifier) {
-		super(ModuleCategoryUIDs.MACHINE, moduleUID + "." + moduleModifier);
+	public ModuleMachine(String moduleUID) {
+		super(ModuleCategoryUIDs.MACHINE, moduleUID);
 	}
 
 	@SideOnly(Side.CLIENT)

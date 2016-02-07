@@ -8,7 +8,7 @@ import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort.PortType;
-import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.ModularMachines;
 import de.nedelosk.forestmods.common.multiblocks.blastfurnace.MultiblockBlastFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -161,6 +161,6 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 
 	@Override
 	public void openGui(EntityPlayer player, World world, int x, int y, int z) {
-		player.openGui(ForestMods.instance, 0, world, x, y, z);
+		player.openGui(ModularMachines.instance, 0, world, x, y, z);
 	}
 }

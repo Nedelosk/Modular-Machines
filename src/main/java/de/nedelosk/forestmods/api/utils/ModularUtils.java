@@ -18,6 +18,8 @@ import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManager;
 import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManagerSaver;
+import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
+import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 
 public class ModularUtils {
 
@@ -48,6 +50,10 @@ public class ModularUtils {
 
 	public static ISingleModuleContainer getBattery(IModular modular) {
 		return getSingleContainer(modular, ModuleCategoryUIDs.BATTERY);
+	}
+
+	public static ModuleStack<IModuleBattery, IModuleBatterySaver> getBatteryStack(IModular modular) {
+		return getBattery(modular).getStack();
 	}
 
 	public static ISingleModuleContainer getEngine(IModular modular) {

@@ -11,9 +11,11 @@ import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
+import de.nedelosk.forestmods.api.modules.engine.IModuleEngineType;
 import de.nedelosk.forestmods.api.modules.machines.IModuleMachine;
 import de.nedelosk.forestmods.api.modules.machines.IModuleMachineSaver;
 import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
+import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipeType;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
@@ -28,12 +30,10 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class ModuleEngine extends ModuleAddable implements IModuleEngine {
 
-	protected final int speedModifier;
 	protected final String type;
 
-	public ModuleEngine(String moduleUID, int speedModifier, String type) {
+	public ModuleEngine(String moduleUID, String type) {
 		super(ModuleCategoryUIDs.ENGINE, moduleUID);
-		this.speedModifier = speedModifier;
 		this.type = type;
 	}
 
@@ -86,11 +86,6 @@ public abstract class ModuleEngine extends ModuleAddable implements IModuleEngin
 	}
 
 	@Override
-	public int getSpeedModifier(ModuleStack stack) {
-		return speedModifier;
-	}
-
-	@Override
 	public String getType() {
 		return type;
 	}
@@ -98,7 +93,8 @@ public abstract class ModuleEngine extends ModuleAddable implements IModuleEngin
 	@Override
 	public int getBurnTimeTotal(IModular modular, int speedModifier, ModuleStack<IModuleMachine, IModuleMachineSaver> stackMachine,
 			ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine) {
-		int speed = getSpeedModifier(stackEngine) * stackMachine.getModule().getSpeed(stackMachine) / 10;
+		int speed = ((IModuleEngineType) stackEngine.getType()).getSpeedModifier(stackEngine)
+				* ((IModuleMachineRecipeType) stackMachine.getType()).getSpeed(stackMachine) / 10;
 		IModuleBatterySaver batterySaver = (IModuleBatterySaver) ModularUtils.getBattery(modular).getStack().getSaver();
 		int burnTimeTotal = speed + (speed * batterySaver.getSpeedModifier() / 100);
 		return burnTimeTotal + (burnTimeTotal * speedModifier / 100);

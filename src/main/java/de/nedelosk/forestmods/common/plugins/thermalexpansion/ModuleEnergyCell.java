@@ -1,6 +1,5 @@
 package de.nedelosk.forestmods.common.plugins.thermalexpansion;
 
-import cofh.api.energy.EnergyStorage;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -9,8 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class ModuleEnergyCell extends ModuleBattery {
 
-	public ModuleEnergyCell(String moduleUID, EnergyStorage defaultStorage) {
-		super(moduleUID, defaultStorage);
+	public ModuleEnergyCell(String moduleUID) {
+		super(moduleUID);
 	}
 
 	@Override

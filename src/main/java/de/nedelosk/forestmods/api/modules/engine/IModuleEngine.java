@@ -13,8 +13,6 @@ import de.nedelosk.forestmods.api.utils.ModuleStack;
 
 public interface IModuleEngine extends IModuleAddable, IModuleUpdatable, IModuleWaila, IModuleWithRenderer {
 
-	int getSpeedModifier(ModuleStack stack);
-
 	int getMaterialModifier(ModuleStack stack);
 
 	String getType();

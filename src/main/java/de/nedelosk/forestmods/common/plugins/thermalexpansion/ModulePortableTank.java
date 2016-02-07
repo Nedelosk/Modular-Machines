@@ -10,8 +10,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModulePortableTank extends ModuleTank {
 
-	public ModulePortableTank(String modifier, int capacity) {
-		super(modifier, capacity);
+	public ModulePortableTank(String modifier) {
+		super(modifier);
 	}
 
 	@Override

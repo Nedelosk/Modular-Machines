@@ -94,7 +94,7 @@ public abstract class Registry {
 	}
 
 	public static String setUnlocalizedBlockName(String name) {
-		return "forest." + ".block." + name;
+		return "forest.block." + name;
 	}
 
 	public static Item registerItem(Item item, String name) {

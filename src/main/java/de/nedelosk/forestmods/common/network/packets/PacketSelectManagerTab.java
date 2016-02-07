@@ -10,7 +10,7 @@ import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.managers.IModuleManagerSaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.ModularMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -70,6 +70,6 @@ public class PacketSelectManagerTab extends PacketTileEntity<TileEntity> impleme
 		((IModuleManagerSaver) ModularUtils.getManagers(tile.getModular()).getStack(message.moduleName).getSaver()).setTab(message.tabID);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 		PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
-		entityPlayerMP.openGui(ForestMods.instance, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
+		entityPlayerMP.openGui(ModularMachines.instance, 0, entityPlayerMP.worldObj, message.x, message.y, message.z);
 	}
 }

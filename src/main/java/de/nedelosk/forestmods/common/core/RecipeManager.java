@@ -132,6 +132,10 @@ public class RecipeManager {
 		addShapelessRecipe(new ItemStack(BlockManager.blockMachines, 1, 2), new ItemStack(BlockManager.blockMachines, 1, 1), Blocks.chest);
 		addShapedRecipe(new ItemStack(BlockManager.blockMachines, 1, 3), "ILI", "ICI", "ILI", 'I', "ingotIron", 'C', Blocks.chest, 'L',
 				BlockManager.blockGravel);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings), "+++", "+ +", "---", '+', Blocks.stone, '-', Blocks.brick_block);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 1), "+++", "+ +", "---", '+', Blocks.stone, '-', Blocks.stonebrick);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 2), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.brick_block);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 3), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.brick_block);
 	}
 
 	private static void addCampfireRecipes() {

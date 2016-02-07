@@ -19,12 +19,8 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe
 
 public class ModuleSawMill extends ModuleMachineRecipe {
 
-	public ModuleSawMill(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, moduleModifier, 1, 2, speedModifier);
-	}
-
 	public ModuleSawMill() {
-		this("", 60);
+		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, 1, 2);
 	}
 
 	@Override

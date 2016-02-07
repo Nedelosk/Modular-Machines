@@ -5,7 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -22,7 +22,7 @@ public class ModularMetaItem extends ModularItem {
 	public ModularMetaItem(String uln, String[] names) {
 		super(uln);
 		setHasSubtypes(true);
-		setCreativeTab(TabForestMods.tabModules);
+		setCreativeTab(TabModularMachines.tabModules);
 		this.names = names;
 		this.uln = uln;
 	}

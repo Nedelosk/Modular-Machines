@@ -13,7 +13,7 @@ import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.ModularMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncManagers;
 import net.minecraft.block.Block;
@@ -69,7 +69,7 @@ public class BlockModularMachine extends BlockModular {
 			if (tile instanceof TileModularMachine) {
 				TileModularMachine modularMachine = (TileModularMachine) tile;
 				if (modularMachine.getModular() != null && modularMachine.getModular().isAssembled()) {
-					player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
+					player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
 					return true;
 				}
 				if (player.getCurrentEquippedItem() != null) {

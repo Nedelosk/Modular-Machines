@@ -6,15 +6,7 @@ import de.nedelosk.forestmods.common.modules.ModuleAddable;
 
 public abstract class ModuleTank extends ModuleAddable implements IModuleTank {
 
-	private final int capacity;
-
-	public ModuleTank(String moduleUID, int capacity) {
+	public ModuleTank(String moduleUID) {
 		super(ModuleCategoryUIDs.TANK, moduleUID);
-		this.capacity = capacity;
-	}
-
-	@Override
-	public int getCapacity() {
-		return capacity;
 	}
 }

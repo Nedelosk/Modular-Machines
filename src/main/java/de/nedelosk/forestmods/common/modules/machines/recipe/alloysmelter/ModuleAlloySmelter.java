@@ -22,11 +22,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipe
 public class ModuleAlloySmelter extends ModuleMachineRecipe {
 
 	public ModuleAlloySmelter() {
-		this("", 60);
-	}
-
-	public ModuleAlloySmelter(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, moduleModifier, 2, 2, speedModifier);
+		super(ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, 2, 2);
 	}
 
 	@Override

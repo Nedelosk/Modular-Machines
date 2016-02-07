@@ -27,11 +27,7 @@ import de.nedelosk.forestmods.common.modules.machines.recipe.mode.ModuleMachineR
 public class ModuleLathe extends ModuleMachineRecipeMode {
 
 	public ModuleLathe() {
-		this("", 60);
-	}
-
-	public ModuleLathe(String moduleModifier, int speedModifier) {
-		super(ModuleCategoryUIDs.MACHINE_LATHE, moduleModifier, 1, 2, speedModifier, LatheModes.ROD);
+		super(ModuleCategoryUIDs.MACHINE_LATHE, 1, 2, LatheModes.ROD);
 	}
 
 	@Override

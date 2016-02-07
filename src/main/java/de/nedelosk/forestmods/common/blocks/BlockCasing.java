@@ -3,7 +3,7 @@ package de.nedelosk.forestmods.common.blocks;
 import java.util.List;
 
 import de.nedelosk.forestcore.blocks.BlockForest;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,7 +17,7 @@ public class BlockCasing extends BlockForest {
 	public String[] textures;
 
 	public BlockCasing(String[] textures) {
-		super(Material.ground, TabForestMods.tabModules);
+		super(Material.ground, TabModularMachines.tabModules);
 		this.textures = textures;
 		setBlockName("casing");
 	}

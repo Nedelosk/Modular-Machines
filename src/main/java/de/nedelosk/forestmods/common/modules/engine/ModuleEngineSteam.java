@@ -8,8 +8,8 @@ import de.nedelosk.forestmods.common.modular.recipes.RecipeManagerSteam;
 
 public class ModuleEngineSteam extends ModuleEngine {
 
-	public ModuleEngineSteam(String moduleUID, int speedModifier) {
-		super(moduleUID, speedModifier, "Steam");
+	public ModuleEngineSteam(String moduleUID) {
+		super(moduleUID, "Steam");
 	}
 
 	@Override

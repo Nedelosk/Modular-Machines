@@ -40,25 +40,22 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	protected final int itemInputs;
 	protected final int fluidOutputs;
 	protected final int fluidInputs;
-	protected final int speed;
 
-	public ModuleMachineRecipe(String moduleUID, String moduleModifier, int itemInputs, int itemOutputs, int speed) {
-		super(moduleUID, moduleModifier);
+	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs) {
+		super(moduleUID);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = 0;
 		this.fluidOutputs = 0;
-		this.speed = speed;
 		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
-	public ModuleMachineRecipe(String moduleUID, String moduleModifier, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
-		super(moduleUID, moduleModifier);
+	public ModuleMachineRecipe(String moduleUID, int itemInputs, int itemOutputs, int fluidInputs, int fluidOutputs, int speed) {
+		super(moduleUID);
 		this.itemInputs = itemInputs;
 		this.itemOutputs = itemOutputs;
 		this.fluidInputs = fluidInputs;
 		this.fluidOutputs = fluidOutputs;
-		this.speed = speed;
 		RecipeRegistry.registerRecipeHandler(getRecipeCategory(null), new ModuleRecipeHandler());
 	}
 
@@ -229,11 +226,6 @@ public abstract class ModuleMachineRecipe extends ModuleMachine implements IModu
 	@Override
 	public JsonObject writeCraftingModifiers(Object[] objects) {
 		return null;
-	}
-
-	@Override
-	public int getSpeed(ModuleStack stack) {
-		return speed;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.forestcore.blocks.BlockForest;
-import de.nedelosk.forestmods.common.core.TabForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +20,7 @@ public class BlockComponent extends BlockForest {
 	public String name;
 
 	public BlockComponent(Material material, String name) {
-		super(material, TabForestMods.tabComponents);
+		super(material, TabModularMachines.tabComponents);
 		this.setBlockName("component." + name);
 		this.name = name;
 	}
