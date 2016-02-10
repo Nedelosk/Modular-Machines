@@ -2,9 +2,9 @@ package de.nedelosk.forestmods.common.modules.machines.recipe.assembler;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
-import de.nedelosk.forestcore.library.gui.WidgetProgressBar;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
+import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;

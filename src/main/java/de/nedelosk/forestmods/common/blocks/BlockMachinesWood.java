@@ -16,8 +16,8 @@ import de.nedelosk.forestcore.utils.WorldUtil;
 import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileMachineBase;
+import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.common.core.ItemManager;
-import de.nedelosk.forestmods.common.core.ModularMachines;
 import de.nedelosk.forestmods.common.items.ItemCampfire;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -146,7 +146,7 @@ public class BlockMachinesWood extends BlockContainerForest {
 			}
 		}
 		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileMachineBase) {
-			player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
+			player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
 			return true;
 		}
 		return false;
@@ -248,9 +248,6 @@ public class BlockMachinesWood extends BlockContainerForest {
 			tile.setOwner(((EntityPlayer) player).getGameProfile());
 		}
 		tile.facing = getFacingForHeading(heading);
-		if (world.isRemote) {
-			return;
-		}
 		world.markBlockForUpdate(x, y, z);
 	}
 

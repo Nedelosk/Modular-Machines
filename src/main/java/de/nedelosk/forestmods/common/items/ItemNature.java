@@ -30,7 +30,7 @@ public class ItemNature extends ItemForest {
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[material.length];
 		for ( int i = 0; i < this.itemIcon.length; ++i ) {
-			this.itemIcon[i] = iconRegister.registerIcon("forestday:" + material[i]);
+			this.itemIcon[i] = iconRegister.registerIcon("forestmods:" + material[i]);
 		}
 	}
 

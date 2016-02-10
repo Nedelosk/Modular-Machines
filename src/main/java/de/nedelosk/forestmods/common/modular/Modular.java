@@ -45,6 +45,10 @@ public abstract class Modular implements IModular, IWailaProvider {
 		readFromNBT(nbt);
 	}
 
+	public Modular(NBTTagCompound nbt) {
+		readFromNBT(nbt);
+	}
+
 	@Override
 	public void assemble() {
 		ModuleStack<IModuleController, IModuleSaver> controller = null;

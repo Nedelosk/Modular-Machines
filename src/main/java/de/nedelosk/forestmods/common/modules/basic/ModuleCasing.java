@@ -2,15 +2,15 @@ package de.nedelosk.forestmods.common.modules.basic;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.basic.IModuleCasing;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.render.modules.ModuleRenderer;
+import de.nedelosk.forestmods.client.render.modules.CasingRenderer;
 import de.nedelosk.forestmods.common.modules.ModuleDefault;
 import de.nedelosk.forestmods.common.modules.gui.ModuleGuiDefault;
 import de.nedelosk.forestmods.common.modules.inventory.ModuleInventoryDefault;
@@ -25,13 +25,13 @@ public class ModuleCasing extends ModuleDefault implements IModuleCasing {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return new ModuleRenderer.CasingRenderer(moduleStack);
+		return new CasingRenderer(moduleStack);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		return new ModuleRenderer.CasingRenderer(moduleStack);
+		return new CasingRenderer(moduleStack);
 	}
 
 	@Override

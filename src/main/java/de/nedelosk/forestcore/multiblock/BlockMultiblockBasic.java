@@ -58,7 +58,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		String prefix = "modularmachines:" + getMultiblockName() + "/";
+		String prefix = "forestmods:" + getMultiblockName() + "/";
 		for ( int metadata = 0; metadata < states.length; ++metadata ) {
 			String[] blockStates = states[metadata];
 			icons[metadata] = new IIcon[blockStates.length];
@@ -66,7 +66,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 				icons[metadata][state] = par1IconRegister.registerIcon(prefix + subBlocks[metadata] + "/" + blockStates[state]);
 			}
 		}
-		this.blockIcon = par1IconRegister.registerIcon("modularmachines:" + getMultiblockName() + "/default");
+		this.blockIcon = par1IconRegister.registerIcon("forestmods:" + getMultiblockName() + "/default");
 	}
 
 	@Override

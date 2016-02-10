@@ -2,8 +2,8 @@ package de.nedelosk.forestmods.common.modules.heater;
 
 import java.util.List;
 
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.integration.IWailaData;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;

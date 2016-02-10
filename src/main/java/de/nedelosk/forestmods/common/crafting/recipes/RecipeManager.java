@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonReader;
 
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
-import de.nedelosk.forestmods.common.core.ModularMachines;
+import de.nedelosk.forestmods.common.core.ForestMods;
 
 public class RecipeManager {
 
@@ -37,7 +37,7 @@ public class RecipeManager {
 	}
 
 	private static void parseRecipes() {
-		File file = new File(ModularMachines.configFolder, "recipes");
+		File file = new File(ForestMods.configFolder, "recipes");
 		for ( String recipeName : RecipeRegistry.getRecipes().keySet() ) {
 			try {
 				File recipeFile = new File(file, recipeName.toLowerCase(Locale.ENGLISH) + "_recipes.json");
@@ -62,7 +62,7 @@ public class RecipeManager {
 	}
 
 	private static void writeRecipes() {
-		File file = new File(ModularMachines.configFolder, "recipes");
+		File file = new File(ForestMods.configFolder, "recipes");
 		if (!file.exists()) {
 			file.mkdirs();
 		}

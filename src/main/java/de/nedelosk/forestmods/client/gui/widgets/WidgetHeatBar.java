@@ -6,15 +6,15 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class WidgetHeatBar extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widget_heat_bar.png");
+	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widget_heat_bar.png");
 	public int heat;
 	public int heatTotal;
 	public int posX, posY;

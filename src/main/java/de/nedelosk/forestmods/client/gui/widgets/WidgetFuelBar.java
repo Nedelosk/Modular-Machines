@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class WidgetFuelBar extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestday", "textures/gui/widget_fuel_bar.png");
+	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widget_fuel_bar.png");
 	public int fuelMax;
 	public int fuel;
 

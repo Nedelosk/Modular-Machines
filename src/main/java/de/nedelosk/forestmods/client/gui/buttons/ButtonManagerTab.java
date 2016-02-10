@@ -5,15 +5,15 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.library.gui.Button;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Button;
+import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.managers.IModuleManager;
 import de.nedelosk.forestmods.api.modules.managers.IModuleManagerSaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.GuiModular;
+import de.nedelosk.forestmods.client.gui.GuiModularMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectManagerTab;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ButtonManagerTab<M extends IModuleManager, S extends IModuleManagerSaver> extends Button<IModularTileEntity<IModular>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
 	public ModuleStack<M, S> stack;
 	public boolean down;
 	public int tabID;
@@ -40,7 +40,7 @@ public class ButtonManagerTab<M extends IModuleManager, S extends IModuleManager
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		GuiModular machine = (GuiModular) mc.currentScreen;
+		GuiModularMachines machine = (GuiModularMachines) mc.currentScreen;
 		IModuleManager manager = stack.getModule();
 		IModuleManagerSaver managerSaver = stack.getSaver();
 		RenderUtil.bindTexture(guiTextureOverlay);

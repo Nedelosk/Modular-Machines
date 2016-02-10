@@ -198,7 +198,7 @@ public class ModuleRegistry {
 		}
 
 		public ModuleItem copy() {
-			return new ModuleItem(stack, moduleStack, material, ignorNBT);
+			return new ModuleItem(stack.copy(), moduleStack.copy(), material, ignorNBT);
 		}
 	}
 }

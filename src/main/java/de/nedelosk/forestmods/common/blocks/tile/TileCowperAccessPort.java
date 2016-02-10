@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.inventory.FakeInventoryAdapter;
 import de.nedelosk.forestcore.inventory.IInventoryAdapter;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestmods.client.gui.GuiCowperAccessPort;
+import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowperAccessPort;
 import de.nedelosk.forestmods.common.inventory.ContainerCowperAccessPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

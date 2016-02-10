@@ -27,9 +27,9 @@ public class BlockCasing extends BlockForest {
 		icons = new IIcon[textures.length][3];
 		for ( int i = 0; i < textures.length; i++ ) {
 			String texture = textures[i];
-			icons[i][0] = IIconRegister.registerIcon("modularmachines:casing/" + texture + "_down");
-			icons[i][1] = IIconRegister.registerIcon("modularmachines:casing/" + texture + "_top");
-			icons[i][2] = IIconRegister.registerIcon("modularmachines:casing/" + texture + "_side");
+			icons[i][0] = IIconRegister.registerIcon("forestmods:casing/" + texture + "_down");
+			icons[i][1] = IIconRegister.registerIcon("forestmods:casing/" + texture + "_top");
+			icons[i][2] = IIconRegister.registerIcon("forestmods:casing/" + texture + "_side");
 		}
 	}
 

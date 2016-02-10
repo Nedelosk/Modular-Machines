@@ -5,7 +5,7 @@ import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.config.Config;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiCampfire extends GuiMachine<TileCampfire> {
+public class GuiCampfire extends GuiForestBase<TileCampfire> {
 
 	public GuiCampfire(TileCampfire tile, InventoryPlayer inventory) {
 		super(tile, inventory);

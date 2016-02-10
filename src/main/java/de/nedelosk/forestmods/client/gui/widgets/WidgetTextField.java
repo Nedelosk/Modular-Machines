@@ -2,9 +2,9 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import org.lwjgl.opengl.GL11;
 
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.inventory.IGuiHandler;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

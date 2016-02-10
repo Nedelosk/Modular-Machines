@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemMetal extends ModularItem {
+public class ItemMetal extends ItemModular {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;

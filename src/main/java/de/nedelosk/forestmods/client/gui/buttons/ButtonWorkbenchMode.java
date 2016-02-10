@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.library.gui.Button;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Button;
+import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench.Mode;
@@ -19,12 +19,11 @@ import net.minecraft.util.StatCollector;
 public class ButtonWorkbenchMode extends Button<TileWorkbench> {
 
 	private Mode mode;
-	private final ResourceLocation texture;
+	private final ResourceLocation texture = new ResourceLocation("forestmods", "textures/gui/button/workbench_mode.png");
 
-	public ButtonWorkbenchMode(int arg0, int x, int y, Mode mode, ResourceLocation texture) {
-		super(arg0, x, y, 20, 20, "");
+	public ButtonWorkbenchMode(int x, int y, Mode mode) {
+		super(0, x, y, 20, 20, "");
 		this.mode = mode;
-		this.texture = texture;
 	}
 
 	public void setMode(Mode mode) {

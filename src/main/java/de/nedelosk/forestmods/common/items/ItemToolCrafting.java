@@ -3,13 +3,13 @@ package de.nedelosk.forestmods.common.items;
 import de.nedelosk.forestmods.api.crafting.ITool;
 import net.minecraft.item.ItemStack;
 
-public class ItemToolCrafting extends ItemToolForestday implements ITool {
+public class ItemToolCrafting extends ItemTool implements ITool {
 
 	protected int damage;
 
 	public ItemToolCrafting(String name, int maxDamage, int tier, Material material, String nameTexture, int damage) {
 		super(name, maxDamage, tier, material);
-		this.setTextureName("forestday:tools/" + nameTexture);
+		this.setTextureName("forestmods:tools/" + nameTexture);
 		this.damage = damage;
 		this.setNoRepair();
 	}

@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.common.inventory.slots;
 
-import de.nedelosk.forestmods.common.items.ItemToolForestday;
+import de.nedelosk.forestmods.common.items.ItemTool;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,7 @@ public class SlotTool extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if (stack.getItem() instanceof ItemToolForestday) {
+		if (stack.getItem() instanceof ItemTool) {
 			return true;
 		}
 		return false;

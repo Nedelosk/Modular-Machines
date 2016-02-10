@@ -2,8 +2,8 @@ package de.nedelosk.forestmods.api.modules.basic;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleStack;

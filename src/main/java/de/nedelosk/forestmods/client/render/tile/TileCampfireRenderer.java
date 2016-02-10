@@ -12,8 +12,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 
-	public static final ResourceLocation textureModelWood = new ResourceLocation("forestday", "textures/models/campfire_wood.png");
-	public static final ResourceLocation textureModelItem = new ResourceLocation("forestday", "textures/models/campfire_item.png");
+	public static final ResourceLocation textureModelWood = new ResourceLocation("forestmods", "textures/models/campfire_wood.png");
+	public static final ResourceLocation textureModelItem = new ResourceLocation("forestmods", "textures/models/campfire_item.png");
 	private ModelCampfire model;
 
 	public TileCampfireRenderer() {

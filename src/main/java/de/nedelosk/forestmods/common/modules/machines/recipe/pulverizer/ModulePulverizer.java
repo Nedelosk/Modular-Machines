@@ -5,9 +5,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
-import de.nedelosk.forestcore.library.gui.WidgetProgressBar;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
+import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;

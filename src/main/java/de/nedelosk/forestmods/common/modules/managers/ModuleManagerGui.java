@@ -2,9 +2,9 @@ package de.nedelosk.forestmods.common.modules.managers;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.library.gui.Button;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.Button;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.managers.IModuleManager;

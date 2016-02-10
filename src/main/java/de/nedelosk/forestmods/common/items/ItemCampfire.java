@@ -27,7 +27,7 @@ public class ItemCampfire extends ItemForest {
 		setUnlocalizedName("campfire." + itemName);
 		this.textures = textures;
 		this.itemName = itemName;
-		setTextureName("forestday:ash");
+		setTextureName("forestmods:ash");
 	}
 
 	@Override

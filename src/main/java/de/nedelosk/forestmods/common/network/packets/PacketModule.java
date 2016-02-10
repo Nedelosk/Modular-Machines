@@ -58,8 +58,9 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
-		if(tile == null || ((IModularTileEntity) tile).getModular() == null || ((IModularTileEntity) tile).getModular().getModuleManager() == null)
+		if (tile == null || ((IModularTileEntity) tile).getModular() == null || ((IModularTileEntity) tile).getModular().getModuleManager() == null) {
 			return null;
+		}
 		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleManager().getModuleFromUID(message.UID);
 		if (message.onlySaver) {
 			stack.getSaver().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular(), stack);

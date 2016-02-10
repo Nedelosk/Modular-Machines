@@ -47,7 +47,7 @@ public class BlockGravel extends BlockForest implements ITileEntityProvider {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.icon = new IIcon[textures.length];
 		for ( int i = 0; i < this.icon.length; ++i ) {
-			this.icon[i] = iconRegister.registerIcon("forestday:" + textures[i]);
+			this.icon[i] = iconRegister.registerIcon("forestmods:" + textures[i]);
 		}
 	}
 

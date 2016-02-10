@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManager.TankMode;
@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class WidgetTankMode<T extends TileEntity & IModularTileEntity> extends Widget<T> {
 
-	protected ResourceLocation widget = RenderUtil.getResourceLocation("modularmachines", "widgets", "gui");
+	protected ResourceLocation widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 	public TankMode mode;
 	public int ID;
 

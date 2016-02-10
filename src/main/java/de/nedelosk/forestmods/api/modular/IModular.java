@@ -2,7 +2,6 @@ package de.nedelosk.forestmods.api.modular;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.integration.IWailaData;
 import de.nedelosk.forestmods.api.modular.integration.IWailaProvider;
 import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;

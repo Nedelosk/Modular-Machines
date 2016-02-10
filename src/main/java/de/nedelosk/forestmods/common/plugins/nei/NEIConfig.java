@@ -12,11 +12,9 @@ import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.plugins.nei.machines.CampfireHandler;
 import de.nedelosk.forestmods.common.plugins.nei.machines.CharcoalKilnHandler;
 import de.nedelosk.forestmods.common.plugins.nei.machines.WorkbenchHandler;
-import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -37,7 +35,6 @@ public class NEIConfig implements IConfigureNEI {
 			}
 		}
 		isAdded = true;
-		API.hideItem(new ItemStack(BlockManager.blockModularMachines, 1, 0));
 		registerHandler(new ShapedModuleRecipeHandler());
 		registerHandler(new CharcoalKilnHandler());
 		registerHandler(new WorkbenchHandler());

@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.fluids.TankManager;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestmods.client.gui.GuiCokeOvenFluidPort;
+import de.nedelosk.forestmods.client.gui.multiblocks.GuiCokeOvenFluidPort;
 import de.nedelosk.forestmods.common.inventory.ContainerCokeOvenFluidPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;

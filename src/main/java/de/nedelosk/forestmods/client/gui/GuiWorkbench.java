@@ -3,9 +3,8 @@ package de.nedelosk.forestmods.client.gui;
 import de.nedelosk.forestmods.client.gui.buttons.ButtonWorkbenchMode;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 
-public class GuiWorkbench extends GuiMachine<TileWorkbench> {
+public class GuiWorkbench extends GuiForestBase<TileWorkbench> {
 
 	public GuiWorkbench(TileWorkbench tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -16,8 +15,7 @@ public class GuiWorkbench extends GuiMachine<TileWorkbench> {
 
 	@Override
 	public void addButtons() {
-		buttonManager.add(new ButtonWorkbenchMode(0, guiLeft + 130, guiTop + 10, tile.getMode(),
-				new ResourceLocation("forestday", "textures/gui/button/workbench_mode.png")));
+		buttonManager.add(new ButtonWorkbenchMode(guiLeft + 130, guiTop + 10, tile.getMode()));
 	}
 
 	@Override

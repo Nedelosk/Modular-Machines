@@ -96,7 +96,7 @@ public class ModularUtils {
 		return modular.getModuleManager().getModule(categoryUID);
 	}
 
-	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromGui(IModularDefault modular, IModuleGui<M, S> gui) {
+	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getStackFromGui(IModularDefault modular, IModuleGui<M, S> gui) {
 		if (gui == null) {
 			return null;
 		}

@@ -9,14 +9,14 @@ import de.nedelosk.forestmods.common.items.ItemFile;
 import de.nedelosk.forestmods.common.items.ItemFlintAxe;
 import de.nedelosk.forestmods.common.items.ItemGearWood;
 import de.nedelosk.forestmods.common.items.ItemGem;
+import de.nedelosk.forestmods.common.items.ItemMetaModular;
 import de.nedelosk.forestmods.common.items.ItemMetal;
 import de.nedelosk.forestmods.common.items.ItemModule;
 import de.nedelosk.forestmods.common.items.ItemNature;
+import de.nedelosk.forestmods.common.items.ItemTool.Material;
 import de.nedelosk.forestmods.common.items.ItemToolCrafting;
-import de.nedelosk.forestmods.common.items.ItemToolForestday.Material;
 import de.nedelosk.forestmods.common.items.ItemToolParts;
 import de.nedelosk.forestmods.common.items.ItemWoodBucket;
-import de.nedelosk.forestmods.common.items.ModularMetaItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -95,8 +95,8 @@ public class ItemManager {
 		itemWoodBucket = register(new ItemWoodBucket(Blocks.air, "bucket.wood").setMaxStackSize(16));
 		itemWoodBucketWater = register(new ItemWoodBucket(Blocks.water, "bucket.wood.water").setContainerItem(itemWoodBucket)).setMaxStackSize(16);
 		itemCapacitors = register(
-				new ModularMetaItem("capacitor", new String[] { "metal_paper", "electrolyte_niobium", "electrolyte_tantalum", "double_layer" }));
-		itemEngine = register(new ModularMetaItem("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
+				new ItemMetaModular("capacitor", new String[] { "metal_paper", "electrolyte_niobium", "electrolyte_tantalum", "double_layer" }));
+		itemEngine = register(new ItemMetaModular("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");
 		itemCompWires.addMetaData(0xCACECF, "tin", "Tin");

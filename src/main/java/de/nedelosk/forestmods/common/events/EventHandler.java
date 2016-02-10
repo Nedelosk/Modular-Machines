@@ -94,6 +94,7 @@ public class EventHandler {
 						stackModular.writeToNBT(nbt);
 						stackModular.setTagCompound(nbt);
 						BlockManager.blockModularMachines.onBlockPlacedBy(world, event.x, event.y, event.z, player, stackModular);
+						event.setCanceled(true);
 						if (world.isRemote) {
 							return;
 						}

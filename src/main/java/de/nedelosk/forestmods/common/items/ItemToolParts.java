@@ -31,7 +31,7 @@ public class ItemToolParts extends ItemForest {
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[parts.length];
 		for ( int i = 0; i < this.itemIcon.length; ++i ) {
-			this.itemIcon[i] = iconRegister.registerIcon("forestday:toolparts/" + parts[i]);
+			this.itemIcon[i] = iconRegister.registerIcon("forestmods:toolparts/" + parts[i]);
 		}
 	}
 

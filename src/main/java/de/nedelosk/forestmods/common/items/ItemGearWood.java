@@ -28,7 +28,7 @@ public class ItemGearWood extends ItemForest {
 	public void registerIcons(IIconRegister iconRegister) {
 		this.woodIcon = new IIcon[6];
 		for ( int i = 0; i < 6; i++ ) {
-			this.woodIcon[i] = iconRegister.registerIcon("forestday:gears/wood." + i);
+			this.woodIcon[i] = iconRegister.registerIcon("forestmods:gears/wood." + i);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.client.gui.widgets;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.common.network.PacketHandler;

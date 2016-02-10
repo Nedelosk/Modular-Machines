@@ -58,7 +58,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
-		blockIcon = IIconRegister.registerIcon("forestday:ash");
+		blockIcon = IIconRegister.registerIcon("forestmods:ash");
 	}
 
 	@Override

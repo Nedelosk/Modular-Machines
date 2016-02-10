@@ -7,15 +7,15 @@ import org.lwjgl.opengl.GL11;
 import cofh.api.energy.IEnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
+	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widgets.png");
 	public IEnergyStorage storage;
 
 	public WidgetEnergyField(IEnergyStorage storage, int posX, int posY) {

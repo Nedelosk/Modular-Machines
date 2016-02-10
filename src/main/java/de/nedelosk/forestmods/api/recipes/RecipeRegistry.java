@@ -106,7 +106,7 @@ public class RecipeRegistry {
 			for ( RecipeItem recipeInput : recipe.getInputs().clone() ) {
 				recipeInputs.add(recipeInput);
 			}
-			testInput: for ( int i = 0; i < recipeInputs.size(); i++ ) {
+			testInput : for ( int i = 0; i < recipeInputs.size(); i++ ) {
 				RecipeItem recipeInput = recipeInputs.get(i);
 				RecipeItem machineInput = machinesInputs[i];
 				if (machineInput != null) {

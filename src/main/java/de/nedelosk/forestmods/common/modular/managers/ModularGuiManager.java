@@ -24,7 +24,7 @@ import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.GuiModular;
+import de.nedelosk.forestmods.client.gui.GuiModularMachines;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -212,7 +212,7 @@ public class ModularGuiManager implements IModularGuiManager {
 		if (currentGui == null) {
 			currentGui = getCasingGui();
 		}
-		return new GuiModular(tile, inventory, currentGui);
+		return new GuiModularMachines(tile, inventory, currentGui);
 	}
 
 	@Override

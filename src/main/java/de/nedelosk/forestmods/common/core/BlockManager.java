@@ -11,16 +11,20 @@ import de.nedelosk.forestmods.common.blocks.BlockGravel;
 import de.nedelosk.forestmods.common.blocks.BlockMachinesWood;
 import de.nedelosk.forestmods.common.blocks.BlockModularMachine;
 import de.nedelosk.forestmods.common.blocks.BlockOre;
+import de.nedelosk.forestmods.common.blocks.BlockTransport;
 import de.nedelosk.forestmods.common.blocks.tile.TileAsh;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
+import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
 import de.nedelosk.forestmods.common.items.block.ItemBlockModularMachine;
+import de.nedelosk.forestmods.common.transport.TileEntityTransport;
+import de.nedelosk.forestmods.common.transport.node.TileEntityTransportNode;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
@@ -36,6 +40,7 @@ public class BlockManager {
 	public static BlockComponent blockMetalBlocks;
 	public static Block blockBlastFurnace;
 	public static Block blockCowper;
+	public static Block blockTransport;
 
 	public static void registerBlocks() {
 		blockGravel = register(new BlockGravel(), ItemBlockForest.class);
@@ -45,6 +50,7 @@ public class BlockManager {
 		blockMachines.setHarvestLevel("axe", 0, 2);
 		blockOres = register(new BlockOre(), ItemBlockForest.class);
 		blockMetalBlocks = register(new BlockComponent(Material.iron, "metal_block"), ItemBlockForest.class);
+		blockTransport = register(new BlockTransport(), ItemBlockForest.class);
 		blockMetalBlocks.addMetaData(0xCACECF, "tin", "Tin");
 		blockMetalBlocks.addMetaData(0xCC6410, "copper", "Copper");
 		blockMetalBlocks.addMetaData(0xCA9956, "bronze", "Bronze");
@@ -61,10 +67,13 @@ public class BlockManager {
 		GameRegistry.registerTileEntity(TileWorkbench.class, "machine.wood.workbench");
 		GameRegistry.registerTileEntity(TileCampfire.class, "machine.wood.campfire");
 		GameRegistry.registerTileEntity(TileAsh.class, "machine.wood.ash");
-		GameRegistry.registerTileEntity(TileModularMachine.class, "tile.modular");
+		GameRegistry.registerTileEntity(TileModularMachine.class, "modular");
+		GameRegistry.registerTileEntity(TileModularAssembler.class, "modular.assembler");
 		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "tile.blastfurnace.accessport");
 		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "tile.blastfurnace.fluidport");
 		GameRegistry.registerTileEntity(TileBlastFurnaceBase.class, "tile.blastfurnace.base");
+		GameRegistry.registerTileEntity(TileEntityTransport.class, "tile.transport.base");
+		GameRegistry.registerTileEntity(TileEntityTransportNode.class, "tile.transport.node");
 	}
 
 	public static <B extends Block> B register(B block, Class<? extends ItemBlock> item, Object... objects) {

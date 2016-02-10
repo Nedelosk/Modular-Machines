@@ -2,8 +2,8 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
 
 public class WidgetBurningBar extends Widget {
@@ -13,7 +13,7 @@ public class WidgetBurningBar extends Widget {
 
 	public WidgetBurningBar(int posX, int posY, int burntime, int burntimeTotal) {
 		super(posX, posY, 14, 14);
-		widget = RenderUtil.getResourceLocation("modularmachines", "widgets", "gui");
+		widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 		this.fuel = burntime;
 		this.fuelTotal = burntimeTotal;
 	}

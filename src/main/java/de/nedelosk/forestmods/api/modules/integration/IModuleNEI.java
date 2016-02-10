@@ -2,8 +2,8 @@ package de.nedelosk.forestmods.api.modules.integration;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.library.gui.IGuiBase;
-import de.nedelosk.forestcore.library.gui.Widget;
+import de.nedelosk.forestcore.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;

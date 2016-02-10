@@ -41,8 +41,8 @@ public class ItemModule extends Item {
 	@Override
 	public void registerIcons(IIconRegister IIconRegister) {
 		icons = new IIcon[2];
-		icons[0] = IIconRegister.registerIcon("modularmachines:modules/module.0");
-		icons[1] = IIconRegister.registerIcon("modularmachines:modules/module.1");
+		icons[0] = IIconRegister.registerIcon("forestmods:modules/module.0");
+		icons[1] = IIconRegister.registerIcon("forestmods:modules/module.1");
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import de.nedelosk.forestcore.library.gui.Button;
-import de.nedelosk.forestcore.library.gui.IGuiBase;
+import de.nedelosk.forestcore.gui.Button;
+import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
 import de.nedelosk.forestmods.api.modular.managers.IModularGuiManager;
@@ -16,7 +16,7 @@ import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.GuiModular;
+import de.nedelosk.forestmods.client.gui.GuiModularMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectInventory;
 import net.minecraft.client.Minecraft;
@@ -28,7 +28,7 @@ import net.minecraft.util.StatCollector;
 
 public class ButtonGuiTab extends Button<IModularTileEntity<IModularDefault>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
 	public final ModuleStack stack;
 	public final IModuleGui moduleGui;
 	public final boolean right;
@@ -46,7 +46,7 @@ public class ButtonGuiTab extends Button<IModularTileEntity<IModularDefault>> {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		GuiModular machine = (GuiModular) mc.currentScreen;
+		GuiModularMachines machine = (GuiModularMachines) mc.currentScreen;
 		IModularGuiManager guiManager = ((IModularTileEntity<IModularDefault>) machine.getTile()).getModular().getGuiManager();
 		IModuleGui currentGui = guiManager.getCurrentGui();
 		RenderUtil.bindTexture(guiTextureOverlay);

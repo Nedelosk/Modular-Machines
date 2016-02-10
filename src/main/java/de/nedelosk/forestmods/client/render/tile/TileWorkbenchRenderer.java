@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileWorkbenchRenderer extends TileEntitySpecialRenderer {
 
-	public static final ResourceLocation textureModel = new ResourceLocation("forestday", "textures/models/workbench.png");
+	public static final ResourceLocation textureModel = new ResourceLocation("forestmods", "textures/models/workbench.png");
 	private ModelWorkbench table;
 
 	public TileWorkbenchRenderer() {

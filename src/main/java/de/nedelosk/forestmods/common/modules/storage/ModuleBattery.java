@@ -3,8 +3,8 @@ package de.nedelosk.forestmods.common.modules.storage;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
 import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
@@ -14,7 +14,7 @@ import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatteryType;
 import de.nedelosk.forestmods.api.utils.ModularException;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.render.modules.ModuleRenderer;
+import de.nedelosk.forestmods.client.render.modules.BatteryRenderer;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.ModuleAddable;
 import net.minecraft.item.ItemStack;
@@ -29,13 +29,13 @@ public abstract class ModuleBattery extends ModuleAddable implements IModuleBatt
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		return new ModuleRenderer.BatteryRenderer(moduleStack, modular);
+		return new BatteryRenderer(moduleStack, modular);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return new ModuleRenderer.BatteryRenderer(moduleStack, modular);
+		return new BatteryRenderer(moduleStack, modular);
 	}
 
 	@Override

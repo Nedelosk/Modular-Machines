@@ -6,14 +6,18 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import buildcraft.api.tools.IToolWrench;
+import de.nedelosk.forestcore.blocks.BlockContainerForest;
 import de.nedelosk.forestcore.utils.WorldUtil;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModuleDropped;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.common.blocks.tile.TileMachineBase;
+import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.core.ModularMachines;
+import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.common.core.TabModularMachines;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncManagers;
 import net.minecraft.block.Block;
@@ -26,12 +30,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockModularMachine extends BlockModular {
+public class BlockModularMachine extends BlockContainerForest {
 
 	public BlockModularMachine() {
 		super(Material.iron);
@@ -39,7 +45,8 @@ public class BlockModularMachine extends BlockModular {
 		setHardness(2.0F);
 		setHarvestLevel("pickaxe", 1);
 		setBlockName("modular");
-		setBlockTextureName("iron_block");
+		setBlockTextureName("anvil_base");
+		setCreativeTab(TabModularMachines.tabModules);
 	}
 
 	@Override
@@ -59,7 +66,11 @@ public class BlockModularMachine extends BlockModular {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileModularMachine();
+		if (meta == 1) {
+			return new TileModularAssembler();
+		} else {
+			return new TileModularMachine();
+		}
 	}
 
 	@Override
@@ -68,8 +79,11 @@ public class BlockModularMachine extends BlockModular {
 			TileEntity tile = world.getTileEntity(x, y, z);
 			if (tile instanceof TileModularMachine) {
 				TileModularMachine modularMachine = (TileModularMachine) tile;
+				if (modularMachine.getModular() == null) {
+					return false;
+				}
 				if (modularMachine.getModular() != null && modularMachine.getModular().isAssembled()) {
-					player.openGui(ModularMachines.instance, 0, player.worldObj, x, y, z);
+					player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
 					return true;
 				}
 				if (player.getCurrentEquippedItem() != null) {
@@ -109,6 +123,9 @@ public class BlockModularMachine extends BlockModular {
 						return true;
 					}
 				}
+			} else {
+				player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
+				return true;
 			}
 		}
 		return false;
@@ -116,6 +133,7 @@ public class BlockModularMachine extends BlockModular {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs ptab, List list) {
+		list.add(new ItemStack(item, 1, 1));
 	}
 
 	@Override
@@ -159,13 +177,43 @@ public class BlockModularMachine extends BlockModular {
 	}
 
 	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		int md = world.getBlockMetadata(x, y, z);
+		if (md == 1) {
+			return AxisAlignedBB.getBoundingBox(x, y, z, (double) x + 1, y + 0.8125D, (double) z + 1);
+		} else {
+			return AxisAlignedBB.getBoundingBox(x, y, z, x + 1D, y + 1D, z + 1D);
+		}
+	}
+
+	@Override
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+		int md = world.getBlockMetadata(x, y, z);
+		if (md == 1) {
+			return AxisAlignedBB.getBoundingBox(x, y, z, (double) x + 1, y + 0.8125D, (double) z + 1);
+		} else {
+			return AxisAlignedBB.getBoundingBox(x, y, z, x + 1D, y + 1D, z + 1D);
+		}
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z) {
+		int md = iblockaccess.getBlockMetadata(x, y, z);
+		if (md == 1) {
+			setBlockBounds(0F, 0F, 0F, 1F, 0.8125F, 1F);
+		} else {
+			setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+		}
+	}
+
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
 		if (world.isRemote) {
 			return;
 		}
 		int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		IModularTileEntity tile = (IModularTileEntity) world.getTileEntity(x, y, z);
+		TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);
 		tile.setFacing(getFacingForHeading(heading));
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;

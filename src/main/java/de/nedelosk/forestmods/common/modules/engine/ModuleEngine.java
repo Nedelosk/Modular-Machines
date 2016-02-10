@@ -4,8 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.client.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularRenderer;
 import de.nedelosk.forestmods.api.modular.integration.IWailaData;
 import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModuleSaver;
@@ -21,7 +21,7 @@ import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.render.modules.ModuleRenderer;
+import de.nedelosk.forestmods.client.render.modules.EngineRenderer;
 import de.nedelosk.forestmods.common.modules.ModuleAddable;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
@@ -71,13 +71,13 @@ public class ModuleEngine extends ModuleAddable implements IModuleEngine {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
-		return new ModuleRenderer.EngineRenderer(moduleStack, ModularUtils.getCasing(modular).getStack());
+		return new EngineRenderer(moduleStack, ModularUtils.getCasing(modular).getStack());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return new ModuleRenderer.EngineRenderer(moduleStack, ModularUtils.getCasing(modular).getStack());
+		return new EngineRenderer(moduleStack, ModularUtils.getCasing(modular).getStack());
 	}
 
 	@Override

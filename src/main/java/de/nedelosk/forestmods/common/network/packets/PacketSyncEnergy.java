@@ -43,7 +43,8 @@ public class PacketSyncEnergy extends PacketTileEntity<TileEntity> implements IM
 	public IMessage onMessage(PacketSyncEnergy message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
-		if (tile != null && ((TileEntity & IModularTileEntity) tile).getModular() != null && ModularUtils.getBatteryStack(((TileEntity & IModularTileEntity) tile).getModular()) != null) {
+		if (tile != null && ((TileEntity & IModularTileEntity) tile).getModular() != null
+				&& ModularUtils.getBatteryStack(((TileEntity & IModularTileEntity) tile).getModular()) != null) {
 			IModuleBatterySaver saver = ModularUtils.getBatteryStack(((TileEntity & IModularTileEntity) tile).getModular()).getSaver();
 			saver.getStorage().setEnergyStored(message.energy);
 		}

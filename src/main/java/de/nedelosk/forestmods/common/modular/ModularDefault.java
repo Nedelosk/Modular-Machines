@@ -30,6 +30,10 @@ public abstract class ModularDefault extends Modular implements IModularDefault 
 		super(nbt, machine);
 	}
 
+	public ModularDefault(NBTTagCompound nbt) {
+		super(nbt);
+	}
+
 	@Override
 	public IModularInventoryManager getInventoryManager() {
 		if (inventoryManager == null) {
