@@ -14,7 +14,7 @@ import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.forestmods.common.modules.machines.recipe.ModuleMachineRecipeGui;
 import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketSwitchMachineMode;
+import de.nedelosk.forestmods.common.network.packets.PacketSyncMachineMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.tileentity.TileEntity;
@@ -53,7 +53,7 @@ public class ModuleMachineRecipeModeGui<M extends IModuleMachineRecipeMode, S ex
 				moduleSaver.setMode(module.getModeClass().getEnumConstants()[moduleSaver.getMode().ordinal() + 1]);
 				((WidgetButtonMode) widget).setMode(moduleSaver.getMode());
 			}
-			PacketHandler.INSTANCE.sendToServer(new PacketSwitchMachineMode((TileEntity) tile, moduleSaver.getMode()));
+			PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode((TileEntity) tile, moduleSaver.getMode()));
 		}
 	}
 }

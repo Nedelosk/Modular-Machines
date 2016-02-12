@@ -1,14 +1,10 @@
 package de.nedelosk.forestmods.api.transport.node;
 
+import java.util.List;
+
 public interface INodeType {
 
-	boolean canHandelItems();
+	List<Class<? extends IContentHandler>> getHandlers(INodeSide side);
 
-	boolean canHandelFluids();
-
-	boolean canHandelEnergy();
-
-	boolean handleInput(ITransportNode node, Object input);
-
-	boolean handleoutput(ITransportNode node, Object output);
+	int updatesPerTick();
 }

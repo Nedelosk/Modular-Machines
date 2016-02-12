@@ -10,6 +10,8 @@ import de.nedelosk.forestcore.utils.Log;
 import de.nedelosk.forestmods.api.transport.ITransportPart;
 import de.nedelosk.forestmods.api.transport.ITransportSystem;
 import de.nedelosk.forestmods.api.transport.TransportRegistry;
+import de.nedelosk.forestmods.api.transport.node.IContentHandler;
+import de.nedelosk.forestmods.api.transport.node.INodeSide;
 import de.nedelosk.forestmods.api.transport.node.ITransportNode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -23,7 +25,7 @@ public class TransportSystem implements ITransportSystem {
 	private boolean shouldCheckForDisconnections;
 	private BlockPos referenceCoord;
 
-	protected TransportSystem(World world) {
+	public TransportSystem(World world) {
 		worldObj = world;
 		connectedParts = new HashSet<ITransportPart>();
 		connectedNodes = new HashSet<ITransportNode>();
@@ -46,6 +48,7 @@ public class TransportSystem implements ITransportSystem {
 		onPartAdded(part);
 		part.onAttached(this);
 		TransportRegistry.addDirtySystem(worldObj, this);
+		updateNodes();
 	}
 
 	@Override
@@ -65,6 +68,7 @@ public class TransportSystem implements ITransportSystem {
 			return;
 		}
 		TransportRegistry.addDirtySystem(this.worldObj, this);
+		updateNodes();
 	}
 
 	public void onDetachPart(ITransportPart part) {
@@ -136,6 +140,16 @@ public class TransportSystem implements ITransportSystem {
 		connectedParts.removeAll(deadParts);
 		Log.warn("[%s] System found %d dead parts during an audit, %d parts remain attached", worldObj.isRemote ? "CLIENT" : "SERVER", deadParts.size(),
 				connectedParts.size());
+	}
+
+	public void updateNodes() {
+		for ( ITransportNode node : connectedNodes ) {
+			for ( INodeSide side : node.getSides() ) {
+				for ( IContentHandler handler : side.getContentHandlers() ) {
+					handler.update();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -281,5 +295,10 @@ public class TransportSystem implements ITransportSystem {
 	@Override
 	public World getWorldObj() {
 		return worldObj;
+	}
+
+	@Override
+	public HashSet<ITransportNode> getNodes() {
+		return connectedNodes;
 	}
 }

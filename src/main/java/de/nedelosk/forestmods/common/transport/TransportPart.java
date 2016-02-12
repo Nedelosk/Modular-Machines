@@ -27,7 +27,6 @@ public class TransportPart implements ITransportPart {
 	public TransportPart(ITransportTileEntity tileEntity) {
 		this.tileEntity = tileEntity;
 		visited = false;
-		createSides();
 	}
 
 	@Override
@@ -108,8 +107,8 @@ public class TransportPart implements ITransportPart {
 					}
 					te = tileEntity.getWorldObj().getTileEntity(x, y, z);
 					int opposites = ForgeDirection.OPPOSITES[side.getSide().ordinal()];
-					if (te instanceof ITransportTileEntity && ((ITransportTileEntity) te).getTransportPart().getSides()[opposites].isActive()) {
-						neighborParts.add(((ITransportTileEntity) te).getTransportPart());
+					if (te instanceof ITransportTileEntity && ((ITransportTileEntity) te).getPart().getSides()[opposites].isActive()) {
+						neighborParts.add(((ITransportTileEntity) te).getPart());
 						continue testSide;
 					}
 				}
@@ -140,7 +139,7 @@ public class TransportPart implements ITransportPart {
 
 	protected NBTTagList writeSidesToNBT() {
 		NBTTagList list = new NBTTagList();
-		for ( IPartSide side : sides ) {
+		for ( IPartSide side : getSides() ) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			side.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);
@@ -149,6 +148,7 @@ public class TransportPart implements ITransportPart {
 	}
 
 	protected void readSidesFromNBT(NBTTagList list) {
+		sides = new IPartSide[6];
 		for ( int i = 0; i < 6; i++ ) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			sides[i] = new PartSide(ForgeDirection.values()[i], this);
@@ -174,11 +174,6 @@ public class TransportPart implements ITransportPart {
 	@Override
 	public boolean isVisited() {
 		return visited;
-	}
-
-	@Override
-	public void setSide(IPartSide side) {
-		this.sides[side.getSide().ordinal()] = side;
 	}
 
 	@Override

@@ -13,11 +13,15 @@ public class TileEntityTransport extends ITransportTileEntity {
 	protected ITransportPart part;
 
 	public TileEntityTransport() {
-		part = new TransportPart(this);
+		part = createPart();
+	}
+
+	protected ITransportPart createPart() {
+		return new TransportPart(this);
 	}
 
 	@Override
-	public ITransportPart getTransportPart() {
+	public ITransportPart getPart() {
 		return part;
 	}
 
@@ -49,14 +53,17 @@ public class TileEntityTransport extends ITransportTileEntity {
 	@Override
 	public void validate() {
 		super.validate();
-		TransportRegistry.onPartAdded(this.worldObj, getTransportPart());
+		if (getPart().getSides() == null) {
+			getPart().createSides();
+		}
+		TransportRegistry.onPartAdded(this.worldObj, getPart());
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagCompound nbt = new NBTTagCompound();
-		part.writeToNBT(nbt);
+		getPart().writeToNBT(nbt);
 		compound.setTag("Part", nbt);
 	}
 
@@ -64,15 +71,15 @@ public class TileEntityTransport extends ITransportTileEntity {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		NBTTagCompound nbt = compound.getCompoundTag("Part");
-		part.readFromNBT(nbt);
+		getPart().readFromNBT(nbt);
 	}
 
 	@Override
 	public void detachSelf(boolean chunkUnloading) {
-		if (this.getTransportPart() != null && getTransportPart().getSystem() != null) {
-			getTransportPart().getSystem().detachPart(getTransportPart(), chunkUnloading);
-			getTransportPart().setSystem(null);
+		if (this.getPart() != null && getPart().getSystem() != null) {
+			getPart().getSystem().detachPart(getPart(), chunkUnloading);
+			getPart().setSystem(null);
 		}
-		TransportRegistry.onPartRemovedFromWorld(worldObj, getTransportPart());
+		TransportRegistry.onPartRemovedFromWorld(worldObj, getPart());
 	}
 }

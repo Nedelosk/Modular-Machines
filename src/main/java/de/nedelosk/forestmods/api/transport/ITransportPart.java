@@ -33,8 +33,6 @@ public interface ITransportPart {
 
 	BlockPos getWorldLocation();
 
-	void setSide(IPartSide side);
-
 	IPartSide[] getSides();
 
 	IPartSide getSide(ForgeDirection direction);

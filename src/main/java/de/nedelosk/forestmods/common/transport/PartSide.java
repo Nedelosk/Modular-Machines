@@ -14,7 +14,7 @@ public class PartSide implements IPartSide {
 	public PartSide(ForgeDirection side, ITransportPart part) {
 		this.side = side;
 		this.part = part;
-		this.isActive = true;
+		this.isActive = false;
 	}
 
 	@Override

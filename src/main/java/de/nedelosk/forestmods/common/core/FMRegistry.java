@@ -36,10 +36,11 @@ public class FMRegistry extends Registry {
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
 		BlockManager.registerTiles();
-		super.preInit(instance, event);
+		TransportManager.registerTransport();
 		ForestDayCrafting.workbenchRecipe = new WorkbenchRecipeManager();
 		ForestDayCrafting.campfireRecipe = new CampfireRecipeManager();
 		ForestDayCrafting.woodManager = new WoodTypeManager();
+		super.preInit(instance, event);
 	}
 
 	@Override

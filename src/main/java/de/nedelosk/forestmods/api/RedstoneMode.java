@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 
 public enum RedstoneMode {
-	IGNORE, ON, OFF, NEVER;
+	IGNORE, ON, OFF;
 
 	public String getTooltip() {
 		return StatCollector.translateToLocal("gui.tooltip.redstoneMode." + name().toLowerCase(Locale.ENGLISH));
@@ -14,9 +14,7 @@ public enum RedstoneMode {
 
 	public static boolean isConditionMet(RedstoneMode redstoneControlMode, int powerLevel) {
 		boolean redstoneCheckPassed = true;
-		if (redstoneControlMode == RedstoneMode.NEVER) {
-			redstoneCheckPassed = false;
-		} else if (redstoneControlMode == RedstoneMode.ON) {
+		if (redstoneControlMode == RedstoneMode.ON) {
 			if (powerLevel < 1) {
 				redstoneCheckPassed = false;
 			}

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.nedelosk.forestcore.utils.BlockPos;
+import de.nedelosk.forestmods.api.transport.node.ITransportNode;
 import net.minecraft.world.World;
 
 public interface ITransportSystem {
@@ -24,6 +25,8 @@ public interface ITransportSystem {
 	String getPartsListString();
 
 	HashSet<ITransportPart> getParts();
+
+	HashSet<ITransportNode> getNodes();
 
 	Set<ITransportPart> checkForDisconnections();
 

@@ -1,42 +1,33 @@
 package de.nedelosk.forestmods.common.transport.node;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import de.nedelosk.forestmods.api.transport.node.IContentHandler;
+import de.nedelosk.forestmods.api.transport.node.INodeSide;
 import de.nedelosk.forestmods.api.transport.node.INodeType;
-import de.nedelosk.forestmods.api.transport.node.ITransportNode;
 
 public final class NodeType implements INodeType {
 
-	public final boolean canHandelItems;
-	public final boolean canHandelFluids;
-	public final boolean canHandelEnergy;
+	public final int updatesPerTick;
+	public final List<Class<? extends IContentHandler>> handlers;
 
-	public NodeType(boolean canHandelItems, boolean canHandelFluids, boolean canHandelEnergy) {
-		this.canHandelItems = canHandelItems;
-		this.canHandelFluids = canHandelFluids;
-		this.canHandelEnergy = canHandelEnergy;
+	public NodeType(int updatesPerTick, Class<? extends IContentHandler>... handlers) {
+		this.updatesPerTick = updatesPerTick;
+		this.handlers = Lists.newArrayList();
+		for ( Class<? extends IContentHandler> handler : handlers ) {
+			this.handlers.add(handler);
+		}
 	}
 
 	@Override
-	public boolean canHandelItems() {
-		return canHandelItems;
+	public int updatesPerTick() {
+		return updatesPerTick;
 	}
 
 	@Override
-	public boolean canHandelFluids() {
-		return canHandelFluids;
-	}
-
-	@Override
-	public boolean canHandelEnergy() {
-		return canHandelEnergy;
-	}
-
-	@Override
-	public boolean handleInput(ITransportNode node, Object input) {
-		return false;
-	}
-
-	@Override
-	public boolean handleoutput(ITransportNode node, Object output) {
-		return false;
+	public List<Class<? extends IContentHandler>> getHandlers(INodeSide side) {
+		return handlers;
 	}
 }

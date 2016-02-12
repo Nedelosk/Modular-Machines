@@ -6,7 +6,7 @@ import de.nedelosk.forestcore.inventory.FakeInventoryAdapter;
 import de.nedelosk.forestcore.inventory.IInventoryAdapter;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestmods.client.gui.multiblocks.GuiCokeOvenAccessPort;
-import de.nedelosk.forestmods.common.inventory.ContainerCokeOvenAccessPort;
+import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCokeOvenAccessPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

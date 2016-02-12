@@ -158,4 +158,11 @@ public class BlockPos implements Comparable {
 			return 0;
 		}
 	}
+
+	public int getDistSq(BlockPos other) {
+		int xDiff = x - other.x;
+		int yDiff = y - other.y;
+		int zDiff = z - other.z;
+		return xDiff * xDiff + yDiff * yDiff + zDiff * zDiff;
+	}
 }

@@ -1,9 +1,11 @@
 package de.nedelosk.forestcore.utils;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntityChest;
 
 public class InventoryUtil {
 
@@ -30,5 +32,26 @@ public class InventoryUtil {
 			}
 		}
 		nbtTag.setTag(inventory.getInventoryName(), nbttaglist);
+	}
+
+	public static IInventory getInventory(IInventory inv) {
+		if (inv instanceof TileEntityChest) {
+			TileEntityChest chest = (TileEntityChest) inv;
+			TileEntityChest neighbour = null;
+			if (chest.adjacentChestXNeg != null) {
+				neighbour = chest.adjacentChestXNeg;
+			} else if (chest.adjacentChestXPos != null) {
+				neighbour = chest.adjacentChestXPos;
+			} else if (chest.adjacentChestZNeg != null) {
+				neighbour = chest.adjacentChestZNeg;
+			} else if (chest.adjacentChestZPos != null) {
+				neighbour = chest.adjacentChestZPos;
+			}
+			if (neighbour != null) {
+				return new InventoryLargeChest("", inv, neighbour);
+			}
+			return inv;
+		}
+		return inv;
 	}
 }

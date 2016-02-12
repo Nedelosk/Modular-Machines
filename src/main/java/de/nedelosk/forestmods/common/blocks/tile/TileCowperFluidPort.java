@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.fluids.TankManager;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowperFluidPort;
-import de.nedelosk.forestmods.common.inventory.ContainerCowperFluidPort;
+import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCowperFluidPort;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

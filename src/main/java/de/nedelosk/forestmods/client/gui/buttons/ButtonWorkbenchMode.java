@@ -11,7 +11,7 @@ import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench.Mode;
 import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketSwitchWorktableMode;
+import de.nedelosk.forestmods.common.network.packets.PacketSyncWorktableMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -53,6 +53,6 @@ public class ButtonWorkbenchMode extends Button<TileWorkbench> {
 		TileWorkbench bench = gui.getTile();
 		bench.setMode(bench.getMode() == Mode.further_processing ? Mode.stop_processing : Mode.further_processing);
 		setMode(bench.getMode());
-		PacketHandler.INSTANCE.sendToServer(new PacketSwitchWorktableMode(gui.getTile()));
+		PacketHandler.INSTANCE.sendToServer(new PacketSyncWorktableMode(gui.getTile()));
 	}
 }
