@@ -1,9 +1,18 @@
 package de.nedelosk.forestmods.api.modules.heater;
 
-import de.nedelosk.forestmods.api.modules.IModuleAddable;
-import de.nedelosk.forestmods.api.modules.basic.IModuleUpdatable;
-import de.nedelosk.forestmods.api.modules.basic.IModuleWithRenderer;
-import de.nedelosk.forestmods.api.modules.integration.IModuleWaila;
+import de.nedelosk.forestmods.api.producers.IModule;
 
-public interface IModuleHeater extends IModuleAddable, IModuleUpdatable, IModuleWaila, IModuleWithRenderer {
+public interface IModuleHeater extends IModule {
+
+	int getHeat();
+
+	void setHeat(int heat);
+
+	void addHeat(int heat);
+
+	int getBurnTime();
+
+	void setBurnTime(int burnTime);
+
+	void addBurnTime(int burnTime);
 }

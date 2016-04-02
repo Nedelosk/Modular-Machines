@@ -56,6 +56,7 @@ public class ItemManager {
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemCapacitors;
 	public static Item itemEngine;
+	public static Item itemHeater;
 	public static Item itemModules;
 	private static String[] alloys = new String[] { "Bronze", "Invar" };
 	private static String[] steels = new String[] { "Steel", "White_Steel", "Gray_Steel" };
@@ -97,6 +98,7 @@ public class ItemManager {
 		itemCapacitors = register(
 				new ItemMetaModular("capacitor", new String[] { "metal_paper", "electrolyte_niobium", "electrolyte_tantalum", "double_layer" }));
 		itemEngine = register(new ItemMetaModular("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
+		itemHeater = register(new ItemMetaModular("heater", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");
 		itemCompWires.addMetaData(0xCACECF, "tin", "Tin");

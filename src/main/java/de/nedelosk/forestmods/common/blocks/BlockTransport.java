@@ -181,33 +181,45 @@ public class BlockTransport extends BlockContainerForest {
 			double maxZ;
 			if (sides[0].isActive()) {
 				minY = 0.1875D;
-			} else {
+			} else if (sides[0].isConnected()) {
 				minY = 0;
+			} else {
+				minY = 0.3125D;
 			}
 			if (sides[1].isActive()) {
-				maxY = 0.875D;
+				maxY = 0.8125D;
+			} else if (sides[1].isConnected()) {
+				maxY = 1;
 			} else {
 				maxY = 0.6875D;
 			}
 			if (sides[2].isActive()) {
-				minZ = 0.125D;
+				minZ = 0.1875D;
+			} else if (sides[2].isConnected()) {
+				minZ = 0;
 			} else {
-				minZ = 0.25D;
+				minZ = 0.3125D;
 			}
 			if (sides[3].isActive()) {
-				maxZ = 0.875D;
+				maxZ = 0.8125D;
+			} else if (sides[3].isConnected()) {
+				maxZ = 1;
 			} else {
-				maxZ = 0.75D;
+				maxZ = 0.6875D;
 			}
 			if (sides[4].isActive()) {
-				minX = 0.125D;
+				minX = 0.1875D;
+			} else if (sides[4].isConnected()) {
+				minX = 0;
 			} else {
-				minX = 0.25D;
+				minX = 0.3125D;
 			}
 			if (sides[5].isActive()) {
-				maxX = 0.875D;
+				maxX = 0.8125D;
+			} else if (sides[5].isConnected()) {
+				maxX = 1;
 			} else {
-				maxX = 0.75D;
+				maxX = 0.6875D;
 			}
 			return AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + maxY, z + maxZ);
 		} else {
@@ -362,7 +374,7 @@ public class BlockTransport extends BlockContainerForest {
 			setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 		} else if (md == 1 && tile != null && tile instanceof TileEntityTransportNode) {
 			TileEntityTransportNode port = (TileEntityTransportNode) tile;
-			IPartSide[] sides = port.getPart().getSides();
+			INodeSide[] sides = port.getPart().getSides();
 			float minX;
 			float minY;
 			float minZ;
@@ -371,33 +383,45 @@ public class BlockTransport extends BlockContainerForest {
 			float maxZ;
 			if (sides[0].isActive()) {
 				minY = 0.1875F;
+			} else if (sides[0].isConnected()) {
+				minY = 0;
 			} else {
-				minY = 0F;
+				minY = 0.3125F;
 			}
 			if (sides[1].isActive()) {
-				maxY = 0.9375F;
-			} else {
 				maxY = 0.8125F;
+			} else if (sides[1].isConnected()) {
+				maxY = 1;
+			} else {
+				maxY = 0.6875F;
 			}
 			if (sides[2].isActive()) {
-				minZ = 0.125F;
+				minZ = 0.1875F;
+			} else if (sides[2].isConnected()) {
+				minZ = 0;
 			} else {
-				minZ = 0.25F;
+				minZ = 0.3125F;
 			}
 			if (sides[3].isActive()) {
-				maxZ = 0.875F;
+				maxZ = 0.8125F;
+			} else if (sides[3].isConnected()) {
+				maxZ = 1;
 			} else {
-				maxZ = 0.75F;
+				maxZ = 0.6875F;
 			}
 			if (sides[4].isActive()) {
-				minX = 0.125F;
+				minX = 0.1875F;
+			} else if (sides[4].isConnected()) {
+				minX = 0;
 			} else {
-				minX = 0.25F;
+				minX = 0.3125F;
 			}
 			if (sides[5].isActive()) {
-				maxX = 0.875F;
+				maxX = 0.8125F;
+			} else if (sides[5].isConnected()) {
+				maxX = 1;
 			} else {
-				maxX = 0.75F;
+				maxX = 0.6875F;
 			}
 			setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 		} else {

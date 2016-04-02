@@ -21,16 +21,16 @@ public class GuiCokeOvenAccessPort extends GuiBase<TileCokeOvenAccessPort> {
 	}
 
 	@Override
-	protected void renderProgressBar() {
+	protected void render() {
 	}
 
 	@Override
-	protected String getGuiName() {
+	protected String getGuiTexture() {
 		return "gui_coke_oven";
 	}
 
 	@Override
-	protected String getModName() {
+	protected String getTextureModID() {
 		return "forestmods";
 	}
 }

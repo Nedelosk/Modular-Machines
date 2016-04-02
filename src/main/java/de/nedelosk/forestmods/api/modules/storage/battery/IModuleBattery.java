@@ -1,14 +1,31 @@
 package de.nedelosk.forestmods.api.modules.storage.battery;
 
-import de.nedelosk.forestmods.api.modules.IModuleAddable;
-import de.nedelosk.forestmods.api.modules.IModuleDropped;
-import de.nedelosk.forestmods.api.modules.basic.IModuleWithRenderer;
+import cofh.api.energy.EnergyStorage;
+import de.nedelosk.forestmods.api.producers.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.item.ItemStack;
 
-public interface IModuleBattery extends IModuleAddable, IModuleDropped, IModuleWithRenderer {
+public interface IModuleBattery extends IModule {
 
-	void setStorageEnergy(int energy, ModuleStack<IModuleBattery, IModuleBatterySaver> moduleStack, ItemStack itemStack);
+	void setStorageEnergy(ModuleStack<IModuleBattery> stack, int energy, ItemStack itemStack);
 
-	int getStorageEnergy(ModuleStack<IModuleBattery, IModuleBatterySaver> moduleStack, ItemStack itemStack);
+	int getStorageEnergy(ModuleStack<IModuleBattery> stack, ItemStack itemStack);
+
+	EnergyStorage getDefaultStorage();
+
+	int getSpeedModifier();
+
+	void setSpeedModifier(int speedModifier);
+
+	int getBatteryCapacity();
+
+	void setBatteryCapacity(int batteryCapacity);
+
+	int getEnergyModifier();
+
+	void setEnergyModifier(int energyModifier);
+
+	EnergyStorage getStorage();
+
+	void setStorage(EnergyStorage storage);
 }

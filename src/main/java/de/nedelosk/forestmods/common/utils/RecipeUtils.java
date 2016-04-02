@@ -1,13 +1,13 @@
 package de.nedelosk.forestmods.common.utils;
 
 import de.nedelosk.forestcore.utils.OreStack;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeAlloySmelter;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeAssembler;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeCentrifuge;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe.LatheModes;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipePulverizer;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeSawMill;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeAlloySmelter;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeAssembler;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeCentrifuge;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe.LatheModes;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipePulverizer;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeSawMill;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
 import net.minecraft.item.ItemStack;

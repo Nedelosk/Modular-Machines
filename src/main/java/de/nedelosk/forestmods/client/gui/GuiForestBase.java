@@ -16,11 +16,11 @@ public abstract class GuiForestBase<T extends IGuiHandler> extends GuiBase<T> {
 	}
 
 	@Override
-	protected void renderProgressBar() {
+	protected void render() {
 	}
 
 	@Override
-	protected String getModName() {
+	protected String getTextureModID() {
 		return "forestmods";
 	}
 }

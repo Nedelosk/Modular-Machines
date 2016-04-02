@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.client.render.modules;
 
-import static de.nedelosk.forestmods.client.render.modules.ModularRenderer.loadTexture;
+import static de.nedelosk.forestmods.client.render.modules.ModularRenderer.getTextureFromManager;
 
 import java.util.Locale;
 
@@ -8,9 +8,8 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularRenderer;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
@@ -18,11 +17,11 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class CasingRenderer implements IModularRenderer {
+public class CasingRenderer extends AdvancedRenderer {
 
 	public final ModuleStack stack;
 	public ModelBase model = new ModelBase() {
@@ -60,16 +59,16 @@ public class CasingRenderer implements IModularRenderer {
 		this.Down_Right_Casing = new ModelRenderer(model, 0, 0);
 		this.Down_Right_Casing.setRotationPoint(0.0F, 22.0F, -5.0F);
 		this.Down_Right_Casing.addBox(0.0F, 0.0F, 0.0F, 7, 2, 10, 0.0F);
-		baseTextureLeft = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_left.png");
-		baseTextureRight = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_right.png");
-		frontTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_front.png");
-		backTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_back.png");
-		topTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_top.png");
-		downTexture = loadTexture("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_down.png");
+		baseTextureLeft = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_left.png");
+		baseTextureRight = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_right.png");
+		frontTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_front.png");
+		backTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_back.png");
+		topTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_top.png");
+		downTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_down.png");
 	}
 
 	@Override
-	public void renderMachineItemStack(IModular machine, ItemStack stack) {
+	protected void renderItem(IRenderState state) {
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
@@ -79,7 +78,7 @@ public class CasingRenderer implements IModularRenderer {
 		GL11.glPushMatrix();
 		manager.bindTexture(baseTextureLeft);
 		Base_Casing_Left.render(0.0625F);
-		if (ModularUtils.getEngine(machine) == null) {
+		if (ModularUtils.getEngine(state.getModular()) == null) {
 			manager.bindTexture(baseTextureRight);
 			Base_Casing_Right.render(0.0625F);
 		} else {
@@ -97,24 +96,25 @@ public class CasingRenderer implements IModularRenderer {
 	}
 
 	@Override
-	public void renderMachine(IModularTileEntity entity, double x, double y, double z) {
+	public void render(IRenderState state) {
+		IModularTileEntity entity = state.getModular().getTile();
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
-		GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+		GL11.glTranslated((float) state.getX() + 0.5F, (float) state.getY() + 1.5F, (float) state.getZ() + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glPushMatrix();
-		if (entity.getFacing() == 2) {
-		} else if (entity.getFacing() == 3) {
+		if (entity.getFacing() == ForgeDirection.NORTH) {
+		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
 			GL11.glRotated(180, 0F, 1F, 0F);
-		} else if (entity.getFacing() == 4) {
+		} else if (entity.getFacing() == ForgeDirection.WEST) {
 			GL11.glRotated(270, 0F, 1F, 0F);
-		} else if (entity.getFacing() == 5) {
+		} else if (entity.getFacing() == ForgeDirection.EAST) {
 			GL11.glRotated(90, 0F, 1F, 0F);
 		}
 		manager.bindTexture(baseTextureLeft);
 		Base_Casing_Left.render(0.0625F);
-		if (ModularUtils.getEngine(entity.getModular()) == null) {
+		if (ModularUtils.getEngine(state.getModular()) == null) {
 			manager.bindTexture(baseTextureRight);
 			Base_Casing_Right.render(0.0625F);
 		} else {

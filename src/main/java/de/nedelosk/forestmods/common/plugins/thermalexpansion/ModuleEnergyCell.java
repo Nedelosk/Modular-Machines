@@ -1,7 +1,6 @@
 package de.nedelosk.forestmods.common.plugins.thermalexpansion;
 
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.storage.ModuleBattery;
 import net.minecraft.item.ItemStack;

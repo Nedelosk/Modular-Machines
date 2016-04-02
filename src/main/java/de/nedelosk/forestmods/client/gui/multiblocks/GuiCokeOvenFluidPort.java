@@ -35,16 +35,16 @@ public class GuiCokeOvenFluidPort extends GuiBase<TileCokeOvenFluidPort> {
 	}
 
 	@Override
-	protected void renderProgressBar() {
+	protected void render() {
 	}
 
 	@Override
-	protected String getGuiName() {
+	protected String getGuiTexture() {
 		return "gui_multiblock_fluid";
 	}
 
 	@Override
-	protected String getModName() {
+	protected String getTextureModID() {
 		return "forestmods";
 	}
 }

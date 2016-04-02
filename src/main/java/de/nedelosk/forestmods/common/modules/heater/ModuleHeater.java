@@ -1,54 +1,86 @@
 package de.nedelosk.forestmods.common.modules.heater;
 
-import java.util.List;
-
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularRenderer;
-import de.nedelosk.forestmods.api.modular.integration.IWailaData;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.heater.IModuleHeater;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.ModuleAddable;
+import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
+import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.common.network.PacketHandler;
+import de.nedelosk.forestmods.common.network.packets.PacketModule;
+import de.nedelosk.forestmods.common.producers.Producer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 
-public abstract class ModuleHeater extends ModuleAddable implements IModuleHeater {
+public class ModuleHeater extends Producer implements IModuleHeater {
 
-	public ModuleHeater(String categoryUID, String moduleUID) {
-		super(categoryUID, moduleUID);
+	protected int heat;
+	protected int burnTime;
+
+	public ModuleHeater() {
 	}
 
 	@Override
-	public IModuleSaver createSaver(ModuleStack stack) {
-		return new ModuleHeaterSaver();
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+		heat = nbt.getInteger("Heat");
+		burnTime = nbt.getInteger("BurnTime");
 	}
 
 	@Override
-	public void updateClient(IModular modular, ModuleStack stack) {
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+		nbt.setInteger("Heat", heat);
+		nbt.setInteger("BurnTime", burnTime);
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		return null;
+	public int getHeat() {
+		return heat;
 	}
 
 	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		return null;
+	public void setHeat(int heat) {
+		this.heat = heat;
 	}
 
 	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaData data) {
-		return null;
+	public void addHeat(int heat) {
+		this.heat += heat;
 	}
 
 	@Override
-	public IModularRenderer getItemRenderer(IModular modular, ModuleStack moduleStack, ItemStack stack) {
-		return null;
+	public int getBurnTime() {
+		return burnTime;
 	}
 
 	@Override
-	public IModularRenderer getMachineRenderer(IModular modular, ModuleStack moduleStack, IModularTileEntity tile) {
+	public void setBurnTime(int burnTime) {
+		this.burnTime = burnTime;
+	}
+
+	@Override
+	public void addBurnTime(int burnTime) {
+		this.burnTime += burnTime;
+	}
+
+	@Override
+	public void updateServer() {
+		if (getBurnTime() > 0) {
+			addHeat(1);
+			addBurnTime(-10);
+			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), moduleStack, true));
+		} else {
+			IModuleInventory inventory = moduleStack.getModule().getInventory();
+			ItemStack input = inventory.getStackInSlot(0);
+			if (TileEntityFurnace.getItemBurnTime(input) > 0 && getHeat() < 100) {
+				inventory.decrStackSize(0, 1);
+				setBurnTime(TileEntityFurnace.getItemBurnTime(input));
+			}
+		}
+	}
+
+	@Override
+	protected IModulePage[] createPages() {
 		return null;
 	}
 }

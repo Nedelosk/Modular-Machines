@@ -28,7 +28,7 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
-		guiTexture = RenderUtil.getResourceLocation(getModName(), getGuiName(), "gui");
+		guiTexture = RenderUtil.getResourceLocation(getTextureModID(), getGuiTexture(), "gui");
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(guiTexture);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-		renderProgressBar();
+		render();
 		widgetManager.drawWidgets();
 	}
 
@@ -95,11 +95,11 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 
 	protected abstract void renderStrings(FontRenderer fontRenderer, int x, int y);
 
-	protected abstract void renderProgressBar();
+	protected abstract void render();
 
-	protected abstract String getGuiName();
+	protected abstract String getGuiTexture();
 
-	protected abstract String getModName();
+	protected abstract String getTextureModID();
 
 	public static RenderItem getItemRenderer() {
 		return itemRender;

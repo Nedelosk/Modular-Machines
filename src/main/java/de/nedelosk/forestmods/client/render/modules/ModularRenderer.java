@@ -5,50 +5,36 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularRenderer;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.basic.IModuleWithRenderer;
+import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
+import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class ModularRenderer implements IModularRenderer {
+public class ModularRenderer implements ISimpleRenderer {
 
 	public ModularRenderer() {
 	}
 
 	@Override
-	public void renderMachineItemStack(IModular machine, ItemStack itemStack) {
+	public void render(IRenderState state) {
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
-		for ( ModuleStack moduleStack : (List<ModuleStack>) machine.getModuleManager().getModuleStacks() ) {
-			if (moduleStack != null && moduleStack.getModule() instanceof IModuleWithRenderer) {
-				IModularRenderer renderer = ((IModuleWithRenderer) moduleStack.getModule()).getItemRenderer(machine, moduleStack, itemStack);
+		IModular modular = state.getModular();
+		for ( ModuleStack stack : (List<ModuleStack>) modular.getManager(IModularModuleManager.class).getModuleStacks() ) {
+			if (stack != null) {
+				ISimpleRenderer renderer = stack.getModule().getRenderer(stack, state);
 				if (renderer != null) {
-					renderer.renderMachineItemStack(machine, itemStack);
+					renderer.render(state);
 				}
 			}
 		}
 	}
 
-	@Override
-	public void renderMachine(IModularTileEntity entity, double x, double y, double z) {
-		IModular machine = entity.getModular();
-		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
-		for ( ModuleStack stack : (List<ModuleStack>) machine.getModuleManager().getModuleStacks() ) {
-			if (stack != null && stack.getModule() instanceof IModuleWithRenderer) {
-				IModularRenderer renderer = ((IModuleWithRenderer) stack.getModule()).getMachineRenderer(machine, stack, entity);
-				if (renderer != null) {
-					renderer.renderMachine(entity, x, y, z);
-				}
-			}
-		}
-	}
-
-	public static ResourceLocation loadTexture(String defaultName, String name, String befor, String after) {
+	public static ResourceLocation getTextureFromManager(String defaultName, String name, String befor, String after) {
 		try {
 			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
 			if (manager.getResource(new ResourceLocation("forestmods", "textures/models/modules/" + befor + name + after)) != null) {

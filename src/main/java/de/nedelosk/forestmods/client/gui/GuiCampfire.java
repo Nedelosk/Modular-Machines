@@ -14,7 +14,7 @@ public class GuiCampfire extends GuiForestBase<TileCampfire> {
 	}
 
 	@Override
-	protected void renderProgressBar() {
+	protected void render() {
 		if (tile.isWorking) {
 			this.drawTexturedModalRect(guiLeft + 66, guiTop + 36, 0, 166, 14, 14);
 		}
@@ -24,7 +24,7 @@ public class GuiCampfire extends GuiForestBase<TileCampfire> {
 	}
 
 	@Override
-	protected String getGuiName() {
+	protected String getGuiTexture() {
 		return "machines/campfire";
 	}
 }

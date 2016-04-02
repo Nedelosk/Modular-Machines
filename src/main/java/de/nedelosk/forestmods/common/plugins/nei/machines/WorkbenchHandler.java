@@ -9,8 +9,6 @@ import org.lwjgl.opengl.GL11;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import de.nedelosk.forestmods.common.crafting.WorkbenchRecipeManager;
-import de.nedelosk.forestmods.common.crafting.WorkbenchRecipeManager.WorkbenchRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;

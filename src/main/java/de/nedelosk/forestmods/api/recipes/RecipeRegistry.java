@@ -21,10 +21,10 @@ public class RecipeRegistry {
 			recipes.put(recipe.getRecipeCategory(), new ArrayList<IRecipe>());
 		}
 		for ( int index = 0; index < recipe.getInputs().length; index++ ) {
-			recipe.getInputs()[index].slotIndex = index;
+			recipe.getInputs()[index].index = index;
 		}
 		for ( int index = 0; index < recipe.getOutputs().length; index++ ) {
-			recipe.getOutputs()[index].slotIndex = index;
+			recipe.getOutputs()[index].index = index;
 		}
 		return recipes.get(recipe.getRecipeCategory()).add(recipe);
 	}
@@ -70,7 +70,7 @@ public class RecipeRegistry {
 					if (!(in.ore.stackSize <= stack.item.stackSize)) {
 						continue;
 					}
-					if (in.slotIndex != stack.slotIndex) {
+					if (in.index != stack.index) {
 						continue;
 					}
 					int ore = OreDictionary.getOreID(in.ore.getOreDict());

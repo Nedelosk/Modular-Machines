@@ -9,6 +9,7 @@ import com.google.gson.JsonSerializer;
 
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
+import de.nedelosk.forestmods.api.recipes.IRecipeJsonSerializer;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
 import de.nedelosk.forestmods.api.utils.JsonUtils;
 import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager.RecipeEntry;
@@ -28,10 +29,13 @@ public class RecipeWriter implements JsonSerializer<RecipeEntry> {
 		json.add("Outputs", JsonUtils.writeRecipeItem(src.getOutputs()));
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(src.getRecipeCategory());
 		if (handler != null) {
-			if (handler.writeCraftingModifiers(src.getModifiers()) == null) {
-				return json;
+			IRecipeJsonSerializer serializer = handler.getJsonSerialize();
+			if (serializer != null) {
+				JsonObject craftingModifiers = serializer.serializeJson(src.getModifiers());
+				if (craftingModifiers != null) {
+					json.add("CraftingModifiers", craftingModifiers);
+				}
 			}
-			json.add("CraftingModifiers", handler.writeCraftingModifiers(src.getModifiers()));
 		}
 		return json;
 	}

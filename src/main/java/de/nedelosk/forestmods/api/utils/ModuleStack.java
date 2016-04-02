@@ -1,63 +1,37 @@
 package de.nedelosk.forestmods.api.utils;
 
+import de.nedelosk.forestmods.api.material.IMaterial;
+import de.nedelosk.forestmods.api.material.MaterialRegistry;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.material.Materials;
-import de.nedelosk.forestmods.api.modular.material.Materials.Material;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
-import de.nedelosk.forestmods.api.modules.IModuleType;
-import net.minecraft.item.ItemStack;
+import de.nedelosk.forestmods.api.producers.IModule;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
-public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
+public final class ModuleStack<M extends IModule> {
 
 	private M module;
-	private S saver;
-	private ItemStack itemStack;
-	private Material material;
-	private IModuleType type;
+	private ModuleUID UID;
+	private IMaterial material;
 
-	public ModuleStack(ItemStack itemStack, M module, IModuleType type, Material material) {
-		this.module = module;
-		this.itemStack = itemStack;
-		this.material = material;
-		this.saver = (S) module.createSaver(this);
-		if (ModuleRegistry.getModuleType(module, material) == null) {
-			ModuleRegistry.registerModuleType(type, module, material);
-		} else if (type != ModuleRegistry.getModuleType(module, material)) {
-			type = ModuleRegistry.getModuleType(module, material);
+	public ModuleStack(String categoryUid, IMaterial material, M module) {
+		this.UID = new ModuleUID(categoryUid, module.getName());
+		if (ModuleManager.moduleRegistry.getModule(material, UID) == null) {
+			ModuleManager.moduleRegistry.registerModule(material, categoryUid, module);
+		} else if (ModuleManager.moduleRegistry.getModule(material, UID) != module) {
+			module = (M) ModuleManager.moduleRegistry.getModule(material, UID);
 		}
-		this.type = type;
-	}
-
-	public ModuleStack(ItemStack itemStack, M module, Material material) {
-		this.module = module;
-		this.itemStack = itemStack;
-		this.material = material;
-		this.saver = (S) module.createSaver(this);
-		this.type = ModuleRegistry.getModuleType(module, material);
-	}
-
-	public ModuleStack(M module, IModuleType type, Material material) {
-		this.module = module;
-		this.saver = (S) module.createSaver(this);
-		this.material = material;
-		this.itemStack = null;
-		if (ModuleRegistry.getModuleType(module, material) == null) {
-			ModuleRegistry.registerModuleType(type, module, material);
-		} else if (type != ModuleRegistry.getModuleType(module, material)) {
-			type = ModuleRegistry.getModuleType(module, material);
+		if (MaterialRegistry.getMaterial(material.getName()) == null) {
+			MaterialRegistry.registerMaterial(material);
+		} else if (MaterialRegistry.getMaterial(material.getName()) != material) {
+			material = MaterialRegistry.getMaterial(material.getName());
 		}
-		this.type = type;
+		this.module = module;
+		this.material = material;
 	}
 
-	public ModuleStack(M module, Material material) {
+	private ModuleStack(ModuleUID UID, IMaterial material, M module) {
+		this.UID = UID;
 		this.module = module;
-		this.saver = (S) module.createSaver(this);
 		this.material = material;
-		this.itemStack = null;
-		this.type = ModuleRegistry.getModuleType(module, material);
 	}
 
 	@Override
@@ -66,67 +40,48 @@ public final class ModuleStack<M extends IModule, S extends IModuleSaver> {
 			return false;
 		}
 		ModuleStack stack = (ModuleStack) obj;
-		if (material != null && stack.material != null && material.equals(stack.material) && module != null && stack.getModule() != null
-				&& module.getUID().equals(stack.getModule().getUID())) {
+		if (material != null && stack.getMaterial() != null && material.getName().equals(stack.getMaterial().getName()) && UID != null && stack.getUID() != null
+				&& UID.equals(stack.getUID()) && module.getName().equals(stack.getModule().getName())) {
 			return true;
 		}
 		return false;
 	}
 
 	public static ModuleStack loadFromNBT(NBTTagCompound nbt, IModular modular) {
-		ItemStack itemStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
-		ResourceLocation UID = new ResourceLocation(nbt.getString("UID"));
-		IModule module = ModuleRegistry.getModule(UID);
-		Material material = Materials.getMaterial(nbt.getString("Material"));
-		ModuleStack stack = new ModuleStack(itemStack, module, material);
-		if (stack.saver != null) {
-			stack.saver.readFromNBT(nbt.getCompoundTag("saver"), modular, stack);
-		}
-		return stack;
+		ModuleUID UID = new ModuleUID(nbt.getString("UID"));
+		IMaterial material = MaterialRegistry.getMaterial(nbt.getString("Material"));
+		NBTTagCompound nbtTag = new NBTTagCompound();
+		IModule module = ModuleManager.moduleRegistry.getModule(material, UID);
+		module.readFromNBT(nbtTag, modular);
+		return new ModuleStack(UID, material, module);
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
-		nbt.setString("UID", module.getUID());
-		if (saver != null) {
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			saver.writeToNBT(nbtTag, modular, this);
-			nbt.setTag("saver", nbtTag);
-		}
+		nbt.setString("UID", UID.toString());
 		nbt.setString("Material", material.getName());
-		NBTTagCompound nbtTagItem = new NBTTagCompound();
-		itemStack.writeToNBT(nbtTagItem);
-		nbt.setTag("Item", nbtTagItem);
+		NBTTagCompound nbtTag = new NBTTagCompound();
+		module.writeToNBT(nbtTag, modular);
+		nbt.setTag("Modules", nbtTag);
 	}
 
 	public M getModule() {
 		return module;
 	}
 
-	public S getSaver() {
-		return saver;
-	}
-
-	public void setItemStack(ItemStack itemStack) {
-		this.itemStack = itemStack;
-	}
-
-	public ItemStack getItemStack() {
-		return itemStack;
-	}
-
-	public Material getMaterial() {
+	public IMaterial getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(Material material) {
-		this.material = material;
-	}
-
-	public IModuleType getType() {
-		return type;
+	public ModuleUID getUID() {
+		return UID;
 	}
 
 	public ModuleStack copy() {
-		return new ModuleStack(itemStack, module, material);
+		return new ModuleStack(UID, material, module);
+	}
+
+	@Override
+	public String toString() {
+		return material.getName() + "/" + UID.toString() + "/" + module.getUnlocalizedName(this);
 	}
 }

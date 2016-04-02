@@ -3,7 +3,6 @@ package de.nedelosk.forestmods.common.config;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import com.enderio.core.common.event.ConfigFileChangedEvent;
 
@@ -12,10 +11,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import de.nedelosk.forestcore.utils.Log;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry;
 import de.nedelosk.forestmods.common.core.Constants;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 
 @Optional.Interface(modid = "endercore", iface = "com.enderio.core.common.event.ConfigFileChangedEvent")
@@ -158,11 +154,14 @@ public class Config {
 	}
 
 	public static void postInit() {
-		for ( Entry<ResourceLocation, IModule> entry : ModuleRegistry.getModuleMaps().getModules().entrySet() ) {
-			if (!config.get(moduleRegistry.name, entry.getKey().toString(), true).getBoolean()) {
-				ModuleRegistry.getModuleMaps().getModules().remove(entry.getKey());
-			}
-		}
+		/*
+		 * for ( Entry<ModuleUID, IModule> entry :
+		 * ModuleManager.moduleRegistry.getModuleMaps().getModules().entrySet()
+		 * ) { if (!config.get(moduleRegistry.name, entry.getKey().toString(),
+		 * true).getBoolean()) {
+		 * ModuleRegistry.getModuleMaps().getModules().remove(entry.getKey()); }
+		 * }
+		 */
 		/*
 		 * ArrayList<ModuleStack> stacks =
 		 * Lists.newArrayList(ModuleRegistry.getProducers().iterator()); for (

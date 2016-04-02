@@ -8,18 +8,17 @@ import com.google.common.collect.Lists;
 import buildcraft.api.tools.IToolWrench;
 import de.nedelosk.forestcore.blocks.BlockContainerForest;
 import de.nedelosk.forestcore.utils.WorldUtil;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.IModuleDropped;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.blocks.tile.TileMachineBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
 import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
+import de.nedelosk.forestmods.common.modular.ModularMachine;
+import de.nedelosk.forestmods.common.modules.ModuleRegistry;
 import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketSyncManagers;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -36,6 +35,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockModularMachine extends BlockContainerForest {
 
@@ -71,6 +71,11 @@ public class BlockModularMachine extends BlockContainerForest {
 		} else {
 			return new TileModularMachine();
 		}
+	}
+	
+	@Override
+	public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_) {
+		super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
 	}
 
 	@Override
@@ -141,15 +146,11 @@ public class BlockModularMachine extends BlockContainerForest {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof IModularTileEntity) {
 			IModularTileEntity modular = (IModularTileEntity) tile;
-			if (modular.getModular() != null && modular.getModular().getModuleManager() != null) {
+			if (modular.getModular() != null && modular.getModular().getManager(IModularModuleManager.class) != null) {
 				List<ItemStack> drops = Lists.newArrayList();
-				for ( ModuleStack stack : (List<ModuleStack>) modular.getModular().getModuleManager().getModuleStacks() ) {
+				for ( ModuleStack stack : (List<ModuleStack>) modular.getModular().getManager(IModularModuleManager.class).getModuleStacks() ) {
 					if (stack != null) {
-						if (stack.getModule() instanceof IModuleDropped) {
-							drops.add(((IModuleDropped) stack.getModule()).onDropItem(stack, modular.getModular()).copy());
-						} else {
-							drops.add(stack.getItemStack().copy());
-						}
+						drops.add(stack.getModule().getDropItem(stack, modular.getModular()).copy());
 					}
 				}
 				WorldUtil.dropItem(world, x, y, z, drops);
@@ -162,8 +163,8 @@ public class BlockModularMachine extends BlockContainerForest {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if (tile instanceof IModularTileEntity) {
-			IModularTileEntity modular = (IModularTileEntity) tile;
+		if (tile instanceof IModularState) {
+			IModularState modular = (IModularState) tile;
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			modular.writeToNBT(nbtTag);
 			stack.setTagCompound(nbtTag);
@@ -212,27 +213,31 @@ public class BlockModularMachine extends BlockContainerForest {
 		if (world.isRemote) {
 			return;
 		}
-		int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		TileMachineBase tile = (TileMachineBase) world.getTileEntity(x, y, z);
-		tile.setFacing(getFacingForHeading(heading));
-		if (entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entity;
-			tile.setOwner(player.getGameProfile());
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof TileModularMachine){
+			TileModularMachine modular = (TileModularMachine) tile;
+			modular.setModular(new ModularMachine());
+			int heading = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			modular.setFacing(getFacingForHeading(heading));
+			if (entity instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) entity;
+				modular.setOwner(player.getGameProfile());
+			}
+			world.markBlockForUpdate(x, y, z);
 		}
-		world.markBlockForUpdate(x, y, z);
 	}
 
-	protected short getFacingForHeading(int heading) {
+	protected ForgeDirection getFacingForHeading(int heading) {
 		switch (heading) {
 			case 0:
-				return 2;
+				return ForgeDirection.NORTH;
 			case 1:
-				return 5;
+				return ForgeDirection.EAST;
 			case 2:
-				return 3;
+				return ForgeDirection.SOUTH;
 			case 3:
 			default:
-				return 4;
+				return ForgeDirection.WEST;
 		}
 	}
 }

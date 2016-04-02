@@ -22,7 +22,10 @@ public class PluginWaila extends APlugin {
 		registrar.registerBodyProvider(tileCampfire, TileCampfire.class);
 		final IWailaDataProvider tileKiln = new ProviderTileCharcoalKiln();
 		registrar.registerBodyProvider(tileKiln, TileCharcoalKiln.class);
-		registrar.registerBodyProvider(new ProviderModular(), TileModularMachine.class);
+		ProviderModular modular = new ProviderModular();
+		registrar.registerBodyProvider(modular, TileModularMachine.class);
+		registrar.registerHeadProvider(modular, TileModularMachine.class);
+		registrar.registerTailProvider(modular, TileModularMachine.class);
 	}
 
 	@Override

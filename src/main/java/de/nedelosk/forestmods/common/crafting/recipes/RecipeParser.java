@@ -119,8 +119,8 @@ public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 			return null;
 		}
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeCategory);
-		if (handler != null && json.has("CraftingModifiers") && json.get("CraftingModifiers").isJsonObject()) {
-			craftingModifiers = handler.parseCraftingModifiers(json.get("CraftingModifiers").getAsJsonObject());
+		if (handler != null && handler.getJsonSerialize() != null && json.has("CraftingModifiers") && json.get("CraftingModifiers").isJsonObject()) {
+			craftingModifiers = handler.getJsonSerialize().deserializeJson(json.get("CraftingModifiers").getAsJsonObject());
 		}
 		IRecipe recipe;
 		if (handler != null && handler.getRecipeClass() != null && !handler.getRecipeClass().isInterface()) {

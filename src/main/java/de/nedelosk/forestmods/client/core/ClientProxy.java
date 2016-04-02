@@ -15,12 +15,10 @@ import de.nedelosk.forestmods.client.render.tile.TileModularAssemblerRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileModularMachineRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileTransportNodeRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileTransportRenderer;
-import de.nedelosk.forestmods.client.render.tile.TileWorkbenchRenderer;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.core.CommonProxy;
 import de.nedelosk.forestmods.common.core.ItemManager;
@@ -44,7 +42,6 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderers() {
 		/* Machine Base */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCampfire.class, new TileCampfireRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileWorkbench.class, new TileWorkbenchRenderer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockMachines), new ItemMachineWoodBase());
 		MinecraftForgeClient.registerItemRenderer(ItemManager.itemCampfireCurb, new ItemCampfireRenderer("curb"));
 		MinecraftForgeClient.registerItemRenderer(ItemManager.itemCampfirePot, new ItemCampfireRenderer("pot"));

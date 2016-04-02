@@ -1,113 +1,58 @@
 package de.nedelosk.forestmods.api.utils;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-import com.google.common.collect.Maps;
-
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
-import de.nedelosk.forestmods.api.modules.container.IModuleContainer;
-import de.nedelosk.forestmods.api.modules.container.IMultiModuleContainer;
-import de.nedelosk.forestmods.api.modules.container.ISingleModuleContainer;
-import de.nedelosk.forestmods.api.modules.fluids.IModuleWithFluid;
-import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
-import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManager;
-import de.nedelosk.forestmods.api.modules.managers.fluids.IModuleTankManagerSaver;
+import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
+import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
+import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
+import de.nedelosk.forestmods.api.modules.heater.IModuleHeater;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBatterySaver;
+import de.nedelosk.forestmods.api.modules.storage.capacitors.IModuleCapacitor;
+import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.producers.IModuleAdvanced;
 
 public class ModularUtils {
 
-	public static HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> getFluidProducers(IModular modular) {
-		HashMap<String, ModuleStack<IModuleWithFluid, IModuleSaver>> stacks = Maps.newHashMap();
-		for ( ModuleStack stack : (List<ModuleStack>) modular.getModuleManager().getModuleStacks() ) {
-			if (stack != null && stack.getModule() != null && stack.getModule() instanceof IModuleWithFluid) {
-				if (((IModuleWithFluid) stack.getModule()).useFluids(stack)) {
-					stacks.put(stack.getModule().getUID(), stack);
-				}
-			}
-		}
-		return stacks;
+	public static ModuleStack<IModuleCasing> getCasing(IModular modular) {
+		return getModuleContainer(modular, IModuleCasing.class);
 	}
 
-	/* MODULES FROM MODULAR */
-	public static ISingleModuleContainer getCasing(IModular modular) {
-		return getSingleContainer(modular, ModuleCategoryUIDs.CASING);
+	public static ModuleStack<IModuleBattery> getBattery(IModular modular) {
+		return getModuleContainer(modular, IModuleBattery.class);
 	}
 
-	public static ModuleStack<IModuleTankManager, IModuleTankManagerSaver> getTankManager(IModular modular) {
-		return getModuleStack(modular, ModuleCategoryUIDs.MANAGERS, ModuleCategoryUIDs.MANAGER_TANK);
+	public static ModuleStack<IModuleEngine> getEngine(IModular modular) {
+		return getModuleContainer(modular, IModuleEngine.class);
 	}
 
-	public static IMultiModuleContainer getManagers(IModular modular) {
-		return getMultiContainer(modular, ModuleCategoryUIDs.MANAGERS);
+	public static ModuleStack<IModuleHeater> getHeater(IModular modular) {
+		return getModuleContainer(modular, IModuleHeater.class);
 	}
 
-	public static ISingleModuleContainer getBattery(IModular modular) {
-		return getSingleContainer(modular, ModuleCategoryUIDs.BATTERY);
+	public static <M extends IModuleAdvanced> ModuleStack<M> getMachine(IModular modular) {
+		return getModuleContainer(modular, IModuleAdvanced.class);
 	}
 
-	public static ModuleStack<IModuleBattery, IModuleBatterySaver> getBatteryStack(IModular modular) {
-		return getBattery(modular).getStack();
+	public static ModuleStack<IModuleCapacitor> getCapacitor(IModular modular) {
+		return getModuleContainer(modular, IModuleCapacitor.class);
 	}
 
-	public static ISingleModuleContainer getEngine(IModular modular) {
-		return getSingleContainer(modular, ModuleCategoryUIDs.ENGINE);
-	}
-
-	public static ISingleModuleContainer getMachine(IModular modular) {
-		return getSingleContainer(modular, ModuleCategoryUIDs.MACHINE);
-	}
-
-	public static ISingleModuleContainer getCapacitor(IModular modular) {
-		return getSingleContainer(modular, ModuleCategoryUIDs.CAPACITOR);
-	}
-
-	public static IMultiModuleContainer<IModule, IModuleSaver, Collection<ModuleStack<IModule, IModuleSaver>>> getMultiContainer(IModular modular,
-			String categoryUID) {
-		IModuleContainer container = getModuleStack(modular, categoryUID);
-		if (container == null || !(container instanceof IMultiModuleContainer)) {
-			return null;
-		}
-		return (IMultiModuleContainer) container;
-	}
-
-	public static ModuleStack getModuleStack(IModular modular, String categoryUID, String moduleUID) {
-		return modular.getModuleManager().getModuleFromUID(categoryUID + ":" + moduleUID);
-	}
-
-	public static ISingleModuleContainer getSingleContainer(IModular modular, String categoryUID) {
-		IModuleContainer container = getModuleStack(modular, categoryUID);
-		if (container == null || !(container instanceof ISingleModuleContainer)) {
-			return null;
-		}
-		return (ISingleModuleContainer) container;
-	}
-
-	public static IModuleContainer getModuleStack(IModular modular, String categoryUID) {
+	public static ModuleStack getModuleContainer(IModular modular, Class<? extends IModule> moduleClass) {
 		if (modular == null) {
 			return null;
 		}
-		return modular.getModuleManager().getModule(categoryUID);
+		return getModuleContainers(modular, moduleClass).get(0);
 	}
 
-	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getStackFromGui(IModularDefault modular, IModuleGui<M, S> gui) {
-		if (gui == null) {
+	public static List<ModuleStack> getModuleContainers(IModular modular, Class<? extends IModule> moduleClass) {
+		if (modular == null) {
 			return null;
 		}
-		return modular.getModuleManager().getModuleFromUID(gui.getUID());
+		return getModuleManager(modular).getModuleSatcks(moduleClass);
 	}
 
-	public static <M extends IModule, S extends IModuleSaver> ModuleStack<M, S> getModuleStackFromInventory(IModularDefault modular,
-			IModuleInventory<M, S> inv) {
-		if (inv == null) {
-			return null;
-		}
-		return modular.getModuleManager().getModuleFromUID(inv.getCategoryUID() + ":" + inv.getModuleUID());
+	private static IModularModuleManager getModuleManager(IModular modular) {
+		return modular.getManager(IModularModuleManager.class);
 	}
 }

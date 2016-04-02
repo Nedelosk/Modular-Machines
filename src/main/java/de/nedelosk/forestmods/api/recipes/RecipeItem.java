@@ -10,59 +10,59 @@ public class RecipeItem {
 	public final FluidStack fluid;
 	public final ItemStack item;
 	public final OreStack ore;
-	public int slotIndex;
+	public int index;
 
 	public RecipeItem(ItemStack item) {
 		this.item = item;
 		this.fluid = null;
 		this.ore = null;
-		this.slotIndex = 0;
+		this.index = 0;
 	}
 
 	public RecipeItem(FluidStack fluid) {
 		this.fluid = fluid;
 		this.item = null;
 		this.ore = null;
-		this.slotIndex = 0;
+		this.index = 0;
 	}
 
 	public RecipeItem(OreStack ore) {
 		this.fluid = null;
 		this.item = null;
 		this.ore = ore;
-		this.slotIndex = 0;
+		this.index = 0;
 	}
 
 	public RecipeItem(int slotIndex, ItemStack item) {
 		this.item = item;
 		this.fluid = null;
 		this.ore = null;
-		this.slotIndex = slotIndex;
+		this.index = slotIndex;
 	}
 
 	public RecipeItem(int slotIndex, FluidStack fluid) {
 		this.fluid = fluid;
 		this.item = null;
 		this.ore = null;
-		this.slotIndex = slotIndex;
+		this.index = slotIndex;
 	}
 
 	public RecipeItem(int slotIndex, OreStack ore) {
 		this.fluid = null;
 		this.item = null;
 		this.ore = ore;
-		this.slotIndex = slotIndex;
+		this.index = slotIndex;
 	}
 
 	public RecipeItem(int slotIndex, ItemStack item, FluidStack fluid, OreStack ore) {
 		this.fluid = fluid;
 		this.item = item;
 		this.ore = ore;
-		this.slotIndex = slotIndex;
+		this.index = slotIndex;
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setInteger("slotIndex", this.slotIndex);
+		nbt.setInteger("slotIndex", this.index);
 		if (item != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			item.writeToNBT(nbtTag);

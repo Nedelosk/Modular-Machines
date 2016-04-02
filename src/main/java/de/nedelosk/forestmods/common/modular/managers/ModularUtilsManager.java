@@ -1,18 +1,17 @@
 package de.nedelosk.forestmods.common.modular.managers;
 
 import cofh.api.energy.IEnergyHandler;
-import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.managers.DefaultModularManager;
 import de.nedelosk.forestmods.api.modular.managers.IModularUtilsManager;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modular.handlers.FluidHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class ModularUtilsManager implements IModularUtilsManager {
+public class ModularUtilsManager extends DefaultModularManager implements IModularUtilsManager {
 
 	protected EnergyHandler energyHandler;
 	protected FluidHandler fluidHandler;
-	protected IModular modular;
 
 	public ModularUtilsManager() {
 	}
@@ -59,18 +58,5 @@ public class ModularUtilsManager implements IModularUtilsManager {
 		} else {
 			nbt.setBoolean("FH", false);
 		}
-	}
-
-	@Override
-	public void setModular(IModular modular) {
-		this.modular = modular;
-		if (fluidHandler != null) {
-			fluidHandler.setMachine(modular);
-		}
-	}
-
-	@Override
-	public IModular getModular() {
-		return modular;
 	}
 }

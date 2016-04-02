@@ -1,30 +1,22 @@
 package de.nedelosk.forestmods.api.modular.managers;
 
-import java.util.HashMap;
 import java.util.List;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.container.IModuleContainer;
-import de.nedelosk.forestmods.api.modules.container.IMultiModuleContainer;
-import de.nedelosk.forestmods.api.modules.container.ISingleModuleContainer;
+import de.nedelosk.forestmods.api.producers.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
+import net.minecraft.item.ItemStack;
 
 public interface IModularModuleManager<M extends IModular> extends IModularManager<M> {
 
-	boolean addModule(ModuleStack stack);
+	boolean addModule(ItemStack itemStack, ModuleStack stack);
 
-	IModuleContainer getModule(String categoryUID);
+	List<ModuleStack> getModuleSatcks(Class<? extends IModule> moduleClass);
 
-	ModuleStack getModuleFromUID(String UID);
+	ModuleStack getModuleStack(ModuleUID moduleUID);
 
-	ISingleModuleContainer getSingleModule(String categoryUID);
-
-	IMultiModuleContainer getMultiModule(String categoryUID);
-
-	/**
-	 * @return All modules in a HashMap
-	 */
-	HashMap<String, IModuleContainer> getModuleContainers();
+	ItemStack getItemStack(ModuleUID UID);
 
 	/**
 	 * @return All modules as ModuleStack

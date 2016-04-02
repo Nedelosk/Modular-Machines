@@ -4,16 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestmods.api.modular.material.Materials;
-import de.nedelosk.forestmods.api.modular.material.Materials.Material;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
-import de.nedelosk.forestmods.api.modules.IModuleType;
 import de.nedelosk.forestmods.api.modules.special.IModuleWithItem;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry;
+import de.nedelosk.forestmods.api.producers.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
+import de.nedelosk.forestmods.common.modules.ModuleRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -50,19 +46,19 @@ public class ItemModule extends Item {
 		return icons[pass];
 	}
 
-	public static <M extends IModule> ModuleStack addModule(M module, IModuleType type, Material material) {
+	public static <M extends IModule> ModuleStack addModule(M module, IModuleType type) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
-		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, type, material);
-		if (ModuleRegistry.getModule(moduleStack.getModule().getModuleUID()) == null) {
+		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, type);
+		if (ModuleRegistry.getModule(moduleStack.getModule().getUID()) == null) {
 			ModuleRegistry.registerModule(module);
 		}
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("UID", module.getUID());
-		nbtTag.setString("Material", moduleStack.getMaterial().getName());
+		nbtTag.setString("UID", module.getUID().toString());
+		nbtTag.setString("Material", moduleStack.getType().getMaterial().getName());
 		itemStack.setTagCompound(nbtTag);
 		subItems.add(itemStack);
 		moduleStack.setItemStack(itemStack);
-		ModuleRegistry.addModuleToItem(moduleStack, false);
+		ModuleRegistry.registerItemForModule(moduleStack, false);
 		return moduleStack;
 	}
 
@@ -83,7 +79,7 @@ public class ItemModule extends Item {
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
 		if (stack.hasTagCompound() && pass == 1) {
-			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModuleFromItem(stack).moduleStack.getModule();
+			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModuleFromItem(stack).moduleStack.getModuleStack();
 			return module.getColor();
 		} else {
 			return 16777215;

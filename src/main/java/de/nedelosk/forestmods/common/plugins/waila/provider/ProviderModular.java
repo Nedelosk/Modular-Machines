@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import de.nedelosk.forestmods.api.modular.integration.IWailaData;
+import de.nedelosk.forestmods.api.integration.IWailaState;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -29,25 +29,25 @@ public class ProviderModular implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
-		IWailaData data = new WailaData(accessor, config);
-		return modular.getModular().getWailaProvider(modular, data).getWailaHead(itemStack, currenttip, data);
+		IWailaState data = new WailaData(accessor, config);
+		return modular.getModular().getWailaProvider(modular).getWailaHead(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
-		IWailaData data = new WailaData(accessor, config);
-		return modular.getModular().getWailaProvider(modular, data).getWailaBody(itemStack, currenttip, data);
+		IWailaState data = new WailaData(accessor, config);
+		return modular.getModular().getWailaProvider(modular).getWailaBody(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileModularMachine modular = (TileModularMachine) accessor.getTileEntity();
-		IWailaData data = new WailaData(accessor, config);
-		return modular.getModular().getWailaProvider(modular, data).getWailaTail(itemStack, currenttip, data);
+		IWailaState data = new WailaData(accessor, config);
+		return modular.getModular().getWailaProvider(modular).getWailaTail(itemStack, currenttip, data);
 	}
 
-	public static class WailaData implements IWailaData {
+	public static class WailaData implements IWailaState {
 
 		private IWailaDataAccessor accessor;
 		private IWailaConfigHandler config;

@@ -1,9 +1,12 @@
 package de.nedelosk.forestcore.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,8 +14,87 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public final class RenderUtil {
+
+	@SideOnly(Side.CLIENT)
+	public static void renderText(int x, int y, int width, int height, String unlocalizedText) {
+		renderText(x, y, width, height, 10, unlocalizedText);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void renderText(int x, int y, int width, int height, int paragraphSize, String unlocalizedText) {
+		x += 2;
+		y += 10;
+		width -= 4;
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		boolean unicode = font.getUnicodeFlag();
+		font.setUnicodeFlag(true);
+		String text = StatCollector.translateToLocal(unlocalizedText).replaceAll("&", "\u00a7");
+		String[] textEntries = text.split("<br>");
+		List<List<String>> lines = new ArrayList();
+		String controlCodes = "";
+		for ( String s : textEntries ) {
+			List<String> words = new ArrayList();
+			String lineStr = "";
+			String[] tokens = s.split(" ");
+			for ( String token : tokens ) {
+				String prev = lineStr;
+				String spaced = token + " ";
+				lineStr += spaced;
+				controlCodes = toControlCodes(getControlCodes(prev));
+				if (font.getStringWidth(lineStr) > width) {
+					lines.add(words);
+					lineStr = controlCodes + spaced;
+					words = new ArrayList();
+				}
+				words.add(controlCodes + token);
+			}
+			if (!lineStr.isEmpty()) {
+				lines.add(words);
+			}
+			lines.add(new ArrayList());
+		}
+		int i = 0;
+		for ( List<String> words : lines ) {
+			words.size();
+			int xi = x;
+			int spacing = 4;
+			int wcount = words.size();
+			int compensationSpaces = 0;
+			/*
+			 * boolean justify = ConfigHandler.lexiconJustifiedText && wcount >
+			 * 0 && lines.size() > i && !lines.get(i + 1).isEmpty(); if(justify)
+			 * { String s = Joiner.on("").join(words); int swidth =
+			 * font.getStringWidth(s); int space = width - swidth; spacing =
+			 * wcount == 1 ? 0 : space / (wcount - 1); compensationSpaces =
+			 * wcount == 1 ? 0 : space % (wcount - 1); }
+			 */
+			for ( String s : words ) {
+				int extra = 0;
+				if (compensationSpaces > 0) {
+					compensationSpaces--;
+					extra++;
+				}
+				font.drawString(s, xi, y, 0);
+				xi += font.getStringWidth(s) + spacing + extra;
+			}
+			y += words.isEmpty() ? paragraphSize : 10;
+			i++;
+		}
+		font.setUnicodeFlag(unicode);
+	}
+
+	public static String getControlCodes(String s) {
+		String controls = s.replaceAll("(?<!\u00a7)(.)", "");
+		String wiped = controls.replaceAll(".*r", "r");
+		return wiped;
+	}
+
+	public static String toControlCodes(String s) {
+		return s.replaceAll(".", "\u00a7$0");
+	}
 
 	public static void renderTooltip(int x, int y, List<String> tooltipData) {
 		int color = 0x505000ff;
@@ -214,5 +296,15 @@ public final class RenderUtil {
 		tessellator.addVertexWithUV(p_94065_1_ + p_94065_4_, p_94065_2_ + 0, z, p_94065_3_.getMaxU(), p_94065_3_.getMinV());
 		tessellator.addVertexWithUV(p_94065_1_ + 0, p_94065_2_ + 0, z, p_94065_3_.getMinU(), p_94065_3_.getMinV());
 		tessellator.draw();
+	}
+
+	public static void drawTexturedQuadFull(int par1, int par2, double zLevel) {
+		Tessellator var9 = Tessellator.instance;
+		var9.startDrawingQuads();
+		var9.addVertexWithUV(par1 + 0, par2 + 16, zLevel, 0.0D, 1.0D);
+		var9.addVertexWithUV(par1 + 16, par2 + 16, zLevel, 1.0D, 1.0D);
+		var9.addVertexWithUV(par1 + 16, par2 + 0, zLevel, 1.0D, 0.0D);
+		var9.addVertexWithUV(par1 + 0, par2 + 0, zLevel, 0.0D, 0.0D);
+		var9.draw();
 	}
 }

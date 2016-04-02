@@ -1,27 +1,28 @@
 package de.nedelosk.forestmods.api.modular.managers;
 
-import java.util.HashMap;
-
-import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.container.IInventoryContainer;
-import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
+import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public interface IModularInventoryManager<M extends IModularDefault> extends IModularManager<M> {
+public interface IModularInventoryManager<M extends IModular> extends IModularManager<M> {
 
 	IModuleInventory getCurrentInventory();
 
-	HashMap<String, IInventoryContainer> getInventorys();
-
 	void setCurrentInventory(IModuleInventory inventory);
 
-	IModuleInventory getInventory(String UID);
+	IModuleInventory getInventory(ModuleStack stack);
+
+	IModuleInventory getInventory(ModuleUID UID);
+
+	IModuleInventory getInventory(Class<? extends IModule> moduleClass);
 
 	<T extends TileEntity & IModularTileEntity> Container getContainer(T tile, InventoryPlayer inventory);
 
@@ -56,10 +57,4 @@ public interface IModularInventoryManager<M extends IModularDefault> extends IMo
 	boolean canInsertItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack);
 
 	boolean canExtractItem(int index, ItemStack itemStack, int side, ModuleStack moduleStack);
-
-	boolean addToOutput(ItemStack output, int slotMin, int slotMax, ModuleStack moduleStack);
-
-	void addInventorys();
-
-	IModuleInventory getInventory(ModuleStack stack);
 }

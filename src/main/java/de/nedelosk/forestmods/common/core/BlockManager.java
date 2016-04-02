@@ -4,11 +4,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestcore.items.ItemBlockForest;
 import de.nedelosk.forestmods.common.blocks.BlockBlastFurnace;
+import de.nedelosk.forestmods.common.blocks.BlockCampfire;
 import de.nedelosk.forestmods.common.blocks.BlockCasing;
 import de.nedelosk.forestmods.common.blocks.BlockComponent;
 import de.nedelosk.forestmods.common.blocks.BlockCowper;
 import de.nedelosk.forestmods.common.blocks.BlockGravel;
-import de.nedelosk.forestmods.common.blocks.BlockMachinesWood;
 import de.nedelosk.forestmods.common.blocks.BlockModularMachine;
 import de.nedelosk.forestmods.common.blocks.BlockOre;
 import de.nedelosk.forestmods.common.blocks.BlockTransport;
@@ -20,7 +20,6 @@ import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.blocks.tile.TileWorkbench;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
 import de.nedelosk.forestmods.common.items.block.ItemBlockModularMachine;
 import de.nedelosk.forestmods.common.transport.TileEntityTransport;
@@ -44,10 +43,7 @@ public class BlockManager {
 
 	public static void registerBlocks() {
 		blockGravel = register(new BlockGravel(), ItemBlockForest.class);
-		blockMachines = register(new BlockMachinesWood("wood_base", TileCampfire.class, TileWorkbench.class, TileWorkbench.class), ItemBlockMachines.class);
-		blockMachines.setHarvestLevel("pickaxe", 0, 1);
-		blockMachines.setHarvestLevel("axe", 0, 1);
-		blockMachines.setHarvestLevel("axe", 0, 2);
+		blockMachines = register(new BlockCampfire(), ItemBlockMachines.class);
 		blockOres = register(new BlockOre(), ItemBlockForest.class);
 		blockMetalBlocks = register(new BlockComponent(Material.iron, "metal_block"), ItemBlockForest.class);
 		blockTransport = register(new BlockTransport(), ItemBlockForest.class);
@@ -63,17 +59,16 @@ public class BlockManager {
 	}
 
 	public static void registerTiles() {
-		GameRegistry.registerTileEntity(TileCharcoalKiln.class, "machien.multi.kiln.charcoal");
-		GameRegistry.registerTileEntity(TileWorkbench.class, "machine.wood.workbench");
-		GameRegistry.registerTileEntity(TileCampfire.class, "machine.wood.campfire");
-		GameRegistry.registerTileEntity(TileAsh.class, "machine.wood.ash");
-		GameRegistry.registerTileEntity(TileModularMachine.class, "modular");
-		GameRegistry.registerTileEntity(TileModularAssembler.class, "modular.assembler");
-		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "tile.blastfurnace.accessport");
-		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "tile.blastfurnace.fluidport");
-		GameRegistry.registerTileEntity(TileBlastFurnaceBase.class, "tile.blastfurnace.base");
-		GameRegistry.registerTileEntity(TileEntityTransport.class, "tile.transport.base");
-		GameRegistry.registerTileEntity(TileEntityTransportNode.class, "tile.transport.node");
+		GameRegistry.registerTileEntity(TileCharcoalKiln.class, "forestmods.machine.multi.kiln.charcoal");
+		GameRegistry.registerTileEntity(TileCampfire.class, "forestmods.machine.wood.campfire");
+		GameRegistry.registerTileEntity(TileAsh.class, "forestmods.machine.wood.ash");
+		GameRegistry.registerTileEntity(TileModularMachine.class, "forestmods.modular");
+		GameRegistry.registerTileEntity(TileModularAssembler.class, "forestmods.modular.assembler");
+		GameRegistry.registerTileEntity(TileBlastFurnaceAccessPort.class, "forestmods.tile.blastfurnace.accessport");
+		GameRegistry.registerTileEntity(TileBlastFurnaceFluidPort.class, "forestmods.tile.blastfurnace.fluidport");
+		GameRegistry.registerTileEntity(TileBlastFurnaceBase.class, "forestmods.tile.blastfurnace.base");
+		GameRegistry.registerTileEntity(TileEntityTransport.class, "forestmods.tile.transport.base");
+		GameRegistry.registerTileEntity(TileEntityTransportNode.class, "forestmods.tile.transport.node");
 	}
 
 	public static <B extends Block> B register(B block, Class<? extends ItemBlock> item, Object... objects) {

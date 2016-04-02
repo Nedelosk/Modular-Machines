@@ -1,9 +1,7 @@
 package de.nedelosk.forestmods.common.plugins.thermalexpansion;
 
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
-import de.nedelosk.forestmods.api.modules.storage.tanks.IModuleTank;
+import de.nedelosk.forestmods.api.producers.handlers.tank.IModuleTank;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.storage.ModuleTank;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;

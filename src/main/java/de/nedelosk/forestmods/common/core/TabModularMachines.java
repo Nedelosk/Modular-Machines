@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.core;
 
 import de.nedelosk.forestmods.api.Tabs;
-import de.nedelosk.forestmods.api.modular.material.Materials;
+import de.nedelosk.forestmods.api.material.EnumMaterials;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +33,7 @@ public class TabModularMachines extends CreativeTabs {
 				stack = new ItemStack(ItemManager.itemCompGears, 1, 5);
 				break;
 			case 2:
-				stack = ItemModule.getItem(ModuleCategoryUIDs.MACHINE + ":" + ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, Materials.BRONZE);
+				stack = ItemModule.getItem(ModuleCategoryUIDs.PRODUCER + ":" + ModuleCategoryUIDs.MACHINE_ALLOY_SMELTER, EnumMaterials.BRONZE);
 				break;
 		}
 		return stack;

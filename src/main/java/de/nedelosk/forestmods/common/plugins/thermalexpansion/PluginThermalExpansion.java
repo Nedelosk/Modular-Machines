@@ -1,20 +1,15 @@
 package de.nedelosk.forestmods.common.plugins.thermalexpansion;
 
-import static de.nedelosk.forestmods.api.utils.ModuleRegistry.addModuleToItem;
-
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.plugins.APlugin;
-import de.nedelosk.forestmods.api.modular.material.Materials;
-import de.nedelosk.forestmods.api.modules.basic.IModuleCasing;
+import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
-import de.nedelosk.forestmods.api.modules.storage.tanks.IModuleTank;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry;
+import de.nedelosk.forestmods.api.producers.handlers.tank.IModuleTank;
 import de.nedelosk.forestmods.common.config.Config;
+import de.nedelosk.forestmods.common.modules.ModuleRegistry;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasingType;
-import de.nedelosk.forestmods.common.modules.storage.ModuleBatteryType;
-import de.nedelosk.forestmods.common.modules.storage.ModuleTankType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -44,14 +39,14 @@ public class PluginThermalExpansion extends APlugin {
 		tank = GameRegistry.findItem(getRequiredMod(), "Tank");
 		strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
 		capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
-		addModuleToItem(new ItemStack(frame, 1, 0), moduleFrame, new ModuleCasingType(), Materials.IRON);
-		addModuleToItem(new ItemStack(frame, 1, 1), moduleFrame, new ModuleCasingType(), Materials.Electrum);
-		addModuleToItem(new ItemStack(frame, 1, 2), moduleFrame, new ModuleCasingType(), Materials.Signalum);
-		addModuleToItem(new ItemStack(frame, 1, 3), moduleFrame, new ModuleCasingType(), Materials.Enderium);
-		addModuleToItem(new ItemStack(tank, 1, 1), modulePortableTank, new ModuleTankType(8000), Materials.IRON);
-		addModuleToItem(new ItemStack(tank, 1, 2), modulePortableTank, new ModuleTankType(32000), Materials.Invar);
-		addModuleToItem(new ItemStack(tank, 1, 3), modulePortableTank, new ModuleTankType(128000), Materials.OBSIDIAN);
-		addModuleToItem(new ItemStack(tank, 1, 4), modulePortableTank, new ModuleTankType(512000), Materials.Enderium);
+		registerItemForModule(new ItemStack(frame, 1, 0), moduleFrame, new ModuleCasingType(), Materials.IRON);
+		registerItemForModule(new ItemStack(frame, 1, 1), moduleFrame, new ModuleCasingType(), Materials.Electrum);
+		registerItemForModule(new ItemStack(frame, 1, 2), moduleFrame, new ModuleCasingType(), Materials.Signalum);
+		registerItemForModule(new ItemStack(frame, 1, 3), moduleFrame, new ModuleCasingType(), Materials.Enderium);
+		registerItemForModule(new ItemStack(tank, 1, 1), modulePortableTank, new ModuleTankType(8000), Materials.IRON);
+		registerItemForModule(new ItemStack(tank, 1, 2), modulePortableTank, new ModuleTankType(32000), Materials.Invar);
+		registerItemForModule(new ItemStack(tank, 1, 3), modulePortableTank, new ModuleTankType(128000), Materials.OBSIDIAN);
+		registerItemForModule(new ItemStack(tank, 1, 4), modulePortableTank, new ModuleTankType(512000), Materials.Enderium);
 		addModuleToItem(new ItemStack(cell, 1, 1), moduleEnergyCell, new ModuleBatteryType(new EnergyStorage(100000, 100, 100)), Materials.Lead, true);
 		addModuleToItem(new ItemStack(cell, 1, 2), moduleEnergyCell, new ModuleBatteryType(new EnergyStorage(500000, 400, 400)), Materials.Invar, true);
 		addModuleToItem(new ItemStack(cell, 1, 3), moduleEnergyCell, new ModuleBatteryType(new EnergyStorage(5000000, 4000, 4000)), Materials.Electrum, true);

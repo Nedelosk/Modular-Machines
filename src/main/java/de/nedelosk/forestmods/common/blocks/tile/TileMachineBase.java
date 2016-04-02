@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import de.nedelosk.forestcore.blocks.tile.TileBaseInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileMachineBase extends TileBaseInventory {
 
@@ -48,16 +49,17 @@ public abstract class TileMachineBase extends TileBaseInventory {
 		}
 	}
 
-	public short getFacing() {
-		return facing;
+	public ForgeDirection getFacing() {
+		return ForgeDirection.VALID_DIRECTIONS[facing];
 	}
 
 	public GameProfile getOwner() {
 		return owner;
 	}
 
-	public void setFacing(short facing) {
-		this.facing = facing;
+	public void setFacing(ForgeDirection facing) {
+		Integer inte = new Integer(facing.ordinal());
+		this.facing = inte.shortValue();
 	}
 
 	public void setOwner(GameProfile owner) {

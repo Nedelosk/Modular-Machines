@@ -3,8 +3,6 @@ package de.nedelosk.forestmods.common.plugins.minetweaker.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.common.crafting.WorkbenchRecipeManager;
-import de.nedelosk.forestmods.common.crafting.WorkbenchRecipeManager.WorkbenchRecipe;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;

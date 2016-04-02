@@ -7,8 +7,10 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.network.PacketTileEntity;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,40 +19,32 @@ import net.minecraft.world.World;
 
 public class PacketModule extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketModule, IMessage> {
 
-	private String UID;
+	private ModuleUID UID;
 	private NBTTagCompound nbt;
-	private boolean onlySaver;
 
 	public PacketModule() {
 	}
 
-	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleStack stack, boolean onlySaver) {
+	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleStack stack) {
 		super(tile);
-		this.UID = stack.getModule().getUID();
-		this.onlySaver = onlySaver;
+		this.UID = stack.getUID();
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (onlySaver) {
-			stack.getSaver().writeToNBT(nbt, tile.getModular(), stack);
-		} else {
-			stack.writeToNBT(nbt, tile.getModular());
-		}
+		stack.getModule().writeToNBT(nbt, tile.getModular());
 		this.nbt = nbt;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		UID = ByteBufUtils.readUTF8String(buf);
+		UID = new ModuleUID(ByteBufUtils.readUTF8String(buf));
 		nbt = ByteBufUtils.readTag(buf);
-		onlySaver = buf.readBoolean();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		ByteBufUtils.writeUTF8String(buf, UID);
+		ByteBufUtils.writeUTF8String(buf, UID.toString());
 		ByteBufUtils.writeTag(buf, nbt);
-		buf.writeBoolean(onlySaver);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -58,16 +52,12 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
-		if (tile == null || ((IModularTileEntity) tile).getModular() == null || ((IModularTileEntity) tile).getModular().getModuleManager() == null) {
+		if (tile == null || ((IModularTileEntity) tile).getModular() == null
+				|| ((IModularTileEntity) tile).getModular().getManager(IModularModuleManager.class) == null) {
 			return null;
 		}
-		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleManager().getModuleFromUID(message.UID);
-		if (message.onlySaver) {
-			stack.getSaver().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular(), stack);
-		} else {
-			stack = ModuleStack.loadFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
-			((IModularTileEntity) tile).getModular().getModuleManager().getMultiModule(message.UID.split(":")[0]).setStack(stack, message.UID.split(":")[1]);
-		}
+		ModuleStack stack = ((IModularTileEntity) tile).getModular().getManager(IModularModuleManager.class).getModuleStack(message.UID);
+		stack.getModule().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
 		return null;
 	}
 }

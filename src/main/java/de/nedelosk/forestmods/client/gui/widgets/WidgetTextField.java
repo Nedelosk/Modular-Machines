@@ -2,6 +2,8 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.base.Strings;
+
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.inventory.IGuiHandler;
@@ -14,9 +16,36 @@ import net.minecraft.util.ChatAllowedCharacters;
 
 public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 
+	public interface ICharFilter {
+
+		boolean passesFilter(WidgetTextField widgetText, char c);
+	}
+
+	public static final ICharFilter FILTER_NUMERIC = new ICharFilter() {
+
+		@Override
+		public boolean passesFilter(WidgetTextField widgetText, char c) {
+			return Character.isDigit(c) || (c == '-' && Strings.isNullOrEmpty(widgetText.getText()));
+		}
+	};
+	public static ICharFilter FILTER_ALPHABETICAL = new ICharFilter() {
+
+		@Override
+		public boolean passesFilter(WidgetTextField widgetText, char c) {
+			return Character.isLetter(c);
+		}
+	};
+	public static ICharFilter FILTER_ALPHANUMERIC = new ICharFilter() {
+
+		@Override
+		public boolean passesFilter(WidgetTextField widgetText, char c) {
+			return FILTER_NUMERIC.passesFilter(widgetText, c) || FILTER_ALPHABETICAL.passesFilter(widgetText, c);
+		}
+	};
 	private final FontRenderer fontRenderer;
 	/** Has the current text being edited on the textbox. */
 	private String text = "";
+	private ICharFilter filter;
 	private int maxStringLength = 32;
 	private int cursorCounter;
 	private boolean enableBackgroundDrawing = true;
@@ -48,14 +77,16 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	private boolean visible = true;
 	private static final String __OBFID = "CL_00000670";
 
-	public WidgetTextField(int posX, int posY, FontRenderer fontRenderer, int width, int height) {
+	public WidgetTextField(int posX, int posY, FontRenderer fontRenderer, int width, int height, ICharFilter filter) {
 		super(posX, posY, width, height);
 		this.fontRenderer = fontRenderer;
+		this.filter = filter;
 	}
 
-	public WidgetTextField(int posX, int posY, int width, int height) {
+	public WidgetTextField(int posX, int posY, int width, int height, ICharFilter filter) {
 		super(posX, posY, width, height);
 		this.fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		this.filter = filter;
 	}
 
 	/**
@@ -246,100 +277,103 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	 */
 	@Override
 	public boolean keyTyped(char keyChar, int keyCode, IGuiBase<T> gui) {
-		if (!this.isFocused) {
-			return false;
-		} else {
-			switch (keyChar) {
-				case 1:
-					this.setCursorPositionEnd();
-					this.setSelectionPos(0);
-					return true;
-				case 3:
-					GuiScreen.setClipboardString(this.getSelectedText());
-					return true;
-				case 22:
-					if (this.isEnabled) {
-						this.writeText(GuiScreen.getClipboardString());
-					}
-					return true;
-				case 24:
-					GuiScreen.setClipboardString(this.getSelectedText());
-					if (this.isEnabled) {
-						this.writeText("");
-					}
-					return true;
-				default:
-					switch (keyCode) {
-						case 14:
-							if (GuiScreen.isCtrlKeyDown()) {
-								if (this.isEnabled) {
-									this.deleteWords(-1);
-								}
-							} else if (this.isEnabled) {
-								this.deleteFromCursor(-1);
-							}
-							return true;
-						case 199:
-							if (GuiScreen.isShiftKeyDown()) {
-								this.setSelectionPos(0);
-							} else {
-								this.setCursorPositionZero();
-							}
-							return true;
-						case 203:
-							if (GuiScreen.isShiftKeyDown()) {
+		if (filter == null || filter.passesFilter(this, keyChar) || isSpecialChar(keyChar, keyCode)) {
+			if (!this.isFocused) {
+				return false;
+			} else {
+				switch (keyChar) {
+					case 1:
+						this.setCursorPositionEnd();
+						this.setSelectionPos(0);
+						return true;
+					case 3:
+						GuiScreen.setClipboardString(this.getSelectedText());
+						return true;
+					case 22:
+						if (this.isEnabled) {
+							this.writeText(GuiScreen.getClipboardString());
+						}
+						return true;
+					case 24:
+						GuiScreen.setClipboardString(this.getSelectedText());
+						if (this.isEnabled) {
+							this.writeText("");
+						}
+						return true;
+					default:
+						switch (keyCode) {
+							case 14:
 								if (GuiScreen.isCtrlKeyDown()) {
-									this.setSelectionPos(this.getNthWordFromPos(-1, this.getSelectionEnd()));
-								} else {
-									this.setSelectionPos(this.getSelectionEnd() - 1);
-								}
-							} else if (GuiScreen.isCtrlKeyDown()) {
-								this.setCursorPosition(this.getNthWordFromCursor(-1));
-							} else {
-								this.moveCursorBy(-1);
-							}
-							return true;
-						case 205:
-							if (GuiScreen.isShiftKeyDown()) {
-								if (GuiScreen.isCtrlKeyDown()) {
-									this.setSelectionPos(this.getNthWordFromPos(1, this.getSelectionEnd()));
-								} else {
-									this.setSelectionPos(this.getSelectionEnd() + 1);
-								}
-							} else if (GuiScreen.isCtrlKeyDown()) {
-								this.setCursorPosition(this.getNthWordFromCursor(1));
-							} else {
-								this.moveCursorBy(1);
-							}
-							return true;
-						case 207:
-							if (GuiScreen.isShiftKeyDown()) {
-								this.setSelectionPos(this.text.length());
-							} else {
-								this.setCursorPositionEnd();
-							}
-							return true;
-						case 211:
-							if (GuiScreen.isCtrlKeyDown()) {
-								if (this.isEnabled) {
-									this.deleteWords(1);
-								}
-							} else if (this.isEnabled) {
-								this.deleteFromCursor(1);
-							}
-							return true;
-						default:
-							if (ChatAllowedCharacters.isAllowedCharacter(keyChar)) {
-								if (this.isEnabled) {
-									this.writeText(Character.toString(keyChar));
+									if (this.isEnabled) {
+										this.deleteWords(-1);
+									}
+								} else if (this.isEnabled) {
+									this.deleteFromCursor(-1);
 								}
 								return true;
-							} else {
-								return false;
-							}
-					}
+							case 199:
+								if (GuiScreen.isShiftKeyDown()) {
+									this.setSelectionPos(0);
+								} else {
+									this.setCursorPositionZero();
+								}
+								return true;
+							case 203:
+								if (GuiScreen.isShiftKeyDown()) {
+									if (GuiScreen.isCtrlKeyDown()) {
+										this.setSelectionPos(this.getNthWordFromPos(-1, this.getSelectionEnd()));
+									} else {
+										this.setSelectionPos(this.getSelectionEnd() - 1);
+									}
+								} else if (GuiScreen.isCtrlKeyDown()) {
+									this.setCursorPosition(this.getNthWordFromCursor(-1));
+								} else {
+									this.moveCursorBy(-1);
+								}
+								return true;
+							case 205:
+								if (GuiScreen.isShiftKeyDown()) {
+									if (GuiScreen.isCtrlKeyDown()) {
+										this.setSelectionPos(this.getNthWordFromPos(1, this.getSelectionEnd()));
+									} else {
+										this.setSelectionPos(this.getSelectionEnd() + 1);
+									}
+								} else if (GuiScreen.isCtrlKeyDown()) {
+									this.setCursorPosition(this.getNthWordFromCursor(1));
+								} else {
+									this.moveCursorBy(1);
+								}
+								return true;
+							case 207:
+								if (GuiScreen.isShiftKeyDown()) {
+									this.setSelectionPos(this.text.length());
+								} else {
+									this.setCursorPositionEnd();
+								}
+								return true;
+							case 211:
+								if (GuiScreen.isCtrlKeyDown()) {
+									if (this.isEnabled) {
+										this.deleteWords(1);
+									}
+								} else if (this.isEnabled) {
+									this.deleteFromCursor(1);
+								}
+								return true;
+							default:
+								if (ChatAllowedCharacters.isAllowedCharacter(keyChar)) {
+									if (this.isEnabled) {
+										this.writeText(Character.toString(keyChar));
+									}
+									return true;
+								} else {
+									return false;
+								}
+						}
+				}
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -588,5 +622,10 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	 */
 	public void setVisible(boolean p_146189_1_) {
 		this.visible = p_146189_1_;
+	}
+
+	public static boolean isSpecialChar(char c, int key) {
+		// taken from the giant switch statement in GuiTextField
+		return c == 1 || c == 3 || c == 22 || c == 24 || key == 14 || key == 199 || key == 203 || key == 205 || key == 207 || key == 211;
 	}
 }

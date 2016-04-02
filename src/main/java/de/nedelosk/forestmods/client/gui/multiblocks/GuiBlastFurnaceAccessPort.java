@@ -16,16 +16,16 @@ public class GuiBlastFurnaceAccessPort extends GuiBase<TileBlastFurnaceAccessPor
 	}
 
 	@Override
-	protected void renderProgressBar() {
+	protected void render() {
 	}
 
 	@Override
-	protected String getGuiName() {
+	protected String getGuiTexture() {
 		return "gui_blastfurnace_item";
 	}
 
 	@Override
-	protected String getModName() {
+	protected String getTextureModID() {
 		return "forestmods";
 	}
 }

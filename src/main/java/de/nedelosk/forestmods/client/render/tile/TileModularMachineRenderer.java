@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
 import de.nedelosk.forestmods.common.modular.ModularMachine;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -20,8 +22,10 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
 		if (entity instanceof TileModularMachine) {
 			TileModularMachine machineTile = (TileModularMachine) entity;
-			if (machineTile.modular != null && machineTile.modular.getMachineRenderer(machineTile.modular, machineTile) != null) {
-				machineTile.modular.getMachineRenderer(machineTile.modular, machineTile).renderMachine(machineTile, x, y, z);
+			IRenderState state = new RenderState(null, x, y, z, machineTile.modular);
+			ISimpleRenderer renderer = machineTile.modular.getRenderer(state);
+			if (machineTile.modular != null && renderer != null) {
+				renderer.render(state);
 			}
 		}
 	}
@@ -37,8 +41,10 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		} else {
 			machine = getEntry(stack).modular;
 		}
-		if (machine != null && machine.getItemRenderer(machine, stack) != null) {
-			machine.getItemRenderer(machine, stack).renderMachineItemStack(machine, stack);
+		IRenderState state = new RenderState(stack, 0, 0, 0, machine);
+		ISimpleRenderer renderer = machine.getRenderer(state);
+		if (machine != null && renderer != null) {
+			renderer.render(state);
 		}
 	}
 
@@ -55,6 +61,43 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		RenderEntry entry = new RenderEntry(modular, stack);
 		entrys.add(entry);
 		return entry;
+	}
+
+	public static class RenderState implements IRenderState {
+
+		ItemStack itemStack;
+		double x;
+		double y;
+		double z;
+		IModular modular;
+
+		public RenderState(ItemStack itemStack, double x, double y, double z, IModular modular) {
+		}
+
+		@Override
+		public ItemStack getItem() {
+			return itemStack;
+		}
+
+		@Override
+		public double getX() {
+			return x;
+		}
+
+		@Override
+		public double getY() {
+			return y;
+		}
+
+		@Override
+		public double getZ() {
+			return z;
+		}
+
+		@Override
+		public IModular getModular() {
+			return modular;
+		}
 	}
 
 	public static class RenderEntry {

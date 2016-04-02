@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestmods.api.modules.IModule;
+import de.nedelosk.forestmods.api.producers.IModule;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
 import de.nedelosk.forestmods.api.utils.ModuleStack;

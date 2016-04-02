@@ -28,8 +28,10 @@ import de.nedelosk.forestmods.common.core.ForestMods;
 
 public class RecipeManager {
 
-	private static Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(RecipeEntry.class, new RecipeWriter())
-			.registerTypeAdapter(RecipeEntry.class, new RecipeParser()).create();
+	public static final RecipeWriter writer = new RecipeWriter();
+	public static final RecipeParser parser = new RecipeParser();
+	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(RecipeEntry.class, writer)
+			.registerTypeAdapter(RecipeEntry.class, parser).create();
 
 	public static void checkRecipes() {
 		writeRecipes();

@@ -1,22 +1,19 @@
 package de.nedelosk.forestmods.client.gui;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.gui.Button;
-import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
+import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modular.managers.IModularGuiManager;
-import de.nedelosk.forestmods.api.modular.managers.IModularInventoryManager;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.gui.IModuleGui;
-import de.nedelosk.forestmods.api.modules.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
+import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
+import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.buttons.ButtonGuiTab;
+import de.nedelosk.forestmods.client.gui.buttons.ButtonModulePageTab;
+import de.nedelosk.forestmods.client.gui.buttons.ButtonModuleTab;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetManagerModular;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,39 +21,33 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiModularMachines<T extends TileEntity & IModularTileEntity<IModularDefault>> extends GuiForestBase<T> {
+public class GuiModularMachines<T extends TileEntity & IModularTileEntity<IModular>> extends GuiForestBase<T> {
 
-	private IModuleGui currentGui;
+	protected IModulePage currentPage;
+	protected IModule module;
 
-	public GuiModularMachines(T tile, InventoryPlayer inventory, IModuleGui currentGui) {
+	public GuiModularMachines(T tile, InventoryPlayer inventory, IModulePage currentPage) {
 		super(tile, inventory);
-		widgetManager = new WidgetManagerModular(this);
-		ModuleStack guiStack = ModularUtils.getStackFromGui(tile.getModular(), currentGui);
-		List<Widget> widgets = new ArrayList();
-		currentGui.addWidgets(this, tile.getModular(), guiStack, widgets);
-		widgetManager.add(widgets);
-		ySize = currentGui.getGuiTop(tile.getModular(), guiStack);
-		this.currentGui = currentGui;
+		this.currentPage = currentPage;
+		this.module = currentPage.getModuleStack().getModule();
+		module.createGui();
+		widgetManager = new WidgetManagerModular(this, currentPage);
+		widgetManager.add(module.getGui().getWidgets());
+		ySize = module.getGui().getGuiTop();
 	}
 
 	@Override
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-		ModuleStack guiStack = ModularUtils.getStackFromGui(tile.getModular(), currentGui);
-		currentGui.renderString(fontRenderer, guiLeft, guiTop, x, y, guiStack);
+		currentPage.renderStrings(fontRenderer, guiLeft, guiTop, x, y);
 	}
 
 	@Override
-	protected void renderProgressBar() {
-		if (currentGui == null) {
-			return;
-		}
-		IModularInventoryManager invManager = tile.getModular().getInventoryManager();
-		ModuleStack guiStack = ModularUtils.getStackFromGui(tile.getModular(), currentGui);
-		IModuleInventory inv = invManager.getInventory(guiStack);
+	protected void render() {
+		IModuleInventory inv = module.getInventory();
 		if (inv != null) {
 			for ( int slotID = 36; slotID < inventorySlots.inventorySlots.size(); slotID++ ) {
 				Slot slot = ((ArrayList<Slot>) inventorySlots.inventorySlots).get(slotID);
-				if (slot.getSlotIndex() < inv.getSizeInventory(guiStack, tile.getModular())) {
+				if (slot.getSlotIndex() < inv.getSizeInventory()) {
 					drawTexturedModalRect(guiLeft + slot.xDisplayPosition - 1, guiTop + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 				}
 			}
@@ -65,53 +56,40 @@ public class GuiModularMachines<T extends TileEntity & IModularTileEntity<IModul
 
 	@Override
 	public void addButtons() {
-		if (currentGui == null) {
-			return;
-		}
-		IModularGuiManager guiManager = tile.getModular().getGuiManager();
-		ModuleStack guiStack = ModularUtils.getStackFromGui(tile.getModular(), currentGui);
+		IModularGuiManager guiManager = tile.getModular().getManager(IModularGuiManager.class);
 		for ( int i = 0; i < guiManager.getAllGuis().size(); i++ ) {
-			ModuleStack stack = ModularUtils.getStackFromGui(tile.getModular(), guiManager.getAllGuis().get(i));
-			buttonManager.add(new ButtonGuiTab(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i, stack,
-					guiManager.getAllGuis().get(i), i >= 7));
+			ModuleStack stack = guiManager.getAllGuis().get(i).getModuleStack();
+			buttonManager.add(new ButtonModuleTab(i, (i >= 7) ? guiLeft + 166 : guiLeft + -28, (i >= 7) ? guiTop + 8 + 22 * (i - 7) : guiTop + 8 + 22 * i,
+					stack, i >= 7));
 		}
-		if (currentGui != null) {
-			List<Button> buttons = new ArrayList();
-			currentGui.addButtons(this, tile.getModular(), guiStack, buttons);
-			buttonManager.add(buttons);
+		for ( int pageID = 0; pageID < module.getPages().length; pageID++ ) {
+			IModulePage page = module.getPages()[pageID];
+			buttonManager.add(
+					new ButtonModulePageTab(getButtonManager().getButtons().size(), pageID > 4 ? 12 + guiLeft + (pageID - 5) * 30 : 12 + guiLeft + pageID * 30,
+							pageID > 4 ? module.getGui().getGuiTop() + guiTop : -19 + guiTop, module.getModuleStack(), pageID > 4 ? true : false, pageID));
 		}
+		buttonManager.add(module.getGui().getButtons());
 	}
 
 	@Override
-	protected String getGuiName() {
+	protected String getGuiTexture() {
 		return "modular_machine";
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-		if (currentGui == null) {
-			return;
-		}
-		ModuleStack guiStack = ModularUtils.getStackFromGui(tile.getModular(), currentGui);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		if (currentGui.getCustomGui(tile.getModular(), guiStack) != null) {
-			RenderUtil.bindTexture(currentGui.getCustomGui(tile.getModular(), guiStack));
-		} else {
-			RenderUtil.bindTexture(guiTexture);
+		ResourceLocation guiTexture = this.guiTexture;
+		if (module.getGui().getCustomGui() != null) {
+			guiTexture = module.getGui().getCustomGui();
 		}
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-		RenderUtil.bindTexture(new ResourceLocation(getModName(), "textures/gui/inventory_player.png"));
-		drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - 83, 7, 83, 162, 76);
 		RenderUtil.bindTexture(guiTexture);
-		renderProgressBar();
-		currentGui.updateGui(this, guiLeft, guiTop, tile.getModular(), guiStack);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		RenderUtil.bindTexture(guiTexture);
+		render();
+		currentPage.updateGui(this, guiLeft, guiTop);
 		widgetManager.drawWidgets();
-	}
-
-	@Override
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
-		if (!widgetManager.keyTyped(p_73869_1_, p_73869_2_)) {
-			super.keyTyped(p_73869_1_, p_73869_2_);
-		}
+		RenderUtil.bindTexture(new ResourceLocation(getTextureModID(), "textures/gui/inventory_player.png"));
+		drawTexturedModalRect(this.guiLeft + 7, this.guiTop + ySize - module.getInventory().getPlayerInvPosition(), 7, 83, 162, 76);
 	}
 }

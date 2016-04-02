@@ -2,13 +2,12 @@ package de.nedelosk.forestmods.api.modular;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.integration.IWailaData;
-import de.nedelosk.forestmods.api.modular.integration.IWailaProvider;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
-import de.nedelosk.forestmods.api.modular.managers.IModularUtilsManager;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.integration.IWailaProvider;
+import de.nedelosk.forestmods.api.modular.managers.IModularManager;
+import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
 import de.nedelosk.forestmods.api.utils.ModularException;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModular {
@@ -23,25 +22,24 @@ public interface IModular {
 	void initModular();
 
 	/**
-	 * @return The name of the modular
+	 * @return The name of the modular for the registry
 	 */
 	String getName();
 
-	IModularTileEntity getMachine();
+	IModulePage getCurrentPage();
 
-	void setMachine(IModularTileEntity machine);
+	IModularTileEntity getTile();
 
-	/**
-	 * @return The urils manager of the modular
-	 */
-	IModularUtilsManager getUtilsManager();
+	void setTile(IModularTileEntity tile);
 
-	IModularModuleManager getModuleManager();
+	<M extends IModularManager> M getManager(Class<? extends M> managerClass);
 
 	/* BUILD */
 	void assemble() throws ModularException;
 
 	boolean isAssembled();
+
+	void assembleModular();
 
 	/* NBT */
 	void readFromNBT(NBTTagCompound nbt);
@@ -50,13 +48,10 @@ public interface IModular {
 
 	/* Renderer */
 	@SideOnly(Side.CLIENT)
-	IModularRenderer getItemRenderer(IModular modular, ItemStack stack);
+	ISimpleRenderer getRenderer(IRenderState state);
 
-	@SideOnly(Side.CLIENT)
-	IModularRenderer getMachineRenderer(IModular modular, IModularTileEntity tile);
-
-	// Waila
-	IWailaProvider getWailaProvider(IModularTileEntity tile, IWailaData data);
+	/* Waila */
+	IWailaProvider getWailaProvider(IModularTileEntity tile);
 
 	ModularException getLastException();
 }

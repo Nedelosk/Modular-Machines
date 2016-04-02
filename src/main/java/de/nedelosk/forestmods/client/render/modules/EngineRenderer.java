@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.client.render.modules;
 
-import static de.nedelosk.forestmods.client.render.modules.ModularRenderer.loadTexture;
+import static de.nedelosk.forestmods.client.render.modules.ModularRenderer.getTextureFromManager;
 
 import java.util.Locale;
 
@@ -8,23 +8,20 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularRenderer;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
-import de.nedelosk.forestmods.api.modules.engine.IModuleEngineSaver;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class EngineRenderer implements IModularRenderer {
+public class EngineRenderer extends AdvancedRenderer {
 
 	public ModelBase model = new ModelBase() {
 	};
@@ -35,7 +32,7 @@ public class EngineRenderer implements IModularRenderer {
 	public ModelRenderer Window_Engine_Left;
 	public ModelRenderer Window_Engine_Right;
 	public ModelRenderer Window_Engine_Glass;
-	public final ModuleStack<IModuleEngine, IModuleEngineSaver> stack;
+	public final ModuleStack<IModuleEngine> stack;
 	public ResourceLocation baseTexture;
 	public ResourceLocation discTexture;
 	public ResourceLocation windowTopTexture;
@@ -44,7 +41,7 @@ public class EngineRenderer implements IModularRenderer {
 	public ResourceLocation windowRightTexture;
 	public ResourceLocation windowGlassTexture;
 
-	public EngineRenderer(ModuleStack<IModuleEngine, IModuleEngineSaver> stackEngine, ModuleStack stackCasing) {
+	public EngineRenderer(ModuleStack<IModuleEngine> stackEngine, ModuleStack stackCasing) {
 		this.stack = stackEngine;
 		Base_Engine = new ModelRenderer(model, 0, 0);
 		Base_Engine.setRotationPoint(2.0F, 15.0F, -5.0F);
@@ -67,17 +64,20 @@ public class EngineRenderer implements IModularRenderer {
 		Window_Engine_Glass = new ModelRenderer(model, 0, 0);
 		Window_Engine_Glass.setRotationPoint(7.0F, 11.5F, -5.0F);
 		Window_Engine_Glass.addBox(0.0F, 0.0F, 0.0F, 1, 10, 10, 0.0F);
-		baseTexture = loadTexture("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", "_base.png");
-		discTexture = loadTexture("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", ".png");
-		windowLeftTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_left.png");
-		windowRightTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_right.png");
-		windowTopTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_down.png");
-		windowDownTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_top.png");
-		windowGlassTexture = loadTexture("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_glass.png");
+		baseTexture = getTextureFromManager("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", "_base.png");
+		discTexture = getTextureFromManager("iron", stackEngine.getMaterial().getName().toLowerCase(Locale.ENGLISH), "engine/", ".png");
+		windowLeftTexture = getTextureFromManager("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/",
+				"_window_left.png");
+		windowRightTexture = getTextureFromManager("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/",
+				"_window_right.png");
+		windowTopTexture = getTextureFromManager("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_down.png");
+		windowDownTexture = getTextureFromManager("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/", "_window_top.png");
+		windowGlassTexture = getTextureFromManager("iron", stackCasing.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/window/",
+				"_window_glass.png");
 	}
 
 	@Override
-	public void renderMachineItemStack(IModular machine, ItemStack itemStack) {
+	protected void renderItem(IRenderState state) {
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
@@ -104,23 +104,24 @@ public class EngineRenderer implements IModularRenderer {
 	}
 
 	@Override
-	public void renderMachine(IModularTileEntity entity, double x, double y, double z) {
+	protected void renderBlock(IRenderState state) {
+		IModularTileEntity entity = state.getModular().getTile();
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
-		GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+		GL11.glTranslated((float) state.getX() + 0.5F, (float) state.getY() + 1.5F, (float) state.getZ() + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glPushMatrix();
-		if (entity.getFacing() == 2) {
-		} else if (entity.getFacing() == 3) {
+		if (entity.getFacing() == ForgeDirection.NORTH) {
+		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
 			GL11.glRotated(180, 0F, 1F, 0F);
-		} else if (entity.getFacing() == 4) {
+		} else if (entity.getFacing() == ForgeDirection.WEST) {
 			GL11.glRotated(270, 0F, 1F, 0F);
-		} else if (entity.getFacing() == 5) {
+		} else if (entity.getFacing() == ForgeDirection.EAST) {
 			GL11.glRotated(90, 0F, 1F, 0F);
 		}
 		float step;
-		float progress = stack.getSaver().getProgress();
+		float progress = stack.getModule().getProgress();
 		if (progress > 0.5) {
 			step = 5.99F - (progress - 0.5F) * 2F * 5.99F;
 		} else {
@@ -128,16 +129,16 @@ public class EngineRenderer implements IModularRenderer {
 		}
 		float tfactor = step / 16;
 		ForgeDirection direction = null;
-		if (entity.getFacing() == 2) {
-			direction = ForgeDirection.values()[entity.getFacing() + 1];
-		} else if (entity.getFacing() == 3) {
-			direction = ForgeDirection.values()[entity.getFacing()];
-		} else if (entity.getFacing() == 4) {
-			direction = ForgeDirection.values()[entity.getFacing() - 1];
-		} else if (entity.getFacing() == 5) {
-			direction = ForgeDirection.values()[entity.getFacing() - 2];
+		if (entity.getFacing() == ForgeDirection.NORTH) {
+			direction = ForgeDirection.values()[entity.getFacing().ordinal() + 1];
+		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
+			direction = ForgeDirection.values()[entity.getFacing().ordinal()];
+		} else if (entity.getFacing() == ForgeDirection.WEST) {
+			direction = ForgeDirection.values()[entity.getFacing().ordinal() - 1];
+		} else if (entity.getFacing() == ForgeDirection.EAST) {
+			direction = ForgeDirection.values()[entity.getFacing().ordinal() - 2];
 		} else {
-			direction = ForgeDirection.values()[entity.getFacing()];
+			direction = ForgeDirection.values()[entity.getFacing().ordinal()];
 		}
 		manager.bindTexture(discTexture);
 		GL11.glTranslatef(direction.offsetX * tfactor, direction.offsetY * tfactor, direction.offsetZ * tfactor);

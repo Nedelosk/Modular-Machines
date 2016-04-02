@@ -8,9 +8,8 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.IUsageHandler;
-import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry;
-import de.nedelosk.forestmods.api.utils.ModuleRegistry.ModuleItem;
+import de.nedelosk.forestmods.api.utils.IModuleHandler;
+import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.plugins.nei.machines.CampfireHandler;
 import de.nedelosk.forestmods.common.plugins.nei.machines.CharcoalKilnHandler;
@@ -24,11 +23,11 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		isAdded = false;
-		for ( ModuleItem item : ModuleRegistry.getModuleItems() ) {
-			ModuleStack stack = item.moduleStack;
-			if (stack.getModule() instanceof IModuleMachineRecipe) {
-				String module = ((IModuleMachineRecipe) stack.getModule()).getRecipeCategory(stack);
-				if (((IModuleMachineRecipe) stack.getModule()).addNEIStacks(stack, null) != null && !producerHandlers.contains(module)) {
+		for ( IModuleHandler item : ModuleManager.moduleRegistry.getModuleHandlers() ) {
+			ModuleStack stack = item.getModuleStack();
+			if (stack.getModule() instanceof IModuleProducerRecipe) {
+				String module = ((IModuleProducerRecipe) stack.getModule()).getRecipeCategory(stack);
+				if (((IModuleProducerRecipe) stack.getModule()).addNEIStacks(stack, null) != null && !producerHandlers.contains(module)) {
 					new ModularMachinesHandler(stack);
 					producerHandlers.add(module);
 				}

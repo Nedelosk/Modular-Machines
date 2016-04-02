@@ -1,12 +1,12 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestmods.api.modular.basic.IModularDefault;
-import de.nedelosk.forestmods.api.modular.tile.IModularTileEntity;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.common.modular.ModularMachine;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -45,8 +45,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		if (modular != null && modular instanceof IModularDefault) {
-			return ((IModularDefault) modular).getInventoryManager().getContainer(this, inventory);
+		if (modular != null) {
+			return modular.getInventoryManager().getContainer(this, inventory);
 		} else {
 			return null;
 		}
@@ -54,8 +54,8 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (modular != null && modular instanceof IModularDefault) {
-			return ((IModularDefault) modular).getGuiManager().getGUIContainer(this, inventory);
+		if (modular != null) {
+			return modular.getGuiManager().getGUIContainer(this, inventory);
 		} else {
 			return null;
 		}
@@ -84,7 +84,7 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 
 	@Override
 	public void setModular(ModularMachine modular) {
-		modular.setMachine(this);
+		modular.setTile(this);
 		this.modular = modular;
 	}
 
@@ -265,5 +265,10 @@ public class TileModularMachine extends TileMachineBase implements IModularTileE
 	@Override
 	public String getMachineName() {
 		return null;
+	}
+
+	@Override
+	public World getWorld() {
+		return worldObj;
 	}
 }

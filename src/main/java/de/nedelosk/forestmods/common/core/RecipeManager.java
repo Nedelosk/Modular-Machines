@@ -7,12 +7,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.utils.CraftingUtil;
 import de.nedelosk.forestcore.utils.OreStack;
 import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
-import de.nedelosk.forestmods.api.crafting.IWorkbenchRecipe;
 import de.nedelosk.forestmods.api.crafting.WoodType;
-import de.nedelosk.forestmods.api.modules.machines.recipes.RecipeLathe.LatheModes;
+import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe.LatheModes;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
-import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.crafting.ShapedModuleRecipe;
 import de.nedelosk.forestmods.common.items.ItemComponent;
 import de.nedelosk.forestmods.common.utils.RecipeUtils;
@@ -95,20 +93,12 @@ public class RecipeManager {
 	}
 
 	private static void addWorkbenchRecipes() {
-		ForestDayCrafting.workbenchRecipe.addRecipe(new OreStack("plankWood"), new OreStack("toolFile"), new ItemStack(ItemManager.itemWoodGears, 1, 5),
-				Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 5), new OreStack("toolFile"),
-				new ItemStack(ItemManager.itemWoodGears, 1, 4), Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 4), new OreStack("toolFile"),
-				new ItemStack(ItemManager.itemWoodGears, 1, 3), Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 3), new OreStack("toolFile"),
-				new ItemStack(ItemManager.itemWoodGears, 1, 2), Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 2), new OreStack("toolFile"),
-				new ItemStack(ItemManager.itemWoodGears, 1, 1), Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addRecipe(new OreStack("plankWood"), new OreStack("toolKnife"), new ItemStack(ItemManager.itemWoodBucket),
-				Config.worktableBurnTime);
-		ForestDayCrafting.workbenchRecipe.addOutput(new ItemStack(ItemManager.itemWoodBucket));
-		ForestDayCrafting.workbenchRecipe.addOutput(new ItemStack(ItemManager.itemWoodGears, 1, 1));
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 5), " W ", "WFW", " W ", 'W', "plankWood", 'F', "toolFile");
+		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 4), new ItemStack(ItemManager.itemWoodGears, 1, 5), "toolFile");
+		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 3), new ItemStack(ItemManager.itemWoodGears, 1, 4), "toolFile");
+		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 2), new ItemStack(ItemManager.itemWoodGears, 1, 3), "toolFile");
+		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 1), new ItemStack(ItemManager.itemWoodGears, 1, 2), "toolFile");
+		addShapelessRecipe(new ItemStack(ItemManager.itemWoodBucket), "plankWood", "plankWood", "plankWood", "toolFile");
 	}
 
 	private static void addMachineRecipes() {
@@ -197,14 +187,13 @@ public class RecipeManager {
 
 	private static void registerComponentRecipes() {
 		addShapedRecipe(new ItemStack(ItemManager.itemWoodBucket), "   ", "W W", " W ", 'W', "logWood");
-		IWorkbenchRecipe manager = ForestDayCrafting.workbenchRecipe;
-		manager.addRecipe(new OreStack("cobblestone", 2), new OreStack("toolHammer"), new ItemStack(ItemManager.itemCompPlates), 100);
+		addShapelessRecipe(new ItemStack(ItemManager.itemCompPlates), "cobblestone", "cobblestone", "toolHammer");
 		for ( int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++ ) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompPlates, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
 				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
-					manager.addRecipe(new OreStack("ingot" + oreDict, 2), new OreStack("toolHammer"), stack, 100);
+					addShapelessRecipe(stack, "ingot" + oreDict, "ingot" + oreDict, "toolHammer");
 				}
 			}
 		}
@@ -214,7 +203,7 @@ public class RecipeManager {
 			if (component.metas.get(i).get(2) != null) {
 				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
 					if (!oreDict.equals("Bronze") && !oreDict.equals("Steel")) {
-						manager.addRecipe(new OreStack("plate" + oreDict, 1), new OreStack("toolCutter"), stack, 100);
+						addShapelessRecipe(stack, "plate" + oreDict, "toolCutter");
 					} else {
 						RecipeUtils.addLathe("plate" + oreDict + "ToWire", new RecipeItem(new OreStack("plate" + oreDict)),
 								new RecipeItem(new ItemStack(ItemManager.itemCompWires, 8, i)), 1, 250, LatheModes.WIRE);

@@ -12,4 +12,6 @@ public interface IModularManager<M extends IModular> {
 	M getModular();
 
 	void setModular(M modular);
+
+	void onModularAssembled();
 }

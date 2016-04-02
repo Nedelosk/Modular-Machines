@@ -9,6 +9,7 @@ import de.nedelosk.forestmods.api.modular.material.Materials;
 import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
 import de.nedelosk.forestmods.api.modules.storage.tanks.IModuleTank;
 import de.nedelosk.forestmods.api.utils.ModuleRegistry;
+import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.modules.storage.ModuleBatteryType;
 import de.nedelosk.forestmods.common.modules.storage.ModuleTankType;
@@ -45,7 +46,7 @@ public class PluginEnderIO extends APlugin {
 		// addModuleToItem(new ItemStack(capacitor, 1, 2), new
 		// ModuleCapacitor("CapacitorVibrant", 40, 60), Materials.STEEL);
 		addModuleToItem(new ItemStack(tanks), moduleTankEnderIO, new ModuleTankType(16000), Materials.IRON);
-		addModuleToItem(new ItemStack(tanks, 1, 1), moduleTankEnderIO, new ModuleTankType(32000), Materials.BRONZE);
+		addModuleToItem(new ItemStack(tanks, 1, 1), moduleTankEnderIO, new ModuleTankType(32000), Materials.BRONZE);ModuleStack<IModule, IModuleSaver>
 	}
 
 	@Override

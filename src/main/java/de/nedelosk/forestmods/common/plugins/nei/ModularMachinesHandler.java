@@ -20,8 +20,6 @@ import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.gui.WidgetManager;
 import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestcore.inventory.IGuiHandler;
-import de.nedelosk.forestmods.api.modules.IModuleSaver;
-import de.nedelosk.forestmods.api.modules.machines.recipe.IModuleMachineRecipe;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
@@ -39,11 +37,11 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	public ResourceLocation nei_widgets = new ResourceLocation("modularmachines:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
-	public ModuleStack<IModuleMachineRecipe, IModuleSaver> stack;
+	public ModuleStack<IModuleProducerRecipe, IModuleSaver> stack;
 	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
 
-	public ModularMachinesHandler(ModuleStack<IModuleMachineRecipe, IModuleSaver> stack) {
-		this.recipeName = stack.getModule().getRecipeCategory(stack);
+	public ModularMachinesHandler(ModuleStack<IModuleProducerRecipe, IModuleSaver> stack) {
+		this.recipeName = stack.getModuleStack().getRecipeCategory(stack);
 		this.stack = stack;
 		if (!NEIConfig.isAdded) {
 			GuiCraftingRecipe.craftinghandlers.add(this);
@@ -53,7 +51,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal(stack.getModule().getRecipeCategory(stack) + ".name");
+		return StatCollector.translateToLocal(stack.getModuleStack().getRecipeCategory(stack) + ".name");
 	}
 
 	@Override
@@ -141,7 +139,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		for ( PositionedStack stack : stacks ) {
 			GuiDraw.drawTexturedModalRect(stack.relx - 1, stack.rely - 1, 0, 0, 18, 18);
 		}
-		widgetManager.add(stack.getModule().addNEIWidgets(this, stack, ((ModularCachedRecipe) arecipes.get(recipeIndex)).recipe));
+		widgetManager.add(stack.getModuleStack().addNEIWidgets(this, stack, ((ModularCachedRecipe) arecipes.get(recipeIndex)).recipe));
 		widgetManager.drawWidgets();
 		for ( Widget widget : widgetManager.getWidgets() ) {
 			if (widget instanceof WidgetProgressBar) {
@@ -188,7 +186,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			this.input = new ArrayList<PositionedStack>();
 			this.outputs = new ArrayList<PositionedStack>();
 			this.recipe = recipe;
-			List<NeiStack> stacks = stack.getModule().addNEIStacks(stack, recipe);
+			List<NeiStack> stacks = stack.getModuleStack().addNEIStacks(stack, recipe);
 			int input = 0;
 			int output = 0;
 			for ( NeiStack stack : stacks ) {

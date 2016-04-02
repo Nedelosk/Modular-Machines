@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.api.modules.storage.capacitors;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.IModuleAddable;
+import de.nedelosk.forestmods.api.producers.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 
-public interface IModuleCapacitor extends IModuleAddable {
+public interface IModuleCapacitor extends IModule {
 
 	int getSpeedModifier();
 
