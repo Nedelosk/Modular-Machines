@@ -116,7 +116,7 @@ public class TransportSystem implements ITransportSystem {
 	public String getPartsListString() {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
-		for ( ITransportPart part : connectedParts ) {
+		for(ITransportPart part : connectedParts) {
 			if (!first) {
 				sb.append(", ");
 			}
@@ -130,7 +130,7 @@ public class TransportSystem implements ITransportSystem {
 	@Override
 	public void auditParts() {
 		HashSet<ITransportPart> deadParts = new HashSet<ITransportPart>();
-		for ( ITransportPart part : connectedParts ) {
+		for(ITransportPart part : connectedParts) {
 			if (part.getTileEntity().isInvalid()
 					|| worldObj.getTileEntity(part.getTileEntity().xCoord, part.getTileEntity().yCoord, part.getTileEntity().zCoord) != part.getTileEntity()) {
 				onDetachPart(part);
@@ -143,9 +143,9 @@ public class TransportSystem implements ITransportSystem {
 	}
 
 	public void updateNodes() {
-		for ( ITransportNode node : connectedNodes ) {
-			for ( INodeSide side : node.getSides() ) {
-				for ( IContentHandler handler : side.getContentHandlers() ) {
+		for(ITransportNode node : connectedNodes) {
+			for(INodeSide side : node.getSides()) {
+				for(IContentHandler handler : side.getContentHandlers()) {
 					handler.update();
 				}
 			}
@@ -170,7 +170,7 @@ public class TransportSystem implements ITransportSystem {
 		BlockPos c;
 		ITransportPart referencePart = null;
 		int originalSize = connectedParts.size();
-		for ( ITransportPart part : connectedParts ) {
+		for(ITransportPart part : connectedParts) {
 			// This happens during chunk unload.
 			if (!chunkProvider.chunkExists(part.getTileEntity().xCoord >> 4, part.getTileEntity().zCoord >> 4) || part.getTileEntity().isInvalid()) {
 				deadParts.add(part);
@@ -214,7 +214,7 @@ public class TransportSystem implements ITransportSystem {
 			visitedParts++;
 			nearbyParts = part.getNeighboringParts(); // Chunk-safe on server,
 														// but not on client
-			for ( ITransportPart nearbyPart : nearbyParts ) {
+			for(ITransportPart nearbyPart : nearbyParts) {
 				// Ignore different machines
 				if (nearbyPart.getSystem() != this) {
 					continue;
@@ -227,7 +227,7 @@ public class TransportSystem implements ITransportSystem {
 		}
 		// Finally, remove all parts that remain disconnected.
 		Set<ITransportPart> removedParts = new HashSet<ITransportPart>();
-		for ( ITransportPart orphanCandidate : connectedParts ) {
+		for(ITransportPart orphanCandidate : connectedParts) {
 			if (!orphanCandidate.isVisited()) {
 				deadParts.add(orphanCandidate);
 				orphanCandidate.getTileEntity().markDirty();
@@ -264,7 +264,7 @@ public class TransportSystem implements ITransportSystem {
 	private void selectNewReferenceCoord() {
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		referenceCoord = null;
-		for ( ITransportPart part : connectedParts ) {
+		for(ITransportPart part : connectedParts) {
 			if (part.getTileEntity().isInvalid() || !chunkProvider.chunkExists(part.getTileEntity().xCoord >> 4, part.getTileEntity().zCoord >> 4)) {
 				// Chunk is unloading, skip this coord to prevent chunk
 				// thrashing
@@ -282,7 +282,7 @@ public class TransportSystem implements ITransportSystem {
 			return new HashSet<ITransportPart>();
 		}
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
-		for ( ITransportPart part : connectedParts ) {
+		for(ITransportPart part : connectedParts) {
 			if (chunkProvider.chunkExists(part.getTileEntity().xCoord >> 4, part.getTileEntity().zCoord >> 4)) {
 				onDetachPart(part);
 			}

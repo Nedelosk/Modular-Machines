@@ -3,14 +3,13 @@ package de.nedelosk.forestmods.api.utils;
 import java.util.List;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
+import de.nedelosk.forestmods.api.modules.IModule;
+import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
 import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.heater.IModuleHeater;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
-import de.nedelosk.forestmods.api.modules.storage.capacitors.IModuleCapacitor;
-import de.nedelosk.forestmods.api.producers.IModule;
-import de.nedelosk.forestmods.api.producers.IModuleAdvanced;
+import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
+import de.nedelosk.forestmods.api.modules.storage.IModuleCapacitor;
 
 public class ModularUtils {
 
@@ -42,17 +41,17 @@ public class ModularUtils {
 		if (modular == null) {
 			return null;
 		}
-		return getModuleContainers(modular, moduleClass).get(0);
+		List<ModuleStack> stacks = getModuleStacks(modular, moduleClass);
+		if (stacks == null || stacks.size() == 0) {
+			return null;
+		}
+		return stacks.get(0);
 	}
 
-	public static List<ModuleStack> getModuleContainers(IModular modular, Class<? extends IModule> moduleClass) {
+	public static List<ModuleStack> getModuleStacks(IModular modular, Class<? extends IModule> moduleClass) {
 		if (modular == null) {
 			return null;
 		}
-		return getModuleManager(modular).getModuleSatcks(moduleClass);
-	}
-
-	private static IModularModuleManager getModuleManager(IModular modular) {
-		return modular.getManager(IModularModuleManager.class);
+		return modular.getModuleSatcks(moduleClass);
 	}
 }

@@ -29,7 +29,7 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 	}
 
 	public static boolean isFluidInput(FluidStack stack) {
-		for ( FermenterRecipe sr : FermenterRecipeManager.recipes ) {
+		for(FermenterRecipe sr : FermenterRecipeManager.recipes) {
 			if (sr.getInput().getFluid() == stack.getFluid()) {
 				return true;
 			}
@@ -38,7 +38,7 @@ public class FermenterRecipeManager implements IFermenterRecipe {
 	}
 
 	public static FermenterRecipe getRecipe(FluidStack stack) {
-		for ( FermenterRecipe sr : FermenterRecipeManager.recipes ) {
+		for(FermenterRecipe sr : FermenterRecipeManager.recipes) {
 			FluidStack stackInput = sr.getInput();
 			if (stackInput.getFluid() == stack.getFluid() && stackInput.amount <= stack.amount) {
 				return sr;

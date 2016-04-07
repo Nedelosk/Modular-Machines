@@ -29,14 +29,14 @@ public class ItemMetallic extends ItemForest {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[material.length];
-		for ( int i = 0; i < this.itemIcon.length; ++i ) {
+		for(int i = 0; i < this.itemIcon.length; ++i) {
 			this.itemIcon[i] = iconRegister.registerIcon("forestmods:" + material[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for ( int i = 0; i < material.length; i++ ) {
+		for(int i = 0; i < material.length; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
 	}

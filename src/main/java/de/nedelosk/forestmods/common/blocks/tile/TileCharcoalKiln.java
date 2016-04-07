@@ -3,36 +3,29 @@ package de.nedelosk.forestmods.common.blocks.tile;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
 import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
-import de.nedelosk.forestmods.api.crafting.WoodType;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.MultiblockCharcoalKiln;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln> {
 
-	private WoodType woodType;
+	private ItemStack woodStack;
 	private CharcoalKilnPosition kilnPosition;
-	private byte level;
 	private boolean isAsh;
 
 	public TileCharcoalKiln() {
 		super();
 		this.kilnPosition = CharcoalKilnPosition.UNKNOWN;
-		this.level = 0;
-		this.woodType = null;
+		this.woodStack = null;
 	}
 
-	public void setWoodType(WoodType type) {
-		this.woodType = type;
+	public void setWoodStack(ItemStack woodStack) {
+		this.woodStack = woodStack;
 	}
 
-	public WoodType getWoodType() {
-		return woodType;
-	}
-
-	public byte getLevel() {
-		return level;
+	public ItemStack getWoodStack() {
+		return woodStack;
 	}
 
 	public CharcoalKilnPosition getKilnPosition() {
@@ -65,10 +58,11 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		if (woodType != null) {
-			nbt.setString("WoodType", woodType.getName());
+		if (woodStack != null) {
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			woodStack.writeToNBT(nbtTag);
+			nbt.setTag("WoodStack", nbtTag);
 		}
-		nbt.setByte("Level", level);
 		nbt.setBoolean("IsAsh", isAsh);
 		nbt.setInteger("KilnPosition", kilnPosition.ordinal());
 	}
@@ -76,10 +70,9 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		if (nbt.hasKey("WoodType")) {
-			woodType = ForestDayCrafting.woodManager.get(nbt.getString("WoodType"));
+		if (nbt.hasKey("WoodStack")) {
+			woodStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("WoodStack"));
 		}
-		level = nbt.getByte("Level");
 		isAsh = nbt.getBoolean("IsAsh");
 		kilnPosition = CharcoalKilnPosition.values()[nbt.getInteger("KilnPosition")];
 	}
@@ -87,54 +80,50 @@ public class TileCharcoalKiln extends TileMultiblockBase<MultiblockCharcoalKiln>
 	@Override
 	public void recalculateOutwardsDirection(BlockPos minCoord, BlockPos maxCoord) {
 		super.recalculateOutwardsDirection(minCoord, maxCoord);
+		int level = yCoord - minCoord.y;
 		int facesMatching = 0;
-		if (maxCoord.x == this.xCoord || minCoord.x == this.xCoord) {
+		if (maxCoord.x - level == this.xCoord || minCoord.x + level == this.xCoord) {
 			facesMatching++;
 		}
-		if (maxCoord.z == this.zCoord || minCoord.z == this.zCoord) {
+		if (maxCoord.z - level == this.zCoord || minCoord.z + level == this.zCoord) {
 			facesMatching++;
 		}
 		if (facesMatching <= 0) {
 			kilnPosition = CharcoalKilnPosition.INTERIOR;
 		} else {
-			if (maxCoord.x == this.xCoord) {
-				if (maxCoord.z == this.zCoord) {
+			if (maxCoord.x - level == this.xCoord) {
+				if (maxCoord.z - level == this.zCoord) {
 					kilnPosition = CharcoalKilnPosition.BACK_RIGHT;
-				} else if (minCoord.z == this.zCoord) {
+				} else if (minCoord.z + level == this.zCoord) {
 					kilnPosition = CharcoalKilnPosition.FRONT_RIGHT;
 				} else {
 					kilnPosition = CharcoalKilnPosition.RIGHT;
 				}
-			} else if (minCoord.x == this.xCoord) {
-				if (maxCoord.z == this.zCoord) {
+			} else if (minCoord.x + level == this.xCoord) {
+				if (maxCoord.z - level == this.zCoord) {
 					kilnPosition = CharcoalKilnPosition.BACK_LEFT;
-				} else if (minCoord.z == this.zCoord) {
+				} else if (minCoord.z + level == this.zCoord) {
 					kilnPosition = CharcoalKilnPosition.FRONT_LEFT;
 				} else {
 					kilnPosition = CharcoalKilnPosition.LEFT;
 				}
-			} else if (maxCoord.z == this.zCoord) {
-				if (maxCoord.x == this.xCoord) {
+			} else if (maxCoord.z - level == this.zCoord) {
+				if (maxCoord.x - level == this.xCoord) {
 					kilnPosition = CharcoalKilnPosition.FRONT_RIGHT;
-				} else if (minCoord.x == this.xCoord) {
+				} else if (minCoord.x + level == this.xCoord) {
 					kilnPosition = CharcoalKilnPosition.FRONT_LEFT;
 				} else {
 					kilnPosition = CharcoalKilnPosition.FRONT;
 				}
-			} else if (minCoord.z == this.zCoord) {
-				if (maxCoord.x == this.xCoord) {
+			} else if (minCoord.z + level == this.zCoord) {
+				if (maxCoord.x - level == this.xCoord) {
 					kilnPosition = CharcoalKilnPosition.BACK_RIGHT;
-				} else if (minCoord.x == this.xCoord) {
+				} else if (minCoord.x + level == this.xCoord) {
 					kilnPosition = CharcoalKilnPosition.BACK_LEFT;
 				} else {
 					kilnPosition = CharcoalKilnPosition.BACK;
 				}
 			}
-		}
-		if (maxCoord.y == this.yCoord) {
-			level = 1;
-		} else {
-			level = 0;
 		}
 	}
 

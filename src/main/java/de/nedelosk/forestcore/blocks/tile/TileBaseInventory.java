@@ -80,16 +80,16 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		}
 	}
 
-	public abstract String getMachineTileName();
+	public abstract String getTitle();
 
 	@Override
 	public String getInventoryName() {
-		return getMachineTileName();
+		return getTitle();
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		return false;
+		return getTitle() != null;
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		if (slots != null && slots.length > 0) {
 			nbt.setInteger("Size", slots.length);
 			NBTTagList nbtTagList = new NBTTagList();
-			for ( int i = 0; i < this.getSizeInventory(); i++ ) {
+			for(int i = 0; i < this.getSizeInventory(); i++) {
 				if (this.slots[i] != null) {
 					NBTTagCompound item = new NBTTagCompound();
 					item.setByte("item", (byte) i);
@@ -155,7 +155,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		if (nbt.hasKey("slots")) {
 			NBTTagList nbtTagList = nbt.getTagList("slots", 10);
 			this.slots = new ItemStack[nbt.getInteger("Size")];
-			for ( int i = 0; i < nbtTagList.tagCount(); i++ ) {
+			for(int i = 0; i < nbtTagList.tagCount(); i++) {
 				NBTTagCompound item = nbtTagList.getCompoundTagAt(i);
 				byte itemLocation = item.getByte("item");
 				if (itemLocation >= 0 && itemLocation < this.getSizeInventory()) {
@@ -169,7 +169,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		if (output == null) {
 			return true;
 		}
-		for ( int i = slotMin; i < slotMax; i++ ) {
+		for(int i = slotMin; i < slotMax; i++) {
 			ItemStack itemStack = getStackInSlot(i);
 			if (itemStack == null) {
 				setInventorySlotContents(i, output);

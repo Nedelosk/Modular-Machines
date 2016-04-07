@@ -1,11 +1,8 @@
 package de.nedelosk.forestmods.client.render.modules;
 
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -24,7 +21,7 @@ public class ModularRenderer implements ISimpleRenderer {
 	public void render(IRenderState state) {
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		IModular modular = state.getModular();
-		for ( ModuleStack stack : (List<ModuleStack>) modular.getManager(IModularModuleManager.class).getModuleStacks() ) {
+		for(ModuleStack stack : modular.getModuleStacks()) {
 			if (stack != null) {
 				ISimpleRenderer renderer = stack.getModule().getRenderer(stack, state);
 				if (renderer != null) {

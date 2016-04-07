@@ -12,7 +12,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import de.nedelosk.forestcore.multiblock.MultiblockEventHandler;
 import de.nedelosk.forestmods.api.ForestModsApi;
 import de.nedelosk.forestmods.api.transport.TransportEventHandler;
+import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager;
+import de.nedelosk.forestmods.common.modules.registry.ModuleRegistry;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.forestmods.common.config.ConfigFactory")
@@ -28,9 +30,10 @@ public class ForestMods {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		ModuleManager.moduleRegistry = new ModuleRegistry();
 		registry = new FMRegistry();
 		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
-		MinecraftForge.EVENT_BUS.register(new TransportEventHandler());
+		//MinecraftForge.EVENT_BUS.register(new TransportEventHandler());
 		ForestModsApi.handler = new InternalMethodHandler();
 		configFolder = new File(event.getModConfigurationDirectory(), "Forest-Mods");
 		configFile = new File(configFolder, "Forest-Mods.cfg");

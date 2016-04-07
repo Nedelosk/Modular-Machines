@@ -66,6 +66,11 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		renderStrings(fontRendererObj, param1, param2);
+	}
+
+	@Override
+	public void drawScreen(int param1, int param2, float p_73863_3_) {
+		super.drawScreen(param1, param2, p_73863_3_);
 		widgetManager.drawTooltip(param1, param2);
 		buttonManager.drawTooltip(param1, param2);
 	}

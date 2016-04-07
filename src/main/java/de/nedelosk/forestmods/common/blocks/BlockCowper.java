@@ -131,7 +131,7 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for ( int metadata = 0; metadata < 6; metadata++ ) {
+		for(int metadata = 0; metadata < 6; metadata++) {
 			par3List.add(new ItemStack(this, 1, metadata));
 		}
 	}

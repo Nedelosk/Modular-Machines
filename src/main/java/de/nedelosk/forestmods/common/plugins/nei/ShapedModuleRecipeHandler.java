@@ -43,8 +43,8 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 		 *            an ItemStack[] or ItemStack[][]
 		 */
 		public void setIngredients(int width, int height, Object[] items) {
-			for ( int x = 0; x < width; x++ ) {
-				for ( int y = 0; y < height; y++ ) {
+			for(int x = 0; x < width; x++) {
+				for(int y = 0; y < height; y++) {
 					if (items[y * width + x] == null) {
 						continue;
 					}
@@ -66,7 +66,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 		}
 
 		public void computeVisuals() {
-			for ( PositionedStack p : ingredients ) {
+			for(PositionedStack p : ingredients) {
 				p.generatePermutations();
 			}
 		}
@@ -90,7 +90,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("crafting") && getClass() == ShapedModuleRecipeHandler.class) {
-			for ( IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList() ) {
+			for(IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
 				CachedShapedRecipe recipe = null;
 				if (irecipe instanceof ShapedModuleRecipe) {
 					recipe = moduleShapedRecipe((ShapedModuleRecipe) irecipe);
@@ -108,7 +108,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		for ( IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList() ) {
+		for(IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
 			if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result) && result.hasTagCompound()
 					&& result.getTagCompound().equals(irecipe.getRecipeOutput().getTagCompound())) {
 				CachedShapedRecipe recipe = null;
@@ -126,7 +126,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		for ( IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList() ) {
+		for(IRecipe irecipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
 			CachedShapedRecipe recipe = null;
 			if (irecipe instanceof ShapedModuleRecipe) {
 				recipe = moduleShapedRecipe((ShapedModuleRecipe) irecipe);
@@ -153,7 +153,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 			return null;
 		}
 		Object[] items = recipe.getInput();
-		for ( Object item : items ) {
+		for(Object item : items) {
 			if (item instanceof List && ((List<?>) item).isEmpty()) {
 				// handler,
 				// no ores
@@ -201,7 +201,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public boolean isRecipe2x2(int recipe) {
-		for ( PositionedStack stack : getIngredientStacks(recipe) ) {
+		for(PositionedStack stack : getIngredientStacks(recipe)) {
 			if (stack.relx > 43 || stack.rely > 24) {
 				return false;
 			}

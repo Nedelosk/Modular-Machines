@@ -48,7 +48,7 @@ public class BlockComponent extends BlockForest {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		for ( int i = 0; i < metas.size(); i++ ) {
+		for(int i = 0; i < metas.size(); i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}

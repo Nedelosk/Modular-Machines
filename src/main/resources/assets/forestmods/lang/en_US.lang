@@ -61,7 +61,7 @@ Tabs
 ####################################
 itemGroup.modularmachines=Modular Machines
 itemGroup.modularmachines.components=Modular Machines Components
-itemGroup.forestday=Forest Day
+itemGroup.forestmods=Forest Mods
 
 ####################################
 Blocks
@@ -103,12 +103,12 @@ tile.cropcorn.name=Corn
 forest.item.tile.gravel.0.name=Loam
 forest.item.tile.gravel.1.name=Charcoal Ash
 tile.kiln.charcoal.name=Charcoal Kiln
-forest.item.tile.oreforestday.0.name=Copper Ore
-forest.item.tile.oreforestday.1.name=Tin Ore
-forest.item.tile.oreforestday.2.name=Silver Ore
-forest.item.tile.oreforestday.3.name=Lead Ore
-forest.item.tile.oreforestday.4.name=Nickel Ore
-forest.item.tile.oreforestday.5.name=Ruby Ore
+forest.item.tile.ores.0.name=Copper Ore
+forest.item.tile.ores.1.name=Tin Ore
+forest.item.tile.ores.2.name=Silver Ore
+forest.item.tile.ores.3.name=Lead Ore
+forest.item.tile.ores.4.name=Nickel Ore
+forest.item.tile.ores.5.name=Ruby Ore
 
 ####################################
 Fluids
@@ -261,9 +261,9 @@ forest.item.parts.9.name=Long Adze Head
 forest.item.parts.10.name=Adze Handle
 forest.item.parts.11.name=Long Adze Handle
 
-forest.item.bucket.wood.name=Wood Bucket
-forest.item.bucket.wood.water.name=Wood Water Bucket
-forest.item.ingot.forestday.0.name=Cooper Ingot
+item.forest.item.bucket.wood.name=Wood Bucket
+item.forest.item.bucket.wood.water.name=Wood Water Bucket
+forest.item.ingot.forestmods.0.name=Cooper Ingot
 forest.item.ingot.forestday.1.name=Tin Ingot
 forest.item.ingot.forestday.2.name=Silver Ingot
 forest.item.ingot.forestday.3.name=Lead Ingot
@@ -330,23 +330,21 @@ container.machine.kiln.resin=Resin Kiln
 ####################################
 #Tooltips
 ####################################
-forestday.tooltip.tool.energy=Energy: 
-forestday.tooltip.damage=Durability: 
-forestday.tooltip.tier=Tier: 
-forestday.tooltip.material=Material: 
-forestday.tooltip.heat=Heat: 
-forestday.tooltip.roughness=Roughness: 
-forestday.tooltip.empty=Empty
+forestmods.tooltip.tool.energy=Energy: 
+forestmods.tooltip.damage=Durability: 
+forestmods.tooltip.tier=Tier: 
+forestmods.tooltip.material=Material: 
+forestmods.tooltip.heat=Heat: 
+forestmods.tooltip.roughness=Roughness: 
+forestmods.tooltip.empty=Empty
 forest.fd.tooltip.power=Power
-forestday.tooltip.workbench.mode.0.name=Forward
-forestday.tooltip.workbench.mode.1.name=Stop
 
 ####################################
 #Gui Nei
 ####################################
-forestday.nei.kiln.resin=Resin Kiln
-forestday.nei.kiln.charcoal=Charcoal Kiln
-forestday.nei.burning=Burning
+nei.kiln.charcoal.drops=Charcoal Kiln Drops
+nei.kiln.charcoal=Charcoal Kiln Crafting
+nei.campfire=Campfire
 
 ####################################
 #Multiblocks

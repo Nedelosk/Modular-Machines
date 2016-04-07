@@ -6,7 +6,6 @@ import java.util.List;
 import de.nedelosk.forestcore.inventory.IContainerBase;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.api.utils.ModuleUID;
-import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleProducerRecipeInventory;
 import net.minecraft.inventory.Slot;
 
 public class ModuleAssemblerInventory extends ModuleProducerRecipeInventory<ModuleAssembler, IModuleSaver> {

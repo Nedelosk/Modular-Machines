@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.api.modules.heater;
 
-import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.modules.IModule;
 
 public interface IModuleHeater extends IModule {
 

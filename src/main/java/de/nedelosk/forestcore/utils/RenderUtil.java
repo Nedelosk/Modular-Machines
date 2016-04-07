@@ -35,11 +35,11 @@ public final class RenderUtil {
 		String[] textEntries = text.split("<br>");
 		List<List<String>> lines = new ArrayList();
 		String controlCodes = "";
-		for ( String s : textEntries ) {
+		for(String s : textEntries) {
 			List<String> words = new ArrayList();
 			String lineStr = "";
 			String[] tokens = s.split(" ");
-			for ( String token : tokens ) {
+			for(String token : tokens) {
 				String prev = lineStr;
 				String spaced = token + " ";
 				lineStr += spaced;
@@ -57,7 +57,7 @@ public final class RenderUtil {
 			lines.add(new ArrayList());
 		}
 		int i = 0;
-		for ( List<String> words : lines ) {
+		for(List<String> words : lines) {
 			words.size();
 			int xi = x;
 			int spacing = 4;
@@ -71,7 +71,7 @@ public final class RenderUtil {
 			 * wcount == 1 ? 0 : space / (wcount - 1); compensationSpaces =
 			 * wcount == 1 ? 0 : space % (wcount - 1); }
 			 */
-			for ( String s : words ) {
+			for(String s : words) {
 				int extra = 0;
 				if (compensationSpaces > 0) {
 					compensationSpaces--;
@@ -112,7 +112,7 @@ public final class RenderUtil {
 			int var6;
 			int var7;
 			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-			for ( var6 = 0; var6 < tooltipData.size(); ++var6 ) {
+			for(var6 = 0; var6 < tooltipData.size(); ++var6) {
 				var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
 				if (var7 > var5) {
 					var5 = var7;
@@ -136,7 +136,7 @@ public final class RenderUtil {
 			drawGradientRect(var6 - 3, var7 - 3, z, var6 + var5 + 3, var7 - 3 + 1, color, color);
 			drawGradientRect(var6 - 3, var7 + var9 + 2, z, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			for ( int var13 = 0; var13 < tooltipData.size(); ++var13 ) {
+			for(int var13 = 0; var13 < tooltipData.size(); ++var13) {
 				String var14 = tooltipData.get(var13);
 				fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
 				if (var13 == 0) {
@@ -162,7 +162,7 @@ public final class RenderUtil {
 			int var6;
 			int var7;
 			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-			for ( var6 = 0; var6 < tooltipData.size(); ++var6 ) {
+			for(var6 = 0; var6 < tooltipData.size(); ++var6) {
 				var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
 				if (var7 > var5) {
 					var5 = var7;
@@ -187,7 +187,7 @@ public final class RenderUtil {
 			drawGradientRect(var6 - 3, var7 - 3, z, var6 + var5 + 3, var7 - 3 + 1, color, color);
 			drawGradientRect(var6 - 3, var7 + var9 + 2, z, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			for ( int var13 = 0; var13 < tooltipData.size(); ++var13 ) {
+			for(int var13 = 0; var13 < tooltipData.size(); ++var13) {
 				String var14 = tooltipData.get(var13);
 				fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
 				if (var13 == 0) {
@@ -267,7 +267,7 @@ public final class RenderUtil {
 
 	public static ResourceLocation getResourceLocation(String modName, String fileName, String... subPackages) {
 		String filePath = "textures/";
-		for ( String subPackage : subPackages ) {
+		for(String subPackage : subPackages) {
 			filePath += subPackage + "/";
 		}
 		filePath += fileName + ".png";

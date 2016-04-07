@@ -20,12 +20,13 @@ public class BlockCasing extends BlockForest {
 		super(Material.ground, TabModularMachines.tabModules);
 		this.textures = textures;
 		setBlockName("casing");
+		setHarvestLevel("pickaxe", 1);
 	}
 
 	@Override
 	public void registerBlockIcons(IIconRegister IIconRegister) {
 		icons = new IIcon[textures.length][3];
-		for ( int i = 0; i < textures.length; i++ ) {
+		for(int i = 0; i < textures.length; i++) {
 			String texture = textures[i];
 			icons[i][0] = IIconRegister.registerIcon("forestmods:casing/" + texture + "_down");
 			icons[i][1] = IIconRegister.registerIcon("forestmods:casing/" + texture + "_top");
@@ -44,7 +45,7 @@ public class BlockCasing extends BlockForest {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		for ( int i = 0; i < textures.length; i++ ) {
+		for(int i = 0; i < textures.length; i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}

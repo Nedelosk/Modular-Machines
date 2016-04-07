@@ -27,14 +27,14 @@ public class ItemGearWood extends ItemForest {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.woodIcon = new IIcon[6];
-		for ( int i = 0; i < 6; i++ ) {
+		for(int i = 0; i < 6; i++) {
 			this.woodIcon[i] = iconRegister.registerIcon("forestmods:gears/wood." + i);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for ( int i = 0; i < 6; i++ ) {
+		for(int i = 0; i < 6; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
 	}

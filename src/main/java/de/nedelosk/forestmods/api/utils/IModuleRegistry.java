@@ -1,10 +1,7 @@
 package de.nedelosk.forestmods.api.utils;
 
-import java.util.HashMap;
-
 import de.nedelosk.forestmods.api.material.IMaterial;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.modules.IModule;
 import net.minecraft.item.ItemStack;
 
 public interface IModuleRegistry {
@@ -18,10 +15,4 @@ public interface IModuleRegistry {
 	void registerItemForModule(ItemStack itemStack, ModuleStack moduleStack, boolean ignorNBT);
 
 	ModuleStack getModuleFromItem(ItemStack stack);
-
-	void registerModular(String name, Class<? extends IModular> modular);
-
-	Class<? extends IModular> getModular(String name);
-
-	HashMap<String, Class<? extends IModular>> getModular();
 }

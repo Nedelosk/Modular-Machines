@@ -29,7 +29,7 @@ public class AirHeatingPlantRecipeManager implements IAirHeatingPlantRecipe {
 	}
 
 	public static boolean isFluidInput(FluidStack stack) {
-		for ( AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes ) {
+		for(AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes) {
 			if (stack.getFluid() == sr.getInput().getFluid()) {
 				return true;
 			}
@@ -38,7 +38,7 @@ public class AirHeatingPlantRecipeManager implements IAirHeatingPlantRecipe {
 	}
 
 	public static AirHeatingPlantRecipe getRecipe(FluidStack stack) {
-		for ( AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes ) {
+		for(AirHeatingPlantRecipe sr : AirHeatingPlantRecipeManager.recipes) {
 			if (stack.getFluid() == sr.getInput().getFluid() && sr.getInput().amount <= stack.amount) {
 				return sr;
 			}

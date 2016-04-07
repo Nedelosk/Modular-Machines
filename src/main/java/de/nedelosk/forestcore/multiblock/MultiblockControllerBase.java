@@ -372,7 +372,7 @@ public abstract class MultiblockControllerBase {
 	 * parts.
 	 */
 	private void assembleMachine(AssemblyState oldState) {
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			part.onMachineAssembled(this);
 		}
 		this.assemblyState = AssemblyState.Assembled;
@@ -389,7 +389,7 @@ public abstract class MultiblockControllerBase {
 	 * being removed. Calls onMachineBroken on all attached parts.
 	 */
 	private void disassembleMachine() {
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			part.onMachineBroken();
 		}
 		this.assemblyState = AssemblyState.Disassembled;
@@ -413,7 +413,7 @@ public abstract class MultiblockControllerBase {
 		// releases all blocks and references gently so they can be incorporated
 		// into another multiblock
 		other._onAssimilated(this);
-		for ( IMultiblockPart acquiredPart : partsToAcquire ) {
+		for(IMultiblockPart acquiredPart : partsToAcquire) {
 			// By definition, none of these can be the minimum block.
 			if (acquiredPart.isInvalid()) {
 				continue;
@@ -494,8 +494,8 @@ public abstract class MultiblockControllerBase {
 				int minChunkZ = minimumCoord.z >> 4;
 				int maxChunkX = maximumCoord.x >> 4;
 				int maxChunkZ = maximumCoord.z >> 4;
-				for ( int x = minChunkX; x <= maxChunkX; x++ ) {
-					for ( int z = minChunkZ; z <= maxChunkZ; z++ ) {
+				for(int x = minChunkX; x <= maxChunkX; x++) {
+					for(int z = minChunkZ; z <= maxChunkZ; z++) {
 						// Ensure that we save our data, even if the our save
 						// delegate is in has no TEs.
 						Chunk chunkToSave = this.worldObj.getChunkFromChunkCoords(x, z);
@@ -651,7 +651,7 @@ public abstract class MultiblockControllerBase {
 	public void recalculateMinMaxCoords() {
 		minimumCoord = new BlockPos(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		maximumCoord = new BlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			if (part.xCoord < minimumCoord.x) {
 				minimumCoord.x = part.xCoord;
 			}
@@ -778,7 +778,7 @@ public abstract class MultiblockControllerBase {
 	private String getPartsListString() {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			if (!first) {
 				sb.append(", ");
 			}
@@ -794,7 +794,7 @@ public abstract class MultiblockControllerBase {
 	 */
 	private void auditParts() {
 		HashSet<IMultiblockPart> deadParts = new HashSet<IMultiblockPart>();
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			if (part.isInvalid() || worldObj.getTileEntity(part.xCoord, part.yCoord, part.zCoord) != part) {
 				onDetachBlock(part);
 				deadParts.add(part);
@@ -828,7 +828,7 @@ public abstract class MultiblockControllerBase {
 		BlockPos c;
 		IMultiblockPart referencePart = null;
 		int originalSize = connectedParts.size();
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			// This happens during chunk unload.
 			if (!chunkProvider.chunkExists(part.xCoord >> 4, part.zCoord >> 4) || part.isInvalid()) {
 				deadParts.add(part);
@@ -875,7 +875,7 @@ public abstract class MultiblockControllerBase {
 			visitedParts++;
 			nearbyParts = part.getNeighboringParts(); // Chunk-safe on server,
 														// but not on client
-			for ( IMultiblockPart nearbyPart : nearbyParts ) {
+			for(IMultiblockPart nearbyPart : nearbyParts) {
 				// Ignore different machines
 				if (nearbyPart.getMultiblockController() != this) {
 					continue;
@@ -888,7 +888,7 @@ public abstract class MultiblockControllerBase {
 		}
 		// Finally, remove all parts that remain disconnected.
 		Set<IMultiblockPart> removedParts = new HashSet<IMultiblockPart>();
-		for ( IMultiblockPart orphanCandidate : connectedParts ) {
+		for(IMultiblockPart orphanCandidate : connectedParts) {
 			if (!orphanCandidate.isVisited()) {
 				deadParts.add(orphanCandidate);
 				orphanCandidate.onOrphaned(this, originalSize, visitedParts);
@@ -920,7 +920,7 @@ public abstract class MultiblockControllerBase {
 			return new HashSet<IMultiblockPart>();
 		}
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			if (chunkProvider.chunkExists(part.xCoord >> 4, part.zCoord >> 4)) {
 				onDetachBlock(part);
 			}
@@ -942,7 +942,7 @@ public abstract class MultiblockControllerBase {
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		TileEntity theChosenOne = null;
 		referenceCoord = null;
-		for ( IMultiblockPart part : connectedParts ) {
+		for(IMultiblockPart part : connectedParts) {
 			if (part.isInvalid() || !chunkProvider.chunkExists(part.xCoord >> 4, part.zCoord >> 4)) {
 				// Chunk is unloading, skip this coord to prevent chunk
 				// thrashing

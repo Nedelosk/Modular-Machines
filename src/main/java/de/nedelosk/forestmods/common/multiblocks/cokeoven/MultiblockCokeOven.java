@@ -270,7 +270,7 @@ public class MultiblockCokeOven extends RectangularMultiblockControllerBase {
 		if (output == null) {
 			return true;
 		}
-		for ( int i = slotMin; i < slotMax; i++ ) {
+		for(int i = slotMin; i < slotMax; i++) {
 			ItemStack itemStack = getInventory().getStackInSlot(i);
 			if (itemStack == null) {
 				getInventory().setInventorySlotContents(i, output);

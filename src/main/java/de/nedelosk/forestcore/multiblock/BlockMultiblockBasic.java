@@ -59,10 +59,10 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		String prefix = "forestmods:" + getMultiblockName() + "/";
-		for ( int metadata = 0; metadata < states.length; ++metadata ) {
+		for(int metadata = 0; metadata < states.length; ++metadata) {
 			String[] blockStates = states[metadata];
 			icons[metadata] = new IIcon[blockStates.length];
-			for ( int state = 0; state < blockStates.length; state++ ) {
+			for(int state = 0; state < blockStates.length; state++) {
 				icons[metadata][state] = par1IconRegister.registerIcon(prefix + subBlocks[metadata] + "/" + blockStates[state]);
 			}
 		}
@@ -137,7 +137,7 @@ public abstract class BlockMultiblockBasic<M extends RectangularMultiblockContro
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof IInventory) {
 			IInventory inventory = ((IInventory) te);
-			inv : for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
+			inv: for(int i = 0; i < inventory.getSizeInventory(); i++) {
 				ItemStack itemstack = inventory.getStackInSlot(i);
 				if (itemstack == null) {
 					continue;

@@ -5,7 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.producers.IModuleAdvancedWithMode;
+import de.nedelosk.forestmods.api.modules.IModuleAdvancedWithMode;
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import io.netty.buffer.ByteBuf;

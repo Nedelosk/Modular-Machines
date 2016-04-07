@@ -2,21 +2,27 @@ package de.nedelosk.forestmods.common.events;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.utils.BlockPos;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
+import de.nedelosk.forestmods.api.modules.special.IModuleController;
 import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.common.blocks.BlockCasing;
+import de.nedelosk.forestmods.common.blocks.BlockModularMachine;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
+import de.nedelosk.forestmods.common.blocks.tile.TileModular;
+import de.nedelosk.forestmods.common.core.BlockManager;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -27,68 +33,80 @@ import net.minecraftforge.event.world.BlockEvent;
 
 public class EventHandler {
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBlockActivated(PlayerInteractEvent event) {
 		EntityPlayer player = event.entityPlayer;
 		World world = event.world;
+		Block block = world.getBlock(event.x, event.y, event.z);
+		int metadata = world.getBlockMetadata(event.x, event.y, event.z);
 		ItemStack currentItem = player.getHeldItem();
-		if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
-			TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
-			if (tile instanceof TileModularMachine) {
-				ModuleStack currentModule = ModuleManager.moduleRegistry.getModuleFromItem(currentItem).copy();
-				if (currentModule != null) {
-					if (!world.isRemote) {
-						TileModularMachine modularTile = (TileModularMachine) tile;
-						if (modularTile.getModular() != null) {
-							IModular modular = modularTile.getModular();
-							modular.getManager(IModularModuleManager.class).addModule(currentItem.copy(), currentModule);
-							try {
-								currentModule.getModule().onAddInModular(modular, currentModule);
-							} catch (Exception e) {
-								e.printStackTrace();
-								return;
-							}
-							if (!player.capabilities.isCreativeMode) {
-								currentItem.stackSize--;
-								if (currentItem.stackSize == 0) {
-									currentItem = null;
+		if (block instanceof BlockCasing) {
+			if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
+				ModuleStack currentModule = ModuleManager.moduleRegistry.getModuleFromItem(currentItem);
+				ItemStack casingStack = new ItemStack(block, 1, metadata);
+				ModuleStack casingModule = ModuleManager.moduleRegistry.getModuleFromItem(casingStack);
+				if (currentModule != null && currentModule.getModule() != null && currentModule.getModule() instanceof IModuleController
+						&& casingModule != null) {
+					world.setBlock(event.x, event.y, event.z, BlockManager.blockModular);
+					BlockManager.blockModular.onBlockPlacedBy(world, event.x, event.y, event.z, event.entityPlayer, null);
+					TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
+					if (tile instanceof TileModular) {
+						if (!world.isRemote) {
+							currentModule = currentModule.copy();
+							TileModular modularTile = (TileModular) tile;
+							if (modularTile.getModular() != null) {
+								IModular modular = modularTile.getModular();
+								ItemStack moduleItem = new ItemStack(currentItem.getItem(), 1, currentItem.getItemDamage());
+								if (currentItem.hasTagCompound()) {
+									moduleItem.setTagCompound((NBTTagCompound) currentItem.getTagCompound().copy());
 								}
-								player.setCurrentItemOrArmor(0, currentItem);
+								if (modular.addModule(moduleItem.copy(), currentModule)) {
+									if (modular.addModule(casingStack.copy(), casingModule)) {
+										currentModule.getModule().onAddInModular(modular, currentModule);
+										casingModule.getModule().onAddInModular(modular, casingModule);
+										if (!player.capabilities.isCreativeMode) {
+											currentItem.stackSize--;
+											if (currentItem.stackSize == 0) {
+												currentItem = null;
+											}
+											player.setCurrentItemOrArmor(0, currentItem);
+										}
+										event.setCanceled(true);
+										world.markBlockForUpdate(event.x, event.y, event.z);
+									}
+								}
 							}
-							event.setCanceled(true);
-							world.markBlockForUpdate(event.x, event.y, event.z);
 						}
 					}
 				}
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayerUse(PlayerInteractEvent event) {
-		if (!event.world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK) {
-			EntityPlayer player = event.entityPlayer;
-			World world = event.world;
-			int x = event.x;
-			int y = event.y;
-			int z = event.z;
-			if (!(world.getTileEntity(x, y, z) instanceof TileCharcoalKiln)) {
-				return;
-			}
-			ItemStack stack = player.getCurrentEquippedItem();
-			if (stack != null && (stack.getItem() == Items.flint_and_steel || stack.getItem() == Item.getItemFromBlock(Blocks.torch))) {
-				TileCharcoalKiln kiln = (TileCharcoalKiln) world.getTileEntity(x, y, z);
-				if (kiln.isConnected() && kiln.getController().isAssembled() && !kiln.getController().isActive()) {
-					kiln.getController().setIsActive();
-					if (stack.getItem() == Items.flint_and_steel) {
-						stack.damageItem(1, player);
-					}
-					BlockPos min = kiln.getController().getMinimumCoord();
-					BlockPos max = kiln.getController().getMaximumCoord();
-					for ( int xPos = min.x; xPos < max.x; xPos++ ) {
-						for ( int zPos = min.z; zPos < max.z; zPos++ ) {
-							for ( int yPos = min.y; yPos < max.y; yPos++ ) {
-								world.markBlockForUpdate(xPos, yPos, zPos);
+		} else if (block instanceof BlockModularMachine) {
+			if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
+				ModuleStack currentModule = ModuleManager.moduleRegistry.getModuleFromItem(currentItem);
+				TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
+				if (tile instanceof TileModular) {
+					if (currentModule != null && currentModule.getModule() != null && !(currentModule.getModule() instanceof IModuleController)) {
+						if (!world.isRemote) {
+							currentModule = currentModule.copy();
+							TileModular modularTile = (TileModular) tile;
+							if (modularTile.getModular() != null) {
+								IModular modular = modularTile.getModular();
+								ItemStack moduleItem = new ItemStack(currentItem.getItem(), 1, currentItem.getItemDamage());
+								if (currentItem.hasTagCompound()) {
+									moduleItem.setTagCompound((NBTTagCompound) currentItem.getTagCompound().copy());
+								}
+								if (modular.addModule(moduleItem.copy(), currentModule)) {
+									currentModule.getModule().onAddInModular(modular, currentModule);
+									if (!player.capabilities.isCreativeMode) {
+										currentItem.stackSize--;
+										if (currentItem.stackSize == 0) {
+											currentItem = null;
+										}
+										player.setCurrentItemOrArmor(0, currentItem);
+									}
+									event.setCanceled(true);
+									world.markBlockForUpdate(event.x, event.y, event.z);
+								}
 							}
 						}
 					}

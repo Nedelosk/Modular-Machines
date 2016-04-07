@@ -6,28 +6,29 @@ import de.nedelosk.forestmods.common.items.ItemComponent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class OreManager {
 
 	public static void registerOres() {
-		registerOre("toolFile", ItemManager.itemFileStone);
-		registerOre("toolFile", ItemManager.itemFileIron);
-		registerOre("toolHammer", ItemManager.itemHammer);
-		registerOre("toolFile", ItemManager.itemFileDiamond);
-		registerOre("toolCutter", ItemManager.itemCutter);
-		registerOre("toolKnife", ItemManager.itemKnifeStone);
+		registerOre("toolFile", new ItemStack(ItemManager.itemFileStone, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolFile", new ItemStack(ItemManager.itemFileIron, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolKnife", new ItemStack(ItemManager.itemKnifeStone, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("gearWood", new ItemStack(ItemManager.itemWoodGears, 1, 1));
 		registerOre("gemRuby", new ItemStack(ItemManager.itemGems, 1, 0));
-		for ( int m = 0; m < ItemManager.metals.length; m++ ) {
+		for(int m = 0; m < ItemManager.metals.length; m++) {
 			String[] metal = ItemManager.metals[m];
-			for ( int i = 0; i < metal.length; ++i ) {
+			for(int i = 0; i < metal.length; ++i) {
 				registerOre("ingot" + metal[i], new ItemStack(ItemManager.itemIngots, 1, m * 10 + i));
 				registerOre("nugget" + metal[i], new ItemStack(ItemManager.itemNuggets, 1, m * 10 + i));
 			}
 		}
-		for ( int d = 0; d < ItemManager.dusts.length; d++ ) {
+		for(int d = 0; d < ItemManager.dusts.length; d++) {
 			String[] dust = ItemManager.dusts[d];
-			for ( int i = 0; i < dust.length; ++i ) {
+			for(int i = 0; i < dust.length; ++i) {
 				registerOre("dust" + dust[i], new ItemStack(ItemManager.itemDusts, 1, d * 10 + i));
 			}
 		}
@@ -49,62 +50,62 @@ public class OreManager {
 		registerOre("gearStone", new ItemStack(ItemManager.itemCompGears));
 		registerOre("rodStone", new ItemStack(ItemManager.itemCompRods));
 		registerOre("itemCoal", new ItemStack(Items.coal));
-		for ( int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompPlates, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
-			for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+			for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 				registerOre("plate" + oreDict, stack);
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompRods.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompRods.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompRods, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					registerOre("rod" + oreDict, stack);
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompScrews.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompScrews.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompScrews, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					registerOre("screw" + oreDict, stack);
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompGears.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompGears.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompGears, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					registerOre("gear" + oreDict, stack);
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompWires.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompWires.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompWires, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					registerOre("wire" + oreDict, stack);
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompSawBlades.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompSawBlades.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompSawBlades, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					registerOre("sawBlade" + oreDict, stack);
 				}
 			}
 		}
-		for ( int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++ ) {
+		for(int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, i);
 			if (BlockManager.blockMetalBlocks.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2)) {
 					registerOre("block" + oreDict, stack);
 				}
 			}

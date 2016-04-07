@@ -11,12 +11,12 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 
-public class Button<I extends IGuiHandler> extends GuiButton {
+public abstract class Button<I extends IGuiHandler> extends GuiButton {
 
 	protected RenderItem itemRender = RenderItem.getInstance();
 
-	public Button(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, int p_i1021_4_, int p_i1021_5_, String p_i1021_6_) {
-		super(p_i1021_1_, p_i1021_2_, p_i1021_3_, p_i1021_4_, p_i1021_5_, p_i1021_6_);
+	public Button(int ID, int xPosition, int yPosition, int width, int height, String displayString) {
+		super(ID, xPosition, yPosition, width, height, displayString);
 	}
 
 	public boolean isMouseOver(int x, int y) {

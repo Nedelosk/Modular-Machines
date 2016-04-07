@@ -17,14 +17,14 @@ import net.minecraftforge.common.ChestGenHooks;
 public class CraftingUtil {
 
 	public static void removeShapedRecipes(List<ItemStack> removelist) {
-		for ( ItemStack stack : removelist ) {
+		for(ItemStack stack : removelist) {
 			removeShapedRecipe(stack);
 		}
 	}
 
 	public static void removeAnyRecipe(ItemStack resultItem) {
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for ( int i = 0; i < recipes.size(); i++ ) {
+		for(int i = 0; i < recipes.size(); i++) {
 			IRecipe tmpRecipe = recipes.get(i);
 			ItemStack recipeResult = tmpRecipe.getRecipeOutput();
 			if (ItemStack.areItemStacksEqual(resultItem, recipeResult)) {
@@ -35,7 +35,7 @@ public class CraftingUtil {
 
 	public static void removeShapedRecipe(ItemStack resultItem) {
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for ( int i = 0; i < recipes.size(); i++ ) {
+		for(int i = 0; i < recipes.size(); i++) {
 			IRecipe tmpRecipe = recipes.get(i);
 			if (tmpRecipe instanceof ShapedRecipes) {
 				ShapedRecipes recipe = (ShapedRecipes) tmpRecipe;
@@ -49,7 +49,7 @@ public class CraftingUtil {
 
 	public static void removeShapelessRecipe(ItemStack resultItem) {
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for ( int i = 0; i < recipes.size(); i++ ) {
+		for(int i = 0; i < recipes.size(); i++) {
 			IRecipe tmpRecipe = recipes.get(i);
 			if (tmpRecipe instanceof ShapelessRecipes) {
 				ShapelessRecipes recipe = (ShapelessRecipes) tmpRecipe;

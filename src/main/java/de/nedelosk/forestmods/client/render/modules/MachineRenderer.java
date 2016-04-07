@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.producers.IModuleAdvanced;
+import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;

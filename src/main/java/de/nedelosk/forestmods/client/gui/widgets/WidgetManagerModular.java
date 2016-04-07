@@ -2,14 +2,14 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.gui.WidgetManager;
-import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
-import de.nedelosk.forestmods.client.gui.GuiModularMachines;
+import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.client.gui.GuiModular;
 
-public class WidgetManagerModular extends WidgetManager<GuiModularMachines> {
+public class WidgetManagerModular extends WidgetManager<GuiModular> {
 
 	private final IModulePage page;
 
-	public WidgetManagerModular(GuiModularMachines gui, IModulePage page) {
+	public WidgetManagerModular(GuiModular gui, IModulePage page) {
 		super(gui);
 		this.page = page;
 	}

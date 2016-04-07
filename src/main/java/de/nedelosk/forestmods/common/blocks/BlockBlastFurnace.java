@@ -122,7 +122,7 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for ( int metadata = 0; metadata < 7; metadata++ ) {
+		for(int metadata = 0; metadata < 7; metadata++) {
 			par3List.add(new ItemStack(this, 1, metadata));
 		}
 	}

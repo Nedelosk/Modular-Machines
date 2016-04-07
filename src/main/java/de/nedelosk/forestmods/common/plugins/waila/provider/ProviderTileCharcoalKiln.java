@@ -3,6 +3,7 @@ package de.nedelosk.forestmods.common.plugins.waila.provider;
 import java.util.List;
 
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
+import de.nedelosk.forestmods.common.config.Config;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -25,7 +26,7 @@ public class ProviderTileCharcoalKiln implements IWailaDataProvider {
 		if (accessor.getTileEntity() != null && accessor.getTileEntity() instanceof TileCharcoalKiln) {
 			TileCharcoalKiln kiln = (TileCharcoalKiln) accessor.getTileEntity();
 			if (kiln.isConnected() && kiln.getController().isAssembled() && kiln.getController().isActive()) {
-				int p = kiln.getController().getBurnTime() * 100 / kiln.getController().getBurnTimeTotal() * 100;
+				int p = kiln.getController().getBurnTime() * 100 / Config.charcoalKilnBurnTime * 100;
 				currenttip.add(p / 100 + " %");
 			}
 		}

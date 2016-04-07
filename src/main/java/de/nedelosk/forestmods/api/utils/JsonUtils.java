@@ -29,7 +29,7 @@ public class JsonUtils {
 			item = null;
 		}
 		item = new RecipeItem[jsonRecipe.size()];
-		for ( int i = 0; i < jsonRecipe.size(); i++ ) {
+		for(int i = 0; i < jsonRecipe.size(); i++) {
 			try {
 				JsonElement recipeElement = jsonRecipe.get(i);
 				if (!recipeElement.isJsonObject()) {
@@ -66,7 +66,7 @@ public class JsonUtils {
 
 	public static JsonArray writeRecipeItem(RecipeItem[] items) {
 		JsonArray array = new JsonArray();
-		for ( RecipeItem item : items ) {
+		for(RecipeItem item : items) {
 			JsonObject json = new JsonObject();
 			if (item.isItem()) {
 				json.addProperty("Type", "Item");

@@ -3,12 +3,12 @@ package de.nedelosk.forestmods.common.items.block;
 import java.util.List;
 
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.core.RecipeManager;
+import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemBlockCharcoalKiln extends ItemBlock {
@@ -27,7 +27,7 @@ public class ItemBlockCharcoalKiln extends ItemBlock {
 			return false;
 		}
 		TileCharcoalKiln kiln = (TileCharcoalKiln) world.getTileEntity(x, y, z);
-		kiln.setWoodType(RecipeManager.readFromStack(stack));
+		kiln.setWoodStack(CharcoalKilnUtil.getFromKiln(stack));
 		if (world.getBlock(x, y, z) == field_150939_a) {
 			field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
 			field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
@@ -35,10 +35,12 @@ public class ItemBlockCharcoalKiln extends ItemBlock {
 		return true;
 	}
 
+	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List info, boolean p_77624_4_) {
-		if (RecipeManager.readFromStack(stack) != null) {
-			info.add(StatCollector.translateToLocal(RecipeManager.readFromStack(stack).getWood().getUnlocalizedName() + ".name"));
+	public String getItemStackDisplayName(ItemStack stack) {
+		if (CharcoalKilnUtil.getFromKiln(stack) != null) {
+			return super.getItemStackDisplayName(stack) + " (" +CharcoalKilnUtil.getFromKiln(stack).getDisplayName() + ")";
 		}
+		return super.getItemStackDisplayName(stack);
 	}
 }

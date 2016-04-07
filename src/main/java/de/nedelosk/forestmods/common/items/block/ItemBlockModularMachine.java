@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.common.items.block;
 
-import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
+import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,12 +49,12 @@ public class ItemBlockModularMachine extends ItemBlock {
 			if (!player.canPlayerEdit(x, z, y, p_77648_7_, stack)) {
 				return false;
 			} else if (!world.isRemote) {
-				boolean placed = world.setBlock(x, y, z, BlockManager.blockModularMachines, 0, 2);
+				boolean placed = world.setBlock(x, y, z, BlockManager.blockModular, 0, 2);
 				if (!placed) {
 					return false;
 				}
 				TileEntity tile = world.getTileEntity(x, y, z);
-				if (!(tile instanceof TileModularMachine)) {
+				if (!(tile instanceof TileModular)) {
 					world.setBlockToAir(x, y, z);
 					return false;
 				}
@@ -62,7 +62,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 					field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
 					field_150939_a.onPostBlockPlaced(world, x, y, z, 0);
 				}
-				TileModularMachine machine = (TileModularMachine) tile;
+				TileModular machine = (TileModular) tile;
 				machine.readFromNBT(stack.getTagCompound());
 				world.markBlockForUpdate(x, y, z);
 				world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, this.field_150939_a.stepSound.func_150496_b(),

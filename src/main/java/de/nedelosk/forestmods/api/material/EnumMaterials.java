@@ -6,7 +6,7 @@ public enum EnumMaterials implements IMaterial {
 	WOOD(0, "Wood", "wood"), STONE(1, "Stone", "stone"), IRON(2, "Iron", "iron"), BRONZE(3, "Bronze", "bronze"), OBSIDIAN(4, "Obsidian", "obsidian"), STEEL(5,
 			"Steel", "steel"), MAGMARIUM(7, "Magmarium", "magmarium"),
 			// Thermal Expansion
-			Lead(2, "Lead", "lead"), Invar(3, "Invar", "invar"), Electrum(5, "Electrum", "electrum"), Signalum(6, "Signalum", "signalum"), Enderium(7,
+			LEAD(2, "Lead", "lead"), INVAR(3, "Invar", "invar"), ELECTRUM(5, "Electrum", "electrum"), SIGNALUM(6, "Signalum", "signalum"), ENDERIUM(7,
 					"Enderium", "enderium");
 
 	private int tier;

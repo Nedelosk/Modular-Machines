@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
+import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

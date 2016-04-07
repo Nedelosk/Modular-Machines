@@ -55,9 +55,9 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 		TileEntity te;
 		RectangularMultiblockTileEntityBase part;
 		Class<? extends RectangularMultiblockControllerBase> myClass = this.getClass();
-		for ( int x = minimumCoord.x; x <= maximumCoord.x; x++ ) {
-			for ( int y = minimumCoord.y; y <= maximumCoord.y; y++ ) {
-				for ( int z = minimumCoord.z; z <= maximumCoord.z; z++ ) {
+		for(int x = minimumCoord.x; x <= maximumCoord.x; x++) {
+			for(int y = minimumCoord.y; y <= maximumCoord.y; y++) {
+				for(int z = minimumCoord.z; z <= maximumCoord.z; z++) {
 					// Okay, figure out what sort of block this should be.
 					te = this.worldObj.getTileEntity(x, y, z);
 					if (te instanceof RectangularMultiblockTileEntityBase) {

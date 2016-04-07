@@ -6,14 +6,10 @@ import com.google.common.collect.Lists;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.api.ItemInfo;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.IUsageHandler;
-import de.nedelosk.forestmods.api.utils.IModuleHandler;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.plugins.nei.machines.CampfireHandler;
-import de.nedelosk.forestmods.common.plugins.nei.machines.CharcoalKilnHandler;
-import de.nedelosk.forestmods.common.plugins.nei.machines.WorkbenchHandler;
+import de.nedelosk.forestmods.common.core.BlockManager;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -22,22 +18,22 @@ public class NEIConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
-		isAdded = false;
-		for ( IModuleHandler item : ModuleManager.moduleRegistry.getModuleHandlers() ) {
-			ModuleStack stack = item.getModuleStack();
-			if (stack.getModule() instanceof IModuleProducerRecipe) {
-				String module = ((IModuleProducerRecipe) stack.getModule()).getRecipeCategory(stack);
-				if (((IModuleProducerRecipe) stack.getModule()).addNEIStacks(stack, null) != null && !producerHandlers.contains(module)) {
-					new ModularMachinesHandler(stack);
-					producerHandlers.add(module);
-				}
-			}
-		}
-		isAdded = true;
-		registerHandler(new ShapedModuleRecipeHandler());
+		ItemInfo.hiddenItems.with(BlockManager.blockCampfire, BlockManager.blockModular);
 		registerHandler(new CharcoalKilnHandler());
-		registerHandler(new WorkbenchHandler());
 		registerHandler(new CampfireHandler());
+		registerHandler(new ShapedModuleRecipeHandler());
+		registerHandler(new CraftingRecipeKilnHandler());
+		/*
+		 * isAdded = false; for ( IModuleHandler item :
+		 * ModuleManager.moduleRegistry.getModuleHandlers() ) { ModuleStack
+		 * stack = item.getModuleStack(); if (stack.getModule() instanceof
+		 * IModuleProducerRecipe) { String module = ((IModuleProducerRecipe)
+		 * stack.getModule()).getRecipeCategory(stack); if
+		 * (((IModuleProducerRecipe) stack.getModule()).addNEIStacks(stack,
+		 * null) != null && !producerHandlers.contains(module)) { new
+		 * ModularMachinesHandler(stack); producerHandlers.add(module); } } }
+		 * isAdded = true;
+		 */
 	}
 
 	private <H extends ICraftingHandler & IUsageHandler> void registerHandler(H handler) {

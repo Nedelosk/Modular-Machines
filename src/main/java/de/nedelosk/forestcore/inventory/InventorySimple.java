@@ -24,7 +24,7 @@ public class InventorySimple implements IInventory {
 
 	public InventorySimple(IInventory tocopy) {
 		this(tocopy.getSizeInventory(), tocopy.getInventoryName(), tocopy.getInventoryStackLimit());
-		for ( int i = 0; i < tocopy.getSizeInventory(); i++ ) {
+		for(int i = 0; i < tocopy.getSizeInventory(); i++) {
 			if (tocopy.getStackInSlot(i) != null) {
 				this.setInventorySlotContents(i, tocopy.getStackInSlot(i).copy());
 			} else {

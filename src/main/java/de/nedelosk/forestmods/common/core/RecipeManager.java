@@ -1,25 +1,20 @@
 package de.nedelosk.forestmods.common.core;
 
-import java.util.Map.Entry;
-import java.util.Set;
-
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.utils.CraftingUtil;
 import de.nedelosk.forestcore.utils.OreStack;
-import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
-import de.nedelosk.forestmods.api.crafting.WoodType;
-import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe.LatheModes;
+import de.nedelosk.forestmods.api.ForestModsApi;
+import de.nedelosk.forestmods.api.modules.recipes.RecipeLathe.LatheModes;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
+import de.nedelosk.forestmods.common.crafting.CraftingRecipeKiln;
 import de.nedelosk.forestmods.common.crafting.ShapedModuleRecipe;
 import de.nedelosk.forestmods.common.items.ItemComponent;
 import de.nedelosk.forestmods.common.utils.RecipeUtils;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -43,17 +38,45 @@ public class RecipeManager {
 	}
 
 	public static void registerPostRecipes() {
-		for ( Entry<ItemStack, ItemStack> recipes : (Set<Entry<ItemStack, ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet() ) {
-			if (recipes.getValue().getItem() == Items.coal && recipes.getValue().getItemDamage() == 1
-					&& Block.getBlockFromItem(recipes.getKey().getItem()) != null && Block.getBlockFromItem(recipes.getKey().getItem()) != Blocks.air) {
-				ForestDayCrafting.woodManager.add(recipes.getKey().getUnlocalizedName(), recipes.getKey(), recipes.getValue());
-			}
-		}
-		registerCharcoalKilnRecipes();
+		/*
+		 * for(ItemStack oreStack : OreDictionary.getOres("logWood")){ if
+		 * (Block.getBlockFromItem(oreStack.getItem()) != null &&
+		 * Block.getBlockFromItem(oreStack.getItem()) != Blocks.air) { if
+		 * (oreStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) { int
+		 * metas = 4; if (Block.getBlockFromItem(oreStack.getItem()) instanceof
+		 * BlockNewLog) { metas = 2; } for(int meta = 0; meta < metas; meta++) {
+		 * ItemStack logStack = new ItemStack(oreStack.getItem(), 1, meta);
+		 * ForestDayCrafting.woodManager.add(logStack.getUnlocalizedName(),
+		 * logStack, new ItemStack(Items.coal, 1, 1)); } } else {
+		 * ForestDayCrafting.woodManager.add(oreStack.getUnlocalizedName(),
+		 * oreStack, new ItemStack(Items.coal, 1, 1)); } } }
+		 */
+		/*
+		 * for(Entry<ItemStack, ItemStack> recipe : (Set<Entry<ItemStack,
+		 * ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet())
+		 * { if (recipe.getValue().getItem() == Items.coal &&
+		 * recipe.getValue().getItemDamage() == 1 &&
+		 * Block.getBlockFromItem(recipe.getKey().getItem()) != null &&
+		 * Block.getBlockFromItem(recipe.getKey().getItem()) != Blocks.air) {
+		 * ItemStack oreStack = recipe.getKey(); for(int oreID :
+		 * OreDictionary.getOreIDs(recipe.getKey())) { String oreDict =
+		 * OreDictionary.getOreName(oreID); if (oreDict.equals("logWood")) { if
+		 * (oreStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) { int
+		 * metas = 4; if (Block.getBlockFromItem(oreStack.getItem()) instanceof
+		 * BlockNewLog) { metas = 2; } for(int meta = 0; meta < metas; meta++) {
+		 * ItemStack logStack = new ItemStack(oreStack.getItem(), 1, meta);
+		 * ForestDayCrafting.woodManager.add(logStack.getUnlocalizedName(),
+		 * logStack, recipe.getValue()); } } else {
+		 * ForestDayCrafting.woodManager.add(oreStack.getUnlocalizedName(),
+		 * recipe.getKey(), oreStack); } } } } }
+		 */
+		// registerCharcoalKilnRecipes();
+		GameRegistry.registerFuelHandler(new FuelHandler());
 		CraftingUtil.removeFurnaceRecipe(Items.coal, 1);
 	}
 
 	private static void addNormalRecipes() {
+		GameRegistry.addRecipe(new CraftingRecipeKiln());
 		addShapelessRecipe(new ItemStack(BlockManager.blockGravel, 4), Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.dirt, Blocks.gravel, Blocks.gravel,
 				Blocks.gravel, Blocks.gravel, Blocks.sand);
 		addShapelessRecipe(new ItemStack(ItemManager.itemAxeFlint), Items.stick, Items.stick, Items.flint, Items.flint);
@@ -93,7 +116,7 @@ public class RecipeManager {
 	}
 
 	private static void addWorkbenchRecipes() {
-		addShapedModuleRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 5), " W ", "WFW", " W ", 'W', "plankWood", 'F', "toolFile");
+		addShapedRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 5), " W ", "WFW", " W ", 'W', "plankWood", 'F', "toolFile");
 		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 4), new ItemStack(ItemManager.itemWoodGears, 1, 5), "toolFile");
 		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 3), new ItemStack(ItemManager.itemWoodGears, 1, 4), "toolFile");
 		addShapelessRecipe(new ItemStack(ItemManager.itemWoodGears, 1, 2), new ItemStack(ItemManager.itemWoodGears, 1, 3), "toolFile");
@@ -116,11 +139,11 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemCampfirePotHolder, 1, 1), "++ ", "+  ", "+  ", '+', "stone");
 		addShapedRecipe(new ItemStack(ItemManager.itemCampfirePotHolder, 1, 2), "++ ", "+  ", "+  ", '+', "ingotBronze");
 		addShapedRecipe(new ItemStack(ItemManager.itemCampfirePotHolder, 1, 3), "++ ", "+  ", "+  ", '+', "ingotIron");
-		addShapedRecipe(new ItemStack(BlockManager.blockMachines, 1, 1), "---", "+++", "W W", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood");
-		addShapedRecipe(new ItemStack(BlockManager.blockMachines, 1, 2), "---", "+++", "WCW", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood", 'C',
+		addShapedRecipe(new ItemStack(BlockManager.blockCampfire, 1, 1), "---", "+++", "W W", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood");
+		addShapedRecipe(new ItemStack(BlockManager.blockCampfire, 1, 2), "---", "+++", "WCW", '-', Blocks.crafting_table, '+', "slabWood", 'W', "logWood", 'C',
 				Blocks.chest);
-		addShapelessRecipe(new ItemStack(BlockManager.blockMachines, 1, 2), new ItemStack(BlockManager.blockMachines, 1, 1), Blocks.chest);
-		addShapedRecipe(new ItemStack(BlockManager.blockMachines, 1, 3), "ILI", "ICI", "ILI", 'I', "ingotIron", 'C', Blocks.chest, 'L',
+		addShapelessRecipe(new ItemStack(BlockManager.blockCampfire, 1, 2), new ItemStack(BlockManager.blockCampfire, 1, 1), Blocks.chest);
+		addShapedRecipe(new ItemStack(BlockManager.blockCampfire, 1, 3), "ILI", "ICI", "ILI", 'I', "ingotIron", 'C', Blocks.chest, 'L',
 				BlockManager.blockGravel);
 		addShapedRecipe(new ItemStack(BlockManager.blockCasings), "+++", "+ +", "---", '+', Blocks.stone, '-', Blocks.brick_block);
 		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 1), "+++", "+ +", "---", '+', Blocks.stone, '-', Blocks.stonebrick);
@@ -129,46 +152,19 @@ public class RecipeManager {
 	}
 
 	private static void addCampfireRecipes() {
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Blocks.red_mushroom), new ItemStack(Items.bowl), new ItemStack(Items.mushroom_stew), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Blocks.brown_mushroom), new ItemStack(Items.bowl), new ItemStack(Items.mushroom_stew), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Items.beef), new ItemStack(Items.cooked_beef), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Items.chicken), new ItemStack(Items.cooked_chicken), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Items.fish), new ItemStack(Items.cooked_fished), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Items.porkchop), new ItemStack(Items.cooked_porkchop), 0, 25);
-		ForestDayCrafting.campfireRecipe.addRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.stone), 0, 10);
-	}
-
-	private static void registerCharcoalKilnRecipes() {
-		for ( WoodType type : ForestDayCrafting.woodManager.getWoodTypes().values() ) {
-			if (type != null && type.getWood() != null) {
-				addShapedRecipe(writeWoodType(type), "+++", "+-+", "+++", '+', type.getWood(), '-', BlockManager.blockGravel);
-			}
-		}
-	}
-
-	public static ItemStack writeWoodType(WoodType type) {
-		if (type != null) {
-			ItemStack stack = new ItemStack(BlockManager.blockCharcoalKiln);
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			nbtTag.setString("WoodType", type.getName());
-			stack.setTagCompound(nbtTag);
-			return stack;
-		}
-		return null;
-	}
-
-	public static WoodType readFromStack(ItemStack stack) {
-		if (stack != null && stack.getItem() != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("WoodType")
-				&& Block.getBlockFromItem(stack.getItem()) != null && Block.getBlockFromItem(stack.getItem()) instanceof BlockCharcoalKiln) {
-			return ForestDayCrafting.woodManager.get(stack.getTagCompound().getString("WoodType"));
-		}
-		return null;
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Blocks.red_mushroom), new ItemStack(Items.bowl), new ItemStack(Items.mushroom_stew), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Blocks.brown_mushroom), new ItemStack(Items.bowl), new ItemStack(Items.mushroom_stew), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Items.beef), new ItemStack(Items.cooked_beef), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Items.chicken), new ItemStack(Items.cooked_chicken), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Items.fish), new ItemStack(Items.cooked_fished), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Items.porkchop), new ItemStack(Items.cooked_porkchop), 0, 25);
+		ForestModsApi.campfireRecipe.addRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.stone), 0, 10);
 	}
 
 	private static void registerMetalRecipes() {
-		for ( int m = 0; m < ItemManager.metals.length; m++ ) {
+		for(int m = 0; m < ItemManager.metals.length; m++) {
 			String[] metal = ItemManager.metals[m];
-			for ( int i = 0; i < metal.length; ++i ) {
+			for(int i = 0; i < metal.length; ++i) {
 				addShapedRecipe(new ItemStack(ItemManager.itemIngots, 1, m * 10 + i), "+++", "+++", "+++", '+', "nugget" + metal[i]);
 				addShapelessRecipe(new ItemStack(ItemManager.itemNuggets, 9, m * 10 + i), "ingot" + metal[i]);
 			}
@@ -188,20 +184,20 @@ public class RecipeManager {
 	private static void registerComponentRecipes() {
 		addShapedRecipe(new ItemStack(ItemManager.itemWoodBucket), "   ", "W W", " W ", 'W', "logWood");
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompPlates), "cobblestone", "cobblestone", "toolHammer");
-		for ( int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompPlates, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					addShapelessRecipe(stack, "ingot" + oreDict, "ingot" + oreDict, "toolHammer");
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompWires.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompWires.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompWires, 4, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					if (!oreDict.equals("Bronze") && !oreDict.equals("Steel")) {
 						addShapelessRecipe(stack, "plate" + oreDict, "toolCutter");
 					} else {
@@ -211,28 +207,28 @@ public class RecipeManager {
 				}
 			}
 		}
-		for ( int i = 0; i < ItemManager.itemCompScrews.metas.size(); i++ ) {
+		for(int i = 0; i < ItemManager.itemCompScrews.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompScrews, 1, i);
 			ItemComponent component = (ItemComponent) stack.getItem();
 			if (component.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) component.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) component.metas.get(i).get(2)) {
 					RecipeUtils.addLathe("wire" + oreDict + "ToScrew", new RecipeItem(new OreStack("wire" + oreDict, 2)), new RecipeItem(stack), 1, 250,
 							LatheModes.SCREW);
 				}
 			}
 		}
-		for ( int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++ ) {
+		for(int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, i);
 			if (BlockManager.blockMetalBlocks.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2)) {
 					addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
 				}
 			}
 		}
-		for ( int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++ ) {
+		for(int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, i);
 			if (BlockManager.blockMetalBlocks.metas.get(i).get(2) != null) {
-				for ( String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2) ) {
+				for(String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2)) {
 					if (OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()) {
 						ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0);
 						ore.stackSize = 9;
@@ -440,5 +436,17 @@ public class RecipeManager {
 
 	private static void addShapelessRecipe(ItemStack stack, Object... obj) {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
+	}
+	
+	public static class FuelHandler implements IFuelHandler{
+
+		@Override
+		public int getBurnTime(ItemStack fuel) {
+			if(fuel.getItem() == Item.getItemFromBlock(BlockManager.blockCharcoalKiln)){
+				return 2400;
+			}
+			return 0;
+		}
+		
 	}
 }

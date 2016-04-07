@@ -5,7 +5,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import de.nedelosk.forestcore.plugins.APlugin;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
+import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.plugins.waila.provider.ProviderModular;
 import de.nedelosk.forestmods.common.plugins.waila.provider.ProviderTileCampfire;
@@ -23,9 +23,9 @@ public class PluginWaila extends APlugin {
 		final IWailaDataProvider tileKiln = new ProviderTileCharcoalKiln();
 		registrar.registerBodyProvider(tileKiln, TileCharcoalKiln.class);
 		ProviderModular modular = new ProviderModular();
-		registrar.registerBodyProvider(modular, TileModularMachine.class);
-		registrar.registerHeadProvider(modular, TileModularMachine.class);
-		registrar.registerTailProvider(modular, TileModularMachine.class);
+		registrar.registerBodyProvider(modular, TileModular.class);
+		registrar.registerHeadProvider(modular, TileModular.class);
+		registrar.registerTailProvider(modular, TileModular.class);
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.api.modules.engine;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.producers.IModule;
-import de.nedelosk.forestmods.api.producers.IModuleAdvanced;
+import de.nedelosk.forestmods.api.modules.IModule;
+import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 
 public interface IModuleEngine extends IModule {

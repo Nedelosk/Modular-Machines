@@ -47,7 +47,7 @@ public class ShapedModuleRecipe implements IRecipe {
 		}
 		if (recipe[idx] instanceof String[]) {
 			String[] parts = ((String[]) recipe[idx++]);
-			for ( String s : parts ) {
+			for(String s : parts) {
 				width = s.length();
 				shape += s;
 			}
@@ -62,14 +62,14 @@ public class ShapedModuleRecipe implements IRecipe {
 		}
 		if (width * height != shape.length()) {
 			String ret = "Invalid shaped ore recipe: ";
-			for ( Object tmp : recipe ) {
+			for(Object tmp : recipe) {
 				ret += tmp + ", ";
 			}
 			ret += output;
 			throw new RuntimeException(ret);
 		}
 		HashMap<Character, Object> itemMap = new HashMap<Character, Object>();
-		for ( ; idx < recipe.length; idx += 2 ) {
+		for(; idx < recipe.length; idx += 2) {
 			Character chr = (Character) recipe[idx];
 			Object in = recipe[idx + 1];
 			if (in instanceof ItemStack) {
@@ -82,7 +82,7 @@ public class ShapedModuleRecipe implements IRecipe {
 				itemMap.put(chr, OreDictionary.getOres((String) in));
 			} else {
 				String ret = "Invalid shaped ore recipe: ";
-				for ( Object tmp : recipe ) {
+				for(Object tmp : recipe) {
 					ret += tmp + ", ";
 				}
 				ret += output;
@@ -91,7 +91,7 @@ public class ShapedModuleRecipe implements IRecipe {
 		}
 		input = new Object[width * height];
 		int x = 0;
-		for ( char chr : shape.toCharArray() ) {
+		for(char chr : shape.toCharArray()) {
 			input[x++] = itemMap.get(chr);
 		}
 	}
@@ -101,13 +101,13 @@ public class ShapedModuleRecipe implements IRecipe {
 		width = recipe.recipeWidth;
 		height = recipe.recipeHeight;
 		input = new Object[recipe.recipeItems.length];
-		for ( int i = 0; i < input.length; i++ ) {
+		for(int i = 0; i < input.length; i++) {
 			ItemStack ingred = recipe.recipeItems[i];
 			if (ingred == null) {
 				continue;
 			}
 			input[i] = recipe.recipeItems[i];
-			for ( Entry<ItemStack, String> replace : replacements.entrySet() ) {
+			for(Entry<ItemStack, String> replace : replacements.entrySet()) {
 				if (OreDictionary.itemMatches(replace.getKey(), ingred, true)) {
 					input[i] = OreDictionary.getOres(replace.getValue());
 					break;
@@ -142,8 +142,8 @@ public class ShapedModuleRecipe implements IRecipe {
 	 */
 	@Override
 	public boolean matches(InventoryCrafting inv, World world) {
-		for ( int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++ ) {
-			for ( int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y ) {
+		for(int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for(int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
 					return true;
 				}
@@ -157,8 +157,8 @@ public class ShapedModuleRecipe implements IRecipe {
 
 	@SuppressWarnings("unchecked")
 	private boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror) {
-		for ( int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++ ) {
-			for ( int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++ ) {
+		for(int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
+			for(int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
 				int subX = x - startX;
 				int subY = y - startY;
 				Object target = null;

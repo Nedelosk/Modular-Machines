@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.forestmods.api.material.IMaterial;
+import de.nedelosk.forestmods.api.material.MaterialRegistry;
+import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.special.IModuleWithItem;
-import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
-import de.nedelosk.forestmods.common.modules.ModuleRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -46,20 +49,18 @@ public class ItemModule extends Item {
 		return icons[pass];
 	}
 
-	public static <M extends IModule> ModuleStack addModule(M module, IModuleType type) {
+	public static <M extends IModule> ItemStack addModule(ModuleStack<M> moduleStack) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
-		ModuleStack moduleStack = new ModuleStack<M, IModuleSaver>(module, type);
-		if (ModuleRegistry.getModule(moduleStack.getModule().getUID()) == null) {
-			ModuleRegistry.registerModule(module);
+		if (ModuleManager.moduleRegistry.getModule(moduleStack.getMaterial(), moduleStack.getUID()) == null) {
+			ModuleManager.moduleRegistry.registerModule(moduleStack.getMaterial(), moduleStack.getUID().getCategoryUID(), moduleStack.getModule());
 		}
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("UID", module.getUID().toString());
-		nbtTag.setString("Material", moduleStack.getType().getMaterial().getName());
+		nbtTag.setString("UID", moduleStack.getUID().toString());
+		nbtTag.setString("Material", moduleStack.getMaterial().getName());
 		itemStack.setTagCompound(nbtTag);
 		subItems.add(itemStack);
-		moduleStack.setItemStack(itemStack);
-		ModuleRegistry.registerItemForModule(moduleStack, false);
-		return moduleStack;
+		ModuleManager.moduleRegistry.registerItemForModule(itemStack, moduleStack, false);
+		return itemStack;
 	}
 
 	@Override
@@ -78,20 +79,21 @@ public class ItemModule extends Item {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
-		if (stack.hasTagCompound() && pass == 1) {
-			IModuleWithItem module = (IModuleWithItem) ModuleRegistry.getModuleFromItem(stack).moduleStack.getModuleStack();
-			return module.getColor();
+		IModule module = ModuleManager.moduleRegistry.getModuleFromItem(stack).getModule();
+		if (module instanceof IModuleWithItem && stack.hasTagCompound() && pass == 1) {
+			IModuleWithItem moduleItem = (IModuleWithItem) ModuleManager.moduleRegistry.getModuleFromItem(stack).getModule();
+			return moduleItem.getColor();
 		} else {
 			return 16777215;
 		}
 	}
 
-	public static ItemStack getItem(String moduleUID, Material material) {
-		for ( ItemStack stack : subItems ) {
+	public static ItemStack getItem(ModuleUID UID, IMaterial material) {
+		for(ItemStack stack : subItems) {
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("UID")) {
-				String UID = stack.getTagCompound().getString("UID");
-				Material m = Materials.getMaterial(stack.getTagCompound().getString("Material"));
-				if (UID.equals(moduleUID) && m.equals(material)) {
+				String itemUID = stack.getTagCompound().getString("UID");
+				IMaterial m = MaterialRegistry.getMaterial(stack.getTagCompound().getString("Material"));
+				if (itemUID.equals(UID.toString()) && m.equals(material)) {
 					return stack;
 				}
 			}

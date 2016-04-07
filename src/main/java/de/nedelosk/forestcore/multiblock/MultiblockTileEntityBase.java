@@ -43,7 +43,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 		MultiblockControllerBase bestController = null;
 		// Look for a compatible controller in our neighboring parts.
 		IMultiblockPart[] partsToCheck = getNeighboringParts();
-		for ( IMultiblockPart neighborPart : partsToCheck ) {
+		for(IMultiblockPart neighborPart : partsToCheck) {
 			if (neighborPart.isConnected()) {
 				MultiblockControllerBase candidate = neighborPart.getMultiblockController();
 				if (!candidate.getClass().equals(this.getMultiblockControllerType())) {
@@ -313,7 +313,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 		TileEntity te;
 		List<IMultiblockPart> neighborParts = new ArrayList<IMultiblockPart>();
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
-		for ( BlockPos neighbor : neighbors ) {
+		for(BlockPos neighbor : neighbors) {
 			if (!chunkProvider.chunkExists(neighbor.getChunkX(), neighbor.getChunkZ())) {
 				// Chunk not loaded, skip it.
 				continue;

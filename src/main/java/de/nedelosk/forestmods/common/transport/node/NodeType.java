@@ -16,7 +16,7 @@ public final class NodeType implements INodeType {
 	public NodeType(int updatesPerTick, Class<? extends IContentHandler>... handlers) {
 		this.updatesPerTick = updatesPerTick;
 		this.handlers = Lists.newArrayList();
-		for ( Class<? extends IContentHandler> handler : handlers ) {
+		for(Class<? extends IContentHandler> handler : handlers) {
 			this.handlers.add(handler);
 		}
 	}

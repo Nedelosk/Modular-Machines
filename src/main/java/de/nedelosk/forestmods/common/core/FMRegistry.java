@@ -8,10 +8,9 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestcore.plugins.APluginManager;
-import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
+import de.nedelosk.forestmods.api.ForestModsApi;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager;
-import de.nedelosk.forestmods.common.crafting.WoodTypeManager;
 import de.nedelosk.forestmods.common.events.EventHandler;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.plugins.PluginManager;
@@ -35,8 +34,7 @@ public class FMRegistry extends Registry {
 		BlockManager.registerBlocks();
 		BlockManager.registerTiles();
 		TransportManager.registerTransport();
-		ForestDayCrafting.campfireRecipe = new CampfireRecipeManager();
-		ForestDayCrafting.woodManager = new WoodTypeManager();
+		ForestModsApi.campfireRecipe = new CampfireRecipeManager();
 		super.preInit(instance, event);
 	}
 
@@ -47,7 +45,8 @@ public class FMRegistry extends Registry {
 		FMLCommonHandler.instance().bus().register(achManager);
 		OreManager.registerOres();
 		RecipeManager.registerRecipes();
-		ModuleManager.registerModuels();
+		EnumModules.init();
+		// ModuleManager.registerModuels();
 		AchievementManager.registerPage();
 		super.init(instance, event);
 	}

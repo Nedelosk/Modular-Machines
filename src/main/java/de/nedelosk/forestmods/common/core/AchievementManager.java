@@ -25,7 +25,7 @@ public class AchievementManager {
 	public void onCraftItem(ItemCraftedEvent event) {
 		Item item = event.crafting.getItem();
 		int damage = event.crafting.getItemDamage();
-		for ( Achievement a : AchievementPage.getAchievementPage("Modular Machiene's").getAchievements() ) {
+		for(Achievement a : AchievementPage.getAchievementPage("Modular Machiene's").getAchievements()) {
 			if (a instanceof AchievementCrafting) {
 				if (item.equals(a.theItemStack.getItem()) && damage == a.theItemStack.getItemDamage()) {
 					event.player.addStat(a, 1);

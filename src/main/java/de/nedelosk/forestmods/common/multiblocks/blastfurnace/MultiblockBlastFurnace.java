@@ -206,13 +206,13 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 						}
 					} else {
 						ItemStack[] inputs = new ItemStack[4];
-						for ( int i = 0; i < inputs.length; i++ ) {
+						for(int i = 0; i < inputs.length; i++) {
 							inputs[i] = getInventory().getStackInSlot(i);
 						}
 						if (inputs[0] != null) {
 							BlastFurnaceRecipe recipe = BlastFurnaceRecipeManager.getRecipe(inputs);
 							if (recipe != null) {
-								for ( int i = 0; i < recipe.getInput().length; i++ ) {
+								for(int i = 0; i < recipe.getInput().length; i++) {
 									if (recipe.getInput()[i] instanceof ItemStack) {
 										getInventory().decrStackSize(i, ((ItemStack) recipe.getInput()[i]).stackSize);
 									}

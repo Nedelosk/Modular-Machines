@@ -16,7 +16,7 @@ public class CommonProxy implements IGuiHandler {
 
 	public void registerTickHandlers() {
 		FMLCommonHandler.instance().bus().register(new MultiblockServerTickHandler());
-		FMLCommonHandler.instance().bus().register(new TransportServerTickHandler());
+		//FMLCommonHandler.instance().bus().register(new TransportServerTickHandler());
 	}
 
 	@Override

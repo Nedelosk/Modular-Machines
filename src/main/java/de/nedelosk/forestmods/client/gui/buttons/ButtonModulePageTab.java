@@ -10,11 +10,8 @@ import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.GuiModularMachines;
-import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketSelectModulePage;
+import de.nedelosk.forestmods.client.gui.GuiModular;
 import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class ButtonModulePageTab extends Button<IModularTileEntity> {
@@ -37,11 +34,11 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		GuiModularMachines machine = (GuiModularMachines) mc.currentScreen;
+		GuiModular machine = (GuiModular) mc.currentScreen;
 		RenderUtil.bindTexture(guiTextureOverlay);
 		machine.drawTexturedModalRect(xPosition, yPosition, stack.getModule().getCurrentPage().getPageID() == pageID ? 74 : 103, isDown ? 237 : 218, 29, 19);
-		RenderUtil.bindTexture(RenderUtil.getResourceLocation("modularmachines", "widgets", "gui"));
-		machine.drawTexturedModalRect(xPosition, yPosition, 0, 18 + pageID * 18, 18, 18);
+		RenderUtil.bindTexture(RenderUtil.getResourceLocation("forestmods", "widgets", "gui"));
+		machine.drawTexturedModalRect(xPosition + 6, yPosition, 0, 18 + pageID * 18, 18, 18);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 	}
@@ -49,9 +46,8 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
 		IModularTileEntity tile = gui.getTile();
-		if (!(pageID == stack.getModule().getCurrentPage().getPageID())) {
-			stack.getModule().setCurrentPage(pageID);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) tile, pageID, stack.getUID()));
+		if (pageID != stack.getModule().getCurrentPage().getPageID()) {
+			tile.getModular().setCurrentPage(pageID);
 		}
 	}
 

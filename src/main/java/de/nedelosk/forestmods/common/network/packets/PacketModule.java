@@ -8,7 +8,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.api.utils.ModuleUID;
 import io.netty.buffer.ByteBuf;
@@ -52,11 +51,10 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
-		if (tile == null || ((IModularTileEntity) tile).getModular() == null
-				|| ((IModularTileEntity) tile).getModular().getManager(IModularModuleManager.class) == null) {
+		if (tile == null || ((IModularTileEntity) tile).getModular() == null) {
 			return null;
 		}
-		ModuleStack stack = ((IModularTileEntity) tile).getModular().getManager(IModularModuleManager.class).getModuleStack(message.UID);
+		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleStack(message.UID);
 		stack.getModule().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
 		return null;
 	}

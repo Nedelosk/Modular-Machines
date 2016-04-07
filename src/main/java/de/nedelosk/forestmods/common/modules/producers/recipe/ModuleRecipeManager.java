@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.modules.producers.recipe;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.producers.IRecipeManager;
+import de.nedelosk.forestmods.api.modules.IRecipeManager;
 import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
@@ -60,7 +60,7 @@ public class ModuleRecipeManager implements IRecipeManager {
 			handler.getNBTSerialize().serializeNBT(nbt, craftingModifiers);
 		}
 		NBTTagList list = new NBTTagList();
-		for ( RecipeItem input : inputs ) {
+		for(RecipeItem input : inputs) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			input.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);
@@ -75,7 +75,7 @@ public class ModuleRecipeManager implements IRecipeManager {
 		int speedModifier = nbt.getInteger("SpeedModifier");
 		NBTTagList list = nbt.getTagList("RecipeInput", 10);
 		RecipeItem[] inputs = new RecipeItem[list.tagCount()];
-		for ( int i = 0; i < list.tagCount(); i++ ) {
+		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			inputs[i] = RecipeItem.readFromNBT(nbtTag);
 		}

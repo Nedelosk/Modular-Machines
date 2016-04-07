@@ -22,13 +22,6 @@ public abstract class TileMachineBase extends TileBaseInventory {
 		super();
 	}
 
-	public abstract String getMachineName();
-
-	@Override
-	public String getMachineTileName() {
-		return getMachineName();
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);

@@ -44,15 +44,15 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for ( Button slot : buttons ) {
+		for(Button slot : buttons) {
 			if (slot.isMouseOver(mX, mY)) {
-				RenderUtil.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip(gui));
+				RenderUtil.renderTooltip(mX, mY, slot.getTooltip(gui));
 			}
 		}
 	}
 
 	protected Button getAtPosition(int mX, int mY) {
-		for ( Button slot : buttons ) {
+		for(Button slot : buttons) {
 			if (slot.isMouseOver(mX, mY)) {
 				return slot;
 			}
@@ -63,7 +63,7 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	public void drawWidgets() {
 		gui.setZLevel(100.0F);
 		GuiBase.getItemRenderer().zLevel = 100.0F;
-		for ( Button slot : buttons ) {
+		for(Button slot : buttons) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawButton(minecraft, 0, 0);
 			;

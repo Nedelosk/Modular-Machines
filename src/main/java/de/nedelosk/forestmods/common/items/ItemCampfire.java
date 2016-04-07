@@ -32,7 +32,7 @@ public class ItemCampfire extends ItemForest {
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for ( int i = 0; i < textures.length; i++ ) {
+		for(int i = 0; i < textures.length; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
 	}
@@ -41,7 +41,7 @@ public class ItemCampfire extends ItemForest {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		if (this == ItemManager.itemCampfireCurb) {
 			Block block = world.getBlock(x, y, z);
-			Block blockC = BlockManager.blockMachines;
+			Block blockC = BlockManager.blockCampfire;
 			if (block == Blocks.snow_layer && (world.getBlockMetadata(x, y, z) & 7) < 1) {
 				side = 1;
 			} else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world, x, y, z)) {
@@ -88,7 +88,7 @@ public class ItemCampfire extends ItemForest {
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
 			int metadata) {
-		Block blockC = BlockManager.blockMachines;
+		Block blockC = BlockManager.blockCampfire;
 		if (!world.setBlock(x, y, z, blockC, metadata, 3)) {
 			return false;
 		}

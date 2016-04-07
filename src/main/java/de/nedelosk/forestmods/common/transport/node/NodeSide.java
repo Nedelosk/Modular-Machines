@@ -27,7 +27,7 @@ public class NodeSide extends PartSide implements INodeSide {
 		this.redstoneMode = RedstoneMode.IGNORE;
 		this.mode = EnumNodeMode.NONE;
 		this.handlers = Lists.newArrayList();
-		for ( Class<? extends IContentHandler> handlerClass : part.getType().getHandlers(this) ) {
+		for(Class<? extends IContentHandler> handlerClass : part.getType().getHandlers(this)) {
 			try {
 				handlers.add(handlerClass.getConstructor(ITransportNode.class).newInstance(part));
 			} catch (Exception e) {
@@ -54,7 +54,7 @@ public class NodeSide extends PartSide implements INodeSide {
 
 	@Override
 	public boolean canConnect() {
-		for ( IContentHandler handler : getContentHandlers() ) {
+		for(IContentHandler handler : getContentHandlers()) {
 			if (handler.canConnectToSide(this)) {
 				return true;
 			}

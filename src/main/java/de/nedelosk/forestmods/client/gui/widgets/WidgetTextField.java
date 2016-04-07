@@ -212,7 +212,7 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 		int k = p_146197_2_;
 		boolean flag1 = p_146197_1_ < 0;
 		int l = Math.abs(p_146197_1_);
-		for ( int i1 = 0; i1 < l; ++i1 ) {
+		for(int i1 = 0; i1 < l; ++i1) {
 			if (flag1) {
 				while (p_146197_3_ && k > 0 && this.text.charAt(k - 1) == 32) {
 					--k;

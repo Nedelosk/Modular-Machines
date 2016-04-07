@@ -96,7 +96,7 @@ public class InventoryWrapper implements ISidedInventory {
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
 		int[] slots = new int[inv.getSizeInventory()];
-		for ( int i = 0; i < slots.length; i++ ) {
+		for(int i = 0; i < slots.length; i++) {
 			slots[i] = i;
 		}
 		return slots;

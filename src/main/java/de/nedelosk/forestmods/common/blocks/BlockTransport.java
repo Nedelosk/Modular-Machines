@@ -60,7 +60,7 @@ public class BlockTransport extends BlockContainerForest {
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 		subItems.add(new ItemStack(item));
-		for ( int i = 0; i < ForestModsApi.getNodeTypes().size(); i++ ) {
+		for(int i = 0; i < ForestModsApi.getNodeTypes().size(); i++) {
 			subItems.add(new ItemStack(item, 1, i + 1));
 		}
 	}
@@ -114,7 +114,7 @@ public class BlockTransport extends BlockContainerForest {
 		if (tile instanceof TileEntityTransportNode) {
 			TileEntityTransportNode tileNode = (TileEntityTransportNode) tile;
 			ITransportNode node = tileNode.getPart();
-			for ( ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS ) {
+			for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
 				INodeSide side = node.getSide(direction);
 				if (!side.canConnect() && side.isConnected()) {
 					side.setNodeMode(EnumNodeMode.NONE);

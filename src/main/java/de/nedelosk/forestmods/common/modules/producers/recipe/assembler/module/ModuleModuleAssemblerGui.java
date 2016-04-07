@@ -4,12 +4,12 @@ import java.util.List;
 
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.api.utils.ModuleUID;
+import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleProducerRecipeGui;
 
 public class ModuleModuleAssemblerGui extends ModuleProducerRecipeGui<ModuleModuleAssembler, IModuleSaver> {

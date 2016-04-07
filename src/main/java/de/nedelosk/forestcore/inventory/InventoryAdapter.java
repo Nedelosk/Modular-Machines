@@ -27,7 +27,7 @@ public class InventoryAdapter implements IInventoryAdapter {
 	 */
 	public InventoryAdapter copy() {
 		InventoryAdapter copy = new InventoryAdapter(inventory.getSizeInventory(), inventory.getInventoryName(), inventory.getInventoryStackLimit());
-		for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
+		for(int i = 0; i < inventory.getSizeInventory(); i++) {
 			if (inventory.getStackInSlot(i) != null) {
 				copy.setInventorySlotContents(i, inventory.getStackInSlot(i).copy());
 			}

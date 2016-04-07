@@ -31,9 +31,9 @@ public class ItemMetal extends ItemModular {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.icons = new IIcon[metals.length * 10];
-		for ( int m = 0; m < metals.length; m++ ) {
+		for(int m = 0; m < metals.length; m++) {
 			String[] metal = metals[m];
-			for ( int i = 0; i < metal.length; ++i ) {
+			for(int i = 0; i < metal.length; ++i) {
 				this.icons[m * 10 + i] = iconRegister.registerIcon("forestmods:" + uln + "/" + iconName + metal[i]);
 			}
 		}
@@ -41,9 +41,9 @@ public class ItemMetal extends ItemModular {
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for ( int m = 0; m < metals.length; m++ ) {
+		for(int m = 0; m < metals.length; m++) {
 			String[] metal = metals[m];
-			for ( int i = 0; i < metal.length; ++i ) {
+			for(int i = 0; i < metal.length; ++i) {
 				list.add(new ItemStack(item, 1, m * 10 + i));
 			}
 		}

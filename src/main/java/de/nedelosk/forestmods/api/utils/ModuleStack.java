@@ -3,7 +3,7 @@ package de.nedelosk.forestmods.api.utils;
 import de.nedelosk.forestmods.api.material.IMaterial;
 import de.nedelosk.forestmods.api.material.MaterialRegistry;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.producers.IModule;
+import de.nedelosk.forestmods.api.modules.IModule;
 import net.minecraft.nbt.NBTTagCompound;
 
 public final class ModuleStack<M extends IModule> {
@@ -50,10 +50,12 @@ public final class ModuleStack<M extends IModule> {
 	public static ModuleStack loadFromNBT(NBTTagCompound nbt, IModular modular) {
 		ModuleUID UID = new ModuleUID(nbt.getString("UID"));
 		IMaterial material = MaterialRegistry.getMaterial(nbt.getString("Material"));
-		NBTTagCompound nbtTag = new NBTTagCompound();
+		NBTTagCompound nbtTag = nbt.getCompoundTag("Modules");
 		IModule module = ModuleManager.moduleRegistry.getModule(material, UID);
+		ModuleStack moduleStack = new ModuleStack(UID, material, module);
+		module.onAddInModular(modular, moduleStack);
 		module.readFromNBT(nbtTag, modular);
-		return new ModuleStack(UID, material, module);
+		return moduleStack;
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {

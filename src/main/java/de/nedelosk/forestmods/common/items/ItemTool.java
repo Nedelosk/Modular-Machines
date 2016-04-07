@@ -40,9 +40,9 @@ public class ItemTool extends Item {
 
 	@Override
 	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
-		aList.add(StatCollector.translateToLocal("forestday.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
-		aList.add(StatCollector.translateToLocal("forestday.tooltip.tier") + (getTier()));
-		aList.add(StatCollector.translateToLocal("forestday.tooltip.material") + (material.getMaterial()));
+		aList.add(StatCollector.translateToLocal("forestmods.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
+		aList.add(StatCollector.translateToLocal("forestmods.tooltip.tier") + (getTier()));
+		aList.add(StatCollector.translateToLocal("forestmods.tooltip.material") + (material.getMaterial()));
 	}
 
 	public static enum Material {

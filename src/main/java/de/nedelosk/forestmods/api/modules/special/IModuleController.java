@@ -1,10 +1,24 @@
 package de.nedelosk.forestmods.api.modules.special;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.producers.IModule;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import java.util.List;
+
+import de.nedelosk.forestmods.api.modules.IModule;
+import de.nedelosk.forestmods.api.utils.ModularException;
 
 public interface IModuleController extends IModule {
 
-	boolean canAssembleModular(IModular modular, ModuleStack<IModuleController> moduleStack);
+	/**
+	 * Test has the modular all the required modules.
+	 */
+	void canAssembleModular() throws ModularException;
+
+	/**
+	 * @return The allowed modules for that type of modular controller
+	 */
+	List<Class<? extends IModule>> getAllowedModules();
+
+	/**
+	 * @return The required modules for that type of modular controller
+	 */
+	List<Class<? extends IModule>> getRequiredModules();
 }

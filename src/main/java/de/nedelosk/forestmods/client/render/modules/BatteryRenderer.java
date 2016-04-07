@@ -10,9 +10,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.managers.IModularUtilsManager;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
+import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -58,9 +57,9 @@ public class BatteryRenderer extends AdvancedRenderer {
 		this.Battery_Base.addBox(0.0F, 0.0F, 0.0F, 1, 8, 8, 0.0F);
 		int energy;
 		if (modular.isAssembled()) {
-			if (modular.getManager(IModularUtilsManager.class).getEnergyHandler() != null) {
-				energy = (modular.getManager(IModularUtilsManager.class).getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
-						/ (modular.getManager(IModularUtilsManager.class).getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
+			if (modular.getEnergyHandler() != null) {
+				energy = (modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
+						/ (modular.getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
 			} else {
 				energy = 0;
 			}

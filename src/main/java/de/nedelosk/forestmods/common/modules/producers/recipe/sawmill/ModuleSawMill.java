@@ -7,15 +7,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeSawMill;
-import de.nedelosk.forestmods.api.producers.handlers.gui.IModuleGui;
-import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGui;
+import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.recipes.RecipeSawMill;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
 import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleProducerRecipe;
 
 public class ModuleSawMill extends ModuleProducerRecipe {
 

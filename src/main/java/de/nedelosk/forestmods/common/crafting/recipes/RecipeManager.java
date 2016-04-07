@@ -40,7 +40,7 @@ public class RecipeManager {
 
 	private static void parseRecipes() {
 		File file = new File(ForestMods.configFolder, "recipes");
-		for ( String recipeName : RecipeRegistry.getRecipes().keySet() ) {
+		for(String recipeName : RecipeRegistry.getRecipes().keySet()) {
 			try {
 				File recipeFile = new File(file, recipeName.toLowerCase(Locale.ENGLISH) + "_recipes.json");
 				if (!recipeFile.exists()) {
@@ -68,7 +68,7 @@ public class RecipeManager {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		for ( Entry<String, ArrayList<IRecipe>> recipeEntry : RecipeRegistry.getRecipes().entrySet() ) {
+		for(Entry<String, ArrayList<IRecipe>> recipeEntry : RecipeRegistry.getRecipes().entrySet()) {
 			try {
 				File recipeFile = new File(file, recipeEntry.getKey().toLowerCase(Locale.ENGLISH) + "_recipes.json");
 				if (!recipeFile.exists()) {
@@ -106,8 +106,8 @@ public class RecipeManager {
 				e.printStackTrace();
 			}
 		}
-		dafault : for ( IRecipe r : recipeEntry.getValue() ) {
-			for ( RecipeEntry entry : groupDefault.recipes ) {
+		dafault: for(IRecipe r : recipeEntry.getValue()) {
+			for(RecipeEntry entry : groupDefault.recipes) {
 				if (r.getRecipeName().equals(entry.name)) {
 					continue dafault;
 				}
@@ -117,7 +117,7 @@ public class RecipeManager {
 		}
 		jsonReader.close();
 		JsonArray array = new JsonArray();
-		for ( Entry<String, RecipeGroup> group : groups.entrySet() ) {
+		for(Entry<String, RecipeGroup> group : groups.entrySet()) {
 			array.add(GSON.toJsonTree(group.getValue()));
 		}
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
@@ -128,7 +128,7 @@ public class RecipeManager {
 	private static Map<String, RecipeGroup> getGoups(JsonElement element) {
 		Map<String, RecipeGroup> groups = Maps.newHashMap();
 		if (element != null && element != JsonNull.INSTANCE && element.isJsonArray()) {
-			for ( int i = 0; i < element.getAsJsonArray().size(); i++ ) {
+			for(int i = 0; i < element.getAsJsonArray().size(); i++) {
 				try {
 					JsonElement json = ((JsonArray) element).get(i);
 					RecipeGroup group = GSON.fromJson(json, RecipeGroup.class);
@@ -143,8 +143,8 @@ public class RecipeManager {
 
 	private static ArrayList<IRecipe> getActiveRecipes(Map<String, RecipeGroup> groups) {
 		ArrayList<IRecipe> recipes = new ArrayList();
-		for ( RecipeGroup group : groups.values() ) {
-			for ( RecipeEntry recipe : group.recipes ) {
+		for(RecipeGroup group : groups.values()) {
+			for(RecipeEntry recipe : group.recipes) {
 				if (recipe.isActive) {
 					recipes.add(recipe.recipe);
 				}
@@ -179,7 +179,7 @@ public class RecipeManager {
 		public RecipeGroup(ArrayList<IRecipe> recipes, String name) {
 			this.isActive = true;
 			this.recipes = new ArrayList();
-			for ( IRecipe recipe : recipes ) {
+			for(IRecipe recipe : recipes) {
 				this.recipes.add(new RecipeEntry(recipe.getRecipeName(), true, recipe));
 			}
 			this.name = name;

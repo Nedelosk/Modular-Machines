@@ -32,8 +32,8 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	}
 
 	public static boolean isItemInput(ItemStack stack) {
-		for ( BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes ) {
-			for ( Object oj : sr.getInput() ) {
+		for(BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes) {
+			for(Object oj : sr.getInput()) {
 				if (oj instanceof ItemStack) {
 					ItemStack stackInput = (ItemStack) oj;
 					if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
@@ -42,7 +42,7 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 					}
 				} else if (oj instanceof OreStack) {
 					List<ItemStack> list = OreDictionary.getOres(((OreStack) oj).oreDict);
-					for ( ItemStack stackInput : list ) {
+					for(ItemStack stackInput : list) {
 						if (stackInput.getItem() == stack.getItem() && stackInput.getItemDamage() == stack.getItemDamage()
 								&& ItemStack.areItemStackTagsEqual(stack, stackInput)) {
 							return true;
@@ -55,9 +55,9 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 	}
 
 	public static BlastFurnaceRecipe getRecipe(ItemStack[] inputs) {
-		for ( BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes ) {
+		for(BlastFurnaceRecipe sr : BlastFurnaceRecipeManager.recipes) {
 			boolean isBreak = false;
-			Inputs : for ( int i = 0; i < sr.getInput().length; i++ ) {
+			Inputs: for(int i = 0; i < sr.getInput().length; i++) {
 				if (sr.getInput()[i] != null) {
 					if (inputs[i] == null) {
 						isBreak = true;
@@ -76,7 +76,7 @@ public class BlastFurnaceRecipeManager implements IBlastFurnaceRecipe {
 							break;
 						}
 						int ore = OreDictionary.getOreID(((OreStack) sr.getInput()[i]).getOreDict());
-						for ( int oreID : OreDictionary.getOreIDs(inputs[i]) ) {
+						for(int oreID : OreDictionary.getOreIDs(inputs[i])) {
 							if (oreID == ore) {
 								continue Inputs;
 							}

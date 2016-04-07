@@ -1,9 +1,8 @@
 package de.nedelosk.forestmods.common.items;
 
-import de.nedelosk.forestmods.api.crafting.ITool;
 import net.minecraft.item.ItemStack;
 
-public class ItemToolCrafting extends ItemTool implements ITool {
+public class ItemToolCrafting extends ItemTool {
 
 	protected int damage;
 
@@ -27,13 +26,8 @@ public class ItemToolCrafting extends ItemTool implements ITool {
 	@Override
 	public ItemStack getContainerItem(ItemStack stack) {
 		ItemStack itemstack = stack.copy();
-		itemstack.setItemDamage(itemstack.getItemDamage() + 5);
+		itemstack.setItemDamage(itemstack.getItemDamage() + damage);
 		itemstack.stackSize = 1;
 		return itemstack;
-	}
-
-	@Override
-	public int getDamage() {
-		return damage;
 	}
 }

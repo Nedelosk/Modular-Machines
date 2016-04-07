@@ -80,7 +80,7 @@ public class WorldUtil {
 			return;
 		}
 		IInventory inventory = (IInventory) tile;
-		for ( int i = 0; i < inventory.getSizeInventory(); i++ ) {
+		for(int i = 0; i < inventory.getSizeInventory(); i++) {
 			ItemStack item = inventory.getStackInSlot(i);
 			if (item != null && item.stackSize > 0) {
 				dropItem(world, x, y, z, item);
@@ -102,24 +102,22 @@ public class WorldUtil {
 
 	public static void dropItem(World world, int x, int y, int z, ItemStack item) {
 		Random rand = new Random();
-		if (!world.isRemote && item != null && item.stackSize > 0) {
-			/*
-			 * float rx = rand.nextFloat() * 0.8F + 0.1F; float ry =
-			 * rand.nextFloat() * 0.8F + 0.1F; float rz = rand.nextFloat() *
-			 * 0.8F + 0.1F;
-			 */
-			float f = 0.7F;
-			double rx = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-			double ry = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-			double rz = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-			EntityItem entityItem = new EntityItem(world, x, y, z, item.copy());
-			world.spawnEntityInWorld(entityItem);
-			item = null;
+		float f = rand.nextFloat() * 0.8F + 0.1F;
+		float f1 = rand.nextFloat() * 0.8F + 0.1F;
+		float f2 = rand.nextFloat() * 0.8F + 0.1F;
+		if (!world.isRemote && item != null && world.getGameRules().getGameRuleBooleanValue("doTileDrops") && !world.restoringBlockSnapshots
+				&& item.stackSize > 0) {
+			EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, item.copy());
+			entityitem.delayBeforeCanPickup = 10;
+			entityitem.motionX = (float) rand.nextGaussian() * 0.05F;
+			entityitem.motionY = (float) rand.nextGaussian() * 0.05F + 0.2F;
+			entityitem.motionZ = (float) rand.nextGaussian() * 0.05F;
+			world.spawnEntityInWorld(entityitem);
 		}
 	}
 
 	public static void dropItem(World world, int x, int y, int z, ItemStack[] stacks) {
-		for ( ItemStack stack : stacks ) {
+		for(ItemStack stack : stacks) {
 			dropItem(world, x, y, z, stack);
 		}
 	}

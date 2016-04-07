@@ -32,7 +32,7 @@ public class TransportPart implements ITransportPart {
 	@Override
 	public void createSides() {
 		this.sides = new IPartSide[6];
-		for ( ForgeDirection side : ForgeDirection.VALID_DIRECTIONS ) {
+		for(ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			sides[side.ordinal()] = new PartSide(side, this);
 		}
 	}
@@ -63,7 +63,7 @@ public class TransportPart implements ITransportPart {
 		ITransportSystem bestSystem = null;
 		// Look for a compatible controller in our neighboring parts.
 		List<ITransportPart> partsToCheck = getNeighboringParts();
-		for ( ITransportPart neighborPart : partsToCheck ) {
+		for(ITransportPart neighborPart : partsToCheck) {
 			if (neighborPart.isConnected()) {
 				ITransportSystem candidate = neighborPart.getSystem();
 				if (!candidate.getClass().equals(getSystemType())) {
@@ -96,9 +96,9 @@ public class TransportPart implements ITransportPart {
 		TileEntity te;
 		List<ITransportPart> neighborParts = new ArrayList<ITransportPart>();
 		IChunkProvider chunkProvider = tileEntity.getWorldObj().getChunkProvider();
-		testSide : for ( IPartSide side : getSides() ) {
+		testSide: for(IPartSide side : getSides()) {
 			if (side.isActive()) {
-				for ( int i = 1; i < 9; i++ ) {
+				for(int i = 1; i < 9; i++) {
 					int x = xCoord + (side.getSide().offsetX * i);
 					int y = yCoord + (side.getSide().offsetY * i);
 					int z = zCoord + (side.getSide().offsetZ * i);
@@ -139,7 +139,7 @@ public class TransportPart implements ITransportPart {
 
 	protected NBTTagList writeSidesToNBT() {
 		NBTTagList list = new NBTTagList();
-		for ( IPartSide side : getSides() ) {
+		for(IPartSide side : getSides()) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			side.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);
@@ -149,7 +149,7 @@ public class TransportPart implements ITransportPart {
 
 	protected void readSidesFromNBT(NBTTagList list) {
 		sides = new IPartSide[6];
-		for ( int i = 0; i < 6; i++ ) {
+		for(int i = 0; i < 6; i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			sides[i] = new PartSide(ForgeDirection.values()[i], this);
 			sides[i].readFromNBT(nbtTag);

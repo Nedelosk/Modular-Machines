@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.client.gui.multiblocks;
 
 import de.nedelosk.forestcore.gui.GuiBase;
-import de.nedelosk.forestcore.gui.WidgetFluidTank;
+import de.nedelosk.forestmods.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort.PortType;
 import net.minecraft.client.gui.FontRenderer;

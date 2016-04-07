@@ -58,7 +58,7 @@ public class BlockOre extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.oreIcon = new IIcon[ore.length];
-		for ( int i = 0; i < this.oreIcon.length; ++i ) {
+		for(int i = 0; i < this.oreIcon.length; ++i) {
 			this.oreIcon[i] = iconRegister.registerIcon("forestmods:ore" + ore[i]);
 		}
 	}
@@ -66,7 +66,7 @@ public class BlockOre extends BlockForest {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for ( int i = 0; i < ore.length; i++ ) {
+		for(int i = 0; i < ore.length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}

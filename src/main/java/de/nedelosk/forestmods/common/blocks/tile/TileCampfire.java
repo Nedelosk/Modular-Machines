@@ -26,7 +26,7 @@ public class TileCampfire extends TileMachineBase {
 	}
 
 	@Override
-	public String getMachineName() {
+	public String getTitle() {
 		return "campfire";
 	}
 

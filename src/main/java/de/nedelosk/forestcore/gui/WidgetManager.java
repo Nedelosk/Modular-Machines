@@ -32,7 +32,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		if (slots == null) {
 			return;
 		}
-		for ( Widget slot : slots ) {
+		for(Widget slot : slots) {
 			if (!widgets.contains(slot)) {
 				widgets.add(slot);
 			}
@@ -49,7 +49,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	protected Widget getAtPosition(int mX, int mY) {
-		for ( Widget slot : widgets ) {
+		for(Widget slot : widgets) {
 			if (slot.isMouseOver(mX, mY)) {
 				return slot;
 			}
@@ -58,18 +58,18 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawWidgets() {
-		for ( Widget slot : widgets ) {
+		for(Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.draw(gui);
 		}
-		for ( Widget slot : widgets ) {
+		for(Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawStrings(gui);
 		}
 	}
 
 	public boolean keyTyped(char keyChar, int keyCode) {
-		for ( Widget slot : widgets ) {
+		for(Widget slot : widgets) {
 			if (slot.keyTyped(keyChar, keyCode, gui)) {
 				return true;
 			}
@@ -78,9 +78,9 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for ( Widget slot : widgets ) {
+		for(Widget slot : widgets) {
 			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
-				RenderUtil.renderTooltip(mX - gui.getGuiLeft(), mY - gui.getGuiTop(), slot.getTooltip(gui));
+				RenderUtil.renderTooltip(mX, mY, slot.getTooltip(gui));
 			}
 		}
 	}

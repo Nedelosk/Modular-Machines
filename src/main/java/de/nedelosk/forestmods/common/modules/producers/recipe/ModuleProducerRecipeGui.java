@@ -9,12 +9,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.api.utils.ModuleUID;
+import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
@@ -42,7 +42,7 @@ public class ModuleProducerRecipeGui<M extends IModuleProducerRecipe, S extends 
 	@Override
 	public void updateGui(IGuiBase base, int x, int y, IModular modular, ModuleStack<M, S, T> stack) {
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
-		for ( Widget widget : widgets ) {
+		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
 				ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
 				if (engine != null) {

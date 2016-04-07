@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.common.blocks.tile.TileModularMachine;
-import de.nedelosk.forestmods.common.modular.ModularMachine;
+import de.nedelosk.forestmods.common.blocks.tile.TileModular;
+import de.nedelosk.forestmods.common.modular.Modular;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,36 +20,40 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
-		if (entity instanceof TileModularMachine) {
-			TileModularMachine machineTile = (TileModularMachine) entity;
+		if (entity instanceof TileModular) {
+			TileModular machineTile = (TileModular) entity;
 			IRenderState state = new RenderState(null, x, y, z, machineTile.modular);
-			ISimpleRenderer renderer = machineTile.modular.getRenderer(state);
-			if (machineTile.modular != null && renderer != null) {
-				renderer.render(state);
+			if (machineTile.modular != null) {
+				ISimpleRenderer renderer = machineTile.modular.getRenderer(state);
+				if (renderer != null) {
+					renderer.render(state);
+				}
 			}
 		}
 	}
 
-	public void renderTileEntityItem(ItemStack stack) {
+	public void renderItem(ItemStack stack) {
 		NBTTagCompound tagCompound = stack.getTagCompound();
 		if (!stack.hasTagCompound()) {
 			return;
 		}
 		IModular machine;
 		if (getEntry(stack) == null) {
-			machine = setEntry(new ModularMachine(tagCompound.getCompoundTag("Machine")), stack).modular;
+			machine = addEntry(new Modular(tagCompound.getCompoundTag("Machine"), null), stack).modular;
 		} else {
 			machine = getEntry(stack).modular;
 		}
 		IRenderState state = new RenderState(stack, 0, 0, 0, machine);
-		ISimpleRenderer renderer = machine.getRenderer(state);
-		if (machine != null && renderer != null) {
-			renderer.render(state);
+		if (machine != null) {
+			ISimpleRenderer renderer = machine.getRenderer(state);
+			if (renderer != null) {
+				renderer.render(state);
+			}
 		}
 	}
 
 	public RenderEntry getEntry(ItemStack stack) {
-		for ( RenderEntry entry : entrys ) {
+		for(RenderEntry entry : entrys) {
 			if (entry.equals(stack)) {
 				return entry;
 			}
@@ -57,7 +61,7 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		return null;
 	}
 
-	public RenderEntry setEntry(IModular modular, ItemStack stack) {
+	public RenderEntry addEntry(IModular modular, ItemStack stack) {
 		RenderEntry entry = new RenderEntry(modular, stack);
 		entrys.add(entry);
 		return entry;
@@ -72,6 +76,11 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		IModular modular;
 
 		public RenderState(ItemStack itemStack, double x, double y, double z, IModular modular) {
+			this.itemStack = itemStack;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.modular = modular;
 		}
 
 		@Override

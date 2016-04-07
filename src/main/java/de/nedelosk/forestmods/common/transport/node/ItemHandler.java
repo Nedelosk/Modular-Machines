@@ -29,10 +29,10 @@ public class ItemHandler implements IContentHandler<IInventory> {
 	}
 
 	public boolean extractItems() {
-		for ( INodeSide side : node.getSides() ) {
+		for(INodeSide side : node.getSides()) {
 			if (side.isConnected() && getHandler(side) != null) {
 				IInventory inventory = getHandler(side);
-				for ( int slotIndex = 0; slotIndex < inventory.getSizeInventory(); slotIndex++ ) {
+				for(int slotIndex = 0; slotIndex < inventory.getSizeInventory(); slotIndex++) {
 					if (inventory.getStackInSlot(slotIndex) != null) {
 						if (((ISidedInventory) inventory).canExtractItem(slotIndex, inventory.getStackInSlot(slotIndex), side.getSide().ordinal())) {
 						}
@@ -66,8 +66,8 @@ public class ItemHandler implements IContentHandler<IInventory> {
 
 	@Override
 	public void update() {
-		for ( ITransportNode node : node.getSystem().getNodes() ) {
-			for ( INodeSide side : node.getSides() ) {
+		for(ITransportNode node : node.getSystem().getNodes()) {
+			for(INodeSide side : node.getSides()) {
 				if (side.getSideTile() instanceof IInventory) {
 					inventorys.add(new Inventory(side, side.getPart().getWorldLocation().getDistSq(node.getWorldLocation())));
 				}

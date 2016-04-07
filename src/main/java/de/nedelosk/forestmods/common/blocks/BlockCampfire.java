@@ -38,7 +38,7 @@ public class BlockCampfire extends BlockContainerForest {
 		setStepSound(soundTypeWood);
 		setCreativeTab(Tabs.tabForestMods);
 		setBlockName("campfire");
-		setHarvestLevel("pickaxe", 0, 1);
+		setHardness(0.5F);
 	}
 
 	@Override
@@ -153,6 +153,11 @@ public class BlockCampfire extends BlockContainerForest {
 	}
 
 	@Override
+	public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_) {
+		super.onBlockDestroyedByPlayer(p_149664_1_, p_149664_2_, p_149664_3_, p_149664_4_, p_149664_5_);
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileCampfire();
 	}
@@ -195,7 +200,6 @@ public class BlockCampfire extends BlockContainerForest {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		list.add(new ItemStack(item, 1, 1));
 	}
 
 	@Override

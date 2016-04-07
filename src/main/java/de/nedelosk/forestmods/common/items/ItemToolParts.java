@@ -30,14 +30,14 @@ public class ItemToolParts extends ItemForest {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = new IIcon[parts.length];
-		for ( int i = 0; i < this.itemIcon.length; ++i ) {
+		for(int i = 0; i < this.itemIcon.length; ++i) {
 			this.itemIcon[i] = iconRegister.registerIcon("forestmods:toolparts/" + parts[i]);
 		}
 	}
 
 	@Override
 	public void getSubItems(Item id, CreativeTabs tab, List list) {
-		for ( int i = 0; i < parts.length; i++ ) {
+		for(int i = 0; i < parts.length; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
 	}

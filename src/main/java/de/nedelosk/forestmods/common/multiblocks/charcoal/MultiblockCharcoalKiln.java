@@ -2,25 +2,22 @@ package de.nedelosk.forestmods.common.multiblocks.charcoal;
 
 import de.nedelosk.forestcore.multiblock.IMultiblockPart;
 import de.nedelosk.forestcore.multiblock.MultiblockControllerBase;
+import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestcore.multiblock.RectangularMultiblockControllerBase;
 import de.nedelosk.forestcore.utils.BlockPos;
 import de.nedelosk.forestcore.utils.Log;
-import de.nedelosk.forestmods.api.crafting.ForestDayCrafting;
-import de.nedelosk.forestmods.api.crafting.WoodType;
-import de.nedelosk.forestmods.common.blocks.tile.TileAsh;
+import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.config.Config;
-import de.nedelosk.forestmods.common.core.BlockManager;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase {
 
 	private int burnTime;
-	private static int burnTimeTotal = Config.charcoalKilnBurnTime;
 	private boolean isActive;
-	private WoodType woodType;
 	private int timer;
 
 	public MultiblockCharcoalKiln(World world) {
@@ -41,10 +38,6 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 
 	public int getBurnTime() {
 		return burnTime;
-	}
-
-	public int getBurnTimeTotal() {
-		return burnTimeTotal;
 	}
 
 	@Override
@@ -76,31 +69,32 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 	protected void onMachineDisassembled() {
 		isActive = false;
 		burnTime = 0;
+		markReferenceCoordForUpdate();
 	}
 
 	@Override
 	protected int getMinimumNumberOfBlocksForAssembledMachine() {
-		return 18;
+		return 20;
 	}
 
 	@Override
 	protected int getMaximumXSize() {
-		return 3;
+		return 9;
 	}
 
 	@Override
 	protected int getMaximumYSize() {
-		return 2;
+		return 6;
 	}
 
 	@Override
 	protected int getMaximumZSize() {
-		return 3;
+		return 9;
 	}
 
 	@Override
 	protected int getMinimumXSize() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -110,7 +104,7 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 
 	@Override
 	protected int getMinimumZSize() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -131,26 +125,9 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 		if (!isActive()) {
 			return false;
 		}
-		if (burnTime >= burnTimeTotal) {
-			BlockPos min = getMinimumCoord();
-			BlockPos max = getMaximumCoord();
-			for ( int x = min.x; x < max.x + 1; x++ ) {
-				for ( int z = min.z; z < max.z + 1; z++ ) {
-					for ( int y = min.y; y < max.y + 1; y++ ) {
-						TileCharcoalKiln kiln = (TileCharcoalKiln) worldObj.getTileEntity(x, y, z);
-						if (kiln.getLevel() == 0) {
-							TileCharcoalKiln kiln1 = (TileCharcoalKiln) worldObj.getTileEntity(x, y + 1, z);
-							worldObj.setBlock(x, y, z, BlockManager.blockGravel, 1, 3);
-							TileEntity tile = worldObj.getTileEntity(x, y, z);
-							if (tile instanceof TileAsh) {
-								((TileAsh) tile).setWoodTypes(new WoodType[] { kiln.getWoodType(), kiln1.getWoodType() });
-							}
-							worldObj.markBlockForUpdate(x, y, z);
-						} else {
-							worldObj.setBlockToAir(x, y, z);
-						}
-					}
-				}
+		if (burnTime >= Config.charcoalKilnBurnTime) {
+			for(IMultiblockPart part : connectedParts) {
+				((TileCharcoalKiln) part).setIsAsh();
 			}
 		} else {
 			burnTime++;
@@ -167,25 +144,84 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 	}
 
 	@Override
+	protected void isMachineWhole() throws MultiblockValidationException {
+		if (connectedParts.size() < getMinimumNumberOfBlocksForAssembledMachine()) {
+			throw new MultiblockValidationException(StatCollector.translateToLocal("multiblock.error.small"));
+		}
+		BlockPos maximumCoord = getMaximumCoord();
+		BlockPos minimumCoord = getMinimumCoord();
+		// Quickly check for exceeded dimensions
+		int deltaX = maximumCoord.x - minimumCoord.x + 1;
+		int deltaY = maximumCoord.y - minimumCoord.y + 1;
+		int deltaZ = maximumCoord.z - minimumCoord.z + 1;
+		int maxX = getMaximumXSize();
+		int maxY = getMaximumYSize();
+		int maxZ = getMaximumZSize();
+		int minX = getMinimumXSize();
+		int minY = getMinimumYSize();
+		int minZ = getMinimumZSize();
+		if (maxX > 0 && deltaX > maxX) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.large.x", maxX));
+		}
+		if (maxY > 0 && deltaY > maxY) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.large.y", maxY));
+		}
+		if (maxZ > 0 && deltaZ > maxZ) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.large.z", maxZ));
+		}
+		if (deltaX < minX) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.small.x", minX));
+		}
+		if (deltaY < minY) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.small.y", minY));
+		}
+		if (deltaZ < minZ) {
+			throw new MultiblockValidationException(StatCollector.translateToLocalFormatted("multiblock.error.small.z", minZ));
+		}
+		testKilnLayer(worldObj, minimumCoord.x, minimumCoord.y, minimumCoord.z, maximumCoord.x, maximumCoord.z);
+	}
+
+	protected void testKilnLayer(World world, int x, int y, int z, int maxX, int maxZ) throws MultiblockValidationException {
+		int partsOnLayer = 0;
+		for(IMultiblockPart part : connectedParts) {
+			if (part.yCoord == y) {
+				if (part.xCoord < x || part.xCoord > maxX || part.zCoord < z || part.zCoord > maxZ) {
+					throw new MultiblockValidationException("To much charcoal kiln block at: " + part.xCoord + ", " + y + ", " + part.zCoord);
+				}
+				partsOnLayer++;
+			}
+		}
+		if (partsOnLayer < 4) {
+			throw new MultiblockValidationException("The charcoal kiln top is to small.");
+		}
+		for(int posX = x; posX <= maxX; posX++) {
+			for(int posZ = z; posZ <= maxZ; posZ++) {
+				Block block = world.getBlock(posX, y, posZ);
+				if (!(block instanceof BlockCharcoalKiln)) {
+					throw new MultiblockValidationException("No charcoal kiln block at: " + posX + ", " + y + ", " + posZ);
+				}
+			}
+		}
+		if (y != getMaximumCoord().y) {
+			testKilnLayer(worldObj, x + 1, y + 1, z + 1, maxX - 1, maxZ - 1);
+		} /*
+			 * else{ if(maxX - x != 1){ throw new MultiblockValidationException(
+			 * "The charcoal kiln is to small"); } }
+			 */
+	}
+
+	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger("BurnTime", burnTime);
-		data.setInteger("BurnTimeTotal", burnTimeTotal);
 		data.setBoolean("IsActive", isActive);
 		data.setInteger("Timer", timer);
-		if (woodType != null) {
-			data.setString("WoodType", woodType.getName());
-		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		burnTime = data.getInteger("BurnTime");
-		burnTimeTotal = data.getInteger("BurnTimeTotal");
 		isActive = data.getBoolean("IsActive");
 		timer = data.getInteger("Timer");
-		if (data.hasKey("WoodType")) {
-			woodType = ForestDayCrafting.woodManager.get(data.getString("WoodType"));
-		}
 	}
 
 	@Override

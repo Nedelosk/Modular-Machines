@@ -40,7 +40,7 @@ public class TransportWorldRegistry {
 
 	public void tickStart() {
 		if (systems.size() > 0) {
-			for ( ITransportSystem system : systems ) {
+			for(ITransportSystem system : systems) {
 				if (system.getWorldObj() == worldObj && system.getWorldObj().isRemote == worldObj.isRemote) {
 					if (system.isEmpty()) {
 						deadSystem.add(system);
@@ -64,7 +64,7 @@ public class TransportWorldRegistry {
 			}
 			if (orphansToProcess != null && orphansToProcess.size() > 0) {
 				Set<ITransportSystem> compatibleSystems;
-				for ( ITransportPart orphan : orphansToProcess ) {
+				for(ITransportPart orphan : orphansToProcess) {
 					coord = orphan.getWorldLocation();
 					if (!chunkProvider.chunkExists(coord.getChunkX(), coord.getChunkZ())) {
 						continue;
@@ -86,7 +86,7 @@ public class TransportWorldRegistry {
 						}
 						boolean hasAddedToPool = false;
 						List<Set<ITransportSystem>> candidatePools = new ArrayList<Set<ITransportSystem>>();
-						for ( Set<ITransportSystem> candidatePool : mergePools ) {
+						for(Set<ITransportSystem> candidatePool : mergePools) {
 							if (!Collections.disjoint(candidatePool, compatibleSystems)) {
 								candidatePools.add(candidatePool);
 							}
@@ -98,7 +98,7 @@ public class TransportWorldRegistry {
 						} else {
 							Set<ITransportSystem> masterPool = candidatePools.get(0);
 							Set<ITransportSystem> consumedPool;
-							for ( int i = 1; i < candidatePools.size(); i++ ) {
+							for(int i = 1; i < candidatePools.size(); i++) {
 								consumedPool = candidatePools.get(i);
 								masterPool.addAll(consumedPool);
 								mergePools.remove(consumedPool);
@@ -110,9 +110,9 @@ public class TransportWorldRegistry {
 			}
 		}
 		if (mergePools != null && mergePools.size() > 0) {
-			for ( Set<ITransportSystem> mergePool : mergePools ) {
+			for(Set<ITransportSystem> mergePool : mergePools) {
 				ITransportSystem newMaster = null;
-				for ( ITransportSystem system : mergePool ) {
+				for(ITransportSystem system : mergePool) {
 					if (newMaster == null || system.shouldConsume(newMaster)) {
 						newMaster = system;
 					}
@@ -121,7 +121,7 @@ public class TransportWorldRegistry {
 					Log.fatal("Multiblock system checked a merge pool of size %d, found no master candidates. This should never happen.", mergePool.size());
 				} else {
 					addDirtySystem(newMaster);
-					for ( ITransportSystem system : mergePool ) {
+					for(ITransportSystem system : mergePool) {
 						if (system != newMaster) {
 							addDeadSystem(system);
 							addDirtySystem(newMaster);
@@ -132,7 +132,7 @@ public class TransportWorldRegistry {
 		}
 		if (dirtySystems.size() > 0) {
 			Set<ITransportPart> newlyDetachedParts = null;
-			for ( ITransportSystem system : dirtySystems ) {
+			for(ITransportSystem system : dirtySystems) {
 				newlyDetachedParts = system.checkForDisconnections();
 				if (system.isEmpty()) {
 					addDeadSystem(system);
@@ -144,7 +144,7 @@ public class TransportWorldRegistry {
 			dirtySystems.clear();
 		}
 		if (deadSystem.size() > 0) {
-			for ( ITransportSystem system : deadSystem ) {
+			for(ITransportSystem system : deadSystem) {
 				if (!system.isEmpty()) {
 					Log.fatal("Found a non-empty system. Forcing it to shed its blocks and die. This should never happen!");
 					detachedParts.addAll(system.detachAllBlocks());
@@ -153,7 +153,7 @@ public class TransportWorldRegistry {
 			}
 			deadSystem.clear();
 		}
-		for ( ITransportPart part : detachedParts ) {
+		for(ITransportPart part : detachedParts) {
 			part.assertDetached();
 		}
 		addAllOrphanedPartsThreadsafe(detachedParts);

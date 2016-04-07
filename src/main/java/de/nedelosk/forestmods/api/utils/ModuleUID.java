@@ -6,12 +6,12 @@ public class ModuleUID {
 	private final String moduleUID;
 
 	public ModuleUID(String categoryUID, String moduleUID) {
-		if (categoryUID != null && categoryUID.isEmpty()) {
+		if (categoryUID != null && !categoryUID.isEmpty()) {
 			this.categoryUID = categoryUID;
 		} else {
 			this.categoryUID = "default";
 		}
-		if (moduleUID != null && moduleUID.isEmpty()) {
+		if (moduleUID != null && !moduleUID.isEmpty()) {
 			this.moduleUID = moduleUID;
 		} else {
 			this.moduleUID = "default";

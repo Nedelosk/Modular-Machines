@@ -38,7 +38,7 @@ public class TransportNode implements ITransportNode {
 
 	@Override
 	public void update() {
-		for ( INodeSide side : sides ) {
+		for(INodeSide side : sides) {
 		}
 	}
 
@@ -51,7 +51,7 @@ public class TransportNode implements ITransportNode {
 	public void createSides() {
 		setType(ForestModsApi.getNodeType(tileEntity.getBlockMetadata() - 1));
 		this.sides = new INodeSide[6];
-		for ( ForgeDirection side : ForgeDirection.VALID_DIRECTIONS ) {
+		for(ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			sides[side.ordinal()] = new NodeSide(side, this);
 		}
 	}
@@ -98,7 +98,7 @@ public class TransportNode implements ITransportNode {
 
 	protected void readSidesFromNBT(NBTTagList list) {
 		sides = new INodeSide[6];
-		for ( int i = 0; i < 6; i++ ) {
+		for(int i = 0; i < 6; i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			sides[i] = new NodeSide(ForgeDirection.values()[i], this);
 			sides[i].readFromNBT(nbtTag);
@@ -131,7 +131,7 @@ public class TransportNode implements ITransportNode {
 		ITransportSystem bestSystem = null;
 		// Look for a compatible controller in our neighboring parts.
 		List<ITransportPart> partsToCheck = getNeighboringParts();
-		for ( ITransportPart neighborPart : partsToCheck ) {
+		for(ITransportPart neighborPart : partsToCheck) {
 			if (neighborPart.isConnected()) {
 				ITransportSystem candidate = neighborPart.getSystem();
 				if (!candidate.getClass().equals(getSystemType())) {
@@ -164,9 +164,9 @@ public class TransportNode implements ITransportNode {
 		TileEntity te;
 		List<ITransportPart> neighborParts = new ArrayList<ITransportPart>();
 		IChunkProvider chunkProvider = tileEntity.getWorldObj().getChunkProvider();
-		testSide : for ( IPartSide side : getSides() ) {
+		testSide: for(IPartSide side : getSides()) {
 			if (side.isActive()) {
-				for ( int i = 1; i < 9; i++ ) {
+				for(int i = 1; i < 9; i++) {
 					int x = xCoord + (side.getSide().offsetX * i);
 					int y = yCoord + (side.getSide().offsetY * i);
 					int z = zCoord + (side.getSide().offsetZ * i);
@@ -197,7 +197,7 @@ public class TransportNode implements ITransportNode {
 
 	protected NBTTagList writeSidesToNBT() {
 		NBTTagList list = new NBTTagList();
-		for ( IPartSide side : getSides() ) {
+		for(IPartSide side : getSides()) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			side.writeToNBT(nbtTag);
 			list.appendTag(nbtTag);

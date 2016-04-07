@@ -9,25 +9,23 @@ import net.minecraftforge.client.IItemRenderer;
 public class ItemCampfireRenderer implements IItemRenderer {
 
 	public TileCampfireRenderer rendererCampfire;
-	public String texture;
 
-	public ItemCampfireRenderer(String texture) {
+	public ItemCampfireRenderer() {
 		this.rendererCampfire = (TileCampfireRenderer) ClientProxy.getRenderer(TileCampfire.class);
-		this.texture = texture;
 	}
 
 	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+	public boolean handleRenderType(ItemStack arg0, ItemRenderType arg1) {
 		return true;
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return true;
+	public void renderItem(ItemRenderType arg0, ItemStack stack, Object... arg2) {
+		rendererCampfire.renderItem(stack.getItemDamage(), 0.0D, 0.0D, 0.0D, 0.0F);
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		rendererCampfire.renderItem(item.getItemDamage(), texture);
+	public boolean shouldUseRenderHelper(ItemRenderType arg0, ItemStack arg1, ItemRendererHelper arg2) {
+		return true;
 	}
 }

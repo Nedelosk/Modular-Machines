@@ -56,15 +56,15 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 		if (texture == "curb") {
-			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "curbs_" + Config.campfireCurbs[meta] + ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestmods", "textures/models/campfire_" + "curbs_" + Config.campfireCurbs[meta] + ".png"));
 			model.renderCubs();
 		} else if (texture == "pot_holder") {
 			GL11.glTranslated(0, 0.2, 0);
-			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_" + Config.campfirePotHolders[meta] + ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestmods", "textures/models/campfire_" + "pot_holders_" + Config.campfirePotHolders[meta] + ".png"));
 			model.renderPotHolder();
 		} else if (texture == "pot") {
 			GL11.glTranslated(0, 0.7, 0);
-			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pots_" + Config.campfirePots[meta] + ".png"));
+			RenderUtil.bindTexture(new ResourceLocation("forestmods", "textures/models/campfire_" + "pots_" + Config.campfirePots[meta] + ".png"));
 			model.renderPot();
 		}
 		GL11.glPopMatrix();

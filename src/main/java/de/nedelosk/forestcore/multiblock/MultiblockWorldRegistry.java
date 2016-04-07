@@ -70,7 +70,7 @@ public class MultiblockWorldRegistry {
 	 */
 	public void tickStart() {
 		if (controllers.size() > 0) {
-			for ( MultiblockControllerBase controller : controllers ) {
+			for(MultiblockControllerBase controller : controllers) {
 				if (controller.worldObj == worldObj && controller.worldObj.isRemote == worldObj.isRemote) {
 					if (controller.isEmpty()) {
 						// This happens on the server when the user breaks the
@@ -115,7 +115,7 @@ public class MultiblockWorldRegistry {
 				// Process orphaned blocks
 				// These are blocks that exist in a valid chunk and require a
 				// controller
-				for ( IMultiblockPart orphan : orphansToProcess ) {
+				for(IMultiblockPart orphan : orphansToProcess) {
 					coord = orphan.getWorldLocation();
 					if (!chunkProvider.chunkExists(coord.getChunkX(), coord.getChunkZ())) {
 						continue;
@@ -148,7 +148,7 @@ public class MultiblockWorldRegistry {
 						// Locate the appropriate merge pool(s)
 						boolean hasAddedToPool = false;
 						List<Set<MultiblockControllerBase>> candidatePools = new ArrayList<Set<MultiblockControllerBase>>();
-						for ( Set<MultiblockControllerBase> candidatePool : mergePools ) {
+						for(Set<MultiblockControllerBase> candidatePool : mergePools) {
 							if (!Collections.disjoint(candidatePool, compatibleControllers)) {
 								// They share at least one element, so that
 								// means they will all touch after the merge
@@ -166,7 +166,7 @@ public class MultiblockWorldRegistry {
 							// compatible controllers
 							Set<MultiblockControllerBase> masterPool = candidatePools.get(0);
 							Set<MultiblockControllerBase> consumedPool;
-							for ( int i = 1; i < candidatePools.size(); i++ ) {
+							for(int i = 1; i < candidatePools.size(); i++) {
 								consumedPool = candidatePools.get(i);
 								masterPool.addAll(consumedPool);
 								mergePools.remove(consumedPool);
@@ -184,11 +184,11 @@ public class MultiblockWorldRegistry {
 			// To do this, we combine lists of machines that are touching one
 			// another and therefore
 			// should voltron the fuck up.
-			for ( Set<MultiblockControllerBase> mergePool : mergePools ) {
+			for(Set<MultiblockControllerBase> mergePool : mergePools) {
 				// Search for the new master machine, which will take over all
 				// the blocks contained in the other machines
 				MultiblockControllerBase newMaster = null;
-				for ( MultiblockControllerBase controller : mergePool ) {
+				for(MultiblockControllerBase controller : mergePool) {
 					if (newMaster == null || controller.shouldConsume(newMaster)) {
 						newMaster = controller;
 					}
@@ -199,7 +199,7 @@ public class MultiblockWorldRegistry {
 					// Merge all the other machines into the master machine,
 					// then unregister them
 					addDirtyController(newMaster);
-					for ( MultiblockControllerBase controller : mergePool ) {
+					for(MultiblockControllerBase controller : mergePool) {
 						if (controller != newMaster) {
 							newMaster.assimilate(controller);
 							addDeadController(controller);
@@ -215,7 +215,7 @@ public class MultiblockWorldRegistry {
 		// physically connected to their master.
 		if (dirtyControllers.size() > 0) {
 			Set<IMultiblockPart> newlyDetachedParts = null;
-			for ( MultiblockControllerBase controller : dirtyControllers ) {
+			for(MultiblockControllerBase controller : dirtyControllers) {
 				// Tell the machine to check if any parts are disconnected.
 				// It should return a set of parts which are no longer
 				// connected.
@@ -239,7 +239,7 @@ public class MultiblockWorldRegistry {
 		}
 		// Unregister dead controllers
 		if (deadControllers.size() > 0) {
-			for ( MultiblockControllerBase controller : deadControllers ) {
+			for(MultiblockControllerBase controller : deadControllers) {
 				// Go through any controllers which have marked themselves as
 				// potentially dead.
 				// Validate that they are empty/dead, then unregister them.
@@ -257,7 +257,7 @@ public class MultiblockWorldRegistry {
 		// orphaned
 		// list, and will be checked next tick to see if their chunk is still
 		// loaded.
-		for ( IMultiblockPart part : detachedParts ) {
+		for(IMultiblockPart part : detachedParts) {
 			// Ensure parts know they're detached
 			part.assertDetached();
 		}

@@ -13,7 +13,7 @@ public class MapUtil {
 		List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
 		Collections.sort(list, comperator);
 		Map<K, V> result = new LinkedHashMap<K, V>();
-		for ( Map.Entry<K, V> entry : list ) {
+		for(Map.Entry<K, V> entry : list) {
 			result.put(entry.getKey(), entry.getValue());
 		}
 		return result;

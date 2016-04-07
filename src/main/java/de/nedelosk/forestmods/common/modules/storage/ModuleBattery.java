@@ -10,29 +10,27 @@ import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.inventory.IContainerBase;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.managers.IModularModuleManager;
-import de.nedelosk.forestmods.api.modular.managers.IModularUtilsManager;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGuiBuilder;
+import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.modules.storage.battery.IModuleBattery;
-import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
-import de.nedelosk.forestmods.api.producers.handlers.gui.IModuleGuiBuilder;
-import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.forestmods.api.producers.handlers.inventory.slots.SlotModule;
-import de.nedelosk.forestmods.api.producers.handlers.tank.IModuleTankBuilder;
+import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.api.utils.ModularException;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.forestmods.client.render.modules.BatteryRenderer;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
-import de.nedelosk.forestmods.common.producers.Producer;
-import de.nedelosk.forestmods.common.producers.handlers.ProducerPage;
+import de.nedelosk.forestmods.common.modules.Module;
+import de.nedelosk.forestmods.common.modules.handlers.ProducerPage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class ModuleBattery extends Producer implements IModuleBattery {
+public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	protected int batteryCapacity;
 	protected int speedModifier;
@@ -40,31 +38,38 @@ public abstract class ModuleBattery extends Producer implements IModuleBattery {
 	protected EnergyStorage storage;
 	protected final EnergyStorage defaultStorage;
 
-	public ModuleBattery(EnergyStorage defaultStorage) {
+	public ModuleBattery(String name, EnergyStorage defaultStorage) {
+		super(name);
 		this.defaultStorage = defaultStorage;
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+		super.writeToNBT(nbt, modular);
 		nbt.setInteger("BatteryCapacity", batteryCapacity);
 		nbt.setInteger("speedModifier", speedModifier);
 		nbt.setInteger("energyModifier", energyModifier);
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		storage.writeToNBT(nbtTag);
-		nbtTag.setInteger("Capacity", storage.getMaxEnergyStored());
-		nbtTag.setInteger("MaxReceive", storage.getMaxReceive());
-		nbtTag.setInteger("MaxExtract", storage.getMaxExtract());
-		nbt.setTag("EnergyStorage", nbtTag);
+		if (storage != null) {
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			storage.writeToNBT(nbtTag);
+			nbtTag.setInteger("Capacity", storage.getMaxEnergyStored());
+			nbtTag.setInteger("MaxReceive", storage.getMaxReceive());
+			nbtTag.setInteger("MaxExtract", storage.getMaxExtract());
+			nbt.setTag("EnergyStorage", nbtTag);
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+		super.readFromNBT(nbt, modular);
 		batteryCapacity = nbt.getInteger("BatteryCapacity");
 		speedModifier = nbt.getInteger("speedModifier");
 		energyModifier = nbt.getInteger("energyModifier");
-		NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyStorage");
-		storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
-		storage.readFromNBT(nbtTag);
+		if (nbt.hasKey("EnergyStorage")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyStorage");
+			storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
+			storage.readFromNBT(nbtTag);
+		}
 	}
 
 	@Override
@@ -119,28 +124,29 @@ public abstract class ModuleBattery extends Producer implements IModuleBattery {
 	}
 
 	@Override
-	public void onModularAssembled(IModular modular, ModuleStack stack, ModuleStack<IModuleController> controller, List<ModuleStack> modules)
-			throws ModularException {
-		ItemStack itemStack = modular.getManager(IModularModuleManager.class).getItemStack(stack.getUID());
-		int energy = getStorageEnergy(stack, itemStack.copy());
+	public void onModularAssembled(ModuleStack<IModuleController> controller) throws ModularException {
+		ItemStack itemStack = modular.getItemStack(moduleStack.getUID());
+		int energy = getStorageEnergy(moduleStack, itemStack.copy());
 		EnergyStorage storage = new EnergyStorage(getDefaultStorage().getMaxEnergyStored(), getDefaultStorage().getMaxReceive(),
 				getDefaultStorage().getMaxExtract());
 		storage.setEnergyStored(energy);
 		setStorage(storage);
-		modular.getManager(IModularUtilsManager.class).setEnergyHandler(new EnergyHandler(modular));
+		modular.setEnergyHandler(new EnergyHandler(modular));
 	}
 
 	@Override
-	public ItemStack getDropItem(ModuleStack stackModule, IModular modular) {
-		ItemStack stack = modular.getManager(IModularModuleManager.class).getItemStack(stackModule.getUID());
-		setStorageEnergy(stackModule, modular.getManager(IModularUtilsManager.class).getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN), stack);
+	public ItemStack getDropItem() {
+		ItemStack stack = super.getDropItem();
+		if (modular.getEnergyHandler() != null) {
+			setStorageEnergy(moduleStack, modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN), stack);
+		}
 		return stack;
 	}
 
 	@Override
 	protected IModulePage[] createPages() {
 		IModulePage[] pages = new IModulePage[] { new BatteryPage(0, modular, moduleStack) };
-		return null;
+		return pages;
 	}
 
 	public static class BatteryPage extends ProducerPage<IModuleBattery> {
@@ -152,7 +158,7 @@ public abstract class ModuleBattery extends Producer implements IModuleBattery {
 		@Override
 		public void updateGui(IGuiBase base, int x, int y) {
 			super.updateGui(base, x, y);
-			for ( Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets() ) {
+			for(Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets()) {
 				if (widget instanceof WidgetEnergyField) {
 					((WidgetEnergyField) widget).storage = moduleStack.getModule().getStorage();
 				}

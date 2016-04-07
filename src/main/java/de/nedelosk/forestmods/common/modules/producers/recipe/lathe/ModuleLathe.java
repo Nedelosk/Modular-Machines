@@ -7,12 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.gui.WidgetProgressBar;
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe;
-import de.nedelosk.forestmods.api.modules.producers.recipes.RecipeLathe.LatheModes;
-import de.nedelosk.forestmods.api.producers.handlers.gui.IModuleGui;
-import de.nedelosk.forestmods.api.producers.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGui;
+import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.api.modules.recipes.RecipeLathe;
+import de.nedelosk.forestmods.api.modules.recipes.RecipeLathe.LatheModes;
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
 import de.nedelosk.forestmods.api.recipes.NeiStack;
@@ -20,7 +19,7 @@ import de.nedelosk.forestmods.api.recipes.RecipeItem;
 import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetButtonMode;
-import de.nedelosk.forestmods.common.modules.producers.recipe.mode.ModuleMachineRecipeMode;
+import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 
 public class ModuleLathe extends ModuleMachineRecipeMode {
 

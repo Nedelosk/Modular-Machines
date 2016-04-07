@@ -44,7 +44,7 @@ public class TankManager implements ITankManager {
 		if (tanks != null) {
 			nbt.setInteger("Size", tanks.length);
 			NBTTagList listTag = new NBTTagList();
-			for ( int i = 0; i < tanks.length; i++ ) {
+			for(int i = 0; i < tanks.length; i++) {
 				FluidTankSimple tank = tanks[i];
 				if (tank != null) {
 					NBTTagCompound nbtTag = new NBTTagCompound();
@@ -64,7 +64,7 @@ public class TankManager implements ITankManager {
 		if (nbt.hasKey("Size")) {
 			tanks = new FluidTankSimple[nbt.getInteger("Size")];
 			NBTTagList listTag = nbt.getTagList("Tanks", 10);
-			for ( int i = 0; i < listTag.tagCount(); i++ ) {
+			for(int i = 0; i < listTag.tagCount(); i++) {
 				NBTTagCompound nbtTag = listTag.getCompoundTagAt(i);
 				FluidTankSimple tank;
 				if (nbtTag.getBoolean("Filter")) {
@@ -84,7 +84,7 @@ public class TankManager implements ITankManager {
 		if (tanks == null) {
 			return 0;
 		}
-		for ( FluidTankSimple tank : tanks ) {
+		for(FluidTankSimple tank : tanks) {
 			if (tank == null || tank.isFull()) {
 				continue;
 			}
@@ -100,7 +100,7 @@ public class TankManager implements ITankManager {
 		if (tanks == null) {
 			return null;
 		}
-		for ( FluidTankSimple tank : tanks ) {
+		for(FluidTankSimple tank : tanks) {
 			if (tank == null || tank.isEmpty()) {
 				continue;
 			}
@@ -116,7 +116,7 @@ public class TankManager implements ITankManager {
 		if (tanks == null) {
 			return null;
 		}
-		for ( FluidTankSimple tank : tanks ) {
+		for(FluidTankSimple tank : tanks) {
 			if (tank == null || tank.isEmpty()) {
 				continue;
 			}
@@ -143,7 +143,7 @@ public class TankManager implements ITankManager {
 			return null;
 		}
 		FluidTankInfo[] infos = new FluidTankInfo[tanks.length];
-		for ( int i = 0; i < tanks.length; i++ ) {
+		for(int i = 0; i < tanks.length; i++) {
 			FluidTankSimple tank = tanks[i];
 			if (tank == null) {
 				infos[i] = null;

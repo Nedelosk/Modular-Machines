@@ -20,10 +20,10 @@ public class RecipeRegistry {
 		if (recipes.get(recipe.getRecipeCategory()) == null) {
 			recipes.put(recipe.getRecipeCategory(), new ArrayList<IRecipe>());
 		}
-		for ( int index = 0; index < recipe.getInputs().length; index++ ) {
+		for(int index = 0; index < recipe.getInputs().length; index++) {
 			recipe.getInputs()[index].index = index;
 		}
-		for ( int index = 0; index < recipe.getOutputs().length; index++ ) {
+		for(int index = 0; index < recipe.getOutputs().length; index++) {
 			recipe.getOutputs()[index].index = index;
 		}
 		return recipes.get(recipe.getRecipeCategory()).add(recipe);
@@ -53,15 +53,15 @@ public class RecipeRegistry {
 		if (recipes == null || stack == null) {
 			return false;
 		}
-		for ( IRecipe recipe : recipes ) {
+		for(IRecipe recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
-			for ( RecipeItem recipeInput : recipe.getInputs().clone() ) {
+			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}
 			if (recipeInputs.isEmpty()) {
 				return false;
 			}
-			for ( int i = 0; i < recipeInputs.size(); i++ ) {
+			for(int i = 0; i < recipeInputs.size(); i++) {
 				RecipeItem in = recipeInputs.get(i);
 				if (in == null) {
 					continue;
@@ -74,7 +74,7 @@ public class RecipeRegistry {
 						continue;
 					}
 					int ore = OreDictionary.getOreID(in.ore.getOreDict());
-					for ( int oreID : OreDictionary.getOreIDs(stack.item) ) {
+					for(int oreID : OreDictionary.getOreIDs(stack.item)) {
 						if (ore == oreID) {
 							return true;
 						}
@@ -101,12 +101,12 @@ public class RecipeRegistry {
 		if (recipes == null) {
 			return null;
 		}
-		testRecipes : for ( IRecipe recipe : recipes ) {
+		testRecipes: for(IRecipe recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
-			for ( RecipeItem recipeInput : recipe.getInputs().clone() ) {
+			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}
-			testInput : for ( int i = 0; i < recipeInputs.size(); i++ ) {
+			testInput: for(int i = 0; i < recipeInputs.size(); i++) {
 				RecipeItem recipeInput = recipeInputs.get(i);
 				RecipeItem machineInput = machinesInputs[i];
 				if (machineInput != null) {
@@ -136,7 +136,7 @@ public class RecipeRegistry {
 						}
 						int ore = OreDictionary.getOreID(recipeInput.ore.oreDict);
 						ItemStack oreStack = machinesInputs[i].item;
-						for ( int oreID : OreDictionary.getOreIDs(oreStack) ) {
+						for(int oreID : OreDictionary.getOreIDs(oreStack)) {
 							if (ore == oreID) {
 								continue testInput;
 							}

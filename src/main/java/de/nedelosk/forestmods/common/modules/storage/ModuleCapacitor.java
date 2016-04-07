@@ -1,17 +1,18 @@
 package de.nedelosk.forestmods.common.modules.storage;
 
 import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.storage.capacitors.IModuleCapacitor;
-import de.nedelosk.forestmods.api.producers.handlers.IModulePage;
+import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.api.modules.storage.IModuleCapacitor;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.producers.Producer;
+import de.nedelosk.forestmods.common.modules.Module;
 
-public class ModuleCapacitor extends Producer implements IModuleCapacitor {
+public class ModuleCapacitor extends Module implements IModuleCapacitor {
 
 	private final int speedModifier;
 	private final int energyModifier;
 
-	public ModuleCapacitor(int speedModifier, int energyModifier) {
+	public ModuleCapacitor(String name, int speedModifier, int energyModifier) {
+		super(name);
 		this.speedModifier = speedModifier;
 		this.energyModifier = energyModifier;
 	}
