@@ -11,8 +11,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.forestmods.api.crafting.ICampfireRecipe;
-import de.nedelosk.forestmods.api.internal.FakeInternalMethodHandler;
-import de.nedelosk.forestmods.api.internal.IInternalMethodHandler;
 import de.nedelosk.forestmods.api.multiblocks.IAirHeatingPlantRecipe;
 import de.nedelosk.forestmods.api.multiblocks.IBlastFurnaceRecipe;
 import de.nedelosk.forestmods.api.transport.node.INodeType;
@@ -22,7 +20,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ForestModsApi {
 
-	public static IInternalMethodHandler handler = new FakeInternalMethodHandler();
 	public static IBlastFurnaceRecipe blastFurnace;
 	public static IAirHeatingPlantRecipe airHeatingPlant;
 	public static final ArrayList<Fluid> airHeatingPlantGas = Lists.newArrayList();

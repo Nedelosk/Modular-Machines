@@ -47,7 +47,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 		if (currentPage != null) {
 			int invPosition = 84;
 			if (!currentPage.getModuleStack().getModule().isHandlerDisabled(ModuleManager.inventoryType)) {
-				invPosition = currentPage.getModuleStack().getModule().getInventory().getPlayerInvPosition();
+				invPosition = currentPage.getPlayerInvPosition() + 1;
 			}
 			for(int i1 = 0; i1 < 3; i1++) {
 				for(int l1 = 0; l1 < 9; l1++) {

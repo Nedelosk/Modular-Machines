@@ -4,7 +4,6 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import de.nedelosk.forestcore.multiblock.MultiblockClientTickHandler;
-import de.nedelosk.forestmods.api.transport.TransportClientTickHandler;
 import de.nedelosk.forestmods.client.render.blocks.BlockCharcoalKilnRenderer;
 import de.nedelosk.forestmods.client.render.item.CampfireItemsRenderer;
 import de.nedelosk.forestmods.client.render.item.ItemCampfireRenderer;
@@ -37,7 +36,8 @@ public class ClientProxy extends CommonProxy {
 	public void registerTickHandlers() {
 		super.registerTickHandlers();
 		FMLCommonHandler.instance().bus().register(new MultiblockClientTickHandler());
-		//FMLCommonHandler.instance().bus().register(new TransportClientTickHandler());
+		// FMLCommonHandler.instance().bus().register(new
+		// TransportClientTickHandler());
 	}
 
 	@Override

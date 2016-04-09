@@ -28,22 +28,26 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 	public static final int METADATA_FLUIDPORT_OUTPUT = 5;
 	public static final int METADATA_FLUIDPORT_STEAM = 6;
 	public static final int METADATA_MUFFLER = 7;
+	public static final int METADATA_AIR_INPUT = 8;
 	private static final int ICON_ID_FLUIDPORT_INPUT = 0;
 	private static final int ICON_ID_FLUIDPORT_FUEL = 1;
 	private static final int ICON_ID_FLUIDPORT_OUTPUT = 2;
 	private static final int ICON_ID_FLUIDPORT_STEAM = 3;
 	private static final int ICON_ID_FLUIDPORT = 3;
+	private static final int ICON_ID_MUFFLER = 4;
+	private static final int ICON_ID_AIR_INPUT = 5;
 	private static final int CONTROLLER_OFF = 0;
 	private static final int CONTROLLER_IDLE = 1;
 	private static final int CONTROLLER_ACTIVE = 2;
-	private static String[] subBlocks = new String[] { "casing", "controller", "accessPort", "fluidPort", "muffler" };
+	private static String[] subBlocks = new String[] { "casing", "controller", "accessPort", "fluidPort", "muffler", "airInput" };
 	private static String[][] states = new String[][] { { "default", "face", "corner", "eastwest", "northsouth", "vertical" }, // Casing
 			{ "off", "idle", "active" }, // Controller
 			{ "default" }, // Access
 							// Port
 			{ "input", "fuel", "output", "steam" }, // Fluid
 													// Port
-			{ "default" } }; // Muffler
+			{ "default" }, // Muffler
+			{ "default" } }; // Air Input
 
 	public static boolean isAccessPort(int metadata) {
 		return metadata == METADATA_ACCESSPORT;
@@ -56,6 +60,10 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 
 	public static boolean isMuffler(int metadata) {
 		return metadata == METADATA_MUFFLER;
+	}
+
+	public static boolean isAirInput(int metadata) {
+		return metadata == METADATA_AIR_INPUT;
 	}
 
 	public BlockCowper() {
@@ -87,6 +95,9 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 			case METADATA_MUFFLER:
 				icon = getMufflerIcon(blockAccess, x, y, z, side);
 				break;
+			case METADATA_AIR_INPUT:
+				icon = getAirInputIcon(blockAccess, x, y, z, side);
+				break;
 		}
 		return icon != null ? icon : getIcon(side, metadata);
 	}
@@ -94,8 +105,16 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 	@Override
 	public IIcon getIcon(int side, int metadata) {
 		if (isFluidPort(metadata)) {
-			if (side > 1 && metadata >= 0) {
+			if (side > 1) {
 				return icons[ICON_ID_FLUIDPORT][metadata - 3];
+			}
+		} else if (isMuffler(metadata)) {
+			if (side > 1) {
+				return icons[ICON_ID_MUFFLER][0];
+			}
+		} else if (isAirInput(metadata)) {
+			if (side > 1) {
+				return icons[ICON_ID_AIR_INPUT][0];
 			}
 		} else if (side > 1 && (metadata >= 0 && metadata < icons.length)) {
 			return icons[metadata][0];
@@ -119,6 +138,8 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 				return new TileCowperFluidPort(PortType.FUEL);
 			case METADATA_FLUIDPORT_OUTPUT:
 				return new TileCowperFluidPort(PortType.OUTPUT);
+			case METADATA_FLUIDPORT_STEAM:
+				return new TileCowperFluidPort(PortType.STEAM);
 			default:
 				return new TileCowperBase();
 		}
@@ -131,7 +152,7 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 
 	@Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int metadata = 0; metadata < 6; metadata++) {
+		for(int metadata = 0; metadata < 8; metadata++) {
 			par3List.add(new ItemStack(this, 1, metadata));
 		}
 	}
@@ -158,7 +179,11 @@ public class BlockCowper extends BlockMultiblockBasic<MultiblockCowper> {
 	}
 
 	private IIcon getMufflerIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return icons[METADATA_MUFFLER][0];
+		return icons[ICON_ID_MUFFLER][0];
+	}
+
+	private IIcon getAirInputIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		return icons[ICON_ID_AIR_INPUT][0];
 	}
 
 	private IIcon getAccessPortIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {

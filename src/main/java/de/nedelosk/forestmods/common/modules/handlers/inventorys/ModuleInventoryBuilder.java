@@ -13,7 +13,7 @@ import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.handlers.FilterWrapper;
 import net.minecraft.item.ItemStack;
 
-public class ProducerInventoryBuilder implements IModuleInventoryBuilder {
+public class ModuleInventoryBuilder implements IModuleInventoryBuilder {
 
 	protected IModular modular;
 	protected ModuleStack moduleStack;
@@ -21,20 +21,18 @@ public class ProducerInventoryBuilder implements IModuleInventoryBuilder {
 	protected FilterWrapper extractFilter = new FilterWrapper();
 	protected String inventoryName;
 	protected Map<Integer, Boolean> slots = Maps.newHashMap();
-	protected int playerInvPosition;
 
-	public ProducerInventoryBuilder() {
-		playerInvPosition = 84;
+	public ModuleInventoryBuilder() {
 	}
 
 	@Override
-	public void addInsertFilter(int index, IContentFilter<ItemStack> filter) {
-		insertFilter.add(index, filter);
+	public void addInsertFilter(int index, IContentFilter<ItemStack>... filters) {
+		insertFilter.add(index, filters);
 	}
 
 	@Override
-	public void addExtractFilter(int index, IContentFilter<ItemStack> filter) {
-		extractFilter.add(index, filter);
+	public void addExtractFilter(int index, IContentFilter<ItemStack>... filters) {
+		extractFilter.add(index, filters);
 	}
 
 	@Override
@@ -53,13 +51,13 @@ public class ProducerInventoryBuilder implements IModuleInventoryBuilder {
 	}
 
 	@Override
-	public void initSlot(int index, boolean isInput) {
+	public void initSlot(int index, boolean isInput, IContentFilter<ItemStack>... filters) {
 		slots.put(index, isInput);
-	}
-
-	@Override
-	public void setPlayerInvPosition(int playerInvPosition) {
-		this.playerInvPosition = playerInvPosition;
+		if (isInput) {
+			addInsertFilter(index, filters);
+		} else {
+			addExtractFilter(index, filters);
+		}
 	}
 
 	@Override
@@ -74,7 +72,7 @@ public class ProducerInventoryBuilder implements IModuleInventoryBuilder {
 		for(Entry<Integer, Boolean> entry : slots.entrySet()) {
 			inputs[entry.getKey()] = entry.getValue();
 		}
-		return new ProducerInventory(size + 1, inputs, modular, moduleStack, new FilterWrapper(insertFilter.getSlotFilters()),
-				new FilterWrapper(extractFilter.getSlotFilters()), inventoryName, playerInvPosition);
+		return new ModuleInventory(size + 1, inputs, modular, moduleStack, new FilterWrapper(insertFilter.getSlotFilters()),
+				new FilterWrapper(extractFilter.getSlotFilters()), inventoryName);
 	}
 }

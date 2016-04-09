@@ -12,7 +12,7 @@ public class WidgetProgressBar extends Widget {
 	public int burntimeTotal;
 
 	public WidgetProgressBar(int posX, int posY, int burntime, int burntimeTotal) {
-		super(posX, posY, 22, 15);
+		super(posX, posY, 22, 17);
 		widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 		this.burntime = burntime;
 		this.burntimeTotal = burntimeTotal;
@@ -33,9 +33,9 @@ public class WidgetProgressBar extends Widget {
 		int process = (burntimeTotal == 0) ? 0 : burntime * 22 / burntimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, 22, 15);
+		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, 22, 17);
 		if (burntime > 0) {
-			gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, 15);
+			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, 17);
 		}
 	}
 }

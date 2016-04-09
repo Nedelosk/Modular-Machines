@@ -37,8 +37,9 @@ public class WidgetEnergyField extends Widget {
 		}
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(widget);
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
-		int energy = (this.storage.getEnergyStored() * 66) / this.storage.getMaxEnergyStored();
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
+		int eS = this.storage.getEnergyStored() / 100 * 66;
+		int energy = eS / (this.storage.getMaxEnergyStored() / 100);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
 	}
 }

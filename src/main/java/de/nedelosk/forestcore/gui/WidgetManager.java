@@ -28,7 +28,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	@Override
-	public void add(Collection<Widget> slots) {
+	public void addAll(Collection<Widget> slots) {
 		if (slots == null) {
 			return;
 		}
@@ -48,9 +48,10 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		this.widgets.clear();
 	}
 
-	protected Widget getAtPosition(int mX, int mY) {
+	@Override
+	public Widget getWidgetAtMouse(int mouseX, int mouseY) {
 		for(Widget slot : widgets) {
-			if (slot.isMouseOver(mX, mY)) {
+			if (slot.isMouseOver(mouseX, mouseY)) {
 				return slot;
 			}
 		}
@@ -86,7 +87,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		Widget slot = getAtPosition(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
+		Widget slot = getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
 		if (slot != null) {
 			slot.handleMouseClick(mouseX, mouseY, mouseButton, gui);
 		}

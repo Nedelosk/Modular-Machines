@@ -11,8 +11,6 @@ import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGui;
-import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGuiBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTank;
@@ -21,9 +19,8 @@ import de.nedelosk.forestmods.api.modules.special.IModuleController;
 import de.nedelosk.forestmods.api.utils.ModularException;
 import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.handlers.guis.ProducerGuiBuilder;
-import de.nedelosk.forestmods.common.modules.handlers.inventorys.ProducerInventoryBuilder;
-import de.nedelosk.forestmods.common.modules.handlers.tanks.ProducerTankBuilder;
+import de.nedelosk.forestmods.common.modules.handlers.inventorys.ModuleInventoryBuilder;
+import de.nedelosk.forestmods.common.modules.handlers.tanks.ModuleTankBuilder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -33,10 +30,7 @@ public abstract class Module implements IModule {
 
 	protected IModuleInventory inventory;
 	protected IModuleTank tank;
-	@SideOnly(Side.CLIENT)
-	protected IModuleGui gui;
 	protected IModulePage[] pages;
-	protected IModulePage currentPage;
 	protected ModuleStack moduleStack;
 	protected IModular modular;
 	protected final String name;
@@ -98,8 +92,8 @@ public abstract class Module implements IModule {
 
 	@Override
 	public void createContentHandlers() {
-		IModuleInventoryBuilder invBuilder = new ProducerInventoryBuilder();
-		IModuleTankBuilder tankBuilder = new ProducerTankBuilder();
+		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
+		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
 		invBuilder.setModular(modular);
 		invBuilder.setModuleStack(moduleStack);
 		tankBuilder.setModular(modular);
@@ -132,21 +126,6 @@ public abstract class Module implements IModule {
 
 	protected String[] getDisabledHandlers() {
 		return new String[] { ModuleManager.tankType };
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IModuleGui createGui() {
-		if (!isHandlerDisabled(ModuleManager.guiType)) {
-			IModuleGuiBuilder guiBuilder = new ProducerGuiBuilder();
-			guiBuilder.setModular(modular);
-			guiBuilder.setModuleStack(moduleStack);
-			currentPage.createGui(guiBuilder);
-			IModuleGui gui = guiBuilder.build();
-			this.gui = gui;
-			return gui;
-		}
-		return null;
 	}
 
 	@Override
@@ -186,23 +165,17 @@ public abstract class Module implements IModule {
 			tank.writeToNBT(nbtTank);
 			nbt.setTag("Tank", nbtTank);
 		}
-		if (currentPage != null) {
-			nbt.setInteger("CurrentPage", currentPage.getPageID());
-		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
 		if (nbt.hasKey("Inventory") && inventory != null) {
 			NBTTagCompound nbtInventory = nbt.getCompoundTag("Inventory");
-			inventory.readFromNBT(nbt);
+			inventory.readFromNBT(nbtInventory);
 		}
 		if (nbt.hasKey("Tank") && tank != null) {
 			NBTTagCompound nbtTank = nbt.getCompoundTag("Tank");
 			tank.readFromNBT(nbtTank);
-		}
-		if (nbt.hasKey("CurrentPage")) {
-			currentPage = getPages()[nbt.getInteger("CurrentPage")];
 		}
 	}
 
@@ -221,22 +194,6 @@ public abstract class Module implements IModule {
 	@Override
 	public IModuleInventory getInventory() {
 		return inventory;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IModuleGui getGui() {
-		return gui;
-	}
-
-	@Override
-	public void setCurrentPage(int newPage) {
-		currentPage = pages[newPage];
-	}
-
-	@Override
-	public IModulePage getCurrentPage() {
-		return currentPage;
 	}
 
 	@Override

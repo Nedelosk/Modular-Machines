@@ -1,9 +1,16 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
+import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowper;
 import de.nedelosk.forestmods.common.blocks.BlockCowper;
+import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCowper;
 import de.nedelosk.forestmods.common.multiblocks.cowper.MultiblockCowper;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 
 public class TileCowperBase extends TileMultiblockBase<MultiblockCowper> {
 
@@ -57,5 +64,22 @@ public class TileCowperBase extends TileMultiblockBase<MultiblockCowper> {
 
 	@Override
 	public void onMachineDeactivated() {
+	}
+
+	@Override
+	public Container getContainer(InventoryPlayer inventory) {
+		if (!isConnected() || !getController().isAssembled()) {
+			return null;
+		}
+		return new ContainerCowper(this, inventory);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
+		if (!isConnected() || !getController().isAssembled()) {
+			return null;
+		}
+		return new GuiCowper(this, inventory);
 	}
 }

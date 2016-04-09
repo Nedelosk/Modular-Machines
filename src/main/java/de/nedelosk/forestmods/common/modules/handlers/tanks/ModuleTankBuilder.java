@@ -16,7 +16,7 @@ import de.nedelosk.forestmods.common.modules.handlers.FilterWrapper;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ProducerTankBuilder implements IModuleTankBuilder {
+public class ModuleTankBuilder implements IModuleTankBuilder {
 
 	protected IModular modular;
 	protected ModuleStack moduleStack;
@@ -24,17 +24,17 @@ public class ProducerTankBuilder implements IModuleTankBuilder {
 	protected FilterWrapper<FluidStack> extractFilter = new FilterWrapper();
 	protected List<ITankData> tankSlots = new ArrayList();
 
-	public ProducerTankBuilder() {
+	public ModuleTankBuilder() {
 	}
 
 	@Override
-	public void addInsertFilter(int index, IContentFilter<FluidStack> filter) {
-		insertFilter.add(index, filter);
+	public void addInsertFilter(int index, IContentFilter<FluidStack>... filters) {
+		insertFilter.add(index, filters);
 	}
 
 	@Override
-	public void addExtractFilter(int index, IContentFilter<FluidStack> filter) {
-		extractFilter.add(index, filter);
+	public void addExtractFilter(int index, IContentFilter<FluidStack>... filters) {
+		extractFilter.add(index, filters);
 	}
 
 	@Override
@@ -48,12 +48,17 @@ public class ProducerTankBuilder implements IModuleTankBuilder {
 	}
 
 	@Override
-	public void initTank(int index, int capacity, ForgeDirection direction, EnumTankMode mode) {
+	public void initTank(int index, int capacity, ForgeDirection direction, EnumTankMode mode, IContentFilter<FluidStack>... filters) {
 		tankSlots.add(new TankData(new FluidTankSimple(capacity), direction, mode));
+		if (mode == EnumTankMode.INPUT) {
+			addInsertFilter(index, filters);
+		} else {
+			addExtractFilter(index, filters);
+		}
 	}
 
 	@Override
 	public IModuleTank build() {
-		return new ProducerTank(tankSlots.toArray(new TankData[tankSlots.size()]), modular, moduleStack, insertFilter, extractFilter);
+		return new ModuleTank(tankSlots.toArray(new TankData[tankSlots.size()]), modular, moduleStack, insertFilter, extractFilter);
 	}
 }

@@ -2,7 +2,7 @@ package de.nedelosk.forestmods.client.render.blocks;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import de.nedelosk.forestmods.client.core.ClientProxy;
-import de.nedelosk.forestmods.client.render.CharcoalKilnAccessWrapper;
+import de.nedelosk.forestmods.client.render.CharcoalKilnBlockAccessWrapper;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
@@ -28,12 +28,12 @@ public class BlockCharcoalKilnRenderer implements ISimpleBlockRenderingHandler {
 				}
 				return true;
 			} else if (kiln.isAsh()) {
-				CharcoalKilnAccessWrapper wrapper = new CharcoalKilnAccessWrapper(renderer.blockAccess);
+				CharcoalKilnBlockAccessWrapper wrapper = new CharcoalKilnBlockAccessWrapper(renderer.blockAccess);
 				renderer.blockAccess = wrapper;
 				renderer.renderBlockByRenderType(BlockManager.blockGravel, x, y, z);
 				renderer.blockAccess = wrapper.wrapped;
 			} else {
-				CharcoalKilnAccessWrapper wrapper = new CharcoalKilnAccessWrapper(renderer.blockAccess, kiln.getWoodStack());
+				CharcoalKilnBlockAccessWrapper wrapper = new CharcoalKilnBlockAccessWrapper(renderer.blockAccess, kiln.getWoodStack());
 				renderer.blockAccess = wrapper;
 				renderer.renderBlockByRenderType(Block.getBlockFromItem(kiln.getWoodStack().getItem()), x, y, z);
 				renderer.blockAccess = wrapper.wrapped;

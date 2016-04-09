@@ -3,7 +3,6 @@ package de.nedelosk.forestmods.common.core;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import de.nedelosk.forestcore.multiblock.MultiblockServerTickHandler;
-import de.nedelosk.forestmods.api.transport.TransportServerTickHandler;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +15,8 @@ public class CommonProxy implements IGuiHandler {
 
 	public void registerTickHandlers() {
 		FMLCommonHandler.instance().bus().register(new MultiblockServerTickHandler());
-		//FMLCommonHandler.instance().bus().register(new TransportServerTickHandler());
+		// FMLCommonHandler.instance().bus().register(new
+		// TransportServerTickHandler());
 	}
 
 	@Override

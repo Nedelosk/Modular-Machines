@@ -14,7 +14,6 @@ import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.client.gui.GuiModular;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
@@ -24,19 +23,18 @@ public class ButtonModuleTab extends Button<IModularTileEntity> {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
 	public final ModuleStack stack;
-	public final GuiModular gui;
+	public final IModularTileEntity tile;
 	public final boolean right;
 
-	public ButtonModuleTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleStack stack, GuiModular gui, boolean right) {
+	public ButtonModuleTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, ModuleStack stack, IModularTileEntity tile, boolean right) {
 		super(p_i1021_1_, p_i1021_2_, p_i1021_3_, 28, 21, null);
 		this.stack = stack;
 		this.right = right;
-		this.gui = gui;
+		this.tile = tile;
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		IModularTileEntity tile = gui.getTile();
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

@@ -1,16 +1,9 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.inventory.FakeInventoryAdapter;
 import de.nedelosk.forestcore.inventory.IInventoryAdapter;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowperAccessPort;
-import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCowperAccessPort;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
@@ -116,22 +109,5 @@ public class TileCowperAccessPort extends TileCowperBase implements ISidedInvent
 	@Override
 	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
 		return getInventory().canExtractItem(p_102008_1_, p_102008_2_, p_102008_3_);
-	}
-
-	@Override
-	public Container getContainer(InventoryPlayer inventory) {
-		if (!isConnected() && !getController().isAssembled()) {
-			return null;
-		}
-		return new ContainerCowperAccessPort(this, inventory);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (!isConnected() && !getController().isAssembled()) {
-			return null;
-		}
-		return new GuiCowperAccessPort(this, inventory);
 	}
 }

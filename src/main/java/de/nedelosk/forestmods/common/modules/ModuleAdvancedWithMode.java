@@ -6,14 +6,13 @@ import com.google.gson.JsonObject;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modules.IModuleAdvancedWithMode;
 import de.nedelosk.forestmods.api.recipes.IMachineMode;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetButtonMode;
-import de.nedelosk.forestmods.common.modules.handlers.ProducerPage;
+import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncMachineMode;
 import net.minecraft.client.Minecraft;
@@ -91,7 +90,7 @@ public abstract class ModuleAdvancedWithMode extends ModuleAdvanced implements I
 	@Override
 	protected abstract ProducerAdvancedWithModePage[] createPages();
 
-	public static abstract class ProducerAdvancedWithModePage extends ProducerPage<IModuleAdvancedWithMode> {
+	public static abstract class ProducerAdvancedWithModePage extends ModulePage<IModuleAdvancedWithMode> {
 
 		public ProducerAdvancedWithModePage(int pageID, IModular modular, ModuleStack moduleStack) {
 			super(pageID, modular, moduleStack);
@@ -99,9 +98,9 @@ public abstract class ModuleAdvancedWithMode extends ModuleAdvanced implements I
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void updateGui(IGuiBase base, int x, int y) {
-			super.updateGui(base, x, y);
-			List<Widget> widgets = base.getWidgetManager().getWidgets();
+		public void updateGui(int x, int y) {
+			super.updateGui(x, y);
+			List<Widget> widgets = gui.getWidgetManager().getWidgets();
 			for(Widget widget : widgets) {
 				if (widget instanceof WidgetButtonMode) {
 					((WidgetButtonMode) widget).setMode(moduleStack.getModule().getCurrentMode());
@@ -111,7 +110,8 @@ public abstract class ModuleAdvancedWithMode extends ModuleAdvanced implements I
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void handleMouseClicked(Widget widget, int mouseX, int mouseY, int mouseButton) {
+		public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
+			Widget widget = gui.getWidgetManager().getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
 			IModuleAdvancedWithMode module = moduleStack.getModule();
 			if (widget instanceof WidgetButtonMode) {
 				Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));

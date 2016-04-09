@@ -43,10 +43,7 @@ public class RecipeRegistry {
 	}
 
 	/**
-	 * 
-	 * @param recipeCategory
-	 * @param stack
-	 * @return The input from the recipe from the stack
+	 * @return True when the stack is in a recipe
 	 */
 	public static boolean isRecipeInput(String recipeCategory, RecipeItem stack) {
 		ArrayList<IRecipe> recipes = getRecipes().get(recipeCategory);
@@ -67,9 +64,6 @@ public class RecipeRegistry {
 					continue;
 				}
 				if (in.isOre() && stack.isItem()) {
-					if (!(in.ore.stackSize <= stack.item.stackSize)) {
-						continue;
-					}
 					if (in.index != stack.index) {
 						continue;
 					}
@@ -131,7 +125,13 @@ public class RecipeRegistry {
 							continue testRecipes;
 						}
 					} else if (recipeInput.isOre()) {
-						if (machinesInputs[i].item == null || !(recipeInput.ore.stackSize <= machineInput.item.stackSize)) {
+						if (machineInput.isOre()) {
+							if (recipeInput.ore.equals(machineInput.ore) && recipeInput.ore.stackSize <= machineInput.ore.stackSize) {
+								continue testInput;
+							}
+							continue testRecipes;
+						}
+						if (!machineInput.isItem() || !(recipeInput.ore.stackSize <= machineInput.item.stackSize)) {
 							continue testRecipes;
 						}
 						int ore = OreDictionary.getOreID(recipeInput.ore.oreDict);
@@ -142,6 +142,10 @@ public class RecipeRegistry {
 							}
 						}
 						continue testRecipes;
+					} else if (recipeInput.isNull()) {
+						if (!machineInput.isNull()) {
+							continue testRecipes;
+						}
 					}
 				}
 			}

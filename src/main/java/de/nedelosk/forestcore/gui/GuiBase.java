@@ -1,12 +1,11 @@
 package de.nedelosk.forestcore.gui;
 
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.forestcore.inventory.IGuiHandler;
 import de.nedelosk.forestcore.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -141,7 +140,7 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	}
 
 	@Override
-	public List<GuiButton> getButtons() {
-		return buttonList;
+	public Gui getGui() {
+		return this;
 	}
 }

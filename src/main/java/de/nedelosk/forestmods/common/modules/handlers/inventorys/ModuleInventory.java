@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ProducerInventory implements IModuleInventory {
+public class ModuleInventory implements IModuleInventory {
 
 	protected final ItemStack[] slots;
 	protected final boolean[] isInput;
@@ -29,10 +29,9 @@ public class ProducerInventory implements IModuleInventory {
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
 	protected final String inventoryName;
-	protected final int playerInvPosition;
 
-	public ProducerInventory(int size, boolean[] inputs, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter,
-			String inventoryName, int playerInvPosition) {
+	public ModuleInventory(int size, boolean[] inputs, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter,
+			String inventoryName) {
 		this.slots = new ItemStack[size];
 		this.isInput = inputs;
 		this.modular = modular;
@@ -40,7 +39,6 @@ public class ProducerInventory implements IModuleInventory {
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 		this.inventoryName = inventoryName;
-		this.playerInvPosition = playerInvPosition;
 	}
 
 	@Override
@@ -262,11 +260,12 @@ public class ProducerInventory implements IModuleInventory {
 
 	@Override
 	public void markDirty() {
+		modular.getTile().markDirty();
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return true;
+		return modular.getTile().isUseableByPlayer(player);
 	}
 
 	@Override
@@ -320,15 +319,14 @@ public class ProducerInventory implements IModuleInventory {
 	}
 
 	@Override
-	public int getPlayerInvPosition() {
-		return playerInvPosition;
-	}
-
-	@Override
 	public RecipeItem[] getInputItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
 		for(int index = 0; index < getInputs(); index++) {
-			inputs[index] = new RecipeItem(index, getStackInSlot(index).copy());
+			ItemStack input = getStackInSlot(index);
+			if (input != null) {
+				input = input.copy();
+			}
+			inputs[index] = new RecipeItem(index, input);
 		}
 		return inputs;
 	}

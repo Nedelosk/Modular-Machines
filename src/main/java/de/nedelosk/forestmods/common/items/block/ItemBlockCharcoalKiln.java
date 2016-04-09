@@ -1,14 +1,11 @@
 package de.nedelosk.forestmods.common.items.block;
 
-import java.util.List;
-
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemBlockCharcoalKiln extends ItemBlock {
@@ -35,11 +32,10 @@ public class ItemBlockCharcoalKiln extends ItemBlock {
 		return true;
 	}
 
-	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		if (CharcoalKilnUtil.getFromKiln(stack) != null) {
-			return super.getItemStackDisplayName(stack) + " (" +CharcoalKilnUtil.getFromKiln(stack).getDisplayName() + ")";
+			return super.getItemStackDisplayName(stack) + " (" + CharcoalKilnUtil.getFromKiln(stack).getDisplayName() + ")";
 		}
 		return super.getItemStackDisplayName(stack);
 	}

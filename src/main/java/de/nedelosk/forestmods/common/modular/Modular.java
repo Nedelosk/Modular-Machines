@@ -310,8 +310,7 @@ public class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void setCurrentPage(int pageID) {
-		this.currentStack.getModule().setCurrentPage(pageID);
-		this.currentPage = currentStack.getModule().getCurrentPage();
+		this.currentPage = currentStack.getModule().getPages()[pageID];
 		if (getTile().getWorld().isRemote) {
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getTile(), pageID));
 		}

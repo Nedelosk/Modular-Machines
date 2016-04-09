@@ -17,9 +17,9 @@ public class ModuleLatheInventory extends ModuleProducerRecipeInventory<ModuleLa
 	@Override
 	public List<Slot> addSlots(IContainerBase container, IModularDefault modular, ModuleStack<ModuleLathe, IModuleProducerRecipeModeSaver> stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.add(new SlotModularInput(modular.getTile(), 0, 54, 35, stack));
-		list.add(new SlotModularOutput(modular.getTile(), 1, 116, 35, stack));
-		list.add(new SlotModularOutput(modular.getTile(), 2, 134, 35, stack));
+		list.addAll(new SlotModularInput(modular.getTile(), 0, 54, 35, stack));
+		list.addAll(new SlotModularOutput(modular.getTile(), 1, 116, 35, stack));
+		list.addAll(new SlotModularOutput(modular.getTile(), 2, 134, 35, stack));
 		return list;
 	}
 }

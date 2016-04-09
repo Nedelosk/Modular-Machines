@@ -12,7 +12,7 @@ import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import de.nedelosk.forestmods.common.modules.engine.ModuleEngine;
 import net.minecraft.item.ItemStack;
 
-public class ModuleManager {
+public class ModuleManager2 {
 
 	public static IModuleCasing moduleCasing;
 	public static IModuleEngine moduleEngine;

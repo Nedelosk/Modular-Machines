@@ -12,19 +12,17 @@ public final class ModuleStack<M extends IModule> {
 	private ModuleUID UID;
 	private IMaterial material;
 
-	public ModuleStack(String categoryUid, IMaterial material, M module) {
-		this.UID = new ModuleUID(categoryUid, module.getName());
+	public ModuleStack(ModuleUID UID, IMaterial material) {
+		this.UID = UID;
 		if (ModuleManager.moduleRegistry.getModule(material, UID) == null) {
-			ModuleManager.moduleRegistry.registerModule(material, categoryUid, module);
-		} else if (ModuleManager.moduleRegistry.getModule(material, UID) != module) {
-			module = (M) ModuleManager.moduleRegistry.getModule(material, UID);
+			throw new NullPointerException("The module with the UID " + UID + " is not registered.");
 		}
 		if (MaterialRegistry.getMaterial(material.getName()) == null) {
 			MaterialRegistry.registerMaterial(material);
 		} else if (MaterialRegistry.getMaterial(material.getName()) != material) {
 			material = MaterialRegistry.getMaterial(material.getName());
 		}
-		this.module = module;
+		this.module = ModuleManager.moduleRegistry.createModule(material, UID);
 		this.material = material;
 	}
 
@@ -51,7 +49,7 @@ public final class ModuleStack<M extends IModule> {
 		ModuleUID UID = new ModuleUID(nbt.getString("UID"));
 		IMaterial material = MaterialRegistry.getMaterial(nbt.getString("Material"));
 		NBTTagCompound nbtTag = nbt.getCompoundTag("Modules");
-		IModule module = ModuleManager.moduleRegistry.getModule(material, UID);
+		IModule module = ModuleManager.moduleRegistry.createModule(material, UID);
 		ModuleStack moduleStack = new ModuleStack(UID, material, module);
 		module.onAddInModular(modular, moduleStack);
 		module.readFromNBT(nbtTag, modular);

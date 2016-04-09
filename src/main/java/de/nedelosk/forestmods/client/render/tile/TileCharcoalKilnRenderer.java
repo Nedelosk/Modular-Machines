@@ -12,7 +12,7 @@ import static de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPos
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.client.render.CharcoalKilnAccessWrapper;
+import de.nedelosk.forestmods.client.render.CharcoalKilnBlockAccessWrapper;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
@@ -47,7 +47,7 @@ public class TileCharcoalKilnRenderer extends TileEntitySpecialRenderer {
 			if (kiln.getController().getMaximumCoord().y == kiln.yCoord) {
 				isTop = true;
 			}
-			IBlockAccess wrapper = new CharcoalKilnAccessWrapper(kiln.getWorldObj(), kiln.getWoodStack());
+			IBlockAccess wrapper = new CharcoalKilnBlockAccessWrapper(kiln.getWorldObj(), kiln.getWoodStack());
 			CharcoalKilnPosition pos = kiln.getKilnPosition();
 			IIcon loamIcon = BlockManager.blockGravel.getIcon(0, 0);
 			IIcon woodIcon = Block.getBlockFromItem(kiln.getWoodStack().getItem()).getIcon(wrapper, kiln.xCoord, kiln.yCoord, kiln.zCoord, 4);

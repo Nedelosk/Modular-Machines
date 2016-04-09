@@ -1,13 +1,12 @@
 package de.nedelosk.forestmods.client.gui.multiblocks;
 
-import de.nedelosk.forestcore.gui.GuiBase;
+import de.nedelosk.forestmods.client.gui.GuiForestBase;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort.PortType;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiBlastFurnaceFluidPort extends GuiBase<TileBlastFurnaceFluidPort> {
+public class GuiBlastFurnaceFluidPort extends GuiForestBase<TileBlastFurnaceFluidPort> {
 
 	public GuiBlastFurnaceFluidPort(TileBlastFurnaceFluidPort tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -25,12 +24,7 @@ public class GuiBlastFurnaceFluidPort extends GuiBase<TileBlastFurnaceFluidPort>
 	}
 
 	@Override
-	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-	}
-
-	@Override
-	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
-		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+	protected void render() {
 		if (widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank) {
 			if (tile.getType() == PortType.OUTPUT) {
 				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(2);
@@ -45,16 +39,7 @@ public class GuiBlastFurnaceFluidPort extends GuiBase<TileBlastFurnaceFluidPort>
 	}
 
 	@Override
-	protected void render() {
-	}
-
-	@Override
 	protected String getGuiTexture() {
 		return "gui_multiblock_fluid";
-	}
-
-	@Override
-	protected String getTextureModID() {
-		return "forestmods";
 	}
 }

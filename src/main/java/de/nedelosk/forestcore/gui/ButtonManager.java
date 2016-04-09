@@ -66,7 +66,6 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 		for(Button slot : buttons) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawButton(minecraft, 0, 0);
-			;
 		}
 		gui.setZLevel(0.0F);
 		GuiBase.getItemRenderer().zLevel = 0.0F;

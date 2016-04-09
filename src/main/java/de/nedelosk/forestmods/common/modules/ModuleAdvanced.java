@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
+import de.nedelosk.forestmods.api.modular.IModular;
 import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
@@ -143,6 +144,26 @@ public abstract class ModuleAdvanced extends Module implements IModuleAdvanced, 
 	@Override
 	public Object[] deserializeNBT(NBTTagCompound nbt) {
 		return null;
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+		super.writeToNBT(nbt, modular);
+		if (recipeManager != null) {
+			NBTTagCompound nbtTag = new NBTTagCompound();
+			recipeManager.writeToNBT(nbtTag, modular);
+			nbt.setTag("RecipeManager", nbtTag);
+		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+		super.readFromNBT(nbt, modular);
+		if (nbt.hasKey("RecipeManager")) {
+			NBTTagCompound nbtTag = nbt.getCompoundTag("RecipeManager");
+			recipeManager = new ModuleRecipeManager();
+			recipeManager.readFromNBT(nbtTag, modular);
+		}
 	}
 
 	@Override

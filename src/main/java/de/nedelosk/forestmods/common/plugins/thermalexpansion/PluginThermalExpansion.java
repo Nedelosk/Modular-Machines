@@ -7,7 +7,7 @@ import de.nedelosk.forestmods.api.material.EnumMaterials;
 import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import net.minecraft.item.Item;
@@ -20,6 +20,16 @@ public class PluginThermalExpansion extends APlugin {
 	// public static Item tank;
 	// public static Item strongBox;
 	// public static Item capacitor;
+	public static final String energyCells = "batterys.energycells";
+	public static final String frames = "casings.frames";
+	public static final ModuleUID energyCellLeadstone = new ModuleUID(energyCells, "basic");
+	public static final ModuleUID energyCellHardened = new ModuleUID(energyCells, "hardened");
+	public static final ModuleUID energyCellReinforced = new ModuleUID(energyCells, "reinforced");
+	public static final ModuleUID energyCellResonant = new ModuleUID(energyCells, "resonant");
+	public static final ModuleUID frameBasic = new ModuleUID(frames, "leadstone");
+	public static final ModuleUID frameHardened = new ModuleUID(frames, "hardened");
+	public static final ModuleUID frameReinforced = new ModuleUID(frames, "redstone");
+	public static final ModuleUID frameResonant = new ModuleUID(frames, "resonant");
 	public static IModuleBattery moduleEnergyCellLeadstone;
 	public static IModuleBattery moduleEnergyCellHardened;
 	public static IModuleBattery moduleEnergyCellRedstone;
@@ -31,25 +41,23 @@ public class PluginThermalExpansion extends APlugin {
 	// public static IModuleTank modulePortableTank;
 
 	@Override
-	public void init() {
-		moduleFrameBasic = ModuleManager.moduleRegistry.registerModule(EnumMaterials.IRON, "casings.frames", new ModuleCasing("basic", 0, 0, 0));
-		moduleFrameHardened = ModuleManager.moduleRegistry.registerModule(EnumMaterials.INVAR, "casings.frames", new ModuleCasing("hardened", 0, 0, 0));
-		moduleFrameReinforced = ModuleManager.moduleRegistry.registerModule(EnumMaterials.SIGNALUM, "casings.frames", new ModuleCasing("reinforced", 0, 0, 0));
-		moduleFrameResonant = ModuleManager.moduleRegistry.registerModule(EnumMaterials.ENDERIUM, "casings.frames", new ModuleCasing("resonant", 0, 0, 0));
-		moduleEnergyCellLeadstone = ModuleManager.moduleRegistry.registerModule(EnumMaterials.LEAD, "batterys.energycells",
-				new ModuleEnergyCell("leadstone", new EnergyStorage(400000, 200)));
-		moduleEnergyCellHardened = ModuleManager.moduleRegistry.registerModule(EnumMaterials.INVAR, "batterys.energycells",
-				new ModuleEnergyCell("hardened", new EnergyStorage(2000000, 800)));
-		moduleEnergyCellRedstone = ModuleManager.moduleRegistry.registerModule(EnumMaterials.ELECTRUM, "batterys.energycells",
-				new ModuleEnergyCell("redstone", new EnergyStorage(20000000, 8000)));
-		moduleEnergyCellResonant = ModuleManager.moduleRegistry.registerModule(EnumMaterials.ENDERIUM, "batterys.energycells",
-				new ModuleEnergyCell("resonant", new EnergyStorage(80000000, 32000)));
-	}
-
-	@Override
 	public void postInit() {
 		cell = GameRegistry.findItem(getRequiredMod(), "Cell");
 		frame = GameRegistry.findItem(getRequiredMod(), "Frame");
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.IRON, frameBasic, new ItemStack(frame, 1, 0), ModuleCasing.class, false, 0, 0, 0);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.INVAR, frameHardened, new ItemStack(frame, 1, 1), ModuleCasing.class, false, 0, 0, 0);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.SIGNALUM, frameReinforced, new ItemStack(frame, 1, 2), ModuleCasing.class, false, 0, 0,
+				0);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.ENDERIUM, frameResonant, new ItemStack(frame, 1, 3), ModuleCasing.class, false, 0, 0,
+				0);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.LEAD, energyCellLeadstone, new ItemStack(cell, 1, 1), ModuleEnergyCell.class, true,
+				new EnergyStorage(400000, 200));
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.INVAR, energyCellHardened, new ItemStack(cell, 1, 2), ModuleEnergyCell.class, true,
+				new EnergyStorage(2000000, 800));
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.ELECTRUM, energyCellReinforced, new ItemStack(cell, 1, 3), ModuleEnergyCell.class,
+				true, new EnergyStorage(20000000, 8000));
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.ENDERIUM, energyCellResonant, new ItemStack(cell, 1, 4), ModuleEnergyCell.class, true,
+				new EnergyStorage(80000000, 32000));
 		// tank = GameRegistry.findItem(getRequiredMod(), "Tank");
 		// strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
 		// capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
@@ -62,21 +70,6 @@ public class PluginThermalExpansion extends APlugin {
 		 * registerItemForModule(new ItemStack(tank, 1, 4), modulePortableTank,
 		 * new ModuleTankType(512000), Materials.Enderium);
 		 */
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(frame, 1, 0), new ModuleStack("casings.frames", EnumMaterials.IRON, moduleFrameBasic));
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(frame, 1, 1),
-				new ModuleStack("casings.frames", EnumMaterials.INVAR, moduleFrameHardened));
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(frame, 1, 2),
-				new ModuleStack("casings.frames", EnumMaterials.SIGNALUM, moduleFrameReinforced));
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(frame, 1, 3),
-				new ModuleStack("casings.frames", EnumMaterials.ENDERIUM, moduleFrameResonant));
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(cell, 1, 1),
-				new ModuleStack("batterys.energycells", EnumMaterials.LEAD, moduleEnergyCellLeadstone), true);
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(cell, 1, 2),
-				new ModuleStack("batterys.energycells", EnumMaterials.INVAR, moduleEnergyCellHardened), true);
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(cell, 1, 3),
-				new ModuleStack("batterys.energycells", EnumMaterials.ELECTRUM, moduleEnergyCellRedstone), true);
-		ModuleManager.moduleRegistry.registerItemForModule(new ItemStack(cell, 1, 4),
-				new ModuleStack("batterys.energycells", EnumMaterials.ENDERIUM, moduleEnergyCellResonant), true);
 		// registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new
 		// ModuleSimpleChest("StrongBox", 18), Materials.IRON);
 		// registerProducer(new ItemStack(strongBox, 1, 2), STRONGBOX, new

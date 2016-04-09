@@ -2,7 +2,9 @@ package de.nedelosk.forestmods.common.modules.handlers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.forestmods.api.modules.handlers.IContentFilter;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
@@ -10,14 +12,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class FilterWrapper<C> implements IContentFilter<C> {
 
-	private final List<List<IContentFilter<C>>> slotFilters;
+	private final Map<Integer, List<IContentFilter<C>>> slotFilters;
 
 	public FilterWrapper() {
-		slotFilters = new ArrayList();
+		slotFilters = new HashMap();
 	}
 
-	public FilterWrapper(List<List<IContentFilter<C>>> slotFilters) {
-		this.slotFilters = Collections.unmodifiableList(slotFilters);
+	public FilterWrapper(Map<Integer, List<IContentFilter<C>>> slotFilters) {
+		this.slotFilters = Collections.unmodifiableMap(slotFilters);
 	}
 
 	@Override
@@ -33,14 +35,16 @@ public class FilterWrapper<C> implements IContentFilter<C> {
 		return false;
 	}
 
-	public void add(int index, IContentFilter<C> filter) {
-		if (slotFilters.get(index) == null) {
-			slotFilters.add(index, new ArrayList());
+	public void add(int index, IContentFilter<C>[] filters) {
+		if (!slotFilters.containsKey(index)) {
+			slotFilters.put(index, new ArrayList());
 		}
-		slotFilters.get(index).add(filter);
+		for(IContentFilter<C> filter : filters) {
+			slotFilters.get(index).add(filter);
+		}
 	}
 
-	public List<List<IContentFilter<C>>> getSlotFilters() {
+	public Map<Integer, List<IContentFilter<C>>> getSlotFilters() {
 		return slotFilters;
 	}
 }

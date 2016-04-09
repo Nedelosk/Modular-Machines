@@ -122,11 +122,13 @@ public class BlockCampfire extends BlockContainerForest {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, campfile.setCampfireItem(player.getCurrentEquippedItem()));
 					return true;
 				}
-				player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
-				return true;
 			}
 		}
-		return false;
+		if (world.isRemote) {
+			return false;
+		}
+		player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
+		return true;
 	}
 
 	@Override

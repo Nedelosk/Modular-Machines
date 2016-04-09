@@ -32,17 +32,17 @@ public class TileCampfireRenderer extends TileEntitySpecialRenderer {
 			model.renderWood();
 		}
 		if (((TileCampfire) entity).getStackInSlot(4) != null) {
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
+			RenderUtil.bindTexture(new ResourceLocation("forestmods",
 					"textures/models/campfire_" + "curbs_" + Config.campfireCurbs[((TileCampfire) entity).getStackInSlot(4).getItemDamage()] + ".png"));
 			model.renderCubs();
 		}
 		if (((TileCampfire) entity).getStackInSlot(5) != null) {
-			RenderUtil.bindTexture(new ResourceLocation("forestday", "textures/models/campfire_" + "pot_holders_"
+			RenderUtil.bindTexture(new ResourceLocation("forestmods", "textures/models/campfire_" + "pot_holders_"
 					+ Config.campfirePotHolders[((TileCampfire) entity).getStackInSlot(5).getItemDamage()] + ".png"));
 			model.renderPotHolder();
 		}
 		if (((TileCampfire) entity).getStackInSlot(6) != null) {
-			RenderUtil.bindTexture(new ResourceLocation("forestday",
+			RenderUtil.bindTexture(new ResourceLocation("forestmods",
 					"textures/models/campfire_" + "pots_" + Config.campfirePots[((TileCampfire) entity).getStackInSlot(6).getItemDamage()] + ".png"));
 			model.renderPot();
 		}

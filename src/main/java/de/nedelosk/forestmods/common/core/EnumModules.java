@@ -1,56 +1,65 @@
 package de.nedelosk.forestmods.common.core;
 
-import de.nedelosk.forestmods.api.ForestModsApi;
 import de.nedelosk.forestmods.api.material.EnumMaterials;
 import de.nedelosk.forestmods.api.material.IMaterial;
 import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.utils.IModuleRegistry;
+import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.modules.ModuleAlloySmelter;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import de.nedelosk.forestmods.common.modules.engine.ModuleEngine;
 import net.minecraft.item.ItemStack;
 
 public enum EnumModules {
-	STONE_CASING(EnumMaterials.STONE, "casings", new ModuleCasing("default", 500, 500, 500), new ItemStack(BlockManager.blockCasings)), STONE_ENGINE(
-			EnumMaterials.STONE, "engins", new ModuleEngine("default", 150),
-			new ItemStack(ItemManager.itemEngine)), STONE_ALLOYSMELTER(EnumMaterials.STONE, "alloysmelters", new ModuleAlloySmelter("default")) {
+	// CASINGS
+	STONE_CASING(EnumMaterials.STONE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings), ModuleCasing.class, 0, 0, 0),
+	// ENGINES
+	STONE_ENGINE(EnumMaterials.STONE, new ModuleUID("engins:default"), new ItemStack(ItemManager.itemEngine), ModuleEngine.class, 150),
+	// Alloy Smelters
+	STONE_ALLOYSMELTER(EnumMaterials.STONE, new ModuleUID("alloysmelters:default"), ModuleAlloySmelter.class) {
 
-				@Override
-				public ItemStack getStack() {
-					return ForestModsApi.handler.addModuleToModuelItem(getModuleStack());
-				}
-			};
+		@Override
+		public ItemStack getStack() {
+			return ModuleManager.moduleRegistry.createDefaultModuleItem(getModuleStack());
+		}
+	};
 
-	private IModuleRegistry moduleRegistry = de.nedelosk.forestmods.api.utils.ModuleManager.moduleRegistry;
 	private final IMaterial material;
-	private final String category;
-	private final IModule module;
+	private final ModuleUID UID;
+	private final IModule defaultModule;
 	private final ItemStack defaultStack;
 
-	EnumModules(IMaterial material, String category, IModule module) {
-		this(material, category, module, null);
+	EnumModules(IMaterial material, ModuleUID UID, Class<? extends IModule> moduleClass, Object... parameters) {
+		this(material, UID, null, false, moduleClass, parameters);
 	}
 
-	EnumModules(IMaterial material, String category, IModule module, ItemStack defaultStack) {
-		this.category = category;
+	EnumModules(IMaterial material, ModuleUID UID, boolean ignorNBT, Class<? extends IModule> moduleClass, Object... parameters) {
+		this(material, UID, null, ignorNBT, moduleClass, parameters);
+	}
+
+	EnumModules(IMaterial material, ModuleUID UID, ItemStack defaultStack, Class<? extends IModule> moduleClass, Object... parameters) {
+		this(material, UID, defaultStack, false, moduleClass, parameters);
+	}
+
+	EnumModules(IMaterial material, ModuleUID UID, ItemStack defaultStack, boolean ignorNBT, Class<? extends IModule> moduleClass, Object... parameters) {
+		this.UID = UID;
 		this.material = material;
-		this.module = module;
 		this.defaultStack = defaultStack;
-		moduleRegistry.registerModule(material, category, module);
-		moduleRegistry.registerItemForModule(getStack(), getModuleStack());
+		this.defaultModule = ModuleManager.moduleRegistry.registerModule(material, UID, moduleClass, parameters);
+		ModuleManager.moduleRegistry.registerItemForModule(getStack(), getModuleStack());
 	}
 
 	public ItemStack getStack() {
 		return defaultStack;
 	}
 
-	public IModule getModule() {
-		return module;
+	public IModule getDefaultModule() {
+		return defaultModule;
 	}
 
 	public ModuleStack getModuleStack() {
-		return new ModuleStack(category, material, module);
+		return new ModuleStack(UID, material);
 	}
 
 	public static void init() {

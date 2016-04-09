@@ -1,13 +1,12 @@
 package de.nedelosk.forestmods.client.gui.multiblocks;
 
-import de.nedelosk.forestcore.gui.GuiBase;
+import de.nedelosk.forestmods.client.gui.GuiForestBase;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.forestmods.common.blocks.tile.TileCokeOvenFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCokeOvenFluidPort.PortType;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiCokeOvenFluidPort extends GuiBase<TileCokeOvenFluidPort> {
+public class GuiCokeOvenFluidPort extends GuiForestBase<TileCokeOvenFluidPort> {
 
 	public GuiCokeOvenFluidPort(TileCokeOvenFluidPort tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -19,12 +18,7 @@ public class GuiCokeOvenFluidPort extends GuiBase<TileCokeOvenFluidPort> {
 	}
 
 	@Override
-	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
-	}
-
-	@Override
-	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
-		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+	protected void render() {
 		if (widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank) {
 			if (tile.getPortType() == PortType.FUEL) {
 				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(0);
@@ -35,16 +29,7 @@ public class GuiCokeOvenFluidPort extends GuiBase<TileCokeOvenFluidPort> {
 	}
 
 	@Override
-	protected void render() {
-	}
-
-	@Override
 	protected String getGuiTexture() {
 		return "gui_multiblock_fluid";
-	}
-
-	@Override
-	protected String getTextureModID() {
-		return "forestmods";
 	}
 }

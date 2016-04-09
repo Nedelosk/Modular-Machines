@@ -1,35 +1,30 @@
 package de.nedelosk.forestmods.client.render;
 
-import javax.annotation.processing.SupportedOptions;
-
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.common.Optional;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import forestry.arboriculture.WoodType;
-import forestry.arboriculture.gadgets.BlockWood;
 import forestry.arboriculture.gadgets.TileWood;
-import forestry.arboriculture.items.ItemWoodBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLog;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.Optional;
 
-public class CharcoalKilnAccessWrapper implements IBlockAccess {
+public class CharcoalKilnBlockAccessWrapper implements IBlockAccess {
 
 	public IBlockAccess wrapped;
 	public ItemStack woodStack;
 
-	public CharcoalKilnAccessWrapper(IBlockAccess wrapped, ItemStack woodStack) {
+	public CharcoalKilnBlockAccessWrapper(IBlockAccess wrapped, ItemStack woodStack) {
 		this.wrapped = wrapped;
 		this.woodStack = woodStack;
 	}
-	
-	public CharcoalKilnAccessWrapper(IBlockAccess wrapped) {
+
+	public CharcoalKilnBlockAccessWrapper(IBlockAccess wrapped) {
 		this(wrapped, null);
 	}
 
@@ -50,16 +45,16 @@ public class CharcoalKilnAccessWrapper implements IBlockAccess {
 
 	@Override
 	public TileEntity getTileEntity(int p_147438_1_, int p_147438_2_, int p_147438_3_) {
-		if(Loader.isModLoaded("Forestry")){
+		if (Loader.isModLoaded("Forestry")) {
 			return getTileWood(p_147438_1_, p_147438_2_, p_147438_3_);
 		}
 		return wrapped.getTileEntity(p_147438_1_, p_147438_2_, p_147438_3_);
 	}
-	
+
 	@Optional.Method(modid = "Forestry")
-	private TileEntity getTileWood(int x, int y, int z){
-		if(Block.getBlockFromItem(woodStack.getItem()) instanceof forestry.arboriculture.gadgets.BlockLog){
-			if(wrapped.getTileEntity(x, y, z) instanceof TileCharcoalKiln){
+	private TileEntity getTileWood(int x, int y, int z) {
+		if (Block.getBlockFromItem(woodStack.getItem()) instanceof forestry.arboriculture.gadgets.BlockLog) {
+			if (wrapped.getTileEntity(x, y, z) instanceof TileCharcoalKiln) {
 				TileWood tile = new TileWood();
 				ObfuscationReflectionHelper.setPrivateValue(TileWood.class, tile, WoodType.getFromCompound(woodStack.getTagCompound()), 0);
 				return tile;

@@ -437,16 +437,15 @@ public class RecipeManager {
 	private static void addShapelessRecipe(ItemStack stack, Object... obj) {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
 	}
-	
-	public static class FuelHandler implements IFuelHandler{
+
+	public static class FuelHandler implements IFuelHandler {
 
 		@Override
 		public int getBurnTime(ItemStack fuel) {
-			if(fuel.getItem() == Item.getItemFromBlock(BlockManager.blockCharcoalKiln)){
+			if (fuel.getItem() == Item.getItemFromBlock(BlockManager.blockCharcoalKiln)) {
 				return 2400;
 			}
 			return 0;
 		}
-		
 	}
 }

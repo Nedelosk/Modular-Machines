@@ -7,9 +7,11 @@ public interface IWidgetManager<G extends IGuiBase> {
 
 	void add(Widget slot);
 
-	void add(Collection<Widget> slots);
+	void addAll(Collection<Widget> slots);
 
 	void remove(Widget slot);
+
+	Widget getWidgetAtMouse(int mouseX, int mouseY);
 
 	List<Widget> getWidgets();
 

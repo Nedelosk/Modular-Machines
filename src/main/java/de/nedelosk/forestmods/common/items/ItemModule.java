@@ -49,17 +49,13 @@ public class ItemModule extends Item {
 		return icons[pass];
 	}
 
-	public static <M extends IModule> ItemStack addModule(ModuleStack<M> moduleStack) {
+	public static <M extends IModule> ItemStack createItem(ModuleStack<M> moduleStack) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
-		if (ModuleManager.moduleRegistry.getModule(moduleStack.getMaterial(), moduleStack.getUID()) == null) {
-			ModuleManager.moduleRegistry.registerModule(moduleStack.getMaterial(), moduleStack.getUID().getCategoryUID(), moduleStack.getModule());
-		}
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("UID", moduleStack.getUID().toString());
 		nbtTag.setString("Material", moduleStack.getMaterial().getName());
 		itemStack.setTagCompound(nbtTag);
 		subItems.add(itemStack);
-		ModuleManager.moduleRegistry.registerItemForModule(itemStack, moduleStack, false);
 		return itemStack;
 	}
 

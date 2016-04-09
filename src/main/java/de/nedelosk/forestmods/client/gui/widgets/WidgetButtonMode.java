@@ -30,8 +30,8 @@ public class WidgetButtonMode extends Widget {
 		RenderUtil.bindTexture(widget);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 0, 18, 18);
-		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 18 * mode.ordinal() + 18, 18, 18);
+		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 0, 18, 18);
+		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 18 * mode.ordinal() + 18, 18, 18);
 	}
 
 	public void setMode(IMachineMode mode) {

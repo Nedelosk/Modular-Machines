@@ -36,7 +36,8 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		GuiModular machine = (GuiModular) mc.currentScreen;
 		RenderUtil.bindTexture(guiTextureOverlay);
-		machine.drawTexturedModalRect(xPosition, yPosition, stack.getModule().getCurrentPage().getPageID() == pageID ? 74 : 103, isDown ? 237 : 218, 29, 19);
+		machine.drawTexturedModalRect(xPosition, yPosition, stack.getModule().getModular().getCurrentPage().getPageID() == pageID ? 74 : 103,
+				isDown ? 237 : 218, 29, 19);
 		RenderUtil.bindTexture(RenderUtil.getResourceLocation("forestmods", "widgets", "gui"));
 		machine.drawTexturedModalRect(xPosition + 6, yPosition, 0, 18 + pageID * 18, 18, 18);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -46,7 +47,7 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
 		IModularTileEntity tile = gui.getTile();
-		if (pageID != stack.getModule().getCurrentPage().getPageID()) {
+		if (pageID != stack.getModule().getModular().getCurrentPage().getPageID()) {
 			tile.getModular().setCurrentPage(pageID);
 		}
 	}

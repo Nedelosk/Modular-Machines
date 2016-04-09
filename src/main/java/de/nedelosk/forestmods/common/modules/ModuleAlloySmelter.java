@@ -7,16 +7,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.inventory.IContainerBase;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.modules.IModule;
 import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGuiBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTankBuilder;
+import de.nedelosk.forestmods.api.modules.integration.IModuleNEI;
+import de.nedelosk.forestmods.api.modules.integration.INEIPage;
+import de.nedelosk.forestmods.api.modules.integration.SlotNEI;
 import de.nedelosk.forestmods.api.modules.recipes.RecipeAlloySmelter;
 import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.api.recipes.IRecipe;
@@ -25,7 +28,10 @@ import de.nedelosk.forestmods.api.utils.ModularUtils;
 import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.client.render.modules.MachineRenderer;
-import de.nedelosk.forestmods.common.modules.handlers.ProducerPage;
+import de.nedelosk.forestmods.common.modules.handlers.ItemFilterMachine;
+import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
+import de.nedelosk.forestmods.common.modules.handlers.NEIPage;
+import de.nedelosk.forestmods.common.modules.handlers.OutputAllFilter;
 
 public class ModuleAlloySmelter extends ModuleAdvanced {
 
@@ -35,7 +41,7 @@ public class ModuleAlloySmelter extends ModuleAdvanced {
 
 	@Override
 	public String getRecipeCategory() {
-		return "AlloySmleter";
+		return "AlloySmelter";
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -87,7 +93,13 @@ public class ModuleAlloySmelter extends ModuleAdvanced {
 		return pages;
 	}
 
-	public static class AlloySmelterPage extends ProducerPage {
+	@SideOnly(Side.CLIENT)
+	@Override
+	public INEIPage createNEIPage(ModuleStack<IModuleNEI> stack) {
+		return new AlloySmelterNEIPage(stack);
+	}
+
+	public static class AlloySmelterPage extends ModulePage {
 
 		public AlloySmelterPage(int pageID, IModular modular, ModuleStack moduleStack) {
 			super(pageID, modular, moduleStack);
@@ -96,23 +108,24 @@ public class ModuleAlloySmelter extends ModuleAdvanced {
 		@Override
 		public void createHandlers(IModuleInventoryBuilder invBuilder, IModuleTankBuilder tankBuilder) {
 			invBuilder.setInventoryName("module.inventory.alloysmleter.name");
-			invBuilder.initSlot(0, true);
-			invBuilder.initSlot(1, true);
-			invBuilder.initSlot(2, false);
-			invBuilder.initSlot(3, false);
+			invBuilder.initSlot(0, true, new ItemFilterMachine());
+			invBuilder.initSlot(1, true, new ItemFilterMachine());
+			invBuilder.initSlot(2, false, new OutputAllFilter());
+			invBuilder.initSlot(3, false, new OutputAllFilter());
 		}
 
 		@Override
-		public void createSlots(IContainerBase container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(modular.getTile(), 0, 36, 35, moduleStack));
-			modularSlots.add(new SlotModule(modular.getTile(), 1, 54, 35, moduleStack));
-			modularSlots.add(new SlotModule(modular.getTile(), 2, 116, 35, moduleStack));
-			modularSlots.add(new SlotModule(modular.getTile(), 3, 134, 35, moduleStack));
+		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+			modularSlots.add(new SlotModule(moduleStack, 0, 36, 35));
+			modularSlots.add(new SlotModule(moduleStack, 1, 54, 35));
+			modularSlots.add(new SlotModule(moduleStack, 2, 116, 35));
+			modularSlots.add(new SlotModule(moduleStack, 3, 134, 35));
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void createGui(IModuleGuiBuilder guiBuilder) {
+		public void addWidgets(List widgets) {
+			super.addWidgets(widgets);
 			IModuleEngine engine = ModularUtils.getEngine(modular).getModule();
 			int burnTime = 0;
 			int burnTimeTotal = 0;
@@ -120,7 +133,28 @@ public class ModuleAlloySmelter extends ModuleAdvanced {
 				burnTime = engine.getBurnTime();
 				burnTimeTotal = engine.getBurnTimeTotal();
 			}
-			guiBuilder.addWidget(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
+			widgets.add(new WidgetProgressBar(82, 35, burnTime, burnTimeTotal));
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static class AlloySmelterNEIPage extends NEIPage {
+
+		public AlloySmelterNEIPage(ModuleStack module) {
+			super(module);
+		}
+
+		@Override
+		public void createSlots(List<SlotNEI> modularSlots) {
+			modularSlots.add(new SlotNEI(36, 24, true));
+			modularSlots.add(new SlotNEI(54, 24, true));
+			modularSlots.add(new SlotNEI(116, 24, false));
+			modularSlots.add(new SlotNEI(134, 24, false));
+		}
+
+		@Override
+		public void addWidgets(List widgets) {
+			widgets.add(new WidgetProgressBar(82, 24, 0, 0));
 		}
 	}
 

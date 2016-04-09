@@ -16,18 +16,6 @@ public class TankData implements ITankData<FluidTankSimple> {
 		this.mode = mode;
 	}
 
-	public TankData() {
-		this.tank = null;
-		this.direction = null;
-		this.mode = EnumTankMode.NONE;
-	}
-
-	public TankData(FluidTankSimple tank) {
-		this.tank = tank;
-		this.direction = null;
-		this.mode = EnumTankMode.NONE;
-	}
-
 	@Override
 	public void setTank(FluidTankSimple tank) {
 		this.tank = tank;

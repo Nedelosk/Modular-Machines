@@ -1,5 +1,7 @@
 package de.nedelosk.forestmods.common.core;
 
+import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -11,12 +13,14 @@ import de.nedelosk.forestcore.plugins.APluginManager;
 import de.nedelosk.forestmods.api.ForestModsApi;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager;
+import de.nedelosk.forestmods.common.crafting.CraftingRecipeKiln;
 import de.nedelosk.forestmods.common.events.EventHandler;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.plugins.PluginManager;
 import de.nedelosk.forestmods.common.world.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.RecipeSorter;
 
 public class FMRegistry extends Registry {
 
@@ -24,6 +28,7 @@ public class FMRegistry extends Registry {
 
 	@Override
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
+		RecipeSorter.register("forestmods:mapextending", CraftingRecipeKiln.class, SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
 		config = new Config();
 		Config.config = new Configuration(ForestMods.configFile, Constants.VERSION);
 		Config.syncConfig(false);

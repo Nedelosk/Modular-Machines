@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class ProducerTank implements IModuleTank {
+public class ModuleTank implements IModuleTank {
 
 	protected final TankData[] tanks;
 	protected final IModular modular;
@@ -26,7 +26,7 @@ public class ProducerTank implements IModuleTank {
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ProducerTank(TankData[] tanks, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(TankData[] tanks, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.tanks = tanks;
 		this.modular = modular;
 		this.moduleStack = moduleStack;
@@ -53,7 +53,11 @@ public class ProducerTank implements IModuleTank {
 	public RecipeItem[] getInputItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
 		for(int index = 0; index < getInputs(); index++) {
-			inputs[index] = new RecipeItem(index, getTank(index).getTank().getFluid().copy());
+			FluidStack input = getTank(index).getTank().getFluid();
+			if (input != null) {
+				input = input.copy();
+			}
+			inputs[index] = new RecipeItem(index, input);
 		}
 		return inputs;
 	}

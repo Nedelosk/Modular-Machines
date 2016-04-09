@@ -1,14 +1,7 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestcore.fluids.TankManager;
 import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowperFluidPort;
-import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCowperFluidPort;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -45,7 +38,9 @@ public class TileCowperFluidPort extends TileCowperBase implements IFluidHandler
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - This cowper may not be placed in the cowper's top", xCoord, yCoord, zCoord));
+		if (type != PortType.STEAM) {
+			throw new MultiblockValidationException(String.format("%d, %d, %d - This cowper may not be placed in the cowper's top", xCoord, yCoord, zCoord));
+		}
 	}
 
 	@Override
@@ -138,22 +133,5 @@ public class TileCowperFluidPort extends TileCowperBase implements IFluidHandler
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
 		type = PortType.values()[data.getInteger("Type")];
-	}
-
-	@Override
-	public Container getContainer(InventoryPlayer inventory) {
-		if (!isConnected() || !getController().isAssembled()) {
-			return null;
-		}
-		return new ContainerCowperFluidPort(this, inventory);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (!isConnected() || !getController().isAssembled()) {
-			return null;
-		}
-		return new GuiCowperFluidPort(this, inventory);
 	}
 }

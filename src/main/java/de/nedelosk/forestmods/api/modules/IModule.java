@@ -12,7 +12,6 @@ import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGui;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.forestmods.api.modules.special.IModuleController;
@@ -40,9 +39,6 @@ public interface IModule {
 	void createContentHandlers();
 
 	boolean isHandlerDisabled(String handlerType);
-
-	@SideOnly(Side.CLIENT)
-	IModuleGui createGui();
 
 	@SideOnly(Side.CLIENT)
 	ISimpleRenderer getRenderer(ModuleStack stack, IRenderState state);
@@ -86,14 +82,7 @@ public interface IModule {
 
 	IModuleTank getTank();
 
-	@SideOnly(Side.CLIENT)
-	IModuleGui getGui();
-
 	IModulePage[] getPages();
-
-	void setCurrentPage(int newPage);
-
-	IModulePage getCurrentPage();
 
 	IModular getModular();
 

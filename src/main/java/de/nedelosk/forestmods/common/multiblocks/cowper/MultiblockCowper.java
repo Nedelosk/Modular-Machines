@@ -34,9 +34,12 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	private Set<TileCowperFluidPort> attachedFluidPortsOutput;
 	private Set<TileCowperFluidPort> attachedFluidPortsSteam;
 	private Set<TileCowperBase> attachedMuffler;
+	private Set<TileCowperBase> attachedAirInput;
 	public FluidStack output;
 	public int heat;
 	public int heatTotal = Config.airHeatingPlantMaxHeat;
+	public int burnTime;
+	public int burnTimeTotal;
 	private boolean isActive;
 
 	public MultiblockCowper(World world) {
@@ -47,6 +50,7 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 		attachedFluidPortsOutput = new HashSet<TileCowperFluidPort>();
 		attachedFluidPortsSteam = new HashSet<TileCowperFluidPort>();
 		attachedMuffler = new HashSet<TileCowperBase>();
+		attachedAirInput = new HashSet<TileCowperBase>();
 	}
 
 	@Override
@@ -56,11 +60,9 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
-		if (attachedFluidPortsInput.size() < 1) {
+		super.isMachineWhole();
+		if (attachedFluidPortsInput.size() < 1 && attachedAirInput.size() < 1) {
 			throw new MultiblockValidationException("Not enough input fluid ports. Cowper require at least 1.");
-		}
-		if (attachedFluidPortsFuel.size() < 1) {
-			throw new MultiblockValidationException("Not enough fluid fuel ports. Cowper require at least 1.");
 		}
 		if (attachedFluidPortsOutput.size() < 1) {
 			throw new MultiblockValidationException("Not enough output ports. Cowper require at least 1.");
@@ -68,10 +70,16 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 		if (attachedFluidPortsSteam.size() < 1 && attachedMuffler.size() < 1) {
 			throw new MultiblockValidationException("Not steam output. Cowper require at least 1.");
 		}
-		if (attachedAccessPorts.size() < 1) {
+		if (attachedAccessPorts.size() < 1 && attachedFluidPortsFuel.size() < 1) {
 			throw new MultiblockValidationException("Not enough fuel ports. Cowper require at least 1.");
 		}
-		super.isMachineWhole();
+	}
+
+	@Override
+	protected void isBlockGoodForInterior(World world, int x, int y, int z) throws MultiblockValidationException {
+		if (!world.isAirBlock(x, y, z)) {
+			super.isBlockGoodForInterior(world, x, y, z);
+		}
 	}
 
 	@Override
@@ -91,6 +99,8 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 			}
 		} else if (part instanceof TileCowperBase && BlockCowper.isMuffler(part.getBlockMetadata())) {
 			attachedMuffler.add((TileCowperBase) part);
+		} else if (part instanceof TileCowperBase && BlockCowper.isAirInput(part.getBlockMetadata())) {
+			attachedAirInput.add((TileCowperBase) part);
 		}
 	}
 
@@ -111,6 +121,8 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 			}
 		} else if (part instanceof TileCowperBase && BlockCowper.isMuffler(part.getBlockMetadata())) {
 			attachedMuffler.remove(part);
+		} else if (part instanceof TileCowperBase && BlockCowper.isAirInput(part.getBlockMetadata())) {
+			attachedAirInput.remove(part);
 		}
 	}
 
@@ -144,7 +156,7 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected int getMinimumYSize() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -154,17 +166,17 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected int getMaximumXSize() {
-		return 3;
+		return 4;
 	}
 
 	@Override
 	protected int getMaximumZSize() {
-		return 3;
+		return 4;
 	}
 
 	@Override
 	protected int getMaximumYSize() {
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -196,10 +208,20 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
+		data.setInteger("Heat", heat);
+		data.setInteger("HeatTotal", heatTotal);
+		data.setInteger("BurnTime", burnTime);
+		data.setInteger("BurnTimeTotal", burnTimeTotal);
+		data.setBoolean("IsActive", isActive);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
+		heat = data.getInteger("Heat");
+		heatTotal = data.getInteger("HeatTotal");
+		burnTime = data.getInteger("BurnTime");
+		burnTimeTotal = data.getInteger("BurnTimeTotal");
+		isActive = data.getBoolean("IsActive");
 	}
 
 	@Override

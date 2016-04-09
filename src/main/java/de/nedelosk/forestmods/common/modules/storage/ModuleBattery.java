@@ -6,14 +6,13 @@ import java.util.List;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
 import de.nedelosk.forestcore.gui.Widget;
 import de.nedelosk.forestcore.inventory.IContainerBase;
 import de.nedelosk.forestmods.api.modular.IModular;
+import de.nedelosk.forestmods.api.modular.IModularTileEntity;
 import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.gui.IModuleGuiBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTankBuilder;
@@ -25,7 +24,7 @@ import de.nedelosk.forestmods.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.forestmods.client.render.modules.BatteryRenderer;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.Module;
-import de.nedelosk.forestmods.common.modules.handlers.ProducerPage;
+import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -145,20 +144,20 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	protected IModulePage[] createPages() {
-		IModulePage[] pages = new IModulePage[] { new BatteryPage(0, modular, moduleStack) };
-		return pages;
+		return new IModulePage[] { new BatteryPage(0, modular, moduleStack) };
 	}
 
-	public static class BatteryPage extends ProducerPage<IModuleBattery> {
+	public static class BatteryPage extends ModulePage<IModuleBattery> {
 
 		public BatteryPage(int pageID, IModular modular, ModuleStack moduleStack) {
 			super(pageID, modular, moduleStack);
 		}
 
+		@SideOnly(Side.CLIENT)
 		@Override
-		public void updateGui(IGuiBase base, int x, int y) {
-			super.updateGui(base, x, y);
-			for(Widget widget : (ArrayList<Widget>) base.getWidgetManager().getWidgets()) {
+		public void updateGui(int x, int y) {
+			super.updateGui(x, y);
+			for(Widget widget : (ArrayList<Widget>) gui.getWidgetManager().getWidgets()) {
 				if (widget instanceof WidgetEnergyField) {
 					((WidgetEnergyField) widget).storage = moduleStack.getModule().getStorage();
 				}
@@ -170,13 +169,14 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 		}
 
 		@Override
-		public void createSlots(IContainerBase container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void createGui(IModuleGuiBuilder guiBuilder) {
-			guiBuilder.addWidget(new WidgetEnergyField(moduleStack.getModule().getStorage(), 55, 15));
+		public void addWidgets(List widgets) {
+			super.addWidgets(widgets);
+			widgets.add(new WidgetEnergyField(moduleStack.getModule().getStorage(), 55, 15));
 		}
 	}
 }

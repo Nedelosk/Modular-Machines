@@ -42,7 +42,7 @@ public class WidgetFluidTank extends Widget {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(widget);
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 18, 73);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 18, 73);
 		int iconHeightRemainder = (60 - 4) % 16;
 		if (tank != null) {
 			FluidStack fluid = this.tank.getFluid();
@@ -58,12 +58,12 @@ public class WidgetFluidTank extends Widget {
 							gui.getZLevel(), fluidIcon, 16, 18);
 				}
 				RenderUtil.bindTexture(widget);
-				gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16,
+				gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16,
 						72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
 			}
 		}
 		RenderUtil.bindTexture(widget);
-		gui.drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 19, 1, 16, 60);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 19, 1, 16, 60);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 

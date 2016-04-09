@@ -1,6 +1,8 @@
 package de.nedelosk.forestmods.api.modules;
 
-public interface IModuleAdvanced extends IModule {
+import de.nedelosk.forestmods.api.modules.integration.IModuleNEI;
+
+public interface IModuleAdvanced extends IModuleNEI {
 
 	Object[] getRecipeModifiers();
 

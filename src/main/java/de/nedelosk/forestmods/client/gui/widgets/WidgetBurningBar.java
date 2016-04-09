@@ -30,10 +30,10 @@ public class WidgetBurningBar extends Widget {
 		RenderUtil.bindTexture(widget);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.drawTexturedModalRect(sx + pos.x, sy + pos.y, 0, 176, 14, 14);
+		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 0, 176, 14, 14);
 		if (fuel > 0) {
 			int fuel = (this.fuel * 14) / this.fuelTotal;
-			gui.drawTexturedModalRect(sx + pos.x, sy + pos.y + 14 - fuel, 14, 176 + 14 - fuel, 14, fuel);
+			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y + 14 - fuel, 14, 176 + 14 - fuel, 14, fuel);
 		}
 	}
 }

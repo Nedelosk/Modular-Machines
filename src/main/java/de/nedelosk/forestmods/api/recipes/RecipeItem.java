@@ -107,4 +107,8 @@ public class RecipeItem {
 	public boolean isOre() {
 		return ore != null;
 	}
+
+	public boolean isNull() {
+		return !isFluid() && !isItem() && !isOre();
+	}
 }

@@ -2,13 +2,13 @@ package de.nedelosk.forestmods.api.recipes;
 
 public class Recipe implements IRecipe {
 
-	protected Object[] modifiers;
+	protected final Object[] modifiers;
 	protected final RecipeItem[] input;
 	protected final RecipeItem[] output;
-	protected int speedModifier;
-	protected int material;
-	protected String recipeCategory;
-	protected String recipeName;
+	protected final int speedModifier;
+	protected final int material;
+	protected final String recipeCategory;
+	protected final String recipeName;
 
 	public Recipe(String recipeName, RecipeItem[] input, RecipeItem[] output, int speedModifier, int material, String recipeCategory, Object... modifiers) {
 		this.recipeName = recipeName;
