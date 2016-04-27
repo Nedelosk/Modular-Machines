@@ -1,8 +1,6 @@
 package de.nedelosk.forestmods.common.core;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestcore.items.ItemBlockForest;
 import de.nedelosk.forestmods.common.blocks.BlockBlastFurnace;
 import de.nedelosk.forestmods.common.blocks.BlockCampfire;
 import de.nedelosk.forestmods.common.blocks.BlockCasing;
@@ -22,6 +20,8 @@ import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.items.block.ItemBlockCharcoalKiln;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
 import de.nedelosk.forestmods.common.items.block.ItemBlockModularMachine;
+import de.nedelosk.forestmods.library.core.Registry;
+import de.nedelosk.forestmods.library.items.ItemBlockForest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
@@ -52,8 +52,7 @@ public class BlockManager {
 		blockMetalBlocks.addMetaData(0xCA9956, "bronze", "Bronze");
 		blockMetalBlocks.addMetaData(0xA0A0A0, "steel", "Steel");
 		blockMetalBlocks.addMetaData(0xA1A48C, "invar", "Invar");
-		// blockBlastFurnace = register(new BlockBlastFurnace(),
-		// ItemBlockForest.class);
+		blockBlastFurnace = register(new BlockBlastFurnace(), ItemBlockForest.class);
 		blockCowper = register(new BlockCowper(), ItemBlockForest.class);
 		blockCasings = register(new BlockCasing(new String[] { "stone", "stone_brick", "iron", "bronze" }), ItemBlockForest.class);
 		blockModular = register(new BlockModularMachine(), ItemBlockModularMachine.class);

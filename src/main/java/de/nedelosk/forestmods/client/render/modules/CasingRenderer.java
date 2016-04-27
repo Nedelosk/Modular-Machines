@@ -8,10 +8,10 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.ModularHelper;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 @SideOnly(Side.CLIENT)
 public class CasingRenderer extends AdvancedRenderer {
 
-	public final ModuleStack stack;
+	public final IModuleContainer container;
 	public ModelBase model = new ModelBase() {
 	};
 	public ModelRenderer Base_Casing_Left;
@@ -39,8 +39,8 @@ public class CasingRenderer extends AdvancedRenderer {
 	public ResourceLocation topTexture;
 	public ResourceLocation downTexture;
 
-	public CasingRenderer(ModuleStack stack) {
-		this.stack = stack;
+	public CasingRenderer(IModuleContainer container) {
+		this.container = container;
 		this.Top_Right_Casing = new ModelRenderer(model, 0, 0);
 		this.Top_Right_Casing.setRotationPoint(0.0F, 9.0F, -5.0F);
 		this.Top_Right_Casing.addBox(0.0F, 0.0F, 0.0F, 7, 2, 10, 0.0F);
@@ -59,12 +59,12 @@ public class CasingRenderer extends AdvancedRenderer {
 		this.Down_Right_Casing = new ModelRenderer(model, 0, 0);
 		this.Down_Right_Casing.setRotationPoint(0.0F, 22.0F, -5.0F);
 		this.Down_Right_Casing.addBox(0.0F, 0.0F, 0.0F, 7, 2, 10, 0.0F);
-		baseTextureLeft = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_left.png");
-		baseTextureRight = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_right.png");
-		frontTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_front.png");
-		backTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_back.png");
-		topTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_top.png");
-		downTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_down.png");
+		baseTextureLeft = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_left.png");
+		baseTextureRight = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_base_right.png");
+		frontTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_front.png");
+		backTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_back.png");
+		topTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_top.png");
+		downTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "casing/", "_down.png");
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class CasingRenderer extends AdvancedRenderer {
 		GL11.glPushMatrix();
 		manager.bindTexture(baseTextureLeft);
 		Base_Casing_Left.render(0.0625F);
-		if (ModularUtils.getEngine(state.getModular()) == null) {
+		if (ModularHelper.getEngine(state.getModular()) == null) {
 			manager.bindTexture(baseTextureRight);
 			Base_Casing_Right.render(0.0625F);
 		} else {
@@ -114,7 +114,7 @@ public class CasingRenderer extends AdvancedRenderer {
 		}
 		manager.bindTexture(baseTextureLeft);
 		Base_Casing_Left.render(0.0625F);
-		if (ModularUtils.getEngine(state.getModular()) == null) {
+		if (ModularHelper.getEngine(state.getModular()) == null) {
 			manager.bindTexture(baseTextureRight);
 			Base_Casing_Right.render(0.0625F);
 		} else {

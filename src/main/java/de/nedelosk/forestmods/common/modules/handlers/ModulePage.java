@@ -7,19 +7,17 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.buttons.ButtonModulePageTab;
 import de.nedelosk.forestmods.client.gui.buttons.ButtonModuleTab;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleMachine;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -30,16 +28,14 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 
 	protected int pageID;
 	protected IModular modular;
-	protected ModuleStack<M> moduleStack;
 	protected M module;
 	@SideOnly(Side.CLIENT)
 	protected IGuiBase gui;
 
-	public ModulePage(int pageID, IModular modular, ModuleStack<M> moduleStack) {
+	public ModulePage(int pageID, IModular modular, M module) {
 		this.pageID = pageID;
 		this.modular = modular;
-		this.moduleStack = moduleStack;
-		this.module = moduleStack.getModule();
+		this.module = module;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -48,12 +44,9 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		List<Widget> widgets = gui.getWidgetManager().getWidgets();
 		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
-				IModuleEngine engine = ModularUtils.getEngine(modular).getModule();
-				if (engine != null) {
-					int burnTime = engine.getBurnTime();
-					int burnTimeTotal = engine.getBurnTimeTotal();
-					((WidgetProgressBar) widget).burntime = burnTime;
-					((WidgetProgressBar) widget).burntimeTotal = burnTimeTotal;
+				if(module instanceof IModuleMachine){
+					((WidgetProgressBar) widget).burntime = ((IModuleMachine) module).getBurnTime();
+					((WidgetProgressBar) widget).burntimeTotal = ((IModuleMachine) module).getBurnTimeTotal();
 				}
 			}
 		}
@@ -144,23 +137,22 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addButtons(List buttons) {
-		List<ModuleStack> stacksWithGui = Lists.newArrayList();
-		for(ModuleStack stack : modular.getModuleStacks()) {
-			if (stack != null && stack.getModule() != null && !stack.getModule().isHandlerDisabled(ModuleManager.guiType)
-					&& stack.getModule().getPages() != null) {
-				stacksWithGui.add(stack);
+		List<IModule> stacksWithGui = Lists.newArrayList();
+		for(IModule module : modular.getModules()) {
+			if (module != null && !module.isHandlerDisabled(ModuleManager.guiType) && module.getPages() != null) {
+				stacksWithGui.add(module);
 			}
 		}
 		for(int i = 0; i < stacksWithGui.size(); i++) {
-			ModuleStack stack = stacksWithGui.get(i);
+			IModule module = stacksWithGui.get(i);
 			buttons.add(new ButtonModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
-					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, stack, modular.getTile(), i >= 7));
+					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getTile(), i >= 7));
 		}
 		for(int pageID = 0; pageID < module.getPages().length; pageID++) {
 			IModulePage page = module.getPages()[pageID];
 			buttons.add(new ButtonModulePageTab(gui.getButtonManager().getButtons().size(),
 					pageID > 4 ? 12 + gui.getGuiLeft() + (pageID - 5) * 30 : 12 + gui.getGuiLeft() + pageID * 30,
-					pageID > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, module.getModuleStack(), pageID > 4 ? true : false, pageID));
+							pageID > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, module, pageID > 4 ? true : false, pageID));
 		}
 	}
 
@@ -189,11 +181,6 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		return modular;
 	}
 
-	@Override
-	public ModuleStack<M> getModuleStack() {
-		return moduleStack;
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IGuiBase getGui() {
@@ -204,5 +191,10 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@SideOnly(Side.CLIENT)
 	public void setGui(IGuiBase gui) {
 		this.gui = gui;
+	}
+
+	@Override
+	public IModule getModule() {
+		return module;
 	}
 }

@@ -4,23 +4,23 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.utils.ModularException;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.forestmods.common.modules.handlers.tanks.ModuleTankBuilder;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.ModularException;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.IModuleController;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.handlers.IModuleContentHandler;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTank;
+import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTankBuilder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -31,28 +31,22 @@ public abstract class Module implements IModule {
 	protected IModuleInventory inventory;
 	protected IModuleTank tank;
 	protected IModulePage[] pages;
-	protected ModuleStack moduleStack;
+	protected IModuleContainer container;
 	protected IModular modular;
-	protected final String name;
 
-	public Module(String name) {
-		this.name = name;
+	public Module(IModular modular, IModuleContainer container) {
+		onAddInModular(modular, container);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public String getFilePath(ModuleStack stack) {
-		return stack.getUID().getCategoryUID() + "/" + stack.getUID().getModuleUID();
+	public String getFilePath() {
+		return container.getUID().getCategoryUID() + "/" + container.getUID().getModuleUID();
 	}
 
 	@Override
 	public ItemStack getDropItem() {
-		return modular.getItemStack(moduleStack.getUID());
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addTooltip(ModuleStack stack, List<String> tooltip) {
+		return container.getItemStack();
 	}
 
 	@Override
@@ -60,24 +54,18 @@ public abstract class Module implements IModule {
 	}
 
 	@Override
-	public void canAssembleModular(ModuleStack<IModuleController> controller) throws ModularException {
+	public void canAssembleModular(IModuleController controller) throws ModularException {
 	}
 
 	@Override
-	public void onModularAssembled(ModuleStack<IModuleController> controller) throws ModularException {
+	public void onModularAssembled(IModuleController controller) throws ModularException {
 	}
 
-	@Override
-	public void onAddInModular(IModular modular, ModuleStack stack) {
+	protected void onAddInModular(IModular modular, IModuleContainer moduleContainer) {
 		this.modular = modular;
-		this.moduleStack = stack;
+		this.container = moduleContainer;
 		pages = createPages();
 		createContentHandlers();
-	}
-
-	@Override
-	public String getUnlocalizedName(ModuleStack stack) {
-		return getName() + ".name";
 	}
 
 	@Override
@@ -95,9 +83,9 @@ public abstract class Module implements IModule {
 		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
 		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
 		invBuilder.setModular(modular);
-		invBuilder.setModuleStack(moduleStack);
+		invBuilder.setModule(this);
 		tankBuilder.setModular(modular);
-		tankBuilder.setModuleStack(moduleStack);
+		tankBuilder.setModule(this);
 		if (getPages() != null) {
 			for(IModulePage page : getPages()) {
 				page.createHandlers(invBuilder, tankBuilder);
@@ -139,7 +127,7 @@ public abstract class Module implements IModule {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ISimpleRenderer getRenderer(ModuleStack moduleStack, IRenderState state) {
+	public ISimpleRenderer getRenderer(IRenderState state) {
 		return null;
 	}
 
@@ -149,8 +137,8 @@ public abstract class Module implements IModule {
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public String getName(IModuleContainer container) {
+		return container.getUID().getModuleUID();
 	}
 
 	@Override
@@ -202,7 +190,21 @@ public abstract class Module implements IModule {
 	}
 
 	@Override
-	public ModuleStack getModuleStack() {
-		return moduleStack;
+	public IModuleContainer getModuleContainer() {
+		return container;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return container.getUID().getModuleUID() + ".name";
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addTooltip(List<String> tooltip) {
+	}
+
+	@Override
+	public void loadDataFromItem(ItemStack stack) {
 	}
 }

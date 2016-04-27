@@ -1,6 +1,5 @@
 package de.nedelosk.forestmods.common.core;
 
-import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.items.ItemCampfire;
 import de.nedelosk.forestmods.common.items.ItemComponent;
@@ -17,6 +16,7 @@ import de.nedelosk.forestmods.common.items.ItemTool.Material;
 import de.nedelosk.forestmods.common.items.ItemToolCrafting;
 import de.nedelosk.forestmods.common.items.ItemToolParts;
 import de.nedelosk.forestmods.common.items.ItemWoodBucket;
+import de.nedelosk.forestmods.library.core.Registry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

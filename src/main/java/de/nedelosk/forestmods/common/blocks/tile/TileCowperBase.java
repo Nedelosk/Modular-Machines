@@ -2,12 +2,12 @@ package de.nedelosk.forestmods.common.blocks.tile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
 import de.nedelosk.forestmods.client.gui.multiblocks.GuiCowper;
 import de.nedelosk.forestmods.common.blocks.BlockCowper;
 import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerCowper;
 import de.nedelosk.forestmods.common.multiblocks.cowper.MultiblockCowper;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.TileMultiblockBase;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

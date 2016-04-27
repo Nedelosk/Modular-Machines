@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.client.render.item;
 
-import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ public class ItemCharcoalKilnRenderer implements IItemRenderer {
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		ItemStack woodStack = CharcoalKilnUtil.getFromKiln(item);
+		ItemStack woodStack = CharcoalKilnHelper.getFromKiln(item);
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(woodStack, type);
 		if (customRenderer != null) {
 			return customRenderer.handleRenderType(woodStack, type);
@@ -23,7 +23,7 @@ public class ItemCharcoalKilnRenderer implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		ItemStack woodStack = CharcoalKilnUtil.getFromKiln(item);
+		ItemStack woodStack = CharcoalKilnHelper.getFromKiln(item);
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(woodStack, type);
 		if (customRenderer != null) {
 			return customRenderer.shouldUseRenderHelper(type, woodStack, helper);
@@ -35,7 +35,7 @@ public class ItemCharcoalKilnRenderer implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		RenderUtil.bindBlockTexture();
-		ItemStack woodStack = CharcoalKilnUtil.getFromKiln(item);
+		ItemStack woodStack = CharcoalKilnHelper.getFromKiln(item);
 		if (woodStack != null) {
 			IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(woodStack, type);
 			if (customRenderer != null) {

@@ -1,6 +1,9 @@
 package de.nedelosk.forestmods.common.modules.registry;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -8,16 +11,16 @@ import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
-import de.nedelosk.forestcore.utils.ClassUtil;
-import de.nedelosk.forestmods.api.material.IMaterial;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.utils.IModuleHandler;
-import de.nedelosk.forestmods.api.utils.IModuleRegistry;
-import de.nedelosk.forestmods.api.utils.ModuleEvents;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleType;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.items.ItemModule;
+import de.nedelosk.forestmods.library.material.IMaterial;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.IModuleRegistry;
+import de.nedelosk.forestmods.library.modules.ModuleEvents;
+import de.nedelosk.forestmods.library.modules.ModuleType;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.utils.ClassUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -25,30 +28,29 @@ public class ModuleRegistry implements IModuleRegistry {
 
 	// Module Registry
 	private Map<IMaterial, Map<ModuleUID, ModuleType>> modules = Maps.newHashMap();
-	private static ArrayList<IModuleHandler> moduleHandlers = Lists.newArrayList();
+	private ArrayList<IModuleContainer> moduleContainers = Lists.newArrayList();
+	private HashMap<IModuleContainer, IModule> fakeModuleCache = Maps.newHashMap();
 
 	@Override
-	public <M extends IModule> M registerModule(IMaterial material, ModuleUID UID, Class<? extends M> moduleClass, Object... objects) {
+	public <M extends IModule> boolean registerModule(IMaterial material, ModuleUID UID, Class<? extends IModule> moduleClass, Object... objects) {
 		if (material == null || UID == null || moduleClass == null) {
-			return null;
+			return false;
 		}
 		if (!modules.containsKey(material)) {
 			modules.put(material, Maps.newHashMap());
 		}
 		if (modules.get(material).containsKey(UID)) {
-			return createModule(material, UID);
+			return false;
 		}
-		Object[] newObjects = new Object[objects == null ? 1 : objects.length + 1];
-		newObjects[0] = UID.getModuleUID();
+		Object[] newObjects = new Object[objects == null ? 2 : objects.length + 2];
 		for(int i = 0; i < objects.length; i++) {
-			newObjects[i + 1] = objects[i];
+			newObjects[i+2] = objects[i];
 		}
 		ModuleType type = new ModuleType(moduleClass, newObjects);
 		if (modules.get(material).put(UID, type) != null) {
-			M module = createModule(material, UID);
-			return module;
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -70,21 +72,30 @@ public class ModuleRegistry implements IModuleRegistry {
 	}
 
 	@Override
-	public <M extends IModule> M createModule(IMaterial material, ModuleUID UID) {
+	public <M extends IModule> M createModule(IModular modular, IModuleContainer container) {
+		if (container == null) {
+			return null;
+		}
+		IMaterial material = container.getMaterial(); 
+		ModuleUID UID = container.getUID();
 		if (material == null || UID == null) {
 			return null;
 		}
 		if (modules.containsKey(material)) {
 			if (modules.get(material).containsKey(UID)) {
 				ModuleType moduleType = modules.get(material).get(UID);
-				Class[] classes = new Class[moduleType.parameters.length];
-				for(int i = 0; i < moduleType.parameters.length; i++) {
-					Object object = moduleType.parameters[i];
+				Object[] parameters = moduleType.parameters.clone();
+				parameters[0] = modular;
+				parameters[1] = container;
+				Class[] classes = new Class[parameters.length];
+				classes[0] = IModular.class;
+				classes[1] = IModuleContainer.class;
+				for(int i = 2; i < parameters.length; i++) {
+					Object object = parameters[i];
 					classes[i] = ClassUtil.classToPrimitive(object.getClass());
 				}
-				boolean integer = int.class.isPrimitive();
 				try {
-					return (M) moduleType.moduleClass.getConstructor(classes).newInstance(moduleType.parameters);
+					return (M) moduleType.moduleClass.getConstructor(classes).newInstance(parameters);
 				} catch (Exception e) {
 					FMLCommonHandler.instance().raiseException(e, "", true);
 				}
@@ -93,40 +104,49 @@ public class ModuleRegistry implements IModuleRegistry {
 		return null;
 	}
 
+	@Override
+	public <M extends IModule> M createFakeModule(IModuleContainer container) {
+		if(!fakeModuleCache.containsKey(container)){
+			IModule module = createModule(null, container);
+			fakeModuleCache.put(container, module);
+			return (M) module;
+		}
+		return (M) fakeModuleCache.get(container);
+	}
+
 	// Items for modules
 	@Override
-	public void registerItemForModule(ItemStack itemStack, ModuleStack moduleStack) {
-		registerItemForModule(itemStack, moduleStack, false);
+	public void registerItemForModule(ItemStack itemStack, IModuleContainer moduleContainer) {
+		registerItemForModule(itemStack, moduleContainer, false);
 	}
 
 	@Override
-	public void registerItemForModule(ItemStack itemStack, ModuleStack moduleStack, boolean ignorNBT) {
+	public void registerItemForModule(ItemStack itemStack, IModuleContainer moduleContainer, boolean ignorNBT) {
 		if (itemStack == null) {
-			throw new NullPointerException("The itemstack form the module with the UID " + moduleStack.getUID() + " from the mod "
+			throw new NullPointerException("The itemstack form the module with the UID " + moduleContainer.getUID() + " from the mod "
 					+ Loader.instance().activeModContainer().getModId() + " is null.");
 		}
-		ModuleContainer moduleHandler = new ModuleContainer(itemStack, moduleStack, ignorNBT);
-		if (!moduleHandlers.equals(moduleHandler)) {
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleItemRegisterEvent(moduleHandler));
-			moduleHandlers.add(moduleHandler);
+		if (!moduleContainers.equals(moduleContainer)) {
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleItemRegisterEvent(moduleContainer));
+			moduleContainers.add(moduleContainer);
 		}
 	}
 
 	@Override
-	public <M extends IModule> ItemStack createDefaultModuleItem(ModuleStack<M> moduleStack) {
+	public ItemStack createDefaultModuleItem(IModuleContainer moduleStack) {
 		return ItemModule.createItem(moduleStack);
 	}
 
 	@Override
-	public ModuleStack getModuleFromItem(ItemStack stack) {
+	public IModuleContainer getModuleFromItem(ItemStack stack) {
 		if (stack == null) {
 			return null;
 		}
-		for(IModuleHandler handler : moduleHandlers) {
-			if (handler.getStack() != null && handler.getStack().getItem() != null && stack.getItem() == handler.getStack().getItem()
-					&& stack.getItemDamage() == handler.getStack().getItemDamage()) {
-				if (handler.ignorNBT() || ItemStack.areItemStackTagsEqual(stack, handler.getStack())) {
-					return handler.getModuleStack();
+		for(IModuleContainer container : moduleContainers) {
+			if (container.getItemStack() != null && container.getItemStack().getItem() != null && stack.getItem() == container.getItemStack().getItem()
+					&& stack.getItemDamage() == container.getItemStack().getItemDamage()) {
+				if (container.ignorNBT() || ItemStack.areItemStackTagsEqual(stack, container.getItemStack())) {
+					return container;
 				}
 			}
 		}
@@ -134,10 +154,15 @@ public class ModuleRegistry implements IModuleRegistry {
 	}
 
 	@Override
-	public <M extends IModule> M registerModuleAndItem(IMaterial material, ModuleUID UID, ItemStack itemStack, Class<? extends M> moduleClass, boolean ignorNBT,
-			Object... objects) {
-		M module = registerModule(material, UID, moduleClass, objects);
-		registerItemForModule(itemStack, new ModuleStack(UID, material), ignorNBT);
-		return module;
+	public <M extends IModule> boolean registerModuleAndItem(IMaterial material, ModuleUID UID, ItemStack itemStack, Class<? extends M> moduleClass, boolean ignorNBT, Object... objects) {
+		boolean registered = registerModule(material, UID, moduleClass, objects);
+
+		registerItemForModule(itemStack, new ModuleContainer(itemStack, UID, material, moduleClass, ignorNBT), ignorNBT);
+		return registered;
+	}
+
+	@Override
+	public List<IModuleContainer> getModuleContainers() {
+		return Collections.unmodifiableList(moduleContainers);
 	}
 }

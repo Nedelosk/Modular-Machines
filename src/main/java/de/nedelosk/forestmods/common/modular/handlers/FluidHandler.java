@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTank;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -96,8 +96,8 @@ public class FluidHandler implements IFluidHandler {
 
 	protected List<IModuleTank> getTanks() {
 		List<IModuleTank> tanks = Lists.newArrayList();
-		for(ModuleStack stack : modular.getModuleStacks()) {
-			tanks.add(stack.getModule().getTank());
+		for(IModule module : modular.getModules()) {
+			tanks.add(module.getTank());
 		}
 		return tanks;
 	}

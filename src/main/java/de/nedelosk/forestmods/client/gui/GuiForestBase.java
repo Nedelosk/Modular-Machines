@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.client.gui;
 
-import de.nedelosk.forestcore.gui.GuiBase;
-import de.nedelosk.forestcore.inventory.IGuiHandler;
+import de.nedelosk.forestmods.library.gui.GuiBase;
+import de.nedelosk.forestmods.library.inventory.IGuiHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 

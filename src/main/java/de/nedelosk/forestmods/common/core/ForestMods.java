@@ -9,10 +9,10 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import de.nedelosk.forestcore.multiblock.MultiblockEventHandler;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
 import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager;
 import de.nedelosk.forestmods.common.modules.registry.ModuleRegistry;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.multiblock.MultiblockEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.forestmods.common.config.ConfigFactory")

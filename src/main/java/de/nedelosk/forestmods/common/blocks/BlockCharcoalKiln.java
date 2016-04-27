@@ -6,14 +6,14 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestcore.utils.WorldUtil;
-import de.nedelosk.forestmods.api.ForestModsApi;
-import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.client.core.ClientProxy;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.library.ForestModsApi;
+import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.forestmods.library.utils.BlockPos;
+import de.nedelosk.forestmods.library.utils.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -90,7 +90,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		subItems.addAll(CharcoalKilnUtil.createKilnItems());
+		subItems.addAll(CharcoalKilnHelper.createKilnItems());
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 				list.add(new ItemStack(Items.coal, 1, 8));
 				list.addAll(ForestModsApi.getCharcoalDrops(kiln.getWoodStack()));
 			} else {
-				list.add(CharcoalKilnUtil.createKiln(kiln.getWoodStack()));
+				list.add(CharcoalKilnHelper.createKiln(kiln.getWoodStack()));
 			}
 			WorldUtil.dropItem(world, x, y, z, list);
 		} else {
@@ -169,7 +169,7 @@ public class BlockCharcoalKiln extends BlockContainer {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileCharcoalKiln) {
-			return CharcoalKilnUtil.createKiln(((TileCharcoalKiln) tile).getWoodStack());
+			return CharcoalKilnHelper.createKiln(((TileCharcoalKiln) tile).getWoodStack());
 		}
 		return super.getPickBlock(target, world, x, y, z);
 	}

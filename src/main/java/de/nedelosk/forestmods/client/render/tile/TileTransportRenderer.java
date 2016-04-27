@@ -2,10 +2,10 @@ package de.nedelosk.forestmods.client.render.tile;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.api.transport.ITransportPart;
 import de.nedelosk.forestmods.client.render.models.ModelTransport;
 import de.nedelosk.forestmods.common.transport.TileEntityTransport;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

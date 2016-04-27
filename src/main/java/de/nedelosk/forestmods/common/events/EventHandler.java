@@ -6,14 +6,15 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.blocks.BlockModularMachine;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.core.BlockManager;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.IModuleController;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -36,13 +37,14 @@ public class EventHandler {
 		Block block = world.getBlock(event.x, event.y, event.z);
 		int metadata = world.getBlockMetadata(event.x, event.y, event.z);
 		ItemStack currentItem = player.getHeldItem();
-		if (ModuleManager.moduleRegistry.getModuleFromItem(currentItem) != null) {
-			if (block instanceof BlockModularMachine) {
-				if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
-					ModuleStack currentModule = ModuleManager.moduleRegistry.getModuleFromItem(currentItem).copy();
+		IModuleContainer currentContainer = ModuleManager.moduleRegistry.getModuleFromItem(currentItem);
+		if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
+			if (currentContainer != null) {
+				if (block instanceof BlockModularMachine) {
 					TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
 					if (tile instanceof TileModular) {
-						if (currentModule != null && currentModule.getModule() != null && !(currentModule.getModule() instanceof IModuleController)) {
+						IModule currentModule = ModuleManager.moduleRegistry.createModule(((TileModular) tile).getModular(), currentContainer);
+						if (currentContainer != null && !(currentModule instanceof IModuleController)) {
 							if (!world.isRemote) {
 								TileModular modularTile = (TileModular) tile;
 								if (modularTile.getModular() != null) {
@@ -52,7 +54,6 @@ public class EventHandler {
 										moduleItem.setTagCompound((NBTTagCompound) currentItem.getTagCompound().copy());
 									}
 									if (modular.addModule(moduleItem.copy(), currentModule)) {
-										currentModule.getModule().onAddInModular(modular, currentModule);
 										if (!player.capabilities.isCreativeMode) {
 											currentItem.stackSize--;
 											if (currentItem.stackSize == 0) {
@@ -67,20 +68,20 @@ public class EventHandler {
 							}
 						}
 					}
-				}
-			} else {
-				if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
-					ModuleStack currentModule = ModuleManager.moduleRegistry.getModuleFromItem(currentItem).copy();
+				} else {
 					ItemStack casingStack = new ItemStack(block, 1, metadata);
-					if (ModuleManager.moduleRegistry.getModuleFromItem(casingStack) != null) {
-						ModuleStack casingModule = ModuleManager.moduleRegistry.getModuleFromItem(casingStack).copy();
-						if (casingModule != null && casingModule.getModule() != null && casingModule.getModule() instanceof IModuleCasing
-								&& currentModule != null && currentModule.getModule() != null && currentModule.getModule() instanceof IModuleController) {
+
+					if (currentContainer != null) {
+						IModuleContainer casingContainer = ModuleManager.moduleRegistry.getModuleFromItem(casingStack);
+						if (casingContainer != null && IModuleCasing.class.isAssignableFrom(casingContainer.getModuleClass())
+								&& currentContainer != null && IModuleController.class.isAssignableFrom(currentContainer.getModuleClass())) {
 							world.setBlock(event.x, event.y, event.z, BlockManager.blockModular);
 							BlockManager.blockModular.onBlockPlacedBy(world, event.x, event.y, event.z, event.entityPlayer, null);
 							TileEntity tile = world.getTileEntity(event.x, event.y, event.z);
 							if (tile instanceof TileModular) {
 								if (!world.isRemote) {
+									IModule currentModule = ModuleManager.moduleRegistry.createModule(((TileModular) tile).getModular(), currentContainer);
+									IModule casingModule = ModuleManager.moduleRegistry.createModule(((TileModular) tile).getModular(), casingContainer);
 									TileModular modularTile = (TileModular) tile;
 									if (modularTile.getModular() != null) {
 										IModular modular = modularTile.getModular();
@@ -90,8 +91,6 @@ public class EventHandler {
 										}
 										if (modular.addModule(moduleItem.copy(), currentModule)) {
 											if (modular.addModule(casingStack.copy(), casingModule)) {
-												currentModule.getModule().onAddInModular(modular, currentModule);
-												casingModule.getModule().onAddInModular(modular, casingModule);
 												if (!player.capabilities.isCreativeMode) {
 													currentItem.stackSize--;
 													if (currentItem.stackSize == 0) {
@@ -126,16 +125,13 @@ public class EventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		ModuleStack stack = ModuleManager.moduleRegistry.getModuleFromItem(event.itemStack);
-		if (stack != null) {
-			if (stack.getModule() == null) {
-				getClass();
-			}
-			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + stack.getMaterial().getLocalizedName());
-			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + stack.getMaterial().getTier());
+		IModule module = ModuleManager.moduleRegistry.createFakeModule(ModuleManager.moduleRegistry.getModuleFromItem(event.itemStack));
+		if (module != null) {
+			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + module.getModuleContainer().getMaterial().getLocalizedName());
+			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + module.getModuleContainer().getMaterial().getTier());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.name") + ": "
-					+ StatCollector.translateToLocal(stack.getModule().getUnlocalizedName(stack)));
-			stack.getModule().addTooltip(stack, event.toolTip);
+					+ StatCollector.translateToLocal(module.getUnlocalizedName()));
+			module.addTooltip(event.toolTip);
 		}
 	}
 }

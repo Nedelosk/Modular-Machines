@@ -1,15 +1,14 @@
 package de.nedelosk.forestmods.common.modules;
 
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
-import de.nedelosk.forestmods.api.recipes.IRecipeJsonSerializer;
-import de.nedelosk.forestmods.api.recipes.IRecipeNBTSerializer;
+import de.nedelosk.forestmods.library.recipes.IRecipeHandler;
+import de.nedelosk.forestmods.library.recipes.IRecipeJsonSerializer;
+import de.nedelosk.forestmods.library.recipes.IRecipeNBTSerializer;
 
 public class ModuleRecipeHandler implements IRecipeHandler {
 
-	private final ModuleAdvanced producer;
+	private final ModuleMachine producer;
 
-	public ModuleRecipeHandler(ModuleAdvanced producer) {
+	public ModuleRecipeHandler(ModuleMachine producer) {
 		this.producer = producer;
 	}
 
@@ -29,7 +28,7 @@ public class ModuleRecipeHandler implements IRecipeHandler {
 	}
 
 	@Override
-	public Class<? extends IRecipe> getRecipeClass() {
-		return producer.getRecipeClass();
+	public boolean matches(Object[] craftingModifiers) {
+		return true;
 	}
 }

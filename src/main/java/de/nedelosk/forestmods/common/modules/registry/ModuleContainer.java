@@ -1,43 +1,54 @@
 package de.nedelosk.forestmods.common.modules.registry;
 
-import de.nedelosk.forestmods.api.utils.IModuleHandler;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.material.IMaterial;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
 import net.minecraft.item.ItemStack;
 
-public final class ModuleContainer implements IModuleHandler {
+public class ModuleContainer implements IModuleContainer {
 
-	public final ItemStack stack;
-	public final ModuleStack moduleStack;
+	public ItemStack stack;
+	public final ModuleUID UID;
+	public final IMaterial material;
 	public final boolean ignorNBT;
+	public final Class<? extends IModule> moduleClass;
 
-	public ModuleContainer(ItemStack stack, ModuleStack moduleStack, boolean ignorNBT) {
+	public ModuleContainer(ItemStack stack, ModuleUID UID, IMaterial material, Class<? extends IModule> moduleClass, boolean ignorNBT) {
 		this.stack = stack;
-		this.moduleStack = moduleStack;
+		this.UID = UID;
+		this.material = material;
+		this.moduleClass = moduleClass;
 		this.ignorNBT = ignorNBT;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof IModuleHandler)) {
+		if (obj == null || !(obj instanceof IModuleContainer)) {
 			return false;
 		}
-		IModuleHandler i = (IModuleHandler) obj;
-		if (stack != null && i.getStack() != null && i.getStack().getItem() != null && stack.getItem() != null
-				&& stack.getItemDamage() == i.getStack().getItemDamage()
-				&& (ignorNBT && i.ignorNBT() || stack.getTagCompound() == null && i.getStack().getTagCompound() == null || stack.getTagCompound() != null
-						&& i.getStack().getTagCompound() != null && stack.getTagCompound().equals(i.getStack().getTagCompound()))) {
+		IModuleContainer i = (IModuleContainer) obj;
+		if (stack != null && i.getItemStack() != null && i.getItemStack().getItem() != null && stack.getItem() != null
+				&& stack.getItemDamage() == i.getItemStack().getItemDamage()
+				&& (ignorNBT && i.ignorNBT() || stack.getTagCompound() == null && i.getItemStack().getTagCompound() == null || stack.getTagCompound() != null
+				&& i.getItemStack().getTagCompound() != null && stack.getTagCompound().equals(i.getItemStack().getTagCompound()))) {
 		}
 		return false;
 	}
 
 	@Override
 	public ModuleContainer copy() {
-		return new ModuleContainer(stack.copy(), moduleStack, ignorNBT);
+		return new ModuleContainer(stack.copy(), UID, material, moduleClass, ignorNBT);
 	}
 
 	@Override
-	public ItemStack getStack() {
+	public ItemStack getItemStack() {
 		return stack;
+	}
+
+	@Override
+	public void setItemStack(ItemStack stack) {
+		this.stack = stack;
 	}
 
 	@Override
@@ -46,7 +57,17 @@ public final class ModuleContainer implements IModuleHandler {
 	}
 
 	@Override
-	public ModuleStack getModuleStack() {
-		return moduleStack;
+	public IMaterial getMaterial() {
+		return material;
+	}
+
+	@Override
+	public ModuleUID getUID() {
+		return UID;
+	}
+
+	@Override
+	public Class<? extends IModule> getModuleClass() {
+		return moduleClass;
 	}
 }

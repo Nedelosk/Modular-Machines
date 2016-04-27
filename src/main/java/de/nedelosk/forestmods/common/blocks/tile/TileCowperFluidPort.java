@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestcore.fluids.TankManager;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.fluids.TankManager;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;

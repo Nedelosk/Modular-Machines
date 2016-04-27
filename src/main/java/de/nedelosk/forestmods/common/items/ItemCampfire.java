@@ -2,12 +2,12 @@ package de.nedelosk.forestmods.common.items;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestcore.items.ItemForest;
-import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.core.ItemManager;
+import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.forestmods.library.core.Registry;
+import de.nedelosk.forestmods.library.items.ItemForest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -93,7 +93,7 @@ public class ItemCampfire extends ItemForest {
 			return false;
 		}
 		TileCampfire kiln = (TileCampfire) world.getTileEntity(x, y, z);
-		kiln.setCampfireItem(stack);
+		kiln.setCampfireItem(player, stack);
 		if (world.getBlock(x, y, z) == blockC) {
 			blockC.onBlockPlacedBy(world, x, y, z, player, stack);
 			blockC.onPostBlockPlaced(world, x, y, z, metadata);

@@ -7,32 +7,31 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.integration.IWailaProvider;
-import de.nedelosk.forestmods.api.integration.IWailaState;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.utils.ModularException;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.client.gui.GuiModular;
 import de.nedelosk.forestmods.client.render.modules.ModularRenderer;
 import de.nedelosk.forestmods.common.inventory.ContainerModular;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modular.handlers.FluidHandler;
 import de.nedelosk.forestmods.common.network.PacketHandler;
+import de.nedelosk.forestmods.common.network.packets.PacketSelectModule;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectModulePage;
-import de.nedelosk.forestmods.common.network.packets.PacketSelectModuleStack;
+import de.nedelosk.forestmods.library.integration.IWailaProvider;
+import de.nedelosk.forestmods.library.integration.IWailaState;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.ModularException;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.IModuleController;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -46,12 +45,11 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class Modular implements IModular, IWailaProvider {
 
 	protected IModularTileEntity tileEntity;
-	protected List<ModuleStack> moduleStacks = new ArrayList();
-	protected List<ItemStack> itemStacks = new ArrayList();
+	protected List<IModule> modules = new ArrayList();
 	protected int tier;
 	private boolean isAssembled;
 	protected ModularException lastException;
-	protected ModuleStack currentStack;
+	protected IModule currentModule;
 	protected IModulePage currentPage;
 	protected EnergyHandler energyHandler;
 	protected FluidHandler fluidHandler;
@@ -67,41 +65,40 @@ public class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public void assemble() throws ModularException {
-		ModuleStack<IModuleController> controller = null;
-		for(ModuleStack stack : moduleStacks) {
-			if (stack.getModule() instanceof IModuleController) {
+		IModuleController controller = null;
+		for(IModule module : modules) {
+			if (module instanceof IModuleController) {
 				if (controller != null) {
 					throw new ModularException(StatCollector.translateToLocal("modular.ex.controller.more"));
 				}
-				controller = stack;
+				controller = (IModuleController) module;
 			}
 		}
 		if (controller == null) {
 			throw new ModularException(StatCollector.translateToLocal("modular.ex.controller.find"));
 		}
-		for(ModuleStack stack : moduleStacks) {
-			stack.getModule().canAssembleModular(controller);
+		for(IModule module : modules) {
+			module.canAssembleModular(controller);
 		}
-		controller.getModule().canAssembleModular();
-		for(ModuleStack stack : moduleStacks) {
-			stack.getModule().onModularAssembled(controller);
+		controller.canAssembleModular();
+		for(IModule module : modules) {
+			module.onModularAssembled(controller);
 		}
 		onAssembleModular();
 	}
 
 	public void onAssembleModular() {
 		fluidHandler = new FluidHandler(this);
-		moduleStacks = Collections.unmodifiableList(moduleStacks);
-		itemStacks = Collections.unmodifiableList(itemStacks);
-		currentStack = getFirstGui();
+		modules = Collections.unmodifiableList(modules);
+		currentModule = getFirstGui();
 		setCurrentPage(0);
 		isAssembled = true;
 	}
 
-	private ModuleStack getFirstGui() {
-		for(ModuleStack stack : moduleStacks) {
-			if (!stack.getModule().isHandlerDisabled(ModuleManager.guiType) && stack.getModule().getPages() != null) {
-				return stack;
+	private IModule getFirstGui() {
+		for(IModule module : modules) {
+			if (!module.isHandlerDisabled(ModuleManager.guiType) && module.getPages() != null) {
+				return module;
 			}
 		}
 		return null;
@@ -110,12 +107,12 @@ public class Modular implements IModular, IWailaProvider {
 	@Override
 	public void update(boolean isServer) {
 		if (isAssembled) {
-			for(ModuleStack stack : moduleStacks) {
-				if (stack != null && stack.getModule() != null) {
+			for(IModule module : modules) {
+				if (module != null) {
 					if (isServer) {
-						stack.getModule().updateServer();
+						module.updateServer();
 					} else {
-						stack.getModule().updateClient();
+						module.updateClient();
 					}
 				}
 			}
@@ -126,24 +123,23 @@ public class Modular implements IModular, IWailaProvider {
 	public void readFromNBT(NBTTagCompound nbt) {
 		isAssembled = nbt.getBoolean("isAssembled");
 		NBTTagList nbtList = nbt.getTagList("Modules", 10);
-		NBTTagList nbtListItems = nbt.getTagList("Items", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
-			NBTTagCompound itemTag = nbtListItems.getCompoundTagAt(i);
-			ModuleStack moduleStack = ModuleStack.loadFromNBT(moduleTag, this);
-			ItemStack itemStack = ItemStack.loadItemStackFromNBT(itemTag);
-			moduleStacks.add(moduleStack);
-			itemStacks.add(itemStack);
+			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
+			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
+			IModuleContainer container = ModuleManager.moduleRegistry.getModuleFromItem(moduleItem);
+			IModule module = ModuleManager.moduleRegistry.createModule(this, container);
+			module.readFromNBT(moduleTag, this);
+			modules.add(module);
 		}
 		if (isAssembled) {
-			moduleStacks = Collections.unmodifiableList(moduleStacks);
-			itemStacks = Collections.unmodifiableList(itemStacks);
+			modules = Collections.unmodifiableList(modules);
 		}
 		tier = nbt.getInteger("Tier");
 		if (nbt.hasKey("CurrentUID")) {
-			currentStack = getModuleStack(new ModuleUID(nbt.getString("CurrentUID")));
+			currentModule = getModule(new ModuleUID(nbt.getString("CurrentUID")));
 			if (nbt.hasKey("CurrentPage")) {
-				currentPage = currentStack.getModule().getPages()[nbt.getInteger("CurrentPage")];
+				currentPage = currentModule.getPages()[nbt.getInteger("CurrentPage")];
 			}
 		}
 		if (nbt.getBoolean("EH")) {
@@ -157,23 +153,19 @@ public class Modular implements IModular, IWailaProvider {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		NBTTagList nbtList = new NBTTagList();
-		for(ModuleStack stack : moduleStacks) {
+		for(IModule module : modules) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
-			stack.writeToNBT(nbtTag, this);
+			module.writeToNBT(nbtTag, this);
+			NBTTagCompound nbtTagContainer = new NBTTagCompound();
+			module.getModuleContainer().getItemStack().writeToNBT(nbtTagContainer);
+			nbtTag.setTag("Container", nbtTagContainer);
 			nbtList.appendTag(nbtTag);
 		}
 		nbt.setTag("Modules", nbtList);
-		NBTTagList nbtListItems = new NBTTagList();
-		for(ItemStack stack : itemStacks) {
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			stack.writeToNBT(nbtTag);
-			nbtListItems.appendTag(nbtTag);
-		}
-		nbt.setTag("Items", nbtListItems);
 		nbt.setBoolean("isAssembled", isAssembled);
 		nbt.setInteger("Tier", tier);
-		if (currentStack != null) {
-			nbt.setString("CurrentUID", currentStack.getUID().toString());
+		if (currentModule != null) {
+			nbt.setString("CurrentUID", currentModule.getModuleContainer().getUID().toString());
 			if (currentPage != null) {
 				nbt.setInteger("CurrentPage", currentPage.getPageID());
 			}
@@ -194,10 +186,10 @@ public class Modular implements IModular, IWailaProvider {
 	public int getTier() {
 		if (tier == 0) {
 			int tiers = 0;
-			for(ModuleStack stack : moduleStacks) {
-				tiers += stack.getMaterial().getTier();
+			for(IModule module : modules) {
+				tiers += module.getModuleContainer().getMaterial().getTier();
 			}
-			tier = tiers / moduleStacks.size();
+			tier = tiers / modules.size();
 		}
 		return tier;
 	}
@@ -222,11 +214,11 @@ public class Modular implements IModular, IWailaProvider {
 		return tileEntity;
 	}
 
-	private ArrayList<ModuleStack> getWailaModules() {
-		ArrayList<ModuleStack> wailaModules = Lists.newArrayList();
-		for(ModuleStack stack : moduleStacks) {
-			if (stack.getModule() != null && stack.getModule() instanceof IWailaProvider) {
-				wailaModules.add(stack);
+	private ArrayList<IModule> getWailaModules() {
+		ArrayList<IModule> wailaModules = Lists.newArrayList();
+		for(IModule module : modules) {
+			if (module instanceof IWailaProvider) {
+				wailaModules.add(module);
 			}
 		}
 		return wailaModules;
@@ -234,10 +226,10 @@ public class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List getWailaBody(ItemStack itemStack, List currenttip, IWailaState data) {
-		for(ModuleStack stack : getWailaModules()) {
-			if (stack.getModule() instanceof IWailaProvider) {
-				if (((IWailaProvider) stack.getModule()).getWailaBody(itemStack, currenttip, data) != null) {
-					currenttip = ((IWailaProvider) stack.getModule()).getWailaBody(itemStack, currenttip, data);
+		for(IModule module : getWailaModules()) {
+			if (module instanceof IWailaProvider) {
+				if (((IWailaProvider) module).getWailaBody(itemStack, currenttip, data) != null) {
+					currenttip = ((IWailaProvider) module).getWailaBody(itemStack, currenttip, data);
 				}
 			}
 		}
@@ -246,10 +238,10 @@ public class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data) {
-		for(ModuleStack stack : getWailaModules()) {
-			if (stack.getModule() instanceof IWailaProvider) {
-				if (((IWailaProvider) stack.getModule()).getWailaHead(itemStack, currenttip, data) != null) {
-					currenttip = ((IWailaProvider) stack.getModule()).getWailaHead(itemStack, currenttip, data);
+		for(IModule module : getWailaModules()) {
+			if (module instanceof IWailaProvider) {
+				if (((IWailaProvider) module).getWailaHead(itemStack, currenttip, data) != null) {
+					currenttip = ((IWailaProvider) module).getWailaHead(itemStack, currenttip, data);
 				}
 			}
 		}
@@ -258,10 +250,10 @@ public class Modular implements IModular, IWailaProvider {
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaState data) {
-		for(ModuleStack stack : getWailaModules()) {
-			if (stack.getModule() instanceof IWailaProvider) {
-				if (((IWailaProvider) stack.getModule()).getWailaTail(itemStack, currenttip, data) != null) {
-					currenttip = ((IWailaProvider) stack.getModule()).getWailaTail(itemStack, currenttip, data);
+		for(IModule module : getWailaModules()) {
+			if (module instanceof IWailaProvider) {
+				if (((IWailaProvider) module).getWailaTail(itemStack, currenttip, data) != null) {
+					currenttip = ((IWailaProvider) module).getWailaTail(itemStack, currenttip, data);
 				}
 			}
 		}
@@ -294,23 +286,23 @@ public class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public ModuleStack getCurrentStack() {
-		return currentStack;
+	public IModule getCurrentModule() {
+		return currentModule;
 	}
 
 	@Override
-	public void setCurrentStack(ModuleStack stack) {
-		this.currentStack = stack;
-		this.currentPage = currentStack.getModule().getPages()[0];
+	public void setCurrentModule(IModule module) {
+		this.currentModule = module;
+		this.currentPage = currentModule.getPages()[0];
 		if (getTile().getWorld().isRemote) {
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModuleStack((TileEntity) getTile(), stack));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule((TileEntity) getTile(), module));
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getTile(), 0));
 		}
 	}
 
 	@Override
 	public void setCurrentPage(int pageID) {
-		this.currentPage = currentStack.getModule().getPages()[pageID];
+		this.currentPage = currentModule.getPages()[pageID];
 		if (getTile().getWorld().isRemote) {
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getTile(), pageID));
 		}
@@ -328,46 +320,35 @@ public class Modular implements IModular, IWailaProvider {
 	}
 
 	@Override
-	public boolean addModule(ItemStack itemStack, ModuleStack stack) {
-		if (stack == null) {
-			return false;
-		}
-		IModule module = stack.getModule();
+	public boolean addModule(ItemStack itemStack, IModule module) {
 		if (module == null) {
 			return false;
 		}
-		ModuleStack<IModuleController> controller = null;
-		for(ModuleStack moduleStack : moduleStacks) {
-			if (moduleStack.getModule() instanceof IModuleController) {
-				controller = moduleStack;
+		IModuleController controller = null;
+		for(IModule moduleO : modules) {
+			if (moduleO instanceof IModuleController) {
+				controller = (IModuleController) moduleO;
 			}
 		}
 		if (controller == null) {
-			if (stack.getModule() instanceof IModuleController) {
-				if (moduleStacks.add(stack.copy()) & itemStacks.add(itemStack.copy())) {
+			if (module instanceof IModuleController) {
+				if (modules.add(module)) {
+					module.loadDataFromItem(itemStack);
 					return true;
 				} else {
 					return false;
 				}
 			}
 			return false;
-		} else if (stack.getModule() instanceof IModuleController) {
+		} else if (module instanceof IModuleController) {
 			return false;
 		}
-		List<Class<? extends IModule>> allowedModules = controller.getModule().getAllowedModules();
-		for(ModuleStack<IModule> moduleStack : moduleStacks) {
-			Iterator<Class<? extends IModule>> allowedModulesIterator = allowedModules.iterator();
-			while (allowedModulesIterator.hasNext()) {
-				Class<? extends IModule> allowedModule = allowedModulesIterator.next();
-				if (allowedModule.isAssignableFrom(moduleStack.getModule().getClass())) {
-					allowedModulesIterator.remove();
-					continue;
-				}
-			}
-		}
+		List<Class<? extends IModule>> allowedModules = getUnusedAllowedModules(controller);
+
 		for(Class<? extends IModule> allowedModule : allowedModules) {
-			if (allowedModule.isAssignableFrom(stack.getModule().getClass())) {
-				if (moduleStacks.add(stack.copy()) & itemStacks.add(itemStack.copy())) {
+			if (allowedModule.isAssignableFrom(module.getClass())) {
+				if (modules.add(module)) {
+					module.loadDataFromItem(itemStack);
 					return true;
 				} else {
 					return false;
@@ -377,48 +358,63 @@ public class Modular implements IModular, IWailaProvider {
 		return false;
 	}
 
-	@Override
-	public List<ModuleStack> getModuleStacks() {
-		return moduleStacks;
+	public List<Class<? extends IModule>> getUnusedAllowedModules(IModuleController controller){
+		if(controller == null){
+			return new ArrayList();
+		}
+		List<Class<? extends IModule>> allowedModules = controller.getAllowedModules();
+		Iterator<Class<? extends IModule>> allowedModulesIterator = allowedModules.iterator();
+		for(IModule module : modules) {
+			List<Class<? extends IModule>> removedClasses = new ArrayList();
+			while (allowedModulesIterator.hasNext()) {
+				Class<? extends IModule> allowedModule = allowedModulesIterator.next();
+				if (allowedModule.isAssignableFrom(module.getClass())) {
+					if(!removedClasses.contains(allowedModule)){
+						allowedModulesIterator.remove();
+						removedClasses.add(allowedModule);
+					}
+				}
+			}
+		}
+		return allowedModules;
 	}
 
 	@Override
-	public ModuleStack getModuleStack(ModuleUID UID) {
-		for(ModuleStack stack : moduleStacks) {
-			if (stack.getUID().equals(UID)) {
-				return stack;
+	public List<IModule> getModules() {
+		return modules;
+	}
+
+	@Override
+	public <M extends IModule> M getModule(ModuleUID UID) {
+		for(IModule module : modules) {
+			if (module.getModuleContainer().getUID().equals(UID)) {
+				return (M) module;
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public ItemStack getItemStack(ModuleUID UID) {
-		ModuleStack stack = getModuleStack(UID);
-		return itemStacks.get(moduleStacks.indexOf(stack));
-	}
-
-	@Override
-	public List getModuleSatcks(Class moduleClass) {
+	public <M extends IModule> List<M> getModules(Class<? extends M> moduleClass) {
 		if (moduleClass == null) {
 			return null;
 		}
-		List<ModuleStack> stackList = Lists.newArrayList();
-		for(ModuleStack stack : moduleStacks) {
-			if (moduleClass.isAssignableFrom(stack.getModule().getClass())) {
-				stackList.add(stack);
+		List<M> modules = Lists.newArrayList();
+		for(IModule module : this.modules) {
+			if (moduleClass.isAssignableFrom(module.getClass())) {
+				modules.add((M) module);
 			}
 		}
-		return stackList;
+		return modules;
 	}
 
 	@Override
-	public IEnergyHandler getEnergyHandler() {
+	public EnergyHandler getEnergyHandler() {
 		return energyHandler;
 	}
 
 	@Override
-	public IFluidHandler getFluidHandler() {
+	public FluidHandler getFluidHandler() {
 		return fluidHandler;
 	}
 

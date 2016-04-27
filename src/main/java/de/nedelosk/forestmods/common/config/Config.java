@@ -10,11 +10,10 @@ import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import de.nedelosk.forestcore.utils.Log;
 import de.nedelosk.forestmods.common.core.Constants;
+import de.nedelosk.forestmods.library.utils.Log;
 import net.minecraftforge.common.config.Configuration;
 
-@Optional.Interface(modid = "endercore", iface = "com.enderio.core.common.event.ConfigFileChangedEvent")
 public class Config {
 
 	public static Configuration config;
@@ -68,6 +67,7 @@ public class Config {
 	public static final ConfigGroup moduleRegistry = new ConfigGroup("Modules.Registry", "moduleRegistry");
 	public static final ConfigGroup moduleItems = new ConfigGroup("Modules.Items", "moduleItem");
 	public static final ConfigGroup machineCharcoalKiln = new ConfigGroup("Machines.Kiln", "machineKilnCharcoal");
+	public static final ConfigGroup bloomery = new ConfigGroup("Machines.Bloomery", "machineBloomery");
 	public static final ConfigGroup machineWorktable = new ConfigGroup("Machines.Worktable", "machineWorktable");
 	public static final ConfigGroup machineCampfire = new ConfigGroup("Machines.Campfire", "machineCampfire");
 	public static final ConfigGroup modModules = new ConfigGroup("ModModules", "modModules", true);
@@ -133,12 +133,9 @@ public class Config {
 		pluginMineTweaker3 = config.get(plugins.name, "Mine Tweaker 3", true).getBoolean();
 		bastFurnaceMaxHeat = config.get(multiblocks.name, "Blast Furnace", 1500).getInt();
 		cokeOvenMaxHeat = config.get(multiblocks.name, "Coke Oven Plant", 1350).getInt();
-		airHeatingPlantMaxHeat = config.get(multiblocks.name, "Air Heating Plant", 750).getInt();
-		kilnBurnTime = config.get(machineCharcoalKiln.name, "BurnTime", 700).getInt();
-		kilnMinHeat = config.get(machineCharcoalKiln.name, "MinHeat", 125).getInt();
-		kilnMaxHeat = config.get(machineCharcoalKiln.name, "MaxHeat", 750).getInt();
-		// Worktable
-		worktableBurnTime = config.get(machineWorktable.name, "Burn Time", 70).getInt();
+		cowperMaxHeat = config.getInt(multiblocks.name, "Cowper Max Heat", 750, 250, 1500, "");
+		bloomeryBurningTime = config.get(bloomery.name, "BurningTime", 12000).getInt();
+
 		// Campfire
 		campfireFuelStorageMax = config.get(machineCampfire.name, "Fuel Storage Max", new int[] { 2500, 5000 }).getIntList();
 		// Campfire Items
@@ -189,17 +186,14 @@ public class Config {
 	/* MODULAR MACHINES */
 	public static int bastFurnaceMaxHeat;
 	public static int cokeOvenMaxHeat;
-	public static int airHeatingPlantMaxHeat;
+	public static int cowperMaxHeat;
 	public static boolean pluginTinkers;
 	public static boolean pluginEnderIO;
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginWaila;
 	public static boolean pluginMineTweaker3;
 	/* FOREST DAY */
-	public static int kilnMinHeat;
-	public static int kilnMaxHeat;
-	public static int kilnBurnTime;
-	public static int worktableBurnTime;
+	public static int bloomeryBurningTime;
 	public static int[] campfireFuelStorageMax;
 	public static String[] campfireCurbsDefault = new String[] { "stone", "obsidian" };
 	public static String[] campfirePotsDefault = new String[] { "stone", "bronze", "iron", "steel" };

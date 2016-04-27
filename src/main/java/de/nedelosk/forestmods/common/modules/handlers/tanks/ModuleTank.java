@@ -2,34 +2,34 @@ package de.nedelosk.forestmods.common.modules.handlers.tanks;
 
 import java.util.ArrayList;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.IContentFilter;
-import de.nedelosk.forestmods.api.modules.handlers.tank.EnumTankMode;
-import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.forestmods.api.modules.handlers.tank.ITankData;
-import de.nedelosk.forestmods.api.modules.handlers.tank.TankData;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.handlers.FilterWrapper;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.handlers.IContentFilter;
+import de.nedelosk.forestmods.library.modules.handlers.tank.EnumTankMode;
+import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTank;
+import de.nedelosk.forestmods.library.modules.handlers.tank.ITankData;
+import de.nedelosk.forestmods.library.modules.handlers.tank.TankData;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class ModuleTank implements IModuleTank {
+public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	protected final TankData[] tanks;
 	protected final IModular modular;
-	protected final ModuleStack moduleStack;
+	protected final M module;
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ModuleTank(TankData[] tanks, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(TankData[] tanks, IModular modular, M module, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.tanks = tanks;
 		this.modular = modular;
-		this.moduleStack = moduleStack;
+		this.module = module;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 	}
@@ -63,7 +63,7 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public boolean canRemoveRecipeInputs(RecipeItem[] inputs) {
+	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -84,14 +84,16 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public boolean canAddRecipeOutputs(RecipeItem[] outputs) {
+	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
 		if (outputs != null) {
 			for(RecipeItem output : outputs) {
 				if (output != null) {
 					if (output.isFluid()) {
-						int test = fill(ForgeDirection.UNKNOWN, output.fluid, false, true);
-						if (test != output.fluid.amount) {
-							return false;
+						if(output.chance == -1 || chance <= output.chance){
+							int test = fill(ForgeDirection.UNKNOWN, output.fluid, false, true);
+							if (test != output.fluid.amount) {
+								return false;
+							}
 						}
 					}
 					continue;
@@ -105,7 +107,7 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public void removeRecipeInputs(RecipeItem[] inputs) {
+	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -118,11 +120,13 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public void addRecipeOutputs(RecipeItem[] outputs) {
+	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
 		if (outputs != null) {
 			for(RecipeItem item : outputs) {
 				if (item != null && item.isFluid()) {
-					fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true, true);
+					if(item.chance == -1 || chance <= item.chance){
+						fill(ForgeDirection.UNKNOWN, item.fluid.copy(), true, true);
+					}
 				}
 			}
 		}
@@ -145,7 +149,7 @@ public class ModuleTank implements IModuleTank {
 			}
 			if (data.getMode() == EnumTankMode.OUTPUT && canFillOutput || data.getMode() == EnumTankMode.INPUT) {
 				if (from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN) {
-					if (insertFilter.isValid(i, resource, moduleStack, from)) {
+					if (insertFilter.isValid(i, resource, module, from)) {
 						return data.getTank().fill(resource, doFill);
 					}
 				} else {
@@ -173,7 +177,7 @@ public class ModuleTank implements IModuleTank {
 			}
 			if (data.getMode() == EnumTankMode.OUTPUT || data.getMode() == EnumTankMode.INPUT && canDrainInput) {
 				if (from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN) {
-					if (extractFilter.isValid(i, resource, moduleStack, from)) {
+					if (extractFilter.isValid(i, resource, module, from)) {
 						return data.getTank().drain(resource, doDrain);
 					}
 				} else {
@@ -202,7 +206,7 @@ public class ModuleTank implements IModuleTank {
 			if (data.getMode() == EnumTankMode.OUTPUT || data.getMode() == EnumTankMode.INPUT && canDrainInput) {
 				if (from == data.getDirection() || from == ForgeDirection.UNKNOWN || data.getDirection() == ForgeDirection.UNKNOWN) {
 					FluidStack resource = new FluidStack(data.getTank().getFluid().getFluid(), maxDrain);
-					if (extractFilter.isValid(i, resource, moduleStack, from)) {
+					if (extractFilter.isValid(i, resource, module, from)) {
 						return data.getTank().drain(maxDrain, doDrain);
 					}
 				} else {
@@ -237,13 +241,13 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public IContentFilter<FluidStack> getInsertFilter() {
-		return null;
+	public IContentFilter<FluidStack, M> getInsertFilter() {
+		return insertFilter;
 	}
 
 	@Override
-	public IContentFilter<FluidStack> getExtractFilter() {
-		return null;
+	public IContentFilter<FluidStack, M> getExtractFilter() {
+		return extractFilter;
 	}
 
 	@Override
@@ -277,8 +281,8 @@ public class ModuleTank implements IModuleTank {
 	}
 
 	@Override
-	public ModuleStack getModuleStack() {
-		return moduleStack;
+	public IModule getModule() {
+		return module;
 	}
 
 	@Override

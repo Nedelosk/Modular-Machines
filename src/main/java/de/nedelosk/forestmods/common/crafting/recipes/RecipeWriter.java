@@ -7,12 +7,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
-import de.nedelosk.forestmods.api.recipes.IRecipeJsonSerializer;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
-import de.nedelosk.forestmods.api.utils.JsonUtils;
 import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager.RecipeEntry;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.IRecipeHandler;
+import de.nedelosk.forestmods.library.recipes.IRecipeJsonSerializer;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
+import de.nedelosk.forestmods.library.utils.JsonUtils;
 
 public class RecipeWriter implements JsonSerializer<RecipeEntry> {
 

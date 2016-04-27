@@ -6,14 +6,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import buildcraft.api.tools.IToolWrench;
-import de.nedelosk.forestcore.blocks.BlockContainerForest;
-import de.nedelosk.forestcore.utils.WorldUtil;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
 import de.nedelosk.forestmods.common.modular.Modular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.utils.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -85,23 +84,23 @@ public class BlockModularMachine extends BlockContainerForest {
 						}
 						return true;
 					} /*
-						 * else if (ModuleRegistry.getModuleFromItem(player.
-						 * getCurrentEquippedItem()) != null) { ModuleItem item
-						 * = ModuleRegistry.getModuleFromItem(player.
-						 * getCurrentEquippedItem());
-						 * item.moduleStack.setItemStack(player.
-						 * getCurrentEquippedItem()); boolean addModule =
-						 * modularMachine.getModular().getModuleManager().
-						 * addModule(item.moduleStack); if (addModule) { if
-						 * (!player.capabilities.isCreativeMode) { ItemStack
-						 * currentItem = player.getCurrentEquippedItem(); if
-						 * (currentItem.stackSize < 2) { currentItem = null; }
-						 * else { currentItem.stackSize--; }
-						 * player.setCurrentItemOrArmor(0, currentItem); }
-						 * modularMachine.getModular().getInventoryManager().
-						 * addInventorys(); world.markBlockForUpdate(x, y, z); }
-						 * return addModule; }
-						 */
+					 * else if (ModuleRegistry.getModuleFromItem(player.
+					 * getCurrentEquippedItem()) != null) { ModuleItem item
+					 * = ModuleRegistry.getModuleFromItem(player.
+					 * getCurrentEquippedItem());
+					 * item.moduleStack.setItemStack(player.
+					 * getCurrentEquippedItem()); boolean addModule =
+					 * modularMachine.getModular().getModuleManager().
+					 * addModule(item.moduleStack); if (addModule) { if
+					 * (!player.capabilities.isCreativeMode) { ItemStack
+					 * currentItem = player.getCurrentEquippedItem(); if
+					 * (currentItem.stackSize < 2) { currentItem = null; }
+					 * else { currentItem.stackSize--; }
+					 * player.setCurrentItemOrArmor(0, currentItem); }
+					 * modularMachine.getModular().getInventoryManager().
+					 * addInventorys(); world.markBlockForUpdate(x, y, z); }
+					 * return addModule; }
+					 */
 				} else {
 					Exception e = modularMachine.getModular().getLastException();
 					if (e != null) {
@@ -125,9 +124,9 @@ public class BlockModularMachine extends BlockContainerForest {
 			IModularTileEntity modular = (IModularTileEntity) tile;
 			if (modular.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
-				for(ModuleStack stack : modular.getModular().getModuleStacks()) {
-					if (stack != null) {
-						drops.add(stack.getModule().getDropItem().copy());
+				for(IModule module : modular.getModular().getModules()) {
+					if (module != null) {
+						drops.add(module.getDropItem().copy());
 					}
 				}
 				WorldUtil.dropItem(world, x, y, z, drops);

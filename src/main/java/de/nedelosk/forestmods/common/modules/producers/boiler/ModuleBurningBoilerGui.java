@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.modules.producers.boiler;
 
 public class ModuleBurningBoilerGui /*
-									 * extends ModuleMachineRecipeGui<
-									 * ModuleBurningBoiler>
-									 */ {
+ * extends ModuleMachineRecipeGui<
+ * ModuleBurningBoiler>
+ */ {
 	/*
 	 * public ModuleBurningBoilerGui(String categoryUID, String guiName) {
 	 * super(categoryUID, guiName); }

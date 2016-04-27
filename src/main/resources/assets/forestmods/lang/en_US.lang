@@ -345,6 +345,7 @@ forest.fd.tooltip.power=Power
 nei.kiln.charcoal.drops=Charcoal Kiln Drops
 nei.kiln.charcoal=Charcoal Kiln Crafting
 nei.campfire=Campfire
+nei.fm.chance=Chance: 
 
 ####################################
 #Multiblocks

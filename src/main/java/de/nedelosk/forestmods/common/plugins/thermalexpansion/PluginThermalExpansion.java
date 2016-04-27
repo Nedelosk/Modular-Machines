@@ -2,14 +2,14 @@ package de.nedelosk.forestmods.common.plugins.thermalexpansion;
 
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
-import de.nedelosk.forestcore.plugins.APlugin;
-import de.nedelosk.forestmods.api.material.EnumMaterials;
-import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
+import de.nedelosk.forestmods.library.material.EnumMaterials;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
+import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
+import de.nedelosk.forestmods.library.plugins.APlugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

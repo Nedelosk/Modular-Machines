@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestcore.inventory.FakeInventoryAdapter;
-import de.nedelosk.forestcore.inventory.IInventoryAdapter;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.inventory.FakeInventoryAdapter;
+import de.nedelosk.forestmods.library.inventory.IInventoryAdapter;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

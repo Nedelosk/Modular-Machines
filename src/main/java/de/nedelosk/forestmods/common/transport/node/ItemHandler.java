@@ -6,10 +6,10 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import cofh.api.inventory.IInventoryConnection;
-import de.nedelosk.forestcore.utils.InventoryUtil;
-import de.nedelosk.forestmods.api.transport.node.IContentHandler;
-import de.nedelosk.forestmods.api.transport.node.INodeSide;
-import de.nedelosk.forestmods.api.transport.node.ITransportNode;
+import de.nedelosk.forestmods.library.transport.node.IContentHandler;
+import de.nedelosk.forestmods.library.transport.node.INodeSide;
+import de.nedelosk.forestmods.library.transport.node.ITransportNode;
+import de.nedelosk.forestmods.library.utils.InventoryUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.tileentity.TileEntity;

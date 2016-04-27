@@ -1,18 +1,20 @@
 package de.nedelosk.forestmods.common.items;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import de.nedelosk.forestmods.api.material.IMaterial;
-import de.nedelosk.forestmods.api.material.MaterialRegistry;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.special.IModuleWithItem;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.core.ItemManager;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
+import de.nedelosk.forestmods.library.material.IMaterial;
+import de.nedelosk.forestmods.library.material.MaterialRegistry;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleColored;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -24,6 +26,7 @@ import net.minecraft.util.StatCollector;
 public class ItemModule extends Item {
 
 	private static List<ItemStack> subItems = Lists.newArrayList();
+	private static Map<ModuleUID, IModule> cache = Maps.newHashMap();
 	private IIcon[] icons;
 
 	public ItemModule() {
@@ -49,7 +52,7 @@ public class ItemModule extends Item {
 		return icons[pass];
 	}
 
-	public static <M extends IModule> ItemStack createItem(ModuleStack<M> moduleStack) {
+	public static <M extends IModule> ItemStack createItem(IModuleContainer moduleStack) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("UID", moduleStack.getUID().toString());
@@ -65,7 +68,7 @@ public class ItemModule extends Item {
 			return StatCollector.translateToLocal("item.module.name");
 		}
 		return StatCollector.translateToLocal("item.module.name") + " "
-				+ StatCollector.translateToLocal(stack.getTagCompound().getString("Material") + ".name");
+		+ StatCollector.translateToLocal(stack.getTagCompound().getString("Material") + ".name");
 	}
 
 	@Override
@@ -75,10 +78,10 @@ public class ItemModule extends Item {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
-		IModule module = ModuleManager.moduleRegistry.getModuleFromItem(stack).getModule();
-		if (module instanceof IModuleWithItem && stack.hasTagCompound() && pass == 1) {
-			IModuleWithItem moduleItem = (IModuleWithItem) ModuleManager.moduleRegistry.getModuleFromItem(stack).getModule();
-			return moduleItem.getColor();
+		IModule module = ModuleManager.moduleRegistry.createFakeModule(ModuleManager.moduleRegistry.getModuleFromItem(stack));
+		if (module instanceof IModuleColored && stack.hasTagCompound() && pass == 1) {
+			IModuleColored moduleColered = (IModuleColored) module;
+			return moduleColered.getColor();
 		} else {
 			return 16777215;
 		}

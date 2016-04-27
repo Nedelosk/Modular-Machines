@@ -3,30 +3,31 @@ package de.nedelosk.forestmods.common.multiblocks.blastfurnace;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.nedelosk.forestcore.fluids.FluidTankSimple;
-import de.nedelosk.forestcore.fluids.TankManager;
-import de.nedelosk.forestcore.inventory.InventoryAdapter;
-import de.nedelosk.forestcore.multiblock.IMultiblockPart;
-import de.nedelosk.forestcore.multiblock.MultiblockControllerBase;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.RectangularMultiblockControllerBase;
-import de.nedelosk.forestcore.utils.Log;
-import de.nedelosk.forestcore.utils.OreStack;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort.PortType;
 import de.nedelosk.forestmods.common.config.Config;
-import de.nedelosk.forestmods.common.crafting.BlastFurnaceRecipe;
-import de.nedelosk.forestmods.common.crafting.BlastFurnaceRecipeManager;
-import net.minecraft.item.ItemStack;
+import de.nedelosk.forestmods.common.core.FluidManager;
+import de.nedelosk.forestmods.library.fluids.FluidTankSimple;
+import de.nedelosk.forestmods.library.fluids.TankManager;
+import de.nedelosk.forestmods.library.inventory.InventoryAdapter;
+import de.nedelosk.forestmods.library.inventory.InventoryRecipeSimple;
+import de.nedelosk.forestmods.library.multiblock.IMultiblockPart;
+import de.nedelosk.forestmods.library.multiblock.MultiblockControllerBase;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.RectangularMultiblockControllerBase;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
+import de.nedelosk.forestmods.library.utils.Log;
+import de.nedelosk.forestmods.library.utils.RecipeUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase {
 
-	private InventoryAdapter inventory = new InventoryAdapter(4, "BlastFurnace", 64);
+	private InventoryAdapter inventory = new InventoryAdapter(new InventoryRecipeSimple(4, "BlastFurnace", 64, 4, 0));
 	private TankManager tankManager = new TankManager(new FluidTankSimple(16000), // Air
 			new FluidTankSimple(16000), // Slag
 			new FluidTankSimple(16000), // Output
@@ -42,7 +43,7 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 	private int burnTimeTotal;
 	private static int heatMax = Config.bastFurnaceMaxHeat;
 	private boolean isActive;
-	private FluidStack[] outputs;
+	private RecipeItem[] outputs;
 
 	public MultiblockBlastFurnace(World world) {
 		super(world);
@@ -192,12 +193,12 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 				if (burnTime >= burnTimeTotal || burnTimeTotal == 0) {
 					if (outputs != null) {
 						if (outputs[0] != null) {
-							if (getTankManager().getTank(1).fill(outputs[0], true) >= outputs[0].amount) {
+							if (getTankManager().getTank(1).fill(outputs[0].fluid, true) >= outputs[0].fluid.amount) {
 								outputs[0] = null;
 							}
 						}
 						if (outputs[1] != null) {
-							if (getTankManager().getTank(2).fill(outputs[1], true) >= outputs[1].amount) {
+							if (getTankManager().getTank(2).fill(outputs[1].fluid, true) >= outputs[1].fluid.amount) {
 								outputs[1] = null;
 							}
 						}
@@ -205,26 +206,17 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 							outputs = null;
 						}
 					} else {
-						ItemStack[] inputs = new ItemStack[4];
+						RecipeItem[] inputs = new RecipeItem[4];
 						for(int i = 0; i < inputs.length; i++) {
-							inputs[i] = getInventory().getStackInSlot(i);
+							inputs[i] = new RecipeItem(i, getInventory().getStackInSlot(i));
 						}
-						if (inputs[0] != null) {
-							BlastFurnaceRecipe recipe = BlastFurnaceRecipeManager.getRecipe(inputs);
-							if (recipe != null) {
-								for(int i = 0; i < recipe.getInput().length; i++) {
-									if (recipe.getInput()[i] instanceof ItemStack) {
-										getInventory().decrStackSize(i, ((ItemStack) recipe.getInput()[i]).stackSize);
-									}
-									if (recipe.getInput()[i] instanceof OreStack) {
-										getInventory().decrStackSize(i, ((OreStack) recipe.getInput()[i]).stackSize);
-									}
-								}
-								outputs = recipe.getOutput().clone();
-								burnTimeTotal = recipe.getBurntTime();
-								heatTotal = recipe.getHeat();
-								return true;
-							}
+						IRecipe recipe = RecipeRegistry.getRecipe("BlastFurnace", inputs);
+						if (recipe != null) {
+							RecipeUtil.removeRecipeInputs(inventory, worldObj.rand.nextInt(100), inputs);
+							outputs = recipe.getOutputs().clone();
+							burnTimeTotal = recipe.getRequiredSpeedModifier();
+							heatTotal = recipe.getRequiredMaterial();
+							return true;
 						}
 					}
 				} else {
@@ -236,7 +228,7 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 					if (worldObj.rand.nextInt(40) == 20) {
 						if (getTankManager().getTank(0) != null && getTankManager().getTank(0).drain(50, true) != null
 								&& getTankManager().getTank(0).drain(50, true).amount >= 50) {
-							if (getTankManager().getTank(3).fill(new FluidStack(FluidRegistry.getFluid("gas.blastfurnace"), 150), true) >= 150) {
+							if (getTankManager().getTank(3).fill(new FluidStack(FluidManager.Gas_Blastfurnace, 150), true) >= 150) {
 								heat += 15;
 								return true;
 							}
@@ -297,17 +289,17 @@ public class MultiblockBlastFurnace extends RectangularMultiblockControllerBase 
 		heat = data.getInteger("Heat");
 		heatTotal = data.getInteger("HeatTotal");
 		if (data.hasKey("Output2")) {
-			outputs = new FluidStack[2];
+			outputs = new RecipeItem[2];
 		} else if (data.hasKey("Output1")) {
-			outputs = new FluidStack[1];
+			outputs = new RecipeItem[1];
 		}
 		if (data.hasKey("Output1")) {
 			NBTTagCompound nbtTag = data.getCompoundTag("Output1");
-			outputs[0] = FluidStack.loadFluidStackFromNBT(nbtTag);
+			outputs[0] = RecipeItem.loadFromNBT(nbtTag);
 		}
 		if (data.hasKey("Output2")) {
 			NBTTagCompound nbtTag = data.getCompoundTag("Output2");
-			outputs[1] = FluidStack.loadFluidStackFromNBT(nbtTag);
+			outputs[1] = RecipeItem.loadFromNBT(nbtTag);
 		}
 	}
 

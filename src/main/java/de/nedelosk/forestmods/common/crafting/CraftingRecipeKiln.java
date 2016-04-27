@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.crafting;
 
 import de.nedelosk.forestmods.common.core.BlockManager;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ public class CraftingRecipeKiln implements IRecipe {
 						return false;
 					}
 				} else {
-					if (!CharcoalKilnUtil.isWood(stack)) {
+					if (!CharcoalKilnHelper.isWood(stack)) {
 						return false;
 					}
 				}
@@ -39,7 +39,7 @@ public class CraftingRecipeKiln implements IRecipe {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		ItemStack itemStack = inv.getStackInRowAndColumn(0, 0);
-		return CharcoalKilnUtil.createKiln(itemStack);
+		return CharcoalKilnHelper.createKiln(itemStack);
 	}
 
 	@Override

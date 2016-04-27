@@ -1,15 +1,14 @@
 package de.nedelosk.forestmods.common.core;
 
-import de.nedelosk.forestmods.api.ForestModsApi;
-import de.nedelosk.forestmods.api.material.EnumMaterials;
-import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
-import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
-import de.nedelosk.forestmods.api.utils.IModuleRegistry;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.common.modules.ModuleAlloySmelter;
 import de.nedelosk.forestmods.common.modules.basic.ModuleCasing;
 import de.nedelosk.forestmods.common.modules.engine.ModuleEngine;
+import de.nedelosk.forestmods.common.modules.machines.ModuleAlloySmelter;
+import de.nedelosk.forestmods.library.ForestModsApi;
+import de.nedelosk.forestmods.library.material.EnumMaterials;
+import de.nedelosk.forestmods.library.modules.IModuleMachine;
+import de.nedelosk.forestmods.library.modules.IModuleRegistry;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
+import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 import net.minecraft.item.ItemStack;
 
 public class ModuleManager2 {
@@ -17,7 +16,7 @@ public class ModuleManager2 {
 	public static IModuleCasing moduleCasing;
 	public static IModuleEngine moduleEngine;
 	// Machines
-	public static IModuleAdvanced moduleAlloySmelter;
+	public static IModuleMachine moduleAlloySmelter;
 	/*
 	 * public static IModuleHeater moduleBurningHeater; public static
 	 * IModuleTank moduleTank; public static IModuleGenerator
@@ -31,7 +30,7 @@ public class ModuleManager2 {
 	 */
 
 	public static void registerModuels() {
-		IModuleRegistry moduleRegistry = de.nedelosk.forestmods.api.utils.ModuleManager.moduleRegistry;
+		IModuleRegistry moduleRegistry = de.nedelosk.forestmods.library.modules.ModuleManager.moduleRegistry;
 		moduleCasing = new ModuleCasing("default", 500, 500, 500);
 		moduleRegistry.registerModule(EnumMaterials.STONE, "casings", moduleCasing);
 		moduleRegistry.registerItemForModule(new ItemStack(BlockManager.blockCasings), new ModuleStack("casings", EnumMaterials.STONE, moduleCasing));

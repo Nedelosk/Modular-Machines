@@ -1,6 +1,5 @@
 package de.nedelosk.forestmods.common.crafting.recipes;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 
 import com.google.gson.JsonArray;
@@ -11,13 +10,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
-import de.nedelosk.forestmods.api.recipes.Recipe;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
-import de.nedelosk.forestmods.api.utils.JsonUtils;
 import de.nedelosk.forestmods.common.crafting.recipes.RecipeManager.RecipeEntry;
+import de.nedelosk.forestmods.library.recipes.IRecipeHandler;
+import de.nedelosk.forestmods.library.recipes.Recipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
+import de.nedelosk.forestmods.library.utils.JsonUtils;
 
 public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 
@@ -122,19 +120,6 @@ public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 		if (handler != null && handler.getJsonSerialize() != null && json.has("CraftingModifiers") && json.get("CraftingModifiers").isJsonObject()) {
 			craftingModifiers = handler.getJsonSerialize().deserializeJson(json.get("CraftingModifiers").getAsJsonObject());
 		}
-		IRecipe recipe;
-		if (handler != null && handler.getRecipeClass() != null && !handler.getRecipeClass().isInterface()) {
-			try {
-				Constructor<? extends IRecipe> c = handler.getRecipeClass().getConstructor(String.class, RecipeItem[].class, RecipeItem[].class, int.class,
-						int.class, String.class, Object[].class);
-				recipe = c.newInstance(recipeName, inputs, outputs, speedModifier, materialModifier, recipeCategory, craftingModifiers);
-			} catch (Exception e) {
-				e.printStackTrace();
-				recipe = new Recipe(recipeName, inputs, outputs, speedModifier, materialModifier, recipeCategory, craftingModifiers);
-			}
-		} else {
-			recipe = new Recipe(recipeName, inputs, outputs, speedModifier, materialModifier, recipeCategory, craftingModifiers);
-		}
-		return new RecipeEntry(recipeName, isActive, recipe);
+		return new RecipeEntry(recipeName, isActive, new Recipe(recipeName, inputs, outputs, speedModifier, materialModifier, recipeCategory, craftingModifiers));
 	}
 }

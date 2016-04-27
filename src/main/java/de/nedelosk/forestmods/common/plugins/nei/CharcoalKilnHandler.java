@@ -11,8 +11,8 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import de.nedelosk.forestmods.api.ForestModsApi;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
+import de.nedelosk.forestmods.library.ForestModsApi;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -74,7 +74,7 @@ public class CharcoalKilnHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		boolean foundType = false;
-		if (!CharcoalKilnUtil.isWood(ingredient)) {
+		if (!CharcoalKilnHelper.isWood(ingredient)) {
 			return;
 		}
 		List<ItemStack> drops = ForestModsApi.getCharcoalDrops(ingredient);

@@ -4,9 +4,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestcore.items.ItemForest;
-import de.nedelosk.forestmods.api.Tabs;
+import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.forestmods.library.core.Registry;
+import de.nedelosk.forestmods.library.items.ItemForest;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemNature extends ItemForest {
 
-	public String[] material = new String[] { "sawdust", "peat", "ash", "mortar" };
+	public String[] material = new String[] { "sawdust", "peat", "ash", "mortar", "ash_brick" };
 	@SideOnly(Side.CLIENT)
 	public IIcon[] itemIcon;
 
@@ -23,6 +23,11 @@ public class ItemNature extends ItemForest {
 		super(null, Tabs.tabForestMods);
 		setHasSubtypes(true);
 		setUnlocalizedName("nature");
+	}
+
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return super.getMaxDamage(stack);
 	}
 
 	@SideOnly(Side.CLIENT)

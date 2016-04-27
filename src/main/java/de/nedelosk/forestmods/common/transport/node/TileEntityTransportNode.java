@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.transport.node;
 
-import de.nedelosk.forestcore.inventory.IGuiHandler;
-import de.nedelosk.forestmods.api.transport.ITransportPart;
-import de.nedelosk.forestmods.api.transport.node.ITransportNode;
 import de.nedelosk.forestmods.common.transport.TileEntityTransport;
+import de.nedelosk.forestmods.library.inventory.IGuiHandler;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
+import de.nedelosk.forestmods.library.transport.node.ITransportNode;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

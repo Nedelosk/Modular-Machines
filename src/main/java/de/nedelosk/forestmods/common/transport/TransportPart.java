@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestcore.utils.Log;
-import de.nedelosk.forestmods.api.transport.IPartSide;
-import de.nedelosk.forestmods.api.transport.ITransportPart;
-import de.nedelosk.forestmods.api.transport.ITransportSystem;
-import de.nedelosk.forestmods.api.transport.ITransportTileEntity;
+import de.nedelosk.forestmods.library.transport.IPartSide;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
+import de.nedelosk.forestmods.library.transport.ITransportSystem;
+import de.nedelosk.forestmods.library.transport.ITransportTileEntity;
+import de.nedelosk.forestmods.library.utils.BlockPos;
+import de.nedelosk.forestmods.library.utils.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;

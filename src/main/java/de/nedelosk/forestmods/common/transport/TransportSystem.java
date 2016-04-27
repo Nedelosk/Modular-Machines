@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestcore.utils.Log;
-import de.nedelosk.forestmods.api.transport.ITransportPart;
-import de.nedelosk.forestmods.api.transport.ITransportSystem;
-import de.nedelosk.forestmods.api.transport.TransportRegistry;
-import de.nedelosk.forestmods.api.transport.node.IContentHandler;
-import de.nedelosk.forestmods.api.transport.node.INodeSide;
-import de.nedelosk.forestmods.api.transport.node.ITransportNode;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
+import de.nedelosk.forestmods.library.transport.ITransportSystem;
+import de.nedelosk.forestmods.library.transport.TransportRegistry;
+import de.nedelosk.forestmods.library.transport.node.IContentHandler;
+import de.nedelosk.forestmods.library.transport.node.INodeSide;
+import de.nedelosk.forestmods.library.transport.node.ITransportNode;
+import de.nedelosk.forestmods.library.utils.BlockPos;
+import de.nedelosk.forestmods.library.utils.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -60,7 +60,7 @@ public class TransportSystem implements ITransportSystem {
 			Log.warn(
 					"[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the reactor and rebuild it.",
 					worldObj.isRemote ? "CLIENT" : "SERVER", part.hashCode(), part.getTileEntity().xCoord, part.getTileEntity().yCoord,
-					part.getTileEntity().zCoord);
+							part.getTileEntity().zCoord);
 		}
 		if (connectedParts.isEmpty()) {
 			// Destroy/unregister
@@ -213,7 +213,7 @@ public class TransportSystem implements ITransportSystem {
 			part.setVisited();
 			visitedParts++;
 			nearbyParts = part.getNeighboringParts(); // Chunk-safe on server,
-														// but not on client
+			// but not on client
 			for(ITransportPart nearbyPart : nearbyParts) {
 				// Ignore different machines
 				if (nearbyPart.getSystem() != this) {

@@ -3,7 +3,7 @@ package de.nedelosk.forestmods.common.crafting;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.api.crafting.ICampfireRecipe;
+import de.nedelosk.forestmods.library.crafting.ICampfireRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -33,7 +33,7 @@ public class CampfireRecipeManager implements ICampfireRecipe {
 			if (sr.getInput().getItem() == input.getItem() && sr.getInput().getItemDamage() == input.getItemDamage()
 					&& ItemStack.areItemStackTagsEqual(input, sr.getInput()) && potTier >= sr.getPotTier()
 					&& (sr.getInput2() == null || input2 != null && sr.getInput2().getItem() == input2.getItem()
-							&& sr.getInput2().getItemDamage() == input2.getItemDamage() && ItemStack.areItemStackTagsEqual(input2, sr.getInput2()))) {
+					&& sr.getInput2().getItemDamage() == input2.getItemDamage() && ItemStack.areItemStackTagsEqual(input2, sr.getInput2()))) {
 				return sr;
 			}
 		}
@@ -68,7 +68,7 @@ public class CampfireRecipeManager implements ICampfireRecipe {
 			if (recipe.getInput() != null && recipe.getInput().getItem() == stack.getItem() && recipe.getInput().getItemDamage() == stack.getItemDamage()
 					&& ItemStack.areItemStackTagsEqual(stack, recipe.getInput())
 					|| recipe.getInput2() != null && recipe.getInput2().getItem() == stack.getItem()
-							&& recipe.getInput2().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getInput2())) {
+					&& recipe.getInput2().getItemDamage() == stack.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, recipe.getInput2())) {
 				return true;
 			}
 		}

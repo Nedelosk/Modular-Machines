@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestmods.api.transport.node.IContentHandler;
-import de.nedelosk.forestmods.api.transport.node.INodeSide;
-import de.nedelosk.forestmods.api.transport.node.INodeType;
+import de.nedelosk.forestmods.library.transport.node.IContentHandler;
+import de.nedelosk.forestmods.library.transport.node.INodeSide;
+import de.nedelosk.forestmods.library.transport.node.INodeType;
 
 public final class NodeType implements INodeType {
 

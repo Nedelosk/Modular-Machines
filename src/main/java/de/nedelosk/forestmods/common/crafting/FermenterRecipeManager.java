@@ -3,7 +3,7 @@ package de.nedelosk.forestmods.common.crafting;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.api.multiblocks.IFermenterRecipe;
+import de.nedelosk.forestmods.library.multiblocks.IFermenterRecipe;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FermenterRecipeManager implements IFermenterRecipe {

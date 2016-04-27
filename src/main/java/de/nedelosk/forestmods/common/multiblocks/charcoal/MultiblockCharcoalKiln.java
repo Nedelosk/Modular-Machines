@@ -1,14 +1,14 @@
 package de.nedelosk.forestmods.common.multiblocks.charcoal;
 
-import de.nedelosk.forestcore.multiblock.IMultiblockPart;
-import de.nedelosk.forestcore.multiblock.MultiblockControllerBase;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.RectangularMultiblockControllerBase;
-import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestcore.utils.Log;
 import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.config.Config;
+import de.nedelosk.forestmods.library.multiblock.IMultiblockPart;
+import de.nedelosk.forestmods.library.multiblock.MultiblockControllerBase;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.RectangularMultiblockControllerBase;
+import de.nedelosk.forestmods.library.utils.BlockPos;
+import de.nedelosk.forestmods.library.utils.Log;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
@@ -205,9 +205,9 @@ public class MultiblockCharcoalKiln extends RectangularMultiblockControllerBase 
 		if (y != getMaximumCoord().y) {
 			testKilnLayer(worldObj, x + 1, y + 1, z + 1, maxX - 1, maxZ - 1);
 		} /*
-			 * else{ if(maxX - x != 1){ throw new MultiblockValidationException(
-			 * "The charcoal kiln is to small"); } }
-			 */
+		 * else{ if(maxX - x != 1){ throw new MultiblockValidationException(
+		 * "The charcoal kiln is to small"); } }
+		 */
 	}
 
 	@Override

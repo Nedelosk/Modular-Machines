@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items;
 
-import de.nedelosk.forestcore.core.Registry;
 import de.nedelosk.forestmods.common.core.ItemManager;
+import de.nedelosk.forestmods.library.core.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

@@ -4,13 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestcore.inventory.ContainerBase;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.inventory.ContainerBase;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.slots.SlotModule;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -33,7 +32,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			List<SlotModule> slots = Lists.newArrayList();
-			if (!currentPage.getModuleStack().getModule().isHandlerDisabled(ModuleManager.inventoryType)) {
+			if (!currentPage.getModule().isHandlerDisabled(ModuleManager.inventoryType)) {
 				currentPage.createSlots(this, slots);
 				for(SlotModule slot : slots) {
 					addSlotToContainer(slot);
@@ -46,7 +45,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			int invPosition = 84;
-			if (!currentPage.getModuleStack().getModule().isHandlerDisabled(ModuleManager.inventoryType)) {
+			if (!currentPage.getModule().isHandlerDisabled(ModuleManager.inventoryType)) {
 				invPosition = currentPage.getPlayerInvPosition() + 1;
 			}
 			for(int i1 = 0; i1 < 3; i1++) {
@@ -65,18 +64,17 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 		IModular modular = inventoryBase.getModular();
-		ModuleStack stack = currentPage.getModuleStack();
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (slot instanceof SlotModule && !currentPage.getModuleStack().getModule().getInventory().isInput(slot.getSlotIndex())) {
+			if (slot instanceof SlotModule && !currentPage.getModule().getInventory().isInput(slot.getSlotIndex())) {
 				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
 					return null;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slot instanceof Slot) {
-				if (stack != null && stack.getModule() != null) {
-					return stack.getModule().getInventory().transferStackInSlot(inventoryBase, player, slotID, this);
+				if (currentPage.getModule() != null) {
+					return currentPage.getModule().getInventory().transferStackInSlot(inventoryBase, player, slotID, this);
 				} else if (slotID >= 0 && slotID < 27) {
 					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
 						return null;

@@ -7,19 +7,18 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.ModularHelper;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
 public class ModuleProducerRecipeGui<M extends IModuleProducerRecipe, S extends IModuleSaver, T extends IModuleProducerRecipeType>
-		extends ProducerGuiDefault<M, S, T> {
+extends ProducerGuiDefault<M, S, T> {
 
 	public ModuleProducerRecipeGui(ModuleUID UID) {
 		super(UID);
@@ -36,7 +35,7 @@ public class ModuleProducerRecipeGui<M extends IModuleProducerRecipe, S extends 
 
 	@Optional.Method(modid = "NotEnoughItems")
 	protected void openNEI(ModuleStack<M, S, T> stack) {
-		GuiCraftingRecipe.openRecipeGui("ModularMachines" + stack.getModuleStack().getRecipeCategory(stack));
+		GuiCraftingRecipe.openRecipeGui("ModularMachines" + stack.getModuleContainer().getRecipeCategory(stack));
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class ModuleProducerRecipeGui<M extends IModuleProducerRecipe, S extends 
 		List<Widget> widgets = base.getWidgetManager().getWidgets();
 		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
-				ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
+				ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularHelper.getEngine(modular).getItemStack();
 				if (engine != null) {
 					int burnTime = engine.getSaver().getBurnTime(engine);
 					int burnTimeTotal = engine.getSaver().getBurnTimeTotal(engine);

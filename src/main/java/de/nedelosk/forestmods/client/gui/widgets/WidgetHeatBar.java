@@ -6,15 +6,13 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
-import net.minecraft.util.ResourceLocation;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class WidgetHeatBar extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widget_heat_bar.png");
 	public int heat;
 	public int heatTotal;
 	public int posX, posY;
@@ -30,7 +28,7 @@ public class WidgetHeatBar extends Widget {
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<String>();
-		description.add(heat + " Heat / " + heatTotal + " Heat");
+		description.add(heat + " HU");
 		return description;
 	}
 
@@ -41,10 +39,10 @@ public class WidgetHeatBar extends Widget {
 		}
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(widget);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 12, 69);
+		RenderUtil.bindTexture(widgetTexture);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 156, 187, 12, 69);
 		int energy = (heat * 69) / heatTotal;
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 12, 0 + 69 - energy, 12, energy);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 168, 256 - energy, 12, energy);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 }

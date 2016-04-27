@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
 import de.nedelosk.forestmods.common.multiblocks.cokeoven.MultiblockCokeOven;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.TileMultiblockBase;
 
 public abstract class TileCokeOvenBase extends TileMultiblockBase<MultiblockCokeOven> {
 

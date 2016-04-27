@@ -2,10 +2,10 @@ package de.nedelosk.forestmods.client.render.tile;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.utils.RenderUtil;
 import de.nedelosk.forestmods.client.render.models.ModelCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.config.Config;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

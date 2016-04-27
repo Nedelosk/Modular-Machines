@@ -1,17 +1,16 @@
 package de.nedelosk.forestmods.common.modules.handlers;
 
-import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
-import de.nedelosk.forestmods.api.modules.handlers.IContentFilter;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.modules.IModuleMachine;
+import de.nedelosk.forestmods.library.modules.handlers.IContentFilter;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemFilterMachine implements IContentFilter<ItemStack> {
+public class ItemFilterMachine implements IContentFilter<ItemStack, IModuleMachine> {
 
 	@Override
-	public boolean isValid(int index, ItemStack content, ModuleStack<IModuleAdvanced> moduleStack, ForgeDirection facing) {
-		return RecipeRegistry.isRecipeInput(moduleStack.getModule().getRecipeCategory(), new RecipeItem(index, content));
+	public boolean isValid(int index, ItemStack content, IModuleMachine module, ForgeDirection facing) {
+		return RecipeRegistry.isRecipeInput(module.getRecipeCategory(), new RecipeItem(index, content));
 	}
 }

@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.transport;
 
-import de.nedelosk.forestmods.api.transport.IPartSide;
-import de.nedelosk.forestmods.api.transport.ITransportPart;
+import de.nedelosk.forestmods.library.transport.IPartSide;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 

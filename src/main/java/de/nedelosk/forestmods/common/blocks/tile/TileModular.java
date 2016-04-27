@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.utils.ModularException;
 import de.nedelosk.forestmods.common.modular.Modular;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.ModularException;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

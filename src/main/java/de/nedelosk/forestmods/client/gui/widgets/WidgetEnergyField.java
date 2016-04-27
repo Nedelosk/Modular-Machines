@@ -7,9 +7,9 @@ import org.lwjgl.opengl.GL11;
 import cofh.api.energy.IEnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)

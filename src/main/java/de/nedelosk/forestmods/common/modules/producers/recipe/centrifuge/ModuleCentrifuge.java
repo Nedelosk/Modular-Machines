@@ -5,19 +5,18 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.recipes.RecipeCentrifuge;
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.ModuleUIDs;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.modules.recipes.RecipeCentrifuge;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
 
 public class ModuleCentrifuge extends ModuleProducerRecipe {
 
 	public ModuleCentrifuge() {
-		super(ModuleCategoryUIDs.MACHINE_CENTRIFUGE, 2, 2);
+		super(ModuleUIDs.MACHINE_CENTRIFUGE, 2, 2);
 	}
 
 	@Override

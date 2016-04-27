@@ -6,11 +6,10 @@ import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -21,19 +20,19 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineRenderer extends AdvancedRenderer {
 
-	public ModuleStack<IModuleAdvanced> stack;
+	public IModuleContainer container;
 	public ModelRenderer Machine_Front;
 	public ResourceLocation textureMachine;
 	public ModelBase model = new ModelBase() {
 	};
 
-	public MachineRenderer(ModuleStack<IModuleAdvanced> stack) {
-		this.stack = stack;
+	public MachineRenderer(IModuleContainer container) {
+		this.container = container;
 		Machine_Front = new ModelRenderer(model, 0, 0);
 		Machine_Front.setRotationPoint(-6.5F, 11.5F, -8.0F);
 		Machine_Front.addBox(0.0F, 0.0F, 0.0F, 13, 10, 1, 0.0F);
-		textureMachine = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH),
-				"machine/" + stack.getUID().getCategoryUID().replace(".", "/") + "/" + stack.getUID().getModuleUID() + "/", ".png");
+		textureMachine = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH),
+				"machine/" + container.getUID().getCategoryUID().replace(".", "/") + "/" + container.getUID().getModuleUID() + "/", ".png");
 	}
 
 	@Override

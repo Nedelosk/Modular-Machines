@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.common.modules.producers.boiler;
 
 public class ModuleBurningBoilerInventory /*
-											 * extends
-											 * ModuleMachineRecipeInventory<
-											 * ModuleBurningBoiler>
-											 */ {
+ * extends
+ * ModuleMachineRecipeInventory<
+ * ModuleBurningBoiler>
+ */ {
 	/*
 	 * public ModuleBurningBoilerInventory(String categoryUID, String moduleUID,
 	 * int slots) { super(categoryUID, moduleUID, slots); }

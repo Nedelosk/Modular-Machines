@@ -3,15 +3,15 @@ package de.nedelosk.forestmods.common.modules.handlers.inventorys;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.handlers.IContentFilter;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.handlers.FilterWrapper;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.handlers.IContentFilter;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -20,22 +20,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ModuleInventory implements IModuleInventory {
+public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	protected final ItemStack[] slots;
 	protected final boolean[] isInput;
 	protected final IModular modular;
-	protected final ModuleStack moduleStack;
+	protected final M module;
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
 	protected final String inventoryName;
 
-	public ModuleInventory(int size, boolean[] inputs, IModular modular, ModuleStack moduleStack, FilterWrapper insertFilter, FilterWrapper extractFilter,
+	public ModuleInventory(int size, boolean[] inputs, IModular modular, M module, FilterWrapper insertFilter, FilterWrapper extractFilter,
 			String inventoryName) {
 		this.slots = new ItemStack[size];
 		this.isInput = inputs;
 		this.modular = modular;
-		this.moduleStack = moduleStack;
+		this.module = module;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 		this.inventoryName = inventoryName;
@@ -55,7 +55,7 @@ public class ModuleInventory implements IModuleInventory {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			if (slot instanceof Slot && !(slot instanceof SlotModule)) {
-				if (!moduleStack.getModule().transferInput(tile, player, index, container, itemstack1)) {
+				if (!module.transferInput(tile, player, index, container, itemstack1)) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 0, 36, false, container)) {
@@ -245,12 +245,12 @@ public class ModuleInventory implements IModuleInventory {
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack, int direction) {
-		return insertFilter.isValid(index, stack, moduleStack, ForgeDirection.values()[direction]);
+		return insertFilter.isValid(index, stack, module, ForgeDirection.values()[direction]);
 	}
 
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, int direction) {
-		return extractFilter.isValid(index, stack, moduleStack, ForgeDirection.values()[direction]);
+		return extractFilter.isValid(index, stack, module, ForgeDirection.values()[direction]);
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public class ModuleInventory implements IModuleInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return insertFilter.isValid(index, stack, moduleStack, ForgeDirection.UNKNOWN);
+		return insertFilter.isValid(index, stack, module, ForgeDirection.UNKNOWN);
 	}
 
 	@Override
@@ -331,43 +331,8 @@ public class ModuleInventory implements IModuleInventory {
 		return inputs;
 	}
 
-	public boolean addToOutput(ItemStack output, int slotMin, int slotMax, boolean doAdd) {
-		if (output == null) {
-			return true;
-		}
-		for(int i = slotMin; i < slotMax; i++) {
-			ItemStack itemStack = getStackInSlot(i);
-			if (itemStack == null) {
-				if (doAdd) {
-					setInventorySlotContents(i, output);
-				}
-				return true;
-			} else {
-				if (itemStack.getItem() == output.getItem() && itemStack.getItemDamage() == output.getItemDamage()) {
-					if (itemStack.stackSize < itemStack.getMaxStackSize()) {
-						int avaiableSpaceOnStack = itemStack.getMaxStackSize() - itemStack.stackSize;
-						if (avaiableSpaceOnStack >= output.stackSize) {
-							if (doAdd) {
-								itemStack.stackSize = itemStack.stackSize + output.stackSize;
-								setInventorySlotContents(i, itemStack);
-							}
-							return true;
-						} else {
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean addToOutput(ItemStack output, boolean doAdd) {
-		return addToOutput(output, getInputs(), getInputs() + getOutputs(), doAdd);
-	}
-
 	@Override
-	public boolean canRemoveRecipeInputs(RecipeItem[] inputs) {
+	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -394,30 +359,40 @@ public class ModuleInventory implements IModuleInventory {
 	}
 
 	@Override
-	public boolean canAddRecipeOutputs(RecipeItem[] outputs) {
-		if (outputs != null) {
-			for(RecipeItem output : outputs) {
-				if (output != null) {
-					if (output.isItem()) {
-						if (addToOutput(output.item.copy(), false)) {
-							continue;
-						} else {
-							return false;
-						}
-					} else {
-						continue;
+	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
+		List<ItemStack> outputStacks = new ArrayList<ItemStack>(getOutputs());
+		if(getOutputs() > 0) {
+			boolean allFull = true;
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+				ItemStack st = slots[i];
+				if(st != null) {
+					st = st.copy();
+					if(allFull && st.stackSize < st.getMaxStackSize()) {
+						allFull = false;
 					}
 				} else {
+					allFull = false;
+				}
+				outputStacks.add(st);
+			}
+			if(allFull) {
+				return false;
+			}
+		}
+
+		for (RecipeItem result : outputs) {
+			if(result.item != null) {
+				if(mergeItemResult(result.item, outputStacks) == 0) {
 					return false;
 				}
 			}
-			return true;
 		}
-		return false;
+
+		return true;
 	}
 
 	@Override
-	public void removeRecipeInputs(RecipeItem[] inputs) {
+	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -431,32 +406,89 @@ public class ModuleInventory implements IModuleInventory {
 		}
 	}
 
-	@Override
-	public void addRecipeOutputs(RecipeItem[] outputs) {
-		if (outputs != null) {
-			for(RecipeItem item : outputs) {
-				if (item != null && item.isItem()) {
-					if (addToOutput(item.item.copy(), true)) {
-						continue;
-					}
+	protected int getNumCanMerge(ItemStack itemStack, ItemStack result) {
+		if(!itemStack.isItemEqual(result)) {
+			return 0;
+		}
+		return Math.min(itemStack.getMaxStackSize() - itemStack.stackSize, result.stackSize);
+	}
+
+	protected int mergeItemResult(ItemStack item, List<ItemStack> outputStacks) {
+
+		int res = 0;
+
+		ItemStack copy = item.copy();
+		for (ItemStack outStack : outputStacks) {
+			if(outStack != null && copy != null) {
+				int num = getNumCanMerge(outStack, copy);
+				outStack.stackSize += num;
+				res += num;
+				copy.stackSize -= num;
+				if(copy.stackSize <= 0) {
+					return item.stackSize;
 				}
+			}
+		}
+
+		for (int i = 0; i < outputStacks.size(); i++) {
+			ItemStack outStack = outputStacks.get(i);
+			if(outStack == null) {
+				outputStacks.set(i, copy);
+				return item.stackSize;
+			}
+		}
+
+		return 0;
+	}
+
+	@Override
+	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
+		List<ItemStack> outputStacks = new ArrayList<ItemStack>(getOutputs());
+		if(getOutputs() > 0) {
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+				ItemStack it = slots[i];
+				if(it != null) {
+					it = it.copy();
+				}
+				outputStacks.add(it);
+			}
+		}
+
+		for (RecipeItem result : outputs) {
+			if(result.item != null) {
+				int numMerged = mergeItemResult(result.item, outputStacks);
+				if(numMerged > 0) {
+					result.item.stackSize -= numMerged;
+				}
+			}
+		}
+
+		if(getOutputs() > 0) {
+			int listIndex = 0;
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+				ItemStack st = outputStacks.get(listIndex);
+				if(st != null) {
+					st = st.copy();
+				}
+				slots[i] = st;
+				listIndex++;
 			}
 		}
 	}
 
 	@Override
-	public IContentFilter<ItemStack> getInsertFilter() {
+	public IContentFilter<ItemStack, M> getInsertFilter() {
 		return insertFilter;
 	}
 
 	@Override
-	public IContentFilter<ItemStack> getExtractFilter() {
+	public IContentFilter<ItemStack, M> getExtractFilter() {
 		return extractFilter;
 	}
 
 	@Override
-	public ModuleStack getModuleStack() {
-		return moduleStack;
+	public IModule getModule() {
+		return module;
 	}
 
 	@Override

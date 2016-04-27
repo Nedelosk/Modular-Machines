@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.inventory.multiblocks;
 
-import de.nedelosk.forestcore.inventory.ContainerBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceBase;
+import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ContainerBlastFurnaceFluidPort extends ContainerBase<TileBlastFurnaceBase> {

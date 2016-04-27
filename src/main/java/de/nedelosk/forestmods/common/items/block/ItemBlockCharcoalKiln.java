@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items.block;
 
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -24,7 +24,7 @@ public class ItemBlockCharcoalKiln extends ItemBlock {
 			return false;
 		}
 		TileCharcoalKiln kiln = (TileCharcoalKiln) world.getTileEntity(x, y, z);
-		kiln.setWoodStack(CharcoalKilnUtil.getFromKiln(stack));
+		kiln.setWoodStack(CharcoalKilnHelper.getFromKiln(stack));
 		if (world.getBlock(x, y, z) == field_150939_a) {
 			field_150939_a.onBlockPlacedBy(world, x, y, z, player, stack);
 			field_150939_a.onPostBlockPlaced(world, x, y, z, metadata);
@@ -34,8 +34,8 @@ public class ItemBlockCharcoalKiln extends ItemBlock {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if (CharcoalKilnUtil.getFromKiln(stack) != null) {
-			return super.getItemStackDisplayName(stack) + " (" + CharcoalKilnUtil.getFromKiln(stack).getDisplayName() + ")";
+		if (CharcoalKilnHelper.getFromKiln(stack) != null) {
+			return super.getItemStackDisplayName(stack) + " (" + CharcoalKilnHelper.getFromKiln(stack).getDisplayName() + ")";
 		}
 		return super.getItemStackDisplayName(stack);
 	}

@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.inventory.multiblocks;
 
-import de.nedelosk.forestcore.inventory.ContainerBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.inventory.slots.SlotBlastFurnace;
+import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ContainerBlastFurnaceAccessPort extends ContainerBase<TileBlastFurnaceAccessPort> {

@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestcore.multiblock.BlockMultiblockBasic;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
 import de.nedelosk.forestmods.common.blocks.BlockBlastFurnace;
 import de.nedelosk.forestmods.common.multiblocks.blastfurnace.MultiblockBlastFurnace;
+import de.nedelosk.forestmods.library.multiblock.BlockMultiblockBasic;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.TileMultiblockBase;
 
 public class TileBlastFurnaceBase extends TileMultiblockBase<MultiblockBlastFurnace> {
 

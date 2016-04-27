@@ -2,9 +2,9 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 
 public class WidgetProgressBar extends Widget {
 
@@ -13,7 +13,6 @@ public class WidgetProgressBar extends Widget {
 
 	public WidgetProgressBar(int posX, int posY, int burntime, int burntimeTotal) {
 		super(posX, posY, 22, 17);
-		widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 		this.burntime = burntime;
 		this.burntimeTotal = burntimeTotal;
 	}
@@ -29,7 +28,7 @@ public class WidgetProgressBar extends Widget {
 
 	@Override
 	public void draw(IGuiBase gui) {
-		RenderUtil.bindTexture(widget);
+		RenderUtil.bindTexture(widgetTexture);
 		int process = (burntimeTotal == 0) ? 0 : burntime * 22 / burntimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();

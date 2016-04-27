@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.common.blocks.tile;
 
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.TileMultiblockBase;
-import de.nedelosk.forestcore.utils.BlockPos;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnPosition;
 import de.nedelosk.forestmods.common.multiblocks.charcoal.MultiblockCharcoalKiln;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.TileMultiblockBase;
+import de.nedelosk.forestmods.library.utils.BlockPos;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

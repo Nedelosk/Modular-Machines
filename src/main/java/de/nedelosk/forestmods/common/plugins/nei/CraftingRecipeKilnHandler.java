@@ -11,7 +11,7 @@ import codechicken.nei.api.IRecipeOverlayRenderer;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
 import de.nedelosk.forestmods.common.core.BlockManager;
-import de.nedelosk.forestmods.common.utils.CharcoalKilnUtil;
+import de.nedelosk.forestmods.common.multiblocks.charcoal.CharcoalKilnHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiCrafting;
@@ -80,10 +80,10 @@ public class CraftingRecipeKilnHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if (outputId.equals("crafting") && getClass() == CraftingRecipeKilnHandler.class) {
-			for(ItemStack stack : CharcoalKilnUtil.getWoods()) {
+			for(ItemStack stack : CharcoalKilnHelper.getWoods()) {
 				CachedKilnRecipe recipe = new CachedKilnRecipe(
 						new Object[] { stack, stack, stack, stack, new ItemStack(BlockManager.blockGravel), stack, stack, stack, stack },
-						CharcoalKilnUtil.createKiln(stack));
+						CharcoalKilnHelper.createKiln(stack));
 				recipe.computeVisuals();
 				arecipes.add(recipe);
 			}
@@ -96,7 +96,7 @@ public class CraftingRecipeKilnHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Block block = Block.getBlockFromItem(result.getItem());
 		if (block != null && block instanceof BlockCharcoalKiln) {
-			ItemStack stack = CharcoalKilnUtil.getFromKiln(result);
+			ItemStack stack = CharcoalKilnHelper.getFromKiln(result);
 			CachedKilnRecipe recipe = new CachedKilnRecipe(
 					new Object[] { stack, stack, stack, stack, new ItemStack(BlockManager.blockGravel), stack, stack, stack, stack }, result);
 			recipe.computeVisuals();
@@ -106,12 +106,12 @@ public class CraftingRecipeKilnHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack stack) {
-		if (!CharcoalKilnUtil.isWood(stack)) {
+		if (!CharcoalKilnHelper.isWood(stack)) {
 			if (stack.getItem() != null && stack.getItem() == Item.getItemFromBlock(BlockManager.blockGravel) && stack.getItemDamage() == 0) {
-				for(ItemStack woodStack : CharcoalKilnUtil.getWoods()) {
+				for(ItemStack woodStack : CharcoalKilnHelper.getWoods()) {
 					CachedKilnRecipe recipe = new CachedKilnRecipe(
 							new Object[] { woodStack, woodStack, woodStack, woodStack, stack, woodStack, woodStack, woodStack, woodStack },
-							CharcoalKilnUtil.createKiln(woodStack));
+							CharcoalKilnHelper.createKiln(woodStack));
 					recipe.computeVisuals();
 					arecipes.add(recipe);
 				}
@@ -120,7 +120,7 @@ public class CraftingRecipeKilnHandler extends TemplateRecipeHandler {
 		}
 		CachedKilnRecipe recipe = new CachedKilnRecipe(
 				new Object[] { stack, stack, stack, stack, new ItemStack(BlockManager.blockGravel), stack, stack, stack, stack },
-				CharcoalKilnUtil.createKiln(stack));
+				CharcoalKilnHelper.createKiln(stack));
 		recipe.computeVisuals();
 		arecipes.add(recipe);
 	}

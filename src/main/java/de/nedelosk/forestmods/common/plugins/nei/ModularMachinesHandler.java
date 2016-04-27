@@ -1,35 +1,38 @@
 package de.nedelosk.forestmods.common.plugins.nei;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import de.nedelosk.forestcore.gui.IButtonManager;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.IWidgetManager;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.gui.WidgetManager;
-import de.nedelosk.forestcore.inventory.IGuiHandler;
-import de.nedelosk.forestmods.api.modules.integration.INEIPage;
-import de.nedelosk.forestmods.api.modules.integration.SlotNEI;
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.forestmods.library.gui.IButtonManager;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.IWidgetManager;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.gui.WidgetManager;
+import de.nedelosk.forestmods.library.inventory.IGuiHandler;
+import de.nedelosk.forestmods.library.modules.integration.INEIPage;
+import de.nedelosk.forestmods.library.modules.integration.SlotNEI;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
@@ -200,22 +203,22 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 				if (stack.isInput) {
 					if (inputs.length != input) {
 						if (inputs[input].isItem()) {
-							this.input.add(new PositionedStack(inputs[input].item, stack.x, stack.y));
+							this.input.add(new RecipePositionedStack(inputs[input].item, stack.x, stack.y, inputs[input]));
 						} else if (inputs[input].isOre()) {
 							ArrayList<ItemStack> listOre = OreDictionary.getOres(inputs[input].ore.oreDict);
 							for(ItemStack stackOre : listOre) {
 								stackOre.stackSize = inputs[input].ore.stackSize;
 							}
-							this.input.add(new PositionedStack(listOre, stack.x, stack.y));
+							this.input.add(new RecipePositionedStack(listOre, stack.x, stack.y, inputs[input]));
 						}
 					}
 					input++;
 				} else {
 					if (output == 0) {
-						this.output = new PositionedStack(outputs[output].item, stack.x, stack.y);
+						this.output = new RecipePositionedStack(outputs[output].item, stack.x, stack.y, outputs[output]);
 					} else {
 						if (outputs.length - 1 >= output) {
-							this.outputs.add(new PositionedStack(outputs[output].item, stack.x, stack.y));
+							this.outputs.add(new RecipePositionedStack(outputs[output].item, stack.x, stack.y, outputs[output]));
 						}
 					}
 					output++;
@@ -297,7 +300,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		for(Widget widget : widgetManager.getWidgets()) {
 			if (widget != null) {
 				if (widget.getPos().contains(relMouse)) {
-					if (widget.getTooltip(this) != null) {
+					if (widget.getTooltip(this) != null && widget.showTooltip) {
 						currenttip.addAll(widget.getTooltip(this));
 					}
 				}
@@ -319,5 +322,76 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	@Override
 	public Gui getGui() {
 		return GuiDraw.gui;
+	}
+
+	@Override
+	public List<String> handleItemTooltip(GuiRecipe guiRecipe, ItemStack itemStack, List<String> currenttip, int recipe) {
+		super.handleItemTooltip(guiRecipe, itemStack, currenttip, recipe);
+		ModularCachedRecipe crecipe = (ModularCachedRecipe) this.arecipes.get(recipe);
+		Point mouse = GuiDraw.getMousePosition();
+		Point offset = guiRecipe.getRecipePosition(recipe);
+		Point relMouse = new Point(mouse.x - (guiRecipe.width - 176) / 2 - offset.x, mouse.y - (guiRecipe.height - 166) / 2 - offset.y);
+
+		currenttip = this.provideItemTooltip(guiRecipe, itemStack, currenttip, crecipe, relMouse);
+		return currenttip;
+	}
+
+	public List<String> provideItemTooltip(GuiRecipe guiRecipe, ItemStack itemStack, List<String> currenttip, ModularCachedRecipe crecipe, Point relMouse) {
+		for (PositionedStack stack : crecipe.getIngredients()) {
+			if (stack instanceof RecipePositionedStack && ((RecipePositionedStack) stack).getRect().contains(relMouse)) {
+				currenttip = ((RecipePositionedStack) stack).handleTooltip(guiRecipe, currenttip);
+			}
+		}
+		for (PositionedStack stack : crecipe.getOtherStacks()) {
+			if (stack instanceof RecipePositionedStack && ((RecipePositionedStack) stack).getRect().contains(relMouse)) {
+				currenttip = ((RecipePositionedStack) stack).handleTooltip(guiRecipe, currenttip);
+			}
+		}
+		PositionedStack stack = crecipe.getResult();
+		if (stack instanceof RecipePositionedStack && ((RecipePositionedStack) stack).getRect().contains(relMouse)) {
+			currenttip = ((RecipePositionedStack) stack).handleTooltip(guiRecipe, currenttip);
+		}
+		return currenttip;
+	}
+
+	public static class RecipePositionedStack extends PositionedStack{
+
+		private final List<String> tooltip = new ArrayList<>();
+		public RecipeItem item;
+
+		public RecipePositionedStack(Object object, int x, int y, RecipeItem item) {
+			super(object, x, y);
+
+			this.item = item;
+			if(item.chance != -1){
+				addToTooltip(EnumChatFormatting.GRAY + NEIClientUtils.translate("fm.chance")+ item.chance + '%');
+			}
+		}
+
+		public List<String> handleTooltip(GuiRecipe guiRecipe, List<String> currenttip) {
+			if (!this.tooltip.isEmpty()) {
+				for (String tip : this.tooltip) {
+					currenttip.add(tip);
+				}
+			}
+			return currenttip;
+		}
+
+		public RecipePositionedStack addToTooltip(List<String> lines) {
+			for (String tip : lines) {
+				this.tooltip.add(tip);
+			}
+			return this;
+		}
+
+		public RecipePositionedStack addToTooltip(String line) {
+			this.tooltip.add(line);
+			return this;
+		}
+
+		public Rectangle getRect() {
+			return new Rectangle(this.relx - 1, this.rely - 1, 18, 18);
+		}
+
 	}
 }

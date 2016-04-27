@@ -5,19 +5,17 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.recipes.RecipeSawMill;
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.ModuleUIDs;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
 
 public class ModuleSawMill extends ModuleProducerRecipe {
 
 	public ModuleSawMill() {
-		super(ModuleCategoryUIDs.MACHINE_SAW_MILL, 1, 2);
+		super(ModuleUIDs.MACHINE_SAW_MILL, 1, 2);
 	}
 
 	@Override

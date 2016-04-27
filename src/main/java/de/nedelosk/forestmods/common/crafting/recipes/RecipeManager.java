@@ -8,7 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,9 +23,9 @@ import com.google.gson.JsonNull;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
 import de.nedelosk.forestmods.common.core.ForestMods;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
 
 public class RecipeManager {
 
@@ -107,8 +108,12 @@ public class RecipeManager {
 			}
 		}
 		dafault: for(IRecipe r : recipeEntry.getValue()) {
-			for(RecipeEntry entry : groupDefault.recipes) {
+			Iterator<RecipeEntry> entrys = groupDefault.recipes.iterator();
+			while(entrys.hasNext()) {
+				RecipeEntry entry = entrys.next();
 				if (r.getRecipeName().equals(entry.name)) {
+					groupDefault.recipes.add(new RecipeEntry(r.getRecipeName(), entry.isActive, r));
+					entrys.remove();
 					continue dafault;
 				}
 				continue;
@@ -154,13 +159,19 @@ public class RecipeManager {
 	}
 
 	private static void writeAllRecipes(Entry<String, ArrayList<IRecipe>> recipe, File recipeFile) throws IOException {
+		Map<String, RecipeGroup> groups;
 		if (!recipeFile.exists()) {
 			recipeFile.createNewFile();
+			groups = new HashMap();
+		}else{
+			BufferedReader reader = new BufferedReader(new FileReader(recipeFile));
+			JsonReader jsonReader = new JsonReader(reader);
+			JsonElement element = Streams.parse(jsonReader);
+			groups = getGoups(element);
 		}
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
-			List<RecipeGroup> groups = new ArrayList();
-			groups.add(new RecipeGroup(recipe.getValue(), "Default"));
+			groups.put("Default", new RecipeGroup(recipe.getValue(), "Default"));
 			writer.write(GSON.toJson(groups));
 			writer.close();
 		} catch (Exception e) {

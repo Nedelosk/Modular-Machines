@@ -4,20 +4,17 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
-import net.minecraft.client.Minecraft;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
 public class WidgetFluidTank extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widgets/widget_fluid_tank.png");
 	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
@@ -39,10 +36,10 @@ public class WidgetFluidTank extends Widget {
 
 	@Override
 	public void draw(IGuiBase gui) {
-		GL11.glDisable(GL11.GL_LIGHTING);
+		/*GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(widget);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 0, 18, 73);
+		RenderUtil.bindTexture(widgetTexture);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
 		int iconHeightRemainder = (60 - 4) % 16;
 		if (tank != null) {
 			FluidStack fluid = this.tank.getFluid();
@@ -57,14 +54,61 @@ public class WidgetFluidTank extends Widget {
 					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1 + i * 16 + iconHeightRemainder,
 							gui.getZLevel(), fluidIcon, 16, 18);
 				}
-				RenderUtil.bindTexture(widget);
-				gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 1, 1, 16,
-						72 - (int) (74 * ((float) fluid.amount / this.tank.getCapacity())));
+				RenderUtil.bindTexture(widgetTexture);
+				gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 133, 128, 16,
+						58 - (int) (60 * ((float) fluid.amount / this.tank.getCapacity())));
 			}
+			RenderUtil.bindTexture(widgetTexture);
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 18, 60);
 		}
-		RenderUtil.bindTexture(widget);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 19, 1, 16, 60);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_LIGHTING);*/
+		RenderUtil.bindTexture(widgetTexture);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
+		if (tank == null || tank.getCapacity() <= 0) {
+			return;
+		}
+
+		FluidStack contents = tank.getFluid();
+		if (contents == null || contents.amount <= 0 || contents.getFluid() == null) {
+			return;
+		}
+
+		IIcon liquidIcon = contents.getFluid().getIcon(contents);
+		if (liquidIcon == null) {
+			return;
+		}
+
+		int scaledLiquid = (contents.amount * pos.height) / tank.getCapacity();
+		if (scaledLiquid > pos.height) {
+			scaledLiquid = pos.height;
+		}
+
+		RenderUtil.bindTexture(TextureMap.locationBlocksTexture);
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		{
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
+
+			int start = 0;
+			while (scaledLiquid > 0) {
+				int x;
+
+				if (scaledLiquid > 16) {
+					x = 16;
+					scaledLiquid -= 16;
+				} else {
+					x = scaledLiquid;
+					scaledLiquid = 0;
+				}
+
+				gui.getGui().drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() - 1 + pos.y + pos.height - x - start, liquidIcon, 16, x);
+				start += 16;
+			}
+
+			RenderUtil.bindTexture(widgetTexture);
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 16, 60);
+		}
+		GL11.glPopAttrib();
 	}
 
 	@Override
@@ -74,7 +118,7 @@ public class WidgetFluidTank extends Widget {
 			description.add(StatCollector.translateToLocal("nc.tooltip.nonefluid"));
 		} else {
 			description.add(tank.getFluidAmount() + " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity()
-					+ " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
+			+ " " + StatCollector.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
 		}
 		return description;
 	}

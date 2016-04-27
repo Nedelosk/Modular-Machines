@@ -3,8 +3,8 @@ package de.nedelosk.forestmods.common.network.packets;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import de.nedelosk.forestcore.network.PacketTileEntity;
 import de.nedelosk.forestmods.common.transport.node.TileEntityTransportNode;
+import de.nedelosk.forestmods.library.network.PacketTileEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.util.ForgeDirection;
 

@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.common.modules.producers.recipe;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.IRecipeManager;
-import de.nedelosk.forestmods.api.recipes.IRecipeHandler;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.recipes.RecipeRegistry;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IRecipeManager;
+import de.nedelosk.forestmods.library.recipes.IRecipeHandler;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.forestmods.library.recipes.RecipeRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -77,7 +77,7 @@ public class ModuleRecipeManager implements IRecipeManager {
 		RecipeItem[] inputs = new RecipeItem[list.tagCount()];
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			inputs[i] = RecipeItem.readFromNBT(nbtTag);
+			inputs[i] = RecipeItem.loadFromNBT(nbtTag);
 		}
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeCategory);
 		Object[] craftingModifiers = null;

@@ -6,25 +6,23 @@ import java.util.List;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.inventory.IContainerBase;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.forestmods.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
-import de.nedelosk.forestmods.api.utils.ModularException;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.forestmods.client.render.modules.BatteryRenderer;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.Module;
 import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.inventory.IContainerBase;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTankBuilder;
+import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,8 +35,8 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	protected EnergyStorage storage;
 	protected final EnergyStorage defaultStorage;
 
-	public ModuleBattery(String name, EnergyStorage defaultStorage) {
-		super(name);
+	public ModuleBattery(IModular modular, IModuleContainer container, EnergyStorage defaultStorage) {
+		super(modular, container);
 		this.defaultStorage = defaultStorage;
 	}
 
@@ -118,14 +116,13 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ISimpleRenderer getRenderer(ModuleStack moduleStack, IRenderState state) {
-		return new BatteryRenderer(moduleStack, state.getModular());
+	public ISimpleRenderer getRenderer(IRenderState state) {
+		return new BatteryRenderer(container, state.getModular());
 	}
 
 	@Override
-	public void onModularAssembled(ModuleStack<IModuleController> controller) throws ModularException {
-		ItemStack itemStack = modular.getItemStack(moduleStack.getUID());
-		int energy = getStorageEnergy(moduleStack, itemStack.copy());
+	public void loadDataFromItem(ItemStack stack) {
+		int energy = getStorageEnergy(this, stack.copy());
 		EnergyStorage storage = new EnergyStorage(getDefaultStorage().getMaxEnergyStored(), getDefaultStorage().getMaxReceive(),
 				getDefaultStorage().getMaxExtract());
 		storage.setEnergyStored(energy);
@@ -137,20 +134,20 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	public ItemStack getDropItem() {
 		ItemStack stack = super.getDropItem();
 		if (modular.getEnergyHandler() != null) {
-			setStorageEnergy(moduleStack, modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN), stack);
+			setStorageEnergy(this, modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN), stack);
 		}
 		return stack;
 	}
 
 	@Override
 	protected IModulePage[] createPages() {
-		return new IModulePage[] { new BatteryPage(0, modular, moduleStack) };
+		return new IModulePage[] { new BatteryPage(0, modular, this) };
 	}
 
 	public static class BatteryPage extends ModulePage<IModuleBattery> {
 
-		public BatteryPage(int pageID, IModular modular, ModuleStack moduleStack) {
-			super(pageID, modular, moduleStack);
+		public BatteryPage(int pageID, IModular modular, IModuleBattery module) {
+			super(pageID, modular, module);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -159,7 +156,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 			super.updateGui(x, y);
 			for(Widget widget : (ArrayList<Widget>) gui.getWidgetManager().getWidgets()) {
 				if (widget instanceof WidgetEnergyField) {
-					((WidgetEnergyField) widget).storage = moduleStack.getModule().getStorage();
+					((WidgetEnergyField) widget).storage = module.getStorage();
 				}
 			}
 		}
@@ -176,7 +173,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 		@Override
 		public void addWidgets(List widgets) {
 			super.addWidgets(widgets);
-			widgets.add(new WidgetEnergyField(moduleStack.getModule().getStorage(), 55, 15));
+			widgets.add(new WidgetEnergyField(module.getStorage(), 55, 15));
 		}
 	}
 }

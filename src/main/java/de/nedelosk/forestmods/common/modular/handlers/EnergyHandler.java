@@ -1,15 +1,16 @@
 package de.nedelosk.forestmods.common.modular.handlers;
 
-import cofh.api.energy.IEnergyHandler;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketSyncEnergy;
+import de.nedelosk.forestmods.common.network.packets.PacketModule;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class EnergyHandler implements IEnergyHandler {
+public class EnergyHandler implements IEnergyProvider, IEnergyReceiver {
 
 	public IModular modular;
 
@@ -23,34 +24,50 @@ public class EnergyHandler implements IEnergyHandler {
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		return ModularUtils.getBattery(modular).getModule() != null;
+		return !modular.getModules(IModuleBattery.class).isEmpty();
 	}
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		int e = ModularUtils.getBattery(modular).getModule().getStorage().receiveEnergy(maxReceive, simulate);
-		if (e > 0) {
-			PacketHandler.INSTANCE.sendToAll(new PacketSyncEnergy((TileEntity & IModularTileEntity) modular.getTile()));
+		for(IModuleBattery battery : modular.getModules(IModuleBattery.class)){
+			int energy = battery.getStorage().receiveEnergy(maxReceive, true);
+			if (energy > 0) {
+				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), battery));
+				battery.getStorage().extractEnergy(maxReceive, simulate);
+				return energy;
+			}
 		}
-		return e;
+		return 0;
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		int e = ModularUtils.getBattery(modular).getModule().getStorage().extractEnergy(maxExtract, simulate);
-		if (e > 0) {
-			PacketHandler.INSTANCE.sendToAll(new PacketSyncEnergy((TileEntity & IModularTileEntity) modular.getTile()));
+		for(IModuleBattery battery : modular.getModules(IModuleBattery.class)){
+			int energy = battery.getStorage().extractEnergy(maxExtract, true);
+			if (energy > 0) {
+				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), battery));
+				battery.getStorage().extractEnergy(maxExtract, simulate);
+				return energy;
+			}
 		}
-		return e;
+		return 0;
 	}
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		return ModularUtils.getBattery(modular).getModule().getStorage().getEnergyStored();
+		int energy = 0;
+		for(IModuleBattery battery : modular.getModules(IModuleBattery.class)){
+			energy+=battery.getStorage().getEnergyStored();
+		}
+		return energy;
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		return ModularUtils.getBattery(modular).getModule().getStorage().getMaxEnergyStored();
+		int maxEnergy = 0;
+		for(IModuleBattery battery : modular.getModules(IModuleBattery.class)){
+			maxEnergy+=battery.getStorage().getMaxEnergyStored();
+		}
+		return maxEnergy;
 	}
 }

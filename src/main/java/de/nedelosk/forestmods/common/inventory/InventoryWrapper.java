@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.common.inventory;
 
-import de.nedelosk.forestcore.utils.InventoryUtil;
+import de.nedelosk.forestmods.library.utils.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;

@@ -3,8 +3,8 @@ package de.nedelosk.forestmods.common.crafting;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestcore.utils.OreStack;
-import de.nedelosk.forestmods.api.multiblocks.IBlastFurnaceRecipe;
+import de.nedelosk.forestmods.library.multiblocks.IBlastFurnaceRecipe;
+import de.nedelosk.forestmods.library.utils.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;

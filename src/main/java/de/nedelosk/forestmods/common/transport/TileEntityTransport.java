@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.transport;
 
-import de.nedelosk.forestmods.api.transport.ITransportPart;
-import de.nedelosk.forestmods.api.transport.ITransportTileEntity;
-import de.nedelosk.forestmods.api.transport.TransportRegistry;
+import de.nedelosk.forestmods.library.transport.ITransportPart;
+import de.nedelosk.forestmods.library.transport.ITransportTileEntity;
+import de.nedelosk.forestmods.library.transport.TransportRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;

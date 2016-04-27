@@ -2,8 +2,8 @@ package de.nedelosk.forestmods.client.render.modules;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 
 @SideOnly(Side.CLIENT)
 public abstract class AdvancedRenderer implements ISimpleRenderer {

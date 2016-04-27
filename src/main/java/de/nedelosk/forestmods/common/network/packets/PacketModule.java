@@ -6,10 +6,10 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.network.PacketTileEntity;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.network.PacketTileEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,11 +24,19 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public PacketModule() {
 	}
 
-	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleStack stack) {
+	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, IModule module) {
 		super(tile);
-		this.UID = stack.getUID();
+		this.UID = module.getModuleContainer().getUID();
 		NBTTagCompound nbt = new NBTTagCompound();
-		stack.getModule().writeToNBT(nbt, tile.getModular());
+		module.writeToNBT(nbt, tile.getModular());
+		this.nbt = nbt;
+	}
+
+	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleUID moduleUID) {
+		super(tile);
+		this.UID = moduleUID;
+		NBTTagCompound nbt = new NBTTagCompound();
+		tile.getModular().getModule(moduleUID).writeToNBT(nbt, tile.getModular());
 		this.nbt = nbt;
 	}
 
@@ -54,8 +62,8 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 		if (tile == null || ((IModularTileEntity) tile).getModular() == null) {
 			return null;
 		}
-		ModuleStack stack = ((IModularTileEntity) tile).getModular().getModuleStack(message.UID);
-		stack.getModule().readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
+		IModule module = ((IModularTileEntity) tile).getModular().getModule(message.UID);
+		module.readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
 		return null;
 	}
 }

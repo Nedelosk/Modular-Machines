@@ -5,21 +5,20 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.recipes.RecipeModuleAssembler;
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.recipes.RecipeItem;
-import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.ModuleUIDs;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.modules.recipes.RecipeModuleAssembler;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
+import de.nedelosk.forestmods.library.recipes.RecipeItem;
 
 public class ModuleModuleAssembler extends ModuleProducerRecipe {
 
 	public ModuleModuleAssembler() {
-		super(ModuleCategoryUIDs.MACHINE_ASSEMBLER_MODULE, 9, 2);
+		super(ModuleUIDs.MACHINE_ASSEMBLER_MODULE, 9, 2);
 	}
 
 	@SideOnly(Side.CLIENT)

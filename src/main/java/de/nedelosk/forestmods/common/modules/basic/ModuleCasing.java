@@ -2,32 +2,49 @@ package de.nedelosk.forestmods.common.modules.basic;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.client.render.modules.CasingRenderer;
 import de.nedelosk.forestmods.common.modules.Module;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleCasing extends Module implements IModuleCasing {
 
-	private final int heat;
+	private int heat;
+	private final int maxHeat;
 	private final int resistance;
 	private final int hardness;
 
-	public ModuleCasing(String name, int heat, int resistance, int hardness) {
-		super(name);
-		this.heat = heat;
+	public ModuleCasing(IModular modular, IModuleContainer container, int maxHeat, int resistance, int hardness) {
+		super(modular, container);
+		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ISimpleRenderer getRenderer(ModuleStack moduleStack, IRenderState state) {
-		return new CasingRenderer(moduleStack);
+	public ISimpleRenderer getRenderer(IRenderState state) {
+		return new CasingRenderer(container);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+		super.writeToNBT(nbt, modular);
+
+		nbt.setInteger("Heat", heat);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+		super.readFromNBT(nbt, modular);
+
+		heat = nbt.getInteger("Heat");
 	}
 
 	@Override
@@ -37,7 +54,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	@Override
 	public int getMaxHeat() {
-		return heat;
+		return maxHeat;
 	}
 
 	@Override
@@ -53,5 +70,20 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@Override
 	protected IModulePage[] createPages() {
 		return null;
+	}
+
+	@Override
+	public int getHeat() {
+		return heat;
+	}
+
+	@Override
+	public void addHeat(int heat) {
+		this.heat += heat;
+	}
+
+	@Override
+	public void setHeat(int heat) {
+		this.heat = heat;
 	}
 }

@@ -2,7 +2,6 @@ package de.nedelosk.forestmods.common.blocks.tile;
 
 import com.mojang.authlib.GameProfile;
 
-import de.nedelosk.forestcore.blocks.tile.TileBaseInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.common.util.ForgeDirection;

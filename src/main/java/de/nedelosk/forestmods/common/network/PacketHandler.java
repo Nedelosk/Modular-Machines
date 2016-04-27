@@ -4,9 +4,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
+import de.nedelosk.forestmods.common.network.packets.PacketSelectModule;
 import de.nedelosk.forestmods.common.network.packets.PacketSelectModulePage;
-import de.nedelosk.forestmods.common.network.packets.PacketSelectModuleStack;
-import de.nedelosk.forestmods.common.network.packets.PacketSyncEnergy;
 import de.nedelosk.forestmods.common.network.packets.PacketSyncMachineMode;
 
 public class PacketHandler {
@@ -16,11 +15,10 @@ public class PacketHandler {
 
 	public static void preInit() {
 		INSTANCE.registerMessage(PacketSyncMachineMode.class, PacketSyncMachineMode.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketSelectModuleStack.class, PacketSelectModuleStack.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSelectModule.class, PacketSelectModule.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
-		INSTANCE.registerMessage(PacketSyncEnergy.class, PacketSyncEnergy.class, nextID(), Side.CLIENT);
 	}
 
 	public static int nextID() {

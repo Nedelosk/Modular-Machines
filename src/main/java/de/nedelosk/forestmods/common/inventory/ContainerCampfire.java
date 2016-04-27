@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.inventory;
 
-import de.nedelosk.forestcore.inventory.ContainerBase;
-import de.nedelosk.forestcore.inventory.slots.SlotOutput;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager;
+import de.nedelosk.forestmods.common.inventory.slots.SlotOutput;
+import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

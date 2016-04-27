@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.forestcore.gui.Button;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.handlers.IModulePage;
+import de.nedelosk.forestmods.library.gui.Button;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -21,7 +21,7 @@ public class GuiModular extends GuiForestBase<IModularTileEntity> {
 	public GuiModular(IModularTileEntity tile, InventoryPlayer inventory, IModulePage currentPage) {
 		super(tile, inventory);
 		this.currentPage = currentPage;
-		this.module = currentPage.getModuleStack().getModule();
+		this.module = currentPage.getModule();
 		currentPage.setGui(this);
 		List<Widget> widgets = new ArrayList();
 		currentPage.addWidgets(widgets);

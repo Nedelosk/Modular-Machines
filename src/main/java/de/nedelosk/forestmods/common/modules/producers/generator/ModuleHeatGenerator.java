@@ -4,27 +4,26 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.api.modules.IModule;
-import de.nedelosk.forestmods.api.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.api.modules.generator.IModuleGenerator;
-import de.nedelosk.forestmods.api.modules.heater.IModuleHeater;
-import de.nedelosk.forestmods.api.modules.special.IModuleController;
-import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.api.utils.ModuleCategoryUIDs;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.ModularHelper;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleController;
+import de.nedelosk.forestmods.library.modules.ModuleUIDs;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
+import de.nedelosk.forestmods.library.modules.generator.IModuleGenerator;
+import de.nedelosk.forestmods.library.modules.heater.IModuleHeater;
+import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ModuleHeatGenerator extends ModuleAddable implements IModuleGenerator {
 
 	public ModuleHeatGenerator(String name) {
-		super(ModuleCategoryUIDs.GENERATOR, "Heat" + name);
+		super(ModuleUIDs.GENERATOR, "Heat" + name);
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class ModuleHeatGenerator extends ModuleAddable implements IModuleGenerat
 		IModularState<IModularDefault> tile = modular.getTile();
 		IModuleGeneratorType generatorType = (IModuleGeneratorType) stack.getType();
 		if (modular.getManager(IModularUtilsManager.class).getEnergyHandler() != null) {
-			ModuleStack<IModuleHeater, IModuleHeaterSaver> heater = ModularUtils.getHeater(modular).getStack();
+			ModuleStack<IModuleHeater, IModuleHeaterSaver> heater = ModularHelper.getHeater(modular).getItemStack();
 			if (heater.getSaver().getHeat() > 20) {
 				int energy = modular.getManager(IModularUtilsManager.class).getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, generatorType.getEnergy(),
 						true);

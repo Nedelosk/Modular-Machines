@@ -1,8 +1,6 @@
 package de.nedelosk.forestmods.common.plugins.nei;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
@@ -11,13 +9,11 @@ import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.IUsageHandler;
-import de.nedelosk.forestmods.api.material.IMaterial;
-import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
-import de.nedelosk.forestmods.api.utils.ModuleManager;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleType;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.common.core.BlockManager;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
+import de.nedelosk.forestmods.library.modules.IModuleMachine;
+import de.nedelosk.forestmods.library.modules.ModuleManager;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -32,15 +28,13 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new ShapedModuleRecipeHandler());
 		registerHandler(new CraftingRecipeKilnHandler());
 		isAdded = false;
-		for(Entry<IMaterial, Map<ModuleUID, ModuleType>> modulesEntry : ModuleManager.moduleRegistry.getModules().entrySet()) {
-			for(Entry<ModuleUID, ModuleType> entry : modulesEntry.getValue().entrySet()) {
-				ModuleStack module = new ModuleStack(entry.getKey(), modulesEntry.getKey());
-				if (module.getModule() instanceof IModuleAdvanced) {
-					IModuleAdvanced advanced = (IModuleAdvanced) module.getModule();
-					if (!producerHandlers.contains(advanced.getRecipeCategory())) {
-						new ModularMachinesHandler(advanced.getRecipeCategory(), advanced.createNEIPage(module));
-						producerHandlers.add(advanced.getRecipeCategory());
-					}
+		for(IModuleContainer container : ModuleManager.moduleRegistry.getModuleContainers()) {
+			IModule module = ModuleManager.moduleRegistry.createFakeModule(container);
+			if (module instanceof IModuleMachine) {
+				IModuleMachine machine = (IModuleMachine) module;
+				if (!producerHandlers.contains(machine.getRecipeCategory())) {
+					new ModularMachinesHandler(machine.getRecipeCategory(), machine.createNEIPage(machine));
+					producerHandlers.add(machine.getRecipeCategory());
 				}
 			}
 		}

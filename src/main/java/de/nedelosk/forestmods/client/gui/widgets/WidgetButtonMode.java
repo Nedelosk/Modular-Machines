@@ -2,10 +2,10 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
-import de.nedelosk.forestmods.api.recipes.IMachineMode;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.recipes.IMachineMode;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.util.StatCollector;
 
 public class WidgetButtonMode extends Widget {
@@ -14,7 +14,6 @@ public class WidgetButtonMode extends Widget {
 
 	public WidgetButtonMode(int posX, int posY, IMachineMode mode) {
 		super(posX, posY, 18, 18);
-		widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 		this.mode = mode;
 	}
 
@@ -27,7 +26,7 @@ public class WidgetButtonMode extends Widget {
 
 	@Override
 	public void draw(IGuiBase gui) {
-		RenderUtil.bindTexture(widget);
+		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 0, 18, 18);

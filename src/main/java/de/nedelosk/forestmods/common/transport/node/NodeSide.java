@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestcore.utils.BlockPos;
-import de.nedelosk.forestmods.api.RedstoneMode;
-import de.nedelosk.forestmods.api.transport.node.EnumNodeMode;
-import de.nedelosk.forestmods.api.transport.node.IContentHandler;
-import de.nedelosk.forestmods.api.transport.node.INodeSide;
-import de.nedelosk.forestmods.api.transport.node.ITransportNode;
 import de.nedelosk.forestmods.common.transport.PartSide;
+import de.nedelosk.forestmods.library.RedstoneMode;
+import de.nedelosk.forestmods.library.transport.node.EnumNodeMode;
+import de.nedelosk.forestmods.library.transport.node.IContentHandler;
+import de.nedelosk.forestmods.library.transport.node.INodeSide;
+import de.nedelosk.forestmods.library.transport.node.ITransportNode;
+import de.nedelosk.forestmods.library.utils.BlockPos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;

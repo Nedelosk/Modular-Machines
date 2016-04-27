@@ -7,8 +7,10 @@ import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager;
 import de.nedelosk.forestmods.common.crafting.CampfireRecipeManager.CampfireRecipe;
 import de.nedelosk.forestmods.common.inventory.ContainerCampfire;
 import de.nedelosk.forestmods.common.items.ItemCampfire;
+import de.nedelosk.forestmods.library.utils.WorldUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -184,7 +186,7 @@ public class TileCampfire extends TileMachineBase {
 		return -1;
 	}
 
-	public ItemStack setCampfireItem(ItemStack stack) {
+	public ItemStack setCampfireItem(EntityPlayer player, ItemStack stack) {
 		int ID = 0;
 		if (stack.getItem() == ItemManager.itemCampfireCurb) {
 			ID = 0;
@@ -193,9 +195,17 @@ public class TileCampfire extends TileMachineBase {
 		} else if (stack.getItem() == ItemManager.itemCampfirePot) {
 			ID = 2;
 		}
-		ItemStack stackOld = getStackInSlot(4 + ID);
-		setInventorySlotContents(ID + 4, stack);
+		WorldUtil.dropItem(worldObj, xCoord, yCoord, zCoord, getStackInSlot(4 + ID));
+		ItemStack cStack = stack.copy();
+		cStack.stackSize = 1;
+		setInventorySlotContents(ID + 4, cStack);
+		if(!player.capabilities.isCreativeMode){
+			stack.stackSize--;
+			if(stack.stackSize == 0){
+				stack = null;
+			}
+		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		return stackOld;
+		return stack;
 	}
 }

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import de.nedelosk.forestmods.api.integration.IWailaState;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
+import de.nedelosk.forestmods.library.integration.IWailaState;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

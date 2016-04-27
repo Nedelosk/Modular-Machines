@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.client.gui.buttons;
 
-import de.nedelosk.forestcore.gui.Button;
 import de.nedelosk.forestmods.common.transport.node.TileEntityTransportNode;
+import de.nedelosk.forestmods.library.gui.Button;
 import net.minecraft.client.Minecraft;
 
 public class ButtonNodeSide extends Button<TileEntityTransportNode> {

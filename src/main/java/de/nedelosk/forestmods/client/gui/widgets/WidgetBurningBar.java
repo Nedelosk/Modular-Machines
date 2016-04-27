@@ -2,9 +2,9 @@ package de.nedelosk.forestmods.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestcore.utils.RenderUtil;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.utils.RenderUtil;
 
 public class WidgetBurningBar extends Widget {
 
@@ -13,7 +13,6 @@ public class WidgetBurningBar extends Widget {
 
 	public WidgetBurningBar(int posX, int posY, int burntime, int burntimeTotal) {
 		super(posX, posY, 14, 14);
-		widget = RenderUtil.getResourceLocation("forestmods", "widgets", "gui");
 		this.fuel = burntime;
 		this.fuelTotal = burntimeTotal;
 	}
@@ -27,7 +26,7 @@ public class WidgetBurningBar extends Widget {
 
 	@Override
 	public void draw(IGuiBase gui) {
-		RenderUtil.bindTexture(widget);
+		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 0, 176, 14, 14);

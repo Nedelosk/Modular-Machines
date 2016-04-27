@@ -8,11 +8,10 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modular.IModularTileEntity;
-import de.nedelosk.forestmods.api.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.api.modules.storage.IModuleBattery;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
+import de.nedelosk.forestmods.library.modules.IModuleContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -31,15 +30,15 @@ public class BatteryRenderer extends AdvancedRenderer {
 	public ModelRenderer Battery_Down;
 	public ModelRenderer Battery_Right;
 	public ModelRenderer Battery_Left;
-	public final ModuleStack<IModuleBattery> stack;
+	public final IModuleContainer container;
 	public ResourceLocation baseTexture;
 	public ResourceLocation topTexture;
 	public ResourceLocation downTexture;
 	public ResourceLocation rightTexture;
 	public ResourceLocation leftTexture;
 
-	public BatteryRenderer(ModuleStack<IModuleBattery> stack, IModular modular) {
-		this.stack = stack;
+	public BatteryRenderer(IModuleContainer container, IModular modular) {
+		this.container = container;
 		this.Battery_Left = new ModelRenderer(model, 0, 0);
 		this.Battery_Left.setRotationPoint(-8.0F, 12.5F, -6.0F);
 		this.Battery_Left.addBox(0.0F, 0.0F, 0.0F, 1, 8, 2, 0.0F);
@@ -66,11 +65,11 @@ public class BatteryRenderer extends AdvancedRenderer {
 		} else {
 			energy = 0;
 		}
-		baseTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_base_" + energy + ".png");
-		topTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_top.png");
-		downTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_down.png");
-		leftTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_left.png");
-		rightTexture = getTextureFromManager("iron", stack.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_right.png");
+		baseTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_base_" + energy + ".png");
+		topTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_top.png");
+		downTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_down.png");
+		leftTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_left.png");
+		rightTexture = getTextureFromManager("iron", container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "battery/", "_right.png");
 	}
 
 	@Override

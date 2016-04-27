@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items.block;
 
-import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestcore.items.ItemBlockForest;
+import de.nedelosk.forestmods.library.core.Registry;
+import de.nedelosk.forestmods.library.items.ItemBlockForest;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 

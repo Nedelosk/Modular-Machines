@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.inventory.multiblocks;
 
-import de.nedelosk.forestcore.inventory.ContainerBase;
-import de.nedelosk.forestcore.inventory.slots.SlotOutput;
 import de.nedelosk.forestmods.common.blocks.tile.TileCokeOvenAccessPort;
 import de.nedelosk.forestmods.common.inventory.slots.SlotCokeOven;
+import de.nedelosk.forestmods.common.inventory.slots.SlotOutput;
+import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ContainerCokeOvenAccessPort extends ContainerBase<TileCokeOvenAccessPort> {

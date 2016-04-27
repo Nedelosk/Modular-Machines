@@ -5,18 +5,18 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
 
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.handlers.IContentFilter;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
 import de.nedelosk.forestmods.common.modules.handlers.FilterWrapper;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.handlers.IContentFilter;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventoryBuilder;
 import net.minecraft.item.ItemStack;
 
-public class ModuleInventoryBuilder implements IModuleInventoryBuilder {
+public class ModuleInventoryBuilder<M extends IModule> implements IModuleInventoryBuilder<M> {
 
 	protected IModular modular;
-	protected ModuleStack moduleStack;
+	protected M module;
 	protected FilterWrapper insertFilter = new FilterWrapper();
 	protected FilterWrapper extractFilter = new FilterWrapper();
 	protected String inventoryName;
@@ -26,18 +26,18 @@ public class ModuleInventoryBuilder implements IModuleInventoryBuilder {
 	}
 
 	@Override
-	public void addInsertFilter(int index, IContentFilter<ItemStack>... filters) {
+	public void addInsertFilter(int index, IContentFilter<ItemStack, M>... filters) {
 		insertFilter.add(index, filters);
 	}
 
 	@Override
-	public void addExtractFilter(int index, IContentFilter<ItemStack>... filters) {
+	public void addExtractFilter(int index, IContentFilter<ItemStack, M>... filters) {
 		extractFilter.add(index, filters);
 	}
 
 	@Override
-	public void setModuleStack(ModuleStack moduleStack) {
-		this.moduleStack = moduleStack;
+	public void setModule(M module) {
+		this.module = module;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ModuleInventoryBuilder implements IModuleInventoryBuilder {
 	}
 
 	@Override
-	public void initSlot(int index, boolean isInput, IContentFilter<ItemStack>... filters) {
+	public void initSlot(int index, boolean isInput, IContentFilter<ItemStack, M>... filters) {
 		slots.put(index, isInput);
 		if (isInput) {
 			addInsertFilter(index, filters);
@@ -72,7 +72,7 @@ public class ModuleInventoryBuilder implements IModuleInventoryBuilder {
 		for(Entry<Integer, Boolean> entry : slots.entrySet()) {
 			inputs[entry.getKey()] = entry.getValue();
 		}
-		return new ModuleInventory(size + 1, inputs, modular, moduleStack, new FilterWrapper(insertFilter.getSlotFilters()),
+		return new ModuleInventory(size + 1, inputs, modular, module, new FilterWrapper(insertFilter.getSlotFilters()),
 				new FilterWrapper(extractFilter.getSlotFilters()), inventoryName);
 	}
 }

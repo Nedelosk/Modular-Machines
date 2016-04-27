@@ -5,7 +5,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.blocks.BlockForest;
 import de.nedelosk.forestmods.common.core.ItemManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

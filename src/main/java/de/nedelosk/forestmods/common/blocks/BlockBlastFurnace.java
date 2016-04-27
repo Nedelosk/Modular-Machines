@@ -2,14 +2,14 @@ package de.nedelosk.forestmods.common.blocks;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.multiblock.BlockMultiblockBasic;
-import de.nedelosk.forestmods.api.Tabs;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileBlastFurnaceFluidPort.PortType;
 import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.common.multiblocks.blastfurnace.MultiblockBlastFurnace;
+import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.forestmods.library.multiblock.BlockMultiblockBasic;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,11 +34,11 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 	private static final int ICON_ID_FLUIDPORT = 3;
 	private static String[] subBlocks = new String[] { "casing", "controller", "accessPort", "fluidPort" };
 	private static String[][] states = new String[][] { { "default", "face", "corner", "eastwest", "northsouth", "vertical" }, // Casing
-			{ "off", "idle", "active" }, // Controller
-			{ "default" }, // Access
-							// Port
-			{ "air", "slag", "output", "gas" }, // Fluid
-												// Port
+		{ "off", "idle", "active" }, // Controller
+		{ "default" }, // Access
+		// Port
+		{ "air", "slag", "output", "gas" }, // Fluid
+		// Port
 	};
 
 	public static boolean isAccessPort(int metadata) {
@@ -113,11 +113,6 @@ public class BlockBlastFurnace extends BlockMultiblockBasic<MultiblockBlastFurna
 			default:
 				return new TileBlastFurnaceBase();
 		}
-	}
-
-	@Override
-	public boolean whenMultiblockNotAssembled(int metadata) {
-		return super.whenMultiblockNotAssembled(metadata) || isFluidPort(metadata);
 	}
 
 	@Override

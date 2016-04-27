@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.core;
 
-import de.nedelosk.forestmods.api.ForestModsApi;
 import de.nedelosk.forestmods.common.transport.node.ItemHandler;
 import de.nedelosk.forestmods.common.transport.node.NodeType;
+import de.nedelosk.forestmods.library.ForestModsApi;
 
 public class TransportManager {
 

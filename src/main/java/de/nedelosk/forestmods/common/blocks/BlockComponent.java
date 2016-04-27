@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestcore.blocks.BlockForest;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

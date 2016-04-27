@@ -2,11 +2,10 @@ package de.nedelosk.forestmods.common.modules.handlers;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestmods.api.modules.IModuleAdvanced;
-import de.nedelosk.forestmods.api.modules.integration.INEIPage;
-import de.nedelosk.forestmods.api.recipes.IRecipe;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.modules.integration.IModuleNEI;
+import de.nedelosk.forestmods.library.modules.integration.INEIPage;
+import de.nedelosk.forestmods.library.recipes.IRecipe;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,9 +13,9 @@ public abstract class NEIPage implements INEIPage {
 
 	public IGuiBase gui;
 	public IRecipe recipe;
-	public final ModuleStack<IModuleAdvanced> module;
+	public final IModuleNEI module;
 
-	public NEIPage(ModuleStack<IModuleAdvanced> module) {
+	public NEIPage(IModuleNEI module) {
 		this.module = module;
 	}
 

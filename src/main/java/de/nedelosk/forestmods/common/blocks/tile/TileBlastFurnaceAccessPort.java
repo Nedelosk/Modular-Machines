@@ -2,11 +2,11 @@ package de.nedelosk.forestmods.common.blocks.tile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestcore.inventory.FakeInventoryAdapter;
-import de.nedelosk.forestcore.inventory.IInventoryAdapter;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
 import de.nedelosk.forestmods.client.gui.multiblocks.GuiBlastFurnaceAccessPort;
 import de.nedelosk.forestmods.common.inventory.multiblocks.ContainerBlastFurnaceAccessPort;
+import de.nedelosk.forestmods.library.inventory.FakeInventoryAdapter;
+import de.nedelosk.forestmods.library.inventory.IInventoryAdapter;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

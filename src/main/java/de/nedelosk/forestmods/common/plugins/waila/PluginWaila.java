@@ -2,7 +2,6 @@ package de.nedelosk.forestmods.common.plugins.waila;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInterModComms;
-import de.nedelosk.forestcore.plugins.APlugin;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
@@ -10,6 +9,7 @@ import de.nedelosk.forestmods.common.config.Config;
 import de.nedelosk.forestmods.common.plugins.waila.provider.ProviderModular;
 import de.nedelosk.forestmods.common.plugins.waila.provider.ProviderTileCampfire;
 import de.nedelosk.forestmods.common.plugins.waila.provider.ProviderTileCharcoalKiln;
+import de.nedelosk.forestmods.library.plugins.APlugin;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 

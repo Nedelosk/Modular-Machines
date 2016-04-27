@@ -2,15 +2,14 @@ package de.nedelosk.forestmods.common.modules.producers.recipe.sawmill;
 
 import java.util.List;
 
-import de.nedelosk.forestcore.gui.IGuiBase;
-import de.nedelosk.forestcore.gui.Widget;
-import de.nedelosk.forestmods.api.modular.IModular;
-import de.nedelosk.forestmods.api.modules.engine.IModuleEngine;
-import de.nedelosk.forestmods.api.utils.ModularUtils;
-import de.nedelosk.forestmods.api.utils.ModuleStack;
-import de.nedelosk.forestmods.api.utils.ModuleUID;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleProducerRecipeGui;
+import de.nedelosk.forestmods.library.gui.IGuiBase;
+import de.nedelosk.forestmods.library.gui.Widget;
+import de.nedelosk.forestmods.library.modular.IModular;
+import de.nedelosk.forestmods.library.modular.ModularHelper;
+import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 
 public class ModuleSawMillGui extends ModuleProducerRecipeGui<ModuleSawMill, IModuleSaver> {
 
@@ -20,7 +19,7 @@ public class ModuleSawMillGui extends ModuleProducerRecipeGui<ModuleSawMill, IMo
 
 	@Override
 	public void addWidgets(IGuiBase gui, IModular modular, ModuleStack<ModuleSawMill, IModuleSaver> stack, List<Widget> widgets) {
-		ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularUtils.getEngine(modular).getStack();
+		ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularHelper.getEngine(modular).getItemStack();
 		int burnTime = 0;
 		int burnTimeTotal = 0;
 		if (engine != null) {

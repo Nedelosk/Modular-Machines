@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.items;
 
-import de.nedelosk.forestcore.core.Registry;
-import de.nedelosk.forestmods.api.Tabs;
+import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.forestmods.library.core.Registry;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 

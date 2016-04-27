@@ -3,22 +3,27 @@ package de.nedelosk.forestmods.common.multiblocks.cowper;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.nedelosk.forestcore.fluids.FluidTankSimple;
-import de.nedelosk.forestcore.fluids.TankManager;
-import de.nedelosk.forestcore.inventory.InventoryAdapter;
-import de.nedelosk.forestcore.multiblock.IMultiblockPart;
-import de.nedelosk.forestcore.multiblock.MultiblockControllerBase;
-import de.nedelosk.forestcore.multiblock.MultiblockValidationException;
-import de.nedelosk.forestcore.multiblock.RectangularMultiblockControllerBase;
-import de.nedelosk.forestcore.utils.Log;
 import de.nedelosk.forestmods.common.blocks.BlockCowper;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort.PortType;
 import de.nedelosk.forestmods.common.config.Config;
+import de.nedelosk.forestmods.common.core.FluidManager;
+import de.nedelosk.forestmods.library.ForestModsApi;
+import de.nedelosk.forestmods.library.fluids.FluidTankSimple;
+import de.nedelosk.forestmods.library.fluids.TankManager;
+import de.nedelosk.forestmods.library.inventory.InventoryAdapter;
+import de.nedelosk.forestmods.library.multiblock.IMultiblockPart;
+import de.nedelosk.forestmods.library.multiblock.MultiblockControllerBase;
+import de.nedelosk.forestmods.library.multiblock.MultiblockValidationException;
+import de.nedelosk.forestmods.library.multiblock.RectangularMultiblockControllerBase;
+import de.nedelosk.forestmods.library.utils.Log;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
 public class MultiblockCowper extends RectangularMultiblockControllerBase {
@@ -37,7 +42,8 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	private Set<TileCowperBase> attachedAirInput;
 	public FluidStack output;
 	public int heat;
-	public int heatTotal = Config.airHeatingPlantMaxHeat;
+	public static final int heatMax = Config.cowperMaxHeat;
+	public int fuelBurnTime;
 	public int burnTime;
 	public int burnTimeTotal;
 	private boolean isActive;
@@ -61,17 +67,37 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
 		super.isMachineWhole();
-		if (attachedFluidPortsInput.size() < 1 && attachedAirInput.size() < 1) {
-			throw new MultiblockValidationException("Not enough input fluid ports. Cowper require at least 1.");
+		if (attachedFluidPortsInput.size() < 1) {
+			if(attachedAirInput.size() < 1){
+				throw new MultiblockValidationException("Not enough inputs. Cowper require a air input or a fluid input bus.");
+			}
+		}else{
+			if(attachedAirInput.size() >= 1){
+				throw new MultiblockValidationException("To many inputs. Cowper accepte only a air input or a fluid input port, not both.");
+			}
 		}
+
 		if (attachedFluidPortsOutput.size() < 1) {
 			throw new MultiblockValidationException("Not enough output ports. Cowper require at least 1.");
 		}
-		if (attachedFluidPortsSteam.size() < 1 && attachedMuffler.size() < 1) {
-			throw new MultiblockValidationException("Not steam output. Cowper require at least 1.");
+
+		if (attachedFluidPortsSteam.size() < 1) {
+			if(attachedMuffler.size() < 1){
+				throw new MultiblockValidationException("Not enough steam output. Cowper require a steam output port or a muffler.");
+			}
+		}else{
+			if(attachedMuffler.size() >= 1){
+				throw new MultiblockValidationException("To many inputs. Cowper accepte only a steam output port or a muffler, not both.");
+			}
 		}
-		if (attachedAccessPorts.size() < 1 && attachedFluidPortsFuel.size() < 1) {
-			throw new MultiblockValidationException("Not enough fuel ports. Cowper require at least 1.");
+		if (attachedAccessPorts.size() < 1) {
+			if(attachedFluidPortsFuel.size() < 1){
+				throw new MultiblockValidationException("Not enough fuel input. Cowper require a fuel access port or a fluid fuel port.");
+			}
+		}else{
+			if(attachedFluidPortsFuel.size() >= 1){
+				throw new MultiblockValidationException("To many fuel input. Cowper accepte only a fuel access port or a fluid fuel port, not both.");
+			}
 		}
 	}
 
@@ -141,7 +167,11 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	@Override
 	protected void onMachineDisassembled() {
 		isActive = false;
-		heat = 0;
+	}
+
+	@Override
+	public boolean updateWhenDisassembled() {
+		return true;
 	}
 
 	@Override
@@ -199,7 +229,74 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected boolean updateServer() {
-		return false;
+		if(this.assemblyState == AssemblyState.Disassembled){
+			if(updateOnInterval(30 + (connectedParts.size() - getMinimumNumberOfBlocksForAssembledMachine() / 4))){
+				heat--;
+			}
+		}else{
+			ItemStack fuelItem = inventory.getStackInSlot(0);
+			FluidStack fuelFluid = tankManager.getTank(1).getFluid();
+			if(fuelBurnTime > 0){
+				fuelBurnTime--;
+				if(heat < heatMax){
+					if(updateOnInterval(30 + (connectedParts.size() - getMinimumNumberOfBlocksForAssembledMachine() / 4))){
+						heat++;
+					}
+				}
+			}else{
+				if(fuelItem != null){
+					if(TileEntityFurnace.getItemBurnTime(fuelItem) > 0){
+						fuelBurnTime = TileEntityFurnace.getItemBurnTime(fuelItem);
+						inventory.decrStackSize(0, 1);
+					}
+				}else if(fuelFluid != null){
+					if(ForestModsApi.fluidFuel.containsKey(fuelFluid.getFluid())){
+						FluidStack stack = tankManager.drain(ForgeDirection.UNKNOWN, new FluidStack(fuelFluid.getFluid(), 100), false);
+						if(stack != null && stack.amount == 100){
+							fuelBurnTime = ForestModsApi.fluidFuel.get(fuelFluid.getFluid());
+							tankManager.getTank(1).drain(new FluidStack(fuelFluid.getFluid(), 100), true);
+						}
+					}
+				}else{
+					if(heat > 0){
+						if(updateOnInterval(40 + (connectedParts.size() - getMinimumNumberOfBlocksForAssembledMachine() / 4))){
+							heat--;
+						}
+					}else if(heat < 0){
+						heat=0;
+					}
+				}
+			}
+			FluidStack stack = tankManager.getTank(2).getFluid();
+			NBTTagCompound heatTag = new NBTTagCompound();
+			heatTag.setInteger("Heat", heat);
+			if(stack != null && stack.amount > 0){
+				stack.tag = heatTag;
+			}
+			if(heat > 0){
+				/*if(attachedFluidPortsInput.size() > 0){
+					FluidStack inputFluid = tankManager.getTank(0).getFluid();
+					if(inputFluid != null && inputFluid.amount > 0){
+
+					}else{
+
+					}
+				}else*/ if(attachedAirInput.size() > 0){
+					if(heat >= 150){
+						if(tankManager.getTank(2).fill(new FluidStack(FluidManager.Air_Hot, 50, heatTag), false) == 50){
+							if(heat > 0){
+								heat-=2;
+							}else if(heat < 0){
+								heat=0;
+							}
+							tankManager.getTank(2).fill(new FluidStack(FluidManager.Air_Hot, 50, heatTag), true);
+							markReferenceCoordForUpdate();
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -209,19 +306,29 @@ public class MultiblockCowper extends RectangularMultiblockControllerBase {
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger("Heat", heat);
-		data.setInteger("HeatTotal", heatTotal);
+		data.setInteger("FuelBurnTime", fuelBurnTime);
 		data.setInteger("BurnTime", burnTime);
 		data.setInteger("BurnTimeTotal", burnTimeTotal);
 		data.setBoolean("IsActive", isActive);
+		NBTTagCompound nbtTank = new NBTTagCompound();
+		tankManager.writeToNBT(nbtTank);
+		data.setTag("Tank", nbtTank);
+		NBTTagCompound nbtInv = new NBTTagCompound();
+		inventory.writeToNBT(nbtInv);
+		data.setTag("Inv", nbtInv);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		heat = data.getInteger("Heat");
-		heatTotal = data.getInteger("HeatTotal");
+		fuelBurnTime = data.getInteger("FuelBurnTime");
 		burnTime = data.getInteger("BurnTime");
 		burnTimeTotal = data.getInteger("BurnTimeTotal");
 		isActive = data.getBoolean("IsActive");
+		NBTTagCompound nbtTank = data.getCompoundTag("Tank");
+		tankManager.readFromNBT(nbtTank);
+		NBTTagCompound nbtInv = data.getCompoundTag("Inv");
+		inventory.readFromNBT(nbtInv);
 	}
 
 	@Override
