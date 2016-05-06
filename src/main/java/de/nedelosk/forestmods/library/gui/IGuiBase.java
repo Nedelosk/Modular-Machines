@@ -6,6 +6,7 @@ import de.nedelosk.forestmods.library.inventory.IGuiHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public interface IGuiBase<T extends IGuiHandler> {
 
@@ -30,9 +31,13 @@ public interface IGuiBase<T extends IGuiHandler> {
 	@SideOnly(Side.CLIENT)
 	FontRenderer getFontRenderer();
 
+	void drawItemStack(ItemStack stack, int x, int y);
+	
 	Gui getGui();
 
 	EntityPlayer getPlayer();
 
-	T getTile();
+	T getHandler();
+	
+	
 }

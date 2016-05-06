@@ -127,7 +127,7 @@ public class Modular implements IModular, IWailaProvider {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
 			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
 			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
-			IModuleContainer container = ModuleManager.moduleRegistry.getModuleFromItem(moduleItem);
+			IModuleContainer container = ModuleManager.moduleRegistry.getContainerFromItem(moduleItem);
 			IModule module = ModuleManager.moduleRegistry.createModule(this, container);
 			module.readFromNBT(moduleTag, this);
 			modules.add(module);

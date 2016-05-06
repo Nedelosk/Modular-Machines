@@ -6,12 +6,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerBase<T extends IGuiHandler> extends Container implements IContainerBase<T> {
+public abstract class ContainerBase<H extends IGuiHandler> extends Container implements IContainerBase<H> {
 
-	protected T inventoryBase;
+	protected H handler;
 
-	public ContainerBase(T tile, InventoryPlayer inventory) {
-		this.inventoryBase = tile;
+	public ContainerBase(H tile, InventoryPlayer inventory) {
+		this.handler = tile;
 		addInventory(inventory);
 		addSlots(inventory);
 	}
@@ -33,8 +33,8 @@ public abstract class ContainerBase<T extends IGuiHandler> extends Container imp
 	}
 
 	@Override
-	public T getInventoryBase() {
-		return inventoryBase;
+	public H getHandler() {
+		return handler;
 	}
 
 	protected abstract void addSlots(InventoryPlayer inventory);
@@ -45,7 +45,7 @@ public abstract class ContainerBase<T extends IGuiHandler> extends Container imp
 	}
 
 	public boolean sameGui(ContainerBase otherContainer) {
-		return this.inventoryBase == otherContainer.inventoryBase;
+		return this.handler == otherContainer.handler;
 	}
 
 	@Override

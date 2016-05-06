@@ -46,7 +46,7 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
-		IModularTileEntity tile = gui.getTile();
+		IModularTileEntity tile = gui.getHandler();
 		if (pageID != module.getModular().getCurrentPage().getPageID()) {
 			tile.getModular().setCurrentPage(pageID);
 		}

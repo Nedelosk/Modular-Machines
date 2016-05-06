@@ -13,9 +13,9 @@ public class ContainerBlastFurnaceAccessPort extends ContainerBase<TileBlastFurn
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 0, 53, 35));
-		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 1, 71, 35));
-		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 2, 89, 35));
-		addSlotToContainer(new SlotBlastFurnace(inventoryBase, 3, 107, 35));
+		addSlotToContainer(new SlotBlastFurnace(handler, 0, 53, 35));
+		addSlotToContainer(new SlotBlastFurnace(handler, 1, 71, 35));
+		addSlotToContainer(new SlotBlastFurnace(handler, 2, 89, 35));
+		addSlotToContainer(new SlotBlastFurnace(handler, 3, 107, 35));
 	}
 }

@@ -260,7 +260,7 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 	}
 
 	@Override
-	public IGuiHandler getTile() {
+	public IGuiHandler getHandler() {
 		return null;
 	}
 

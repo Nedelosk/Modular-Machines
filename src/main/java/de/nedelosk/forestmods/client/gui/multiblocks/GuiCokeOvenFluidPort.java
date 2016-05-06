@@ -20,10 +20,10 @@ public class GuiCokeOvenFluidPort extends GuiForestBase<TileCokeOvenFluidPort> {
 	@Override
 	protected void render() {
 		if (widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank) {
-			if (tile.getPortType() == PortType.FUEL) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(0);
-			} else if (tile.getPortType() == PortType.OUTPUT) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(1);
+			if (handler.getPortType() == PortType.FUEL) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(0);
+			} else if (handler.getPortType() == PortType.OUTPUT) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(1);
 			}
 		}
 	}

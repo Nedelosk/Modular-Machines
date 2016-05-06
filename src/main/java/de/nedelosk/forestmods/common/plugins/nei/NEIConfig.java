@@ -29,7 +29,7 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CraftingRecipeKilnHandler());
 		isAdded = false;
 		for(IModuleContainer container : ModuleManager.moduleRegistry.getModuleContainers()) {
-			IModule module = ModuleManager.moduleRegistry.createFakeModule(container);
+			IModule module = ModuleManager.moduleRegistry.getFakeModule(container);
 			if (module instanceof IModuleMachine) {
 				IModuleMachine machine = (IModuleMachine) module;
 				if (!producerHandlers.contains(machine.getRecipeCategory())) {

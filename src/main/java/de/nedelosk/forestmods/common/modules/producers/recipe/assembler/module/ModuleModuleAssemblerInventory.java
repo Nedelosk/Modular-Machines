@@ -16,17 +16,17 @@ public class ModuleModuleAssemblerInventory extends ModuleProducerRecipeInventor
 	@Override
 	public List<Slot> addSlots(IContainerBase container, IModularDefault modular, ModuleStack<ModuleModuleAssembler, IModuleSaver> stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.addAll(new SlotModularInput(modular.getTile(), 0, 17, 16, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 1, 35, 16, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 2, 53, 16, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 3, 17, 34, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 4, 35, 34, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 5, 53, 34, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 6, 17, 52, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 7, 35, 52, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 8, 53, 52, stack));
-		list.addAll(new SlotModularOutput(modular.getTile(), 9, 125, 34, stack));
-		list.addAll(new SlotModularOutput(modular.getTile(), 10, 143, 34, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 0, 17, 16, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 1, 35, 16, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 2, 53, 16, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 3, 17, 34, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 4, 35, 34, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 5, 53, 34, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 6, 17, 52, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 7, 35, 52, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 8, 53, 52, stack));
+		list.addAll(new SlotModularOutput(modular.getHandler(), 9, 125, 34, stack));
+		list.addAll(new SlotModularOutput(modular.getHandler(), 10, 143, 34, stack));
 		return list;
 	}
 }

@@ -16,10 +16,10 @@ public class ModuleAssemblerInventory extends ModuleProducerRecipeInventory<Modu
 	@Override
 	public List<Slot> addSlots(IContainerBase container, IModularDefault modular, ModuleStack<ModuleAssembler, IModuleSaver> stack) {
 		ArrayList<Slot> list = new ArrayList<Slot>();
-		list.addAll(new SlotModularInput(modular.getTile(), 0, 36, 35, stack));
-		list.addAll(new SlotModularInput(modular.getTile(), 1, 54, 35, stack));
-		list.addAll(new SlotModularOutput(modular.getTile(), 2, 116, 35, stack));
-		list.addAll(new SlotModularOutput(modular.getTile(), 3, 134, 35, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 0, 36, 35, stack));
+		list.addAll(new SlotModularInput(modular.getHandler(), 1, 54, 35, stack));
+		list.addAll(new SlotModularOutput(modular.getHandler(), 2, 116, 35, stack));
+		list.addAll(new SlotModularOutput(modular.getHandler(), 3, 134, 35, stack));
 		return list;
 	}
 }

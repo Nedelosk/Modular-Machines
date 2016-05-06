@@ -78,7 +78,7 @@ public class ItemModule extends Item {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass) {
-		IModule module = ModuleManager.moduleRegistry.createFakeModule(ModuleManager.moduleRegistry.getModuleFromItem(stack));
+		IModule module = ModuleManager.moduleRegistry.getFakeModule(ModuleManager.moduleRegistry.getContainerFromItem(stack));
 		if (module instanceof IModuleColored && stack.hasTagCompound() && pass == 1) {
 			IModuleColored moduleColered = (IModuleColored) module;
 			return moduleColered.getColor();

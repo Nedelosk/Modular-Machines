@@ -52,7 +52,7 @@ public class ButtonModuleTab extends Button<IModularTileEntity> {
 
 	@Override
 	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
-		IModular modular = gui.getTile().getModular();
+		IModular modular = gui.getHandler().getModular();
 		IModule currentModule = modular.getCurrentModule();
 		if (!currentModule.getModuleContainer().getUID().equals(module.getModuleContainer().getUID())) {
 			modular.setCurrentModule(module);

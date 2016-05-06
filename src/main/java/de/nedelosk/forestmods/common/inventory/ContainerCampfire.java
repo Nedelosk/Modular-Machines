@@ -18,7 +18,7 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		addSlotToContainer(new Slot(inventoryBase, 0, 25, 35) {
+		addSlotToContainer(new Slot(handler, 0, 25, 35) {
 
 			@Override
 			public boolean isItemValid(ItemStack stack) {
@@ -28,7 +28,7 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 				return false;
 			}
 		});
-		addSlotToContainer(new Slot(inventoryBase, 1, 43, 35) {
+		addSlotToContainer(new Slot(handler, 1, 43, 35) {
 
 			@Override
 			public boolean isItemValid(ItemStack stack) {
@@ -38,7 +38,7 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 				return false;
 			}
 		});
-		addSlotToContainer(new Slot(inventoryBase, 2, 65, 53) {
+		addSlotToContainer(new Slot(handler, 2, 65, 53) {
 
 			@Override
 			public boolean isItemValid(ItemStack stack) {
@@ -48,7 +48,7 @@ public class ContainerCampfire extends ContainerBase<TileCampfire> {
 				return false;
 			}
 		});
-		addSlotToContainer(new SlotOutput(inventoryBase, 3, 116, 35));
+		addSlotToContainer(new SlotOutput(handler, 3, 116, 35));
 	}
 
 	@Override

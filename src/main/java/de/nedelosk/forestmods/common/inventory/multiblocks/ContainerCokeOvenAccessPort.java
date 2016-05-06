@@ -14,7 +14,7 @@ public class ContainerCokeOvenAccessPort extends ContainerBase<TileCokeOvenAcces
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		addSlotToContainer(new SlotCokeOven(inventoryBase, 0, 53, 35));
-		addSlotToContainer(new SlotOutput(inventoryBase, 1, 107, 35));
+		addSlotToContainer(new SlotCokeOven(handler, 0, 53, 35));
+		addSlotToContainer(new SlotOutput(handler, 1, 107, 35));
 	}
 }

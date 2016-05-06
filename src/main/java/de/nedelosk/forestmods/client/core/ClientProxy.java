@@ -7,11 +7,13 @@ import de.nedelosk.forestmods.client.render.blocks.BlockCharcoalKilnRenderer;
 import de.nedelosk.forestmods.client.render.item.CampfireItemsRenderer;
 import de.nedelosk.forestmods.client.render.item.ItemCampfireRenderer;
 import de.nedelosk.forestmods.client.render.item.ItemCharcoalKilnRenderer;
+import de.nedelosk.forestmods.client.render.item.ItemModularAssemblerRenderer;
 import de.nedelosk.forestmods.client.render.item.ItemModularRenderer;
 import de.nedelosk.forestmods.client.render.item.ItemTransportRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileBloomeryRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileCampfireRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileCharcoalKilnRenderer;
+import de.nedelosk.forestmods.client.render.tile.TileModularAssemblerRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileModularMachineRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileTransportNodeRenderer;
 import de.nedelosk.forestmods.client.render.tile.TileTransportRenderer;
@@ -19,6 +21,7 @@ import de.nedelosk.forestmods.common.blocks.tile.TileBloomery;
 import de.nedelosk.forestmods.common.blocks.tile.TileCampfire;
 import de.nedelosk.forestmods.common.blocks.tile.TileCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
+import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.core.BlockManager;
 import de.nedelosk.forestmods.common.core.CommonProxy;
 import de.nedelosk.forestmods.common.core.ItemManager;
@@ -55,6 +58,8 @@ public class ClientProxy extends CommonProxy {
 		/* Modular */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModular.class, new TileModularMachineRenderer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockModular), new ItemModularRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileModularAssemblerRenderer());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockAssembler), new ItemModularAssemblerRenderer());
 		/* Charcoal Kiln */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCharcoalKiln.class, new TileCharcoalKilnRenderer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockCharcoalKiln), new ItemCharcoalKilnRenderer());

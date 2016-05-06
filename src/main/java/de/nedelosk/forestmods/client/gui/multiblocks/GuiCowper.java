@@ -19,7 +19,7 @@ public class GuiCowper extends GuiForestBase<TileCowperBase> {
 	protected void render() {
 		if (widgetManager != null) {
 			for(int i = 0; i < widgetManager.getWidgets().size(); i++) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(i)).tank = tile.getController().getTankManager().getTank(i);
+				((WidgetFluidTank) widgetManager.getWidgets().get(i)).tank = handler.getController().getTankManager().getTank(i);
 			}
 		}
 	}

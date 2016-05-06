@@ -1,11 +1,12 @@
 package de.nedelosk.forestmods.library.utils;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -116,13 +117,21 @@ public class WorldUtil {
 		}
 	}
 
-	public static void dropItem(World world, int x, int y, int z, ItemStack[] stacks) {
+	public static void dropItem(Entity entity, ItemStack stack) {
+		dropItem(entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ, stack);
+	}
+
+	public static void dropItems(World world, int x, int y, int z, ItemStack[] stacks) {
 		for(ItemStack stack : stacks) {
 			dropItem(world, x, y, z, stack);
 		}
 	}
 
-	public static void dropItem(World world, int x, int y, int z, List<ItemStack> items) {
-		dropItem(world, x, y, z, items.toArray(new ItemStack[items.size()]));
+	public static void dropItem(World world, int x, int y, int z, Collection<ItemStack> items) {
+		dropItems(world, x, y, z, items.toArray(new ItemStack[items.size()]));
+	}
+
+	public static void dropItems(Entity entity, ItemStack[] stacks) {
+		dropItems(entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ, stacks);
 	}
 }

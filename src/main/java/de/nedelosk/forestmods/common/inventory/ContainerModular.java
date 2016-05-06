@@ -63,7 +63,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		IModular modular = inventoryBase.getModular();
+		IModular modular = handler.getModular();
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -74,7 +74,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slot instanceof Slot) {
 				if (currentPage.getModule() != null) {
-					return currentPage.getModule().getInventory().transferStackInSlot(inventoryBase, player, slotID, this);
+					return currentPage.getModule().getInventory().transferStackInSlot(handler, player, slotID, this);
 				} else if (slotID >= 0 && slotID < 27) {
 					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
 						return null;

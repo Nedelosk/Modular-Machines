@@ -294,6 +294,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	@Override
+	public boolean isAdvanced() {
+		return true;
+	}
+
+	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaState data) {
 		currenttip.add(burnTime + " / " + burnTimeTotal);
 		return currenttip;

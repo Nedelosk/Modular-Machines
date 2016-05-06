@@ -13,6 +13,6 @@ public class ContainerCowper extends ContainerBase<TileCowperBase> {
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		addSlotToContainer(new SlotAirHeatingPlant(inventoryBase.getController().getInventory(), 0, 80, 35));
+		addSlotToContainer(new SlotAirHeatingPlant(handler.getController().getInventory(), 0, 80, 35));
 	}
 }

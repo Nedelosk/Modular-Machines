@@ -1,29 +1,35 @@
 package de.nedelosk.forestmods.library.gui;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.forestmods.library.inventory.IGuiHandler;
 import de.nedelosk.forestmods.library.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implements IGuiBase<T> {
+public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implements IGuiBase<H> {
 
 	protected ResourceLocation guiTexture;
-	protected T tile;
+	protected H handler;
 	protected ButtonManager buttonManager;
 	protected WidgetManager widgetManager;
 	protected EntityPlayer player;
 
-	public GuiBase(T tile, InventoryPlayer inventory) {
+	public GuiBase(H tile, InventoryPlayer inventory) {
 		super(tile.getContainer(inventory));
-		this.tile = tile;
+		this.handler = tile;
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
@@ -33,6 +39,17 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	@Override
 	public void initGui() {
 		super.initGui();
+		initButtons();
+	}
+	
+	public void initButtons(){
+		Iterator<GuiButton> buttonIter = buttonList.iterator();
+		while(buttonIter.hasNext()){
+			GuiButton button = buttonIter.next();
+			if(button instanceof Button){
+				buttonIter.remove();
+			}
+		}
 		buttonManager.clear();
 		addButtons();
 		buttonList.addAll(buttonManager.getButtons());
@@ -52,8 +69,8 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	}
 
 	@Override
-	public T getTile() {
-		return tile;
+	public H getHandler() {
+		return handler;
 	}
 
 	@Override
@@ -142,5 +159,29 @@ public abstract class GuiBase<T extends IGuiHandler> extends GuiContainer implem
 	@Override
 	public Gui getGui() {
 		return this;
+	}
+	
+	@Override
+	public void drawItemStack(ItemStack stack, int x, int y) {
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+		this.zLevel = 200.0F;
+		itemRender.zLevel = 200.0F;
+		FontRenderer font = null;
+		if (stack != null) {
+			font = stack.getItem().getFontRenderer(stack);
+		}
+		if (font == null) {
+			font = Minecraft.getMinecraft().fontRenderer;
+		}
+		itemRender.renderItemAndEffectIntoGUI(font, Minecraft.getMinecraft().getTextureManager(), stack, x, y);
+		this.zLevel = 0.0F;
+		itemRender.zLevel = 0.0F;
+		RenderHelper.disableStandardItemLighting();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
 	}
 }

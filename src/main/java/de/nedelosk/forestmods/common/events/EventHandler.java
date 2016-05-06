@@ -37,7 +37,7 @@ public class EventHandler {
 		Block block = world.getBlock(event.x, event.y, event.z);
 		int metadata = world.getBlockMetadata(event.x, event.y, event.z);
 		ItemStack currentItem = player.getHeldItem();
-		IModuleContainer currentContainer = ModuleManager.moduleRegistry.getModuleFromItem(currentItem);
+		IModuleContainer currentContainer = ModuleManager.moduleRegistry.getContainerFromItem(currentItem);
 		if (event.action == Action.RIGHT_CLICK_BLOCK && currentItem != null && currentItem.stackSize > 0) {
 			if (currentContainer != null) {
 				if (block instanceof BlockModularMachine) {
@@ -72,7 +72,7 @@ public class EventHandler {
 					ItemStack casingStack = new ItemStack(block, 1, metadata);
 
 					if (currentContainer != null) {
-						IModuleContainer casingContainer = ModuleManager.moduleRegistry.getModuleFromItem(casingStack);
+						IModuleContainer casingContainer = ModuleManager.moduleRegistry.getContainerFromItem(casingStack);
 						if (casingContainer != null && IModuleCasing.class.isAssignableFrom(casingContainer.getModuleClass())
 								&& currentContainer != null && IModuleController.class.isAssignableFrom(currentContainer.getModuleClass())) {
 							world.setBlock(event.x, event.y, event.z, BlockManager.blockModular);
@@ -125,7 +125,7 @@ public class EventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		IModule module = ModuleManager.moduleRegistry.createFakeModule(ModuleManager.moduleRegistry.getModuleFromItem(event.itemStack));
+		IModule module = ModuleManager.moduleRegistry.getFakeModule(ModuleManager.moduleRegistry.getContainerFromItem(event.itemStack));
 		if (module != null) {
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.type") + ": " + module.getModuleContainer().getMaterial().getLocalizedName());
 			event.toolTip.add(StatCollector.translateToLocal("mm.module.tooltip.tier") + ": " + module.getModuleContainer().getMaterial().getTier());

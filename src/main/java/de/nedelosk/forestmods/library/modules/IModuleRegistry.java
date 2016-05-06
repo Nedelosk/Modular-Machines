@@ -18,7 +18,7 @@ public interface IModuleRegistry {
 	/**
 	 * For the module item rendering or other  module item thinks.
 	 */
-	<M extends IModule> M createFakeModule(IModuleContainer container);
+	<M extends IModule> M getFakeModule(IModuleContainer container);
 
 	void registerItemForModule(ItemStack itemStack, IModuleContainer moduleContainer);
 
@@ -29,7 +29,7 @@ public interface IModuleRegistry {
 
 	ItemStack createDefaultModuleItem(IModuleContainer moduleContainer);
 
-	IModuleContainer getModuleFromItem(ItemStack stack);
+	IModuleContainer getContainerFromItem(ItemStack stack);
 
 	Map<IMaterial, Map<ModuleUID, ModuleType>> getModules();
 

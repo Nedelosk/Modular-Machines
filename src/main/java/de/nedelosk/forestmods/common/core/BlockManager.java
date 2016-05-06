@@ -8,6 +8,7 @@ import de.nedelosk.forestmods.common.blocks.BlockCharcoalKiln;
 import de.nedelosk.forestmods.common.blocks.BlockComponent;
 import de.nedelosk.forestmods.common.blocks.BlockCowper;
 import de.nedelosk.forestmods.common.blocks.BlockGravel;
+import de.nedelosk.forestmods.common.blocks.BlockModularAssembler;
 import de.nedelosk.forestmods.common.blocks.BlockModularMachine;
 import de.nedelosk.forestmods.common.blocks.BlockOre;
 import de.nedelosk.forestmods.common.blocks.BlockTransport;
@@ -17,6 +18,7 @@ import de.nedelosk.forestmods.common.blocks.tile.TileCowperAccessPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperBase;
 import de.nedelosk.forestmods.common.blocks.tile.TileCowperFluidPort;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
+import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.items.block.ItemBlockCharcoalKiln;
 import de.nedelosk.forestmods.common.items.block.ItemBlockMachines;
 import de.nedelosk.forestmods.common.items.block.ItemBlockModularMachine;
@@ -38,6 +40,7 @@ public class BlockManager {
 	public static BlockBlastFurnace blockBlastFurnace;
 	public static BlockCowper blockCowper;
 	public static BlockTransport blockTransport;
+	public static BlockModularAssembler blockAssembler;
 
 	public static void registerBlocks() {
 		blockGravel = register(new BlockGravel(), ItemBlockForest.class);
@@ -56,12 +59,14 @@ public class BlockManager {
 		blockCowper = register(new BlockCowper(), ItemBlockForest.class);
 		blockCasings = register(new BlockCasing(new String[] { "stone", "stone_brick", "iron", "bronze" }), ItemBlockForest.class);
 		blockModular = register(new BlockModularMachine(), ItemBlockModularMachine.class);
+		blockAssembler = register(new BlockModularAssembler(), ItemBlockForest.class);
 	}
 
 	public static void registerTiles() {
 		GameRegistry.registerTileEntity(TileCharcoalKiln.class, "forestmods.machine.multi.kiln.charcoal");
 		GameRegistry.registerTileEntity(TileCampfire.class, "forestmods.machine.wood.campfire");
 		GameRegistry.registerTileEntity(TileModular.class, "forestmods.modular");
+		GameRegistry.registerTileEntity(TileModularAssembler.class, "forestmods.modular.assembler");
 		GameRegistry.registerTileEntity(TileCowperBase.class, "forestmods.cowper.base");
 		GameRegistry.registerTileEntity(TileCowperAccessPort.class, "forestmods.cowper.access");
 		GameRegistry.registerTileEntity(TileCowperFluidPort.class, "forestmods.cowper.fluid");

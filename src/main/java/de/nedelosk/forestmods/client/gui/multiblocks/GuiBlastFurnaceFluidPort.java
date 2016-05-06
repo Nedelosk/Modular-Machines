@@ -26,14 +26,14 @@ public class GuiBlastFurnaceFluidPort extends GuiForestBase<TileBlastFurnaceFlui
 	@Override
 	protected void render() {
 		if (widgetManager != null && widgetManager.getWidgets().size() > 0 && widgetManager.getWidgets().get(0) instanceof WidgetFluidTank) {
-			if (tile.getType() == PortType.OUTPUT) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(2);
-			} else if (tile.getType() == PortType.SLAG) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(1);
-			} else if (tile.getType() == PortType.AIR) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(0);
-			} else if (tile.getType() == PortType.GAS) {
-				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = tile.getController().getTankManager().getTank(3);
+			if (handler.getType() == PortType.OUTPUT) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(2);
+			} else if (handler.getType() == PortType.SLAG) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(1);
+			} else if (handler.getType() == PortType.AIR) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(0);
+			} else if (handler.getType() == PortType.GAS) {
+				((WidgetFluidTank) widgetManager.getWidgets().get(0)).tank = handler.getController().getTankManager().getTank(3);
 			}
 		}
 	}

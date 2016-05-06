@@ -15,11 +15,11 @@ public class GuiCampfire extends GuiForestBase<TileCampfire> {
 
 	@Override
 	protected void render() {
-		if (tile.isWorking) {
+		if (handler.isWorking) {
 			this.drawTexturedModalRect(guiLeft + 66, guiTop + 36, 0, 166, 14, 14);
 		}
-		if (tile.getBurnTime() > 0 && tile.getBurnTime() < tile.getBurnTimeTotal()) {
-			this.drawTexturedModalRect(guiLeft + 84, guiTop + 35, 0, 180, this.tile.getScaledProcess(24), 15);
+		if (handler.getBurnTime() > 0 && handler.getBurnTime() < handler.getBurnTimeTotal()) {
+			this.drawTexturedModalRect(guiLeft + 84, guiTop + 35, 0, 180, this.handler.getScaledProcess(24), 15);
 		}
 	}
 

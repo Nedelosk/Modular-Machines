@@ -22,11 +22,14 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	@Override
 	public void add(Button slot) {
 		this.buttons.add(slot);
+		slot.gui = gui;
 	}
 
 	@Override
-	public void add(Collection slots) {
-		this.buttons.addAll(slots);
+	public void add(Collection<Button> slots) {
+		for(Button button : slots){
+			add(button);
+		}
 	}
 
 	@Override

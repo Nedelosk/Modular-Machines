@@ -13,6 +13,8 @@ import de.nedelosk.forestmods.common.modules.handlers.NEIPage;
 import de.nedelosk.forestmods.library.inventory.IContainerBase;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModuleColored;
@@ -27,12 +29,18 @@ import de.nedelosk.forestmods.library.modules.integration.IModuleNEI;
 import de.nedelosk.forestmods.library.modules.integration.INEIPage;
 import de.nedelosk.forestmods.library.modules.integration.SlotNEI;
 import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ModuleBoiler extends ModuleMachine implements IModuleColored{
 
 	public ModuleBoiler(IModular modular, IModuleContainer container, int speed) {
 		super(modular, container, speed);
+	}
+
+	@Override
+	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack) {
+		return null;
 	}
 
 	@Override

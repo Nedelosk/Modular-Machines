@@ -105,7 +105,7 @@ public class ModuleRegistry implements IModuleRegistry {
 	}
 
 	@Override
-	public <M extends IModule> M createFakeModule(IModuleContainer container) {
+	public <M extends IModule> M getFakeModule(IModuleContainer container) {
 		if(!fakeModuleCache.containsKey(container)){
 			IModule module = createModule(null, container);
 			fakeModuleCache.put(container, module);
@@ -138,7 +138,7 @@ public class ModuleRegistry implements IModuleRegistry {
 	}
 
 	@Override
-	public IModuleContainer getModuleFromItem(ItemStack stack) {
+	public IModuleContainer getContainerFromItem(ItemStack stack) {
 		if (stack == null) {
 			return null;
 		}
