@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.gui.GuiModularAssembler;
-import de.nedelosk.forestmods.library.gui.GuiBase;
 import de.nedelosk.forestmods.library.gui.IGuiBase;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
 import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
@@ -17,7 +16,6 @@ import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.modules.IModule;
 import de.nedelosk.forestmods.library.utils.RenderUtil;
 import de.nedelosk.forestmods.library.utils.WorldUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -30,19 +28,21 @@ public class AssemblerSlot implements IAssemblerSlot {
 	public final Class<? extends IModule> moduleClass;
 	public final IAssemblerSlot[] parents;
 	public boolean isActive;
+	public String name;
 
-	public AssemblerSlot(IAssemblerGroup group, int xPos, int yPos, int index, Class<? extends IModule> moduleClass, IAssemblerSlot... parents) {
+	public AssemblerSlot(IAssemblerGroup group, int xPos, int yPos, int index, String name, Class<? extends IModule> moduleClass, IAssemblerSlot... parents) {
 		this.group = group;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.index = index;
+		this.name = name;
 		this.moduleClass = moduleClass;
 		this.parents = parents;
 		this.isActive = parents == null || parents.length == 0;
 	}
-	
+
 	@Override
-	public void testActivity(EntityPlayer player) {
+	public void update(EntityPlayer player, boolean moveItem) {
 		if(getStack() == null){
 			isActive = false;
 			return;
@@ -50,7 +50,7 @@ public class AssemblerSlot implements IAssemblerSlot {
 		if(parents != null && parents.length > 0){
 			for(IAssemblerSlot slot : parents){
 				if(!slot.isActive() || slot.getStack() == null){
-					onDeleteSlot(player);
+					onDeleteSlot(player, moveItem);
 					if(isActive){
 						isActive = false;
 					}
@@ -60,7 +60,7 @@ public class AssemblerSlot implements IAssemblerSlot {
 		}
 		isActive = true;
 	}
-	
+
 	@Override
 	public boolean isActive() {
 		return isActive;
@@ -101,6 +101,11 @@ public class AssemblerSlot implements IAssemblerSlot {
 		return parents;
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void renderSlot(IGuiBase<IAssembler> gui, Rectangle pos) {
@@ -122,7 +127,7 @@ public class AssemblerSlot implements IAssemblerSlot {
 		RenderUtil.bindTexture(GuiModularAssembler.assemblerOverlay);
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
-		
+
 		List<IAssemblerSlot> slots = new ArrayList();
 		testSlots: for(IAssemblerSlot slot : group.getSlots()){
 			for(IAssemblerSlot parent : slot.getParents()){
@@ -135,13 +140,13 @@ public class AssemblerSlot implements IAssemblerSlot {
 
 		if(!slots.isEmpty()){
 			int xOffset = 0;
-			
+
 			if(isActive){
 				xOffset = 108;
 			}else{
 				xOffset = 162;
 			}
-			
+
 			for(IAssemblerSlot otherSlot : slots){
 				int currentX = getXPos();
 				int currentY = getYPos();

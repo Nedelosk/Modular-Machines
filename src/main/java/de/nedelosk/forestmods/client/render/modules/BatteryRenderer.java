@@ -55,13 +55,9 @@ public class BatteryRenderer extends AdvancedRenderer {
 		this.Battery_Base.setRotationPoint(-7.5F, 12.5F, -4.0F);
 		this.Battery_Base.addBox(0.0F, 0.0F, 0.0F, 1, 8, 8, 0.0F);
 		int energy;
-		if (modular.isAssembled()) {
-			if (modular.getEnergyHandler() != null) {
-				energy = (modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
-						/ (modular.getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
-			} else {
-				energy = 0;
-			}
+		if (modular.getEnergyHandler() != null) {
+			energy = (modular.getEnergyHandler().getEnergyStored(ForgeDirection.UNKNOWN)
+					/ (modular.getEnergyHandler().getMaxEnergyStored(ForgeDirection.UNKNOWN) / 8));
 		} else {
 			energy = 0;
 		}
@@ -96,7 +92,7 @@ public class BatteryRenderer extends AdvancedRenderer {
 	}
 
 	@Override
-	public void renderBlock(IRenderState state) {
+	protected void renderBlock(IRenderState state) {
 		IModularTileEntity entity = state.getModular().getTile();
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();

@@ -29,6 +29,7 @@ public class ModularRenderer implements ISimpleRenderer {
 		for(IModule module : modular.getModules()) {
 			if (module != null) {
 				ISimpleRenderer renderer = module.getRenderer(state);
+				state.setCurrentModule(module);
 				if (renderer != null) {
 					renderer.render(state);
 				}

@@ -3,10 +3,8 @@ package de.nedelosk.forestmods.library.gui;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import de.nedelosk.forestmods.library.inventory.IGuiHandler;
-import de.nedelosk.forestmods.library.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;

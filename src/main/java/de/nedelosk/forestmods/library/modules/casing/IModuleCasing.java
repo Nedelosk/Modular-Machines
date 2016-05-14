@@ -13,8 +13,10 @@ public interface IModuleCasing extends IModule {
 	void setHeat(int heat);
 
 	int getControllers();
-	
+
 	int getResistance();
 
 	int getHardness();
+
+	boolean canAssembleCasing();
 }

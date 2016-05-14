@@ -21,12 +21,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ModuleMachineWithMode extends ModuleMachine implements IModuleMachineWithMode {
+public abstract class ModuleMachineWithMode extends ModuleMachineEngine implements IModuleMachineWithMode {
 
 	public IMachineMode mode;
 
-	public ModuleMachineWithMode(IModular modular, IModuleContainer container, int speed, IMachineMode defaultMode) {
-		super(modular, container, speed);
+	public ModuleMachineWithMode(IModular modular, IModuleContainer container, int speed, int engines, IMachineMode defaultMode) {
+		super(modular, container, speed, engines);
 		this.mode = defaultMode;
 	}
 

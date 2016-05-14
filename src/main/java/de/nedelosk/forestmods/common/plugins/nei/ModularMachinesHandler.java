@@ -394,4 +394,8 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 		}
 
 	}
+
+	@Override
+	public void drawItemStack(ItemStack stack, int x, int y) {
+	}
 }

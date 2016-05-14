@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import buildcraft.api.tools.IToolWrench;
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.common.core.TabModularMachines;
@@ -23,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -71,43 +69,8 @@ public class BlockModularMachine extends BlockContainerForest {
 				if (modularMachine.getModular() == null) {
 					return false;
 				}
-				if (modularMachine.getModular() != null && modularMachine.getModular().isAssembled()) {
-					player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
-					return true;
-				}
-				if (player.getCurrentEquippedItem() != null) {
-					if (player.getCurrentEquippedItem().getItem() instanceof IToolWrench) {
-						modularMachine.assembleModular();
-						Exception e = modularMachine.getModular().getLastException();
-						if (e != null) {
-							player.addChatMessage(new ChatComponentText(e.getMessage()));
-						}
-						return true;
-					} /*
-					 * else if (ModuleRegistry.getModuleFromItem(player.
-					 * getCurrentEquippedItem()) != null) { ModuleItem item
-					 * = ModuleRegistry.getModuleFromItem(player.
-					 * getCurrentEquippedItem());
-					 * item.moduleStack.setItemStack(player.
-					 * getCurrentEquippedItem()); boolean addModule =
-					 * modularMachine.getModular().getModuleManager().
-					 * addModule(item.moduleStack); if (addModule) { if
-					 * (!player.capabilities.isCreativeMode) { ItemStack
-					 * currentItem = player.getCurrentEquippedItem(); if
-					 * (currentItem.stackSize < 2) { currentItem = null; }
-					 * else { currentItem.stackSize--; }
-					 * player.setCurrentItemOrArmor(0, currentItem); }
-					 * modularMachine.getModular().getInventoryManager().
-					 * addInventorys(); world.markBlockForUpdate(x, y, z); }
-					 * return addModule; }
-					 */
-				} else {
-					Exception e = modularMachine.getModular().getLastException();
-					if (e != null) {
-						player.addChatMessage(new ChatComponentText(e.getMessage()));
-						return true;
-					}
-				}
+				player.openGui(ForestMods.instance, 0, player.worldObj, x, y, z);
+				return true;
 			}
 		}
 		return false;

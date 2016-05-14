@@ -37,11 +37,6 @@ public class ModuleContainer implements IModuleContainer {
 	}
 
 	@Override
-	public ModuleContainer copy() {
-		return new ModuleContainer(stack.copy(), UID, material, moduleClass, ignorNBT);
-	}
-
-	@Override
 	public ItemStack getItemStack() {
 		return stack;
 	}

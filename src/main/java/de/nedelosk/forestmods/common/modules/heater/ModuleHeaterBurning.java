@@ -2,17 +2,22 @@ package de.nedelosk.forestmods.common.modules.heater;
 
 import java.util.List;
 
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerGroup;
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
 import de.nedelosk.forestmods.library.inventory.IContainerBase;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
 import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
 import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.forestmods.library.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.forestmods.library.modules.handlers.tank.IModuleTankBuilder;
+import de.nedelosk.forestmods.library.modules.heater.IModuleHeater;
 import de.nedelosk.forestmods.library.modules.heater.IModuleHeaterBurning;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -75,6 +80,18 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				setBurnTime(TileEntityFurnace.getItemBurnTime(input));
 			}
 		}
+	}
+	
+	@Override
+	public boolean canAssembleGroup(IAssemblerGroup group) {
+		return true;
+	}
+
+	@Override
+	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
+		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
+		group.addSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(group), "heater", IModuleHeater.class));
+		return group;
 	}
 
 	@Override

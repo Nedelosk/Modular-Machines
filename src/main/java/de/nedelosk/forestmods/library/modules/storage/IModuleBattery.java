@@ -1,10 +1,10 @@
 package de.nedelosk.forestmods.library.modules.storage;
 
 import cofh.api.energy.EnergyStorage;
-import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleController;
 import net.minecraft.item.ItemStack;
 
-public interface IModuleBattery extends IModule {
+public interface IModuleBattery extends IModuleController {
 
 	void setStorageEnergy(IModuleBattery battery, int energy, ItemStack itemStack);
 

@@ -3,7 +3,6 @@ package de.nedelosk.forestmods.common.blocks.tile;
 import de.nedelosk.forestmods.common.modular.Modular;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.ModularException;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -75,17 +74,6 @@ public class TileModular extends TileMachineBase implements IModularTileEntity<I
 		if (modular != null) {
 			modular.update(true);
 		}
-	}
-
-	@Override
-	public void assembleModular() {
-		try {
-			modular.assemble();
-		} catch (ModularException e) {
-			modular.setLastException(e);
-		}
-		modular.initModular();
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override

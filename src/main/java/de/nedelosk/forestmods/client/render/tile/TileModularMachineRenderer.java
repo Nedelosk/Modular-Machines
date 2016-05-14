@@ -9,6 +9,7 @@ import de.nedelosk.forestmods.common.modular.Modular;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
+import de.nedelosk.forestmods.library.modules.IModule;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +23,7 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float p_147500_8_) {
 		if (entity instanceof TileModular) {
 			TileModular machineTile = (TileModular) entity;
-			IRenderState state = new RenderState(null, x, y, z, machineTile.modular);
+			IRenderState state = new RenderState(null, x, y, z, null, machineTile.modular);
 			if (machineTile.modular != null) {
 				ISimpleRenderer renderer = machineTile.modular.getRenderer(state);
 				if (renderer != null) {
@@ -39,11 +40,11 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		}
 		IModular machine;
 		if (getEntry(stack) == null) {
-			machine = addEntry(new Modular(tagCompound.getCompoundTag("Machine"), null), stack).modular;
+			machine = addEntry(new Modular(tagCompound, null), stack).modular;
 		} else {
 			machine = getEntry(stack).modular;
 		}
-		IRenderState state = new RenderState(stack, 0, 0, 0, machine);
+		IRenderState state = new RenderState(stack, 0, 0, 0, null, machine);
 		if (machine != null) {
 			ISimpleRenderer renderer = machine.getRenderer(state);
 			if (renderer != null) {
@@ -73,13 +74,15 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		double x;
 		double y;
 		double z;
+		IModule module;
 		IModular modular;
 
-		public RenderState(ItemStack itemStack, double x, double y, double z, IModular modular) {
+		public RenderState(ItemStack itemStack, double x, double y, double z, IModule module, IModular modular) {
 			this.itemStack = itemStack;
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			this.module = module;
 			this.modular = modular;
 		}
 
@@ -101,6 +104,16 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer {
 		@Override
 		public double getZ() {
 			return z;
+		}
+		
+		@Override
+		public IModule getCurrentModule() {
+			return module;
+		}
+		
+		@Override
+		public void setCurrentModule(IModule module) {
+			this.module = module;
 		}
 
 		@Override

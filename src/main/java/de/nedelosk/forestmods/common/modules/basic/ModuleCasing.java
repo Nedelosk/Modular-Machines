@@ -19,12 +19,14 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	private final int maxHeat;
 	private final int resistance;
 	private final int hardness;
+	private final int controllers;
 
-	public ModuleCasing(IModular modular, IModuleContainer container, int maxHeat, int resistance, int hardness) {
+	public ModuleCasing(IModular modular, IModuleContainer container, int maxHeat, int resistance, int hardness, int controllers) {
 		super(modular, container);
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
+		this.controllers = controllers;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -85,5 +87,15 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@Override
 	public void setHeat(int heat) {
 		this.heat = heat;
+	}
+
+	@Override
+	public int getControllers() {
+		return controllers;
+	}
+
+	@Override
+	public boolean canAssembleCasing() {
+		return true;
 	}
 }

@@ -26,10 +26,12 @@ public interface IAssemblerSlot {
 	IAssemblerSlot[] getParents();
 
 	int getIndex();
-	
+
+	String getName();
+
 	boolean isActive();
-	
-	void testActivity(EntityPlayer player);
+
+	void update(EntityPlayer player, boolean moveItem);
 
 	ItemStack getStack();
 

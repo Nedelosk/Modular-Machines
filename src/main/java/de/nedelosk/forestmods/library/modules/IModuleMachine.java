@@ -1,7 +1,6 @@
 package de.nedelosk.forestmods.library.modules;
 
 import de.nedelosk.forestmods.library.modular.IModular;
-import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.library.modules.integration.IModuleNEI;
 
 public interface IModuleMachine extends IModuleNEI, IModuleController {
@@ -28,7 +27,7 @@ public interface IModuleMachine extends IModuleNEI, IModuleController {
 
 	void setBurnTimeTotal(int burnTimeTotal);
 
-	int getBurnTimeTotal(IModular modular, int speedModifier, IModuleEngine engine);
+	int getBurnTimeTotal(IModular modular, int speedModifier);
 
 	int getSpeedModifier();
 }

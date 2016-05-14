@@ -20,9 +20,9 @@ import net.minecraft.item.ItemStack;
 
 public enum EnumModules {
 	// CASINGS
-	STONE_CASING(EnumMaterials.STONE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings), ModuleCasing.class, ModuleContainer.class, 0, 0, 0),
-	IRON_CASING(EnumMaterials.IRON, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 2), ModuleCasing.class, ModuleContainer.class, 0, 0, 0),
-	BRONZE_CASING(EnumMaterials.BRONZE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 3), ModuleCasing.class, ModuleContainer.class, 0, 0, 0),
+	STONE_CASING(EnumMaterials.STONE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
+	IRON_CASING(EnumMaterials.IRON, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 2), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
+	BRONZE_CASING(EnumMaterials.BRONZE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 3), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
 	// ENGINES
 	STONE_ENGINE(EnumMaterials.STONE, new ModuleUID("engins:default"), new ItemStack(ItemManager.itemEngine, 1, 0), ModuleEngine.class, ModuleContainer.class, 1),
 	IRON_ENGINE(EnumMaterials.IRON, new ModuleUID("engins:default"), new ItemStack(ItemManager.itemEngine, 1, 1), ModuleEngine.class, ModuleContainer.class, 2),
@@ -36,7 +36,7 @@ public enum EnumModules {
 	STEEL_HEATER(EnumMaterials.STEEL, new ModuleUID("heaters:default"), new ItemStack(ItemManager.itemHeater, 1, 3), ModuleHeaterBurning.class, ModuleContainer.class, 100),
 	MAGMARIUM_HEATER(EnumMaterials.MAGMARIUM, new ModuleUID("heaters:default"), new ItemStack(ItemManager.itemHeater, 1, 4), ModuleHeaterBurning.class, ModuleContainer.class, 50),
 	// Alloy Smelters
-	STONE_ALLOYSMELTER(EnumMaterials.STONE, new ModuleUID("alloysmelters:default"), ModuleAlloySmelter.class, ModuleContainer.class, 7) {
+	STONE_ALLOYSMELTER(EnumMaterials.STONE, new ModuleUID("alloysmelters:default"), ModuleAlloySmelter.class, ModuleContainer.class, 7, 1) {
 
 		@Override
 		public ItemStack getStack() {
@@ -44,7 +44,7 @@ public enum EnumModules {
 		}
 	},
 	// Saw Mill
-	STONE_SAW_MILL(EnumMaterials.STONE, new ModuleUID("saw_mill:default"), ModuleSawMill.class, ModuleContainer.class, 7) {
+	STONE_SAW_MILL(EnumMaterials.STONE, new ModuleUID("saw_mill:default"), ModuleSawMill.class, ModuleContainer.class, 7, 1) {
 
 		@Override
 		public ItemStack getStack() {
@@ -52,7 +52,7 @@ public enum EnumModules {
 		}
 	},
 	// Pulverizer
-	STONE_PULVERIZER(EnumMaterials.STONE, new ModuleUID("pulverizer:default"), ModulePulverizer.class, ModuleContainer.class, 7) {
+	STONE_PULVERIZER(EnumMaterials.STONE, new ModuleUID("pulverizer:default"), ModulePulverizer.class, ModuleContainer.class, 7, 1) {
 
 		@Override
 		public ItemStack getStack() {

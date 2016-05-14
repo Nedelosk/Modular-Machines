@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.client.render.modules.MachineRenderer;
-import de.nedelosk.forestmods.common.modules.ModuleMachine;
+import de.nedelosk.forestmods.common.modules.ModuleMachineEngine;
 import de.nedelosk.forestmods.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
 import de.nedelosk.forestmods.common.modules.handlers.NEIPage;
@@ -14,8 +14,6 @@ import de.nedelosk.forestmods.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.forestmods.library.inventory.IContainerBase;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
-import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModuleColored;
@@ -29,17 +27,11 @@ import de.nedelosk.forestmods.library.modules.integration.IModuleNEI;
 import de.nedelosk.forestmods.library.modules.integration.INEIPage;
 import de.nedelosk.forestmods.library.modules.integration.SlotNEI;
 import de.nedelosk.forestmods.library.recipes.RecipeItem;
-import net.minecraft.item.ItemStack;
 
-public class ModuleSawMill extends ModuleMachine implements IModuleColored{
+public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored{
 
-	public ModuleSawMill(IModular modular, IModuleContainer container, int speed) {
-		super(modular, container, speed);
-	}
-
-	@Override
-	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack) {
-		return null;
+	public ModuleSawMill(IModular modular, IModuleContainer container, int speed, int engines) {
+		super(modular, container, speed, engines);
 	}
 
 	@Override

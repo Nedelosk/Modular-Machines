@@ -1,20 +1,13 @@
 package de.nedelosk.forestmods.common.network.packets;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
-import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
-import de.nedelosk.forestmods.library.modules.IModule;
-import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.ModuleUID;
 import de.nedelosk.forestmods.library.network.PacketTileEntity;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class PacketModularAssemblerSelectGroup extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketModularAssemblerSelectGroup, IMessage> {
@@ -38,7 +31,7 @@ public class PacketModularAssemblerSelectGroup extends PacketTileEntity<TileModu
 
 	public PacketModularAssemblerSelectGroup(TileModularAssembler tile, int groupID) {
 		super(tile);
-		
+
 		this.groupID = groupID;
 	}
 

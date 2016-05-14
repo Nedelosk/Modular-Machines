@@ -1,7 +1,10 @@
 package de.nedelosk.forestmods.common.modules.engine;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import akka.japi.Pair;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.render.modules.EngineRenderer;
@@ -10,19 +13,19 @@ import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.ModularException;
 import de.nedelosk.forestmods.library.modular.ModularHelper;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModule;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.IModuleController;
 import de.nedelosk.forestmods.library.modules.IModuleMachine;
 import de.nedelosk.forestmods.library.modules.IRecipeManager;
 import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
-import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -32,7 +35,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	protected boolean isWorking;
 	protected float progress;
 	private final int burnTimeModifier;
-	private ModuleUID machineUID;
+	private int machineIndex;
 
 	public ModuleEngine(IModular modular, IModuleContainer container, int burnTimeModifier) {
 		super(modular, container);
@@ -43,8 +46,8 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
 		super.readFromNBT(nbt, modular);
 		isWorking = nbt.getBoolean("isWorking");
-		if(nbt.hasKey("MachineUID")){
-			machineUID = new ModuleUID(nbt.getString("MachineUID"));
+		if(nbt.hasKey("MachineIndex")){
+			machineIndex = nbt.getInteger("MachineIndex");
 		}
 	}
 
@@ -52,23 +55,21 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
 		super.writeToNBT(nbt, modular);
 		nbt.setBoolean("isWorking", isWorking);
-		if(machineUID != null){
-			nbt.setString("MachineUID", machineUID.toString());
-		}
+		nbt.setInteger("MachineIndex", machineIndex);
 	}
 
 	@Override
-	public void onModularAssembled(IModuleController controller) throws ModularException {
-		MACHINES: for(IModuleMachine machine : modular.getModules(IModuleMachine.class)){
-			for(IModuleEngine engine : modular.getModules(IModuleEngine.class)){
-				if(engine != null && engine.getMachineUID() != null){
-					if(engine.getMachineUID().equals(machine.getModuleContainer().getUID())){
-						continue MACHINES;
-					}
-				}
-			}
-			machineUID = machine.getModuleContainer().getUID();
+	public boolean onAddToModular(IAssemblerGroup group, IModuleCasing casing, Map<IAssemblerGroup, List<Pair<IAssemblerSlot, IModule>>> modules, boolean beforeAdd) {
+		if(beforeAdd){
+			IModule controller = modules.get(group).get(0).second();
+			machineIndex = controller.getIndex();
 		}
+		return true;
+	}
+
+	@Override
+	protected void onCreateModel(IModular modular, IModuleContainer moduleContainer) {
+		super.onCreateModel(modular, moduleContainer);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public void updateServer() {
-		IModuleMachine machine = modular.getModule(machineUID);
+		IModuleMachine machine = modular.getModule(machineIndex);
 		if (machine == null) {
 			return;
 		}
@@ -137,11 +138,6 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public void addRequiredModules(List<Class<? extends IModule>> requiredModules) {
-		requiredModules.add(IModuleBattery.class);
-	}
-
-	@Override
 	public float getProgress() {
 		return progress;
 	}
@@ -172,13 +168,10 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public void setMachineUID(ModuleUID machineUID) {
-		this.machineUID = machineUID;
-	}
-
-	@Override
-	public ModuleUID getMachineUID() {
-		return machineUID;
+	public List<Integer> getMachineIndexes() {
+		List<Integer> indexes = new ArrayList();
+		indexes.add(machineIndex);
+		return indexes;
 	}
 
 	@Override

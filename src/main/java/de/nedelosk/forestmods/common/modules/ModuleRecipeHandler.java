@@ -1,30 +1,37 @@
 package de.nedelosk.forestmods.common.modules;
 
+import de.nedelosk.forestmods.library.modules.IModuleMachine;
 import de.nedelosk.forestmods.library.recipes.IRecipeHandler;
 import de.nedelosk.forestmods.library.recipes.IRecipeJsonSerializer;
 import de.nedelosk.forestmods.library.recipes.IRecipeNBTSerializer;
 
 public class ModuleRecipeHandler implements IRecipeHandler {
 
-	private final ModuleMachine producer;
+	private final IModuleMachine machine;
 
-	public ModuleRecipeHandler(ModuleMachine producer) {
-		this.producer = producer;
+	public ModuleRecipeHandler(IModuleMachine machine) {
+		this.machine = machine;
 	}
 
 	@Override
 	public IRecipeJsonSerializer getJsonSerialize() {
-		return producer;
+		if(machine instanceof IRecipeJsonSerializer){
+			return (IRecipeJsonSerializer) machine;
+		}
+		return null;
 	}
 
 	@Override
 	public IRecipeNBTSerializer getNBTSerialize() {
-		return producer;
+		if(machine instanceof IRecipeNBTSerializer){
+			return (IRecipeNBTSerializer) machine;
+		}
+		return null;
 	}
 
 	@Override
 	public String getRecipeCategory() {
-		return producer.getRecipeCategory();
+		return machine.getRecipeCategory();
 	}
 
 	@Override

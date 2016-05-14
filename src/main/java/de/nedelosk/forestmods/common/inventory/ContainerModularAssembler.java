@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.common.inventory;
 
 import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerCasing;
-import de.nedelosk.forestmods.common.inventory.slots.SlotOutput;
+import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerOutput;
 import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,7 +13,7 @@ public class ContainerModularAssembler extends ContainerBase<IAssembler> {
 	public ContainerModularAssembler(IAssembler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 	}
-	
+
 	@Override
 	protected void addInventory(InventoryPlayer inventory) {
 		for(int i1 = 0; i1 < 3; i1++) {
@@ -29,6 +29,6 @@ public class ContainerModularAssembler extends ContainerBase<IAssembler> {
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		addSlotToContainer(new SlotAssemblerCasing((IInventory) handler.getTile(), 0, 15, 15, inventory.player));
-		addSlotToContainer(new SlotOutput((IInventory) handler.getTile(), 1, 225, 15));
+		addSlotToContainer(new SlotAssemblerOutput((IInventory) handler.getTile(), 1, 225, 15));
 	}
 }

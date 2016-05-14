@@ -19,6 +19,4 @@ public interface IModuleContainer {
 
 	@Override
 	boolean equals(Object obj);
-
-	IModuleContainer copy();
 }

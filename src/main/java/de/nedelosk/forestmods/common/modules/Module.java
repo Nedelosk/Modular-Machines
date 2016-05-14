@@ -1,20 +1,23 @@
 package de.nedelosk.forestmods.common.modules;
 
 import java.util.List;
+import java.util.Map;
 
+import akka.japi.Pair;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.forestmods.common.modules.handlers.tanks.ModuleTankBuilder;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.ModularException;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModule;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.IModuleController;
 import de.nedelosk.forestmods.library.modules.ModuleManager;
+import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
 import de.nedelosk.forestmods.library.modules.handlers.IModuleContentHandler;
 import de.nedelosk.forestmods.library.modules.handlers.IModulePage;
 import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
@@ -33,9 +36,10 @@ public abstract class Module implements IModule {
 	protected IModulePage[] pages;
 	protected IModuleContainer container;
 	protected IModular modular;
+	protected int index;
 
 	public Module(IModular modular, IModuleContainer container) {
-		onAddInModular(modular, container);
+		onCreateModel(modular, container);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -49,19 +53,7 @@ public abstract class Module implements IModule {
 		return container.getItemStack();
 	}
 
-	@Override
-	public void addRequiredModules(List<Class<? extends IModule>> requiredModules) {
-	}
-
-	@Override
-	public void canAssembleModular(IModuleController controller) throws ModularException {
-	}
-
-	@Override
-	public void onModularAssembled(IModuleController controller) throws ModularException {
-	}
-
-	protected void onAddInModular(IModular modular, IModuleContainer moduleContainer) {
+	protected void onCreateModel(IModular modular, IModuleContainer moduleContainer) {
 		this.modular = modular;
 		this.container = moduleContainer;
 		pages = createPages();
@@ -153,6 +145,7 @@ public abstract class Module implements IModule {
 			tank.writeToNBT(nbtTank);
 			nbt.setTag("Tank", nbtTank);
 		}
+		nbt.setInteger("Index", index);
 	}
 
 	@Override
@@ -165,6 +158,7 @@ public abstract class Module implements IModule {
 			NBTTagCompound nbtTank = nbt.getCompoundTag("Tank");
 			tank.readFromNBT(nbtTank);
 		}
+		index = nbt.getInteger("Index");
 	}
 
 	@Override
@@ -206,5 +200,25 @@ public abstract class Module implements IModule {
 
 	@Override
 	public void loadDataFromItem(ItemStack stack) {
+	}
+
+	@Override
+	public boolean canAssembleSlot(IAssemblerSlot slot) {
+		return true;
+	}
+
+	@Override
+	public boolean onAddToModular(IAssemblerGroup group, IModuleCasing casing, Map<IAssemblerGroup, List<Pair<IAssemblerSlot, IModule>>> modules, boolean beforeAdd) {
+		return true;
+	}
+	
+	@Override
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	@Override
+	public int getIndex() {
+		return index;
 	}
 }

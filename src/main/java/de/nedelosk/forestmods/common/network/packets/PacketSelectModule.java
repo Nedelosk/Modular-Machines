@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class PacketSelectModule extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectModule, IMessage> {
 
-	public ModuleUID UID;
+	public int index;
 
 	public PacketSelectModule() {
 	}
@@ -25,26 +25,22 @@ public class PacketSelectModule extends PacketTileEntity<TileEntity> implements 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		UID = new ModuleUID(ByteBufUtils.readUTF8String(buf));
+		index = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		ByteBufUtils.writeUTF8String(buf, UID.toString());
+		buf.writeInt(index)
 	}
 
 	public PacketSelectModule(TileEntity tile, IModule module) {
-		this(tile, module.getModuleContainer());
+		this(tile, module.getIndex());
 	}
 
-	public PacketSelectModule(TileEntity tile, IModuleContainer container) {
-		this(tile, container.getUID());
-	}
-
-	public PacketSelectModule(TileEntity tile, ModuleUID UID) {
+	public PacketSelectModule(TileEntity tile, int index) {
 		super(tile);
-		this.UID = UID;
+		this.index = index;
 	}
 
 	@Override
@@ -52,7 +48,7 @@ public class PacketSelectModule extends PacketTileEntity<TileEntity> implements 
 		World world = ctx.getServerHandler().playerEntity.worldObj;
 		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-		tile.getModular().setCurrentModule(tile.getModular().getModule(message.UID));
+		tile.getModular().setCurrentModule(tile.getModular().getModule(message.index));
 		entityPlayerMP.openGui(ForestMods.instance, 0, world, message.x, message.y, message.z);
 		return null;
 	}

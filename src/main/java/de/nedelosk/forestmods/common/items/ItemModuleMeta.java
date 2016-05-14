@@ -12,15 +12,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ItemMetaModular extends ItemModular {
+public class ItemModuleMeta extends Item {
 
 	public String[] names;
 	@SideOnly(Side.CLIENT)
 	public IIcon[] itemIcon;
 	public String uln;
 
-	public ItemMetaModular(String uln, String[] names) {
-		super(uln);
+	public ItemModuleMeta(String uln, String[] names) {
+		setCreativeTab(TabModularMachines.tabForestMods);
+		setUnlocalizedName(uln);
 		setHasSubtypes(true);
 		setCreativeTab(TabModularMachines.tabModules);
 		this.names = names;
@@ -51,6 +52,6 @@ public class ItemMetaModular extends ItemModular {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(uln + "." + itemstack.getItemDamage());
+		return Registry.setUnlocalizedItemName(uln + "_" + names[itemstack.getItemDamage()]);
 	}
 }

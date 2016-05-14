@@ -6,9 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.client.render.modules.MachineRenderer;
-import de.nedelosk.forestmods.common.modular.assembler.AssemblerGroup;
-import de.nedelosk.forestmods.common.modular.assembler.AssemblerSlot;
-import de.nedelosk.forestmods.common.modules.ModuleMachine;
+import de.nedelosk.forestmods.common.modules.ModuleMachineEngine;
 import de.nedelosk.forestmods.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
 import de.nedelosk.forestmods.common.modules.handlers.NEIPage;
@@ -16,9 +14,6 @@ import de.nedelosk.forestmods.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.forestmods.library.inventory.IContainerBase;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
-import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
-import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModuleColored;
@@ -32,22 +27,11 @@ import de.nedelosk.forestmods.library.modules.integration.IModuleNEI;
 import de.nedelosk.forestmods.library.modules.integration.INEIPage;
 import de.nedelosk.forestmods.library.modules.integration.SlotNEI;
 import de.nedelosk.forestmods.library.recipes.RecipeItem;
-import net.minecraft.item.ItemStack;
 
-public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored {
+public class ModuleAlloySmelter extends ModuleMachineEngine implements IModuleColored {
 
-	public ModuleAlloySmelter(IModular modular, IModuleContainer container, int speed) {
-		super(modular, container, speed);
-	}
-
-	@Override
-	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
-		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
-		IAssemblerSlot controllerSlot = new AssemblerSlot(group, 5, 5, assembler.getNextIndex(group), ModuleMachine.class);
-		group.setControllerSlot(controllerSlot);
-		IAssemblerSlot a = group.addSlot(new AssemblerSlot(group, 0, 8, assembler.getNextIndex(group), ModuleMachine.class, controllerSlot));
-		group.addSlot(new AssemblerSlot(group, 7, 4, assembler.getNextIndex(group), ModuleMachine.class, a));
-		return group;
+	public ModuleAlloySmelter(IModular modular, IModuleContainer container, int speed, int engines) {
+		super(modular, container, speed, engines);
 	}
 
 	@Override

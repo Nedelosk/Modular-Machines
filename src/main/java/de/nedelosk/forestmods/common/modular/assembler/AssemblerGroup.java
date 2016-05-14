@@ -9,14 +9,11 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.gui.GuiModularAssembler;
-import de.nedelosk.forestmods.library.gui.GuiBase;
 import de.nedelosk.forestmods.library.gui.IGuiBase;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
 import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.utils.RenderUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class AssemblerGroup implements IAssemblerGroup {
 
@@ -50,6 +47,16 @@ public class AssemblerGroup implements IAssemblerGroup {
 	@Override
 	public IAssembler getAssembler() {
 		return assembler;
+	}
+
+	@Override
+	public IAssemblerSlot getSlot(String slotName) {
+		for(IAssemblerSlot slot : slots){
+			if(slot.getName().equals(slotName)){
+				return slot;
+			}
+		}
+		return null;
 	}
 
 	@Override

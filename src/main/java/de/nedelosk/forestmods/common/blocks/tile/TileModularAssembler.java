@@ -10,16 +10,16 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileModularAssembler extends TileMachineBase{
 
 	public IAssembler assembler;
-	
+
 	public TileModularAssembler() {
-		super(2*81);
-		assembler = new Assembler(this, 2);
+		super(2 + 16*81);
+		assembler = new Assembler(this);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		assembler.reload();
 	}
 
@@ -37,7 +37,7 @@ public class TileModularAssembler extends TileMachineBase{
 	public String getTitle() {
 		return "";
 	}
-	
+
 	public IAssembler getAssembler() {
 		return assembler;
 	}

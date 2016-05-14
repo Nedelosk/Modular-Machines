@@ -8,6 +8,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.forestmods.client.render.modules.BatteryRenderer;
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerGroup;
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.forestmods.common.modular.handlers.EnergyHandler;
 import de.nedelosk.forestmods.common.modules.Module;
 import de.nedelosk.forestmods.common.modules.handlers.ModulePage;
@@ -15,6 +17,8 @@ import de.nedelosk.forestmods.library.gui.Widget;
 import de.nedelosk.forestmods.library.inventory.IContainerBase;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
+import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
 import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
@@ -175,5 +179,17 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 			super.addWidgets(widgets);
 			widgets.add(new WidgetEnergyField(module.getStorage(), 55, 15));
 		}
+	}
+
+	@Override
+	public boolean canAssembleGroup(IAssemblerGroup group) {
+		return true;
+	}
+
+	@Override
+	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
+		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
+		group.setControllerSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(group), "battery", IModuleBattery.class));
+		return group;
 	}
 }

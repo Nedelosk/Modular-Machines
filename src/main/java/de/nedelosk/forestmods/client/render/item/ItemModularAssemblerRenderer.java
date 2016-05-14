@@ -2,8 +2,6 @@ package de.nedelosk.forestmods.client.render.item;
 
 import de.nedelosk.forestmods.client.core.ClientProxy;
 import de.nedelosk.forestmods.client.render.tile.TileModularAssemblerRenderer;
-import de.nedelosk.forestmods.client.render.tile.TileModularMachineRenderer;
-import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

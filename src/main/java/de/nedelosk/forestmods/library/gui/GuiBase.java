@@ -1,7 +1,6 @@
 package de.nedelosk.forestmods.library.gui;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -41,7 +40,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 		super.initGui();
 		initButtons();
 	}
-	
+
 	public void initButtons(){
 		Iterator<GuiButton> buttonIter = buttonList.iterator();
 		while(buttonIter.hasNext()){
@@ -160,7 +159,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 	public Gui getGui() {
 		return this;
 	}
-	
+
 	@Override
 	public void drawItemStack(ItemStack stack, int x, int y) {
 		GL11.glPushMatrix();
@@ -178,6 +177,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 			font = Minecraft.getMinecraft().fontRenderer;
 		}
 		itemRender.renderItemAndEffectIntoGUI(font, Minecraft.getMinecraft().getTextureManager(), stack, x, y);
+		itemRender.renderItemOverlayIntoGUI(font, Minecraft.getMinecraft().getTextureManager(), stack, x, y);
 		this.zLevel = 0.0F;
 		itemRender.zLevel = 0.0F;
 		RenderHelper.disableStandardItemLighting();

@@ -1,5 +1,7 @@
 package de.nedelosk.forestmods.library.modules.engine;
 
+import java.util.List;
+
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modules.IModule;
 import de.nedelosk.forestmods.library.modules.IModuleMachine;
@@ -21,9 +23,7 @@ public interface IModuleEngine extends IModule {
 
 	int getBurnTimeModifier();
 
-	ModuleUID getMachineUID();
-
-	void setMachineUID(ModuleUID machineUID);
+	List<Integer> getMachineIndexes();
 
 	boolean removeMaterial(IModular modular, IModuleMachine machine);
 }

@@ -121,7 +121,7 @@ public class EngineRenderer extends AdvancedRenderer {
 			GL11.glRotated(90, 0F, 1F, 0F);
 		}
 		float step;
-		float progress = ((IModuleEngine)state.getModular().getModule(container.getUID())).getProgress();
+		float progress = ((IModuleEngine)state.getCurrentModule()).getProgress();
 		if (progress > 0.5) {
 			step = 7F - (progress - 0.5F) * 2F * 7F;
 		} else {

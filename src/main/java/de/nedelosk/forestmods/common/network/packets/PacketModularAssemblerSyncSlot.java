@@ -5,17 +5,11 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
-import de.nedelosk.forestmods.common.core.ForestMods;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
-import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
-import de.nedelosk.forestmods.library.modules.IModule;
-import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.ModuleUID;
 import de.nedelosk.forestmods.library.network.PacketTileEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class PacketModularAssemblerSyncSlot extends PacketTileEntity<TileModularAssembler> implements IMessageHandler<PacketModularAssemblerSyncSlot, IMessage> {
@@ -47,7 +41,7 @@ public class PacketModularAssemblerSyncSlot extends PacketTileEntity<TileModular
 
 	public PacketModularAssemblerSyncSlot(TileModularAssembler tile, int slotIndex, ItemStack stack) {
 		super(tile);
-		
+
 		this.slotIndex = slotIndex;
 		this.stack = stack;
 	}
@@ -68,7 +62,7 @@ public class PacketModularAssemblerSyncSlot extends PacketTileEntity<TileModular
 			}
 			assembler.setStack(message.slotIndex, message.stack);
 		}
-		assembler.updateActivitys(ctx.getServerHandler().playerEntity, true);
+		assembler.update(ctx.getServerHandler().playerEntity, true);
 		assembler.getTile().markDirty();
 		return null;
 	}

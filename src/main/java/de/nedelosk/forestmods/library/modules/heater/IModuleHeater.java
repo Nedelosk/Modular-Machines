@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.library.modules.heater;
 
-import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modules.IModuleController;
 
-public interface IModuleHeater extends IModule {
+public interface IModuleHeater extends IModuleController {
 
 	void setHeat(int heat);
 

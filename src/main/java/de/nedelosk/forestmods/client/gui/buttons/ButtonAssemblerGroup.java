@@ -9,7 +9,6 @@ import de.nedelosk.forestmods.common.network.packets.PacketModularAssemblerCreat
 import de.nedelosk.forestmods.common.network.packets.PacketModularAssemblerSelectGroup;
 import de.nedelosk.forestmods.library.gui.Button;
 import de.nedelosk.forestmods.library.gui.IGuiBase;
-import de.nedelosk.forestmods.library.gui.Widget;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
 import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
@@ -18,7 +17,6 @@ import de.nedelosk.forestmods.library.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ButtonAssemblerGroup extends Button<IAssembler> {
@@ -32,7 +30,7 @@ public class ButtonAssemblerGroup extends Button<IAssembler> {
 		this.group = group;
 		this.groupID = groupID;
 	}
-	
+
 	@Override
 	public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_) {
 		if(group != null) {
@@ -48,7 +46,7 @@ public class ButtonAssemblerGroup extends Button<IAssembler> {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public void onButtonClick(IGuiBase<IAssembler> gui) {
 		EntityPlayer player = gui.getPlayer();
@@ -66,19 +64,22 @@ public class ButtonAssemblerGroup extends Button<IAssembler> {
 							newStack.stackSize = 1;
 							gui.getHandler().setStack(group.getControllerSlot().getIndex(), newStack);
 							PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerCreateGroup((TileModularAssembler) gui.getHandler().getTile(), groupID, newStack));
-						}
-						heldItem.stackSize--;
-						if(heldItem.stackSize == 0){
-							player.inventory.setItemStack(null);
+
+							heldItem.stackSize--;
+							if(heldItem.stackSize == 0){
+								player.inventory.setItemStack(null);
+							}
 						}
 					}
 				}
-				
-				gui.getHandler().updateActivitys(gui.getPlayer(), true);
+
+				gui.getHandler().update(gui.getPlayer(), true);
 			}
 		}else{
-			gui.getHandler().setCurrentGroup(group, gui.getPlayer());
-			PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerSelectGroup((TileModularAssembler) gui.getHandler().getTile(), groupID));
+			if(gui.getHandler().getCurrentGroup() == null || gui.getHandler().getCurrentGroup().getGroupID() != groupID){
+				gui.getHandler().setCurrentGroup(group, gui.getPlayer());
+				PacketHandler.INSTANCE.sendToServer(new PacketModularAssemblerSelectGroup((TileModularAssembler) gui.getHandler().getTile(), groupID));
+			}
 		}
 	}
 

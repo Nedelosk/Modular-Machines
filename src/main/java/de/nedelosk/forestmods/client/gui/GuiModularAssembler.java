@@ -2,13 +2,9 @@ package de.nedelosk.forestmods.client.gui;
 
 import de.nedelosk.forestmods.client.gui.buttons.ButtonAssemblerGroup;
 import de.nedelosk.forestmods.client.gui.buttons.ButtonAssemblerSlot;
-import de.nedelosk.forestmods.client.gui.widgets.WidgetFluidTank;
-import de.nedelosk.forestmods.library.gui.Button;
-import de.nedelosk.forestmods.library.gui.Widget;
 import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
 import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiModularAssembler extends GuiForestBase<IAssembler> {
@@ -22,7 +18,12 @@ public class GuiModularAssembler extends GuiForestBase<IAssembler> {
 		xSize = 256;
 		ySize = 256;
 	}
-	
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
 	@Override
 	public void addButtons() {
 		if(handler.getCurrentGroup() != null){

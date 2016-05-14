@@ -36,6 +36,4 @@ public interface IModularTileEntity<M extends IModular> extends ISidedInventory,
 	void readFromNBT(NBTTagCompound nbt);
 
 	void writeToNBT(NBTTagCompound nbt);
-
-	void assembleModular();
 }

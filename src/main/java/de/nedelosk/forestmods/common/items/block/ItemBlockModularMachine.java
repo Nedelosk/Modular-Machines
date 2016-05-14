@@ -2,6 +2,7 @@ package de.nedelosk.forestmods.common.items.block;
 
 import de.nedelosk.forestmods.common.blocks.tile.TileModular;
 import de.nedelosk.forestmods.common.core.BlockManager;
+import de.nedelosk.forestmods.common.modular.Modular;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -63,7 +64,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 					field_150939_a.onPostBlockPlaced(world, x, y, z, 0);
 				}
 				TileModular machine = (TileModular) tile;
-				machine.readFromNBT(stack.getTagCompound());
+				machine.setModular(new Modular(stack.getTagCompound(), machine));
 				world.markBlockForUpdate(x, y, z);
 				world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, this.field_150939_a.stepSound.func_150496_b(),
 						(this.field_150939_a.stepSound.getVolume() + 1.0F) / 2.0F, this.field_150939_a.stepSound.getPitch() * 0.8F);

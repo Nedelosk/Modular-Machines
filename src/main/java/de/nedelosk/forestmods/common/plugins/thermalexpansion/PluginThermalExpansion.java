@@ -44,12 +44,12 @@ public class PluginThermalExpansion extends APlugin {
 	public void postInit() {
 		cell = GameRegistry.findItem(getRequiredMod(), "Cell");
 		frame = GameRegistry.findItem(getRequiredMod(), "Frame");
-		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.IRON, frameBasic, new ItemStack(frame, 1, 0), ModuleCasing.class, false, 0, 0, 0);
-		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.INVAR, frameHardened, new ItemStack(frame, 1, 1), ModuleCasing.class, false, 0, 0, 0);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.IRON, frameBasic, new ItemStack(frame, 1, 0), ModuleCasing.class, false, 0, 0, 0, 2);
+		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.INVAR, frameHardened, new ItemStack(frame, 1, 1), ModuleCasing.class, false, 0, 0, 0, 3);
 		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.SIGNALUM, frameReinforced, new ItemStack(frame, 1, 2), ModuleCasing.class, false, 0, 0,
-				0);
+				0, 3);
 		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.ENDERIUM, frameResonant, new ItemStack(frame, 1, 3), ModuleCasing.class, false, 0, 0,
-				0);
+				0, 4);
 		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.LEAD, energyCellLeadstone, new ItemStack(cell, 1, 1), ModuleEnergyCell.class, true,
 				new EnergyStorage(400000, 200));
 		ModuleManager.moduleRegistry.registerModuleAndItem(EnumMaterials.INVAR, energyCellHardened, new ItemStack(cell, 1, 2), ModuleEnergyCell.class, true,

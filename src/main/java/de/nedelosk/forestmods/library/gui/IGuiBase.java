@@ -32,12 +32,12 @@ public interface IGuiBase<T extends IGuiHandler> {
 	FontRenderer getFontRenderer();
 
 	void drawItemStack(ItemStack stack, int x, int y);
-	
+
 	Gui getGui();
 
 	EntityPlayer getPlayer();
 
 	T getHandler();
-	
-	
+
+
 }

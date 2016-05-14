@@ -6,7 +6,6 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.nedelosk.forestmods.library.gui.IGuiBase;
-import net.minecraft.entity.player.EntityPlayer;
 
 public interface IAssemblerGroup {
 
@@ -19,8 +18,10 @@ public interface IAssemblerGroup {
 	void setControllerSlot(IAssemblerSlot controllerSlot);
 
 	IAssembler getAssembler();
-	
+
 	int getGroupID();
+
+	IAssemblerSlot getSlot(String slotName);
 
 	@SideOnly(Side.CLIENT)
 	void renderGroup(IGuiBase<IAssembler> gui, Rectangle pos);

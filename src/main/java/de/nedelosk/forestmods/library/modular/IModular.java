@@ -28,8 +28,6 @@ public interface IModular {
 
 	void update(boolean isServer);
 
-	void initModular();
-
 	IModulePage getCurrentPage();
 
 	IModule getCurrentModule();
@@ -46,7 +44,9 @@ public interface IModular {
 
 	<M extends IModule> List<M> getModules(Class<? extends M> moduleClass);
 
-	<M extends IModule> M getModule(ModuleUID moduleUID);
+	<M extends IModule> M getModule(int index);
+
+	void onAssembleModular();
 
 	/**
 	 * @return All modules as ModuleStack
@@ -61,11 +61,6 @@ public interface IModular {
 
 	<E extends IEnergyProvider & IEnergyReceiver> void setEnergyHandler(E energyHandler);
 
-	/* BUILD */
-	void assemble() throws ModularException;
-
-	boolean isAssembled();
-
 	/* NBT */
 	void readFromNBT(NBTTagCompound nbt);
 
@@ -77,10 +72,6 @@ public interface IModular {
 
 	/* Waila */
 	IWailaProvider getWailaProvider(IModularTileEntity tile);
-
-	ModularException getLastException();
-
-	void setLastException(ModularException exception);
 
 	@SideOnly(Side.CLIENT)
 	GuiContainer getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory);

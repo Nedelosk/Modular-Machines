@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class PacketModule extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketModule, IMessage> {
 
-	private ModuleUID UID;
+	private int index;
 	private NBTTagCompound nbt;
 
 	public PacketModule() {
@@ -26,31 +26,31 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 
 	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, IModule module) {
 		super(tile);
-		this.UID = module.getModuleContainer().getUID();
+		this.index = module.getIndex();
 		NBTTagCompound nbt = new NBTTagCompound();
 		module.writeToNBT(nbt, tile.getModular());
 		this.nbt = nbt;
 	}
 
-	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, ModuleUID moduleUID) {
+	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, int index) {
 		super(tile);
-		this.UID = moduleUID;
+		this.index = index;
 		NBTTagCompound nbt = new NBTTagCompound();
-		tile.getModular().getModule(moduleUID).writeToNBT(nbt, tile.getModular());
+		tile.getModular().getModule(index).writeToNBT(nbt, tile.getModular());
 		this.nbt = nbt;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		UID = new ModuleUID(ByteBufUtils.readUTF8String(buf));
+		index = buf.readInt();
 		nbt = ByteBufUtils.readTag(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		ByteBufUtils.writeUTF8String(buf, UID.toString());
+		buf.writeInt(index);
 		ByteBufUtils.writeTag(buf, nbt);
 	}
 
@@ -62,7 +62,7 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 		if (tile == null || ((IModularTileEntity) tile).getModular() == null) {
 			return null;
 		}
-		IModule module = ((IModularTileEntity) tile).getModular().getModule(message.UID);
+		IModule module = ((IModularTileEntity) tile).getModular().getModule(message.index);
 		module.readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
 		return null;
 	}

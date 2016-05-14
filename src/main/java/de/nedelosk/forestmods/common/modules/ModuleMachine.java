@@ -1,12 +1,14 @@
 package de.nedelosk.forestmods.common.modules;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerGroup;
+import de.nedelosk.forestmods.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleRecipeManager;
 import de.nedelosk.forestmods.common.network.PacketHandler;
 import de.nedelosk.forestmods.common.network.packets.PacketModule;
@@ -14,17 +16,14 @@ import de.nedelosk.forestmods.library.integration.IWailaProvider;
 import de.nedelosk.forestmods.library.integration.IWailaState;
 import de.nedelosk.forestmods.library.modular.IModular;
 import de.nedelosk.forestmods.library.modular.IModularTileEntity;
-import de.nedelosk.forestmods.library.modular.ModularException;
 import de.nedelosk.forestmods.library.modular.ModularHelper;
-import de.nedelosk.forestmods.library.modules.IModule;
+import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerGroup;
+import de.nedelosk.forestmods.library.modular.assembler.IAssemblerSlot;
 import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.IModuleController;
 import de.nedelosk.forestmods.library.modules.IModuleMachine;
 import de.nedelosk.forestmods.library.modules.IRecipeManager;
-import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
 import de.nedelosk.forestmods.library.modules.handlers.IModuleContentHandler;
-import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
 import de.nedelosk.forestmods.library.recipes.IRecipe;
 import de.nedelosk.forestmods.library.recipes.IRecipeJsonSerializer;
 import de.nedelosk.forestmods.library.recipes.IRecipeNBTSerializer;
@@ -36,7 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class ModuleMachine extends Module implements IModuleMachine, IModuleController, IRecipeJsonSerializer, IRecipeNBTSerializer, IWailaProvider {
+public abstract class ModuleMachine extends Module implements IModuleMachine, IRecipeJsonSerializer, IRecipeNBTSerializer, IWailaProvider {
 
 	protected IRecipeManager recipeManager;
 	protected int chance;
@@ -103,13 +102,9 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 
 	@Override
 	public void updateServer() {
-		if (!modular.isAssembled()) {
-			return;
-		}
-		IModularTileEntity tile = modular.getTile();
-		IModuleEngine engine = ModularHelper.getEngine(modular);
+		Random rand = modular.getTile().getWorld().rand;
 
-		if (engine != null && tile.getEnergyStored(null) > 0) {
+		if (canWork()) {
 			IRecipeManager manager = getRecipeManager();
 			if (burnTime >= burnTimeTotal || manager == null) {
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(), getInputs(), getRecipeModifiers());
@@ -118,26 +113,28 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 						setRecipeManager(null);
 						burnTimeTotal = 0;
 						burnTime = 0;
-						chance = tile.getWorld().rand.nextInt(100);
+						chance = rand.nextInt(100);
 						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), this));
 					}
 				} else if (recipe != null) {
-					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier(), engine) / container.getMaterial().getTier();
+					burnTimeTotal = getBurnTimeTotal(modular, recipe.getRequiredSpeedModifier()) / container.getMaterial().getTier();
 					setRecipeManager(new ModuleRecipeManager(modular, recipe.getRecipeCategory(), (recipe.getRequiredMaterial() * speedModifier) / burnTimeTotal,
 							recipe.getInputs().clone(), getRecipeModifiers()));
 					if (!removeInput()) {
 						setRecipeManager(null);
 						return;
 					}
-					chance = tile.getWorld().rand.nextInt();
+					chance = rand.nextInt();
 					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), this));
 				}
 			}
 		}
 	}
 
+	public abstract boolean canWork();
+
 	@Override
-	public int getBurnTimeTotal(IModular modular, int recipeSpeed, IModuleEngine engine) {
+	public int getBurnTimeTotal(IModular modular, int recipeSpeed) {
 		int startTime = recipeSpeed * speedModifier;
 		return startTime + (startTime * ModularHelper.getBattery(modular).getSpeedModifier() / 100);
 	}
@@ -245,57 +242,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	@Override
-	public void canAssembleModular() throws ModularException {
-		List<Class<? extends IModule>> requiredModules = getRequiredModules();
-		requiredModules.add(IModuleCasing.class);
-		for(IModule module : modular.getModules()) {
-			module.addRequiredModules(requiredModules);
-		}
-		Iterator<Class<? extends IModule>> requiredModulesIterator = requiredModules.iterator();
-		for(IModule module : modular.getModules()){
-			List<Class<? extends IModule>> foundedClassesOfModule = new ArrayList();
-			while(requiredModulesIterator.hasNext()) {
-				Class<? extends IModule> moduleClass = requiredModulesIterator.next();
-				if(moduleClass.isAssignableFrom(module.getClass())){
-					if(!foundedClassesOfModule.contains(moduleClass)){
-						foundedClassesOfModule.add(moduleClass);
-						requiredModulesIterator.remove();
-					}
-				}
-			}
-		}
-		if(requiredModules.isEmpty()){
-			throw new ModularException("Can't find the required modules for the controller module. The modules are: " + requiredModules);
-		}
-	}
-
-	@Override
-	public void addRequiredModules(List<Class<? extends IModule>> requiredModules) {
-		requiredModules.add(IModuleBattery.class);
-		requiredModules.add(IModuleEngine.class);
-	}
-
-	@Override
-	public List<Class<? extends IModule>> getRequiredModules() {
-		List<Class<? extends IModule>> requiredModules = new ArrayList();
-		requiredModules.add(IModuleBattery.class);
-		requiredModules.add(IModuleEngine.class);
-		requiredModules.add(IModuleCasing.class);
-		return requiredModules;
-	}
-
-	@Override
-	public List<Class<? extends IModule>> getAllowedModules() {
-		List<Class<? extends IModule>> requiredModules = new ArrayList();
-		requiredModules.add(IModuleBattery.class);
-		requiredModules.add(IModuleCasing.class);
-		requiredModules.add(IModuleEngine.class);
-		return requiredModules;
-	}
-
-	@Override
-	public boolean isAdvanced() {
-		return true;
+	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
+		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
+		IAssemblerSlot controllerSlot = new AssemblerSlot(group, 4, 4, assembler.getNextIndex(group), "controller", ModuleMachine.class);
+		group.setControllerSlot(controllerSlot);
+		return group;
 	}
 
 	@Override

@@ -96,7 +96,7 @@ public class CasingRenderer extends AdvancedRenderer {
 	}
 
 	@Override
-	public void render(IRenderState state) {
+	protected void renderBlock(IRenderState state) {
 		IModularTileEntity entity = state.getModular().getTile();
 		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
