@@ -13,15 +13,15 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
-import de.nedelosk.modularmachines.api.modules.integration.SlotNEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
+import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
@@ -60,7 +60,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public INEIPage createNEIPage(IModuleNEI stack) {
+	public IJEIPage createNEIPage(IModuleJEI stack) {
 		return new BoilerNEIPage(stack);
 	}
 
@@ -96,12 +96,12 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 	@SideOnly(Side.CLIENT)
 	public static class BoilerNEIPage extends NEIPage {
 
-		public BoilerNEIPage(IModuleNEI module) {
+		public BoilerNEIPage(IModuleJEI module) {
 			super(module);
 		}
 
 		@Override
-		public void createSlots(List<SlotNEI> modularSlots) {
+		public void createSlots(List<SlotJEI> modularSlots) {
 		}
 
 		@Override

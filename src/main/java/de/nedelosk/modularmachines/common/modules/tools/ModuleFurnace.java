@@ -5,10 +5,10 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleTool;
 
 public class ModuleFurnace extends ModuleTool {
@@ -23,7 +23,7 @@ public class ModuleFurnace extends ModuleTool {
 	}
 
 	@Override
-	public INEIPage createNEIPage(IModuleNEI module) {
+	public IJEIPage createNEIPage(IModuleJEI module) {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.plugins.nei;
+package de.nedelosk.modularmachines.common.plugins.jei;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;

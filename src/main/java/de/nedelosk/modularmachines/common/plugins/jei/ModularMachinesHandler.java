@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.plugins.nei;
+package de.nedelosk.modularmachines.common.plugins.jei;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -11,14 +11,15 @@ import de.nedelosk.modularmachines.api.gui.IButtonManager;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
 import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
-import de.nedelosk.modularmachines.api.modules.integration.SlotNEI;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.WidgetManager;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.SlotJEI;
+import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -31,14 +32,14 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	public ResourceLocation nei_widgets = new ResourceLocation("forestmods:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
-	public INEIPage page;
+	public IJEIPage page;
 	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
 
-	public ModularMachinesHandler(String recipeName, INEIPage page) {
+	public ModularMachinesHandler(String recipeName, IJEIPage page) {
 		this.recipeName = recipeName;
 		this.page = page;
 		page.setGui(this);
-		if (!NEIConfig.isAdded) {
+		if (!ModuleJeiPlugin.isAdded) {
 			GuiCraftingRecipe.craftinghandlers.add(this);
 			GuiUsageRecipe.usagehandlers.add(this);
 		}
@@ -185,11 +186,11 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 			this.input = new ArrayList<PositionedStack>();
 			this.outputs = new ArrayList<PositionedStack>();
 			this.recipe = recipe;
-			List<SlotNEI> slots = new ArrayList();
+			List<SlotJEI> slots = new ArrayList();
 			page.createSlots(slots);
 			int input = 0;
 			int output = 0;
-			for(SlotNEI stack : slots) {
+			for(SlotJEI stack : slots) {
 				if (stack.isInput) {
 					if (inputs.length != input) {
 						if (inputs[input].isItem()) {

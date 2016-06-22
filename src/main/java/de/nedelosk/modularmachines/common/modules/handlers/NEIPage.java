@@ -3,19 +3,19 @@ package de.nedelosk.modularmachines.common.modules.handlers;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class NEIPage implements INEIPage {
+public abstract class NEIPage implements IJEIPage {
 
 	public IGuiBase gui;
 	public IRecipe recipe;
-	public final IModuleNEI module;
+	public final IModuleJEI module;
 
-	public NEIPage(IModuleNEI module) {
+	public NEIPage(IModuleJEI module) {
 		this.module = module;
 	}
 

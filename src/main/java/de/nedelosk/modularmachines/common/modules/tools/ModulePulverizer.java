@@ -11,15 +11,15 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
-import de.nedelosk.modularmachines.api.modules.integration.SlotNEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
+import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
@@ -50,7 +50,7 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 	}
 
 	@Override
-	public INEIPage createNEIPage(IModuleNEI module) {
+	public IJEIPage createNEIPage(IModuleJEI module) {
 		return new PulverizerNEIPage(module);
 	}
 
@@ -97,15 +97,15 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 	@SideOnly(Side.CLIENT)
 	public static class PulverizerNEIPage extends NEIPage {
 
-		public PulverizerNEIPage(IModuleNEI module) {
+		public PulverizerNEIPage(IModuleJEI module) {
 			super(module);
 		}
 
 		@Override
-		public void createSlots(List<SlotNEI> modularSlots) {
-			modularSlots.add(new SlotNEI(56, 24, true));
-			modularSlots.add(new SlotNEI(116, 24, false));
-			modularSlots.add(new SlotNEI(134, 24, false));
+		public void createSlots(List<SlotJEI> modularSlots) {
+			modularSlots.add(new SlotJEI(56, 24, true));
+			modularSlots.add(new SlotJEI(116, 24, false));
+			modularSlots.add(new SlotJEI(134, 24, false));
 		}
 
 		@Override

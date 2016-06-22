@@ -11,15 +11,15 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
-import de.nedelosk.modularmachines.api.modules.integration.INEIPage;
-import de.nedelosk.modularmachines.api.modules.integration.SlotNEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
+import de.nedelosk.modularmachines.common.modules.IJEIPage;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
+import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
@@ -61,12 +61,6 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 		return pages;
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public INEIPage createNEIPage(IModuleNEI module) {
-		return new AlloySmelterNEIPage(module);
-	}
-
 	public static class AlloySmelterPage extends ModulePage<IModuleTool> {
 
 		public AlloySmelterPage(int pageID, IModuleState<IModuleTool> module) {
@@ -75,7 +69,7 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 		
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.setInventoryName("module.inventory.alloysmleter.name");
+			invBuilder.setInventoryName("module.inventory.alloysmelter.name");
 			invBuilder.addInventorySlot(true, new ItemFilterMachine());
 			invBuilder.addInventorySlot(true, new ItemFilterMachine());
 			invBuilder.addInventorySlot(false, new OutputAllFilter());
@@ -95,27 +89,6 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 		public void addWidgets(List widgets) {
 			super.addWidgets(widgets);
 			widgets.add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static class AlloySmelterNEIPage extends NEIPage {
-
-		public AlloySmelterNEIPage(IModuleNEI module) {
-			super(module);
-		}
-
-		@Override
-		public void createSlots(List<SlotNEI> modularSlots) {
-			modularSlots.add(new SlotNEI(36, 24, true));
-			modularSlots.add(new SlotNEI(54, 24, true));
-			modularSlots.add(new SlotNEI(116, 24, false));
-			modularSlots.add(new SlotNEI(134, 24, false));
-		}
-
-		@Override
-		public void addWidgets(List widgets) {
-			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
 		}
 	}
 

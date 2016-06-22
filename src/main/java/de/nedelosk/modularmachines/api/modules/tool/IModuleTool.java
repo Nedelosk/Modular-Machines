@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.api.modules.tool;
 
 import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleNEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 
-public interface IModuleTool extends IModuleNEI, IModuleController {
+public interface IModuleTool extends IModuleJEI, IModuleController {
 
 	Object[] getRecipeModifiers(IModuleState state);
 
