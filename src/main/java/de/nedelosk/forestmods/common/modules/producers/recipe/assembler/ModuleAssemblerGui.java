@@ -2,14 +2,13 @@ package de.nedelosk.forestmods.common.modules.producers.recipe.assembler;
 
 import java.util.List;
 
-import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.forestmods.common.modules.producers.recipe.ModuleProducerRecipeGui;
-import de.nedelosk.forestmods.library.gui.IGuiBase;
-import de.nedelosk.forestmods.library.gui.Widget;
-import de.nedelosk.forestmods.library.modular.IModular;
-import de.nedelosk.forestmods.library.modular.ModularHelper;
-import de.nedelosk.forestmods.library.modules.ModuleUID;
-import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.ModularHelper;
+import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 
 public class ModuleAssemblerGui extends ModuleProducerRecipeGui<ModuleAssembler, IModuleSaver> {
 
@@ -24,8 +23,8 @@ public class ModuleAssemblerGui extends ModuleProducerRecipeGui<ModuleAssembler,
 		int burnTimeTotal = 0;
 		if (engine != null) {
 			IModuleEngineSaver saver = engine.getSaver();
-			burnTime = saver.getBurnTime(engine);
-			burnTimeTotal = saver.getBurnTimeTotal(engine);
+			burnTime = saver.getWorkTime(engine);
+			burnTimeTotal = saver.getWorkTimeTotal(engine);
 		}
 		widgets.add(new WidgetProgressBar(82, 36, burnTime, burnTimeTotal));
 	}

@@ -1,9 +1,9 @@
 package de.nedelosk.forestmods.common.inventory.slots;
 
-import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
-import de.nedelosk.forestmods.library.modules.IModuleContainer;
-import de.nedelosk.forestmods.library.modules.ModuleManager;
-import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -28,8 +28,8 @@ public class SlotAssemblerCasing extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		IModuleContainer container = ModuleManager.moduleRegistry.getContainerFromItem(stack);
-		if(container != null && IModuleCasing.class.isAssignableFrom(container.getModuleClass())){
+		IModuleContainer container = ModuleManager.getContainerFromItem(stack);
+		if(container != null && IModuleCasing.class.isAssignableFrom(container.getModule().getClass())){
 			return true;
 		}
 		return false;

@@ -1,7 +1,7 @@
 package de.nedelosk.forestmods.library.inventory;
 
-import de.nedelosk.forestmods.library.recipes.IRecipeInventory;
-import de.nedelosk.forestmods.library.utils.InventoryUtil;
+import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
+import de.nedelosk.modularmachines.common.utils.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

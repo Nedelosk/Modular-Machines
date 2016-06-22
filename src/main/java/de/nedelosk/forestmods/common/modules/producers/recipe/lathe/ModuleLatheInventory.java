@@ -3,8 +3,7 @@ package de.nedelosk.forestmods.common.modules.producers.recipe.lathe;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.library.inventory.IContainerBase;
-import de.nedelosk.forestmods.library.modules.ModuleUID;
+import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import net.minecraft.inventory.Slot;
 
 public class ModuleLatheInventory extends ModuleProducerRecipeInventory<ModuleLathe, IModuleProducerRecipeModeSaver> {

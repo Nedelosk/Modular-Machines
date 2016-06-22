@@ -2,18 +2,12 @@ package de.nedelosk.forestmods.common.modules.producers.recipe;
 
 import java.util.List;
 
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.forestmods.library.gui.IGuiBase;
-import de.nedelosk.forestmods.library.gui.Widget;
-import de.nedelosk.forestmods.library.modular.IModular;
-import de.nedelosk.forestmods.library.modular.ModularHelper;
-import de.nedelosk.forestmods.library.modules.ModuleUID;
-import de.nedelosk.forestmods.library.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.ModularHelper;
+import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")
@@ -45,8 +39,8 @@ extends ProducerGuiDefault<M, S, T> {
 			if (widget instanceof WidgetProgressBar) {
 				ModuleStack<IModuleEngine, IModuleEngineSaver> engine = ModularHelper.getEngine(modular).getItemStack();
 				if (engine != null) {
-					int burnTime = engine.getSaver().getBurnTime(engine);
-					int burnTimeTotal = engine.getSaver().getBurnTimeTotal(engine);
+					int burnTime = engine.getSaver().getWorkTime(engine);
+					int burnTimeTotal = engine.getSaver().getWorkTimeTotal(engine);
 					((WidgetProgressBar) widget).burntime = burnTime;
 					((WidgetProgressBar) widget).burntimeTotal = burnTimeTotal;
 				}

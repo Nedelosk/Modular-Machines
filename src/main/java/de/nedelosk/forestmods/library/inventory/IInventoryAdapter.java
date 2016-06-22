@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.library.inventory;
 
-import de.nedelosk.forestmods.library.recipes.IRecipeInventory;
+import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -3,20 +3,17 @@ package de.nedelosk.forestmods.common.modules.producers.recipe.lathe;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import de.nedelosk.forestmods.client.gui.widgets.WidgetButtonMode;
-import de.nedelosk.forestmods.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.forestmods.library.gui.IGuiBase;
-import de.nedelosk.forestmods.library.gui.Widget;
-import de.nedelosk.forestmods.library.modular.IModular;
-import de.nedelosk.forestmods.library.modules.ModuleUIDs;
-import de.nedelosk.forestmods.library.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.forestmods.library.modules.recipes.RecipeLathe;
-import de.nedelosk.forestmods.library.modules.recipes.RecipeLathe.LatheModes;
-import de.nedelosk.forestmods.library.recipes.IMachineMode;
-import de.nedelosk.forestmods.library.recipes.IRecipe;
-import de.nedelosk.forestmods.library.recipes.RecipeItem;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
+import de.nedelosk.modularmachines.api.modules.recipes.RecipeLathe;
+import de.nedelosk.modularmachines.api.modules.recipes.RecipeLathe.LatheModes;
+import de.nedelosk.modularmachines.api.recipes.IMachineMode;
+import de.nedelosk.modularmachines.api.recipes.IRecipe;
+import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 
 public class ModuleLathe extends ModuleMachineRecipeMode {
 

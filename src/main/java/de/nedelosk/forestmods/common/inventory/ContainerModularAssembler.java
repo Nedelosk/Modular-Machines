@@ -3,7 +3,7 @@ package de.nedelosk.forestmods.common.inventory;
 import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerCasing;
 import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerOutput;
 import de.nedelosk.forestmods.library.inventory.ContainerBase;
-import de.nedelosk.forestmods.library.modular.assembler.IAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

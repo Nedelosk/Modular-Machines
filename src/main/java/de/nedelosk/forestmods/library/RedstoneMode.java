@@ -2,14 +2,14 @@ package de.nedelosk.forestmods.library;
 
 import java.util.Locale;
 
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 
 public enum RedstoneMode {
 	IGNORE, ON, OFF;
 
 	public String getTooltip() {
-		return StatCollector.translateToLocal("gui.tooltip.redstoneMode." + name().toLowerCase(Locale.ENGLISH));
+		return Translator.translateToLocal("gui.tooltip.redstoneMode." + name().toLowerCase(Locale.ENGLISH));
 	}
 
 	public static boolean isConditionMet(RedstoneMode redstoneControlMode, int powerLevel) {
@@ -27,7 +27,7 @@ public enum RedstoneMode {
 	}
 
 	public static boolean isConditionMet(RedstoneMode redstoneControlMode, TileEntity te) {
-		return isConditionMet(redstoneControlMode, te.getWorldObj().getStrongestIndirectPower(te.xCoord, te.yCoord, te.zCoord));
+		return isConditionMet(redstoneControlMode, te.getWorld().getStrongPower(te.getPos()));
 	}
 
 	public RedstoneMode next() {

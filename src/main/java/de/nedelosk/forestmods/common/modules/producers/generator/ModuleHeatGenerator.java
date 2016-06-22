@@ -4,21 +4,19 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.forestmods.common.network.PacketHandler;
-import de.nedelosk.forestmods.common.network.packets.PacketModule;
-import de.nedelosk.forestmods.library.modular.IModular;
-import de.nedelosk.forestmods.library.modular.ModularHelper;
-import de.nedelosk.forestmods.library.modular.renderer.IRenderState;
-import de.nedelosk.forestmods.library.modular.renderer.ISimpleRenderer;
-import de.nedelosk.forestmods.library.modules.IModule;
-import de.nedelosk.forestmods.library.modules.IModuleController;
-import de.nedelosk.forestmods.library.modules.ModuleUIDs;
-import de.nedelosk.forestmods.library.modules.casing.IModuleCasing;
-import de.nedelosk.forestmods.library.modules.generator.IModuleGenerator;
-import de.nedelosk.forestmods.library.modules.heater.IModuleHeater;
-import de.nedelosk.forestmods.library.modules.storage.IModuleBattery;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.ModularHelper;
+import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
+import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.generator.IModuleGenerator;
+import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class ModuleHeatGenerator extends ModuleAddable implements IModuleGenerator {
 

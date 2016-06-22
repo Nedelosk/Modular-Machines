@@ -1,8 +1,8 @@
 package de.nedelosk.forestmods.common.inventory;
 
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class InventoryCraftingEditor extends InventoryCrafting {
 

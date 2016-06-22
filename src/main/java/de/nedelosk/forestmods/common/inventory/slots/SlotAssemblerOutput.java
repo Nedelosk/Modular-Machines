@@ -1,6 +1,6 @@
 package de.nedelosk.forestmods.common.inventory.slots;
 
-import de.nedelosk.forestmods.common.blocks.tile.TileModularAssembler;
+import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
