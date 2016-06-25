@@ -18,7 +18,7 @@ public interface IModuleContentBuilder<C, M extends IModule> extends IModuleBuil
 	 * @return True if the builder has no content in it.
 	 */
 	boolean isEmpty();
-	
+
 	@Override
 	IModuleContentHandler<C, M> build();
 }

@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.client.gui;
 
-import java.io.IOException;
-
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerGroup;

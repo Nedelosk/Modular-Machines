@@ -57,7 +57,7 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 		public AlloySmelterPage(int pageID, IModuleState<IModuleTool> module) {
 			super(pageID, module);
 		}
-		
+
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			invBuilder.setInventoryName("module.inventory.alloysmelter.name");

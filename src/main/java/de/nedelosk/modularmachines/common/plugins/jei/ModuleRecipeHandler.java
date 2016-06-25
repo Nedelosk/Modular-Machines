@@ -6,11 +6,11 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 public class ModuleRecipeHandler implements IRecipeHandler<ModuleRecipeWrapper> {
 
 	protected String categoryUid;
-	
+
 	public ModuleRecipeHandler(String categoryUid) {
 		this.categoryUid = categoryUid;
 	}
-	
+
 	@Override
 	public Class<ModuleRecipeWrapper> getRecipeClass() {
 		return ModuleRecipeWrapper.class;

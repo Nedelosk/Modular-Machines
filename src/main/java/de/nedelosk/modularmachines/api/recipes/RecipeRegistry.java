@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -137,7 +136,7 @@ public class RecipeRegistry {
 						&& item.item.getItemDamage() == input.item.getItemDamage()
 						&& (testSize && item.item.stackSize == input.item.stackSize || !testSize && item.item.stackSize <= input.item.stackSize)
 						&& (!item.item.hasTagCompound() && !input.item.hasTagCompound()
-						|| ItemStack.areItemStackTagsEqual(item.item, input.item))) {
+								|| ItemStack.areItemStackTagsEqual(item.item, input.item))) {
 					return true;
 				}
 				return false;

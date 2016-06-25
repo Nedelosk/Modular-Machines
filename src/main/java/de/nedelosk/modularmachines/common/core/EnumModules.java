@@ -1,25 +1,9 @@
 package de.nedelosk.modularmachines.common.core;
 
-import java.lang.reflect.InvocationTargetException;
-
-import de.nedelosk.modularmachines.api.material.EnumMaterials;
-import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.common.modules.ModuleCasing;
-import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
-import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
-import de.nedelosk.modularmachines.common.modules.registry.ModuleContainer;
-import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
-import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
-import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-
 public enum EnumModules {
+	;
 	// CASINGS
-	STONE_CASING(EnumMaterials.STONE, "casings:default", new ItemStack(BlockManager.blockCasings), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
+	/*STONE_CASING(EnumMaterials.STONE, "casings:default", new ItemStack(BlockManager.blockCasings), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
 	IRON_CASING(EnumMaterials.IRON, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 2), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
 	BRONZE_CASING(EnumMaterials.BRONZE, new ModuleUID("casings:default"), new ItemStack(BlockManager.blockCasings, 1, 3), ModuleCasing.class, ModuleContainer.class, 0, 0, 0, 2),
 	// ENGINES
@@ -101,5 +85,5 @@ public enum EnumModules {
 	}
 
 	public static void init() {
-	}
+	}*/
 }

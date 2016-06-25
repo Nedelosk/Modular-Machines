@@ -17,10 +17,10 @@ public class BlockForest extends Block {
 		super(mat);
 		setHardness(2.0F);
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);
 	}
-	
+
 }

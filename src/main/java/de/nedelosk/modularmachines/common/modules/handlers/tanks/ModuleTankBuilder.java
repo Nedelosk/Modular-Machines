@@ -58,7 +58,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 		} else {
 			addExtractFilter(newIndex, filters);
 		}
-		
+
 		isEmpty = false;
 		return newIndex;
 	}
@@ -67,7 +67,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	public IModuleTank build() {
 		return new ModuleTank(tankSlots.toArray(new TankData[tankSlots.size()]), modular, state, insertFilter, extractFilter);
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		return isEmpty;

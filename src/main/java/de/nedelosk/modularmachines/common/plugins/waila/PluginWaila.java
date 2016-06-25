@@ -5,8 +5,8 @@ import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.waila.provider.ProviderModular;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 @Optional.Interface(modid = "Waila", iface = "mcp.mobius.waila.api.IWailaRegistrar")
 public class PluginWaila extends APlugin {

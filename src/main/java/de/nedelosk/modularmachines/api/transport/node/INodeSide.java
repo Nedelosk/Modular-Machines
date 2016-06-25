@@ -30,6 +30,6 @@ public interface INodeSide extends IPartSide {
 	void setNodeMode(EnumNodeMode mode);
 
 	<H> IContentHandler<H> getHandler(Class<H> handlerClass);
-	
+
 	List<IContentHandler> getContentHandlers();
 }

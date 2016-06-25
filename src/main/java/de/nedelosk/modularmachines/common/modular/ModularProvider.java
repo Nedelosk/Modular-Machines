@@ -9,11 +9,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 public class ModularProvider implements ICapabilityProvider {
 
 	public IModular modular;
-	
+
 	public ModularProvider(IModular modular) {
 		this.modular = modular;
 	}
-	
+
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if(capability == ModuleManager.MODULAR_CAPABILITY){

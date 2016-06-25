@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 public interface IModularTileEntity<M extends IModular> extends ISidedInventory, IFluidHandler, IEnergyReceiver, IEnergyProvider, IGuiHandler {
 
 	World getWorld();
-	
+
 	BlockPos getPos();
 
 	M getModular();

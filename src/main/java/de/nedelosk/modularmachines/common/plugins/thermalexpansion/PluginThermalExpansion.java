@@ -47,25 +47,25 @@ public class PluginThermalExpansion extends APlugin {
 		moduleFrameHardened = GameRegistry.register(new ModuleCasing(0, 0, 0, 3), frameHardened);
 		moduleFrameReinforced = GameRegistry.register(new ModuleCasing(0, 0, 0, 3), frameReinforced);
 		moduleFrameResonant = GameRegistry.register(new ModuleCasing(0, 0, 0, 4), frameResonant);
-		
+
 		//Cells
 		moduleEnergyCellLeadstone = GameRegistry.register(new ModuleEnergyCell(new EnergyStorage(400000, 200)), energyCellLeadstone);
 		moduleEnergyCellHardened = GameRegistry.register(new ModuleEnergyCell(new EnergyStorage(2000000, 800)), energyCellHardened);
 		moduleEnergyCellReinforced = GameRegistry.register(new ModuleEnergyCell(new EnergyStorage(20000000, 8000)), energyCellReinforced);
 		moduleEnergyCellResonant = GameRegistry.register(new ModuleEnergyCell(new EnergyStorage(80000000, 32000)), energyCellResonant);
 	}
-	
+
 	@Override
 	public void postInit() {
 		cell = ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "Cell"));
 		frame = ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "Frame"));
-		
+
 		//Frames
 		GameRegistry.register(new ModuleContainer(moduleFrameBasic, new ItemStack(frame, 1, 0), EnumMaterials.IRON));
 		GameRegistry.register(new ModuleContainer(moduleFrameHardened, new ItemStack(frame, 1, 1), EnumMaterials.INVAR));
 		GameRegistry.register(new ModuleContainer(moduleFrameReinforced, new ItemStack(frame, 1, 2), EnumMaterials.SIGNALUM));
 		GameRegistry.register(new ModuleContainer(moduleFrameResonant, new ItemStack(frame, 1, 3), EnumMaterials.ENDERIUM));
-		
+
 		//Cells
 		GameRegistry.register(new ModuleContainer(moduleEnergyCellLeadstone, new ItemStack(cell, 1, 1), EnumMaterials.LEAD, true));
 		GameRegistry.register(new ModuleContainer(moduleEnergyCellHardened, new ItemStack(cell, 1, 2), EnumMaterials.LEAD, true));

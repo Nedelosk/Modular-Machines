@@ -6,16 +6,13 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import akka.actor.dsl.Inbox.Get;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModularAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
@@ -70,7 +67,7 @@ public class AssemblerSlot implements IAssemblerSlot {
 			}
 		}
 		if(!isActive){
-				isActive = onStatusChange(true);
+			isActive = onStatusChange(true);
 		}
 		if(module != null){
 			module.updateSlots(this);
@@ -225,7 +222,7 @@ public class AssemblerSlot implements IAssemblerSlot {
 		}
 		return isActive;
 	}
-	
+
 	@Override
 	public boolean canInsertItem(ItemStack stack) {
 		IModuleContainer container = ModuleManager.getContainerFromItem(stack);

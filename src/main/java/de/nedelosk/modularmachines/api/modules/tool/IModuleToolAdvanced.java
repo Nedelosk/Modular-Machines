@@ -8,7 +8,7 @@ public interface IModuleToolAdvanced extends IModuleTool {
 	Class<? extends IMachineMode> getModeClass();
 
 	IMachineMode getCurrentMode(IModuleState state);
-	
+
 	IMachineMode getDefaultMode(IModuleState state);
 
 	void setCurrentMode(IModuleState state, IMachineMode mode);

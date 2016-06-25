@@ -42,12 +42,12 @@ public class BlockModularMachine extends BlockContainerForest {
 		setUnlocalizedName("modular");
 		setCreativeTab(TabModularMachines.tabModules);
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -57,7 +57,7 @@ public class BlockModularMachine extends BlockContainerForest {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileModular();
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
@@ -78,7 +78,7 @@ public class BlockModularMachine extends BlockContainerForest {
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
 	}
 
-	
+
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -96,7 +96,7 @@ public class BlockModularMachine extends BlockContainerForest {
 		}
 		super.breakBlock(world, pos, blockState);
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
@@ -109,12 +109,12 @@ public class BlockModularMachine extends BlockContainerForest {
 		}
 		return stack;
 	}
-	
+
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return Collections.emptyList();
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
 		int x = pos.getX();
@@ -127,7 +127,7 @@ public class BlockModularMachine extends BlockContainerForest {
 			return new AxisAlignedBB(x, y, z, x + 1D, y + 1D, z + 1D);
 		}
 	}
-	
+
 	@Override
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
 		int x = pos.getX();
@@ -140,7 +140,7 @@ public class BlockModularMachine extends BlockContainerForest {
 			return new AxisAlignedBB(x, y, z, x + 1D, y + 1D, z + 1D);
 		}
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack stack) {
 		if (world.isRemote) {

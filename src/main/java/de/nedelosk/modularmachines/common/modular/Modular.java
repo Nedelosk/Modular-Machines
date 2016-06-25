@@ -19,7 +19,6 @@ import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
@@ -71,9 +70,9 @@ public class Modular implements IModular {
 		modules = Collections.unmodifiableList(modules);
 		currentModule = getFirstGui();
 		setCurrentPage(0);
-		
+
 		logics.clear();
-		
+
 		for(IModuleState moduleState : modules){
 			if(moduleState != null){
 				for(IModularLogic logic : moduleState.getModule().createLogic(moduleState)){
@@ -321,7 +320,7 @@ public class Modular implements IModular {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(ItemStack stack) {
 		for(IModuleState module : this.modules) {

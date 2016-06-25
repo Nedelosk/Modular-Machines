@@ -1,9 +1,5 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.util.Collections;
-import java.util.List;
-
-import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
@@ -30,7 +26,7 @@ public abstract class ModuleToolEngine extends ModuleTool {
 		group.addSlot(new AssemblerSlot(group, 4, 6, group.getAssembler().getNextIndex(), "engine", IModuleEngine.class, group.getControllerSlot()));
 		return group;
 	}
-	
+
 	@Override
 	public boolean canAssembleGroup(IAssemblerGroup group) {
 		IAssembler assembler = group.getAssembler();

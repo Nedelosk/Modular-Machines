@@ -17,13 +17,15 @@ public class ItemBlockModularMachine extends ItemBlock {
 	public ItemBlockModularMachine(Block p_i45328_1_) {
 		super(p_i45328_1_);
 	}
-	
-    @Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
-        if (!world.setBlockState(pos, newState, 3)) return false;
 
-        IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == this.block){
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
+		if (!world.setBlockState(pos, newState, 3)) {
+			return false;
+		}
+
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() == this.block){
 			TileEntity tile = world.getTileEntity(pos);
 			if (!(tile instanceof TileModular)) {
 				world.setBlockToAir(pos);
@@ -31,18 +33,18 @@ public class ItemBlockModularMachine extends ItemBlock {
 			}
 			TileModular machine = (TileModular) tile;
 			machine.setModular(new Modular(stack.getTagCompound(), machine));
-            this.block.onBlockPlacedBy(world, pos, state, player, stack);
-        }
+			this.block.onBlockPlacedBy(world, pos, state, player, stack);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return super.getUnlocalizedName(stack).replace("tile.", "") + "." + stack.getItemDamage() + ".name";
 	}
-	
-	
+
+
 
 	@Override
 	public int getMetadata(int i) {

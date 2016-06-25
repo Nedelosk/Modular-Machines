@@ -30,7 +30,7 @@ public class BlockComponent extends BlockForest implements IColoredBlock {
 		metas.add(Lists.newArrayList(color, name, oreDict));
 		return this;
 	}
-	
+
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		return (int) metas.get(getMetaFromState(state)).get(0);

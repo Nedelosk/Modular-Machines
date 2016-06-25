@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;

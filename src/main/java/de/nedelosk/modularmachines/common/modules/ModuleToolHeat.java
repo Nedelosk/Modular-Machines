@@ -28,7 +28,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 	public ModuleToolHeat(int speedModifier, int size) {
 		super(speedModifier, size);
 	}
-	
+
 	@Override
 	public void updateServer(IModuleState state) {
 		IModular modular = state.getModular();
@@ -54,13 +54,15 @@ public abstract class ModuleToolHeat extends ModuleTool {
 						setRecipeManager(state, null);
 						return;
 					}
+					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
+					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
 					state.add(CHANCE, rand.nextInt(100));
 					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
 				}
 			}
 		}
 	}
-	
+
 	protected abstract int getConsumeHeat(IModuleState state);
 
 	@Override
@@ -93,7 +95,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean canWork(IModuleState state){
 		IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(state.getModular());

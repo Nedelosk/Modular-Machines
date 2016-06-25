@@ -57,7 +57,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		if (slots == null) {
@@ -83,17 +83,17 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 	}
 
 	public abstract String getTitle();
-	
+
 	@Override
 	public String getName() {
 		return getTitle();
 	}
-	
+
 	@Override
 	public boolean hasCustomName() {
 		return getName() != null;
 	}
-	
+
 	@Override
 	public ITextComponent getDisplayName() {
 		return new TextComponentString(getName());
@@ -113,7 +113,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 	@Override
 	public void openInventory(EntityPlayer entitiPlayer) {
 	}
-	
+
 	@Override
 	public void closeInventory(EntityPlayer player) {
 	}
@@ -132,16 +132,16 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return true;
 	}
-	
+
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		InventoryUtil.writeToNBT(this, nbt);
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
@@ -176,23 +176,23 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int getField(int id) {
 		return 0;
 	}
-	
+
 	@Override
 	public void setField(int id, int value) {
 	}
-	
+
 	@Override
 	public int getFieldCount() {
 		return 0;
 	}
-	
+
 	@Override
 	public void clear() {
 	}
-	
+
 }

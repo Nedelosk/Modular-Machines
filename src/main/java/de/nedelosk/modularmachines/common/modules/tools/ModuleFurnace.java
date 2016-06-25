@@ -1,10 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.ModuleTool;

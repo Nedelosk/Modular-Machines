@@ -26,7 +26,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTransport extends BlockContainerForest {
@@ -34,7 +33,7 @@ public class BlockTransport extends BlockContainerForest {
 	public BlockTransport() {
 		super(Material.IRON, TabModularMachines.tabForestMods);
 		setSoundType(SoundType.METAL);
-		
+
 		setUnlocalizedName("transport");
 	}
 
@@ -50,7 +49,7 @@ public class BlockTransport extends BlockContainerForest {
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -63,7 +62,7 @@ public class BlockTransport extends BlockContainerForest {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -102,7 +101,7 @@ public class BlockTransport extends BlockContainerForest {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
 		if (world.isRemote) {
@@ -123,7 +122,7 @@ public class BlockTransport extends BlockContainerForest {
 			tile.markDirty();
 		}
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos pos) {
 		int md = getMetaFromState(blockState);
@@ -227,7 +226,7 @@ public class BlockTransport extends BlockContainerForest {
 			return new AxisAlignedBB(x, y, z, x + 1D, y + 1D, z + 1D);
 		}
 	}
-	
+
 	@Override
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
 		int x = pos.getX();

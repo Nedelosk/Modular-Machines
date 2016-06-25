@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -45,7 +44,7 @@ public class ContainerModular extends ContainerBase<IModularTileEntity> {
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			int invPosition = currentPage.getPlayerInvPosition() + 1;
-			
+
 			for(int i1 = 0; i1 < 3; i1++) {
 				for(int l1 = 0; l1 < 9; l1++) {
 					addSlotToContainer(new Slot(inventoryPlayer, l1 + i1 * 9 + 9, 8 + l1 * 18, invPosition + i1 * 18));

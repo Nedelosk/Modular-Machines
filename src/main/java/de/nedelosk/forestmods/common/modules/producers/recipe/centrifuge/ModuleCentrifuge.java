@@ -9,6 +9,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.recipes.RecipeCentrifuge;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleCentrifuge extends ModuleProducerRecipe {
 

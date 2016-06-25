@@ -4,19 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.common.core.BlockManager;
-import de.nedelosk.modularmachines.common.plugins.jei.ModularMachinesHandler;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeHandler;
-import de.nedelosk.modularmachines.common.plugins.jei.ShapedModuleRecipeHandler;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import net.minecraft.item.ItemStack;
@@ -31,7 +23,7 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-		
+
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
 		registry.addRecipeCategories(new AlloySmelterRecipeCategory(guiHelper));
 		registry.addRecipeHandlers(new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER));

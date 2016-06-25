@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleLoader;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
@@ -21,7 +22,7 @@ public class ModuleContainerReader implements JsonDeserializer<IModuleContainer>
 		if(object.has("loader") && object.get("loader").isJsonPrimitive() && object.get("loader").getAsJsonPrimitive().isString()){
 			loader = ModularMachines.iModuleLoaderRegistry.getValue(new ResourceLocation(object.get("loader").getAsString()));
 		}
-		
+
 		if(loader == null){
 			loader = ModularMachines.iModuleLoaderRegistry.getValue(new ResourceLocation("modularmachines:default"));
 		}

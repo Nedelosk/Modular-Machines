@@ -18,7 +18,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater {
 	public int getMaxHeat() {
 		return maxHeat;
 	}
-	
+
 	@Override
 	public int getSize() {
 		return size;

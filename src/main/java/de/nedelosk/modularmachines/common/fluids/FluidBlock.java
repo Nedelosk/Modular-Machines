@@ -33,7 +33,7 @@ public class FluidBlock extends BlockFluidClassic {
 		}
 		return super.canDisplace(world, pos);
 	}
-	
+
 	@Override
 	public boolean displaceIfPossible(World world, BlockPos pos) {
 		IBlockState blockState = world.getBlockState(pos);

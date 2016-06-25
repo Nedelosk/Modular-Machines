@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.client.model.ModelTransport;
 import de.nedelosk.modularmachines.common.transport.TileEntityTransport;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 

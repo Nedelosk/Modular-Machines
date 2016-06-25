@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL12;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.Button;

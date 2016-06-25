@@ -4,7 +4,6 @@ import de.nedelosk.modularmachines.api.transport.ITransportPart;
 import de.nedelosk.modularmachines.api.transport.ITransportTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 
 public class TileEntityTransport extends ITransportTileEntity {

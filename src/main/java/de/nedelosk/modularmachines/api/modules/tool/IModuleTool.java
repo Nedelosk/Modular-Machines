@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.api.modules.tool;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 
 public interface IModuleTool extends IModuleController {
 
@@ -32,9 +31,9 @@ public interface IModuleTool extends IModuleController {
 	int createBurnTimeTotal(IModuleState state, int speedModifier);
 
 	int getChance(IModuleState state);
-	
+
 	int getSpeedModifier(IModuleState state);
-	
+
 	/**
 	 * The size of the tool. A number between 1 and 3.
 	 */

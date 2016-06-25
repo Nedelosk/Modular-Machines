@@ -13,11 +13,8 @@ import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.engine.EnumEnigneSize;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -29,7 +26,6 @@ import de.nedelosk.modularmachines.client.render.modules.EngineRenderer;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModuleEngine extends Module implements IModuleEngine {
 
 	private final int burnTimeModifier;
-	
+
 	public static final PropertyFloat PROGRESS = new PropertyFloat("progress");
 	public static final PropertyBool WORKING = new PropertyBool("isWorking");
 	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex");
@@ -109,7 +105,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public ISimpleRenderer getRenderer(IRenderState state) {
 		return new EngineRenderer(state.getModuleState().getContainer(), ModularHelper.getCasing(state.getModular()).getContainer());
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).add(PROGRESS, 0).add(WORKING, false).add(MACHINEINDEX, -1);
@@ -152,7 +148,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public void setIsWorking(IModuleState state, boolean isWorking) {
 		state.add(WORKING, isWorking);
 	}
-	
+
 	@Override
 	public IModulePage[] createPages(IModuleState state) {
 		return null;
@@ -177,5 +173,5 @@ public class ModuleEngine extends Module implements IModuleEngine {
 			return false;
 		}
 	}
-	
+
 }

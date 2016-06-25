@@ -1,12 +1,9 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -55,22 +52,22 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	public float getHardness(IModuleState state) {
 		return hardness;
 	}
-	
+
 	@Override
 	public int getHarvestLevel(IModuleState state) {
 		return harvestLevel;
 	}
-	
+
 	@Override
 	public String getHarvestTool(IModuleState state) {
 		return harvestTool;
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).add(HEAT, 0);
 	}
-	
+
 	@Override
 	public IModulePage[] createPages(IModuleState state) {
 		return null;

@@ -2,6 +2,8 @@ package de.nedelosk.modularmachines.client.render.modules;
 
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class AdvancedRenderer implements ISimpleRenderer {

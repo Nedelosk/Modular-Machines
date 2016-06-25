@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.api.modules.recipes;
 
 import de.nedelosk.modularmachines.api.recipes.IMachineMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import de.nedelosk.modularmachines.api.recipes.RecipeWithMode;
 
 public final class RecipeLathe extends RecipeWithMode {
 

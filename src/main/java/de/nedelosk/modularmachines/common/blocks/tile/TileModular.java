@@ -87,7 +87,7 @@ public class TileModular extends TileMachineBase implements IModularTileEntity<I
 	public IModular getModular() {
 		return modular;
 	}
-	
+
 	@Override
 	public World getWorld() {
 		return worldObj;

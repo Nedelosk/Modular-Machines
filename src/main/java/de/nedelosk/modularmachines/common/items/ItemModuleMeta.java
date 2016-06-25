@@ -25,7 +25,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 		this.names = names;
 		this.uln = uln;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;

@@ -8,8 +8,8 @@ import cofh.api.energy.IEnergyStorage;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyBar extends Widget {

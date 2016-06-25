@@ -13,12 +13,12 @@ public class RecipeAdvancedHandler implements IRecipeHandler, IRecipeJsonSeriali
 
 	public Class<? extends IMachineMode> modeClass;
 	public String recipeCategory;
-	
+
 	public RecipeAdvancedHandler(Class<? extends IMachineMode> modeClass, String recipeCategory) {
 		this.modeClass = modeClass;
 		this.recipeCategory = recipeCategory;
 	}
-	
+
 	@Override
 	public void serializeNBT(NBTTagCompound nbt, Object[] craftingModifiers) {
 		IMachineMode mode = (IMachineMode) craftingModifiers[0];
@@ -48,7 +48,7 @@ public class RecipeAdvancedHandler implements IRecipeHandler, IRecipeJsonSeriali
 		object.addProperty("Mode", ((IMachineMode) objects[0]).ordinal());
 		return object;
 	}
-	
+
 	@Override
 	public boolean matches(IRecipe recipe, Object[] craftingModifiers) {
 		if (recipe.getModifiers() == null || recipe.getModifiers().length == 0 || craftingModifiers == null || craftingModifiers.length == 0) {
@@ -77,5 +77,5 @@ public class RecipeAdvancedHandler implements IRecipeHandler, IRecipeJsonSeriali
 	public String getRecipeCategory() {
 		return recipeCategory;
 	}
-	
+
 }

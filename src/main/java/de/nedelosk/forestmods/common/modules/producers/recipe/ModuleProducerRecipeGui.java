@@ -8,6 +8,8 @@ import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(modid = "NotEnoughItems", iface = "codechicken.nei.recipe.GuiCraftingRecipe")

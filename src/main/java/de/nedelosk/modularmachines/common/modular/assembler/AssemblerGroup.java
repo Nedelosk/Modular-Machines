@@ -1,9 +1,7 @@
 package de.nedelosk.modularmachines.common.modular.assembler;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
@@ -80,7 +78,7 @@ public class AssemblerGroup implements IAssemblerGroup {
 	public int getGroupID() {
 		return groupID;
 	}
-	
+
 	@Override
 	public void removeSlot(IAssemblerSlot slot) {
 		if(slot != null){

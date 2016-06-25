@@ -7,6 +7,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public interface IModuleModelHandler<M extends IModule> {
-	
+
 	IBakedModel getModel(IModuleState<M> state);
 }

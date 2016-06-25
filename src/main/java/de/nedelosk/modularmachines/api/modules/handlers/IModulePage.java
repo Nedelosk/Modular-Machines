@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 public interface IModulePage extends IPage {
 
 	void createTank(IModuleTankBuilder tankBuilder);
-	
+
 	void createInventory(IModuleInventoryBuilder invBuilder);
 
 	void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots);

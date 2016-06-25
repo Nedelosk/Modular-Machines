@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -43,7 +41,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public ItemStack getDropItem(IModuleState state) {
 		return state.getContainer().getItemStack();
 	}
-	
+
 	@Override
 	public List<IModuleContentHandler> createContentHandlers(IModuleState state){
 		List<IModuleContentHandler> handlers = Lists.newArrayList();
@@ -57,7 +55,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		}
 		return handlers;
 	}
-	
+
 	protected IModuleInventory createInventory(IModuleState state) {
 		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
 		invBuilder.setModular(state.getModular());
@@ -72,7 +70,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		}
 		return null;
 	}
-	
+
 	protected IModuleTank createTank(IModuleState state) {
 		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
 		tankBuilder.setModular(state.getModular());
@@ -107,7 +105,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public boolean transferInput(IModularTileEntity tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		return false;
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return new ModuleState(modular, this, container);
@@ -117,42 +115,42 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
 		return state;
 	}
-	
+
 	@Override
 	public boolean onAssembleModule(IAssemblerGroup group, IModuleState moduleState, IModuleState<IModuleCasing> casingState, Map<IAssemblerGroup, List<Pair<IAssemblerSlot, IModuleState>>> modules, boolean beforeAssemble) {
 		return true;
 	}
-	
+
 	@Override
 	public IModulePage[] createPages(IModuleState state) {
 		return null;
 	}
-	
+
 	@Override
 	public List<IModularLogic> createLogic(IModuleState state) {
 		return Collections.emptyList();
 	}
-	
-	
+
+
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
 		return null;
 	}
-	
+
 	@Override
 	public void updateSlots(IAssemblerSlot slot) {
 	}
-	
+
 	@Override
 	public boolean canAssembleModule(IAssemblerSlot slot, IModuleState<IModule> state) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean canInsertItem(IAssemblerSlot slot, ItemStack stack) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean onStatusChange(IAssemblerSlot slot, boolean isActive) {
 		return isActive;

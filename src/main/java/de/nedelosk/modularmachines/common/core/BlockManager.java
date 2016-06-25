@@ -9,7 +9,6 @@ import de.nedelosk.modularmachines.common.blocks.BlockTransport;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.items.ItemBlockForest;
-import de.nedelosk.modularmachines.common.items.blocks.ItemBlockCampfire;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockModularMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -19,7 +19,7 @@ public abstract class BlockContainerForest extends BlockContainer {
 		setHardness(2.0F);
 		setCreativeTab(TabModularMachines.tabForestMods);
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);

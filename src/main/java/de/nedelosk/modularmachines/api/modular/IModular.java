@@ -48,11 +48,11 @@ public interface IModular {
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
 	<M extends IModule> IModuleState<M> getModule(int index);
-	
+
 	<M extends IModule> IModuleState<M> getModule(ItemStack stack);
 
 	void onAssembleModular();
-	
+
 	@Nonnull
 	Map<IModularLogicType, List<IModularLogic>> getLogics();
 
@@ -82,7 +82,7 @@ public interface IModular {
 	GuiContainer getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory);
 
 	Container getContainer(IModularTileEntity tile, InventoryPlayer inventory);
-	
+
 	/* Waila */
 	List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data);
 

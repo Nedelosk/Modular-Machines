@@ -124,7 +124,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 	protected abstract String getGuiTexture();
 
 	protected abstract String getTextureModID();
-	
+
 	@Override
 	public RenderItem getRenderItem() {
 		return itemRender;

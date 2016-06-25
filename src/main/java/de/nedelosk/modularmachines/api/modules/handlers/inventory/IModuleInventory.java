@@ -15,7 +15,7 @@ public interface IModuleInventory<M extends IModule> extends IModuleContentHandl
 	 * @return True is the slot with the index a input slot.
 	 */
 	boolean isInput(int index);
-	
+
 	boolean canInsertItem(int index, ItemStack stack);
 
 	boolean canExtractItem(int index, ItemStack stack);

@@ -61,7 +61,7 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 		public SawMillPage(int pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
-		
+
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			invBuilder.setInventoryName("module.inventory.sawmill.name");

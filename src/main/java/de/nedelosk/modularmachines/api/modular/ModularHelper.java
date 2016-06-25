@@ -28,7 +28,7 @@ public class ModularHelper {
 
 	public static List<IModuleState<IModuleEngine>> getEnginesForTool(IModuleState<IModuleTool> tool) {
 		IModular modular = tool.getModular();
-		
+
 		if (modular == null) {
 			return null;
 		}

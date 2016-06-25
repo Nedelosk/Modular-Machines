@@ -31,7 +31,7 @@ public interface IGuiBase<T extends IGuiHandler> {
 
 	@SideOnly(Side.CLIENT)
 	FontRenderer getFontRenderer();
-	
+
 	@SideOnly(Side.CLIENT)
 	RenderItem getRenderItem();
 

@@ -26,7 +26,7 @@ public class ItemNature extends ItemForest implements IItemModelRegister{
 	public int getMaxDamage(ItemStack stack) {
 		return super.getMaxDamage(stack);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {

@@ -11,6 +11,8 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleAssembler extends ModuleProducerRecipe {
 

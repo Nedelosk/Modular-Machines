@@ -8,7 +8,6 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -56,11 +55,11 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 			}
 		}
 	}
-	
+
 	@Override
 	public void createTank(IModuleTankBuilder tankBuilder) {
 	}
-	
+
 	@Override
 	public void createInventory(IModuleInventoryBuilder invBuilder) {
 	}
@@ -153,13 +152,13 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@Override
 	public void addButtons(List buttons) {
 		List<IModuleState> modelsWithPages = getModulesWithPages(modular);
-		
+
 		for(int i = 0; i < modelsWithPages.size(); i++) {
 			IModuleState module = modelsWithPages.get(i);
 			buttons.add(new ButtonModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
 					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getTile(), i >= 7));
 		}
-		
+
 		for(int pageID = 0; pageID < state.getPages().length; pageID++) {
 			IModulePage page = state.getPages()[pageID];
 			buttons.add(new ButtonModulePageTab(gui.getButtonManager().getButtons().size(),
@@ -209,7 +208,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	public IModuleState getModuleState() {
 		return state;
 	}
-	
+
 	public static List<IModuleState> getModulesWithPages(IModular modular){
 		List<IModuleState> modulesWithPages = Lists.newArrayList();
 		for(IModuleState moduleState : modular.getModuleStates()) {

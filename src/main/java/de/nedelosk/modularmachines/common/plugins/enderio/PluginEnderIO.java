@@ -30,7 +30,7 @@ public class PluginEnderIO extends APlugin {
 		moduleCapacitorBank = GameRegistry.register(new ModuleCapitorBank(new EnergyStorage(15000000, 5000)));
 		moduleVibrantCapacitorBank = GameRegistry.register(new ModuleCapitorBank(new EnergyStorage(25000000, 25000)));
 	}
-	
+
 	@Override
 	public void init() {
 		// moduleTankEnderIO = ModuleRegistry.registerModule(new

@@ -29,7 +29,7 @@ public interface IAssembler extends IGuiHandler {
 	ItemStack getCasingStack();
 
 	TileEntity getTile();
-	
+
 	IModular assemble(boolean withItem);
 
 	void reload();

@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.forestmods.library.Tabs;
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
@@ -10,7 +9,6 @@ import de.nedelosk.modularmachines.common.plugins.APluginManager;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

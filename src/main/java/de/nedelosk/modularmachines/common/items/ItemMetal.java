@@ -26,7 +26,7 @@ public class ItemMetal extends Item implements IItemModelRegister {
 		this.uln = uln;
 		this.iconName = iconName;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {

@@ -5,6 +5,7 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class TabModularMachines extends CreativeTabs {
 
@@ -25,13 +26,13 @@ public class TabModularMachines extends CreativeTabs {
 		ItemStack stack = null;
 		switch (tabIcon) {
 			case 0:
-				stack = new ItemStack(BlockManager.blockCampfire, 1, 2);
+				stack = new ItemStack(BlockManager.blockCasings, 1, 0);
 				break;
 			case 1:
 				stack = new ItemStack(ItemManager.itemCompGears, 1, 5);
 				break;
 			case 2:
-				stack = ItemModule.getItem(new ModuleUID(ModuleUIDs.PRODUCER + ":" + ModuleUIDs.MACHINE_ALLOY_SMELTER), EnumMaterials.BRONZE);
+				stack = ItemModule.getItem(new ResourceLocation("modularmachines:boiler.stone"), EnumMaterials.STONE);
 				break;
 		}
 		return stack;

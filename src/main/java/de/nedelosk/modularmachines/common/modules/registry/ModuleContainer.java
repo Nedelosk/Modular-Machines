@@ -23,22 +23,22 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 	public ModuleContainer(IModule module, ItemStack stack, IMaterial material) {
 		this(module, stack, material, Collections.emptyList(), false);
 	}
-	
+
 	public ModuleContainer(IModule module, ItemStack stack, IMaterial material, boolean ignorNBT) {
 		this(module, stack, material, Collections.emptyList(), ignorNBT);
 	}
-	
+
 	public ModuleContainer(IModule module, ItemStack stack, IMaterial material, List<String> tooltip) {
 		this(module, stack, material, tooltip, false);
 	}
-	
+
 	public ModuleContainer(IModule module, ItemStack stack, IMaterial material, List<String> tooltip, boolean ignorNBT) {
 		this.module = module;
 		this.stack = stack;
 		this.material = material;
 		this.ignorNBT = ignorNBT;
 		this.tooltip = tooltip;
-		
+
 		setRegistryName(module.getRegistryName() + ":" + stack.getItem().getRegistryName() + ":" + material.getName());
 	}
 
@@ -70,12 +70,12 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 	public IMaterial getMaterial() {
 		return material;
 	}
-	
+
 	@Override
 	public IModule getModule() {
 		return module;
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
 		return "module." + getRegistryName().toString().replace(":", ".") + ".name";

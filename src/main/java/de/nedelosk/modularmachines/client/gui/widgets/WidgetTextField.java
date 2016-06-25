@@ -449,47 +449,47 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	/**
 	 * draws the vertical line cursor in the textbox
 	 */
-    private void drawCursorVertical(IGuiBase<T> gui, int startX, int startY, int endX, int endY)
-    {
-        if (startX < endX)
-        {
-            int i = startX;
-            startX = endX;
-            endX = i;
-        }
+	private void drawCursorVertical(IGuiBase<T> gui, int startX, int startY, int endX, int endY)
+	{
+		if (startX < endX)
+		{
+			int i = startX;
+			startX = endX;
+			endX = i;
+		}
 
-        if (startY < endY)
-        {
-            int j = startY;
-            startY = endY;
-            endY = j;
-        }
+		if (startY < endY)
+		{
+			int j = startY;
+			startY = endY;
+			endY = j;
+		}
 
-        if (endX > pos.x + pos.width)
-        {
-            endX = pos.x + pos.width;
-        }
+		if (endX > pos.x + pos.width)
+		{
+			endX = pos.x + pos.width;
+		}
 
-        if (startX > pos.x + pos.width)
-        {
-            startX = pos.x + pos.width;
-        }
+		if (startX > pos.x + pos.width)
+		{
+			startX = pos.x + pos.width;
+		}
 
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
-        GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableColorLogic();
-        GlStateManager.colorLogicOp(GlStateManager.LogicOp.OR_REVERSE);
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
-        vertexbuffer.pos(startX, endY, 0.0D).endVertex();
-        vertexbuffer.pos(endX, endY, 0.0D).endVertex();
-        vertexbuffer.pos(endX, startY, 0.0D).endVertex();
-        vertexbuffer.pos(startX, startY, 0.0D).endVertex();
-        tessellator.draw();
-        GlStateManager.disableColorLogic();
-        GlStateManager.enableTexture2D();
-    }
+		Tessellator tessellator = Tessellator.getInstance();
+		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
+		GlStateManager.disableTexture2D();
+		GlStateManager.enableColorLogic();
+		GlStateManager.colorLogicOp(GlStateManager.LogicOp.OR_REVERSE);
+		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
+		vertexbuffer.pos(startX, endY, 0.0D).endVertex();
+		vertexbuffer.pos(endX, endY, 0.0D).endVertex();
+		vertexbuffer.pos(endX, startY, 0.0D).endVertex();
+		vertexbuffer.pos(startX, startY, 0.0D).endVertex();
+		tessellator.draw();
+		GlStateManager.disableColorLogic();
+		GlStateManager.enableTexture2D();
+	}
 
 	public void setMaxStringLength(int p_146203_1_) {
 		this.maxStringLength = p_146203_1_;

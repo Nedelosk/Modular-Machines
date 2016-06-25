@@ -26,14 +26,14 @@ public class BlockOre extends BlockForest {
 		setSoundType(SoundType.STONE);
 		setHarvestLevel("pickaxe", 1);
 	}
-	
+
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		drops.add(new ItemStack(this, 1, getMetaFromState(state)));
 		return drops;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {

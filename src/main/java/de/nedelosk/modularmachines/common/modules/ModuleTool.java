@@ -1,23 +1,15 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
-
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
-import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleLoader;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -29,8 +21,6 @@ import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
 import de.nedelosk.modularmachines.api.modules.state.PropertyRecipeManager;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
-import de.nedelosk.modularmachines.api.recipes.IRecipeJsonSerializer;
-import de.nedelosk.modularmachines.api.recipes.IRecipeNBTSerializer;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
@@ -39,11 +29,9 @@ import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 
@@ -53,7 +41,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime");
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal");
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance");
-	
+
 	protected final int speedModifier;
 	protected final int size;
 
@@ -165,12 +153,12 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public void setWorkTime(IModuleState state, int burnTime) {
 		state.add(WORKTIME, burnTime);
 	}
-	
+
 	@Override
 	public void addWorkTime(IModuleState state, int burnTime) {
 		state.add(WORKTIME, (int)state.get(WORKTIME) + burnTime);
 	}
-	
+
 	@Override
 	public int getWorkTimeTotal(IModuleState state) {
 		return (int) state.get(WORKTIMETOTAL);
@@ -189,7 +177,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public Object[] getRecipeModifiers(IModuleState state) {
 		return null;
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return new ModuleState(modular, this, container).add(WORKTIME, 0).add(WORKTIMETOTAL, 0).add(CHANCE, 0);
@@ -230,7 +218,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 		currenttip.add(TextFormatting.ITALIC + (getWorkTime(state) + " / " + getWorkTimeTotal(state)));
 		return currenttip;
 	}
-	
+
 	@Override
 	public int getChance(IModuleState state) {
 		return (int) state.get(CHANCE);
@@ -250,7 +238,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public int getSpeedModifier(IModuleState state) {
 		return speedModifier;
 	}
-	
+
 	@Override
 	public int getSize() {
 		return size;

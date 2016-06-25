@@ -30,6 +30,7 @@ public class FluidTankSimple extends FluidTank {
 		return getFluidAmount() <= 0;
 	}
 
+	@Override
 	public boolean canDrainFluidType(FluidStack resource) {
 		if (resource == null || resource.getFluid() == null || fluid == null) {
 			return false;
@@ -44,6 +45,7 @@ public class FluidTankSimple extends FluidTank {
 		return fl.getName().equals(fluid.getFluid().getName());
 	}
 
+	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (!canDrainFluidType(resource)) {
 			return null;

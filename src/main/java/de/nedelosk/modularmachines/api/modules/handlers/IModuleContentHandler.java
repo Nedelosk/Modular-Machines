@@ -33,6 +33,6 @@ public interface IModuleContentHandler<C,M extends IModule> extends IModuleHandl
 	void readFromNBT(NBTTagCompound nbt);
 
 	void writeToNBT(NBTTagCompound nbt);
-	
+
 	Class<C> getContentClass();
 }

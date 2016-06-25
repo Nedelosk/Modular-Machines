@@ -26,7 +26,6 @@ import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBurning {
 
@@ -35,12 +34,12 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	public ModuleHeaterBurning(int maxHeat, int size) {
 		super(maxHeat, size);
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).add(BURNTIME, 0);
 	}
-	
+
 	@Override
 	public int getBurnTime(IModuleState state) {
 		return (int) state.get(BURNTIME);
@@ -50,7 +49,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	public void setBurnTime(IModuleState state, int burnTime) {
 		state.add(BURNTIME, burnTime);
 	}
-	
+
 	@Override
 	public void addBurnTime(IModuleState state, int burnTime) {
 		state.add(BURNTIME, (int)state.get(BURNTIME) + burnTime);
@@ -79,7 +78,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean canAssembleGroup(IAssemblerGroup group) {
 		return true;
@@ -100,11 +99,11 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	public static class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
 		public static int BURNSLOT;
-		
+
 		public HeaterBurningPage(int pageID, IModuleState<IModuleHeaterBurning> heaterState) {
 			super(pageID, heaterState);
 		}
-		
+
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			BURNSLOT = invBuilder.addInventorySlot(true, new ItemFliterBurning());

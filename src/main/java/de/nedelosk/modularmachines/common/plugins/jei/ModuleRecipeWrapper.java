@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
@@ -15,11 +14,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleRecipeWrapper implements IRecipeWrapper {
 
 	protected IRecipe recipe;
-	
+
 	public ModuleRecipeWrapper(IRecipe recipe) {
 		this.recipe = recipe;
 	}
-	
+
 	@Override
 	public List getInputs() {
 		List inputs = new ArrayList<>();

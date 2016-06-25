@@ -2,8 +2,6 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.List;
 
-import com.google.gson.JsonObject;
-
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -18,7 +16,6 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,19 +23,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IModuleToolAdvanced {
 
 	public IMachineMode defaultMode;
-	
+
 	public PropertyMachineMode MODE = new PropertyMachineMode("mode", getModeClass());
 
 	public ModuleToolAdvanced(int speed, byte size, IMachineMode defaultMode) {
 		super(speed, size);
 		this.defaultMode = defaultMode;
 	}
-	
+
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).add(MODE, defaultMode);
 	}
-	
+
 	@Override
 	public IMachineMode getDefaultMode(IModuleState state) {
 		return defaultMode;

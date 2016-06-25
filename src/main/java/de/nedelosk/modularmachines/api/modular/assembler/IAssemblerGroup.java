@@ -1,11 +1,9 @@
 package de.nedelosk.modularmachines.api.modular.assembler;
 
 import java.awt.Rectangle;
-import java.util.List;
 import java.util.Map;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,9 +18,9 @@ public interface IAssemblerGroup {
 	IAssembler getAssembler();
 
 	int getGroupID();
-	
+
 	IAssemblerSlot addSlot(IAssemblerSlot slot);
-	
+
 	void removeSlot(IAssemblerSlot slot);
 
 	IAssemblerSlot getSlot(String slotName);

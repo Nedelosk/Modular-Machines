@@ -244,7 +244,7 @@ public class Assembler implements IAssembler {
 					IAssemblerSlot slot = slotPair.first();
 					IModuleState state = slotPair.second();
 					IModule module = state.getModule();
-					
+
 					if(module.canAssembleModule(slot, state)){
 						module.onAssembleModule(group.getKey(), state, casingState, modules, true);
 						modular.addModule(slot.getStack(), module);

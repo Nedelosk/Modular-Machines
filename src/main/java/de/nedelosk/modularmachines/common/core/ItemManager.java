@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemCutter;
 import de.nedelosk.modularmachines.common.items.ItemFile;
@@ -8,15 +7,10 @@ import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
 import de.nedelosk.modularmachines.common.items.ItemNature;
+import de.nedelosk.modularmachines.common.items.ItemTool.Material;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
 import de.nedelosk.modularmachines.common.items.ItemToolParts;
-import de.nedelosk.modularmachines.common.items.ItemTool.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class ItemManager {
 

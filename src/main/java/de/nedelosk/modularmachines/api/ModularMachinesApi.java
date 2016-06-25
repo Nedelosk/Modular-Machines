@@ -1,19 +1,10 @@
 package de.nedelosk.modularmachines.api;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.transport.node.INodeType;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModularMachinesApi {
 

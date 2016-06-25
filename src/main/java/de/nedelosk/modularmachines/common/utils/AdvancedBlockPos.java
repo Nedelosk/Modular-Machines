@@ -15,24 +15,24 @@ public class AdvancedBlockPos extends BlockPos {
 		this.y = pos.getY();
 		this.z = pos.getZ();
 	}
-	
+
 	public AdvancedBlockPos(int x, int y, int z) {
 		super(0, 0, 0);
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	@Override
 	public int getX() {
 		return x;
 	}
-	
+
 	@Override
 	public int getY() {
 		return y;
 	}
-	
+
 	@Override
 	public int getZ() {
 		return z;
@@ -81,12 +81,12 @@ public class AdvancedBlockPos extends BlockPos {
 		hash = 71 * hash + this.z;
 		return hash;
 	}
-	
-    @Override
+
+	@Override
 	public BlockPos toImmutable()
-    {
-        return new BlockPos(this);
-    }
+	{
+		return new BlockPos(this);
+	}
 
 	public AdvancedBlockPos copy() {
 		return new AdvancedBlockPos(this);

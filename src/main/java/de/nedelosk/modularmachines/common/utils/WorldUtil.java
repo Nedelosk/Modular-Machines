@@ -28,7 +28,7 @@ public class WorldUtil {
 	public static IBlockState getBlockState(IBlockAccess world, BlockPos pos) {
 		return world.getBlockState(pos);
 	}
-	
+
 	public static Block getBlock(IBlockAccess world, BlockPos pos) {
 		return getBlockState(world, pos).getBlock();
 	}

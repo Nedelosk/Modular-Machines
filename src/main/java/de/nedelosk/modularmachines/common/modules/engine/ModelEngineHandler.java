@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 public class ModelEngineHandler implements IModuleModelHandler<IModuleEngine> {
 
 	public IBakedModel model;
-	
+
 	@Override
 	public IBakedModel getModel(IModuleState<IModuleEngine> state) {
 		if(model == null){

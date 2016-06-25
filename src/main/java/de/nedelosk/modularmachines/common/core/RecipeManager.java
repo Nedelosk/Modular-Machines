@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
@@ -8,9 +7,7 @@ import de.nedelosk.modularmachines.common.utils.OreStack;
 import de.nedelosk.modularmachines.common.utils.RecipeUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;

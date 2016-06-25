@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.common.blocks.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -25,7 +24,7 @@ public abstract class TileBase extends TileEntity implements ITickable {
 	public abstract void updateClient();
 
 	public abstract void updateServer();
-	
+
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
@@ -41,12 +40,11 @@ public abstract class TileBase extends TileEntity implements ITickable {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
 		nbt.setTag("Base", new NBTTagCompound());
 		nbt.getCompoundTag("Base").setBoolean("isWork", this.isWorking);
 		nbt.getCompoundTag("Base").setInteger("burnTime", this.burnTime);
 		nbt.getCompoundTag("Base").setInteger("burnTimeTotal", this.burnTimeTotal);
-		return nbt;
+		return super.writeToNBT(nbt);
 	}
 
 	@Override

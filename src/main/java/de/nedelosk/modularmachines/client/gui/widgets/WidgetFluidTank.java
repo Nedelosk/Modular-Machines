@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -21,7 +22,7 @@ public class WidgetFluidTank extends Widget {
 	private static final int TEX_WIDTH = 16;
 	private static final int TEX_HEIGHT = 16;
 	private static final int MIN_FLUID_HEIGHT = 1;
-	
+
 	public IFluidTank tank;
 	public int posX, posY;
 	public int ID;
@@ -45,10 +46,10 @@ public class WidgetFluidTank extends Widget {
 	public void draw(IGuiBase gui) {
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
-		
+
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
-		
+
 		FluidStack fluidStack = tank.getFluid();
 		if (fluidStack == null) {
 			return;
@@ -104,7 +105,7 @@ public class WidgetFluidTank extends Widget {
 		}
 
 		GlStateManager.color(1, 1, 1, 1);
-		
+
 		GlStateManager.enableAlpha();
 		GlStateManager.enableBlend();
 
@@ -116,7 +117,7 @@ public class WidgetFluidTank extends Widget {
 
 		GlStateManager.disableBlend();
 		GlStateManager.disableAlpha();
-		
+
 		/*GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(widgetTexture);
@@ -191,7 +192,7 @@ public class WidgetFluidTank extends Widget {
 		}
 		GL11.glPopAttrib();*/
 	}
-	
+
 	private static void setGLColorFromInt(int color) {
 		float red = (color >> 16 & 0xFF) / 255.0F;
 		float green = (color >> 8 & 0xFF) / 255.0F;

@@ -17,13 +17,10 @@ import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -42,7 +39,7 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	@Deprecated
 	@SideOnly(Side.CLIENT)
 	ISimpleRenderer getRenderer(IRenderState state);
-	
+
 	@Nullable
 	@SideOnly(Side.CLIENT)
 	IModuleModelHandler getModelHandler(IModuleState state);
@@ -66,38 +63,38 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 * To load datas from the item into the state.
 	 */
 	IModuleState loadStateFromItem(IModuleState state, ItemStack stack);
-	
+
 	/**
 	 * Create the ModulePages for the module.
 	 */
 	@Nullable
 	IModulePage[] createPages(IModuleState state);
-	
+
 	@Nonnull
 	List<IModularLogic> createLogic(IModuleState state);
-	
+
 	/**
 	 * Crate a new state for the module.
 	 */
 	IModuleState createState(IModular modular, IModuleContainer container);
-	
+
 	/* ASSEMBLER */
-	
+
 	/**
 	 * @return True id the assembler con assemble the slot.
 	 */
 	boolean canAssembleModule(IAssemblerSlot slot, IModuleState<IModule> state);
-	
+
 	boolean onStatusChange(IAssemblerSlot slot, boolean isActive);
-	
+
 	/**
 	 * To add slots to the group of the controller.
 	 */
 	void updateSlots(IAssemblerSlot slot);
-	
+
 	/**
 	 * Test is a item valid for the assembler slot.
 	 */
 	boolean canInsertItem(IAssemblerSlot slot, ItemStack stack);
-	
+
 }

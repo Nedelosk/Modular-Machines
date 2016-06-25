@@ -18,9 +18,9 @@ public interface IModuleCasing extends IModule {
 	float getResistance(IModuleState state);
 
 	float getHardness(IModuleState state);
-	
+
 	int getHarvestLevel(IModuleState state);
-	
+
 	String getHarvestTool(IModuleState state);
 
 	boolean canAssembleCasing(IModuleState state);

@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler {
@@ -49,12 +48,12 @@ public class CommonProxy implements IGuiHandler {
 		}
 		return null;
 	}
-	
+
 	public void registerBlock(Block block){
-		
+
 	}
-	
+
 	public void registerItem(Item item){
-		
+
 	}
 }

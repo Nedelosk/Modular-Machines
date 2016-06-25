@@ -115,7 +115,7 @@ public class NodeSide extends PartSide implements INodeSide {
 	public List<IContentHandler> getContentHandlers() {
 		return handlers;
 	}
-	
+
 	@Override
 	public <H> IContentHandler<H> getHandler(Class<H> handlerClass) {
 		for(IContentHandler handler : handlers){

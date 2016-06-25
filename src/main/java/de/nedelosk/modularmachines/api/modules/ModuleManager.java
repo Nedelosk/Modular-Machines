@@ -11,7 +11,7 @@ public class ModuleManager {
 
 	@CapabilityInject(value = IModular.class)
 	public static Capability<IModular> MODULAR_CAPABILITY;
-	
+
 	public static IModuleContainer getContainerFromItem(ItemStack stack){
 		if (stack == null) {
 			return null;
@@ -27,5 +27,5 @@ public class ModuleManager {
 		}
 		return null;
 	}
-	
+
 }

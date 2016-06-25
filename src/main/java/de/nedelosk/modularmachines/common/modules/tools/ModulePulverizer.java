@@ -66,7 +66,7 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 		public PulverizerPage(int pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
-		
+
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			invBuilder.setInventoryName("module.inventory.pulverizer.name");

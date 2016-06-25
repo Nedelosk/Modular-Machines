@@ -1,10 +1,8 @@
 package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
@@ -21,19 +19,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class ItemModule extends Item implements IColoredItem {
 
 	private static List<ItemStack> subItems = Lists.newArrayList();
-	
+
 	public ItemModule() {
 		setUnlocalizedName("producers");
 		setCreativeTab(TabModularMachines.tabModules);
 		setHasSubtypes(true);
 	}
 
-	public static <M extends IModule> ItemStack createItem(IModuleContainer moduleContainer) {
+	public static <M extends IModule> ItemStack registerAndCreateItem(IModuleContainer moduleContainer) {
 		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("UID", moduleContainer.getRegistryName().toString());
@@ -56,7 +53,7 @@ public class ItemModule extends Item implements IColoredItem {
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
 		subItems.addAll(ItemModule.subItems);
 	}
-	
+
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		IModule module = ModuleManager.getContainerFromItem(stack).getModule();

@@ -49,7 +49,7 @@ public class ProviderModular implements IWailaDataProvider {
 		IWailaState data = new WailaData(accessor, config);
 		return modular.getModular().getWailaTail(itemStack, currenttip, data);
 	}
-	
+
 	@Override
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
@@ -114,7 +114,7 @@ public class ProviderModular implements IWailaDataProvider {
 		public double getPartialFrame() {
 			return accessor.getPartialFrame();
 		}
-		
+
 		@Override
 		public IBlockState getBlockState() {
 			return accessor.getBlockState();

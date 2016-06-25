@@ -22,7 +22,7 @@ public interface IWailaState {
 	HashMap<String, String> getConfigKeys(String modName);
 	boolean 				getConfig(String key, boolean defvalue);
 	boolean 				getConfig(String key);	
-	
+
 	//Accessor
 	World        		 	getWorld();
 	EntityPlayer 		 	getPlayer();

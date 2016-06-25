@@ -17,8 +17,6 @@ import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.WidgetManager;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

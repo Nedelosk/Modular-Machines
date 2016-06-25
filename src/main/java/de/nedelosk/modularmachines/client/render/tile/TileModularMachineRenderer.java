@@ -13,7 +13,6 @@ import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileModularMachineRenderer extends TileEntitySpecialRenderer<TileModular> {
 
@@ -30,7 +29,7 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer<TileMo
 				}
 			}
 		}else{
-			
+
 		}
 	}
 
@@ -106,12 +105,12 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer<TileMo
 		public double getZ() {
 			return z;
 		}
-		
+
 		@Override
 		public IModule getModuleState() {
 			return module;
 		}
-		
+
 		@Override
 		public void setCurrentModule(IModule module) {
 			this.module = module;

@@ -4,6 +4,6 @@ import de.nedelosk.modularmachines.api.modular.IModularLogic;
 
 public interface IEngineStorage extends IModularLogic{
 
-	
-	
+
+
 }

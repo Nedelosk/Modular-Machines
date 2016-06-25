@@ -34,13 +34,14 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 	public ModuleBoiler(int speed, int size) {
 		super(speed, size);
 	}
-	
+
 	@Override
 	public Object[] getRecipeModifiers(IModuleState state) {
 		IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
 		return new Object[]{casingState.getModule().getHeat(casingState)};
 	}
-	
+
+	@Override
 	protected int getConsumeHeat(IModuleState state) {
 		return 10;
 	}
@@ -77,16 +78,16 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 		public static int TANKINPUT;
 		public static int TANKOUTPUT;
-		
+
 		public BoilerPage(int pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
-		
+
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			invBuilder.setInventoryName("module.inventory.boiler.name");
 		}
-		
+
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
 			TANKINPUT = tankBuilder.initTank(16000, EnumFacing.EAST, EnumTankMode.INPUT, new FluidFilterMachine());
