@@ -37,17 +37,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModuleEngine extends Module implements IModuleEngine {
 
 	private final int burnTimeModifier;
-	private EnumEnigneSize size;
 	
 	public static final PropertyFloat PROGRESS = new PropertyFloat("progress");
 	public static final PropertyBool WORKING = new PropertyBool("isWorking");
 	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex");
-	public static final PropertyInteger POSITION = new PropertyInteger("position");
-	public static final PropertyInteger LAYER = new PropertyInteger("layer");
 
-	public ModuleEngine(int burnTimeModifier, EnumEnigneSize size) {
+	public ModuleEngine(int burnTimeModifier) {
 		this.burnTimeModifier = burnTimeModifier;
-		this.size = size;
 	}
 
 	@Override
@@ -180,21 +176,6 @@ public class ModuleEngine extends Module implements IModuleEngine {
 		} else {
 			return false;
 		}
-	}
-
-	@Override
-	public EnumEnigneSize getSize() {
-		return size;
-	}
-
-	@Override
-	public int getLayer(IModuleState state) {
-		return (int) state.get(LAYER);
-	}
-
-	@Override
-	public int getPosition(IModuleState state) {
-		return (int) state.get(POSITION);
 	}
 	
 }

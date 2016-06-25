@@ -1,4 +1,4 @@
-package de.nedelosk.forestmods.common.inventory.slots;
+package de.nedelosk.modularmachines.common.inventory.slots;
 
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;

@@ -5,7 +5,7 @@ import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 
-public interface IModuleTool extends IModuleJEI, IModuleController {
+public interface IModuleTool extends IModuleController {
 
 	Object[] getRecipeModifiers(IModuleState state);
 
@@ -21,7 +21,7 @@ public interface IModuleTool extends IModuleJEI, IModuleController {
 
 	int getWorkTime(IModuleState state);
 
-	void addWorkTime(IModuleState state, int worktime);
+	void addWorkTime(IModuleState state, int workTime);
 
 	void setWorkTime(IModuleState state, int workTime);
 
@@ -38,5 +38,5 @@ public interface IModuleTool extends IModuleJEI, IModuleController {
 	/**
 	 * The size of the tool. A number between 1 and 3.
 	 */
-	byte getSize();
+	int getSize();
 }

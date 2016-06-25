@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.common.modules.basic.ModuleCasing;
+import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
 import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
 import de.nedelosk.modularmachines.common.modules.registry.ModuleContainer;

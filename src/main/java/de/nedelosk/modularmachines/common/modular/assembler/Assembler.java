@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 
 import akka.japi.Pair;
-import de.nedelosk.forestmods.common.inventory.ContainerModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
@@ -23,6 +22,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModularAssembler;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
+import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

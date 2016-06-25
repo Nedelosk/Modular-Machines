@@ -4,15 +4,17 @@ import java.util.List;
 
 import de.nedelosk.forestmods.library.Tabs;
 import de.nedelosk.modularmachines.common.core.Registry;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemNature extends ItemForest {
+public class ItemNature extends ItemForest implements IItemModelRegister{
 
 	public String[] material = new String[] { "sawdust", "peat", "ash", "mortar", "ash_brick" };
-	@SideOnly(Side.CLIENT)
-	public IIcon[] itemIcon;
 
 	public ItemNature() {
 		super(null, Tabs.tabForestMods);
@@ -24,13 +26,12 @@ public class ItemNature extends ItemForest {
 	public int getMaxDamage(ItemStack stack) {
 		return super.getMaxDamage(stack);
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = new IIcon[material.length];
-		for(int i = 0; i < this.itemIcon.length; ++i) {
-			this.itemIcon[i] = iconRegister.registerIcon("forestmods:" + material[i]);
+	public void registerModel(Item item, IModelManager manager) {
+		for(int i = 0; i < material.length; ++i) {
+			manager.registerItemModel(item, i, material[i]);
 		}
 	}
 
@@ -39,12 +40,6 @@ public class ItemNature extends ItemForest {
 		for(int i = 0; i < material.length; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getIconFromDamage(int meta) {
-		return itemIcon[meta];
 	}
 
 	@Override

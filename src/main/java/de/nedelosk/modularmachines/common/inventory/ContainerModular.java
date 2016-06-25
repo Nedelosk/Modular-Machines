@@ -1,10 +1,9 @@
-package de.nedelosk.forestmods.common.inventory;
+package de.nedelosk.modularmachines.common.inventory;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;

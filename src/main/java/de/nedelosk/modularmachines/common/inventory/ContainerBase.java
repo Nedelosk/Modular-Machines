@@ -1,4 +1,4 @@
-package de.nedelosk.forestmods.library.inventory;
+package de.nedelosk.modularmachines.common.inventory;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.inventory.IGuiHandler;

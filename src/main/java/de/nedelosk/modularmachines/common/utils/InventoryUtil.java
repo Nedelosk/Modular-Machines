@@ -10,10 +10,10 @@ import net.minecraft.tileentity.TileEntityChest;
 public class InventoryUtil {
 
 	public static void readFromNBT(IInventory inventory, NBTTagCompound nbtTag) {
-		if (!nbtTag.hasKey(inventory.getInventoryName())) {
+		if (!nbtTag.hasKey(inventory.getName())) {
 			return;
 		}
-		NBTTagList nbttaglist = nbtTag.getTagList(inventory.getInventoryName(), 10);
+		NBTTagList nbttaglist = nbtTag.getTagList(inventory.getName(), 10);
 		for(int j = 0; j < nbttaglist.tagCount(); ++j) {
 			NBTTagCompound nbtTag2 = nbttaglist.getCompoundTagAt(j);
 			int index = nbtTag2.getByte("Slot");
@@ -31,27 +31,6 @@ public class InventoryUtil {
 				nbttaglist.appendTag(nbtTag2);
 			}
 		}
-		nbtTag.setTag(inventory.getInventoryName(), nbttaglist);
-	}
-
-	public static IInventory getInventory(IInventory inv) {
-		if (inv instanceof TileEntityChest) {
-			TileEntityChest chest = (TileEntityChest) inv;
-			TileEntityChest neighbour = null;
-			if (chest.adjacentChestXNeg != null) {
-				neighbour = chest.adjacentChestXNeg;
-			} else if (chest.adjacentChestXPos != null) {
-				neighbour = chest.adjacentChestXPos;
-			} else if (chest.adjacentChestZNeg != null) {
-				neighbour = chest.adjacentChestZNeg;
-			} else if (chest.adjacentChestZPos != null) {
-				neighbour = chest.adjacentChestZPos;
-			}
-			if (neighbour != null) {
-				return new InventoryLargeChest("", inv, neighbour);
-			}
-			return inv;
-		}
-		return inv;
+		nbtTag.setTag(inventory.getName(), nbttaglist);
 	}
 }

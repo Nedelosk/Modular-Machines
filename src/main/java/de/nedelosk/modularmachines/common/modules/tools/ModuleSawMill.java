@@ -16,13 +16,9 @@ import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,8 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 
-	public ModuleSawMill(int speed, int engines) {
-		super(speed, engines);
+	public ModuleSawMill(int speed, int size) {
+		super(speed, size);
 	}
 
 	@Override
@@ -54,11 +50,11 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 		return new IModulePage[]{new SawMillPage(0, state)};
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	@Override
 	public IJEIPage createNEIPage(IModuleJEI module) {
 		return new SawMillNEIPage(module);
-	}
+	}*/
 
 	public static class SawMillPage extends ModulePage<IModuleTool> {
 
@@ -95,7 +91,7 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 		return new MachineRenderer(state.getModuleState().getContainer());
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	public static class SawMillNEIPage extends NEIPage {
 
 		public SawMillNEIPage(IModuleJEI module) {
@@ -113,5 +109,5 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
 		}
-	}
+	}*/
 }

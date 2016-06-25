@@ -29,8 +29,8 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 	
 	public PropertyMachineMode MODE = new PropertyMachineMode("mode", getModeClass());
 
-	public ModuleToolAdvanced(int speed, int engines, IMachineMode defaultMode) {
-		super(speed, engines);
+	public ModuleToolAdvanced(int speed, byte size, IMachineMode defaultMode) {
+		super(speed, size);
 		this.defaultMode = defaultMode;
 	}
 	

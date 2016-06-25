@@ -25,7 +25,7 @@ public class TileEntityTransport extends ITransportTileEntity {
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		writeToNBT(nbtTag);
 		return new SPacketUpdateTileEntity(getPos(), 0, nbtTag);
@@ -59,11 +59,12 @@ public class TileEntityTransport extends ITransportTileEntity {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagCompound nbt = new NBTTagCompound();
 		getPart().writeToNBT(nbt);
 		compound.setTag("Part", nbt);
+		return compound;
 	}
 
 	@Override

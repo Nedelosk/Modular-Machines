@@ -50,15 +50,17 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	}
 
 	@Override
-	public void initTank(int index, int capacity, EnumFacing direction, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
+	public int initTank(int capacity, EnumFacing direction, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
+		int newIndex = tankSlots.size();
 		tankSlots.add(new TankData(new FluidTankSimple(capacity), direction, mode));
 		if (mode == EnumTankMode.INPUT) {
-			addInsertFilter(index, filters);
+			addInsertFilter(newIndex, filters);
 		} else {
-			addExtractFilter(index, filters);
+			addExtractFilter(newIndex, filters);
 		}
 		
 		isEmpty = false;
+		return newIndex;
 	}
 
 	@Override

@@ -4,16 +4,18 @@ import java.util.List;
 
 import de.nedelosk.forestmods.library.Tabs;
 import de.nedelosk.modularmachines.common.core.Registry;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemToolParts extends ItemForest {
+public class ItemToolParts extends ItemForest implements IItemModelRegister {
 
 	public String[] parts = new String[] { "file_handle", "file_head_stone", "file_head_iron", "file_head_diamond", "knife_handle", "knife_head", "cutter_head",
 			"cutter_handle", "adze_head", "adze_head_long", "adze_handle", "adze_handle_long" };
-	@SideOnly(Side.CLIENT)
-	public IIcon[] itemIcon;
 
 	public ItemToolParts() {
 		super(null, Tabs.tabForestMods);
@@ -23,10 +25,9 @@ public class ItemToolParts extends ItemForest {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = new IIcon[parts.length];
-		for(int i = 0; i < this.itemIcon.length; ++i) {
-			this.itemIcon[i] = iconRegister.registerIcon("forestmods:toolparts/" + parts[i]);
+	public void registerModel(Item item, IModelManager manager) {
+		for(int i = 0; i < parts.length; ++i) {
+			manager.registerItemModel(item, i, "toolparts/" + parts[i]);
 		}
 	}
 
@@ -35,12 +36,6 @@ public class ItemToolParts extends ItemForest {
 		for(int i = 0; i < parts.length; i++) {
 			list.add(new ItemStack(id, 1, i));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getIconFromDamage(int meta) {
-		return itemIcon[meta];
 	}
 
 	@Override

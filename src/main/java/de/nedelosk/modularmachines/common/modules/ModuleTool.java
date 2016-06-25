@@ -35,7 +35,6 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
 import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlot;
-import de.nedelosk.modularmachines.common.modules.engine.ModuleEngineStorage;
 import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
@@ -56,9 +55,11 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance");
 	
 	protected final int speedModifier;
+	protected final int size;
 
-	public ModuleTool(int speedModifier) {
+	public ModuleTool(int speedModifier, int size) {
 		this.speedModifier = speedModifier;
+		this.size = size;
 	}
 
 	/* RECIPE */
@@ -134,7 +135,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
-					setRecipeManager(state, new RecipeManager(recipe.getRecipeCategory(), (recipe.getRequiredMaterial() * speedModifier) / getWorkTime(state),
+					setRecipeManager(state, new RecipeManager(recipe.getRecipeCategory(), (recipe.getRequiredMaterial() * speedModifier) / getWorkTimeTotal(state),
 							recipe.getInputs().clone(), getRecipeModifiers(state)));
 					if (!removeInput(state)) {
 						setRecipeManager(state, null);
@@ -251,7 +252,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 	
 	@Override
-	public byte getSize() {
-		return 1;
+	public int getSize() {
+		return size;
 	}
 }

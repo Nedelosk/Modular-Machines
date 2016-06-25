@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -180,7 +181,8 @@ public class RecipeRegistry {
 	/**
 	 * Register a recipe handler for a recipeCategory.
 	 */
-	public static void registerRecipeHandler(String recipeCategory, IRecipeHandler handler) {
+	public static void registerRecipeHandler(IRecipeHandler handler) {
+		String recipeCategory = handler.getRecipeCategory();
 		if (handlers.containsKey(recipeCategory)) {
 			return;
 		}

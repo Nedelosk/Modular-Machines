@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.basic;
+package de.nedelosk.modularmachines.common.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
@@ -12,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
 import de.nedelosk.modularmachines.client.render.modules.CasingRenderer;
-import de.nedelosk.modularmachines.common.modules.Module;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,16 +19,20 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	public static final PropertyInteger HEAT = new PropertyInteger("heat");
 	private final int maxHeat;
-	private final int resistance;
-	private final int hardness;
+	private final float resistance;
+	private final float hardness;
+	private final int harvestLevel;
+	private final String harvestTool;
 	private final int controllers;
 
-	public ModuleCasing(int maxHeat, int resistance, int hardness, int controllers) {
+	public ModuleCasing(int maxHeat, float resistance, float hardness, int controllers, String harvestTool, int harvestLevel) {
 		super();
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
 		this.controllers = controllers;
+		this.harvestTool = harvestTool;
+		this.harvestLevel = harvestLevel;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -44,13 +47,23 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public int getResistance(IModuleState state) {
+	public float getResistance(IModuleState state) {
 		return resistance;
 	}
 
 	@Override
-	public int getHardness(IModuleState state) {
+	public float getHardness(IModuleState state) {
 		return hardness;
+	}
+	
+	@Override
+	public int getHarvestLevel(IModuleState state) {
+		return harvestLevel;
+	}
+	
+	@Override
+	public String getHarvestTool(IModuleState state) {
+		return harvestTool;
 	}
 	
 	@Override

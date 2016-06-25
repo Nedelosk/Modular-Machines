@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import de.nedelosk.forestmods.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularLogicType;
@@ -27,6 +26,7 @@ import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
 import de.nedelosk.modularmachines.client.render.modules.ModularRenderer;
+import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modular.handlers.FluidHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;

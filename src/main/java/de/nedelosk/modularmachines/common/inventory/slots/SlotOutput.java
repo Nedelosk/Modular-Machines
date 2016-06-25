@@ -1,4 +1,4 @@
-package de.nedelosk.forestmods.common.inventory.slots;
+package de.nedelosk.modularmachines.common.inventory.slots;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

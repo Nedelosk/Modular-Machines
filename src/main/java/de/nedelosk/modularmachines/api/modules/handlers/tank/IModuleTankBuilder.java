@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public interface IModuleTankBuilder<M extends IModule> extends IModuleContentBuilder<FluidStack, M> {
 
-	void initTank(int index, int capacity, EnumFacing direction, EnumTankMode mode, IContentFilter<FluidStack, M>... filters);
+	int initTank(int capacity, EnumFacing direction, EnumTankMode mode, IContentFilter<FluidStack, M>... filters);
 
 	@Override
 	IModuleTank build();

@@ -4,9 +4,6 @@ import com.google.common.collect.ImmutableMap;
 
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
-import forestry.api.core.IItemModelRegister;
-import forestry.api.core.IModelManager;
-import forestry.api.core.IStateMapperRegister;
 
 import javax.vecmath.Vector3f;
 import java.util.ArrayList;

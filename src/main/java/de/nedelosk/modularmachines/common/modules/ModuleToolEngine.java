@@ -14,17 +14,12 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
 import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlot;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlotEngine;
-import de.nedelosk.modularmachines.common.modules.engine.ModuleEngineStorage;
 import net.minecraft.item.ItemStack;
 
 public abstract class ModuleToolEngine extends ModuleTool {
 
-	protected final int engines;
-
-	public ModuleToolEngine(int speedModifier, int engines) {
-		super(speedModifier);
-		this.engines = engines;
+	public ModuleToolEngine(int speedModifier, int size) {
+		super(speedModifier, size);
 	}
 
 	@Override
@@ -32,9 +27,7 @@ public abstract class ModuleToolEngine extends ModuleTool {
 		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
 		IAssemblerSlot controllerSlot = new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "controller", ModuleTool.class);
 		group.setControllerSlot(controllerSlot);
-		IAssemblerSlot engine_0 = group.addSlot(new AssemblerSlotEngine(group, 2, 6, group.getAssembler().getNextIndex(), "engine_0", IModuleEngine.class, group.getControllerSlot()));
-		IAssemblerSlot engine_1 = group.addSlot(new AssemblerSlotEngine(group, 4, 6, group.getAssembler().getNextIndex(), "engine_1", IModuleEngine.class, engine_0));	
-		group.addSlot(new AssemblerSlotEngine(group, 6, 6, group.getAssembler().getNextIndex(), "engine_2", IModuleEngine.class, engine_1));
+		group.addSlot(new AssemblerSlot(group, 4, 6, group.getAssembler().getNextIndex(), "engine", IModuleEngine.class, group.getControllerSlot()));
 		return group;
 	}
 	
@@ -62,11 +55,6 @@ public abstract class ModuleToolEngine extends ModuleTool {
 			return false;
 		}
 		return true;
-	}
-	
-	@Override
-	public List<IModularLogic> createLogic(IModuleState state) {
-		return Collections.singletonList(new ModuleEngineStorage(state.getModular()));
 	}
 
 	@Override

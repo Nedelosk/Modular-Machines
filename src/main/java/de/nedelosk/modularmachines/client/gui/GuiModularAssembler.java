@@ -24,7 +24,7 @@ public class GuiModularAssembler extends GuiForestBase<IAssembler> {
 	@Override
 	public void addButtons() {
 		if(handler.getCurrentGroup() != null){
-			for(IAssemblerSlot slot : handler.getCurrentGroup().getSlots()){
+			for(IAssemblerSlot slot : handler.getCurrentGroup().getSlots().values()){
 				buttonManager.add(new ButtonAssemblerSlot(buttonManager.getButtons().size(), guiLeft + 38 + slot.getXPos() * 18, guiTop + 8 + slot.getYPos() * 18, 18, 18, slot));
 			}
 		}
@@ -42,7 +42,7 @@ public class GuiModularAssembler extends GuiForestBase<IAssembler> {
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, p_146976_2_, p_146976_3_);
 		if(handler.getCurrentGroup() != null){
-			for(IAssemblerSlot slot : handler.getCurrentGroup().getSlots()){
+			for(IAssemblerSlot slot : handler.getCurrentGroup().getSlots().values()){
 				slot.renderPaths(this);
 			}
 		}

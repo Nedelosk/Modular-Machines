@@ -4,14 +4,16 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemMetal extends Item {
+public class ItemMetal extends Item implements IItemModelRegister {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
 	private String[][] metals;
 	private String uln;
 	private String iconName;
@@ -24,15 +26,14 @@ public class ItemMetal extends Item {
 		this.uln = uln;
 		this.iconName = iconName;
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IIconRegister iconRegister) {
-		this.icons = new IIcon[metals.length * 10];
+	public void registerModel(Item item, IModelManager manager) {
 		for(int m = 0; m < metals.length; m++) {
 			String[] metal = metals[m];
 			for(int i = 0; i < metal.length; ++i) {
-				this.icons[m * 10 + i] = iconRegister.registerIcon("forestmods:" + uln + "/" + iconName + metal[i]);
+				manager.registerItemModel(item, m * 10 + i, uln + "/" + iconName + metal[i]);
 			}
 		}
 	}
@@ -45,12 +46,6 @@ public class ItemMetal extends Item {
 				list.add(new ItemStack(item, 1, m * 10 + i));
 			}
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getIconFromDamage(int meta) {
-		return icons[meta];
 	}
 
 	@Override

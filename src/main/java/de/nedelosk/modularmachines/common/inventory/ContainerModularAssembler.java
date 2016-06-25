@@ -1,9 +1,8 @@
-package de.nedelosk.forestmods.common.inventory;
+package de.nedelosk.modularmachines.common.inventory;
 
-import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerCasing;
-import de.nedelosk.forestmods.common.inventory.slots.SlotAssemblerOutput;
-import de.nedelosk.forestmods.library.inventory.ContainerBase;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
+import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerCasing;
+import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOutput;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

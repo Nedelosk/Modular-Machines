@@ -3,14 +3,8 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.IModuleEngineSaver;
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.IModuleProducerRecipeModeSaver;
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.ModuleLathe;
 import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.ModuleLatheGui;
 import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.ModuleLatheInventory;
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.ModuleStack;
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.SlotModularInput;
-import de.nedelosk.forestmods.common.modules.producers.recipe.lathe.SlotModularOutput;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -33,13 +27,9 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleTool;
 import de.nedelosk.modularmachines.common.modules.ModuleToolAdvanced;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
-import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -48,8 +38,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLathe extends ModuleToolAdvanced{
 
-	public ModuleLathe(int speedModifier, int engines) {
-		super(speedModifier, engines, LatheModes.ROD);
+	public ModuleLathe(int speedModifier, int size) {
+		super(speedModifier, size, LatheModes.ROD);
 	}
 
 	// Recipe
@@ -73,7 +63,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 		return new ModuleAdvancedPage[]{new ModuleLathePage(0, state)};
 	}
 	
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	@Override
 	public IJEIPage createNEIPage(IModuleJEI module) {
 		return new LatheNEIPage(module);
@@ -98,7 +88,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 			widgets.add(new WidgetProgressBar(82, 25, 0, 0).setShowTooltip(false));
 			widgets.add(new WidgetButtonMode(86, 0, (IMachineMode) recipe.getModifiers()[0]));
 		}
-	}
+	}*/
 	
 	public static class ModuleLathePage extends ModuleAdvancedPage{
 

@@ -23,12 +23,6 @@ public interface IModuleEngine extends IModule {
 	int getBurnTimeModifier(IModuleState state);
 
 	List<Integer> getMachineIndexes(IModuleState state);
-	
-	EnumEnigneSize getSize();
-	
-	int getLayer(IModuleState state);
-	
-	int getPosition(IModuleState state);
 
 	boolean removeMaterial(IModuleState state, IModuleState<IModuleTool> machineState);
 }

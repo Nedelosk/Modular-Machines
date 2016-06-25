@@ -7,24 +7,23 @@ import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,8 +31,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
-	public ModuleBoiler(int speed) {
-		super(speed);
+	public ModuleBoiler(int speed, int size) {
+		super(speed, size);
+	}
+	
+	@Override
+	public Object[] getRecipeModifiers(IModuleState state) {
+		IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
+		return new Object[]{casingState.getModule().getHeat(casingState)};
+	}
+	
+	protected int getConsumeHeat(IModuleState state) {
+		return 10;
 	}
 
 	@Override
@@ -58,14 +67,17 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		return pages;
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	@Override
 	public IJEIPage createNEIPage(IModuleJEI stack) {
 		return new BoilerNEIPage(stack);
-	}
+	}*/
 
 	public static class BoilerPage extends ModulePage<IModuleTool> {
 
+		public static int TANKINPUT;
+		public static int TANKOUTPUT;
+		
 		public BoilerPage(int pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
@@ -77,8 +89,8 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.initTank(0, 16000, EnumFacing.EAST, EnumTankMode.INPUT, new FluidFilterMachine());
-			tankBuilder.initTank(1, 16000, EnumFacing.WEST, EnumTankMode.OUTPUT, new FluidFilterMachine());
+			TANKINPUT = tankBuilder.initTank(16000, EnumFacing.EAST, EnumTankMode.INPUT, new FluidFilterMachine());
+			TANKOUTPUT = tankBuilder.initTank(16000, EnumFacing.WEST, EnumTankMode.OUTPUT, new FluidFilterMachine());
 		}
 
 		@Override
@@ -88,12 +100,13 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
-			super.addWidgets(widgets);
 			widgets.add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKINPUT).getTank(), 55, 25));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKOUTPUT).getTank(), 55, 25));
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	public static class BoilerNEIPage extends NEIPage {
 
 		public BoilerNEIPage(IModuleJEI module) {
@@ -108,7 +121,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
 		}
-	}
+	}*/
 
 	@Override
 	public int getColor() {

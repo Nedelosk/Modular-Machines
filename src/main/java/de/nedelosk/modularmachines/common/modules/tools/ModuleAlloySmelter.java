@@ -16,13 +16,9 @@ import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,18 +26,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColored {
 
-	public ModuleAlloySmelter(int speed, int engines) {
-		super(speed, engines);
+	public ModuleAlloySmelter(int speed, int size) {
+		super(speed, size);
 	}
 
 	@Override
 	public String getRecipeCategory(IModuleState state) {
 		return "AlloySmelter";
-	}
-	
-	@Override
-	public byte getSize() {
-		return 2;
 	}
 
 	@SideOnly(Side.CLIENT)

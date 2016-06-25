@@ -1,4 +1,4 @@
-package de.nedelosk.forestmods.common.inventory;
+package de.nedelosk.modularmachines.common.inventory;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

@@ -5,7 +5,7 @@ import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.basic.ModuleCasing;
+import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.registry.ModuleContainer;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import net.minecraft.item.Item;

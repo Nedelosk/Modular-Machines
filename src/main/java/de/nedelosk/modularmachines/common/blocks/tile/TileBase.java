@@ -25,9 +25,9 @@ public abstract class TileBase extends TileEntity implements ITickable {
 	public abstract void updateClient();
 
 	public abstract void updateServer();
-
+	
 	@Override
-	public Packet getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		writeToNBT(nbtTag);
 		return new SPacketUpdateTileEntity(pos, 0, nbtTag);
@@ -40,12 +40,13 @@ public abstract class TileBase extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setTag("Base", new NBTTagCompound());
 		nbt.getCompoundTag("Base").setBoolean("isWork", this.isWorking);
 		nbt.getCompoundTag("Base").setInteger("burnTime", this.burnTime);
 		nbt.getCompoundTag("Base").setInteger("burnTimeTotal", this.burnTimeTotal);
+		return nbt;
 	}
 
 	@Override

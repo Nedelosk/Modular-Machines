@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.common.utils;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.ChunkCoordIntPair;
 
 public class AdvancedBlockPos extends BlockPos {
 
@@ -47,7 +47,7 @@ public class AdvancedBlockPos extends BlockPos {
 	}
 
 	public long getChunkXZHash() {
-		return ChunkCoordIntPair.chunkXZ2Int(x >> 4, z >> 4);
+		return ChunkPos.chunkXZ2Int(x >> 4, z >> 4);
 	}
 
 	@Override

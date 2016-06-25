@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
-import com.sun.org.apache.regexp.internal.recompile;
-
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;

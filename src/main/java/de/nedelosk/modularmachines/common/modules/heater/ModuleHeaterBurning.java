@@ -32,8 +32,8 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime");
 
-	public ModuleHeaterBurning(int maxHeat) {
-		super(maxHeat);
+	public ModuleHeaterBurning(int maxHeat, int size) {
+		super(maxHeat, size);
 	}
 	
 	@Override
@@ -67,13 +67,13 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) moduleState.getModular().getTile(), moduleState));
 		} else {
 			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
-			ItemStack input = inventory.getStackInSlot(0);
+			ItemStack input = inventory.getStackInSlot(HeaterBurningPage.BURNSLOT);
 			if(input == null){
 				if(casingState.getModule().getHeat(casingState) > 0){
 					casingState.getModule().addHeat(casingState, -1);
 				}
 			}else if (input != null) {
-				if(inventory.extractItem(0, 1, false) != null){
+				if(inventory.extractItem(HeaterBurningPage.BURNSLOT, 1, false) != null){
 					setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
 				}
 			}
@@ -99,13 +99,15 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	public static class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
+		public static int BURNSLOT;
+		
 		public HeaterBurningPage(int pageID, IModuleState<IModuleHeaterBurning> heaterState) {
 			super(pageID, heaterState);
 		}
 		
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(0, true, new ItemFliterBurning());
+			BURNSLOT = invBuilder.addInventorySlot(true, new ItemFliterBurning());
 		}
 
 		@Override

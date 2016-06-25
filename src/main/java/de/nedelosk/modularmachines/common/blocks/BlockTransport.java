@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.blocks;
 
 import java.util.List;
 
+import buildcraft.api.tools.IToolWrench;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.transport.IPartSide;
 import de.nedelosk.modularmachines.api.transport.node.EnumNodeMode;
@@ -103,7 +104,7 @@ public class BlockTransport extends BlockContainerForest {
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
 		if (world.isRemote) {
 			return;
 		}

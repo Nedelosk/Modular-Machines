@@ -12,7 +12,7 @@ import de.nedelosk.modularmachines.api.transport.ITransportPart;
 import de.nedelosk.modularmachines.api.transport.ITransportSystem;
 import de.nedelosk.modularmachines.common.utils.AdvancedBlockPos;
 import de.nedelosk.modularmachines.common.utils.Log;
-import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -220,7 +220,7 @@ public class TransportWorldRegistry {
 	}
 
 	public void onChunkLoaded(int chunkX, int chunkZ) {
-		long chunkHash = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
+		long chunkHash = ChunkPos.chunkXZ2Int(chunkX, chunkZ);
 		if (partsAwaitingChunkLoad.containsKey(chunkHash)) {
 			synchronized (partsAwaitingChunkLoadMutex) {
 				if (partsAwaitingChunkLoad.containsKey(chunkHash)) {

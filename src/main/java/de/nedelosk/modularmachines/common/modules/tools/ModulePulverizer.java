@@ -16,13 +16,9 @@ import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
-import de.nedelosk.modularmachines.common.modules.IJEIPage;
-import de.nedelosk.modularmachines.common.modules.IModuleJEI;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
-import de.nedelosk.modularmachines.common.modules.SlotJEI;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.NEIPage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,8 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePulverizer extends ModuleToolEngine implements IModuleColored{
 
-	public ModulePulverizer(int speed, int engines) {
-		super(speed, engines);
+	public ModulePulverizer(int speed, int size) {
+		super(speed, size);
 	}
 
 	@Override
@@ -49,10 +45,10 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 		return new IModulePage[]{new PulverizerPage(0, state)};
 	}
 
-	@Override
+	/*@Override
 	public IJEIPage createNEIPage(IModuleJEI module) {
 		return new PulverizerNEIPage(module);
-	}
+	}*/
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
@@ -94,7 +90,7 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	public static class PulverizerNEIPage extends NEIPage {
 
 		public PulverizerNEIPage(IModuleJEI module) {
@@ -112,6 +108,6 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
 		}
-	}
+	}*/
 
 }
