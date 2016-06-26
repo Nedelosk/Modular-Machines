@@ -20,18 +20,20 @@ public class ItemBlockModularMachine extends ItemBlock {
 	public ItemBlockModularMachine(Block block) {
 		super(block);
 	}
-	
+
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
 		return new ModularProvider(new Modular(nbt, null));
 	}
-	
-	@Override
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
-        if (!world.setBlockState(pos, newState, 3)) return false;
 
-        IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == this.block){
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
+		if (!world.setBlockState(pos, newState, 3)) {
+			return false;
+		}
+
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() == this.block){
 			TileEntity tile = world.getTileEntity(pos);
 			if (!(tile instanceof TileModular)) {
 				world.setBlockToAir(pos);
@@ -39,12 +41,12 @@ public class ItemBlockModularMachine extends ItemBlock {
 			}
 			TileModular machine = (TileModular) tile;
 			machine.setModular(new Modular(stack.getTagCompound(), machine));
-            setTileEntityNBT(world, player, pos, stack);
-            this.block.onBlockPlacedBy(world, pos, state, player, stack);
-        }
+			setTileEntityNBT(world, player, pos, stack);
+			this.block.onBlockPlacedBy(world, pos, state, player, stack);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {

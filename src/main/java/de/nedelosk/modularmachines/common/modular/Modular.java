@@ -11,15 +11,17 @@ import com.google.common.collect.Lists;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularLogicType;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -27,7 +29,6 @@ import de.nedelosk.modularmachines.client.gui.GuiModular;
 import de.nedelosk.modularmachines.client.render.modules.ModularRenderer;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
-import de.nedelosk.modularmachines.common.modular.handlers.FluidHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
@@ -38,20 +39,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Modular implements IModular {
 
-	protected IModularHandler tileEntity;
+	protected IModularHandler modularHandler;
 	protected List<IModuleState> modules = new ArrayList();
 	protected int tier;
 	protected int index;
 	protected IModuleState currentModule;
 	protected IModulePage currentPage;
 	protected EnergyHandler energyHandler;
-	protected FluidHandler fluidHandler;
+	protected FluidHandlerConcatenate fluidHandler;
 	protected Map<IModularLogicType, List<IModularLogic>> logics;
 
 	public Modular() {
@@ -60,13 +66,17 @@ public class Modular implements IModular {
 
 	public Modular(NBTTagCompound nbt, IModularHandler machine) {
 		this();
-		setHandler(machine);
-		readFromNBT(nbt);
+		if(machine != null){
+			setHandler(machine);
+		}
+		if(nbt != null){
+			readFromNBT(nbt);
+		}
 	}
 
 	@Override
 	public void onAssembleModular() {
-		fluidHandler = new FluidHandler(this);
+		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		modules = Collections.unmodifiableList(modules);
 		currentModule = getFirstGui();
 		setCurrentPage(0);
@@ -138,9 +148,6 @@ public class Modular implements IModular {
 		if (nbt.getBoolean("EH")) {
 			energyHandler = new EnergyHandler(this);
 		}
-		if (nbt.getBoolean("FH")) {
-			fluidHandler = new FluidHandler(this);
-		}
 	}
 
 	@Override
@@ -167,11 +174,6 @@ public class Modular implements IModular {
 		} else {
 			nbt.setBoolean("EH", false);
 		}
-		if (fluidHandler != null) {
-			nbt.setBoolean("FH", true);
-		} else {
-			nbt.setBoolean("FH", false);
-		}
 		return nbt;
 	}
 
@@ -195,12 +197,12 @@ public class Modular implements IModular {
 
 	@Override
 	public void setHandler(IModularHandler tileEntity) {
-		this.tileEntity = tileEntity;
+		this.modularHandler = tileEntity;
 	}
 
 	@Override
 	public IModularHandler getHandler() {
-		return tileEntity;
+		return modularHandler;
 	}
 
 	private ArrayList<IModuleState> getWailaModules() {
@@ -356,13 +358,8 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public FluidHandler getFluidHandler() {
+	public IFluidHandler getFluidHandler() {
 		return fluidHandler;
-	}
-
-	@Override
-	public void setFluidHandler(IFluidHandler fluidHandler) {
-		this.fluidHandler = (FluidHandler) fluidHandler;
 	}
 
 	@Override
@@ -373,5 +370,32 @@ public class Modular implements IModular {
 	@Override
 	public Map<IModularLogicType, List<IModularLogic>> getLogics() {
 		return logics;
+	}
+
+	protected List<IFluidHandler> getTanks() {
+		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
+		for(IModuleState state : modules) {
+			IModuleContentHandler handler = state.getContentHandler(FluidStack.class);
+			if(handler instanceof IModuleTank){
+				fluidHandlers.add((IModuleTank) handler);
+			}
+		}
+		return fluidHandlers;
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
+			return true;
+		}
+		return false;
 	}
 }

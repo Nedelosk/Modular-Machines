@@ -50,7 +50,7 @@ public class CommonProxy implements IGuiHandler {
 		}
 		return null;
 	}
-	
+
 	public void registerStateMapper(Block block, IStateMapper mapper) {
 	}
 

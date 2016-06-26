@@ -1,8 +1,6 @@
 package de.nedelosk.modularmachines.client.core;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
-import de.nedelosk.modularmachines.client.render.item.ItemModularAssemblerRenderer;
-import de.nedelosk.modularmachines.client.render.item.ItemModularRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileModularAssemblerRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileModularMachineRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileTransportNodeRenderer;
@@ -26,7 +24,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
@@ -61,7 +58,7 @@ public class ClientProxy extends CommonProxy {
 	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass) {
 		return TileEntityRendererDispatcher.instance.mapSpecialRenderers.get(tileEntityClass);
 	}
-	
+
 	@Override
 	public void registerFluidStateMapper(Block block, final Fluid fluid) {
 		final ModelResourceLocation fluidLocation = new ModelResourceLocation("modularmachines:fluids", fluid.getName());
@@ -75,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerStateMapper(Block block, IStateMapper mapper) {
 		ModelLoader.setCustomStateMapper(block, mapper);
 	}
-	
+
 	private static class FluidStateMapper extends StateMapperBase {
 		private final ModelResourceLocation fluidLocation;
 

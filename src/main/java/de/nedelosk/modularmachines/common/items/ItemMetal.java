@@ -38,7 +38,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 			}
 		}
 	}
-	
+
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		return getColor(stack.getItemDamage());
@@ -67,7 +67,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		}
 		return (String) metals[i][id][0];
 	}
-	
+
 	private int getColor(int id) {
 		int i = 0;
 		while (id > 9) {

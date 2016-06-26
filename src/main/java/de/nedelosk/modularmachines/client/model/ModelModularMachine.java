@@ -1,22 +1,18 @@
 package de.nedelosk.modularmachines.client.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
-import de.nedelosk.modularmachines.common.core.ModularMachinesRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemOverride;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.block.model.MultipartBakedModel;
 import net.minecraft.client.renderer.block.model.MultipartBakedModel.Builder;
@@ -34,7 +30,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 public class ModelModularMachine implements IBakedModel {
 
 	private ItemOverrideList overrideList;
-	
+
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		if(state instanceof IExtendedBlockState){
@@ -42,7 +38,7 @@ public class ModelModularMachine implements IBakedModel {
 			IBlockAccess world = stateExtended.getValue(UnlistedBlockAccess.BLOCKACCESS);
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
 			TileEntity tile = world.getTileEntity(pos);
-			
+
 			IBakedModel model = getModel(tile);
 			if(model != null){
 				return model.getQuads(state, side, rand);
@@ -83,7 +79,7 @@ public class ModelModularMachine implements IBakedModel {
 		}
 		return overrideList;
 	}
-	
+
 	private IBakedModel getModel(ICapabilityProvider provider){
 		IModular modular = getModular(provider);
 		if(modular != null){
@@ -96,7 +92,7 @@ public class ModelModularMachine implements IBakedModel {
 		}
 		return null;
 	}
-	
+
 	public static IModular getModular(ICapabilityProvider provider){
 		if(provider == null){
 			return null;
@@ -106,18 +102,18 @@ public class ModelModularMachine implements IBakedModel {
 		}
 		return null;	
 	}
-	
+
 	public class ItemOverrideListModular extends ItemOverrideList{
 
 		public ItemOverrideListModular() {
 			super(Collections.emptyList());
 		}
-		
+
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IBakedModel model = getModel(stack);
 			return model != null ? model : super.handleItemState(originalModel, stack, world, entity);
 		}
-		
+
 	}
 }

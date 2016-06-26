@@ -1,13 +1,9 @@
 package de.nedelosk.modularmachines.common.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
-import de.nedelosk.modularmachines.common.utils.IColoredItem;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.material.Material;
@@ -38,7 +34,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		return state.getValue(TYPE).color;
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, TYPE);
@@ -48,12 +44,12 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, ComponentTypes.values()[meta]);
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(TYPE).ordinal();
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
@@ -61,21 +57,21 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 			manager.registerItemModel(item, type.ordinal());
 		}
 	}
-	
+
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 		for(int i = 0; i < ComponentTypes.values().length; i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+
 	public static enum ComponentTypes implements IStringSerializable{
 		TIN(0xCACECF, "tin", "Tin"),
 		COPPER(0xCC6410, "copper", "Copper"),
 		BRONZE(0xCA9956, "bronze", "Bronze"),
 		STEEL(0xA0A0A0, "steel", "Steel"),
 		INVAR(0xA1A48C, "invar", "Invar");
-		
+
 		public int color;
 		public String name;
 		public String[] oreDict;
@@ -84,7 +80,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 			this.name = name;
 			this.oreDict = oreDict;
 		}
-		
+
 		@Override
 		public String getName() {
 			return name;

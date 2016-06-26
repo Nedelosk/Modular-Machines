@@ -50,7 +50,8 @@ public abstract class Registry {
 
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas) {
 		if (FluidRegistry.getFluid(fluidName) == null) {
-			Fluid fluid = new Fluid(fluidName, new ResourceLocation("modularmachines:textures/blocks/fluids" + fluidName + "_still.png"), new ResourceLocation("modularmachines:textures/blocks/fluids" + fluidName + "_still.png")).setTemperature(temperature);
+			ResourceLocation stillLocation = new ResourceLocation("modularmachines:textures/blocks/fluids/" + fluidName + "_still.png");
+			Fluid fluid = new Fluid(fluidName, stillLocation, stillLocation).setTemperature(temperature);
 			fluid.setUnlocalizedName(fluidName);
 			if (material == Material.LAVA) {
 				fluid.setLuminosity(12);

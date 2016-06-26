@@ -39,22 +39,22 @@ public class ItemTool extends Item implements IItemModelRegister {
 		manager.registerItemModel(item,  new ToolMeshDefinition(location));
 		ModelBakery.registerItemVariants(item, location);
 	}
-	
+
 	private class ToolMeshDefinition implements ItemMeshDefinition{
 
 		ModelResourceLocation location;
-		
+
 		public ToolMeshDefinition(ModelResourceLocation location) {
 			this.location = location;
 		}
-		
+
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;
 		}
-		
+
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack p_77667_1_) {
 		return getUnlocalizedName().replace("item.", "");

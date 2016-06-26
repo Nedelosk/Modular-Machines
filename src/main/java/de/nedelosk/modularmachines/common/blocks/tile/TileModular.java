@@ -9,9 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.common.capabilities.Capability;
 
 public class TileModular extends TileMachineBase implements IModularHandler<IModular> {
 
@@ -92,69 +90,19 @@ public class TileModular extends TileMachineBase implements IModularHandler<IMod
 	}
 
 	@Override
-	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-		if (modular == null) {
-			return 0;
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (modular != null) {
+			return modular.getCapability(capability, facing);
 		}
-		if (modular.getFluidHandler() == null) {
-			return 0;
-		}
-		return modular.getFluidHandler().fill(from, resource, doFill);
+		return super.getCapability(capability, facing);
 	}
 
 	@Override
-	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-		if (modular == null) {
-			return null;
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if (modular != null) {
+			return modular.hasCapability(capability, facing);
 		}
-		if (modular.getFluidHandler() == null) {
-			return null;
-		}
-		return modular.getFluidHandler().drain(from, resource, doDrain);
-	}
-
-	@Override
-	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-		if (modular == null) {
-			return null;
-		}
-		if (modular.getFluidHandler() == null) {
-			return null;
-		}
-		return modular.getFluidHandler().drain(from, maxDrain, doDrain);
-	}
-
-	@Override
-	public boolean canFill(EnumFacing from, Fluid fluid) {
-		if (modular == null) {
-			return false;
-		}
-		if (modular.getFluidHandler() == null) {
-			return false;
-		}
-		return modular.getFluidHandler().canFill(from, fluid);
-	}
-
-	@Override
-	public boolean canDrain(EnumFacing from, Fluid fluid) {
-		if (modular == null) {
-			return false;
-		}
-		if (modular.getFluidHandler() == null) {
-			return false;
-		}
-		return modular.getFluidHandler().canDrain(from, fluid);
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(EnumFacing from) {
-		if (modular == null) {
-			return new FluidTankInfo[0];
-		}
-		if (modular.getFluidHandler() == null) {
-			return new FluidTankInfo[0];
-		}
-		return modular.getFluidHandler().getTankInfo(from);
+		return super.hasCapability(capability, facing);
 	}
 
 	@Override

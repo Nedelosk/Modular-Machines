@@ -1,8 +1,5 @@
 package de.nedelosk.modularmachines.common.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

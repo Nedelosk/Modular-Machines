@@ -4,10 +4,8 @@ import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
-import de.nedelosk.modularmachines.common.items.ItemNature;
 import de.nedelosk.modularmachines.common.items.ItemTool.Material;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
-import de.nedelosk.modularmachines.common.items.ItemToolParts;
 import net.minecraft.item.Item;
 
 public class ItemManager {

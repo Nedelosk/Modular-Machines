@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
@@ -43,7 +42,8 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 		subItems.add(itemStack);
 		return itemStack;
 	}
-	
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerModel(Item item, IModelManager manager) {
 		manager.registerItemModel(item, 0, "module");

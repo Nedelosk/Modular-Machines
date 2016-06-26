@@ -18,11 +18,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModular {
+public interface IModular extends ICapabilityProvider {
 
 	/**
 	 * @return The tier from of the modular
@@ -64,8 +65,6 @@ public interface IModular {
 	IFluidHandler getFluidHandler();
 
 	<E extends IEnergyProvider & IEnergyReceiver> E getEnergyHandler();
-
-	void setFluidHandler(IFluidHandler fluidHandler);
 
 	<E extends IEnergyProvider & IEnergyReceiver> void setEnergyHandler(E energyHandler);
 

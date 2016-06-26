@@ -1,32 +1,30 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
-import java.util.ArrayList;
-
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.ITankData;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.TankData;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.capability.FluidTankProperties;
+import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
-	protected final TankData[] tanks;
+	protected final FluidTankAdvanced[] tanks;
 	protected final IModular modular;
 	protected final IModuleState<M> state;
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ModuleTank(TankData[] tanks, IModular modular, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(FluidTankAdvanced[] tanks, IModular modular, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.tanks = tanks;
 		this.modular = modular;
 		this.state = state;
@@ -40,12 +38,12 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public ITankData getTank(int index) {
+	public FluidTankAdvanced getTank(int index) {
 		return tanks[index];
 	}
 
 	@Override
-	public ITankData[] getTanks() {
+	public FluidTankAdvanced[] getTanks() {
 		return tanks;
 	}
 
@@ -53,7 +51,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	public RecipeItem[] getInputItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
 		for(int index = 0; index < getInputs(); index++) {
-			FluidStack input = getTank(index).getTank().getFluid();
+			FluidStack input = getTank(index).getFluid();
 			if (input != null) {
 				input = input.copy();
 			}
@@ -68,7 +66,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isFluid()) {
-						FluidStack test = drain(null, recipeInput.fluid, false, true);
+						FluidStack test = drainInternal(recipeInput.fluid, false);
 						if (test == null || test.amount != recipeInput.fluid.amount) {
 							return false;
 						}
@@ -90,7 +88,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 				if (output != null) {
 					if (output.isFluid()) {
 						if(output.chance == -1 || chance <= output.chance){
-							int test = fill(null, output.fluid, false, true);
+							int test = fillInternal(output.fluid, false);
 							if (test != output.fluid.amount) {
 								return false;
 							}
@@ -112,7 +110,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isFluid()) {
-						drain(null, recipeInput.fluid, false, true);
+						drainInternal(recipeInput.fluid, true);
 					}
 				}
 			}
@@ -125,7 +123,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			for(RecipeItem item : outputs) {
 				if (item != null && item.isFluid()) {
 					if(item.chance == -1 || chance <= item.chance){
-						fill(null, item.fluid.copy(), true, true);
+						fillInternal(item.fluid.copy(), true);
 					}
 				}
 			}
@@ -133,111 +131,141 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public int fill(EnumFacing from, FluidStack resource, boolean doFill, boolean canFillOutput) {
+	public int fillInternal(FluidStack resource, boolean doFill) {
 		if (resource == null) {
 			return 0;
 		}
 		for(int i = 0; i < tanks.length; i++) {
-			TankData data = tanks[i];
-			if (data == null || data.getTank().isFull()) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null || tank.isFull()) {
 				continue;
 			}
-			if (!data.getTank().isEmpty()) {
-				if (resource.getFluid() != data.getTank().getFluid().getFluid()) {
+			if (!tank.isEmpty()) {
+				if (resource.getFluid() != tank.getFluid().getFluid()) {
 					continue;
 				}
 			}
-			if (data.getMode() == EnumTankMode.OUTPUT && canFillOutput || data.getMode() == EnumTankMode.INPUT) {
-				if (from == data.getFacing() || from == null || data.getFacing() == null) {
-					if (insertFilter.isValid(i, resource, state)) {
-						return data.getTank().fill(resource, doFill);
-					}
-				} else {
-					continue;
-				}
-			} else {
-				continue;
+			if (insertFilter.isValid(i, resource, state)) {
+				return tank.fillInternal(resource, doFill);
 			}
 		}
 		return 0;
 	}
 
 	@Override
-	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain, boolean canDrainInput) {
+	public FluidStack drainInternal(FluidStack resource, boolean doDrain) {
 		if (resource == null) {
 			return null;
 		}
 		for(int i = 0; i < tanks.length; i++) {
-			TankData data = tanks[i];
-			if (data == null || data.getTank().isEmpty()) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null) {
 				continue;
 			}
-			if (resource.getFluid() != data.getTank().getFluid().getFluid()) {
+			FluidStack fluidStack = tank.getFluid();
+			if (fluidStack == null || resource.getFluid() != fluidStack.getFluid()) {
 				continue;
 			}
-			if (data.getMode() == EnumTankMode.OUTPUT || data.getMode() == EnumTankMode.INPUT && canDrainInput) {
-				if (from == data.getFacing() || from == null || data.getFacing() == null) {
-					if (extractFilter.isValid(i, resource, state)) {
-						return data.getTank().drain(resource, doDrain);
-					}
-				} else {
-					continue;
-				}
-			} else {
-				continue;
+			if (extractFilter.isValid(i, resource, state)) {
+				return tank.drainInternal(resource, doDrain);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain, boolean canDrainInput) {
+	public FluidStack drainInternal(int maxDrain, boolean doDrain) {
 		if (maxDrain < 0) {
 			return null;
 		}
 		for(int i = 0; i < tanks.length; i++) {
-			TankData data = tanks[i];
-			if (data == null || data.getTank().isEmpty()) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null || tank.isEmpty()) {
 				continue;
 			}
-			if (data.getTank().getFluid().amount < 0) {
+			if (tank.getFluid().amount < 0) {
 				continue;
 			}
-			if (data.getMode() == EnumTankMode.OUTPUT || data.getMode() == EnumTankMode.INPUT && canDrainInput) {
-				if (from == data.getFacing() || from == null || data.getFacing() == null) {
-					FluidStack resource = new FluidStack(data.getTank().getFluid().getFluid(), maxDrain);
-					if (extractFilter.isValid(i, resource, state)) {
-						return data.getTank().drain(maxDrain, doDrain);
-					}
-				} else {
-					continue;
-				}
-			} else {
-				continue;
+			FluidStack resource = new FluidStack(tank.getFluid().getFluid(), maxDrain);
+			if (extractFilter.isValid(i, resource, state)) {
+				return tank.drainInternal(maxDrain, doDrain);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public boolean canFill(EnumFacing from, Fluid fluid) {
-		return true;
-	}
-
-	@Override
-	public boolean canDrain(EnumFacing from, Fluid fluid) {
-		return true;
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(EnumFacing from) {
-		ArrayList<FluidTankInfo> infos = new ArrayList<>();
-		for(TankData data : tanks) {
-			if (data != null) {
-				infos.add(data.getTank().getInfo());
+	public int fill(FluidStack resource, boolean doFill) {
+		if (resource == null) {
+			return 0;
+		}
+		for(int i = 0; i < tanks.length; i++) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null || tank.isFull()) {
+				continue;
+			}
+			if (!tank.isEmpty()) {
+				if (resource.getFluid() != tank.getFluid().getFluid()) {
+					continue;
+				}
+			}
+			if (insertFilter.isValid(i, resource, state)) {
+				return tank.fill(resource, doFill);
 			}
 		}
-		return infos.toArray(new FluidTankInfo[infos.size()]);
+		return 0;
+	}
+
+	@Override
+	public FluidStack drain(FluidStack resource, boolean doDrain) {
+		if (resource == null) {
+			return null;
+		}
+		for(int i = 0; i < tanks.length; i++) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null) {
+				continue;
+			}
+			FluidStack fluidStack = tank.getFluid();
+			if (fluidStack == null || resource.getFluid() != fluidStack.getFluid()) {
+				continue;
+			}
+			if (extractFilter.isValid(i, resource, state)) {
+				return tank.drain(resource, doDrain);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public FluidStack drain(int maxDrain, boolean doDrain) {
+		if (maxDrain < 0) {
+			return null;
+		}
+		for(int i = 0; i < tanks.length; i++) {
+			FluidTankAdvanced tank = tanks[i];
+			if (tank == null || tank.isEmpty()) {
+				continue;
+			}
+			if (tank.getFluid().amount < 0) {
+				continue;
+			}
+			FluidStack resource = new FluidStack(tank.getFluid().getFluid(), maxDrain);
+			if (extractFilter.isValid(i, resource, state)) {
+				return tank.drain(maxDrain, doDrain);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public IFluidTankProperties[] getTankProperties(){
+		IFluidTankProperties[] properties = new FluidTankProperties[tanks.length];
+		for(int i = 0;i < tanks.length;i++){
+			FluidTankAdvanced tank = tanks[i];
+			properties[i] = new FluidTankPropertiesWrapper(tank);
+		}
+		return properties;
 	}
 
 	@Override
@@ -253,7 +281,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public int getInputs() {
 		int inputs = 0;
-		for(ITankData tank : tanks) {
+		for(FluidTankAdvanced tank : tanks) {
 			if (tank.getMode() == EnumTankMode.INPUT) {
 				inputs++;
 			}
@@ -264,7 +292,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public int getOutputs() {
 		int outputs = 0;
-		for(ITankData tank : tanks) {
+		for(FluidTankAdvanced tank : tanks) {
 			if (tank.getMode() == EnumTankMode.OUTPUT) {
 				outputs++;
 			}
@@ -274,10 +302,24 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
+		NBTTagList nbtTagList = nbt.getTagList("Tanks", 10);
+		for(int i = 0;i < nbtTagList.tagCount();i++){
+			NBTTagCompound tankTag = nbtTagList.getCompoundTagAt(i);
+			int capacity = tankTag.getInteger("Capacity");
+			tanks[i] = new FluidTankAdvanced(capacity, tankTag);
+		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
+		NBTTagList nbtTagList = new NBTTagList();
+		for(FluidTankAdvanced tank : tanks){
+			NBTTagCompound tankTag = new NBTTagCompound();
+			tank.writeToNBT(tankTag);
+			tankTag.setInteger("Capacity", tank.getCapacity());;
+			nbtTagList.appendTag(nbtTagList);
+		}
+		nbt.setTag("Tanks", nbtTagList);;
 	}
 
 	@Override

@@ -29,27 +29,4 @@ public class FluidTankSimple extends FluidTank {
 	public boolean isEmpty() {
 		return getFluidAmount() <= 0;
 	}
-
-	@Override
-	public boolean canDrainFluidType(FluidStack resource) {
-		if (resource == null || resource.getFluid() == null || fluid == null) {
-			return false;
-		}
-		return fluid.isFluidEqual(resource);
-	}
-
-	public boolean canDrainFluidType(Fluid fl) {
-		if (fl == null || fluid == null) {
-			return false;
-		}
-		return fl.getName().equals(fluid.getFluid().getName());
-	}
-
-	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (!canDrainFluidType(resource)) {
-			return null;
-		}
-		return drain(resource.amount, doDrain);
-	}
 }

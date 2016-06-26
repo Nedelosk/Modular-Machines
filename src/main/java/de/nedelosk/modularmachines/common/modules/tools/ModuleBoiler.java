@@ -25,7 +25,6 @@ import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -90,8 +89,8 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			TANKINPUT = tankBuilder.initTank(16000, EnumFacing.EAST, EnumTankMode.INPUT, new FluidFilterMachine());
-			TANKOUTPUT = tankBuilder.initTank(16000, EnumFacing.WEST, EnumTankMode.OUTPUT, new FluidFilterMachine());
+			TANKINPUT = tankBuilder.addFluidTank(16000, EnumTankMode.INPUT, new FluidFilterMachine());
+			TANKOUTPUT = tankBuilder.addFluidTank(16000, EnumTankMode.OUTPUT, new FluidFilterMachine());
 		}
 
 		@Override
@@ -102,8 +101,8 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		@Override
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKINPUT).getTank(), 55, 25));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKOUTPUT).getTank(), 55, 25));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKINPUT), 55, 25));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKOUTPUT), 55, 25));
 		}
 	}
 

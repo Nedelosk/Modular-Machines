@@ -4,6 +4,6 @@
     "steam": {
       "model": "forge:fluid",
       "custom": { "fluid": "steam" }
-    },
+    }
   }
 }

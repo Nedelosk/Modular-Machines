@@ -12,7 +12,6 @@ import de.nedelosk.modularmachines.common.items.ItemBlockForest;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockMetalBlock;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockModularMachine;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.blocks;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -35,17 +34,17 @@ public class BlockOre extends BlockForest implements IItemModelRegister {
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, OreType.COPPER));
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, TYPE);
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, OreType.values()[meta]);
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(TYPE).ordinal();
@@ -55,7 +54,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister {
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return Collections.singletonList(new ItemStack(this, 1, getMetaFromState(state)));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
@@ -71,7 +70,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+
 	public static enum OreType implements IStringSerializable{
 		COPPER, TIN, SILVER, LEAD, NICKEL, ALUMINIUM;
 
@@ -79,6 +78,6 @@ public class BlockOre extends BlockForest implements IItemModelRegister {
 		public String getName() {
 			return name().toLowerCase(Locale.ENGLISH);
 		}
-		
+
 	}
 }

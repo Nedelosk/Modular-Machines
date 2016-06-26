@@ -29,11 +29,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleManager {
@@ -206,26 +201,26 @@ public class ModuleManager {
 	private static void addDefaultModuleItem(IModule module, IMaterial material){
 		GameRegistry.register(new ModuleContainer(module, ItemModule.registerAndCreateItem(module, material), material));
 	}
-	
-    public static void registerCapability(){
-        CapabilityManager.INSTANCE.register(IModular.class, new Capability.IStorage<IModular>(){
-        	@Override
-        	public NBTBase writeNBT(Capability<IModular> capability, IModular instance, EnumFacing side) {
-        		return instance.writeToNBT(new NBTTagCompound());
-        	}
-        	
-        	@Override
-        	public void readNBT(Capability<IModular> capability, IModular instance, EnumFacing side, NBTBase nbt) {
-        		instance.readFromNBT((NBTTagCompound) nbt);
-        	}
-        }, new Callable<IModular>(){
-            @Override
-            public IModular call() throws Exception{
-                return new Modular();
-            }
-        });
-    }
-	
+
+	public static void registerCapability(){
+		CapabilityManager.INSTANCE.register(IModular.class, new Capability.IStorage<IModular>(){
+			@Override
+			public NBTBase writeNBT(Capability<IModular> capability, IModular instance, EnumFacing side) {
+				return instance.writeToNBT(new NBTTagCompound());
+			}
+
+			@Override
+			public void readNBT(Capability<IModular> capability, IModular instance, EnumFacing side, NBTBase nbt) {
+				instance.readFromNBT((NBTTagCompound) nbt);
+			}
+		}, new Callable<IModular>(){
+			@Override
+			public IModular call() throws Exception{
+				return new Modular();
+			}
+		});
+	}
+
 	/*
 	 * private static void registerMachine() {
 	 * registerModular(ModularMachine.class, "modular.machine"); } private

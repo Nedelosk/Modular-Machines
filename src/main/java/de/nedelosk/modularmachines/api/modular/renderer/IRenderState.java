@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modular.renderer;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;

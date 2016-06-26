@@ -28,7 +28,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 		metas.add(Lists.newArrayList(color, name, oreDict));
 		return this;
 	}
-	
+
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
 		for(int i = 0; i < metas.size(); i++){

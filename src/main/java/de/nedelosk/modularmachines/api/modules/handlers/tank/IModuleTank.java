@@ -2,26 +2,18 @@ package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public interface IModuleTank<M extends IModule> extends IModuleContentHandler<FluidStack, M> {
+public interface IModuleTank<M extends IModule> extends IModuleContentHandler<FluidStack, M>, IFluidHandler {
 
-	ITankData getTank(int index);
+	FluidTankAdvanced getTank(int index);
 
-	ITankData[] getTanks();
+	FluidTankAdvanced[] getTanks();
 
-	int fill(EnumFacing from, FluidStack resource, boolean doFill, boolean fillOutput);
+	int fillInternal(FluidStack resource, boolean doFill);
 
-	FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain, boolean drainInput);
+	FluidStack drainInternal(FluidStack resource, boolean doDrain);
 
-	FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain, boolean drainInput);
-
-	boolean canFill(EnumFacing from, Fluid fluid);
-
-	boolean canDrain(EnumFacing from, Fluid fluid);
-
-	FluidTankInfo[] getTankInfo(EnumFacing from);
+	FluidStack drainInternal(int maxDrain, boolean doDrain);
 }

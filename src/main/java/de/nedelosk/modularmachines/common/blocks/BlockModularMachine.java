@@ -53,7 +53,7 @@ public class BlockModularMachine extends BlockContainerForest {
 		setUnlocalizedName("modular");
 		setCreativeTab(TabModularMachines.tabModules);
 	}
-	
+
 	@Override
 	public float getBlockHardness(IBlockState blockState, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -64,7 +64,7 @@ public class BlockModularMachine extends BlockContainerForest {
 		}
 		return super.getBlockHardness(blockState, world, pos);
 	}
-	
+
 	@Override
 	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -75,17 +75,17 @@ public class BlockModularMachine extends BlockContainerForest {
 		}
 		return super.getExplosionResistance(world, pos, exploder, explosion);
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{ UnlistedBlockPos.POS, UnlistedBlockAccess.BLOCKACCESS});
 	}
-	
+
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return ((IExtendedBlockState)state).withProperty(UnlistedBlockPos.POS, pos).withProperty(UnlistedBlockAccess.BLOCKACCESS, world);
 	}
-	
+
 	@Override
 	public int getHarvestLevel(IBlockState state) {
 		if(state instanceof IExtendedBlockState){
@@ -101,7 +101,7 @@ public class BlockModularMachine extends BlockContainerForest {
 		}
 		return super.getHarvestLevel(state);
 	}
-	
+
 	@Override
 	public String getHarvestTool(IBlockState state) {
 		if(state instanceof IExtendedBlockState){

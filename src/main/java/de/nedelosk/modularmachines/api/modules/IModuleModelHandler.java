@@ -12,6 +12,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface IModuleModelHandler<M extends IModule> {
 
 	IBakedModel getModel(IModuleState<M> state);
-	
+
 	Predicate<IBlockState> getPredicate(IModuleState<M> state);
 }

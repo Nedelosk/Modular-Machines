@@ -7,14 +7,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.ITankData;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.TankData;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.fluids.FluidTankSimple;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<M> {
@@ -23,7 +20,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	protected IModuleState<M> state;
 	protected FilterWrapper<FluidStack, M> insertFilter = new FilterWrapper();
 	protected FilterWrapper<FluidStack, M> extractFilter = new FilterWrapper();
-	protected List<ITankData> tankSlots = new ArrayList();
+	protected List<FluidTankAdvanced> tankSlots = new ArrayList();
 	protected boolean isEmpty = true;
 
 	public ModuleTankBuilder() {
@@ -50,9 +47,9 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	}
 
 	@Override
-	public int initTank(int capacity, EnumFacing direction, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
+	public int addFluidTank(int capacity, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
 		int newIndex = tankSlots.size();
-		tankSlots.add(new TankData(new FluidTankSimple(capacity), direction, mode));
+		tankSlots.add(new FluidTankAdvanced(capacity, mode));
 		if (mode == EnumTankMode.INPUT) {
 			addInsertFilter(newIndex, filters);
 		} else {
@@ -65,7 +62,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 
 	@Override
 	public IModuleTank build() {
-		return new ModuleTank(tankSlots.toArray(new TankData[tankSlots.size()]), modular, state, insertFilter, extractFilter);
+		return new ModuleTank(tankSlots.toArray(new FluidTankAdvanced[tankSlots.size()]), modular, state, insertFilter, extractFilter);
 	}
 
 	@Override

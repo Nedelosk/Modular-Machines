@@ -5,7 +5,6 @@ import java.util.Random;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.client.model.ModelModularMachine;
-import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -43,7 +42,7 @@ public class EventHandler {
 			container.addTooltip(event.getToolTip());
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {

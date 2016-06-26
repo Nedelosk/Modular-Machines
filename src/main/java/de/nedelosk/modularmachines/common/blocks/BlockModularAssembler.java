@@ -8,8 +8,6 @@ import forestry.api.core.IStateMapperRegister;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.BlockStateMapper;
-import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -43,7 +41,7 @@ public class BlockModularAssembler extends BlockContainerForest implements IStat
 		player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-	
+
 	@Override
 	public void registerStateMapper() {
 		ModularMachines.proxy.registerStateMapper(this, new BlankStateMapper());
