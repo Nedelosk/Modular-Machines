@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
@@ -63,7 +63,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				casingState.getModule().addHeat(casingState, 1);
 			}
 			addBurnTime(moduleState, -10);
-			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) moduleState.getModular().getTile(), moduleState));
+			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) moduleState.getModular().getHandler(), moduleState));
 		} else {
 			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
 			ItemStack input = inventory.getStackInSlot(HeaterBurningPage.BURNSLOT);
@@ -110,7 +110,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			modularSlots.add(new SlotModule(state, 0, 80, 35));
 		}
 

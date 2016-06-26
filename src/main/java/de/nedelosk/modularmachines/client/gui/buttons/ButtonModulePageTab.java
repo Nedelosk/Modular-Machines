@@ -6,7 +6,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.Button;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-public class ButtonModulePageTab extends Button<IModularTileEntity> {
+public class ButtonModulePageTab extends Button<IModularHandler> {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
 	public IModuleState state;
@@ -45,15 +45,15 @@ public class ButtonModulePageTab extends Button<IModularTileEntity> {
 	}
 
 	@Override
-	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
-		IModularTileEntity tile = gui.getHandler();
+	public void onButtonClick(IGuiBase<IModularHandler> gui) {
+		IModularHandler tile = gui.getHandler();
 		if (pageID != state.getModular().getCurrentPage().getPageID()) {
 			tile.getModular().setCurrentPage(pageID);
 		}
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase<IModularTileEntity> gui) {
+	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
 		return Arrays.asList(Integer.toString(pageID + 1));
 	}
 }

@@ -31,7 +31,7 @@ public class ModuleHeatGenerator extends ModuleAddable implements IModuleGenerat
 
 	@Override
 	public void updateServer(IModular modular, ModuleStack stack) {
-		IModularState<IModularDefault> tile = modular.getTile();
+		IModularState<IModularDefault> tile = modular.getHandler();
 		IModuleGeneratorType generatorType = (IModuleGeneratorType) stack.getType();
 		if (modular.getManager(IModularUtilsManager.class).getEnergyHandler() != null) {
 			ModuleStack<IModuleHeater, IModuleHeaterSaver> heater = ModularHelper.getHeater(modular).getItemStack();
@@ -41,7 +41,7 @@ public class ModuleHeatGenerator extends ModuleAddable implements IModuleGenerat
 				if (energy >= generatorType.getEnergy()) {
 					modular.getManager(IModularUtilsManager.class).getEnergyHandler().receiveEnergy(ForgeDirection.UNKNOWN, generatorType.getEnergy(), false);
 					heater.getSaver().addHeat(-10);
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularState) modular.getTile(), heater, true));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularState) modular.getHandler(), heater, true));
 				}
 			}
 		}

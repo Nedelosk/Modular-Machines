@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.material;
 
+import java.util.Locale;
+
 import de.nedelosk.modularmachines.common.utils.Translator;
 
 public enum EnumMaterials implements IMaterial {
@@ -27,7 +29,7 @@ public enum EnumMaterials implements IMaterial {
 
 	@Override
 	public String getName() {
-		return name;
+		return name.toLowerCase(Locale.ENGLISH);
 	}
 
 	@Override

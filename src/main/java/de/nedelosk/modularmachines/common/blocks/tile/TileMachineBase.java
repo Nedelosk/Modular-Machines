@@ -22,14 +22,14 @@ public abstract class TileMachineBase extends TileBaseInventory {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("facing", facing.ordinal());
 		if (this.owner != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTUtil.writeGameProfile(nbtTag, owner);
 			nbt.setTag("owner", nbtTag);
 		}
+		return super.writeToNBT(nbt);
 	}
 
 	@Override

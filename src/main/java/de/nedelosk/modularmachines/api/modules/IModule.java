@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
@@ -47,7 +47,7 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	/**
 	 * To transfer items into slots. Only for modules with inventory.
 	 */
-	boolean transferInput(IModularTileEntity tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem);
+	boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem);
 
 	/**
 	 * @return The item that the module drop.

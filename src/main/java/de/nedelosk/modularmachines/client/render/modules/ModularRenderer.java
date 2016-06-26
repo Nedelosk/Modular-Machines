@@ -7,6 +7,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
@@ -26,10 +27,10 @@ public class ModularRenderer implements ISimpleRenderer {
 	public void render(IRenderState state) {
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		IModular modular = state.getModular();
-		for(IModule module : modular.getModuleStates()) {
+		for(IModuleState module : modular.getModuleStates()) {
 			if (module != null) {
-				ISimpleRenderer renderer = module.getRenderer(state);
-				state.setCurrentModule(module);
+				ISimpleRenderer renderer = module.getModule().getRenderer(state);
+				state.setCurrentModuleState(module);
 				if (renderer != null) {
 					renderer.render(state);
 				}

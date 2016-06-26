@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modular.handlers;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -34,7 +34,7 @@ public class EnergyHandler implements IEnergyProvider, IEnergyReceiver {
 			IModuleBattery battery = state.getModule();
 			int energy = battery.getStorage(state).receiveEnergy(maxReceive, true);
 			if (energy > 0) {
-				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 				battery.getStorage(state).extractEnergy(maxReceive, simulate);
 				return energy;
 			}
@@ -48,7 +48,7 @@ public class EnergyHandler implements IEnergyProvider, IEnergyReceiver {
 			IModuleBattery battery = state.getModule();
 			int energy = battery.getStorage(state).extractEnergy(maxExtract, true);
 			if (energy > 0) {
-				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 				battery.getStorage(state).extractEnergy(maxExtract, simulate);
 				return energy;
 			}

@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL12;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.Button;
@@ -18,14 +18,14 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ButtonModuleTab extends Button<IModularTileEntity> {
+public class ButtonModuleTab extends Button<IModularHandler> {
 
 	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
 	public final IModuleState state;
-	public final IModularTileEntity tile;
+	public final IModularHandler tile;
 	public final boolean right;
 
-	public ButtonModuleTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, IModuleState state, IModularTileEntity tile, boolean right) {
+	public ButtonModuleTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, IModuleState state, IModularHandler tile, boolean right) {
 		super(p_i1021_1_, p_i1021_2_, p_i1021_3_, 28, 21, null);
 		this.state = state;
 		this.right = right;
@@ -51,7 +51,7 @@ public class ButtonModuleTab extends Button<IModularTileEntity> {
 	}
 
 	@Override
-	public void onButtonClick(IGuiBase<IModularTileEntity> gui) {
+	public void onButtonClick(IGuiBase<IModularHandler> gui) {
 		IModular modular = gui.getHandler().getModular();
 		IModuleState currentModule = modular.getCurrentModuleState();
 		if (currentModule.getIndex() != state.getIndex()) {
@@ -60,7 +60,7 @@ public class ButtonModuleTab extends Button<IModularTileEntity> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase<IModularTileEntity> gui) {
+	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
 		if (state.getContentHandler(ItemStack.class) != null && ((IModuleInventory)state.getContentHandler(ItemStack.class)).hasCustomInventoryName()) {
 			return Arrays.asList(((IModuleInventory)state.getContentHandler(ItemStack.class)).getInventoryName());
 		}

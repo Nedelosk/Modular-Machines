@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -74,10 +75,10 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer<TileMo
 		double x;
 		double y;
 		double z;
-		IModule module;
+		IModuleState module;
 		IModular modular;
 
-		public RenderState(ItemStack itemStack, double x, double y, double z, IModule module, IModular modular) {
+		public RenderState(ItemStack itemStack, double x, double y, double z, IModuleState module, IModular modular) {
 			this.itemStack = itemStack;
 			this.x = x;
 			this.y = y;
@@ -107,12 +108,12 @@ public class TileModularMachineRenderer extends TileEntitySpecialRenderer<TileMo
 		}
 
 		@Override
-		public IModule getModuleState() {
+		public IModuleState getModuleState() {
 			return module;
 		}
 
 		@Override
-		public void setCurrentModule(IModule module) {
+		public void setCurrentModuleState(IModuleState module) {
 			this.module = module;
 		}
 

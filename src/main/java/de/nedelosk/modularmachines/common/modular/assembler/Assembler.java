@@ -257,9 +257,7 @@ public class Assembler implements IAssembler {
 			modular.onAssembleModular();
 			if(withItem){
 				ItemStack modularStack = new ItemStack(BlockManager.blockModular);
-				NBTTagCompound compoundTag = new NBTTagCompound();
-				modular.writeToNBT(compoundTag);
-				modularStack.setTagCompound(compoundTag);
+				modularStack.setTagCompound(modular.writeToNBT(new NBTTagCompound()));
 				tile.setInventorySlotContents(1, modularStack);
 			}
 			return modular;

@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import io.netty.buffer.ByteBuf;
@@ -42,7 +42,7 @@ public class PacketSelectModule extends PacketTileEntity<TileEntity> implements 
 	@Override
 	public IMessage onMessage(PacketSelectModule message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
+		IModularHandler tile = (IModularHandler) message.getTileEntity(world);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 		tile.getModular().setCurrentModuleState(tile.getModular().getModule(message.index));
 		entityPlayerMP.openGui(ModularMachines.instance, 0, world, message.pos.getX(), message.pos.getY(), message.pos.getZ());

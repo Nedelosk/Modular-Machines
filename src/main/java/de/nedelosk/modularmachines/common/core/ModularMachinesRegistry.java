@@ -46,10 +46,11 @@ public class ModularMachinesRegistry extends Registry {
 	public void init(Object instance, FMLInitializationEvent event) {
 		AchievementManager achManager = new AchievementManager();
 		MinecraftForge.EVENT_BUS.register(achManager);
-		OreManager.registerOres();
+		OreDictionaryManager.registerOres();
 		RecipeManager.registerRecipes();
-		EnumModules.init();
-		// ModuleManager.registerModuels();
+		ModuleManager.registerModuels();
+		ModuleManager.registerModuleContainers();
+		ModuleManager.registerCapability();
 		AchievementManager.registerPage();
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerItemAndBlockColors();

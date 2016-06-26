@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=stone": { "model": "modularmachines:casing/stone" },
+		"type=iron": { "model": "modularmachines:casing/iron" },
+		"type=bronze": { "model": "modularmachines:casing/bronze" }
+	}
+}

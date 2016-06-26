@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -51,13 +51,13 @@ public class PacketSelectModulePage extends PacketTileEntity<TileEntity> impleme
 	@SideOnly(Side.CLIENT)
 	private void handleClient(PacketSelectModulePage message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
+		IModularHandler tile = (IModularHandler) message.getTileEntity(world);
 		tile.getModular().setCurrentPage(message.pageID);
 	}
 
 	private void handleServer(PacketSelectModulePage message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(world);
+		IModularHandler tile = (IModularHandler) message.getTileEntity(world);
 		tile.getModular().setCurrentPage(message.pageID);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
 		// PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);

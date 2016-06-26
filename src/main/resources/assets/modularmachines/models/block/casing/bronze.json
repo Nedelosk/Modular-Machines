@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "modularmachines:blocks/casing/bronze_side",
+        "down": "modularmachines:blocks/casing/casing_down",
+        "up": "modularmachines:blocks/casing/bronze_top",
+        "north": "modularmachines:blocks/casing/bronze_side",
+        "east": "modularmachines:blocks/casing/bronze_side",
+        "south": "modularmachines:blocks/casing/bronze_side",
+        "west": "modularmachines:blocks/casing/bronze_side"
+    }
+}

@@ -1,11 +1,15 @@
 package de.nedelosk.modularmachines.common.blocks;
 
+import de.nedelosk.modularmachines.client.statemapper.BlankStateMapper;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
+import forestry.api.core.IStateMapperRegister;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.BlockStateMapper;
+import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -15,7 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockModularAssembler extends BlockContainerForest {
+public class BlockModularAssembler extends BlockContainerForest implements IStateMapperRegister{
 
 	public BlockModularAssembler() {
 		super(Material.IRON);
@@ -38,6 +42,11 @@ public class BlockModularAssembler extends BlockContainerForest {
 		}
 		player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 		return true;
+	}
+	
+	@Override
+	public void registerStateMapper() {
+		ModularMachines.proxy.registerStateMapper(this, new BlankStateMapper());
 	}
 
 	@Override

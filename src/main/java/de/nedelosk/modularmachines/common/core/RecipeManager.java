@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
 import de.nedelosk.modularmachines.common.utils.OreStack;
@@ -67,37 +68,7 @@ public class RecipeManager {
 	}
 
 	private static void addNormalRecipes() {
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts), Items.STICK, Items.LEATHER);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 1), new ItemStack(Blocks.STONE_SLAB, 1, 3), new ItemStack(Blocks.STONE_SLAB, 1, 3),
-				Items.FLINT, Items.FLINT);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 2), Items.IRON_INGOT, Items.IRON_INGOT, Items.FLINT, Items.FLINT);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 3), Items.DIAMOND, Items.DIAMOND);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 4), Items.STICK, Items.STICK, Items.STICK, Items.LEATHER);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 5), new ItemStack(Blocks.STONE_SLAB, 1, 3), new ItemStack(Blocks.STONE_SLAB, 1, 3),
-				new ItemStack(Blocks.STONE_SLAB, 1, 3), Items.FLINT);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 6), Items.IRON_INGOT, Items.IRON_INGOT, Items.FLINT);
-		addShapelessRecipe(new ItemStack(ItemManager.itemToolParts, 1, 7), Items.STICK, Items.STICK);
-		addShapedRecipe(new ItemStack(ItemManager.itemToolParts, 1, 8), "   ", "+++", "  +", '+', Blocks.COBBLESTONE);
-		addShapedRecipe(new ItemStack(ItemManager.itemToolParts, 1, 9), "+++", "  +", "  +", '+', Blocks.COBBLESTONE);
-		addShapedRecipe(new ItemStack(ItemManager.itemToolParts, 1, 11), "  +", " + ", "+  ", '+', "plankWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemToolParts, 1, 10), "  +", " + ", "   ", '+', "plankWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemToolParts, 1, 10), "   ", " + ", "+  ", '+', "plankWood");
-		addShapelessRecipe(new ItemStack(ItemManager.itemFileStone), new ItemStack(ItemManager.itemToolParts, 1, 0),
-				new ItemStack(ItemManager.itemToolParts, 1, 1));
-		addShapelessRecipe(new ItemStack(ItemManager.itemFileIron), new ItemStack(ItemManager.itemToolParts, 1, 0),
-				new ItemStack(ItemManager.itemToolParts, 1, 2));
-		addShapelessRecipe(new ItemStack(ItemManager.itemFileDiamond), new ItemStack(ItemManager.itemToolParts, 1, 0),
-				new ItemStack(ItemManager.itemToolParts, 1, 3));
-		addShapelessRecipe(new ItemStack(ItemManager.itemKnifeStone), new ItemStack(ItemManager.itemToolParts, 1, 4),
-				new ItemStack(ItemManager.itemToolParts, 1, 5));
-		addShapelessRecipe(new ItemStack(ItemManager.itemCutter), new ItemStack(ItemManager.itemToolParts, 1, 6),
-				new ItemStack(ItemManager.itemToolParts, 1, 7));
-		addShapelessRecipe(new ItemStack(ItemManager.itemAdze), new ItemStack(ItemManager.itemToolParts, 1, 8),
-				new ItemStack(ItemManager.itemToolParts, 1, 10));
-		addShapelessRecipe(new ItemStack(ItemManager.itemAdzeLong), new ItemStack(ItemManager.itemToolParts, 1, 9),
-				new ItemStack(ItemManager.itemToolParts, 1, 11));
 		addShapedRecipe(new ItemStack(ItemManager.itemHammer), "+++", "+++", " - ", '+', "ingotIron", '-', "stickWood");
-		addShapelessRecipe(new ItemStack(ItemManager.itemNature, 1, 3), Blocks.SAND, Blocks.SAND, Blocks.GRAVEL, Blocks.GRAVEL, Items.WATER_BUCKET);
 	}
 
 	private static void addMachineRecipes() {
@@ -109,10 +80,10 @@ public class RecipeManager {
 
 	private static void registerMetalRecipes() {
 		for(int m = 0; m < ItemManager.metals.length; m++) {
-			String[] metal = ItemManager.metals[m];
+			Object[][] metal = ItemManager.metals[m];
 			for(int i = 0; i < metal.length; ++i) {
-				addShapedRecipe(new ItemStack(ItemManager.itemIngots, 1, m * 10 + i), "+++", "+++", "+++", '+', "nugget" + metal[i]);
-				addShapelessRecipe(new ItemStack(ItemManager.itemNuggets, 9, m * 10 + i), "ingot" + metal[i]);
+				addShapedRecipe(new ItemStack(ItemManager.itemIngots, 1, m * 10 + i), "+++", "+++", "+++", '+', "nugget" + metal[i][0]);
+				addShapelessRecipe(new ItemStack(ItemManager.itemNuggets, 9, m * 10 + i), "ingot" + metal[i][0]);
 			}
 		}
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 2), new ItemStack(Items.IRON_INGOT), 0.5F);
@@ -162,23 +133,19 @@ public class RecipeManager {
 				}
 			}
 		}*/
-		for(int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++) {
-			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, i);
-			if (BlockManager.blockMetalBlocks.metas.get(i).get(2) != null) {
-				for(String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2)) {
-					addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
-				}
+		for(ComponentTypes type : ComponentTypes.values()) {
+			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
+			for(String oreDict : type.oreDict) {
+				addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
 			}
 		}
-		for(int i = 0; i < BlockManager.blockMetalBlocks.metas.size(); i++) {
-			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, i);
-			if (BlockManager.blockMetalBlocks.metas.get(i).get(2) != null) {
-				for(String oreDict : (String[]) BlockManager.blockMetalBlocks.metas.get(i).get(2)) {
-					if (OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()) {
-						ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0);
-						ore.stackSize = 9;
-						addShapelessRecipe(ore, stack);
-					}
+		for(ComponentTypes type : ComponentTypes.values()) {
+			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
+			for(String oreDict : type.oreDict) {
+				if (OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()) {
+					ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0).copy();
+					ore.stackSize = 9;
+					addShapelessRecipe(ore, stack);
 				}
 			}
 		}
@@ -271,16 +238,16 @@ public class RecipeManager {
 	}*/
 
 	private static void registerSawMillRecipes() {
-		RecipeUtil.addSawMill("OakPlanks", new ItemStack(Blocks.LOG, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 0)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10, 300);
-		RecipeUtil.addSawMill("SprucePlanks", new ItemStack(Blocks.LOG, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 1)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10,
+		RecipeUtil.addSawMill("OakPlanks", new ItemStack(Blocks.LOG, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 0))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10, 300);
+		RecipeUtil.addSawMill("SprucePlanks", new ItemStack(Blocks.LOG, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 1))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10,
 				300);
-		RecipeUtil.addSawMill("BirchPlanks", new ItemStack(Blocks.LOG, 1, 2), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 2)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10,
+		RecipeUtil.addSawMill("BirchPlanks", new ItemStack(Blocks.LOG, 1, 2), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 2))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10,
 				300);
-		RecipeUtil.addSawMill("JunglePlanks", new ItemStack(Blocks.LOG, 1, 3), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 3)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10,
+		RecipeUtil.addSawMill("JunglePlanks", new ItemStack(Blocks.LOG, 1, 3), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 3))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10,
 				300);
-		RecipeUtil.addSawMill("AcaciaPlanks", new ItemStack(Blocks.LOG2, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 4)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10,
+		RecipeUtil.addSawMill("AcaciaPlanks", new ItemStack(Blocks.LOG2, 1, 0), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 4))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10,
 				300);
-		RecipeUtil.addSawMill("DarkOakPlanks", new ItemStack(Blocks.LOG2, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 5)), new RecipeItem(new ItemStack(ItemManager.itemNature), 50) }, 10,
+		RecipeUtil.addSawMill("DarkOakPlanks", new ItemStack(Blocks.LOG2, 1, 1), new RecipeItem[] { new RecipeItem(new ItemStack(Blocks.PLANKS, 6, 5))/*, new RecipeItem(new ItemStack(ItemManager.itemNature), 50)*/ }, 10,
 				300);
 	}
 

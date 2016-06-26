@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class TileModular extends TileMachineBase implements IModularTileEntity<IModular> {
+public class TileModular extends TileMachineBase implements IModularHandler<IModular> {
 
 	public IModular modular;
 
@@ -27,13 +27,11 @@ public class TileModular extends TileMachineBase implements IModularTileEntity<I
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		if (modular != null) {
-			NBTTagCompound machineTag = new NBTTagCompound();
-			modular.writeToNBT(machineTag);
-			nbt.setTag("Modular", machineTag);
+			nbt.setTag("Modular", modular.writeToNBT(new NBTTagCompound()));
 		}
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class TileModular extends TileMachineBase implements IModularTileEntity<I
 
 	@Override
 	public void setModular(IModular modular) {
-		modular.setTile(this);
+		modular.setHandler(this);
 		this.modular = modular;
 		markDirty();
 	}

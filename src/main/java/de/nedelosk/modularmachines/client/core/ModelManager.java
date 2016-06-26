@@ -121,11 +121,6 @@ public class ModelManager implements IModelManager {
 	}
 
 	@Override
-	public void registerVariant(Item item, ResourceLocation... resources) {
-		ModelBakery.registerItemVariants(item, resources);
-	}
-
-	@Override
 	public ModelResourceLocation getModelLocation(Item item) {
 		String itemName = ForgeRegistries.ITEMS.getKey(item).getResourcePath();
 		return getModelLocation(itemName);

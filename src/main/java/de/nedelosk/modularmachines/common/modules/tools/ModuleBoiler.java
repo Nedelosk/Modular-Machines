@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
@@ -95,7 +95,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 		}
 
 		@SideOnly(Side.CLIENT)

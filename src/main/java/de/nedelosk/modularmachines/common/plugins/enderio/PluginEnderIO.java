@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.plugins.enderio;
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.registry.ModuleContainer;
+import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

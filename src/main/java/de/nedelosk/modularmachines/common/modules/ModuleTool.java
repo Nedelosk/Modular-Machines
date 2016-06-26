@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
@@ -55,7 +55,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public boolean removeInput(IModuleState state) {
 		int chance = getChance(state);
 		IModular modular = state.getModular();
-		IModularTileEntity tile = modular.getTile();
+		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(state), getInputs(state), getRecipeModifiers(state));
 		List<IModuleContentHandler> handlers = 		state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
@@ -88,7 +88,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public boolean addOutput(IModuleState state) {
 		int chance = getChance(state);
 		IModular modular = state.getModular();
-		IModularTileEntity tile = modular.getTile();
+		IModularHandler tile = modular.getHandler();
 		List<IModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getRecipeManager(state).getOutputs()){
@@ -107,7 +107,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	@Override
 	public void updateServer(IModuleState state) {
 		IModular modular = state.getModular();
-		Random rand = modular.getTile().getWorld().rand;
+		Random rand = modular.getHandler().getWorld().rand;
 
 		if (canWork(state)) {
 			IRecipeManager manager = getRecipeManager(state);
@@ -119,7 +119,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
 						state.add(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
@@ -130,7 +130,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						return;
 					}
 					state.add(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 				}
 			}
 		}
@@ -194,7 +194,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 
 	@Override
-	public boolean transferInput(IModularTileEntity tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
+	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		if (RecipeRegistry.isRecipeInput(getRecipeCategory(state), new RecipeItem(slotID, stackItem))) {
 			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
 			if (inventory.mergeItemStack(stackItem, 36 + slotID, 37 + slotID, false, container)) {

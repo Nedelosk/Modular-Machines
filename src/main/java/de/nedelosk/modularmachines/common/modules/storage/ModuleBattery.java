@@ -6,7 +6,7 @@ import java.util.List;
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
@@ -108,7 +108,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 		}
 
 		@SideOnly(Side.CLIENT)

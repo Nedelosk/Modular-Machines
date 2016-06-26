@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
@@ -32,7 +32,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 	@Override
 	public void updateServer(IModuleState state) {
 		IModular modular = state.getModular();
-		Random rand = modular.getTile().getWorld().rand;
+		Random rand = modular.getHandler().getWorld().rand;
 
 		if (canWork(state)) {
 			IRecipeManager manager = getRecipeManager(state);
@@ -44,7 +44,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
 						state.add(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
@@ -57,7 +57,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
 					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
 					state.add(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 				}
 			}
 		}

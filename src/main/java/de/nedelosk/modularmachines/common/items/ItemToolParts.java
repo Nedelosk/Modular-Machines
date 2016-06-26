@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemToolParts extends ItemForest implements IItemModelRegister {
 
 	public String[] parts = new String[] { "file_handle", "file_head_stone", "file_head_iron", "file_head_diamond", "knife_handle", "knife_head", "cutter_head",
-			"cutter_handle", "adze_head", "adze_head_long", "adze_handle", "adze_handle_long" };
+			"cutter_handle" };
 
 	public ItemToolParts() {
 		super(null, Tabs.tabForestMods);

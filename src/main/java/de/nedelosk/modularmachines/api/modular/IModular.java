@@ -39,9 +39,9 @@ public interface IModular {
 
 	void setCurrentPage(int pageID);
 
-	IModularTileEntity getTile();
+	IModularHandler getHandler();
 
-	void setTile(IModularTileEntity tile);
+	void setHandler(IModularHandler tile);
 
 	boolean addModule(ItemStack itemStack, IModule module);
 
@@ -72,16 +72,16 @@ public interface IModular {
 	/* NBT */
 	void readFromNBT(NBTTagCompound nbt);
 
-	void writeToNBT(NBTTagCompound nbt);
+	NBTTagCompound writeToNBT(NBTTagCompound nbt);
 
 	/* Renderer */
 	@SideOnly(Side.CLIENT)
 	ISimpleRenderer getRenderer(IRenderState state);
 
 	@SideOnly(Side.CLIENT)
-	GuiContainer getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory);
+	GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory);
 
-	Container getContainer(IModularTileEntity tile, InventoryPlayer inventory);
+	Container getContainer(IModularHandler tile, InventoryPlayer inventory);
 
 	/* Waila */
 	List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data);

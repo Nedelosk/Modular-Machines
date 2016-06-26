@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
@@ -15,6 +15,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -77,7 +78,6 @@ public class EngineRenderer extends AdvancedRenderer {
 
 	@Override
 	protected void renderItem(IRenderState state) {
-		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5F, 1.5F, 0.5F);
@@ -104,45 +104,44 @@ public class EngineRenderer extends AdvancedRenderer {
 
 	@Override
 	protected void renderBlock(IRenderState state) {
-		IModularTileEntity entity = state.getModular().getTile();
-		Tessellator t = Tessellator.instance;
+		IModularHandler entity = state.getModular().getHandler();
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
 		GL11.glTranslated((float) state.getX() + 0.5F, (float) state.getY() + 1.5F, (float) state.getZ() + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glPushMatrix();
-		if (entity.getFacing() == ForgeDirection.NORTH) {
-		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
+		if (entity.getFacing() == EnumFacing.NORTH) {
+		} else if (entity.getFacing() == EnumFacing.SOUTH) {
 			GL11.glRotated(180, 0F, 1F, 0F);
-		} else if (entity.getFacing() == ForgeDirection.WEST) {
+		} else if (entity.getFacing() == EnumFacing.WEST) {
 			GL11.glRotated(270, 0F, 1F, 0F);
-		} else if (entity.getFacing() == ForgeDirection.EAST) {
+		} else if (entity.getFacing() == EnumFacing.EAST) {
 			GL11.glRotated(90, 0F, 1F, 0F);
 		}
 		float step;
-		float progress = ((IModuleEngine)state.getModuleState()).getProgress();
+		float progress = ((IModuleEngine)state.getModuleState()).getProgress(state.getModuleState());
 		if (progress > 0.5) {
 			step = 7F - (progress - 0.5F) * 2F * 7F;
 		} else {
 			step = progress * 2F * 7F;
 		}
 		float tfactor = step / 16;
-		ForgeDirection direction = null;
-		if (entity.getFacing() == ForgeDirection.NORTH) {
-			direction = ForgeDirection.values()[entity.getFacing().ordinal() + 1];
-		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
-			direction = ForgeDirection.values()[entity.getFacing().ordinal()];
-		} else if (entity.getFacing() == ForgeDirection.WEST) {
-			direction = ForgeDirection.values()[entity.getFacing().ordinal() - 1];
-		} else if (entity.getFacing() == ForgeDirection.EAST) {
-			direction = ForgeDirection.values()[entity.getFacing().ordinal() - 2];
+		EnumFacing direction = null;
+		if (entity.getFacing() == EnumFacing.NORTH) {
+			direction = EnumFacing.values()[entity.getFacing().ordinal() + 1];
+		} else if (entity.getFacing() == EnumFacing.SOUTH) {
+			direction = EnumFacing.values()[entity.getFacing().ordinal()];
+		} else if (entity.getFacing() == EnumFacing.WEST) {
+			direction = EnumFacing.values()[entity.getFacing().ordinal() - 1];
+		} else if (entity.getFacing() == EnumFacing.EAST) {
+			direction = EnumFacing.values()[entity.getFacing().ordinal() - 2];
 		} else {
-			direction = ForgeDirection.values()[entity.getFacing().ordinal()];
+			direction = EnumFacing.values()[entity.getFacing().ordinal()];
 		}
 		manager.bindTexture(discTexture);
-		GL11.glTranslatef(direction.offsetX * tfactor, direction.offsetY * tfactor, direction.offsetZ * tfactor);
+		GL11.glTranslatef(direction.getFrontOffsetX() * tfactor, direction.getFrontOffsetY() * tfactor, direction.getFrontOffsetZ() * tfactor);
 		Disc_Engine.render(0.0625F);
-		GL11.glTranslatef(-direction.offsetX * tfactor, -direction.offsetY * tfactor, -direction.offsetZ * tfactor);
+		GL11.glTranslatef(-direction.getFrontOffsetX() * tfactor, -direction.getFrontOffsetY() * tfactor, -direction.getFrontOffsetZ() * tfactor);
 		manager.bindTexture(baseTexture);
 		Base_Engine.render(0.0625F);
 		manager.bindTexture(windowDownTexture);

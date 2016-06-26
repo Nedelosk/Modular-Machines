@@ -5,18 +5,18 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiModular extends GuiForestBase<IModularTileEntity> {
+public class GuiModular extends GuiForestBase<IModularHandler> {
 
 	protected IModulePage currentPage;
 	protected IModuleState state;
 
-	public GuiModular(IModularTileEntity tile, InventoryPlayer inventory, IModulePage currentPage) {
+	public GuiModular(IModularHandler tile, InventoryPlayer inventory, IModulePage currentPage) {
 		super(tile, inventory);
 		this.currentPage = currentPage;
 		this.state = currentPage.getModuleState();

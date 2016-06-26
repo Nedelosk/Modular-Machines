@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -101,7 +101,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			ArrayList<Slot> list = new ArrayList<Slot>();
 			list.add(new SlotModule(state, 0, 54, 35));
 			list.add(new SlotModule(state, 0, 54, 35));

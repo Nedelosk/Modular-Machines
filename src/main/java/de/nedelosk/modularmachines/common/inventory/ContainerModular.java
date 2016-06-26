@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -14,12 +14,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerModular extends ContainerBase<IModularTileEntity> {
+public class ContainerModular extends ContainerBase<IModularHandler> {
 
 	public InventoryPlayer inventory;
 	public IModulePage currentPage;
 
-	public ContainerModular(IModularTileEntity tileModularMachine, InventoryPlayer inventoryPlayer, IModulePage currentPage) {
+	public ContainerModular(IModularHandler tileModularMachine, InventoryPlayer inventoryPlayer, IModulePage currentPage) {
 		super(tileModularMachine, inventoryPlayer);
 		this.inventory = inventoryPlayer;
 		this.currentPage = currentPage;

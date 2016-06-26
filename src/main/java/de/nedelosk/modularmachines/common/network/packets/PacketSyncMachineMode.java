@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleToolAdvanced;
 import io.netty.buffer.ByteBuf;
@@ -40,7 +40,7 @@ public class PacketSyncMachineMode extends PacketTileEntity<TileEntity> implemen
 
 	@Override
 	public IMessage onMessage(PacketSyncMachineMode message, MessageContext ctx) {
-		IModularTileEntity tile = (IModularTileEntity) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
+		IModularHandler tile = (IModularHandler) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
 		if (tile.getModular() != null) {
 			IModuleState<IModuleToolAdvanced> machine = tile.getModular().getModule(message.index);
 			if (machine != null) {

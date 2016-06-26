@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
@@ -76,7 +76,7 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			modularSlots.add(new SlotModule(state, 0, 56, 35));
 			modularSlots.add(new SlotModule(state, 1, 116, 35));
 			modularSlots.add(new SlotModule(state, 2, 134, 35));

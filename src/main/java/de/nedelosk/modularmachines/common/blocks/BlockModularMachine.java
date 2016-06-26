@@ -5,8 +5,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
+import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
@@ -14,8 +18,11 @@ import de.nedelosk.modularmachines.common.modular.Modular;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -29,8 +36,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockModularMachine extends BlockContainerForest {
 
@@ -41,6 +52,70 @@ public class BlockModularMachine extends BlockContainerForest {
 		setHarvestLevel("pickaxe", 1);
 		setUnlocalizedName("modular");
 		setCreativeTab(TabModularMachines.tabModules);
+	}
+	
+	@Override
+	public float getBlockHardness(IBlockState blockState, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if(tile instanceof TileModular){
+			IModular modular = ((TileModular) tile).getModular();
+			IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
+			return casingState.getModule().getHardness(casingState);
+		}
+		return super.getBlockHardness(blockState, world, pos);
+	}
+	
+	@Override
+	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+		TileEntity tile = world.getTileEntity(pos);
+		if(tile instanceof TileModular){
+			IModular modular = ((TileModular) tile).getModular();
+			IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
+			return casingState.getModule().getResistance(casingState) / 5;
+		}
+		return super.getExplosionResistance(world, pos, exploder, explosion);
+	}
+	
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{ UnlistedBlockPos.POS, UnlistedBlockAccess.BLOCKACCESS});
+	}
+	
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return ((IExtendedBlockState)state).withProperty(UnlistedBlockPos.POS, pos).withProperty(UnlistedBlockAccess.BLOCKACCESS, world);
+	}
+	
+	@Override
+	public int getHarvestLevel(IBlockState state) {
+		if(state instanceof IExtendedBlockState){
+			IExtendedBlockState extState = (IExtendedBlockState) state;
+			BlockPos pos = extState.getValue(UnlistedBlockPos.POS);
+			IBlockAccess world = extState.getValue(UnlistedBlockAccess.BLOCKACCESS);
+			TileEntity tile = world.getTileEntity(pos);
+			if(tile instanceof TileModular){
+				IModular modular = ((TileModular) tile).getModular();
+				IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
+				return casingState.getModule().getHarvestLevel(casingState);
+			}
+		}
+		return super.getHarvestLevel(state);
+	}
+	
+	@Override
+	public String getHarvestTool(IBlockState state) {
+		if(state instanceof IExtendedBlockState){
+			IExtendedBlockState extState = (IExtendedBlockState) state;
+			BlockPos pos = extState.getValue(UnlistedBlockPos.POS);
+			IBlockAccess world = extState.getValue(UnlistedBlockAccess.BLOCKACCESS);
+			TileEntity tile = world.getTileEntity(pos);
+			if(tile instanceof TileModular){
+				IModular modular = ((TileModular) tile).getModular();
+				IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
+				return casingState.getModule().getHarvestTool(casingState);
+			}
+		}
+		return super.getHarvestTool(state);
 	}
 
 	@Override
@@ -75,15 +150,15 @@ public class BlockModularMachine extends BlockContainerForest {
 	}
 
 	@Override
-	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_) {
+	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 	}
 
 
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IModularTileEntity) {
-			IModularTileEntity modular = (IModularTileEntity) tile;
+		if (tile instanceof IModularHandler) {
+			IModularHandler modular = (IModularHandler) tile;
 			if (modular.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState state : modular.getModular().getModuleStates()) {
@@ -101,11 +176,9 @@ public class BlockModularMachine extends BlockContainerForest {
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IModularTileEntity) {
-			IModularTileEntity modular = (IModularTileEntity) tile;
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			modular.writeToNBT(nbtTag);
-			stack.setTagCompound(nbtTag);
+		if (tile instanceof IModularHandler) {
+			IModularHandler modular = (IModularHandler) tile;
+			stack.setTagCompound(modular.writeToNBT(new NBTTagCompound()));
 		}
 		return stack;
 	}

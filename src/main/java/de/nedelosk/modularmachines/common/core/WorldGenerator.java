@@ -47,9 +47,6 @@ public class WorldGenerator implements IWorldGenerator {
 		if (Config.generateOre[5]) {
 			generateOre(BlockManager.blockOres, 5, world, random, x, z, 2 + random.nextInt(3), 1, 0, 25);
 		}
-		if (Config.generateOre[6]) {
-			generateOre(BlockManager.blockOres, 6, world, random, x, z, 4 + random.nextInt(3), 3, 6, 20);
-		}
 	}
 
 	private void generateNether(World world, Random random, int x, int z) {

@@ -1,8 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.common.items.ItemComponent;
-import de.nedelosk.modularmachines.common.items.ItemCutter;
-import de.nedelosk.modularmachines.common.items.ItemFile;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
@@ -14,16 +12,11 @@ import net.minecraft.item.Item;
 
 public class ItemManager {
 
-	public static Item itemNature;
-	public static Item itemToolParts;
 	public static Item itemFileStone;
 	public static Item itemFileIron;
 	public static Item itemFileDiamond;
-	public static Item itemKnifeStone;
 	public static Item itemCutter;
 	public static Item itemHammer;
-	public static Item itemAdze;
-	public static Item itemAdzeLong;
 	public static Item itemDusts;
 	public static Item itemIngots;
 	public static Item itemNuggets;
@@ -38,26 +31,19 @@ public class ItemManager {
 	public static Item itemEngine;
 	public static Item itemHeater;
 	public static Item itemModules;
-	private static String[] alloys = new String[] { "Bronze", "Invar" };
-	private static String[] steels = new String[] { "Steel", "White_Steel", "Gray_Steel" };
-	private static String[] default_metals = new String[] { "Copper", "Tin", "Silver", "Lead", "Nickel", "Aluminum", "Niobium", "Tantalum" };
-	private static String[] only_dust = new String[] { "Columbite", "Ruby" };
-	private static String[] vanilla = new String[] { "Coal", "Obsidian", "Iron", "Gold", "Diamond" };
+	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
+	private static Object[][] default_metals = new Object[][] { new Object[]{ "Copper", 0xCC6410 }, new Object[]{ "Tin", 0xCACECF }, new Object[]{ "Silver", 0xE6FDFF }, new Object[]{ "Lead", 0x826C82 }, new Object[]{ "Nickel", 0xA9A283 }, new Object[]{ "Aluminum", -1 }, new Object[]{ "Steel", 0xA0A0A0 } };
+	private static Object[][] vanilla = new Object[][] { new Object[]{ "Coal", 0x222020 }, new Object[]{ "Obsidian", 0x7E258C }, new Object[]{ "Iron", 0xDADADA }, new Object[]{ "Gold", 0xD3B95A }, new Object[]{ "Diamond", 0x68D2DA } };
 	/* metal for ingots, nuggets, blocks */
-	public static String[][] metals = new String[][] { default_metals, alloys, steels };
-	public static String[][] dusts = new String[][] { vanilla, only_dust, default_metals, alloys, steels };
+	public static Object[][][] metals = new Object[][][] { default_metals, alloys};
+	public static Object[][][] dusts = new Object[][][] { vanilla, default_metals, alloys};
 
 	public static void registerItems() {
-		itemNature = register(new ItemNature());
-		itemToolParts = register(new ItemToolParts());
-		itemFileStone = register(new ItemFile(50, 5, "file.stone", "file_stone", 1, Material.Stone));
-		itemFileIron = register(new ItemFile(150, 2, "file.iron", "file", 2, Material.Iron));
-		itemFileDiamond = register(new ItemFile(300, 1, "file.diamond", "file_diamond", 3, Material.Diamond));
-		itemHammer = register(new ItemToolCrafting("hammer", 300, 0, Material.Iron, "hammer", 15));
-		itemKnifeStone = register(new ItemToolCrafting("knife", 200, 1, Material.Iron, "knife", 5));
-		itemCutter = register(new ItemCutter(250, 10, "cutter", "cutter", 1, Material.Iron));
-		itemAdze = register(new ItemToolCrafting("adze", 175, 1, Material.Stone, "adze", 3));
-		itemAdzeLong = register(new ItemToolCrafting("adze.long", 175, 1, Material.Stone, "adze.long", 3));
+		itemFileStone = register(new ItemToolCrafting("file.stone", 50, 1, Material.Stone, 5));
+		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2, Material.Iron, 2));
+		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 3, Material.Diamond, 1));
+		itemHammer = register(new ItemToolCrafting("hammer", 300, 1, Material.Iron, 15));
+		itemCutter = register(new ItemToolCrafting("cutter", 250, 1, Material.Iron, 10));
 		itemDusts = register(new ItemMetal("dusts", "dust", dusts));
 		itemIngots = register(new ItemMetal("ingots", "ingot", metals));
 		itemNuggets = register(new ItemMetal("nuggets", "nugget", metals));
@@ -68,7 +54,7 @@ public class ItemManager {
 		itemCompGears = register(new ItemComponent("gears"));
 		itemCompSawBlades = register(new ItemComponent("saw_blades"));
 		itemCapacitors = register(
-				new ItemModuleMeta("capacitor", new String[] { "metal_paper", "electrolyte_niobium", "electrolyte_tantalum", "double_layer" }));
+				new ItemModuleMeta("capacitor", new String[] { "default", "double_layer" }));
 		itemEngine = register(new ItemModuleMeta("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemHeater = register(new ItemModuleMeta("heater", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemModules = register(new ItemModule());

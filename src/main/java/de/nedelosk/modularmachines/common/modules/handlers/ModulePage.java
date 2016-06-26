@@ -156,7 +156,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		for(int i = 0; i < modelsWithPages.size(); i++) {
 			IModuleState module = modelsWithPages.get(i);
 			buttons.add(new ButtonModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
-					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getTile(), i >= 7));
+					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
 		}
 
 		for(int pageID = 0; pageID < state.getPages().length; pageID++) {

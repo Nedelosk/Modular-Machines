@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
@@ -20,7 +20,7 @@ public interface IModuleInventory<M extends IModule> extends IModuleContentHandl
 
 	boolean canExtractItem(int index, ItemStack stack);
 
-	ItemStack transferStackInSlot(IModularTileEntity tile, EntityPlayer player, int slotID, Container container);
+	ItemStack transferStackInSlot(IModularHandler tile, EntityPlayer player, int slotID, Container container);
 
 	boolean mergeItemStack(ItemStack stack, int minSlot, int maxSlot, boolean maxToMin, Container container);
 

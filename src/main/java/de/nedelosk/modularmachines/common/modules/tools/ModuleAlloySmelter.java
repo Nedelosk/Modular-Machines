@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
@@ -68,7 +68,7 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 		}
 
 		@Override
-		public void createSlots(IContainerBase<IModularTileEntity> container, List<SlotModule> modularSlots) {
+		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			modularSlots.add(new SlotModule(state, 0, 36, 35));
 			modularSlots.add(new SlotModule(state, 1, 54, 35));
 			modularSlots.add(new SlotModule(state, 2, 116, 35));

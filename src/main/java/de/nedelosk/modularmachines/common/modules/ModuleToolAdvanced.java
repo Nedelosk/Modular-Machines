@@ -26,7 +26,7 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 
 	public PropertyMachineMode MODE = new PropertyMachineMode("mode", getModeClass());
 
-	public ModuleToolAdvanced(int speed, byte size, IMachineMode defaultMode) {
+	public ModuleToolAdvanced(int speed, int size, IMachineMode defaultMode) {
 		super(speed, size);
 		this.defaultMode = defaultMode;
 	}
@@ -91,7 +91,7 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 					state.getModule().setCurrentMode(state, state.getModule().getModeClass().getEnumConstants()[state.getModule().getCurrentMode(state).ordinal() + 1]);
 					((WidgetButtonMode) widget).setMode(state.getModule().getCurrentMode(state));
 				}
-				PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode((TileEntity) modular.getTile(), state));
+				PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode((TileEntity) modular.getHandler(), state));
 			}
 		}
 	}

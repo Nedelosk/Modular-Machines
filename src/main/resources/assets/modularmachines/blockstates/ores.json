@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "type=copper": { "model": "modularmachines:ores/copper" },
+		"type=aluminum": { "model": "modularmachines:ores/aluminum" },
+		"type=lead": { "model": "modularmachines:ores/lead" },
+		"type=nickel": { "model": "modularmachines:ores/nickel" },
+		"type=silver": { "model": "modularmachines:ores/silver" },
+		"type=tin": { "model": "modularmachines:ores/tin" }
+	}
+}

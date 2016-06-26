@@ -6,7 +6,7 @@ import java.util.Map;
 
 import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
@@ -70,14 +70,14 @@ public class ModuleEngine extends Module implements IModuleEngine {
 			if (removeMaterial(state, machineState)) {
 				if(!isWorking){
 					state.add(WORKING, true);
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 				}
 				machineState.getModule().addWorkTime(machineState, burnTimeModifier);
-				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), machineState));
+				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), machineState));
 			}
 		}else if(isWorking){
 			state.add(WORKING, false);
-			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularTileEntity) modular.getTile(), state));
+			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
 		}
 	}
 

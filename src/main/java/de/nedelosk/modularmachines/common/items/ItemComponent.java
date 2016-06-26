@@ -7,11 +7,13 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemComponent extends Item implements IColoredItem {
+public class ItemComponent extends Item implements IColoredItem, IItemModelRegister {
 
 	public ArrayList<List> metas = Lists.newArrayList();
 	public String componentName;
@@ -25,6 +27,13 @@ public class ItemComponent extends Item implements IColoredItem {
 	public ItemComponent addMetaData(int color, String name, String... oreDict) {
 		metas.add(Lists.newArrayList(color, name, oreDict));
 		return this;
+	}
+	
+	@Override
+	public void registerModel(Item item, IModelManager manager) {
+		for(int i = 0; i < metas.size(); i++){
+			manager.registerItemModel(item, i, "components/" + componentName);
+		}
 	}
 
 	@Override

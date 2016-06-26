@@ -6,7 +6,7 @@ public class ItemToolCrafting extends ItemTool {
 
 	protected int damage;
 
-	public ItemToolCrafting(String name, int maxDamage, int tier, Material material, String nameTexture, int damage) {
+	public ItemToolCrafting(String name, int maxDamage, int tier, Material material, int damage) {
 		super(name, maxDamage, tier, material);
 		this.damage = damage;
 		this.setNoRepair();

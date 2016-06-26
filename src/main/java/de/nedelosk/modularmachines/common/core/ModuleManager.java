@@ -1,15 +1,21 @@
 package de.nedelosk.modularmachines.common.core;
 
+import java.util.concurrent.Callable;
+
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
+import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.modular.Modular;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
+import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
 import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
-import de.nedelosk.modularmachines.common.modules.registry.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
@@ -17,7 +23,17 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerBoiler;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleManager {
@@ -90,7 +106,7 @@ public class ModuleManager {
 		GameRegistry.register(moduleCasingIron);
 
 		moduleCasingBronze = new ModuleCasing(550, 10.0F, 1.5F, 4, "pickaxe", 1);
-		moduleCasingBronze.setRegistryName(new ResourceLocation("modularmachines:casing.iron"));
+		moduleCasingBronze.setRegistryName(new ResourceLocation("modularmachines:casing.bronze"));
 		GameRegistry.register(moduleCasingBronze);
 
 		/* ENGINES */
@@ -184,13 +200,32 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
-		addDefaultModuleItem(new ModuleContainer(moduleBoilerStone, null, EnumMaterials.STONE));
+		addDefaultModuleItem(moduleBoilerStone, EnumMaterials.STONE);
 	}
 
-	private static void addDefaultModuleItem(ModuleContainer container){
-		GameRegistry.register(container);
-		container.stack = ItemModule.registerAndCreateItem(container);
+	private static void addDefaultModuleItem(IModule module, IMaterial material){
+		GameRegistry.register(new ModuleContainer(module, ItemModule.registerAndCreateItem(module, material), material));
 	}
+	
+    public static void registerCapability(){
+        CapabilityManager.INSTANCE.register(IModular.class, new Capability.IStorage<IModular>(){
+        	@Override
+        	public NBTBase writeNBT(Capability<IModular> capability, IModular instance, EnumFacing side) {
+        		return instance.writeToNBT(new NBTTagCompound());
+        	}
+        	
+        	@Override
+        	public void readNBT(Capability<IModular> capability, IModular instance, EnumFacing side, NBTBase nbt) {
+        		instance.readFromNBT((NBTTagCompound) nbt);
+        	}
+        }, new Callable<IModular>(){
+            @Override
+            public IModular call() throws Exception{
+                return new Modular();
+            }
+        });
+    }
+	
 	/*
 	 * private static void registerMachine() {
 	 * registerModular(ModularMachine.class, "modular.machine"); } private

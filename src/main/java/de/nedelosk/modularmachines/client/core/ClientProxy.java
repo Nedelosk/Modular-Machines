@@ -15,12 +15,21 @@ import de.nedelosk.modularmachines.common.transport.TileEntityTransport;
 import de.nedelosk.modularmachines.common.transport.TransportClientTickHandler;
 import de.nedelosk.modularmachines.common.transport.node.TileEntityTransportNode;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
@@ -35,9 +44,9 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderers() {
 		/* Modular */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModular.class, new TileModularMachineRenderer());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockModular), new ItemModularRenderer());
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockModular), new ItemModularRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileModularAssemblerRenderer());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockAssembler), new ItemModularAssemblerRenderer());
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockAssembler), new ItemModularAssemblerRenderer());
 		/* Charcoal Kiln */
 
 		/* Transport */
@@ -51,6 +60,46 @@ public class ClientProxy extends CommonProxy {
 
 	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass) {
 		return TileEntityRendererDispatcher.instance.mapSpecialRenderers.get(tileEntityClass);
+	}
+	
+	@Override
+	public void registerFluidStateMapper(Block block, final Fluid fluid) {
+		final ModelResourceLocation fluidLocation = new ModelResourceLocation("modularmachines:fluids", fluid.getName());
+		StateMapperBase ignoreState = new FluidStateMapper(fluidLocation);
+		registerStateMapper(block, ignoreState);
+		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block), new FluidItemMeshDefinition(fluidLocation));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(block), fluidLocation);
+	}
+
+	@Override
+	public void registerStateMapper(Block block, IStateMapper mapper) {
+		ModelLoader.setCustomStateMapper(block, mapper);
+	}
+	
+	private static class FluidStateMapper extends StateMapperBase {
+		private final ModelResourceLocation fluidLocation;
+
+		public FluidStateMapper(ModelResourceLocation fluidLocation) {
+			this.fluidLocation = fluidLocation;
+		}
+
+		@Override
+		protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+			return fluidLocation;
+		}
+	}
+
+	private static class FluidItemMeshDefinition implements ItemMeshDefinition {
+		private final ModelResourceLocation fluidLocation;
+
+		public FluidItemMeshDefinition(ModelResourceLocation fluidLocation) {
+			this.fluidLocation = fluidLocation;
+		}
+
+		@Override
+		public ModelResourceLocation getModelLocation(ItemStack stack) {
+			return fluidLocation;
+		}
 	}
 
 	@Override

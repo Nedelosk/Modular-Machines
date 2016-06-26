@@ -20,7 +20,7 @@ public interface IRenderState<M extends IModular> {
 
 	IModuleState getModuleState();
 
-	void setCurrentModule(IModule module);
+	void setCurrentModuleState(IModuleState module);
 
 	M getModular();
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -48,7 +48,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	/* INEVNTORY */
 	@Override
-	public ItemStack transferStackInSlot(IModularTileEntity tile, EntityPlayer player, int index, Container container) {
+	public ItemStack transferStackInSlot(IModularHandler tile, EntityPlayer player, int index, Container container) {
 		ItemStack itemstack = null;
 		Slot slot = container.inventorySlots.get(index);
 		if (slot != null && slot.getHasStack()) {

@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public PacketModule() {
 	}
 
-	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, IModuleState module) {
+	public <T extends TileEntity & IModularHandler> PacketModule(T tile, IModuleState module) {
 		super(tile);
 		this.index = module.getIndex();
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -30,7 +30,7 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 		this.nbt = nbt;
 	}
 
-	public <T extends TileEntity & IModularTileEntity> PacketModule(T tile, int index) {
+	public <T extends TileEntity & IModularHandler> PacketModule(T tile, int index) {
 		super(tile);
 		this.index = index;
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -57,11 +57,11 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
 		TileEntity tile = message.getTileEntity(world);
-		if (tile == null || ((IModularTileEntity) tile).getModular() == null) {
+		if (tile == null || ((IModularHandler) tile).getModular() == null) {
 			return null;
 		}
-		IModuleState module = ((IModularTileEntity) tile).getModular().getModule(message.index);
-		module.readFromNBT(message.nbt, ((IModularTileEntity) tile).getModular());
+		IModuleState module = ((IModularHandler) tile).getModular().getModule(message.index);
+		module.readFromNBT(message.nbt, ((IModularHandler) tile).getModular());
 		return null;
 	}
 }

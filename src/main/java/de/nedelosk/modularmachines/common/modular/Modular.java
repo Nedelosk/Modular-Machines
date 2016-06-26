@@ -13,7 +13,7 @@ import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularLogicType;
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -44,7 +44,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Modular implements IModular {
 
-	protected IModularTileEntity tileEntity;
+	protected IModularHandler tileEntity;
 	protected List<IModuleState> modules = new ArrayList();
 	protected int tier;
 	protected int index;
@@ -58,9 +58,9 @@ public class Modular implements IModular {
 		logics = new HashMap<>();
 	}
 
-	public Modular(NBTTagCompound nbt, IModularTileEntity machine) {
+	public Modular(NBTTagCompound nbt, IModularHandler machine) {
 		this();
-		setTile(machine);
+		setHandler(machine);
 		readFromNBT(nbt);
 	}
 
@@ -144,7 +144,7 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		NBTTagList nbtList = new NBTTagList();
 		for(IModuleState module : modules) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
@@ -172,6 +172,7 @@ public class Modular implements IModular {
 		} else {
 			nbt.setBoolean("FH", false);
 		}
+		return nbt;
 	}
 
 	@Override
@@ -193,12 +194,12 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public void setTile(IModularTileEntity tileEntity) {
+	public void setHandler(IModularHandler tileEntity) {
 		this.tileEntity = tileEntity;
 	}
 
 	@Override
-	public IModularTileEntity getTile() {
+	public IModularHandler getHandler() {
 		return tileEntity;
 	}
 
@@ -262,9 +263,9 @@ public class Modular implements IModular {
 	public void setCurrentModuleState(IModuleState module) {
 		this.currentModule = module;
 		this.currentPage = currentModule.getPages()[0];
-		if (getTile().getWorld().isRemote) {
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule((TileEntity) getTile(), module));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getTile(), 0));
+		if (getHandler().getWorld().isRemote) {
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule((TileEntity) getHandler(), module));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getHandler(), 0));
 		}
 	}
 
@@ -272,9 +273,9 @@ public class Modular implements IModular {
 	public void setCurrentPage(int pageID) {
 		if(currentModule != null){
 			this.currentPage = currentModule.getPages()[pageID];
-			if(getTile() != null){
-				if (getTile().getWorld().isRemote) {
-					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getTile(), pageID));
+			if(getHandler() != null){
+				if (getHandler().getWorld().isRemote) {
+					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getHandler(), pageID));
 				}
 			}
 		}
@@ -282,12 +283,12 @@ public class Modular implements IModular {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public GuiContainer getGUIContainer(IModularTileEntity tile, InventoryPlayer inventory) {
+	public GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory) {
 		return new GuiModular(tile, inventory, currentPage);
 	}
 
 	@Override
-	public Container getContainer(IModularTileEntity tile, InventoryPlayer inventory) {
+	public Container getContainer(IModularHandler tile, InventoryPlayer inventory) {
 		return new ContainerModular(tile, inventory, currentPage);
 	}
 

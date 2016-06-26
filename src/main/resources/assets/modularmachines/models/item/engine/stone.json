@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:item/engine",
+    "textures": {
+        "engine": "modularmachines:modules/engine_stone"
+    }
+}

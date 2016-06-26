@@ -55,6 +55,6 @@ public abstract class ModuleToolEngine extends ModuleTool {
 
 	@Override
 	public boolean canWork(IModuleState state){
-		return state.getModular().getTile().getEnergyStored(null) > 0;
+		return state.getModular().getHandler().getEnergyStored(null) > 0;
 	}
 }

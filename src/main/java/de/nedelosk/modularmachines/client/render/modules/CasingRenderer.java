@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.modular.IModularTileEntity;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -15,6 +15,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -68,7 +69,6 @@ public class CasingRenderer extends AdvancedRenderer {
 
 	@Override
 	protected void renderItem(IRenderState state) {
-		Tessellator t = Tessellator.instance;
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5F, 1.5F, 0.5F);
@@ -96,19 +96,18 @@ public class CasingRenderer extends AdvancedRenderer {
 
 	@Override
 	protected void renderBlock(IRenderState state) {
-		IModularTileEntity entity = state.getModular().getTile();
-		Tessellator t = Tessellator.instance;
+		IModularHandler entity = state.getModular().getHandler();
 		TextureManager manager = Minecraft.getMinecraft().getTextureManager();
 		GL11.glPushMatrix();
 		GL11.glTranslated((float) state.getX() + 0.5F, (float) state.getY() + 1.5F, (float) state.getZ() + 0.5F);
 		GL11.glRotated(180, 0F, 0F, 1F);
 		GL11.glPushMatrix();
-		if (entity.getFacing() == ForgeDirection.NORTH) {
-		} else if (entity.getFacing() == ForgeDirection.SOUTH) {
+		if (entity.getFacing() == EnumFacing.NORTH) {
+		} else if (entity.getFacing() == EnumFacing.SOUTH) {
 			GL11.glRotated(180, 0F, 1F, 0F);
-		} else if (entity.getFacing() == ForgeDirection.WEST) {
+		} else if (entity.getFacing() == EnumFacing.WEST) {
 			GL11.glRotated(270, 0F, 1F, 0F);
-		} else if (entity.getFacing() == ForgeDirection.EAST) {
+		} else if (entity.getFacing() == EnumFacing.EAST) {
 			GL11.glRotated(90, 0F, 1F, 0F);
 		}
 		manager.bindTexture(baseTextureLeft);
