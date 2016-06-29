@@ -16,6 +16,8 @@ import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -42,8 +44,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockModularMachine extends BlockContainerForest {
+public class BlockModularMachine extends BlockContainerForest implements IItemModelRegister {
 
 	public BlockModularMachine() {
 		super(Material.IRON);
@@ -52,6 +56,12 @@ public class BlockModularMachine extends BlockContainerForest {
 		setHarvestLevel("pickaxe", 1);
 		setUnlocalizedName("modular");
 		setCreativeTab(TabModularMachines.tabModules);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerModel(Item item, IModelManager manager) {
+		manager.registerItemModel(item, 0);
 	}
 
 	@Override
@@ -119,13 +129,8 @@ public class BlockModularMachine extends BlockContainerForest {
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override

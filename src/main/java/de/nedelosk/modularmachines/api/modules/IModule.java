@@ -27,6 +27,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModule extends IForgeRegistryEntry<IModule> {
 
+	String getUnlocalizedName();
+	
 	void updateServer(IModuleState<IModule> state);
 
 	void updateClient(IModuleState<IModule> state);

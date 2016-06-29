@@ -6,8 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PropertyRecipeManager extends PropertyBase<IRecipeManager, NBTTagCompound> {
 
-	public PropertyRecipeManager(String name) {
-		super(name, IRecipeManager.class);
+	public PropertyRecipeManager(String name, IRecipeManager defaultValue) {
+		super(name, IRecipeManager.class, defaultValue);
 	}
 
 	@Override

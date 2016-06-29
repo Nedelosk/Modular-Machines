@@ -14,9 +14,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class PluginThermalExpansion extends APlugin {
+public class PluginThermalExpansion /*extends APlugin*/ {
 
-	public static Item cell;
+	/*public static Item cell;
 	public static Item frame;
 	// public static Item tank;
 	// public static Item strongBox;
@@ -82,7 +82,7 @@ public class PluginThermalExpansion extends APlugin {
 		 * modulePortableTank, new ModuleTankType(128000), Materials.OBSIDIAN);
 		 * registerItemForModule(new ItemStack(tank, 1, 4), modulePortableTank,
 		 * new ModuleTankType(512000), Materials.Enderium);
-		 */
+		 
 		// registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new
 		// ModuleSimpleChest("StrongBox", 18), Materials.IRON);
 		// registerProducer(new ItemStack(strongBox, 1, 2), STRONGBOX, new
@@ -111,5 +111,5 @@ public class PluginThermalExpansion extends APlugin {
 	@Override
 	public boolean getConfigOption() {
 		return Config.pluginThermalExpansion;
-	}
+	}*/
 }

@@ -3,13 +3,18 @@ package de.nedelosk.modularmachines.client.model;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Function;
+
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
+import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -17,14 +22,22 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.block.model.MultipartBakedModel;
 import net.minecraft.client.renderer.block.model.MultipartBakedModel.Builder;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.ModelStateComposition;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 public class ModelModularMachine implements IBakedModel {
@@ -39,7 +52,7 @@ public class ModelModularMachine implements IBakedModel {
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
 			TileEntity tile = world.getTileEntity(pos);
 
-			IBakedModel model = getModel(tile);
+			IBakedModel model = getModel(tile, DefaultVertexFormats.BLOCK);
 			if(model != null){
 				return model.getQuads(state, side, rand);
 			}
@@ -80,13 +93,20 @@ public class ModelModularMachine implements IBakedModel {
 		return overrideList;
 	}
 
-	private IBakedModel getModel(ICapabilityProvider provider){
+	private IBakedModel getModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModular modular = getModular(provider);
 		if(modular != null){
 			MultipartBakedModel.Builder builder = new Builder();
+			boolean isEmpty = true;
 			for(IModuleState moduleState : modular.getModuleStates()){
 				IModuleModelHandler modelHandler = moduleState.getModule().getModelHandler(moduleState);
-				builder.putModel(modelHandler.getPredicate(moduleState), modelHandler.getModel(moduleState));
+				if(modelHandler != null){
+					isEmpty = false;
+					builder.putModel(modelHandler.getPredicate(moduleState), modelHandler.getModel(moduleState, ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE));
+				}
+			}
+			if(isEmpty){
+				return ModelLoaderRegistry.getMissingModel().bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 			}
 			return builder.makeMultipartModel();
 		}
@@ -97,8 +117,8 @@ public class ModelModularMachine implements IBakedModel {
 		if(provider == null){
 			return null;
 		}
-		if(provider.hasCapability(ModuleManager.MODULAR_CAPABILITY, null)){
-			return provider.getCapability(ModuleManager.MODULAR_CAPABILITY, null);
+		if(provider.hasCapability(ModuleManager.MODULAR_HANDLER_CAPABILITY, null)){
+			return provider.getCapability(ModuleManager.MODULAR_HANDLER_CAPABILITY, null);
 		}
 		return null;	
 	}
@@ -111,7 +131,7 @@ public class ModelModularMachine implements IBakedModel {
 
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			IBakedModel model = getModel(stack);
+			IBakedModel model = getModel(stack, DefaultVertexFormats.ITEM);
 			return model != null ? model : super.handleItemState(originalModel, stack, world, entity);
 		}
 

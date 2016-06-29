@@ -39,7 +39,7 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		this.ignorNBT = ignorNBT;
 		this.tooltip = tooltip;
 
-		setRegistryName(module.getRegistryName().getResourcePath() + "/" + stack.getItem().getRegistryName().getResourcePath());
+		setRegistryName(module.getRegistryName().getResourcePath() + "/" + stack.getItem().getRegistryName().getResourcePath() + "/" + material.getName());
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 
 	@Override
 	public String getUnlocalizedName() {
-		return "module." + getRegistryName().toString().replace(":", ".") + ".name";
+		return module.getUnlocalizedName();
 	}
 
 	@SideOnly(Side.CLIENT)

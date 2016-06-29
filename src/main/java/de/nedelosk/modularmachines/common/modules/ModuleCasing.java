@@ -4,17 +4,21 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
 import de.nedelosk.modularmachines.client.render.modules.CasingRenderer;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleCasing extends Module implements IModuleCasing {
 
-	public static final PropertyInteger HEAT = new PropertyInteger("heat");
+	public static final PropertyInteger HEAT = new PropertyInteger("heat", 0);
 	private final int maxHeat;
 	private final float resistance;
 	private final float hardness;
@@ -65,7 +69,13 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).add(HEAT, 0);
+		return super.createState(modular, container).register(HEAT);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModuleModelHandler getModelHandler(IModuleState state) {
+		return new ModelHandlerCasing(new ResourceLocation("modularmachines:modul/casings/casing"), new ResourceLocation("modularmachines:modul/casings/right_storages/brick"), new ResourceLocation("modularmachines:modul/casings/left_storages/brick"));
 	}
 
 	@Override

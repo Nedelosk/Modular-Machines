@@ -38,6 +38,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
 
 	@Override
+	public String getUnlocalizedName() {
+		return "module." + getRegistryName().getResourcePath() + ".name";
+	}
+	
+	@Override
 	public ItemStack getDropItem(IModuleState state) {
 		return state.getContainer().getItemStack();
 	}

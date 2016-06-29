@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileTransportNodeRenderer extends TileEntitySpecialRenderer<TileEntityTransportNode> {
 
-	public static final ResourceLocation textureModel = new ResourceLocation("forestmods", "textures/models/transport_node.png");
+	public static final ResourceLocation textureModel = new ResourceLocation("modularmachines", "textures/models/transport_node.png");
 	private ModelTransportNode model;
 
 	public TileTransportNodeRenderer() {

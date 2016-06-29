@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.client.core;
 
+import com.google.common.base.Function;
+
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.client.render.tile.TileModularAssemblerRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileModularMachineRenderer;
@@ -14,15 +16,18 @@ import de.nedelosk.modularmachines.common.transport.TransportClientTickHandler;
 import de.nedelosk.modularmachines.common.transport.node.TileEntityTransportNode;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,11 +45,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderers() {
 		/* Modular */
-		ClientRegistry.bindTileEntitySpecialRenderer(TileModular.class, new TileModularMachineRenderer());
-		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockModular), new ItemModularRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileModularAssemblerRenderer());
-		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.blockAssembler), new ItemModularAssemblerRenderer());
-		/* Charcoal Kiln */
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BlockManager.blockAssembler), 0, TileModularAssembler.class);
 
 		/* Transport */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransport.class, new TileTransportRenderer());
@@ -98,6 +100,15 @@ public class ClientProxy extends CommonProxy {
 			return fluidLocation;
 		}
 	}
+	
+    public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite>{
+        INSTANCE;
+
+        public TextureAtlasSprite apply(ResourceLocation location)
+        {
+            return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+        }
+    } 
 
 	@Override
 	public void registerBlock(Block block){

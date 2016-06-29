@@ -51,11 +51,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if (!stack.hasTagCompound()) {
-			return Translator.translateToLocal("item.module.name");
-		}
-		return Translator.translateToLocal("item.module.name") + " "
-		+ Translator.translateToLocal(stack.getTagCompound().getString("Material") + ".name");
+		return Translator.translateToLocal("item.module.name");
 	}
 
 	@Override

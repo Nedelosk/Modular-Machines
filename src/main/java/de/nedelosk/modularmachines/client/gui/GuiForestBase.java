@@ -20,6 +20,6 @@ public abstract class GuiForestBase<T extends IGuiHandler> extends GuiBase<T> {
 
 	@Override
 	protected String getTextureModID() {
-		return "forestmods";
+		return "modularmachines";
 	}
 }

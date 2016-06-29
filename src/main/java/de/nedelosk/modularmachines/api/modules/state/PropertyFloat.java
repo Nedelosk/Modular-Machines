@@ -4,15 +4,15 @@ import net.minecraft.nbt.NBTTagFloat;
 
 public class PropertyFloat extends PropertyBase<Float, NBTTagFloat>{
 
-	public PropertyFloat(String name){
-		super(name, Float.class);
+	public PropertyFloat(String name, float defaultValue){
+		super(name, Float.class, Float.valueOf(defaultValue));
 	}
 
 	@Override
-	public boolean equals(Object p_equals_1_){
-		if (this == p_equals_1_){
+	public boolean equals(Object obj){
+		if (this == obj){
 			return true;
-		}else if (p_equals_1_ instanceof PropertyFloat && super.equals(p_equals_1_)){
+		}else if (obj instanceof PropertyFloat && super.equals(obj)){
 			return true;
 		}else{
 			return false;

@@ -18,6 +18,7 @@ import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -32,6 +33,7 @@ import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -40,6 +42,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -117,6 +120,7 @@ public class Modular implements IModular {
 	public void update(boolean isServer) {
 		for(IModuleState moduleState : modules) {
 			if (moduleState != null) {
+				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
 				if (isServer) {
 					moduleState.getModule().updateServer(moduleState);
 				} else {
@@ -135,6 +139,8 @@ public class Modular implements IModular {
 			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
 			IModuleContainer container = ModuleManager.getContainerFromItem(moduleItem);
 			IModuleState state = container.getModule().createState(this, container);
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+			state.createState();
 			state.readFromNBT(moduleTag, this);
 			modules.add(state);
 		}
@@ -299,7 +305,10 @@ public class Modular implements IModular {
 		if (module == null) {
 			return false;
 		}
+		
 		IModuleState state = module.createState(this, ModuleManager.getContainerFromItem(itemStack));
+		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+		state.createState();
 		state = module.loadStateFromItem(state, itemStack);
 		if (modules.add(state)) {
 			state.setIndex(index++);

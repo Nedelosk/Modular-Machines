@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
@@ -23,6 +24,7 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerBoiler;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -171,9 +173,17 @@ public class ModuleManager {
 		GameRegistry.register(moduleHeaterMagmariumSmall);
 
 		/* BOILERS */
-		moduleBoilerStone = new ModuleBoiler(15, 1);
+		moduleBoilerStone = new ModuleBoiler(15, 3);
 		moduleBoilerStone.setRegistryName(new ResourceLocation("modularmachines:boiler.stone"));
 		GameRegistry.register(moduleBoilerStone);
+		
+		moduleBoilerIron = new ModuleBoiler(12, 3);
+		moduleBoilerIron.setRegistryName(new ResourceLocation("modularmachines:boiler.iron"));
+		GameRegistry.register(moduleBoilerIron);
+		
+		moduleBoilerBronze = new ModuleBoiler(10, 3);
+		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
+		GameRegistry.register(moduleBoilerBronze);
 
 		RecipeRegistry.registerRecipeHandler(new RecipeHandlerBoiler());
 
@@ -195,7 +205,17 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
+		//Casings
+		GameRegistry.register(new ModuleContainer(moduleCasingStone, new ItemStack(BlockManager.blockCasings, 1, 0), EnumMaterials.STONE));
+		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(BlockManager.blockCasings, 1, 1), EnumMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleCasingBronze, new ItemStack(BlockManager.blockCasings, 1, 2), EnumMaterials.BRONZE));
+		//Boilers
 		addDefaultModuleItem(moduleBoilerStone, EnumMaterials.STONE);
+		addDefaultModuleItem(moduleBoilerIron, EnumMaterials.IRON);
+		addDefaultModuleItem(moduleBoilerBronze, EnumMaterials.BRONZE);
+		
+		//Heaters
+		GameRegistry.register(new ModuleContainer(moduleHeaterStone, new ItemStack(ItemManager.itemHeater, 1, 0), EnumMaterials.STONE));
 	}
 
 	private static void addDefaultModuleItem(IModule module, IMaterial material){
@@ -203,19 +223,19 @@ public class ModuleManager {
 	}
 
 	public static void registerCapability(){
-		CapabilityManager.INSTANCE.register(IModular.class, new Capability.IStorage<IModular>(){
+		CapabilityManager.INSTANCE.register(IModularHandler.class, new Capability.IStorage<IModularHandler>(){
 			@Override
-			public NBTBase writeNBT(Capability<IModular> capability, IModular instance, EnumFacing side) {
+			public NBTBase writeNBT(Capability<IModularHandler> capability, IModularHandler instance, EnumFacing side) {
 				return instance.writeToNBT(new NBTTagCompound());
 			}
 
 			@Override
-			public void readNBT(Capability<IModular> capability, IModular instance, EnumFacing side, NBTBase nbt) {
+			public void readNBT(Capability<IModularHandler> capability, IModularHandler instance, EnumFacing side, NBTBase nbt) {
 				instance.readFromNBT((NBTTagCompound) nbt);
 			}
-		}, new Callable<IModular>(){
+		}, new Callable<IModularHandler>(){
 			@Override
-			public IModular call() throws Exception{
+			public IModularHandler call() throws Exception{
 				return new Modular();
 			}
 		});

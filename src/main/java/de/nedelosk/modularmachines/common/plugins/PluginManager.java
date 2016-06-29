@@ -10,6 +10,6 @@ public class PluginManager extends APluginManager {
 	public void registerPlugins() {
 		registerPlugin(new PluginWaila());
 		registerPlugin(new PluginEnderIO());
-		registerPlugin(new PluginThermalExpansion());
+		//registerPlugin(new PluginThermalExpansion());
 	}
 }

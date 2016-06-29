@@ -6,6 +6,8 @@ public interface IProperty<V, N extends NBTBase>{
 	String getName();
 
 	Class<? extends V> getValueClass();
+	
+	V getDefaultValue();
 
 	N writeToNBT(IModuleState state, V value);
 

@@ -1,0 +1,27 @@
+{
+"__comment": "Designed by Nedelosk with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
+"textures": {
+    "particle": "blocks/casing/bronze_side",
+    "down": "blocks/casing/casing_down",
+    "side": "blocks/casing/bronze_side",
+    "top": "blocks/casing/bronze_top",
+    "brick_window_small": "modules/brick_bronze_window_middle"
+},
+"elements": [ 
+{
+    "from": [ 0, 5.5, 3 ],
+    "to": [ 1, 13, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#brick_window_small" },
+        "east":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#brick_window_small" }
+    }
+}
+],
+"display": {
+    "gui": {
+        "rotation": [ 30, 225, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.625, 0.625, 0.625 ]
+    }
+}
+}

@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItemModelRegister {
+public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItemModelRegister, IBlockWithMeta {
 
 	public static final PropertyEnum<ComponentTypes> TYPE = PropertyEnum.create("type", ComponentTypes.class);
 
@@ -33,6 +33,11 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		return state.getValue(TYPE).color;
+	}
+	
+	@Override
+	public String getNameFromMeta(int meta) {
+		return ComponentTypes.values()[meta].getName();
 	}
 
 	@Override

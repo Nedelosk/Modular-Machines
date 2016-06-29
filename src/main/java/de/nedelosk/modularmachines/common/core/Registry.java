@@ -50,7 +50,7 @@ public abstract class Registry {
 
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas) {
 		if (FluidRegistry.getFluid(fluidName) == null) {
-			ResourceLocation stillLocation = new ResourceLocation("modularmachines:textures/blocks/fluids/" + fluidName + "_still.png");
+			ResourceLocation stillLocation = new ResourceLocation("modularmachines:blocks/fluids/" + fluidName + "_still");
 			Fluid fluid = new Fluid(fluidName, stillLocation, stillLocation).setTemperature(temperature);
 			fluid.setUnlocalizedName(fluidName);
 			if (material == Material.LAVA) {
@@ -86,14 +86,14 @@ public abstract class Registry {
 	}
 
 	public static void registerTile(Class<? extends TileEntity> tile, String name, String modName) {
-		GameRegistry.registerTileEntity(tile, "forest." + modName + "." + name);
+		GameRegistry.registerTileEntity(tile, "modularmachines." + modName + "." + name);
 	}
 
 	public static String setUnlocalizedBlockName(String name) {
-		return "forest.block." + name;
+		return "modularmachines.block." + name;
 	}
 
 	public static String setUnlocalizedItemName(String name) {
-		return "forest.item." + name;
+		return "modularmachines.item." + name;
 	}
 }

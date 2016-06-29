@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagInt;
 
 public class PropertyInteger extends PropertyBase<Integer, NBTTagInt>{
 
-	public PropertyInteger(String name){
-		super(name, Integer.class);
+	public PropertyInteger(String name, int defaultValue){
+		super(name, Integer.class, Integer.valueOf(defaultValue));
 	}
 
 	@Override

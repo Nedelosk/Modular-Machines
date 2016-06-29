@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiModularAssembler extends GuiForestBase<IAssembler> {
 
-	public static final ResourceLocation assemblerOverlay = new ResourceLocation("forestmods:textures/gui/modular_assembler_overlays.png");
-	public static final ResourceLocation assembler = new ResourceLocation("forestmods:textures/gui/modular_assembler.png");
+	public static final ResourceLocation assemblerOverlay = new ResourceLocation("modularmachines:textures/gui/modular_assembler_overlays.png");
+	public static final ResourceLocation assembler = new ResourceLocation("modularmachines:textures/gui/modular_assembler.png");
 
 	public GuiModularAssembler(IAssembler assembler, InventoryPlayer inventory) {
 		super(assembler, inventory);

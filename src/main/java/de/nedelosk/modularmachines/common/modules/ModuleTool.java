@@ -37,10 +37,10 @@ import net.minecraft.util.text.TextFormatting;
 
 public abstract class ModuleTool extends Module implements IModuleTool, IWailaProvider {
 
-	public static final PropertyRecipeManager RECIPEMANAGER = new PropertyRecipeManager("recipeManager");
-	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime");
-	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal");
-	public static final PropertyInteger CHANCE = new PropertyInteger("chance");
+	public static final PropertyRecipeManager RECIPEMANAGER = new PropertyRecipeManager("recipeManager", null);
+	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
+	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
+	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
 
 	protected final int speedModifier;
 	protected final int size;
@@ -180,7 +180,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return new ModuleState(modular, this, container).add(WORKTIME, 0).add(WORKTIMETOTAL, 0).add(CHANCE, 0);
+		return new ModuleState(modular, this, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPEMANAGER);
 	}
 
 	@Override

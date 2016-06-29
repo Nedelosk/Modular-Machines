@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -12,14 +13,16 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
-	protected static final PropertyInteger INDEX = new PropertyInteger("index");
+	protected static final PropertyInteger INDEX = new PropertyInteger("index", -1);
 
-	protected final Map<IProperty, Object> properties;
+	protected Map<IProperty, Object> properties;
+	protected final List<IProperty> registeredProperties;
 	protected final IModular modular;
 	protected final M module;
 	protected final IModuleContainer container;
@@ -27,17 +30,37 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected final IModulePage[] pages;
 
 	public ModuleState(IModular modular, M module, IModuleContainer container) {
-		this.properties = Maps.newHashMap();
-
+		this.registeredProperties = Lists.newArrayList();
+		register(INDEX);
+		
 		this.modular = modular;
 		this.module = module;
 		this.container = container;
 		this.pages = module.createPages(this);
 		this.contentHandlers = module.createContentHandlers(this);
 	}
+	
+	@Override
+	public IModuleState<M> createState() {
+		this.properties = Maps.newHashMap();
+		return this;
+	}
+	
+	@Override
+	public IModuleState<M> register(IProperty property) {
+		if(properties == null){
+			if(!registeredProperties.contains(property)){
+				registeredProperties.add(property);
+			}
+		}
+		return this;
+	}
 
 	@Override
 	public <T> T get(IProperty<T, ? extends NBTBase> property) {
+		if(!registeredProperties.contains(property)){
+			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
+		}
 		if(!properties.containsKey(property)){
 			return null;
 		}
@@ -46,6 +69,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase> property, V value) {
+		if(!registeredProperties.contains(property)){
+			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
+		}
 		properties.put(property, value);
 		return this;
 	}
@@ -103,15 +129,18 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
 		for(Entry<IProperty, Object> object : properties.entrySet()){
-			nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object));
+			if(object.getValue() != null){
+				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
+			}
 		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
-		Set<IProperty> properties2 = properties.keySet();
-		for(IProperty property : properties2){
-			properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+		for(IProperty property : registeredProperties){
+			if(nbt.hasKey(property.getName())){
+				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+			}
 		}
 	}
 

@@ -1,16 +1,18 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class ModuleManager {
 
-	@CapabilityInject(value = IModular.class)
-	public static Capability<IModular> MODULAR_CAPABILITY;
+	@CapabilityInject(IModularHandler.class)
+	public static Capability<IModularHandler> MODULAR_HANDLER_CAPABILITY;
 
 	public static IModuleContainer getContainerFromItem(ItemStack stack){
 		if (stack == null) {

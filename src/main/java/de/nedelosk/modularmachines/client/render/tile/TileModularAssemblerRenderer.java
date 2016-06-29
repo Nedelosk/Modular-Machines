@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 
-	public static final ResourceLocation textureModelOFF = new ResourceLocation("forestmods", "textures/models/modular_assembler_off.png");
-	public static final ResourceLocation textureModelON = new ResourceLocation("forestmods", "textures/models/modular_assembler_on.png");
+	public static final ResourceLocation textureModelOFF = new ResourceLocation("modularmachines", "textures/models/modular_assembler_off.png");
+	public static final ResourceLocation textureModelON = new ResourceLocation("modularmachines", "textures/models/modular_assembler_on.png");
 	private ModelModularAssembler model;
 
 	public TileModularAssemblerRenderer() {

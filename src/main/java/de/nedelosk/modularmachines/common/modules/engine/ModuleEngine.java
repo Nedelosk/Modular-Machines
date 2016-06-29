@@ -34,9 +34,9 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	private final int burnTimeModifier;
 
-	public static final PropertyFloat PROGRESS = new PropertyFloat("progress");
-	public static final PropertyBool WORKING = new PropertyBool("isWorking");
-	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex");
+	public static final PropertyFloat PROGRESS = new PropertyFloat("progress", 0);
+	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
+	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex", -1);
 
 	public ModuleEngine(int burnTimeModifier) {
 		this.burnTimeModifier = burnTimeModifier;
@@ -108,7 +108,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).add(PROGRESS, 0).add(WORKING, false).add(MACHINEINDEX, -1);
+		return super.createState(modular, container).register(PROGRESS).register(WORKING).register(MACHINEINDEX);
 	}
 
 	@Override

@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleBattery extends Module implements IModuleBattery {
 
-	public static PropertyEnergyStorage storage = new PropertyEnergyStorage("storage");
+	public static PropertyEnergyStorage storage = new PropertyEnergyStorage("storage", null);
 
 	protected final EnergyStorage defaultStorage;
 
@@ -56,7 +56,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).add(storage, null);
+		return super.createState(modular, container).register(storage);
 	}
 
 	@SideOnly(Side.CLIENT)

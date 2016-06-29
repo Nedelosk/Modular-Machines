@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.common.recipse.RecipeManager;
 import de.nedelosk.modularmachines.common.transport.TransportEventHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -22,6 +23,10 @@ import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.modularmachines.common.config.ConfigFactory")
 public class ModularMachines {
 
+	public ModularMachines() {
+		FluidRegistry.enableUniversalBucket();
+	}
+	
 	public static File configFolder;
 	public static File configFile;
 

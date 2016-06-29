@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagInt;
 
 public class PropertyMachineMode extends PropertyBase<IMachineMode, NBTTagInt> {
 
-	public PropertyMachineMode(String name, Class<? extends IMachineMode> valueClass) {
-		super(name, valueClass);
+	public PropertyMachineMode(String name, Class<? extends IMachineMode> valueClass, IMachineMode defaultValue) {
+		super(name, valueClass, defaultValue);
 	}
 
 	@Override

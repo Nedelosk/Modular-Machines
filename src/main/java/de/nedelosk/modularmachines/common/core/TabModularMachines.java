@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class TabModularMachines extends CreativeTabs {
 
-	public static CreativeTabs tabForestMods = new TabModularMachines(0, "forestmods");
-	public static CreativeTabs tabComponents = new TabModularMachines(1, "forestmods.components");
-	public static CreativeTabs tabModules = new TabModularMachines(2, "forestmods.modules");
+	public static CreativeTabs tabForestMods = new TabModularMachines(0, "modularmachines");
+	public static CreativeTabs tabComponents = new TabModularMachines(1, "modularmachines.components");
+	public static CreativeTabs tabModules = new TabModularMachines(2, "modularmachines.modules");
 	private final int tabIcon;
 
 	private TabModularMachines(int tabIcon, String label) {

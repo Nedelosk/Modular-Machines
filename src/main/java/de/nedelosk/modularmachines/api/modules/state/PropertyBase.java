@@ -5,10 +5,17 @@ import net.minecraft.nbt.NBTBase;
 public abstract class PropertyBase<V, N extends NBTBase> implements IProperty<V, N>{
 	private final Class<? extends V> valueClass;
 	private final String name;
+	private final V defaultValue;
 
-	protected PropertyBase(String name, Class<? extends V> valueClass){
+	protected PropertyBase(String name, Class<? extends V> valueClass, V defaultValue){
 		this.valueClass = valueClass;
 		this.name = name;
+		this.defaultValue = defaultValue;
+	}
+	
+	@Override
+	public V getDefaultValue() {
+		return defaultValue;
 	}
 
 	@Override

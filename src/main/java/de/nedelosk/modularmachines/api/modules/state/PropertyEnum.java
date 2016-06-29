@@ -5,23 +5,19 @@ import net.minecraft.util.IStringSerializable;
 
 public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyBase<T, NBTTagInt>{
 
-	protected PropertyEnum(String name, Class<T> valueClass){
-		super(name, valueClass);
+	protected PropertyEnum(String name, Class<T> valueClass, T defaultValue){
+		super(name, valueClass, defaultValue);
 	}
 
 	@Override
-	public boolean equals(Object p_equals_1_){
-		if (this == p_equals_1_){
+	public boolean equals(Object obj){
+		if (this == obj){
 			return true;
-		}else if (p_equals_1_ instanceof PropertyEnum && super.equals(p_equals_1_)){
+		}else if (obj instanceof PropertyEnum && super.equals(obj)){
 			return true;
 		}else{
 			return false;
 		}
-	}
-
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz) {
-		return new PropertyEnum(name, clazz);
 	}
 
 	@Override

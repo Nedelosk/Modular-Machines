@@ -16,6 +16,7 @@ import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -32,6 +33,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 
 public class Assembler implements IAssembler {
 
@@ -147,6 +149,8 @@ public class Assembler implements IAssembler {
 			IModuleContainer container = ModuleManager.getContainerFromItem(getCasingStack());
 			IModuleCasing casing = ((IModuleCasing)container.getModule());
 			IModuleState state = casing.createState(null, container);
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+			state.createState();
 			this.maxControllers = casing.getControllers(state);
 		}else if(maxControllers > 0){
 			maxControllers = 0;
@@ -221,6 +225,8 @@ public class Assembler implements IAssembler {
 						if(stack != null){
 							IModuleContainer container = ModuleManager.getContainerFromItem(stack);
 							IModuleState moduleState = container.getModule().createState(modular, container);
+							MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(moduleState));
+							moduleState.createState();
 							stateList.add(new Pair(slot, moduleState));
 						}
 					}

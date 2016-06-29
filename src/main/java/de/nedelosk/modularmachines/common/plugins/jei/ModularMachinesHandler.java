@@ -26,9 +26,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ModularMachinesHandler extends TemplateRecipeHandler implements IGuiBase {
+public class ModularMachinesHandler /*extends TemplateRecipeHandler implements IGuiBase*/ {
 
-	public ResourceLocation nei_widgets = new ResourceLocation("forestmods:textures/gui/nei/nei_widgets.png");
+	/*public ResourceLocation nei_widgets = new ResourceLocation("forestmods:textures/gui/nei/nei_widgets.png");
 	public String recipeName;
 	public IJEIPage page;
 	public WidgetManager<ModularMachinesHandler> widgetManager = new WidgetManager<ModularMachinesHandler>(this);
@@ -386,5 +386,5 @@ public class ModularMachinesHandler extends TemplateRecipeHandler implements IGu
 
 	@Override
 	public void drawItemStack(ItemStack stack, int x, int y) {
-	}
+	}*/
 }

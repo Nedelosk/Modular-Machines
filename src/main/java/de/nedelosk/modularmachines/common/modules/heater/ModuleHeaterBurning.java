@@ -29,7 +29,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBurning {
 
-	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime");
+	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime", 0);
 
 	public ModuleHeaterBurning(int maxHeat, int size) {
 		super(maxHeat, size);
@@ -37,7 +37,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).add(BURNTIME, 0);
+		return super.createState(modular, container).register(BURNTIME);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	@Override
 	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
 		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
-		group.addSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "heater", IModuleHeater.class));
+		group.setControllerSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "heater", IModuleHeater.class));
 		return group;
 	}
 

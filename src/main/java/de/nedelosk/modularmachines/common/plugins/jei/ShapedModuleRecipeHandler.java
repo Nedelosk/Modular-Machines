@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
-public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
+public class ShapedModuleRecipeHandler /*extends TemplateRecipeHandler*/ {
 
-	public class CachedShapedRecipe extends CachedRecipe {
+	/*public class CachedShapedRecipe extends CachedRecipe {
 
 		public ArrayList<PositionedStack> ingredients;
 		public PositionedStack result;
@@ -30,7 +30,7 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 		 * @param height
 		 * @param items
 		 *            an ItemStack[] or ItemStack[][]
-		 */
+		 
 		public void setIngredients(int width, int height, Object[] items) {
 			for(int x = 0; x < width; x++) {
 				for(int y = 0; y < height; y++) {
@@ -196,5 +196,5 @@ public class ShapedModuleRecipeHandler extends TemplateRecipeHandler {
 			}
 		}
 		return true;
-	}
+	}*/
 }

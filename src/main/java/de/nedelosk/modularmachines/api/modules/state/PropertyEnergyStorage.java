@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PropertyEnergyStorage extends PropertyBase<EnergyStorage, NBTTagCompound> {
 
-	public PropertyEnergyStorage(String name) {
-		super(name, EnergyStorage.class);
+	public PropertyEnergyStorage(String name, EnergyStorage defaultValue) {
+		super(name, EnergyStorage.class, defaultValue);
 	}
 
 	@Override

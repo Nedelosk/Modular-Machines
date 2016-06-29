@@ -1,287 +1,125 @@
-####################################
-Modular
-####################################
-recipe.shaped.modular=Module Shaped Crafting
-mm.modularmachine.bookmark.battery.name=Battery
-mm.modularmachine.bookmark.tankmanager.name=Tank Manager
-mm.modularmachine.bookmark.machine.name=Machine
-
 mm.module.tooltip.type=Type
 mm.module.tooltip.tier=Tier
 mm.module.tooltip.name=Name
-mm.module.tooltip.producer.name=Producer
 mm.module.tooltip.shift=Hold Shift
 
-#Mode
+####################################
+Module Tool Modes
+####################################
 mode.rod.name=Mode Rod
 
 ####################################
-Modules
+Materials
 ####################################
-moduleCasing.name=Casing
-moduleAlloySmelter.name=Alloy Smelter
-moduleCentrifuge.name=Centrifuge
-modulePulverizer.name=Pulverizer
-moduleSawMill.name=Saw Mill
-moduleLathe.name=Lathe
-moduleBoiler.name=Boiler
-moduleGenerator.name=Generator
-
-####################################
-Producers
-####################################
-producerAlloySmelter.name=Alloy Smelter
-producerCentrifuge.name=Centrifuge
-producerPulverizer.name=Pulverizer
-producerSawMill.name=Saw Mill
-producerLathe.name=Lathe
-producerBoilerBurning.name=Burning Boiler
-producerGeneratorBurning.name=Burning Generator
-
-####################################
-Types
-####################################
-type.stone.name=Stone
-type.iron.name=Iron
-type.bronze.name=Bronze
-
-####################################
-Components
-####################################
-component.rods=Rod
-component.connection_wires=Connection Wire
-component.screws=Screw
-component.gears=Gear
-component.plates=Plate
-component.energy_crystal=Energy Crystal
-component.saw_blades=Saw Blades
+material.stone.name=Stone
+material.iron.name=Iron
+material.bronze.name=Bronze
+material.steel.name=Steel
+material.magmarium.name=Magmarium
 
 ####################################
 Tabs
 ####################################
-itemGroup.modularmachines=Modular Machines
-itemGroup.modularmachines.components=Modular Machines Components
-itemGroup.forestmods=Forest Mods
+itemGroup.modularmachines=Modular Machine's
+itemGroup.modularmachines.components=Components
+itemGroup.modularmachines.modules=Modules
 
 ####################################
 Blocks
 ####################################
 tile.modular.assembler.name=Modular Assembler
 tile.modular.machine.name=Modular Machine
-forest.item.tile.oremodularmachines.0.name=Columbite Ore
-forest.item.tile.oremodularmachines.1.name=Aluminium Ore
-tile.metal.block.name=Metal Block
-forest.item.tile.casing.0.name=Stone Brick Casing
-forest.item.tile.casing.1.name=Brick Casing
-forest.item.tile.casing.2.name=Iron Casing
-forest.item.tile.casing.3.name=Bronze Casing
-forest.item.tile.component.metal_block.0.name=Block of Tin
-forest.item.tile.component.metal_block.1.name=Block of Copper
-forest.item.tile.component.metal_block.2.name=Block of Bronze
-forest.item.tile.component.metal_block.3.name=Block of Steel
-forest.item.tile.component.metal_block.4.name=Block of Invar
-forest.item.tile.blast_furnace.0.name=Blast Furnace Casing
-forest.item.tile.blast_furnace.1.name=Blast Furnace Controller
-forest.item.tile.blast_furnace.2.name=Blast Furnace Access Port
-forest.item.tile.blast_furnace.3.name=Blast Furnace Air Port
-forest.item.tile.blast_furnace.4.name=Blast Furnace Slag Port
-forest.item.tile.blast_furnace.5.name=Blast Furnace Output Port
-forest.item.tile.blast_furnace.6.name=Blast Furnace Gas Port
-forest.item.tile.cowper.0.name=Cowper Brick
-forest.item.tile.cowper.1.name=Cowper Controller
-forest.item.tile.cowper.2.name=Cowper Fuel Port
-forest.item.tile.cowper.3.name=Cowper Input Port
-forest.item.tile.cowper.4.name=Cowper Fuel Fluid Port
-forest.item.tile.cowper.5.name=Cowper Output Port
-forest.item.tile.cowper.5.name=Cowper Steam Port
-forest.item.tile.cowper.5.name=Cowper Muffler
-forest.block.wood_base.0.name=Campfire
-forest.block.wood_base.1.name=Workbench
-forest.block.wood_base.2.name=Workbench (Chest)
-forest.block.wood_base.3.name=Resin Kiln
-tile.cropcorn.name=Corn
-forest.item.tile.gravel.0.name=Loam
-forest.item.tile.gravel.1.name=Charcoal Ash
-tile.kiln.charcoal.name=Charcoal Kiln
-forest.item.tile.ores.0.name=Copper Ore
-forest.item.tile.ores.1.name=Tin Ore
-forest.item.tile.ores.2.name=Silver Ore
-forest.item.tile.ores.3.name=Lead Ore
-forest.item.tile.ores.4.name=Nickel Ore
-forest.item.tile.ores.5.name=Ruby Ore
+modularmachines.item.tile.casing.0.name=Stone Brick Casing
+modularmachines.item.tile.casing.1.name=Brick Casing
+modularmachines.item.tile.casing.2.name=Iron Casing
+modularmachines.item.tile.casing.3.name=Bronze Casing
+modularmachines.item.tile.metal_blocks.0.name=Block of Tin
+modularmachines.item.tile.metal_blocks.1.name=Block of Copper
+modularmachines.item.tile.metal_blocks.2.name=Block of Bronze
+modularmachines.item.tile.metal_blocks.3.name=Block of Steel
+modularmachines.item.tile.metal_blocks.4.name=Block of Invar
+modularmachines.item.tile.ores.0.name=Copper Ore
+modularmachines.item.tile.ores.1.name=Tin Ore
+modularmachines.item.tile.ores.2.name=Silver Ore
+modularmachines.item.tile.ores.3.name=Lead Ore
+modularmachines.item.tile.ores.4.name=Nickel Ore
+modularmachines.item.tile.ores.5.name=Aluminum Ore
 
 ####################################
 Fluids
 ####################################
-fluid.air_hot=Air Hot
-forest.block.air_hot.name=Air Hot
-fluid.air=Air
-forest.block.air.name=Air
-fluid.slag=Slag
-forest.block.slag.name=Slag
-fluid.steel=Molten Steel
-forest.block.steel.name=Molten Steel
-fluid.gas_blastfurnace=Gas Blastfurnace
-forest.block.gas_blastfurnace.name=Gas Blastfurnace
-fluid.white_pig_iron=Molten White Pig Iron
-forest.block.white_pig_iron.name=Molten White Pig Iron
-fluid.gray_pig_iron=Molten Gray Pig Iron
-forest.block.gray_pig_iron.name=Molten Gray Pig Iron
-fluid.niobium=Molten Niobium
-forest.block.niobium.name=Molten Niobium
-fluid.tantalum=Molten Tantalum
-forest.block.tantalum.name=Molten Tantalum
-tile.modular.name=Modular Machine
-fluid.tar=Molten Tar
-forest.block.tar.name=Molten Tar
-fluid.resin=Molten Resin
-forest.block.resin.name=Molten Resin
-fluid.rubber=Molten Rubber
-forest.block.rubber.name=Molten Rubber
-fluid.lubricant=Molten Lubricant
-forest.block.lubricant.name=Molten Lubricant
+fluid.steam=Steam
+modularmachines.block.steam.name=Steam
 nc.tooltip.nonefluid=None Fluid
 
 ####################################
 Item
 ####################################
-forest.item.dustCoal.name=Coal Dust
-forest.item.dustObsidian.name=Obsidian Dust
-forest.item.dustIron.name=Iron Dust
-forest.item.dustGold.name=Gold Dust
-forest.item.dustDiamond.name=Diamond Dust
-forest.item.dustCopper.name=Copper Dust
-forest.item.dustTin.name=Tin Dust
-forest.item.dustSilver.name=Silver Dust
-forest.item.dustLead.name=Lead Dust
-forest.item.dustColumbite.name=Columbite Dust
-forest.item.dustNickel.name=Nickel Dust
-forest.item.dustBronze.name=Bronze Dust
-forest.item.dustInvar.name=Invar Dust
-forest.item.dustRuby.name=Ruby Dust
-forest.item.dustAluminum.name=Aluminum Dust
-forest.item.dustNiobium.name=Niobium Dust
-forest.item.dustTantalum.name=Tantalum Dust
-forest.item.dustSteel.name=Tantalum Dust
-forest.item.dustWhite_Steel.name=White Steel Dust
-forest.item.dustGray_Steel.name=Gray Steel Dust
-forest.item.ingotCopper.name=Copper Ingot
-forest.item.ingotTin.name=Tin Ingot
-forest.item.ingotSilver.name=Silver Ingot
-forest.item.ingotLead.name=Lead Ingot
-forest.item.ingotNickel.name=Nickel Ingot
-forest.item.ingotBronze.name=Bronze Ingot
-forest.item.ingotInvar.name=Invar Ingot
-forest.item.ingotAluminum.name=Aluminum Ingot
-forest.item.ingotNiobium.name=Niobium Ingot
-forest.item.ingotTantalum.name=Tantalum Ingot
-forest.item.ingotSteel.name=Tantalum Ingot
-forest.item.ingotWhite_Steel.name=White Steel Ingot
-forest.item.ingotGray_Steel.name=Gray Steel Ingot
-forest.item.nuggetCopper.name=Copper Nugget
-forest.item.nuggetTin.name=Tin Nugget
-forest.item.nuggetSilver.name=Silver Nugget
-forest.item.nuggetLead.name=Lead Nugget
-forest.item.nuggetNickel.name=Nickel Nugget
-forest.item.nuggetBronze.name=Bronze Nugget
-forest.item.nuggetInvar.name=Invar Nugget
-forest.item.nuggetAluminum.name=Aluminum Nugget
-forest.item.nuggetNiobium.name=Niobium Nugget
-forest.item.nuggetTantalum.name=Tantalum Nugget
-forest.item.nuggetSteel.name=Tantalum Nugget
-forest.item.nuggetWhite_Steel.name=White Steel Nugget
-forest.item.nuggetGray_Steel.name=Gray Steel Nugget
-forest.item.module.0.name=Basic Module
-forest.item.module.1.name=Improved Module
-forest.item.module.2.name=Advanced Module
-forest.item.module.3.name=Module Holder
-forest.item.capacitor.0.name=Aluminium Metal Paper Capacitor
-forest.item.capacitor.1.name=Niobium Electrolytic Capacitor
-forest.item.capacitor.2.name=Tantalum Electrolytic Capacitor
-forest.item.capacitor.3.name=Double-Layer Capacitor
-item.bucket.air_hot.name=Air Hot Bucket
-item.bucket.air.name=Air Bucket
-item.bucket.slag.name=Slag Bucket
-item.bucket.steel.name=Steel Bucket
-item.bucket.gas_blastfurnace.name=Gas Blastfurnace
-item.bucket.tantalum.name=Tantalum Bucket
-item.bucket.niobium.name=Niobium Bucket
-item.bucket.gray.pig.iron.name=Gray Pig Iron Bucket
-item.bucket.white.pig.iron.name=White Pig Iron Bucket
-item.partbattery.name=Battery
-item.partengine.name=Engine
-item.partmodule.name=Module
-item.partgrinding_wheel.name=Grinding Wheel
-item.partburning_chamber.name=Burning Chamber
-item.partcentrifuge_chamber.name=Centrifuge Chamber
+modularmachines.item.dustCoal.name=Coal Dust
+modularmachines.item.dustObsidian.name=Obsidian Dust
+modularmachines.item.dustIron.name=Iron Dust
+modularmachines.item.dustGold.name=Gold Dust
+modularmachines.item.dustDiamond.name=Diamond Dust
+modularmachines.item.dustCopper.name=Copper Dust
+modularmachines.item.dustTin.name=Tin Dust
+modularmachines.item.dustSilver.name=Silver Dust
+modularmachines.item.dustLead.name=Lead Dust
+modularmachines.item.dustColumbite.name=Columbite Dust
+modularmachines.item.dustNickel.name=Nickel Dust
+modularmachines.item.dustBronze.name=Bronze Dust
+modularmachines.item.dustInvar.name=Invar Dust
+modularmachines.item.dustRuby.name=Ruby Dust
+modularmachines.item.dustAluminum.name=Aluminum Dust
+modularmachines.item.dustNiobium.name=Niobium Dust
+modularmachines.item.dustTantalum.name=Tantalum Dust
+modularmachines.item.dustSteel.name=Tantalum Dust
+modularmachines.item.dustWhite_Steel.name=White Steel Dust
+modularmachines.item.dustGray_Steel.name=Gray Steel Dust
+modularmachines.item.ingotCopper.name=Copper Ingot
+modularmachines.item.ingotTin.name=Tin Ingot
+modularmachines.item.ingotSilver.name=Silver Ingot
+modularmachines.item.ingotLead.name=Lead Ingot
+modularmachines.item.ingotNickel.name=Nickel Ingot
+modularmachines.item.ingotBronze.name=Bronze Ingot
+modularmachines.item.ingotInvar.name=Invar Ingot
+modularmachines.item.ingotAluminum.name=Aluminum Ingot
+modularmachines.item.ingotNiobium.name=Niobium Ingot
+modularmachines.item.ingotTantalum.name=Tantalum Ingot
+modularmachines.item.ingotSteel.name=Tantalum Ingot
+modularmachines.item.ingotWhite_Steel.name=White Steel Ingot
+modularmachines.item.ingotGray_Steel.name=Gray Steel Ingot
+modularmachines.item.nuggetCopper.name=Copper Nugget
+modularmachines.item.nuggetTin.name=Tin Nugget
+modularmachines.item.nuggetSilver.name=Silver Nugget
+modularmachines.item.nuggetLead.name=Lead Nugget
+modularmachines.item.nuggetNickel.name=Nickel Nugget
+modularmachines.item.nuggetBronze.name=Bronze Nugget
+modularmachines.item.nuggetInvar.name=Invar Nugget
+modularmachines.item.nuggetAluminum.name=Aluminum Nugget
+modularmachines.item.nuggetNiobium.name=Niobium Nugget
+modularmachines.item.nuggetTantalum.name=Tantalum Nugget
+modularmachines.item.nuggetSteel.name=Tantalum Nugget
+modularmachines.item.nuggetWhite_Steel.name=White Steel Nugget
+modularmachines.item.nuggetGray_Steel.name=Gray Steel Nugget
+modularmachines.item.module.0.name=Basic Module
+modularmachines.item.module.1.name=Improved Module
+modularmachines.item.module.2.name=Advanced Module
+modularmachines.item.module.3.name=Module Holder
+modularmachines.item.capacitor_default.name=Capacitor
+modularmachines.item.capacitor_double_layer.name=Double-Layer Capacitor
 item.module.name=Module
-forest.item.engine.0.name=Iron Engine
-forest.item.engine.1.name=Bronze Engine
-forest.item.engine.2.name=Steel Engine
-forest.item.engine.3.name=Magmarium Engine
-item.bucket.tar.name=Tar Bucket
-item.bucket.resin.name=Resin Bucket
-item.bucket.rubber.name=Rubber Bucket
-item.bucket.lubricant.name=Lubricant Bucket
-forest.item.nature.0.name=Saw Dust
-forest.item.nature.1.name=Peat
-forest.item.nature.2.name=Ash
-forest.item.nature.3.name=Mortar
-forest.item.campfire.curb.0.name=Stone Curbs
-forest.item.campfire.curb.1.name=Obsidian Curbs
-forest.item.campfire.pot.0.name=Stone Pot
-forest.item.campfire.pot.1.name=Bronze Pot
-forest.item.campfire.pot.2.name=Iron Pot
-forest.item.campfire.pot.3.name=Steel Pot
-forest.item.campfire.pot_holder.0.name=Wood Pot Holder
-forest.item.campfire.pot_holder.1.name=Stone Pot Holder
-forest.item.campfire.pot_holder.2.name=Bronze Pot Holder
-forest.item.campfire.pot_holder.3.name=Iron Pot Holder
-forest.item.axe.flint.name=Flint Axe
+modularmachines.item.engine_stone.name=Stone Engine
+modularmachines.item.engine_iron.name=Iron Engine
+modularmachines.item.engine_bronze.name=Bronze Engine
+modularmachines.item.engine_steel.name=Steel Engine
+modularmachines.item.engine_magmarium.name=Magmarium Engine
 
-forest.tool.file.stone.name=Stone File
-forest.tool.file.iron.name=Iron File
-forest.tool.file.diamond.name=Diamond File
-forest.tool.hammer.name=Iron Hammer
-forest.tool.knife.name=Knife
-forest.tool.cutter.name=Cutter
-forest.tool.adze.name=Adze
-forest.tool.adze.long.name=Long Adze
-forest.tool.bowandstick.name=Bow and Stick
-forest.item.parts.0.name=Stone File Handle
-forest.item.parts.1.name=Stone File Head
-forest.item.parts.2.name=Iron File Head
-forest.item.parts.3.name=Diamond File Head
-forest.item.parts.4.name=Knife Handle
-forest.item.parts.5.name=Knife Head
-forest.item.parts.6.name=Cutter Head
-forest.item.parts.7.name=Cutter Handle
-forest.item.parts.8.name=Adze Head
-forest.item.parts.9.name=Long Adze Head
-forest.item.parts.10.name=Adze Handle
-forest.item.parts.11.name=Long Adze Handle
-
-item.forest.item.bucket.wood.name=Wood Bucket
-item.forest.item.bucket.wood.water.name=Wood Water Bucket
-forest.item.ingot.forestmods.0.name=Cooper Ingot
-forest.item.ingot.forestday.1.name=Tin Ingot
-forest.item.ingot.forestday.2.name=Silver Ingot
-forest.item.ingot.forestday.3.name=Lead Ingot
-forest.item.ingot.forestday.4.name=Nickel Ingot
-forest.item.nugget.forestday.0.name=Cooper Nugget
-forest.item.nugget.forestday.1.name=Tin Nugget
-forest.item.nugget.forestday.2.name=Silver Nugget
-forest.item.nugget.forestday.3.name=Lead Nugget
-forest.item.nugget.forestday.4.name=Nickel Nugget
-forest.item.nugget.forestday.5.name=Iron Nugget
-forest.item.gear.wood.0.name=Improved Wood Gear
-forest.item.gear.wood.1.name=Wood Gear
-forest.item.gear.wood.2.name=Unfinished Wood Gear
-forest.item.gear.wood.3.name=Unfinished Wood Gear
-forest.item.gear.wood.4.name=Unfinished Wood Gear
-forest.item.gear.wood.5.name=Unfinished Wood Gear
-forest.item.multiblock.name=Multiblock
-forest.item.multiblock_valve.name=Multiblock Valve
+modularmachines.tool.file.stone.name=Stone File
+modularmachines.tool.file.iron.name=Iron File
+modularmachines.tool.file.diamond.name=Diamond File
+modularmachines.tool.hammer.name=Iron Hammer
+modularmachines.tool.knife.name=Knife
+modularmachines.tool.cutter.name=Cutter
 component.gears.0.name=Gear Stone
 component.gears.1.name=Gear Iron
 component.gears.2.name=Gear Tin
@@ -322,39 +160,13 @@ component.wires.4.name=Wire Steel
 ####################################
 #Containers
 ####################################
-container.machine.furnace.coke=Coke Furnace
-container.machine.generator.burning=Heat Generator
-container.machine.furnace.fluidheater=Fluid heater
-container.machine.kiln.resin=Resin Kiln
 
 ####################################
 #Tooltips
 ####################################
-forestmods.tooltip.tool.energy=Energy: 
-forestmods.tooltip.damage=Durability: 
-forestmods.tooltip.tier=Tier: 
-forestmods.tooltip.material=Material: 
-forestmods.tooltip.heat=Heat: 
-forestmods.tooltip.roughness=Roughness: 
-forestmods.tooltip.empty=Empty
-forest.fd.tooltip.power=Power
-
-####################################
-#Gui Nei
-####################################
-nei.kiln.charcoal.drops=Charcoal Kiln Drops
-nei.kiln.charcoal=Charcoal Kiln Crafting
-nei.campfire=Campfire
-nei.fm.chance=Chance: 
-
-####################################
-#Multiblocks
-####################################
-multiblock.error.notConnected=The MultiBlock is not connected to a controller. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block.
-multiblock.error.small=Machine is too small.
-multiblock.error.large.x=The multiblock is too large, it may be at most %d blocks in the X dimension.
-multiblock.error.large.y=The multiblock is too large, it may be at most %d blocks in the Y dimension.
-multiblock.error.large.z=The multiblock is too large, it may be at most %d blocks in the Z dimension.
-multiblock.error.small.x=The multiblock is too small, it must be at least %d blocks in the X dimension.
-multiblock.error.small.y=The multiblock is too small, it must be at least %d blocks in the Y dimension.
-multiblock.error.small.z=The multiblock is too small, it must be at least %d blocks in the Z dimension.
+modularmachines.tooltip.tool.energy=Energy: 
+modularmachines.tooltip.damage=Durability: 
+modularmachines.tooltip.tier=Tier: 
+modularmachines.tooltip.material=Material: 
+modularmachines.tooltip.heat=Heat: 
+modularmachines.tooltip.empty=Empty

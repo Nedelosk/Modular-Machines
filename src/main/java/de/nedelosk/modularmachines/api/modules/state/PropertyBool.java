@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagByte;
 
 public class PropertyBool extends PropertyBase<Boolean, NBTTagByte>{
 
-	public PropertyBool(String name) {
-		super(name, Boolean.class);
+	public PropertyBool(String name, boolean defaultValue) {
+		super(name, Boolean.class, Boolean.valueOf(defaultValue));
 	}
 
 	@Override

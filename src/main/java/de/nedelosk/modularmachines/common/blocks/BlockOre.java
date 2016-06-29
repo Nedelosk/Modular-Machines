@@ -21,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockOre extends BlockForest implements IItemModelRegister {
+public class BlockOre extends BlockForest implements IItemModelRegister, IBlockWithMeta {
 
 	public static final PropertyEnum<OreType> TYPE = PropertyEnum.create("type", OreType.class);
 
@@ -61,6 +61,11 @@ public class BlockOre extends BlockForest implements IItemModelRegister {
 		for(OreType type : OreType.values()){
 			manager.registerItemModel(item, type.ordinal(), "ores/" + type.getName());
 		}
+	}
+	
+	@Override
+	public String getNameFromMeta(int meta) {
+		return OreType.values()[meta].getName();
 	}
 
 	@SideOnly(Side.CLIENT)

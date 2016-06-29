@@ -17,7 +17,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCasing extends BlockForest implements IItemModelRegister{
+public class BlockCasing extends BlockForest implements IItemModelRegister, IBlockWithMeta{
 
 	public static final PropertyEnum<CasingType> TYPE = PropertyEnum.create("type", CasingType.class);
 
@@ -56,6 +56,11 @@ public class BlockCasing extends BlockForest implements IItemModelRegister{
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(TYPE).ordinal();
+	}
+	
+	@Override
+	public String getNameFromMeta(int meta) {
+		return CasingType.values()[meta].getName();
 	}
 
 	public static enum CasingType implements IStringSerializable{
