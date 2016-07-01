@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.api.modules.state;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -13,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -32,20 +30,23 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public ModuleState(IModular modular, M module, IModuleContainer container) {
 		this.registeredProperties = Lists.newArrayList();
 		register(INDEX);
-		
+
 		this.modular = modular;
 		this.module = module;
 		this.container = container;
 		this.pages = module.createPages(this);
 		this.contentHandlers = module.createContentHandlers(this);
 	}
-	
+
 	@Override
 	public IModuleState<M> createState() {
 		this.properties = Maps.newHashMap();
+		for(IProperty property : registeredProperties){
+			properties.put(property, property.getDefaultValue());
+		}
 		return this;
 	}
-	
+
 	@Override
 	public IModuleState<M> register(IProperty property) {
 		if(properties == null){
@@ -84,7 +85,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public <C> IModuleContentHandler<C, IModule> getContentHandler(Class<? extends C> contentClass) {
 		for(IModuleContentHandler handler : contentHandlers){
-			if(handler.getClass() == contentClass){
+			if(handler.getContentClass() == contentClass){
 				return handler;
 			}
 		}

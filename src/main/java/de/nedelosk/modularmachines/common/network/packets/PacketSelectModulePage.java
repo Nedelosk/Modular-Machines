@@ -5,7 +5,7 @@ import de.nedelosk.modularmachines.common.core.ModularMachines;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PacketSelectModulePage extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSelectModulePage, IMessage> {
+public class PacketSelectModulePage extends PacketModularHandler implements IMessageHandler<PacketSelectModulePage, IMessage> {
 
 	public int pageID;
 
@@ -32,8 +32,8 @@ public class PacketSelectModulePage extends PacketTileEntity<TileEntity> impleme
 		buf.writeInt(pageID);
 	}
 
-	public PacketSelectModulePage(TileEntity tile, int pageID) {
-		super(tile);
+	public PacketSelectModulePage(IModularHandler handler, int pageID) {
+		super(handler);
 		this.pageID = pageID;
 	}
 
@@ -51,16 +51,17 @@ public class PacketSelectModulePage extends PacketTileEntity<TileEntity> impleme
 	@SideOnly(Side.CLIENT)
 	private void handleClient(PacketSelectModulePage message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
-		IModularHandler tile = (IModularHandler) message.getTileEntity(world);
+		IModularHandler tile = message.getModularHandler(ctx);
 		tile.getModular().setCurrentPage(message.pageID);
 	}
 
 	private void handleServer(PacketSelectModulePage message, MessageContext ctx) {
 		World world = ctx.getServerHandler().playerEntity.worldObj;
-		IModularHandler tile = (IModularHandler) message.getTileEntity(world);
-		tile.getModular().setCurrentPage(message.pageID);
 		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-		// PacketHandler.INSTANCE.sendTo(message, entityPlayerMP);
-		entityPlayerMP.openGui(ModularMachines.instance, 0, entityPlayerMP.worldObj, message.pos.getX(), message.pos.getY(), message.pos.getZ());
+		IModularHandler modularHandler = message.getModularHandler(ctx);
+		BlockPos pos = getPos(modularHandler);
+
+		modularHandler.getModular().setCurrentPage(message.pageID);
+		entityPlayerMP.openGui(ModularMachines.instance, 0, entityPlayerMP.worldObj, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

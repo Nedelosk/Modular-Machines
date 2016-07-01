@@ -5,7 +5,6 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -14,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PacketModule extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketModule, IMessage> {
+public class PacketModule extends PacketModularHandler implements IMessageHandler<PacketModule, IMessage> {
 
 	private int index;
 	private NBTTagCompound nbt;
@@ -22,19 +21,15 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	public PacketModule() {
 	}
 
-	public <T extends TileEntity & IModularHandler> PacketModule(T tile, IModuleState module) {
-		super(tile);
-		this.index = module.getIndex();
-		NBTTagCompound nbt = new NBTTagCompound();
-		module.writeToNBT(nbt, tile.getModular());
-		this.nbt = nbt;
+	public PacketModule(IModularHandler handler, IModuleState module) {
+		this(handler, module.getIndex());
 	}
 
-	public <T extends TileEntity & IModularHandler> PacketModule(T tile, int index) {
-		super(tile);
+	public PacketModule(IModularHandler handler, int index) {
+		super(handler);
 		this.index = index;
 		NBTTagCompound nbt = new NBTTagCompound();
-		tile.getModular().getModule(index).writeToNBT(nbt, tile.getModular());
+		handler.getModular().getModule(index).writeToNBT(nbt, handler.getModular());
 		this.nbt = nbt;
 	}
 
@@ -56,12 +51,12 @@ public class PacketModule extends PacketTileEntity<TileEntity> implements IMessa
 	@Override
 	public IMessage onMessage(PacketModule message, MessageContext ctx) {
 		World world = Minecraft.getMinecraft().theWorld;
-		TileEntity tile = message.getTileEntity(world);
-		if (tile == null || ((IModularHandler) tile).getModular() == null) {
+		IModularHandler handler = message.getModularHandler(ctx);
+		if (handler == null || handler.getModular() == null) {
 			return null;
 		}
-		IModuleState module = ((IModularHandler) tile).getModular().getModule(message.index);
-		module.readFromNBT(message.nbt, ((IModularHandler) tile).getModular());
+		IModuleState module = handler.getModular().getModule(message.index);
+		module.readFromNBT(message.nbt, handler.getModular());
 		return null;
 	}
 }

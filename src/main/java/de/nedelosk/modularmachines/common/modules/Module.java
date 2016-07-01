@@ -10,14 +10,10 @@ import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -31,17 +27,24 @@ import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuild
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.terraingen.BiomeEvent.GetFoliageColor;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
-
+	
+	@Override
+	public int getComplexity(IModuleState state) {
+		return 1;
+	}
+	
 	@Override
 	public String getUnlocalizedName() {
 		return "module." + getRegistryName().getResourcePath() + ".name";
 	}
-	
+
 	@Override
 	public ItemStack getDropItem(IModuleState state) {
 		return state.getContainer().getItemStack();
@@ -100,12 +103,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public void updateClient(IModuleState state) {
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return null;
-	}
-
 	@Override
 	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		return false;
@@ -122,11 +119,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public boolean onAssembleModule(IAssemblerGroup group, IModuleState moduleState, IModuleState<IModuleCasing> casingState, Map<IAssemblerGroup, List<Pair<IAssemblerSlot, IModuleState>>> modules, boolean beforeAssemble) {
-		return true;
-	}
-
-	@Override
 	public IModulePage[] createPages(IModuleState state) {
 		return null;
 	}
@@ -136,28 +128,19 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		return Collections.emptyList();
 	}
 
-
+	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleModelHandler getModelHandler(IModuleState state) {
+	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return null;
 	}
 
 	@Override
-	public void updateSlots(IAssemblerSlot slot) {
+	public IModuleModelHandler getModelHandler(IModuleState state) {
+		return getInitModelHandler(state.getContainer());
 	}
-
+	
 	@Override
-	public boolean canAssembleModule(IAssemblerSlot slot, IModuleState<IModule> state) {
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
 		return true;
-	}
-
-	@Override
-	public boolean canInsertItem(IAssemblerSlot slot, ItemStack stack) {
-		return true;
-	}
-
-	@Override
-	public boolean onStatusChange(IAssemblerSlot slot, boolean isActive) {
-		return isActive;
 	}
 }

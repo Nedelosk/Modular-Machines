@@ -1,19 +1,5 @@
 package de.nedelosk.modularmachines.common.plugins.thermalexpansion;
 
-import cofh.api.energy.EnergyStorage;
-import de.nedelosk.modularmachines.api.material.EnumMaterials;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
-import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.ModuleCasing;
-import de.nedelosk.modularmachines.common.modules.ModuleContainer;
-import de.nedelosk.modularmachines.common.plugins.APlugin;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 public class PluginThermalExpansion /*extends APlugin*/ {
 
 	/*public static Item cell;
@@ -75,14 +61,14 @@ public class PluginThermalExpansion /*extends APlugin*/ {
 		// strongBox = GameRegistry.findItem(getRequiredMod(), "Strongbox");
 		// capacitor = GameRegistry.findItem(getRequiredMod(), "capacitor");
 		/*
-		 * registerItemForModule(new ItemStack(tank, 1, 1), modulePortableTank,
-		 * new ModuleTankType(8000), Materials.IRON); registerItemForModule(new
-		 * ItemStack(tank, 1, 2), modulePortableTank, new ModuleTankType(32000),
-		 * Materials.Invar); registerItemForModule(new ItemStack(tank, 1, 3),
-		 * modulePortableTank, new ModuleTankType(128000), Materials.OBSIDIAN);
-		 * registerItemForModule(new ItemStack(tank, 1, 4), modulePortableTank,
-		 * new ModuleTankType(512000), Materials.Enderium);
-		 
+	 * registerItemForModule(new ItemStack(tank, 1, 1), modulePortableTank,
+	 * new ModuleTankType(8000), Materials.IRON); registerItemForModule(new
+	 * ItemStack(tank, 1, 2), modulePortableTank, new ModuleTankType(32000),
+	 * Materials.Invar); registerItemForModule(new ItemStack(tank, 1, 3),
+	 * modulePortableTank, new ModuleTankType(128000), Materials.OBSIDIAN);
+	 * registerItemForModule(new ItemStack(tank, 1, 4), modulePortableTank,
+	 * new ModuleTankType(512000), Materials.Enderium);
+
 		// registerProducer(new ItemStack(strongBox, 1, 1), STRONGBOX, new
 		// ModuleSimpleChest("StrongBox", 18), Materials.IRON);
 		// registerProducer(new ItemStack(strongBox, 1, 2), STRONGBOX, new

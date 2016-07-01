@@ -6,10 +6,8 @@ import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -18,13 +16,10 @@ import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBurning {
@@ -63,16 +58,17 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				casingState.getModule().addHeat(casingState, 1);
 			}
 			addBurnTime(moduleState, -10);
-			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) moduleState.getModular().getHandler(), moduleState));
+			PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
 		} else {
+			IModulePage[] pages = moduleState.getPages();
 			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
-			ItemStack input = inventory.getStackInSlot(HeaterBurningPage.BURNSLOT);
+			ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages[0]).BURNSLOT);
 			if(input == null){
 				if(casingState.getModule().getHeat(casingState) > 0){
 					casingState.getModule().addHeat(casingState, -1);
 				}
 			}else if (input != null) {
-				if(inventory.extractItem(HeaterBurningPage.BURNSLOT, 1, false) != null){
+				if(inventory.extractItem(((HeaterBurningPage)pages[0]).BURNSLOT, 1, false) != null){
 					setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
 				}
 			}
@@ -80,25 +76,13 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	@Override
-	public boolean canAssembleGroup(IAssemblerGroup group) {
-		return true;
-	}
-
-	@Override
-	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
-		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
-		group.setControllerSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "heater", IModuleHeater.class));
-		return group;
-	}
-
-	@Override
 	public IModulePage[] createPages(IModuleState moduleState) {
 		return new IModulePage[]{new HeaterBurningPage(0, moduleState)};
 	}
 
-	public static class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
+	public class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
-		public static int BURNSLOT;
+		public int BURNSLOT;
 
 		public HeaterBurningPage(int pageID, IModuleState<IModuleHeaterBurning> heaterState) {
 			super(pageID, heaterState);

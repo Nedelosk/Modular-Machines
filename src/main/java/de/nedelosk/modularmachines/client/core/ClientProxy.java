@@ -4,10 +4,8 @@ import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.client.render.tile.TileModularAssemblerRenderer;
-import de.nedelosk.modularmachines.client.render.tile.TileModularMachineRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileTransportNodeRenderer;
 import de.nedelosk.modularmachines.client.render.tile.TileTransportRenderer;
-import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
@@ -23,8 +21,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -57,10 +53,6 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	public static TileEntitySpecialRenderer getRenderer(Class tileEntityClass) {
-		return TileEntityRendererDispatcher.instance.mapSpecialRenderers.get(tileEntityClass);
-	}
-
 	@Override
 	public void registerFluidStateMapper(Block block, final Fluid fluid) {
 		final ModelResourceLocation fluidLocation = new ModelResourceLocation("modularmachines:fluids", fluid.getName());
@@ -88,6 +80,19 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
+	public static class BlockModeStateMapper extends StateMapperBase {
+		private final ModelResourceLocation location;
+
+		public BlockModeStateMapper(ModelResourceLocation location) {
+			this.location = location;
+		}
+
+		@Override
+		protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+			return location;
+		}
+	}
+
 	private static class FluidItemMeshDefinition implements ItemMeshDefinition {
 		private final ModelResourceLocation fluidLocation;
 
@@ -100,15 +105,16 @@ public class ClientProxy extends CommonProxy {
 			return fluidLocation;
 		}
 	}
-	
-    public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite>{
-        INSTANCE;
 
-        public TextureAtlasSprite apply(ResourceLocation location)
-        {
-            return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-        }
-    } 
+	public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite>{
+		INSTANCE;
+
+		@Override
+		public TextureAtlasSprite apply(ResourceLocation location)
+		{
+			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+		}
+	} 
 
 	@Override
 	public void registerBlock(Block block){

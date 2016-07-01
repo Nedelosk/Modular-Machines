@@ -6,9 +6,6 @@ import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
@@ -23,8 +20,6 @@ import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
@@ -32,7 +27,6 @@ import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class ModuleTool extends Module implements IModuleTool, IWailaProvider {
@@ -119,7 +113,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
 						state.add(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+						PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
@@ -130,7 +124,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						return;
 					}
 					state.add(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 				}
 			}
 		}
@@ -202,14 +196,6 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
-		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
-		IAssemblerSlot controllerSlot = new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "controller", ModuleTool.class);
-		group.setControllerSlot(controllerSlot);
-		return group;
 	}
 
 	@Override

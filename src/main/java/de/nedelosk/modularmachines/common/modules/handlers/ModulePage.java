@@ -140,12 +140,12 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getGuiTexture() {
-		return new ResourceLocation("forestmods:textures/gui/modular_machine.png");
+		return new ResourceLocation("modularmachines:textures/gui/modular_machine.png");
 	}
 
 	@SideOnly(Side.CLIENT)
 	protected ResourceLocation getInventoryTexture() {
-		return new ResourceLocation("forestmods:textures/gui/inventory_player.png");
+		return new ResourceLocation("modularmachines:textures/gui/inventory_player.png");
 	}
 
 	@SideOnly(Side.CLIENT)

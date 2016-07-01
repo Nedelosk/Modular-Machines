@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.forestmods.library.RedstoneMode;
 import de.nedelosk.modularmachines.api.transport.node.EnumNodeMode;
 import de.nedelosk.modularmachines.api.transport.node.IContentHandler;
 import de.nedelosk.modularmachines.api.transport.node.INodeSide;

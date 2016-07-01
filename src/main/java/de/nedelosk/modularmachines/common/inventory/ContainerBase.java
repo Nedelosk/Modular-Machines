@@ -11,9 +11,11 @@ import net.minecraft.item.ItemStack;
 public abstract class ContainerBase<H extends IGuiHandler> extends Container implements IContainerBase<H> {
 
 	protected H handler;
+	protected EntityPlayer player;
 
 	public ContainerBase(H tile, InventoryPlayer inventory) {
 		this.handler = tile;
+		this.player = inventory.player;
 		addInventory(inventory);
 		addSlots(inventory);
 	}
@@ -27,11 +29,6 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 		for(int j1 = 0; j1 < 9; j1++) {
 			addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 142));
 		}
-	}
-
-	@Override
-	public void addSlot(Slot slot) {
-		addSlotToContainer(slot);
 	}
 
 	@Override

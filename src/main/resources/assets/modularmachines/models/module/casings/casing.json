@@ -1,10 +1,9 @@
 {
-"__comment": "Designed by Nedelosk with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
 "textures": {
-    "particle": "blocks/casing/bronze_side",
-    "side": "blocks/casing/bronze_side",
-    "top": "blocks/casing/bronze_top",
-    "down": "blocks/casing/casing_down"
+    "particle": "modularmachines:blocks/casing/bronze_side",
+    "side": "modularmachines:blocks/casing/bronze_side",
+    "top": "modularmachines:blocks/casing/bronze_top",
+    "down": "modularmachines:blocks/casing/casing_down"
 },
 "elements": [ 
 {

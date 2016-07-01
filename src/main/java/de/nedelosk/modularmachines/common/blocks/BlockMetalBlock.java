@@ -34,7 +34,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		return state.getValue(TYPE).color;
 	}
-	
+
 	@Override
 	public String getNameFromMeta(int meta) {
 		return ComponentTypes.values()[meta].getName();

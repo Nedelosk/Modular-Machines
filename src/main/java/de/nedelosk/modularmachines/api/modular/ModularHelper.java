@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;

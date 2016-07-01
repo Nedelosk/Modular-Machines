@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.common.modular.Modular;
+import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerTileEntity;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,23 +11,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileModular extends TileMachineBase implements IModularHandler<IModular> {
+public class TileModular extends TileBaseGui {
 
-	public IModular modular;
+	public IModularHandlerTileEntity modularHandler;
 
 	public TileModular() {
-		super();
-	}
-
-	@Override
-	public String getTitle() {
-		return "modular";
+		modularHandler = new ModularHandlerTileEntity(this);
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		if (modular != null) {
-			nbt.setTag("Modular", modular.writeToNBT(new NBTTagCompound()));
+		if (modularHandler != null) {
+			nbt.setTag("ModularHandler", modularHandler.serializeNBT());
 		}
 		return super.writeToNBT(nbt);
 	}
@@ -35,15 +30,16 @@ public class TileModular extends TileMachineBase implements IModularHandler<IMod
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		if (nbt.hasKey("Modular")) {
-			modular = new Modular(nbt.getCompoundTag("Modular"), this);
+		if (nbt.hasKey("ModularHandler")) {
+			modularHandler = new ModularHandlerTileEntity(this);
+			modularHandler.deserializeNBT(nbt.getCompoundTag("ModularHandler"));
 		}
 	}
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		if (modular != null) {
-			return modular.getContainer(this, inventory);
+		if (modularHandler != null) {
+			return modularHandler.getContainer(inventory);
 		} else {
 			return null;
 		}
@@ -51,8 +47,8 @@ public class TileModular extends TileMachineBase implements IModularHandler<IMod
 
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
-		if (modular != null) {
-			return modular.getGUIContainer(this, inventory);
+		if (modularHandler != null) {
+			return modularHandler.getGUIContainer(inventory);
 		} else {
 			return null;
 		}
@@ -60,28 +56,21 @@ public class TileModular extends TileMachineBase implements IModularHandler<IMod
 
 	@Override
 	public void updateClient() {
-		if (modular != null) {
-			modular.update(false);
+		if (modularHandler != null) {
+			modularHandler.updateClient();
 		}
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
 	public void updateServer() {
-		if (modular != null) {
-			modular.update(true);
+		if (modularHandler != null) {
+			modularHandler.updateServer();
 		}
-	}
-
-	@Override
-	public void setModular(IModular modular) {
-		modular.setHandler(this);
-		this.modular = modular;
-		markDirty();
-	}
-
-	@Override
-	public IModular getModular() {
-		return modular;
 	}
 
 	@Override
@@ -90,73 +79,36 @@ public class TileModular extends TileMachineBase implements IModularHandler<IMod
 	}
 
 	@Override
+	public void setWorldObj(World world) {
+		super.setWorldObj(world);
+		if(modularHandler != null){
+			modularHandler.setWorld(world);
+		}
+	}
+
+	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (modular != null) {
-			return modular.getCapability(capability, facing);
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
+			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
+		}
+		if(modularHandler != null){
+			if(modularHandler.hasCapability(capability, facing)){
+				return modularHandler.getCapability(capability, facing);
+			}
 		}
 		return super.getCapability(capability, facing);
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (modular != null) {
-			return modular.hasCapability(capability, facing);
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
+			return true;
+		}
+		if(modularHandler != null){
+			if(modularHandler.hasCapability(capability, facing)){
+				return true;
+			}
 		}
 		return super.hasCapability(capability, facing);
-	}
-
-	@Override
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyHandler() == null) {
-			return 0;
-		}
-		return modular.getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
-	}
-
-	@Override
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyHandler() == null) {
-			return 0;
-		}
-		return modular.getEnergyHandler().extractEnergy(from, maxExtract, simulate);
-	}
-
-	@Override
-	public int getEnergyStored(EnumFacing from) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyHandler() == null) {
-			return 0;
-		}
-		return modular.getEnergyHandler().getEnergyStored(from);
-	}
-
-	@Override
-	public int getMaxEnergyStored(EnumFacing from) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyHandler() == null) {
-			return 0;
-		}
-		return modular.getEnergyHandler().getMaxEnergyStored(from);
-	}
-
-	@Override
-	public boolean canConnectEnergy(EnumFacing from) {
-		if (modular == null) {
-			return false;
-		}
-		if (modular.getEnergyHandler() == null) {
-			return false;
-		}
-		return modular.getEnergyHandler().canConnectEnergy(from);
 	}
 }

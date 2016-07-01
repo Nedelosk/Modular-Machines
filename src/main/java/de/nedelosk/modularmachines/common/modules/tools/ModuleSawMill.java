@@ -4,8 +4,6 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -15,7 +13,6 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
 import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -83,12 +80,6 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 			super.addWidgets(widgets);
 			widgets.add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new MachineRenderer(state.getModuleState().getContainer());
 	}
 
 	/*@SideOnly(Side.CLIENT)

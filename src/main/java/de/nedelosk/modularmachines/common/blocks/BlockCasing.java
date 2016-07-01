@@ -57,7 +57,7 @@ public class BlockCasing extends BlockForest implements IItemModelRegister, IBlo
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(TYPE).ordinal();
 	}
-	
+
 	@Override
 	public String getNameFromMeta(int meta) {
 		return CasingType.values()[meta].getName();

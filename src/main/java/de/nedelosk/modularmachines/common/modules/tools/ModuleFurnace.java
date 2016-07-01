@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.ModuleTool;
@@ -14,11 +13,6 @@ public class ModuleFurnace extends ModuleTool {
 	@Override
 	public String getRecipeCategory(IModuleState state) {
 		return null;
-	}
-
-	@Override
-	public boolean canAssembleGroup(IAssemblerGroup group) {
-		return false;
 	}
 
 	@Override

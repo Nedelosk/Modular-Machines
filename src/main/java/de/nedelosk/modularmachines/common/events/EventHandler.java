@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.common.events;
 
 import java.util.Random;
 
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.client.model.ModelModularMachine;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -33,7 +33,7 @@ public class EventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		IModuleContainer container = ModuleManager.getContainerFromItem(event.getItemStack());
+		IModuleContainer container = ModularManager.getContainerFromItem(event.getItemStack());
 		if (container != null) {
 			event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.type") + ": " + container.getMaterial().getLocalizedName());
 			event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.tier") + ": " + container.getMaterial().getTier());
@@ -47,7 +47,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		registry.putObject(new ModelResourceLocation("modularmachines:modular", "normal"), new ModelModularMachine());
+		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModularMachine());
 		registry.putObject(new ModelResourceLocation("modularmachines:modular", "inventory"), new ModelModularMachine());
 	}
 }

@@ -6,9 +6,9 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -61,7 +61,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		IModule module = ModuleManager.getContainerFromItem(stack).getModule();
+		IModule module = ModularManager.getContainerFromItem(stack).getModule();
 		if (module instanceof IModuleColored && stack.hasTagCompound() && tintIndex == 1) {
 			IModuleColored moduleColered = (IModuleColored) module;
 			return moduleColered.getColor();

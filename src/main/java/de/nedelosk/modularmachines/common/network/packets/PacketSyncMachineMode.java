@@ -4,12 +4,11 @@ import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleToolAdvanced;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketSyncMachineMode extends PacketTileEntity<TileEntity> implements IMessageHandler<PacketSyncMachineMode, IMessage> {
+public class PacketSyncMachineMode extends PacketModularHandler implements IMessageHandler<PacketSyncMachineMode, IMessage> {
 
 	public int mode;
 	public int index;
@@ -18,8 +17,8 @@ public class PacketSyncMachineMode extends PacketTileEntity<TileEntity> implemen
 		super();
 	}
 
-	public PacketSyncMachineMode(TileEntity tile, IModuleState<IModuleToolAdvanced> moduleState) {
-		super(tile);
+	public PacketSyncMachineMode(IModularHandler modularHandler, IModuleState<IModuleToolAdvanced> moduleState) {
+		super(modularHandler);
 		this.mode = moduleState.getModule().getCurrentMode(moduleState).ordinal();
 		this.index = moduleState.getIndex();
 	}
@@ -40,9 +39,9 @@ public class PacketSyncMachineMode extends PacketTileEntity<TileEntity> implemen
 
 	@Override
 	public IMessage onMessage(PacketSyncMachineMode message, MessageContext ctx) {
-		IModularHandler tile = (IModularHandler) message.getTileEntity(ctx.getServerHandler().playerEntity.worldObj);
-		if (tile.getModular() != null) {
-			IModuleState<IModuleToolAdvanced> machine = tile.getModular().getModule(message.index);
+		IModularHandler modularHandler = message.getModularHandler(ctx);
+		if (modularHandler.getModular() != null) {
+			IModuleState<IModuleToolAdvanced> machine = modularHandler.getModular().getModule(message.index);
 			if (machine != null) {
 				machine.getModule().setCurrentMode(machine, machine.getModule().getModeClass().getEnumConstants()[message.mode]);
 			}

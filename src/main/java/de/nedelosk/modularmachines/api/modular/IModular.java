@@ -25,11 +25,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModular extends ICapabilityProvider {
 
-	/**
-	 * @return The tier from of the modular
-	 */
-	int getTier();
-
 	void update(boolean isServer);
 
 	IModulePage getCurrentPage();
@@ -44,7 +39,7 @@ public interface IModular extends ICapabilityProvider {
 
 	void setHandler(IModularHandler tile);
 
-	boolean addModule(ItemStack itemStack, IModule module);
+	boolean addModule(ItemStack itemStack, IModuleState state);
 
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
@@ -72,10 +67,6 @@ public interface IModular extends ICapabilityProvider {
 	void readFromNBT(NBTTagCompound nbt);
 
 	NBTTagCompound writeToNBT(NBTTagCompound nbt);
-
-	/* Renderer */
-	@SideOnly(Side.CLIENT)
-	ISimpleRenderer getRenderer(IRenderState state);
 
 	@SideOnly(Side.CLIENT)
 	GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory);

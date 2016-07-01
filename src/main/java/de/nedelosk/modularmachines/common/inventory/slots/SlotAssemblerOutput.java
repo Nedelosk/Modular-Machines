@@ -12,10 +12,7 @@ public class SlotAssemblerOutput extends SlotOutput {
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-		((TileModularAssembler)inventory).setInventorySlotContents(0, null);
-		((TileModularAssembler)inventory).assembler.updateControllerSlots(player);
-		((TileModularAssembler)inventory).assembler.update(player, false);
-		super.onPickupFromSlot(player, stack);
+	public int getSlotStackLimit() {
+		return 1;
 	}
 }

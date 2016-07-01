@@ -16,7 +16,7 @@ public class Widget<I extends IGuiHandler> {
 	public boolean showTooltip;
 
 	public Widget(int posX, int posY, int width, int height) {
-		widgetTexture = new ResourceLocation("forestmods", "textures/gui/widgets.png");
+		widgetTexture = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 		pos = new Rectangle(posX, posY, width, height);
 		showTooltip = true;
 	}

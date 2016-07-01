@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.client.render.tile;
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.client.model.ModelModularAssembler;
-import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -27,11 +26,7 @@ public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 			GL11.glRotated(180, 0F, 0F, 1F);
 			GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glPushMatrix();
-			if (((TileModularAssembler) entity).isWorking) {
-				RenderUtil.bindTexture(textureModelON);
-			} else {
-				RenderUtil.bindTexture(textureModelOFF);
-			}
+			RenderUtil.bindTexture(textureModelOFF);
 			model.render();
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();

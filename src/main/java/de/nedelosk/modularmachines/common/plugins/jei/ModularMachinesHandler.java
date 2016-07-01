@@ -1,31 +1,5 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
-import de.nedelosk.modularmachines.api.gui.IButtonManager;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.gui.IWidgetManager;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
-import de.nedelosk.modularmachines.api.recipes.IRecipe;
-import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.client.gui.Widget;
-import de.nedelosk.modularmachines.client.gui.WidgetManager;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
-
 public class ModularMachinesHandler /*extends TemplateRecipeHandler implements IGuiBase*/ {
 
 	/*public ResourceLocation nei_widgets = new ResourceLocation("forestmods:textures/gui/nei/nei_widgets.png");

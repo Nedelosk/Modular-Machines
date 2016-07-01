@@ -12,7 +12,7 @@ public abstract class PropertyBase<V, N extends NBTBase> implements IProperty<V,
 		this.name = name;
 		this.defaultValue = defaultValue;
 	}
-	
+
 	@Override
 	public V getDefaultValue() {
 		return defaultValue;

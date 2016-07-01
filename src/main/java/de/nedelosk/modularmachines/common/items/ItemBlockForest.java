@@ -5,8 +5,6 @@ import de.nedelosk.modularmachines.common.core.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ItemBlockForest extends ItemBlock {
 

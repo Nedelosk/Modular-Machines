@@ -4,15 +4,14 @@ import java.util.concurrent.Callable;
 
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.items.ItemModule;
-import de.nedelosk.modularmachines.common.modular.Modular;
+import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
@@ -26,7 +25,6 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerBoiler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -176,11 +174,11 @@ public class ModuleManager {
 		moduleBoilerStone = new ModuleBoiler(15, 3);
 		moduleBoilerStone.setRegistryName(new ResourceLocation("modularmachines:boiler.stone"));
 		GameRegistry.register(moduleBoilerStone);
-		
+
 		moduleBoilerIron = new ModuleBoiler(12, 3);
 		moduleBoilerIron.setRegistryName(new ResourceLocation("modularmachines:boiler.iron"));
 		GameRegistry.register(moduleBoilerIron);
-		
+
 		moduleBoilerBronze = new ModuleBoiler(10, 3);
 		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
 		GameRegistry.register(moduleBoilerBronze);
@@ -213,7 +211,7 @@ public class ModuleManager {
 		addDefaultModuleItem(moduleBoilerStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleBoilerIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleBoilerBronze, EnumMaterials.BRONZE);
-		
+
 		//Heaters
 		GameRegistry.register(new ModuleContainer(moduleHeaterStone, new ItemStack(ItemManager.itemHeater, 1, 0), EnumMaterials.STONE));
 	}
@@ -226,17 +224,21 @@ public class ModuleManager {
 		CapabilityManager.INSTANCE.register(IModularHandler.class, new Capability.IStorage<IModularHandler>(){
 			@Override
 			public NBTBase writeNBT(Capability<IModularHandler> capability, IModularHandler instance, EnumFacing side) {
-				return instance.writeToNBT(new NBTTagCompound());
+				return instance.serializeNBT();
 			}
 
 			@Override
 			public void readNBT(Capability<IModularHandler> capability, IModularHandler instance, EnumFacing side, NBTBase nbt) {
-				instance.readFromNBT((NBTTagCompound) nbt);
+				instance.deserializeNBT(nbt);
 			}
 		}, new Callable<IModularHandler>(){
 			@Override
 			public IModularHandler call() throws Exception{
-				return new Modular();
+				return new ModularHandler(null) {
+					@Override
+					public void markDirty() {
+					}
+				};
 			}
 		});
 	}

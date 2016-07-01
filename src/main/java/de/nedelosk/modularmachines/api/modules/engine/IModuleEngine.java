@@ -2,11 +2,11 @@ package de.nedelosk.modularmachines.api.modules.engine;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 
-public interface IModuleEngine extends IModule {
+public interface IModuleEngine extends IModuleDrive {
 
 	float getProgress(IModuleState state);
 

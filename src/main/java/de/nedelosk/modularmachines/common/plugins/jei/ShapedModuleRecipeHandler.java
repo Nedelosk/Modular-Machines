@@ -1,17 +1,5 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
-import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiCrafting;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-
 public class ShapedModuleRecipeHandler /*extends TemplateRecipeHandler*/ {
 
 	/*public class CachedShapedRecipe extends CachedRecipe {
@@ -26,11 +14,11 @@ public class ShapedModuleRecipeHandler /*extends TemplateRecipeHandler*/ {
 		}
 
 		/**
-		 * @param width
-		 * @param height
-		 * @param items
-		 *            an ItemStack[] or ItemStack[][]
-		 
+	 * @param width
+	 * @param height
+	 * @param items
+	 *            an ItemStack[] or ItemStack[][]
+
 		public void setIngredients(int width, int height, Object[] items) {
 			for(int x = 0; x < width; x++) {
 				for(int y = 0; y < height; y++) {

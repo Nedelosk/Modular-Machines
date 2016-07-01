@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/controllers/controller",
+	"textures": {
+        "controller": "modularmachines:modules/controller_stone"
+    }
+}

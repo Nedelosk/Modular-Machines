@@ -1,0 +1,15 @@
+{
+"textures": {
+    "module": "modules/heater_stone"
+},
+"elements": [ 
+{
+    "from": [ 0, 2, 3 ],
+    "to": [ 1, 13, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 14 ], "texture": "#module" },
+        "east":  { "uv": [ 3, 3, 13, 14 ], "texture": "#module" }
+    }
+}
+]
+}

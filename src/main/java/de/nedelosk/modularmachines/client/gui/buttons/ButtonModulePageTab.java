@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ButtonModulePageTab extends Button<IModularHandler> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
 	public IModuleState state;
 	public boolean isDown;
 	public int pageID;
@@ -38,7 +38,7 @@ public class ButtonModulePageTab extends Button<IModularHandler> {
 		RenderUtil.bindTexture(guiTextureOverlay);
 		machine.drawTexturedModalRect(xPosition, yPosition, state.getModular().getCurrentPage().getPageID() == pageID ? 74 : 103,
 				isDown ? 237 : 218, 29, 19);
-		RenderUtil.bindTexture(RenderUtil.getResourceLocation("forestmods", "widgets", "gui"));
+		RenderUtil.bindTexture(RenderUtil.getResourceLocation("modularmachines", "widgets", "gui"));
 		machine.drawTexturedModalRect(xPosition + 6, yPosition, 0, 18 + pageID * 18, 18, 18);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPopMatrix();

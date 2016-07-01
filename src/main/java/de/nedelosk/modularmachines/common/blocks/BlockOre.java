@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.modularmachines.api.Tabs;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.SoundType;
@@ -62,7 +62,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 			manager.registerItemModel(item, type.ordinal(), "ores/" + type.getName());
 		}
 	}
-	
+
 	@Override
 	public String getNameFromMeta(int meta) {
 		return OreType.values()[meta].getName();

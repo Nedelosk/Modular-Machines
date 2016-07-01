@@ -7,10 +7,6 @@ import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -19,9 +15,6 @@ import de.nedelosk.modularmachines.api.modules.state.PropertyEnergyStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
-import de.nedelosk.modularmachines.client.render.modules.BatteryRenderer;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerGroup;
-import de.nedelosk.modularmachines.common.modular.assembler.AssemblerSlot;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -57,12 +50,6 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(storage);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new BatteryRenderer(state.getModuleState().getContainer(), state.getModular());
 	}
 
 	@Override
@@ -117,17 +104,5 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 			super.addWidgets(widgets);
 			widgets.add(new WidgetEnergyField(state.getModule().getStorage(state), 55, 15));
 		}
-	}
-
-	@Override
-	public boolean canAssembleGroup(IAssemblerGroup group) {
-		return true;
-	}
-
-	@Override
-	public IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID) {
-		IAssemblerGroup group = new AssemblerGroup(assembler, groupID);
-		group.setControllerSlot(new AssemblerSlot(group, 4, 4, assembler.getNextIndex(), "battery", IModuleBattery.class));
-		return group;
 	}
 }

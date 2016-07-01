@@ -4,10 +4,10 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -20,11 +20,12 @@ import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.client.render.modules.MachineRenderer;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,21 +51,21 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		return "Boiler";
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new MachineRenderer(state.getModuleState().getContainer());
-	}
-
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(ItemStack.class)).getInputItems();
+		return ((IModuleInventory)state.getContentHandler(FluidStack.class)).getInputItems();
 	}
 
 	@Override
 	public IModulePage[] createPages(IModuleState state) {
 		IModulePage[] pages = new IModulePage[] { new BoilerPage(0, state) };
 		return pages;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
+		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName()));
 	}
 
 	/*@SideOnly(Side.CLIENT)
@@ -100,9 +101,9 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
-			widgets.add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKINPUT), 55, 25));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(IModuleTank.class)).getTank(TANKOUTPUT), 55, 25));
+			widgets.add(new WidgetProgressBar(75, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(TANKINPUT), 35, 15));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(TANKOUTPUT), 125, 15));
 		}
 	}
 

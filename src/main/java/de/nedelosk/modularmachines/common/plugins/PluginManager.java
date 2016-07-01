@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.plugins;
 
 import de.nedelosk.modularmachines.common.plugins.enderio.PluginEnderIO;
-import de.nedelosk.modularmachines.common.plugins.thermalexpansion.PluginThermalExpansion;
 import de.nedelosk.modularmachines.common.plugins.waila.PluginWaila;
 
 public class PluginManager extends APluginManager {

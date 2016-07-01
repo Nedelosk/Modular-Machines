@@ -1,12 +1,11 @@
 package de.nedelosk.modularmachines.api.modules;
 
-import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import net.minecraft.item.ItemStack;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleController extends IModule {
 
-	boolean canAssembleGroup(IAssemblerGroup group);
+	int getMaxComplexities(Class<? extends IModule> moduleClass, IModuleState state);
 
-	IAssemblerGroup createGroup(IAssembler assembler, ItemStack stack, int groupID);
+	int getAllowedComplexity(IModuleState state);
+
 }

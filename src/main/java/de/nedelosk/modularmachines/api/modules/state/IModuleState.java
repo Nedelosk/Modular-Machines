@@ -16,9 +16,9 @@ public interface IModuleState<M extends IModule> {
 	<V> V get(IProperty<V, ? extends NBTBase> property);
 
 	<T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase> property, V value);
-	
+
 	IModuleState<M> register(IProperty property);
-	
+
 	/**
 	 * Finish the registration of the properties.
 	 */

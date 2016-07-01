@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.modularmachines.api.Tabs;
 import de.nedelosk.modularmachines.common.core.Registry;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;

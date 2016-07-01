@@ -1,17 +1,13 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
-import de.nedelosk.modularmachines.client.render.modules.CasingRenderer;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,12 +30,6 @@ public class ModuleCasing extends Module implements IModuleCasing {
 		this.controllers = controllers;
 		this.harvestTool = harvestTool;
 		this.harvestLevel = harvestLevel;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new CasingRenderer(state.getModuleState().getContainer());
 	}
 
 	@Override
@@ -71,11 +61,11 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(HEAT);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleModelHandler getModelHandler(IModuleState state) {
-		return new ModelHandlerCasing(new ResourceLocation("modularmachines:modul/casings/casing"), new ResourceLocation("modularmachines:modul/casings/right_storages/brick"), new ResourceLocation("modularmachines:modul/casings/left_storages/brick"));
+	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
+		return new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/casing"), new ResourceLocation("modularmachines:module/casings/right_storages/brick"), new ResourceLocation("modularmachines:module/casings/left_storages/brick"));
 	}
 
 	@Override

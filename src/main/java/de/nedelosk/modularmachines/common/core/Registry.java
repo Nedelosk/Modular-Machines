@@ -53,11 +53,8 @@ public abstract class Registry {
 			ResourceLocation stillLocation = new ResourceLocation("modularmachines:blocks/fluids/" + fluidName + "_still");
 			Fluid fluid = new Fluid(fluidName, stillLocation, stillLocation).setTemperature(temperature);
 			fluid.setUnlocalizedName(fluidName);
-			if (material == Material.LAVA) {
-				fluid.setLuminosity(12);
-			}
 			if (isGas) {
-				fluid.isGaseous();
+				fluid.setGaseous(isGas);
 			}
 			FluidRegistry.registerFluid(fluid);
 			Block fluidBlock = new FluidBlock(fluid, material, fluidName);

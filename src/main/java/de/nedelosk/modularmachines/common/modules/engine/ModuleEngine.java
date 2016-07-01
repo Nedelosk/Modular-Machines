@@ -6,15 +6,9 @@ import java.util.Map;
 
 import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.ModularHelper;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -22,13 +16,12 @@ import de.nedelosk.modularmachines.api.modules.state.PropertyBool;
 import de.nedelosk.modularmachines.api.modules.state.PropertyFloat;
 import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
-import de.nedelosk.modularmachines.client.render.modules.EngineRenderer;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
 public class ModuleEngine extends Module implements IModuleEngine {
 
@@ -41,15 +34,13 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public ModuleEngine(int burnTimeModifier) {
 		this.burnTimeModifier = burnTimeModifier;
 	}
-
-	@Override
-	public boolean onAssembleModule(IAssemblerGroup group, IModuleState moduleState, IModuleState<IModuleCasing> casing, Map<IAssemblerGroup, List<Pair<IAssemblerSlot, IModuleState>>> modules, boolean beforeAdd) {
-		if(beforeAdd){
-			IModuleState machine = modules.get(group).get(0).second();
-			moduleState.add(MACHINEINDEX, machine.getIndex());
-		}
-		return true;
-	}
+	
+	/*@Override
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
+		IModuleState machine = modules.get(group).get(0).second();
+		moduleState.add(MACHINEINDEX, machine.getIndex());
+		return super.assembleModule(itemHandler, modular, state);
+	}*/
 
 
 	@Override
@@ -70,14 +61,14 @@ public class ModuleEngine extends Module implements IModuleEngine {
 			if (removeMaterial(state, machineState)) {
 				if(!isWorking){
 					state.add(WORKING, true);
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 				}
 				machineState.getModule().addWorkTime(machineState, burnTimeModifier);
-				PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), machineState));
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), machineState));
 			}
 		}else if(isWorking){
 			state.add(WORKING, false);
-			PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 		}
 	}
 
@@ -98,12 +89,6 @@ public class ModuleEngine extends Module implements IModuleEngine {
 				}
 			}
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new EngineRenderer(state.getModuleState().getContainer(), ModularHelper.getCasing(state.getModular()).getContainer());
 	}
 
 	@Override

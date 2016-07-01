@@ -16,7 +16,6 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -91,7 +90,7 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 					state.getModule().setCurrentMode(state, state.getModule().getModeClass().getEnumConstants()[state.getModule().getCurrentMode(state).ordinal() + 1]);
 					((WidgetButtonMode) widget).setMode(state.getModule().getCurrentMode(state));
 				}
-				PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode((TileEntity) modular.getHandler(), state));
+				PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode(modular.getHandler(), state));
 			}
 		}
 	}

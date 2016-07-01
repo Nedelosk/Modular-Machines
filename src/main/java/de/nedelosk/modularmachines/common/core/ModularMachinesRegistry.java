@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.forestmods.library.Tabs;
+import de.nedelosk.modularmachines.api.Tabs;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
@@ -60,6 +60,9 @@ public class ModularMachinesRegistry extends Registry {
 
 	@Override
 	public void postInit(Object instance, FMLPostInitializationEvent event) {
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+			ModelManager.getInstance().registerModuleModels();
+		}
 		Config.postInit();
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 		RecipeManager.registerPostRecipes();

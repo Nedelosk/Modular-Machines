@@ -26,7 +26,7 @@ public class ModularMachines {
 	public ModularMachines() {
 		FluidRegistry.enableUniversalBucket();
 	}
-	
+
 	public static File configFolder;
 	public static File configFile;
 

@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ButtonModuleTab extends Button<IModularHandler> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("forestmods", "modular_machine", "gui");
+	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
 	public final IModuleState state;
 	public final IModularHandler tile;
 	public final boolean right;

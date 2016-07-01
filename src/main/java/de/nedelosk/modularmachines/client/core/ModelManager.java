@@ -7,6 +7,9 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
 
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
 import forestry.api.core.IItemModelRegister;
@@ -154,6 +157,18 @@ public class ModelManager implements IModelManager {
 		}
 		if (item instanceof IColoredItem) {
 			itemColorList.add((IColoredItem) item);
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void registerModuleModels() {
+		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
+			if(container != null && container.getModule() != null){
+				IModuleModelHandler handle = container.getModule().getInitModelHandler(container);
+				if(handle != null){
+					handle.initModels();
+				}
+			}
 		}
 	}
 

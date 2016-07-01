@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.api.transport.node;
 
 import java.util.List;
 
-import de.nedelosk.forestmods.library.RedstoneMode;
 import de.nedelosk.modularmachines.api.transport.IPartSide;
 import de.nedelosk.modularmachines.common.utils.AdvancedBlockPos;
 import net.minecraft.tileentity.TileEntity;
@@ -21,9 +20,9 @@ public interface INodeSide extends IPartSide {
 
 	void setPriority(int priority);
 
-	RedstoneMode getRedstoneMode();
+	/*RedstoneMode getRedstoneMode();
 
-	void setRedstoneMode(RedstoneMode mode);
+	void setRedstoneMode(RedstoneMode mode);*/
 
 	EnumNodeMode getNodeMode();
 

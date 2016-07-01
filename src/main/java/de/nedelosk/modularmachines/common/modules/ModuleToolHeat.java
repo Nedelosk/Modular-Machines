@@ -3,25 +3,19 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssembler;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerGroup;
-import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerSlot;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.casing.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModuleToolHeat extends ModuleTool {
 
@@ -44,7 +38,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
 						state.add(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+						PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
@@ -57,26 +51,18 @@ public abstract class ModuleToolHeat extends ModuleTool {
 					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
 					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
 					state.add(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule((TileEntity & IModularHandler) modular.getHandler(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 				}
 			}
 		}
 	}
 
 	protected abstract int getConsumeHeat(IModuleState state);
-
+	
 	@Override
-	public boolean canAssembleGroup(IAssemblerGroup group) {
-		IAssembler assembler = group.getAssembler();
-		for(IAssemblerGroup otherGroup : assembler.getGroups().values()){
-			for(IAssemblerSlot slot : otherGroup.getSlots().values()){
-				if(slot != null && slot.getStack() != null){
-					IModuleContainer container = ModuleManager.getContainerFromItem(slot.getStack());
-					if(IModuleHeater.class.isAssignableFrom(container.getModule().getClass())){
-						return true;
-					}
-				}
-			}
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
+		if(!modular.getModules(IModuleHeater.class).isEmpty()){
+			return true;
 		}
 		return false;
 	}

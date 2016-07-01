@@ -14,12 +14,12 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularLogicType;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
 import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
@@ -27,20 +27,17 @@ import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
-import de.nedelosk.modularmachines.client.render.modules.ModularRenderer;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -55,7 +52,6 @@ public class Modular implements IModular {
 
 	protected IModularHandler modularHandler;
 	protected List<IModuleState> modules = new ArrayList();
-	protected int tier;
 	protected int index;
 	protected IModuleState currentModule;
 	protected IModulePage currentPage;
@@ -137,14 +133,13 @@ public class Modular implements IModular {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
 			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
 			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
-			IModuleContainer container = ModuleManager.getContainerFromItem(moduleItem);
+			IModuleContainer container = ModularManager.getContainerFromItem(moduleItem);
 			IModuleState state = container.getModule().createState(this, container);
 			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
 			state.createState();
 			state.readFromNBT(moduleTag, this);
 			modules.add(state);
 		}
-		tier = nbt.getInteger("Tier");
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));
 			if (nbt.hasKey("CurrentPage")) {
@@ -168,7 +163,6 @@ public class Modular implements IModular {
 			nbtList.appendTag(nbtTag);
 		}
 		nbt.setTag("Modules", nbtList);
-		nbt.setInteger("Tier", tier);
 		if (currentModule != null) {
 			nbt.setInteger("CurrentModule", currentModule.getIndex());
 			if (currentPage != null) {
@@ -181,24 +175,6 @@ public class Modular implements IModular {
 			nbt.setBoolean("EH", false);
 		}
 		return nbt;
-	}
-
-	@Override
-	public int getTier() {
-		if (tier == 0) {
-			int tiers = 0;
-			for(IModuleState module : modules) {
-				tiers += module.getContainer().getMaterial().getTier();
-			}
-			tier = tiers / modules.size();
-		}
-		return tier;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ISimpleRenderer getRenderer(IRenderState state) {
-		return new ModularRenderer();
 	}
 
 	@Override
@@ -272,8 +248,8 @@ public class Modular implements IModular {
 		this.currentModule = module;
 		this.currentPage = currentModule.getPages()[0];
 		if (getHandler().getWorld().isRemote) {
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule((TileEntity) getHandler(), module));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getHandler(), 0));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule(getHandler(), module));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), 0));
 		}
 	}
 
@@ -283,7 +259,7 @@ public class Modular implements IModular {
 			this.currentPage = currentModule.getPages()[pageID];
 			if(getHandler() != null){
 				if (getHandler().getWorld().isRemote) {
-					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage((TileEntity) getHandler(), pageID));
+					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), pageID));
 				}
 			}
 		}
@@ -301,15 +277,11 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public boolean addModule(ItemStack itemStack, IModule module) {
-		if (module == null) {
+	public boolean addModule(ItemStack itemStack, IModuleState state) {
+		if (state == null) {
 			return false;
 		}
-		
-		IModuleState state = module.createState(this, ModuleManager.getContainerFromItem(itemStack));
-		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-		state.createState();
-		state = module.loadStateFromItem(state, itemStack);
+
 		if (modules.add(state)) {
 			state.setIndex(index++);
 			return true;
