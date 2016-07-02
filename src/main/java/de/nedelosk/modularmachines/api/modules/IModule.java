@@ -63,8 +63,8 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	/**
 	 * Create the ModulePages for the module.
 	 */
-	@Nullable
-	IModulePage[] createPages(IModuleState state);
+	@Nonnull
+	List<IModulePage> createPages(IModuleState state);
 
 	@Nonnull
 	List<IModularLogic> createLogic(IModuleState state);

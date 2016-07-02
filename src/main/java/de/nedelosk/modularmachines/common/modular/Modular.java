@@ -76,8 +76,10 @@ public class Modular implements IModular {
 	public void onAssembleModular() {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		modules = Collections.unmodifiableList(modules);
-		currentModule = getFirstGui();
-		setCurrentPage(0);
+		if(getFirstGui() != null){
+			currentModule = getFirstGui();
+			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
+		}
 
 		logics.clear();
 
@@ -104,7 +106,7 @@ public class Modular implements IModular {
 
 	private IModuleState getFirstGui() {
 		for(IModuleState module : modules) {
-			if (module.getPages() != null) {
+			if (!module.getPages().isEmpty()) {
 				return module;
 			}
 		}
@@ -146,7 +148,18 @@ public class Modular implements IModular {
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));
 			if (nbt.hasKey("CurrentPage")) {
-				currentPage = currentModule.getPages()[nbt.getInteger("CurrentPage")];
+				String pageID = nbt.getString("CurrentPage");
+				IModulePage currentPage = null;
+				for(IModulePage page : (List<IModulePage>)currentModule.getPages()){
+					if(page.getPageID().equals(pageID)){
+						currentPage = page;
+						break;
+					}
+				}
+				if(currentPage == null){
+					currentPage = (IModulePage) currentModule.getPages().get(0);
+				}
+				this.currentPage = currentPage;
 			}
 		}
 		if (nbt.getBoolean("EH")) {
@@ -169,7 +182,7 @@ public class Modular implements IModular {
 		if (currentModule != null) {
 			nbt.setInteger("CurrentModule", currentModule.getIndex());
 			if (currentPage != null) {
-				nbt.setInteger("CurrentPage", currentPage.getPageID());
+				nbt.setString("CurrentPage", currentPage.getPageID());
 			}
 		}
 		if (energyHandler != null) {
@@ -249,17 +262,27 @@ public class Modular implements IModular {
 	@Override
 	public void setCurrentModuleState(IModuleState module) {
 		this.currentModule = module;
-		this.currentPage = currentModule.getPages()[0];
+		this.currentPage = (IModulePage) currentModule.getPages().get(0);
 		if (getHandler().getWorld().isRemote) {
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule(getHandler(), module));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), 0));
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), currentPage.getPageID()));
 		}
 	}
 
 	@Override
-	public void setCurrentPage(int pageID) {
+	public void setCurrentPage(String pageID) {
 		if(currentModule != null){
-			this.currentPage = currentModule.getPages()[pageID];
+			IModulePage currentPage = null;
+			for(IModulePage page : (List<IModulePage>)currentModule.getPages()){
+				if(page.getPageID().equals(pageID)){
+					currentPage = page;
+					break;
+				}
+			}
+			if(currentPage == null){
+				currentPage = (IModulePage) currentModule.getPages().get(0);
+			}
+			this.currentPage = currentPage;
 			if(getHandler() != null){
 				if (getHandler().getWorld().isRemote) {
 					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), pageID));

@@ -30,13 +30,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModulePage<M extends IModule> implements IModulePage {
 
-	protected int pageID;
+	protected String pageID;
 	protected IModular modular;
 	protected IModuleState<M> state;
 	@SideOnly(Side.CLIENT)
 	protected IGuiBase gui;
 
-	public ModulePage(int pageID, IModuleState<M> module) {
+	public ModulePage(String pageID, IModuleState<M> module) {
 		this.pageID = pageID;
 		this.modular = module.getModular();
 		this.state = module;
@@ -159,11 +159,11 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
 		}
 
-		for(int pageID = 0; pageID < state.getPages().length; pageID++) {
-			IModulePage page = state.getPages()[pageID];
+		for(int pageIndex = 0; pageIndex < state.getPages().size(); pageIndex++) {
+			IModulePage page = state.getPages().get(pageIndex);
 			buttons.add(new ButtonModulePageTab(gui.getButtonManager().getButtons().size(),
-					pageID > 4 ? 12 + gui.getGuiLeft() + (pageID - 5) * 30 : 12 + gui.getGuiLeft() + pageID * 30,
-							pageID > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, state, pageID > 4 ? true : false, pageID));
+					pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
+					pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
 		}
 	}
 
@@ -183,7 +183,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	}
 
 	@Override
-	public int getPageID() {
+	public String getPageID() {
 		return pageID;
 	}
 
@@ -212,7 +212,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	public static List<IModuleState> getModulesWithPages(IModular modular){
 		List<IModuleState> modulesWithPages = Lists.newArrayList();
 		for(IModuleState moduleState : modular.getModuleStates()) {
-			if (moduleState != null && moduleState.getPages() != null) {
+			if (moduleState != null && !moduleState.getPages().isEmpty()) {
 				modulesWithPages.add(moduleState);
 			}
 		}

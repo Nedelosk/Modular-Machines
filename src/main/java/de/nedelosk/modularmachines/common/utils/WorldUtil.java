@@ -84,8 +84,7 @@ public class WorldUtil {
 		float f = rand.nextFloat() * 0.8F + 0.1F;
 		float f1 = rand.nextFloat() * 0.8F + 0.1F;
 		float f2 = rand.nextFloat() * 0.8F + 0.1F;
-		if (!world.isRemote && item != null && world.getGameRules().getBoolean("doTileDrops") && !world.restoringBlockSnapshots
-				&& item.stackSize > 0) {
+		if (!world.isRemote && item != null && world.getGameRules().getBoolean("doTileDrops") && !world.restoringBlockSnapshots && item.stackSize > 0) {
 			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, item.copy());
 			entityitem.setPickupDelay(10);
 			entityitem.motionX = (float) rand.nextGaussian() * 0.05F;

@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.api.modules;
 
+import java.util.List;
+
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,7 +34,22 @@ public class ModuleEvents {
 			return state;
 		}
 	}
+	
+	public static class ModulePageCreateEvent extends ModuleStateEvent {
 
+		private final List<IModulePage> pages;
+		
+		public ModulePageCreateEvent(IModuleState state, List<IModulePage> pages) {
+			super(state);
+			this.pages = pages;
+		}
+		
+		public List<IModulePage> getModulePages() {
+			return pages;
+		}
+
+	}
+	
 	public static class ModuleStateCreateEvent extends ModuleStateEvent {
 
 		public ModuleStateCreateEvent(IModuleState state) {

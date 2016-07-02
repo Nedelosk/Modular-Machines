@@ -31,7 +31,7 @@ public interface IModular extends ICapabilityProvider {
 
 	void setCurrentModuleState(IModuleState state);
 
-	void setCurrentPage(int pageID);
+	void setCurrentPage(String pageID);
 
 	IModularHandler getHandler();
 

@@ -37,7 +37,7 @@ public interface IModuleState<M extends IModule> {
 
 	void setIndex(int index);
 
-	IModulePage[] getPages();
+	List<IModulePage> getPages();
 
 	M getModule();
 

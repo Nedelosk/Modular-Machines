@@ -53,12 +53,13 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(FluidStack.class)).getInputItems();
+		return ((IModuleTank)state.getContentHandler(FluidStack.class)).getInputItems();
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		IModulePage[] pages = new IModulePage[] { new BoilerPage(0, state) };
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new BoilerPage("Basic", state));
 		return pages;
 	}
 
@@ -79,7 +80,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		public static int TANKINPUT;
 		public static int TANKOUTPUT;
 
-		public BoilerPage(int pageID, IModuleState<IModuleTool> moduleState) {
+		public BoilerPage(String pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
 

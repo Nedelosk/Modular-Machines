@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 
 public class ModuleInventoryBuilder<M extends IModule> implements IModuleInventoryBuilder<M> {
 
-	protected IModular modular;
 	protected IModuleState<M> state;
 	protected FilterWrapper insertFilter = new FilterWrapper();
 	protected FilterWrapper extractFilter = new FilterWrapper();
@@ -40,11 +39,6 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 	@Override
 	public void setModuleState(IModuleState<M> state) {
 		this.state = state;
-	}
-
-	@Override
-	public void setModular(IModular modular) {
-		this.modular = modular;
 	}
 
 	@Override
@@ -77,7 +71,7 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 		for(Entry<Integer, Boolean> entry : slots.entrySet()) {
 			inputs[entry.getKey()] = entry.getValue();
 		}
-		return new ModuleInventory(size + 1, inputs, modular, state, new FilterWrapper(insertFilter.getSlotFilters()),
+		return new ModuleInventory(size + 1, inputs, state, new FilterWrapper(insertFilter.getSlotFilters()),
 				new FilterWrapper(extractFilter.getSlotFilters()), inventoryName);
 	}
 

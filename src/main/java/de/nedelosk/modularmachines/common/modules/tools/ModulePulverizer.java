@@ -38,8 +38,10 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return new IModulePage[]{new PulverizerPage(0, state)};
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new PulverizerPage("Basic", state));
+		return pages;
 	}
 
 	/*@Override
@@ -54,7 +56,7 @@ public class ModulePulverizer extends ModuleToolEngine implements IModuleColored
 
 	public static class PulverizerPage extends ModulePage<IModuleTool> {
 
-		public PulverizerPage(int pageID, IModuleState<IModuleTool> moduleState) {
+		public PulverizerPage(String pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
 

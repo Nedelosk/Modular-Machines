@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<M> {
 
-	protected IModular modular;
 	protected IModuleState<M> state;
 	protected FilterWrapper<FluidStack, M> insertFilter = new FilterWrapper();
 	protected FilterWrapper<FluidStack, M> extractFilter = new FilterWrapper();
@@ -42,11 +41,6 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	}
 
 	@Override
-	public void setModular(IModular modular) {
-		this.modular = modular;
-	}
-
-	@Override
 	public int addFluidTank(int capacity, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
 		int newIndex = tankSlots.size();
 		tankSlots.add(new FluidTankAdvanced(capacity, mode));
@@ -62,7 +56,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 
 	@Override
 	public IModuleTank build() {
-		return new ModuleTank(tankSlots.toArray(new FluidTankAdvanced[tankSlots.size()]), modular, state, insertFilter, extractFilter);
+		return new ModuleTank(tankSlots.toArray(new FluidTankAdvanced[tankSlots.size()]), state, insertFilter, extractFilter);
 	}
 
 	@Override

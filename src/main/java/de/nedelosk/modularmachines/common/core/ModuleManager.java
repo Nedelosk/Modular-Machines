@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
@@ -12,6 +13,7 @@ import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.modular.AssemblerLogicBasic;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
@@ -189,8 +191,22 @@ public class ModuleManager {
 		moduleBoilerBronze = new ModuleBoiler(10, 3);
 		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
 		GameRegistry.register(moduleBoilerBronze);
+		
+		/* ALLOY SMELTERS*/
+		moduleAlloySmelterStone = new ModuleAlloySmelter(15, 3);
+		moduleAlloySmelterStone.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.stone"));
+		GameRegistry.register(moduleAlloySmelterStone);
+		
+		moduleAlloySmelterIron = new ModuleAlloySmelter(12, 3);
+		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
+		GameRegistry.register(moduleAlloySmelterIron);
+		
+		moduleAlloySmelterBronze = new ModuleAlloySmelter(10, 3);
+		moduleAlloySmelterBronze.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.bronze"));
+		GameRegistry.register(moduleAlloySmelterBronze);
 
 		RecipeRegistry.registerRecipeHandler(new RecipeHandlerBoiler());
+		ModularManager.registerAssemblerLogic(new AssemblerLogicBasic());
 	}
 
 	public static void registerModuleContainers(){
@@ -215,6 +231,11 @@ public class ModuleManager {
 		addDefaultModuleItem(moduleHeaterBronzeLarge, EnumMaterials.BRONZE);
 		addDefaultModuleItem(moduleHeaterSteelLarge, EnumMaterials.STEEL);
 		addDefaultModuleItem(moduleHeaterMagmariumLarge, EnumMaterials.MAGMARIUM);
+		
+		//Alloy Smelters
+		addDefaultModuleItem(moduleAlloySmelterStone, EnumMaterials.STONE);
+		addDefaultModuleItem(moduleAlloySmelterIron, EnumMaterials.IRON);
+		addDefaultModuleItem(moduleAlloySmelterBronze, EnumMaterials.BRONZE);
 	}
 
 	private static void addDefaultModuleItem(IModule module, IMaterial material){

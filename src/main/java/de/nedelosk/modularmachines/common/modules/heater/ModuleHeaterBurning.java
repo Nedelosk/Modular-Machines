@@ -59,15 +59,15 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			addBurnTime(moduleState, -10);
 			PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
 		} else {
-			IModulePage[] pages = moduleState.getPages();
+			List<IModulePage> pages = moduleState.getPages();
 			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
-			ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages[0]).BURNSLOT);
+			ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages.get(0)).BURNSLOT);
 			if(input == null){
 				if(casingState.getModule().getHeat(casingState) > 0){
 					casingState.getModule().addHeat(casingState, -1);
 				}
 			}else if (input != null) {
-				if(inventory.extractItem(((HeaterBurningPage)pages[0]).BURNSLOT, 1, false) != null){
+				if(inventory.extractItem(((HeaterBurningPage)pages.get(0)).BURNSLOT, 1, false) != null){
 					setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
 				}
 			}
@@ -75,15 +75,17 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState moduleState) {
-		return new IModulePage[]{new HeaterBurningPage(0, moduleState)};
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new HeaterBurningPage("Basic", state));
+		return pages;
 	}
 
 	public class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
 		public int BURNSLOT;
 
-		public HeaterBurningPage(int pageID, IModuleState<IModuleHeaterBurning> heaterState) {
+		public HeaterBurningPage(String pageID, IModuleState<IModuleHeaterBurning> heaterState) {
 			super(pageID, heaterState);
 		}
 
@@ -94,7 +96,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0, 80, 35));
+			modularSlots.add(new SlotModule(state, BURNSLOT, 80, 35));
 		}
 
 	}

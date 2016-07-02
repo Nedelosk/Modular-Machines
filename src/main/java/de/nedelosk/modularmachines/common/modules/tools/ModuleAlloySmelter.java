@@ -38,14 +38,15 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		IModulePage[] pages = new IModulePage[] { new AlloySmelterPage(0, state) };
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new AlloySmelterPage("Basic", state));
 		return pages;
 	}
 
 	public static class AlloySmelterPage extends ModulePage<IModuleTool> {
 
-		public AlloySmelterPage(int pageID, IModuleState<IModuleTool> module) {
+		public AlloySmelterPage(String pageID, IModuleState<IModuleTool> module) {
 			super(pageID, module);
 		}
 

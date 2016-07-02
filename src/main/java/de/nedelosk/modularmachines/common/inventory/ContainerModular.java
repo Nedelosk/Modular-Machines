@@ -31,7 +31,7 @@ public class ContainerModular extends ContainerBase<IModularHandler> {
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			List<SlotModule> slots = Lists.newArrayList();
-			if (currentPage.getModuleState().getContentHandler(IModuleInventory.class) != null) {
+			if (currentPage.getModuleState().getContentHandler(ItemStack.class) != null) {
 				currentPage.createSlots(this, slots);
 				for(SlotModule slot : slots) {
 					addSlotToContainer(slot);

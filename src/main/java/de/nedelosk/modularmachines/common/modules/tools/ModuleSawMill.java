@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer.PulverizerPage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,10 +42,12 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 	public int getColor() {
 		return 0xA65005;
 	}
-
+	
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return new IModulePage[]{new SawMillPage(0, state)};
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new SawMillPage("Basic", state));
+		return pages;
 	}
 
 	/*@SideOnly(Side.CLIENT)
@@ -55,7 +58,7 @@ public class ModuleSawMill extends ModuleToolEngine implements IModuleColored{
 
 	public static class SawMillPage extends ModulePage<IModuleTool> {
 
-		public SawMillPage(int pageID, IModuleState<IModuleTool> moduleState) {
+		public SawMillPage(String pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
 		}
 

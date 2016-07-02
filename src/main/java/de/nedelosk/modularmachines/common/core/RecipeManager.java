@@ -1,8 +1,10 @@
 package de.nedelosk.modularmachines.common.core;
 
+import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
+import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
 import de.nedelosk.modularmachines.common.utils.OreStack;
 import de.nedelosk.modularmachines.common.utils.RecipeUtil;
@@ -28,43 +30,31 @@ public class RecipeManager {
 		registerMetalRecipes();
 		addMachineRecipes();
 		addNormalRecipes();
+		addModuleRecipes();
 	}
-
-	public static void registerPostRecipes() {
-		/*
-		 * for(ItemStack oreStack : OreDictionary.getOres("logWood")){ if
-		 * (Block.getBlockFromItem(oreStack.getItem()) != null &&
-		 * Block.getBlockFromItem(oreStack.getItem()) != Blocks.air) { if
-		 * (oreStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) { int
-		 * metas = 4; if (Block.getBlockFromItem(oreStack.getItem()) instanceof
-		 * BlockNewLog) { metas = 2; } for(int meta = 0; meta < metas; meta++) {
-		 * ItemStack logStack = new ItemStack(oreStack.getItem(), 1, meta);
-		 * ForestDayCrafting.woodManager.add(logStack.getUnlocalizedName(),
-		 * logStack, new ItemStack(Items.coal, 1, 1)); } } else {
-		 * ForestDayCrafting.woodManager.add(oreStack.getUnlocalizedName(),
-		 * oreStack, new ItemStack(Items.coal, 1, 1)); } } }
-		 */
-		/*
-		 * for(Entry<ItemStack, ItemStack> recipe : (Set<Entry<ItemStack,
-		 * ItemStack>>) FurnaceRecipes.smelting().getSmeltingList().entrySet())
-		 * { if (recipe.getValue().getItem() == Items.coal &&
-		 * recipe.getValue().getItemDamage() == 1 &&
-		 * Block.getBlockFromItem(recipe.getKey().getItem()) != null &&
-		 * Block.getBlockFromItem(recipe.getKey().getItem()) != Blocks.air) {
-		 * ItemStack oreStack = recipe.getKey(); for(int oreID :
-		 * OreDictionary.getOreIDs(recipe.getKey())) { String oreDict =
-		 * OreDictionary.getOreName(oreID); if (oreDict.equals("logWood")) { if
-		 * (oreStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) { int
-		 * metas = 4; if (Block.getBlockFromItem(oreStack.getItem()) instanceof
-		 * BlockNewLog) { metas = 2; } for(int meta = 0; meta < metas; meta++) {
-		 * ItemStack logStack = new ItemStack(oreStack.getItem(), 1, meta);
-		 * ForestDayCrafting.woodManager.add(logStack.getUnlocalizedName(),
-		 * logStack, recipe.getValue()); } } else {
-		 * ForestDayCrafting.woodManager.add(oreStack.getUnlocalizedName(),
-		 * recipe.getKey(), oreStack); } } } } }
-		 */
-		// registerCharcoalKilnRecipes();
-		RecipeUtil.removeFurnaceRecipe(Items.COAL, 1);
+	
+	private static void addModuleRecipes(){
+		//Heaters
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterStone.getRegistryName(), EnumMaterials.STONE), 
+				"SPS",
+				"RFR",
+				"SPS", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone", 'S', "stone");
+		
+		//Alloy Smleters
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
+				"RPR",
+				"FDF",
+				"RPR", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone");
+		
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
+				"RPR",
+				"FDF",
+				"RPR", 'R', "rodIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'D', "moduleCoreIron");
+		
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
+				"RPR",
+				"FDF",
+				"RPR", 'R', "rodBronze", 'P', "plateBronze", 'F', Blocks.FURNACE, 'D', "moduleCoreBronze");
 	}
 
 	private static void addNormalRecipes() {
@@ -88,14 +78,14 @@ public class RecipeManager {
 		}
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 2), new ItemStack(Items.IRON_INGOT), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 3), new ItemStack(Items.GOLD_INGOT), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 20), new ItemStack(ItemManager.itemIngots, 1, 0), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 21), new ItemStack(ItemManager.itemIngots, 1, 1), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 22), new ItemStack(ItemManager.itemIngots, 1, 2), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 23), new ItemStack(ItemManager.itemIngots, 1, 3), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 24), new ItemStack(ItemManager.itemIngots, 1, 4), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 25), new ItemStack(ItemManager.itemIngots, 1, 5), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 26), new ItemStack(ItemManager.itemIngots, 1, 6), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 27), new ItemStack(ItemManager.itemIngots, 1, 7), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 10), new ItemStack(ItemManager.itemIngots, 1, 0), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 11), new ItemStack(ItemManager.itemIngots, 1, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 12), new ItemStack(ItemManager.itemIngots, 1, 2), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 13), new ItemStack(ItemManager.itemIngots, 1, 3), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 14), new ItemStack(ItemManager.itemIngots, 1, 4), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 15), new ItemStack(ItemManager.itemIngots, 1, 5), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 16), new ItemStack(ItemManager.itemIngots, 1, 6), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 17), new ItemStack(ItemManager.itemIngots, 1, 7), 0.5F);
 	}
 
 	private static void registerComponentRecipes() {

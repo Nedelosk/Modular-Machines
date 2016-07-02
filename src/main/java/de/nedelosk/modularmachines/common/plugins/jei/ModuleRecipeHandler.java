@@ -23,7 +23,7 @@ public class ModuleRecipeHandler implements IRecipeHandler<ModuleRecipeWrapper> 
 
 	@Override
 	public String getRecipeCategoryUid(ModuleRecipeWrapper recipe) {
-		return categoryUid;
+		return recipe.recipeCategoryUid;
 	}
 
 	@Override

@@ -1,9 +1,16 @@
 package de.nedelosk.modularmachines.common.blocks;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.statemapper.BlankStateMapper;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
+import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import forestry.api.core.IStateMapperRegister;
@@ -19,8 +26,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockModularAssembler extends BlockContainerForest implements IStateMapperRegister, IItemModelRegister{
 
@@ -45,6 +56,20 @@ public class BlockModularAssembler extends BlockContainerForest implements IStat
 		}
 		player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 		return true;
+	}
+	
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			IItemHandler handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+			for(int index = 0;index < handler.getSlots();index++){
+				if(index != 1){
+					WorldUtil.dropItem(world, pos, handler.getStackInSlot(index));
+				}
+			}
+		}
+		super.breakBlock(world, pos, blockState);
 	}
 
 	@SideOnly(Side.CLIENT)

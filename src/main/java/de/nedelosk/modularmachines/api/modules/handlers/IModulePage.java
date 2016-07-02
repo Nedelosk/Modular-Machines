@@ -18,7 +18,7 @@ public interface IModulePage extends IPage {
 
 	void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots);
 
-	int getPageID();
+	String getPageID();
 
 	IModular getModular();
 

@@ -7,11 +7,13 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOutput;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -56,6 +58,9 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 						sibling.addParent(slot);
 						sibling.changeStatus(true);
 					}
+					if(!sibling.isUpdated()){
+						updateSlot(sibling);
+					}
 				}
 			}
 		}else if(slot.isActive()){
@@ -75,7 +80,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			IAssemblerSlot[] siblings = slot.getSiblings();
 			if(siblings != null && siblings.length > 0){
 				for(IAssemblerSlot sibling : siblings){
-					if(sibling != null && !sibling.isUpdated() && !parents.contains(sibling)){
+					if(sibling != null && !sibling.isUpdated()){
 						updateSlot(sibling);
 					}
 				}
@@ -102,12 +107,12 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player));
 
 		slots[10] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 12, 28, 118, inventory.player));
-		slots[11] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 13, 64, 118, inventory.player, IModuleTool.class));
-		slots[12] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 14, 100, 118, inventory.player, IModuleTool.class));
+		slots[11] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 13, 64, 118, inventory.player, IModuleDrive.class));
+		slots[12] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 14, 100, 118, inventory.player, IModuleDrive.class));
 		slots[13] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 15, 136, 118, inventory.player));
 
 		slots[14] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 16, 46, 154, inventory.player));
-		slots[15] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 17, 82, 154, inventory.player, IModuleTool.class));
+		slots[15] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 17, 82, 154, inventory.player, IModuleDrive.class));
 		slots[16] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 18, 118, 154, inventory.player));
 
 		slots[0].setSiblings(new SlotAssembler[]{slots[1], slots[3], slots[4]});
@@ -117,7 +122,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		slots[4].setSiblings(new SlotAssembler[]{slots[7], slots[8], slots[3], slots[0], slots[1], slots[5]});
 		slots[5].setSiblings(new SlotAssembler[]{slots[1], slots[2], slots[4], slots[8], slots[9], slots[6]});
 		slots[6].setSiblings(new SlotAssembler[]{slots[2], slots[5], slots[9]});
-		slots[7].setSiblings(new SlotAssembler[]{slots[2], slots[4], slots[8], slots[11], slots[10]});
+		slots[7].setSiblings(new SlotAssembler[]{slots[3], slots[4], slots[8], slots[11], slots[10]});
 		slots[8].setSiblings(new SlotAssembler[]{slots[4], slots[5], slots[9], slots[11], slots[12], slots[7]});
 		slots[9].setSiblings(new SlotAssembler[]{slots[5], slots[6], slots[13], slots[12], slots[8]});
 		slots[10].setSiblings(new SlotAssembler[]{slots[7], slots[11], slots[14]});

@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,10 +63,9 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	protected IModuleInventory createInventory(IModuleState state) {
 		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
-		invBuilder.setModular(state.getModular());
 		invBuilder.setModuleState(state);
 		if (state.getPages() != null) {
-			for(IModulePage page : state.getPages()) {
+			for(IModulePage page : (List<IModulePage>) state.getPages()) {
 				page.createInventory(invBuilder);
 			}
 		}
@@ -77,10 +77,10 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	protected IModuleTank createTank(IModuleState state) {
 		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
-		tankBuilder.setModular(state.getModular());
+
 		tankBuilder.setModuleState(state);
 		if (state.getPages() != null) {
-			for(IModulePage page : state.getPages()) {
+			for(IModulePage page : (List<IModulePage>) state.getPages()) {
 				page.createTank(tankBuilder);
 			}
 		}
@@ -115,8 +115,8 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return null;
+	public List<IModulePage> createPages(IModuleState state) {
+		return new ArrayList<>();
 	}
 
 	@Override

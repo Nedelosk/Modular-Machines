@@ -12,13 +12,6 @@ public interface IModuleBuilder<M extends IModule> {
 	void setModuleState(IModuleState<M> module);
 
 	/**
-	 * Set the modular of the handler.
-	 * @deprecated Us the modular from the module state.
-	 */
-	@Deprecated
-	void setModular(IModular modular);
-
-	/**
 	 * Build a handler from the builder.
 	 */
 	IModuleHandler build();

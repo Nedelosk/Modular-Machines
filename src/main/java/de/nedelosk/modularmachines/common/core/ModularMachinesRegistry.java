@@ -46,9 +46,9 @@ public class ModularMachinesRegistry extends Registry {
 		AchievementManager achManager = new AchievementManager();
 		MinecraftForge.EVENT_BUS.register(achManager);
 		OreDictionaryManager.registerOres();
-		RecipeManager.registerRecipes();
 		ModuleManager.registerModuels();
 		ModuleManager.registerModuleContainers();
+		RecipeManager.registerRecipes();
 		ModuleManager.registerCapability();
 		AchievementManager.registerPage();
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
@@ -64,7 +64,6 @@ public class ModularMachinesRegistry extends Registry {
 		}
 		Config.postInit();
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
-		RecipeManager.registerPostRecipes();
 		super.postInit(instance, event);
 	}
 

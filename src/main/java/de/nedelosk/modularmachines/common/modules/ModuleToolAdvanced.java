@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyMachineMode;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleToolAdvanced;
@@ -56,12 +57,9 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 		return new Object[] { defaultMode };
 	}
 
-	@Override
-	public abstract ModuleAdvancedPage[] createPages(IModuleState state);
-
 	public static abstract class ModuleAdvancedPage extends ModulePage<IModuleToolAdvanced> {
 
-		public ModuleAdvancedPage(int pageID, IModuleState<IModuleToolAdvanced> moduleState) {
+		public ModuleAdvancedPage(String pageID, IModuleState<IModuleToolAdvanced> moduleState) {
 			super(pageID, moduleState);
 		}
 

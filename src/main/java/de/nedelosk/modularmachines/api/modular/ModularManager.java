@@ -35,8 +35,8 @@ public class ModularManager {
 			return null;
 		}
 		//Set modular output slot to null.
-		handler.insertItem(1, null, false);
 		//Test if casing item null.
+		handler.extractItem(1, 1, false);
 		if(handler.getStackInSlot(0) != null){
 			boolean notNull = false;
 			for(int index = 2;index < handler.getSlots();index++){
@@ -76,7 +76,7 @@ public class ModularManager {
 					itemHandler.setWorld(player.getEntityWorld());
 					itemHandler.setOwner(player.getGameProfile());
 					itemHandler.setUID();
-					if(handler.insertItem(1, modularItem.copy(), true) != null){
+					if(handler.insertItem(1, modularItem.copy(), true) == null){
 						return handler.insertItem(1, modularItem.copy(), false);
 					}
 				}

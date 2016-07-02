@@ -96,7 +96,7 @@ public class PacketModularHandler implements IMessage {
 		}else if(identifier instanceof BlockPos){
 			BlockPos pos = (BlockPos) identifier;
 			TileEntity tile = world.getTileEntity(pos);
-			if(tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+			if(tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
 				return tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			}
 		}

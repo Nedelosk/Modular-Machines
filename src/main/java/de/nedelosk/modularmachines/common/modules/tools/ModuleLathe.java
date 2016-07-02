@@ -5,6 +5,8 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -45,8 +47,10 @@ public class ModuleLathe extends ModuleToolAdvanced{
 	}
 
 	@Override
-	public ModuleAdvancedPage[] createPages(IModuleState state) {
-		return new ModuleAdvancedPage[]{new ModuleLathePage(0, state)};
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new ModuleLathePage("Basic", state));
+		return pages;
 	}
 
 	/*@SideOnly(Side.CLIENT)
@@ -78,7 +82,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 
 	public static class ModuleLathePage extends ModuleAdvancedPage{
 
-		public ModuleLathePage(int pageID, IModuleState<IModuleToolAdvanced> state) {
+		public ModuleLathePage(String pageID, IModuleState<IModuleToolAdvanced> state) {
 			super(pageID, state);
 		}
 

@@ -4,16 +4,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.filefilter.MagicNumberFileFilter;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
@@ -25,7 +30,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected final M module;
 	protected final IModuleContainer container;
 	protected final List<IModuleContentHandler> contentHandlers;
-	protected final IModulePage[] pages;
+	protected final List<IModulePage> pages;
 
 	public ModuleState(IModular modular, M module, IModuleContainer container) {
 		this.registeredProperties = Lists.newArrayList();
@@ -34,7 +39,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		this.modular = modular;
 		this.module = module;
 		this.container = container;
-		this.pages = module.createPages(this);
+		List<IModulePage> createdPages = module.createPages(this);
+		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageCreateEvent(this, createdPages));
+		this.pages = createdPages;
 		this.contentHandlers = module.createContentHandlers(this);
 	}
 
@@ -108,7 +115,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public IModulePage[] getPages() {
+	public List<IModulePage> getPages() {
 		return pages;
 	}
 
@@ -134,6 +141,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
 			}
 		}
+		for(IModuleContentHandler handler : contentHandlers){
+			nbt.setTag(handler.getHandlerUID(), handler.writeToNBT(new NBTTagCompound()));
+		}
 	}
 
 	@Override
@@ -141,6 +151,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		for(IProperty property : registeredProperties){
 			if(nbt.hasKey(property.getName())){
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+			}
+		}
+		for(IModuleContentHandler handler : contentHandlers){
+			if(nbt.hasKey(handler.getHandlerUID())){
+				handler.readFromNBT(nbt.getCompoundTag(handler.getHandlerUID()));
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSelectModulePage extends PacketModularHandler implements IMessageHandler<PacketSelectModulePage, IMessage> {
 
-	public int pageID;
+	public String pageID;
 
 	public PacketSelectModulePage() {
 	}
@@ -23,16 +24,16 @@ public class PacketSelectModulePage extends PacketModularHandler implements IMes
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		pageID = buf.readInt();
+		pageID = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		buf.writeInt(pageID);
+		ByteBufUtils.writeUTF8String(buf, pageID);
 	}
 
-	public PacketSelectModulePage(IModularHandler handler, int pageID) {
+	public PacketSelectModulePage(IModularHandler handler, String pageID) {
 		super(handler);
 		this.pageID = pageID;
 	}

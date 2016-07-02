@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 
@@ -73,7 +75,6 @@ public class RecipeManager {
 			try {
 				File recipeFile = new File(file, recipeEntry.getKey().toLowerCase(Locale.ENGLISH) + "_recipes.json");
 				if (!recipeFile.exists()) {
-					recipeFile.createNewFile();
 					try {
 						writeAllRecipes(recipeEntry, recipeFile);
 					} catch (Exception e) {
@@ -107,36 +108,39 @@ public class RecipeManager {
 				e.printStackTrace();
 			}
 		}
+		List<RecipeEntry> newEntrys = new ArrayList<>();
 		dafault: for(IRecipe r : recipeEntry.getValue()) {
 			Iterator<RecipeEntry> entrys = groupDefault.recipes.iterator();
 			while(entrys.hasNext()) {
 				RecipeEntry entry = entrys.next();
 				if (r.getRecipeName().equals(entry.name)) {
-					groupDefault.recipes.add(new RecipeEntry(r.getRecipeName(), entry.isActive, r));
+					newEntrys.add(new RecipeEntry(r.getRecipeName(), entry.isActive, r));
 					entrys.remove();
 					continue dafault;
 				}
 				continue;
 			}
-			groupDefault.recipes.add(new RecipeEntry(r.getRecipeName(), true, r));
+			newEntrys.add(new RecipeEntry(r.getRecipeName(), true, r));
 		}
+		groupDefault.recipes.addAll(newEntrys);
 		jsonReader.close();
-		JsonArray array = new JsonArray();
+		JsonObject object = new JsonObject();
 		for(Entry<String, RecipeGroup> group : groups.entrySet()) {
-			array.add(GSON.toJsonTree(group.getValue()));
+			object.add(group.getKey(), GSON.toJsonTree(group.getValue()));
 		}
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
-		writer.write(GSON.toJson(array));
+		writer.write(GSON.toJson(object));
 		writer.close();
 	}
 
 	private static Map<String, RecipeGroup> getGoups(JsonElement element) {
 		Map<String, RecipeGroup> groups = Maps.newHashMap();
-		if (element != null && element != JsonNull.INSTANCE && element.isJsonArray()) {
-			for(int i = 0; i < element.getAsJsonArray().size(); i++) {
+		JsonObject object = element.getAsJsonObject();
+		for(Entry<String, JsonElement> entry : object.entrySet()){
+			JsonElement ele = entry.getValue();
+			if (ele != null && ele != JsonNull.INSTANCE) {
 				try {
-					JsonElement json = ((JsonArray) element).get(i);
-					RecipeGroup group = GSON.fromJson(json, RecipeGroup.class);
+					RecipeGroup group = GSON.fromJson(ele, RecipeGroup.class);
 					groups.put(group.name, group);
 				} catch (Exception e) {
 					e.printStackTrace();

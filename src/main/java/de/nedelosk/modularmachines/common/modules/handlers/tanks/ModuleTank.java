@@ -19,22 +19,15 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	protected final FluidTankAdvanced[] tanks;
-	protected final IModular modular;
 	protected final IModuleState<M> state;
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ModuleTank(FluidTankAdvanced[] tanks, IModular modular, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(FluidTankAdvanced[] tanks, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.tanks = tanks;
-		this.modular = modular;
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-	}
-
-	@Override
-	public IModular getModular() {
-		return modular;
 	}
 
 	@Override
@@ -311,7 +304,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagList = new NBTTagList();
 		for(FluidTankAdvanced tank : tanks){
 			NBTTagCompound tankTag = new NBTTagCompound();
@@ -319,7 +312,13 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			tankTag.setInteger("Capacity", tank.getCapacity());;
 			nbtTagList.appendTag(nbtTagList);
 		}
-		nbt.setTag("Tanks", nbtTagList);;
+		nbt.setTag("Tanks", nbtTagList);
+		return nbt;
+	}
+	
+	@Override
+	public String getHandlerUID() {
+		return "Tanks";
 	}
 
 	@Override

@@ -25,25 +25,18 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	protected ItemStack[] stacks;
 	protected final boolean[] isInput;
-	protected final IModular modular;
 	protected final IModuleState<M> state;
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
 	protected final String inventoryName;
 
-	public ModuleInventory(int size, boolean[] inputs, IModular modular, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter, String inventoryName) {
+	public ModuleInventory(int size, boolean[] inputs, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter, String inventoryName) {
 		this.stacks = new ItemStack[size];
 		this.isInput = inputs;
-		this.modular = modular;
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 		this.inventoryName = inventoryName;
-	}
-
-	@Override
-	public IModular getModular() {
-		return modular;
 	}
 
 	/* INEVNTORY */
@@ -244,7 +237,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt){
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt){
 		NBTTagList nbtTagList = new NBTTagList();
 		for (int i = 0; i < stacks.length; i++)
 		{
@@ -258,6 +251,12 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		}
 		nbt.setTag("Items", nbtTagList);
 		nbt.setInteger("Size", stacks.length);
+		return nbt;
+	}
+	
+	@Override
+	public String getHandlerUID() {
+		return "Items";
 	}
 
 	@Override

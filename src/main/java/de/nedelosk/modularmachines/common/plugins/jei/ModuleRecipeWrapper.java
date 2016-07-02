@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -14,9 +15,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleRecipeWrapper implements IRecipeWrapper {
 
 	protected IRecipe recipe;
+	protected String recipeCategoryUid;
 
-	public ModuleRecipeWrapper(IRecipe recipe) {
+	public ModuleRecipeWrapper(IRecipe recipe, String recipeCategoryUid) {
 		this.recipe = recipe;
+		this.recipeCategoryUid = recipeCategoryUid;
 	}
 
 	@Override
@@ -78,6 +81,14 @@ public class ModuleRecipeWrapper implements IRecipeWrapper {
 			}
 		}
 		return inputs;
+	}
+	
+	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid) {
+		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
+		for (IRecipe recipe : RecipeRegistry.getRecipes().get(recipeCategory)) {
+			recipes.add(new ModuleRecipeWrapper(recipe, recipeCategoryUid));
+		}
+		return recipes;
 	}
 
 	@Override
