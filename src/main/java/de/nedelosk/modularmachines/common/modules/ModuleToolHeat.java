@@ -4,9 +4,7 @@ import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -58,7 +56,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 	}
 
 	protected abstract int getConsumeHeat(IModuleState state);
-	
+
 	@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
 		if(!modular.getModules(IModuleHeater.class).isEmpty()){

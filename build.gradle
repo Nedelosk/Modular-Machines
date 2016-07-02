@@ -17,14 +17,19 @@ buildscript {
 
 plugins {
 	id "net.minecraftforge.gradle.forge" version "2.0.2"
+	//id "com.matthewprenger.cursegradle" version "1.0.7"
+	//id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
 }
+
+apply plugin: 'maven'
+
 
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
 if (project.hasProperty('buildQualifier')) {
 	version = project.version + '-' + project.buildQualifier
 }
-group= "de.nedelosk.forestmods" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "forestmods_" + mcversion
+group= "de.nedelosk.modularmachines" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "modularmachines_" + mcversion
 
 ext.dirDest = './build/dist'
 
@@ -41,6 +46,35 @@ minecraft {
 	replace '@BUILD_NUMBER@', getBuildNumber()
 }
 
+jar {
+    manifest {
+        attributes 'FMLAT': 'modularmachines_at.cfg'
+    }
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allJava
+	classifier = 'sources'
+}
+
+task apiJar(type: Jar) {
+	from sourceSets.main.allSource
+	from sourceSets.main.output
+	include 'de.modularmachines/api/**'
+	classifier = 'api'
+}
+
+artifacts {
+	archives deobfJar
+	archives sourcesJar
+	archives apiJar
+}
+
 repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
@@ -49,11 +83,17 @@ repositories {
 		name = "ic2"
 		url = "http://maven.ic2.player.to/"
 	}
+	maven {
+		url 'http://maven.epoxide.xyz'
+	}
 }
 
 dependencies {
+	deobfCompile "net.darkhax.tesla:Tesla:${tesla_version}"
 	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
 	runtime "mezz.jei:jei_${mcversion}:${jei_version}"
+	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+	
 }
 
 processResources {
@@ -75,9 +115,44 @@ processResources {
 		exclude 'mcmod.info'
 		exclude '**/*.md'
 	}
+	
+	// Move access transformers to META-INF
+	rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 def getBuildNumber() {
 	return "$System.env.BUILD_NUMBER" != "null" ? "$System.env.BUILD_NUMBER" : "0"
 }
 
+/*task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+	filePath = "changelog.html"
+	untaggedName = "Current release ${project.version}"
+	fromCommit = "422008f48869bdb14c60409ba20708b8a5ecd212"
+	toRef =  "HEAD"
+	templateContent = """
+Alpha version, still buggy. Do not create a world you care about with this version, it can and will break things severely.<br/>
+Please help the project by trying it out and <a href="https://github.com/Nedelosk/Modular-Machines/issues">reporting issues here.</a><br/>
+{{#tags}}
+  <h3>{{name}}</h3>
+  <ul>
+    {{#commits}}
+    <li>{{{message}}} - {{authorName}}</li>
+    {{/commits}}
+  </ul>
+{{/tags}}
+"""
+}
+
+curseforge {
+	apiKey = project.hasProperty('curseforge_apikey') ? project.curseforge_apikey : '0'
+	project {
+		id = 233073
+		changelog = file('changelog.html')
+		changelogType = 'html'
+		releaseType = 'alpha'
+	}
+}
+
+afterEvaluate {
+	tasks.curseforge233073.dependsOn.add(makeChangelog)
+}*/

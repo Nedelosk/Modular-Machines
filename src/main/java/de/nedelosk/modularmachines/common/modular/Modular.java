@@ -15,8 +15,6 @@ import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModularLogicType;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modular.renderer.IRenderState;
-import de.nedelosk.modularmachines.api.modular.renderer.ISimpleRenderer;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
@@ -32,6 +30,7 @@ import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
+import jline.internal.Log;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -134,11 +133,15 @@ public class Modular implements IModular {
 			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
 			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
 			IModuleContainer container = ModularManager.getContainerFromItem(moduleItem);
-			IModuleState state = container.getModule().createState(this, container);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-			state.createState();
-			state.readFromNBT(moduleTag, this);
-			modules.add(state);
+			if(container != null){
+				IModuleState state = container.getModule().createState(this, container);
+				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+				state.createState();
+				state.readFromNBT(moduleTag, this);
+				modules.add(state);
+			}else{
+				Log.error("Remove module from modular, because the item of the module don't exist any more.");
+			}
 		}
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));

@@ -15,14 +15,12 @@ import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
-import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import forestry.api.core.IStateMapperRegister;
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -46,8 +44,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -168,52 +164,6 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 			itemHandler.setUID();
 		}
 		return stack;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void onBreakBlock(BlockEvent.BreakEvent event){
-		if(event.getState().getBlock() == BlockManager.blockModular){
-			EntityPlayer player = event.getPlayer();
-			ItemStack stack = player.inventory.getCurrentItem();
-			World world = event.getWorld();
-			BlockPos pos = event.getPos();
-			IBlockState state = event.getState();
-			Block block = state.getBlock();
-
-			state = state.getBlock().getActualState(state, world, pos);
-
-			if(stack == null){
-				event.setCanceled(true);
-			}
-
-			TileEntity tile = world.getTileEntity(pos);
-			if(tile instanceof TileModular){
-				IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
-
-				String tool = casingState.getModule().getHarvestTool(casingState);
-				if (stack == null || tool == null)
-				{
-					if(!player.canHarvestBlock(state)){
-						event.setCanceled(true);
-					}
-				}
-
-
-				int toolLevel = stack.getItem().getHarvestLevel(stack, tool);
-				if (toolLevel < 0)
-				{
-					if(!player.canHarvestBlock(state)){
-						event.setCanceled(true);
-					}
-				}
-
-				if(toolLevel < casingState.getModule().getHarvestLevel(casingState)){
-					event.setCanceled(true);
-				}
-			}
-		}
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock;
 import de.nedelosk.modularmachines.common.blocks.BlockModularAssembler;
 import de.nedelosk.modularmachines.common.blocks.BlockModularMachine;
 import de.nedelosk.modularmachines.common.blocks.BlockOre;
-import de.nedelosk.modularmachines.common.blocks.BlockTransport;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.items.ItemBlockForest;
@@ -21,7 +20,6 @@ public class BlockManager {
 	public static BlockModularMachine blockModular;
 	public static BlockOre blockOres;
 	public static BlockMetalBlock blockMetalBlocks;
-	public static BlockTransport blockTransport;
 	public static BlockModularAssembler blockAssembler;
 
 	public static void registerBlocks() {
@@ -29,7 +27,6 @@ public class BlockManager {
 		register(blockOres, new ItemBlockForest(blockOres));
 		blockMetalBlocks = new BlockMetalBlock();
 		register(blockMetalBlocks, new  ItemBlockMetalBlock(blockMetalBlocks));
-		// blockTransport = register(new BlockTransport(),
 		blockCasings = new BlockCasing();
 		register(blockCasings, new ItemBlockForest(blockCasings));
 		blockModular = new BlockModularMachine();

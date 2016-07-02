@@ -4,11 +4,14 @@ import de.nedelosk.modularmachines.client.statemapper.BlankStateMapper;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
 import forestry.api.core.IStateMapperRegister;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -16,8 +19,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockModularAssembler extends BlockContainerForest implements IStateMapperRegister{
+public class BlockModularAssembler extends BlockContainerForest implements IStateMapperRegister, IItemModelRegister{
 
 	public BlockModularAssembler() {
 		super(Material.IRON);
@@ -42,6 +47,13 @@ public class BlockModularAssembler extends BlockContainerForest implements IStat
 		return true;
 	}
 
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerModel(Item item, IModelManager manager) {
+		manager.registerItemModel(item, 0);
+	}
+
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerStateMapper() {
 		ModularMachines.proxy.registerStateMapper(this, new BlankStateMapper());

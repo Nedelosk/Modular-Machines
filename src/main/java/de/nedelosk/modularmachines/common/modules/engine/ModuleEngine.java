@@ -2,11 +2,8 @@ package de.nedelosk.modularmachines.common.modules.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
@@ -21,7 +18,6 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModuleEngine extends Module implements IModuleEngine {
 
@@ -34,7 +30,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public ModuleEngine(int burnTimeModifier) {
 		this.burnTimeModifier = burnTimeModifier;
 	}
-	
+
 	/*@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
 		IModuleState machine = modules.get(group).get(0).second();

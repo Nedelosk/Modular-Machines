@@ -38,7 +38,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return "component." + componentName + "." + stack.getItemDamage();
+		return "component." + componentName + "." + metas.get(stack.getItemDamage()).get(1);
 	}
 
 	@Override

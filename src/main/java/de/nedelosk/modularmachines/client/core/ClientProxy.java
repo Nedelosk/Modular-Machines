@@ -2,16 +2,10 @@ package de.nedelosk.modularmachines.client.core;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
-import de.nedelosk.modularmachines.client.render.tile.TileModularAssemblerRenderer;
-import de.nedelosk.modularmachines.client.render.tile.TileTransportNodeRenderer;
-import de.nedelosk.modularmachines.client.render.tile.TileTransportRenderer;
+import de.nedelosk.modularmachines.client.render.TileModularAssemblerRenderer;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
-import de.nedelosk.modularmachines.common.transport.TileEntityTransport;
-import de.nedelosk.modularmachines.common.transport.TransportClientTickHandler;
-import de.nedelosk.modularmachines.common.transport.node.TileEntityTransportNode;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,31 +20,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
 
 	@Override
-	public void registerTickHandlers() {
-		super.registerTickHandlers();
-		MinecraftForge.EVENT_BUS.register(new TransportClientTickHandler());
-	}
-
-	@Override
 	public void registerRenderers() {
 		/* Modular */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileModularAssemblerRenderer());
 		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BlockManager.blockAssembler), 0, TileModularAssembler.class);
-
-		/* Transport */
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransport.class, new TileTransportRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportNode.class, new TileTransportNodeRenderer());
-		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BlockManager.blockTransport), 0, TileEntityTransport.class);
-		for(int i = 1; i < ModularMachinesApi.getNodeTypes().size(); i++) {
-			ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BlockManager.blockTransport), i, TileEntityTransportNode.class);
-		}
 	}
 
 	@Override

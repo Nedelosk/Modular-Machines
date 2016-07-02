@@ -20,14 +20,12 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	private final float hardness;
 	private final int harvestLevel;
 	private final String harvestTool;
-	private final int controllers;
 
-	public ModuleCasing(int maxHeat, float resistance, float hardness, int controllers, String harvestTool, int harvestLevel) {
+	public ModuleCasing(int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
 		super();
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
-		this.controllers = controllers;
 		this.harvestTool = harvestTool;
 		this.harvestLevel = harvestLevel;
 	}
@@ -86,11 +84,6 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@Override
 	public void setHeat(IModuleState state, int heat) {
 		state.add(HEAT, heat);
-	}
-
-	@Override
-	public int getControllers(IModuleState state) {
-		return controllers;
 	}
 
 	@Override

@@ -8,9 +8,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileBaseInventory extends TileBaseGui implements ISidedInventory {
 
+	private final IItemHandler itemHandler = new InvWrapper(this);
 	public ItemStack[] slots;
 
 	public TileBaseInventory(int slots) {
@@ -193,6 +198,22 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 
 	@Override
 	public void clear() {
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+			return true;
+		}
+		return super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
+		}
+		return super.getCapability(capability, facing);
 	}
 
 }

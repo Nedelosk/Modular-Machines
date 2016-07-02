@@ -27,7 +27,6 @@ public class ItemManager {
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemCapacitors;
 	public static Item itemEngine;
-	public static Item itemHeater;
 	public static Item itemModules;
 	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
 	private static Object[][] default_metals = new Object[][] { new Object[]{ "Copper", 0xCC6410 }, new Object[]{ "Tin", 0xCACECF }, new Object[]{ "Silver", 0xE6FDFF }, new Object[]{ "Lead", 0x826C82 }, new Object[]{ "Nickel", 0xA9A283 }, new Object[]{ "Aluminum", -1 }, new Object[]{ "Steel", 0xA0A0A0 } };
@@ -54,7 +53,6 @@ public class ItemManager {
 		itemCapacitors = register(
 				new ItemModuleMeta("capacitor", new String[] { "default", "double_layer" }));
 		itemEngine = register(new ItemModuleMeta("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
-		itemHeater = register(new ItemModuleMeta("heater", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");
 		itemCompWires.addMetaData(0xCACECF, "tin", "Tin");
@@ -85,9 +83,8 @@ public class ItemManager {
 		itemCompPlates.addMetaData(0xCC6410, "copper", "Copper");
 		itemCompPlates.addMetaData(0xCA9956, "bronze", "Bronze");
 		itemCompPlates.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompPlates.addMetaData(0xD4E3E6, "plastic", "Plastic");
 		itemCompPlates.addMetaData(0xA1A48C, "invar", "Invar");
-		itemCompPlates.addMetaData(0xA1A48C, "aluminum", "Aluminum", "Aluminium");
+		itemCompPlates.addMetaData(0xD4E3E6, "aluminum", "Aluminum", "Aluminium");
 		itemCompSawBlades.addMetaData(0x7F7F7F, "stone");
 		itemCompSawBlades.addMetaData(0xDADADA, "iron", "Iron");
 		itemCompSawBlades.addMetaData(0xCA9956, "bronze", "Bronze");

@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -61,13 +62,17 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		IModule module = ModularManager.getContainerFromItem(stack).getModule();
-		if (module instanceof IModuleColored && stack.hasTagCompound() && tintIndex == 1) {
-			IModuleColored moduleColered = (IModuleColored) module;
-			return moduleColered.getColor();
-		} else {
-			return 16777215;
+		IModuleContainer moduleContainer = ModularManager.getContainerFromItem(stack);
+		if(tintIndex == 1){
+			IModule module = moduleContainer.getModule();
+			if (module instanceof IModuleColored && stack.hasTagCompound()) {
+				IModuleColored moduleColered = (IModuleColored) module;
+				return moduleColered.getColor();
+			}
+		}else if(tintIndex == 0){
+			return moduleContainer.getMaterial().getColor();
 		}
+		return 16777215;
 	}
 
 	public static ItemStack getItem(ResourceLocation location, IMaterial material) {

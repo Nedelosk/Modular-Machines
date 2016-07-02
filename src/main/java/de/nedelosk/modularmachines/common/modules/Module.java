@@ -2,16 +2,13 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
 
-import akka.japi.Pair;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
@@ -27,19 +24,18 @@ import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuild
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.terraingen.BiomeEvent.GetFoliageColor;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
 public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
-	
+
 	@Override
 	public int getComplexity(IModuleState state) {
 		return 1;
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
 		return "module." + getRegistryName().getResourcePath() + ".name";
@@ -138,7 +134,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public IModuleModelHandler getModelHandler(IModuleState state) {
 		return getInitModelHandler(state.getContainer());
 	}
-	
+
 	@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
 		return true;

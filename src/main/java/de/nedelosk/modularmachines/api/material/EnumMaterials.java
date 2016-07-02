@@ -5,26 +5,43 @@ import java.util.Locale;
 import de.nedelosk.modularmachines.common.utils.Translator;
 
 public enum EnumMaterials implements IMaterial {
-	WOOD(0, "Wood", "wood"), STONE(1, "Stone", "stone"), IRON(2, "Iron", "iron"), BRONZE(3, "Bronze", "bronze"), OBSIDIAN(4, "Obsidian", "obsidian"), STEEL(5,
-			"Steel", "steel"), MAGMARIUM(7, "Magmarium", "magmarium"),
+	WOOD(0, "Wood", "wood", 0x554530, "Wood"), STONE(1, "Stone", "stone", 0x7F7F7F, "Stone"), ALUMINIUM(2, "Aluminum", "aluminium", 0xD4E3E6, "Aluminum", "Aluminium"),
+	NICKEL(2, "Nickel", "nickel", 0xA9A283, "Nickel"), IRON(2, "Iron", "iron", 0xDADADA, "Iron"), TIN(2, "Tin", "tin", 0xCACECF, "Tin"), 
+	COPPER(2, "Copper", "copper", 0xCC6410, "Copper"), GOLD(3, "Gold", "gold", 0xD3B95A, "Gold"), BRONZE(3, "Bronze", "bronze", 0xCA9956, "Bronze"), 
+	OBSIDIAN(4, "Obsidian", "obsidian", 0x442F50, "Obsidian"), STEEL(5,"Steel", "steel",0xA0A0A0, "Steel"), MAGMARIUM(7, "Magmarium", "magmarium", 0x6E0C08, "Magmarium"),
+
 	// Thermal Expansion
-	LEAD(2, "Lead", "lead"), INVAR(3, "Invar", "invar"), ELECTRUM(5, "Electrum", "electrum"), SIGNALUM(6, "Signalum", "signalum"), ENDERIUM(7,
-			"Enderium", "enderium");
+	LEAD(2, "Lead", "lead", 0x826C82, "Lead"), INVAR(3, "Invar", "invar", 0xA1A48C, "Invar"), ELECTRUM(5, "Electrum", "electrum", 0xD7D665, "Electrum"),
+	SIGNALUM(6, "Signalum", "signalum", 0xB86424, "Signalum"), ENDERIUM(7, "Enderium", "enderium", 0x1B7A57, "Enderium");
 
 	private int tier;
+	private int color;
 	private String name;
 	private String unlocalizedName;
+	private String[] oreDicts;
 
-	EnumMaterials(int tier, String name, String unlocalizedName) {
+	EnumMaterials(int tier, String name, String unlocalizedName, int color, String... oreDicts) {
 		this.tier = tier;
 		this.name = name;
+		this.color = color;
 		this.unlocalizedName = unlocalizedName;
+		this.oreDicts = oreDicts;
 		MaterialRegistry.registerMaterial(this);
 	}
 
 	@Override
 	public int getTier() {
 		return tier;
+	}
+
+	@Override
+	public int getColor() {
+		return color;
+	}
+
+	@Override
+	public String[] getOreDicts() {
+		return oreDicts;
 	}
 
 	@Override

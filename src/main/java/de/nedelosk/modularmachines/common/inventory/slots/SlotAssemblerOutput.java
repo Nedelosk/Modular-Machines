@@ -1,9 +1,6 @@
 package de.nedelosk.modularmachines.common.inventory.slots;
 
-import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 
 public class SlotAssemblerOutput extends SlotOutput {
 

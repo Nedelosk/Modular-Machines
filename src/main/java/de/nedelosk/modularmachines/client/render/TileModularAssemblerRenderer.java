@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.client.render.tile;
+package de.nedelosk.modularmachines.client.render;
 
 import org.lwjgl.opengl.GL11;
 

@@ -5,7 +5,6 @@ import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class TileModularAssembler extends TileMachineBase{
 

@@ -35,7 +35,6 @@ public class ModularMachinesRegistry extends Registry {
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
 		BlockManager.registerTiles();
-		TransportManager.registerTransport();
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModels();
 		}

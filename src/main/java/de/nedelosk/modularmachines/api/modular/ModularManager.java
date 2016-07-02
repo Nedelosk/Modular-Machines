@@ -1,5 +1,11 @@
 package de.nedelosk.modularmachines.api.modular;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -15,6 +21,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ModularManager {
 
+	private static final Map<String, IAssemblerLogic> assemblerLogics = new HashMap<>();
+
 	@CapabilityInject(IModularHandler.class)
 	public static Capability<IModularHandler> MODULAR_HANDLER_CAPABILITY;
 
@@ -23,6 +31,9 @@ public class ModularManager {
 	 * Assemble a modular from the items of a IItemHandler.
 	 */
 	public static ItemStack assembleModular(IItemHandler handler, EntityPlayer player, ItemStack modularItem){
+		if(handler == null || player == null || modularItem == null){
+			return null;
+		}
 		//Set modular output slot to null.
 		handler.insertItem(1, null, false);
 		//Test if casing item null.
@@ -98,6 +109,20 @@ public class ModularManager {
 			}
 		}
 		return null;
+	}
+
+	public static void registerAssemblerLogic(IAssemblerLogic logic){
+		if(logic == null){
+			return;
+		}
+		if(!assemblerLogics.containsKey(logic.getUID())){
+			assemblerLogics.put(logic.getUID(), logic);
+		}
+	}
+
+	@Nonnull
+	public static Map<String, IAssemblerLogic> getAssemblerLogics() {
+		return Collections.unmodifiableMap(assemblerLogics);
 	}
 
 }
