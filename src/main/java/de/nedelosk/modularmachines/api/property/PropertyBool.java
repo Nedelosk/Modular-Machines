@@ -1,8 +1,8 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagByte;
 
-public class PropertyBool extends PropertyBase<Boolean, NBTTagByte>{
+public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider>{
 
 	public PropertyBool(String name, boolean defaultValue) {
 		super(name, Boolean.class, Boolean.valueOf(defaultValue));
@@ -20,12 +20,12 @@ public class PropertyBool extends PropertyBase<Boolean, NBTTagByte>{
 	}
 
 	@Override
-	public NBTTagByte writeToNBT(IModuleState state, Boolean value) {
+	public NBTTagByte writeToNBT(IPropertyProvider state, Boolean value) {
 		return new NBTTagByte((byte)(value ? 1 : 0));
 	}
 
 	@Override
-	public Boolean readFromNBT(NBTTagByte nbt, IModuleState state) {
+	public Boolean readFromNBT(NBTTagByte nbt, IPropertyProvider state) {
 		return nbt.getByte() != 0;
 	}
 }

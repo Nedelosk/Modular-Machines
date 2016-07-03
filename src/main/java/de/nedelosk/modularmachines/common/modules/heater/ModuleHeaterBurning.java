@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
+import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;

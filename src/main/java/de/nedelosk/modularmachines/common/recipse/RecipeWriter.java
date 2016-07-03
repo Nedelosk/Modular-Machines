@@ -11,7 +11,7 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;
 import de.nedelosk.modularmachines.api.recipes.IRecipeJsonSerializer;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.recipse.RecipeManager.RecipeEntry;
+import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager.RecipeEntry;
 import de.nedelosk.modularmachines.common.utils.JsonUtils;
 
 public class RecipeWriter implements JsonSerializer<RecipeEntry> {

@@ -148,8 +148,8 @@ public class Modular implements IModular {
 			if(container != null){
 				IModuleState state = container.getModule().createState(this, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-				state.createState();
-				state.readFromNBT(moduleTag, this);
+				state = state.createProvider();
+				state.readFromNBT(moduleTag);
 				modules.add(state);
 			}else{
 				Log.error("Remove module from modular, because the item of the module don't exist any more.");
@@ -182,7 +182,7 @@ public class Modular implements IModular {
 		NBTTagList nbtList = new NBTTagList();
 		for(IModuleState module : modules) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
-			module.writeToNBT(nbtTag, this);
+			module.writeToNBT(nbtTag);
 			NBTTagCompound nbtTagContainer = new NBTTagCompound();
 			module.getContainer().getItemStack().writeToNBT(nbtTagContainer);
 			nbtTag.setTag("Container", nbtTagContainer);

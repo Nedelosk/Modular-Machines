@@ -1,8 +1,8 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagInt;
 
-public class PropertyInteger extends PropertyBase<Integer, NBTTagInt>{
+public class PropertyInteger extends PropertyBase<Integer, NBTTagInt, IPropertyProvider>{
 
 	public PropertyInteger(String name, int defaultValue){
 		super(name, Integer.class, Integer.valueOf(defaultValue));
@@ -20,12 +20,12 @@ public class PropertyInteger extends PropertyBase<Integer, NBTTagInt>{
 	}
 
 	@Override
-	public NBTTagInt writeToNBT(IModuleState state, Integer value) {
+	public NBTTagInt writeToNBT(IPropertyProvider state, Integer value) {
 		return new NBTTagInt(value);
 	}
 
 	@Override
-	public Integer readFromNBT(NBTTagInt nbt, IModuleState state) {
+	public Integer readFromNBT(NBTTagInt nbt, IPropertyProvider state) {
 		return nbt.getInt();
 	}
 }

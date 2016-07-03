@@ -9,6 +9,8 @@ public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRec
 
 	protected IDrawable background;
 	protected IDrawable slot;
+	protected IDrawable tank;
+	protected IDrawable tankOverlay;
 	protected String inventoryName;
 	protected String uid;
 
@@ -17,7 +19,9 @@ public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRec
 
 	public ModuleRecipeCategory(IDrawable background, IGuiHelper guiHelper, String inventoryName, String uid) {
 		this.background = background;
-		this.slot = guiHelper.createDrawable(guiTexture, 166, 0, 18, 18);
+		this.slot = guiHelper.getSlotDrawable();
+		this.tank = guiHelper.createDrawable(widgetTexture, 132, 127, 18, 60);
+		this.tankOverlay = guiHelper.createDrawable(widgetTexture, 151, 128, 16, 58);
 		this.inventoryName = inventoryName;
 		this.uid = uid;
 	}

@@ -29,7 +29,7 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 		super(handler);
 		this.index = index;
 		NBTTagCompound nbt = new NBTTagCompound();
-		handler.getModular().getModule(index).writeToNBT(nbt, handler.getModular());
+		handler.getModular().getModule(index).writeToNBT(nbt);
 		this.nbt = nbt;
 	}
 
@@ -56,7 +56,7 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 			return null;
 		}
 		IModuleState module = handler.getModular().getModule(message.index);
-		module.readFromNBT(message.nbt, handler.getModular());
+		module.readFromNBT(message.nbt);
 		return null;
 	}
 }

@@ -8,21 +8,21 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModuleState<M extends IModule> {
-
-	<V> V get(IProperty<V, ? extends NBTBase> property);
-
+public interface IModuleState<M extends IModule> extends IPropertyProvider {
+	
 	<T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase> property, V value);
 
 	IModuleState<M> register(IProperty property);
-
+	
 	/**
 	 * Finish the registration of the properties.
 	 */
-	IModuleState<M> createState();
+	IModuleState<M> createProvider();
 
 	/**
 	 * Add the content handlers to the list.
@@ -30,8 +30,6 @@ public interface IModuleState<M extends IModule> {
 	List<IModuleContentHandler> getContentHandlers();
 
 	<C> IModuleContentHandler<C, IModule> getContentHandler(Class<? extends C> contentClass);
-
-	Map<IProperty, Object> getProperties();
 
 	int getIndex();
 
@@ -46,9 +44,9 @@ public interface IModuleState<M extends IModule> {
 	IModular getModular();
 
 	IModuleContainer getContainer();
+	
+	void writeToNBT(NBTTagCompound nbt);
 
-	void writeToNBT(NBTTagCompound nbt, IModular modular);
-
-	void readFromNBT(NBTTagCompound nbt, IModular modular);
+	void readFromNBT(NBTTagCompound nbt);
 
 }

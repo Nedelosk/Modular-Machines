@@ -28,7 +28,7 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 
-public class RecipeManager {
+public class RecipeJsonManager {
 
 	public static final RecipeWriter writer = new RecipeWriter();
 	public static final RecipeParser parser = new RecipeParser();
@@ -36,11 +36,11 @@ public class RecipeManager {
 			.registerTypeAdapter(RecipeEntry.class, parser).create();
 
 	public static void checkRecipes() {
-		writeRecipes();
-		parseRecipes();
+		writeRecipesFiles();
+		parseRecipesFiles();
 	}
 
-	private static void parseRecipes() {
+	private static void parseRecipesFiles() {
 		File file = new File(ModularMachines.configFolder, "recipes");
 		for(String recipeName : RecipeRegistry.getRecipes().keySet()) {
 			try {
@@ -48,24 +48,24 @@ public class RecipeManager {
 				if (!recipeFile.exists()) {
 					continue;
 				}
-				parseRecipes(recipeFile, recipeName);
+				parseRecipeFile(recipeFile, recipeName);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static void parseRecipes(File recipeFile, String recipeName) throws IOException {
+	private static void parseRecipeFile(File recipeFile, String recipeName) throws IOException {
 		BufferedReader bReader = new BufferedReader(new FileReader(recipeFile));
 		JsonReader reader = new JsonReader(bReader);
 		JsonElement element = Streams.parse(reader);
 		Map<String, RecipeGroup> groups = getGoups(element);
-		ArrayList<IRecipe> recipes = getActiveRecipes(groups);
+		ArrayList<IRecipe> recipes = getAllActiveRecipes(groups);
 		RecipeRegistry.getRecipes().put(recipeName, recipes);
 		reader.close();
 	}
 
-	private static void writeRecipes() {
+	private static void writeRecipesFiles() {
 		File file = new File(ModularMachines.configFolder, "recipes");
 		if (!file.exists()) {
 			file.mkdirs();
@@ -81,7 +81,7 @@ public class RecipeManager {
 					}
 				} else {
 					try {
-						writeMissingEntrys(recipeFile, recipeEntry);
+						updateEntrys(recipeFile, recipeEntry);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -92,7 +92,7 @@ public class RecipeManager {
 		}
 	}
 
-	private static void writeMissingEntrys(File recipeFile, Entry<String, ArrayList<IRecipe>> recipeEntry) throws IOException {
+	private static void updateEntrys(File recipeFile, Entry<String, ArrayList<IRecipe>> recipeEntry) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(recipeFile));
 		JsonReader jsonReader = new JsonReader(reader);
 		JsonElement element = Streams.parse(jsonReader);
@@ -109,18 +109,19 @@ public class RecipeManager {
 		}
 		List<RecipeEntry> newEntrys = new ArrayList<>();
 		dafault: for(IRecipe r : recipeEntry.getValue()) {
-			Iterator<RecipeEntry> entrys = groupDefault.recipes.iterator();
-			while(entrys.hasNext()) {
-				RecipeEntry entry = entrys.next();
+			Iterator<RecipeEntry> oldEntrys = groupDefault.recipes.iterator();
+			while(oldEntrys.hasNext()) {
+				RecipeEntry entry = oldEntrys.next();
 				if (r.getRecipeName().equals(entry.name)) {
 					newEntrys.add(new RecipeEntry(r.getRecipeName(), entry.isActive, r));
-					entrys.remove();
+					oldEntrys.remove();
 					continue dafault;
 				}
 				continue;
 			}
 			newEntrys.add(new RecipeEntry(r.getRecipeName(), true, r));
 		}
+		groupDefault.recipes.clear();
 		groupDefault.recipes.addAll(newEntrys);
 		jsonReader.close();
 		JsonObject object = new JsonObject();
@@ -149,7 +150,7 @@ public class RecipeManager {
 		return groups;
 	}
 
-	private static ArrayList<IRecipe> getActiveRecipes(Map<String, RecipeGroup> groups) {
+	private static ArrayList<IRecipe> getAllActiveRecipes(Map<String, RecipeGroup> groups) {
 		ArrayList<IRecipe> recipes = new ArrayList();
 		for(RecipeGroup group : groups.values()) {
 			for(RecipeEntry recipe : group.recipes) {

@@ -1,10 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.state;
 
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
+import de.nedelosk.modularmachines.api.property.PropertyBase;
 import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class PropertyRecipeManager extends PropertyBase<IRecipeManager, NBTTagCompound> {
+public class PropertyRecipeManager extends PropertyBase<IRecipeManager, NBTTagCompound, IModuleState> {
 
 	public PropertyRecipeManager(String name, IRecipeManager defaultValue) {
 		super(name, IRecipeManager.class, defaultValue);

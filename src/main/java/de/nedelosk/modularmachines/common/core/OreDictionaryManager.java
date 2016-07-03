@@ -38,8 +38,6 @@ public class OreDictionaryManager {
 		registerOre("oreSilver", new ItemStack(BlockManager.blockOres, 1, 2));
 		registerOre("oreLead", new ItemStack(BlockManager.blockOres, 1, 3));
 		registerOre("oreNickel", new ItemStack(BlockManager.blockOres, 1, 4));
-		registerOre("oreRuby", new ItemStack(BlockManager.blockOres, 1, 5));
-		registerOre("oreColumbite", new ItemStack(BlockManager.blockOres, 1, 6));
 		registerOre("oreAluminium", new ItemStack(BlockManager.blockOres, 1, 7));
 		registerOre("oreAluminum", new ItemStack(BlockManager.blockOres, 1, 7));
 		registerOre("blockObsidian", Blocks.OBSIDIAN);

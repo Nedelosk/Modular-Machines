@@ -1,8 +1,8 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagFloat;
 
-public class PropertyFloat extends PropertyBase<Float, NBTTagFloat>{
+public class PropertyFloat extends PropertyBase<Float, NBTTagFloat, IPropertyProvider>{
 
 	public PropertyFloat(String name, float defaultValue){
 		super(name, Float.class, Float.valueOf(defaultValue));
@@ -20,12 +20,12 @@ public class PropertyFloat extends PropertyBase<Float, NBTTagFloat>{
 	}
 
 	@Override
-	public NBTTagFloat writeToNBT(IModuleState state, Float value) {
+	public NBTTagFloat writeToNBT(IPropertyProvider state, Float value) {
 		return new NBTTagFloat(value);
 	}
 
 	@Override
-	public Float readFromNBT(NBTTagFloat nbt, IModuleState state) {
+	public Float readFromNBT(NBTTagFloat nbt, IPropertyProvider state) {
 		return nbt.getFloat();
 	}
 }

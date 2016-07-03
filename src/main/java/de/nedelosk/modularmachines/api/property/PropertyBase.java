@@ -1,8 +1,8 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTBase;
 
-public abstract class PropertyBase<V, N extends NBTBase> implements IProperty<V, N>{
+public abstract class PropertyBase<V, N extends NBTBase, P extends IPropertyProvider> implements IProperty<V, N, P>{
 	private final Class<? extends V> valueClass;
 	private final String name;
 	private final V defaultValue;
@@ -29,13 +29,13 @@ public abstract class PropertyBase<V, N extends NBTBase> implements IProperty<V,
 	}
 
 	@Override
-	public boolean equals(Object p_equals_1_){
-		if (this == p_equals_1_){
+	public boolean equals(Object obj){
+		if (this == obj){
 			return true;
-		} else if (!(p_equals_1_ instanceof PropertyBase)){
+		} else if (!(obj instanceof PropertyBase)){
 			return false;
 		}else {
-			PropertyBase<?, N> propertyhelper = (PropertyBase)p_equals_1_;
+			PropertyBase<?, N, P> propertyhelper = (PropertyBase)obj;
 			return this.valueClass.equals(propertyhelper.valueClass) && this.name.equals(propertyhelper.name);
 		}
 	}

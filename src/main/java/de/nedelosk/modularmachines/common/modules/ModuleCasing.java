@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.state.PropertyInteger;
+import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

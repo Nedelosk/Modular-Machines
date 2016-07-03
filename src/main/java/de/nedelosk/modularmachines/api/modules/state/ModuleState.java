@@ -13,6 +13,8 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,7 +45,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public IModuleState<M> createState() {
+	public IModuleState<M> createProvider() {
 		this.properties = Maps.newHashMap();
 		for(IProperty property : registeredProperties){
 			properties.put(property, property.getDefaultValue());
@@ -142,7 +144,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, IModular modular) {
+	public void writeToNBT(NBTTagCompound nbt) {
 		for(Entry<IProperty, Object> object : properties.entrySet()){
 			if(object.getValue() != null){
 				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
@@ -154,7 +156,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, IModular modular) {
+	public void readFromNBT(NBTTagCompound nbt) {
 		for(IProperty property : registeredProperties){
 			if(nbt.hasKey(property.getName())){
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));

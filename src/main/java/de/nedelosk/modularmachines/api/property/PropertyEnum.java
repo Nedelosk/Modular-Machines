@@ -1,9 +1,9 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.IStringSerializable;
 
-public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyBase<T, NBTTagInt>{
+public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyBase<T, NBTTagInt, IPropertyProvider>{
 
 	protected PropertyEnum(String name, Class<T> valueClass, T defaultValue){
 		super(name, valueClass, defaultValue);
@@ -21,12 +21,12 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
 	}
 
 	@Override
-	public NBTTagInt writeToNBT(IModuleState state, T value) {
+	public NBTTagInt writeToNBT(IPropertyProvider state, T value) {
 		return new NBTTagInt(value.ordinal());
 	}
 
 	@Override
-	public T readFromNBT(NBTTagInt nbt, IModuleState state) {
+	public T readFromNBT(NBTTagInt nbt, IPropertyProvider state) {
 		return getValueClass().getEnumConstants()[nbt.getInt()];
 	}
 }

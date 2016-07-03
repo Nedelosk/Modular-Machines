@@ -1,16 +1,16 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.property;
 
 import cofh.api.energy.EnergyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class PropertyEnergyStorage extends PropertyBase<EnergyStorage, NBTTagCompound> {
+public class PropertyEnergyStorage extends PropertyBase<EnergyStorage, NBTTagCompound, IPropertyProvider> {
 
 	public PropertyEnergyStorage(String name, EnergyStorage defaultValue) {
 		super(name, EnergyStorage.class, defaultValue);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(IModuleState state, EnergyStorage value) {
+	public NBTTagCompound writeToNBT(IPropertyProvider state, EnergyStorage value) {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		value.writeToNBT(nbtTag);
 		nbtTag.setInteger("Capacity", value.getMaxEnergyStored());
@@ -20,7 +20,7 @@ public class PropertyEnergyStorage extends PropertyBase<EnergyStorage, NBTTagCom
 	}
 
 	@Override
-	public EnergyStorage readFromNBT(NBTTagCompound nbt, IModuleState state) {
+	public EnergyStorage readFromNBT(NBTTagCompound nbt, IPropertyProvider state) {
 		NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyStorage");
 		EnergyStorage storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
 		storage.readFromNBT(nbtTag);

@@ -4,8 +4,17 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
+import de.nedelosk.modularmachines.common.core.ModuleManager;
+import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeWrapper;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeHandler;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.BlankModPlugin;
@@ -30,10 +39,25 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ItemManager.itemModules);
 
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
-		registry.addRecipeCategories(new AlloySmelterRecipeCategory(guiHelper));
-		registry.addRecipeHandlers(new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER));
+		registry.addRecipeCategories(
+				new AlloySmelterRecipeCategory(guiHelper),
+				new BoilerRecipeCategory(guiHelper),
+				new PulverizerRecipeCategory(guiHelper));
+		
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.ALLOYSMELTER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.BOILER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMaterials.IRON), ModuleCategoryUIDs.BOILER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMaterials.BRONZE), ModuleCategoryUIDs.BOILER);
+		//registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.PULVERIZER);
+		
+		registry.addRecipeHandlers(
+				new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class),
+				new ModuleRecipeHandler(ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class),
+				new ModuleRecipeHandler(ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 
-		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", ModuleCategoryUIDs.ALLOYSMELTER));
+		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class));
+		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Boiler", ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class));
+		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 	}
 
 	@Override

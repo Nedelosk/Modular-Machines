@@ -1,9 +1,10 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei;
+package de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter;
 
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
@@ -24,7 +25,7 @@ public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
 	private int outputSlotSecond = 3;
 
 	public AlloySmelterRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "module.inventory.alloysmelter.name", ModuleCategoryUIDs.ALLOYSMELTER);
+		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.alloysmelter", ModuleCategoryUIDs.ALLOYSMELTER);
 
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
 

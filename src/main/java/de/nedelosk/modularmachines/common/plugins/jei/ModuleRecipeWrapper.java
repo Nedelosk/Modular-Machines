@@ -1,18 +1,21 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import de.nedelosk.modularmachines.common.utils.Translator;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ModuleRecipeWrapper implements IRecipeWrapper {
+public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWrapper {
 
 	protected IRecipe recipe;
 	protected String recipeCategoryUid;
@@ -83,29 +86,15 @@ public class ModuleRecipeWrapper implements IRecipeWrapper {
 		return inputs;
 	}
 
-	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid) {
+	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid, Class<? extends ModuleRecipeWrapper> wrapper) {
 		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
 		for (IRecipe recipe : RecipeRegistry.getRecipes().get(recipeCategory)) {
-			recipes.add(new ModuleRecipeWrapper(recipe, recipeCategoryUid));
+			try{
+				recipes.add(wrapper.getConstructor(IRecipe.class, String.class).newInstance(recipe, recipeCategoryUid));
+			}catch(Exception e){
+				
+			}
 		}
 		return recipes;
-	}
-
-	@Override
-	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-	}
-
-	@Override
-	public void drawAnimations(Minecraft minecraft, int recipeWidth, int recipeHeight) {
-	}
-
-	@Override
-	public List<String> getTooltipStrings(int mouseX, int mouseY) {
-		return null;
-	}
-
-	@Override
-	public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
-		return false;
 	}
 }

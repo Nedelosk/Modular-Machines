@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.recipse.RecipeManager.RecipeEntry;
+import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager.RecipeEntry;
 import de.nedelosk.modularmachines.common.utils.JsonUtils;
 
 public class RecipeParser implements JsonDeserializer<RecipeEntry> {
@@ -68,27 +68,27 @@ public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 		}
 		if (json.has("MaterialModifier")) {
 			if (!json.isJsonPrimitive()) {
-				materialModifier = 0;
+				materialModifier = -1;
 			}
 			JsonPrimitive jsonRecipe = json.get("MaterialModifier").getAsJsonPrimitive();
 			if (!jsonRecipe.isNumber()) {
-				materialModifier = 0;
+				materialModifier = -1;
 			}
 			materialModifier = jsonRecipe.getAsInt();
 		} else {
-			materialModifier = 0;
+			materialModifier = -1;
 		}
 		if (json.has("SpeedModifier")) {
 			if (!json.isJsonPrimitive()) {
-				speedModifier = 0;
+				speedModifier = -1;
 			}
 			JsonPrimitive jsonRecipe = json.get("SpeedModifier").getAsJsonPrimitive();
 			if (!jsonRecipe.isNumber()) {
-				speedModifier = 0;
+				speedModifier = -1;
 			}
 			speedModifier = jsonRecipe.getAsInt();
 		} else {
-			speedModifier = 0;
+			speedModifier = -1;
 		}
 		if (json.has("Inputs")) {
 			if (!json.isJsonArray()) {
@@ -113,7 +113,7 @@ public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 		} else {
 			craftingModifiers = null;
 		}
-		if (recipeCategory.equals("") || speedModifier == 0 || materialModifier == 0 || inputs == null || outputs == null) {
+		if (recipeCategory.equals("") || speedModifier == -1 || materialModifier == -1 || inputs == null || outputs == null) {
 			return null;
 		}
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeCategory);
