@@ -25,9 +25,9 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 
 	int getComplexity(IModuleState state);
 
-	void updateServer(IModuleState<IModule> state);
+	void updateServer(IModuleState<IModule> state, int tickCount);
 
-	void updateClient(IModuleState<IModule> state);
+	void updateClient(IModuleState<IModule> state, int tickCount);
 
 	/**
 	 * @return A new list of all content handler of the module that are not empty.

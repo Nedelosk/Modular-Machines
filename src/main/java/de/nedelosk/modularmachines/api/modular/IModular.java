@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -21,9 +20,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModular extends ICapabilityProvider {
+public interface IModular extends ICapabilityProvider, IModuleStorage {
 
 	void update(boolean isServer);
+
+	boolean updateOnInterval(int tickInterval);
 
 	IModulePage getCurrentPage();
 
@@ -37,15 +38,12 @@ public interface IModular extends ICapabilityProvider {
 
 	void setHandler(IModularHandler tile);
 
-	boolean addModule(ItemStack itemStack, IModuleState state);
-
-	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
-
-	<M extends IModule> IModuleState<M> getModule(int index);
-
-	<M extends IModule> IModuleState<M> getModule(ItemStack stack);
-
 	void onAssembleModular();
+
+	/* NBT */
+	void readFromNBT(NBTTagCompound nbt);
+
+	NBTTagCompound writeToNBT(NBTTagCompound nbt);
 
 	@Nonnull
 	Map<IModularLogicType, List<IModularLogic>> getLogics();
@@ -60,11 +58,6 @@ public interface IModular extends ICapabilityProvider {
 	<E extends IEnergyProvider & IEnergyReceiver> E getEnergyHandler();
 
 	<E extends IEnergyProvider & IEnergyReceiver> void setEnergyHandler(E energyHandler);
-
-	/* NBT */
-	void readFromNBT(NBTTagCompound nbt);
-
-	NBTTagCompound writeToNBT(NBTTagCompound nbt);
 
 	@SideOnly(Side.CLIENT)
 	GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory);

@@ -5,12 +5,15 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe.LatheModes;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
 import de.nedelosk.modularmachines.common.utils.OreStack;
 import de.nedelosk.modularmachines.common.utils.RecipeUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -22,35 +25,33 @@ public class RecipeManager {
 		registerSawMillRecipes();
 		registerPulverizerRecipes();
 		registerAlloySmelterRecipes();
-		//registerAssemblerRecipes();
-		//registerLatheRecipes();
-		//registerCentrifugeRecipes();
-		registerRecipe();
-		registerComponentRecipes();
-		registerMetalRecipes();
+		registerBoilerRecipes();
+		registerLatheRecipes();
+		addComponentRecipes();
+		addMetalRecipes();
 		addMachineRecipes();
 		addNormalRecipes();
 		addModuleRecipes();
 	}
-	
+
 	private static void addModuleRecipes(){
 		//Heaters
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterStone.getRegistryName(), EnumMaterials.STONE), 
 				"SPS",
 				"RFR",
 				"SPS", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone", 'S', "stone");
-		
+
 		//Alloy Smleters
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
 				"RPR",
 				"FDF",
 				"RPR", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone");
-		
+
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
 				"RPR",
 				"FDF",
 				"RPR", 'R', "rodIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'D', "moduleCoreIron");
-		
+
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
 				"RPR",
 				"FDF",
@@ -68,7 +69,7 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 2), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
 	}
 
-	private static void registerMetalRecipes() {
+	private static void addMetalRecipes() {
 		for(int m = 0; m < ItemManager.metals.length; m++) {
 			Object[][] metal = ItemManager.metals[m];
 			for(int i = 0; i < metal.length; ++i) {
@@ -88,7 +89,7 @@ public class RecipeManager {
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 17), new ItemStack(ItemManager.itemIngots, 1, 7), 0.5F);
 	}
 
-	private static void registerComponentRecipes() {
+	private static void addComponentRecipes() {
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompPlates), "cobblestone", "cobblestone", "toolHammer");
 		for(int i = 0; i < ItemManager.itemCompPlates.metas.size(); i++) {
 			ItemStack stack = new ItemStack(ItemManager.itemCompPlates, 1, i);
@@ -144,71 +145,69 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemCompGears), " + ", "+-+", " + ", '+', "plateStone", '-', "cobblestone");
 	}
 
-	private static void registerRecipe() {
-		/*
-		 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item()),
-		 * "+++", "+W+", "+++", '+', "plateStone", 'W', Blocks.crafting_table);
-		 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item(),
-		 * 1, 1), "+++", "+W+", "+++", '+', "plateIron", 'W', new
-		 * ItemStack(BlockManager.Modular_Assembler.item()));
-		 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item(),
-		 * 1, 2), "+++", "+W+", "+++", '+', "plateBronze", 'W', new
-		 * ItemStack(BlockManager.Modular_Assembler.item(), 1, 1)); // Saw Mill
-		 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
-		 * Modules.SAWMILL), "-s-", "+-+", "-s-", '+', new
-		 * ItemStack(Component_Saw_Blades.item()), '-', new
-		 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
-		 * Alloy Smelter
-		 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
-		 * Modules.ALLOYSMELTER), "-s-", "+-+", "-s-", '+', Blocks.furnace, '-',
-		 * new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
-		 * Assembler addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
-		 * Modules.ALLOYSMELTER), "-s-", "+-*", "-s-", '+', new
-		 * ItemStack(Component_Saw_Blades.item()), '*', new
-		 * ItemStack(Component_Gears.item()), '-', new
-		 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
-		 * Lathe addShapedModuleRecipe(ItemModule.getItem(Materials.IRON,
-		 * Modules.LATHE), "psp", "+-+", "psp", '+', "blockIron", '-',
-		 * "blockRedstone", 's', "wireIron", 'p', "plateIron"); // Pulverizer
-		 * registerRecipe(new RecipeModuleAssembler(new
-		 * RecipeItem(ItemModule.getItem(Materials.STONE, Modules.PULVERIZER)),
-		 * 1, 150, "-s-", "+-+", "-s-", '+', Items.flint, '-', new
-		 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string)); //
-		 * Generator addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
-		 * Modules.GENERATOR), "-s-", "-+-", "-s-", '+', Blocks.furnace, '-',
-		 * new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
-		 * Tank Manager
-		 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
-		 * Modules.MANAGERTANK), "-s-", "+++", "-s-", '+', "glass", '-', new
-		 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
-		 * addShapedRecipe(new ItemStack(BlockManager.Casings.item()), "+++",
-		 * "+ +", "---", '+', new ItemStack(Component_Plates.item()), '-',
-		 * Blocks.brick_block); addShapedRecipe(new
-		 * ItemStack(BlockManager.Casings.item(), 1, 1), "+++", "+ +", "---",
-		 * '+', new ItemStack(Component_Plates.item()), '-', Blocks.stonebrick);
-		 * addShapedRecipe(new ItemStack(BlockManager.Casings.item(), 1, 2),
-		 * "+++", "+ +", "---", '+', new ItemStack(Component_Plates.item(), 1,
-		 * 1), '-', Blocks.brick_block); addShapedRecipe(new
-		 * ItemStack(BlockManager.Casings.item(), 1, 3), "+++", "+ +", "---",
-		 * '+', new ItemStack(Component_Plates.item(), 1, 4), '-',
-		 * Blocks.brick_block);
-		 */
+	/*
+	 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item()),
+	 * "+++", "+W+", "+++", '+', "plateStone", 'W', Blocks.crafting_table);
+	 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item(),
+	 * 1, 1), "+++", "+W+", "+++", '+', "plateIron", 'W', new
+	 * ItemStack(BlockManager.Modular_Assembler.item()));
+	 * addShapedRecipe(new ItemStack(BlockManager.Modular_Assembler.item(),
+	 * 1, 2), "+++", "+W+", "+++", '+', "plateBronze", 'W', new
+	 * ItemStack(BlockManager.Modular_Assembler.item(), 1, 1)); // Saw Mill
+	 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
+	 * Modules.SAWMILL), "-s-", "+-+", "-s-", '+', new
+	 * ItemStack(Component_Saw_Blades.item()), '-', new
+	 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
+	 * Alloy Smelter
+	 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
+	 * Modules.ALLOYSMELTER), "-s-", "+-+", "-s-", '+', Blocks.furnace, '-',
+	 * new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
+	 * Assembler addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
+	 * Modules.ALLOYSMELTER), "-s-", "+-*", "-s-", '+', new
+	 * ItemStack(Component_Saw_Blades.item()), '*', new
+	 * ItemStack(Component_Gears.item()), '-', new
+	 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
+	 * Lathe addShapedModuleRecipe(ItemModule.getItem(Materials.IRON,
+	 * Modules.LATHE), "psp", "+-+", "psp", '+', "blockIron", '-',
+	 * "blockRedstone", 's', "wireIron", 'p', "plateIron"); // Pulverizer
+	 * registerRecipe(new RecipeModuleAssembler(new
+	 * RecipeItem(ItemModule.getItem(Materials.STONE, Modules.PULVERIZER)),
+	 * 1, 150, "-s-", "+-+", "-s-", '+', Items.flint, '-', new
+	 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string)); //
+	 * Generator addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
+	 * Modules.GENERATOR), "-s-", "-+-", "-s-", '+', Blocks.furnace, '-',
+	 * new ItemStack(Component_Plates.item(), 1, 0), 's', Items.string); //
+	 * Tank Manager
+	 * addShapedModuleRecipe(ItemModule.getItem(Materials.STONE,
+	 * Modules.MANAGERTANK), "-s-", "+++", "-s-", '+', "glass", '-', new
+	 * ItemStack(Component_Plates.item(), 1, 0), 's', Items.string);
+	 * addShapedRecipe(new ItemStack(BlockManager.Casings.item()), "+++",
+	 * "+ +", "---", '+', new ItemStack(Component_Plates.item()), '-',
+	 * Blocks.brick_block); addShapedRecipe(new
+	 * ItemStack(BlockManager.Casings.item(), 1, 1), "+++", "+ +", "---",
+	 * '+', new ItemStack(Component_Plates.item()), '-', Blocks.stonebrick);
+	 * addShapedRecipe(new ItemStack(BlockManager.Casings.item(), 1, 2),
+	 * "+++", "+ +", "---", '+', new ItemStack(Component_Plates.item(), 1,
+	 * 1), '-', Blocks.brick_block); addShapedRecipe(new
+	 * ItemStack(BlockManager.Casings.item(), 1, 3), "+++", "+ +", "---",
+	 * '+', new ItemStack(Component_Plates.item(), 1, 4), '-',
+	 * Blocks.brick_block);
+	 */
+
+	private static void registerLatheRecipes() {
+		RecipeUtil.addLathe("IronRod", new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 1)), 1, 375,
+				LatheModes.ROD);
+		RecipeUtil.addLathe("TinRod", new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 2)), 2, 350,
+				LatheModes.ROD);
+		RecipeUtil.addLathe("CopperRod", new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 3)), 1, 325,
+				LatheModes.ROD);
+		RecipeUtil.addLathe("BronzeRod", new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 4)), 2, 450,
+				LatheModes.ROD);
+		RecipeUtil.addLathe("SteelRod", new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 5)), 3, 475,
+				LatheModes.ROD);
 	}
 
-	/*private static void registerLatheRecipes() {
-		RecipeUtils.addLathe("IronRod", new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 1)), 1, 375,
-				LatheModes.ROD);
-		RecipeUtils.addLathe("TinRod", new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 2)), 2, 350,
-				LatheModes.ROD);
-		RecipeUtils.addLathe("CopperRod", new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 3)), 1, 325,
-				LatheModes.ROD);
-		RecipeUtils.addLathe("BronzeRod", new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 4)), 2, 450,
-				LatheModes.ROD);
-		RecipeUtils.addLathe("SteelRod", new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 5)), 3, 475,
-				LatheModes.ROD);
-	}
-
-	private static void registerAssemblerRecipes() {
+	/*private static void registerAssemblerRecipes() {
 		RecipeUtils.addAssembler("IronSaw", new RecipeItem(new ItemStack(ItemManager.itemCompRods, 4, 1)), new RecipeItem(new OreStack("blockIron", 1)),
 				new RecipeItem(new ItemStack(ItemManager.itemCompSawBlades, 1, 1)), 1, 250);
 		RecipeUtils.addAssembler("BronzeSaw", new RecipeItem(new ItemStack(ItemManager.itemCompRods, 4, 4)), new RecipeItem(new OreStack("blockBronze", 1)),
@@ -326,6 +325,10 @@ public class RecipeManager {
 				new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 375);
 		RecipeUtil.addAlloySmelter("DustIngotToInvar", new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)),
 				new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 400);
+	}
+
+	private static void registerBoilerRecipes(){
+		RecipeUtil.addBoiler("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 50)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), 80)), 1, 100);
 	}
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

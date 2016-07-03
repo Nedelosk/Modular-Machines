@@ -22,11 +22,12 @@ public abstract class ModuleToolHeat extends ModuleTool {
 	}
 
 	@Override
-	public void updateServer(IModuleState state) {
+	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		Random rand = modular.getHandler().getWorld().rand;
 
 		if (canWork(state)) {
+			boolean needUpdate = false;
 			IRecipeManager manager = getRecipeManager(state);
 			if (getWorkTime(state) >= getWorkTimeTotal(state) || manager == null) {
 				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(state), getInputs(state), getRecipeModifiers(state));
@@ -36,7 +37,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
 						state.add(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+						needUpdate = true;
 					}
 				} else if (recipe != null) {
 					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
@@ -49,8 +50,13 @@ public abstract class ModuleToolHeat extends ModuleTool {
 					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
 					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
 					state.add(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+					needUpdate = true;
 				}
+			}else{
+				addWorkTime(state, 1);
+			}
+			if(needUpdate){
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 			}
 		}
 	}

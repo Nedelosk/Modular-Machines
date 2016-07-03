@@ -24,8 +24,11 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 
 	@Override
 	public boolean isValid(int index, C content, IModuleState<M> state) {
-		if (slotFilters.size() == index) {
+		if(content == null){
 			return false;
+		}
+		if(slotFilters.get(index) == null){
+			return true;
 		}
 		for(IContentFilter<C, M> filter : slotFilters.get(index)) {
 			if (filter.isValid(index, content, state)) {

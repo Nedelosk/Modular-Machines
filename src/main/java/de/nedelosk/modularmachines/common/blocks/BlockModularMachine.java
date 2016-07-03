@@ -118,7 +118,7 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileModular) {
 				IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-				if (tileModular.getModular() == null) {
+				if (tileModular.getModular() == null || tileModular.getModular().getContainer(tileModular, player.inventory) == null) {
 					return false;
 				}
 				player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
@@ -136,9 +136,9 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IModularHandler) {
-			IModularHandler modular = (IModularHandler) tile;
-			if (modular.getModular() != null) {
+		if (tile instanceof TileEntity && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
+			IModularHandler modular = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			if (modular != null && modular.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState state : modular.getModular().getModuleStates()) {
 					if (state != null) {

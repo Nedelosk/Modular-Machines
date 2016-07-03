@@ -79,6 +79,9 @@ public class PacketModularHandler implements IMessage {
 		}else{
 			player = ctx.getServerHandler().playerEntity;
 		}
+		if(player == null){
+			return null;
+		}
 		World world = player.worldObj;
 		if(identifier instanceof String){
 			String UID = (String) identifier;

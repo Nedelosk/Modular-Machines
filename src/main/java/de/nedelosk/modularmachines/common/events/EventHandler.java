@@ -10,8 +10,10 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -41,6 +43,13 @@ public class EventHandler {
 					+ Translator.translateToLocal(container.getUnlocalizedName()));
 			container.addTooltip(event.getToolTip());
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onBakeModel(TextureStitchEvent event) {
+		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/container"));
+		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/liquid"));
 	}
 
 	@SideOnly(Side.CLIENT)

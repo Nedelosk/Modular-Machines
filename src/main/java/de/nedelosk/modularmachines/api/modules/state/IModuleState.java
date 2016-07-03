@@ -39,6 +39,8 @@ public interface IModuleState<M extends IModule> {
 
 	List<IModulePage> getPages();
 
+	IModulePage getPage(String pageID);
+
 	M getModule();
 
 	IModular getModular();

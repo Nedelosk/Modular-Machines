@@ -1,6 +1,33 @@
+/*
+ * For the fluid rendering: 
+ * 
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2014-2015 mezz
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+
+import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.client.gui.Widget;
@@ -19,8 +46,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
 public class WidgetFluidTank extends Widget {
-	private static final int TEX_WIDTH = 16;
-	private static final int TEX_HEIGHT = 16;
+	private static final int TEX_WIDTH = 14;
+	private static final int TEX_HEIGHT = 14;
 	private static final int MIN_FLUID_HEIGHT = 1;
 
 	public IFluidTank tank;
@@ -28,14 +55,14 @@ public class WidgetFluidTank extends Widget {
 	public int ID;
 
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY) {
-		super(posX, posY, 18, 60);
+		super(posX, posY, 14, 56);
 		this.tank = tank;
 		this.posX = posX;
 		this.posY = posY;
 	}
 
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY, int ID) {
-		super(posX, posY, 18, 60);
+		super(posX, posY, 14, 56);
 		this.tank = tank;
 		this.posX = posX;
 		this.posY = posY;
@@ -44,13 +71,29 @@ public class WidgetFluidTank extends Widget {
 
 	@Override
 	public void draw(IGuiBase gui) {
+		GlStateManager.enableBlend();
+		GlStateManager.enableAlpha();
+
 		GlStateManager.color(1, 1, 1, 1);
-		GlStateManager.disableBlend();
 
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
 
-		FluidStack fluidStack = tank.getFluid();
+		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, tank.getFluid());
+
+		GlStateManager.color(1, 1, 1, 1);
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0, 0, 200);
+		RenderUtil.bindTexture(widgetTexture);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 16, 60);
+		GlStateManager.popMatrix();
+
+		GlStateManager.disableAlpha();
+		GlStateManager.disableBlend();
+	}
+
+	private void drawFluid( final int xPosition, final int yPosition, @Nullable FluidStack fluidStack) {
 		if (fluidStack == null) {
 			return;
 		}
@@ -87,13 +130,13 @@ public class WidgetFluidTank extends Widget {
 		final int yTileCount = scaledAmount / TEX_HEIGHT;
 		final int yRemainder = scaledAmount - (yTileCount * TEX_HEIGHT);
 
-		final int yStart = pos.y + pos.height;
+		final int yStart = yPosition + pos.height;
 
 		for (int xTile = 0; xTile <= xTileCount; xTile++) {
 			for (int yTile = 0; yTile <= yTileCount; yTile++) {
 				int width = (xTile == xTileCount) ? xRemainder : TEX_WIDTH;
 				int height = (yTile == yTileCount) ? yRemainder : TEX_HEIGHT;
-				int x = pos.x + (xTile * TEX_WIDTH);
+				int x = xPosition + (xTile * TEX_WIDTH);
 				int y = yStart - ((yTile + 1) * TEX_HEIGHT);
 				if (width > 0 && height > 0) {
 					int maskTop = TEX_HEIGHT - height;
@@ -103,94 +146,6 @@ public class WidgetFluidTank extends Widget {
 				}
 			}
 		}
-
-		GlStateManager.color(1, 1, 1, 1);
-
-		GlStateManager.enableAlpha();
-		GlStateManager.enableBlend();
-
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(0, 0, 200);
-		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 16, 60);
-		GlStateManager.popMatrix();
-
-		GlStateManager.disableBlend();
-		GlStateManager.disableAlpha();
-
-		/*GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
-		int iconHeightRemainder = (60 - 4) % 16;
-		if (tank != null) {
-			FluidStack fluid = this.tank.getFluid();
-			if (fluid != null && fluid.amount > 0) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-				IIcon fluidIcon = fluid.getFluid().getStillIcon();
-				if (iconHeightRemainder > 0) {
-					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, gui.getZLevel(), fluidIcon, 16,
-							iconHeightRemainder);
-				}
-				for(int i = 0; i < (60 - 6) / 16; i++) {
-					RenderUtil.drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1 + i * 16 + iconHeightRemainder,
-							gui.getZLevel(), fluidIcon, 16, 18);
-				}
-				RenderUtil.bindTexture(widgetTexture);
-				gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, 133, 128, 16,
-						58 - (int) (60 * ((float) fluid.amount / this.tank.getCapacity())));
-			}
-			RenderUtil.bindTexture(widgetTexture);
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 18, 60);
-		}
-		GL11.glEnable(GL11.GL_LIGHTING);*/
-		/*RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
-		if (tank == null || tank.getCapacity() <= 0) {
-			return;
-		}
-
-		FluidStack contents = tank.getFluid();
-		if (contents == null || contents.amount <= 0 || contents.getFluid() == null) {
-			return;
-		}
-
-		IIcon liquidIcon = contents.getFluid().getIcon(contents);
-		if (liquidIcon == null) {
-			return;
-		}
-
-		int scaledLiquid = (contents.amount * pos.height) / tank.getCapacity();
-		if (scaledLiquid > pos.height) {FluidStackRenderer
-			scaledLiquid = pos.height;
-		}
-
-		RenderUtil.bindBlockTexture();
-		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-		{
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-
-			int start = 0;
-			while (scaledLiquid > 0) {
-				int x;
-
-				if (scaledLiquid > 16) {
-					x = 16;
-					scaledLiquid -= 16;
-				} else {
-					x = scaledLiquid;
-					scaledLiquid = 0;
-				}
-
-				gui.getGui().drawTexturedModelRectFromIcon(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() - 1 + pos.y + pos.height - x - start, liquidIcon, 16, x);
-				start += 16;
-			}
-
-			RenderUtil.bindTexture(widgetTexture);
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 16, 60);
-		}
-		GL11.glPopAttrib();*/
 	}
 
 	private static void setGLColorFromInt(int color) {

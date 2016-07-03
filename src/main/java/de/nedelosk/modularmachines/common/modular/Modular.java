@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -57,6 +58,9 @@ public class Modular implements IModular {
 	protected EnergyHandler energyHandler;
 	protected FluidHandlerConcatenate fluidHandler;
 	protected Map<IModularLogicType, List<IModularLogic>> logics;
+	// Ticks
+	private static final Random rand = new Random();
+	private int tickCount = rand.nextInt(256);
 
 	public Modular() {
 		logics = new HashMap<>();
@@ -115,16 +119,22 @@ public class Modular implements IModular {
 
 	@Override
 	public void update(boolean isServer) {
+		tickCount++;
 		for(IModuleState moduleState : modules) {
 			if (moduleState != null) {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
 				if (isServer) {
-					moduleState.getModule().updateServer(moduleState);
+					moduleState.getModule().updateServer(moduleState, tickCount);
 				} else {
-					moduleState.getModule().updateClient(moduleState);
+					moduleState.getModule().updateClient(moduleState, tickCount);
 				}
 			}
 		}
+	}
+
+	@Override
+	public final boolean updateOnInterval(int tickInterval) {
+		return tickCount % tickInterval == 0;
 	}
 
 	@Override
@@ -294,12 +304,19 @@ public class Modular implements IModular {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory) {
-		return new GuiModular(tile, inventory, currentPage);
+		if(currentPage != null){
+			return new GuiModular(tile, inventory, currentPage);
+		}
+		return null;
+
 	}
 
 	@Override
 	public Container getContainer(IModularHandler tile, InventoryPlayer inventory) {
-		return new ContainerModular(tile, inventory, currentPage);
+		if(currentPage != null){
+			return new ContainerModular(tile, inventory, currentPage);
+		}
+		return null;
 	}
 
 	@Override
@@ -326,20 +343,6 @@ public class Modular implements IModular {
 		for(IModuleState module : modules) {
 			if (module.getIndex() == index) {
 				return module;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public <M extends IModule> IModuleState<M> getModule(ItemStack stack) {
-		for(IModuleState module : this.modules) {
-			IModuleContainer container = module.getContainer();
-			if (container.getItemStack() != null && container.getItemStack().getItem() != null && stack.getItem() == container.getItemStack().getItem()
-					&& stack.getItemDamage() == container.getItemStack().getItemDamage()) {
-				if (container.ignorNBT() || ItemStack.areItemStackTagsEqual(stack, container.getItemStack())) {
-					return module;
-				}
 			}
 		}
 		return null;

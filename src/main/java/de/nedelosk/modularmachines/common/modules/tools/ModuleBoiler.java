@@ -23,9 +23,15 @@ import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
+import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
+import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,6 +45,45 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 	public Object[] getRecipeModifiers(IModuleState state) {
 		IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
 		return new Object[]{casingState.getModule().getHeat(casingState)};
+	}
+
+	@Override
+	public void updateServer(IModuleState state, int tickCount) {
+		super.updateServer(state, tickCount);
+
+		if(state.getModular().updateOnInterval(20)){
+			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
+			IModuleTank tank = (IModuleTank) state.getContentHandler(FluidStack.class);
+			if(inventory != null){
+				BoilerPage page = (BoilerPage) state.getPage("Basic");
+
+				if(inventory.getStackInSlot(page.fluidInputInput) != null){
+					ItemStack stack = inventory.getStackInSlot(page.fluidInputInput);
+					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(page.tankInput), 1000, null, false);
+					if(containerStack != null){
+						if(inventory.extractItem(page.fluidInputInput, 1, true) != null){
+							if(inventory.insertItem(page.fluidInputOutput, containerStack, true) == null){
+								inventory.insertItem(page.fluidInputOutput, FluidUtil.tryEmptyContainer(stack, tank.getTank(page.tankInput), 1000, null, true), false);
+								inventory.extractItem(page.fluidInputInput, 1, false);
+							}
+						}
+					}
+				}
+				if(inventory.getStackInSlot(page.fluidOutputInput) != null){
+					ItemStack stack = inventory.getStackInSlot(page.fluidOutputInput);
+					ItemStack containerStack = FluidUtil.tryFillContainer(stack, tank.getTank(page.tankOutput), 1000, null, false);
+					if(containerStack != null){
+						if(inventory.extractItem(page.fluidOutputInput, 1, true) != null){
+							if(inventory.insertItem(page.fluidOutputOutput, containerStack, true) == null){
+								inventory.insertItem(page.fluidOutputOutput, FluidUtil.tryFillContainer(stack, tank.getTank(page.tankOutput), 1000, null, true), false);
+								inventory.extractItem(page.fluidOutputInput, 1, false);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -75,10 +120,16 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		return new BoilerNEIPage(stack);
 	}*/
 
-	public static class BoilerPage extends ModulePage<IModuleTool> {
+	public class BoilerPage extends ModulePage<IModuleTool> {
 
-		public static int TANKINPUT;
-		public static int TANKOUTPUT;
+		public int tankInput;
+		public int tankOutput;
+
+		public int fluidInputInput;
+		public int fluidInputOutput;
+
+		public int fluidOutputInput;
+		public int fluidOutputOutput;
 
 		public BoilerPage(String pageID, IModuleState<IModuleTool> moduleState) {
 			super(pageID, moduleState);
@@ -87,43 +138,37 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
 			invBuilder.setInventoryName("module.inventory.boiler.name");
+
+			fluidInputInput = invBuilder.addInventorySlot(true, new ItemFluidFilter());
+			fluidInputOutput = invBuilder.addInventorySlot(false, new OutputAllFilter());
+
+			fluidOutputInput = invBuilder.addInventorySlot(true, new ItemFluidFilter());
+			fluidOutputOutput = invBuilder.addInventorySlot(false, new OutputAllFilter());
 		}
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			TANKINPUT = tankBuilder.addFluidTank(16000, EnumTankMode.INPUT, new FluidFilterMachine());
-			TANKOUTPUT = tankBuilder.addFluidTank(16000, EnumTankMode.OUTPUT, new FluidFilterMachine());
+			tankInput = tankBuilder.addFluidTank(16000, EnumTankMode.INPUT, new FluidFilterMachine());
+			tankOutput = tankBuilder.addFluidTank(16000, EnumTankMode.OUTPUT, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
+			modularSlots.add(new SlotModule(state, fluidInputInput, 15, 28).setBackgroundTexture("liquid"));
+			modularSlots.add(new SlotModule(state, fluidInputOutput, 15, 48).setBackgroundTexture("container"));
+
+			modularSlots.add(new SlotModule(state, fluidOutputInput, 147, 28).setBackgroundTexture("container"));
+			modularSlots.add(new SlotModule(state, fluidOutputOutput, 147, 48).setBackgroundTexture("liquid"));
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(75, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(TANKINPUT), 35, 15));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(TANKOUTPUT), 125, 15));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(tankInput), 35, 15));
+			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(tankOutput), 125, 15));
 		}
 	}
-
-	/*@SideOnly(Side.CLIENT)
-	public static class BoilerNEIPage extends NEIPage {
-
-		public BoilerNEIPage(IModuleJEI module) {
-			super(module);
-		}
-
-		@Override
-		public void createSlots(List<SlotJEI> modularSlots) {
-		}
-
-		@Override
-		public void addWidgets(List widgets) {
-			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
-		}
-	}*/
 
 	@Override
 	public int getColor() {

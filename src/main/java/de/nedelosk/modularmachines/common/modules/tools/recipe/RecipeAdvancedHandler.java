@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.recipse;
+package de.nedelosk.modularmachines.common.modules.tools.recipe;
 
 import com.google.gson.JsonObject;
 

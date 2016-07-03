@@ -29,8 +29,9 @@ public class ModularManager {
 	/**
 	 * 
 	 * Assemble a modular from the items of a IItemHandler.
+	 * @return Return a IModuleStorage, with all modules that are a added.
 	 */
-	public static ItemStack assembleModular(IItemHandler handler, EntityPlayer player, ItemStack modularItem){
+	public static IModuleStorage assembleModular(IItemHandler handler, EntityPlayer player, ItemStack modularItem){
 		if(handler == null || player == null || modularItem == null){
 			return null;
 		}
@@ -60,12 +61,18 @@ public class ModularManager {
 			for(IModuleState state : modular.getModuleStates()){
 				if(state != null){
 					if(!state.getModule().assembleModule(handler, modular, state)){
-						return null;
+						return modular;
 					}
 				}else{
-					return null;
+					return modular;
 				}
 			}
+			for(IAssemblerLogic logic : assemblerLogics.values()){
+				if(!logic.canAssemble(modular)){
+					return modular;
+				}
+			}
+
 			modular.onAssembleModular();
 
 			if(modularItem.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
@@ -77,7 +84,8 @@ public class ModularManager {
 					itemHandler.setOwner(player.getGameProfile());
 					itemHandler.setUID();
 					if(handler.insertItem(1, modularItem.copy(), true) == null){
-						return handler.insertItem(1, modularItem.copy(), false);
+						handler.insertItem(1, modularItem.copy(), false);
+						return modular;
 					}
 				}
 			}

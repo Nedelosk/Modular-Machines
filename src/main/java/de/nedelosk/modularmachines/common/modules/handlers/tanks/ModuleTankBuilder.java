@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
@@ -43,7 +42,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	@Override
 	public int addFluidTank(int capacity, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
 		int newIndex = tankSlots.size();
-		tankSlots.add(new FluidTankAdvanced(capacity, mode));
+		tankSlots.add(new FluidTankAdvanced(capacity, null, newIndex, mode));
 		if (mode == EnumTankMode.INPUT) {
 			addInsertFilter(newIndex, filters);
 		} else {

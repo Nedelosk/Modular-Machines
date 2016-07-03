@@ -27,7 +27,7 @@ public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
 		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "module.inventory.alloysmelter.name", ModuleCategoryUIDs.ALLOYSMELTER);
 
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
-		
+
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(widgetTexture, 76, 0, 22, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}

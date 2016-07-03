@@ -99,7 +99,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 
 	@Override
-	public void updateServer(IModuleState state) {
+	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		Random rand = modular.getHandler().getWorld().rand;
 
@@ -164,7 +164,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 
 	@Override
-	public void updateClient(IModuleState state) {
+	public void updateClient(IModuleState state, int tickCount) {
 	}
 
 	@Override

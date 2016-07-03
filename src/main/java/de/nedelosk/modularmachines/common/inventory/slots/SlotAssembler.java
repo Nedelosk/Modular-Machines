@@ -74,7 +74,7 @@ public class SlotAssembler extends Slot implements IAssemblerSlot {
 	public void changeStatus(boolean isActive){
 		boolean canChange = true;
 		for(IAssemblerLogic logic : ModularManager.getAssemblerLogics().values()){
-			if(!logic.canChangeStatus(isActive, this)){
+			if(!logic.canChangeStatus(isActive, this, container.lastStorage)){
 				canChange = false;
 				break;
 			}
@@ -96,7 +96,7 @@ public class SlotAssembler extends Slot implements IAssemblerSlot {
 			if(container != null){
 				if(moduleClass == null || moduleClass.isAssignableFrom(container.getModule().getClass())){
 					for(IAssemblerLogic logic : ModularManager.getAssemblerLogics().values()){
-						if(!logic.isItemValid(stack, this)){
+						if(!logic.isItemValid(stack, this, this.container.lastStorage)){
 							return false;
 						}
 					}

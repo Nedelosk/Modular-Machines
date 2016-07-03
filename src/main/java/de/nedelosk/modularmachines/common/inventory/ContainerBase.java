@@ -55,7 +55,7 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 		return transferStackInSlot(inventorySlots, player, slotIndex);
 	}
-	
+
 	public static ItemStack transferStackInSlot(List inventorySlots, EntityPlayer player, int slotIndex) {
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
 		if (slot == null || !slot.getHasStack()) {
@@ -107,7 +107,7 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 			return shiftToPlayerInventory(inventorySlots, stackInSlot);
 		}
 	}
-	
+
 	private static boolean shiftToPlayerInventory(List inventorySlots, ItemStack stackInSlot) {
 		int playerHotbarStart = playerInventorySize - playerHotbarSize;
 
@@ -158,7 +158,7 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 		}
 		return false;
 	}
-	
+
 	private static boolean shiftItemStackToRange(List inventorySlots, ItemStack stackToShift, int start, int count) {
 		boolean changed = shiftItemStackToRangeMerge(inventorySlots, stackToShift, start, count);
 		changed |= shiftItemStackToRangeOpenSlots(inventorySlots, stackToShift, start, count);
@@ -192,7 +192,7 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 		}
 		return changed;
 	}
-	
+
 
 	private static boolean shiftItemStackToRangeOpenSlots(List inventorySlots, ItemStack stackToShift, int start, int count) {
 		if (stackToShift == null || stackToShift.stackSize <= 0) {
@@ -215,14 +215,14 @@ public abstract class ContainerBase<H extends IGuiHandler> extends Container imp
 		}
 		return changed;
 	}
-	
+
 	private static final int playerInventorySize = 9 * 4;
 	private static final int playerHotbarSize = 9;
 
 	private static boolean isInPlayerInventory(int slotIndex) {
 		return slotIndex < playerInventorySize;
 	}
-	
+
 	public static boolean isSlotInRange(int slotIndex, int start, int count) {
 		return slotIndex >= start && slotIndex < start + count;
 	}

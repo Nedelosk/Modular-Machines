@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.io.filefilter.MagicNumberFileFilter;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -15,7 +13,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -117,6 +114,16 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public List<IModulePage> getPages() {
 		return pages;
+	}
+
+	@Override
+	public IModulePage getPage(String pageID) {
+		for(IModulePage page : pages){
+			if(page.getPageID().equals(pageID)){
+				return page;
+			}
+		}
+		return null;
 	}
 
 	@Override

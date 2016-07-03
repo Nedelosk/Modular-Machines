@@ -34,22 +34,22 @@ public class ModuleEvents {
 			return state;
 		}
 	}
-	
+
 	public static class ModulePageCreateEvent extends ModuleStateEvent {
 
 		private final List<IModulePage> pages;
-		
+
 		public ModulePageCreateEvent(IModuleState state, List<IModulePage> pages) {
 			super(state);
 			this.pages = pages;
 		}
-		
+
 		public List<IModulePage> getModulePages() {
 			return pages;
 		}
 
 	}
-	
+
 	public static class ModuleStateCreateEvent extends ModuleStateEvent {
 
 		public ModuleStateCreateEvent(IModuleState state) {

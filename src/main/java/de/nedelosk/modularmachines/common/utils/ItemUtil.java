@@ -1,14 +1,6 @@
 package de.nedelosk.modularmachines.common.utils;
 
-import net.minecraft.block.Block;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
@@ -27,7 +19,7 @@ public class ItemUtil {
 		}
 		return ItemStack.areItemStackTagsEqual(lhs, rhs);
 	}
-	
+
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {
 		if (base == null || comparison == null) {
 			return false;

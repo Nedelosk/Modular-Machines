@@ -24,8 +24,10 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe.LatheModes;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
+import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeAdvancedHandler;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerBoiler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -191,21 +193,22 @@ public class ModuleManager {
 		moduleBoilerBronze = new ModuleBoiler(10, 3);
 		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
 		GameRegistry.register(moduleBoilerBronze);
-		
+
 		/* ALLOY SMELTERS*/
 		moduleAlloySmelterStone = new ModuleAlloySmelter(15, 3);
 		moduleAlloySmelterStone.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.stone"));
 		GameRegistry.register(moduleAlloySmelterStone);
-		
+
 		moduleAlloySmelterIron = new ModuleAlloySmelter(12, 3);
 		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
 		GameRegistry.register(moduleAlloySmelterIron);
-		
+
 		moduleAlloySmelterBronze = new ModuleAlloySmelter(10, 3);
 		moduleAlloySmelterBronze.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.bronze"));
 		GameRegistry.register(moduleAlloySmelterBronze);
 
 		RecipeRegistry.registerRecipeHandler(new RecipeHandlerBoiler());
+		RecipeRegistry.registerRecipeHandler(new RecipeAdvancedHandler(LatheModes.class, "Lathe"));
 		ModularManager.registerAssemblerLogic(new AssemblerLogicBasic());
 	}
 
@@ -231,7 +234,7 @@ public class ModuleManager {
 		addDefaultModuleItem(moduleHeaterBronzeLarge, EnumMaterials.BRONZE);
 		addDefaultModuleItem(moduleHeaterSteelLarge, EnumMaterials.STEEL);
 		addDefaultModuleItem(moduleHeaterMagmariumLarge, EnumMaterials.MAGMARIUM);
-		
+
 		//Alloy Smelters
 		addDefaultModuleItem(moduleAlloySmelterStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleAlloySmelterIron, EnumMaterials.IRON);

@@ -106,7 +106,7 @@ public class RecipeRegistry {
 						continue testRecipes;
 					}
 					continue;
-				}else if(inputEqualsItem(recipeInput, machineInput, true)){
+				}else if(inputEqualsItem(recipeInput, machineInput, false)){
 					continue;
 				}
 				continue testRecipes;

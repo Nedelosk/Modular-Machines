@@ -35,6 +35,6 @@ public interface IModuleContentHandler<C,M extends IModule> extends IModuleHandl
 	NBTTagCompound writeToNBT(NBTTagCompound nbt);
 
 	Class<C> getContentClass();
-	
+
 	String getHandlerUID();
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IAssemblerSlot;
+import de.nedelosk.modularmachines.api.modular.IModuleStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
@@ -13,7 +14,6 @@ import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOutput;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -22,6 +22,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class ContainerModularAssembler extends ContainerBase<TileModularAssembler> {
 
 	private SlotAssembler[] slots;
+	public IModuleStorage lastStorage;
 
 	public ContainerModularAssembler(TileModularAssembler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -45,7 +46,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			slot.isUpdated = false;
 		}
 
-		ModularManager.assembleModular(handler.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), player, new ItemStack(BlockManager.blockModular));
+		lastStorage = ModularManager.assembleModular(handler.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), player, new ItemStack(BlockManager.blockModular));
 	}
 
 	public void updateSlot(IAssemblerSlot slot){

@@ -50,14 +50,15 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	@Override
-	public void updateServer(IModuleState moduleState) {
+	public void updateServer(IModuleState moduleState, int tickCount) {
+		boolean needUpdate = false;
 		IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(moduleState.getModular());
 		if (getBurnTime(moduleState) > 0) {
 			if(casingState.getModule().getHeat(casingState) < maxHeat){
 				casingState.getModule().addHeat(casingState, 1);
 			}
 			addBurnTime(moduleState, -10);
-			PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
+			needUpdate = true;
 		} else {
 			List<IModulePage> pages = moduleState.getPages();
 			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
@@ -65,12 +66,17 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			if(input == null){
 				if(casingState.getModule().getHeat(casingState) > 0){
 					casingState.getModule().addHeat(casingState, -1);
+					needUpdate = true;
 				}
 			}else if (input != null) {
 				if(inventory.extractItem(((HeaterBurningPage)pages.get(0)).BURNSLOT, 1, false) != null){
 					setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
+					needUpdate = true;
 				}
 			}
+		}
+		if(needUpdate){
+			PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
 		}
 	}
 

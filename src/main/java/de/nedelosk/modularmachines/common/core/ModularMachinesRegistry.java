@@ -5,7 +5,6 @@ import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.plugins.APluginManager;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -68,7 +67,7 @@ public class ModularMachinesRegistry extends Registry {
 	}
 
 	@Override
-	public APluginManager getPluginManager() {
+	public PluginManager getPluginManager() {
 		return new PluginManager();
 	}
 

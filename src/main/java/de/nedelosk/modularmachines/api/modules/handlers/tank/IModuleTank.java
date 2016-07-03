@@ -7,6 +7,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public interface IModuleTank<M extends IModule> extends IModuleContentHandler<FluidStack, M>, IFluidHandler {
 
+	void onChange();
+
 	FluidTankAdvanced getTank(int index);
 
 	FluidTankAdvanced[] getTanks();

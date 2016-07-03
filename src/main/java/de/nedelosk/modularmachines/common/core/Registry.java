@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.common.fluids.FluidBlock;
-import de.nedelosk.modularmachines.common.plugins.APluginManager;
+import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public abstract class Registry {
 
-	public final APluginManager pluginManager = getPluginManager();
+	public final PluginManager pluginManager = getPluginManager();
 	public final IGuiHandler guiHandler = getGuiHandler();
 
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
@@ -44,7 +44,7 @@ public abstract class Registry {
 		}
 	}
 
-	public abstract APluginManager getPluginManager();
+	public abstract PluginManager getPluginManager();
 
 	public abstract IGuiHandler getGuiHandler();
 

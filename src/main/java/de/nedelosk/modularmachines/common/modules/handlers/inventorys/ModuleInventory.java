@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.common.modules.handlers.inventorys;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
@@ -165,7 +164,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		ItemStack existing = this.stacks[slot];
 
 		if(canInsertItem(slot, existing)){
-			return null;
+			return stack;
 		}
 
 		int limit = getStackLimit(slot, stack);
@@ -206,7 +205,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 		ItemStack existing = this.stacks[slot];
 
-		if(canExtractItem(slot, existing)){
+		if(!canExtractItem(slot, existing)){
 			return null;
 		}
 
@@ -253,7 +252,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		nbt.setInteger("Size", stacks.length);
 		return nbt;
 	}
-	
+
 	@Override
 	public String getHandlerUID() {
 		return "Items";

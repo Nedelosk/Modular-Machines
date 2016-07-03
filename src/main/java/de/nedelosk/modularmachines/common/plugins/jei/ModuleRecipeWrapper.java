@@ -82,7 +82,7 @@ public class ModuleRecipeWrapper implements IRecipeWrapper {
 		}
 		return inputs;
 	}
-	
+
 	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid) {
 		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
 		for (IRecipe recipe : RecipeRegistry.getRecipes().get(recipeCategory)) {

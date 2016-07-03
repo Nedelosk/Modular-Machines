@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.PropertyBool;
 import de.nedelosk.modularmachines.api.modules.state.PropertyFloat;
@@ -45,7 +44,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public void updateServer(IModuleState state) {
+	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		boolean isWorking = (boolean) state.get(WORKING);
 		IModuleState<IModuleTool> machineState = modular.getModule(state.get(MACHINEINDEX));
@@ -70,7 +69,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void updateClient(IModuleState state) {
+	public void updateClient(IModuleState state, int tickCount) {
 		if (isWorking(state)) {
 			addProgress(state, 0.025F);
 			if (getProgress(state) > 1) {
@@ -131,17 +130,17 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return null;
-	}
-
-	@Override
 	public List<Integer> getMachineIndexes(IModuleState state) {
 		List<Integer> indexes = new ArrayList();
 		indexes.add((int)state.get(MACHINEINDEX));
 		return indexes;
 	}
 
+	@Override
+	public int getSize() {
+		return 1;
+	}
+	
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
@@ -9,6 +8,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,6 +29,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
+
+		for(FluidTankAdvanced tank : tanks){
+			tank.moduleTank = this;
+		}
 	}
 
 	@Override
@@ -296,10 +301,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagList = nbt.getTagList("Tanks", 10);
-		for(int i = 0;i < nbtTagList.tagCount();i++){
-			NBTTagCompound tankTag = nbtTagList.getCompoundTagAt(i);
+		for(int index = 0;index < nbtTagList.tagCount();index++){
+			NBTTagCompound tankTag = nbtTagList.getCompoundTagAt(index);
 			int capacity = tankTag.getInteger("Capacity");
-			tanks[i] = new FluidTankAdvanced(capacity, tankTag);
+			tanks[index] = new FluidTankAdvanced(capacity, this, index, tankTag);
 		}
 	}
 
@@ -310,12 +315,12 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			NBTTagCompound tankTag = new NBTTagCompound();
 			tank.writeToNBT(tankTag);
 			tankTag.setInteger("Capacity", tank.getCapacity());;
-			nbtTagList.appendTag(nbtTagList);
+			nbtTagList.appendTag(tankTag);
 		}
 		nbt.setTag("Tanks", nbtTagList);
 		return nbt;
 	}
-	
+
 	@Override
 	public String getHandlerUID() {
 		return "Tanks";
@@ -324,6 +329,11 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public IModuleState<M> getModuleState() {
 		return state;
+	}
+
+	@Override
+	public void onChange() {
+		PacketHandler.INSTANCE.sendToAll(new PacketModule(state.getModular().getHandler(), state));
 	}
 
 	@Override

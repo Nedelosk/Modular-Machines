@@ -5,16 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.common.utils.ItemUtil;
+import forestry.api.recipes.IDescriptiveRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import forestry.api.recipes.IDescriptiveRecipe;
 
 public class ShapedModuleRecipe extends ShapedOreRecipe implements IDescriptiveRecipe {
 	//Added in for future ease of change, but hard coded for now.

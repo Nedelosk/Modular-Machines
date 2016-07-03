@@ -8,23 +8,29 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonModulePageTab;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonModuleTab;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -48,9 +54,22 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		List<Widget> widgets = gui.getWidgetManager().getWidgets();
 		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
+				WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
 				if(state instanceof IModuleTool){
-					((WidgetProgressBar) widget).burntime = ((IModuleTool) state.getModule()).getWorkTime(state);
-					((WidgetProgressBar) widget).burntimeTotal = ((IModuleTool) state.getModule()).getWorkTimeTotal(state);
+					IModuleTool tool = (IModuleTool) state.getModule();
+					widgetBar.burntime = tool.getWorkTime(state);
+					widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);
+				}
+			}else if (widget instanceof WidgetFluidTank) {
+				WidgetFluidTank widgetTank = (WidgetFluidTank) widget;
+				IModuleContentHandler contentHandler = state.getContentHandler(FluidStack.class);
+				if(contentHandler != null && contentHandler instanceof IModuleTank){
+					IModuleTank moduleTank = (IModuleTank) contentHandler;
+
+					if(widgetTank.tank instanceof FluidTankAdvanced){
+						FluidTankAdvanced tank = (FluidTankAdvanced) widgetTank.tank;
+						widgetTank.tank = moduleTank.getTank(tank.index);
+					}
 				}
 			}
 		}
@@ -108,6 +127,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 
 	@SideOnly(Side.CLIENT)
 	protected void drawSlot(Slot slot) {
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(getGuiTexture());
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + slot.xDisplayPosition - 1, gui.getGuiTop() + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 	}
@@ -115,9 +135,12 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawPlayerInventory() {
+		GlStateManager.enableAlpha();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(getInventoryTexture());
 		int invPosition = getPlayerInvPosition();
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + 7, gui.getGuiTop() + invPosition, 7, invPosition, 162, 76);
+		GlStateManager.disableAlpha();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -163,7 +186,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 			IModulePage page = state.getPages().get(pageIndex);
 			buttons.add(new ButtonModulePageTab(gui.getButtonManager().getButtons().size(),
 					pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
-					pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
+							pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
 		}
 	}
 

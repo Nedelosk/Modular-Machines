@@ -91,12 +91,12 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public void updateServer(IModuleState state) {
+	public void updateServer(IModuleState state, int tickCount) {
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void updateClient(IModuleState state) {
+	public void updateClient(IModuleState state, int tickCount) {
 	}
 
 	@Override

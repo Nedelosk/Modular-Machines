@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.nedelosk.modularmachines.api.recipes.IMachineMode;
 import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -101,6 +102,10 @@ public class RecipeUtil {
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, output, speedModifier, energy, "Pulverizer"));
 	}
 
+	public static boolean addLathe(String recipeName, RecipeItem input, RecipeItem output, int speedModifier, int energy, IMachineMode mode){
+		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, new RecipeItem[] { output }, speedModifier, energy, "Lathe", mode));
+	}
+
 	public static boolean addSawMill(String recipeName, OreStack input, RecipeItem[] output, int speedModifier, int energy){
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { new RecipeItem(input) }, output, speedModifier, energy, "SawMill"));
 	}
@@ -114,7 +119,7 @@ public class RecipeUtil {
 	}
 
 	public static boolean addBoiler(String recipeName, RecipeItem input, RecipeItem output, int speedModifier, int heat){
-		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, new RecipeItem[] { output }, speedModifier, heat, "Boiler"));
+		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, new RecipeItem[] { output }, speedModifier, 0, "Boiler", heat));
 	}
 
 	public static boolean canRemoveRecipeInputs(IRecipeInventory inventory, int chance, RecipeItem[] inputs) {

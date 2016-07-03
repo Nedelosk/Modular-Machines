@@ -23,12 +23,12 @@ public class ModuleController extends Module implements IModuleController {
 		this.allowedToolComplexity = allowedToolComplexity;
 		this.allowedDriveComplexity = allowedDriveComplexity;
 	}
-	
+
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/controllers/" + container.getMaterial().getName()));
 	}
-	
+
 	@Override
 	public int getAllowedModuleComplexity(Class<? extends IModule> moduleClass, IModuleState state) {
 		if(IModuleTool.class.isAssignableFrom(moduleClass)){
