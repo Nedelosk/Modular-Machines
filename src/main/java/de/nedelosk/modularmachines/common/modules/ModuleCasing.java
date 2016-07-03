@@ -73,12 +73,12 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	@Override
 	public int getHeat(IModuleState state) {
-		return (int) state.get(HEAT);
+		return state.get(HEAT);
 	}
 
 	@Override
 	public void addHeat(IModuleState state, int heat) {
-		state.add(HEAT, (int)state.get(HEAT) + heat);
+		state.add(HEAT, state.get(HEAT) + heat);
 	}
 
 	@Override

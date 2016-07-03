@@ -9,10 +9,10 @@ public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyPro
 	}
 
 	@Override
-	public boolean equals(Object p_equals_1_){
-		if (this == p_equals_1_){
+	public boolean equals(Object obj){
+		if (this == obj){
 			return true;
-		}else if (p_equals_1_ instanceof PropertyBool && super.equals(p_equals_1_)){
+		}else if (obj instanceof PropertyBool && super.equals(obj)){
 			return true;
 		}else{
 			return false;

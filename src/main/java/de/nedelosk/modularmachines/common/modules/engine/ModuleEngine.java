@@ -46,7 +46,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		boolean isWorking = (boolean) state.get(WORKING);
+		boolean isWorking = state.get(WORKING);
 		IModuleState<IModuleTool> machineState = modular.getModule(state.get(MACHINEINDEX));
 		if (machineState == null) {
 			return;
@@ -106,7 +106,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public float getProgress(IModuleState state) {
-		return (float) state.get(PROGRESS);
+		return state.get(PROGRESS);
 	}
 
 	@Override
@@ -116,12 +116,12 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public void addProgress(IModuleState state, float progress) {
-		state.add(PROGRESS, (float) state.get(PROGRESS) + progress);
+		state.add(PROGRESS, state.get(PROGRESS) + progress);
 	}
 
 	@Override
 	public boolean isWorking(IModuleState state) {
-		return (boolean) state.get(WORKING);
+		return state.get(WORKING);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public int getSize() {
 		return 1;
 	}
-	
+
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();

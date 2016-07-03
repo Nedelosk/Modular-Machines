@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.property;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTBase;
 
 public interface IProperty<V, N extends NBTBase, P extends IPropertyProvider>{

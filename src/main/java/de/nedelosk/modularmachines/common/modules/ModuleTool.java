@@ -140,7 +140,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public int getWorkTime(IModuleState state) {
-		return (int) state.get(WORKTIME);
+		return state.get(WORKTIME);
 	}
 
 	@Override
@@ -150,12 +150,12 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public void addWorkTime(IModuleState state, int burnTime) {
-		state.add(WORKTIME, (int)state.get(WORKTIME) + burnTime);
+		state.add(WORKTIME, state.get(WORKTIME) + burnTime);
 	}
 
 	@Override
 	public int getWorkTimeTotal(IModuleState state) {
-		return (int) state.get(WORKTIMETOTAL);
+		return state.get(WORKTIMETOTAL);
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public IRecipeManager getRecipeManager(IModuleState state) {
-		return (IRecipeManager) state.get(RECIPEMANAGER);
+		return state.get(RECIPEMANAGER);
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public int getChance(IModuleState state) {
-		return (int) state.get(CHANCE);
+		return state.get(CHANCE);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.state;
 
 import java.util.List;
-import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -14,14 +13,17 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModuleState<M extends IModule> extends IPropertyProvider {
-	
-	<T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase> property, V value);
 
+	@Override
+	<T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);
+
+	@Override
 	IModuleState<M> register(IProperty property);
-	
+
 	/**
 	 * Finish the registration of the properties.
 	 */
+	@Override
 	IModuleState<M> createProvider();
 
 	/**
@@ -44,7 +46,7 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider {
 	IModular getModular();
 
 	IModuleContainer getContainer();
-	
+
 	void writeToNBT(NBTTagCompound nbt);
 
 	void readFromNBT(NBTTagCompound nbt);

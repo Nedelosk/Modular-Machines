@@ -14,6 +14,7 @@ import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,7 +65,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <T> T get(IProperty<T, ? extends NBTBase> property) {
+	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
 		if(!registeredProperties.contains(property)){
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
 		}
@@ -75,7 +76,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase> property, V value) {
+	public <T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
 		if(!registeredProperties.contains(property)){
 			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
 		}

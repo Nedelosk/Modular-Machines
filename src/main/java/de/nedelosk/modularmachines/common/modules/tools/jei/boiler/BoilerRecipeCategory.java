@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.tools.jei.boiler;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
@@ -36,7 +34,7 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 	@Override
 	public void drawExtras(Minecraft minecraft) {
 		tank.draw(minecraft, 36, 2);
-		
+
 		tank.draw(minecraft, 112, 2);
 	}
 
@@ -46,13 +44,13 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 		arrow.draw(minecraft, 72, 25);
 	}
 
-	
-	
+
+
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, ModuleRecipeWrapper recipeWrapper) {
 		recipeLayout.getFluidStacks().init(0, true, 37, 3, 16, 58, 16000, false, tankOverlay);
 		recipeLayout.getFluidStacks().init(1, false, 113, 3, 16, 58, 16000, false, tankOverlay);
-		
+
 		recipeLayout.getFluidStacks().set(0, recipeWrapper.getFluidInputs());
 		recipeLayout.getFluidStacks().set(1, recipeWrapper.getFluidOutputs());
 	}

@@ -7,12 +7,12 @@ public class ModuleRecipeHandler<R extends ModuleRecipeWrapper> implements IReci
 
 	public String recipeCategoryUid;
 	public Class<R> classRecipe;
-	
+
 	public ModuleRecipeHandler(String recipeCategoryUid, Class<R> classRecipe) {
 		this.recipeCategoryUid = recipeCategoryUid;
 		this.classRecipe = classRecipe;
 	}
-	
+
 	@Override
 	public Class<R> getRecipeClass() {
 		return classRecipe;

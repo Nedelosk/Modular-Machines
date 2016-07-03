@@ -34,7 +34,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	public EnergyStorage getStorage(IModuleState state) {
-		return (EnergyStorage) state.get(storage);
+		return state.get(storage);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	public static class BatteryPage extends ModulePage<IModuleBattery> {
 
-		public BatteryPage(int pageID, IModuleState<IModuleBattery> state) {
+		public BatteryPage(String pageID, IModuleState<IModuleBattery> state) {
 			super(pageID, state);
 		}
 

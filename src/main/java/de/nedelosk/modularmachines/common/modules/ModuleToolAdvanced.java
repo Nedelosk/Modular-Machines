@@ -42,7 +42,7 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 
 	@Override
 	public IMachineMode getCurrentMode(IModuleState state) {
-		return (IMachineMode) state.get(MODE);
+		return state.get(MODE);
 	}
 
 	@Override

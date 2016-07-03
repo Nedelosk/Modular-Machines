@@ -12,7 +12,7 @@ public class BoilerRecipeWrapper extends ModuleRecipeWrapper {
 	public BoilerRecipeWrapper(IRecipe recipe, String recipeCategoryUid) {
 		super(recipe, recipeCategoryUid);
 	}
-	
+
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.category.boiler.heat", (int)recipe.getModifiers()[0]), 58, 14, Color.gray.getRGB());
