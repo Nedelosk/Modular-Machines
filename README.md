@@ -1,4 +1,4 @@
-# Modular-Mahcines
+# Modular-Machines
 
 ### License & Copyright
 The MIT License (MIT)
