@@ -47,7 +47,7 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 
 	@Override
 	public void setCurrentMode(IModuleState state, IMachineMode mode) {
-		state.add(MODE, mode);
+		state.set(MODE, mode);
 		this.defaultMode = mode;
 	}
 

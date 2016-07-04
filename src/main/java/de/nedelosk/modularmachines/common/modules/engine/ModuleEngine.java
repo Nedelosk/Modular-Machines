@@ -55,14 +55,14 @@ public class ModuleEngine extends Module implements IModuleEngine {
 		if (machineState.getModule().getRecipeManager(machineState) != null && canWork(state) && machineState.getModule().getWorkTime(machineState) <= machineState.getModule().getWorkTimeTotal(machineState)) {
 			if (removeMaterial(state, machineState)) {
 				if(!isWorking){
-					state.add(WORKING, true);
+					state.set(WORKING, true);
 					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 				}
 				machineState.getModule().addWorkTime(machineState, burnTimeModifier);
 				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), machineState));
 			}
 		}else if(isWorking){
-			state.add(WORKING, false);
+			state.set(WORKING, false);
 			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 		}
 	}
@@ -111,12 +111,12 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public void setProgress(IModuleState state, float progress) {
-		state.add(PROGRESS, progress);
+		state.set(PROGRESS, progress);
 	}
 
 	@Override
 	public void addProgress(IModuleState state, float progress) {
-		state.add(PROGRESS, state.get(PROGRESS) + progress);
+		state.set(PROGRESS, state.get(PROGRESS) + progress);
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public void setIsWorking(IModuleState state, boolean isWorking) {
-		state.add(WORKING, isWorking);
+		state.set(WORKING, isWorking);
 	}
 
 	@Override

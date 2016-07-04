@@ -99,7 +99,7 @@ public class ModularManager {
 	public static IModuleState createModuleState(IModular modular, ItemStack slotStack, IModuleContainer container){
 		IModuleState moduleState = container.getModule().createState(modular, container);
 		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(moduleState));
-		IModuleState createdState = moduleState.createProvider();
+		IModuleState createdState = moduleState.build();
 		return createdState.getModule().loadStateFromItem(createdState, slotStack);
 	}
 

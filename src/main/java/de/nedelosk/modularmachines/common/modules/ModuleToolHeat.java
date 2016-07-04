@@ -36,7 +36,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 						setRecipeManager(state, null);
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
-						state.add(CHANCE, rand.nextInt(100));
+						state.set(CHANCE, rand.nextInt(100));
 						needUpdate = true;
 					}
 				} else if (recipe != null) {
@@ -49,7 +49,7 @@ public abstract class ModuleToolHeat extends ModuleTool {
 					}
 					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
 					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
-					state.add(CHANCE, rand.nextInt(100));
+					state.set(CHANCE, rand.nextInt(100));
 					needUpdate = true;
 				}
 			}else{

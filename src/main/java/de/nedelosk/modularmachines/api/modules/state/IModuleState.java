@@ -8,14 +8,17 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
+import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
+import de.nedelosk.modularmachines.api.property.IPropertySetter;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModuleState<M extends IModule> extends IPropertyProvider {
+public interface IModuleState<M extends IModule> extends IPropertyProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder {
 
 	@Override
-	<T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);
+	<T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);
 
 	@Override
 	IModuleState<M> register(IProperty property);
@@ -24,7 +27,7 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider {
 	 * Finish the registration of the properties.
 	 */
 	@Override
-	IModuleState<M> createProvider();
+	IModuleState<M> build();
 
 	/**
 	 * Add the content handlers to the list.

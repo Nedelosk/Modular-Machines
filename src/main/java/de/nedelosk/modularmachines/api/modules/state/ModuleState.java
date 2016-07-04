@@ -46,7 +46,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public IModuleState<M> createProvider() {
+	public IModuleState<M> build() {
 		this.properties = Maps.newHashMap();
 		for(IProperty property : registeredProperties){
 			properties.put(property, property.getDefaultValue());
@@ -76,7 +76,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <T, V extends T> IModuleState<M> add(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
+	public <T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
 		if(!registeredProperties.contains(property)){
 			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
 		}
@@ -103,6 +103,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public Map<IProperty, Object> getProperties() {
 		return properties;
 	}
+	
+	@Override
+	public List<IProperty> getRegisteredProperties() {
+		return registeredProperties;
+	}
 
 	@Override
 	public int getIndex() {
@@ -111,7 +116,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void setIndex(int index) {
-		add(INDEX, index);
+		set(INDEX, index);
 	}
 
 	@Override

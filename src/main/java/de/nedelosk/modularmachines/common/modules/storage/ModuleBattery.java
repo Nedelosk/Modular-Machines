@@ -39,7 +39,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	public void setStorage(IModuleState state, EnergyStorage storage) {
-		state.add(ModuleBattery.storage, storage);
+		state.set(ModuleBattery.storage, storage);
 	}
 
 	@Override
@@ -73,8 +73,10 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return new IModulePage[] { new BatteryPage(0, state) };
+	public List<IModulePage> createPages(IModuleState state) {
+		List<IModulePage> pages = super.createPages(state);
+		pages.add(new BatteryPage("Basic", state));
+		return pages;
 	}
 
 	public static class BatteryPage extends ModulePage<IModuleBattery> {

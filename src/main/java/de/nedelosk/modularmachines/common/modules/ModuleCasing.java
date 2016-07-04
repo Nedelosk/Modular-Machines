@@ -67,23 +67,18 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public IModulePage[] createPages(IModuleState state) {
-		return null;
-	}
-
-	@Override
 	public int getHeat(IModuleState state) {
 		return state.get(HEAT);
 	}
 
 	@Override
 	public void addHeat(IModuleState state, int heat) {
-		state.add(HEAT, state.get(HEAT) + heat);
+		state.set(HEAT, state.get(HEAT) + heat);
 	}
 
 	@Override
 	public void setHeat(IModuleState state, int heat) {
-		state.add(HEAT, heat);
+		state.set(HEAT, heat);
 	}
 
 	@Override

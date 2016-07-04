@@ -148,7 +148,7 @@ public class Modular implements IModular {
 			if(container != null){
 				IModuleState state = container.getModule().createState(this, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-				state = state.createProvider();
+				state = state.build();
 				state.readFromNBT(moduleTag);
 				modules.add(state);
 			}else{

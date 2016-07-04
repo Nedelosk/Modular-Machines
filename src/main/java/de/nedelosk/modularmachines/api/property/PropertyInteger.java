@@ -1,22 +1,36 @@
 package de.nedelosk.modularmachines.api.property;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
 import net.minecraft.nbt.NBTTagInt;
 
-public class PropertyInteger extends PropertyBase<Integer, NBTTagInt, IPropertyProvider>{
+public class PropertyInteger extends PropertyBase<Integer, NBTTagInt, IPropertyProvider> implements IPropertyJson<Integer, NBTTagInt, IPropertyProvider, JsonPrimitive>{
 
 	public PropertyInteger(String name, int defaultValue){
 		super(name, Integer.class, Integer.valueOf(defaultValue));
 	}
 
 	@Override
-	public boolean equals(Object p_equals_1_){
-		if (this == p_equals_1_){
+	public boolean equals(Object obj){
+		if (this == obj){
 			return true;
-		}else if (p_equals_1_ instanceof PropertyInteger && super.equals(p_equals_1_)){
+		}else if (obj instanceof PropertyInteger && super.equals(obj)){
 			return true;
 		}else{
 			return false;
 		}
+	}
+	
+	@Override
+	public JsonPrimitive writeToJson(Integer objects) {
+		return new JsonPrimitive(objects.intValue());
+	}
+	
+	@Override
+	public Integer readFromJson(JsonPrimitive object) {
+		return Integer.valueOf(object.getAsInt());
 	}
 
 	@Override

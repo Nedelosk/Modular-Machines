@@ -112,7 +112,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						setRecipeManager(state, null);
 						setBurnTimeTotal(state, 0);
 						setWorkTime(state, 0);
-						state.add(CHANCE, rand.nextInt(100));
+						state.set(CHANCE, rand.nextInt(100));
 						PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 					}
 				} else if (recipe != null) {
@@ -123,7 +123,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 						setRecipeManager(state, null);
 						return;
 					}
-					state.add(CHANCE, rand.nextInt(100));
+					state.set(CHANCE, rand.nextInt(100));
 					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 				}
 			}
@@ -145,12 +145,12 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public void setWorkTime(IModuleState state, int burnTime) {
-		state.add(WORKTIME, burnTime);
+		state.set(WORKTIME, burnTime);
 	}
 
 	@Override
 	public void addWorkTime(IModuleState state, int burnTime) {
-		state.add(WORKTIME, state.get(WORKTIME) + burnTime);
+		state.set(WORKTIME, state.get(WORKTIME) + burnTime);
 	}
 
 	@Override
@@ -160,7 +160,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public void setBurnTimeTotal(IModuleState state, int burnTimeTotal) {
-		state.add(WORKTIMETOTAL, burnTimeTotal);
+		state.set(WORKTIMETOTAL, burnTimeTotal);
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 
 	@Override
 	public void setRecipeManager(IModuleState state, IRecipeManager manager) {
-		state.add(RECIPEMANAGER, manager);
+		state.set(RECIPEMANAGER, manager);
 	}
 
 	@Override

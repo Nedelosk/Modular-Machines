@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.api.property;
 
-import net.minecraft.nbt.NBTTagByte;
+import com.google.gson.JsonPrimitive;
 
-public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider>{
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagInt;
+
+public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider> implements IPropertyJson<Boolean, NBTTagByte, IPropertyProvider, JsonPrimitive>{
 
 	public PropertyBool(String name, boolean defaultValue) {
 		super(name, Boolean.class, Boolean.valueOf(defaultValue));
@@ -17,6 +20,16 @@ public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyPro
 		}else{
 			return false;
 		}
+	}
+	
+	@Override
+	public JsonPrimitive writeToJson(Boolean objects) {
+		return new JsonPrimitive(objects);
+	}
+	
+	@Override
+	public Boolean readFromJson(JsonPrimitive object) {
+		return object.getAsBoolean();
 	}
 
 	@Override

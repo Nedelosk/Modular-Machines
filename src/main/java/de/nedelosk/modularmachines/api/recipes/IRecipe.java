@@ -1,7 +1,13 @@
 package de.nedelosk.modularmachines.api.recipes;
 
-public interface IRecipe {
+import java.util.Map;
 
+import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyProvider;
+import net.minecraft.nbt.NBTBase;
+
+public interface IRecipe extends IPropertyProvider {
+	
 	RecipeItem[] getInputs();
 
 	RecipeItem[] getOutputs();
@@ -10,9 +16,9 @@ public interface IRecipe {
 
 	String getRecipeCategory();
 
-	Object[] getModifiers();
+	/*Object[] getModifiers();
 
 	int getRequiredSpeedModifier();
 
-	int getRequiredMaterial();
+	int getRequiredMaterial();*/
 }
