@@ -103,7 +103,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public Map<IProperty, Object> getProperties() {
 		return properties;
 	}
-	
+
 	@Override
 	public List<IProperty> getRegisteredProperties() {
 		return registeredProperties;

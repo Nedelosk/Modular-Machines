@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
@@ -39,12 +38,6 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 	public ModuleBoiler(int speed, int size) {
 		super(speed, size);
-	}
-
-	@Override
-	public Object[] getRecipeModifiers(IModuleState state) {
-		IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
-		return new Object[]{casingState.getModule().getHeat(casingState)};
 	}
 
 	@Override
@@ -88,7 +81,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 
 	@Override
 	protected int getConsumeHeat(IModuleState state) {
-		return 10;
+		return 5;
 	}
 
 	@Override

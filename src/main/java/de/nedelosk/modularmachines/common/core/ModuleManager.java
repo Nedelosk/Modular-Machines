@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
-import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modular.AssemblerLogicBasic;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
@@ -24,11 +23,8 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
-import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe.LatheModes;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
-import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeAdvancedHandler;
-import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerBoiler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
@@ -116,23 +112,23 @@ public class ModuleManager {
 		GameRegistry.register(moduleCasingBronze);
 
 		/* ENGINES */
-		moduleEngineStone = new ModuleEngine(1);
+		moduleEngineStone = new ModuleEngine(1, 15);
 		moduleEngineStone.setRegistryName(new ResourceLocation("modularmachines:engine.stone"));
 		GameRegistry.register(moduleEngineStone);
 
-		moduleEngineIron = new ModuleEngine(2);
+		moduleEngineIron = new ModuleEngine(2, 15);
 		moduleEngineIron.setRegistryName(new ResourceLocation("modularmachines:engine.iron"));
 		GameRegistry.register(moduleEngineIron);
 
-		moduleEngineBronze = new ModuleEngine(3);
+		moduleEngineBronze = new ModuleEngine(3, 15);
 		moduleEngineBronze.setRegistryName(new ResourceLocation("modularmachines:engine.bronze"));
 		GameRegistry.register(moduleEngineBronze);
 
-		moduleEngineSteel = new ModuleEngine(3);
+		moduleEngineSteel = new ModuleEngine(3, 15);
 		moduleEngineSteel.setRegistryName(new ResourceLocation("modularmachines:engine.steel"));
 		GameRegistry.register(moduleEngineSteel);
 
-		moduleEngineMagmarium = new ModuleEngine(4);
+		moduleEngineMagmarium = new ModuleEngine(4, 15);
 		moduleEngineMagmarium.setRegistryName(new ResourceLocation("modularmachines:engine.magmarium"));
 		GameRegistry.register(moduleEngineMagmarium);
 
@@ -182,33 +178,32 @@ public class ModuleManager {
 		GameRegistry.register(moduleHeaterMagmariumSmall);
 
 		/* BOILERS */
-		moduleBoilerStone = new ModuleBoiler(15, 3);
+		moduleBoilerStone = new ModuleBoiler(30, 3);
 		moduleBoilerStone.setRegistryName(new ResourceLocation("modularmachines:boiler.stone"));
 		GameRegistry.register(moduleBoilerStone);
 
-		moduleBoilerIron = new ModuleBoiler(12, 3);
+		moduleBoilerIron = new ModuleBoiler(22, 3);
 		moduleBoilerIron.setRegistryName(new ResourceLocation("modularmachines:boiler.iron"));
 		GameRegistry.register(moduleBoilerIron);
 
-		moduleBoilerBronze = new ModuleBoiler(10, 3);
+		moduleBoilerBronze = new ModuleBoiler(15, 3);
 		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
 		GameRegistry.register(moduleBoilerBronze);
 
 		/* ALLOY SMELTERS*/
-		moduleAlloySmelterStone = new ModuleAlloySmelter(15, 3);
+		moduleAlloySmelterStone = new ModuleAlloySmelter(30, 3);
 		moduleAlloySmelterStone.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.stone"));
 		GameRegistry.register(moduleAlloySmelterStone);
 
-		moduleAlloySmelterIron = new ModuleAlloySmelter(12, 3);
+		moduleAlloySmelterIron = new ModuleAlloySmelter(22, 3);
 		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
 		GameRegistry.register(moduleAlloySmelterIron);
 
-		moduleAlloySmelterBronze = new ModuleAlloySmelter(10, 3);
+		moduleAlloySmelterBronze = new ModuleAlloySmelter(15, 3);
 		moduleAlloySmelterBronze.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.bronze"));
 		GameRegistry.register(moduleAlloySmelterBronze);
 
-		RecipeRegistry.registerRecipeHandler(new RecipeHandlerBoiler());
-		RecipeRegistry.registerRecipeHandler(new RecipeAdvancedHandler(LatheModes.class, "Lathe"));
+		//RecipeRegistry.registerRecipeHandler(new RecipeAdvancedHandler(LatheModes.class, "Lathe"));
 		ModularManager.registerAssemblerLogic(new AssemblerLogicBasic());
 	}
 

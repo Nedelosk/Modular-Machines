@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.recipes;
 
-import de.nedelosk.modularmachines.common.utils.OreStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;

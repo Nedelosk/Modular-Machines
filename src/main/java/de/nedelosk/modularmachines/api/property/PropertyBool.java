@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.api.property;
 import com.google.gson.JsonPrimitive;
 
 import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagInt;
 
 public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider> implements IPropertyJson<Boolean, NBTTagByte, IPropertyProvider, JsonPrimitive>{
 
@@ -21,12 +20,12 @@ public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyPro
 			return false;
 		}
 	}
-	
+
 	@Override
 	public JsonPrimitive writeToJson(Boolean objects) {
 		return new JsonPrimitive(objects);
 	}
-	
+
 	@Override
 	public Boolean readFromJson(JsonPrimitive object) {
 		return object.getAsBoolean();

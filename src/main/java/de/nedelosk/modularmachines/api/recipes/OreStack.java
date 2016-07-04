@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.utils;
+package de.nedelosk.modularmachines.api.recipes;
 
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -1,22 +1,17 @@
 package de.nedelosk.modularmachines.api.modules.tool;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.recipes.IRecipe;
+import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 
 public interface IModuleTool extends IModule {
-
-	Object[] getRecipeModifiers(IModuleState state);
-
-	String getRecipeCategory(IModuleState state);
 
 	boolean removeInput(IModuleState state);
 
 	boolean addOutput(IModuleState state);
-
-	IRecipeManager getRecipeManager(IModuleState state);
-
-	void setRecipeManager(IModuleState state, IRecipeManager manager);
 
 	int getWorkTime(IModuleState state);
 
@@ -32,7 +27,21 @@ public interface IModuleTool extends IModule {
 
 	int getChance(IModuleState state);
 
-	int getSpeedModifier(IModuleState state);
+	int getSpeed(IModuleState state);
+
+	/* RECIPSE */
+	IRecipe getCurrentRecipe(IModuleState state);
+
+	void setCurrentRecipe(IModuleState state, IRecipe recipe);
+
+	List<IRecipe> getRecipes(IModuleState state);
+
+	IRecipe getValidRecipe(IModuleState state);
+
+	/**
+	 * @return True if the stack is a input, of a recipe, at the matching position.
+	 */
+	boolean isRecipeInput(IModuleState state, RecipeItem item);
 
 	/**
 	 * The size of the tool. A number between 1 and 3.

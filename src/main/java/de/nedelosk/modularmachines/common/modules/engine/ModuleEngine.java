@@ -3,9 +3,9 @@ package de.nedelosk.modularmachines.common.modules.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import cofh.api.energy.IEnergyProvider;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
@@ -20,14 +20,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleEngine extends Module implements IModuleEngine {
 
-	private final int burnTimeModifier;
+	protected final int burnTimeModifier;
+	protected final int materialPerTick;
 
 	public static final PropertyFloat PROGRESS = new PropertyFloat("progress", 0);
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex", -1);
 
-	public ModuleEngine(int burnTimeModifier) {
+	public ModuleEngine(int burnTimeModifier, int materialPerTick) {
 		this.burnTimeModifier = burnTimeModifier;
+		this.materialPerTick = materialPerTick;
 	}
 
 	/*@Override
@@ -52,7 +54,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 			return;
 		}
 
-		if (machineState.getModule().getRecipeManager(machineState) != null && canWork(state) && machineState.getModule().getWorkTime(machineState) <= machineState.getModule().getWorkTimeTotal(machineState)) {
+		if (machineState.getModule().getCurrentRecipe(machineState) != null && canWork(state) && machineState.getModule().getWorkTime(machineState) <= machineState.getModule().getWorkTimeTotal(machineState)) {
 			if (removeMaterial(state, machineState)) {
 				if(!isWorking){
 					state.set(WORKING, true);
@@ -93,12 +95,12 @@ public class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public boolean removeMaterial(IModuleState state, IModuleState<IModuleTool> machineState) {
-		IRecipeManager handler = machineState.getModule().getRecipeManager(machineState);
-		if(state.getModular().getEnergyHandler() == null){
+		IEnergyProvider energyHandler = state.getModular().getEnergyHandler();
+		if(energyHandler == null){
 			return false;
 		}
-		if (state.getModular().getEnergyHandler().extractEnergy(null, handler.getMaterialToRemove(), false) == handler.getMaterialToRemove()) {
-			return true;
+		if (energyHandler.extractEnergy(null, materialPerTick, true) == materialPerTick) {
+			return energyHandler.extractEnergy(null, materialPerTick, false) == materialPerTick;
 		} else {
 			return false;
 		}

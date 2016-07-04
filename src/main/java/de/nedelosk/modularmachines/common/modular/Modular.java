@@ -31,7 +31,7 @@ import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
-import jline.internal.Log;
+import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -152,7 +152,7 @@ public class Modular implements IModular {
 				state.readFromNBT(moduleTag);
 				modules.add(state);
 			}else{
-				Log.error("Remove module from modular, because the item of the module don't exist any more.");
+				Log.err("Remove module from modular, because the item of the module don't exist any more.");
 			}
 		}
 		if (nbt.hasKey("CurrentModule")) {

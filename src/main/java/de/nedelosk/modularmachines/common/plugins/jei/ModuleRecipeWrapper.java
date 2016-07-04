@@ -85,7 +85,7 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 
 	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid, Class<? extends ModuleRecipeWrapper> wrapper) {
 		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
-		for (IRecipe recipe : RecipeRegistry.getRecipes().get(recipeCategory)) {
+		for (IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
 			try{
 				recipes.add(wrapper.getConstructor(IRecipe.class, String.class).newInstance(recipe, recipeCategoryUid));
 			}catch(Exception e){

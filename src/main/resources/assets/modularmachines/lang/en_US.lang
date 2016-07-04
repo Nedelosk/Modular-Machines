@@ -170,3 +170,11 @@ modularmachines.tooltip.tier=Tier:
 modularmachines.tooltip.material=Material: 
 modularmachines.tooltip.heat=Heat: 
 modularmachines.tooltip.empty=Empty
+
+####################################
+#JEI
+####################################
+gui.mm.jei.category.boiler=Boiler
+gui.mm.jei.category.alloysmelter=Alloy Smelter
+
+gui.mm.jei.heat=Heat: %s

@@ -4,7 +4,6 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;

@@ -6,22 +6,20 @@ import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 
-public class WidgetBurningBar extends Widget {
+public class WidgetBurning extends Widget {
 
-	public int fuel;
-	public int fuelTotal;
+	public int burnTime;
+	public int burnTimeTotal;
 
-	public WidgetBurningBar(int posX, int posY, int burntime, int burntimeTotal) {
+	public WidgetBurning(int posX, int posY, int burntime, int burntimeTotal) {
 		super(posX, posY, 14, 14);
-		this.fuel = burntime;
-		this.fuelTotal = burntimeTotal;
+		this.burnTime = burntime;
+		this.burnTimeTotal = burntimeTotal;
 	}
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiBase gui) {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(fuel + " / " + fuelTotal);
-		return list;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -30,8 +28,8 @@ public class WidgetBurningBar extends Widget {
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 0, 176, 14, 14);
-		if (fuel > 0) {
-			int fuel = (this.fuel * 14) / this.fuelTotal;
+		if (burnTime > 0) {
+			int fuel = (this.burnTime * 14) / this.burnTimeTotal;
 			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y + 14 - fuel, 14, 176 + 14 - fuel, 14, fuel);
 		}
 	}

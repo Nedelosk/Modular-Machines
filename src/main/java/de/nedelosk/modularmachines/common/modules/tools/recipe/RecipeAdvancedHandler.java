@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import de.nedelosk.modularmachines.api.recipes.IMachineMode;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;
-import de.nedelosk.modularmachines.api.recipes.IRecipeJsonSerializer;
-import de.nedelosk.modularmachines.api.recipes.IRecipeNBTSerializer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class RecipeAdvancedHandler implements IRecipeHandler, IRecipeJsonSerializer, IRecipeNBTSerializer {

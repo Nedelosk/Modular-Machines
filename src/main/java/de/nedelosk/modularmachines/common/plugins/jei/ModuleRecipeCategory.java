@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
+import de.nedelosk.modularmachines.common.utils.Translator;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.recipe.BlankRecipeCategory;
@@ -33,7 +34,7 @@ public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRec
 
 	@Override
 	public String getTitle() {
-		return inventoryName;
+		return Translator.translateToLocal(inventoryName);
 	}
 
 	@Override

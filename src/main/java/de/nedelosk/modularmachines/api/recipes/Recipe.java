@@ -1,57 +1,84 @@
 package de.nedelosk.modularmachines.api.recipes;
 
-public final class Recipe implements IRecipe {
+import java.util.Map;
+import java.util.Map.Entry;
 
-	protected final Object[] modifiers;
-	protected final RecipeItem[] input;
-	protected final RecipeItem[] output;
-	protected final int speedModifier;
-	protected final int requiredMaterial;
-	protected final String recipeCategory;
-	protected final String recipeName;
+import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyProvider;
+import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.api.property.PropertyRecipeItems;
+import de.nedelosk.modularmachines.api.property.PropertyString;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 
-	public Recipe(String recipeName, RecipeItem[] input, RecipeItem[] output, int speedModifier, int requiredMaterial, String recipeCategory, Object... modifiers) {
-		this.recipeName = recipeName;
-		this.input = input;
-		this.output = output;
-		this.modifiers = modifiers;
-		this.speedModifier = speedModifier;
-		this.requiredMaterial = requiredMaterial;
-		this.recipeCategory = recipeCategory;
+public class Recipe implements IRecipe{
+
+	public static final PropertyRecipeItems INPUTS = new PropertyRecipeItems("inputs");
+	public static final PropertyRecipeItems OUTPUTS = new PropertyRecipeItems("outputs");
+	public static final PropertyString NAME = new PropertyString("name", null);
+	public static final PropertyString CATEGORY = new PropertyString("category", null);
+	public static final PropertyInteger SPEED = new PropertyInteger("speed", 0);
+	public static final PropertyInteger HEAT = new PropertyInteger("heat", 0);
+
+	protected Map<IProperty, Object> properties;
+
+	public Recipe(Map<IProperty, Object> properties) {
+		this.properties = properties;
 	}
 
 	@Override
-	public int getRequiredSpeedModifier() {
-		return speedModifier;
+	public Map<IProperty, Object> getProperties() {
+		return properties;
 	}
 
 	@Override
-	public Object[] getModifiers() {
-		return modifiers;
-	}
-
-	@Override
-	public String getRecipeCategory() {
-		return recipeCategory;
-	}
-
-	@Override
-	public String getRecipeName() {
-		return recipeName;
+	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
+		if(!properties.containsKey(property)){
+			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the recipe.");
+		}
+		return (T) properties.get(property);
 	}
 
 	@Override
 	public RecipeItem[] getInputs() {
-		return input;
+		return get(Recipe.INPUTS);
 	}
 
 	@Override
 	public RecipeItem[] getOutputs() {
-		return output;
+		return get(Recipe.OUTPUTS);
 	}
 
 	@Override
-	public int getRequiredMaterial() {
-		return requiredMaterial;
+	public String getRecipeName() {
+		return get(Recipe.NAME);
+	}
+
+	@Override
+	public String getRecipeCategory() {
+		return get(Recipe.CATEGORY);
+	}
+
+	@Override
+	public int getSpeed() {
+		return get(Recipe.SPEED);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		for(Entry<IProperty, Object> object : properties.entrySet()){
+			if(object.getValue() != null){
+				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
+			}
+		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		for(IProperty property : properties.keySet()){
+			if(nbt.hasKey(property.getName())){
+				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+			}
+		}
 	}
 }

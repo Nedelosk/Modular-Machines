@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.ModuleToolEngine;
+import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColored {
+public class ModuleAlloySmelter extends ModuleToolHeat implements IModuleColored {
 
 	public ModuleAlloySmelter(int speed, int size) {
 		super(speed, size);
@@ -35,6 +35,11 @@ public class ModuleAlloySmelter extends ModuleToolEngine implements IModuleColor
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
 		return ((IModuleInventory)state.getContentHandler(ItemStack.class)).getInputItems();
+	}
+
+	@Override
+	protected int getConsumeHeat(IModuleState state) {
+		return 15;
 	}
 
 	@Override

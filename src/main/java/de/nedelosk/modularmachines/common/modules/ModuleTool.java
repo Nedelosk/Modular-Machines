@@ -2,27 +2,22 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IRecipeManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
-import de.nedelosk.modularmachines.api.modules.state.PropertyRecipeManager;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.api.property.PropertyRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.modules.tools.RecipeManager;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -31,10 +26,10 @@ import net.minecraft.util.text.TextFormatting;
 
 public abstract class ModuleTool extends Module implements IModuleTool, IWailaProvider {
 
-	public static final PropertyRecipeManager RECIPEMANAGER = new PropertyRecipeManager("recipeManager", null);
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
+	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
 
 	protected final int speedModifier;
 	protected final int size;
@@ -50,10 +45,10 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 		int chance = getChance(state);
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
-		IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(state), getInputs(state), getRecipeModifiers(state));
+		IRecipe recipe = getCurrentRecipe(state);
 		List<IModuleContentHandler> handlers = 		state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getRecipeManager(state).getOutputs()){
+		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
 				if(item.chance == -1 || item.chance >= chance){
 					outputs.add(item.copy());
@@ -85,7 +80,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 		IModularHandler tile = modular.getHandler();
 		List<IModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getRecipeManager(state).getOutputs()){
+		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
 				if(item.chance == -1 || item.chance >= chance){
 					outputs.add(item.copy());
@@ -96,38 +91,6 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 			handler.addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
 		}
 		return true;
-	}
-
-	@Override
-	public void updateServer(IModuleState state, int tickCount) {
-		IModular modular = state.getModular();
-		Random rand = modular.getHandler().getWorld().rand;
-
-		if (canWork(state)) {
-			IRecipeManager manager = getRecipeManager(state);
-			if (getWorkTime(state) >= getWorkTimeTotal(state) || manager == null) {
-				IRecipe recipe = RecipeRegistry.getRecipe(getRecipeCategory(state), getInputs(state), getRecipeModifiers(state));
-				if (manager != null) {
-					if (addOutput(state)) {
-						setRecipeManager(state, null);
-						setBurnTimeTotal(state, 0);
-						setWorkTime(state, 0);
-						state.set(CHANCE, rand.nextInt(100));
-						PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
-					}
-				} else if (recipe != null) {
-					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getRequiredSpeedModifier()) / state.getContainer().getMaterial().getTier());
-					setRecipeManager(state, new RecipeManager(recipe.getRecipeCategory(), (recipe.getRequiredMaterial() * speedModifier) / getWorkTimeTotal(state),
-							recipe.getInputs().clone(), getRecipeModifiers(state)));
-					if (!removeInput(state)) {
-						setRecipeManager(state, null);
-						return;
-					}
-					state.set(CHANCE, rand.nextInt(100));
-					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
-				}
-			}
-		}
 	}
 
 	public abstract boolean canWork(IModuleState state);
@@ -168,28 +131,89 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 
 	@Override
-	public Object[] getRecipeModifiers(IModuleState state) {
+	public IModuleState createState(IModular modular, IModuleContainer container) {
+		return new ModuleState(modular, this, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
+	}
+
+	@Override
+	public IRecipe getValidRecipe(IModuleState state) {
+		List<IRecipe> recipes = getRecipes(state);
+		RecipeItem[] inputs = getInputs(state);
+		if (recipes == null) {
+			return null;
+		}
+		testRecipes: for(IRecipe recipe : recipes) {
+			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
+			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
+				recipeInputs.add(recipeInput);
+			}
+			for(int i = 0; i < recipeInputs.size(); i++) {
+				RecipeItem recipeInput = recipeInputs.get(i);
+				RecipeItem machineInput = inputs[i];
+				if(recipeInput == null || machineInput == null){
+					continue testRecipes;
+				}
+				if (machineInput.isNull()) {
+					if (!recipeInput.isNull()) {
+						continue testRecipes;
+					}
+					continue;
+				}else if (recipeInput.isNull()) {
+					if (!machineInput.isNull()) {
+						continue testRecipes;
+					}
+					continue;
+				}else if(RecipeRegistry.itemEqualsItem(recipeInput, machineInput, false)){
+					continue;
+				}
+				continue testRecipes;
+			}
+			if(isRecipeValid(recipe, state)){
+				return recipe;
+			}
+		}
 		return null;
 	}
 
-	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return new ModuleState(modular, this, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPEMANAGER);
+	protected boolean isRecipeValid(IRecipe recipe, IModuleState state){
+		return true;
 	}
 
 	@Override
-	public IRecipeManager getRecipeManager(IModuleState state) {
-		return state.get(RECIPEMANAGER);
+	public boolean isRecipeInput(IModuleState state, RecipeItem item) {
+		List<IRecipe> recipes = getRecipes(state);
+		if (recipes == null || item == null) {
+			return false;
+		}
+		for(IRecipe recipe : recipes) {
+			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
+			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
+				recipeInputs.add(recipeInput);
+			}
+			if (recipeInputs.isEmpty()) {
+				return false;
+			}
+			for(int i = 0; i < recipeInputs.size(); i++) {
+				RecipeItem recipeInput = recipeInputs.get(i);
+				if (recipeInput == null) {
+					continue;
+				}
+				if (recipeInput.index != item.index) {
+					continue;
+				}
+				if(RecipeRegistry.itemEqualsItem(recipeInput, item, false)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
-	@Override
-	public void setRecipeManager(IModuleState state, IRecipeManager manager) {
-		state.set(RECIPEMANAGER, manager);
-	}
+	protected abstract String getRecipeCategory(IModuleState state);
 
 	@Override
 	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
-		if (RecipeRegistry.isRecipeInput(getRecipeCategory(state), new RecipeItem(slotID, stackItem))) {
+		if (isRecipeInput(state, new RecipeItem(slotID, stackItem))) {
 			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
 			if (inventory.mergeItemStack(stackItem, 36 + slotID, 37 + slotID, false, container)) {
 				return true;
@@ -221,7 +245,7 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	}
 
 	@Override
-	public int getSpeedModifier(IModuleState state) {
+	public int getSpeed(IModuleState state) {
 		return speedModifier;
 	}
 
@@ -229,4 +253,20 @@ public abstract class ModuleTool extends Module implements IModuleTool, IWailaPr
 	public int getSize() {
 		return size;
 	}
+
+	@Override
+	public IRecipe getCurrentRecipe(IModuleState state) {
+		return state.get(RECIPE);
+	}
+
+	@Override
+	public void setCurrentRecipe(IModuleState state, IRecipe recipe) {
+		state.set(RECIPE, recipe);
+	}
+
+	@Override
+	public List<IRecipe> getRecipes(IModuleState state) {
+		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
+	}
+
 }

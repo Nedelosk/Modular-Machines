@@ -1,96 +1,24 @@
-package de.nedelosk.modularmachines.common.utils;
-
-import static de.nedelosk.modularmachines.api.recipes.RecipeRegistry.registerRecipe;
+package de.nedelosk.modularmachines.api.recipes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import de.nedelosk.modularmachines.api.recipes.IMachineMode;
-import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
-import de.nedelosk.modularmachines.api.recipes.Recipe;
-import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
 
 public class RecipeUtil {
 
-	public static void removeShapedRecipes(List<ItemStack> removelist) {
-		for(ItemStack stack : removelist) {
-			removeShapedRecipe(stack);
-		}
+	public static boolean addAlloySmelter(String recipeName, RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] output, int speed, int heat){
+		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("AlloySmelter");
+		IRecipeBuilder builder = handler.getDefaultTemplate();
+		builder
+		.set(Recipe.INPUTS, new RecipeItem[]{inputFirst, inputSecond}).
+		set(Recipe.OUTPUTS, output)
+		.set(Recipe.SPEED, speed)
+		.set(Recipe.HEAT, heat);
+		return handler.registerRecipe(builder.build());
 	}
 
-	public static void removeAnyRecipe(ItemStack resultItem) {
-		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for(int i = 0; i < recipes.size(); i++) {
-			IRecipe tmpRecipe = recipes.get(i);
-			ItemStack recipeResult = tmpRecipe.getRecipeOutput();
-			if (ItemStack.areItemStacksEqual(resultItem, recipeResult)) {
-				recipes.remove(i--);
-			}
-		}
-	}
-
-	public static void removeShapedRecipe(ItemStack resultItem) {
-		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for(int i = 0; i < recipes.size(); i++) {
-			IRecipe tmpRecipe = recipes.get(i);
-			if (tmpRecipe instanceof ShapedRecipes) {
-				ShapedRecipes recipe = (ShapedRecipes) tmpRecipe;
-				ItemStack recipeResult = recipe.getRecipeOutput();
-				if (ItemStack.areItemStacksEqual(resultItem, recipeResult)) {
-					recipes.remove(i--);
-				}
-			}
-		}
-	}
-
-	public static void removeShapelessRecipe(ItemStack resultItem) {
-		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-		for(int i = 0; i < recipes.size(); i++) {
-			IRecipe tmpRecipe = recipes.get(i);
-			if (tmpRecipe instanceof ShapelessRecipes) {
-				ShapelessRecipes recipe = (ShapelessRecipes) tmpRecipe;
-				ItemStack recipeResult = recipe.getRecipeOutput();
-				if (ItemStack.areItemStacksEqual(resultItem, recipeResult)) {
-					recipes.remove(i--);
-				}
-			}
-		}
-	}
-
-	public static void removeFurnaceRecipe(ItemStack resultItem) {
-		Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-		Iterator<Entry<ItemStack, ItemStack>> i = recipes.entrySet().iterator();
-		while (i.hasNext()) {
-			Entry<ItemStack, ItemStack> entry = i.next();
-			if (entry.getValue().getItem() == resultItem.getItem() && entry.getValue().getItemDamage() == resultItem.getItemDamage()) {
-				i.remove();
-			}
-		}
-	}
-
-	public static void removeFurnaceRecipe(Item i, int metadata) {
-		removeFurnaceRecipe(new ItemStack(i, 1, metadata));
-	}
-
-	public static void removeFurnaceRecipe(Item i) {
-		removeFurnaceRecipe(new ItemStack(i));
-	}
-
-	public static boolean addAlloySmelter(String recipeName, RecipeItem input1, RecipeItem input2, RecipeItem[] output, int speedModifier, int energy){
-		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input1, input2 }, output, speedModifier, energy, "AlloySmelter"));
-	}
-
-	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output, int speedModifier, int energy){
+	/*public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output, int speedModifier, int energy){
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { new RecipeItem(input) }, output, speedModifier, energy, "Pulverizer"));
 	}
 
@@ -104,9 +32,9 @@ public class RecipeUtil {
 
 	public static boolean addLathe(String recipeName, RecipeItem input, RecipeItem output, int speedModifier, int energy, IMachineMode mode){
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, new RecipeItem[] { output }, speedModifier, energy, "Lathe", mode));
-	}
+	}*/
 
-	public static boolean addSawMill(String recipeName, OreStack input, RecipeItem[] output, int speedModifier, int energy){
+	/*public static boolean addSawMill(String recipeName, OreStack input, RecipeItem[] output, int speedModifier, int energy){
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { new RecipeItem(input) }, output, speedModifier, energy, "SawMill"));
 	}
 
@@ -116,10 +44,17 @@ public class RecipeUtil {
 
 	public static boolean addSawMill(String recipeName, RecipeItem input, RecipeItem[] output, int speedModifier, int energy){
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, output, speedModifier, energy, "SawMill"));
-	}
+	}*/
 
-	public static boolean addBoiler(String recipeName, RecipeItem input, RecipeItem output, int speedModifier, int heat){
-		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, new RecipeItem[] { output }, speedModifier, 0, "Boiler", heat));
+	public static boolean addBoilerRecipe(String recipeName, RecipeItem input, RecipeItem output, int speed, int heat){
+		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Boiler");
+		IRecipeBuilder builder = handler.getDefaultTemplate();
+		builder
+		.set(Recipe.INPUTS, new RecipeItem[]{input}).
+		set(Recipe.OUTPUTS, new RecipeItem[]{output})
+		.set(Recipe.SPEED, speed)
+		.set(Recipe.HEAT, heat);
+		return handler.registerRecipe(builder.build());
 	}
 
 	public static boolean canRemoveRecipeInputs(IRecipeInventory inventory, int chance, RecipeItem[] inputs) {

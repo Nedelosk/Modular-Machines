@@ -15,6 +15,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
@@ -24,6 +26,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBurning {
 
 	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime", 0);
+	public static final PropertyInteger BURNTIMETOTAL = new PropertyInteger("burnTimeTotal", 0);
 
 	public ModuleHeaterBurning(int maxHeat, int size) {
 		super(maxHeat, size);
@@ -31,7 +34,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(BURNTIME);
+		return super.createState(modular, container).register(BURNTIME).register(BURNTIMETOTAL);
 	}
 
 	@Override
@@ -51,32 +54,35 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	@Override
 	public void updateServer(IModuleState moduleState, int tickCount) {
-		boolean needUpdate = false;
-		IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(moduleState.getModular());
-		if (getBurnTime(moduleState) > 0) {
-			if(casingState.getModule().getHeat(casingState) < maxHeat){
-				casingState.getModule().addHeat(casingState, 1);
-			}
-			addBurnTime(moduleState, -10);
-			needUpdate = true;
-		} else {
-			List<IModulePage> pages = moduleState.getPages();
-			IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
-			ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages.get(0)).BURNSLOT);
-			if(input == null){
-				if(casingState.getModule().getHeat(casingState) > 0){
-					casingState.getModule().addHeat(casingState, -1);
-					needUpdate = true;
+		if(moduleState.getModular().updateOnInterval(20)){
+			boolean needUpdate = false;
+			IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(moduleState.getModular());
+			if (getBurnTime(moduleState) > 0) {
+				if(casingState.getModule().getHeat(casingState) < maxHeat){
+					casingState.getModule().addHeat(casingState, 2);
 				}
-			}else if (input != null) {
-				if(inventory.extractItem(((HeaterBurningPage)pages.get(0)).BURNSLOT, 1, false) != null){
-					setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
-					needUpdate = true;
+				addBurnTime(moduleState, -20);
+				needUpdate = true;
+			} else {
+				List<IModulePage> pages = moduleState.getPages();
+				IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
+				ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages.get(0)).BURNSLOT);
+				if(input == null){
+					if(casingState.getModule().getHeat(casingState) > 0){
+						casingState.getModule().addHeat(casingState, -1);
+						needUpdate = true;
+					}
+				}else if (input != null) {
+					if(inventory.extractItem(((HeaterBurningPage)pages.get(0)).BURNSLOT, 1, false) != null){
+						setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
+						moduleState.set(BURNTIMETOTAL, TileEntityFurnace.getItemBurnTime(input));
+						needUpdate = true;
+					}
 				}
 			}
-		}
-		if(needUpdate){
-			PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
+			if(needUpdate){
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
+			}
 		}
 	}
 
@@ -96,7 +102,25 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		}
 
 		@Override
+		public void addWidgets(List widgets) {
+			widgets.add(new WidgetBurning(80, 18, 0, 0));
+		}
+
+		@Override
+		public void updateGui(int x, int y) {
+			List<Widget> widgets = gui.getWidgetManager().getWidgets();
+			for(Widget widget : widgets) {
+				if (widget instanceof WidgetBurning) {
+					WidgetBurning widgetBurning = (WidgetBurning) widget;
+					widgetBurning.burnTime = state.get(BURNTIME);
+					widgetBurning.burnTimeTotal = state.get(BURNTIMETOTAL);
+				}
+			}
+		}
+
+		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
+			invBuilder.setInventoryName("module.inventory.heater.burning.name");
 			BURNSLOT = invBuilder.addInventorySlot(true, new ItemFliterBurning());
 		}
 

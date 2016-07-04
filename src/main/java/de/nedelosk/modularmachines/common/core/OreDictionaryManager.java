@@ -32,14 +32,14 @@ public class OreDictionaryManager {
 		}
 		registerOre("ingotAluminium", new ItemStack(ItemManager.itemIngots, 1, 5));
 		registerOre("nuggetAluminium", new ItemStack(ItemManager.itemNuggets, 1, 5));
-		registerOre("dustAluminium", new ItemStack(ItemManager.itemDusts, 1, 25));
+		registerOre("dustAluminium", new ItemStack(ItemManager.itemDusts, 1, 15));
 		registerOre("oreCopper", new ItemStack(BlockManager.blockOres, 1, 0));
 		registerOre("oreTin", new ItemStack(BlockManager.blockOres, 1, 1));
 		registerOre("oreSilver", new ItemStack(BlockManager.blockOres, 1, 2));
 		registerOre("oreLead", new ItemStack(BlockManager.blockOres, 1, 3));
 		registerOre("oreNickel", new ItemStack(BlockManager.blockOres, 1, 4));
-		registerOre("oreAluminium", new ItemStack(BlockManager.blockOres, 1, 7));
-		registerOre("oreAluminum", new ItemStack(BlockManager.blockOres, 1, 7));
+		registerOre("oreAluminium", new ItemStack(BlockManager.blockOres, 1, 5));
+		registerOre("oreAluminum", new ItemStack(BlockManager.blockOres, 1, 5));
 		registerOre("blockObsidian", Blocks.OBSIDIAN);
 		registerOre("plateStone", new ItemStack(ItemManager.itemCompPlates));
 		registerOre("sawBladeStone", new ItemStack(ItemManager.itemCompSawBlades));

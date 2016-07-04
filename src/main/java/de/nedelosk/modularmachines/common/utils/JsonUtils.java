@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

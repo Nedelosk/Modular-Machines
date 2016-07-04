@@ -55,7 +55,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
 				WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
-				if(state instanceof IModuleTool){
+				if(state.getModule() instanceof IModuleTool){
 					IModuleTool tool = (IModuleTool) state.getModule();
 					widgetBar.burntime = tool.getWorkTime(state);
 					widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);

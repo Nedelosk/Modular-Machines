@@ -8,12 +8,10 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.property.IProperty;
-import de.nedelosk.modularmachines.api.property.IPropertyBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertySetter;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModuleState<M extends IModule> extends IPropertyProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder {
 
@@ -49,9 +47,5 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, IPro
 	IModular getModular();
 
 	IModuleContainer getContainer();
-
-	void writeToNBT(NBTTagCompound nbt);
-
-	void readFromNBT(NBTTagCompound nbt);
 
 }

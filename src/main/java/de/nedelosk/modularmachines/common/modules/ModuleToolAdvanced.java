@@ -51,11 +51,6 @@ public abstract class ModuleToolAdvanced extends ModuleToolEngine implements IMo
 		this.defaultMode = mode;
 	}
 
-	@Override
-	public Object[] getRecipeModifiers(IModuleState state) {
-		return new Object[] { defaultMode };
-	}
-
 	public static abstract class ModuleAdvancedPage extends ModulePage<IModuleToolAdvanced> {
 
 		public ModuleAdvancedPage(String pageID, IModuleState<IModuleToolAdvanced> moduleState) {

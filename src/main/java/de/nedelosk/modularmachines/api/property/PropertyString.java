@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.api.property;
 
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagString;
 
 public class PropertyString extends PropertyBase<String, NBTTagString, IPropertyProvider> implements IPropertyJson<String, NBTTagString, IPropertyProvider, JsonPrimitive>{
@@ -21,12 +20,12 @@ public class PropertyString extends PropertyBase<String, NBTTagString, IProperty
 			return false;
 		}
 	}
-	
+
 	@Override
 	public JsonPrimitive writeToJson(String objects) {
 		return new JsonPrimitive(objects);
 	}
-	
+
 	@Override
 	public String readFromJson(JsonPrimitive object) {
 		return object.getAsString();

@@ -1,14 +1,11 @@
 package de.nedelosk.modularmachines.api.property;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.utils.JsonUtils;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 
 public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompound, IRecipe> implements IPropertyJson<RecipeItem[], NBTTagCompound, IRecipe, JsonArray> {
@@ -16,12 +13,12 @@ public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompou
 	public PropertyRecipeItems(String name) {
 		super(name, RecipeItem[].class, new RecipeItem[1]);
 	}
-	
+
 	@Override
 	public JsonArray writeToJson(RecipeItem[] objects) {
 		return JsonUtils.writeRecipeItem(objects);
 	}
-	
+
 	@Override
 	public RecipeItem[] readFromJson(JsonArray object) {
 		return JsonUtils.parseRecipeItem(object);
@@ -50,7 +47,7 @@ public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompou
 	@Override
 	public RecipeItem[] readFromNBT(NBTTagCompound nbt, IRecipe state) {
 		NBTTagList tagList = nbt.getTagList("Items", 10);
-		RecipeItem[] items = new RecipeItem[nbt.getInteger("MaxIndex")];
+		RecipeItem[] items = new RecipeItem[nbt.getInteger("MaxIndex") + 1];
 		for(int i = 0;i < tagList.tagCount();i++){
 			NBTTagCompound nbtTag = tagList.getCompoundTagAt(i);
 			RecipeItem item = RecipeItem.loadFromNBT(nbtTag);
