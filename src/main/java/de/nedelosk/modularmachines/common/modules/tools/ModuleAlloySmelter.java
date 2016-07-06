@@ -10,10 +10,10 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
+import de.nedelosk.modularmachines.common.modules.ModuleMachineHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleAlloySmelter extends ModuleToolHeat implements IModuleColored {
+public class ModuleAlloySmelter extends ModuleMachineHeat implements IModuleColored {
 
 	public ModuleAlloySmelter(int speed, int size) {
 		super(speed, size);
@@ -49,9 +49,9 @@ public class ModuleAlloySmelter extends ModuleToolHeat implements IModuleColored
 		return pages;
 	}
 
-	public static class AlloySmelterPage extends ModulePage<IModuleTool> {
+	public static class AlloySmelterPage extends ModulePage<IModuleMachine> {
 
-		public AlloySmelterPage(String pageID, IModuleState<IModuleTool> module) {
+		public AlloySmelterPage(String pageID, IModuleState<IModuleMachine> module) {
 			super(pageID, module);
 		}
 

@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleCapacitor;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 
 public class ModularHelper {
 
@@ -26,7 +26,7 @@ public class ModularHelper {
 		return getModule(modular, IModuleEngine.class);
 	}
 
-	public static List<IModuleState<IModuleEngine>> getEnginesForTool(IModuleState<IModuleTool> tool) {
+	public static List<IModuleState<IModuleEngine>> getEnginesForTool(IModuleState<IModuleMachine> tool) {
 		IModular modular = tool.getModular();
 
 		if (modular == null) {
@@ -54,8 +54,8 @@ public class ModularHelper {
 		return getModule(modular, IModuleHeater.class);
 	}
 
-	public static IModuleState<IModuleTool> getMachine(IModular modular) {
-		return getModule(modular, IModuleTool.class);
+	public static IModuleState<IModuleMachine> getMachine(IModular modular) {
+		return getModule(modular, IModuleMachine.class);
 	}
 
 	public static IModuleState<IModuleCapacitor> getCapacitor(IModular modular) {

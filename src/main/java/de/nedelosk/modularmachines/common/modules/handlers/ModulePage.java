@@ -16,7 +16,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonModulePageTab;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonModuleTab;
@@ -55,8 +55,8 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		for(Widget widget : widgets) {
 			if (widget instanceof WidgetProgressBar) {
 				WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
-				if(state.getModule() instanceof IModuleTool){
-					IModuleTool tool = (IModuleTool) state.getModule();
+				if(state.getModule() instanceof IModuleMachine){
+					IModuleMachine tool = (IModuleMachine) state.getModule();
 					widgetBar.burntime = tool.getWorkTime(state);
 					widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);
 				}

@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.Tabs;
 import de.nedelosk.modularmachines.common.core.Registry;
+import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,7 +18,7 @@ public class ItemToolParts extends ItemForest implements IItemModelRegister {
 	"cutter_handle" };
 
 	public ItemToolParts() {
-		super(null, Tabs.tabForestMods);
+		super(null, TabModularMachines.tabModularMachines);
 		setHasSubtypes(true);
 		setUnlocalizedName("tool.parts");
 	}

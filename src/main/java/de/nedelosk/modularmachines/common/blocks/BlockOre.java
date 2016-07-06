@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.Tabs;
+import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.SoundType;
@@ -26,7 +26,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 	public static final PropertyEnum<OreType> TYPE = PropertyEnum.create("type", OreType.class);
 
 	public BlockOre() {
-		super(Material.GROUND, Tabs.tabForestMods);
+		super(Material.GROUND, TabModularMachines.tabModularMachines);
 		setHardness(2.0f);
 		setResistance(3.0F);
 		setUnlocalizedName("ores");

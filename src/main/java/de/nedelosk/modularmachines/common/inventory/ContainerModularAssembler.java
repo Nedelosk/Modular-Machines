@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
+import de.nedelosk.modularmachines.api.modules.IModuleTransport;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
@@ -103,9 +104,9 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		slots[5] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 7, 100, 46, inventory.player, IModuleTool.class));
 		slots[6] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 8, 136, 46, inventory.player));
 
-		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player));
+		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player, IModuleTransport.class));
 		slots[8] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 10, 82, 82, inventory.player, IModuleController.class, true).setController(true));
-		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player));
+		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleTool.class));
 
 		slots[10] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 12, 28, 118, inventory.player));
 		slots[11] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 13, 64, 118, inventory.player, IModuleDrive.class));

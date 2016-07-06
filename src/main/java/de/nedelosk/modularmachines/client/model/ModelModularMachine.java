@@ -116,12 +116,14 @@ public class ModelModularMachine implements IBakedModel {
 				}
 			}
 			Map<Predicate<IBlockState>, IBakedModel> models = new LinkedHashMap<>();
+			List<IModuleModelHandler> modelHandlers = new ArrayList<>();
 			boolean isEmpty = true;
 			for(IModuleState moduleState : modularHandler.getModular().getModuleStates()){
 				IModuleModelHandler modelHandler = moduleState.getModule().getModelHandler(moduleState);
 				if(modelHandler != null){
 					isEmpty = false;
-					models.put(IModuleModelHandler.createTrue(), modelHandler.getModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE));
+					modelHandlers.add(modelHandler);
+					models.put(IModuleModelHandler.createTrue(), modelHandler.getModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers));
 				}
 			}
 			if(isEmpty){

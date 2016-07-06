@@ -18,7 +18,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	public String uln;
 
 	public ItemModuleMeta(String uln, String[] names) {
-		setCreativeTab(TabModularMachines.tabForestMods);
+		setCreativeTab(TabModularMachines.tabModularMachines);
 		setUnlocalizedName(uln);
 		setHasSubtypes(true);
 		setCreativeTab(TabModularMachines.tabModules);

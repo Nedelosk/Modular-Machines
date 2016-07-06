@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 
 public interface IModuleEngine extends IModuleDrive {
 
@@ -24,5 +24,5 @@ public interface IModuleEngine extends IModuleDrive {
 
 	List<Integer> getMachineIndexes(IModuleState state);
 
-	boolean removeMaterial(IModuleState state, IModuleState<IModuleTool> machineState);
+	boolean removeMaterial(IModuleState state, IModuleState<IModuleMachine> machineState);
 }

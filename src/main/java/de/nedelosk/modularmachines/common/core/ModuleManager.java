@@ -21,7 +21,6 @@ import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
 import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
-import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
@@ -35,23 +34,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleManager {
 
-	public static IModuleController moduleControllerStone;
 	public static IModuleController moduleControllerIron;
 	public static IModuleController moduleControllerBronze;
 
-	public static IModuleCasing moduleCasingStone;
 	public static IModuleCasing moduleCasingIron;
 	public static IModuleCasing moduleCasingBronze;
 
-	public static IModuleEngine moduleEngineStone;
 	public static IModuleEngine moduleEngineIron;
 	public static IModuleEngine moduleEngineBronze;
 	public static IModuleEngine moduleEngineSteel;
 	public static IModuleEngine moduleEngineMagmarium;
 
-	public static IModuleHeater moduleHeaterStone;
 	public static IModuleHeater moduleHeaterIronLarge;
-	public static IModuleHeater moduleHeaterIronMiddle;
 	public static IModuleHeater moduleHeaterBronzeLarge;
 	public static IModuleHeater moduleHeaterBronzeMiddle;
 	public static IModuleHeater moduleHeaterSteelLarge;
@@ -61,34 +55,22 @@ public class ModuleManager {
 	public static IModuleHeater moduleHeaterMagmariumMiddle;
 	public static IModuleHeater moduleHeaterMagmariumSmall;
 
-	public static ModuleBoiler moduleBoilerStone;
 	public static ModuleBoiler moduleBoilerIron;
 	public static ModuleBoiler moduleBoilerBronze;
 
-	public static ModuleFurnace moduleFurnaceStone;
-	public static ModuleFurnace moduleFurnaceIron;
-	public static ModuleFurnace moduleFurnaceBronze;
-
-	public static ModuleAlloySmelter moduleAlloySmelterStone;
 	public static ModuleAlloySmelter moduleAlloySmelterIron;
 	public static ModuleAlloySmelter moduleAlloySmelterBronze;
 
-	public static ModuleSawMill moduleSawMillStone;
 	public static ModuleSawMill moduleSawMillIron;
 	public static ModuleSawMill moduleSawMillBronze;
 
-	public static ModulePulverizer modulePulverizerStone;
 	public static ModulePulverizer modulePulverizerIron;
 	public static ModulePulverizer modulePulverizerBronze;
 
-	public static ModuleLathe moduleLatheStone;
 	public static ModuleLathe moduleLatheIron;
 	public static ModuleLathe moduleLatheBronze;
 
 	public static void registerModuels() {
-		moduleControllerStone = new ModuleController(3, 1, 1, 1);
-		moduleControllerStone.setRegistryName(new ResourceLocation("modularmachines:controller.stone"));
-		GameRegistry.register(moduleControllerStone);
 
 		moduleControllerIron = new ModuleController(6, 2, 2, 2);
 		moduleControllerIron.setRegistryName(new ResourceLocation("modularmachines:controller.iron"));
@@ -99,10 +81,6 @@ public class ModuleManager {
 		GameRegistry.register(moduleControllerBronze);
 
 		/* CASINGS */
-		moduleCasingStone = new ModuleCasing(250, 10.0F, 1.5F, "pickaxe", 0);
-		moduleCasingStone.setRegistryName(new ResourceLocation("modularmachines:casing.stone"));
-		GameRegistry.register(moduleCasingStone);
-
 		moduleCasingIron = new ModuleCasing(400, 10.0F, 5.0F, "pickaxe", 1);
 		moduleCasingIron.setRegistryName(new ResourceLocation("modularmachines:casing.iron"));
 		GameRegistry.register(moduleCasingIron);
@@ -112,10 +90,6 @@ public class ModuleManager {
 		GameRegistry.register(moduleCasingBronze);
 
 		/* ENGINES */
-		moduleEngineStone = new ModuleEngine(1, 15);
-		moduleEngineStone.setRegistryName(new ResourceLocation("modularmachines:engine.stone"));
-		GameRegistry.register(moduleEngineStone);
-
 		moduleEngineIron = new ModuleEngine(2, 15);
 		moduleEngineIron.setRegistryName(new ResourceLocation("modularmachines:engine.iron"));
 		GameRegistry.register(moduleEngineIron);
@@ -133,17 +107,9 @@ public class ModuleManager {
 		GameRegistry.register(moduleEngineMagmarium);
 
 		/* HEATERS */
-		moduleHeaterStone = new ModuleHeaterBurning(250, 3);
-		moduleHeaterStone.setRegistryName(new ResourceLocation("modularmachines:heater.stone"));
-		GameRegistry.register(moduleHeaterStone);
-
 		moduleHeaterIronLarge = new ModuleHeaterBurning(350, 3);
 		moduleHeaterIronLarge.setRegistryName(new ResourceLocation("modularmachines:heater.iron.large"));
 		GameRegistry.register(moduleHeaterIronLarge);
-
-		moduleHeaterIronMiddle = new ModuleHeaterBurning(250, 2);
-		moduleHeaterIronMiddle.setRegistryName(new ResourceLocation("modularmachines:heater.iron.middle"));
-		GameRegistry.register(moduleHeaterIronMiddle);
 
 		moduleHeaterBronzeLarge = new ModuleHeaterBurning(450, 3);
 		moduleHeaterBronzeLarge.setRegistryName(new ResourceLocation("modularmachines:heater.bronze.large"));
@@ -178,10 +144,6 @@ public class ModuleManager {
 		GameRegistry.register(moduleHeaterMagmariumSmall);
 
 		/* BOILERS */
-		moduleBoilerStone = new ModuleBoiler(30, 3);
-		moduleBoilerStone.setRegistryName(new ResourceLocation("modularmachines:boiler.stone"));
-		GameRegistry.register(moduleBoilerStone);
-
 		moduleBoilerIron = new ModuleBoiler(22, 3);
 		moduleBoilerIron.setRegistryName(new ResourceLocation("modularmachines:boiler.iron"));
 		GameRegistry.register(moduleBoilerIron);
@@ -191,10 +153,6 @@ public class ModuleManager {
 		GameRegistry.register(moduleBoilerBronze);
 
 		/* ALLOY SMELTERS*/
-		moduleAlloySmelterStone = new ModuleAlloySmelter(30, 3);
-		moduleAlloySmelterStone.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.stone"));
-		GameRegistry.register(moduleAlloySmelterStone);
-
 		moduleAlloySmelterIron = new ModuleAlloySmelter(22, 3);
 		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
 		GameRegistry.register(moduleAlloySmelterIron);
@@ -209,29 +167,24 @@ public class ModuleManager {
 
 	public static void registerModuleContainers(){
 		//Controller
-		addDefaultModuleItem(moduleControllerStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleControllerIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleControllerBronze, EnumMaterials.BRONZE);
 
 		//Casings
-		GameRegistry.register(new ModuleContainer(moduleCasingStone, new ItemStack(BlockManager.blockCasings, 1, 0), EnumMaterials.STONE));
 		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(BlockManager.blockCasings, 1, 1), EnumMaterials.IRON));
 		GameRegistry.register(new ModuleContainer(moduleCasingBronze, new ItemStack(BlockManager.blockCasings, 1, 2), EnumMaterials.BRONZE));
 
 		//Boilers
-		addDefaultModuleItem(moduleBoilerStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleBoilerIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleBoilerBronze, EnumMaterials.BRONZE);
 
 		//Heaters
-		addDefaultModuleItem(moduleHeaterStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleHeaterIronLarge, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleHeaterBronzeLarge, EnumMaterials.BRONZE);
 		addDefaultModuleItem(moduleHeaterSteelLarge, EnumMaterials.STEEL);
 		addDefaultModuleItem(moduleHeaterMagmariumLarge, EnumMaterials.MAGMARIUM);
 
 		//Alloy Smelters
-		addDefaultModuleItem(moduleAlloySmelterStone, EnumMaterials.STONE);
 		addDefaultModuleItem(moduleAlloySmelterIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleAlloySmelterBronze, EnumMaterials.BRONZE);
 	}

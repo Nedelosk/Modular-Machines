@@ -1,0 +1,28 @@
+{
+"textures": {
+    "down": "modularmachines:blocks/casing/casing_down",
+    "window": "modularmachines:modules/brick_bronze_window_middle"
+},
+"elements": [ 
+{
+    "from": [ 15, 5.5, 3 ],
+    "to": [ 16, 13, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#window" },
+        "east":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#window" }
+    }
+},
+{
+    "from": [ 15, 2, 3 ],
+    "to": [ 16, 5.5, 13 ],
+    "faces": {
+        "down":  { "uv": [ 1, 13, 0, 3 ], "texture": "#down" },
+        "up":    { "uv": [ 15, 3, 16, 13 ], "texture": "#down" },
+        "north": { "uv": [ 0, 10.5, 1, 14 ], "texture": "#down" },
+        "south": { "uv": [ 15, 10.5, 16, 14 ], "texture": "#down" },
+        "west":  { "uv": [ 3, 10.5, 13, 14 ], "texture": "#down" },
+        "east":  { "uv": [ 3, 10.5, 13, 14 ], "texture": "#down" }
+    }
+}
+]
+}

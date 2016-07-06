@@ -62,7 +62,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
-		return new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/casing"), new ResourceLocation("modularmachines:module/casings/right_storages/brick"), new ResourceLocation("modularmachines:module/casings/left_storages/brick"));
+		return new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/casing"), new ResourceLocation("modularmachines:module/casings/right_storages/brick"), new ResourceLocation("modularmachines:module/casings/left_storages/brick"), new ResourceLocation("modularmachines:module/casings/wall_small"), new ResourceLocation("modularmachines:module/casings/wall_middle"), new ResourceLocation("modularmachines:module/casings/wall_large"));
 	}
 
 	@Override

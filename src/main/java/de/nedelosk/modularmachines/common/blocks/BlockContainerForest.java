@@ -17,7 +17,7 @@ public abstract class BlockContainerForest extends BlockContainer {
 	protected BlockContainerForest(Material mat) {
 		super(mat);
 		setHardness(2.0F);
-		setCreativeTab(TabModularMachines.tabForestMods);
+		setCreativeTab(TabModularMachines.tabModularMachines);
 	}
 
 	@Override

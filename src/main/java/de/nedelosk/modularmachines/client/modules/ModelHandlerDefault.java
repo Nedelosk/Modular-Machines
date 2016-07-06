@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.client.modules;
 
+import java.util.List;
+
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
@@ -26,7 +28,7 @@ public class ModelHandlerDefault implements IModuleModelHandler<IModuleHeater> {
 	}
 
 	@Override
-	public IBakedModel getModel(IModuleState<IModuleHeater> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+	public IBakedModel getModel(IModuleState<IModuleHeater> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<IModuleModelHandler> otherHandlers) {
 		return ModelLoaderRegistry.getModelOrMissing(location).bake(modelState, format, bakedTextureGetter);
 	}
 }

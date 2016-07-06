@@ -24,7 +24,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	public static final PropertyEnum<ComponentTypes> TYPE = PropertyEnum.create("type", ComponentTypes.class);
 
 	public BlockMetalBlock() {
-		super(Material.IRON, TabModularMachines.tabComponents);
+		super(Material.IRON, TabModularMachines.tabModularMachines);
 		setUnlocalizedName("metal_blocks");
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, ComponentTypes.TIN));
 	}

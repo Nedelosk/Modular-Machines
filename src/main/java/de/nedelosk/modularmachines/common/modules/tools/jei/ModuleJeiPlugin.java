@@ -42,8 +42,6 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 				new BoilerRecipeCategory(guiHelper)/*,
 				new PulverizerRecipeCategory(guiHelper)*/);
 
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.ALLOYSMELTER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.BOILER);
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMaterials.IRON), ModuleCategoryUIDs.BOILER);
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMaterials.BRONZE), ModuleCategoryUIDs.BOILER);
 		//registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.PULVERIZER);

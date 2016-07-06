@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.modularmachines.api.Tabs;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
@@ -26,9 +25,6 @@ public class ModularMachinesRegistry extends Registry {
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		Tabs.tabForestMods = TabModularMachines.tabForestMods;
-		Tabs.tabComponents = TabModularMachines.tabComponents;
-		Tabs.tabModule = TabModularMachines.tabModules;
 		PacketHandler.preInit();
 		ItemManager.registerItems();
 		FluidManager.registerFluids();

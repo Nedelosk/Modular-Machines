@@ -11,6 +11,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import net.minecraft.item.ItemStack;
 
@@ -23,7 +24,7 @@ public class AssemblerLogicBasic implements IAssemblerLogic {
 			if(slot.getModuleClass() == null){
 				return false;
 			}
-		}else if(container.getModule() instanceof IModuleTool){
+		}else if(container.getModule() instanceof IModuleMachine){
 			if(slot.getModuleClass() == null){
 				return false;
 			}

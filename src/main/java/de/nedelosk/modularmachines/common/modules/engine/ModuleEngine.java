@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -49,7 +49,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		boolean isWorking = state.get(WORKING);
-		IModuleState<IModuleTool> machineState = modular.getModule(state.get(MACHINEINDEX));
+		IModuleState<IModuleMachine> machineState = modular.getModule(state.get(MACHINEINDEX));
 		if (machineState == null) {
 			return;
 		}
@@ -94,7 +94,7 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public boolean removeMaterial(IModuleState state, IModuleState<IModuleTool> machineState) {
+	public boolean removeMaterial(IModuleState state, IModuleState<IModuleMachine> machineState) {
 		IEnergyProvider energyHandler = state.getModular().getEnergyHandler();
 		if(energyHandler == null){
 			return false;

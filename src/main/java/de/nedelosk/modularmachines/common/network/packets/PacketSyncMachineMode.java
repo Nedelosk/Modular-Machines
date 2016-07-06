@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleToolAdvanced;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -17,7 +17,7 @@ public class PacketSyncMachineMode extends PacketModularHandler implements IMess
 		super();
 	}
 
-	public PacketSyncMachineMode(IModularHandler modularHandler, IModuleState<IModuleToolAdvanced> moduleState) {
+	public PacketSyncMachineMode(IModularHandler modularHandler, IModuleState<IModuleMachineAdvanced> moduleState) {
 		super(modularHandler);
 		this.mode = moduleState.getModule().getCurrentMode(moduleState).ordinal();
 		this.index = moduleState.getIndex();
@@ -41,7 +41,7 @@ public class PacketSyncMachineMode extends PacketModularHandler implements IMess
 	public IMessage onMessage(PacketSyncMachineMode message, MessageContext ctx) {
 		IModularHandler modularHandler = message.getModularHandler(ctx);
 		if (modularHandler.getModular() != null) {
-			IModuleState<IModuleToolAdvanced> machine = modularHandler.getModular().getModule(message.index);
+			IModuleState<IModuleMachineAdvanced> machine = modularHandler.getModular().getModule(message.index);
 			if (machine != null) {
 				machine.getModule().setCurrentMode(machine, machine.getModule().getModeClass().getEnumConstants()[message.mode]);
 			}

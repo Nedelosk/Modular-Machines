@@ -10,12 +10,12 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleToolAdvanced;
-import de.nedelosk.modularmachines.api.recipes.IMachineMode;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
+import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.ModuleToolAdvanced;
+import de.nedelosk.modularmachines.common.modules.ModuleMachineAdvanced;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.inventory.Slot;
@@ -23,7 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleLathe extends ModuleToolAdvanced{
+public class ModuleLathe extends ModuleMachineAdvanced{
 
 	public ModuleLathe(int speedModifier, int size) {
 		super(speedModifier, size, LatheModes.ROD);
@@ -41,7 +41,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 	}
 
 	@Override
-	public Class<? extends IMachineMode> getModeClass() {
+	public Class<? extends IToolMode> getModeClass() {
 		return LatheModes.class;
 	}
 
@@ -81,7 +81,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 
 	public static class ModuleLathePage extends ModuleAdvancedPage{
 
-		public ModuleLathePage(String pageID, IModuleState<IModuleToolAdvanced> state) {
+		public ModuleLathePage(String pageID, IModuleState<IModuleMachineAdvanced> state) {
 			super(pageID, state);
 		}
 
@@ -114,7 +114,7 @@ public class ModuleLathe extends ModuleToolAdvanced{
 
 	}
 
-	public static enum LatheModes implements IMachineMode {
+	public static enum LatheModes implements IToolMode {
 		ROD("rod"), WIRE("wire"), SCREW("screw");
 
 		private String name;

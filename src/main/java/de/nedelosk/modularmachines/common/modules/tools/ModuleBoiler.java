@@ -15,12 +15,12 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
-import de.nedelosk.modularmachines.common.modules.ModuleToolHeat;
+import de.nedelosk.modularmachines.common.modules.ModuleMachineHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -34,10 +34,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
+public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 	public ModuleBoiler(int speed, int size) {
 		super(speed, size);
+	}
+
+	@Override
+	public boolean renderWall() {
+		return true;
 	}
 
 	@Override
@@ -113,7 +118,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		return new BoilerNEIPage(stack);
 	}*/
 
-	public class BoilerPage extends ModulePage<IModuleTool> {
+	public class BoilerPage extends ModulePage<IModuleMachine> {
 
 		public int tankInput;
 		public int tankOutput;
@@ -124,7 +129,7 @@ public class ModuleBoiler extends ModuleToolHeat implements IModuleColored {
 		public int fluidOutputInput;
 		public int fluidOutputOutput;
 
-		public BoilerPage(String pageID, IModuleState<IModuleTool> moduleState) {
+		public BoilerPage(String pageID, IModuleState<IModuleMachine> moduleState) {
 			super(pageID, moduleState);
 		}
 

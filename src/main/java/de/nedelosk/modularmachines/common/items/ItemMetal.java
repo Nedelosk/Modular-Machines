@@ -20,7 +20,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	private String iconName;
 
 	public ItemMetal(String uln, String iconName, Object[][][] metals) {
-		setCreativeTab(TabModularMachines.tabForestMods);
+		setCreativeTab(TabModularMachines.tabModularMachines);
 		setUnlocalizedName(uln);
 		setHasSubtypes(true);
 		this.metals = metals;

@@ -20,7 +20,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 
 	public ItemComponent(String name) {
 		this.setUnlocalizedName("component." + name);
-		this.setCreativeTab(TabModularMachines.tabComponents);
+		this.setCreativeTab(TabModularMachines.tabModularMachines);
 		this.componentName = name;
 	}
 

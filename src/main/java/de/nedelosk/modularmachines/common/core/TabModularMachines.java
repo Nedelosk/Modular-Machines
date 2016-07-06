@@ -5,13 +5,11 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class TabModularMachines extends CreativeTabs {
 
-	public static CreativeTabs tabForestMods = new TabModularMachines(0, "modularmachines");
-	public static CreativeTabs tabComponents = new TabModularMachines(1, "modularmachines.components");
-	public static CreativeTabs tabModules = new TabModularMachines(2, "modularmachines.modules");
+	public static CreativeTabs tabModularMachines = new TabModularMachines(0, "modularmachines");
+	public static CreativeTabs tabModules = new TabModularMachines(1, "modularmachines.modules");
 	private final int tabIcon;
 
 	private TabModularMachines(int tabIcon, String label) {
@@ -29,10 +27,7 @@ public class TabModularMachines extends CreativeTabs {
 				stack = new ItemStack(BlockManager.blockCasings, 1, 0);
 				break;
 			case 1:
-				stack = new ItemStack(ItemManager.itemCompGears, 1, 5);
-				break;
-			case 2:
-				stack = ItemModule.getItem(new ResourceLocation("modularmachines:boiler.stone"), EnumMaterials.STONE);
+				stack = ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMaterials.BRONZE);
 				break;
 		}
 		return stack;

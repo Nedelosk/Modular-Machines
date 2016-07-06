@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/boilers/boiler",
-	"textures": {
-        "boiler": "modularmachines:modules/boiler_stone"
-    }
-}

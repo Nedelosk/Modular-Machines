@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.modules;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
@@ -18,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public interface IModuleModelHandler<M extends IModule> {
 
-	IBakedModel getModel(IModuleState<M> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter);
+	IBakedModel getModel(IModuleState<M> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<IModuleModelHandler> otherHandlers);
 
 	/**
 	 * To register the textures of the models and othe stuff.
