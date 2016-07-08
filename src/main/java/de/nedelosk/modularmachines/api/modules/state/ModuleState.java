@@ -92,7 +92,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public <H extends IModuleContentHandler> H getContentHandler(Class<? extends H> handlerClass) {
 		for(IModuleContentHandler handler : contentHandlers){
-			if(handler.getClass() == handlerClass){
+			if(handlerClass.isAssignableFrom(handler.getClass())){
 				return (H) handler;
 			}
 		}
@@ -173,6 +173,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 				handler.readFromNBT(nbt.getCompoundTag(handler.getHandlerUID()));
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return module.getUnlocalizedName() + ": " + properties.toString();
 	}
 
 }

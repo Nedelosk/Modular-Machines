@@ -17,8 +17,8 @@ import net.minecraft.item.ItemStack;
 public class ModuleInventoryBuilder<M extends IModule> implements IModuleInventoryBuilder<M> {
 
 	protected IModuleState<M> state;
-	protected FilterWrapper insertFilter = new FilterWrapper();
-	protected FilterWrapper extractFilter = new FilterWrapper();
+	protected FilterWrapper insertFilter = new FilterWrapper(true);
+	protected FilterWrapper extractFilter = new FilterWrapper(false);
 	protected Map<Integer, ContentInfo> contentInfos = Maps.newHashMap();
 	protected boolean isEmpty = true;
 
@@ -65,8 +65,8 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 		for(Entry<Integer, ContentInfo> entry : this.contentInfos.entrySet()) {
 			contentInfos[entry.getKey()] = entry.getValue();
 		}
-		return new ModuleInventory(size + 1, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters()),
-				new FilterWrapper(extractFilter.getSlotFilters()));
+		return new ModuleInventory(size + 1, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters(), true),
+				new FilterWrapper(extractFilter.getSlotFilters(), false));
 	}
 
 	@Override

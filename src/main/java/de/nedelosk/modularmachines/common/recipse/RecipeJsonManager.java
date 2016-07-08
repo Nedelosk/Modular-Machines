@@ -25,11 +25,13 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
+import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 
 public class RecipeJsonManager {
 
+	public static final File recipeFile = new File(ModularMachines.configFolder, "recipes");
 	public static final RecipeWriter writer = new RecipeWriter();
 	public static final RecipeParser parser = new RecipeParser();
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(RecipeEntry.class, writer)
@@ -41,50 +43,42 @@ public class RecipeJsonManager {
 	}
 
 	private static void parseRecipesFiles() {
-		File file = new File(ModularMachines.configFolder, "recipes");
-		for(String recipeName : RecipeRegistry.getRecipes().keySet()) {
+		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()){
+			String recipeCategory = handler.getRecipeCategory();
 			try {
-				File recipeFile = new File(file, recipeName.toLowerCase(Locale.ENGLISH) + "_recipes.json");
-				if (!recipeFile.exists()) {
+				File categoryFile = new File(recipeFile, recipeCategory.toLowerCase(Locale.ENGLISH) + "_recipes.json");
+				if (!categoryFile.exists()) {
 					continue;
 				}
-				parseRecipeFile(recipeFile, recipeName);
+				parseRecipeFile(categoryFile, recipeCategory);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static void parseRecipeFile(File recipeFile, String recipeName) throws IOException {
+	private static List<IRecipe> parseRecipeFile(File recipeFile, String recipeName) throws IOException {
 		BufferedReader bReader = new BufferedReader(new FileReader(recipeFile));
 		JsonReader reader = new JsonReader(bReader);
 		JsonElement element = Streams.parse(reader);
-		Map<String, RecipeGroup> groups = getGoups(element);
-		ArrayList<IRecipe> recipes = getAllActiveRecipes(groups);
-		RecipeRegistry.getRecipes().put(recipeName, recipes);
 		reader.close();
+
+		return getActiveRecipes(getGoups(element));
 	}
 
 	private static void writeRecipesFiles() {
-		File file = new File(ModularMachines.configFolder, "recipes");
-		if (!file.exists()) {
-			file.mkdirs();
+		if (!recipeFile.exists()) {
+			recipeFile.mkdirs();
 		}
-		for(Entry<String, ArrayList<IRecipe>> recipeEntry : RecipeRegistry.getRecipes().entrySet()) {
+		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()){
 			try {
-				File recipeFile = new File(file, recipeEntry.getKey().toLowerCase(Locale.ENGLISH) + "_recipes.json");
-				if (!recipeFile.exists()) {
-					try {
-						writeAllRecipes(recipeEntry, recipeFile);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				File categoryFile = new File(recipeFile, handler.getRecipeCategory().toLowerCase(Locale.ENGLISH) + "_recipes.json");
+				List<IRecipe> recipes = handler.getRecipes();
+
+				if (!categoryFile.exists()) {
+					writeRecipes(categoryFile, recipes);
 				} else {
-					try {
-						updateEntrys(recipeFile, recipeEntry);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					updateEntrys(categoryFile, recipes);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -92,42 +86,48 @@ public class RecipeJsonManager {
 		}
 	}
 
-	private static void updateEntrys(File recipeFile, Entry<String, ArrayList<IRecipe>> recipeEntry) throws IOException {
+	private static void updateEntrys(File recipeFile, List<IRecipe> recipes) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(recipeFile));
 		JsonReader jsonReader = new JsonReader(reader);
 		JsonElement element = Streams.parse(jsonReader);
 		Map<String, RecipeGroup> groups = getGoups(element);
 		RecipeGroup groupDefault = groups.get("Default");
+
 		if (groupDefault == null) {
 			try {
-				writeAllRecipes(recipeEntry, recipeFile);
+				writeRecipes(recipeFile, recipes);
 				jsonReader.close();
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		List<RecipeEntry> newEntrys = new ArrayList<>();
-		dafault: for(IRecipe r : recipeEntry.getValue()) {
+
+		List<RecipeEntry> entrys = new ArrayList<>();
+		for(IRecipe recipe : recipes) {
 			Iterator<RecipeEntry> oldEntrys = groupDefault.recipes.iterator();
+			boolean isActive = true;
 			while(oldEntrys.hasNext()) {
 				RecipeEntry entry = oldEntrys.next();
-				if (r.getRecipeName().equals(entry.name)) {
-					newEntrys.add(new RecipeEntry(r.getRecipeName(), entry.isActive, r));
+				if (!entry.isActive && recipe.getRecipeName().equals(entry.name)) {
+					isActive = false;
 					oldEntrys.remove();
-					continue dafault;
+					break;
 				}
 				continue;
 			}
-			newEntrys.add(new RecipeEntry(r.getRecipeName(), true, r));
+			entrys.add(new RecipeEntry(recipe.getRecipeName(), isActive, recipe));
 		}
+
 		groupDefault.recipes.clear();
-		groupDefault.recipes.addAll(newEntrys);
+		groupDefault.recipes.addAll(entrys);
 		jsonReader.close();
+
 		JsonObject object = new JsonObject();
 		for(Entry<String, RecipeGroup> group : groups.entrySet()) {
 			object.add(group.getKey(), GSON.toJsonTree(group.getValue()));
 		}
+
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
 		writer.write(GSON.toJson(object));
 		writer.close();
@@ -136,21 +136,23 @@ public class RecipeJsonManager {
 	private static Map<String, RecipeGroup> getGoups(JsonElement element) {
 		Map<String, RecipeGroup> groups = Maps.newHashMap();
 		JsonObject object = element.getAsJsonObject();
-		for(Entry<String, JsonElement> entry : object.entrySet()){
-			JsonElement ele = entry.getValue();
-			if (ele != null && ele != JsonNull.INSTANCE) {
+
+		for(Entry<String, JsonElement> groupEntry : object.entrySet()){
+			JsonElement groupElement = groupEntry.getValue();
+			if (groupElement != null && groupElement != JsonNull.INSTANCE) {
 				try {
-					RecipeGroup group = GSON.fromJson(ele, RecipeGroup.class);
+					RecipeGroup group = GSON.fromJson(groupElement, RecipeGroup.class);
 					groups.put(group.name, group);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
+
 		return groups;
 	}
 
-	private static ArrayList<IRecipe> getAllActiveRecipes(Map<String, RecipeGroup> groups) {
+	private static ArrayList<IRecipe> getActiveRecipes(Map<String, RecipeGroup> groups) {
 		ArrayList<IRecipe> recipes = new ArrayList();
 		for(RecipeGroup group : groups.values()) {
 			for(RecipeEntry recipe : group.recipes) {
@@ -162,21 +164,26 @@ public class RecipeJsonManager {
 		return recipes;
 	}
 
-	private static void writeAllRecipes(Entry<String, ArrayList<IRecipe>> recipe, File recipeFile) throws IOException {
+	private static void writeRecipes(File categoryFile, List<IRecipe> recipes) throws IOException {
 		Map<String, RecipeGroup> groups;
-		if (!recipeFile.exists()) {
-			recipeFile.createNewFile();
+
+		if (!categoryFile.exists()) {
+			categoryFile.createNewFile();
 			groups = new HashMap();
 		}else{
-			BufferedReader reader = new BufferedReader(new FileReader(recipeFile));
-			JsonReader jsonReader = new JsonReader(reader);
+			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(categoryFile)));
 			JsonElement element = Streams.parse(jsonReader);
+
 			groups = getGoups(element);
+			jsonReader.close();
 		}
+
 		try {
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
-			groups.put("Default", new RecipeGroup(recipe.getValue(), "Default"));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(categoryFile)));
+
+			groups.put("Default", new RecipeGroup(recipes, "Default"));
 			writer.write(GSON.toJson(groups));
+
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,13 +192,13 @@ public class RecipeJsonManager {
 
 	public static class RecipeGroup {
 
-		public RecipeGroup(boolean isActive, ArrayList<RecipeEntry> recipes, String name) {
+		public RecipeGroup(boolean isActive, List<RecipeEntry> recipes, String name) {
 			this.isActive = isActive;
 			this.recipes = recipes;
 			this.name = name;
 		}
 
-		public RecipeGroup(ArrayList<IRecipe> recipes, String name) {
+		public RecipeGroup(List<IRecipe> recipes, String name) {
 			this.isActive = true;
 			this.recipes = new ArrayList();
 			for(IRecipe recipe : recipes) {
@@ -202,7 +209,7 @@ public class RecipeJsonManager {
 
 		public String name;
 		public boolean isActive;
-		public ArrayList<RecipeEntry> recipes;
+		public List<RecipeEntry> recipes;
 	}
 
 	public static class RecipeEntry {

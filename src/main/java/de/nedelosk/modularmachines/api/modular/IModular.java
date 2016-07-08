@@ -22,6 +22,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModular extends ICapabilityProvider, IModuleStorage {
 
+	IModular copy(IModularHandler handler);
+
 	void update(boolean isServer);
 
 	boolean updateOnInterval(int tickInterval);

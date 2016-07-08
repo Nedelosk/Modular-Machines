@@ -46,11 +46,12 @@ public class ItemBlockModularMachine extends ItemBlock {
 			IModularHandlerItem itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			TileModular machine = (TileModular) tile;
 			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-
-			tileHandler.setModular(itemHandler.getModular());
-			tileHandler.setOwner(player.getGameProfile());
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+			tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
+			tileHandler.setOwner(player.getGameProfile());
 			tileHandler.setFacing(getFacingForHeading(heading));
+
 			setTileEntityNBT(world, player, pos, stack);
 		}
 		this.block.onBlockPlacedBy(world, pos, state, player, stack);

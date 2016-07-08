@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.recipes;
 
+import com.google.gson.JsonObject;
+
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 
 public interface IRecipe extends IPropertyProvider {
@@ -13,5 +15,9 @@ public interface IRecipe extends IPropertyProvider {
 	String getRecipeCategory();
 
 	int getSpeed();
+
+	JsonObject writeToJson();
+
+	void readFromJson(JsonObject jsonObject);
 
 }

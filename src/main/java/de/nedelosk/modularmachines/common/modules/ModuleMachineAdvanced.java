@@ -53,8 +53,8 @@ public abstract class ModuleMachineAdvanced extends ModuleMachineEngine implemen
 
 	public static abstract class ModuleAdvancedPage extends ModulePage<IModuleMachineAdvanced> {
 
-		public ModuleAdvancedPage(String pageID, IModuleState<IModuleMachineAdvanced> moduleState) {
-			super(pageID, moduleState);
+		public ModuleAdvancedPage(String pageID, String title, IModuleState<IModuleMachineAdvanced> moduleState) {
+			super(pageID, title, moduleState);
 		}
 
 		@SideOnly(Side.CLIENT)

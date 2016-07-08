@@ -75,14 +75,14 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new BatteryPage("Basic", state));
+		pages.add(new BatteryPage("Basic", "battery", state));
 		return pages;
 	}
 
 	public static class BatteryPage extends ModulePage<IModuleBattery> {
 
-		public BatteryPage(String pageID, IModuleState<IModuleBattery> state) {
-			super(pageID, state);
+		public BatteryPage(String pageID, String title, IModuleState<IModuleBattery> state) {
+			super(pageID, title, state);
 		}
 
 		@SideOnly(Side.CLIENT)

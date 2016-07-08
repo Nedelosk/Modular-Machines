@@ -53,27 +53,27 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 			if(inventory != null){
 				BoilerPage page = (BoilerPage) state.getPage("Basic");
 
-				if(inventory.getStackInSlot(page.fluidInputInput) != null){
-					ItemStack stack = inventory.getStackInSlot(page.fluidInputInput);
+				if(inventory.getStackInSlot(0) != null){
+					ItemStack stack = inventory.getStackInSlot(0);
 					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(page.tankInput), 1000, null, false);
+					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, false);
 					if(containerStack != null){
-						if(inventory.extractItem(page.fluidInputInput, 1, true) != null){
-							if(inventory.insertItem(page.fluidInputOutput, containerStack, true) == null){
-								inventory.insertItem(page.fluidInputOutput, FluidUtil.tryEmptyContainer(stack, tank.getTank(page.tankInput), 1000, null, true), false);
-								inventory.extractItem(page.fluidInputInput, 1, false);
+						if(inventory.extractItem(0, 1, true) != null){
+							if(inventory.insertItem(1, containerStack, true) == null){
+								inventory.insertItem(1, FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, true), false);
+								inventory.extractItem(0, 1, false);
 							}
 						}
 					}
 				}
-				if(inventory.getStackInSlot(page.fluidOutputInput) != null){
-					ItemStack stack = inventory.getStackInSlot(page.fluidOutputInput);
-					ItemStack containerStack = FluidUtil.tryFillContainer(stack, tank.getTank(page.tankOutput), 1000, null, false);
+				if(inventory.getStackInSlot(2) != null){
+					ItemStack stack = inventory.getStackInSlot(2);
+					ItemStack containerStack = FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, false);
 					if(containerStack != null){
-						if(inventory.extractItem(page.fluidOutputInput, 1, true) != null){
-							if(inventory.insertItem(page.fluidOutputOutput, containerStack, true) == null){
-								inventory.insertItem(page.fluidOutputOutput, FluidUtil.tryFillContainer(stack, tank.getTank(page.tankOutput), 1000, null, true), false);
-								inventory.extractItem(page.fluidOutputInput, 1, false);
+						if(inventory.extractItem(2, 1, true) != null){
+							if(inventory.insertItem(3, containerStack, true) == null){
+								inventory.insertItem(3, FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, true), false);
+								inventory.extractItem(2, 1, false);
 							}
 						}
 					}
@@ -118,49 +118,40 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 	public class BoilerPage extends ModulePage<IModuleMachine> {
 
-		public int tankInput;
-		public int tankOutput;
-
-		public int fluidInputInput;
-		public int fluidInputOutput;
-
-		public int fluidOutputInput;
-		public int fluidOutputOutput;
-
 		public BoilerPage(String pageID, String title, IModuleState<IModuleMachine> moduleState) {
 			super(pageID, title, moduleState);
 		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			fluidInputInput = invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter());
-			fluidInputOutput = invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
+			invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter());
+			invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
 
-			fluidOutputInput = invBuilder.addInventorySlot(true, 147, 28, new ItemFluidFilter());
-			fluidOutputOutput = invBuilder.addInventorySlot(false, 147, 48, new OutputAllFilter());
+			invBuilder.addInventorySlot(true, 147, 28, new ItemFluidFilter());
+			invBuilder.addInventorySlot(false, 147, 48, new OutputAllFilter());
 		}
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankInput = tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilterMachine());
-			tankOutput = tankBuilder.addFluidTank(16000, false, 125, 15, new OutputAllFilter());
+			tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilterMachine());
+			tankBuilder.addFluidTank(16000, false, 125, 15, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, fluidInputInput).setBackgroundTexture("liquid"));
-			modularSlots.add(new SlotModule(state, fluidInputOutput).setBackgroundTexture("container"));
+			modularSlots.add(new SlotModule(state, 0).setBackgroundTexture("liquid"));
+			modularSlots.add(new SlotModule(state, 1).setBackgroundTexture("container"));
 
-			modularSlots.add(new SlotModule(state, fluidOutputInput).setBackgroundTexture("container"));
-			modularSlots.add(new SlotModule(state, fluidOutputOutput).setBackgroundTexture("liquid"));
+			modularSlots.add(new SlotModule(state, 2).setBackgroundTexture("container"));
+			modularSlots.add(new SlotModule(state, 3).setBackgroundTexture("liquid"));
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(75, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(tankInput)));
-			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(tankOutput)));
+			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
+			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
 		}
 	}
 

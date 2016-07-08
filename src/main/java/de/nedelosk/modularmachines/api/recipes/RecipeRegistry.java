@@ -34,7 +34,7 @@ public class RecipeRegistry {
 					return false;
 				} else if (item.item.getItem() == input.item.getItem()
 						&& item.item.getItemDamage() == input.item.getItemDamage()
-						&& (testSizeSame && item.item.stackSize == input.item.stackSize || !testSizeSame && item.item.stackSize <= input.item.stackSize)
+						&& (testSizeSame && item.item.stackSize <= input.item.stackSize || !testSizeSame)
 						&& (!item.item.hasTagCompound() && !input.item.hasTagCompound()
 								|| ItemStack.areItemStackTagsEqual(item.item, input.item))) {
 					return true;
@@ -44,7 +44,7 @@ public class RecipeRegistry {
 				if (!input.isFluid()) {
 					return false;
 				} else if (item.fluid.isFluidEqual(input.fluid)) {
-					if(testSizeSame && item.fluid.amount == input.fluid.amount || !testSizeSame && item.fluid.amount <= input.fluid.amount){
+					if(testSizeSame && item.fluid.amount <= input.fluid.amount || !testSizeSame){
 						return true;
 					}
 				}
@@ -52,7 +52,7 @@ public class RecipeRegistry {
 			} else if (item.isOre()) {
 				if (input.isOre()) {
 					if (item.ore.equals(input.ore)) {
-						if(testSizeSame && item.ore.stackSize == input.ore.stackSize || !testSizeSame && item.ore.stackSize <= input.ore.stackSize){
+						if(testSizeSame && item.ore.stackSize <= input.ore.stackSize || !testSizeSame){
 							return true;
 						}
 					}

@@ -8,40 +8,45 @@ import de.nedelosk.modularmachines.common.plugins.APlugin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PluginEnderIO extends APlugin {
 
 	public static final String MOD_ID = "EnderIO";
-	public static final ResourceLocation capacitorBankBasicUID = new ResourceLocation(MOD_ID, "capitorbank.basic");
-	public static final ResourceLocation capacitorBankUID = new ResourceLocation(MOD_ID, "capitorbank.default");
-	public static final ResourceLocation capacitorBankVibrantUID = new ResourceLocation(MOD_ID, "capitorbank.vibrant");
-	public Item capacitorBank = GameRegistry.findItem(getRequiredMod(), "blockCapBank");
-	public Item capacitor = GameRegistry.findItem(getRequiredMod(), "itemBasicCapacitor");
-	public Item tanks = GameRegistry.findItem(getRequiredMod(), "blockTank");
-	public static ModuleCapitorBank moduleBasicCapacitorBank;
+	public static Item capacitorBank;
+	public static Item capacitor;
+	public static Item tanks;
+	public static ModuleCapitorBank moduleCapacitorBankBasic;
 	public static ModuleCapitorBank moduleCapacitorBank;
-	public static ModuleCapitorBank moduleVibrantCapacitorBank;
+	public static ModuleCapitorBank moduleCapacitorBankVibrant;
 	// public IModuleTank moduleTankEnderIO;
 
 	@Override
 	public void preInit() {
-		moduleBasicCapacitorBank = GameRegistry.register(new ModuleCapitorBank(new EnergyStorage(1000000, 1000)));
-		moduleCapacitorBank = GameRegistry.register(new ModuleCapitorBank(new EnergyStorage(15000000, 5000)));
-		moduleVibrantCapacitorBank = GameRegistry.register(new ModuleCapitorBank(new EnergyStorage(25000000, 25000)));
-	}
+		moduleCapacitorBankBasic = new ModuleCapitorBank(new EnergyStorage(1000000, 1000));
+		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.basic"));
+		GameRegistry.register(moduleCapacitorBankBasic);
 
-	@Override
-	public void init() {
-		// moduleTankEnderIO = ModuleRegistry.registerModule(new
-		// ModuleTankEnderIO("TankEnderIO"));
+		moduleCapacitorBank = new ModuleCapitorBank(new EnergyStorage(15000000, 5000));
+		moduleCapacitorBank.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank"));
+		GameRegistry.register(moduleCapacitorBank);
+
+		moduleCapacitorBankVibrant = new ModuleCapitorBank(new EnergyStorage(25000000, 25000));
+		moduleCapacitorBankVibrant.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.vibrant"));
+		GameRegistry.register(moduleCapacitorBankVibrant);
+
 	}
 
 	@Override
 	public void postInit() {
-		GameRegistry.register(new ModuleContainer(moduleBasicCapacitorBank, new ItemStack(capacitorBank, 1, 1), EnumMaterials.IRON, true));
+		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
+		capacitor = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "itemBasicCapacitor"));
+		tanks = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockTank"));
+
+		GameRegistry.register(new ModuleContainer(moduleCapacitorBankBasic, new ItemStack(capacitorBank, 1, 1), EnumMaterials.IRON, true));
 		GameRegistry.register(new ModuleContainer(moduleCapacitorBank, new ItemStack(capacitorBank, 1, 2), EnumMaterials.BRONZE, true));
-		GameRegistry.register(new ModuleContainer(moduleVibrantCapacitorBank, new ItemStack(capacitorBank, 1, 3), EnumMaterials.STEEL, true));
+		GameRegistry.register(new ModuleContainer(moduleCapacitorBankVibrant, new ItemStack(capacitorBank, 1, 3), EnumMaterials.STEEL, true));
 		/*
 		 * addModuleToItem(new ItemStack(capacitorBank, 1, 1),
 		 * moduleCapitorBank, new ModuleBatteryType(new EnergyStorage(1000000,

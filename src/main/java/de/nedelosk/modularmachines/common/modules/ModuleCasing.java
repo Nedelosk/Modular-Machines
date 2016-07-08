@@ -21,7 +21,6 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	private final String harvestTool;
 
 	public ModuleCasing(int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
-		super();
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;

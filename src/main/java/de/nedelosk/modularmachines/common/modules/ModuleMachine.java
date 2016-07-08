@@ -163,7 +163,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 						continue testRecipes;
 					}
 					continue;
-				}else if(RecipeRegistry.itemEqualsItem(recipeInput, machineInput, false)){
+				}else if(RecipeRegistry.itemEqualsItem(recipeInput, machineInput, true)){
 					continue;
 				}
 				continue testRecipes;

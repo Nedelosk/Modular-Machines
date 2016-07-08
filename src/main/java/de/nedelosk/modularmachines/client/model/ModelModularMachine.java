@@ -44,6 +44,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 public class ModelModularMachine implements IBakedModel {
 
 	private ItemOverrideList overrideList;
+	private IBakedModel missingModel;
 
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
@@ -96,7 +97,7 @@ public class ModelModularMachine implements IBakedModel {
 
 	private IBakedModel getModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = getModularHandler(provider);
-		if(modularHandler != null){
+		if(modularHandler != null && modularHandler.getModular() != null){
 			IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 			if(modularHandler instanceof IModularHandlerTileEntity){
 				IModularHandlerTileEntity moduleHandlerTile = (IModularHandlerTileEntity) modularHandler;
@@ -126,12 +127,14 @@ public class ModelModularMachine implements IBakedModel {
 					models.put(IModuleModelHandler.createTrue(), modelHandler.getModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers));
 				}
 			}
-			if(isEmpty){
-				return ModelLoaderRegistry.getMissingModel().bake(modelState, vertex, DefaultTextureGetter.INSTANCE);
+			if(!isEmpty){
+				return new ModelModularMachineBaked(models);
 			}
-			return new ModelModularMachineBaked(models);
 		}
-		return null;
+		if(missingModel == null){
+			missingModel = ModelLoaderRegistry.getMissingModel().bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
+		}
+		return missingModel;
 	}
 
 	public static class ModelModularMachineBaked extends MultipartBakedModel{

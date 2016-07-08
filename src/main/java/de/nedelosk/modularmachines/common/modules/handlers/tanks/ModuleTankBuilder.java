@@ -17,8 +17,8 @@ import net.minecraftforge.fluids.FluidStack;
 public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<M> {
 
 	protected IModuleState<M> state;
-	protected FilterWrapper<FluidStack, M> insertFilter = new FilterWrapper();
-	protected FilterWrapper<FluidStack, M> extractFilter = new FilterWrapper();
+	protected FilterWrapper<FluidStack, M> insertFilter = new FilterWrapper(true);
+	protected FilterWrapper<FluidStack, M> extractFilter = new FilterWrapper(false);
 	protected Map<FluidTankAdvanced, ContentInfo> tankInfos = new HashMap<>();
 	protected boolean isEmpty = true;
 
@@ -64,7 +64,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 			contentInfos[index] = entry.getValue();
 			index++;
 		}
-		return new ModuleTank(tanks, contentInfos, state, insertFilter, extractFilter);
+		return new ModuleTank(tanks, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters(), true), new FilterWrapper(extractFilter.getSlotFilters(), false));
 	}
 
 	@Override

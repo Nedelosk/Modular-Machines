@@ -81,7 +81,7 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 	public static class ModuleLathePage extends ModuleAdvancedPage{
 
 		public ModuleLathePage(String pageID, IModuleState<IModuleMachineAdvanced> state) {
-			super(pageID, state);
+			super(pageID, "lathe", state);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -96,19 +96,17 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, new ItemFilterMachine());
-			invBuilder.addInventorySlot(true, new ItemFilterMachine());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
+			invBuilder.addInventorySlot(true, 54, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
+			invBuilder.addInventorySlot(false, 134, 35, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			ArrayList<Slot> list = new ArrayList<Slot>();
-			list.add(new SlotModule(state, 0, 54, 35));
-			list.add(new SlotModule(state, 0, 54, 35));
-			list.add(new SlotModule(state, 1, 116, 35));
-			list.add(new SlotModule(state, 2, 134, 35));
+			list.add(new SlotModule(state, 0));
+			list.add(new SlotModule(state, 1));
+			list.add(new SlotModule(state, 2));
 		}
 
 	}

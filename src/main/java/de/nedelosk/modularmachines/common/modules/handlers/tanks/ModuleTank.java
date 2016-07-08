@@ -312,9 +312,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagTankList = nbt.getTagList("Tanks", 10);
-		for(int index = 0;index < nbtTagTankList.tagCount();index++){
-			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(index);
+		for(int i = 0;i < nbtTagTankList.tagCount();i++){
+			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(i);
 			int capacity = tankTag.getInteger("Capacity");
+			int index = tankTag.getInteger("Index");
 			tanks[index] = new FluidTankAdvanced(capacity, this, index, tankTag);
 		}
 		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
@@ -333,9 +334,11 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagTankList = new NBTTagList();
+
 		for(FluidTankAdvanced tank : tanks){
 			NBTTagCompound tankTag = new NBTTagCompound();
 			tank.writeToNBT(tankTag);
+			tankTag.setInteger("Index", tank.index);
 			tankTag.setInteger("Capacity", tank.getCapacity());;
 			nbtTagTankList.appendTag(tankTag);
 		}

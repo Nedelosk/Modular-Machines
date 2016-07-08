@@ -3,7 +3,10 @@ package de.nedelosk.modularmachines.api.recipes;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonObject;
+
 import de.nedelosk.modularmachines.api.property.IProperty;
+import de.nedelosk.modularmachines.api.property.IPropertyJson;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.api.property.PropertyRecipeItems;
@@ -78,6 +81,26 @@ public class Recipe implements IRecipe{
 		for(IProperty property : properties.keySet()){
 			if(nbt.hasKey(property.getName())){
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+			}
+		}
+	}
+
+	@Override
+	public JsonObject writeToJson() {
+		JsonObject jsonObject = new JsonObject();
+		for(Entry<IProperty, Object> object : properties.entrySet()){
+			if(object.getValue() != null && object.getKey() instanceof IPropertyJson){
+				jsonObject.add(object.getKey().getName(), ((IPropertyJson)object.getKey()).writeToJson(object.getValue()));
+			}
+		}
+		return jsonObject;
+	}
+
+	@Override
+	public void readFromJson(JsonObject jsonObject) {
+		for(IProperty property : properties.keySet()){
+			if(jsonObject.has(property.getName())){
+				properties.put(property, ((IPropertyJson)property).readFromJson(jsonObject.get(property.getName())));
 			}
 		}
 	}

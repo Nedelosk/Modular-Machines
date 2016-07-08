@@ -104,6 +104,11 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
 			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(this);
 		}
+		if(modular != null){
+			if(modular.hasCapability(capability, facing)){
+				return modular.getCapability(capability, facing);
+			}
+		}
 		return null;
 	}
 
@@ -111,6 +116,11 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
 			return true;
+		}
+		if(modular != null){
+			if(modular.hasCapability(capability, facing)){
+				return true;
+			}
 		}
 		return false;
 	}

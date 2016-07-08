@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.transport;
 
+import de.nedelosk.modularmachines.api.modules.EnumTransportMode;
 import de.nedelosk.modularmachines.api.modules.IModuleTransport;
 import de.nedelosk.modularmachines.common.modules.Module;
 
@@ -9,6 +10,11 @@ public class ModuleTransport extends Module implements IModuleTransport {
 
 	public ModuleTransport(int transportedAmount) {
 		this.transportedAmount = transportedAmount;
+	}
+
+	@Override
+	public EnumTransportMode getMode() {
+		return null;
 	}
 
 }

@@ -37,6 +37,11 @@ public class TileModular extends TileBaseGui {
 	}
 
 	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
 	public Container getContainer(InventoryPlayer inventory) {
 		if (modularHandler != null) {
 			return modularHandler.getContainer(inventory);

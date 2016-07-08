@@ -14,12 +14,16 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 
 	private final Map<Integer, List<IContentFilter<C, M>>> slotFilters;
 
-	public FilterWrapper() {
+	private final boolean isInput;
+
+	public FilterWrapper(boolean isInput) {
+		this.isInput = isInput;
 		slotFilters = new HashMap();
 	}
 
-	public FilterWrapper(Map<Integer, List<IContentFilter<C, M>>> slotFilters) {
+	public FilterWrapper(Map<Integer, List<IContentFilter<C, M>>> slotFilters, boolean isInput) {
 		this.slotFilters = Collections.unmodifiableMap(slotFilters);
+		this.isInput = isInput;
 	}
 
 	@Override
@@ -28,7 +32,7 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 			return false;
 		}
 		if(slotFilters.get(index) == null || slotFilters.get(index).isEmpty()){
-			return true;
+			return isInput;
 		}
 		for(IContentFilter<C, M> filter : slotFilters.get(index)) {
 			if (filter.isValid(index, content, state)) {

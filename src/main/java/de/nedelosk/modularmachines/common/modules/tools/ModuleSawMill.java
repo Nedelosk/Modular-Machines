@@ -57,22 +57,21 @@ public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored
 	public static class SawMillPage extends ModulePage<IModuleMachine> {
 
 		public SawMillPage(String pageID, IModuleState<IModuleMachine> moduleState) {
-			super(pageID, moduleState);
+			super(pageID, "sawmill", moduleState);
 		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.setInventoryName("module.inventory.sawmill.name");
-			invBuilder.addInventorySlot(true, new ItemFilterMachine());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
+			invBuilder.addInventorySlot(true, 56, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
+			invBuilder.addInventorySlot(false, 134, 35, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0, 56, 35));
-			modularSlots.add(new SlotModule(state, 1, 116, 35));
-			modularSlots.add(new SlotModule(state, 2, 134, 35));
+			modularSlots.add(new SlotModule(state, 0));
+			modularSlots.add(new SlotModule(state, 1));
+			modularSlots.add(new SlotModule(state, 2));
 		}
 
 		@SideOnly(Side.CLIENT)

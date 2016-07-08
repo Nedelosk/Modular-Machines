@@ -62,6 +62,7 @@ public class Modular implements IModular {
 	protected FluidHandlerConcatenate fluidHandler;
 	protected ItemHandler itemHandler;
 	protected Map<IModularLogicType, List<IModularLogic>> logics;
+
 	// Ticks
 	private static final Random rand = new Random();
 	private int tickCount = rand.nextInt(256);
@@ -70,15 +71,15 @@ public class Modular implements IModular {
 		logics = new HashMap<>();
 	}
 
-	public Modular(NBTTagCompound nbt, IModularHandler machine) {
+	public Modular(NBTTagCompound nbt, IModularHandler handler) {
 		this();
-		onAssembleModular();
-		if(machine != null){
-			setHandler(machine);
+		if(handler != null){
+			setHandler(handler);
 		}
 		if(nbt != null){
 			readFromNBT(nbt);
 		}
+		onAssembleModular();
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class Modular implements IModular {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
 		moduleStates = Collections.unmodifiableList(moduleStates);
-		if(getFirstGui() != null){
+		if(currentModule == null && getFirstGui() != null){
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
 		}
@@ -299,7 +300,7 @@ public class Modular implements IModular {
 				currentPage = (IModulePage) currentModule.getPages().get(0);
 			}
 			this.currentPage = currentPage;
-			if(getHandler() != null){
+			if(getHandler() != null && getHandler().getWorld() != null){
 				if (getHandler().getWorld().isRemote) {
 					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), pageID));
 				}
@@ -423,5 +424,12 @@ public class Modular implements IModular {
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
+
+	@Override
+	public IModular copy(IModularHandler handler) {
+		NBTTagCompound nbtTag = new NBTTagCompound();
+		writeToNBT(nbtTag);
+		return new Modular(nbtTag, handler);
 	}
 }
