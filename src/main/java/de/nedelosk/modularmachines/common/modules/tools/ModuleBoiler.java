@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -27,7 +26,6 @@ import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -50,8 +48,8 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 		super.updateServer(state, tickCount);
 
 		if(state.getModular().updateOnInterval(20)){
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
-			IModuleTank tank = (IModuleTank) state.getContentHandler(FluidStack.class);
+			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
+			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
 			if(inventory != null){
 				BoilerPage page = (BoilerPage) state.getPage("Basic");
 
@@ -96,13 +94,13 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleTank)state.getContentHandler(FluidStack.class)).getInputItems();
+		return state.getContentHandler(IModuleTank.class).getInputItems();
 	}
 
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new BoilerPage("Basic", state));
+		pages.add(new BoilerPage("Basic", "boiler", state));
 		return pages;
 	}
 
@@ -129,42 +127,40 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 		public int fluidOutputInput;
 		public int fluidOutputOutput;
 
-		public BoilerPage(String pageID, IModuleState<IModuleMachine> moduleState) {
-			super(pageID, moduleState);
+		public BoilerPage(String pageID, String title, IModuleState<IModuleMachine> moduleState) {
+			super(pageID, title, moduleState);
 		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.setInventoryName("module.inventory.boiler.name");
+			fluidInputInput = invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter());
+			fluidInputOutput = invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
 
-			fluidInputInput = invBuilder.addInventorySlot(true, new ItemFluidFilter());
-			fluidInputOutput = invBuilder.addInventorySlot(false, new OutputAllFilter());
-
-			fluidOutputInput = invBuilder.addInventorySlot(true, new ItemFluidFilter());
-			fluidOutputOutput = invBuilder.addInventorySlot(false, new OutputAllFilter());
+			fluidOutputInput = invBuilder.addInventorySlot(true, 147, 28, new ItemFluidFilter());
+			fluidOutputOutput = invBuilder.addInventorySlot(false, 147, 48, new OutputAllFilter());
 		}
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankInput = tankBuilder.addFluidTank(16000, EnumTankMode.INPUT, new FluidFilterMachine());
-			tankOutput = tankBuilder.addFluidTank(16000, EnumTankMode.OUTPUT, new OutputAllFilter());
+			tankInput = tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilterMachine());
+			tankOutput = tankBuilder.addFluidTank(16000, false, 125, 15, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, fluidInputInput, 15, 28).setBackgroundTexture("liquid"));
-			modularSlots.add(new SlotModule(state, fluidInputOutput, 15, 48).setBackgroundTexture("container"));
+			modularSlots.add(new SlotModule(state, fluidInputInput).setBackgroundTexture("liquid"));
+			modularSlots.add(new SlotModule(state, fluidInputOutput).setBackgroundTexture("container"));
 
-			modularSlots.add(new SlotModule(state, fluidOutputInput, 147, 28).setBackgroundTexture("container"));
-			modularSlots.add(new SlotModule(state, fluidOutputOutput, 147, 48).setBackgroundTexture("liquid"));
+			modularSlots.add(new SlotModule(state, fluidOutputInput).setBackgroundTexture("container"));
+			modularSlots.add(new SlotModule(state, fluidOutputOutput).setBackgroundTexture("liquid"));
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
 			widgets.add(new WidgetProgressBar(75, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(tankInput), 35, 15));
-			widgets.add(new WidgetFluidTank(((IModuleTank)state.getContentHandler(FluidStack.class)).getTank(tankOutput), 125, 15));
+			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(tankInput)));
+			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(tankOutput)));
 		}
 	}
 

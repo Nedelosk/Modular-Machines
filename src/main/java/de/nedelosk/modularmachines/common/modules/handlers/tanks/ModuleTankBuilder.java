@@ -1,11 +1,12 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
@@ -18,7 +19,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	protected IModuleState<M> state;
 	protected FilterWrapper<FluidStack, M> insertFilter = new FilterWrapper();
 	protected FilterWrapper<FluidStack, M> extractFilter = new FilterWrapper();
-	protected List<FluidTankAdvanced> tankSlots = new ArrayList();
+	protected Map<FluidTankAdvanced, ContentInfo> tankInfos = new HashMap<>();
 	protected boolean isEmpty = true;
 
 	public ModuleTankBuilder() {
@@ -40,10 +41,10 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	}
 
 	@Override
-	public int addFluidTank(int capacity, EnumTankMode mode, IContentFilter<FluidStack, M>... filters) {
-		int newIndex = tankSlots.size();
-		tankSlots.add(new FluidTankAdvanced(capacity, null, newIndex, mode));
-		if (mode == EnumTankMode.INPUT) {
+	public int addFluidTank(int capacity, boolean isInput, int xPosition, int yPosition, IContentFilter<FluidStack, M>... filters) {
+		int newIndex = tankInfos.size();
+		tankInfos.put(new FluidTankAdvanced(capacity, null, newIndex), new ContentInfo(xPosition, yPosition, isInput));
+		if (isInput) {
 			addInsertFilter(newIndex, filters);
 		} else {
 			addExtractFilter(newIndex, filters);
@@ -55,7 +56,15 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 
 	@Override
 	public IModuleTank build() {
-		return new ModuleTank(tankSlots.toArray(new FluidTankAdvanced[tankSlots.size()]), state, insertFilter, extractFilter);
+		FluidTankAdvanced[] tanks = new FluidTankAdvanced[tankInfos.size()];
+		ContentInfo[] contentInfos = new ContentInfo[tankInfos.size()];
+		int index = 0;
+		for(Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()){
+			tanks[index] = entry.getKey();
+			contentInfos[index] = entry.getValue();
+			index++;
+		}
+		return new ModuleTank(tanks, contentInfos, state, insertFilter, extractFilter);
 	}
 
 	@Override

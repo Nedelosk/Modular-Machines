@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory.slots;
 
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.Minecraft;
@@ -15,8 +16,11 @@ public class SlotModule extends SlotItemHandler {
 	public IModuleState module;
 	private String backgroundTexture = null;
 
-	public SlotModule(IModuleState moduleState, int index, int xPosition, int yPosition) {
-		super((IItemHandler) moduleState.getContentHandler(ItemStack.class), index, xPosition, yPosition);
+	public SlotModule(IModuleState moduleState, int index) {
+		super((IItemHandler) moduleState.getContentHandler(IModuleInventory.class), index, 0, 0);
+		ContentInfo info = moduleState.getContentHandler(IModuleInventory.class).getInfo(index);
+		xDisplayPosition = info.xPosition;
+		yDisplayPosition = info.yPosition;
 		this.module = moduleState;
 	}
 
@@ -28,7 +32,7 @@ public class SlotModule extends SlotItemHandler {
 	@Override
 	public boolean isItemValid(ItemStack stack) {
 		if(super.isItemValid(stack)){
-			IModuleInventory inventory = (IModuleInventory) module.getContentHandler(ItemStack.class);
+			IModuleInventory inventory = (IModuleInventory) module.getContentHandler(IModuleInventory.class);
 			if (inventory.isInput(getSlotIndex())) {
 				return inventory.getInsertFilter().isValid(getSlotIndex(), stack, module);
 			}

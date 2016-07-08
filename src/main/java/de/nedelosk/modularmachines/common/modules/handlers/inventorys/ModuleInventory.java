@@ -1,10 +1,13 @@
 package de.nedelosk.modularmachines.common.modules.handlers.inventorys;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
@@ -17,25 +20,28 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	protected ItemStack[] stacks;
-	protected final boolean[] isInput;
+	protected final EnumMap<EnumFacing, boolean[]> configurations = new EnumMap(EnumFacing.class);
+	protected final ContentInfo[] contentInfos;
 	protected final IModuleState<M> state;
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
-	protected final String inventoryName;
 
-	public ModuleInventory(int size, boolean[] inputs, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter, String inventoryName) {
+	public ModuleInventory(int size, ContentInfo[] inputs, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.stacks = new ItemStack[size];
-		this.isInput = inputs;
+		this.contentInfos = inputs;
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-		this.inventoryName = inventoryName;
+		for(EnumFacing facing : EnumFacing.values()){
+			configurations.put(facing, new boolean[size]);
+		}
 	}
 
 	/* INEVNTORY */
@@ -250,6 +256,18 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		}
 		nbt.setTag("Items", nbtTagList);
 		nbt.setInteger("Size", stacks.length);
+		NBTTagList nbtTagConfigurationList = new NBTTagList();
+		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()){
+			NBTTagCompound entryTag = new NBTTagCompound();
+			entryTag.setInteger("Face", entry.getKey().ordinal());
+			byte[] configurations = new byte[entry.getValue().length];
+			for(int i = 0;i < entry.getValue().length;i++){
+				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
+			}
+			entryTag.setByteArray("Configurations", configurations);
+			nbtTagConfigurationList.appendTag(entryTag);
+		}
+		nbt.setTag("Configurations", nbtTagConfigurationList);
 		return nbt;
 	}
 
@@ -262,15 +280,24 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	public void readFromNBT(NBTTagCompound nbt){
 		setSize(nbt.hasKey("Size", Constants.NBT.TAG_INT) ? nbt.getInteger("Size") : stacks.length);
 		NBTTagList tagList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-		for (int i = 0; i < tagList.tagCount(); i++)
-		{
+		for (int i = 0; i < tagList.tagCount(); i++){
 			NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
 			int slot = itemTags.getInteger("Slot");
 
-			if (slot >= 0 && slot < stacks.length)
-			{
+			if (slot >= 0 && slot < stacks.length){
 				stacks[slot] = ItemStack.loadItemStackFromNBT(itemTags);
 			}
+		}
+		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
+		for(int index = 0;index < nbtTagConfigurationList.tagCount();index++){
+			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
+			EnumFacing facing = EnumFacing.VALUES[index];
+			boolean[] configurations = new boolean[this.configurations.get(facing).length];
+			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
+			for(int i = 0;i < this.configurations.get(facing).length;i++){
+				configurations[i] = tankConfiguration[i] == 1;
+			}
+			this.configurations.put(facing, configurations);
 		}
 		onLoad();
 	}
@@ -302,14 +329,17 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public boolean isInput(int index) {
-		return isInput[index];
+		if(contentInfos.length <= index){
+			return false;
+		}
+		return contentInfos[index].isInput;
 	}
 
 	@Override
 	public int getInputs() {
 		int inputs = 0;
 		for(int i = 0; i < stacks.length; i++) {
-			if (this.isInput[i]) {
+			if (this.contentInfos[i].isInput) {
 				inputs++;
 			}
 		}
@@ -320,7 +350,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	public int getOutputs() {
 		int outputs = 0;
 		for(int i = 0; i < stacks.length; i++) {
-			if (!this.isInput[i]) {
+			if (!this.contentInfos[i].isInput) {
 				outputs++;
 			}
 		}
@@ -501,17 +531,20 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
-		return inventoryName != null;
+	public ContentInfo getInfo(int index) {
+		if(contentInfos.length <= index){
+			return null;
+		}
+		return contentInfos[index];
 	}
 
 	@Override
-	public String getInventoryName() {
-		return inventoryName;
+	public ContentInfo[] getContentInfos() {
+		return contentInfos;
 	}
 
 	@Override
-	public Class<ItemStack> getContentClass() {
-		return ItemStack.class;
+	public EnumMap<EnumFacing, boolean[]> getConfigurations() {
+		return configurations;
 	}
 }

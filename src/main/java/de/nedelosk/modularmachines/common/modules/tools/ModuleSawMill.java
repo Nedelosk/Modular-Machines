@@ -17,7 +17,6 @@ import de.nedelosk.modularmachines.common.modules.ModuleMachineEngine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,7 +28,7 @@ public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(ItemStack.class)).getInputItems();
+		return state.getContentHandler(IModuleInventory.class).getInputItems();
 	}
 
 	@Override

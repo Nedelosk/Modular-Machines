@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -51,22 +53,18 @@ public class WidgetFluidTank extends Widget {
 	private static final int MIN_FLUID_HEIGHT = 1;
 
 	public IFluidTank tank;
-	public int posX, posY;
-	public int ID;
+
+	public WidgetFluidTank(FluidTankAdvanced tank) {
+		super(0, 0, 14, 56);
+		this.tank = tank;
+		ContentInfo info = tank.moduleTank.getInfo(tank.index);
+		pos.x = info.xPosition;
+		pos.y = info.yPosition;
+	}
 
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY) {
 		super(posX, posY, 14, 56);
 		this.tank = tank;
-		this.posX = posX;
-		this.posY = posY;
-	}
-
-	public WidgetFluidTank(IFluidTank tank, int posX, int posY, int ID) {
-		super(posX, posY, 14, 56);
-		this.tank = tank;
-		this.posX = posX;
-		this.posY = posY;
-		this.ID = ID;
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, IPro
 	 */
 	List<IModuleContentHandler> getContentHandlers();
 
-	<C> IModuleContentHandler<C, IModule> getContentHandler(Class<? extends C> contentClass);
+	<H extends IModuleContentHandler> H getContentHandler(Class<? extends H> contentClass);
 
 	int getIndex();
 

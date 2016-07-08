@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
+import java.util.EnumMap;
+
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 
 public interface IModuleContentHandler<C,M extends IModule> extends IModuleHandler {
 
@@ -15,6 +18,14 @@ public interface IModuleContentHandler<C,M extends IModule> extends IModuleHandl
 	 * @return The extract filters of the handler.
 	 */
 	IContentFilter<C, M> getExtractFilter();
+
+	EnumMap<EnumFacing, boolean[]> getConfigurations();
+
+	ContentInfo getInfo(int index);
+
+	ContentInfo[] getContentInfos();
+
+	boolean isInput(int index);
 
 	int getInputs();
 
@@ -33,8 +44,6 @@ public interface IModuleContentHandler<C,M extends IModule> extends IModuleHandl
 	void readFromNBT(NBTTagCompound nbt);
 
 	NBTTagCompound writeToNBT(NBTTagCompound nbt);
-
-	Class<C> getContentClass();
 
 	String getHandlerUID();
 }

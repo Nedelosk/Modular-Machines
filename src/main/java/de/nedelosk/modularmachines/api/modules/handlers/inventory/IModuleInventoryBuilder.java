@@ -10,12 +10,7 @@ public interface IModuleInventoryBuilder<M extends IModule> extends IModuleConte
 	/**
 	 * @return The index of the new slot.
 	 */
-	int addInventorySlot(boolean isInput, IContentFilter<ItemStack, M>... filters);
-
-	/**
-	 * Set the title of the inventory.
-	 */
-	void setInventoryName(String name);
+	int addInventorySlot(boolean isInput, int xPosition, int yPosition, IContentFilter<ItemStack, M>... filters);
 
 	@Override
 	IModuleInventory build();

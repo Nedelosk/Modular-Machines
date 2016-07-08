@@ -27,7 +27,7 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 		if(content == null){
 			return false;
 		}
-		if(slotFilters.get(index) == null){
+		if(slotFilters.get(index) == null || slotFilters.get(index).isEmpty()){
 			return true;
 		}
 		for(IContentFilter<C, M> filter : slotFilters.get(index)) {

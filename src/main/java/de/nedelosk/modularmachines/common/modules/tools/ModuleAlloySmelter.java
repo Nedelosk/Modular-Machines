@@ -17,7 +17,6 @@ import de.nedelosk.modularmachines.common.modules.ModuleMachineHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -34,7 +33,7 @@ public class ModuleAlloySmelter extends ModuleMachineHeat implements IModuleColo
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(ItemStack.class)).getInputItems();
+		return state.getContentHandler(IModuleInventory.class).getInputItems();
 	}
 
 	@Override
@@ -52,24 +51,23 @@ public class ModuleAlloySmelter extends ModuleMachineHeat implements IModuleColo
 	public static class AlloySmelterPage extends ModulePage<IModuleMachine> {
 
 		public AlloySmelterPage(String pageID, IModuleState<IModuleMachine> module) {
-			super(pageID, module);
+			super(pageID, "alloysmelter", module);
 		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.setInventoryName("module.inventory.alloysmelter.name");
-			invBuilder.addInventorySlot(true, new ItemFilterMachine());
-			invBuilder.addInventorySlot(true, new ItemFilterMachine());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
-			invBuilder.addInventorySlot(false, new OutputAllFilter());
+			invBuilder.addInventorySlot(true, 36, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(true, 54, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
+			invBuilder.addInventorySlot(false, 134, 35, new OutputAllFilter());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0, 36, 35));
-			modularSlots.add(new SlotModule(state, 1, 54, 35));
-			modularSlots.add(new SlotModule(state, 2, 116, 35));
-			modularSlots.add(new SlotModule(state, 3, 134, 35));
+			modularSlots.add(new SlotModule(state, 0));
+			modularSlots.add(new SlotModule(state, 1));
+			modularSlots.add(new SlotModule(state, 2));
+			modularSlots.add(new SlotModule(state, 3));
 		}
 
 		@SideOnly(Side.CLIENT)

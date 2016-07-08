@@ -65,7 +65,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				needUpdate = true;
 			} else {
 				List<IModulePage> pages = moduleState.getPages();
-				IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(ItemStack.class);
+				IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(IModuleInventory.class);
 				ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages.get(0)).BURNSLOT);
 				if(input == null){
 					if(casingState.getModule().getHeat(casingState) > 0){
@@ -98,7 +98,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		public int BURNSLOT;
 
 		public HeaterBurningPage(String pageID, IModuleState<IModuleHeaterBurning> heaterState) {
-			super(pageID, heaterState);
+			super(pageID, "heater", heaterState);
 		}
 
 		@Override
@@ -120,13 +120,12 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.setInventoryName("module.inventory.heater.burning.name");
-			BURNSLOT = invBuilder.addInventorySlot(true, new ItemFliterBurning());
+			BURNSLOT = invBuilder.addInventorySlot(true, 80, 35, new ItemFliterBurning());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, BURNSLOT, 80, 35));
+			modularSlots.add(new SlotModule(state, BURNSLOT));
 		}
 
 	}

@@ -214,7 +214,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	@Override
 	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		if (isRecipeInput(state, new RecipeItem(slotID, stackItem))) {
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
+			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
 			if (inventory.mergeItemStack(stackItem, 36 + slotID, 37 + slotID, false, container)) {
 				return true;
 			}

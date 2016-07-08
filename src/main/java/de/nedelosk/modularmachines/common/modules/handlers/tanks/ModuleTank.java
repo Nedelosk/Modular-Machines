@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
+import java.util.EnumMap;
+import java.util.Map.Entry;
+
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.EnumTankMode;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -12,6 +15,7 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
@@ -20,18 +24,25 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	protected final FluidTankAdvanced[] tanks;
+	protected final ContentInfo[] contentInfos;
+	protected final EnumMap<EnumFacing, boolean[]> configurations = new EnumMap(EnumFacing.class);
 	protected final IModuleState<M> state;
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ModuleTank(FluidTankAdvanced[] tanks, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(FluidTankAdvanced[] tanks, ContentInfo[] contentInfos, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
 		this.tanks = tanks;
+		this.contentInfos = contentInfos;
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 
 		for(FluidTankAdvanced tank : tanks){
 			tank.moduleTank = this;
+		}
+
+		for(EnumFacing facing : EnumFacing.values()){
+			configurations.put(facing, new boolean[tanks.length]);
 		}
 	}
 
@@ -280,7 +291,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	public int getInputs() {
 		int inputs = 0;
 		for(FluidTankAdvanced tank : tanks) {
-			if (tank.getMode() == EnumTankMode.INPUT) {
+			if (contentInfos[tank.index].isInput) {
 				inputs++;
 			}
 		}
@@ -291,7 +302,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	public int getOutputs() {
 		int outputs = 0;
 		for(FluidTankAdvanced tank : tanks) {
-			if (tank.getMode() == EnumTankMode.OUTPUT) {
+			if (!contentInfos[tank.index].isInput) {
 				outputs++;
 			}
 		}
@@ -300,24 +311,47 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		NBTTagList nbtTagList = nbt.getTagList("Tanks", 10);
-		for(int index = 0;index < nbtTagList.tagCount();index++){
-			NBTTagCompound tankTag = nbtTagList.getCompoundTagAt(index);
+		NBTTagList nbtTagTankList = nbt.getTagList("Tanks", 10);
+		for(int index = 0;index < nbtTagTankList.tagCount();index++){
+			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(index);
 			int capacity = tankTag.getInteger("Capacity");
 			tanks[index] = new FluidTankAdvanced(capacity, this, index, tankTag);
+		}
+		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
+		for(int index = 0;index < nbtTagConfigurationList.tagCount();index++){
+			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
+			EnumFacing facing = EnumFacing.VALUES[index];
+			boolean[] configurations = new boolean[this.configurations.get(facing).length];
+			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
+			for(int i = 0;i < this.configurations.get(facing).length;i++){
+				configurations[i] = tankConfiguration[i] == 1;
+			}
+			this.configurations.put(facing, configurations);
 		}
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		NBTTagList nbtTagList = new NBTTagList();
+		NBTTagList nbtTagTankList = new NBTTagList();
 		for(FluidTankAdvanced tank : tanks){
 			NBTTagCompound tankTag = new NBTTagCompound();
 			tank.writeToNBT(tankTag);
 			tankTag.setInteger("Capacity", tank.getCapacity());;
-			nbtTagList.appendTag(tankTag);
+			nbtTagTankList.appendTag(tankTag);
 		}
-		nbt.setTag("Tanks", nbtTagList);
+		nbt.setTag("Tanks", nbtTagTankList);
+		NBTTagList nbtTagConfigurationList = new NBTTagList();
+		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()){
+			NBTTagCompound entryTag = new NBTTagCompound();
+			entryTag.setInteger("Face", entry.getKey().ordinal());
+			byte[] configurations = new byte[entry.getValue().length];
+			for(int i = 0;i < entry.getValue().length;i++){
+				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
+			}
+			entryTag.setByteArray("Configurations", configurations);
+			nbtTagConfigurationList.appendTag(entryTag);
+		}
+		nbt.setTag("Configurations", nbtTagConfigurationList);
 		return nbt;
 	}
 
@@ -337,7 +371,28 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public Class<FluidStack> getContentClass() {
-		return FluidStack.class;
+	public EnumMap<EnumFacing, boolean[]> getConfigurations() {
+		return configurations;
+	}
+
+	@Override
+	public ContentInfo[] getContentInfos() {
+		return contentInfos;
+	}
+
+	@Override
+	public ContentInfo getInfo(int index) {
+		if(contentInfos.length <= index){
+			return null;
+		}
+		return contentInfos[index];
+	}
+
+	@Override
+	public boolean isInput(int index) {
+		if(contentInfos.length <= index){
+			return false;
+		}
+		return contentInfos[index].isInput;
 	}
 }

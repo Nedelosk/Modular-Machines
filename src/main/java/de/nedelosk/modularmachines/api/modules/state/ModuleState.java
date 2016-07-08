@@ -90,10 +90,10 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <C> IModuleContentHandler<C, IModule> getContentHandler(Class<? extends C> contentClass) {
+	public <H extends IModuleContentHandler> H getContentHandler(Class<? extends H> handlerClass) {
 		for(IModuleContentHandler handler : contentHandlers){
-			if(handler.getContentClass() == contentClass){
-				return handler;
+			if(handler.getClass() == handlerClass){
+				return (H) handler;
 			}
 		}
 		return null;

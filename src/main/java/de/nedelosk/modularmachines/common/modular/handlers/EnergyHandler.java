@@ -17,9 +17,6 @@ public class EnergyHandler implements IEnergyProvider, IEnergyReceiver {
 		this.modular = machine;
 	}
 
-	public void setMachine(IModular machine) {
-		this.modular = machine;
-	}
 
 	@Override
 	public boolean canConnectEnergy(EnumFacing from) {

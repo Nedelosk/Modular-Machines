@@ -31,7 +31,7 @@ public class ContainerModular extends ContainerBase<IModularHandler> {
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			List<SlotModule> slots = Lists.newArrayList();
-			if (currentPage.getModuleState().getContentHandler(ItemStack.class) != null) {
+			if (currentPage.getModuleState().getContentHandler(IModuleInventory.class) != null) {
 				currentPage.createSlots(this, slots);
 				for(SlotModule slot : slots) {
 					addSlotToContainer(slot);
@@ -64,7 +64,7 @@ public class ContainerModular extends ContainerBase<IModularHandler> {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			IModuleInventory inventory = (IModuleInventory) currentPage.getModuleState().getContentHandler(ItemStack.class);
+			IModuleInventory inventory = (IModuleInventory) currentPage.getModuleState().getContentHandler(IModuleInventory.class);
 			if (slot instanceof SlotModule && !inventory.isInput(slot.getSlotIndex())) {
 				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
 					return null;

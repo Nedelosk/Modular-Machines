@@ -106,7 +106,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player, IModuleTransport.class));
 		slots[8] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 10, 82, 82, inventory.player, IModuleController.class, true).setController(true));
-		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleTool.class));
+		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleTransport.class));
 
 		slots[10] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 12, 28, 118, inventory.player));
 		slots[11] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 13, 64, 118, inventory.player, IModuleDrive.class));

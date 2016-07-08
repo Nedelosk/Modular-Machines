@@ -2,16 +2,20 @@ package de.nedelosk.modularmachines.common.modules.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
@@ -23,27 +27,28 @@ import de.nedelosk.modularmachines.client.gui.buttons.ButtonModuleTab;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModulePage<M extends IModule> implements IModulePage {
 
 	protected String pageID;
+	protected String title;
 	protected IModular modular;
 	protected IModuleState<M> state;
 	@SideOnly(Side.CLIENT)
 	protected IGuiBase gui;
 
-	public ModulePage(String pageID, IModuleState<M> module) {
+	public ModulePage(String pageID, String title, IModuleState<M> module) {
 		this.pageID = pageID;
+		this.title = title;
 		this.modular = module.getModular();
 		this.state = module;
 	}
@@ -62,7 +67,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 				}
 			}else if (widget instanceof WidgetFluidTank) {
 				WidgetFluidTank widgetTank = (WidgetFluidTank) widget;
-				IModuleContentHandler contentHandler = state.getContentHandler(FluidStack.class);
+				IModuleContentHandler contentHandler = state.getContentHandler(IModuleTank.class);
 				if(contentHandler != null && contentHandler instanceof IModuleTank){
 					IModuleTank moduleTank = (IModuleTank) contentHandler;
 
@@ -84,16 +89,16 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected boolean renderInventoryName() {
+	protected boolean renderPageTitle() {
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
-		IModuleInventory inventory = (IModuleInventory)state.getContentHandler(ItemStack.class);
-		if (renderInventoryName()&& inventory != null && inventory.hasCustomInventoryName()) {
-			fontRenderer.drawString(inventory.getInventoryName(), 90 - (fontRenderer.getStringWidth(inventory.getInventoryName()) / 2),
+		IModuleInventory inventory = state.getContentHandler(IModuleInventory.class);
+		if (renderPageTitle()) {
+			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2),
 					6, 4210752);
 		}
 	}
@@ -113,7 +118,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawSlots() {
-		IModuleInventory inventory = (IModuleInventory) state.getContentHandler(ItemStack.class);
+		IModuleInventory inventory = state.getContentHandler(IModuleInventory.class);
 		if (inventory != null && gui.getGui() instanceof GuiContainer) {
 			Container container = ((GuiContainer) gui).inventorySlots;
 			for(int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
@@ -240,5 +245,14 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 			}
 		}
 		return modulesWithPages;
+	}
+
+	@Override
+	public String getPageTitle() {
+		return Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
+	}
+
+	@Override
+	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 	}
 }

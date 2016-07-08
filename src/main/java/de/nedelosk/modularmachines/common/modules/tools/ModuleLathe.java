@@ -19,7 +19,6 @@ import de.nedelosk.modularmachines.common.modules.ModuleMachineAdvanced;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -32,7 +31,7 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 	// Recipe
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(ItemStack.class)).getInputItems();
+		return state.getContentHandler(IModuleInventory.class).getInputItems();
 	}
 
 	@Override

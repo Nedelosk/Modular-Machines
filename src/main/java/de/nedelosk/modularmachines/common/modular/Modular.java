@@ -21,6 +21,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
@@ -28,6 +29,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
+import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
@@ -41,22 +43,24 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public class Modular implements IModular {
 
 	protected IModularHandler modularHandler;
-	protected List<IModuleState> modules = new ArrayList();
+	protected List<IModuleState> moduleStates = new ArrayList();
 	protected int index;
 	protected IModuleState currentModule;
 	protected IModulePage currentPage;
 	protected EnergyHandler energyHandler;
 	protected FluidHandlerConcatenate fluidHandler;
+	protected ItemHandler itemHandler;
 	protected Map<IModularLogicType, List<IModularLogic>> logics;
 	// Ticks
 	private static final Random rand = new Random();
@@ -68,6 +72,7 @@ public class Modular implements IModular {
 
 	public Modular(NBTTagCompound nbt, IModularHandler machine) {
 		this();
+		onAssembleModular();
 		if(machine != null){
 			setHandler(machine);
 		}
@@ -79,7 +84,8 @@ public class Modular implements IModular {
 	@Override
 	public void onAssembleModular() {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
-		modules = Collections.unmodifiableList(modules);
+		itemHandler = new ItemHandler(getInventorys());
+		moduleStates = Collections.unmodifiableList(moduleStates);
 		if(getFirstGui() != null){
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
@@ -87,7 +93,7 @@ public class Modular implements IModular {
 
 		logics.clear();
 
-		for(IModuleState moduleState : modules){
+		for(IModuleState moduleState : moduleStates){
 			if(moduleState != null){
 				for(IModularLogic logic : moduleState.getModule().createLogic(moduleState)){
 					if(logic != null){
@@ -109,7 +115,7 @@ public class Modular implements IModular {
 	}
 
 	private IModuleState getFirstGui() {
-		for(IModuleState module : modules) {
+		for(IModuleState module : moduleStates) {
 			if (!module.getPages().isEmpty()) {
 				return module;
 			}
@@ -120,7 +126,7 @@ public class Modular implements IModular {
 	@Override
 	public void update(boolean isServer) {
 		tickCount++;
-		for(IModuleState moduleState : modules) {
+		for(IModuleState moduleState : moduleStates) {
 			if (moduleState != null) {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
 				if (isServer) {
@@ -150,7 +156,7 @@ public class Modular implements IModular {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
 				state = state.build();
 				state.readFromNBT(moduleTag);
-				modules.add(state);
+				moduleStates.add(state);
 			}else{
 				Log.err("Remove module from modular, because the item of the module don't exist any more.");
 			}
@@ -180,7 +186,7 @@ public class Modular implements IModular {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		NBTTagList nbtList = new NBTTagList();
-		for(IModuleState module : modules) {
+		for(IModuleState module : moduleStates) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			module.writeToNBT(nbtTag);
 			NBTTagCompound nbtTagContainer = new NBTTagCompound();
@@ -204,8 +210,8 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public void setHandler(IModularHandler tileEntity) {
-		this.modularHandler = tileEntity;
+	public void setHandler(IModularHandler handler) {
+		this.modularHandler = handler;
 	}
 
 	@Override
@@ -215,7 +221,7 @@ public class Modular implements IModular {
 
 	private ArrayList<IModuleState> getWailaModules() {
 		ArrayList<IModuleState> wailaModules = Lists.newArrayList();
-		for(IModuleState module : modules) {
+		for(IModuleState module : moduleStates) {
 			if (module instanceof IWailaProvider) {
 				wailaModules.add(module);
 			}
@@ -325,7 +331,7 @@ public class Modular implements IModular {
 			return false;
 		}
 
-		if (modules.add(state)) {
+		if (moduleStates.add(state)) {
 			state.setIndex(index++);
 			return true;
 		} else {
@@ -335,12 +341,12 @@ public class Modular implements IModular {
 
 	@Override
 	public List<IModuleState> getModuleStates() {
-		return modules;
+		return moduleStates;
 	}
 
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState module : modules) {
+		for(IModuleState module : moduleStates) {
 			if (module.getIndex() == index) {
 				return module;
 			}
@@ -354,7 +360,7 @@ public class Modular implements IModular {
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : this.modules) {
+		for(IModuleState module : this.moduleStates) {
 			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
 				modules.add(module);
 			}
@@ -382,12 +388,23 @@ public class Modular implements IModular {
 		return logics;
 	}
 
+	protected List<IItemHandler> getInventorys(){
+		List<IItemHandler> handlers = Lists.newArrayList();
+		for(IModuleState state : moduleStates){
+			IModuleContentHandler inventory = state.getContentHandler(IModuleInventory.class);
+			if(inventory instanceof IModuleInventory){
+				handlers.add((IItemHandler) inventory);
+			}
+		}
+		return handlers;
+	}
+
 	protected List<IFluidHandler> getTanks() {
 		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
-		for(IModuleState state : modules) {
-			IModuleContentHandler handler = state.getContentHandler(FluidStack.class);
+		for(IModuleState state : moduleStates) {
+			IModuleContentHandler handler = state.getContentHandler(IModuleTank.class);
 			if(handler instanceof IModuleTank){
-				fluidHandlers.add((IModuleTank) handler);
+				fluidHandlers.add((IFluidHandler) handler);
 			}
 		}
 		return fluidHandlers;
@@ -397,15 +414,14 @@ public class Modular implements IModular {
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
 			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
+		}else if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
 		}
 		return null;
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
-			return true;
-		}
-		return false;
+		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
 }

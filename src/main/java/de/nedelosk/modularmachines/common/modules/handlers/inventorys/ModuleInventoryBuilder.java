@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -18,8 +19,7 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 	protected IModuleState<M> state;
 	protected FilterWrapper insertFilter = new FilterWrapper();
 	protected FilterWrapper extractFilter = new FilterWrapper();
-	protected String inventoryName;
-	protected Map<Integer, Boolean> slots = Maps.newHashMap();
+	protected Map<Integer, ContentInfo> contentInfos = Maps.newHashMap();
 	protected boolean isEmpty = true;
 
 	public ModuleInventoryBuilder() {
@@ -41,14 +41,9 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 	}
 
 	@Override
-	public void setInventoryName(String name) {
-		this.inventoryName = name;
-	}
-
-	@Override
-	public int addInventorySlot(boolean isInput, IContentFilter<ItemStack, M>... filters) {
-		int newIndex = slots.size();
-		slots.put(newIndex, isInput);
+	public int addInventorySlot(boolean isInput, int xPosition, int yPosition, IContentFilter<ItemStack, M>... filters) {
+		int newIndex = contentInfos.size();
+		contentInfos.put(newIndex, new ContentInfo(xPosition, yPosition, isInput));
 		if (isInput) {
 			addInsertFilter(newIndex, filters);
 		} else {
@@ -61,17 +56,17 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 	@Override
 	public IModuleInventory build() {
 		int size = 0;
-		for(Entry<Integer, Boolean> entry : slots.entrySet()) {
+		for(Entry<Integer, ContentInfo> entry : contentInfos.entrySet()) {
 			if (entry.getKey() > size) {
 				size = entry.getKey();
 			}
 		}
-		boolean[] inputs = new boolean[size + 1];
-		for(Entry<Integer, Boolean> entry : slots.entrySet()) {
-			inputs[entry.getKey()] = entry.getValue();
+		ContentInfo[] contentInfos = new ContentInfo[size + 1];
+		for(Entry<Integer, ContentInfo> entry : this.contentInfos.entrySet()) {
+			contentInfos[entry.getKey()] = entry.getValue();
 		}
-		return new ModuleInventory(size + 1, inputs, state, new FilterWrapper(insertFilter.getSlotFilters()),
-				new FilterWrapper(extractFilter.getSlotFilters()), inventoryName);
+		return new ModuleInventory(size + 1, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters()),
+				new FilterWrapper(extractFilter.getSlotFilters()));
 	}
 
 	@Override

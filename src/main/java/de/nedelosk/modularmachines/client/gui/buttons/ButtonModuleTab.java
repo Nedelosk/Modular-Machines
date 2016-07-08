@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL12;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.Button;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -61,9 +60,6 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
-		if (state.getContentHandler(ItemStack.class) != null && ((IModuleInventory)state.getContentHandler(ItemStack.class)).hasCustomInventoryName()) {
-			return Arrays.asList(((IModuleInventory)state.getContentHandler(ItemStack.class)).getInventoryName());
-		}
 		return Arrays.asList(state.getContainer().getUnlocalizedName());
 	}
 }

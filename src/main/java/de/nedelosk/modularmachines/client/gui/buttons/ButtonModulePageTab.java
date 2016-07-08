@@ -54,6 +54,6 @@ public class ButtonModulePageTab extends Button<IModularHandler> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
-		return Arrays.asList(page.getPageID());
+		return Arrays.asList(page.getPageTitle());
 	}
 }
