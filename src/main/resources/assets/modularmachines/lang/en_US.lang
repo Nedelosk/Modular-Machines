@@ -9,6 +9,11 @@ Module Tool Modes
 mode.rod.name=Mode Rod
 
 ####################################
+Modules
+####################################
+module.heater.heat=Heat: %s
+
+####################################
 Materials
 ####################################
 material.stone.name=Stone

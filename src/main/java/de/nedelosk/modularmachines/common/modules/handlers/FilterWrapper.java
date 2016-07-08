@@ -32,7 +32,7 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 			return false;
 		}
 		if(slotFilters.get(index) == null || slotFilters.get(index).isEmpty()){
-			return isInput;
+			return !isInput;
 		}
 		for(IContentFilter<C, M> filter : slotFilters.get(index)) {
 			if (filter.isValid(index, content, state)) {

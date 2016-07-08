@@ -1,7 +1,11 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map.Entry;
+
+import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
@@ -17,8 +21,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
@@ -139,142 +143,163 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		}
 	}
 
-	@Override
-	public int fillInternal(FluidStack resource, boolean doFill) {
-		if (resource == null) {
+	public int fillInternal(FluidStack resource, boolean doFill){
+		if (resource == null || resource.amount <= 0) {
 			return 0;
 		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null || tank.isFull()) {
-				continue;
+
+		resource = resource.copy();
+
+		int totalFillAmount = 0;
+		for (FluidTank handler : tanks){
+			int fillAmount = handler.fillInternal(resource, doFill);
+			totalFillAmount += fillAmount;
+			resource.amount -= fillAmount;
+			if (resource.amount <= 0) {
+				break;
 			}
-			if (!tank.isEmpty()) {
-				if (resource.getFluid() != tank.getFluid().getFluid()) {
-					continue;
+		}
+		return totalFillAmount;
+	}
+
+	public FluidStack drainInternal(FluidStack resource, boolean doDrain){
+		if (resource == null || resource.amount <= 0) {
+			return null;
+		}
+
+		resource = resource.copy();
+
+		FluidStack totalDrained = null;
+		for (FluidTank handler : tanks){
+			FluidStack drain = handler.drainInternal(resource, doDrain);
+			if (drain != null){
+				if (totalDrained == null) {
+					totalDrained = drain;
+				} else {
+					totalDrained.amount += drain.amount;
+				}
+
+				resource.amount -= drain.amount;
+				if (resource.amount <= 0) {
+					break;
 				}
 			}
-			if (insertFilter.isValid(i, resource, state)) {
-				return tank.fillInternal(resource, doFill);
-			}
 		}
-		return 0;
+		return totalDrained;
 	}
 
-	@Override
-	public FluidStack drainInternal(FluidStack resource, boolean doDrain) {
-		if (resource == null) {
+	public FluidStack drainInternal(int maxDrain, boolean doDrain){
+		if (maxDrain == 0) {
 			return null;
 		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null) {
-				continue;
+		FluidStack totalDrained = null;
+		for (FluidTank handler : tanks){
+			if (totalDrained == null){
+				totalDrained = handler.drain(maxDrain, doDrain);
+				if (totalDrained != null){
+					maxDrain -= totalDrained.amount;
+				}
+			}else{
+				FluidStack copy = totalDrained.copy();
+				copy.amount = maxDrain;
+				FluidStack drain = handler.drainInternal(copy, doDrain);
+				if (drain != null){
+					totalDrained.amount += drain.amount;
+					maxDrain -= drain.amount;
+				}
 			}
-			FluidStack fluidStack = tank.getFluid();
-			if (fluidStack == null || resource.getFluid() != fluidStack.getFluid()) {
-				continue;
-			}
-			if (extractFilter.isValid(i, resource, state)) {
-				return tank.drainInternal(resource, doDrain);
+
+			if (maxDrain <= 0) {
+				break;
 			}
 		}
-		return null;
+		return totalDrained;
 	}
 
 	@Override
-	public FluidStack drainInternal(int maxDrain, boolean doDrain) {
-		if (maxDrain < 0) {
-			return null;
+	public IFluidTankProperties[] getTankProperties()
+	{
+		List<IFluidTankProperties> properties = Lists.newArrayList();
+		for (IFluidHandler handler : tanks){
+			Collections.addAll(properties, handler.getTankProperties());
 		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null || tank.isEmpty()) {
-				continue;
-			}
-			if (tank.getFluid().amount < 0) {
-				continue;
-			}
-			FluidStack resource = new FluidStack(tank.getFluid().getFluid(), maxDrain);
-			if (extractFilter.isValid(i, resource, state)) {
-				return tank.drainInternal(maxDrain, doDrain);
-			}
-		}
-		return null;
+		return properties.toArray(new IFluidTankProperties[properties.size()]);
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-		if (resource == null) {
+	public int fill(FluidStack resource, boolean doFill){
+		if (resource == null || resource.amount <= 0) {
 			return 0;
 		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null || tank.isFull()) {
-				continue;
+
+		resource = resource.copy();
+
+		int totalFillAmount = 0;
+		for (IFluidHandler handler : tanks){
+			int fillAmount = handler.fill(resource, doFill);
+			totalFillAmount += fillAmount;
+			resource.amount -= fillAmount;
+			if (resource.amount <= 0) {
+				break;
 			}
-			if (!tank.isEmpty()) {
-				if (resource.getFluid() != tank.getFluid().getFluid()) {
-					continue;
+		}
+		return totalFillAmount;
+	}
+
+	@Override
+	public FluidStack drain(FluidStack resource, boolean doDrain){
+		if (resource == null || resource.amount <= 0) {
+			return null;
+		}
+
+		resource = resource.copy();
+
+		FluidStack totalDrained = null;
+		for (IFluidHandler handler : tanks){
+			FluidStack drain = handler.drain(resource, doDrain);
+			if (drain != null){
+				if (totalDrained == null) {
+					totalDrained = drain;
+				} else {
+					totalDrained.amount += drain.amount;
+				}
+
+				resource.amount -= drain.amount;
+				if (resource.amount <= 0) {
+					break;
 				}
 			}
-			if (insertFilter.isValid(i, resource, state)) {
-				return tank.fill(resource, doFill);
-			}
 		}
-		return 0;
+		return totalDrained;
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (resource == null) {
+	public FluidStack drain(int maxDrain, boolean doDrain){
+		if (maxDrain == 0) {
 			return null;
 		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null) {
-				continue;
+		FluidStack totalDrained = null;
+		for (IFluidHandler handler : tanks){
+			if (totalDrained == null){
+				totalDrained = handler.drain(maxDrain, doDrain);
+				if (totalDrained != null){
+					maxDrain -= totalDrained.amount;
+				}
+			}else{
+				FluidStack copy = totalDrained.copy();
+				copy.amount = maxDrain;
+				FluidStack drain = handler.drain(copy, doDrain);
+				if (drain != null){
+					totalDrained.amount += drain.amount;
+					maxDrain -= drain.amount;
+				}
 			}
-			FluidStack fluidStack = tank.getFluid();
-			if (fluidStack == null || resource.getFluid() != fluidStack.getFluid()) {
-				continue;
-			}
-			if (extractFilter.isValid(i, resource, state)) {
-				return tank.drain(resource, doDrain);
-			}
-		}
-		return null;
-	}
 
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (maxDrain < 0) {
-			return null;
-		}
-		for(int i = 0; i < tanks.length; i++) {
-			FluidTankAdvanced tank = tanks[i];
-			if (tank == null || tank.isEmpty()) {
-				continue;
-			}
-			if (tank.getFluid().amount < 0) {
-				continue;
-			}
-			FluidStack resource = new FluidStack(tank.getFluid().getFluid(), maxDrain);
-			if (extractFilter.isValid(i, resource, state)) {
-				return tank.drain(maxDrain, doDrain);
+			if (maxDrain <= 0) {
+				break;
 			}
 		}
-		return null;
-	}
-
-	@Override
-	public IFluidTankProperties[] getTankProperties(){
-		IFluidTankProperties[] properties = new FluidTankProperties[tanks.length];
-		for(int i = 0;i < tanks.length;i++){
-			FluidTankAdvanced tank = tanks[i];
-			properties[i] = new FluidTankPropertiesWrapper(tank);
-		}
-		return properties;
+		return totalDrained;
 	}
 
 	@Override

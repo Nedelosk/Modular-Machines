@@ -332,7 +332,7 @@ public class RecipeManager {
 	}
 
 	private static void registerBoilerRecipes(){
-		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 50)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), 80)), 1, 100);
+		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 50)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), 80)), 1, 150);
 	}
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

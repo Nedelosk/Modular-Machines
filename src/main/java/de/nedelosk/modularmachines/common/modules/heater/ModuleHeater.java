@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.heater;
 
+import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
@@ -7,7 +8,7 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.Module;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class ModuleHeater extends Module implements IModuleHeater {
+public abstract class ModuleHeater extends Module implements IModuleHeater, IModuleColored {
 
 	protected final int maxHeat;
 	protected final int size;

@@ -120,16 +120,16 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (!world.isRemote) {
-			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileModular) {
-				IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-				if (tileModular.getModular() == null || tileModular.getModular().getContainer(tileModular, player.inventory) == null) {
-					return false;
-				}
-				player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
-				return true;
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileModular) {
+			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			if (tileModular.getModular() == null || tileModular.getModular().getContainer(tileModular, player.inventory) == null) {
+				return false;
 			}
+			if (!world.isRemote) {
+				player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
+			}
+			return true;
 		}
 		return false;
 	}

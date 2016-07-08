@@ -43,7 +43,7 @@ public abstract class ModuleMachineHeat extends ModuleMachine {
 						setCurrentRecipe(state, null);
 						return;
 					}
-					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getSpeed()) / state.getContainer().getMaterial().getTier());
+					setBurnTimeTotal(state, createBurnTimeTotal(state, recipe.getSpeed()) /* state.getContainer().getMaterial().getTier() */);
 					IModuleState<IModuleCasing> casingState = modular.getModules(IModuleCasing.class).get(0);
 					casingState.getModule().addHeat(casingState, -getConsumeHeat(state));
 					state.set(CHANCE, rand.nextInt(100));

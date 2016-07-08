@@ -58,11 +58,10 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	public IModuleTank build() {
 		FluidTankAdvanced[] tanks = new FluidTankAdvanced[tankInfos.size()];
 		ContentInfo[] contentInfos = new ContentInfo[tankInfos.size()];
-		int index = 0;
 		for(Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()){
-			tanks[index] = entry.getKey();
-			contentInfos[index] = entry.getValue();
-			index++;
+			FluidTankAdvanced tank = entry.getKey();
+			tanks[tank.index] = tank;
+			contentInfos[tank.index] = entry.getValue();
 		}
 		return new ModuleTank(tanks, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters(), true), new FilterWrapper(extractFilter.getSlotFilters(), false));
 	}

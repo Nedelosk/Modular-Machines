@@ -46,7 +46,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
-		List<IModuleContentHandler> handlers = 		state.getContentHandlers();
+		List<IModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){

@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-public class ItemFliterBurning implements IContentFilter<ItemStack, IModule> {
+public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, IModule> {
 
 	@Override
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> moduleState) {

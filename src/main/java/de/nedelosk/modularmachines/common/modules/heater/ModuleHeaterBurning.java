@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.heater;
 
+import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
@@ -20,6 +21,8 @@ import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
@@ -59,9 +62,9 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(moduleState.getModular());
 			if (getBurnTime(moduleState) > 0) {
 				if(casingState.getModule().getHeat(casingState) < maxHeat){
-					casingState.getModule().addHeat(casingState, 2);
+					casingState.getModule().addHeat(casingState, 5);
 				}
-				addBurnTime(moduleState, -20);
+				addBurnTime(moduleState, -25);
 				needUpdate = true;
 			} else {
 				List<IModulePage> pages = moduleState.getPages();
@@ -92,6 +95,11 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		pages.add(new HeaterBurningPage("Basic", state));
 		return pages;
 	}
+	
+	@Override
+	public int getColor() {
+		return 0x6E593C;
+	}
 
 	public class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
@@ -117,10 +125,19 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				}
 			}
 		}
+		
+		@Override
+		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
+			super.drawForeground(fontRenderer, mouseX, mouseY);
+			
+			IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
+			String heatName = Translator.translateToLocalFormatted("module.heater.heat", casingState.getModule().getHeat(casingState));
+			fontRenderer.drawString(heatName, 90 - (fontRenderer.getStringWidth(heatName) / 2),55, Color.gray.getRGB());
+		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			BURNSLOT = invBuilder.addInventorySlot(true, 80, 35, new ItemFliterBurning());
+			BURNSLOT = invBuilder.addInventorySlot(true, 80, 35, new ItemFliterFurnaceFuel());
 		}
 
 		@Override

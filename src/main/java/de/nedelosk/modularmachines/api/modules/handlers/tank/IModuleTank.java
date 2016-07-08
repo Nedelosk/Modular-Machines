@@ -12,10 +12,4 @@ public interface IModuleTank<M extends IModule> extends IModuleContentHandler<Fl
 	FluidTankAdvanced getTank(int index);
 
 	FluidTankAdvanced[] getTanks();
-
-	int fillInternal(FluidStack resource, boolean doFill);
-
-	FluidStack drainInternal(FluidStack resource, boolean doDrain);
-
-	FluidStack drainInternal(int maxDrain, boolean doDrain);
 }

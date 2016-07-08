@@ -157,6 +157,6 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 	@Override
 	public int getColor() {
-		return 0xB22222;
+		return 0x959595;
 	}
 }
