@@ -7,6 +7,8 @@ import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.Module;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleHeater extends Module implements IModuleHeater, IModuleColored {
 
@@ -19,6 +21,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 		this.size = size;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/heaters/" + container.getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large")));

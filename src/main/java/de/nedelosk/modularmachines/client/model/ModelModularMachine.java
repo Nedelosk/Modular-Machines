@@ -10,6 +10,7 @@ import java.util.Map;
 import com.google.common.base.Predicate;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
@@ -97,6 +98,10 @@ public class ModelModularMachine implements IBakedModel {
 
 	private IBakedModel getModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = getModularHandler(provider);
+		if(modularHandler instanceof IModularHandlerItem && provider instanceof ItemStack){
+			ItemStack parent = (ItemStack) provider;
+			modularHandler.deserializeNBT(parent.getTagCompound());
+		}
 		if(modularHandler != null && modularHandler.getModular() != null){
 			IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 			if(modularHandler instanceof IModularHandlerTileEntity){

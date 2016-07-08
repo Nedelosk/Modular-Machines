@@ -44,13 +44,18 @@ public class ItemBlockModularMachine extends ItemBlock {
 				return false;
 			}
 			IModularHandlerItem itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			TileModular machine = (TileModular) tile;
-			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-			tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
-			tileHandler.setOwner(player.getGameProfile());
-			tileHandler.setFacing(getFacingForHeading(heading));
+			if(itemHandler != null){
+				itemHandler.deserializeNBT(stack.getTagCompound());
+			}
+			if(itemHandler != null && itemHandler.getModular() != null){
+				TileModular machine = (TileModular) tile;
+				IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+				int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+	
+				tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
+				tileHandler.setOwner(player.getGameProfile());
+				tileHandler.setFacing(getFacingForHeading(heading));
+			}
 
 			setTileEntityNBT(world, player, pos, stack);
 		}

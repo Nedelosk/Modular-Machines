@@ -10,6 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileModular extends TileBaseGui {
 
@@ -50,6 +52,7 @@ public class TileModular extends TileBaseGui {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		if (modularHandler != null) {

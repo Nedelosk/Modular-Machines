@@ -130,6 +130,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
 		return getInitModelHandler(state.getContainer());

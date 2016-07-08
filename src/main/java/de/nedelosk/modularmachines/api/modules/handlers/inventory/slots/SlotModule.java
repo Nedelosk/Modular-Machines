@@ -5,6 +5,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,21 +24,20 @@ public class SlotModule extends SlotItemHandler {
 		yDisplayPosition = info.yPosition;
 		this.module = moduleState;
 	}
+	
+    @Override
+    public boolean canTakeStack(EntityPlayer playerIn){
+        return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), 1, true) != null;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int amount){
+        return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), amount, false);
+    }
 
 	@Override
 	public void onSlotChanged() {
 		module.getModular().getHandler().markDirty();;
-	}
-
-	@Override
-	public boolean isItemValid(ItemStack stack) {
-		if(super.isItemValid(stack)){
-			IModuleInventory inventory = (IModuleInventory) module.getContentHandler(IModuleInventory.class);
-			if (inventory.isInput(getSlotIndex())) {
-				return inventory.getInsertFilter().isValid(getSlotIndex(), stack, module);
-			}
-		}
-		return false;
 	}
 
 	public SlotModule setBackgroundTexture(String backgroundTexture) {

@@ -48,8 +48,8 @@ public class ModularMachines {
 		iModuleLoaderRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:moduleloaders"), IModuleLoader.class, null, 0, 67108863, true, null, null, null);
 
 		registry = new ModularMachinesRegistry();
-		configFolder = new File(event.getModConfigurationDirectory(), "Forest-Mods");
-		configFile = new File(configFolder, "Forest-Mods.cfg");
+		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
+		configFile = new File(configFolder, "Modular-Machines.cfg");
 		registry.preInit(instance, event);
 	}
 

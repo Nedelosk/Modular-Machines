@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -74,19 +75,23 @@ public class ModularManager {
 			}
 
 			modular.onAssembleModular();
-
+			
+			modularItem = modularItem.copy();
+			
 			if(modularItem.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
 				IModularHandler modularHandler = modularItem.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				if(modularHandler instanceof IModularHandlerItem){
-					IModularHandlerItem itemHandler = (IModularHandlerItem) modularHandler;
+					IModularHandlerItem<IModular, NBTTagCompound> itemHandler = (IModularHandlerItem) modularHandler;
 					itemHandler.setModular(modular);
 					itemHandler.setWorld(player.getEntityWorld());
 					itemHandler.setOwner(player.getGameProfile());
 					itemHandler.setUID();
+					modularItem.setTagCompound(itemHandler.serializeNBT());
 					if(handler.insertItem(1, modularItem.copy(), true) == null){
 						handler.insertItem(1, modularItem.copy(), false);
 						return modular;
 					}
+					
 				}
 			}
 		}

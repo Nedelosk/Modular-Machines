@@ -57,7 +57,6 @@ public class ModularMachinesRegistry extends Registry {
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModuleModels();
 		}
-		Config.postInit();
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 		super.postInit(instance, event);
 	}

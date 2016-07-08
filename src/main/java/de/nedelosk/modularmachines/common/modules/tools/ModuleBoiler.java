@@ -51,8 +51,6 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
 			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
 			if(inventory != null){
-				BoilerPage page = (BoilerPage) state.getPage("Basic");
-
 				if(inventory.getStackInSlot(0) != null){
 					ItemStack stack = inventory.getStackInSlot(0);
 					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
@@ -110,12 +108,6 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName()));
 	}
 
-	/*@SideOnly(Side.CLIENT)
-	@Override
-	public IJEIPage createNEIPage(IModuleJEI stack) {
-		return new BoilerNEIPage(stack);
-	}*/
-
 	public class BoilerPage extends ModulePage<IModuleMachine> {
 
 		public BoilerPage(String pageID, String title, IModuleState<IModuleMachine> moduleState) {
@@ -124,10 +116,10 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter());
+			invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter(true));
 			invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
 
-			invBuilder.addInventorySlot(true, 147, 28, new ItemFluidFilter());
+			invBuilder.addInventorySlot(true, 147, 28, new ItemFluidFilter(false));
 			invBuilder.addInventorySlot(false, 147, 48, new OutputAllFilter());
 		}
 

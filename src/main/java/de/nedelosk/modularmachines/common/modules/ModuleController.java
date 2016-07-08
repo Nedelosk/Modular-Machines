@@ -9,6 +9,8 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleController extends Module implements IModuleController {
 
@@ -24,6 +26,7 @@ public class ModuleController extends Module implements IModuleController {
 		this.allowedDriveComplexity = allowedDriveComplexity;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/controllers/" + container.getMaterial().getName()));

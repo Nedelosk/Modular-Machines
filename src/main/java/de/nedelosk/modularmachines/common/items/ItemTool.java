@@ -14,6 +14,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTool extends Item implements IItemModelRegister {
 
@@ -33,6 +35,7 @@ public class ItemTool extends Item implements IItemModelRegister {
 		setUnlocalizedName(Registry.setUnlocalizedItemName("tool." + name));
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
 		ModelResourceLocation location = ModelManager.getInstance().getModelLocation("tools/" + name.replace(".", "_"));
@@ -40,6 +43,7 @@ public class ItemTool extends Item implements IItemModelRegister {
 		ModelBakery.registerItemVariants(item, location);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private class ToolMeshDefinition implements ItemMeshDefinition{
 
 		ModelResourceLocation location;

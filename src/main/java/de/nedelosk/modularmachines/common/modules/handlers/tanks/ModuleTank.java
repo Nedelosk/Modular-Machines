@@ -195,7 +195,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		FluidStack totalDrained = null;
 		for (FluidTank handler : tanks){
 			if (totalDrained == null){
-				totalDrained = handler.drain(maxDrain, doDrain);
+				totalDrained = handler.drainInternal(maxDrain, doDrain);
 				if (totalDrained != null){
 					maxDrain -= totalDrained.amount;
 				}

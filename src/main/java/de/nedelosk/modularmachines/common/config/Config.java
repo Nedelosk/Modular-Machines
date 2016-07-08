@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.common.collect.Lists;
+
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.common.core.Constants;
+import de.nedelosk.modularmachines.common.core.ModuleManager;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class Config {
 
@@ -60,14 +65,6 @@ public class Config {
 
 	public static final ConfigGroup oreGen = new ConfigGroup("Ore Generation", "oreGen");
 	public static final ConfigGroup plugins = new ConfigGroup("Plugins", "plugins", true);
-	public static final ConfigGroup multiblocks = new ConfigGroup("Multiblocks", "multiblocks");
-	public static final ConfigGroup moduleRegistry = new ConfigGroup("Modules.Registry", "moduleRegistry");
-	public static final ConfigGroup moduleItems = new ConfigGroup("Modules.Items", "moduleItem");
-	public static final ConfigGroup machineCharcoalKiln = new ConfigGroup("Machines.Kiln", "machineKilnCharcoal");
-	public static final ConfigGroup bloomery = new ConfigGroup("Machines.Bloomery", "machineBloomery");
-	public static final ConfigGroup machineWorktable = new ConfigGroup("Machines.Worktable", "machineWorktable");
-	public static final ConfigGroup machineCampfire = new ConfigGroup("Machines.Campfire", "machineCampfire");
-	public static final ConfigGroup modModules = new ConfigGroup("ModModules", "modModules", true);
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {
@@ -83,7 +80,6 @@ public class Config {
 				load();
 			}
 			processConfig();
-			postInit();
 		} catch (Exception e) {
 			Log.err("Modular Machines has a problem loading it's configuration");
 			e.printStackTrace();
@@ -111,85 +107,22 @@ public class Config {
 	}
 
 	public static void processConfig() {
-		isForestDayActive = config.get(modModules.name, "Forest Day", true).getBoolean();
-		isModularMachinesActive = config.get(modModules.name, "Modular Machines", true).getBoolean();
-		pluginTinkers = config.get(plugins.name, "Tinkers Construct", true).getBoolean();
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();
 		pluginThermalExpansion = config.get(plugins.name, "Thermal Expansion", true).getBoolean();
 		pluginWaila = config.get(plugins.name, "Waila", true).getBoolean();
-		pluginMineTweaker3 = config.get(plugins.name, "Mine Tweaker 3", true).getBoolean();
-		bastFurnaceMaxHeat = config.get(multiblocks.name, "Blast Furnace", 1500).getInt();
-		cokeOvenMaxHeat = config.get(multiblocks.name, "Coke Oven Plant", 1350).getInt();
-		cowperMaxHeat = config.getInt(multiblocks.name, "Cowper Max Heat", 750, 250, 1500, "");
-		bloomeryBurningTime = config.get(bloomery.name, "BurningTime", 12000).getInt();
-
-		// Campfire
-		campfireFuelStorageMax = config.get(machineCampfire.name, "Fuel Storage Max", new int[] { 2500, 5000 }).getIntList();
-		// Campfire Items
-		campfireCurbs = config.get(machineCampfire.name, "Curbs", campfireCurbsDefault).getStringList();
-		campfirePots = config.get(machineCampfire.name, "Ports", campfirePotsDefault).getStringList();
-		campfirePotHolders = config.get(machineCampfire.name, "Pot Holders", campfirePotHoldersDefault).getStringList();
-		campfirePotCapacity = config.get(machineCampfire.name, "Pot Capacity", campfirePotCapacityDefault).getIntList();
-		// Charcoal Kiln
-		charcoalKilnBurnTime = config.get(machineCharcoalKiln.name, "BurnTime", 12000).getInt();
 		// Ores
-		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true, true },
-				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium, Columbite.").getBooleanList();
-	}
-
-	public static void postInit() {
-		/*
-		 * for ( Entry<ModuleUID, IModule> entry :
-		 * ModuleManager.moduleRegistry.getModuleMaps().getModules().entrySet()
-		 * ) { if (!config.get(moduleRegistry.name, entry.getKey().toString(),
-		 * true).getBoolean()) {
-		 * ModuleRegistry.getModuleMaps().getModules().remove(entry.getKey()); }
-		 * }
-		 */
-		/*
-		 * ArrayList<ModuleStack> stacks =
-		 * Lists.newArrayList(ModuleRegistry.getProducers().iterator()); for (
-		 * ModuleStack module : stacks ) { String[] s =
-		 * GameData.getItemRegistry().getNameForObject(module.getItem().getItem(
-		 * )).split(":"); if (module.getItem() == null ||
-		 * module.getItem().getItem() == null || !config .getBoolean(
-		 * module.getModule().getName(module, false) + (module.getModule() !=
-		 * null ? " : " + module.getModule().getName(module) : "") + " : " +
-		 * module.getMaterial().getLocalName() + " : " +
-		 * module.getItem().getUnlocalizedName(), "Modules." + s[0], true, ""))
-		 * { ModuleRegistry.getProducers().remove(module);
-		 * ItemProducers.getItems().remove(new Pair(module.getMaterial(),
-		 * module.getModule())); } }
-		 */
+		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true},
+				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
 	}
 
 	public static void save() {
 		config.save();
 	}
 
-	/* MODULES */
-	public static boolean isModularMachinesActive;
-	public static boolean isForestDayActive;
 	/* MODULAR MACHINES */
-	public static int bastFurnaceMaxHeat;
-	public static int cokeOvenMaxHeat;
-	public static int cowperMaxHeat;
-	public static boolean pluginTinkers;
 	public static boolean pluginEnderIO;
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginWaila;
-	public static boolean pluginMineTweaker3;
 	/* FOREST DAY */
-	public static int bloomeryBurningTime;
-	public static int[] campfireFuelStorageMax;
-	public static String[] campfireCurbsDefault = new String[] { "stone", "obsidian" };
-	public static String[] campfirePotsDefault = new String[] { "stone", "bronze", "iron", "steel" };
-	public static int[] campfirePotCapacityDefault = new int[] { 750, 1250, 2500, 5000 };
-	public static String[] campfirePotHoldersDefault = new String[] { "wood", "stone", "bronze", "iron" };
-	public static String[] campfireCurbs;
-	public static String[] campfirePots;
-	public static int[] campfirePotCapacity;
-	public static String[] campfirePotHolders;
-	public static int charcoalKilnBurnTime;
 	public static boolean[] generateOre;
 }

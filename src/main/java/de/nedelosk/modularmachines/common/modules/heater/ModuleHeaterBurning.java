@@ -69,14 +69,14 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 			} else {
 				List<IModulePage> pages = moduleState.getPages();
 				IModuleInventory inventory = (IModuleInventory) moduleState.getContentHandler(IModuleInventory.class);
-				ItemStack input = inventory.getStackInSlot(((HeaterBurningPage)pages.get(0)).BURNSLOT);
+				ItemStack input = inventory.getStackInSlot(0);
 				if(input == null){
 					if(casingState.getModule().getHeat(casingState) > 0){
 						casingState.getModule().addHeat(casingState, -1);
 						needUpdate = true;
 					}
-				}else if (input != null) {
-					if(inventory.extractItem(((HeaterBurningPage)pages.get(0)).BURNSLOT, 1, false) != null){
+				}else{
+					if(inventory.extractItemInternal(0, 1, false) != null){
 						setBurnTime(moduleState, TileEntityFurnace.getItemBurnTime(input));
 						moduleState.set(BURNTIMETOTAL, TileEntityFurnace.getItemBurnTime(input));
 						needUpdate = true;
@@ -84,7 +84,9 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				}
 			}
 			if(needUpdate){
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(moduleState.getModular().getHandler(), moduleState));
+				IModularHandler handler = moduleState.getModular().getHandler();
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(handler, moduleState));
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(handler, casingState));
 			}
 		}
 	}
@@ -102,8 +104,6 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	public class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
-
-		public int BURNSLOT;
 
 		public HeaterBurningPage(String pageID, IModuleState<IModuleHeaterBurning> heaterState) {
 			super(pageID, "heater", heaterState);
@@ -137,12 +137,12 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			BURNSLOT = invBuilder.addInventorySlot(true, 80, 35, new ItemFliterFurnaceFuel());
+			invBuilder.addInventorySlot(true, 80, 35, new ItemFliterFurnaceFuel());
 		}
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, BURNSLOT));
+			modularSlots.add(new SlotModule(state, 0));
 		}
 
 	}

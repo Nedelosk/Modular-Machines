@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.common.plugins.enderio;
 
+import com.enderio.core.common.util.ItemUtil;
+
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.material.EnumMaterials;
 import de.nedelosk.modularmachines.common.config.Config;
@@ -24,6 +26,8 @@ public class PluginEnderIO extends APlugin {
 
 	@Override
 	public void preInit() {
+		ItemUtil.receptors.add(new EnderIOUtils());
+		
 		moduleCapacitorBankBasic = new ModuleCapitorBank(new EnergyStorage(1000000, 1000));
 		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.basic"));
 		GameRegistry.register(moduleCapacitorBankBasic);

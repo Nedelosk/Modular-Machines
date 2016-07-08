@@ -158,9 +158,44 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		validateSlotIndex(slot);
 		return this.stacks[slot];
 	}
+	
 
-	@Override
-	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
+	public ItemStack extractItemInternal(int slot, int amount, boolean simulate){
+		if (amount == 0) {
+			return null;
+		}
+
+		validateSlotIndex(slot);
+
+		ItemStack existing = this.stacks[slot];
+
+		if(!canExtractItem(slot, existing)){
+			return null;
+		}
+
+		if (existing == null) {
+			return null;
+		}
+
+		int toExtract = Math.min(amount, existing.getMaxStackSize());
+
+		if (existing.stackSize <= toExtract){
+			if (!simulate){
+				this.stacks[slot] = null;
+				onContentsChanged(slot);
+			}
+			return existing;
+		}else{
+			if (!simulate){
+				this.stacks[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
+				onContentsChanged(slot);
+			}
+
+			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
+		}
+	}
+
+	public ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate){
 		if (stack == null || stack.stackSize == 0) {
 			return null;
 		}
@@ -170,6 +205,52 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		ItemStack existing = this.stacks[slot];
 
 		if(canInsertItem(slot, existing)){
+			return stack;
+		}
+
+		int limit = getStackLimit(slot, stack);
+
+		if (existing != null){
+			if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
+				return stack;
+			}
+
+			limit -= existing.stackSize;
+		}
+
+		if (limit <= 0) {
+			return stack;
+		}
+
+		boolean reachedLimit = stack.stackSize > limit;
+
+		if (!simulate){
+			if (existing == null){
+				this.stacks[slot] = reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack;
+			}else{
+				existing.stackSize += reachedLimit ? limit : stack.stackSize;
+			}
+			onContentsChanged(slot);
+		}
+
+		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
+	}
+	
+	@Override
+	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
+		if (stack == null || stack.stackSize == 0) {
+			return null;
+		}
+
+		validateSlotIndex(slot);
+
+		ItemStack existing = this.stacks[slot];
+		
+		if(!isInput(slot)){
+			return stack;
+		}
+
+		if(!canInsertItem(slot, stack)){
 			return stack;
 		}
 
@@ -210,6 +291,10 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		validateSlotIndex(slot);
 
 		ItemStack existing = this.stacks[slot];
+		
+		if(isInput(slot)){
+			return null;
+		}
 
 		if(!canExtractItem(slot, existing)){
 			return null;
@@ -436,9 +521,9 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 			for(RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isOre()) {
-						extractItem(recipeInput.index, recipeInput.ore.stackSize, false);
+						extractItemInternal(recipeInput.index, recipeInput.ore.stackSize, false);
 					} else if (recipeInput.isItem()) {
-						extractItem(recipeInput.index, recipeInput.item.stackSize, false);
+						extractItemInternal(recipeInput.index, recipeInput.item.stackSize, false);
 					}
 				}
 			}

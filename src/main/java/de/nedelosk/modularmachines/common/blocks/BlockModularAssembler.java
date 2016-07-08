@@ -43,10 +43,9 @@ public class BlockModularAssembler extends BlockContainerForest implements IStat
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote){
-			return false;
+		if(!world.isRemote){
+			player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 		}
-		player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 

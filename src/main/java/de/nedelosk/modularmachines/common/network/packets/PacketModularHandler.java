@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketModularHandler implements IMessage {
 
@@ -71,11 +72,16 @@ public class PacketModularHandler implements IMessage {
 		}
 		return null;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public EntityPlayer getPlayer(){
+		return Minecraft.getMinecraft().thePlayer;
+	}
 
 	public IModularHandler getModularHandler(MessageContext ctx) {
 		EntityPlayer player;
 		if(ctx.side == Side.CLIENT){
-			player = Minecraft.getMinecraft().thePlayer;
+			player = getPlayer();
 		}else{
 			player = ctx.getServerHandler().playerEntity;
 		}

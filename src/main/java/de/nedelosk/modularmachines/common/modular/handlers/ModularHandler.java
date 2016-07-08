@@ -15,6 +15,8 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModularHandler implements IModularHandler<IModular, NBTTagCompound>{
 
@@ -59,6 +61,7 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		if (modular != null) {

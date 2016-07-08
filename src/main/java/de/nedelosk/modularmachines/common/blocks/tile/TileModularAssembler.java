@@ -5,6 +5,8 @@ import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileModularAssembler extends TileMachineBase{
 
@@ -12,6 +14,7 @@ public class TileModularAssembler extends TileMachineBase{
 		super(19);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
 		return new GuiModularAssembler(this, inventory);
