@@ -1,0 +1,16 @@
+{
+"elements": [ 
+{
+    "from": [ 15, 2, 3 ],
+    "to": [ 16, 13, 13 ],
+    "faces": {
+        "down":  { "uv": [ 1, 13, 0, 3 ], "texture": "#machine" },
+        "up":    { "uv": [ 15, 3, 16, 13 ], "texture": "#machine" },
+        "north": { "uv": [ 0, 3, 1, 14 ], "texture": "#machine" },
+        "south": { "uv": [ 15, 3, 16, 14 ], "texture": "#machine" },
+        "west":  { "uv": [ 3, 3, 13, 14 ], "texture": "#machine" },
+        "east":  { "uv": [ 3, 3, 13, 14 ], "texture": "#machine" }
+    }
+}
+]
+}

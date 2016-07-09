@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
@@ -71,7 +72,7 @@ public abstract class ModuleMachineHeat extends ModuleMachine {
 	protected abstract int getConsumeHeat(IModuleState state);
 
 	@Override
-	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
 		if(!modular.getModules(IModuleHeater.class).isEmpty()){
 			return true;
 		}

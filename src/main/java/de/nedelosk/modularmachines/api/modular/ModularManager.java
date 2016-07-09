@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.api.modular;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -50,18 +51,35 @@ public class ModularManager {
 				return null;
 			}
 			IModular modular = new Modular();
+			Map<IModuleState, Integer> stateToSlotIndex = new HashMap<>();
+			Map<Integer, IModuleState> slotIndexToState = new HashMap<>();
+			IModuleIndexStorage storage = new IModuleIndexStorage() {
+				@Override
+				public Map<IModuleState, Integer> getStateToSlotIndex() {
+					return stateToSlotIndex;
+				}
+				
+				@Override
+				public Map<Integer, IModuleState> getSlotIndexToState() {
+					return slotIndexToState;
+				}
+			};
 			for(int index = 0;index < handler.getSlots();index++){
 				if(index != 1){
 					ItemStack slotStack = handler.getStackInSlot(index);
 					if(slotStack != null){
 						IModuleContainer container = ModularManager.getContainerFromItem(slotStack);
-						modular.addModule(slotStack, createModuleState(modular, slotStack, container));
+						IModuleState state = modular.addModule(slotStack, createModuleState(modular, slotStack, container));
+						if(state != null){
+							stateToSlotIndex.put(state, Integer.valueOf(index));
+							slotIndexToState.put(Integer.valueOf(index), state);
+						}
 					}
 				}
 			}
 			for(IModuleState state : modular.getModuleStates()){
 				if(state != null){
-					if(!state.getModule().assembleModule(handler, modular, state)){
+					if(!state.getModule().assembleModule(handler, modular, state, storage)){
 						return modular;
 					}
 				}else{

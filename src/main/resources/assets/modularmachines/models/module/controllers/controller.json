@@ -1,7 +1,6 @@
 {
 "textures": {
-    "bricks": "modularmachines:blocks/casing/casing_down",
-    "controller": "modularmachines:modules/controller_stone"
+    "bricks": "modularmachines:blocks/casing/casing_down"
 },
 "elements": [ 
 {

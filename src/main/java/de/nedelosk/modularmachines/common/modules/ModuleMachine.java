@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -266,6 +267,9 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 
 	@Override
 	public List<IRecipe> getRecipes(IModuleState state) {
+		if(RecipeRegistry.getRecipeHandler(getRecipeCategory(state)) == null){
+			return Collections.emptyList();
+		}
 		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
 	}
 

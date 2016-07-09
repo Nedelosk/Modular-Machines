@@ -1,5 +1,9 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
+import javax.print.attribute.standard.RequestingUserName;
+
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerTileEntity;
@@ -13,7 +17,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileModular extends TileBaseGui {
+public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergyReceiver {
 
 	public IModularHandlerTileEntity modularHandler;
 
@@ -113,5 +117,45 @@ public class TileModular extends TileBaseGui {
 			}
 		}
 		return super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public int getEnergyStored(EnumFacing from) {
+		if(modularHandler == null){
+			return 0;
+		}
+		return modularHandler.getEnergyStored(from);
+	}
+
+	@Override
+	public int getMaxEnergyStored(EnumFacing from) {
+		if(modularHandler == null){
+			return 0;
+		}
+		return modularHandler.getMaxEnergyStored(from);
+	}
+
+	@Override
+	public boolean canConnectEnergy(EnumFacing from) {
+		if(modularHandler == null){
+			return false;
+		}
+		return modularHandler.canConnectEnergy(from);
+	}
+
+	@Override
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		if(modularHandler == null){
+			return 0;
+		}
+		return modularHandler.receiveEnergy(from, maxReceive, simulate);
+	}
+
+	@Override
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+		if(modularHandler == null){
+			return 0;
+		}
+		return modularHandler.extractEnergy(from, maxExtract, simulate);
 	}
 }

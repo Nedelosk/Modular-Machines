@@ -14,7 +14,7 @@ public interface IModuleStorage {
 	/**
 	 * Add a module state to the storage and set the index of the module state.
 	 */
-	boolean addModule(ItemStack itemStack, IModuleState state);
+	IModuleState addModule(ItemStack itemStack, IModuleState state);
 
 	/**
 	 * @return All module states that are have a module that class is a instance of of the moduleClass.

@@ -56,10 +56,10 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
 					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, false);
 					if(containerStack != null){
-						if(inventory.extractItem(0, 1, true) != null){
-							if(inventory.insertItem(1, containerStack, true) == null){
-								inventory.insertItem(1, FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, true), false);
-								inventory.extractItem(0, 1, false);
+						if(inventory.extractItemInternal(0, 1, true) != null){
+							if(inventory.insertItemInternal(1, containerStack, true) == null){
+								inventory.insertItemInternal(1, FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, true), false);
+								inventory.extractItemInternal(0, 1, false);
 							}
 						}
 					}
@@ -68,10 +68,10 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 					ItemStack stack = inventory.getStackInSlot(2);
 					ItemStack containerStack = FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, false);
 					if(containerStack != null){
-						if(inventory.extractItem(2, 1, true) != null){
-							if(inventory.insertItem(3, containerStack, true) == null){
-								inventory.insertItem(3, FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, true), false);
-								inventory.extractItem(2, 1, false);
+						if(inventory.extractItemInternal(2, 1, true) != null){
+							if(inventory.insertItemInternal(3, containerStack, true) == null){
+								inventory.insertItemInternal(3, FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, true), false);
+								inventory.extractItemInternal(2, 1, false);
 							}
 						}
 					}

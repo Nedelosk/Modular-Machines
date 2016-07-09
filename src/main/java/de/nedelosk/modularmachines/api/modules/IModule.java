@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
+import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -74,6 +75,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 */
 	IModuleState createState(IModular modular, IModuleContainer container);
 
-	boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state);
+	boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage);
 
 }

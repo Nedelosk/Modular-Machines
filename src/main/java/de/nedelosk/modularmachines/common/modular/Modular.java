@@ -327,17 +327,16 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public boolean addModule(ItemStack itemStack, IModuleState state) {
+	public IModuleState addModule(ItemStack itemStack, IModuleState state) {
 		if (state == null) {
-			return false;
+			return null;
 		}
 
 		if (moduleStates.add(state)) {
 			state.setIndex(index++);
-			return true;
-		} else {
-			return false;
+			return state;
 		}
+		return null;
 	}
 
 	@Override

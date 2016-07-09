@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends Widget {
 
-	private final ResourceLocation widget = new ResourceLocation("forestmods", "textures/gui/widgets.png");
+	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 	public IEnergyStorage storage;
 
 	public WidgetEnergyField(IEnergyStorage storage, int posX, int posY) {
@@ -38,8 +38,10 @@ public class WidgetEnergyField extends Widget {
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(widget);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
-		int eS = this.storage.getEnergyStored() / 100 * 66;
-		int energy = eS / (this.storage.getMaxEnergyStored() / 100);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+		if(this.storage.getEnergyStored() > 0){
+			int eS = this.storage.getEnergyStored() / 100 * 66;
+			int energy = eS / (this.storage.getMaxEnergyStored() / 100);
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+		}
 	}
 }

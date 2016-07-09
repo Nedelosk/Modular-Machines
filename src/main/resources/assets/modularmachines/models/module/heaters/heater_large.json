@@ -1,7 +1,4 @@
 {
-"textures": {
-    "module": "modules/heater_stone"
-},
 "elements": [ 
 {
     "from": [ 0, 2, 3 ],

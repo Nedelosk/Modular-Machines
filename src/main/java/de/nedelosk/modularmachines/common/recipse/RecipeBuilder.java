@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipeBuilder;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
+import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.nbt.NBTBase;
 
 public class RecipeBuilder implements IRecipeBuilder{

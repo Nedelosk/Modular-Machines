@@ -53,7 +53,7 @@ public class ItemManager {
 		itemCompSawBlades = register(new ItemComponent("saw_blades"));
 		itemCapacitors = register(
 				new ItemModuleMeta("capacitor", new String[] { "default", "double_layer" }));
-		itemEngine = register(new ItemModuleMeta("engine", new String[] { "stone", "iron", "bronze", "steel", "magmarium" }));
+		itemEngine = register(new ItemModuleMeta("engine", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");

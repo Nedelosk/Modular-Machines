@@ -18,6 +18,7 @@ import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.engine.ModuleEngine;
+import de.nedelosk.modularmachines.common.modules.engine.ModuleEngineEnergy;
 import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
 import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterSteam;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
@@ -93,19 +94,19 @@ public class ModuleManager {
 		GameRegistry.register(moduleCasingBronze);
 
 		/* ENGINES */
-		moduleEngineIron = new ModuleEngine(2, 15);
+		moduleEngineIron = new ModuleEngineEnergy(2, 15);
 		moduleEngineIron.setRegistryName(new ResourceLocation("modularmachines:engine.iron"));
 		GameRegistry.register(moduleEngineIron);
 
-		moduleEngineBronze = new ModuleEngine(3, 15);
+		moduleEngineBronze = new ModuleEngineEnergy(3, 15);
 		moduleEngineBronze.setRegistryName(new ResourceLocation("modularmachines:engine.bronze"));
 		GameRegistry.register(moduleEngineBronze);
 
-		moduleEngineSteel = new ModuleEngine(3, 15);
+		moduleEngineSteel = new ModuleEngineEnergy(3, 15);
 		moduleEngineSteel.setRegistryName(new ResourceLocation("modularmachines:engine.steel"));
 		GameRegistry.register(moduleEngineSteel);
 
-		moduleEngineMagmarium = new ModuleEngine(4, 15);
+		moduleEngineMagmarium = new ModuleEngineEnergy(4, 15);
 		moduleEngineMagmarium.setRegistryName(new ResourceLocation("modularmachines:engine.magmarium"));
 		GameRegistry.register(moduleEngineMagmarium);
 		
@@ -162,6 +163,15 @@ public class ModuleManager {
 		moduleBoilerBronze.setRegistryName(new ResourceLocation("modularmachines:boiler.bronze"));
 		GameRegistry.register(moduleBoilerBronze);
 
+		/* PULVERIZER */
+		modulePulverizerIron = new ModulePulverizer(35, 3);
+		modulePulverizerIron.setRegistryName(new ResourceLocation("modularmachines:pulverizer.iron"));
+		GameRegistry.register(modulePulverizerIron);
+
+		modulePulverizerBronze = new ModulePulverizer(25, 3);
+		modulePulverizerBronze.setRegistryName(new ResourceLocation("modularmachines:pulverizer.bronze"));
+		GameRegistry.register(modulePulverizerBronze);
+		
 		/* ALLOY SMELTERS*/
 		moduleAlloySmelterIron = new ModuleAlloySmelter(35, 3);
 		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
@@ -176,6 +186,12 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
+		//Engines
+		GameRegistry.register(new ModuleContainer(moduleEngineIron, new ItemStack(ItemManager.itemEngine, 1, 0), EnumMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleEngineBronze, new ItemStack(ItemManager.itemEngine, 1, 1), EnumMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(moduleEngineSteel, new ItemStack(ItemManager.itemEngine, 1, 2), EnumMaterials.STEEL));
+		GameRegistry.register(new ModuleContainer(moduleEngineMagmarium, new ItemStack(ItemManager.itemEngine, 1, 3), EnumMaterials.MAGMARIUM));
+		
 		//Controller
 		addDefaultModuleItem(moduleControllerIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleControllerBronze, EnumMaterials.BRONZE);
@@ -199,6 +215,10 @@ public class ModuleManager {
 		//Alloy Smelters
 		addDefaultModuleItem(moduleAlloySmelterIron, EnumMaterials.IRON);
 		addDefaultModuleItem(moduleAlloySmelterBronze, EnumMaterials.BRONZE);
+		
+		//Pulverizer
+		addDefaultModuleItem(modulePulverizerIron, EnumMaterials.IRON);
+		addDefaultModuleItem(modulePulverizerBronze, EnumMaterials.BRONZE);
 	}
 
 	private static void addDefaultModuleItem(IModule module, IMaterial material){

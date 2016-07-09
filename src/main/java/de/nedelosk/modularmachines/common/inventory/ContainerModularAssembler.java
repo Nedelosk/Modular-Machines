@@ -22,6 +22,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class ContainerModularAssembler extends ContainerBase<TileModularAssembler> {
 
+	public static final int[] toolSlots = new int[]{ 6, 7, 3 };
+	public static final int[] driveSlots = new int[]{ 13, 14, 17 };
+	
 	private SlotAssembler[] slots;
 	public IModuleStorage lastStorage;
 
@@ -75,7 +78,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 						parentIterator.remove();
 					}
 				}
-				if(!slot.isController() && parents.isEmpty()){
+				if(!slot.isAlwaysActive() && parents.isEmpty()){
 					slot.changeStatus(false);
 				}
 			}
@@ -105,7 +108,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		slots[6] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 8, 136, 46, inventory.player));
 
 		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player, IModuleTransport.class));
-		slots[8] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 10, 82, 82, inventory.player, IModuleController.class, true).setController(true));
+		slots[8] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 10, 82, 82, inventory.player, IModuleController.class, true).setAlwaysActive(true));
 		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleTransport.class));
 
 		slots[10] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 12, 28, 118, inventory.player));

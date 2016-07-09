@@ -30,8 +30,7 @@ public class EnergyHandler implements IEnergyProvider, IEnergyReceiver {
 			int energy = battery.getStorage(state).receiveEnergy(maxReceive, true);
 			if (energy > 0) {
 				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
-				battery.getStorage(state).extractEnergy(maxReceive, simulate);
-				return energy;
+				return battery.getStorage(state).receiveEnergy(maxReceive, simulate);
 			}
 		}
 		return 0;

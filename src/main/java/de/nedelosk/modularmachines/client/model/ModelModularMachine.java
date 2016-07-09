@@ -65,7 +65,7 @@ public class ModelModularMachine implements IBakedModel {
 
 	@Override
 	public boolean isAmbientOcclusion() {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -5,20 +5,27 @@ import java.util.List;
 
 import cofh.api.energy.IEnergyProvider;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
-public class ModuleEngine extends Module implements IModuleEngine {
+public abstract class ModuleEngine extends Module implements IModuleEngine {
 
 	protected final int burnTimeModifier;
 	protected final int materialPerTick;
@@ -31,6 +38,46 @@ public class ModuleEngine extends Module implements IModuleEngine {
 		this.burnTimeModifier = burnTimeModifier;
 		this.materialPerTick = materialPerTick;
 	}
+	
+	private int getIndexForSlot(IItemHandler itemHandler, int index, IModuleIndexStorage storage){
+		int matchingToolSlot = 0;
+		for(matchingToolSlot = 0;matchingToolSlot < 3;matchingToolSlot++){
+			int driveIndex = ContainerModularAssembler.driveSlots[matchingToolSlot];
+			if(index == driveIndex){
+				break;
+			}
+		}
+		if(itemHandler.getStackInSlot(ContainerModularAssembler.toolSlots[matchingToolSlot]) != null){
+			return storage.getSlotIndexToState().get(Integer.valueOf(ContainerModularAssembler.toolSlots[matchingToolSlot])).getIndex();
+		}else{
+			for(int i = 0;i < 3;i++){
+				if(i != matchingToolSlot){
+					int toolSlotIndex= ContainerModularAssembler.toolSlots[i];
+					ItemStack stack = itemHandler.getStackInSlot(toolSlotIndex);
+					if(stack != null){
+						IModuleContainer container = ModularManager.getContainerFromItem(stack);
+						int size = ((IModuleTool)container.getModule()).getSize();
+						if(size == 3 || size == 2){
+							return storage.getSlotIndexToState().get(Integer.valueOf(toolSlotIndex)).getIndex();
+						}
+					}
+				}
+				
+			}
+		}
+		return -1;
+	}
+	
+	@Override
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
+		int index = getIndexForSlot(itemHandler, storage.getStateToSlotIndex().get(state), storage);
+		if(index != -1){
+			state.set(MACHINEINDEX, index);
+		}else{
+			return false;
+		}
+		return super.assembleModule(itemHandler, modular, state, storage);
+	}
 
 	/*@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
@@ -38,7 +85,6 @@ public class ModuleEngine extends Module implements IModuleEngine {
 		moduleState.add(MACHINEINDEX, machine.getIndex());
 		return super.assembleModule(itemHandler, modular, state);
 	}*/
-
 
 	@Override
 	public int getBurnTimeModifier(IModuleState state) {
@@ -91,19 +137,6 @@ public class ModuleEngine extends Module implements IModuleEngine {
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(PROGRESS).register(WORKING).register(MACHINEINDEX);
-	}
-
-	@Override
-	public boolean removeMaterial(IModuleState state, IModuleState<IModuleMachine> machineState) {
-		IEnergyProvider energyHandler = state.getModular().getEnergyHandler();
-		if(energyHandler == null){
-			return false;
-		}
-		if (energyHandler.extractEnergy(null, materialPerTick, true) == materialPerTick) {
-			return energyHandler.extractEnergy(null, materialPerTick, false) == materialPerTick;
-		} else {
-			return false;
-		}
 	}
 
 	@Override

@@ -7,6 +7,25 @@ import net.minecraft.item.ItemStack;
 
 public class RecipeUtil {
 
+	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output, int speed){
+		return addPulverizer(recipeName, new RecipeItem(input), output, speed);
+	}
+
+	public static boolean addPulverizer(String recipeName, OreStack input, RecipeItem[] output, int speed){
+		return addPulverizer(recipeName, new RecipeItem(input), output, speed);
+	}
+
+	public static boolean addPulverizer(String recipeName, RecipeItem input, RecipeItem[] output, int speed){
+		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Pulverizer");
+		IRecipeBuilder builder = handler.getDefaultTemplate();
+		builder
+		.set(Recipe.INPUTS, new RecipeItem[]{input}).
+		set(Recipe.OUTPUTS, output)
+		.set(Recipe.SPEED, speed);
+		return handler.registerRecipe(builder.build());
+	}
+	
+	
 	public static boolean addAlloySmelter(String recipeName, RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] output, int speed, int heat){
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("AlloySmelter");
 		IRecipeBuilder builder = handler.getDefaultTemplate();

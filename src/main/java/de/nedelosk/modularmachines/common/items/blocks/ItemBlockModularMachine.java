@@ -1,12 +1,21 @@
 package de.nedelosk.modularmachines.common.items.blocks;
 
+import java.util.List;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
+
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleHandler;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -30,6 +39,23 @@ public class ItemBlockModularMachine extends ItemBlock {
 		return new ModularHandlerItem(stack);
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		if(GuiScreen.isShiftKeyDown()){
+			IModularHandler<IModular, NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			if(handler != null){
+				handler.deserializeNBT(stack.getTagCompound());
+				IModular modular = handler.getModular();
+				for(IModuleState state : modular.getModuleStates()){
+					if(state != null){
+						tooltip.add(ChatFormatting.GRAY + state.getModule().getUnlocalizedName());
+					}
+				}
+			}
+		}
+		super.addInformation(stack, playerIn, tooltip, advanced);
+	}
+	
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
 		if (!world.setBlockState(pos, newState, 3)) {

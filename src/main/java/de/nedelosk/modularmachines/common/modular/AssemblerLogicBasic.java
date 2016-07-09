@@ -24,7 +24,7 @@ public class AssemblerLogicBasic implements IAssemblerLogic {
 			if(slot.getModuleClass() == null){
 				return false;
 			}
-		}else if(container.getModule() instanceof IModuleMachine){
+		}else if(container.getModule() instanceof IModuleTool){
 			if(slot.getModuleClass() == null){
 				return false;
 			}

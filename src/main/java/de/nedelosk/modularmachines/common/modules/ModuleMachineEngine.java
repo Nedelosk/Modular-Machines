@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
@@ -49,10 +50,7 @@ public abstract class ModuleMachineEngine extends ModuleMachine {
 	}
 
 	@Override
-	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
-		if(modular.getModules(IModuleBattery.class).isEmpty()){
-			return false;
-		}
+	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
 		if(modular.getModules(IModuleEngine.class).isEmpty()){
 			return false;
 		}

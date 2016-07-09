@@ -1,0 +1,19 @@
+{
+"textures": {
+    "machine": "modularmachines:blocks/casing/casing_down"
+},
+"elements": [ 
+{
+    "from": [ 15, 5.5, 3 ],
+    "to": [ 16, 13, 13 ],
+    "faces": {
+        "down":  { "uv": [ 1, 13, 0, 3 ], "texture": "#down" },
+        "up":    { "uv": [ 15, 3, 16, 13 ], "texture": "#down" },
+        "north": { "uv": [ 0, 3, 1, 10.5 ], "texture": "#down" },
+        "south": { "uv": [ 15, 3, 16, 10.5 ], "texture": "#down" },
+        "west":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#down" },
+        "east":  { "uv": [ 3, 3, 13, 10.5 ], "texture": "#down" }
+    }
+}
+]
+}

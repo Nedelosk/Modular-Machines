@@ -21,9 +21,8 @@ public class PropertyEnergyStorage extends PropertyBase<EnergyStorage, NBTTagCom
 
 	@Override
 	public EnergyStorage readFromNBT(NBTTagCompound nbt, IPropertyProvider state) {
-		NBTTagCompound nbtTag = nbt.getCompoundTag("EnergyStorage");
-		EnergyStorage storage = new EnergyStorage(nbtTag.getInteger("Capacity"), nbtTag.getInteger("MaxReceive"), nbtTag.getInteger("MaxExtract"));
-		storage.readFromNBT(nbtTag);
+		EnergyStorage storage = new EnergyStorage(nbt.getInteger("Capacity"), nbt.getInteger("MaxReceive"), nbt.getInteger("MaxExtract"));
+		storage.readFromNBT(nbt);
 		return storage;
 	}
 

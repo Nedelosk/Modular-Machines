@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -24,6 +25,7 @@ import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.core.FluidManager;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
@@ -37,10 +39,13 @@ import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleHeaterSteam extends ModuleHeater {
 
@@ -66,6 +71,12 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	public void addBurnTime(IModuleState state, int burnTime) {
 		state.set(BURNTIME, state.get(BURNTIME) + burnTime);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModuleModelHandler getModelHandler(IModuleState state) {
+		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + (getBurnTime(state) > 0 ? "_on" : "_off")));
 	}
 
 	@Override

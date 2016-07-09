@@ -151,7 +151,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		resource = resource.copy();
 
 		int totalFillAmount = 0;
-		for (FluidTank handler : tanks){
+		for (FluidTankAdvanced handler : tanks){
+			if(isInput(handler.index)){
+				continue;
+			}
 			int fillAmount = handler.fillInternal(resource, doFill);
 			totalFillAmount += fillAmount;
 			resource.amount -= fillAmount;
@@ -170,7 +173,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		resource = resource.copy();
 
 		FluidStack totalDrained = null;
-		for (FluidTank handler : tanks){
+		for (FluidTankAdvanced handler : tanks){
+			if(!isInput(handler.index)){
+				continue;
+			}
 			FluidStack drain = handler.drainInternal(resource, doDrain);
 			if (drain != null){
 				if (totalDrained == null) {
@@ -193,7 +199,10 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			return null;
 		}
 		FluidStack totalDrained = null;
-		for (FluidTank handler : tanks){
+		for (FluidTankAdvanced handler : tanks){
+			if(!isInput(handler.index)){
+				continue;
+			}
 			if (totalDrained == null){
 				totalDrained = handler.drainInternal(maxDrain, doDrain);
 				if (totalDrained != null){

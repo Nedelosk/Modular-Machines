@@ -22,7 +22,7 @@ public class SlotAssembler extends Slot implements IAssemblerSlot {
 	public boolean isActive;
 	public boolean isUpdated = false;
 	private SlotAssembler[] siblings;
-	private boolean isController;
+	private boolean isAlwaysActive;
 	private List<IAssemblerSlot> parents = new ArrayList();
 
 	public SlotAssembler(ContainerModularAssembler container, int index, int xPosition, int yPosition, EntityPlayer player) {
@@ -42,8 +42,8 @@ public class SlotAssembler extends Slot implements IAssemblerSlot {
 		this.isActive = isActive;
 	}
 
-	public SlotAssembler setController(boolean isController) {
-		this.isController = isController;
+	public SlotAssembler setAlwaysActive(boolean isAlwaysActive) {
+		this.isAlwaysActive = isAlwaysActive;
 		return this;
 	}
 
@@ -153,7 +153,7 @@ public class SlotAssembler extends Slot implements IAssemblerSlot {
 	}
 
 	@Override
-	public boolean isController() {
-		return isController;
+	public boolean isAlwaysActive() {
+		return isAlwaysActive;
 	}
 }

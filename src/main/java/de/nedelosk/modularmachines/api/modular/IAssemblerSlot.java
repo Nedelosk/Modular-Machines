@@ -27,7 +27,7 @@ public interface IAssemblerSlot {
 
 	Container getContainer();
 
-	boolean isController();
+	boolean isAlwaysActive();
 
 	void addParent(IAssemblerSlot slot);
 
