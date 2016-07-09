@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.google.common.collect.Lists;
-
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.common.core.Constants;
-import de.nedelosk.modularmachines.common.core.ModuleManager;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameData;
 
 public class Config {
 

@@ -24,8 +24,8 @@ public class RecipeUtil {
 		.set(Recipe.SPEED, speed);
 		return handler.registerRecipe(builder.build());
 	}
-	
-	
+
+
 	public static boolean addAlloySmelter(String recipeName, RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] output, int speed, int heat){
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("AlloySmelter");
 		IRecipeBuilder builder = handler.getDefaultTemplate();

@@ -1,10 +1,12 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -57,6 +59,10 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 		}
 		IModuleState module = handler.getModular().getModule(message.index);
 		module.readFromNBT(message.nbt);
+		if(handler instanceof IModularHandlerTileEntity){
+			BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
+			world.markBlockRangeForRenderUpdate(pos, pos);
+		}
 		return null;
 	}
 }

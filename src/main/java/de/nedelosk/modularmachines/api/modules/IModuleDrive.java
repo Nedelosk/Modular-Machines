@@ -6,5 +6,7 @@ public interface IModuleDrive extends IModule{
 	 * The size of the drive. A number between 1 and 3.
 	 */
 	int getSize();
+	
+	EnumWallType getWallType();
 
 }

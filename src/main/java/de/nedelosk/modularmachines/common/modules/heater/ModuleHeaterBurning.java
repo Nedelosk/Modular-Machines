@@ -59,7 +59,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	public void addBurnTime(IModuleState state, int burnTime) {
 		state.set(BURNTIME, state.get(BURNTIME) + burnTime);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
@@ -108,7 +108,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		pages.add(new HeaterBurningPage("Basic", state));
 		return pages;
 	}
-	
+
 	@Override
 	public int getColor() {
 		return 0x6E593C;
@@ -136,11 +136,11 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 				}
 			}
 		}
-		
+
 		@Override
 		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 			super.drawForeground(fontRenderer, mouseX, mouseY);
-			
+
 			IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
 			String heatName = Translator.translateToLocalFormatted("module.heater.heat", casingState.getModule().getHeat(casingState));
 			fontRenderer.drawString(heatName, 90 - (fontRenderer.getStringWidth(heatName) / 2),55, Color.gray.getRGB());

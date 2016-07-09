@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;

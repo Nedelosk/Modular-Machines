@@ -158,8 +158,9 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		validateSlotIndex(slot);
 		return this.stacks[slot];
 	}
-	
 
+
+	@Override
 	public ItemStack extractItemInternal(int slot, int amount, boolean simulate){
 		if (amount == 0) {
 			return null;
@@ -195,6 +196,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		}
 	}
 
+	@Override
 	public ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate){
 		if (stack == null || stack.stackSize == 0) {
 			return null;
@@ -235,7 +237,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
 	}
-	
+
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
 		if (stack == null || stack.stackSize == 0) {
@@ -245,7 +247,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		validateSlotIndex(slot);
 
 		ItemStack existing = this.stacks[slot];
-		
+
 		if(!isInput(slot)){
 			return stack;
 		}
@@ -291,7 +293,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		validateSlotIndex(slot);
 
 		ItemStack existing = this.stacks[slot];
-		
+
 		if(isInput(slot)){
 			return null;
 		}

@@ -21,7 +21,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
@@ -143,6 +142,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		}
 	}
 
+	@Override
 	public int fillInternal(FluidStack resource, boolean doFill){
 		if (resource == null || resource.amount <= 0) {
 			return 0;
@@ -165,6 +165,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		return totalFillAmount;
 	}
 
+	@Override
 	public FluidStack drainInternal(FluidStack resource, boolean doDrain){
 		if (resource == null || resource.amount <= 0) {
 			return null;
@@ -194,6 +195,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		return totalDrained;
 	}
 
+	@Override
 	public FluidStack drainInternal(int maxDrain, boolean doDrain){
 		if (maxDrain == 0) {
 			return null;

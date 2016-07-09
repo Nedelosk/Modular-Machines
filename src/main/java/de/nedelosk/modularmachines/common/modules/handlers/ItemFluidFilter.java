@@ -7,16 +7,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import scala.languageFeature.reflectiveCalls;
 
 public class ItemFluidFilter implements IContentFilter<ItemStack, IModule> {
 
 	private boolean requireFluid;
-	
+
 	public ItemFluidFilter(boolean requireFluid) {
 		this.requireFluid = requireFluid;
 	}
-	
+
 	@Override
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
 		if(content == null) {

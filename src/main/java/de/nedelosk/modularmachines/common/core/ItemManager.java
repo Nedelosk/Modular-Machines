@@ -27,6 +27,7 @@ public class ItemManager {
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemCapacitors;
 	public static Item itemEngine;
+	public static Item itemEngineSteam;
 	public static Item itemModuleCore;
 	public static Item itemModules;
 	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
@@ -54,6 +55,7 @@ public class ItemManager {
 		itemCapacitors = register(
 				new ItemModuleMeta("capacitor", new String[] { "default", "double_layer" }));
 		itemEngine = register(new ItemModuleMeta("engine", new String[] { "iron", "bronze", "steel", "magmarium" }));
+		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");

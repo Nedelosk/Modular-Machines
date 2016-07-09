@@ -3,14 +3,13 @@ package de.nedelosk.modularmachines.common.modules.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import cofh.api.energy.IEnergyProvider;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
@@ -38,7 +37,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 		this.burnTimeModifier = burnTimeModifier;
 		this.materialPerTick = materialPerTick;
 	}
-	
+
 	private int getIndexForSlot(IItemHandler itemHandler, int index, IModuleIndexStorage storage){
 		int matchingToolSlot = 0;
 		for(matchingToolSlot = 0;matchingToolSlot < 3;matchingToolSlot++){
@@ -62,12 +61,12 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 						}
 					}
 				}
-				
+
 			}
 		}
 		return -1;
 	}
-	
+
 	@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
 		int index = getIndexForSlot(itemHandler, storage.getStateToSlotIndex().get(state), storage);
@@ -187,6 +186,11 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public EnumWallType getWallType() {
+		return EnumWallType.WINDOW;
 	}
 
 }

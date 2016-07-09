@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.api.modular;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -58,7 +57,7 @@ public class ModularManager {
 				public Map<IModuleState, Integer> getStateToSlotIndex() {
 					return stateToSlotIndex;
 				}
-				
+
 				@Override
 				public Map<Integer, IModuleState> getSlotIndexToState() {
 					return slotIndexToState;
@@ -93,9 +92,9 @@ public class ModularManager {
 			}
 
 			modular.onAssembleModular();
-			
+
 			modularItem = modularItem.copy();
-			
+
 			if(modularItem.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
 				IModularHandler modularHandler = modularItem.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				if(modularHandler instanceof IModularHandlerItem){
@@ -109,7 +108,7 @@ public class ModularManager {
 						handler.insertItem(1, modularItem.copy(), false);
 						return modular;
 					}
-					
+
 				}
 			}
 		}

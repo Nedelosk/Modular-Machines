@@ -8,14 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public interface IModuleInventory<M extends IModule> extends IModuleContentHandler<ItemStack, M>, IRecipeInventory, IItemHandlerModifiable {
 
 	boolean canInsertItem(int index, ItemStack stack);
 
 	boolean canExtractItem(int index, ItemStack stack);
-	
+
 	ItemStack extractItemInternal(int slot, int amount, boolean simulate);
 
 	ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate);

@@ -6,6 +6,8 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -272,10 +274,10 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 		}
 		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
 	}
-
+	
 	@Override
-	public boolean renderWall() {
-		return false;
+	public EnumWallType getWallType() {
+		return EnumWallType.NONE;
 	}
 
 }

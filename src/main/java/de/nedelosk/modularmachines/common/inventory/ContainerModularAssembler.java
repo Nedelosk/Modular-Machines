@@ -24,7 +24,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	public static final int[] toolSlots = new int[]{ 6, 7, 3 };
 	public static final int[] driveSlots = new int[]{ 13, 14, 17 };
-	
+
 	private SlotAssembler[] slots;
 	public IModuleStorage lastStorage;
 

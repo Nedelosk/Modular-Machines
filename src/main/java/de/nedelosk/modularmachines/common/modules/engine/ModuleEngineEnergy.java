@@ -13,7 +13,7 @@ public class ModuleEngineEnergy extends ModuleEngine {
 	public ModuleEngineEnergy(int burnTimeModifier, int materialPerTick) {
 		super(burnTimeModifier, materialPerTick);
 	}
-	
+
 	@Override
 	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
 		if(!super.assembleModule(itemHandler, modular, state, storage)){
@@ -24,7 +24,7 @@ public class ModuleEngineEnergy extends ModuleEngine {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean removeMaterial(IModuleState state, IModuleState<IModuleMachine> machineState) {
 		IEnergyProvider energyHandler = state.getModular().getEnergyHandler();

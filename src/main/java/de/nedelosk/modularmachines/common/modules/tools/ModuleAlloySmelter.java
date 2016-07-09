@@ -40,13 +40,13 @@ public class ModuleAlloySmelter extends ModuleMachineHeat implements IModuleColo
 	public RecipeItem[] getInputs(IModuleState state) {
 		return state.getContentHandler(IModuleInventory.class).getInputItems();
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + (getWorkTime(state) > 0 ? "_on" : "_off")));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {

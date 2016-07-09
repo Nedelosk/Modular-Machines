@@ -9,7 +9,6 @@ import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
@@ -55,7 +54,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 		}
 		super.addInformation(stack, playerIn, tooltip, advanced);
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
 		if (!world.setBlockState(pos, newState, 3)) {
@@ -77,7 +76,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 				TileModular machine = (TileModular) tile;
 				IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-	
+
 				tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
 				tileHandler.setOwner(player.getGameProfile());
 				tileHandler.setFacing(getFacingForHeading(heading));

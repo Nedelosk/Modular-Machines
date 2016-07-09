@@ -99,7 +99,6 @@ public class RecipeManager {
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 14), new ItemStack(ItemManager.itemIngots, 1, 4), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 15), new ItemStack(ItemManager.itemIngots, 1, 5), 0.5F);
 		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 16), new ItemStack(ItemManager.itemIngots, 1, 6), 0.5F);
-		GameRegistry.addSmelting(new ItemStack(ItemManager.itemDusts, 1, 17), new ItemStack(ItemManager.itemIngots, 1, 7), 0.5F);
 	}
 
 	private static void addComponentRecipes() {
@@ -280,8 +279,6 @@ public class RecipeManager {
 		RecipeUtil.addPulverizer("NickelIngotToDust", new OreStack("ingotNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 14)) }, 7);
 		RecipeUtil.addPulverizer("AluminumIngotToDust", new OreStack("ingotAluminum"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 15)) }, 7);
 		RecipeUtil.addPulverizer("AluminiumIngotToDust", new OreStack("ingotAluminium"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 15)) }, 7);
-		RecipeUtil.addPulverizer("NiobiumIngotToDust", new OreStack("ingotNiobium"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 16)) }, 7);
-		RecipeUtil.addPulverizer("TantalumIngotToDust", new OreStack("ingotTantalum"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 17)) }, 7);
 		RecipeUtil.addPulverizer("BronzeIngotToDust", new OreStack("ingotBronze"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 20)) }, 7);
 		RecipeUtil.addPulverizer("InvarIngotToDust", new OreStack("ingotInvar"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 21)) }, 7);
 	}

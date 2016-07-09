@@ -27,7 +27,7 @@ public class PluginEnderIO extends APlugin {
 	@Override
 	public void preInit() {
 		ItemUtil.receptors.add(new EnderIOUtils());
-		
+
 		moduleCapacitorBankBasic = new ModuleCapitorBank(new EnergyStorage(1000000, 1000));
 		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.basic"));
 		GameRegistry.register(moduleCapacitorBankBasic);

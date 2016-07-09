@@ -24,16 +24,16 @@ public class SlotModule extends SlotItemHandler {
 		yDisplayPosition = info.yPosition;
 		this.module = moduleState;
 	}
-	
-    @Override
-    public boolean canTakeStack(EntityPlayer playerIn){
-        return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), 1, true) != null;
-    }
 
-    @Override
-    public ItemStack decrStackSize(int amount){
-        return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), amount, false);
-    }
+	@Override
+	public boolean canTakeStack(EntityPlayer playerIn){
+		return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), 1, true) != null;
+	}
+
+	@Override
+	public ItemStack decrStackSize(int amount){
+		return ((IModuleInventory)this.getItemHandler()).extractItemInternal(getSlotIndex(), amount, false);
+	}
 
 	@Override
 	public void onSlotChanged() {

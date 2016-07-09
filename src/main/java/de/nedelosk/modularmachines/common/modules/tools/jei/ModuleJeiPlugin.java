@@ -13,6 +13,8 @@ import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySm
 import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
 import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeCategory;
 import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeWrapper;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeHandler;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.BlankModPlugin;
@@ -39,44 +41,27 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
 		registry.addRecipeCategories(
 				new AlloySmelterRecipeCategory(guiHelper),
-				new BoilerRecipeCategory(guiHelper)/*,
-				new PulverizerRecipeCategory(guiHelper)*/);
+				new BoilerRecipeCategory(guiHelper),
+				new PulverizerRecipeCategory(guiHelper));
 
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMaterials.IRON), ModuleCategoryUIDs.BOILER);
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMaterials.BRONZE), ModuleCategoryUIDs.BOILER);
-		//registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), ModuleCategoryUIDs.PULVERIZER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMaterials.IRON), ModuleCategoryUIDs.ALLOYSMELTER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterBronze.getRegistryName(), EnumMaterials.BRONZE), ModuleCategoryUIDs.ALLOYSMELTER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.modulePulverizerIron.getRegistryName(), EnumMaterials.IRON), ModuleCategoryUIDs.PULVERIZER);
+		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.modulePulverizerBronze.getRegistryName(), EnumMaterials.BRONZE), ModuleCategoryUIDs.PULVERIZER);
 
 		registry.addRecipeHandlers(
 				new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class),
-				new ModuleRecipeHandler(ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class)/*,
-				new ModuleRecipeHandler(ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class)*/);
+				new ModuleRecipeHandler(ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class),
+				new ModuleRecipeHandler(ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Boiler", ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class));
-		//registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
+		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 	}
 
 	@Override
 	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
 	}
-
-	/*@Override
-	public void loadConfig() {
-		registerHandler(new CharcoalKilnHandler());
-		registerHandler(new CampfireHandler());
-		registerHandler(new ShapedModuleRecipeHandler());
-		registerHandler(new CraftingRecipeKilnHandler());
-		isAdded = false;
-		for(IModuleContainer container : ModuleManager.moduleRegistry.getModuleContainers()) {
-			IModule module = ModuleManager.moduleRegistry.getFakeModule(container);
-			if (module instanceof IModuleTool) {
-				IModuleTool machine = (IModuleTool) module;
-				if (!producerHandlers.contains(machine.getRecipeCategory())) {
-					new ModularMachinesHandler(machine.getRecipeCategory(), machine.createNEIPage(machine));
-					producerHandlers.add(machine.getRecipeCategory());
-				}
-			}
-		}
-		isAdded = true;
-	}*/
 }

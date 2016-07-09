@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.inventory.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
@@ -39,8 +40,8 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 	}
 
 	@Override
-	public boolean renderWall() {
-		return true;
+	public EnumWallType getWallType() {
+		return EnumWallType.WINDOW;
 	}
 
 	@Override

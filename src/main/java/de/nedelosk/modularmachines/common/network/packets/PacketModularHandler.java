@@ -72,7 +72,7 @@ public class PacketModularHandler implements IMessage {
 		}
 		return null;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public EntityPlayer getPlayer(){
 		return Minecraft.getMinecraft().thePlayer;

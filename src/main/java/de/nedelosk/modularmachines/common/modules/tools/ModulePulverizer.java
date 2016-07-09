@@ -35,13 +35,13 @@ public class ModulePulverizer extends ModuleMachineEngine implements IModuleColo
 	public String getRecipeCategory(IModuleState state) {
 		return "Pulverizer";
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + (getWorkTime(state) > 0 ? "_on" : "_off")));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {

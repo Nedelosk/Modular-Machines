@@ -1,11 +1,10 @@
 package de.nedelosk.modularmachines.common.modules.heater;
 
+import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerInit;
 import de.nedelosk.modularmachines.common.modules.Module;
 import net.minecraft.util.ResourceLocation;
@@ -22,7 +21,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 		this.maxHeat = maxHeat;
 		this.size = size;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
@@ -40,5 +39,10 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	@Override
 	public int getSize() {
 		return size;
+	}
+	
+	@Override
+	public EnumWallType getWallType() {
+		return EnumWallType.NONE;
 	}
 }
