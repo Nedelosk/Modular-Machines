@@ -6,11 +6,11 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import net.minecraft.item.ItemStack;
 

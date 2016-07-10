@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -25,7 +24,7 @@ public interface IModuleModelHandler<M extends IModule> {
 	/**
 	 * To register the textures of the models and othe stuff.
 	 */
-	void initModels();
+	void initModels(IModuleContainer container);
 
 	public static Predicate createTrue(){
 		return new Predicate<IBlockState>(){

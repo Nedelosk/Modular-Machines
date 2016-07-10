@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.api.modules;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-
 public interface IModuleCasing extends IModule {
 
 	int getMaxHeat();
@@ -19,6 +17,4 @@ public interface IModuleCasing extends IModule {
 	int getHarvestLevel(IModuleState state);
 
 	String getHarvestTool(IModuleState state);
-
-	boolean canAssembleCasing(IModuleState state);
 }

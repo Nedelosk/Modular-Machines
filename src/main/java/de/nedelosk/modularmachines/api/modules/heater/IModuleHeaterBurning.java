@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.heater;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 
 public interface IModuleHeaterBurning extends IModuleHeater {
 

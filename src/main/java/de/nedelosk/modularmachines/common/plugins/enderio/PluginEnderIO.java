@@ -1,9 +1,7 @@
 package de.nedelosk.modularmachines.common.plugins.enderio;
 
-import com.enderio.core.common.util.ItemUtil;
-
 import cofh.api.energy.EnergyStorage;
-import de.nedelosk.modularmachines.api.material.EnumMaterials;
+import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
@@ -17,26 +15,22 @@ public class PluginEnderIO extends APlugin {
 
 	public static final String MOD_ID = "EnderIO";
 	public static Item capacitorBank;
-	public static Item capacitor;
-	public static Item tanks;
+	public static Item casing;
 	public static ModuleCapitorBank moduleCapacitorBankBasic;
 	public static ModuleCapitorBank moduleCapacitorBank;
 	public static ModuleCapitorBank moduleCapacitorBankVibrant;
-	// public IModuleTank moduleTankEnderIO;
 
 	@Override
 	public void preInit() {
-		ItemUtil.receptors.add(new EnderIOUtils());
-
-		moduleCapacitorBankBasic = new ModuleCapitorBank(new EnergyStorage(1000000, 1000));
+		moduleCapacitorBankBasic = new ModuleCapitorBank(2, new EnergyStorage(1000000, 1000));
 		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.basic"));
 		GameRegistry.register(moduleCapacitorBankBasic);
 
-		moduleCapacitorBank = new ModuleCapitorBank(new EnergyStorage(15000000, 5000));
+		moduleCapacitorBank = new ModuleCapitorBank(4, new EnergyStorage(15000000, 5000));
 		moduleCapacitorBank.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank"));
 		GameRegistry.register(moduleCapacitorBank);
 
-		moduleCapacitorBankVibrant = new ModuleCapitorBank(new EnergyStorage(25000000, 25000));
+		moduleCapacitorBankVibrant = new ModuleCapitorBank(6, new EnergyStorage(25000000, 25000));
 		moduleCapacitorBankVibrant.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.vibrant"));
 		GameRegistry.register(moduleCapacitorBankVibrant);
 
@@ -45,32 +39,10 @@ public class PluginEnderIO extends APlugin {
 	@Override
 	public void postInit() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
-		capacitor = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "itemBasicCapacitor"));
-		tanks = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockTank"));
 
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBankBasic, new ItemStack(capacitorBank, 1, 1), EnumMaterials.IRON, true));
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBank, new ItemStack(capacitorBank, 1, 2), EnumMaterials.BRONZE, true));
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBankVibrant, new ItemStack(capacitorBank, 1, 3), EnumMaterials.STEEL, true));
-		/*
-		 * addModuleToItem(new ItemStack(capacitorBank, 1, 1),
-		 * moduleCapitorBank, new ModuleBatteryType(new EnergyStorage(1000000,
-		 * 1000)), Materials.IRON, true); addModuleToItem(new
-		 * ItemStack(capacitorBank, 1, 2), moduleCapitorBank, new
-		 * ModuleBatteryType(new EnergyStorage(5000000, 5000)),
-		 * Materials.BRONZE, true); addModuleToItem(new ItemStack(capacitorBank,
-		 * 1, 3), moduleCapitorBank, new ModuleBatteryType(new
-		 * EnergyStorage(25000000, 25000)), Materials.STEEL, true);
-		 */
-		// addModuleToItem(new ItemStack(capacitor, 1, 0), new
-		// ModuleCapacitor("CapacitorBasic", 10, 20), Materials.IRON);
-		// addModuleToItem(new ItemStack(capacitor, 1, 1), new
-		// ModuleCapacitor("CapacitorDoubleLayer", 20, 40), Materials.BRONZE);
-		// addModuleToItem(new ItemStack(capacitor, 1, 2), new
-		// ModuleCapacitor("CapacitorVibrant", 40, 60), Materials.STEEL);
-		// addModuleToItem(new ItemStack(tanks), moduleTankEnderIO, new
-		// ModuleTankType(16000), Materials.IRON);
-		// addModuleToItem(new ItemStack(tanks, 1, 1), moduleTankEnderIO, new
-		// ModuleTankType(32000), Materials.BRONZE);ModuleStack<IModule>
+		GameRegistry.register(new ModuleContainer(moduleCapacitorBankBasic, new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.IRON, true));
+		GameRegistry.register(new ModuleContainer(moduleCapacitorBank, new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.BRONZE, true));
+		GameRegistry.register(new ModuleContainer(moduleCapacitorBankVibrant, new ItemStack(capacitorBank, 1, 3), EnumMetalMaterials.STEEL, true));
 	}
 
 	@Override

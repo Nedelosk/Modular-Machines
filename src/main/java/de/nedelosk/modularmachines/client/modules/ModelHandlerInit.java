@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.google.common.base.Function;
 
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -23,7 +24,7 @@ public class ModelHandlerInit implements IModuleModelHandler<IModuleHeater> {
 	}
 
 	@Override
-	public void initModels() {
+	public void initModels(IModuleContainer container) {
 		for(ResourceLocation location : locations){
 			ModelLoaderRegistry.getModelOrMissing(location);
 		}

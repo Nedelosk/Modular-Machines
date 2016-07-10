@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
@@ -13,14 +14,14 @@ import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.ModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,14 +34,32 @@ import net.minecraftforge.items.IItemHandler;
 
 public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
 
-	@Override
-	public int getComplexity(IModuleState state) {
-		return 1;
+	protected final String name;
+	protected final int complexity;
+
+	public Module(String name,int complexity) {
+		this.name = name;
+		this.complexity = complexity;
 	}
 
 	@Override
-	public String getUnlocalizedName() {
-		return "module." + getRegistryName().getResourcePath() + ".name";
+	public int getComplexity(IModuleState state) {
+		return complexity;
+	}
+
+	@Override
+	public String getDisplayName(IModuleContainer container) {
+		return container.getMaterial().getLocalizedName() + " " + Translator.translateToLocal(container.getUnlocalizedName());
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+	}
+
+	@Override
+	public String getUnlocalizedName(IModuleContainer container) {
+		return "module." + name + ".name";
 	}
 
 	@Override
@@ -125,8 +144,13 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		return Collections.emptyList();
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
+	@SideOnly(Side.CLIENT)
+	public List<IModuleModelHandler> getInitModelHandlers(IModuleContainer container) {
+		return Collections.singletonList(getInitModelHandler(container));
+	}
+
+	@SideOnly(Side.CLIENT)
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return null;
 	}

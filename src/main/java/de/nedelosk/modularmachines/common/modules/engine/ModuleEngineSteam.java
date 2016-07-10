@@ -2,15 +2,15 @@ package de.nedelosk.modularmachines.common.modules.engine;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.common.core.FluidManager;
@@ -22,8 +22,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleEngineSteam extends ModuleEngine {
 
-	public ModuleEngineSteam(int burnTimeModifier, int materialPerTick) {
-		super(burnTimeModifier, materialPerTick);
+	public ModuleEngineSteam(int complexity, int burnTimeModifier, int materialPerTick) {
+		super("engine.steam", complexity, burnTimeModifier, materialPerTick);
 	}
 
 	@Override

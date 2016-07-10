@@ -2,13 +2,14 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
 import de.nedelosk.modularmachines.api.property.PropertyMachineMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
-import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -21,23 +22,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleMachineAdvanced extends ModuleMachineEngine implements IModuleMachineAdvanced {
 
-	public IToolMode defaultMode;
+	public final PropertyMachineMode MODE;
 
-	public PropertyMachineMode MODE = new PropertyMachineMode("mode", getModeClass(), defaultMode);
-
-	public ModuleMachineAdvanced(int speed, int size, IToolMode defaultMode) {
-		super(speed, size);
-		this.defaultMode = defaultMode;
+	public ModuleMachineAdvanced(String name, int complexity, int speedModifier, EnumModuleSize size, IToolMode defaultMode) {
+		super(name, complexity, speedModifier, size);
+		MODE = new PropertyMachineMode("mode", getModeClass(), defaultMode);
 	}
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(MODE);
-	}
-
-	@Override
-	public IToolMode getDefaultMode(IModuleState state) {
-		return defaultMode;
 	}
 
 	@Override
@@ -48,7 +42,6 @@ public abstract class ModuleMachineAdvanced extends ModuleMachineEngine implemen
 	@Override
 	public void setCurrentMode(IModuleState state, IToolMode mode) {
 		state.set(MODE, mode);
-		this.defaultMode = mode;
 	}
 
 	public static abstract class ModuleAdvancedPage extends ModulePage<IModuleMachineAdvanced> {

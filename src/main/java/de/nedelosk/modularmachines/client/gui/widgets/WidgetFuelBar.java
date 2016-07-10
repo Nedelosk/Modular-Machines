@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 
 public class WidgetFuelBar extends Widget {

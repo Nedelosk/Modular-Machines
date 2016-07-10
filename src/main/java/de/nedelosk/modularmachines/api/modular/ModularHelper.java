@@ -5,9 +5,9 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleCapacitor;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;

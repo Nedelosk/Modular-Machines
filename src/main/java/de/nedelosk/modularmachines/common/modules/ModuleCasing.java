@@ -4,9 +4,9 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,7 +20,8 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	private final int harvestLevel;
 	private final String harvestTool;
 
-	public ModuleCasing(int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
+	public ModuleCasing(int complexity, int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
+		super("casing", complexity);
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
@@ -61,7 +62,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
-		return new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/casing"), new ResourceLocation("modularmachines:module/casings/right_storages/brick"), new ResourceLocation("modularmachines:module/casings/right_storages/brick_wall"), new ResourceLocation("modularmachines:module/casings/left_storages/brick"), new ResourceLocation("modularmachines:module/casings/wall_small"), new ResourceLocation("modularmachines:module/casings/wall_middle"), new ResourceLocation("modularmachines:module/casings/wall_large"));
+		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName()));
 	}
 
 	@Override
@@ -77,10 +78,5 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@Override
 	public void setHeat(IModuleState state, int heat) {
 		state.set(HEAT, heat);
-	}
-
-	@Override
-	public boolean canAssembleCasing(IModuleState state) {
-		return true;
 	}
 }

@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cofh.api.energy.EnergyStorage;
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.property.PropertyEnergyStorage;
-import de.nedelosk.modularmachines.client.gui.Widget;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modules.Module;
@@ -28,7 +28,8 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	protected final EnergyStorage defaultStorage;
 
-	public ModuleBattery(EnergyStorage defaultStorage) {
+	public ModuleBattery(String name, int complexity, EnergyStorage defaultStorage) {
+		super(name, complexity);
 		this.defaultStorage = defaultStorage;
 	}
 

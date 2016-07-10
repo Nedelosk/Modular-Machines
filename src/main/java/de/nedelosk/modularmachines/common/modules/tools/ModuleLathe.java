@@ -3,13 +3,14 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -24,8 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLathe extends ModuleMachineAdvanced{
 
-	public ModuleLathe(int speedModifier, int size) {
-		super(speedModifier, size, LatheModes.ROD);
+	public ModuleLathe(int complexity, int speedModifier, EnumModuleSize size) {
+		super("lathe", complexity, speedModifier, size, LatheModes.ROD);
 	}
 
 	// Recipe

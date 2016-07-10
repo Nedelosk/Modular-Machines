@@ -3,15 +3,15 @@ package de.nedelosk.modularmachines.common.modules.engine;
 import cofh.api.energy.IEnergyProvider;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import net.minecraftforge.items.IItemHandler;
 
 public class ModuleEngineEnergy extends ModuleEngine {
 
-	public ModuleEngineEnergy(int burnTimeModifier, int materialPerTick) {
-		super(burnTimeModifier, materialPerTick);
+	public ModuleEngineEnergy(int complexity, int burnTimeModifier, int materialPerTick) {
+		super("engine", complexity, burnTimeModifier, materialPerTick);
 	}
 
 	@Override

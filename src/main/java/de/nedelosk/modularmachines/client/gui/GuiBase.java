@@ -5,10 +5,11 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

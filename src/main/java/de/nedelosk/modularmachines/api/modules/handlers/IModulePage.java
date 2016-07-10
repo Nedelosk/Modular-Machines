@@ -2,13 +2,13 @@ package de.nedelosk.modularmachines.api.modules.handlers;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModulePage extends IPage {
 

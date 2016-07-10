@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
 import net.minecraft.block.Block;
@@ -47,7 +47,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 				IModular modular = handler.getModular();
 				for(IModuleState state : modular.getModuleStates()){
 					if(state != null){
-						tooltip.add(ChatFormatting.GRAY + state.getModule().getUnlocalizedName());
+						tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName());
 					}
 				}
 			}

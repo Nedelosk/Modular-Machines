@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.utils;
+package de.nedelosk.modularmachines.api;
 
 import java.util.IllegalFormatException;
 
@@ -27,7 +27,6 @@ public class Translator {
 			return String.format(s, format);
 		} catch (IllegalFormatException e) {
 			String errorMessage = "Format error: " + s;
-			Log.err(errorMessage, e);
 			return errorMessage;
 		}
 	}

@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.modules.engine;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 
 public interface IModuleEngine extends IModuleDrive {

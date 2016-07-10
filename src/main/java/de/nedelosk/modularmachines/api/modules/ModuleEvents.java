@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.api.modules;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -17,7 +16,20 @@ public class ModuleEvents {
 			this.moduleContainer = moduleContainer;
 		}
 
-		public IModuleContainer getItem() {
+		public IModuleContainer getContainer() {
+			return moduleContainer;
+		}
+	}
+
+	public static class ModuleModelInitEvent extends Event {
+
+		private final IModuleContainer moduleContainer;
+
+		public ModuleModelInitEvent(IModuleContainer moduleContainer) {
+			this.moduleContainer = moduleContainer;
+		}
+
+		public IModuleContainer getContainer() {
 			return moduleContainer;
 		}
 	}

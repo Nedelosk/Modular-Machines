@@ -7,8 +7,4 @@ public interface IMaterial {
 	String getName();
 
 	String getLocalizedName();
-
-	String[] getOreDicts();
-
-	int getColor();
 }

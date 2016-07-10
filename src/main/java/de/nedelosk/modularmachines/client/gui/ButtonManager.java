@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.lwjgl.opengl.GL11;
 
+import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;

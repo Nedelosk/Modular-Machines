@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.gui;
 
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderItem;

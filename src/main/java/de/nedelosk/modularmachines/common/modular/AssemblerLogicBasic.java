@@ -7,10 +7,13 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleDrawer;
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import net.minecraft.item.ItemStack;
 
@@ -30,12 +33,12 @@ public class AssemblerLogicBasic implements IAssemblerLogic {
 			if(storage != null){
 				List<IModuleState<IModuleTool>> tools = storage.getModules(IModuleTool.class);
 				if(!tools.isEmpty()){
-					int currentSize = 0;
+					EnumModuleSize currentSize = null;
 					for(IModuleState<IModuleTool> tool : tools){
-						currentSize += tool.getModule().getSize();
+						currentSize = EnumModuleSize.getNewSize(currentSize, tool.getModule().getSize());
 					}
-					currentSize += ((IModuleTool)container.getModule()).getSize();
-					if(currentSize > 3){
+					currentSize = EnumModuleSize.getNewSize(currentSize, ((IModuleTool)container.getModule()).getSize());
+					if(currentSize == EnumModuleSize.UNKNOWN){
 						return false;
 					}
 				}
@@ -47,15 +50,19 @@ public class AssemblerLogicBasic implements IAssemblerLogic {
 			if(storage != null){
 				List<IModuleState<IModuleDrive>> drives = storage.getModules(IModuleDrive.class);
 				if(!drives.isEmpty()){
-					int currentSize = 0;
+					EnumModuleSize currentSize = null;
 					for(IModuleState<IModuleDrive> drive : drives){
-						currentSize += drive.getModule().getSize();
+						currentSize = EnumModuleSize.getNewSize(currentSize, drive.getModule().getSize());
 					}
-					currentSize += ((IModuleDrive)container.getModule()).getSize();
-					if(currentSize > 3){
+					currentSize = EnumModuleSize.getNewSize(currentSize, ((IModuleDrive)container.getModule()).getSize());
+					if(currentSize == EnumModuleSize.UNKNOWN){
 						return false;
 					}
 				}
+			}
+		}else if(container.getModule() instanceof IModuleDrawer || container.getModule() instanceof IModuleCasing){
+			if(slot.getModuleClass() == null){
+				return false;
 			}
 		}
 		return true;

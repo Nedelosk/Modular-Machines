@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.api.modules.handlers;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
-import de.nedelosk.modularmachines.client.gui.Button;
-import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.Widget;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

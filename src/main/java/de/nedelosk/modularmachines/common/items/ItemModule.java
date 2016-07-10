@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -13,7 +15,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -69,8 +70,8 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 				IModuleColored moduleColered = (IModuleColored) module;
 				return moduleColered.getColor();
 			}
-		}else if(tintIndex == 0){
-			return moduleContainer.getMaterial().getColor();
+		}else if(tintIndex == 0 && moduleContainer.getMaterial() instanceof IMetalMaterial){
+			return ((IMetalMaterial)moduleContainer.getMaterial()).getColor();
 		}
 		return 16777215;
 	}

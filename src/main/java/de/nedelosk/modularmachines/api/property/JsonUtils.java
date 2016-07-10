@@ -1,6 +1,4 @@
-package de.nedelosk.modularmachines.common.utils;
-
-import org.apache.logging.log4j.Level;
+package de.nedelosk.modularmachines.api.property;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -99,7 +97,6 @@ public class JsonUtils {
 			try {
 				stack.setTagCompound(JsonToNBT.getTagFromJson(names[3]));
 			} catch (Exception e) {
-				Log.log("NedeloskCore", Level.ERROR, "Fail to parse : " + itemName);
 			}
 		}
 		return stack;
@@ -113,7 +110,6 @@ public class JsonUtils {
 			try {
 				stack.tag = JsonToNBT.getTagFromJson(names[1]);
 			} catch (Exception e) {
-				Log.log("NedeloskCore", Level.ERROR, "Fail to parse : " + itemName);
 			}
 		}
 		return stack;
@@ -149,7 +145,6 @@ public class JsonUtils {
 			try {
 				stack.setTagCompound(JsonToNBT.getTagFromJson(names[3]));
 			} catch (Exception e) {
-				Log.log("NedeloskCore", Level.ERROR, "Fail to parse : " + itemName);
 			}
 		}
 		return stack;

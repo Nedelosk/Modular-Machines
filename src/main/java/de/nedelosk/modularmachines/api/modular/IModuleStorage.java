@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.modular;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import net.minecraft.item.ItemStack;
 
 /**

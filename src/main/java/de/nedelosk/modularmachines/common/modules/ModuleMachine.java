@@ -6,28 +6,29 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.ModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.api.property.PropertyRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleMachine extends Module implements IModuleMachine, IWailaProvider {
+public abstract class ModuleMachine extends ModuleStoraged implements IModuleMachine, IWailaProvider {
 
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
@@ -35,9 +36,10 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
 
 	protected final int speedModifier;
-	protected final int size;
+	protected final EnumModuleSize size;
 
-	public ModuleMachine(int speedModifier, int size) {
+	public ModuleMachine(String name, int complexity, int speedModifier, EnumModuleSize size) {
+		super(name, complexity);
 		this.speedModifier = speedModifier;
 		this.size = size;
 	}
@@ -227,7 +229,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IModuleState state, IWailaState data) {
-		currenttip.add(Translator.translateToLocal(state.getContainer().getUnlocalizedName()));
+		currenttip.add(state.getContainer().getDisplayName());
 		currenttip.add(TextFormatting.ITALIC + (getWorkTime(state) + " / " + getWorkTimeTotal(state)));
 		return currenttip;
 	}
@@ -253,7 +255,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	}
 
 	@Override
-	public int getSize() {
+	public EnumModuleSize getSize() {
 		return size;
 	}
 
@@ -274,9 +276,10 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 		}
 		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public EnumWallType getWallType() {
+	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.NONE;
 	}
 

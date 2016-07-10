@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -22,7 +21,9 @@ import net.minecraftforge.items.IItemHandler;
 
 public interface IModule extends IForgeRegistryEntry<IModule> {
 
-	String getUnlocalizedName();
+	String getUnlocalizedName(IModuleContainer container);
+
+	String getDisplayName(IModuleContainer container);
 
 	int getComplexity(IModuleState state);
 
@@ -44,7 +45,10 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 */
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	IModuleModelHandler getInitModelHandler(@Nullable IModuleContainer container);
+	List<IModuleModelHandler> getInitModelHandlers(@Nullable IModuleContainer container);
+
+	@SideOnly(Side.CLIENT)
+	void addTooltip(List<String> tooltip, IModuleContainer container);
 
 	/**
 	 * To transfer items into slots. Only for modules with inventory.

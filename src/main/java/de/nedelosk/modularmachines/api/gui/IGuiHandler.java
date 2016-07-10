@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.inventory;
+package de.nedelosk.modularmachines.api.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules.storage;
 
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import net.minecraft.item.ItemStack;
 
 public interface IModuleBattery extends IModule {

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.common.utils.ItemUtil;
-import forestry.api.recipes.IDescriptiveRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -14,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class ShapedModuleRecipe extends ShapedOreRecipe implements IDescriptiveRecipe {
+public class ShapedModuleRecipe extends ShapedOreRecipe {
 	//Added in for future ease of change, but hard coded for now.
 	private static final int MAX_CRAFT_GRID_WIDTH = 3;
 	private static final int MAX_CRAFT_GRID_HEIGHT = 3;
@@ -97,21 +96,6 @@ public class ShapedModuleRecipe extends ShapedOreRecipe implements IDescriptiveR
 		for (char chr : shape.toCharArray()) {
 			input[x++] = itemMap.get(chr);
 		}
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
-
-	@Override
-	public Object[] getIngredients() {
-		return getInput();
 	}
 
 	@Override

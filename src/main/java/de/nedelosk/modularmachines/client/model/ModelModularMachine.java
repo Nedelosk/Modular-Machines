@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -129,11 +129,16 @@ public class ModelModularMachine implements IBakedModel {
 				if(modelHandler != null){
 					isEmpty = false;
 					modelHandlers.add(modelHandler);
-					models.put(IModuleModelHandler.createTrue(), modelHandler.getModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers));
+					IBakedModel model = modelHandler.getModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
+					if(model != null){
+						models.put(IModuleModelHandler.createTrue(), model);
+					}else{
+						getClass();
+					}
 				}
 			}
 			if(!isEmpty){
-				return new ModelModularMachineBaked(models);
+				return new Baked(models);
 			}
 		}
 		if(missingModel == null){
@@ -142,11 +147,11 @@ public class ModelModularMachine implements IBakedModel {
 		return missingModel;
 	}
 
-	public static class ModelModularMachineBaked extends MultipartBakedModel{
+	public static class Baked extends MultipartBakedModel{
 
 		private final Collection<IBakedModel> models;
 
-		public ModelModularMachineBaked(Map<Predicate<IBlockState>, IBakedModel> models) {
+		public Baked(Map<Predicate<IBlockState>, IBakedModel> models) {
 			super(models);
 
 			this.models = models.values();
@@ -156,7 +161,9 @@ public class ModelModularMachine implements IBakedModel {
 		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 			List<BakedQuad> quads = new ArrayList<>();
 			for (IBakedModel model : this.models){
-				quads.addAll(model.getQuads(state, side, rand++));
+				if(model != null){
+					quads.addAll(model.getQuads(state, side, rand++));
+				}
 			}
 			return quads;
 		}

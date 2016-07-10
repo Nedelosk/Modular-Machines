@@ -3,8 +3,8 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import com.google.common.base.Strings;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
-import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.Widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

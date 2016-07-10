@@ -4,8 +4,8 @@
 # folders
 !/gradle/wrapper
 !/src
-/src/main/apis
-/src/main/java/mcp
+/src/api/
+/src/main/
 
 # files
 !/.gitignore

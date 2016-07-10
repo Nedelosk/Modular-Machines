@@ -1,10 +1,10 @@
 package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
-import de.nedelosk.modularmachines.common.fluids.FluidTankSimple;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 
-public class FluidTankAdvanced extends FluidTankSimple {
+public class FluidTankAdvanced extends FluidTank {
 
 	public IModuleTank moduleTank;
 	public final int index;
@@ -22,6 +22,18 @@ public class FluidTankAdvanced extends FluidTankSimple {
 		this.moduleTank = moduleTank;
 		this.index = index;
 		readFromNBT(nbtTag);
+	}
+
+	public float getFilledRatio() {
+		return (float) getFluidAmount() / getCapacity();
+	}
+
+	public boolean isFull() {
+		return getFluidAmount() >= getCapacity();
+	}
+
+	public boolean isEmpty() {
+		return getFluidAmount() <= 0;
 	}
 
 	@Override

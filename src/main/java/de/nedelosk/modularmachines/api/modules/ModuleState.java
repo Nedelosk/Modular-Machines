@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.state;
+package de.nedelosk.modularmachines.api.modules;
 
 import java.util.List;
 import java.util.Map;
@@ -8,9 +8,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.property.IProperty;
@@ -67,7 +64,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
 		if(!registeredProperties.contains(property)){
-			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
+			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
 		if(!properties.containsKey(property)){
 			return null;
@@ -78,7 +75,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public <T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
 		if(!registeredProperties.contains(property)){
-			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + this.module.getUnlocalizedName());
+			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
 		properties.put(property, value);
 		return this;
@@ -177,7 +174,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public String toString() {
-		return module.getUnlocalizedName() + ": " + properties.toString();
+		return container.getDisplayName() + ": " + properties.toString();
 	}
 
 }

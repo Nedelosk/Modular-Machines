@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -31,6 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.SimpleModelState;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -164,10 +166,15 @@ public class ModelManager implements IModelManager {
 	public void registerModuleModels() {
 		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
 			if(container != null && container.getModule() != null){
-				IModuleModelHandler handle = container.getModule().getInitModelHandler(container);
-				if(handle != null){
-					handle.initModels();
+				List<IModuleModelHandler> handlers = container.getModule().getInitModelHandlers(container);
+				if(handlers != null && !handlers.isEmpty()){
+					for(IModuleModelHandler handle : handlers){
+						if(handle != null){
+							handle.initModels(container);
+						}
+					}
 				}
+				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleModelInitEvent(container));
 			}
 		}
 	}

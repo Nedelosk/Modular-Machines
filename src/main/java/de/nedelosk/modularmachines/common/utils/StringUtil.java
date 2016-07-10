@@ -2,6 +2,8 @@ package de.nedelosk.modularmachines.common.utils;
 
 import java.util.IllegalFormatException;
 
+import de.nedelosk.modularmachines.api.Translator;
+
 public class StringUtil {
 
 	public static String localizeAndFormatRaw(String key, Object... args) {

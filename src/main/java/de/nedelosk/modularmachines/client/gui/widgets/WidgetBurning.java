@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.client.gui.Widget;
+import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 
 public class WidgetBurning extends Widget {

@@ -6,25 +6,29 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
-import de.nedelosk.modularmachines.common.modules.Module;
+import de.nedelosk.modularmachines.common.modules.ModuleStoraged;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class ModuleEngine extends Module implements IModuleEngine {
+public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngine {
 
 	protected final int burnTimeModifier;
 	protected final int materialPerTick;
@@ -33,7 +37,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 	public static final PropertyInteger MACHINEINDEX = new PropertyInteger("machineIndex", -1);
 
-	public ModuleEngine(int burnTimeModifier, int materialPerTick) {
+	public ModuleEngine(String name, int complexity, int burnTimeModifier, int materialPerTick) {
+		super(name, complexity);
 		this.burnTimeModifier = burnTimeModifier;
 		this.materialPerTick = materialPerTick;
 	}
@@ -55,8 +60,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 					ItemStack stack = itemHandler.getStackInSlot(toolSlotIndex);
 					if(stack != null){
 						IModuleContainer container = ModularManager.getContainerFromItem(stack);
-						int size = ((IModuleTool)container.getModule()).getSize();
-						if(size == 3 || size == 2){
+						EnumModuleSize size = ((IModuleTool)container.getModule()).getSize();
+						if(size == EnumModuleSize.LARGE || size == EnumModuleSize.MIDDLE){
 							return storage.getSlotIndexToState().get(Integer.valueOf(toolSlotIndex)).getIndex();
 						}
 					}
@@ -171,8 +176,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public int getSize() {
-		return 1;
+	public EnumModuleSize getSize() {
+		return EnumModuleSize.SMALL;
 	}
 
 	@Override
@@ -187,9 +192,14 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 			return false;
 		}
 	}
-	
+
 	@Override
-	public EnumWallType getWallType() {
+	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
+		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName()));
+	}
+
+	@Override
+	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.WINDOW;
 	}
 

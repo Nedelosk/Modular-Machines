@@ -6,11 +6,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.client.gui.Button;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -60,6 +60,6 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
-		return Arrays.asList(state.getContainer().getUnlocalizedName());
+		return Arrays.asList(state.getContainer().getDisplayName());
 	}
 }

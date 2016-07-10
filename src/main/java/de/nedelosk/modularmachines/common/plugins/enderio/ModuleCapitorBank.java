@@ -8,8 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleCapitorBank extends ModuleBattery {
 
-	public ModuleCapitorBank(EnergyStorage defaultStorage) {
-		super(defaultStorage);
+	public ModuleCapitorBank(int complexity, EnergyStorage defaultStorage) {
+		super("capitorbank", complexity, defaultStorage);
 	}
 
 	@Override

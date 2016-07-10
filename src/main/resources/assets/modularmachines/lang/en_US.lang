@@ -1,20 +1,67 @@
-mm.module.tooltip.type=Type
-mm.module.tooltip.tier=Tier
-mm.module.tooltip.name=Name
-mm.module.tooltip.shift=Hold Shift
+mm.module.tooltip.material=Material: 
+mm.module.tooltip.name=Name: 
+mm.module.tooltip.size=Size: 
 
 ####################################
-Module Tool Modes
+# Module Tool Modes
 ####################################
 mode.rod.name=Mode Rod
 
 ####################################
-Modules
+# Modules
 ####################################
-module.heater.heat=Heat: %s
+
+module.size.large.name=Large
+module.size.small.name=Small
+module.size.middle.name=Middle
+
+module.engine.iron.name=Iron Engine
+module.engine.bronze.name=Bronze Engine
+module.engine.steel.name=Steel Engine
+module.engine.magmarium.name=Magmarium Engine
+module.engine.steam.iron.name=Iron Steam Engine
+module.engine.steam.bronze.name=Bronze Steam Engine
+module.engine.steam.steel.name=Steel Steam Engine
+module.engine.steam.magmarium.name=Magmarium Steam Engine
+
+module.controller.iron.name=Iron Controller
+module.controller.bronze.name=Bronze Controller
+module.controller.steel.name=Steel Controller
+module.controller.magmarium.name=Magmarium Controller
+
+module.boiler.iron.name=Iron Boiler
+module.boiler.bronze.name=Bronze Boiler
+module.boiler.steel.name=Steel Boiler
+module.boiler.magmarium.name=Magmarium Boiler
+
+module.heater.steam.iron.name=Iron Steam Heater
+module.heater.steam.bronze.name=Bronze Steam Heater
+module.heater.iron.name=Iron Heater
+module.heater.bronze.name=Bronze Heater
+module.heater.steel.name=Steel Heater
+module.heater.magmarium.name=Magmarium Heater
+
+module.alloysmelter.iron.name=Iron Alloy Smelter
+module.alloysmelter.bronze.name=Bronze Alloy Smelter
+module.alloysmelter.steel.name=Steel Alloy Smelter
+module.alloysmelter.magmarium.name=Magmarium Alloy Smelter+
+
+module.pulverizer.iron.name=Iron Pulverizer
+module.pulverizer.bronze.name=Bronze Pulverizer
+module.pulverizer.steel.name=Steel Pulverizer
+module.pulverizer.magmarium.name=Magmarium Pulverizer
+
+module.casing.iron.name=Iron Casing
+module.casing.bronze.name=Bronze Casing
+
+module.drawer.brick.name=Brick Module Drawer
+
+module.battery.capacitorbank.basic.name=Basic Capacitorbank
+module.battery.capacitorbank.name=Capacitorbank
+module.battery.capacitorbank.vibrant.name=Vibrant Capacitorbank
 
 ####################################
-Materials
+# Materials
 ####################################
 material.stone.name=Stone
 material.iron.name=Iron
@@ -23,42 +70,39 @@ material.steel.name=Steel
 material.magmarium.name=Magmarium
 
 ####################################
-Tabs
+# Tabs
 ####################################
 itemGroup.modularmachines=Modular Machine's
-itemGroup.modularmachines.components=Components
 itemGroup.modularmachines.modules=Modules
 
 ####################################
-Blocks
+# Blocks
 ####################################
-tile.modular.assembler.name=Modular Assembler
-tile.modular.machine.name=Modular Machine
-modularmachines.item.tile.casing.0.name=Stone Brick Casing
-modularmachines.item.tile.casing.1.name=Brick Casing
-modularmachines.item.tile.casing.2.name=Iron Casing
-modularmachines.item.tile.casing.3.name=Bronze Casing
-modularmachines.item.tile.metal_blocks.0.name=Block of Tin
-modularmachines.item.tile.metal_blocks.1.name=Block of Copper
-modularmachines.item.tile.metal_blocks.2.name=Block of Bronze
-modularmachines.item.tile.metal_blocks.3.name=Block of Steel
-modularmachines.item.tile.metal_blocks.4.name=Block of Invar
-modularmachines.item.tile.ores.0.name=Copper Ore
-modularmachines.item.tile.ores.1.name=Tin Ore
-modularmachines.item.tile.ores.2.name=Silver Ore
-modularmachines.item.tile.ores.3.name=Lead Ore
-modularmachines.item.tile.ores.4.name=Nickel Ore
-modularmachines.item.tile.ores.5.name=Aluminum Ore
+modularmachines.item.tile.modular_assembler.0.name=Modular Assembler
+modular.0.name=Modular Machine
+modularmachines.item.tile.casing.iron.name=Iron Casing
+modularmachines.item.tile.casing.bronze.name=Bronze Casing
+modularmachines.item.tile.metal_blocks.tin.name=Block of Tin
+modularmachines.item.tile.metal_blocks.copper.name=Block of Copper
+modularmachines.item.tile.metal_blocks.bronze.name=Block of Bronze
+modularmachines.item.tile.metal_blocks.steel.name=Block of Steel
+modularmachines.item.tile.metal_blocks.invar.name=Block of Invar
+modularmachines.item.tile.ores.copper.name=Copper Ore
+modularmachines.item.tile.ores.tin.name=Tin Ore
+modularmachines.item.tile.ores.silver.name=Silver Ore
+modularmachines.item.tile.ores.lead.name=Lead Ore
+modularmachines.item.tile.ores.nickel.name=Nickel Ore
+modularmachines.item.tile.ores.aluminum.name=Aluminum Ore
 
 ####################################
-Fluids
+# Fluids
 ####################################
 fluid.steam=Steam
 modularmachines.block.steam.name=Steam
 nc.tooltip.nonefluid=None Fluid
 
 ####################################
-Item
+# Item
 ####################################
 modularmachines.item.dustCoal.name=Coal Dust
 modularmachines.item.dustObsidian.name=Obsidian Dust
@@ -92,18 +136,20 @@ modularmachines.item.nuggetBronze.name=Bronze Nugget
 modularmachines.item.nuggetInvar.name=Invar Nugget
 modularmachines.item.nuggetAluminum.name=Aluminum Nugget
 modularmachines.item.nuggetSteel.name=Steel Nugget
-modularmachines.item.module.0.name=Basic Module
-modularmachines.item.module.1.name=Improved Module
-modularmachines.item.module.2.name=Advanced Module
-modularmachines.item.module.3.name=Module Holder
-modularmachines.item.capacitor_default.name=Capacitor
-modularmachines.item.capacitor_double_layer.name=Double-Layer Capacitor
 item.module.name=Module
-modularmachines.item.engine_stone.name=Stone Engine
 modularmachines.item.engine_iron.name=Iron Engine
 modularmachines.item.engine_bronze.name=Bronze Engine
 modularmachines.item.engine_steel.name=Steel Engine
 modularmachines.item.engine_magmarium.name=Magmarium Engine
+modularmachines.item.engine_steam_iron.name=Iron Steam Engine
+modularmachines.item.engine_steam_bronze.name=Bronze Steam Engine
+modularmachines.item.engine_steam_steel.name=Steel Steam Engine
+modularmachines.item.engine_steam_magmarium.name=Magmarium Steam Engine
+modularmachines.item.drawer_brick.name=Brick Module Drawer
+modularmachines.item.moduleCore_basic.name=Basic Module Core
+modularmachines.item.moduleCore_normal.name=Module Core
+modularmachines.item.moduleCore_improved.name=Improved Module Core
+modularmachines.item.moduleCore_advanced.name=Advanced Module Core
 
 modularmachines.tool.file.stone.name=Stone File
 modularmachines.tool.file.iron.name=Iron File
@@ -149,11 +195,12 @@ component.wires.3.name=Wire Bronze
 component.wires.4.name=Wire Steel
 
 ####################################
-#Containers
+# Containers
 ####################################
+module.heater.heat=Heat: %s
 
 ####################################
-#Tooltips
+# Tooltips
 ####################################
 modularmachines.tooltip.tool.energy=Energy: 
 modularmachines.tooltip.damage=Durability: 
@@ -163,7 +210,7 @@ modularmachines.tooltip.heat=Heat:
 modularmachines.tooltip.empty=Empty
 
 ####################################
-#JEI
+# JEI
 ####################################
 gui.mm.jei.category.boiler=Boiler
 gui.mm.jei.category.alloysmelter=Alloy Smelter

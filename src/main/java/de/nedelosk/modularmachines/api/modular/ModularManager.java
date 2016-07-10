@@ -7,9 +7,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,7 +31,7 @@ public class ModularManager {
 	 * Assemble a modular from the items of a IItemHandler.
 	 * @return Return a IModuleStorage, with all modules that are a added.
 	 */
-	public static IModuleStorage assembleModular(IItemHandler handler, EntityPlayer player, ItemStack modularItem){
+	public static IModuleStorage assembleModular(IItemHandler handler, EntityPlayer player, IModular modular, ItemStack modularItem){
 		if(handler == null || player == null || modularItem == null){
 			return null;
 		}
@@ -49,7 +48,6 @@ public class ModularManager {
 			if(!notNull){
 				return null;
 			}
-			IModular modular = new Modular();
 			Map<IModuleState, Integer> stateToSlotIndex = new HashMap<>();
 			Map<Integer, IModuleState> slotIndexToState = new HashMap<>();
 			IModuleIndexStorage storage = new IModuleIndexStorage() {

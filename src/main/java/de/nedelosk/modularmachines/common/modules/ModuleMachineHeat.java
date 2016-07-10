@@ -5,9 +5,10 @@ import java.util.Random;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -16,8 +17,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModuleMachineHeat extends ModuleMachine {
 
-	public ModuleMachineHeat(int speedModifier, int size) {
-		super(speedModifier, size);
+	public ModuleMachineHeat(String name, int complexity, int speedModifier, EnumModuleSize size) {
+		super(name, complexity, speedModifier, size);
 	}
 
 	@Override

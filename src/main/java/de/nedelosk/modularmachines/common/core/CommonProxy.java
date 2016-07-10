@@ -21,8 +21,8 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 			case 0:
-				if (tile != null && tile instanceof de.nedelosk.modularmachines.api.inventory.IGuiHandler) {
-					return ((de.nedelosk.modularmachines.api.inventory.IGuiHandler) tile).getContainer(player.inventory);
+				if (tile != null && tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
+					return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).getContainer(player.inventory);
 				}
 			default:
 				return null;
@@ -35,8 +35,8 @@ public class CommonProxy implements IGuiHandler {
 		if ((world instanceof WorldClient)) {
 			switch (ID) {
 				case 0:
-					if (tile instanceof de.nedelosk.modularmachines.api.inventory.IGuiHandler) {
-						return ((de.nedelosk.modularmachines.api.inventory.IGuiHandler) tile).getGUIContainer(player.inventory);
+					if (tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
+						return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).getGUIContainer(player.inventory);
 					}
 				default:
 					return null;

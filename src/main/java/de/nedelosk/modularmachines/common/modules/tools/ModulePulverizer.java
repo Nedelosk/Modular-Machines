@@ -2,16 +2,17 @@ package de.nedelosk.modularmachines.common.modules.tools;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
@@ -27,8 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePulverizer extends ModuleMachineEngine implements IModuleColored{
 
-	public ModulePulverizer(int speed, int size) {
-		super(speed, size);
+	public ModulePulverizer(int complexity, int speed, EnumModuleSize size) {
+		super("pulverizer", complexity, speed, size);
 	}
 
 	@Override
@@ -39,15 +40,15 @@ public class ModulePulverizer extends ModuleMachineEngine implements IModuleColo
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + (getWorkTime(state) > 0 ? "_on" : "_off")));
+		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + (getWorkTime(state) > 0 ? "_on" : "_off")));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		ResourceLocation[] locations = new ResourceLocation[2];
-		locations[0] = new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + "_off");
-		locations[1] = new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + (size == 0 ? "_small" : size == 1 ? "_middle" : "_large") + "_on");
+		locations[0] = new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_off");
+		locations[1] = new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_on");
 		return new ModelHandlerInit(locations);
 	}
 

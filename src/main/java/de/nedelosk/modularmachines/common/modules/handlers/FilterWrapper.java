@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M> {
 

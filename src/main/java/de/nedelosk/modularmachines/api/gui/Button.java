@@ -1,11 +1,9 @@
-package de.nedelosk.modularmachines.client.gui;
+package de.nedelosk.modularmachines.api.gui;
 
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;

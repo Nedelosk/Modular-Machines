@@ -2,19 +2,20 @@ package de.nedelosk.modularmachines.common.modules.tools;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
@@ -35,12 +36,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
-	public ModuleBoiler(int speed, int size) {
-		super(speed, size);
+	public ModuleBoiler(int complexity, int speed, EnumModuleSize size) {
+		super("boiler", complexity, speed, size);
 	}
 
 	@Override
-	public EnumWallType getWallType() {
+	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.WINDOW;
 	}
 
@@ -107,6 +108,12 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 	@Override
 	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName()));
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ResourceLocation getWindowLocation(IModuleContainer container) {
+		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName() + "_" + getSize().getName());
 	}
 
 	public class BoilerPage extends ModulePage<IModuleMachine> {

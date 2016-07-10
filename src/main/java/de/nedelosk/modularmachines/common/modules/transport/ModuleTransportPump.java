@@ -4,8 +4,8 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public class ModuleTransportPump extends ModuleTransport{
 

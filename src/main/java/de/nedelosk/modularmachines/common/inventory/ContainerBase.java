@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.common.inventory;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.common.utils.ItemUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

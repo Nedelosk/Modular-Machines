@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 
 public interface IModuleBuilder<M extends IModule> {
 

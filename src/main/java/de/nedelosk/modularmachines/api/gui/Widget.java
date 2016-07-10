@@ -1,10 +1,8 @@
-package de.nedelosk.modularmachines.client.gui;
+package de.nedelosk.modularmachines.api.gui;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.inventory.IGuiHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 

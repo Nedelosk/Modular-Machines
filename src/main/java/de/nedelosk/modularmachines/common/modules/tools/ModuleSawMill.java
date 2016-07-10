@@ -2,14 +2,15 @@ package de.nedelosk.modularmachines.common.modules.tools;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.inventory.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
@@ -22,8 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored{
 
-	public ModuleSawMill(int speed, int size) {
-		super(speed, size);
+	public ModuleSawMill(int complexity, int speed, EnumModuleSize size) {
+		super("sawmill", complexity, speed, size);
 	}
 
 	@Override
@@ -47,12 +48,6 @@ public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored
 		pages.add(new SawMillPage("Basic", state));
 		return pages;
 	}
-
-	/*@SideOnly(Side.CLIENT)
-	@Override
-	public IJEIPage createNEIPage(IModuleJEI module) {
-		return new SawMillNEIPage(module);
-	}*/
 
 	public static class SawMillPage extends ModulePage<IModuleMachine> {
 

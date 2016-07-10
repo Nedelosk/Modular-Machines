@@ -3,9 +3,9 @@ package de.nedelosk.modularmachines.common.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.common.config.Config.ConfigGroup;
 import de.nedelosk.modularmachines.common.core.Constants;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;

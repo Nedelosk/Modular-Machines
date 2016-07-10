@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules.tool;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 

@@ -8,13 +8,14 @@ import de.nedelosk.modularmachines.api.modular.IModuleStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleDrawer;
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.IModuleTransport;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerOutput;
+import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -30,6 +31,8 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 
 	public ContainerModularAssembler(TileModularAssembler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
+
+		updateSlots();
 	}
 
 	@Override
@@ -50,7 +53,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			slot.isUpdated = false;
 		}
 
-		lastStorage = ModularManager.assembleModular(handler.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), player, new ItemStack(BlockManager.blockModular));
+		lastStorage = ModularManager.assembleModular(handler.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), player, new Modular(), new ItemStack(BlockManager.blockModular));
 	}
 
 	public void updateSlot(IAssemblerSlot slot){
@@ -107,9 +110,9 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 		slots[5] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 7, 100, 46, inventory.player, IModuleTool.class));
 		slots[6] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 8, 136, 46, inventory.player));
 
-		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player, IModuleTransport.class));
+		slots[7] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 9, 46, 82, inventory.player, IModuleDrawer.class));
 		slots[8] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 10, 82, 82, inventory.player, IModuleController.class, true).setAlwaysActive(true));
-		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleTransport.class));
+		slots[9] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 11, 118, 82, inventory.player, IModuleDrawer.class));
 
 		slots[10] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 12, 28, 118, inventory.player));
 		slots[11] = (SlotAssembler) addSlotToContainer(new SlotAssembler(this, 13, 64, 118, inventory.player, IModuleDrive.class));

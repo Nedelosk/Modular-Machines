@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.common.modules.tools.jei.boiler;
 
 import java.awt.Color;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 
 public class BoilerRecipeWrapper extends ModuleRecipeWrapper {

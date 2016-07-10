@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modular;
 
 import java.util.Map;
 
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleState;
 
 public interface IModuleIndexStorage {
 
