@@ -37,7 +37,4 @@ public interface IModelHandler<M extends IModule> {
 			}
 		};
 	}
-
-	@Override
-	boolean equals(Object obj);
 }

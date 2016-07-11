@@ -53,7 +53,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 
 public class ModelModular implements IBakedModel {
 
-	private final Map<IModelHandler, IBakedModel> handlerCache = new HashMap<>();
 	private ItemOverrideList overrideList;
 	private IBakedModel missingModel;
 
@@ -81,9 +80,6 @@ public class ModelModular implements IBakedModel {
 						}
 						modelState = new ModelStateComposition(modelState, rotation);
 					}
-				}else if(modularHandler instanceof IModularHandlerItem && provider instanceof ItemStack){
-					ItemStack parent = (ItemStack) provider;
-					modularHandler.deserializeNBT(parent.getTagCompound());
 				}
 
 				for(IModuleState moduleState : modularHandler.getModular().getModuleStates()){
@@ -105,7 +101,6 @@ public class ModelModular implements IBakedModel {
 						}else{
 							IBakedModel model = modelHandler.bakeModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
 							if(model != null){
-								handlerCache.put(modelHandler, model);
 								models.put(IModelHandler.createTrue(), model);
 							}
 						}
@@ -162,24 +157,22 @@ public class ModelModular implements IBakedModel {
 
 	public class ItemOverrideListModular extends ItemOverrideList{
 
-		private final Map<IModular, IBakedModel> models = new HashMap<>();
-
 		public ItemOverrideListModular() {
 			super(Collections.emptyList());
 		}
 
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			IModular modular = ModularManager.getModularHandler(stack).getModular();
+			IModularHandler modularHandler = ModularManager.getModularHandler(stack);
+			
+			if(modularHandler instanceof IModularHandlerItem){
+				modularHandler.deserializeNBT(stack.getTagCompound());
+			}
+			IModular modular = modularHandler.getModular();
 			if(modular != null){
-				if(!models.containsKey(modular)){
-					IBakedModel model = getModel(stack, DefaultVertexFormats.ITEM);
-					if(model != null){
-						models.put(modular, model);
-						return model;
-					}
-				}else{
-					return models.get(modular);
+				IBakedModel model = getModel(stack, DefaultVertexFormats.ITEM);
+				if(model != null){
+					return model;
 				}
 			}
 			return super.handleItemState(originalModel, stack, world, entity);

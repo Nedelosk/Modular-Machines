@@ -12,10 +12,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileBaseInventory extends TileBaseGui implements ISidedInventory {
 
-	private final IItemHandler itemHandler = new InvWrapper(this);
+	private final IItemHandler itemHandler = new SidedInvWrapper(this, null);
 	public ItemStack[] slots;
 
 	public TileBaseInventory(int slots) {

@@ -4,14 +4,24 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.client.model.ModelModularAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 
 	public static final ResourceLocation textureModelOFF = new ResourceLocation("modularmachines", "textures/models/modular_assembler_off.png");
 	public static final ResourceLocation textureModelON = new ResourceLocation("modularmachines", "textures/models/modular_assembler_on.png");
+	private final EntityItem dummyEntityItem = new EntityItem(null);
+	private long lastTick;
 	private ModelModularAssembler model;
 
 	public TileModularAssemblerRenderer() {
@@ -30,6 +40,31 @@ public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 			model.render();
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
+			
+			World world = entity.getWorld();
+			ItemStack stack = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).getStackInSlot(1);
+			
+			if (stack != null && world != null && world.isAirBlock(entity.getPos().up())) {
+				dummyEntityItem.worldObj = world;
+				
+				float renderScale = 1.5f;
+
+				GlStateManager.pushMatrix();
+				{
+					GlStateManager.translate((float) x + 0.5f, (float) y + 0.65f, (float) z + 0.5f);
+					GlStateManager.scale(renderScale, renderScale, renderScale);
+					dummyEntityItem.setEntityItemStack(stack);
+					
+					if (world.getTotalWorldTime() != lastTick) {
+						lastTick = world.getTotalWorldTime();
+						dummyEntityItem.onUpdate();
+					}
+					
+					RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+					rendermanager.doRenderEntity(dummyEntityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+				}
+				GlStateManager.popMatrix();
+			}
 		}else{
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.5F, 1.5F, 0.5F);

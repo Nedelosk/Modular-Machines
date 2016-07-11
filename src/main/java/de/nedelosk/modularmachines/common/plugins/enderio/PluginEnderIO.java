@@ -23,15 +23,15 @@ public class PluginEnderIO extends APlugin {
 	@Override
 	public void preInit() {
 		moduleCapacitorBankBasic = new ModuleCapitorBank(2, new EnergyStorage(1000000, 1000));
-		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.basic"));
+		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank.basic"));
 		GameRegistry.register(moduleCapacitorBankBasic);
 
 		moduleCapacitorBank = new ModuleCapitorBank(4, new EnergyStorage(15000000, 5000));
-		moduleCapacitorBank.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank"));
+		moduleCapacitorBank.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank"));
 		GameRegistry.register(moduleCapacitorBank);
 
 		moduleCapacitorBankVibrant = new ModuleCapitorBank(6, new EnergyStorage(25000000, 25000));
-		moduleCapacitorBankVibrant.setRegistryName(new ResourceLocation("enderio:module.battery.capacitorbank.vibrant"));
+		moduleCapacitorBankVibrant.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank.vibrant"));
 		GameRegistry.register(moduleCapacitorBankVibrant);
 
 	}

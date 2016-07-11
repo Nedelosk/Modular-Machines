@@ -83,13 +83,6 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 		return super.assembleModule(itemHandler, modular, state, storage);
 	}
 
-	/*@Override
-	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state) {
-		IModuleState machine = modules.get(group).get(0).second();
-		moduleState.add(MACHINEINDEX, machine.getIndex());
-		return super.assembleModule(itemHandler, modular, state);
-	}*/
-
 	@Override
 	public int getBurnTimeModifier(IModuleState state) {
 		return burnTimeModifier;
@@ -193,6 +186,7 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName()));
