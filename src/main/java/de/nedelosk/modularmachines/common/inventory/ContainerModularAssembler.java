@@ -19,7 +19,7 @@ import de.nedelosk.modularmachines.common.modular.Modular;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ContainerModularAssembler extends ContainerBase<TileModularAssembler> {
 
@@ -53,7 +53,7 @@ public class ContainerModularAssembler extends ContainerBase<TileModularAssemble
 			slot.isUpdated = false;
 		}
 
-		lastStorage = ModularManager.assembleModular(handler.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), player, new Modular(), new ItemStack(BlockManager.blockModular));
+		lastStorage = ModularManager.assembleModular(new InvWrapper(handler), player, new Modular(), new ItemStack(BlockManager.blockModular));
 	}
 
 	public void updateSlot(IAssemblerSlot slot){

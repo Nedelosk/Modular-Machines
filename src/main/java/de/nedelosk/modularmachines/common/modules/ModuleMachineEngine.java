@@ -59,6 +59,6 @@ public abstract class ModuleMachineEngine extends ModuleMachine {
 
 	@Override
 	public boolean canWork(IModuleState state){
-		return state.getModular().getHandler().getEnergyStored(null) > 0;
+		return true;
 	}
 }

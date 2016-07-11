@@ -41,12 +41,15 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	@SideOnly(Side.CLIENT)
 	IModelHandler createModelHandler(@Nonnull IModuleState state);
 
+	@SideOnly(Side.CLIENT)
+	boolean needHandlerReload(IModuleStateClient state);
+
 	/**
 	 * @return The IModuleModelHandler that is used to init the models.
 	 */
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	List<IModelHandler> getInitModelHandlers(@Nullable IModuleContainer container);
+	List<IModelInitHandler> getInitModelHandlers(@Nullable IModuleContainer container);
 
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip, IModuleContainer container);

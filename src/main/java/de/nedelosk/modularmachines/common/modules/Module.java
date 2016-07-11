@@ -11,9 +11,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.ModuleState;
 import de.nedelosk.modularmachines.api.modules.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
@@ -151,19 +153,20 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public List<IModelHandler> getInitModelHandlers(IModuleContainer container) {
-		return Collections.singletonList(getInitModelHandler(container));
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		return new ArrayList<>();
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IModelHandler getInitModelHandler(IModuleContainer container) {
-		return null;
+	@Override
+	public boolean needHandlerReload(IModuleStateClient state) {
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return getInitModelHandler(state.getContainer());
+		return null;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.heater;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.Translator;
@@ -10,9 +11,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -21,7 +24,7 @@ import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
@@ -49,7 +52,42 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + (getBurnTime(state) > 0 ? "_on" : "_off")));
+		return new ModelHandlerStatus(new ResourceLocation[]{
+				new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
+		});
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List handlers = new ArrayList<>();
+		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
+				new ResourceLocation("modularmachines:module/heaters/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/heaters/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
+		}));
+		return handlers;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean needHandlerReload(IModuleStateClient state) {
+		IModelHandler handler = state.getModelHandler();
+		if(handler instanceof ModelHandlerStatus){
+			ModelHandlerStatus status = (ModelHandlerStatus) handler;
+			if(getBurnTime(state) > 0){
+				if(!status.status){
+					status.status = true;
+					return true;
+				}
+			}else{
+				if(status.status){
+					status.status = false;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

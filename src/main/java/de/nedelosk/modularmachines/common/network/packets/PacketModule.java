@@ -58,15 +58,15 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 		if (handler == null || handler.getModular() == null) {
 			return null;
 		}
-		IModuleState module = handler.getModular().getModule(message.index);
-		module.readFromNBT(message.nbt);
-		for(IModuleState state : handler.getModular().getModuleStates()){
-			((IModuleStateClient)state).reloadModelHandler();
-		}
+		IModuleState moduleState = handler.getModular().getModule(message.index);
+		moduleState.readFromNBT(message.nbt);
 
-		if(handler instanceof IModularHandlerTileEntity){
-			BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
-			world.markBlockRangeForRenderUpdate(pos, pos);
+		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){
+			((IModuleStateClient)moduleState).getModelHandler().setNeedReload(true);
+			if(handler instanceof IModularHandlerTileEntity){
+				BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
+				world.markBlockRangeForRenderUpdate(pos, pos);
+			}
 		}
 		return null;
 	}

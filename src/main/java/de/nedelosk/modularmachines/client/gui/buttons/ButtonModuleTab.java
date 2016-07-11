@@ -38,7 +38,7 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTextureOverlay);
-		gui.getGui().drawTexturedModalRect(xPosition, yPosition, (state.getContainer().getRegistryName().equals(tile.getModular().getCurrentModuleState().getContainer().getRegistryName())) ? 0 : 28,
+		gui.getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);

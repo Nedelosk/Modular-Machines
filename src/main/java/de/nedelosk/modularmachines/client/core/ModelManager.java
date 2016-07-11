@@ -7,6 +7,7 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
 
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -166,9 +167,9 @@ public class ModelManager implements IModelManager {
 	public void registerModuleModels() {
 		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
 			if(container != null && container.getModule() != null){
-				List<IModelHandler> handlers = container.getModule().getInitModelHandlers(container);
+				List<IModelInitHandler> handlers = container.getModule().getInitModelHandlers(container);
 				if(handlers != null && !handlers.isEmpty()){
-					for(IModelHandler handle : handlers){
+					for(IModelInitHandler handle : handlers){
 						if(handle != null){
 							handle.initModels(container);
 						}

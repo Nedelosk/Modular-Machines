@@ -14,7 +14,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 
@@ -40,13 +39,13 @@ public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 			model.render();
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
-			
+
 			World world = entity.getWorld();
 			ItemStack stack = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).getStackInSlot(1);
-			
+
 			if (stack != null && world != null && world.isAirBlock(entity.getPos().up())) {
 				dummyEntityItem.worldObj = world;
-				
+
 				float renderScale = 1.5f;
 
 				GlStateManager.pushMatrix();
@@ -54,12 +53,12 @@ public class TileModularAssemblerRenderer extends TileEntitySpecialRenderer {
 					GlStateManager.translate((float) x + 0.5f, (float) y + 0.65f, (float) z + 0.5f);
 					GlStateManager.scale(renderScale, renderScale, renderScale);
 					dummyEntityItem.setEntityItemStack(stack);
-					
+
 					if (world.getTotalWorldTime() != lastTick) {
 						lastTick = world.getTotalWorldTime();
 						dummyEntityItem.onUpdate();
 					}
-					
+
 					RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
 					rendermanager.doRenderEntity(dummyEntityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
 				}

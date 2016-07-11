@@ -1,13 +1,16 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -16,8 +19,7 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerInit;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.ModuleMachineHeat;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -45,16 +47,42 @@ public class ModuleAlloySmelter extends ModuleMachineHeat implements IModuleColo
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + (getWorkTime(state) > 0 ? "_on" : "_off")));
+		return new ModelHandlerStatus(new ResourceLocation[]{
+				new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
+		});
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler getInitModelHandler(IModuleContainer container) {
-		ResourceLocation[] locations = new ResourceLocation[2];
-		locations[0] = new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_off");
-		locations[1] = new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_on");
-		return new ModelHandlerInit(locations);
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List handlers = new ArrayList<>();
+		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
+				new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
+		}));
+		return handlers;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean needHandlerReload(IModuleStateClient state) {
+		IModelHandler handler = state.getModelHandler();
+		if(handler instanceof ModelHandlerStatus){
+			ModelHandlerStatus status = (ModelHandlerStatus) handler;
+			if(getWorkTime(state) > 0){
+				if(!status.status){
+					status.status = true;
+					return true;
+				}
+			}else{
+				if(status.status){
+					status.status = false;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

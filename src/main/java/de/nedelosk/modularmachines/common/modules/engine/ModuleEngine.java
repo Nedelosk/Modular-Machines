@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
@@ -172,24 +173,19 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 	public EnumModuleSize getSize() {
 		return EnumModuleSize.SMALL;
 	}
-
-	@Override
-	public boolean canWork(IModuleState state) {
-		IModular modular = state.getModular();
-		if(modular.getEnergyHandler() == null){
-			return false;
-		}
-		if (modular.getEnergyHandler().getEnergyStored(null) > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler getInitModelHandler(IModuleContainer container) {
-		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName()));
+	public IModelHandler createModelHandler(IModuleState state) {
+		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + state.getContainer().getMaterial().getName()));
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List<IModelInitHandler> handlers = new ArrayList<>();
+		handlers.add(new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName())));
+		return handlers;
 	}
 
 	@Override

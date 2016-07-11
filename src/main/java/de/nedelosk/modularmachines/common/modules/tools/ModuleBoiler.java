@@ -1,11 +1,13 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
@@ -106,8 +108,16 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler getInitModelHandler(IModuleContainer container) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName()));
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List<IModelInitHandler> handlers = new ArrayList<>();
+		handlers.add(new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName())));
+		return handlers;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModelHandler createModelHandler(IModuleState state) {
+		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + state.getContainer().getMaterial().getName()));
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -3,14 +3,9 @@ package de.nedelosk.modularmachines.client.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.base.Predicate;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
@@ -32,7 +27,6 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.block.model.ModelRotation;
-import net.minecraft.client.renderer.block.model.MultipartBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -61,7 +55,7 @@ public class ModelModular implements IBakedModel {
 		if(modularHandler != null){
 			if(modularHandler.getModular() != null){
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
-				Map<Predicate<IBlockState>, IBakedModel> models = new LinkedHashMap<>();
+				List<IBakedModel> models = new ArrayList<>();
 				List<IModelHandler> modelHandlers = new ArrayList<>();
 
 				if(modularHandler instanceof IModularHandlerTileEntity){
@@ -87,22 +81,26 @@ public class ModelModular implements IBakedModel {
 
 					if(modelHandler != null){
 						modelHandlers.add(modelHandler);
-						if(modelHandler instanceof IModelHandlerAnimated){
-							IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
-							Minecraft mc = Minecraft.getMinecraft();
-							float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
-							Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
-							((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
 
-							IBakedModel model = modelHandler.bakeModel(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
-							if(model != null){
-								models.put(IModelHandler.createTrue(), model);
+						IBakedModel model = modelHandler.getModel();
+						if(modelHandler.needReload() || model == null){
+							if(modelHandler instanceof IModelHandlerAnimated){
+								IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
+								Minecraft mc = Minecraft.getMinecraft();
+								float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
+								Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
+
+								((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
+								modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
+								model = modelHandler.getModel();
+							}else{
+								modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
+								model = modelHandler.getModel();
 							}
-						}else{
-							IBakedModel model = modelHandler.bakeModel(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
-							if(model != null){
-								models.put(IModelHandler.createTrue(), model);
-							}
+							modelHandler.setNeedReload(false);
+						}
+						if(model != null){
+							models.add(model);
 						}
 					}
 				}
@@ -117,13 +115,24 @@ public class ModelModular implements IBakedModel {
 		return missingModel;
 	}
 
-	public static class ModularBaked extends MultipartBakedModel{
+	public static class ModularBaked implements IBakedModel{
 		private final Collection<IBakedModel> models;
 
-		public ModularBaked(Map<Predicate<IBlockState>, IBakedModel> models) {
-			super(models);
+		protected final boolean ambientOcclusion;
+		protected final boolean gui3D;
+		protected final TextureAtlasSprite particleTexture;
+		protected final ItemCameraTransforms cameraTransforms;
+		protected final ItemOverrideList overrides;
 
-			this.models = models.values();
+		public ModularBaked(Collection<IBakedModel> models){
+			IBakedModel ibakedmodel = models.iterator().next();
+
+			this.models = models;
+			this.ambientOcclusion = ibakedmodel.isAmbientOcclusion();
+			this.gui3D = ibakedmodel.isGui3d();
+			this.particleTexture = ibakedmodel.getParticleTexture();
+			this.cameraTransforms = ibakedmodel.getItemCameraTransforms();
+			this.overrides = ibakedmodel.getOverrides();
 		}
 
 		@Override
@@ -135,6 +144,36 @@ public class ModelModular implements IBakedModel {
 				}
 			}
 			return quads;
+		}
+
+		@Override
+		public boolean isAmbientOcclusion(){
+			return this.ambientOcclusion;
+		}
+
+		@Override
+		public boolean isGui3d(){
+			return this.gui3D;
+		}
+
+		@Override
+		public boolean isBuiltInRenderer(){
+			return false;
+		}
+
+		@Override
+		public TextureAtlasSprite getParticleTexture(){
+			return this.particleTexture;
+		}
+
+		@Override
+		public ItemCameraTransforms getItemCameraTransforms(){
+			return this.cameraTransforms;
+		}
+
+		@Override
+		public ItemOverrideList getOverrides(){
+			return this.overrides;
 		}
 
 	}
@@ -164,7 +203,7 @@ public class ModelModular implements IBakedModel {
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = ModularManager.getModularHandler(stack);
-			
+
 			if(modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());
 			}

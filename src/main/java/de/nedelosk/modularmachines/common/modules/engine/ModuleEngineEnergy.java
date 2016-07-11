@@ -26,6 +26,19 @@ public class ModuleEngineEnergy extends ModuleEngine {
 	}
 
 	@Override
+	public boolean canWork(IModuleState state) {
+		IModular modular = state.getModular();
+		if(modular.getEnergyHandler() == null){
+			return false;
+		}
+		if (modular.getEnergyHandler().getEnergyStored(null) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public boolean removeMaterial(IModuleState state, IModuleState<IModuleMachine> machineState) {
 		IEnergyProvider energyHandler = state.getModular().getEnergyHandler();
 		if(energyHandler == null){

@@ -32,11 +32,27 @@ public class ModuleEngineSteam extends ModuleEngine {
 		if(tank == null){
 			return false;
 		}
-		if (tank.drain(new FluidStack(FluidManager.Steam, materialPerTick), false).amount >= materialPerTick) {
-			return tank.drain(new FluidStack(FluidManager.Steam, materialPerTick), true).amount >= materialPerTick;
+		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, materialPerTick), false);
+		if (drained != null && drained.amount >= materialPerTick) {
+			return tank.drainInternal(new FluidStack(FluidManager.Steam, materialPerTick), true).amount >= materialPerTick;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean canWork(IModuleState state) {
+		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		if(tank == null){
+			return false;
+		}
+		if (tank.getTank(0).getFluid() == null) {
+			return false;
+		} 
+		if (tank.getTank(0).getFluid().amount > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
