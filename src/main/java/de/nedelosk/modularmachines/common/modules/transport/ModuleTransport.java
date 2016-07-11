@@ -8,7 +8,8 @@ public class ModuleTransport extends Module implements IModuleTransport {
 
 	protected int transportedAmount;
 
-	public ModuleTransport(int transportedAmount) {
+	public ModuleTransport(String name, int complexity, int transportedAmount) {
+		super(name, complexity);
 		this.transportedAmount = transportedAmount;
 	}
 

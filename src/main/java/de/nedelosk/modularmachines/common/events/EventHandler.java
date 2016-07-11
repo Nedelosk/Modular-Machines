@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleStoraged;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.client.model.ModelModularMachine;
+import de.nedelosk.modularmachines.client.model.ModelModular;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
@@ -63,7 +63,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModularMachine());
-		registry.putObject(new ModelResourceLocation("modularmachines:modular", "inventory"), new ModelModularMachine());
+		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
+		registry.putObject(new ModelResourceLocation("modularmachines:modular", "inventory"), new ModelModular());
 	}
 }

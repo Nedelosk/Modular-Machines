@@ -8,8 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleEnergyCell extends ModuleBattery {
 
-	public ModuleEnergyCell(EnergyStorage defaultStorage) {
-		super(defaultStorage);
+	public ModuleEnergyCell(int complexity, EnergyStorage defaultStorage) {
+		super("energycell", complexity, defaultStorage);
 	}
 
 	@Override

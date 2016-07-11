@@ -7,9 +7,9 @@ import com.google.common.base.Function;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.client.model.TRSRBakedModel;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
-public class ModelHandlerEngine implements IModuleModelHandler<IModuleEngine> {
+public class ModelHandlerEngine implements IModelHandler<IModuleEngine> {
 
 	public final ResourceLocation engine;
 
@@ -27,7 +27,7 @@ public class ModelHandlerEngine implements IModuleModelHandler<IModuleEngine> {
 	}
 
 	@Override
-	public IBakedModel getModel(IModuleState<IModuleEngine> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<IModuleModelHandler> otherHandlers) {
+	public IBakedModel bakeModel(IModuleState<IModuleEngine> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<IModelHandler> otherHandlers) {
 		EnumModuleSize position = null;
 		for(IModuleState<IModuleDrive> drive : state.getModular().getModules(IModuleDrive.class)){
 			if(drive.getIndex() == state.getIndex()){

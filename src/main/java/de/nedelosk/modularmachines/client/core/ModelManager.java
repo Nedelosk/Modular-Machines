@@ -8,8 +8,8 @@ import javax.vecmath.Vector3f;
 import com.google.common.collect.ImmutableMap;
 
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -166,9 +166,9 @@ public class ModelManager implements IModelManager {
 	public void registerModuleModels() {
 		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
 			if(container != null && container.getModule() != null){
-				List<IModuleModelHandler> handlers = container.getModule().getInitModelHandlers(container);
+				List<IModelHandler> handlers = container.getModule().getInitModelHandlers(container);
 				if(handlers != null && !handlers.isEmpty()){
-					for(IModuleModelHandler handle : handlers){
+					for(IModelHandler handle : handlers){
 						if(handle != null){
 							handle.initModels(container);
 						}

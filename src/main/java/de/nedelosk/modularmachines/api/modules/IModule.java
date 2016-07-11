@@ -11,6 +11,7 @@ import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -38,14 +39,14 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	IModuleModelHandler getModelHandler(@Nonnull IModuleState state);
+	IModelHandler createModelHandler(@Nonnull IModuleState state);
 
 	/**
 	 * @return The IModuleModelHandler that is used to init the models.
 	 */
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	List<IModuleModelHandler> getInitModelHandlers(@Nullable IModuleContainer container);
+	List<IModelHandler> getInitModelHandlers(@Nullable IModuleContainer container);
 
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip, IModuleContainer container);

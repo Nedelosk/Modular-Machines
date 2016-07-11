@@ -24,6 +24,9 @@ public interface IModular extends ICapabilityProvider, IModuleStorage {
 
 	IModular copy(IModularHandler handler);
 
+	@Override
+	boolean equals(Object obj);
+
 	void update(boolean isServer);
 
 	boolean updateOnInterval(int tickInterval);

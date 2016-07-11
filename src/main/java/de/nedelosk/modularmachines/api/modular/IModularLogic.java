@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modular;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,7 +13,7 @@ public interface IModularLogic {
 	IModularLogicType getType();
 
 	@SideOnly(Side.CLIENT)
-	IModuleModelHandler getModelHandler();
+	IModelHandler getModelHandler();
 
 	void readFromNBT(NBTTagCompound nbt);
 

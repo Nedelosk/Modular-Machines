@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modular.ModularHelper;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -20,6 +19,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
@@ -55,7 +55,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleModelHandler getModelHandler(IModuleState state) {
+	public IModelHandler createModelHandler(IModuleState state) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + (getBurnTime(state) > 0 ? "_on" : "_off")));
 	}
 

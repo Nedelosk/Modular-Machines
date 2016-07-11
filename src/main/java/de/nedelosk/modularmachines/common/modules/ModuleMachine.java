@@ -10,7 +10,6 @@ import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.ModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
@@ -137,7 +136,7 @@ public abstract class ModuleMachine extends ModuleStoraged implements IModuleMac
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return new ModuleState(modular, this, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
+		return super.createState(modular, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
 	}
 
 	@Override

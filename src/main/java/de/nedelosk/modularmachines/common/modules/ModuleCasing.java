@@ -3,8 +3,8 @@ package de.nedelosk.modularmachines.common.modules;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import net.minecraft.util.ResourceLocation;
@@ -61,7 +61,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
+	public IModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName()));
 	}
 

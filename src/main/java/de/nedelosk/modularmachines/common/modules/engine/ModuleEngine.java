@@ -9,9 +9,9 @@ import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleModelHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.engine.IModuleEngine;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
 import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
@@ -194,7 +194,7 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 	}
 
 	@Override
-	public IModuleModelHandler getInitModelHandler(IModuleContainer container) {
+	public IModelHandler getInitModelHandler(IModuleContainer container) {
 		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName()));
 	}
 
