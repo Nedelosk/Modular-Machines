@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;

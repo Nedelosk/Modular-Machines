@@ -7,15 +7,14 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.items.IItemHandler;
@@ -124,6 +123,9 @@ public class ModularManager {
 		return createdState.getModule().loadStateFromItem(createdState, slotStack);
 	}
 
+	/**
+	 * @return The matching module container for the stack.
+	 */
 	public static IModuleContainer getContainerFromItem(ItemStack stack){
 		if (stack == null) {
 			return null;
@@ -138,16 +140,6 @@ public class ModularManager {
 			}
 		}
 		return null;
-	}
-
-	public static IModularHandler getModularHandler(ICapabilityProvider provider){
-		if(provider == null){
-			return null;
-		}
-		if(provider.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
-			return provider.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-		}
-		return null;	
 	}
 
 	public static void registerAssemblerLogic(IAssemblerLogic logic){

@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleLoader;
+import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import net.minecraft.util.ResourceLocation;
 

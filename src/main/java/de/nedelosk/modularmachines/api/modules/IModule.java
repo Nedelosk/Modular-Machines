@@ -7,11 +7,12 @@ import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -28,10 +29,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 
 	int getComplexity(IModuleState state);
 
-	void updateServer(IModuleState<IModule> state, int tickCount);
-
-	void updateClient(IModuleState<IModule> state, int tickCount);
-
 	/**
 	 * @return A new list of all content handler of the module that are not empty.
 	 */
@@ -43,16 +40,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 
 	@SideOnly(Side.CLIENT)
 	boolean needHandlerReload(IModuleStateClient state);
-
-	/**
-	 * @return The IModuleModelHandler that is used to init the models.
-	 */
-	@Nullable
-	@SideOnly(Side.CLIENT)
-	List<IModelInitHandler> getInitModelHandlers(@Nullable IModuleContainer container);
-
-	@SideOnly(Side.CLIENT)
-	void addTooltip(List<String> tooltip, IModuleContainer container);
 
 	/**
 	 * To transfer items into slots. Only for modules with inventory.
@@ -75,14 +62,21 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	@Nonnull
 	List<IModulePage> createPages(IModuleState state);
 
-	@Nonnull
-	List<IModularLogic> createLogic(IModuleState state);
-
 	/**
-	 * Crate a new state for the module.
+	 * Crate a new module state for the module.
 	 */
 	IModuleState createState(IModular modular, IModuleContainer container);
 
 	boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage);
 
+	/* MODULE CONTAINERS */
+	@Nullable
+	@SideOnly(Side.CLIENT)
+	List<IModelInitHandler> getInitModelHandlers(@Nullable IModuleContainer container);
+
+	/**
+	 * Add a tooltip to a item that are registered for a module container with this module.
+	 */
+	@SideOnly(Side.CLIENT)
+	void addTooltip(List<String> tooltip, IModuleContainer container);
 }

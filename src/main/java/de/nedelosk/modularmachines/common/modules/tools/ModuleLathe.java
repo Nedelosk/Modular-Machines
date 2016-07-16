@@ -5,13 +5,14 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
@@ -32,7 +33,12 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 	// Recipe
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return state.getContentHandler(IModuleInventory.class).getInputItems();
+		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+	}
+
+	@Override
+	public EnumToolType getType(IModuleState state) {
+		return EnumToolType.KINETIC;
 	}
 
 	@Override

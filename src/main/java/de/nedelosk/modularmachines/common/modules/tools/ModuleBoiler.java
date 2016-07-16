@@ -5,12 +5,9 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -18,12 +15,16 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
-import de.nedelosk.modularmachines.common.modules.ModuleMachineHeat;
+import de.nedelosk.modularmachines.common.modules.ModuleMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -36,7 +37,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
+public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 
 	public ModuleBoiler(int complexity, int speed, EnumModuleSize size) {
 		super("boiler", complexity, speed, size);
@@ -85,18 +86,13 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 	}
 
 	@Override
-	protected int getConsumeHeat(IModuleState state) {
-		return 5;
-	}
-
-	@Override
 	public String getRecipeCategory(IModuleState state) {
 		return "Boiler";
 	}
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return state.getContentHandler(IModuleTank.class).getInputItems();
+		return ((IModuleTank)state.getContentHandler(IModuleTank.class)).getInputItems();
 	}
 
 	@Override
@@ -113,7 +109,7 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 		handlers.add(new ModelHandlerDefault(new ResourceLocation("modularmachines:module/boilers/" + container.getMaterial().getName())));
 		return handlers;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
@@ -124,6 +120,11 @@ public class ModuleBoiler extends ModuleMachineHeat implements IModuleColored {
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
 		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName() + "_" + getSize().getName());
+	}
+
+	@Override
+	public EnumToolType getType(IModuleState state) {
+		return EnumToolType.HEAT;
 	}
 
 	public class BoilerPage extends ModulePage<IModuleMachine> {

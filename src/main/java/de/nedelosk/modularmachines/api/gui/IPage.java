@@ -1,11 +1,7 @@
-package de.nedelosk.modularmachines.api.modules.handlers;
+package de.nedelosk.modularmachines.api.gui;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.Button;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
-import de.nedelosk.modularmachines.api.gui.Widget;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,8 +44,6 @@ public interface IPage<T extends IGuiHandler> {
 
 	@SideOnly(Side.CLIENT)
 	int getYSize();
-
-	int getPlayerInvPosition();
 
 	@SideOnly(Side.CLIENT)
 	ResourceLocation getGuiTexture();

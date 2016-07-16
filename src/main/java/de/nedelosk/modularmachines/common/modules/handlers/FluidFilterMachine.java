@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.handlers;
 
-import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraftforge.fluids.FluidStack;
 

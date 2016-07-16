@@ -4,10 +4,10 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachineAdvanced;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
 import de.nedelosk.modularmachines.api.property.PropertyMachineMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
@@ -20,7 +20,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleMachineAdvanced extends ModuleMachineEngine implements IModuleMachineAdvanced {
+public abstract class ModuleMachineAdvanced extends ModuleMachine implements IModuleMachineAdvanced {
 
 	public final PropertyMachineMode MODE;
 

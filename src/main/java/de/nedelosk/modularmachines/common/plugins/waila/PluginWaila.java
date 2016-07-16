@@ -30,7 +30,7 @@ public class PluginWaila extends APlugin {
 	}
 
 	@Override
-	public boolean getConfigOption() {
+	public boolean isActive() {
 		return Config.pluginWaila;
 	}
 }

@@ -11,11 +11,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -51,7 +51,7 @@ public class ModelModular implements IBakedModel {
 	private IBakedModel missingModel;
 
 	private IBakedModel getModel(ICapabilityProvider provider, VertexFormat vertex){
-		IModularHandler modularHandler = ModularManager.getModularHandler(provider);
+		IModularHandler modularHandler = ModularUtils.getModularHandler(provider);
 		if(modularHandler != null){
 			if(modularHandler.getModular() != null){
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
@@ -202,7 +202,7 @@ public class ModelModular implements IBakedModel {
 
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			IModularHandler modularHandler = ModularManager.getModularHandler(stack);
+			IModularHandler modularHandler = ModularUtils.getModularHandler(stack);
 
 			if(modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
+import de.nedelosk.modularmachines.common.plugins.cofh.PluginRF;
 import de.nedelosk.modularmachines.common.plugins.enderio.PluginEnderIO;
+import de.nedelosk.modularmachines.common.plugins.ic2.PluginIC2;
 import de.nedelosk.modularmachines.common.plugins.waila.PluginWaila;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraftforge.fml.common.Loader;
@@ -20,7 +22,7 @@ public class PluginManager {
 
 	public void preInit() {
 		for(APlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.isActive()) {
 				plugin.preInit();
 			}
 		}
@@ -28,7 +30,7 @@ public class PluginManager {
 
 	public void postInit() {
 		for(APlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.isActive()) {
 				plugin.postInit();
 			}
 		}
@@ -36,7 +38,7 @@ public class PluginManager {
 
 	public void init() {
 		for(APlugin plugin : plugins) {
-			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.getConfigOption()) {
+			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.isActive()) {
 				plugin.init();
 				plugin.registerRecipes();
 			}
@@ -44,6 +46,8 @@ public class PluginManager {
 	}
 
 	public void registerPlugins() {
+		registerPlugin(new PluginRF());
+		registerPlugin(new PluginIC2());
 		registerPlugin(new PluginWaila());
 		registerPlugin(new PluginEnderIO());
 		//registerPlugin(new PluginThermalExpansion());

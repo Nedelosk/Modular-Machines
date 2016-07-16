@@ -26,14 +26,15 @@ public class RecipeUtil {
 	}
 
 
-	public static boolean addAlloySmelter(String recipeName, RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] output, int speed, int heat){
+	public static boolean addAlloySmelter(String recipeName, RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] output, int speed, int heat, int heatToRemove){
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("AlloySmelter");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder
 		.set(Recipe.INPUTS, new RecipeItem[]{inputFirst, inputSecond}).
 		set(Recipe.OUTPUTS, output)
 		.set(Recipe.SPEED, speed)
-		.set(Recipe.HEAT, heat);
+		.set(Recipe.HEAT, heat)
+		.set(Recipe.HEATTOREMOVE, heatToRemove);
 		return handler.registerRecipe(builder.build());
 	}
 
@@ -65,14 +66,15 @@ public class RecipeUtil {
 		return registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, output, speedModifier, energy, "SawMill"));
 	}*/
 
-	public static boolean addBoilerRecipe(String recipeName, RecipeItem input, RecipeItem output, int speed, int heat){
+	public static boolean addBoilerRecipe(String recipeName, RecipeItem input, RecipeItem output, int speed, int heat, int heatToRemove){
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Boiler");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder
 		.set(Recipe.INPUTS, new RecipeItem[]{input}).
 		set(Recipe.OUTPUTS, new RecipeItem[]{output})
 		.set(Recipe.SPEED, speed)
-		.set(Recipe.HEAT, heat);
+		.set(Recipe.HEAT, heat)
+		.set(Recipe.HEATTOREMOVE, heatToRemove);
 		return handler.registerRecipe(builder.build());
 	}
 

@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentBuilder;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerBuilder;
 import net.minecraft.item.ItemStack;
 
-public interface IModuleInventoryBuilder<M extends IModule> extends IModuleContentBuilder<ItemStack, M> {
+public interface IModuleInventoryBuilder<M extends IModule> extends IModuleContentHandlerBuilder<ItemStack, M> {
 
 	/**
 	 * @return The index of the new slot.

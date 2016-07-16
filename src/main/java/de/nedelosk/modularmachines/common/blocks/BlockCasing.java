@@ -25,7 +25,7 @@ public class BlockCasing extends BlockForest implements IItemModelRegister, IBlo
 		super(Material.GROUND, TabModularMachines.tabModules);
 		setUnlocalizedName("casing");
 		setHarvestLevel("pickaxe", 1);
-		setDefaultState(blockState.getBaseState().withProperty(TYPE, CasingType.STONE));
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, CasingType.IRON));
 	}
 
 	@Override
@@ -38,9 +38,8 @@ public class BlockCasing extends BlockForest implements IItemModelRegister, IBlo
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		manager.registerItemModel(item, 0, "casing/stone");
-		manager.registerItemModel(item, 1, "casing/iron");
-		manager.registerItemModel(item, 2, "casing/bronze");
+		manager.registerItemModel(item, 0, "casing/iron");
+		manager.registerItemModel(item, 1, "casing/bronze");
 	}
 
 	@Override
@@ -64,7 +63,6 @@ public class BlockCasing extends BlockForest implements IItemModelRegister, IBlo
 	}
 
 	public static enum CasingType implements IStringSerializable{
-		STONE,
 		IRON,
 		BRONZE;
 

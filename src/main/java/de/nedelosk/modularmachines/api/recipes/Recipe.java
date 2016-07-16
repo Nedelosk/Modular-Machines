@@ -22,6 +22,7 @@ public class Recipe implements IRecipe{
 	public static final PropertyString CATEGORY = new PropertyString("category", null);
 	public static final PropertyInteger SPEED = new PropertyInteger("speed", 0);
 	public static final PropertyInteger HEAT = new PropertyInteger("heat", 0);
+	public static final PropertyInteger HEATTOREMOVE = new PropertyInteger("removeHeat", 0);
 
 	protected Map<IProperty, Object> properties;
 

@@ -3,22 +3,20 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleHeatBuffer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleCasing extends Module implements IModuleCasing {
 
-	public static final PropertyInteger HEAT = new PropertyInteger("heat", 0);
 	private final int maxHeat;
 	private final float resistance;
 	private final float hardness;
@@ -60,36 +58,23 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(HEAT);
+	public List<IModuleContentHandler> createContentHandlers(IModuleState state) {
+		List<IModuleContentHandler> handlers = super.createContentHandlers(state);
+		handlers.add(new ModuleHeatBuffer(state, maxHeat, 15F));
+		return handlers;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/casings/" + state.getContainer().getMaterial().getName()));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
 		handlers.add(new ModelHandlerDefault(new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName())));
 		return handlers;
-	}
-
-	@Override
-	public int getHeat(IModuleState state) {
-		return state.get(HEAT);
-	}
-
-	@Override
-	public void addHeat(IModuleState state, int heat) {
-		state.set(HEAT, state.get(HEAT) + heat);
-	}
-
-	@Override
-	public void setHeat(IModuleState state, int heat) {
-		state.set(HEAT, heat);
 	}
 }

@@ -10,15 +10,13 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class AchievementManager {
 
-	public static final Achievement craftCasingStone = new AchievementCrafting("achievement.craftCasingStone", "craftCasingStone", 0, 0,
+	public static final Achievement craftCasingIron = new AchievementCrafting("achievement.craftCasingIron", "craftCasingIron", 0, 0,
 			new ItemStack(BlockManager.blockCasings), null);
-	public static final Achievement craftCasingIron = new AchievementCrafting("achievement.craftCasingIron", "craftCasingIron", 2, 0,
-			new ItemStack(BlockManager.blockCasings, 1, 1), craftCasingStone);
-	public static final Achievement craftCasingBronze = new AchievementCrafting("achievement.craftCasingBronze", "craftCasingBronze", 4, 0,
-			new ItemStack(BlockManager.blockCasings, 1, 2), craftCasingIron);
+	public static final Achievement craftCasingBronze = new AchievementCrafting("achievement.craftCasingBronze", "craftCasingBronze", 2, 0,
+			new ItemStack(BlockManager.blockCasings, 1, 1), craftCasingIron);
 
 	public static void registerPage() {
-		AchievementPage.registerAchievementPage(new AchievementPage("Modular Machine's", craftCasingStone, craftCasingIron, craftCasingBronze));
+		AchievementPage.registerAchievementPage(new AchievementPage("Modular Machine's", craftCasingIron, craftCasingBronze));
 	}
 
 	@SubscribeEvent

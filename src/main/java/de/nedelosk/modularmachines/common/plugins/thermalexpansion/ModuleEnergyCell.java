@@ -1,14 +1,8 @@
 package de.nedelosk.modularmachines.common.plugins.thermalexpansion;
 
-import cofh.api.energy.EnergyStorage;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
-import de.nedelosk.modularmachines.common.modules.storage.ModuleBattery;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+public class ModuleEnergyCell /*extends ModuleBattery*/ {
 
-public class ModuleEnergyCell extends ModuleBattery {
-
-	public ModuleEnergyCell(int complexity, EnergyStorage defaultStorage) {
+	/*public ModuleEnergyCell(int complexity, EnergyStorage defaultStorage) {
 		super("energycell", complexity, defaultStorage);
 	}
 
@@ -26,5 +20,5 @@ public class ModuleEnergyCell extends ModuleBattery {
 			return 0;
 		}
 		return itemStack.getTagCompound().getInteger("Energy");
-	}
+	}*/
 }

@@ -1,6 +1,6 @@
-package de.nedelosk.modularmachines.api.modules.tool;
+package de.nedelosk.modularmachines.api.modules.storaged.tools;
 
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 
 public interface IModuleMachineAdvanced extends IModuleMachine {

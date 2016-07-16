@@ -51,7 +51,7 @@ public class PluginEnderIO extends APlugin {
 	}
 
 	@Override
-	public boolean getConfigOption() {
+	public boolean isActive() {
 		return Config.pluginEnderIO;
 	}
 }

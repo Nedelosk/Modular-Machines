@@ -8,21 +8,21 @@ import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.ModularHelper;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.heater.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
@@ -30,8 +30,6 @@ import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterSteam;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -47,8 +45,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime", 0);
 	public static final PropertyInteger BURNTIMETOTAL = new PropertyInteger("burnTimeTotal", 0);
 
-	public ModuleHeaterSteam(int complexity, int maxHeat, EnumModuleSize size) {
-		super("heater.steam", complexity, maxHeat, size);
+	public ModuleHeaterSteam(int complexity, int maxHeat, int heatModifier, EnumModuleSize size) {
+		super("heater.steam", complexity, maxHeat, heatModifier, size);
 	}
 
 	@Override
@@ -89,6 +87,30 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}
 
 	@Override
+	protected boolean canAddHeat(IModuleState state) {
+		return getBurnTime(state) > 0;
+	}
+
+	@Override
+	protected void afterAddHeat(IModuleState state) {
+		addBurnTime(state, -10);
+	}
+
+	@Override
+	protected boolean updateFuel(IModuleState state) {
+		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		FluidStack input = tank.getTank(0).getFluid();
+		if(input == null){
+			if(tank.drainInternal(80, true) != null){
+				setBurnTime(state, 50);
+				state.set(BURNTIMETOTAL, 50);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		if(state.getModular().updateOnInterval(20)){
 			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
@@ -108,37 +130,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 					}
 				}
 			}
-
-			boolean needUpdate = false;
-			IModuleState<IModuleCasing> casingState = ModularHelper.getCasing(state.getModular());
-			if (getBurnTime(state) > 0) {
-				if(casingState.getModule().getHeat(casingState) < maxHeat){
-					casingState.getModule().addHeat(casingState, 5);
-				}
-				addBurnTime(state, -10);
-				needUpdate = true;
-			} else {
-				List<IModulePage> pages = state.getPages();
-				FluidStack input = tank.getTank(0).getFluid();
-				if(input == null){
-					if(casingState.getModule().getHeat(casingState) > 0){
-						casingState.getModule().addHeat(casingState, -1);
-						needUpdate = true;
-					}
-				}else{
-					if(tank.drainInternal(80, true) != null){
-						setBurnTime(state, 50);
-						state.set(BURNTIMETOTAL, 50);
-						needUpdate = true;
-					}
-				}
-			}
-			if(needUpdate){
-				IModularHandler handler = state.getModular().getHandler();
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(handler, state));
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(handler, casingState));
-			}
 		}
+		super.updateServer(state, tickCount);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -188,9 +181,9 @@ public class ModuleHeaterSteam extends ModuleHeater {
 		@Override
 		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 			super.drawForeground(fontRenderer, mouseX, mouseY);
+			IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(modular);
 
-			IModuleState<IModuleCasing> casingState = state.getModular().getModules(IModuleCasing.class).get(0);
-			String heatName = Translator.translateToLocalFormatted("module.heater.heat", casingState.getModule().getHeat(casingState));
+			String heatName = Translator.translateToLocalFormatted("module.heater.heat", casingState.getModule().getHeatSource(casingState).getHeatStored());
 			fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2),45, Color.gray.getRGB());
 		}
 

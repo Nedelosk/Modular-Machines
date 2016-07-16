@@ -18,7 +18,7 @@ public abstract class APlugin {
 		return null;
 	}
 
-	public boolean getConfigOption() {
+	public boolean isActive() {
 		return true;
 	}
 }

@@ -1,15 +1,11 @@
 package de.nedelosk.modularmachines.api.modular;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.Nonnull;
-
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -47,9 +43,6 @@ public interface IModular extends ICapabilityProvider, IModuleStorage {
 
 	NBTTagCompound writeToNBT(NBTTagCompound nbt);
 
-	@Nonnull
-	Map<IModularLogicType, List<IModularLogic>> getLogics();
-
 	/**
 	 * @return All modules as ModuleStack
 	 */
@@ -57,9 +50,7 @@ public interface IModular extends ICapabilityProvider, IModuleStorage {
 
 	IFluidHandler getFluidHandler();
 
-	<E extends IEnergyProvider & IEnergyReceiver> E getEnergyHandler();
-
-	<E extends IEnergyProvider & IEnergyReceiver> void setEnergyHandler(E energyHandler);
+	IEnergyInterface getEnergyInterface();
 
 	@SideOnly(Side.CLIENT)
 	GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory);

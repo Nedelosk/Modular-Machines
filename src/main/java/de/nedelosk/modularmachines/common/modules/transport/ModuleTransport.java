@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.transport;
 
-import de.nedelosk.modularmachines.api.modules.EnumTransportMode;
-import de.nedelosk.modularmachines.api.modules.IModuleTransport;
+import de.nedelosk.modularmachines.api.modules.transports.EnumTransportMode;
+import de.nedelosk.modularmachines.api.modules.transports.IModuleTransport;
 import de.nedelosk.modularmachines.common.modules.Module;
 
 public class ModuleTransport extends Module implements IModuleTransport {

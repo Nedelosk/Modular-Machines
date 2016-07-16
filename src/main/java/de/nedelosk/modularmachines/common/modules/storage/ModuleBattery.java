@@ -3,19 +3,17 @@ package de.nedelosk.modularmachines.common.modules.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import cofh.api.energy.EnergyStorage;
+import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
-import de.nedelosk.modularmachines.api.property.PropertyEnergyStorage;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
-import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import net.minecraft.item.ItemStack;
@@ -24,66 +22,45 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleBattery extends Module implements IModuleBattery {
 
-	public static PropertyEnergyStorage storage = new PropertyEnergyStorage("storage", null);
-
-	protected final EnergyStorage defaultStorage;
-
-	public ModuleBattery(String name, int complexity, EnergyStorage defaultStorage) {
+	public ModuleBattery(String name, int complexity) {
 		super(name, complexity);
-		this.defaultStorage = defaultStorage;
 	}
 
 	@Override
-	public EnergyStorage getStorage(IModuleState state) {
-		return state.get(storage);
-	}
-
-	@Override
-	public void setStorage(IModuleState state, EnergyStorage storage) {
-		state.set(ModuleBattery.storage, storage);
-	}
-
-	@Override
-	public EnergyStorage getDefaultStorage(IModuleState state) {
-		return defaultStorage;
-	}
-
-	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(storage);
+	public List<IModuleContentHandler> createContentHandlers(IModuleState state) {
+		List<IModuleContentHandler> handlers = new ArrayList<>();
+		handlers.add(getEnergyInterface(state));
+		return super.createContentHandlers(state);
 	}
 
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
-		int energy = getStorageEnergy(this, stack.copy());
-		EnergyStorage storage = new EnergyStorage(getDefaultStorage(state).getMaxEnergyStored(), getDefaultStorage(state).getMaxReceive(),
-				getDefaultStorage(state).getMaxExtract());
-		storage.setEnergyStored(energy);
-		setStorage(state, storage);
-		state.getModular().setEnergyHandler(new EnergyHandler(state.getModular()));
+		((IModuleEnergyInterface)state.getContentHandler(IModuleEnergyInterface.class)).receiveEnergy(getEnergyType(state), getStorageEnergy(state, stack), false);
 		return state;
 	}
 
 	@Override
 	public ItemStack getDropItem(IModuleState state) {
 		ItemStack stack = super.getDropItem(state);
-		if (state.getModular().getEnergyHandler() != null) {
-			setStorageEnergy(this, state.getModular().getEnergyHandler().getEnergyStored(null), stack);
-		}
+		setStorageEnergy(state, ((IModuleEnergyInterface)state.getContentHandler(IModuleEnergyInterface.class)).getEnergyStored(getEnergyType(state)), stack);
 		return stack;
 	}
+
+	public abstract IModuleEnergyInterface getEnergyInterface(IModuleState state);
+
+	public abstract IEnergyType getEnergyType(IModuleState state);
 
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new BatteryPage("Basic", "battery", state));
+		pages.add(new BatteryPage("Basic", state));
 		return pages;
 	}
 
-	public static class BatteryPage extends ModulePage<IModuleBattery> {
+	public class BatteryPage extends ModulePage<IModuleBattery> {
 
-		public BatteryPage(String pageID, String title, IModuleState<IModuleBattery> state) {
-			super(pageID, title, state);
+		public BatteryPage(String pageID, IModuleState<IModuleBattery> state) {
+			super(pageID, "battery", state);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -92,7 +69,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 			super.updateGui(x, y);
 			for(Widget widget : (ArrayList<Widget>) gui.getWidgetManager().getWidgets()) {
 				if (widget instanceof WidgetEnergyField) {
-					((WidgetEnergyField) widget).storage = state.getModule().getStorage(state);
+					((WidgetEnergyField) widget).energyInterface = state.getContentHandler(IModuleEnergyInterface.class);
 				}
 			}
 		}
@@ -105,7 +82,7 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 		@Override
 		public void addWidgets(List widgets) {
 			super.addWidgets(widgets);
-			widgets.add(new WidgetEnergyField(state.getModule().getStorage(state), 55, 15));
+			widgets.add(new WidgetEnergyField(state.getContentHandler(IModuleEnergyInterface.class), getEnergyType(state), 55, 15));
 		}
 	}
 }

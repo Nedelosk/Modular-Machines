@@ -5,22 +5,23 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
-import de.nedelosk.modularmachines.common.modules.ModuleMachineEngine;
+import de.nedelosk.modularmachines.common.modules.ModuleMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -28,7 +29,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePulverizer extends ModuleMachineEngine implements IModuleColored{
+public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 
 	public ModulePulverizer(int complexity, int speed, EnumModuleSize size) {
 		super("pulverizer", complexity, speed, size);
@@ -57,6 +58,11 @@ public class ModulePulverizer extends ModuleMachineEngine implements IModuleColo
 				new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
 		}));
 		return handlers;
+	}
+
+	@Override
+	public EnumToolType getType(IModuleState state) {
+		return EnumToolType.KINETIC;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -99,7 +105,7 @@ public class ModulePulverizer extends ModuleMachineEngine implements IModuleColo
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return state.getContentHandler(IModuleInventory.class).getInputItems();
+		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
 	}
 
 	public static class PulverizerPage extends ModulePage<IModuleMachine> {

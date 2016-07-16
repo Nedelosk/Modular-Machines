@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules.integration;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 
 public interface IWailaProvider {

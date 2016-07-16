@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleLoader;
+import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleLoader extends IForgeRegistryEntry.Impl<IModuleLoader> implements IModuleLoader {

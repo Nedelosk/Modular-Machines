@@ -65,7 +65,7 @@ task sourcesJar(type: Jar) {
 task apiJar(type: Jar) {
 	from sourceSets.main.allSource
 	from sourceSets.main.output
-	include 'de.modularmachines/api/**'
+	include 'de/nedelosk/modularmachines/api/**'
 	classifier = 'api'
 }
 

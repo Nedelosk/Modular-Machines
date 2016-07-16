@@ -133,10 +133,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getEnergyHandler() == null) {
+		if (modular.getEnergyInterface() == null) {
 			return 0;
 		}
-		return modular.getEnergyHandler().receiveEnergy(from, maxReceive, simulate);
+		return modular.getEnergyInterface().receiveEnergy(from, maxReceive, simulate);
 	}
 
 	@Override
@@ -144,10 +144,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getEnergyHandler() == null) {
+		if (modular.getEnergyInterface() == null) {
 			return 0;
 		}
-		return modular.getEnergyHandler().extractEnergy(from, maxExtract, simulate);
+		return modular.getEnergyInterface().extractEnergy(from, maxExtract, simulate);
 	}
 
 	@Override
@@ -155,10 +155,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getEnergyHandler() == null) {
+		if (modular.getEnergyInterface() == null) {
 			return 0;
 		}
-		return modular.getEnergyHandler().getEnergyStored(from);
+		return modular.getEnergyInterface().getEnergyStored(from);
 	}
 
 	@Override
@@ -166,10 +166,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (modular == null) {
 			return 0;
 		}
-		if (modular.getEnergyHandler() == null) {
+		if (modular.getEnergyInterface() == null) {
 			return 0;
 		}
-		return modular.getEnergyHandler().getMaxEnergyStored(from);
+		return modular.getEnergyInterface().getMaxEnergyStored(from);
 	}
 
 	@Override
@@ -177,10 +177,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (modular == null) {
 			return false;
 		}
-		if (modular.getEnergyHandler() == null) {
+		if (modular.getEnergyInterface() == null) {
 			return false;
 		}
-		return modular.getEnergyHandler().canConnectEnergy(from);
+		return modular.getEnergyInterface().canConnectEnergy(from);
 	}
 
 	@Override

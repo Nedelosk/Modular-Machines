@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.api.modules;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 

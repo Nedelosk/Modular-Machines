@@ -1,8 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public interface IModuleContentBuilder<C, M extends IModule> extends IModuleBuilder<M> {
+public interface IModuleContentHandlerBuilder<C, M extends IModule> {
 
 	/**
 	 * Add new insert filters.
@@ -19,6 +20,13 @@ public interface IModuleContentBuilder<C, M extends IModule> extends IModuleBuil
 	 */
 	boolean isEmpty();
 
-	@Override
-	IModuleContentHandler<C, M> build();
+	/**
+	 * Set the state of the module of the handler.
+	 */
+	void setModuleState(IModuleState<M> module);
+
+	/**
+	 * Build a handler from the builder.
+	 */
+	IModuleContentHandlerAdvanced<C, M> build();
 }

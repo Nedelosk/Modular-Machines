@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -9,15 +8,10 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularLogic;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.IModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.ModuleState;
-import de.nedelosk.modularmachines.api.modules.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -25,6 +19,10 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.state.ModuleState;
+import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
 import net.minecraft.entity.player.EntityPlayer;
@@ -115,15 +113,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public void updateServer(IModuleState state, int tickCount) {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateClient(IModuleState state, int tickCount) {
-	}
-
-	@Override
 	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
 		return false;
 	}
@@ -131,9 +120,14 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
-			return new ModuleStateClient(modular, this, container);
+			return createClientState(modular, container);
 		}
 		return new ModuleState(modular, this, container);
+	}
+
+	@SideOnly(Side.CLIENT)
+	protected IModuleState createClientState(IModular modular, IModuleContainer container){
+		return new ModuleStateClient(modular, this, container);
 	}
 
 	@Override
@@ -144,11 +138,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		return new ArrayList<>();
-	}
-
-	@Override
-	public List<IModularLogic> createLogic(IModuleState state) {
-		return Collections.emptyList();
 	}
 
 	@Override

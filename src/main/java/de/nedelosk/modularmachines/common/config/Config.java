@@ -60,6 +60,7 @@ public class Config {
 
 	public static final ConfigGroup oreGen = new ConfigGroup("Ore Generation", "oreGen");
 	public static final ConfigGroup plugins = new ConfigGroup("Plugins", "plugins", true);
+	public static final ConfigGroup modules = new ConfigGroup("Modules", "modules", true);
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {
@@ -108,6 +109,8 @@ public class Config {
 		// Ores
 		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true},
 				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
+
+		engineKineticOutput = config.getFloat("Engine Kinetic Output", modules.name, 1.0F, 0.1F, 2.0F, " The kinetic output of the engine.");
 	}
 
 	public static void save() {
@@ -118,6 +121,7 @@ public class Config {
 	public static boolean pluginEnderIO;
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginWaila;
+	public static float engineKineticOutput = 1.0F;
 	/* FOREST DAY */
 	public static boolean[] generateOre;
 }

@@ -4,24 +4,25 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleColored;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.ModuleMachineEngine;
+import de.nedelosk.modularmachines.common.modules.ModuleMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored{
+public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 
 	public ModuleSawMill(int complexity, int speed, EnumModuleSize size) {
 		super("sawmill", complexity, speed, size);
@@ -29,7 +30,7 @@ public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return state.getContentHandler(IModuleInventory.class).getInputItems();
+		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
 	}
 
 	@Override
@@ -47,6 +48,11 @@ public class ModuleSawMill extends ModuleMachineEngine implements IModuleColored
 		List<IModulePage> pages = super.createPages(state);
 		pages.add(new SawMillPage("Basic", state));
 		return pages;
+	}
+
+	@Override
+	public EnumToolType getType(IModuleState state) {
+		return EnumToolType.KINETIC;
 	}
 
 	public static class SawMillPage extends ModulePage<IModuleMachine> {

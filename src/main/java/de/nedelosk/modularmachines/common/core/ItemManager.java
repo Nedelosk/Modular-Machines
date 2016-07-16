@@ -26,7 +26,8 @@ public class ItemManager {
 	public static ItemComponent itemCompScrews;
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemDrawer;
-	public static Item itemEngine;
+	public static Item itemEngineRF;
+	public static Item itemEngineEU;
 	public static Item itemEngineSteam;
 	public static Item itemModuleCore;
 	public static Item itemModules;
@@ -53,7 +54,6 @@ public class ItemManager {
 		itemCompGears = register(new ItemComponent("gears"));
 		itemCompSawBlades = register(new ItemComponent("saw_blades"));
 		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick" }));
-		itemEngine = register(new ItemModuleMeta("engine", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemModules = register(new ItemModule());

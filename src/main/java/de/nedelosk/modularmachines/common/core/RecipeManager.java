@@ -1,11 +1,13 @@
 package de.nedelosk.modularmachines.common.core;
 
+import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
+import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerHeat;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
@@ -53,22 +55,48 @@ public class RecipeManager {
 				"PSP",
 				"BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
+		//Drawers
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 0), 
+				"BIB",
+				"BIB",
+				"BIB", 'I', "ingotBrick", 'B', new ItemStack(Blocks.BRICK_BLOCK));
+
+		//Engines
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam), 
+				"GHP",
+				"BII",
+				"GHP", 'I', "ingotIron", 'H', "blockIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON, 'F', Blocks.FURNACE);
+
 		//Heaters
-		/*addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterIronLarge.getRegistryName(), EnumMaterials.STONE), 
-				"SPS",
-				"RFR",
-				"SPS", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone", 'S', "stone");
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"GPR",
+				"FCF",
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBronzeLarge.getRegistryName(), EnumMetalMaterials.BRONZE), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON));
 
 		//Alloy Smleters
-		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 
-				"RPR",
-				"FDF",
-				"RPR", 'R', "rodStone", 'P', "plateStone", 'F', Blocks.FURNACE, 'D', "dustRedstone");
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"PWP",
+				"FCF",
+				"PWP", 'W', "wireIron", 'F', Blocks.FURNACE, 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterBronze.getRegistryName(), EnumMetalMaterials.BRONZE), 
+				"PPP",
+				"COC",
+				"PPP", 'O', ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
-		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMaterials.IRON), 
+		//Pulverizer
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.modulePulverizerIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"RWF",
+				"PCP",
+				"FWR", 'W', "wireIron", 'R', "rodIron", 'F', Items.FLINT, 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.modulePulverizerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), 
 				"PRP",
-				"ACA",
-				"PRP", 'R', "rodIron", 'A', ItemModule.getItem(ModuleManager.moduleAlloySmelterStone.getRegistryName(), EnumMaterials.STONE), 'P', "plateIron", 'F', Blocks.FURNACE, 'D', "dustRedstone", 'C', new ItemStack(ItemManager.itemModuleCore));*/
+				"COC",
+				"PRP", 'O', ItemModule.getItem(ModuleManager.modulePulverizerIron.getRegistryName(), EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'R', "rodBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 	}
 
 	private static void addNormalRecipes() {
@@ -77,9 +105,8 @@ public class RecipeManager {
 
 	private static void addMachineRecipes() {
 		//Casings
-		addShapedRecipe(new ItemStack(BlockManager.blockCasings), "+++", "+ +", "---", '+', Blocks.STONE, '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 1), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 2), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
 	}
 
 	private static void addMetalRecipes() {

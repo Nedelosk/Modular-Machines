@@ -2,30 +2,27 @@ package de.nedelosk.modularmachines.common.modular;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
+import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularLogic;
-import de.nedelosk.modularmachines.api.modular.IModularLogicType;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
+import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
@@ -61,14 +58,12 @@ public class Modular implements IModular {
 	protected EnergyHandler energyHandler;
 	protected FluidHandlerConcatenate fluidHandler;
 	protected ItemHandler itemHandler;
-	protected Map<IModularLogicType, List<IModularLogic>> logics;
 
 	// Ticks
 	private static final Random rand = new Random();
 	private int tickCount = rand.nextInt(256);
 
 	public Modular() {
-		logics = new HashMap<>();
 	}
 
 	public Modular(NBTTagCompound nbt, IModularHandler handler) {
@@ -86,32 +81,11 @@ public class Modular implements IModular {
 	public void onAssembleModular() {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
+		energyHandler = new EnergyHandler(getInterfaces());
 		moduleStates = Collections.unmodifiableList(moduleStates);
 		if(currentModule == null && getFirstGui() != null){
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
-		}
-
-		logics.clear();
-
-		for(IModuleState moduleState : moduleStates){
-			if(moduleState != null){
-				for(IModularLogic logic : moduleState.getModule().createLogic(moduleState)){
-					if(logic != null){
-						int typeSize = 0;
-						List<IModularLogic> logics =  this.logics.get(logic.getType());
-						if(logics != null){
-							typeSize = logics.size();
-						}
-						if(logic.getType().getMaxLogics() >= typeSize){
-							if(this.logics.get(logic.getType()) == null){
-								this.logics.put(logic.getType(), new ArrayList<>());
-							}
-							this.logics.get(logic.getType()).add(logic);
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -128,12 +102,12 @@ public class Modular implements IModular {
 	public void update(boolean isServer) {
 		tickCount++;
 		for(IModuleState moduleState : moduleStates) {
-			if (moduleState != null) {
+			if (moduleState != null && moduleState.getModule() instanceof IModuleTickable) {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
 				if (isServer) {
-					moduleState.getModule().updateServer(moduleState, tickCount);
+					((IModuleTickable)moduleState.getModule()).updateServer(moduleState, tickCount);
 				} else {
-					moduleState.getModule().updateClient(moduleState, tickCount);
+					((IModuleTickable)moduleState.getModule()).updateClient(moduleState, tickCount);
 				}
 			}
 		}
@@ -179,9 +153,6 @@ public class Modular implements IModular {
 				this.currentPage = currentPage;
 			}
 		}
-		if (nbt.getBoolean("EH")) {
-			energyHandler = new EnergyHandler(this);
-		}
 	}
 
 	@Override
@@ -201,11 +172,6 @@ public class Modular implements IModular {
 			if (currentPage != null) {
 				nbt.setString("CurrentPage", currentPage.getPageID());
 			}
-		}
-		if (energyHandler != null) {
-			nbt.setBoolean("EH", true);
-		} else {
-			nbt.setBoolean("EH", false);
 		}
 		return nbt;
 	}
@@ -369,23 +335,13 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public EnergyHandler getEnergyHandler() {
+	public IEnergyInterface getEnergyInterface() {
 		return energyHandler;
 	}
 
 	@Override
 	public IFluidHandler getFluidHandler() {
 		return fluidHandler;
-	}
-
-	@Override
-	public <E extends IEnergyProvider & IEnergyReceiver> void setEnergyHandler(E energyHandler) {
-		this.energyHandler = (EnergyHandler) energyHandler;
-	}
-
-	@Override
-	public Map<IModularLogicType, List<IModularLogic>> getLogics() {
-		return logics;
 	}
 
 	protected List<IItemHandler> getInventorys(){
@@ -410,6 +366,17 @@ public class Modular implements IModular {
 		return fluidHandlers;
 	}
 
+	protected List<IEnergyInterface> getInterfaces(){
+		List<IEnergyInterface> handlers = Lists.newArrayList();
+		for(IModuleState state : moduleStates){
+			IModuleContentHandler rnergyInterface = state.getContentHandler(IModuleEnergyInterface.class);
+			if(rnergyInterface instanceof IModuleEnergyInterface){
+				handlers.add((IModuleEnergyInterface) rnergyInterface);
+			}
+		}
+		return handlers;
+	}
+
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
@@ -417,11 +384,20 @@ public class Modular implements IModular {
 		}else if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
 		}
+		if(energyHandler != null){
+
+		}
 		return null;
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+			return true;
+		}
+		if(energyHandler != null){
+
+		}
 		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
 

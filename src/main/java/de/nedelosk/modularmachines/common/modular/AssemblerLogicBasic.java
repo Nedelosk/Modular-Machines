@@ -7,14 +7,14 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerSlot;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModuleStorage;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleController;
-import de.nedelosk.modularmachines.api.modules.IModuleDrawer;
-import de.nedelosk.modularmachines.api.modules.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tool.IModuleTool;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleDrawer;
+import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleDrive;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleTool;
 import net.minecraft.item.ItemStack;
 
 public class AssemblerLogicBasic implements IAssemblerLogic {
