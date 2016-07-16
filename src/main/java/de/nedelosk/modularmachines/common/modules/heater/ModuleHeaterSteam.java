@@ -53,6 +53,11 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(BURNTIME).register(BURNTIMETOTAL);
 	}
+	
+	@Override
+	public boolean isWorking(IModuleState state) {
+		return getBurnTime(state) > 0;
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override

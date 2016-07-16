@@ -12,21 +12,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class ModularUtils {
 
-	/**
-	 * @return All drives from a modular that have the energy type.
-	 */
-	public static List<IModuleState<IModuleDrive>> getDrivesForEnergy(IModular modular, IEnergyType energyType){
-		List<IModuleState<IModuleDrive>> drivesFroType = new ArrayList<>(); 
-		for(IModuleState<IModuleDrive> state : modular.getModules(IModuleDrive.class)){
-			if(state != null && state.getModule() != null){
-				if(state.getModule().getEnergyType(state) == energyType){
-					drivesFroType.add(state);
-				}
-			}
-		}
-		return drivesFroType;
-	}
-
 	public static IModularHandler getModularHandler(ICapabilityProvider provider){
 		if(provider == null){
 			return null;

@@ -1,8 +1,8 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.boiler;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.IGuiHelper;

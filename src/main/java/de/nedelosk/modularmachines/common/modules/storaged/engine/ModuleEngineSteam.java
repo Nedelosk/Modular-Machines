@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.engine;
+package de.nedelosk.modularmachines.common.modules.storaged.engine;
 
 import java.util.List;
 

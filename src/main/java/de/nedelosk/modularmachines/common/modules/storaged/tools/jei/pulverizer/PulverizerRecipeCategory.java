@@ -1,10 +1,10 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer;
 
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.IGuiHelper;

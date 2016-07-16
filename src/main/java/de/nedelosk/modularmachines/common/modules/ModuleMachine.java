@@ -34,6 +34,7 @@ import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import de.nedelosk.modularmachines.common.modules.storaged.ModuleStoraged;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.entity.player.EntityPlayer;

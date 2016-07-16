@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools;
+package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.engine;
+package de.nedelosk.modularmachines.common.modules.storaged.engine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.ModuleStoraged;
+import de.nedelosk.modularmachines.common.modules.storaged.ModuleStoraged;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.util.ResourceLocation;

@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
-import de.nedelosk.modularmachines.common.modules.ModuleStoraged;
+import de.nedelosk.modularmachines.common.modules.storaged.ModuleStoraged;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraftforge.fml.relauncher.Side;

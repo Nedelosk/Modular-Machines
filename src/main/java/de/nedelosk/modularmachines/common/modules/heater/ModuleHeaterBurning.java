@@ -139,6 +139,11 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	public int getColor() {
 		return 0x6E593C;
 	}
+	
+	@Override
+	public boolean isWorking(IModuleState state) {
+		return getBurnTime(state) > 0;
+	}
 
 	public class HeaterBurningPage extends ModulePage<IModuleHeaterBurning>{
 
@@ -181,6 +186,5 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 			modularSlots.add(new SlotModule(state, 0));
 		}
-
 	}
 }

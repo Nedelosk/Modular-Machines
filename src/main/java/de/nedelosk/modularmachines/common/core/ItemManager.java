@@ -28,7 +28,7 @@ public class ItemManager {
 	public static Item itemDrawer;
 	public static Item itemEngineRF;
 	public static Item itemEngineEU;
-	public static Item itemEngineSteam;
+	public static Item itemTurbineSteam;
 	public static Item itemModuleCore;
 	public static Item itemModules;
 	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
@@ -54,7 +54,7 @@ public class ItemManager {
 		itemCompGears = register(new ItemComponent("gears"));
 		itemCompSawBlades = register(new ItemComponent("saw_blades"));
 		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick" }));
-		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[] { "iron", "bronze", "steel", "magmarium" }));
+		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemModules = register(new ItemModule());
 		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");

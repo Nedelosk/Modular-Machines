@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.recipe;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.recipe;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.jei;
 
 import java.util.List;
 
@@ -9,12 +9,12 @@ import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModuleManager;
 import de.nedelosk.modularmachines.common.items.ItemModule;
-import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
-import de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
-import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeCategory;
-import de.nedelosk.modularmachines.common.modules.tools.jei.boiler.BoilerRecipeWrapper;
-import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeCategory;
-import de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer.PulverizerRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer.PulverizerRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer.PulverizerRecipeWrapper;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeHandler;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.BlankModPlugin;

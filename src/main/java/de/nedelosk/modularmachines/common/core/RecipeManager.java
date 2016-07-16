@@ -8,8 +8,8 @@ import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemModule;
-import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerDefault;
-import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerHeat;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerDefault;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerHeat;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -62,10 +62,16 @@ public class RecipeManager {
 				"BIB", 'I', "ingotBrick", 'B', new ItemStack(Blocks.BRICK_BLOCK));
 
 		//Engines
-		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam), 
+		/*
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineRF), 
 				"GHP",
 				"BII",
-				"GHP", 'I', "ingotIron", 'H', "blockIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON, 'F', Blocks.FURNACE);
+				"GHP", 'I', "ingotIron", 'H', "blockIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON);*/
+		
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemTurbineSteam), 
+				"SPI",
+				"PBP",
+				"IPS", 'I', "ingotIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
 
 		//Heaters
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON), 
@@ -312,15 +318,15 @@ public class RecipeManager {
 
 	private static void registerAlloySmelterRecipes() {
 		/* BRONZE */
-		RecipeUtil.addAlloySmelter("DustDustToBronze", new RecipeItem(new OreStack("dustTin", 1)), new RecipeItem(new OreStack("dustCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 4, 10)) }, 9, 125);
-		RecipeUtil.addAlloySmelter("DustIngotToBronze", new RecipeItem(new OreStack("ingotTin", 1)), new RecipeItem(new OreStack("ingotCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 4, 10)) }, 9, 125);
+		RecipeUtil.addAlloySmelter("DustDustToBronze", new RecipeItem(new OreStack("dustTin", 1)), new RecipeItem(new OreStack("dustCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 4, 10)) }, 9, 125, 35);
+		RecipeUtil.addAlloySmelter("DustIngotToBronze", new RecipeItem(new OreStack("ingotTin", 1)), new RecipeItem(new OreStack("ingotCopper", 3)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 4, 10)) }, 9, 125, 35);
 		/* INVAR */
-		RecipeUtil.addAlloySmelter("DustDustToInvar", new RecipeItem(new OreStack("dustIron", 2)), new RecipeItem(new OreStack("dustNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 175);
-		RecipeUtil.addAlloySmelter("DustIngotToInvar", new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 175);
+		RecipeUtil.addAlloySmelter("DustDustToInvar", new RecipeItem(new OreStack("dustIron", 2)), new RecipeItem(new OreStack("dustNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 175, 35);
+		RecipeUtil.addAlloySmelter("DustIngotToInvar", new RecipeItem(new OreStack("ingotIron", 2)), new RecipeItem(new OreStack("ingotNickel", 1)), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemIngots, 3, 11)) }, 9, 175, 35);
 	}
 
 	private static void registerBoilerRecipes(){
-		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 50)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), 80)), 1, 150);
+		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 50)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), 80)), 1, 150, 25);
 	}
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

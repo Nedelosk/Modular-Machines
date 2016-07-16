@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.pulverizer;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;

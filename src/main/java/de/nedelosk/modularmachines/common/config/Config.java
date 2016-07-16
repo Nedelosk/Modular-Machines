@@ -111,6 +111,7 @@ public class Config {
 				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
 
 		engineKineticOutput = config.getFloat("Engine Kinetic Output", modules.name, 1.0F, 0.1F, 2.0F, " The kinetic output of the engine.");
+		turbineKineticOutput = config.getFloat("Turbine Kinetic Output", modules.name, 1.0F, 0.1F, 2.0F, " The kinetic output of the turbine.");
 	}
 
 	public static void save() {
@@ -122,6 +123,7 @@ public class Config {
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginWaila;
 	public static float engineKineticOutput = 1.0F;
+	public static float turbineKineticOutput = 1.0F;
 	/* FOREST DAY */
 	public static boolean[] generateOre;
 }

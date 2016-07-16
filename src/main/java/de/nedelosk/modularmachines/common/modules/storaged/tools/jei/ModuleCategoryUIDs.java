@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei;
+package de.nedelosk.modularmachines.common.modules.storaged.tools.jei;
 
 
 public class ModuleCategoryUIDs {

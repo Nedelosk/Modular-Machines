@@ -129,61 +129,6 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	}
 
 	@Override
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyInterface() == null) {
-			return 0;
-		}
-		return modular.getEnergyInterface().receiveEnergy(from, maxReceive, simulate);
-	}
-
-	@Override
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyInterface() == null) {
-			return 0;
-		}
-		return modular.getEnergyInterface().extractEnergy(from, maxExtract, simulate);
-	}
-
-	@Override
-	public int getEnergyStored(EnumFacing from) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyInterface() == null) {
-			return 0;
-		}
-		return modular.getEnergyInterface().getEnergyStored(from);
-	}
-
-	@Override
-	public int getMaxEnergyStored(EnumFacing from) {
-		if (modular == null) {
-			return 0;
-		}
-		if (modular.getEnergyInterface() == null) {
-			return 0;
-		}
-		return modular.getEnergyInterface().getMaxEnergyStored(from);
-	}
-
-	@Override
-	public boolean canConnectEnergy(EnumFacing from) {
-		if (modular == null) {
-			return false;
-		}
-		if (modular.getEnergyInterface() == null) {
-			return false;
-		}
-		return modular.getEnergyInterface().canConnectEnergy(from);
-	}
-
-	@Override
 	public GameProfile getOwner() {
 		return owner;
 	}

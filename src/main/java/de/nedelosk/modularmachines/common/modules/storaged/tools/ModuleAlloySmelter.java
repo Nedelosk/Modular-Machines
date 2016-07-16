@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools;
+package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +29,33 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePulverizer extends ModuleMachine implements IModuleColored{
+public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored {
 
-	public ModulePulverizer(int complexity, int speed, EnumModuleSize size) {
-		super("pulverizer", complexity, speed, size);
+	public ModuleAlloySmelter(int complexity, int speed, EnumModuleSize size) {
+		super("alloysmelter", complexity,speed, size);
 	}
 
 	@Override
 	public String getRecipeCategory(IModuleState state) {
-		return "Pulverizer";
+		return "AlloySmelter";
+	}
+
+	@Override
+	public RecipeItem[] getInputs(IModuleState state) {
+		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+	}
+
+	@Override
+	public EnumToolType getType(IModuleState state) {
+		return EnumToolType.HEAT;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		return new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
+				new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/alloysmelter/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
 		});
 	}
 
@@ -54,15 +64,10 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List handlers = new ArrayList<>();
 		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
+				new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/alloysmelter/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
 		}));
 		return handlers;
-	}
-
-	@Override
-	public EnumToolType getType(IModuleState state) {
-		return EnumToolType.KINETIC;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -87,36 +92,22 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 	}
 
 	@Override
-	public int getColor() {
-		return 0x88A7D1;
-	}
-
-	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new PulverizerPage("Basic", state));
+		pages.add(new AlloySmelterPage("Basic", state));
 		return pages;
 	}
 
-	/*@Override
-	public IJEIPage createNEIPage(IModuleJEI module) {
-		return new PulverizerNEIPage(module);
-	}*/
+	public static class AlloySmelterPage extends ModulePage<IModuleMachine> {
 
-	@Override
-	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
-	}
-
-	public static class PulverizerPage extends ModulePage<IModuleMachine> {
-
-		public PulverizerPage(String pageID, IModuleState<IModuleMachine> moduleState) {
-			super(pageID, "pulverizer", moduleState);
+		public AlloySmelterPage(String pageID, IModuleState<IModuleMachine> module) {
+			super(pageID, "alloysmelter", module);
 		}
 
 		@Override
 		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, 56, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(true, 36, 35, new ItemFilterMachine());
+			invBuilder.addInventorySlot(true, 54, 35, new ItemFilterMachine());
 			invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
 			invBuilder.addInventorySlot(false, 134, 35, new OutputAllFilter());
 		}
@@ -126,6 +117,7 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 			modularSlots.add(new SlotModule(state, 0));
 			modularSlots.add(new SlotModule(state, 1));
 			modularSlots.add(new SlotModule(state, 2));
+			modularSlots.add(new SlotModule(state, 3));
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -136,24 +128,8 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 		}
 	}
 
-	/*@SideOnly(Side.CLIENT)
-	public static class PulverizerNEIPage extends NEIPage {
-
-		public PulverizerNEIPage(IModuleJEI module) {
-			super(module);
-		}
-
-		@Override
-		public void createSlots(List<SlotJEI> modularSlots) {
-			modularSlots.add(new SlotJEI(56, 24, true));
-			modularSlots.add(new SlotJEI(116, 24, false));
-			modularSlots.add(new SlotJEI(134, 24, false));
-		}
-
-		@Override
-		public void addWidgets(List widgets) {
-			widgets.add(new WidgetProgressBar(82, 24, 0, 0).setShowTooltip(false));
-		}
-	}*/
-
+	@Override
+	public int getColor() {
+		return 0xB22222;
+	}
 }

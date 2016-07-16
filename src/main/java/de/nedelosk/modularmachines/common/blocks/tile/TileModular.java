@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
+import cofh.api.energy.IEnergyConnection;
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
@@ -12,9 +14,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Optional.InterfaceList({
+	@Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"),
+	@Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib")
+})
 public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergyReceiver {
 
 	public IModularHandlerTileEntity modularHandler;
@@ -117,43 +124,48 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		return super.hasCapability(capability, facing);
 	}
 
+	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int getEnergyStored(EnumFacing from) {
-		if(modularHandler == null){
+		if(modularHandler == null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyInterface() != null){
 			return 0;
 		}
-		return modularHandler.getEnergyStored(from);
+		return ((IEnergyHandler)modularHandler.getModular().getEnergyInterface()).getEnergyStored(from);
 	}
 
+	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int getMaxEnergyStored(EnumFacing from) {
-		if(modularHandler == null){
+		if(modularHandler == null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyInterface() != null){
 			return 0;
 		}
-		return modularHandler.getMaxEnergyStored(from);
+		return ((IEnergyHandler)modularHandler.getModular().getEnergyInterface()).getMaxEnergyStored(from);
 	}
 
+	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public boolean canConnectEnergy(EnumFacing from) {
-		if(modularHandler == null){
+		if(modularHandler == null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyInterface() != null){
 			return false;
 		}
-		return modularHandler.canConnectEnergy(from);
+		return ((IEnergyConnection)modularHandler.getModular().getEnergyInterface()).canConnectEnergy(from);
 	}
 
+	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if(modularHandler == null){
+		if(modularHandler == null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyInterface() != null){
 			return 0;
 		}
-		return modularHandler.receiveEnergy(from, maxReceive, simulate);
+		return ((IEnergyReceiver)modularHandler.getModular().getEnergyInterface()).receiveEnergy(from, maxReceive, simulate);
 	}
 
+	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if(modularHandler == null){
+		if(modularHandler == null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyInterface() != null){
 			return 0;
 		}
-		return modularHandler.extractEnergy(from, maxExtract, simulate);
+		return ((IEnergyProvider)modularHandler.getModular().getEnergyInterface()).extractEnergy(from, maxExtract, simulate);
 	}
 }
