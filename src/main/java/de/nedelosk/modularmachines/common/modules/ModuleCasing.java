@@ -12,11 +12,10 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleHeatBuffer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleDrive;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -97,6 +96,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 			IHeatSource source = getHeatSource(state);
 			if(!oneHeaterWork){
 				source.reduceHeat(2);
+				PacketHandler.INSTANCE.sendToAll(new PacketModule(state.getModular().getHandler(), state));
 			}
 		}
 	}

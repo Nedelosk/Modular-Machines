@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
@@ -24,6 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -44,6 +46,7 @@ public class ItemBlockModularMachine extends ItemBlock {
 			IModularHandler<IModular, NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			if(handler != null){
 				handler.deserializeNBT(stack.getTagCompound());
+				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 				IModular modular = handler.getModular();
 				for(IModuleState state : modular.getModuleStates()){
 					if(state != null){
@@ -51,6 +54,8 @@ public class ItemBlockModularMachine extends ItemBlock {
 					}
 				}
 			}
+		}else{
+			tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 		}
 		super.addInformation(stack, playerIn, tooltip, advanced);
 	}
@@ -106,11 +111,6 @@ public class ItemBlockModularMachine extends ItemBlock {
 			default:
 				return EnumFacing.WEST;
 		}
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return super.getUnlocalizedName(stack).replace("tile.", "") + "." + stack.getItemDamage() + ".name";
 	}
 
 	@Override

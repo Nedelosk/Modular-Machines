@@ -16,6 +16,6 @@ public class BoilerRecipeWrapper extends ModuleRecipeWrapper {
 
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", (int)recipe.get(Recipe.HEAT)), 58, 14, Color.gray.getRGB());
+		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", recipe.get(Recipe.HEAT)), 58, 14, Color.gray.getRGB());
 	}
 }

@@ -25,7 +25,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
-import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.api.property.PropertyIntegerArray;
 import de.nedelosk.modularmachines.api.property.PropertyRecipe;
@@ -51,7 +50,7 @@ public abstract class ModuleMachine extends ModuleStoraged implements IModuleMac
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("heatToRemove", 0);
-	public static final PropertyFloat HEATREQUIRED = new PropertyFloat("requiredHeat", 0);
+	public static final PropertyDouble HEATREQUIRED = new PropertyDouble("requiredHeat", 0F);
 	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
 	public static final PropertyIntegerArray DRIVEINDEXES = new PropertyIntegerArray("driveIndexs");
 
@@ -120,6 +119,7 @@ public abstract class ModuleMachine extends ModuleStoraged implements IModuleMac
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		Random rand = modular.getHandler().getWorld().rand;
+		EnumToolType type = getType(state);
 		List<IModuleState<IModuleDrive>> drives = getDrives(state);
 		boolean needUpdate = false;
 
@@ -143,22 +143,21 @@ public abstract class ModuleMachine extends ModuleStoraged implements IModuleMac
 					}
 					setWorkTimeTotal(state, createWorkTimeTotal(state, validRecipe.getSpeed()) / state.getContainer().getMaterial().getTier());
 					state.set(CHANCE, rand.nextInt(100));
-					state.set(HEATTOREMOVE, validRecipe.get(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
-					state.set(HEATREQUIRED, validRecipe.get(Recipe.HEAT));
+					if(type == EnumToolType.HEAT){
+						state.set(HEATTOREMOVE, validRecipe.get(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
+						state.set(HEATREQUIRED, validRecipe.get(Recipe.HEAT));
+					}
 					needUpdate = true;
 				}
 			}else{
-				EnumToolType type = getType(state);
 				int workTime = 0;
 				if(type == EnumToolType.KINETIC){
 					for(IModuleState<IModuleDrive> driveState : drives){
 						if(driveState.getModule() instanceof IModuleKinetic){
 							IKineticSource source = ((IModuleKinetic)driveState.getModule()).getKineticSource(driveState);
-							double kineticEnergy = (source.getKineticEnergyStored() * 100 / source.getCapacity() * 100);
-							if(kineticEnergy > 0){
-								int kineticModifier = (int) (kineticEnergy / 15);
-								source.extractKineticEnergy(kineticModifier, false);
-								workTime+=kineticModifier;
+							if(source.getKineticEnergyStored() > 0){
+								source.extractKineticEnergy(1, false);
+								workTime+=1;
 							}
 						}
 					}
@@ -167,11 +166,12 @@ public abstract class ModuleMachine extends ModuleStoraged implements IModuleMac
 					IHeatSource heatBuffer = casingState.getModule().getHeatSource(casingState);
 					if(heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)){
 						heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
-						workTime = Math.max(1, state.get(HEATTOREMOVE).intValue());	
+						workTime = 1;	
 					}
 				}
 
 				if(workTime > 0){
+					needUpdate = true;
 					addWorkTime(state, workTime);
 				}
 			}

@@ -1,6 +1,7 @@
-package de.nedelosk.modularmachines.common.modules.heater;
+package de.nedelosk.modularmachines.common.modules.storaged.drives.heater;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(BURNTIME).register(BURNTIMETOTAL);
 	}
-	
+
 	@Override
 	public boolean isWorking(IModuleState state) {
 		return getBurnTime(state) > 0;
@@ -187,8 +188,9 @@ public class ModuleHeaterSteam extends ModuleHeater {
 		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 			super.drawForeground(fontRenderer, mouseX, mouseY);
 			IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(modular);
+			DecimalFormat f = new DecimalFormat("#0.00"); 
 
-			String heatName = Translator.translateToLocalFormatted("module.heater.heat", casingState.getModule().getHeatSource(casingState).getHeatStored());
+			String heatName = Translator.translateToLocalFormatted("module.heater.heat", f.format(casingState.getModule().getHeatSource(casingState).getHeatStored()));
 			fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2),45, Color.gray.getRGB());
 		}
 

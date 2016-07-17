@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
-import de.nedelosk.modularmachines.api.property.PropertyMachineMode;
+import de.nedelosk.modularmachines.api.property.PropertyToolMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -22,11 +22,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleMachineAdvanced extends ModuleMachine implements IModuleMachineAdvanced {
 
-	public final PropertyMachineMode MODE;
+	public final PropertyToolMode MODE;
 
 	public ModuleMachineAdvanced(String name, int complexity, int speedModifier, EnumModuleSize size, IToolMode defaultMode) {
 		super(name, complexity, speedModifier, size);
-		MODE = new PropertyMachineMode("mode", getModeClass(), defaultMode);
+		MODE = new PropertyToolMode("mode", getModeClass(), defaultMode);
 	}
 
 	@Override

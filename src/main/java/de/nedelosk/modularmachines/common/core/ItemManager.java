@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
+import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
@@ -26,6 +27,7 @@ public class ItemManager {
 	public static ItemComponent itemCompScrews;
 	public static ItemComponent itemCompSawBlades;
 	public static Item itemDrawer;
+	public static Item itemEngineSteam;
 	public static Item itemEngineRF;
 	public static Item itemEngineEU;
 	public static Item itemTurbineSteam;
@@ -47,51 +49,17 @@ public class ItemManager {
 		itemDusts = register(new ItemMetal("dusts", "dust", dusts));
 		itemIngots = register(new ItemMetal("ingots", "ingot", metals));
 		itemNuggets = register(new ItemMetal("nuggets", "nugget", metals));
-		itemCompWires = register(new ItemComponent("wires"));
-		itemCompRods = register(new ItemComponent("rods"));
-		itemCompScrews = register(new ItemComponent("screws"));
-		itemCompPlates = register(new ItemComponent("plates"));
-		itemCompGears = register(new ItemComponent("gears"));
-		itemCompSawBlades = register(new ItemComponent("saw_blades"));
+		itemCompWires = register(new ItemComponent("wires", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
+		itemCompRods = register(new ItemComponent("rods", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
+		itemCompScrews = register(new ItemComponent("screws", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
+		itemCompPlates = register(new ItemComponent("plates", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.INVAR));
+		itemCompGears = register(new ItemComponent("gears", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
+		itemCompSawBlades = register(new ItemComponent("saw_blades", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick" }));
+		itemEngineSteam = register(new ItemModuleMeta("engineSteam", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemModules = register(new ItemModule());
-		itemCompWires.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompWires.addMetaData(0xCACECF, "tin", "Tin");
-		itemCompWires.addMetaData(0xCC6410, "copper", "Copper");
-		itemCompWires.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompWires.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompRods.addMetaData(0x7F7F7F, "stone");
-		itemCompRods.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompRods.addMetaData(0xCACECF, "tin", "Tin");
-		itemCompRods.addMetaData(0xCC6410, "copper", "Copper");
-		itemCompRods.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompRods.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompRods.addMetaData(0xD4E3E6, "plastic", "Plastic");
-		itemCompScrews.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompScrews.addMetaData(0xCACECF, "tin", "Tin");
-		itemCompScrews.addMetaData(0xCC6410, "copper", "Copper");
-		itemCompScrews.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompScrews.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompGears.addMetaData(0x7F7F7F, "stone");
-		itemCompGears.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompGears.addMetaData(0xCACECF, "tin", "Tin");
-		itemCompGears.addMetaData(0xCC6410, "copper", "Copper");
-		itemCompGears.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompGears.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompPlates.addMetaData(0x7F7F7F, "stone");
-		itemCompPlates.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompPlates.addMetaData(0xCACECF, "tin", "Tin");
-		itemCompPlates.addMetaData(0xCC6410, "copper", "Copper");
-		itemCompPlates.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompPlates.addMetaData(0xA0A0A0, "steel", "Steel");
-		itemCompPlates.addMetaData(0xA1A48C, "invar", "Invar");
-		itemCompPlates.addMetaData(0xD4E3E6, "aluminum", "Aluminum", "Aluminium");
-		itemCompSawBlades.addMetaData(0x7F7F7F, "stone");
-		itemCompSawBlades.addMetaData(0xDADADA, "iron", "Iron");
-		itemCompSawBlades.addMetaData(0xCA9956, "bronze", "Bronze");
-		itemCompSawBlades.addMetaData(0xA0A0A0, "steel", "Steel");
 	}
 
 	public static <I extends Item> I register(I item) {

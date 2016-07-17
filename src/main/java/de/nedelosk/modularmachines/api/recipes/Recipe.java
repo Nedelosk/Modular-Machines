@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyJson;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
+import de.nedelosk.modularmachines.api.property.PropertyDouble;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.api.property.PropertyRecipeItems;
 import de.nedelosk.modularmachines.api.property.PropertyString;
@@ -21,8 +22,8 @@ public class Recipe implements IRecipe{
 	public static final PropertyString NAME = new PropertyString("name", null);
 	public static final PropertyString CATEGORY = new PropertyString("category", null);
 	public static final PropertyInteger SPEED = new PropertyInteger("speed", 0);
-	public static final PropertyInteger HEAT = new PropertyInteger("heat", 0);
-	public static final PropertyInteger HEATTOREMOVE = new PropertyInteger("removeHeat", 0);
+	public static final PropertyDouble HEAT = new PropertyDouble("heat", 0);
+	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("removeHeat", 0);
 
 	protected Map<IProperty, Object> properties;
 

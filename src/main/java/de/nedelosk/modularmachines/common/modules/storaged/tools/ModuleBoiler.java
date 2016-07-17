@@ -29,11 +29,8 @@ import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import net.minecraft.item.ItemStack;
+import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -56,31 +53,8 @@ public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
 			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
 			if(inventory != null){
-				if(inventory.getStackInSlot(0) != null){
-					ItemStack stack = inventory.getStackInSlot(0);
-					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, false);
-					if(containerStack != null){
-						if(inventory.extractItemInternal(0, 1, true) != null){
-							if(inventory.insertItemInternal(1, containerStack, true) == null){
-								inventory.insertItemInternal(1, FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, true), false);
-								inventory.extractItemInternal(0, 1, false);
-							}
-						}
-					}
-				}
-				if(inventory.getStackInSlot(2) != null){
-					ItemStack stack = inventory.getStackInSlot(2);
-					ItemStack containerStack = FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, false);
-					if(containerStack != null){
-						if(inventory.extractItemInternal(2, 1, true) != null){
-							if(inventory.insertItemInternal(3, containerStack, true) == null){
-								inventory.insertItemInternal(3, FluidUtil.tryFillContainer(stack, tank.getTank(1), 1000, null, true), false);
-								inventory.extractItemInternal(2, 1, false);
-							}
-						}
-					}
-				}
+				ModuleUtil.tryEmptyContainer(0, 1, inventory, tank.getTank(0));
+				ModuleUtil.tryFillContainer(2, 3, inventory, tank.getTank(1));
 			}
 		}
 	}

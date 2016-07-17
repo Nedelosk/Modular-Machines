@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.storaged.engine;
+package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;

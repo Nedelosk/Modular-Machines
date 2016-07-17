@@ -152,8 +152,12 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		for(Entry<IProperty, Object> object : properties.entrySet()){
-			if(object.getValue() != null){
-				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
+			try{
+				if(object.getValue() != null){
+					nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		for(IModuleContentHandler handler : contentHandlers){
@@ -164,8 +168,12 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		for(IProperty property : registeredProperties){
-			if(nbt.hasKey(property.getName())){
-				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+			try{
+				if(nbt.hasKey(property.getName())){
+					properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		for(IModuleContentHandler handler : contentHandlers){

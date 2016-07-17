@@ -11,7 +11,7 @@ public class RecipeHandlerHeat extends RecipeHandler {
 
 	@Override
 	public IRecipe buildDefault() {
-		return getDefaultTemplate().set(Recipe.HEAT, 0).build();
+		return getDefaultTemplate().set(Recipe.HEAT, 0D).build();
 	}
 
 	@Override

@@ -1,8 +1,9 @@
-package de.nedelosk.modularmachines.common.modules.storaged.engine;
+package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -51,33 +52,36 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 	}
 
 	@Override
-	public void updateServer(IModuleState state, int tickCount) {
-		if(state.getModular().updateOnInterval(10)){
-			IModular modular = state.getModular();
-			boolean isWorking = state.get(WORKING);
-			ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
-			boolean needUpdate = false;
+	public IKineticSource getKineticSource(IModuleState state) {
+		return (IKineticSource) state.getContentHandler(ModuleKineticHandler.class);
+	}
 
-			if (canWork(state)) {
-				if (removeMaterial(state)) {
-					if(!isWorking){
-						state.set(WORKING, true);
-					}
-					kineticHandler.increaseKineticEnergy(kineticModifier * engineKineticModifier);
-					needUpdate = true;
+	@Override
+	public void updateServer(IModuleState state, int tickCount) {
+		IModular modular = state.getModular();
+		boolean isWorking = state.get(WORKING);
+		ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
+		boolean needUpdate = false;
+
+		if (canWork(state)) {
+			if (removeMaterial(state)) {
+				if(!isWorking){
+					state.set(WORKING, true);
 				}
-			}else if(isWorking){
-				if(kineticHandler.getKineticEnergyStored() > 0){
-					kineticHandler.reduceKineticEnergy(kineticModifier * engineKineticModifier);
-				}else{
-					state.set(WORKING, false);
-				}
+				kineticHandler.increaseKineticEnergy(kineticModifier * engineKineticModifier);
 				needUpdate = true;
 			}
-
-			if(needUpdate){
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+		}else if(isWorking){
+			if(kineticHandler.getKineticEnergyStored() > 0){
+				kineticHandler.reduceKineticEnergy(kineticModifier * engineKineticModifier);
+			}else{
+				state.set(WORKING, false);
 			}
+			needUpdate = true;
+		}
+
+		if(needUpdate){
+			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 		}
 	}
 

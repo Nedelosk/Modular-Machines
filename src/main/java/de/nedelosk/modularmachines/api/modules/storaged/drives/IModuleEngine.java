@@ -1,10 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.storaged.drives;
 
+import de.nedelosk.modularmachines.api.modules.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModuleEngine extends IModuleDrive {
+public interface IModuleEngine extends IModuleDrive, IModuleKinetic{
 
 	@SideOnly(Side.CLIENT)
 	float getProgress(IModuleState state);

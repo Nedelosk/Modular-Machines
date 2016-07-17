@@ -30,10 +30,10 @@ public class ModularMachinesRegistry extends Registry {
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
 		BlockManager.registerTiles();
+		super.preInit(instance, event);
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModels();
 		}
-		super.preInit(instance, event);
 	}
 
 	@Override

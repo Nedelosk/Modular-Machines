@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleStoraged;
 import de.nedelosk.modularmachines.client.model.ModelModular;
+import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,9 @@ public class EventHandler {
 			IModule module = container.getModule();
 			IMaterial material = container.getMaterial();
 			event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.material") + material.getLocalizedName());
-			event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
+			if(!(container.getItemStack().getItem() instanceof ItemModule)){
+				event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
+			}
 			container.addTooltip(event.getToolTip());
 		}
 		ItemStack stack = event.getItemStack();

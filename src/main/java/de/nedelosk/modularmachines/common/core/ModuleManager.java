@@ -23,15 +23,16 @@ import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.ModuleDrawer;
-import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterBurning;
-import de.nedelosk.modularmachines.common.modules.heater.ModuleHeaterSteam;
-import de.nedelosk.modularmachines.common.modules.storaged.engine.ModuleEngineElectric;
+import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
+import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
+import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeaterBurning;
+import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeaterSteam;
+import de.nedelosk.modularmachines.common.modules.storaged.drives.turbines.ModuleTurbineSteam;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleBoiler;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleSawMill;
-import de.nedelosk.modularmachines.common.modules.storaged.turbines.ModuleTurbineSteam;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
@@ -54,6 +55,11 @@ public class ModuleManager {
 	public static IModuleTurbine moduleTurbineSteamBronze;
 	public static IModuleTurbine moduleTurbineSteamSteel;
 	public static IModuleTurbine moduleTurbineSteamMagmarium;
+
+	public static IModuleEngine moduleEngineSteamIron;
+	public static IModuleEngine moduleEngineSteamBronze;
+	public static IModuleEngine moduleEngineSteamSteel;
+	public static IModuleEngine moduleEngineSteamMagmarium;
 
 	public static IModuleEngine moduleEngineRFIron;
 	public static IModuleEngine moduleEngineRFBronze;
@@ -115,23 +121,41 @@ public class ModuleManager {
 		moduleDrawerBrick.setRegistryName(new ResourceLocation("modularmachines:drawer.brick"));
 		GameRegistry.register(moduleDrawerBrick);
 
-		/* ENGINES */
+		/* TURBINES */
 		//Steam
-		moduleTurbineSteamIron = new ModuleTurbineSteam(1, EnumModuleSize.LARGE, 2, 150, 60);
-		moduleTurbineSteamIron.setRegistryName(new ResourceLocation("modularmachines:engine.steam.iron"));
+		moduleTurbineSteamIron = new ModuleTurbineSteam(1, EnumModuleSize.LARGE, 3, 350, 40);
+		moduleTurbineSteamIron.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.iron"));
 		GameRegistry.register(moduleTurbineSteamIron);
 
-		moduleTurbineSteamBronze =new ModuleTurbineSteam(2, EnumModuleSize.LARGE, 3, 250, 45);
-		moduleTurbineSteamBronze.setRegistryName(new ResourceLocation("modularmachines:engine.steam.bronze"));
+		moduleTurbineSteamBronze =new ModuleTurbineSteam(2, EnumModuleSize.LARGE, 4, 450, 30);
+		moduleTurbineSteamBronze.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.bronze"));
 		GameRegistry.register(moduleTurbineSteamBronze);
 
-		moduleTurbineSteamSteel = new ModuleTurbineSteam(3, EnumModuleSize.LARGE, 4, 275, 30);
-		moduleTurbineSteamSteel.setRegistryName(new ResourceLocation("modularmachines:engine.steam.steel"));
+		moduleTurbineSteamSteel = new ModuleTurbineSteam(3, EnumModuleSize.LARGE, 5, 500, 20);
+		moduleTurbineSteamSteel.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.steel"));
 		GameRegistry.register(moduleTurbineSteamSteel);
 
-		moduleTurbineSteamMagmarium = new ModuleTurbineSteam(4, EnumModuleSize.LARGE, 5, 350, 15);
-		moduleTurbineSteamMagmarium.setRegistryName(new ResourceLocation("modularmachines:engine.steam.magmarium"));
+		moduleTurbineSteamMagmarium = new ModuleTurbineSteam(4, EnumModuleSize.LARGE, 8, 550, 15);
+		moduleTurbineSteamMagmarium.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.magmarium"));
 		GameRegistry.register(moduleTurbineSteamMagmarium);
+
+		/* ENGINES */
+		//Steam
+		moduleEngineSteamIron = new ModuleEngineSteam(1, 3, 150, 20);
+		moduleEngineSteamIron.setRegistryName(new ResourceLocation("modularmachines:engine.steam.iron"));
+		GameRegistry.register(moduleEngineSteamIron);
+
+		moduleEngineSteamBronze =new ModuleEngineSteam(2, 4, 250, 15);
+		moduleEngineSteamBronze.setRegistryName(new ResourceLocation("modularmachines:engine.steam.bronze"));
+		GameRegistry.register(moduleEngineSteamBronze);
+
+		moduleEngineSteamSteel = new ModuleEngineSteam(3, 5, 275, 10);
+		moduleEngineSteamSteel.setRegistryName(new ResourceLocation("modularmachines:engine.steam.steel"));
+		GameRegistry.register(moduleEngineSteamSteel);
+
+		moduleEngineSteamMagmarium = new ModuleEngineSteam(4, 8, 350, 5);
+		moduleEngineSteamMagmarium.setRegistryName(new ResourceLocation("modularmachines:engine.steam.magmarium"));
+		GameRegistry.register(moduleEngineSteamMagmarium);
 
 		//RF
 		moduleEngineRFIron = new ModuleEngineElectric(2, 2, 250, 20, EnergyRegistry.redstoneFlux);
@@ -258,7 +282,13 @@ public class ModuleManager {
 			GameRegistry.register(new ModuleContainer(moduleEngineEUMagmarium, new ItemStack(ItemManager.itemEngineEU, 1, 3), EnumMetalMaterials.MAGMARIUM));
 		}
 
-		//Engines Steam
+		//Steam
+		GameRegistry.register(new ModuleContainer(moduleEngineSteamIron, new ItemStack(ItemManager.itemEngineSteam, 1, 0), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleEngineSteamBronze, new ItemStack(ItemManager.itemEngineSteam, 1, 1), EnumMetalMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(moduleEngineSteamSteel, new ItemStack(ItemManager.itemEngineSteam, 1, 2), EnumMetalMaterials.STEEL));
+		GameRegistry.register(new ModuleContainer(moduleEngineSteamMagmarium, new ItemStack(ItemManager.itemEngineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
+
+		//Turbine Steam
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteamIron, new ItemStack(ItemManager.itemTurbineSteam, 1, 0), EnumMetalMaterials.IRON));
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteamBronze, new ItemStack(ItemManager.itemTurbineSteam, 1, 1), EnumMetalMaterials.BRONZE));
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteamSteel, new ItemStack(ItemManager.itemTurbineSteam, 1, 2), EnumMetalMaterials.STEEL));

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.heater;
+package de.nedelosk.modularmachines.common.modules.storaged.drives.heater;
 
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modular.IModular;

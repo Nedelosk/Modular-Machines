@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.items;
+package de.nedelosk.modularmachines.common.items.blocks;
 
 import de.nedelosk.modularmachines.common.blocks.IBlockWithMeta;
 import de.nedelosk.modularmachines.common.core.Registry;

@@ -44,8 +44,8 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		return new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/pulverizer/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
+				new ResourceLocation("modularmachines:module/pulverizers/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/pulverizers/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
 		});
 	}
 
@@ -54,8 +54,8 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored{
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List handlers = new ArrayList<>();
 		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/pulverizer/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
+				new ResourceLocation("modularmachines:module/pulverizers/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
+				new ResourceLocation("modularmachines:module/pulverizers/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
 		}));
 		return handlers;
 	}

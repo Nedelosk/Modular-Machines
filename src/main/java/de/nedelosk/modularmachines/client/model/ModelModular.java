@@ -204,7 +204,7 @@ public class ModelModular implements IBakedModel {
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = ModularUtils.getModularHandler(stack);
 
-			if(modularHandler instanceof IModularHandlerItem){
+			if(modularHandler.getModular() == null && modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());
 			}
 			IModular modular = modularHandler.getModular();

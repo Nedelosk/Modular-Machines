@@ -53,6 +53,10 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
+		IModuleContainer container = ModularManager.getContainerFromItem(stack);
+		if(container != null){
+			return container.getDisplayName();
+		}
 		return Translator.translateToLocal("item.module.name");
 	}
 

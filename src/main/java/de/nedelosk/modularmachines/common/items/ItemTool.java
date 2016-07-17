@@ -70,9 +70,9 @@ public class ItemTool extends Item implements IItemModelRegister {
 
 	@Override
 	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
-		aList.add(Translator.translateToLocal("modularmachines.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
-		aList.add(Translator.translateToLocal("modularmachines.tooltip.tier") + (getTier()));
-		aList.add(Translator.translateToLocal("modularmachines.tooltip.material") + (material.getMaterial()));
+		aList.add(Translator.translateToLocal("mm.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
+		aList.add(Translator.translateToLocal("mm.tooltip.tier") + (getTier()));
+		aList.add(Translator.translateToLocal("mm.tooltip.material") + (material.getMaterial()));
 	}
 
 	public static enum Material {
