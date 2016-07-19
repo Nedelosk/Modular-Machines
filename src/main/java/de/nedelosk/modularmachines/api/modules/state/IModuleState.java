@@ -12,8 +12,10 @@ import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertySetter;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public interface IModuleState<M extends IModule> extends IPropertyProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder {
+public interface IModuleState<M extends IModule> extends IPropertyProvider, ICapabilitySerializable<NBTTagCompound>, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder {
 
 	@Override
 	<T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);

@@ -12,6 +12,9 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleHeatBuffer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -110,4 +113,15 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	public IHeatSource getHeatSource(IModuleState state) {
 		return (IHeatSource) state.getContentHandler(ModuleHeatBuffer.class);
 	}
+
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.INTERNAL;
+	}
+
+	@Override
+	public EnumModuleSize getSize() {
+		return EnumModuleSize.UNKNOWN;
+	}
+
 }

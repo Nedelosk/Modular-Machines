@@ -1,15 +1,17 @@
-package de.nedelosk.modularmachines.api.modular;
+package de.nedelosk.modularmachines.api.modules.storage;
 
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 /**
  * A storage to storage module states. It is used in a modular and other thinks that have module states, to storage these.
  */
-public interface IModuleStorage {
+public interface IModuleStorage extends ICapabilitySerializable<NBTTagCompound>{
 
 	/**
 	 * Add a module state to the storage and set the index of the module state.

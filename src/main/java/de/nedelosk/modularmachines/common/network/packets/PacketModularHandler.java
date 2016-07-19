@@ -1,9 +1,9 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

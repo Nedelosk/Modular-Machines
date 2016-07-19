@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
 import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;

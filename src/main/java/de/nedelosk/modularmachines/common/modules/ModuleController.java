@@ -5,9 +5,11 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -45,5 +47,30 @@ public class ModuleController extends Module implements IModuleController {
 	@Override
 	public int getAllowedComplexity(IModuleState state) {
 		return allowedComplexity;
+	}
+
+	@Override
+	public boolean canWork(IModuleState controllerState, IModuleState moduleState) {
+		return true;
+	}
+
+	@Override
+	public EnumPosition getCurrentPosition(IModuleState state) {
+		return EnumPosition.INTERNAL;
+	}
+
+	@Override
+	public boolean canUseFor(EnumPosition position, IModuleContainer container) {
+		return position == EnumPosition.INTERNAL;
+	}
+
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.INTERNAL;
+	}
+
+	@Override
+	public EnumModuleSize getSize() {
+		return EnumModuleSize.LARGE;
 	}
 }

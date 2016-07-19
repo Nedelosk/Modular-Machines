@@ -8,8 +8,8 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -27,7 +27,8 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHe
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
-import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterSteam;
+import de.nedelosk.modularmachines.common.core.FluidManager;
+import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -208,7 +209,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilterSteam());
+			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilter(FluidManager.Steam));
 		}
 	}
 }

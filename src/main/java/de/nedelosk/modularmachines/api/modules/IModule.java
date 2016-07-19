@@ -6,26 +6,46 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public interface IModule extends IForgeRegistryEntry<IModule> {
+
+	EnumPosition getPosition(IModuleContainer container);
+
+	/**
+	 * The size of the module.
+	 */
+	EnumModuleSize getSize();
+
+	@SideOnly(Side.CLIENT)
+	EnumWallType getWallType(IModuleState state);
+
+	@SideOnly(Side.CLIENT)
+	@Nullable
+	ResourceLocation getWindowLocation(IModuleContainer container);
 
 	String getUnlocalizedName(IModuleContainer container);
 
 	String getDisplayName(IModuleContainer container);
+
+	String getDescription(IModuleContainer container);
 
 	int getComplexity(IModuleState state);
 
@@ -49,7 +69,7 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	/**
 	 * @return The item that the module drop.
 	 */
-	ItemStack getDropItem(IModuleState state);
+	ItemStack saveDataToItem(IModuleState state);
 
 	/**
 	 * To load datas from the item into the state.
@@ -67,7 +87,7 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 */
 	IModuleState createState(IModular modular, IModuleContainer container);
 
-	boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage);
+	boolean assembleModule(IModularAssembler assembler, IModular modular, IModuleState state, IModuleIndexStorage storage);
 
 	/* MODULE CONTAINERS */
 	@Nullable

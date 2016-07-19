@@ -9,19 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ModuleEvents {
 
-	public static class ModuleItemRegisterEvent extends Event {
-
-		private final IModuleContainer moduleContainer;
-
-		public ModuleItemRegisterEvent(IModuleContainer moduleContainer) {
-			this.moduleContainer = moduleContainer;
-		}
-
-		public IModuleContainer getContainer() {
-			return moduleContainer;
-		}
-	}
-
 	public static class ModuleModelInitEvent extends Event {
 
 		private final IModuleContainer moduleContainer;

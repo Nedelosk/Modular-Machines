@@ -1,8 +1,12 @@
-package de.nedelosk.modularmachines.api.modular;
+package de.nedelosk.modularmachines.api.modular.handlers;
+
+import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -13,7 +17,15 @@ public interface IModularHandler<M extends IModular, N extends NBTBase> extends 
 
 	World getWorld();
 
+	void setModular(M modular);
+
+	@Nullable
 	M getModular();
+
+	void setAssembler(IModularAssembler assembler);
+
+	@Nullable
+	IModularAssembler getAssembler();
 
 	void markDirty();
 
@@ -21,10 +33,12 @@ public interface IModularHandler<M extends IModular, N extends NBTBase> extends 
 
 	void updateServer();
 
-	void setModular(M modular);
-
 	GameProfile getOwner();
 
 	void setOwner(GameProfile owner);
+
+	void setAssembled(boolean isAssembled);
+
+	boolean isAssembled();
 
 }

@@ -2,42 +2,63 @@ package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
+import de.nedelosk.modularmachines.api.energy.IHeatLevel;
+import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.ModularUtils;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
-import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleTool;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
-import de.nedelosk.modularmachines.common.modules.ModuleMachine;
-import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterMachine;
+import de.nedelosk.modularmachines.common.core.FluidManager;
+import de.nedelosk.modularmachines.common.modules.Module;
+import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends ModuleMachine implements IModuleColored {
+public class ModuleBoiler extends Module implements IModuleTool, IModuleColored, IModuleJEI {
 
-	public ModuleBoiler(int complexity, int speed, EnumModuleSize size) {
-		super("boiler", complexity, speed, size);
+	protected EnumModuleSize size;
+	protected int waterPerWork;
+
+	public ModuleBoiler(int complexity, EnumModuleSize size, int waterPerWork) {
+		super("boiler", complexity);
+
+		this.waterPerWork = waterPerWork;
+		this.size = size;
 	}
 
 	@Override
@@ -46,27 +67,69 @@ public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 	}
 
 	@Override
-	public void updateServer(IModuleState state, int tickCount) {
-		super.updateServer(state, tickCount);
+	public String[] getJEIRecipeCategorys(IModuleContainer container) {
+		return new String[]{ModuleCategoryUIDs.BOILER};
+	}
 
-		if(state.getModular().updateOnInterval(20)){
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
-			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+	@Override
+	public EnumModuleSize getSize() {
+		return size;
+	}
+
+	@Override
+	public void updateServer(IModuleState state, int tickCount) {
+		IModular modular = state.getModular();
+		Random rand = modular.getHandler().getWorld().rand;
+		IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
+		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		FluidTankAdvanced tankWater = tank.getTank(0);
+		FluidTankAdvanced tankSteam = tank.getTank(1);
+		boolean needUpdate = false;
+		IModuleState<IModuleController> controller = ModularUtils.getModule(modular, IModuleController.class);
+		IModuleState<IModuleCasing> casing = ModularUtils.getCasing(modular);
+
+		if(modular.updateOnInterval(20)){
 			if(inventory != null){
 				ModuleUtil.tryEmptyContainer(0, 1, inventory, tank.getTank(0));
 				ModuleUtil.tryFillContainer(2, 3, inventory, tank.getTank(1));
 			}
 		}
-	}
+		if(modular.updateOnInterval(10)){
+			if(controller.getModule().canWork(controller, state)){
+				IHeatSource heatSource = casing.getModule().getHeatSource(casing);
+				IHeatLevel heatLevel = heatSource.getHeatLevel();
 
-	@Override
-	public String getRecipeCategory(IModuleState state) {
-		return "Boiler";
-	}
+				FluidStack waterStack = tankWater.getFluid();
+				if(!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()){
+					if (heatSource.getHeatStored() >= EnergyRegistry.BOILING_POINT){
+						int waterCost = heatLevel.getIndex() - 1 * waterPerWork;
+						if (waterCost <= 0){
+							return;
+						}
 
+						FluidStack water = tankWater.drainInternal(waterCost, false);
+						if (water == null){
+							return;
+						}
+
+						waterCost = Math.min(waterCost, water.amount);
+						FluidStack steam = new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER * waterCost);
+						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER * waterCost), false);
+
+						if(steam.amount > 0){
+							tankWater.drain(waterCost, true);
+							tankSteam.fillInternal(steam, true);
+							PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleTank)state.getContentHandler(IModuleTank.class)).getInputItems();
+	public void updateClient(IModuleState<IModule> state, int tickCount) {
 	}
 
 	@Override
@@ -96,14 +159,9 @@ public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName() + "_" + getSize().getName());
 	}
 
-	@Override
-	public EnumToolType getType(IModuleState state) {
-		return EnumToolType.HEAT;
-	}
+	public class BoilerPage extends ModulePage<IModuleTool> {
 
-	public class BoilerPage extends ModulePage<IModuleMachine> {
-
-		public BoilerPage(String pageID, String title, IModuleState<IModuleMachine> moduleState) {
+		public BoilerPage(String pageID, String title, IModuleState<IModuleTool> moduleState) {
 			super(pageID, title, moduleState);
 		}
 
@@ -118,7 +176,7 @@ public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilterMachine());
+			tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilter(FluidRegistry.WATER));
 			tankBuilder.addFluidTank(16000, false, 125, 15, new OutputAllFilter());
 		}
 
@@ -134,10 +192,14 @@ public class ModuleBoiler extends ModuleMachine implements IModuleColored {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets(List widgets) {
-			widgets.add(new WidgetProgressBar(75, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
 			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
 		}
+	}
+	
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.LEFT;
 	}
 
 	@Override

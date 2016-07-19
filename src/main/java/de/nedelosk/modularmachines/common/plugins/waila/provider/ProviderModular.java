@@ -53,7 +53,7 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-		return null;
+		return tag;
 	}
 
 	public static class WailaData implements IWailaState {

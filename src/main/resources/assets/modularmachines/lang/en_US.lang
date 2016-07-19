@@ -18,7 +18,8 @@ module.size.middle.name=Middle
 
 module.drawer.name=Drawer
 module.turbine.steam.name=Steam Turbine
-module.engine.electric.name=Electric Engine
+module.engine.electric.rf.name=Redstone Flux Engine
+module.engine.electric.eu.name=Electric Engine
 module.engine.steam.name=Steam Engine
 module.controller.name=Controller
 module.boiler.name=Boiler
@@ -29,6 +30,20 @@ module.pulverizer.name=Pulverizer
 module.casing.name=Casing
 
 module.capacitorbank.name=Capacitor Bank
+
+module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular block.
+module.controller.description=This is a controller module. It defines the maximum complexity of the modular.
+module.drawer.description=This is a drawer module.It defines the maximum complexity of the tool or the drive modules.
+module.heater.steam.description=This type of heater genearte his heat from steam.
+module.heater.burning.description=This type of heater genearte his heat from solid fuel, like coal or other furnace fuel.
+module.engine.electric.rf.description=This type of engine generate his kinetic energy from redstone flux.
+module.engine.electric.eu.description=This type of engine generate his kinetic energy from eu.
+module.engine.steam.description=This type of engine generate his kinetic energy from steam.
+module.boiler.description=This machine module generate steam and consume water.
+module.alloysmelter.description=This machine is used to smelt two metals into a new.
+module.pulverizer.description=This machine is used to pulverize a items.
+module.turbine.steam.description=This type of turbine generate his kinetic energy from steam. It is larger that a steam engine, but it is faster than three steam engines. 
+module.capacitorbank.description=This type of battery stores redstone flux.
 
 ####################################
 # Materials
@@ -54,6 +69,8 @@ itemGroup.modularmachines.modules=Modules
 # Blocks
 ####################################
 tile.modular.name=Modular Machine
+tile.modular.description=This is a modular machine. A modular machine contains different modules. A modular machine can be built in a modular assembler.
+tile.modular.assembler.description=The modular assembler is a block with which you can build modular machines.
 modularmachines.item.tile.modular_assembler.0.name=Modular Assembler
 modularmachines.item.tile.casing.iron.name=Iron Casing
 modularmachines.item.tile.casing.bronze.name=Bronze Casing
@@ -110,14 +127,14 @@ modularmachines.item.nuggetBronze.name=Bronze Nugget
 modularmachines.item.nuggetInvar.name=Invar Nugget
 modularmachines.item.nuggetAluminum.name=Aluminum Nugget
 modularmachines.item.nuggetSteel.name=Steel Nugget
-modularmachines.item.engineRF_iron.name=Iron Electric Engine
-modularmachines.item.engineRF_bronze.name=Bronze Electric Engine
-modularmachines.item.engineRF_steel.name=Steel Electric Engine
-modularmachines.item.engineRF_magmarium.name=Magmarium Electric Engine
-modularmachines.item.engineEU_iron.name=Iron Electric Engine
-modularmachines.item.engineEU_bronze.name=Bronze Electric Engine
-modularmachines.item.engineEU_steel.name=Steel Electric Engine
-modularmachines.item.engineEU_magmarium.name=Magmarium Electric Engine
+modularmachines.item.engineRF_iron.name=Iron Electric Engine (RF)
+modularmachines.item.engineRF_bronze.name=Bronze Electric Engine (RF)
+modularmachines.item.engineRF_steel.name=Steel Electric Engine (RF)
+modularmachines.item.engineRF_magmarium.name=Magmarium Electric Engine (RF)
+modularmachines.item.engineEU_iron.name=Iron Electric Engine (EU)
+modularmachines.item.engineEU_bronze.name=Bronze Electric Engine (EU)
+modularmachines.item.engineEU_steel.name=Steel Electric Engine (EU)
+modularmachines.item.engineEU_magmarium.name=Magmarium Electric Engine (EU)
 modularmachines.item.engineSteam_iron.name=Iron Steam Engine
 modularmachines.item.engineSteam_bronze.name=Bronze Steam Engine
 modularmachines.item.engineSteam_steel.name=Steel Steam Engine
@@ -149,6 +166,8 @@ component.saw_blades.name=Saw Blade
 ####################################
 # Containers
 ####################################
+mm.gui.modular.controller.name=Modular Controller
+
 module.heater.heat=Heat: %s
 
 module.page.alloysmelter.name=Alloy Smelter

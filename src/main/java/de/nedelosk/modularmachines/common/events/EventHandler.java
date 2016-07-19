@@ -8,7 +8,8 @@ import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleStoraged;
+import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -19,6 +20,7 @@ import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,6 +54,16 @@ public class EventHandler {
 			if(windowLocation != null){
 				ModelLoaderRegistry.getModelOrMissing(windowLocation);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
+		IModuleContainer container = ModularManager.getContainerFromItem(event.getItemStack());
+		if(container != null){
+			IModuleProvider provider = new ModuleProvider();
+			provider.setState(ModularManager.loadModuleState(null, event.getItemStack(), container));
+			event.addCapability(new ResourceLocation("modularmachines:modules"), provider);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.storage;
+package de.nedelosk.modularmachines.api.modules.storaged.storage;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;

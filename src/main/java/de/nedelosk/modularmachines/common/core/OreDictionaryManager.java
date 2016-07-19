@@ -2,6 +2,9 @@ package de.nedelosk.modularmachines.common.core;
 
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
+import java.util.List;
+
+import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import net.minecraft.init.Blocks;
@@ -12,10 +15,9 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictionaryManager {
 
 	public static void registerOres() {
-		registerOre("toolFile", new ItemStack(ItemManager.itemFileStone, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileIron, 1, OreDictionary.WILDCARD_VALUE));
-		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
+		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
 		for(int m = 0; m < ItemManager.metals.length; m++) {
 			Object[][] metal = ItemManager.metals[m];
@@ -61,9 +63,10 @@ public class OreDictionaryManager {
 	}
 
 	private static void registerComponentOres(String preFix, ItemComponent component){
-		for(int i = 0; i < component.materials.size(); i++) {
-			ItemStack stack = new ItemStack(ItemManager.itemCompSawBlades, 1, i);
-			String[] oreDicts = component.materials.get(i).getOreDicts();
+		List<IMetalMaterial> materials = component.materials;
+		for(int i = 0; i < materials.size(); i++) {
+			ItemStack stack = new ItemStack(component, 1, i);
+			String[] oreDicts = materials.get(i).getOreDicts();
 			if (oreDicts != null) {
 				for(String oreDict : oreDicts) {
 					registerOre(preFix + oreDict, stack);

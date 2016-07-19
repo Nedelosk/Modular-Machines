@@ -5,7 +5,7 @@ import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.modules.storage.ModuleBattery;
+import de.nedelosk.modularmachines.common.modules.storaged.storage.ModuleBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFInterface;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,7 @@ public class ModuleCapitorBank extends ModuleBattery {
 	private EnergyStorage defaultStorage;
 
 	public ModuleCapitorBank(int complexity, EnergyStorage defaultStorage) {
-		super("capitorbank", complexity);
+		super("capacitorbank", complexity);
 		this.defaultStorage = defaultStorage;
 	}
 

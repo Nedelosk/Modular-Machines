@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 
 public class ItemManager {
 
-	public static Item itemFileStone;
 	public static Item itemFileIron;
 	public static Item itemFileDiamond;
 	public static Item itemCutter;
@@ -41,7 +40,6 @@ public class ItemManager {
 	public static Object[][][] dusts = new Object[][][] { vanilla, default_metals, alloys};
 
 	public static void registerItems() {
-		itemFileStone = register(new ItemToolCrafting("file.stone", 50, 1, Material.Stone, 5));
 		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2, Material.Iron, 2));
 		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 3, Material.Diamond, 1));
 		itemHammer = register(new ItemToolCrafting("hammer", 300, 1, Material.Iron, 15));

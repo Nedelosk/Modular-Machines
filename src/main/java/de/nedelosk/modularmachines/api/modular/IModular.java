@@ -2,21 +2,23 @@ package de.nedelosk.modularmachines.api.modular;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModular extends ICapabilityProvider, IModuleStorage {
+public interface IModular extends IModuleStorage {
 
 	IModular copy(IModularHandler handler);
 
@@ -36,12 +38,8 @@ public interface IModular extends ICapabilityProvider, IModuleStorage {
 
 	void setHandler(IModularHandler tile);
 
-	void onAssembleModular();
-
-	/* NBT */
-	void readFromNBT(NBTTagCompound nbt);
-
-	NBTTagCompound writeToNBT(NBTTagCompound nbt);
+	@Nonnull
+	IModularAssembler disassemble();
 
 	/**
 	 * @return All modules as ModuleStack

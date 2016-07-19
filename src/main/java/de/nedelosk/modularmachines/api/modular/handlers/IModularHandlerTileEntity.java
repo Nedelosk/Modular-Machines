@@ -1,5 +1,6 @@
-package de.nedelosk.modularmachines.api.modular;
+package de.nedelosk.modularmachines.api.modular.handlers;
 
+import de.nedelosk.modularmachines.api.modular.IModular;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

@@ -27,22 +27,20 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected Map<IProperty, Object> properties;
 	protected final List<IProperty> registeredProperties;
 	protected final IModular modular;
-	protected final M module;
 	protected final IModuleContainer container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
 
-	public ModuleState(IModular modular, M module, IModuleContainer container) {
+	public ModuleState(IModular modular, IModuleContainer container) {
 		this.registeredProperties = Lists.newArrayList();
 		register(INDEX);
 
 		this.modular = modular;
-		this.module = module;
 		this.container = container;
-		List<IModulePage> createdPages = module.createPages(this);
+		List<IModulePage> createdPages = container.getModule().createPages(this);
 		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageCreateEvent(this, createdPages));
 		this.pages = createdPages;
-		this.contentHandlers = module.createContentHandlers(this);
+		this.contentHandlers = container.getModule().createContentHandlers(this);
 	}
 
 	@Override
@@ -136,7 +134,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public M getModule() {
-		return module;
+		return (M) container.getModule();
 	}
 
 	@Override

@@ -8,10 +8,10 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -50,7 +50,7 @@ public class ModelModular implements IBakedModel {
 	private ItemOverrideList overrideList;
 	private IBakedModel missingModel;
 
-	private IBakedModel getModel(ICapabilityProvider provider, VertexFormat vertex){
+	private IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = ModularUtils.getModularHandler(provider);
 		if(modularHandler != null){
 			if(modularHandler.getModular() != null){
@@ -186,7 +186,7 @@ public class ModelModular implements IBakedModel {
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
 			TileEntity tile = world.getTileEntity(pos);
 
-			IBakedModel model = getModel(tile, DefaultVertexFormats.BLOCK);
+			IBakedModel model = bakeModel(tile, DefaultVertexFormats.BLOCK);
 			if(model != null){
 				return model.getQuads(state, side, rand);
 			}
@@ -204,12 +204,12 @@ public class ModelModular implements IBakedModel {
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = ModularUtils.getModularHandler(stack);
 
-			if(modularHandler.getModular() == null && modularHandler instanceof IModularHandlerItem){
+			if(modularHandler.getModular() == null && stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());
 			}
 			IModular modular = modularHandler.getModular();
 			if(modular != null){
-				IBakedModel model = getModel(stack, DefaultVertexFormats.ITEM);
+				IBakedModel model = bakeModel(stack, DefaultVertexFormats.ITEM);
 				if(model != null){
 					return model;
 				}
@@ -235,7 +235,7 @@ public class ModelModular implements IBakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
-		return null;
+		return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
 	}
 
 	@Override

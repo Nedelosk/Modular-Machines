@@ -3,9 +3,11 @@ package de.nedelosk.modularmachines.common.modular.handlers;
 import com.mojang.authlib.GameProfile;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.common.modular.Modular;
+import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -21,24 +23,31 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class ModularHandler implements IModularHandler<IModular, NBTTagCompound>{
 
 	protected IModular modular;
+	protected IModularAssembler assembler;
 	protected World world;
 	protected GameProfile owner;
+	protected boolean isAssembled;
 
 	public ModularHandler(World world) {
 		this.world = world;
+		this.isAssembled = false;
 	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		if (modular != null) {
-			nbt.setTag("Modular", modular.writeToNBT(new NBTTagCompound()));
+			nbt.setTag("Modular", modular.serializeNBT());
 		}
 		if (this.owner != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTUtil.writeGameProfile(nbtTag, owner);
 			nbt.setTag("owner", nbtTag);
 		}
+		if(assembler != null){
+			nbt.setTag("Assembler", assembler.serializeNBT());
+		}
+		nbt.setBoolean("isAssembled", isAssembled);
 		return nbt;
 	}
 
@@ -47,9 +56,13 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 		if (nbt.hasKey("Modular")) {
 			modular = new Modular(nbt.getCompoundTag("Modular"), this);
 		}
+		if(nbt.hasKey("Assembler")){
+			assembler = new ModularAssembler(this, nbt.getCompoundTag("Assembler"));
+		}
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("owner"));
 		}
+		isAssembled = nbt.getBoolean("isAssembled");
 	}
 
 	@Override
@@ -93,6 +106,16 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	}
 
 	@Override
+	public void setAssembler(IModularAssembler assembler) {
+		this.assembler = assembler;
+	}
+
+	@Override
+	public IModularAssembler getAssembler() {
+		return assembler;
+	}
+
+	@Override
 	public IModular getModular() {
 		return modular;
 	}
@@ -100,6 +123,16 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	@Override
 	public World getWorld() {
 		return world;
+	}
+
+	@Override
+	public boolean isAssembled() {
+		return isAssembled;
+	}
+
+	@Override
+	public void setAssembled(boolean isAssembled) {
+		this.isAssembled = isAssembled;
 	}
 
 	@Override

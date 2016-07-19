@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import io.netty.buffer.ByteBuf;
@@ -31,9 +31,7 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 	public PacketModule(IModularHandler handler, int index) {
 		super(handler);
 		this.index = index;
-		NBTTagCompound nbt = new NBTTagCompound();
-		handler.getModular().getModule(index).writeToNBT(nbt);
-		this.nbt = nbt;
+		this.nbt = handler.getModular().getModule(index).serializeNBT();
 	}
 
 	@Override
@@ -59,7 +57,7 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 			return null;
 		}
 		IModuleState moduleState = handler.getModular().getModule(message.index);
-		moduleState.readFromNBT(message.nbt);
+		moduleState.deserializeNBT(nbt);
 
 		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){
 			((IModuleStateClient)moduleState).getModelHandler().setNeedReload(true);

@@ -23,6 +23,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 	public ItemComponent(String name, IMetalMaterial... materials) {
 		this.setUnlocalizedName("component." + name);
 		this.setCreativeTab(TabModularMachines.tabModularMachines);
+		this.setHasSubtypes(true);
 		this.componentName = name;
 		for(IMetalMaterial material : materials){
 			this.materials.add(material);

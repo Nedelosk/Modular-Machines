@@ -1,11 +1,10 @@
 package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.util.IStringSerializable;
 
-public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyBase<T, NBTTagInt, IPropertyProvider>{
+public class PropertyEnum<T extends Enum<T>> extends PropertyBase<T, NBTTagInt, IPropertyProvider>{
 
-	protected PropertyEnum(String name, Class<T> valueClass, T defaultValue){
+	public PropertyEnum(String name, Class<T> valueClass, T defaultValue){
 		super(name, valueClass, defaultValue);
 	}
 

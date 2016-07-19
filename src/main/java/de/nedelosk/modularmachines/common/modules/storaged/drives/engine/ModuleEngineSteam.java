@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.common.core.FluidManager;
-import de.nedelosk.modularmachines.common.modules.handlers.FluidFilterSteam;
+import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -95,7 +95,7 @@ public class ModuleEngineSteam extends ModuleEngine {
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilterSteam());
+			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilter(FluidManager.Steam));
 		}
 
 		@Override

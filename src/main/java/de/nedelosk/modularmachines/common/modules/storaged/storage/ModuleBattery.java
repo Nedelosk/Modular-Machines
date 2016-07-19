@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.storage;
+package de.nedelosk.modularmachines.common.modules.storaged.storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -40,8 +40,8 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	}
 
 	@Override
-	public ItemStack getDropItem(IModuleState state) {
-		ItemStack stack = super.getDropItem(state);
+	public ItemStack saveDataToItem(IModuleState state) {
+		ItemStack stack = super.saveDataToItem(state);
 		setStorageEnergy(state, ((IModuleEnergyInterface)state.getContentHandler(IModuleEnergyInterface.class)).getEnergyStored(getEnergyType(state)), stack);
 		return stack;
 	}

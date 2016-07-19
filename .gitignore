@@ -2,8 +2,8 @@
 /*
 
 # folders
-!/gradle/wrapper
 !/src
+!/gradle/wrapper
 /src/api/
 /src/main/
 

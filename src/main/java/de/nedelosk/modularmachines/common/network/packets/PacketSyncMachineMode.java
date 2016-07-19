@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
 import io.netty.buffer.ByteBuf;

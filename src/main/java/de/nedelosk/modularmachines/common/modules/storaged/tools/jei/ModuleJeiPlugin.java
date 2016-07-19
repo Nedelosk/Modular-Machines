@@ -5,8 +5,12 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
+import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
+import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.ModuleManager;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
@@ -43,6 +47,18 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 				new AlloySmelterRecipeCategory(guiHelper),
 				new BoilerRecipeCategory(guiHelper),
 				new PulverizerRecipeCategory(guiHelper));
+
+		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
+			IModule module = container.getModule();
+			if(module instanceof IModuleJEI){
+				registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(container));
+			}
+			if(container.getDescription() != null){
+				registry.addDescription(container.getItemStack(), container.getDescription());
+			}
+		}
+		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
+		registry.addDescription(new ItemStack(BlockManager.blockAssembler), "tile.modular.assembler.description");
 
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMetalMaterials.IRON), ModuleCategoryUIDs.BOILER);
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), ModuleCategoryUIDs.BOILER);

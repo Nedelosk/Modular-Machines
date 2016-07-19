@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modular.handlers;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;

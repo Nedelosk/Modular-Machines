@@ -6,11 +6,12 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -150,7 +151,16 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState state : modular.getModular().getModuleStates()) {
 					if (state != null) {
-						drops.add(state.getModule().getDropItem(state).copy());
+						drops.add(state.getModule().saveDataToItem(state).copy());
+						IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
+						if(inventory != null){
+							for(int i = 0;i < inventory.getSlots();i++){
+								ItemStack stack = inventory.getStackInSlot(i);
+								if(stack != null){
+									drops.add(stack);
+								}
+							}
+						}
 					}
 				}
 				WorldUtil.dropItem(world, pos, drops);
@@ -163,10 +173,10 @@ public class BlockModularMachine extends BlockContainerForest implements IItemMo
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IModularHandler) {
+		if (tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			IModularHandlerItem<IModular, NBTTagCompound> itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			itemHandler.setModular(tileModular.getModular());
+			itemHandler.setModular(tileModular.getModular().copy(itemHandler));
 			itemHandler.setOwner(player.getGameProfile());
 			itemHandler.setWorld(world);
 			itemHandler.setUID();

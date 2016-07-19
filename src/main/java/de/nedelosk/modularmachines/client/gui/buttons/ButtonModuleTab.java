@@ -9,10 +9,11 @@ import org.lwjgl.opengl.GL12;
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,10 +34,10 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		GlStateManager.pushMatrix();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTextureOverlay);
 		gui.getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
@@ -45,8 +46,8 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 		ItemStack item = state.getContainer().getItemStack();
 		drawItemStack(item, xPosition + 6, yPosition + 3);
 		RenderHelper.disableStandardItemLighting();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
 	@Override

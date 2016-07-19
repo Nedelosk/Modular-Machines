@@ -6,10 +6,10 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerItem;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
@@ -45,12 +45,14 @@ public class ItemBlockModularMachine extends ItemBlock {
 		if(GuiScreen.isShiftKeyDown()){
 			IModularHandler<IModular, NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			if(handler != null){
-				handler.deserializeNBT(stack.getTagCompound());
-				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
-				IModular modular = handler.getModular();
-				for(IModuleState state : modular.getModuleStates()){
-					if(state != null){
-						tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName());
+				if(stack.hasTagCompound()){
+					handler.deserializeNBT(stack.getTagCompound());
+					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
+					IModular modular = handler.getModular();
+					for(IModuleState state : modular.getModuleStates()){
+						if(state != null){
+							tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName());
+						}
 					}
 				}
 			}

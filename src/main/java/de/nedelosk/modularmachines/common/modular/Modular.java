@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.modular;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -9,8 +8,9 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
@@ -72,17 +72,15 @@ public class Modular implements IModular {
 			setHandler(handler);
 		}
 		if(nbt != null){
-			readFromNBT(nbt);
+			deserializeNBT(nbt);
 		}
 		onAssembleModular();
 	}
 
-	@Override
-	public void onAssembleModular() {
+	protected void onAssembleModular() {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
 		energyHandler = new EnergyHandler(getInterfaces());
-		moduleStates = Collections.unmodifiableList(moduleStates);
 		if(currentModule == null && getFirstGui() != null){
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
@@ -104,10 +102,11 @@ public class Modular implements IModular {
 		for(IModuleState moduleState : moduleStates) {
 			if (moduleState != null && moduleState.getModule() instanceof IModuleTickable) {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
+				IModuleTickable module = (IModuleTickable)moduleState.getModule();
 				if (isServer) {
-					((IModuleTickable)moduleState.getModule()).updateServer(moduleState, tickCount);
+					module.updateServer(moduleState, tickCount);
 				} else {
-					((IModuleTickable)moduleState.getModule()).updateClient(moduleState, tickCount);
+					module.updateClient(moduleState, tickCount);
 				}
 			}
 		}
@@ -119,7 +118,7 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList nbtList = nbt.getTagList("Modules", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
@@ -130,7 +129,7 @@ public class Modular implements IModular {
 				IModuleState state = container.getModule().createState(this, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
 				state = state.build();
-				state.readFromNBT(moduleTag);
+				state.deserializeNBT(moduleTag);
 				moduleStates.add(state);
 			}else{
 				Log.err("Remove module from modular, because the item of the module don't exist any more.");
@@ -156,11 +155,11 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
 		for(IModuleState module : moduleStates) {
-			NBTTagCompound nbtTag = new NBTTagCompound();
-			module.writeToNBT(nbtTag);
+			NBTTagCompound nbtTag = module.serializeNBT();
 			NBTTagCompound nbtTagContainer = new NBTTagCompound();
 			module.getContainer().getItemStack().writeToNBT(nbtTagContainer);
 			nbtTag.setTag("Container", nbtTagContainer);
@@ -174,6 +173,11 @@ public class Modular implements IModular {
 			}
 		}
 		return nbt;
+	}
+
+	@Override
+	public IModularAssembler disassemble() {
+		return null;
 	}
 
 	@Override
@@ -403,8 +407,6 @@ public class Modular implements IModular {
 
 	@Override
 	public IModular copy(IModularHandler handler) {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		writeToNBT(nbtTag);
-		return new Modular(nbtTag, handler);
+		return new Modular(serializeNBT(), handler);
 	}
 }

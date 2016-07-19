@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -13,11 +13,12 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
+import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
+import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.ModuleMachineAdvanced;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraft.inventory.Slot;
@@ -56,6 +57,16 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 		List<IModulePage> pages = super.createPages(state);
 		pages.add(new ModuleLathePage("Basic", state));
 		return pages;
+	}
+
+	@Override
+	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
+		if(super.isRecipeValid(recipe, state)){
+			if(recipe.get(RecipeUtil.LATHEMODE) == getCurrentMode(state)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*@SideOnly(Side.CLIENT)

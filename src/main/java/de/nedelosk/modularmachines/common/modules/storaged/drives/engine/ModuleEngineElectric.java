@@ -1,11 +1,15 @@
 package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 
+import java.util.Locale;
+
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
 import net.minecraftforge.items.IItemHandler;
 
 public class ModuleEngineElectric extends ModuleEngine {
@@ -13,13 +17,18 @@ public class ModuleEngineElectric extends ModuleEngine {
 	protected IEnergyType type;
 
 	public ModuleEngineElectric(int complexity, int kineticModifier, int maxKineticEnergy, int energyPerWork, IEnergyType type) {
-		super("engine.electric", complexity, kineticModifier, maxKineticEnergy, energyPerWork);
+		super("engine.electric." + type.getShortName().toLowerCase(Locale.ENGLISH), complexity, kineticModifier, maxKineticEnergy, energyPerWork);
 		this.type = type;
 	}
 
 	@Override
-	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
-		if(!super.assembleModule(itemHandler, modular, state, storage)){
+	public String getDescription(IModuleContainer container) {
+		return super.getDescription(container);
+	}
+
+	@Override
+	public boolean assembleModule(IModularAssembler assembler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
+		if(!super.assembleModule(assembler, modular, state, storage)){
 			return false;
 		}
 		if(modular.getModules(IModuleBattery.class).isEmpty()){

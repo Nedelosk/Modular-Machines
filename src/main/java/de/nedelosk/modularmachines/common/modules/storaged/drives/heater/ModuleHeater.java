@@ -5,18 +5,20 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
-import de.nedelosk.modularmachines.common.modules.storaged.ModuleStoraged;
+import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleHeater extends ModuleStoraged implements IModuleHeater, IModuleColored {
+public abstract class ModuleHeater extends Module implements IModuleHeater, IModuleColored {
 
 	protected final int maxHeat;
 	protected final int heatModifier;
@@ -69,6 +71,11 @@ public abstract class ModuleHeater extends ModuleStoraged implements IModuleHeat
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModuleState<IModule> state, int tickCount) {
+	}
+	
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.RIGHT;
 	}
 
 	protected abstract boolean canAddHeat(IModuleState state);

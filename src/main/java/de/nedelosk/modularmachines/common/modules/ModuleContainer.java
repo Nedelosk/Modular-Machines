@@ -6,7 +6,6 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -86,16 +85,16 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		return module.getUnlocalizedName(this);
 	}
 
+	@Override
+	public String getDescription() {
+		return module.getDescription(this);
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip) {
 		module.addTooltip(tooltip, this);
 
 		tooltip.addAll(this.tooltip);
-	}
-
-	@Override
-	public String getFilePath(IModuleState state) {
-		return null;
 	}
 }

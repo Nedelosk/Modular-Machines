@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

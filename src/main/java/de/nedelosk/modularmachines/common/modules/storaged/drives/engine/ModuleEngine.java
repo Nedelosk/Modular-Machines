@@ -12,20 +12,21 @@ import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHand
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.storaged.ModuleStoraged;
+import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngine {
+public abstract class ModuleEngine extends Module implements IModuleEngine {
 
 	protected final double kineticModifier;
 	protected final int maxKineticEnergy;
@@ -116,6 +117,11 @@ public abstract class ModuleEngine extends ModuleStoraged implements IModuleEngi
 	@Override
 	protected IModuleState createClientState(IModular modular, IModuleContainer container) {
 		return super.createClientState(modular, container).register(PROGRESS);
+	}
+
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.RIGHT;
 	}
 
 	@SideOnly(Side.CLIENT)

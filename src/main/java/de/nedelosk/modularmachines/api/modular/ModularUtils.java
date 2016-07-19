@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.api.modular;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -23,7 +24,7 @@ public class ModularUtils {
 		return getModule(modular, IModuleCasing.class);
 	}
 
-	private static <M extends IModule> IModuleState<M> getModule(IModular modular, Class<? extends M> moduleClass) {
+	public static <M extends IModule> IModuleState<M> getModule(IModular modular, Class<? extends M> moduleClass) {
 		if (modular == null) {
 			return null;
 		}

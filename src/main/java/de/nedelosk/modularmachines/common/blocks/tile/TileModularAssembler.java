@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
 import de.nedelosk.modularmachines.client.gui.GuiModularAssembler;
-import de.nedelosk.modularmachines.common.inventory.ContainerModularAssembler;
+import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -22,7 +22,7 @@ public class TileModularAssembler extends TileMachineBase{
 
 	@Override
 	public Container getContainer(InventoryPlayer inventory) {
-		return new ContainerModularAssembler(this, inventory);
+		return new ContainerAssembler(this, inventory);
 	}
 
 	@Override

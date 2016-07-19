@@ -7,8 +7,9 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -23,11 +24,14 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -57,6 +61,18 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize().getLocalizedName());
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ResourceLocation getWindowLocation(IModuleContainer container) {
+		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName() + "_" + getSize().getName());
+	}
+	
+	@Override
+	public EnumWallType getWallType(IModuleState state) {
+		return EnumWallType.NONE;
 	}
 
 	@Override
@@ -65,7 +81,12 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public ItemStack getDropItem(IModuleState state) {
+	public String getDescription(IModuleContainer container) {
+		return "module." + name + ".description";
+	}
+
+	@Override
+	public ItemStack saveDataToItem(IModuleState state) {
 		return state.getContainer().getItemStack();
 	}
 
@@ -122,12 +143,12 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			return createClientState(modular, container);
 		}
-		return new ModuleState(modular, this, container);
+		return new ModuleState(modular, container);
 	}
 
 	@SideOnly(Side.CLIENT)
 	protected IModuleState createClientState(IModular modular, IModuleContainer container){
-		return new ModuleStateClient(modular, this, container);
+		return new ModuleStateClient(modular, container);
 	}
 
 	@Override
@@ -159,7 +180,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public boolean assembleModule(IItemHandler itemHandler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
+	public boolean assembleModule(IModularAssembler assembler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
 		return true;
 	}
 }

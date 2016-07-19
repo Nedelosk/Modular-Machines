@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.Widget;
-import de.nedelosk.modularmachines.api.modular.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.gui.Gui;

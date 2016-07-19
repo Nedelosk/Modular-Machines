@@ -107,9 +107,7 @@ public class RecipeRegistry {
 	 * Write a recipe to a NBTTagCompound.
 	 */
 	public static NBTTagCompound writeRecipeToNBT(IRecipe recipe){
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		recipe.writeToNBT(nbtTag);
-		return nbtTag;
+		return recipe.serializeNBT();
 	}
 
 	/**
@@ -119,7 +117,7 @@ public class RecipeRegistry {
 		String recipeCategory = nbtCompound.getString(Recipe.CATEGORY.getName());
 		IRecipeHandler handler = getRecipeHandler(recipeCategory);
 		IRecipe recipe = handler.buildDefault();
-		recipe.readFromNBT(nbtCompound);
+		recipe.deserializeNBT(nbtCompound);
 		return recipe;
 
 	}
