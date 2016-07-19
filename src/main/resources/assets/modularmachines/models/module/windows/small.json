@@ -1,0 +1,11 @@
+{
+"elements": [ 
+{
+    "from": [ 0, 2, 3 ],
+    "to": [ 1, 5, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 6 ], "texture": "#window" }
+    }
+}
+]
+}

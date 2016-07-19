@@ -20,7 +20,7 @@ import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.ModuleController;
-import de.nedelosk.modularmachines.common.modules.ModuleDrawer;
+import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeaterBurning;
@@ -117,7 +117,7 @@ public class ModuleManager {
 		moduleCasingBronze.setRegistryName(new ResourceLocation("modularmachines:casing.bronze"));
 		GameRegistry.register(moduleCasingBronze);
 
-		moduleDrawerBrick = new ModuleDrawer(3, 1);
+		moduleDrawerBrick = new ModuleModuleStorage(3, 1);
 		moduleDrawerBrick.setRegistryName(new ResourceLocation("modularmachines:drawer.brick"));
 		GameRegistry.register(moduleDrawerBrick);
 

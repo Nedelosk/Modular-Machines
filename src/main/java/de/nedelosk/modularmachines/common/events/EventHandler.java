@@ -49,11 +49,9 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onModuleModelInit(ModuleEvents.ModuleModelInitEvent event) {
 		IModuleContainer conatiner = event.getContainer();
-		if(conatiner.getModule() instanceof IModuleStoraged){
-			ResourceLocation windowLocation = ((IModuleStoraged)conatiner.getModule()).getWindowLocation(conatiner);
-			if(windowLocation != null){
-				ModelLoaderRegistry.getModelOrMissing(windowLocation);
-			}
+		ResourceLocation windowLocation = conatiner.getModule().getWindowLocation(conatiner);
+		if(windowLocation != null){
+			ModelLoaderRegistry.getModelOrMissing(windowLocation);
 		}
 	}
 

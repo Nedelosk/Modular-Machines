@@ -3,8 +3,11 @@ package de.nedelosk.modularmachines.common.plugins.enderio;
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.common.modules.storaged.storage.ModuleBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFInterface;
 import net.minecraft.item.ItemStack;
@@ -43,5 +46,15 @@ public class ModuleCapitorBank extends ModuleBattery {
 	@Override
 	public IEnergyType getEnergyType(IModuleState state) {
 		return EnergyRegistry.redstoneFlux;
+	}
+
+	@Override
+	public EnumPosition getPosition(IModuleContainer container) {
+		return EnumPosition.INTERNAL;
+	}
+
+	@Override
+	public EnumModuleSize getSize() {
+		return EnumModuleSize.LARGE;
 	}
 }

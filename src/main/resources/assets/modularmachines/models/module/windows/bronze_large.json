@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/windows/large",
+	"textures": {
+        "window": "modularmachines:modules/bronze_window_large"
+    }
+}

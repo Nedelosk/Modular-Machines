@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/turbines/turbine",
+	"textures": {
+        "turbine": "modularmachines:modules/turbine_bronze"
+    }
+}

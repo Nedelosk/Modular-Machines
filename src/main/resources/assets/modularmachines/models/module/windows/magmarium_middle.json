@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/windows/middle",
+	"textures": {
+        "window": "modularmachines:modules/magmarium_window_middle"
+    }
+}

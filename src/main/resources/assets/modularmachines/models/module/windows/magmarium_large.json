@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/windows/large",
+	"textures": {
+        "window": "modularmachines:modules/magmarium_window_large"
+    }
+}

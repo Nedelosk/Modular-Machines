@@ -3,9 +3,8 @@
 
 # folders
 !/src
-!/gradle/wrapper
-/src/api/
-/src/main/
+!/gradle/
+/src/api
 
 # files
 !/.gitignore

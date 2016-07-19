@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/machine_large",
+	"textures": {
+        "machine": "modularmachines:modules/pulverizer_bronze_large_on"
+    }
+}
