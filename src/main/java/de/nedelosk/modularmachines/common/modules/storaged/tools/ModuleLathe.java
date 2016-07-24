@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -35,6 +36,12 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
 		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	protected String getModelFolder(IModuleContainer container) {
+		return "lathes";
 	}
 
 	@Override

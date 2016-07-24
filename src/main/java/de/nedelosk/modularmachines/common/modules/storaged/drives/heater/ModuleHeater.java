@@ -1,20 +1,28 @@
 package de.nedelosk.modularmachines.common.modules.storaged.drives.heater;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
+import de.nedelosk.modularmachines.client.modules.ModelHandler;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -76,6 +84,28 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.RIGHT;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModelHandler createModelHandler(IModuleState state) {
+		ResourceLocation[] locs = new ResourceLocation[]{
+				ModelHandler.getModelLocation(state.getContainer(), "heaters", true),
+				ModelHandler.getModelLocation(state.getContainer(), "heaters", false)
+		};
+		return new ModelHandlerStatus("heaters", state.getContainer(), locs);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List handlers = new ArrayList<>();
+		ResourceLocation[] locs = new ResourceLocation[]{
+				ModelHandler.getModelLocation(container, "heaters", true),
+				ModelHandler.getModelLocation(container, "heaters", false)
+		};
+		handlers.add(new ModelHandlerStatus("heaters", container, locs));
+		return handlers;
 	}
 
 	protected abstract boolean canAddHeat(IModuleState state);

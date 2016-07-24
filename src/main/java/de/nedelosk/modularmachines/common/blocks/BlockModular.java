@@ -138,6 +138,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 					modularHandler.setAssembler(assembler);
 					modularHandler.setModular(null);
 					PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
+					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			}
 			if (modularHandler.getModular() == null && modularHandler.getAssembler() == null || modularHandler.createContainer(player.inventory) == null) {

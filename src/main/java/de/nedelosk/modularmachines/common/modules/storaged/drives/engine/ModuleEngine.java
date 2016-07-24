@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
+import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.Module;
@@ -159,20 +160,26 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + state.getContainer().getMaterial().getName()));
+		return new ModelHandlerEngine(state.getContainer());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerEngine(new ResourceLocation("modularmachines:module/engines/" + container.getMaterial().getName())));
+		handlers.add(new ModelHandlerEngine(container));
 		return handlers;
 	}
 
 	@Override
 	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.WINDOW;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ResourceLocation getWindowLocation(IModuleContainer container) {
+		return ModelHandler.getModelLocation(container, "windows",  getSize());
 	}
 
 }

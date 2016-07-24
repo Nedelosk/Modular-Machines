@@ -27,6 +27,6 @@ public class ModelHandlerDefault extends ModelHandler implements IModelHandler, 
 
 	@Override
 	public void reload(IModuleState state, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
-		bakedModel = ModelLoaderRegistry.getModelOrMissing(location).bake(modelState, format, bakedTextureGetter);
+		bakedModel = getBakedModel(location, modelState, format, bakedTextureGetter);
 	}
 }

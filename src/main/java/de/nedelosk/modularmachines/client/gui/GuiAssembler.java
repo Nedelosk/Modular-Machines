@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerTab;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
@@ -23,6 +24,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.util.math.BlockPos;
 
 public class GuiAssembler extends GuiForestBase<IModularHandler> {
 
@@ -108,6 +110,10 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 					handler.setModular(modular);
 					handler.setAssembler(null);
 					PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(handler, true));
+					if(handler instanceof IModularHandlerTileEntity){
+						BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
+						handler.getWorld().markBlockRangeForRenderUpdate(pos, pos);
+					}
 				}
 			}catch(AssemblerException e){
 				lastException = e;

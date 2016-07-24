@@ -87,10 +87,13 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 			preFixNew = "";
 		}
 		if(useSize){
-			preFixNew+= "_" + container.getModule().getSize().getName();
+			if(!preFixNew.isEmpty()){
+				preFixNew+="_";
+			}
+			preFixNew+= container.getModule().getSize().getName();
 		}
 		if(useStatus){
-			preFixNew+= "_" + status;
+			preFixNew+= "_" + (status ? "on" : "off");
 		}
 		return new ResourceLocation(Loader.instance().activeModContainer().getModId(), "module/" + container.getMaterial().getName() + "/" + modelFolder + "/" + preFixNew);
 	}

@@ -127,7 +127,9 @@ public class Modular implements IModular {
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
 			EnumPosition position = EnumPosition.values()[moduleTag.getShort("Position")];
-			storages.put(position, new PositionedModuleStorage(this, position));
+			IPositionedModuleStorage storage = new PositionedModuleStorage(this, position);
+			storage.deserializeNBT(moduleTag);
+			storages.put(position, storage);
 		}
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));
@@ -155,7 +157,7 @@ public class Modular implements IModular {
 		for(IPositionedModuleStorage storage : storages.values()) {
 			if(storage != null){
 				NBTTagCompound nbtTag = storage.serializeNBT();
-				nbt.setShort("Position", (short) storage.getPosition().ordinal());
+				nbtTag.setShort("Position", (short) storage.getPosition().ordinal());
 				nbtList.appendTag(nbtTag);
 			}
 		}

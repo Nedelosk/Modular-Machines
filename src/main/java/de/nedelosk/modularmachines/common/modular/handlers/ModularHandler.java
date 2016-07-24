@@ -102,7 +102,9 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 
 	@Override
 	public void setModular(IModular modular) {
-		modular.setHandler(this);
+		if(modular != null){
+			modular.setHandler(this);
+		}
 		this.modular = modular;
 		markDirty();
 	}

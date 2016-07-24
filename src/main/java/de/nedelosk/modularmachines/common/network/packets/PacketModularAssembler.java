@@ -49,7 +49,15 @@ public class PacketModularAssembler extends PacketModularHandler implements IMes
 			handler.setModular(null);
 		}
 		BlockPos pos = getPos(handler);
-		ctx.getServerHandler().playerEntity.openGui(ModularMachines.instance, 0, ctx.getServerHandler().playerEntity.worldObj, pos.getX(), pos.getY(), pos.getZ());
+		if(handler.getModular() != null){
+			if(handler.getModular().getCurrentModuleState() != null){
+				ctx.getServerHandler().playerEntity.openGui(ModularMachines.instance, 0, ctx.getServerHandler().playerEntity.worldObj, pos.getX(), pos.getY(), pos.getZ());
+			}else{
+				ctx.getServerHandler().playerEntity.closeScreen();
+			}
+		}else{
+			ctx.getServerHandler().playerEntity.openGui(ModularMachines.instance, 0, ctx.getServerHandler().playerEntity.worldObj, pos.getX(), pos.getY(), pos.getZ());
+		}
 		return null;
 	}
 

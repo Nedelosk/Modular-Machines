@@ -41,17 +41,16 @@ public class ModelHandlerCasing extends ModelHandler implements IModelHandler, I
 	public void reload(IModuleState state, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
 		if(state.getModular() != null){
+			List<EnumPosition> positions = new ArrayList<>();
 			for(IModuleState<IModuleModuleStorage> storage : state.getModular().getModules(IModuleModuleStorage.class)){
-				EnumPosition position = storage.getModule().getCurrentPosition(storage);
-				if(position == EnumPosition.LEFT){
-					models.add(getBakedModel(casing_left, modelState, format, bakedTextureGetter));
-				}else if(position == EnumPosition.RIGHT){
-					models.add(getBakedModel(casing_right, modelState, format, bakedTextureGetter));
-				}
+				positions.add(storage.getModule().getCurrentPosition(storage));
 			}
-		}else{
-			models.add(getBakedModel(casing_left, modelState, format, bakedTextureGetter));
-			models.add(getBakedModel(casing_right, modelState, format, bakedTextureGetter));
+			if(!positions.contains(EnumPosition.LEFT)){
+				models.add(getBakedModel(casing_left, modelState, format, bakedTextureGetter));
+			}
+			if(!positions.contains(EnumPosition.RIGHT)){
+				models.add(getBakedModel(casing_right, modelState, format, bakedTextureGetter));
+			}
 		}
 		models.add(getBakedModel(casing, modelState, format, bakedTextureGetter));
 		bakedModel = new ModelModular.ModularBaked(models);

@@ -1,11 +1,9 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -26,7 +24,6 @@ import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -58,22 +55,8 @@ public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored,
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/alloysmelters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/alloysmelters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
-		});
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/alloysmelters/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/alloysmelters/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
-		}));
-		return handlers;
+	protected String getModelFolder(IModuleContainer container) {
+		return "alloysmelters";
 	}
 
 	@SideOnly(Side.CLIENT)

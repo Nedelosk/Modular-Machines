@@ -6,5 +6,4 @@ public interface IPositionedModuleStorage extends IModuleStorage{
 
 	EnumPosition getPosition();
 
-
 }

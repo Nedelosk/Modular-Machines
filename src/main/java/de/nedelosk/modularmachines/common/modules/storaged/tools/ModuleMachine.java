@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
@@ -17,6 +18,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdv
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
+import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
@@ -32,12 +34,15 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import de.nedelosk.modularmachines.client.modules.ModelHandler;
+import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -91,6 +96,30 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 		}
 		return true;
 	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IModelHandler createModelHandler(IModuleState state) {
+		ResourceLocation[] locs = new ResourceLocation[]{
+				ModelHandler.getModelLocation(state.getContainer(), getModelFolder(state.getContainer()), true),
+				ModelHandler.getModelLocation(state.getContainer(), getModelFolder(state.getContainer()), false)
+		};
+		return new ModelHandlerStatus(getModelFolder(state.getContainer()), state.getContainer(), locs);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
+		List handlers = new ArrayList<>();
+		ResourceLocation[] locs = new ResourceLocation[]{
+				ModelHandler.getModelLocation(container, getModelFolder(container), true),
+				ModelHandler.getModelLocation(container, getModelFolder(container), false)
+		};
+		handlers.add(new ModelHandlerStatus(getModelFolder(container), container, locs));
+		return handlers;
+	}
+
+	protected abstract String getModelFolder(IModuleContainer container);
 
 	protected boolean addOutput(IModuleState state) {
 		int chance = getChance(state);

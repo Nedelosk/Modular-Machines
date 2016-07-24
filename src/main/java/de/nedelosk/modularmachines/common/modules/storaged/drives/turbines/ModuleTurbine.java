@@ -17,12 +17,12 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
+import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -113,14 +113,14 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/turbines/" + state.getContainer().getMaterial().getName()));
+		return new ModelHandlerDefault("turbines", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "turbines", state.getModule().getSize()));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault(new ResourceLocation("modularmachines:module/turbines/" + container.getMaterial().getName())));
+		handlers.add(new ModelHandlerDefault("turbines", container, ModelHandler.getModelLocation(container, "turbines", container.getModule().getSize())));
 		return handlers;
 	}
 

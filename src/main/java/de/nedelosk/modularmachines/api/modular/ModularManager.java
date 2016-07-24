@@ -60,7 +60,7 @@ public class ModularManager {
 	public static ItemStack saveModuleState(IModuleState moduleState){
 		ItemStack stack = moduleState.getModule().saveDataToItem(moduleState);
 		IModuleProvider provider = stack.getCapability(ModularManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(moduleState != null){
+		if(moduleState != null && provider != null){
 			provider.setState(moduleState);
 		}
 		return stack;

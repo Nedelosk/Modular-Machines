@@ -19,7 +19,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHe
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -77,18 +76,14 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/" + state.getContainer().getMaterial().getName()),
-				new ResourceLocation("modularmachines:module/casings/" + state.getContainer().getMaterial().getName() + "_side_left"),
-				new ResourceLocation("modularmachines:module/casings/" + state.getContainer().getMaterial().getName() + "_side_right"));
+		return new ModelHandlerCasing(state.getContainer());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerCasing(new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName()),
-				new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName() + "_side_left"),
-				new ResourceLocation("modularmachines:module/casings/" + container.getMaterial().getName() + "_side_right")));
+		handlers.add(new ModelHandlerCasing(container));
 		return handlers;
 	}
 

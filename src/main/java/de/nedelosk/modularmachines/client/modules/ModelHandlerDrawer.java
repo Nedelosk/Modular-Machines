@@ -103,7 +103,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 		EnumPosition type = state.getModule().getCurrentPosition(state);
 		List<IModuleState> modules = new ArrayList<>();
 		for(IModuleState stateStoraged : state.getModular().getModuleStorage(type).getModules()){
-			if(stateStoraged != null){
+			if(stateStoraged != null && stateStoraged != state){
 				modules.add(stateStoraged);
 			}
 		}

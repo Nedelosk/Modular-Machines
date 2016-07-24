@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
+import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,14 +25,16 @@ public class ModuleController extends Module implements IModuleController {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(new ResourceLocation("modularmachines:module/controllers/" + state.getContainer().getMaterial().getName()));
+		ResourceLocation loc = ModelHandler.getModelLocation(state.getContainer(), "controllers", state.getModule().getSize());
+		return new ModelHandlerDefault("controllers", state.getContainer(), loc);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault(new ResourceLocation("modularmachines:module/controllers/" + container.getMaterial().getName())));
+		ResourceLocation loc = ModelHandler.getModelLocation(container, "controllers", container.getModule().getSize());
+		handlers.add(new ModelHandlerDefault("controllers", container, loc));
 		return handlers;
 	}
 

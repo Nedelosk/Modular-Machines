@@ -16,7 +16,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDrawer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,21 +52,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	protected ModelHandlerDrawer createModelHandler(IModuleContainer container){
-		return new ModelHandlerDrawer(
-				new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/drawer"), 
-				new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/top"), 
-				new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/back"), 
-				new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/wall"), 
-				new ResourceLocation[]{ 
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/stick_down"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/stick_up"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/small_down"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/small_middle"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/small_up"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/middle_up"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/middle_middle"),
-						new ResourceLocation("modularmachines:module/drawers/" + container.getMaterial().getName() + "/front_walls/large")}
-				);
+		return new ModelHandlerDrawer(container);
 	}
 
 	@SideOnly(Side.CLIENT)

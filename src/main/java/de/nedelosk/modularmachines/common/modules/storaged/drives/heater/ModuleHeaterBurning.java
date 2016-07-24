@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.common.modules.storaged.drives.heater;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.Translator;
@@ -11,7 +10,6 @@ import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -30,7 +28,6 @@ import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -46,26 +43,6 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
 		return super.createState(modular, container).register(BURNTIME).register(BURNTIMETOTAL);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/heaters/" + state.getContainer().getMaterial().getName() + "_" + size.getName() + "_off")
-		});
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerStatus(new ResourceLocation[]{
-				new ResourceLocation("modularmachines:module/heaters/" + container.getMaterial().getName() + "_" + size.getName() + "_on"),
-				new ResourceLocation("modularmachines:module/heaters/" + container.getMaterial().getName() + "_" + size.getName() + "_off")
-		}));
-		return handlers;
 	}
 
 	@SideOnly(Side.CLIENT)
