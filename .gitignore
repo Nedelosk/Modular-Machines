@@ -8,12 +8,8 @@
 
 # files
 !/.gitignore
-!/.gitmodules
 !/LICENSE.txt
-!/license-header.txt
-!/Changelog.txt
 !/README.md
-!/application.properties
 !/build.gradle
 !/build.properties
 !/gradlew
