@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.client.modules;
 
-import java.util.List;
-
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
@@ -17,17 +15,18 @@ public class ModelHandlerDefault extends ModelHandler implements IModelHandler, 
 
 	private final ResourceLocation location;
 
-	public ModelHandlerDefault(ResourceLocation location) {
+	public ModelHandlerDefault(String modelFolder, IModuleContainer container, ResourceLocation location) {
+		super(modelFolder, container);
 		this.location = location;
 	}
 
 	@Override
 	public void initModels(IModuleContainer container) {
-		ModelLoaderRegistry.getModelOrMissing(location);
+		getModelOrDefault(location);
 	}
 
 	@Override
-	public void reload(IModuleState state, IModelState modelState, VertexFormat format, Function bakedTextureGetter, List otherHandlers) {
+	public void reload(IModuleState state, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		bakedModel = ModelLoaderRegistry.getModelOrMissing(location).bake(modelState, format, bakedTextureGetter);
 	}
 }

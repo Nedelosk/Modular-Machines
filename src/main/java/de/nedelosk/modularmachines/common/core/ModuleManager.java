@@ -9,8 +9,9 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
@@ -19,7 +20,6 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleContainer;
-import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
@@ -33,6 +33,7 @@ import de.nedelosk.modularmachines.common.modules.storaged.tools.ModulePulverize
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleSawMill;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -41,13 +42,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleManager {
 
-	public static IModuleController moduleControllerIron;
-	public static IModuleController moduleControllerBronze;
+	//public static IModuleController moduleControllerIron;
+	//public static IModuleController moduleControllerBronze;
 
 	public static IModuleCasing moduleCasingIron;
 	public static IModuleCasing moduleCasingBronze;
 
-	public static IModuleModuleStorage moduleDrawerBrick;
+	public static IModuleModuleStorage moduleDrawerBrickLarge;
+	public static IModuleModuleStorage moduleDrawerBrickSmall;
 
 	public static IModuleTurbine moduleTurbineSteamIron;
 	public static IModuleTurbine moduleTurbineSteamBronze;
@@ -100,42 +102,46 @@ public class ModuleManager {
 
 	public static void registerModuels() {
 
-		moduleControllerIron = new ModuleController(6, 2, 2, 2);
+		/*moduleControllerIron = new ModuleController(6, 2, 2, 2);
 		moduleControllerIron.setRegistryName(new ResourceLocation("modularmachines:controller.iron"));
 		GameRegistry.register(moduleControllerIron);
 
 		moduleControllerBronze = new ModuleController(12, 3, 3, 3);
 		moduleControllerBronze.setRegistryName(new ResourceLocation("modularmachines:controller.bronze"));
-		GameRegistry.register(moduleControllerBronze);
+		GameRegistry.register(moduleControllerBronze);*/
 
 		/* CASINGS */
-		moduleCasingIron = new ModuleCasing(1, 400, 10.0F, 5.0F, "pickaxe", 1);
+		moduleCasingIron = new ModuleCasing(1, 6, 400, 10.0F, 5.0F, "pickaxe", 1);
 		moduleCasingIron.setRegistryName(new ResourceLocation("modularmachines:casing.iron"));
 		GameRegistry.register(moduleCasingIron);
 
-		moduleCasingBronze = new ModuleCasing(2, 550, 10.0F, 1.5F, "pickaxe", 1);
+		moduleCasingBronze = new ModuleCasing(2, 12, 550, 10.0F, 1.5F, "pickaxe", 1);
 		moduleCasingBronze.setRegistryName(new ResourceLocation("modularmachines:casing.bronze"));
 		GameRegistry.register(moduleCasingBronze);
 
-		moduleDrawerBrick = new ModuleModuleStorage(3, 1);
-		moduleDrawerBrick.setRegistryName(new ResourceLocation("modularmachines:drawer.brick"));
-		GameRegistry.register(moduleDrawerBrick);
+		moduleDrawerBrickLarge = new ModuleModuleStorage(3, 1, EnumModuleSize.LARGE);
+		moduleDrawerBrickLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.large"));
+		GameRegistry.register(moduleDrawerBrickLarge);
+
+		moduleDrawerBrickSmall = new ModuleModuleStorage(3, 1, EnumModuleSize.SMALL);
+		moduleDrawerBrickSmall.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.small"));
+		GameRegistry.register(moduleDrawerBrickSmall);
 
 		/* TURBINES */
 		//Steam
-		moduleTurbineSteamIron = new ModuleTurbineSteam(1, EnumModuleSize.LARGE, 3, 350, 40);
+		moduleTurbineSteamIron = new ModuleTurbineSteam(1, EnumModuleSize.LARGE, 10, 350, 70);
 		moduleTurbineSteamIron.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.iron"));
 		GameRegistry.register(moduleTurbineSteamIron);
 
-		moduleTurbineSteamBronze =new ModuleTurbineSteam(2, EnumModuleSize.LARGE, 4, 450, 30);
+		moduleTurbineSteamBronze =new ModuleTurbineSteam(2, EnumModuleSize.LARGE, 13, 450, 55);
 		moduleTurbineSteamBronze.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.bronze"));
 		GameRegistry.register(moduleTurbineSteamBronze);
 
-		moduleTurbineSteamSteel = new ModuleTurbineSteam(3, EnumModuleSize.LARGE, 5, 500, 20);
+		moduleTurbineSteamSteel = new ModuleTurbineSteam(3, EnumModuleSize.LARGE, 16, 500, 40);
 		moduleTurbineSteamSteel.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.steel"));
 		GameRegistry.register(moduleTurbineSteamSteel);
 
-		moduleTurbineSteamMagmarium = new ModuleTurbineSteam(4, EnumModuleSize.LARGE, 8, 550, 15);
+		moduleTurbineSteamMagmarium = new ModuleTurbineSteam(4, EnumModuleSize.LARGE, 25, 550, 20);
 		moduleTurbineSteamMagmarium.setRegistryName(new ResourceLocation("modularmachines:turbine.steam.magmarium"));
 		GameRegistry.register(moduleTurbineSteamMagmarium);
 
@@ -304,15 +310,16 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteamMagmarium, new ItemStack(ItemManager.itemTurbineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Controller
-		addDefaultModuleItem(moduleControllerIron, EnumMetalMaterials.IRON);
-		addDefaultModuleItem(moduleControllerBronze, EnumMetalMaterials.BRONZE);
+		//addDefaultModuleItem(moduleControllerIron, EnumMetalMaterials.IRON);
+		//addDefaultModuleItem(moduleControllerBronze, EnumMetalMaterials.BRONZE);
 
 		//Casings
-		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(BlockManager.blockCasings, 1, 0), EnumMetalMaterials.IRON));
-		GameRegistry.register(new ModuleContainer(moduleCasingBronze, new ItemStack(BlockManager.blockCasings, 1, 1), EnumMetalMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleCasingBronze, new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.BRONZE));
 
 		//Drawers
-		GameRegistry.register(new ModuleContainer(moduleDrawerBrick, new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));
+		GameRegistry.register(new ModuleContainer(moduleDrawerBrickLarge, new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));
+		GameRegistry.register(new ModuleContainer(moduleDrawerBrickSmall, new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
 
 		//Boilers
 		addDefaultModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);
@@ -360,6 +367,23 @@ public class ModuleManager {
 					public void markDirty() {
 					}
 				};
+			}
+		});
+
+		CapabilityManager.INSTANCE.register(IModuleProvider.class, new Capability.IStorage<IModuleProvider>(){
+			@Override
+			public NBTBase writeNBT(Capability<IModuleProvider> capability, IModuleProvider instance, EnumFacing side) {
+				return instance.serializeNBT();
+			}
+
+			@Override
+			public void readNBT(Capability<IModuleProvider> capability, IModuleProvider instance, EnumFacing side, NBTBase nbt) {
+				instance.deserializeNBT((NBTTagCompound) nbt);
+			}
+		}, new Callable<IModuleProvider>(){
+			@Override
+			public IModuleProvider call() throws Exception{
+				return new ModuleProvider();
 			}
 		});
 	}

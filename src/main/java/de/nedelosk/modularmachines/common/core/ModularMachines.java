@@ -56,7 +56,6 @@ public class ModularMachines {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		registry.init(instance, event);
-		proxy.registerRenderers();
 	}
 
 	@EventHandler

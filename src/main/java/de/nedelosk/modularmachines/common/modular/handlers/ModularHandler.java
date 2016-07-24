@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.common.modular.Modular;
-import de.nedelosk.modularmachines.common.modular.ModularAssembler;
+import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -66,22 +66,24 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	}
 
 	@Override
-	public Container getContainer(InventoryPlayer inventory) {
+	public Container createContainer(InventoryPlayer inventory) {
 		if (modular != null) {
-			return modular.getContainer(this, inventory);
-		} else {
-			return null;
+			return modular.createContainer(this, inventory);
+		}else if (assembler != null) {
+			return assembler.createContainer(this, inventory);
 		}
+		return null;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer createGui(InventoryPlayer inventory) {
 		if (modular != null) {
-			return modular.getGUIContainer(this, inventory);
-		} else {
-			return null;
+			return modular.createGui(this, inventory);
+		}else if (assembler != null) {
+			return assembler.createGui(this, inventory);
 		}
+		return null;
 	}
 
 	@Override

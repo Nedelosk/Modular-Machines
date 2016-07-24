@@ -17,17 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleController extends Module implements IModuleController {
 
-	public final int allowedComplexity;
-	public final int allowedModuleComplexity;
-	public final int allowedToolComplexity;
-	public final int allowedDriveComplexity;
-
-	public ModuleController(int allowedComplexity, int allowedModuleComplexity, int allowedToolComplexity, int allowedDriveComplexity) {
+	public ModuleController() {
 		super("controller", 0);
-		this.allowedComplexity = allowedComplexity;
-		this.allowedModuleComplexity = allowedModuleComplexity;
-		this.allowedToolComplexity = allowedToolComplexity;
-		this.allowedDriveComplexity = allowedDriveComplexity;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -45,23 +36,8 @@ public class ModuleController extends Module implements IModuleController {
 	}
 
 	@Override
-	public int getAllowedComplexity(IModuleState state) {
-		return allowedComplexity;
-	}
-
-	@Override
 	public boolean canWork(IModuleState controllerState, IModuleState moduleState) {
 		return true;
-	}
-
-	@Override
-	public EnumPosition getCurrentPosition(IModuleState state) {
-		return EnumPosition.INTERNAL;
-	}
-
-	@Override
-	public boolean canUseFor(EnumPosition position, IModuleContainer container) {
-		return position == EnumPosition.INTERNAL;
 	}
 
 	@Override

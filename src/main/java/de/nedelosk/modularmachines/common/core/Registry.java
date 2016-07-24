@@ -82,6 +82,13 @@ public abstract class Registry {
 		return entry;
 	}
 
+	public static Item register(Item entry) {
+		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), entry.getUnlocalizedName()));
+		GameRegistry.register(entry);
+		ModularMachines.proxy.registerItem(entry);
+		return entry;
+	}
+
 	public static void registerTile(Class<? extends TileEntity> tile, String name, String modName) {
 		GameRegistry.registerTileEntity(tile, "modularmachines." + modName + "." + name);
 	}

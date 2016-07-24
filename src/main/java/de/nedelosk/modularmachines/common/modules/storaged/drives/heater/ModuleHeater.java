@@ -72,7 +72,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	@Override
 	public void updateClient(IModuleState<IModule> state, int tickCount) {
 	}
-	
+
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.RIGHT;

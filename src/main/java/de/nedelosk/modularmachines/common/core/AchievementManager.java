@@ -11,9 +11,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 public class AchievementManager {
 
 	public static final Achievement craftCasingIron = new AchievementCrafting("achievement.craftCasingIron", "craftCasingIron", 0, 0,
-			new ItemStack(BlockManager.blockCasings), null);
+			new ItemStack(ItemManager.itemCasings), null);
 	public static final Achievement craftCasingBronze = new AchievementCrafting("achievement.craftCasingBronze", "craftCasingBronze", 2, 0,
-			new ItemStack(BlockManager.blockCasings, 1, 1), craftCasingIron);
+			new ItemStack(ItemManager.itemCasings, 1, 1), craftCasingIron);
 
 	public static void registerPage() {
 		AchievementPage.registerAchievementPage(new AchievementPage("Modular Machine's", craftCasingIron, craftCasingBronze));

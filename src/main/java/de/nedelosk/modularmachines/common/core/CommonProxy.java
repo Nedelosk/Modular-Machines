@@ -13,16 +13,13 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler {
 
-	public void registerRenderers() {
-	}
-
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 			case 0:
 				if (tile != null && tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
-					return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).getContainer(player.inventory);
+					return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).createContainer(player.inventory);
 				}
 			default:
 				return null;
@@ -36,7 +33,7 @@ public class CommonProxy implements IGuiHandler {
 			switch (ID) {
 				case 0:
 					if (tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
-						return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).getGUIContainer(player.inventory);
+						return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).createGui(player.inventory);
 					}
 				default:
 					return null;

@@ -2,16 +2,12 @@ package de.nedelosk.modularmachines.common.events;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import de.nedelosk.modularmachines.api.Translator;
-import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
-import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
@@ -33,17 +29,12 @@ public class EventHandler {
 	public void tooltipEvent(ItemTooltipEvent event) {
 		IModuleContainer container = ModularManager.getContainerFromItem(event.getItemStack());
 		if (container != null) {
-			IModule module = container.getModule();
-			IMaterial material = container.getMaterial();
-			event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.material") + material.getLocalizedName());
-			if(!(container.getItemStack().getItem() instanceof ItemModule)){
-				event.getToolTip().add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
-			}
 			container.addTooltip(event.getToolTip());
 		}
 		ItemStack stack = event.getItemStack();
 		event.getToolTip().add(ChatFormatting.YELLOW.toString() + stack.getItem().getRegistryName() + ":" + stack.getItemDamage());
 	}
+
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent

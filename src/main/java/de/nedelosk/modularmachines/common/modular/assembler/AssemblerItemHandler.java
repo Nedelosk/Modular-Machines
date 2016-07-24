@@ -12,4 +12,8 @@ public class AssemblerItemHandler extends ItemStackHandler {
 		super(moduleStacks);
 	}
 
+	public ItemStack[] getStacks(){
+		return stacks;
+	}
+
 }

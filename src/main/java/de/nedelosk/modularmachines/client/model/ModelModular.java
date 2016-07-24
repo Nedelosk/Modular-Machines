@@ -34,6 +34,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -53,10 +54,10 @@ public class ModelModular implements IBakedModel {
 	private IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = ModularUtils.getModularHandler(provider);
 		if(modularHandler != null){
+			IModular modular = modularHandler.getModular();
 			if(modularHandler.getModular() != null){
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
-				List<IModelHandler> modelHandlers = new ArrayList<>();
 
 				if(modularHandler instanceof IModularHandlerTileEntity){
 					IModularHandlerTileEntity moduleHandlerTile = (IModularHandlerTileEntity) modularHandler;
@@ -80,7 +81,6 @@ public class ModelModular implements IBakedModel {
 					IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
 
 					if(modelHandler != null){
-						modelHandlers.add(modelHandler);
 
 						IBakedModel model = modelHandler.getModel();
 						if(modelHandler.needReload() || model == null){
@@ -91,10 +91,10 @@ public class ModelModular implements IBakedModel {
 								Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
 
 								((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
-								modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
+								modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE);
 								model = modelHandler.getModel();
 							}else{
-								modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE, modelHandlers);
+								modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE);
 								model = modelHandler.getModel();
 							}
 							modelHandler.setNeedReload(false);
@@ -107,6 +107,8 @@ public class ModelModular implements IBakedModel {
 				if(!models.isEmpty()){
 					return new ModularBaked(models);
 				}
+			}else if(modularHandler.getAssembler() != null){
+				return ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 			}
 		}
 		if(missingModel == null){

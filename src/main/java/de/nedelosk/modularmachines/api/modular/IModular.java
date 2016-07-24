@@ -10,15 +10,18 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModular extends IModuleStorage {
+public interface IModular extends IModuleStorage, ICapabilityProvider {
 
 	IModular copy(IModularHandler handler);
 
@@ -41,6 +44,10 @@ public interface IModular extends IModuleStorage {
 	@Nonnull
 	IModularAssembler disassemble();
 
+	void setModuleStorage(EnumPosition position, IPositionedModuleStorage storage);
+
+	IPositionedModuleStorage getModuleStorage(EnumPosition position);
+
 	/**
 	 * @return All modules as ModuleStack
 	 */
@@ -51,9 +58,14 @@ public interface IModular extends IModuleStorage {
 	IEnergyInterface getEnergyInterface();
 
 	@SideOnly(Side.CLIENT)
-	GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory);
+	GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory);
 
-	Container getContainer(IModularHandler tile, InventoryPlayer inventory);
+	Container createContainer(IModularHandler tile, InventoryPlayer inventory);
+
+	/**
+	 * @return The next index for a module state.
+	 */
+	int getNextIndex();
 
 	/* Waila */
 	List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data);
@@ -61,4 +73,6 @@ public interface IModular extends IModuleStorage {
 	List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaState data);
 
 	List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaState data);
+
+	void assembleModular() throws AssemblerException;
 }

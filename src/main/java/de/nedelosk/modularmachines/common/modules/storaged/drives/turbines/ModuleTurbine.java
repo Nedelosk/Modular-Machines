@@ -100,7 +100,7 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModuleState<IModule> state, int tickCount) {

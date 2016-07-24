@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.api.modules.models;
 
-import java.util.List;
-
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -17,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public interface IModelHandler<M extends IModule> {
 
-	void reload(IModuleState<M> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<IModelHandler> otherHandlers);
+	void reload(IModuleState<M> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter);
 
 	void setNeedReload(boolean needReload);
 

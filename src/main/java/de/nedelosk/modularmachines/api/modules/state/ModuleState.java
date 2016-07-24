@@ -18,7 +18,9 @@ import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
@@ -148,7 +150,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public String toString() {
+		return container.getDisplayName() + ": " + properties.toString();
+	}
+
+	@Override
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		for(Entry<IProperty, Object> object : properties.entrySet()){
 			try{
 				if(object.getValue() != null){
@@ -161,10 +169,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		for(IModuleContentHandler handler : contentHandlers){
 			nbt.setTag(handler.getHandlerUID(), handler.writeToNBT(new NBTTagCompound()));
 		}
+		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		for(IProperty property : registeredProperties){
 			try{
 				if(nbt.hasKey(property.getName())){
@@ -182,8 +191,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public String toString() {
-		return container.getDisplayName() + ": " + properties.toString();
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return false;
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return null;
 	}
 
 }

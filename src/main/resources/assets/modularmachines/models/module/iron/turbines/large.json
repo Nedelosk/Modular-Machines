@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/turbines/large",
+	"textures": {
+        "turbine": "modularmachines:modules/turbine_iron"
+    }
+}

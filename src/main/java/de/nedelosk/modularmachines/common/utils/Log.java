@@ -21,11 +21,11 @@ public class Log {
 	}
 
 	public static void err(String msg, Object... args) {
-		log(Loader.instance().activeModContainer().getModId() + " ERROR", Level.ERROR, msg, args);
+		log(Loader.instance().activeModContainer().getModId(), Level.ERROR, msg, args);
 	}
 
 	public static void info(String msg, Object... args) {
-		log(Loader.instance().activeModContainer().getModId() + " INFO", Level.INFO, msg, args);
+		log(Loader.instance().activeModContainer().getModId(), Level.INFO, msg, args);
 	}
 
 	public static void severe(String message, Object param) {

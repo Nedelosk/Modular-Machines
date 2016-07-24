@@ -95,7 +95,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 			}
 		}
 		if(modular.updateOnInterval(10)){
-			if(controller.getModule().canWork(controller, state)){
+			if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
 				IHeatSource heatSource = casing.getModule().getHeatSource(casing);
 				IHeatLevel heatLevel = heatSource.getHeatLevel();
 
@@ -126,7 +126,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 			}
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModuleState<IModule> state, int tickCount) {
@@ -196,7 +196,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
 		}
 	}
-	
+
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.LEFT;

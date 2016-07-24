@@ -26,9 +26,9 @@ public class ModularMachinesRegistry extends Registry {
 		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		PacketHandler.preInit();
-		ItemManager.registerItems();
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
+		ItemManager.registerItems();
 		BlockManager.registerTiles();
 		super.preInit(instance, event);
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){

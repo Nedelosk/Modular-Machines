@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/machines/arge",
+	"textures": {
+        "machine": "modularmachines:modules/pulverizer_iron_large_off"
+    }
+}

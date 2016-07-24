@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -23,33 +22,25 @@ public class ButtonAssemblerTab extends Button<IModularHandler> {
 	public final boolean right;
 	protected int slotIndex;
 
-	public ButtonAssemblerTab(int buttonID, int xPos, int yPos, EnumPosition position, boolean right, int slotIndex) {
+	public ButtonAssemblerTab(int buttonID, int xPos, int yPos, EnumPosition position, boolean right) {
 		super(buttonID, xPos, yPos, 28, 21, null);
 		this.position = position;
 		this.right = right;
-		this.slotIndex = slotIndex;
+		this.slotIndex = position.startSlotIndex;
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		GlStateManager.pushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color(1F, 1F, 1F, 1F);
-		RenderUtil.bindTexture(guiTextureOverlay);
-		gui.getGui().drawTexturedModalRect(xPosition, yPosition, (position.equals(gui.getHandler().getAssembler().getSelectedPosition())) ? 0 : 28,
-				right ? 214 : 235, 28, 21);
-		ItemStack item = gui.getHandler().getAssembler().getAssemblerHandler().getStackInSlot(slotIndex);
-		if(item != null){
-			RenderHelper.enableGUIStandardItemLighting();
-			GlStateManager.enableRescaleNormal();
-			drawItemStack(item, xPosition + 6, yPosition + 3);
-			RenderHelper.disableStandardItemLighting();
-			GlStateManager.disableRescaleNormal();
+		if(!gui.getHandler().isAssembled()){
+			GlStateManager.color(1F, 1F, 1F, 1F);
+			RenderUtil.bindTexture(guiTextureOverlay);
+			gui.getGui().drawTexturedModalRect(xPosition, yPosition, (position.equals(gui.getHandler().getAssembler().getSelectedPosition())) ? 0 : 28,
+					right ? 214 : 235, 28, 21);
+			ItemStack item = gui.getHandler().getAssembler().getAssemblerHandler().getStackInSlot(slotIndex);
+			if(item != null){
+				drawItemStack(item, xPosition + (right ? 5 : 7), yPosition + 2);
+			}
 		}
-		GlStateManager.disableBlend();
-
-		GlStateManager.popMatrix();
 	}
 
 	@Override

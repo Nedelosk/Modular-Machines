@@ -9,7 +9,7 @@ public interface IAssemblerLogic {
 
 	boolean isItemValid(ItemStack stack, Slot slot, Slot storageSlot);
 
-	boolean canAssemble(IModular modular);
+	void canAssemble(IModular modular) throws AssemblerException;
 
 	@Nonnull
 	IModularAssembler getAssembler();

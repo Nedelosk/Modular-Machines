@@ -6,12 +6,12 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * A storage to storage module states. It is used in a modular and other thinks that have module states, to storage these.
  */
-public interface IModuleStorage extends ICapabilitySerializable<NBTTagCompound>{
+public interface IModuleStorage extends INBTSerializable<NBTTagCompound>{
 
 	/**
 	 * Add a module state to the storage and set the index of the module state.
@@ -23,8 +23,9 @@ public interface IModuleStorage extends ICapabilitySerializable<NBTTagCompound>{
 	 */
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
+	List<IModuleState> getModules();
+
 	/**
-	 * 
 	 * @return A module state that have the index.
 	 */
 	<M extends IModule> IModuleState<M> getModule(int index);

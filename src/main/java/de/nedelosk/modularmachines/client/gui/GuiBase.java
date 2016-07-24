@@ -25,14 +25,14 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implements IGuiBase<H> {
 
-	protected ResourceLocation guiTexture;
-	protected H handler;
-	protected ButtonManager buttonManager;
-	protected WidgetManager widgetManager;
-	protected EntityPlayer player;
+	protected final ResourceLocation guiTexture;
+	protected final H handler;
+	protected final ButtonManager buttonManager;
+	protected final WidgetManager widgetManager;
+	protected final EntityPlayer player;
 
 	public GuiBase(H tile, InventoryPlayer inventory) {
-		super(tile.getContainer(inventory));
+		super(tile.createContainer(inventory));
 		this.handler = tile;
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);

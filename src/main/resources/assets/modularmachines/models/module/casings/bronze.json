@@ -1,8 +1,0 @@
-{
-    "parent": "modularmachines:module/casings/casing",
-	"textures": {
-        "down": "modularmachines:blocks/casing/casing_down",
-		"side": "modularmachines:blocks/casing/bronze_side",
-		"top": "modularmachines:blocks/casing/bronze_top"
-    }
-}

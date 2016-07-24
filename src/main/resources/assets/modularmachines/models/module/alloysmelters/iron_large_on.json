@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/machine_large",
-	"textures": {
-        "machine": "modularmachines:modules/alloy_smelter_iron_large_on"
-    }
-}

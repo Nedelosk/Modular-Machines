@@ -1,6 +1,10 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools.jei;
 
+import java.awt.Rectangle;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
@@ -8,6 +12,7 @@ import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
+import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
@@ -24,9 +29,9 @@ import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.gui.IAdvancedGuiHandler;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
@@ -58,7 +63,8 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 			}
 		}
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
-		registry.addDescription(new ItemStack(BlockManager.blockAssembler), "tile.modular.assembler.description");
+
+		registry.addAdvancedGuiHandlers(new AssemblerAdvancedGuiHandler());
 
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMetalMaterials.IRON), ModuleCategoryUIDs.BOILER);
 		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), ModuleCategoryUIDs.BOILER);
@@ -77,7 +83,18 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 	}
 
-	@Override
-	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+	private static class AssemblerAdvancedGuiHandler implements IAdvancedGuiHandler<GuiAssembler> {
+		@Nonnull
+		@Override
+		public Class<GuiAssembler> getGuiContainerClass() {
+			return GuiAssembler.class;
+		}
+
+		@Nullable
+		@Override
+		public List<Rectangle> getGuiExtraAreas(GuiAssembler guiContainer) {
+			GuiAssembler guiAssembler = guiContainer;
+			return guiAssembler.getExtraGuiAreas();
+		}
 	}
 }

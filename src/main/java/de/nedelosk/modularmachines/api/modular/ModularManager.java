@@ -42,10 +42,12 @@ public class ModularManager {
 	 * Create a module state, post a ModuleStateCreateEvent and load the state data from the item. 
 	 */
 	public static IModuleState loadModuleState(IModular modular, ItemStack stack, IModuleContainer container){
-		IModuleProvider provider = stack.getCapability(ModularManager.MODULE_PROVIDER_CAPABILITY, null);
 		IModuleState moduleState = container.getModule().createState(modular, container);
-		if(provider.getState() != null){
-			moduleState.deserializeNBT(provider.getState().serializeNBT());
+		if(stack.hasCapability(ModularManager.MODULE_PROVIDER_CAPABILITY, null)){
+			IModuleProvider provider = stack.getCapability(ModularManager.MODULE_PROVIDER_CAPABILITY, null);
+			if(provider != null && provider.getState() != null){
+				moduleState.deserializeNBT(provider.getState().serializeNBT());
+			}
 		}
 		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(moduleState));
 		IModuleState createdState = moduleState.build();

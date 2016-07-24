@@ -57,7 +57,7 @@ public class PacketModule extends PacketModularHandler implements IMessageHandle
 			return null;
 		}
 		IModuleState moduleState = handler.getModular().getModule(message.index);
-		moduleState.deserializeNBT(nbt);
+		moduleState.deserializeNBT(message.nbt);
 
 		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){
 			((IModuleStateClient)moduleState).getModelHandler().setNeedReload(true);

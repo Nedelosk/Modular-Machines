@@ -1,6 +1,8 @@
 package de.nedelosk.modularmachines.common.network;
 
+import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
@@ -19,6 +21,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketSelectAssemblerPosition.class, PacketSelectAssemblerPosition.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketModularAssembler.class, PacketModularAssembler.class, nextID(), Side.SERVER);
 	}
 
 	public static int nextID() {

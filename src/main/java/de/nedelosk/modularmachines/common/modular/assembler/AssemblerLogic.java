@@ -1,13 +1,14 @@
 package de.nedelosk.modularmachines.common.modular.assembler;
 
+import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,7 @@ public class AssemblerLogic implements IAssemblerLogic {
 		switch (pos) {
 			case INTERNAL:
 				if(storageSlot == null){
-					if(container.getModule() instanceof IModuleController){
+					if(container.getModule() instanceof IModuleCasing){
 						return true;
 					}
 				}else{
@@ -58,14 +59,14 @@ public class AssemblerLogic implements IAssemblerLogic {
 					if(!storageSlot.getHasStack()){
 						return false;
 					}
-					if(container.getModule().getPosition(container) == pos){
-						return true;
+					if(container.getModule().getPosition(container) != pos){
+						return false;
 					}
 					EnumModuleSize usedSize = null;
 					for(int i = pos.startSlotIndex + 1;i < pos.endSlotIndex + 1;i++){
 						IModuleContainer otherContainer = ModularManager.getContainerFromItem(itemHandler.getStackInSlot(i));
-						if(container != null){
-							usedSize = EnumModuleSize.getNewSize(usedSize, container.getModule().getSize());
+						if(otherContainer != null){
+							usedSize = EnumModuleSize.getNewSize(usedSize, otherContainer.getModule().getSize());
 						}
 					}
 					usedSize = EnumModuleSize.getNewSize(usedSize, container.getModule().getSize());
@@ -79,8 +80,7 @@ public class AssemblerLogic implements IAssemblerLogic {
 	}
 
 	@Override
-	public boolean canAssemble(IModular modular) {
-		return true;
+	public void canAssemble(IModular modular) throws AssemblerException {
 	}
 
 	@Override

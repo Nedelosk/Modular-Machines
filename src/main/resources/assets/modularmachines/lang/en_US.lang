@@ -1,6 +1,15 @@
 mm.module.tooltip.material=Material: 
 mm.module.tooltip.name=Name: 
 mm.module.tooltip.size=Size: 
+mm.module.tooltip.complexity=Complexity: 
+mm.module.tooltip.position.can.use=Can use for Position: 
+mm.module.tooltip.position=Storage Position: 
+
+module.storage.top.name=Top
+module.storage.back.name=Back
+module.storage.left.name=Left
+module.storage.right.name=Right
+module.storage.internal.name=Internal
 
 ####################################
 # Module Tool Modes
@@ -31,9 +40,9 @@ module.casing.name=Casing
 
 module.capacitorbank.name=Capacitor Bank
 
-module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular block.
+module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular block.And it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module. It defines the maximum complexity of the modular.
-module.drawer.description=This is a drawer module.It defines the maximum complexity of the tool or the drive modules.
+module.drawer.description=This is a drawer module. It defines the maximum complexity of storaged modules.
 module.heater.steam.description=This type of heater genearte his heat from steam.
 module.heater.burning.description=This type of heater genearte his heat from solid fuel, like coal or other furnace fuel.
 module.engine.electric.rf.description=This type of engine generate his kinetic energy from redstone flux.
@@ -143,12 +152,14 @@ modularmachines.item.turbineSteam_iron.name=Iron Steam Turbine
 modularmachines.item.turbineSteam_bronze.name=Bronze Steam Turbine
 modularmachines.item.turbineSteam_steel.name=Steel Steam Turbine
 modularmachines.item.turbineSteam_magmarium.name=Magmarium Steam Turbine
-modularmachines.item.drawer_brick.name=Brick Module Drawer
+modularmachines.item.drawer_brick_large.name=Large Brick Module Storage
+modularmachines.item.drawer_brick_small.name=Small Brick Module Storage
 modularmachines.item.moduleCore_basic.name=Basic Module Core
 modularmachines.item.moduleCore_normal.name=Module Core
 modularmachines.item.moduleCore_improved.name=Improved Module Core
 modularmachines.item.moduleCore_advanced.name=Advanced Module Core
 item.module.name=Module
+item.modular.chassi.anme=Modular Chassi
 
 modularmachines.tool.file.stone.name=Stone File
 modularmachines.tool.file.iron.name=Iron File

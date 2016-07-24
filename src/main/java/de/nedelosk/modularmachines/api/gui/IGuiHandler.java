@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface IGuiHandler {
 
 	@SideOnly(Side.CLIENT)
-	GuiContainer getGUIContainer(InventoryPlayer inventory);
+	GuiContainer createGui(InventoryPlayer inventory);
 
-	Container getContainer(InventoryPlayer inventory);
+	Container createContainer(InventoryPlayer inventory);
 }

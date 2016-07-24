@@ -1,16 +1,22 @@
 package de.nedelosk.modularmachines.common.modules.storaged.photovoltaic;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
+import de.nedelosk.modularmachines.api.modular.AssemblerException;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.photovoltaic.IModulePhotovoltaic;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
 import de.nedelosk.modularmachines.common.modules.Module;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -26,6 +32,13 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	public ModulePhotovoltaic(int complexity, int rfOutput) {
 		super("photovoltaic", complexity);
 		this.rfOutput = rfOutput;
+	}
+
+	@Override
+	public void assembleModule(IModularAssembler assembler, IModular modular, IPositionedModuleStorage storage, IModuleState state) throws AssemblerException {
+		if(modular.getModules(IModuleBattery.class).isEmpty()){
+			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
+		}
 	}
 
 	@Override
@@ -45,7 +58,7 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 			}
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModuleState<IModule> state, int tickCount) {

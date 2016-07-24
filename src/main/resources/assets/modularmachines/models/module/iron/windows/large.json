@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/windows/large",
+	"textures": {
+        "window": "modularmachines:modules/iron_window_large"
+    }
+}

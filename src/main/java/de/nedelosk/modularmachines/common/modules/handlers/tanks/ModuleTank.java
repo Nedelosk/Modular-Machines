@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -425,6 +426,11 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			return null;
 		}
 		return contentInfos[index];
+	}
+
+	@Override
+	public List<ItemStack> getDrops() {
+		return Collections.emptyList();
 	}
 
 	@Override

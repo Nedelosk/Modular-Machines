@@ -631,6 +631,18 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
+	public List<ItemStack> getDrops() {
+		List<ItemStack> drops = new ArrayList<>();
+		for(int i = 0;i < getSlots();i++){
+			ItemStack stack = getStackInSlot(i);
+			if(stack != null){
+				drops.add(stack);
+			}
+		}
+		return drops;
+	}
+
+	@Override
 	public EnumMap<EnumFacing, boolean[]> getConfigurations() {
 		return configurations;
 	}

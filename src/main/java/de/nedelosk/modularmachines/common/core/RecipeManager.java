@@ -65,6 +65,11 @@ public class RecipeManager {
 				"BIB",
 				"BIB", 'I', "ingotBrick", 'B', new ItemStack(Blocks.BRICK_BLOCK));
 
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 1), 
+				"III",
+				"I I",
+				"III", 'I', "ingotBrick");
+
 		//Engines
 		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam), 
 				"GHP",
@@ -118,8 +123,8 @@ public class RecipeManager {
 
 	private static void addMachineRecipes() {
 		//Casings
-		addShapedRecipe(new ItemStack(BlockManager.blockCasings), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(BlockManager.blockCasings, 1, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe(new ItemStack(ItemManager.itemCasings), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
 	}
 
 	private static void addMetalRecipes() {
@@ -198,8 +203,6 @@ public class RecipeManager {
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompRods, 1, 4), "ingotSteel", "ingotSteel", "toolFile");
 		addShapedRecipe(new ItemStack(ItemManager.itemCompSawBlades), " + ", "+-+", " + ", '+', new ItemStack(ItemManager.itemCompRods), '-', "cobblestone");
 		addShapedRecipe(new ItemStack(ItemManager.itemCompGears), " + ", "+-+", " + ", '+', "plateStone", '-', "cobblestone");
-
-		addShapedRecipe(new ItemStack(BlockManager.blockAssembler), "IPI", "PRP", "III", 'I', "ingotIron", 'P', "plateIron", 'R', "blockRedstone");
 	}
 
 	private static void registerLatheRecipes() {

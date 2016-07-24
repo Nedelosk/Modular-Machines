@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/drawers/front_walls/small_up",
-	"textures": {
-        "wall": "modularmachines:blocks/casing/casing_down"
-    }
-}

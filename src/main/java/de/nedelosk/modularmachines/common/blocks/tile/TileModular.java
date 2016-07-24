@@ -53,9 +53,9 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	}
 
 	@Override
-	public Container getContainer(InventoryPlayer inventory) {
+	public Container createContainer(InventoryPlayer inventory) {
 		if (modularHandler != null) {
-			return modularHandler.getContainer(inventory);
+			return modularHandler.createContainer(inventory);
 		} else {
 			return null;
 		}
@@ -63,9 +63,9 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public GuiContainer getGUIContainer(InventoryPlayer inventory) {
+	public GuiContainer createGui(InventoryPlayer inventory) {
 		if (modularHandler != null) {
-			return modularHandler.getGUIContainer(inventory);
+			return modularHandler.createGui(inventory);
 		} else {
 			return null;
 		}

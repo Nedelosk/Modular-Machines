@@ -2,9 +2,6 @@ package de.nedelosk.modularmachines.client.core;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.client.render.TileModularAssemblerRenderer;
-import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
-import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,19 +15,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
-
-	@Override
-	public void registerRenderers() {
-		/* Modular */
-		ClientRegistry.bindTileEntitySpecialRenderer(TileModularAssembler.class, new TileModularAssemblerRenderer());
-		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BlockManager.blockAssembler), 0, TileModularAssembler.class);
-	}
 
 	@Override
 	public void registerFluidStateMapper(Block block, final Fluid fluid) {

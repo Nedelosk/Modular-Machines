@@ -1,43 +1,33 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.modularmachines.common.blocks.BlockCasing;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock;
-import de.nedelosk.modularmachines.common.blocks.BlockModularAssembler;
-import de.nedelosk.modularmachines.common.blocks.BlockModularMachine;
+import de.nedelosk.modularmachines.common.blocks.BlockModular;
 import de.nedelosk.modularmachines.common.blocks.BlockOre;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
-import de.nedelosk.modularmachines.common.blocks.tile.TileModularAssembler;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockForest;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockMetalBlock;
-import de.nedelosk.modularmachines.common.items.blocks.ItemBlockModularMachine;
+import de.nedelosk.modularmachines.common.items.blocks.ItemBlockModular;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockManager {
 
-	public static BlockCasing blockCasings;
-	public static BlockModularMachine blockModular;
+	public static BlockModular blockModular;
 	public static BlockOre blockOres;
 	public static BlockMetalBlock blockMetalBlocks;
-	public static BlockModularAssembler blockAssembler;
 
 	public static void registerBlocks() {
 		blockOres = new BlockOre();
 		register(blockOres, new ItemBlockForest(blockOres));
 		blockMetalBlocks = new BlockMetalBlock();
 		register(blockMetalBlocks, new  ItemBlockMetalBlock(blockMetalBlocks));
-		blockCasings = new BlockCasing();
-		register(blockCasings, new ItemBlockForest(blockCasings));
-		blockModular = new BlockModularMachine();
-		register(blockModular, new ItemBlockModularMachine(blockModular));
-		blockAssembler = new BlockModularAssembler();
-		register(blockAssembler,new ItemBlockForest(blockAssembler));
+		blockModular = new BlockModular();
+		register(blockModular, new ItemBlockModular(blockModular));
 	}
 
 	public static void registerTiles() {
 		GameRegistry.registerTileEntity(TileModular.class, "forestmods.modular");
-		GameRegistry.registerTileEntity(TileModularAssembler.class, "forestmods.modular.assembler");
 	}
 
 	public static <B extends Block> B register(B block, ItemBlock item) {

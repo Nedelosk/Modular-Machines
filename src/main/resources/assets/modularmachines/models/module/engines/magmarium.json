@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/engines/engine",
-    "textures": {
-        "engine": "modularmachines:modules/engine_magmarium"
-    }
-}

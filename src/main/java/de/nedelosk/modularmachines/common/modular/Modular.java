@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modular;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,6 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
@@ -23,14 +23,17 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.gui.GuiModular;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
+import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
+import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
-import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -51,13 +54,13 @@ import net.minecraftforge.items.IItemHandler;
 public class Modular implements IModular {
 
 	protected IModularHandler modularHandler;
-	protected List<IModuleState> moduleStates = new ArrayList();
 	protected int index;
 	protected IModuleState currentModule;
 	protected IModulePage currentPage;
 	protected EnergyHandler energyHandler;
 	protected FluidHandlerConcatenate fluidHandler;
 	protected ItemHandler itemHandler;
+	protected EnumMap<EnumPosition, IPositionedModuleStorage> storages = new EnumMap(EnumPosition.class);
 
 	// Ticks
 	private static final Random rand = new Random();
@@ -74,10 +77,11 @@ public class Modular implements IModular {
 		if(nbt != null){
 			deserializeNBT(nbt);
 		}
-		onAssembleModular();
+		assembleModular();
 	}
 
-	protected void onAssembleModular() {
+	@Override
+	public void assembleModular() {
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
 		energyHandler = new EnergyHandler(getInterfaces());
@@ -88,7 +92,7 @@ public class Modular implements IModular {
 	}
 
 	private IModuleState getFirstGui() {
-		for(IModuleState module : moduleStates) {
+		for(IModuleState module : getModules()) {
 			if (!module.getPages().isEmpty()) {
 				return module;
 			}
@@ -99,7 +103,7 @@ public class Modular implements IModular {
 	@Override
 	public void update(boolean isServer) {
 		tickCount++;
-		for(IModuleState moduleState : moduleStates) {
+		for(IModuleState moduleState : getModules()) {
 			if (moduleState != null && moduleState.getModule() instanceof IModuleTickable) {
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
 				IModuleTickable module = (IModuleTickable)moduleState.getModule();
@@ -119,21 +123,11 @@ public class Modular implements IModular {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		NBTTagList nbtList = nbt.getTagList("Modules", 10);
+		NBTTagList nbtList = nbt.getTagList("Storages", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
-			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
-			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
-			IModuleContainer container = ModularManager.getContainerFromItem(moduleItem);
-			if(container != null){
-				IModuleState state = container.getModule().createState(this, container);
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-				state = state.build();
-				state.deserializeNBT(moduleTag);
-				moduleStates.add(state);
-			}else{
-				Log.err("Remove module from modular, because the item of the module don't exist any more.");
-			}
+			EnumPosition position = EnumPosition.values()[moduleTag.getShort("Position")];
+			storages.put(position, new PositionedModuleStorage(this, position));
 		}
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));
@@ -158,14 +152,14 @@ public class Modular implements IModular {
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
-		for(IModuleState module : moduleStates) {
-			NBTTagCompound nbtTag = module.serializeNBT();
-			NBTTagCompound nbtTagContainer = new NBTTagCompound();
-			module.getContainer().getItemStack().writeToNBT(nbtTagContainer);
-			nbtTag.setTag("Container", nbtTagContainer);
-			nbtList.appendTag(nbtTag);
+		for(IPositionedModuleStorage storage : storages.values()) {
+			if(storage != null){
+				NBTTagCompound nbtTag = storage.serializeNBT();
+				nbt.setShort("Position", (short) storage.getPosition().ordinal());
+				nbtList.appendTag(nbtTag);
+			}
 		}
-		nbt.setTag("Modules", nbtList);
+		nbt.setTag("Storages", nbtList);
 		if (currentModule != null) {
 			nbt.setInteger("CurrentModule", currentModule.getIndex());
 			if (currentPage != null) {
@@ -177,7 +171,18 @@ public class Modular implements IModular {
 
 	@Override
 	public IModularAssembler disassemble() {
-		return null;
+		ItemStack[] moduleStacks = new ItemStack[26];
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				EnumPosition position = moduleStorage.getPosition();
+				int index = 0;
+				for(IModuleState state : moduleStorage.getModules()) {
+					moduleStacks[position.startSlotIndex + index] = ModularManager.saveModuleState(state);
+					index++;
+				}
+			}
+		}
+		return new ModularAssembler(modularHandler, moduleStacks);
 	}
 
 	@Override
@@ -191,13 +196,17 @@ public class Modular implements IModular {
 	}
 
 	private ArrayList<IModuleState> getWailaModules() {
-		ArrayList<IModuleState> wailaModules = Lists.newArrayList();
-		for(IModuleState module : moduleStates) {
-			if (module instanceof IWailaProvider) {
-				wailaModules.add(module);
+		ArrayList<IModuleState> wailaModuleStates = Lists.newArrayList();
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				for(IModuleState state : moduleStorage.getModules()) {
+					if (state.getModule() instanceof IWailaProvider) {
+						wailaModuleStates.add(state);
+					}
+				}
 			}
 		}
-		return wailaModules;
+		return wailaModuleStates;
 	}
 
 	@Override
@@ -280,7 +289,7 @@ public class Modular implements IModular {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public GuiContainer getGUIContainer(IModularHandler tile, InventoryPlayer inventory) {
+	public GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory) {
 		if(currentPage != null){
 			return new GuiModular(tile, inventory, currentPage);
 		}
@@ -289,7 +298,7 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public Container getContainer(IModularHandler tile, InventoryPlayer inventory) {
+	public Container createContainer(IModularHandler tile, InventoryPlayer inventory) {
 		if(currentPage != null){
 			return new ContainerModular(tile, inventory, currentPage);
 		}
@@ -298,27 +307,38 @@ public class Modular implements IModular {
 
 	@Override
 	public IModuleState addModule(ItemStack itemStack, IModuleState state) {
-		if (state == null) {
-			return null;
-		}
-
-		if (moduleStates.add(state)) {
-			state.setIndex(index++);
-			return state;
-		}
 		return null;
 	}
 
 	@Override
+	public IPositionedModuleStorage getModuleStorage(EnumPosition position) {
+		return storages.get(position);
+	}
+
+	@Override
+	public void setModuleStorage(EnumPosition position, IPositionedModuleStorage storage) {
+		storages.put(position, storage);
+	}
+
+	@Override
 	public List<IModuleState> getModuleStates() {
-		return moduleStates;
+		List<IModuleState> modules = new ArrayList<>();
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				modules.addAll(moduleStorage.getModules());
+			}
+		}
+		return modules;
 	}
 
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState module : moduleStates) {
-			if (module.getIndex() == index) {
-				return module;
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				IModuleState state = moduleStorage.getModule(index);
+				if(state != null){
+					return state;
+				}
 			}
 		}
 		return null;
@@ -330,9 +350,9 @@ public class Modular implements IModular {
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : this.moduleStates) {
-			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
-				modules.add(module);
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				modules.addAll(moduleStorage.getModules(moduleClass));
 			}
 		}
 		return modules;
@@ -350,7 +370,7 @@ public class Modular implements IModular {
 
 	protected List<IItemHandler> getInventorys(){
 		List<IItemHandler> handlers = Lists.newArrayList();
-		for(IModuleState state : moduleStates){
+		for(IModuleState state : getModules()) {
 			IModuleContentHandler inventory = state.getContentHandler(IModuleInventory.class);
 			if(inventory instanceof IModuleInventory){
 				handlers.add((IItemHandler) inventory);
@@ -361,7 +381,7 @@ public class Modular implements IModular {
 
 	protected List<IFluidHandler> getTanks() {
 		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
-		for(IModuleState state : moduleStates) {
+		for(IModuleState state : getModules()) {
 			IModuleContentHandler handler = state.getContentHandler(IModuleTank.class);
 			if(handler instanceof IModuleTank){
 				fluidHandlers.add((IFluidHandler) handler);
@@ -372,7 +392,7 @@ public class Modular implements IModular {
 
 	protected List<IEnergyInterface> getInterfaces(){
 		List<IEnergyInterface> handlers = Lists.newArrayList();
-		for(IModuleState state : moduleStates){
+		for(IModuleState state : getModules()) {
 			IModuleContentHandler rnergyInterface = state.getContentHandler(IModuleEnergyInterface.class);
 			if(rnergyInterface instanceof IModuleEnergyInterface){
 				handlers.add((IModuleEnergyInterface) rnergyInterface);
@@ -408,5 +428,21 @@ public class Modular implements IModular {
 	@Override
 	public IModular copy(IModularHandler handler) {
 		return new Modular(serializeNBT(), handler);
+	}
+
+	@Override
+	public List<IModuleState> getModules() {
+		List<IModuleState> modules = Lists.newArrayList();
+		for(IPositionedModuleStorage moduleStorage : storages.values()){
+			if(moduleStorage != null){
+				modules.addAll(moduleStorage.getModules());
+			}
+		}
+		return modules;
+	}
+
+	@Override
+	public int getNextIndex() {
+		return index++;
 	}
 }

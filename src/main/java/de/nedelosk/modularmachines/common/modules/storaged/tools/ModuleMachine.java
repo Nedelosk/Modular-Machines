@@ -8,8 +8,6 @@ import java.util.Random;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.IModuleIndexStorage;
 import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
@@ -24,7 +22,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
@@ -35,7 +32,6 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
@@ -45,7 +41,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModuleMachine extends Module implements IModuleMachine, IWailaProvider {
 
@@ -123,11 +118,10 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 		IModular modular = state.getModular();
 		Random rand = modular.getHandler().getWorld().rand;
 		EnumToolType type = getType(state);
-		List<IModuleState<IModuleDrive>> drives = getDrives(state);
 		boolean needUpdate = false;
 		IModuleState<IModuleController> controller = modular.getModules(IModuleController.class).get(0);
 
-		if(controller.getModule().canWork(controller, state)){
+		if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
 			if (canWork(state)) {
 				IRecipe currentRecipe = getCurrentRecipe(state);
 				if (getWorkTime(state) >= getWorkTimeTotal(state) || currentRecipe == null) {
@@ -157,13 +151,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 				}else{
 					int workTime = 0;
 					if(type == EnumToolType.KINETIC){
-						for(IModuleState<IModuleDrive> driveState : drives){
-							if(driveState.getModule() instanceof IModuleKinetic){
-								IKineticSource source = ((IModuleKinetic)driveState.getModule()).getKineticSource(driveState);
-								if(source.getKineticEnergyStored() > 0){
-									source.extractKineticEnergy(1, false);
-									workTime+=1;
-								}
+						for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
+							IKineticSource source = otherState.getModule().getKineticSource(otherState);
+							if(source.getKineticEnergyStored() > 0){
+								source.extractKineticEnergy(1, false);
+								workTime+=1;
 							}
 						}
 					}else if(type == EnumToolType.HEAT){
@@ -210,94 +202,14 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 			return heatBuffer.getHeatStored() > 0;
 		}else if(type == EnumToolType.KINETIC){
 			IModular modular = state.getModular();
-			List<IModuleState<IModuleDrive>> drives = getDrives(state);
-			for(IModuleState<IModuleDrive> driveState : drives){
-				if(driveState.getModule() instanceof IModuleKinetic){
-					IKineticSource source = ((IModuleKinetic)driveState.getModule()).getKineticSource(driveState);
-					if(source.getKineticEnergyStored() > 0){
-						return true;
-					}
+			for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
+				IKineticSource source = otherState.getModule().getKineticSource(otherState);
+				if(source.getKineticEnergyStored() > 0){
+					return true;
 				}
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public boolean assembleModule(IModularAssembler assembler, IModular modular, IModuleState state, IModuleIndexStorage storage) {
-		List<IModuleState<IModuleDrive>> drives = getDrives(state, storage.getStateToSlotIndex().get(state), storage);
-		if(drives.isEmpty()){
-			return false;
-		}
-		int[] driveIndexes = new int[drives.size()];
-		for(int i = 0;i < drives.size();i++){
-			driveIndexes[i]  = drives.get(i).getIndex();
-		}
-		state.set(DRIVEINDEXES, driveIndexes);
-		return true;
-	}
-
-	//public abstract boolean canStartWork(IModuleState state);
-
-	public static final List<IModuleState<IModuleDrive>> getDrives(IModuleState state){
-		List<IModuleState<IModuleDrive>> drives = new ArrayList<>();
-		int[] driveIndexes = state.get(DRIVEINDEXES);
-		IModular modular = state.getModular();
-		for(int index : driveIndexes){
-			drives.add(modular.getModule(index));
-		}
-		return drives;
-	}
-
-	private List<IModuleState<IModuleDrive>> getDrives(IModuleState state, int index, IModuleIndexStorage storage){
-		List<IModuleState<IModuleDrive>> drives = new ArrayList<>();
-		EnumModuleSize size = getSize();
-		if(size == EnumModuleSize.LARGE){
-			for(int slotIndex : ContainerAssembler.driveSlots){
-				IModuleState driveState = storage.getSlotIndexToState().get(Integer.valueOf(slotIndex));
-				if(driveState != null){
-					drives.add(driveState);
-				}
-			}
-		}else if(size == EnumModuleSize.MIDDLE){
-			int otherTool = -1;
-			for(int i = 0;i < ContainerAssembler.toolSlots.length;i++){
-				int slotIndex = ContainerAssembler.toolSlots[i];
-				if(slotIndex != index){
-					if(storage.getSlotIndexToState().containsKey(Integer.valueOf(slotIndex))){
-						otherTool = slotIndex;
-					}
-				}
-			}
-			if(otherTool != -1){
-				for(int slotIndex : ContainerAssembler.driveSlots){
-					if(slotIndex != ContainerAssembler.driveSlots[otherTool]){
-						IModuleState driveState = storage.getSlotIndexToState().get(Integer.valueOf(slotIndex));
-						if(driveState != null){
-							drives.add(driveState);
-						}
-					}
-				}
-			}else{
-				for(int slotIndex : ContainerAssembler.driveSlots){
-					IModuleState driveState = storage.getSlotIndexToState().get(Integer.valueOf(slotIndex));
-					if(driveState != null){
-						drives.add(driveState);
-					}
-				}
-			}
-		}else{
-			for(int i = 0;i < ContainerAssembler.toolSlots.length;i++){
-				int otherIndex = ContainerAssembler.toolSlots[i];
-				if(otherIndex == index){
-					IModuleState driveState = storage.getSlotIndexToState().get(Integer.valueOf(ContainerAssembler.driveSlots[otherIndex]));
-					if(driveState != null){
-						drives.add(driveState);
-					}
-				}
-			}
-		}
-		return drives;
 	}
 
 	protected int createWorkTimeTotal(IModuleState state, int recipeSpeed) {
@@ -486,5 +398,5 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.LEFT;
 	}
-	
+
 }

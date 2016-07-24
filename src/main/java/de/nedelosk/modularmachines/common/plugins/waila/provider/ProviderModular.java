@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
-import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -32,23 +32,32 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if(modular.getModular() == null){
+			return currenttip;
+		}
 		IWailaState data = new WailaData(accessor, config);
-		return modular.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null).getModular().getWailaHead(itemStack, currenttip, data);
+		return modular.getModular().getWailaHead(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if(modular.getModular() == null){
+			return currenttip;
+		}
 		IWailaState data = new WailaData(accessor, config);
-		return modular.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null).getModular().getWailaBody(itemStack, currenttip, data);
+		return modular.getModular().getWailaBody(itemStack, currenttip, data);
 	}
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileModular modular = (TileModular) accessor.getTileEntity();
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if(modular.getModular() == null){
+			return currenttip;
+		}
 		IWailaState data = new WailaData(accessor, config);
-		return modular.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null).getModular().getWailaTail(itemStack, currenttip, data);
+		return modular.getModular().getWailaTail(itemStack, currenttip, data);
 	}
 
 	@Override

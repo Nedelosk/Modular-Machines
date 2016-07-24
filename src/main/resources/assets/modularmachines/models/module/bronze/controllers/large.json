@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/controllers/large",
+	"textures": {
+        "controller": "modularmachines:modules/controller_bronze"
+    }
+}

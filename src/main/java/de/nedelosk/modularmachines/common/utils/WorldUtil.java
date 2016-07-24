@@ -18,6 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.items.IItemHandler;
 
 public class WorldUtil {
 
@@ -101,6 +102,12 @@ public class WorldUtil {
 	public static void dropItems(World world, BlockPos pos, ItemStack[] stacks) {
 		for(ItemStack stack : stacks) {
 			dropItem(world, pos, stack);
+		}
+	}
+
+	public static void dropItems(World world, BlockPos pos, IItemHandler handler) {
+		for(int i = 0;i < handler.getSlots();i++) {
+			dropItem(world, pos, handler.getStackInSlot(i));
 		}
 	}
 

@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/heaters/heater_large",
-	"textures": {
-        "module": "modularmachines:modules/heater_iron_large_on"
-    }
-}
