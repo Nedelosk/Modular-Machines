@@ -120,20 +120,14 @@ public class ModelModular implements IBakedModel {
 	public static class ModularBaked implements IBakedModel{
 		private final Collection<IBakedModel> models;
 
-		protected final boolean ambientOcclusion;
-		protected final boolean gui3D;
 		protected final TextureAtlasSprite particleTexture;
-		protected final ItemCameraTransforms cameraTransforms;
 		protected final ItemOverrideList overrides;
 
 		public ModularBaked(Collection<IBakedModel> models){
 			IBakedModel ibakedmodel = models.iterator().next();
 
 			this.models = models;
-			this.ambientOcclusion = ibakedmodel.isAmbientOcclusion();
-			this.gui3D = ibakedmodel.isGui3d();
 			this.particleTexture = ibakedmodel.getParticleTexture();
-			this.cameraTransforms = ibakedmodel.getItemCameraTransforms();
 			this.overrides = ibakedmodel.getOverrides();
 		}
 
@@ -150,12 +144,12 @@ public class ModelModular implements IBakedModel {
 
 		@Override
 		public boolean isAmbientOcclusion(){
-			return this.ambientOcclusion;
+			return true;
 		}
 
 		@Override
 		public boolean isGui3d(){
-			return this.gui3D;
+			return true;
 		}
 
 		@Override
@@ -170,7 +164,7 @@ public class ModelModular implements IBakedModel {
 
 		@Override
 		public ItemCameraTransforms getItemCameraTransforms(){
-			return this.cameraTransforms;
+			return ItemCameraTransforms.DEFAULT;
 		}
 
 		@Override
@@ -186,11 +180,13 @@ public class ModelModular implements IBakedModel {
 			IExtendedBlockState stateExtended = (IExtendedBlockState) state;
 			IBlockAccess world = stateExtended.getValue(UnlistedBlockAccess.BLOCKACCESS);
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
-			TileEntity tile = world.getTileEntity(pos);
+			if(pos != null && world != null){
+				TileEntity tile = world.getTileEntity(pos);
 
-			IBakedModel model = bakeModel(tile, DefaultVertexFormats.BLOCK);
-			if(model != null){
-				return model.getQuads(state, side, rand);
+				IBakedModel model = bakeModel(tile, DefaultVertexFormats.BLOCK);
+				if(model != null){
+					return model.getQuads(state, side, rand);
+				}
 			}
 		}
 		return Collections.emptyList();

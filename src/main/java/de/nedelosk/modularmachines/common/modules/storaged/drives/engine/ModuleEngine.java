@@ -175,7 +175,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.WINDOW;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {

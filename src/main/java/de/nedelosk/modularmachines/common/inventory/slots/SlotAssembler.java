@@ -29,6 +29,11 @@ public class SlotAssembler extends SlotItemHandler {
 		parent.onCraftMatrixChanged(inventory);
 	}
 
+	@Override
+	public int getSlotStackLimit() {
+		return 1;
+	}
+
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 		if(!hasChange){

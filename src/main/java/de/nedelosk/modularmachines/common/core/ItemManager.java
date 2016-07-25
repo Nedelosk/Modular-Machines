@@ -6,7 +6,6 @@ import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
-import de.nedelosk.modularmachines.common.items.ItemTool.Material;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockChassi;
 import net.minecraft.item.Item;
@@ -35,6 +34,7 @@ public class ItemManager {
 	public static Item itemModuleCore;
 	public static Item itemModules;
 	public static Item itemCasings;
+	public static Item itemChassi;
 	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
 	private static Object[][] default_metals = new Object[][] { new Object[]{ "Copper", 0xCC6410 }, new Object[]{ "Tin", 0xCACECF }, new Object[]{ "Silver", 0xE6FDFF }, new Object[]{ "Lead", 0x826C82 }, new Object[]{ "Nickel", 0xA9A283 }, new Object[]{ "Aluminum", -1 }, new Object[]{ "Steel", 0xA0A0A0 } };
 	private static Object[][] vanilla = new Object[][] { new Object[]{ "Coal", 0x222020 }, new Object[]{ "Obsidian", 0x7E258C }, new Object[]{ "Iron", 0xDADADA }, new Object[]{ "Gold", 0xD3B95A }, new Object[]{ "Diamond", 0x68D2DA } };
@@ -44,11 +44,11 @@ public class ItemManager {
 
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());
-		Registry.register(new ItemBlockChassi(BlockManager.blockModular));
-		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2, Material.Iron, 2));
-		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 3, Material.Diamond, 1));
-		itemHammer = register(new ItemToolCrafting("hammer", 300, 1, Material.Iron, 15));
-		itemCutter = register(new ItemToolCrafting("cutter", 250, 1, Material.Iron, 10));
+		itemChassi = Registry.register(new ItemBlockChassi(BlockManager.blockModular));
+		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2));
+		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 1));
+		itemHammer = register(new ItemToolCrafting("hammer", 300, 15));
+		itemCutter = register(new ItemToolCrafting("cutter", 250, 10));
 		itemDusts = register(new ItemMetal("dusts", "dust", dusts));
 		itemIngots = register(new ItemMetal("ingots", "ingot", metals));
 		itemNuggets = register(new ItemMetal("nuggets", "nugget", metals));

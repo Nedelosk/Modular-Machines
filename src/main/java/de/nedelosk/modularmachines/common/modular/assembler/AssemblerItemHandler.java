@@ -12,6 +12,11 @@ public class AssemblerItemHandler extends ItemStackHandler {
 		super(moduleStacks);
 	}
 
+	@Override
+	protected int getStackLimit(int slot, ItemStack stack) {
+		return 1;
+	}
+
 	public ItemStack[] getStacks(){
 		return stacks;
 	}

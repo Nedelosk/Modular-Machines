@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.common.events;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
@@ -10,7 +8,6 @@ import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -31,8 +28,6 @@ public class EventHandler {
 		if (container != null) {
 			container.addTooltip(event.getToolTip());
 		}
-		ItemStack stack = event.getItemStack();
-		event.getToolTip().add(ChatFormatting.YELLOW.toString() + stack.getItem().getRegistryName() + ":" + stack.getItemDamage());
 	}
 
 

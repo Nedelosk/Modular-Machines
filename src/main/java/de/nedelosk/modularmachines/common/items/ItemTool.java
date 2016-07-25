@@ -20,15 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemTool extends Item implements IItemModelRegister {
 
 	private String name;
-	protected int tier;
-	protected Material material;
 
-	public ItemTool(String name, int maxDamage, int tier, Material material) {
+	public ItemTool(String name, int maxDamage) {
 		this.setMaxDamage(maxDamage);
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setFull3D();
-		this.tier = tier;
-		this.material = material;
 		this.maxStackSize = 1;
 		this.setMaxStackSize(1);
 		this.name = name;
@@ -64,24 +60,8 @@ public class ItemTool extends Item implements IItemModelRegister {
 		return getUnlocalizedName().replace("item.", "");
 	}
 
-	public int getTier() {
-		return this.tier;
-	}
-
 	@Override
 	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
 		aList.add(Translator.translateToLocal("mm.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
-		aList.add(Translator.translateToLocal("mm.tooltip.tier") + (getTier()));
-		aList.add(Translator.translateToLocal("mm.tooltip.material") + (material.getMaterial()));
-	}
-
-	public static enum Material {
-		Wood, Stone, Iron, Steel, Dark_Steel, Copper, Tin, Bronze, Gold, Diamond;
-
-		public String material;
-
-		public String getMaterial() {
-			return material = name();
-		}
 	}
 }

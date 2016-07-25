@@ -1,16 +1,13 @@
 package de.nedelosk.modularmachines.common.inventory;
 
-import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
-import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -105,15 +102,6 @@ public class ContainerAssembler extends ContainerBase<IModularHandler> {
 			}
 			if(!slotLast.hasChange){
 				slotLast.setActive(true);
-			}
-		}
-		if(player.worldObj != null && player.worldObj.isRemote && handler.getAssembler() != null){
-			if(Minecraft.getMinecraft().currentScreen instanceof GuiAssembler){
-				try{
-					handler.getAssembler().assemble();
-				}catch(AssemblerException e){
-					((GuiAssembler)Minecraft.getMinecraft().currentScreen).lastException = e;
-				}
 			}
 		}
 		super.onCraftMatrixChanged(inventory);

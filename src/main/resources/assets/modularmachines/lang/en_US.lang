@@ -10,6 +10,11 @@ module.storage.back.name=Back
 module.storage.left.name=Left
 module.storage.right.name=Right
 module.storage.internal.name=Internal
+modular.assembler.assemble=Assemble Modular
+
+modular.assembler.info=This is a info windows. It shows the proplem when a modular can't be assembled. Or when one o fthe modules require a special module.
+modular.assembler.error.no.casing=The modular has no casing. It requires it to storage the internal modules.
+modular.assembler.error.no.battery=The modular has no battery. One module of the modular requires it to storage RF or EU energy.
 
 ####################################
 # Module Tool Modes

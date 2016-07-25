@@ -118,12 +118,12 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	@Override
 	public void addTooltip(List<String> tooltip, IModuleContainer container) {
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + Translator.translateToLocal("module.storage." + getPosition(container).getName() + ".name"));
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + Translator.translateToLocal("module.storage." + EnumPosition.INTERNAL.getName() + ".name"));
 	}
 
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.INTERNAL;
+		return null;
 	}
 
 	@Override

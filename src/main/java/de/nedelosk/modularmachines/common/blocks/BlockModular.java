@@ -20,6 +20,7 @@ import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
+import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -84,8 +85,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
-			return casingState.getModule().getHardness(casingState);
+			if(tileModular.isAssembled()){
+				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
+				return casingState.getModule().getHardness(casingState);
+			}
 		}
 		return super.getBlockHardness(blockState, world, pos);
 	}
@@ -95,8 +98,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
-			return casingState.getModule().getResistance(casingState) / 5;
+			if(tileModular.isAssembled()){
+				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
+				return casingState.getModule().getResistance(casingState) / 5;
+			}
 		}
 		return super.getExplosionResistance(world, pos, exploder, explosion);
 	}
@@ -131,14 +136,16 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
 			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(heldItem != null && heldItem.getItem() instanceof IToolWrench){
+			if(heldItem != null && heldItem.getItem() instanceof IToolWrench && modularHandler.getModular() != null && modularHandler.isAssembled()){
 				IModularAssembler assembler = modularHandler.getModular().disassemble();
 				if(assembler != null){
-					modularHandler.setAssembled(false);
-					modularHandler.setAssembler(assembler);
-					modularHandler.setModular(null);
-					PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
-					world.markBlockRangeForRenderUpdate(pos, pos);
+					if (world.isRemote) {
+						modularHandler.setAssembled(false);
+						modularHandler.setAssembler(assembler);
+						modularHandler.setModular(null);
+						PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
+						world.markBlockRangeForRenderUpdate(pos, pos);
+					}
 				}
 			}
 			if (modularHandler.getModular() == null && modularHandler.getAssembler() == null || modularHandler.createContainer(player.inventory) == null) {
@@ -178,6 +185,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			}else if(modular != null && modular.getAssembler() != null){
 				WorldUtil.dropItems(world, pos, modular.getAssembler().getAssemblerHandler());
 			}
+			WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassi));
 		}
 		super.breakBlock(world, pos, blockState);
 	}
@@ -218,10 +226,12 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
+			if(tileModular.isAssembled()){
+				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
 
-			tool = casingState.getModule().getHarvestTool(casingState);
-			harvestLevel = casingState.getModule().getHarvestLevel(casingState);
+				tool = casingState.getModule().getHarvestTool(casingState);
+				harvestLevel = casingState.getModule().getHarvestLevel(casingState);
+			}
 		}
 
 		ItemStack stack = player.inventory.getCurrentItem();
@@ -235,11 +245,6 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		}
 
 		return toolLevel >= harvestLevel;
-	}
-
-	@Override
-	public boolean isToolEffective(String type, IBlockState state) {
-		return type != null && type.equals("pickaxe");
 	}
 
 	@Override

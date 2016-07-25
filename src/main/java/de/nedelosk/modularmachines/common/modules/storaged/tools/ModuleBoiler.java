@@ -108,7 +108,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 							return;
 						}
 
-						FluidStack water = tankWater.drainInternal(waterCost, false);
+						FluidStack water = tankWater.drainInternal(waterCost * 15, false);
 						if (water == null){
 							return;
 						}
@@ -177,8 +177,8 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 
 		@Override
 		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 35, 15, new FluidFilter(FluidRegistry.WATER));
-			tankBuilder.addFluidTank(16000, false, 125, 15, new OutputAllFilter());
+			tankBuilder.addFluidTank(16000, true, 55, 15, new FluidFilter(FluidRegistry.WATER));
+			tankBuilder.addFluidTank(16000, false, 105, 15, new OutputAllFilter());
 		}
 
 		@Override

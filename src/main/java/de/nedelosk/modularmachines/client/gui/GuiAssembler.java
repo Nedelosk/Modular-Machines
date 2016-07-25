@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.client.gui;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Collections;
 import java.util.List;
@@ -10,21 +11,16 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerAssembleTab;
 import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerTab;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.util.math.BlockPos;
 
 public class GuiAssembler extends GuiForestBase<IModularHandler> {
 
@@ -41,6 +37,16 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 			String s = Translator.translateToLocal("module.storage." + handler.getAssembler().getSelectedPosition().getName() + ".name");
 			this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		}
+
+		String exceptionText;
+		if(lastException != null){
+			exceptionText = lastException.getLocalizedMessage();
+		}else{
+			exceptionText = Translator.translateToLocal("modular.assembler.info");
+		}
+		if(lastException != null){
+			this.fontRendererObj.drawSplitString(exceptionText, 186, 83, 117, Color.WHITE.getRGB());
+		}
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(guiTexture);
-		drawTexturedModalRect(this.guiLeft + 176, this.guiTop + 77, 176, 77, 48, 86);
+		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 77, 130, 173, 126, 83);
 		render();
 		widgetManager.drawWidgets();
 	}
@@ -95,30 +101,7 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 		//right
 		buttonManager.add(new ButtonAssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
 		buttonManager.add(new ButtonAssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
-
-		buttonList.add(new GuiButton(5, guiLeft + 100, guiTop + 90, Translator.translateToLocal("modular.assembler.assemble")));
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		super.actionPerformed(button);
-		if(button.id == 5){
-			try{
-				IModular modular = handler.getAssembler().assemble();
-				if(modular != null){
-					handler.setAssembled(true);
-					handler.setModular(modular);
-					handler.setAssembler(null);
-					PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(handler, true));
-					if(handler instanceof IModularHandlerTileEntity){
-						BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
-						handler.getWorld().markBlockRangeForRenderUpdate(pos, pos);
-					}
-				}
-			}catch(AssemblerException e){
-				lastException = e;
-			}
-		}
+		buttonManager.add(new ButtonAssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
 	}
 
 	@Override
@@ -128,6 +111,6 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 
 	@Nonnull
 	public List<Rectangle> getExtraGuiAreas() {
-		return Collections.singletonList(new Rectangle(guiLeft + 176, guiTop + 77, 48, 86));
+		return Collections.singletonList(new Rectangle(guiLeft + 180, guiTop + 77, 126, 83));
 	}
 }

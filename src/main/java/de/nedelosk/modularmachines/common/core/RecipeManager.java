@@ -54,10 +54,57 @@ public class RecipeManager {
 				"PRP",
 				"BWB", 'P', "plateBronze", 'W', "wireBronze", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2),
 				"BWB",
 				"PSP",
 				"BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+
+		//Boilers
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"PPP",
+				"GCG",
+				"PPP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), 
+				"PGP",
+				"COC",
+				"PGP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMetalMaterials.IRON));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleBoilerSteel.getRegistryName(), EnumMetalMaterials.STEEL), 
+				"PGP",
+				"COC",
+				"PGP", 'G', "blockGlass", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleBoilerMagmarium.getRegistryName(), EnumMetalMaterials.MAGMARIUM), 
+				"PGP",
+				"COC",
+				"PGP", 'G', "blockGlass", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ItemModule.getItem(ModuleManager.moduleBoilerSteel.getRegistryName(), EnumMetalMaterials.STEEL));
+
+		//Heaters
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterSteamIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"GPR",
+				"FCF",
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', "blockGlass", 'C', new ItemStack(ItemManager.itemModuleCore));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON), 
+				"GPR",
+				"FCF",
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBronzeLarge.getRegistryName(), EnumMetalMaterials.BRONZE), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterSteelLarge.getRegistryName(), EnumMetalMaterials.STEEL), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ItemModule.getItem(ModuleManager.moduleHeaterBronzeLarge.getRegistryName(), EnumMetalMaterials.BRONZE));
+
+		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterMagmariumLarge.getRegistryName(), EnumMetalMaterials.MAGMARIUM), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ItemModule.getItem(ModuleManager.moduleHeaterSteelLarge.getRegistryName(), EnumMetalMaterials.STEEL));
 
 		//Drawers
 		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 0), 
@@ -71,27 +118,32 @@ public class RecipeManager {
 				"III", 'I', "ingotBrick");
 
 		//Engines
-		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam), 
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 0), 
 				"GHP",
 				"BII",
-				"GHP", 'I', "ingotIron", 'H', "blockIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON);
+				"GHP", 'I', "rodIron", 'H', "ingotIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON);
+
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 1), 
+				"GHP",
+				"BII",
+				"GHP", 'I', "rodBronze", 'H', "ingotBronze", 'G', "gearBronze", 'P', "plateBronze", 'B', new ItemStack(ItemManager.itemEngineSteam, 1, 0));
+
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 2), 
+				"GHP",
+				"BII",
+				"GHP", 'I', "rodSteel", 'H', "ingotSteel", 'G', "gearSteel", 'P', "plateSteel", 'B', new ItemStack(ItemManager.itemEngineSteam, 1, 1));
+
+		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 3), 
+				"GHP",
+				"BII",
+				"GHP", 'I', "rodMagmarium", 'H', "ingotMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'B', new ItemStack(ItemManager.itemEngineSteam, 1, 2));
+
 
 		//Turbines
 		addShapedModuleRecipe(new ItemStack(ItemManager.itemTurbineSteam), 
 				"SPI",
 				"PBP",
 				"IPS", 'I', "ingotIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
-
-		//Heaters
-		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON), 
-				"GPR",
-				"FCF",
-				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
-
-		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleHeaterBronzeLarge.getRegistryName(), EnumMetalMaterials.BRONZE), 
-				"GPR",
-				"COC",
-				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.getItem(ModuleManager.moduleHeaterBurningIron.getRegistryName(), EnumMetalMaterials.IRON));
 
 		//Alloy Smleters
 		addShapedModuleRecipe(ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMetalMaterials.IRON), 
@@ -118,7 +170,7 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemHammer), "+S+", "+S+", " - ", '+', "ingotIron", 'S', "stone", '-', "stickWood");
 		addShapedRecipe(new ItemStack(ItemManager.itemFileIron), true, "  I", "FIF", "S  ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
 		addShapedRecipe(new ItemStack(ItemManager.itemFileDiamond), true, "  D", "FDF", "S  ", 'D', "gemDiamond", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemCutter), "  S", " S ", "FIF", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
+		addShapedRecipe(new ItemStack(ItemManager.itemCutter), "  S", "FS ", "IF ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
 	}
 
 	private static void addMachineRecipes() {

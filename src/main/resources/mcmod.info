@@ -5,11 +5,11 @@
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://minecraft.curseforge.com/projects/forest-mods",
+  "url": "http://minecraft.curseforge.com/projects/modular-machines",
   "updateUrl": "",
   "authorList": ["Nedelosk"],
   "credits": "",
-  "logoFile": "/assets/forestmods/logo.png",
+  "logoFile": "",
   "screenshots": [],
   "dependencies": [
      "mod_MinecraftForge"

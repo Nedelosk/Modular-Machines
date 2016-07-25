@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modular.assembler;
 
+import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -81,6 +82,9 @@ public class AssemblerLogic implements IAssemblerLogic {
 
 	@Override
 	public void canAssemble(IModular modular) throws AssemblerException {
+		if(modular.getModules(IModuleCasing.class).isEmpty()){
+			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.casing"));
+		}
 	}
 
 	@Override
