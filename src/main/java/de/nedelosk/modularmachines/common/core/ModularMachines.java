@@ -45,9 +45,9 @@ public class ModularMachines {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
-		iModuleRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modules"), IModule.class, null, 0, 67108863, true, null, null, null);
-		iModuleContainerRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modulecontainers"), IModuleContainer.class, null, 0, 67108863, true, null, null, null);
-		iModuleLoaderRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:moduleloaders"), IModuleLoader.class, null, 0, 67108863, true, null, null, null);
+		iModuleRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modules"), IModule.class, null, 0, 67108863, true, null, null, null, null);
+		iModuleContainerRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modulecontainers"), IModuleContainer.class, null, 0, 67108863, true, null, null, null, null);
+		iModuleLoaderRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:moduleloaders"), IModuleLoader.class, null, 0, 67108863, true, null, null, null, null);
 
 		registry = new ModularMachinesRegistry();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
