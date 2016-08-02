@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import buildcraft.api.tools.IToolWrench;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
@@ -136,15 +135,17 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
 			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(heldItem != null && heldItem.getItem() instanceof IToolWrench && modularHandler.getModular() != null && modularHandler.isAssembled()){
-				IModularAssembler assembler = modularHandler.getModular().disassemble();
-				if(assembler != null){
-					if (world.isRemote) {
-						modularHandler.setAssembled(false);
-						modularHandler.setAssembler(assembler);
-						modularHandler.setModular(null);
-						PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
-						world.markBlockRangeForRenderUpdate(pos, pos);
+			if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+				if(heldItem == null && player.isSneaking()){
+					IModularAssembler assembler = modularHandler.getModular().disassemble();
+					if(assembler != null){
+						if (world.isRemote) {
+							modularHandler.setAssembled(false);
+							modularHandler.setAssembler(assembler);
+							modularHandler.setModular(null);
+							PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
+							world.markBlockRangeForRenderUpdate(pos, pos);
+						}
 					}
 				}
 			}
