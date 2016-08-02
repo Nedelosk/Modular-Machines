@@ -1,5 +1,7 @@
 # Modular-Machines
 
+[![Build Status](https://drone.io/github.com/Nedelosk/Modular-Machines/status.png)](https://drone.io/github.com/Nedelosk/Modular-Machines/latest)
+
 ### License & Copyright
 The MIT License (MIT)
 
