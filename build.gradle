@@ -17,8 +17,8 @@ buildscript {
 
 plugins {
 	id "net.minecraftforge.gradle.forge" version "2.0.2"
-	id "com.matthewprenger.cursegradle" version "1.0.8"
-	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
+	/*id "com.matthewprenger.cursegradle" version "1.0.8"
+	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"*/
 }
 
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
@@ -27,8 +27,6 @@ if (project.hasProperty('buildQualifier')) {
 }
 group= "de.nedelosk.modularmachines" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "modularmachines_" + mcversion
-
-ext.dirDest = './build/dist'
 
 // java version
 sourceCompatibility = 1.8
