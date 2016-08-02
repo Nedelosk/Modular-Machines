@@ -29,7 +29,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedItemName(getUnlocalizedName() + "." + ((stack.getItemDamage() == 0) ? "iron" : "bronze"));
+		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + ((stack.getItemDamage() == 0) ? "iron" : "bronze"));
 	}
 
 	@Override

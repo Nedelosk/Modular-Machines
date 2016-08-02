@@ -7,15 +7,15 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +23,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implements IGuiBase<H> {
+public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implements IGuiProvider<H> {
 
 	protected final ResourceLocation guiTexture;
 	protected final H handler;
@@ -37,7 +37,12 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
-		guiTexture = RenderUtil.getResourceLocation(getTextureModID(), getGuiTexture(), "gui");
+
+		if(getTextureModID() != null && getGuiTexture() != null){
+			guiTexture = new ResourceLocation(getTextureModID(), "textures/gui/" + getGuiTexture() + ".png");
+		}else{
+			guiTexture = null;
+		}
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 		initButtons();
 	}
 
-	public void initButtons(){
+	protected void initButtons(){
 		Iterator<GuiButton> buttonIter = buttonList.iterator();
 		while(buttonIter.hasNext()){
 			GuiButton button = buttonIter.next();
@@ -59,7 +64,7 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 		buttonList.addAll(buttonManager.getButtons());
 	}
 
-	public void addButtons() {
+	protected void addButtons() {
 	}
 
 	@Override
@@ -114,17 +119,21 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button instanceof Button) {
-			((Button) button).onButtonClick(this);
+			((Button) button).onButtonClick();
 		}
 	}
 
-	protected abstract void renderStrings(FontRenderer fontRenderer, int x, int y);
+	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
+	}
 
-	protected abstract void render();
+	protected void render() {
+	}
+
+	protected String getTextureModID() {
+		return "modularmachines";
+	}
 
 	protected abstract String getGuiTexture();
-
-	protected abstract String getTextureModID();
 
 	@Override
 	public RenderItem getRenderItem() {
@@ -168,26 +177,21 @@ public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implem
 
 	@Override
 	public void drawItemStack(ItemStack stack, int x, int y) {
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(1F, 1F, 1F, 1F);
-		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-		this.zLevel = 200.0F;
-		itemRender.zLevel = 200.0F;
-		FontRenderer font = null;
-		if (stack != null) {
-			font = stack.getItem().getFontRenderer(stack);
-		}
-		if (font == null) {
-			font = Minecraft.getMinecraft().fontRendererObj;
-		}
-		itemRender.renderItemAndEffectIntoGUI(stack, x, y);
-		itemRender.renderItemOverlayIntoGUI(font, stack, x, y, null);
-		this.zLevel = 0.0F;
-		itemRender.zLevel = 0.0F;
+		GlStateManager.pushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		GlStateManager.disableLighting();
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableColorMaterial();
+		GlStateManager.enableLighting();
+		GlStateManager.enableDepth();
+		this.itemRender.zLevel = 100.0F;
+		this.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
+		this.itemRender.zLevel = 0.0F;
+		GlStateManager.disableLighting();
+
+		GlStateManager.popMatrix();
+		GlStateManager.disableDepth();
+		GlStateManager.enableLighting();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
 	}
 }

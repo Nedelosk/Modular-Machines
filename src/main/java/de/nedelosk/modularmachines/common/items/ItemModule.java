@@ -1,13 +1,14 @@
 package de.nedelosk.modularmachines.common.items;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import com.google.common.collect.Lists;
+import org.apache.commons.lang3.tuple.Pair;
 
 import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.material.IMetalMaterial;
-import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -27,22 +28,27 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemModule extends Item implements IColoredItem, IItemModelRegister {
 
-	private static List<ItemStack> subItems = Lists.newArrayList();
+	private static List<Pair<ResourceLocation, IMaterial>> modules = new ArrayList<>();
 
 	public ItemModule() {
-		setUnlocalizedName("producers");
+		setUnlocalizedName("modules");
 		setCreativeTab(TabModularMachines.tabModules);
 		setHasSubtypes(true);
 	}
 
-	public static <M extends IModule> ItemStack registerAndCreateItem(IModule module, IMaterial material) {
-		ItemStack itemStack = new ItemStack(ItemManager.itemModules);
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("UID", module.getRegistryName().toString());
-		nbtTag.setString("Material", material.getName());
-		itemStack.setTagCompound(nbtTag);
-		subItems.add(itemStack);
-		return itemStack;
+	public static <M extends IModule> ItemStack registerAndCreateStack(IModule module, IMaterial material) {
+		if(module == null || material == null){
+			return null;
+		}
+		register(module, material);
+		return createStack(module, material);
+	}
+
+	public static <M extends IModule> void register(IModule module, IMaterial material){
+		if(module == null || material == null){
+			return;
+		}
+		modules.add(Pair.of(module.getRegistryName(), material));
 	}
 
 	@Override
@@ -62,32 +68,54 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		subItems.addAll(ItemModule.subItems);
+		for(Pair<ResourceLocation, IMaterial> moduleEntry : modules){
+			subItems.add(createStack(moduleEntry.getKey(), moduleEntry.getValue()));
+		}
 	}
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		IModuleContainer moduleContainer = ModularManager.getContainerFromItem(stack);
-		if(tintIndex == 1){
-			IModule module = moduleContainer.getModule();
-			if (module instanceof IModuleColored && stack.hasTagCompound()) {
-				IModuleColored moduleColered = (IModuleColored) module;
-				return moduleColered.getColor();
+		if(moduleContainer != null){
+			if(tintIndex == 1){
+				IModule module = moduleContainer.getModule();
+				if (module instanceof IModuleColored && stack.hasTagCompound()) {
+					IModuleColored moduleColered = (IModuleColored) module;
+					return moduleColered.getColor();
+				}
+			}else if(tintIndex == 0 && moduleContainer.getMaterial() instanceof IColoredMaterial){
+				return ((IColoredMaterial)moduleContainer.getMaterial()).getColor();
 			}
-		}else if(tintIndex == 0 && moduleContainer.getMaterial() instanceof IMetalMaterial){
-			return ((IMetalMaterial)moduleContainer.getMaterial()).getColor();
 		}
 		return 16777215;
 	}
 
-	public static ItemStack getItem(ResourceLocation location, IMaterial material) {
-		for(ItemStack stack : subItems) {
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("UID")) {
-				String itemUID = stack.getTagCompound().getString("UID");
-				IMaterial m = MaterialRegistry.getMaterial(stack.getTagCompound().getString("Material"));
-				if (itemUID.equals(location.toString()) && m.equals(material)) {
-					return stack;
-				}
+	public static ItemStack createStack(IModuleContainer container) {
+		if(container == null){
+			return null;
+		}
+		return createStack(container.getModule(), container.getMaterial());
+	}
+
+	public static ItemStack createStack(IModule module, IMaterial material) {
+		if(module == null || material == null){
+			return null;
+		}
+		return createStack(module.getRegistryName(), material);
+	}
+
+	public static ItemStack createStack(ResourceLocation location, IMaterial material) {
+		if(location == null || material == null){
+			return null;
+		}
+		for(Pair<ResourceLocation, IMaterial> module : modules){
+			if(module.getKey().equals(location) && module.getValue().equals(material)){
+				ItemStack itemStack = new ItemStack(ItemManager.itemModules);
+				NBTTagCompound nbtTag = new NBTTagCompound();
+				nbtTag.setString("Module", location.toString());
+				nbtTag.setString("Material", material.getName().toLowerCase(Locale.ENGLISH));
+				itemStack.setTagCompound(nbtTag);
+				return itemStack;
 			}
 		}
 		return null;

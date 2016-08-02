@@ -1,12 +1,11 @@
 package de.nedelosk.modularmachines.api.material;
 
-import java.util.Locale;
-
 import de.nedelosk.modularmachines.api.Translator;
 
 public enum EnumMetalMaterials implements IMetalMaterial {
 	ALUMINIUM(2, "Aluminum", "aluminium", 0xD4E3E6, "Aluminum", "Aluminium"),
 	NICKEL(2, "Nickel", "nickel", 0xA9A283, "Nickel"), IRON(2, "Iron", "iron", 0xDADADA, "Iron"), TIN(2, "Tin", "tin", 0xCACECF, "Tin"), 
+	SILVER(2, "Silver", "silver", 0xE6FDFF, "Silver"),
 	COPPER(2, "Copper", "copper", 0xCC6410, "Copper"), GOLD(3, "Gold", "gold", 0xD3B95A, "Gold"), BRONZE(3, "Bronze", "bronze", 0xCA9956, "Bronze"), 
 	OBSIDIAN(4, "Obsidian", "obsidian", 0x442F50, "Obsidian"), STEEL(5,"Steel", "steel",0xA0A0A0, "Steel"), MAGMARIUM(7, "Magmarium", "magmarium", 0x6E0C08, "Magmarium"),
 
@@ -46,7 +45,7 @@ public enum EnumMetalMaterials implements IMetalMaterial {
 
 	@Override
 	public String getName() {
-		return name.toLowerCase(Locale.ENGLISH);
+		return name;
 	}
 
 	@Override

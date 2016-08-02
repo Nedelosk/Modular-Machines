@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.Translator;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
@@ -68,14 +68,14 @@ public class WidgetFluidTank extends Widget {
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(IGuiProvider gui) {
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlpha();
 
 		GlStateManager.color(1, 1, 1, 1);
 
 		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, 18, 60);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, pos.width, pos.height);
 
 		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, tank.getFluid());
 
@@ -84,7 +84,7 @@ public class WidgetFluidTank extends Widget {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0, 0, 200);
 		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, 16, 60);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, pos.width - 2, pos.height);
 		GlStateManager.popMatrix();
 
 		GlStateManager.disableAlpha();
@@ -173,7 +173,7 @@ public class WidgetFluidTank extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiBase gui) {
+	public ArrayList<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> description = new ArrayList<String>();
 		if (tank == null || tank.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));

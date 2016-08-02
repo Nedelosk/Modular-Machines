@@ -2,6 +2,8 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -15,27 +17,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMetal extends Item implements IItemModelRegister, IColoredItem {
 
-	private Object[][][] metals;
-	private String uln;
-	private String iconName;
+	private final MaterialList[] materials;
+	private final String uln;
 
-	public ItemMetal(String uln, String iconName, Object[][][] metals) {
+	public ItemMetal(String uln, MaterialList... materials) {
 		setCreativeTab(TabModularMachines.tabModularMachines);
 		setUnlocalizedName(uln);
 		setHasSubtypes(true);
-		this.metals = metals;
+		this.materials = materials;
 		this.uln = uln;
-		this.iconName = iconName;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		for(int m = 0; m < metals.length; m++) {
-			Object[][] metal = metals[m];
-			for(int i = 0; i < metal.length; ++i) {
-				manager.registerItemModel(item, m * 10 + i, "components/" + uln);
+		int listIndex=0;
+		for(MaterialList list : materials){
+			for(IMaterial material : list.getMaterials()){
+				manager.registerItemModel(item, listIndex * 10 + list.getIndex(material), "components/" + uln);
 			}
+			listIndex++;
 		}
 	}
 
@@ -45,35 +46,66 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for(int m = 0; m < metals.length; m++) {
-			Object[][] metal = metals[m];
-			for(int i = 0; i < metal.length; ++i) {
-				list.add(new ItemStack(item, 1, m * 10 + i));
+	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
+		for(MaterialList list : materials){
+			for(IMaterial material : list.getMaterials()){
+				subItems.add(getStack(material));
 			}
 		}
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.setUnlocalizedItemName(iconName + getName(itemstack.getItemDamage()));
+		return Registry.setUnlocalizedItemName(uln + getName(itemstack.getItemDamage()));
 	}
 
-	private String getName(int id) {
-		int i = 0;
-		while (id > 9) {
-			i++;
-			id -= 10;
-		}
-		return (String) metals[i][id][0];
+	public ItemStack getStack(IMaterial material){
+		return getStack(material, 1);
 	}
 
-	private int getColor(int id) {
-		int i = 0;
-		while (id > 9) {
-			i++;
-			id -= 10;
+	public ItemStack getStack(IMaterial material, int size){
+		int listIndex=0;
+		for(MaterialList list : materials){
+			int index = list.getIndex(material);
+			if(index > -1){
+				return new ItemStack(this, size, listIndex * 10 + index);
+			}
+			listIndex++;
 		}
-		return (int) metals[i][id][1];
+		return null;
+	}
+
+	public ItemStack getStack(String oreDict){
+		return getStack(oreDict, 1);
+	}
+
+	public ItemStack getStack(String oreDict, int size){
+		int listIndex=0;
+		for(MaterialList list : materials){
+			int index = list.getIndex(list.getFromOre(oreDict));
+			if(index > -1){
+				return new ItemStack(this, size, listIndex * 10 + index);
+			}
+			listIndex++;
+		}
+		return null;
+	}
+
+	private String getName(int index) {
+		int listIndex = 0;
+		while (index > 9) {
+			listIndex++;
+			index -= 10;
+		}
+		return materials[listIndex].getName(index);
+	}
+
+	private int getColor(int index) {
+		int listIndex = 0;
+		while (index > 9) {
+			listIndex++;
+			index -= 10;
+		}
+		return materials[listIndex].getColor(index);
 	}
 }

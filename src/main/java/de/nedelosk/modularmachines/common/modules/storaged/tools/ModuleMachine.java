@@ -15,7 +15,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
 import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -39,8 +38,6 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -355,17 +352,6 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	}
 
 	protected abstract String getRecipeCategory(IModuleState state);
-
-	@Override
-	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
-		if (isRecipeInput(state, new RecipeItem(slotID, stackItem))) {
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
-			if (inventory.mergeItemStack(stackItem, 36 + slotID, 37 + slotID, false, container)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IModuleState state, IWailaState data) {

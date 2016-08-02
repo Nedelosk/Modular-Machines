@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 
-public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
+public class WidgetManager<G extends IGuiProvider> implements IWidgetManager<G> {
 
 	public final G gui;
 	public final Minecraft minecraft;
@@ -24,27 +24,27 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	@Override
-	public void add(Widget slot) {
-		if (!widgets.contains(slot)) {
-			this.widgets.add(slot);
+	public void add(Widget widget) {
+		if (!widgets.contains(widget)) {
+			this.widgets.add(widget);
 		}
 	}
 
 	@Override
-	public void addAll(Collection<Widget> slots) {
-		if (slots == null) {
+	public void addAll(Collection<Widget> widgets) {
+		if (widgets == null) {
 			return;
 		}
-		for(Widget slot : slots) {
-			if (!widgets.contains(slot)) {
-				widgets.add(slot);
+		for(Widget widget : widgets) {
+			if (!widgets.contains(widget)) {
+				widgets.add(widget);
 			}
 		}
 	}
 
 	@Override
-	public void remove(Widget slot) {
-		this.widgets.remove(slot);
+	public void remove(Widget widget) {
+		this.widgets.remove(widget);
 	}
 
 	public void clear() {
@@ -53,9 +53,9 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	@Override
 	public Widget getWidgetAtMouse(int mouseX, int mouseY) {
-		for(Widget slot : widgets) {
-			if (slot.isMouseOver(mouseX, mouseY)) {
-				return slot;
+		for(Widget widget : widgets) {
+			if (widget.isMouseOver(mouseX, mouseY)) {
+				return widget;
 			}
 		}
 		return null;
@@ -73,8 +73,8 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public boolean keyTyped(char keyChar, int keyCode) {
-		for(Widget slot : widgets) {
-			if (slot.keyTyped(keyChar, keyCode, gui)) {
+		for(Widget widget : widgets) {
+			if (widget.keyTyped(keyChar, keyCode, gui)) {
 				return true;
 			}
 		}
@@ -82,19 +82,19 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for(Widget slot : widgets) {
-			if (slot.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
-				if(slot.showTooltip) {
-					RenderUtil.renderTooltip(mX, mY, slot.getTooltip(gui));
+		for(Widget widget : widgets) {
+			if (widget.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
+				if(widget.showTooltip) {
+					RenderUtil.renderTooltip(mX, mY, widget.getTooltip(gui));
 				}
 			}
 		}
 	}
 
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		Widget slot = getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
-		if (slot != null) {
-			slot.handleMouseClick(mouseX, mouseY, mouseButton, gui);
+		Widget widget = getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
+		if (widget != null) {
+			widget.handleMouseClick(mouseX, mouseY, mouseButton, gui);
 		}
 	}
 

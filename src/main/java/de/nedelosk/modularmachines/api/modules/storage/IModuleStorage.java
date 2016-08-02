@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -14,15 +13,13 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface IModuleStorage extends INBTSerializable<NBTTagCompound>{
 
 	/**
-	 * Add a module state to the storage and set the index of the module state.
-	 */
-	IModuleState addModule(ItemStack itemStack, IModuleState state);
-
-	/**
 	 * @return All module states that are have a module that class is a instance of of the moduleClass.
 	 */
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
+	/**
+	 * @return All modules states in a list.
+	 */
 	List<IModuleState> getModules();
 
 	/**

@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 
 import de.nedelosk.modularmachines.api.Translator;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -18,14 +18,14 @@ public class WidgetButtonMode extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiBase gui) {
+	public ArrayList<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(Translator.translateToLocal("mode." + mode.getName() + ".name"));
 		return list;
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(IGuiProvider gui) {
 		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();

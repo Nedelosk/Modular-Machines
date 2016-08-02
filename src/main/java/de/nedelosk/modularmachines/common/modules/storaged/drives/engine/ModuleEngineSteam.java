@@ -99,8 +99,8 @@ public class ModuleEngineSteam extends ModuleEngine {
 		}
 
 		@Override
-		public void addWidgets(List widgets) {
-			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
+		public void addWidgets() {
+			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
 		}
 
 	}

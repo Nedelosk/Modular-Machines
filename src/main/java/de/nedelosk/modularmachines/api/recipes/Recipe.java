@@ -70,16 +70,18 @@ public class Recipe implements IRecipe{
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		for(Entry<IProperty, Object> object : properties.entrySet()){
 			if(object.getValue() != null){
 				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
 			}
 		}
+		return nbt;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		for(IProperty property : properties.keySet()){
 			if(nbt.hasKey(property.getName())){
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));

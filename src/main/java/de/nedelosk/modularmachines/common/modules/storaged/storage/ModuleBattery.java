@@ -27,10 +27,10 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 	}
 
 	@Override
-	public List<IModuleContentHandler> createContentHandlers(IModuleState state) {
+	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		List<IModuleContentHandler> handlers = new ArrayList<>();
 		handlers.add(getEnergyInterface(state));
-		return super.createContentHandlers(state);
+		return super.createHandlers(state);
 	}
 
 	@Override
@@ -65,8 +65,8 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void updateGui(int x, int y) {
-			super.updateGui(x, y);
+		public void updateGui() {
+			super.updateGui();
 			for(Widget widget : (ArrayList<Widget>) gui.getWidgetManager().getWidgets()) {
 				if (widget instanceof WidgetEnergyField) {
 					((WidgetEnergyField) widget).energyInterface = state.getContentHandler(IModuleEnergyInterface.class);
@@ -80,9 +80,8 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void addWidgets(List widgets) {
-			super.addWidgets(widgets);
-			widgets.add(new WidgetEnergyField(state.getContentHandler(IModuleEnergyInterface.class), getEnergyType(state), 55, 15));
+		public void addWidgets() {
+			gui.getWidgetManager().add(new WidgetEnergyField(state.getContentHandler(IModuleEnergyInterface.class), getEnergyType(state), 55, 15));
 		}
 	}
 }

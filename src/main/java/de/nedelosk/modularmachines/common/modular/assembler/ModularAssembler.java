@@ -91,7 +91,7 @@ public class ModularAssembler implements IModularAssembler {
 						storage = new PositionedModuleStorage(modular, position);
 						modular.setModuleStorage(position, storage);
 					}
-					modular.getModuleStorage(position).addModule(slotStack, ModularManager.loadModuleState(modular, slotStack, container));
+					storage.addModule(slotStack, ModularManager.loadModuleState(modular, slotStack, container));
 				}
 			}
 		}

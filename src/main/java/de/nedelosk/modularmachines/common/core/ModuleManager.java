@@ -6,9 +6,11 @@ import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
@@ -19,7 +21,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHe
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
-import de.nedelosk.modularmachines.common.modules.ModuleContainer;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
@@ -282,8 +283,15 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
+		ModularManager.registerModuleItem(ItemManager.itemEngineSteam);
+		ModularManager.registerModuleItem(ItemManager.itemDrawer);
+		ModularManager.registerModuleItem(ItemManager.itemCasings);
+		ModularManager.registerModuleItem(ItemManager.itemModules);
+		ModularManager.registerModuleItem(ItemManager.itemTurbineSteam);
+
 		//Engines
 		if(ItemManager.itemEngineRF != null){
+			ModularManager.registerModuleItem(ItemManager.itemEngineRF);
 			GameRegistry.register(new ModuleContainer(moduleEngineRFIron, new ItemStack(ItemManager.itemEngineRF, 1, 0), EnumMetalMaterials.IRON));
 			GameRegistry.register(new ModuleContainer(moduleEngineRFBronze, new ItemStack(ItemManager.itemEngineRF, 1, 1), EnumMetalMaterials.BRONZE));
 			GameRegistry.register(new ModuleContainer(moduleEngineRFSteel, new ItemStack(ItemManager.itemEngineRF, 1, 2), EnumMetalMaterials.STEEL));
@@ -291,6 +299,7 @@ public class ModuleManager {
 		}
 
 		if(ItemManager.itemEngineEU != null){
+			ModularManager.registerModuleItem(ItemManager.itemEngineEU);
 			GameRegistry.register(new ModuleContainer(moduleEngineEUIron, new ItemStack(ItemManager.itemEngineEU, 1, 0), EnumMetalMaterials.IRON));
 			GameRegistry.register(new ModuleContainer(moduleEngineEUBronze, new ItemStack(ItemManager.itemEngineEU, 1, 1), EnumMetalMaterials.BRONZE));
 			GameRegistry.register(new ModuleContainer(moduleEngineEUSteel, new ItemStack(ItemManager.itemEngineEU, 1, 2), EnumMetalMaterials.STEEL));
@@ -322,30 +331,30 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleDrawerBrickSmall, new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
 
 		//Boilers
-		addDefaultModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);
-		addDefaultModuleItem(moduleBoilerBronze, EnumMetalMaterials.BRONZE);
-		addDefaultModuleItem(moduleBoilerSteel, EnumMetalMaterials.STEEL);
-		addDefaultModuleItem(moduleBoilerMagmarium, EnumMetalMaterials.MAGMARIUM);
+		registerModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleBoilerBronze, EnumMetalMaterials.BRONZE);
+		registerModuleItem(moduleBoilerSteel, EnumMetalMaterials.STEEL);
+		registerModuleItem(moduleBoilerMagmarium, EnumMetalMaterials.MAGMARIUM);
 
 		//Heaters
-		addDefaultModuleItem(moduleHeaterSteamIron, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleHeaterSteamIron, EnumMetalMaterials.IRON);
 
-		addDefaultModuleItem(moduleHeaterBurningIron, EnumMetalMaterials.IRON);
-		addDefaultModuleItem(moduleHeaterBronzeLarge, EnumMetalMaterials.BRONZE);
-		addDefaultModuleItem(moduleHeaterSteelLarge, EnumMetalMaterials.STEEL);
-		addDefaultModuleItem(moduleHeaterMagmariumLarge, EnumMetalMaterials.MAGMARIUM);
+		registerModuleItem(moduleHeaterBurningIron, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleHeaterBronzeLarge, EnumMetalMaterials.BRONZE);
+		registerModuleItem(moduleHeaterSteelLarge, EnumMetalMaterials.STEEL);
+		registerModuleItem(moduleHeaterMagmariumLarge, EnumMetalMaterials.MAGMARIUM);
 
 		//Alloy Smelters
-		addDefaultModuleItem(moduleAlloySmelterIron, EnumMetalMaterials.IRON);
-		addDefaultModuleItem(moduleAlloySmelterBronze, EnumMetalMaterials.BRONZE);
+		registerModuleItem(moduleAlloySmelterIron, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleAlloySmelterBronze, EnumMetalMaterials.BRONZE);
 
 		//Pulverizer
-		addDefaultModuleItem(modulePulverizerIron, EnumMetalMaterials.IRON);
-		addDefaultModuleItem(modulePulverizerBronze, EnumMetalMaterials.BRONZE);
+		registerModuleItem(modulePulverizerIron, EnumMetalMaterials.IRON);
+		registerModuleItem(modulePulverizerBronze, EnumMetalMaterials.BRONZE);
 	}
 
-	private static void addDefaultModuleItem(IModule module, IMaterial material){
-		GameRegistry.register(new ModuleContainer(module, ItemModule.registerAndCreateItem(module, material), material));
+	private static void registerModuleItem(IModule module, IMaterial material){
+		GameRegistry.register(new ModuleContainer(module, ItemModule.registerAndCreateStack(module, material), material));
 	}
 
 	public static void registerCapability(){

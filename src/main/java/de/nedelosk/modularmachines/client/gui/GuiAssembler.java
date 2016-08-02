@@ -13,8 +13,8 @@ import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
-import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerAssembleTab;
-import de.nedelosk.modularmachines.client.gui.buttons.ButtonAssemblerTab;
+import de.nedelosk.modularmachines.client.gui.buttons.AssemblerAssembleTab;
+import de.nedelosk.modularmachines.client.gui.buttons.AssemblerTab;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -22,7 +22,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class GuiAssembler extends GuiForestBase<IModularHandler> {
+public class GuiAssembler extends GuiBase<IModularHandler> {
 
 	public AssemblerException lastException;
 
@@ -95,13 +95,13 @@ public class GuiAssembler extends GuiForestBase<IModularHandler> {
 	@Override
 	public void addButtons() {
 		//left
-		buttonManager.add(new ButtonAssemblerTab(0, guiLeft + 8, guiTop + 5, EnumPosition.TOP, false));
-		buttonManager.add(new ButtonAssemblerTab(1, guiLeft + 8, guiTop + 27, EnumPosition.LEFT, false));
-		buttonManager.add(new ButtonAssemblerTab(2, guiLeft + 8, guiTop + 49, EnumPosition.INTERNAL, false));
+		buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, EnumPosition.TOP, false));
+		buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, EnumPosition.LEFT, false));
+		buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, EnumPosition.INTERNAL, false));
 		//right
-		buttonManager.add(new ButtonAssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
-		buttonManager.add(new ButtonAssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
-		buttonManager.add(new ButtonAssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
+		buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
+		buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
+		buttonManager.add(new AssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
 	}
 
 	@Override

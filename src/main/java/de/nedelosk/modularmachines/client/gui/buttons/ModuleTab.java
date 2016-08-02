@@ -4,24 +4,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.Button;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class ButtonModuleTab extends Button<IModularHandler> {
+public class ModuleTab extends Button<GuiPage<IModularHandler>> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
 	public final IModuleState state;
 	public final IModularHandler tile;
 	public final boolean right;
 
-	public ButtonModuleTab(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, IModuleState state, IModularHandler tile, boolean right) {
-		super(p_i1021_1_, p_i1021_2_, p_i1021_3_, 28, 21, null);
+	public ModuleTab(int ID, int xPosition, int yPosition, IModuleState state, IModularHandler tile, boolean right) {
+		super(ID, xPosition, yPosition, 28, 21, null);
 		this.state = state;
 		this.right = right;
 		this.tile = tile;
@@ -30,15 +30,15 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
-		RenderUtil.bindTexture(guiTextureOverlay);
-		gui.getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
+		RenderUtil.bindTexture(guiTexture);
+		getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
-		drawItemStack(state.getContainer().getItemStack(), xPosition + (right ? 5 : 7), yPosition + 2);
+		getGui().drawItemStack(state.getContainer().getItemStack(), xPosition + (right ? 5 : 7), yPosition + 2);
 	}
 
 	@Override
-	public void onButtonClick(IGuiBase<IModularHandler> gui) {
-		IModular modular = gui.getHandler().getModular();
+	public void onButtonClick() {
+		IModular modular = getGui().getHandler().getModular();
 		IModuleState currentModule = modular.getCurrentModuleState();
 		if (currentModule.getIndex() != state.getIndex()) {
 			modular.setCurrentModuleState(state);
@@ -46,7 +46,7 @@ public class ButtonModuleTab extends Button<IModularHandler> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
+	public List<String> getTooltip() {
 		return Arrays.asList(state.getContainer().getDisplayName());
 	}
 }

@@ -171,7 +171,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			IModularHandler modular = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			if (modular != null && modular.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
-				for(IModuleState state : modular.getModular().getModuleStates()) {
+				for(IModuleState state : modular.getModular().getModules()) {
 					if (state != null) {
 						drops.add(state.getModule().saveDataToItem(state).copy());
 						for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){

@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
@@ -9,7 +10,6 @@ import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -26,10 +26,9 @@ import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
+import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -60,6 +59,9 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+		if(!(container.getItemStack().getItem() instanceof ItemModule)){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
+		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize().getLocalizedName());
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
 		if(getPosition(container) != null){
@@ -70,7 +72,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName() + "_" + getSize().getName());
+		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH) + "_" + getSize().getName());
 	}
 
 	@Override
@@ -94,7 +96,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
-	public List<IModuleContentHandler> createContentHandlers(IModuleState state){
+	public List<IModuleContentHandler> createHandlers(IModuleState state){
 		List<IModuleContentHandler> handlers = Lists.newArrayList();
 		IModuleInventory inv = createInventory(state);
 		if(inv != null){
@@ -134,11 +136,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 			return tankBuilder.build();
 		}
 		return null;
-	}
-
-	@Override
-	public boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem) {
-		return false;
 	}
 
 	@Override

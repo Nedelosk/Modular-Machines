@@ -25,6 +25,7 @@ public class ModularMachinesRegistry extends Registry {
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(false);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		ModuleManager.registerCapability();
 		PacketHandler.preInit();
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
@@ -44,7 +45,6 @@ public class ModularMachinesRegistry extends Registry {
 		ModuleManager.registerModuels();
 		ModuleManager.registerModuleContainers();
 		RecipeManager.registerRecipes();
-		ModuleManager.registerCapability();
 		AchievementManager.registerPage();
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerItemAndBlockColors();

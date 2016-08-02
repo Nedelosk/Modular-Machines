@@ -48,11 +48,6 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 
 	IPositionedModuleStorage getModuleStorage(EnumPosition position);
 
-	/**
-	 * @return All modules as ModuleStack
-	 */
-	List<IModuleState> getModuleStates();
-
 	IFluidHandler getFluidHandler();
 
 	IEnergyInterface getEnergyInterface();

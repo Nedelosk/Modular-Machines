@@ -49,7 +49,7 @@ public class ItemBlockModular extends ItemBlock {
 					handler.deserializeNBT(stack.getTagCompound());
 					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 					IModular modular = handler.getModular();
-					for(IModuleState state : modular.getModuleStates()){
+					for(IModuleState state : modular.getModules()){
 						if(state != null){
 							tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName());
 						}

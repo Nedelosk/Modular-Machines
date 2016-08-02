@@ -21,15 +21,15 @@ public class ModularUtils {
 	}
 
 	public static IModuleState<IModuleCasing> getCasing(IModular modular) {
-		return getModule(modular, IModuleCasing.class);
+		return getFirstModule(modular, IModuleCasing.class);
 	}
 
-	public static <M extends IModule> IModuleState<M> getModule(IModular modular, Class<? extends M> moduleClass) {
+	public static <M extends IModule> IModuleState<M> getFirstModule(IModular modular, Class<? extends M> moduleClass) {
 		if (modular == null) {
 			return null;
 		}
 		List<IModuleState<M>> modules = modular.getModules(moduleClass);
-		if (modules == null || modules.size() == 0) {
+		if (modules == null || modules.isEmpty()) {
 			return null;
 		}
 		return modules.get(0);

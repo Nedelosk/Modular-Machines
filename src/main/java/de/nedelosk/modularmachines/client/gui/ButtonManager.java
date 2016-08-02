@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 
-public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
+public class ButtonManager<G extends IGuiProvider> implements IButtonManager<G> {
 
 	public final G gui;
 	public final Minecraft minecraft;
@@ -23,21 +23,21 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	}
 
 	@Override
-	public void add(Button slot) {
-		this.buttons.add(slot);
-		slot.gui = gui;
+	public void add(Button button) {
+		this.buttons.add(button);
+		button.setGui(gui);
 	}
 
 	@Override
-	public void add(Collection<Button> slots) {
-		for(Button button : slots){
+	public void add(Collection<Button> buttons) {
+		for(Button button : buttons){
 			add(button);
 		}
 	}
 
 	@Override
-	public void remove(Button slot) {
-		this.buttons.remove(slot);
+	public void remove(Button button) {
+		this.buttons.remove(button);
 	}
 
 	public void clear() {
@@ -50,17 +50,17 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for(Button slot : buttons) {
-			if (slot.isMouseOver(mX, mY)) {
-				RenderUtil.renderTooltip(mX, mY, slot.getTooltip(gui));
+		for(Button button : buttons) {
+			if (button.isMouseOver(mX, mY) && button.enabled) {
+				RenderUtil.renderTooltip(mX, mY, button.getTooltip());
 			}
 		}
 	}
 
 	protected Button getAtPosition(int mX, int mY) {
-		for(Button slot : buttons) {
-			if (slot.isMouseOver(mX, mY)) {
-				return slot;
+		for(Button button : buttons) {
+			if (button.isMouseOver(mX, mY) && button.enabled) {
+				return button;
 			}
 		}
 		return null;
@@ -69,9 +69,11 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 	public void drawWidgets() {
 		gui.setZLevel(100.0F);
 		gui.getRenderItem().zLevel = 100.0F;
-		for(Button slot : buttons) {
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			slot.drawButton(minecraft, 0, 0);
+		for(Button button : buttons) {
+			if(button.enabled){
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				button.drawButton(minecraft, 0, 0);
+			}
 		}
 		gui.setZLevel(0.0F);
 		gui.getRenderItem().zLevel = 0.0F;

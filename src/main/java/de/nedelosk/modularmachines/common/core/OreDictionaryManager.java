@@ -2,9 +2,8 @@ package de.nedelosk.modularmachines.common.core;
 
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
+import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import net.minecraft.init.Blocks;
@@ -19,22 +18,21 @@ public class OreDictionaryManager {
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
-		for(int m = 0; m < ItemManager.metals.length; m++) {
-			Object[][] metal = ItemManager.metals[m];
-			for(int i = 0; i < metal.length; ++i) {
-				registerOre("ingot" + metal[i][0], new ItemStack(ItemManager.itemIngots, 1, m * 10 + i));
-				registerOre("nugget" + metal[i][0], new ItemStack(ItemManager.itemNuggets, 1, m * 10 + i));
+		for(MaterialList<IMetalMaterial> metals : ItemManager.metals) {
+			for(IMetalMaterial material : metals) {
+				for(String oreDict : material.getOreDicts()){
+					registerOre("ingot" + oreDict, ItemManager.itemIngots.getStack(oreDict));
+					registerOre("nugget" + oreDict, ItemManager.itemNuggets.getStack(oreDict));
+				}
 			}
 		}
-		for(int d = 0; d < ItemManager.dusts.length; d++) {
-			Object[][] dust = ItemManager.dusts[d];
-			for(int i = 0; i < dust.length; ++i) {
-				registerOre("dust" + dust[i][0], new ItemStack(ItemManager.itemDusts, 1, d * 10 + i));
+		for(MaterialList<IMetalMaterial> metals : ItemManager.dusts) {
+			for(IMetalMaterial material : metals) {
+				for(String oreDict : material.getOreDicts()){
+					registerOre("dust" + oreDict, ItemManager.itemDusts.getStack(oreDict));
+				}
 			}
 		}
-		registerOre("ingotAluminium", new ItemStack(ItemManager.itemIngots, 1, 5));
-		registerOre("nuggetAluminium", new ItemStack(ItemManager.itemNuggets, 1, 5));
-		registerOre("dustAluminium", new ItemStack(ItemManager.itemDusts, 1, 15));
 		registerOre("oreCopper", new ItemStack(BlockManager.blockOres, 1, 0));
 		registerOre("oreTin", new ItemStack(BlockManager.blockOres, 1, 1));
 		registerOre("oreSilver", new ItemStack(BlockManager.blockOres, 1, 2));
@@ -63,10 +61,9 @@ public class OreDictionaryManager {
 	}
 
 	private static void registerComponentOres(String preFix, ItemComponent component){
-		List<IMetalMaterial> materials = component.materials;
-		for(int i = 0; i < materials.size(); i++) {
-			ItemStack stack = new ItemStack(component, 1, i);
-			String[] oreDicts = materials.get(i).getOreDicts();
+		for(IMetalMaterial material : component.materials) {
+			ItemStack stack = component.getStack(material);
+			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
 				for(String oreDict : oreDicts) {
 					registerOre(preFix + oreDict, stack);

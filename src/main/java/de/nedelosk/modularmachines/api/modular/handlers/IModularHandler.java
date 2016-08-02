@@ -17,12 +17,12 @@ public interface IModularHandler<M extends IModular, N extends NBTBase> extends 
 
 	World getWorld();
 
-	void setModular(M modular);
+	void setModular(@Nullable M modular);
 
 	@Nullable
 	M getModular();
 
-	void setAssembler(IModularAssembler assembler);
+	void setAssembler(@Nullable IModularAssembler assembler);
 
 	@Nullable
 	IModularAssembler getAssembler();

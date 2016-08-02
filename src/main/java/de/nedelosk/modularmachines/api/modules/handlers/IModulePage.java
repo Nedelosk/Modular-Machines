@@ -21,11 +21,9 @@ public interface IModulePage extends IPage {
 
 	int getPlayerInvPosition();
 
-	String getPageTitle();
-
-	String getPageID();
-
 	IModular getModular();
 
 	IModuleState getModuleState();
+
+	String getPageID();
 }

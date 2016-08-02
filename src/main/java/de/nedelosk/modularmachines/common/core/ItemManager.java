@@ -1,6 +1,9 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
+import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
+import de.nedelosk.modularmachines.api.material.IMetalMaterial;
+import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.common.items.ItemCasing;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
@@ -16,10 +19,9 @@ public class ItemManager {
 	public static Item itemFileDiamond;
 	public static Item itemCutter;
 	public static Item itemHammer;
-	public static Item itemDusts;
-	public static Item itemIngots;
-	public static Item itemNuggets;
-	public static Item itemMetallic;
+	public static ItemMetal itemDusts;
+	public static ItemMetal itemIngots;
+	public static ItemMetal itemNuggets;
 	public static ItemComponent itemCompWires;
 	public static ItemComponent itemCompRods;
 	public static ItemComponent itemCompGears;
@@ -35,12 +37,12 @@ public class ItemManager {
 	public static Item itemModules;
 	public static Item itemCasings;
 	public static Item itemChassi;
-	private static Object[][] alloys = new Object[][] { new Object[]{ "Bronze", 0xCA9956 }, new Object[]{ "Invar", 0xA1A48C } };
-	private static Object[][] default_metals = new Object[][] { new Object[]{ "Copper", 0xCC6410 }, new Object[]{ "Tin", 0xCACECF }, new Object[]{ "Silver", 0xE6FDFF }, new Object[]{ "Lead", 0x826C82 }, new Object[]{ "Nickel", 0xA9A283 }, new Object[]{ "Aluminum", -1 }, new Object[]{ "Steel", 0xA0A0A0 } };
-	private static Object[][] vanilla = new Object[][] { new Object[]{ "Coal", 0x222020 }, new Object[]{ "Obsidian", 0x7E258C }, new Object[]{ "Iron", 0xDADADA }, new Object[]{ "Gold", 0xD3B95A }, new Object[]{ "Diamond", 0x68D2DA } };
+	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
+	public static MaterialList<IMetalMaterial> default_metals =  new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.STEEL);
+	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND);
 	/* metal for ingot's, nugget's, block's */
-	public static Object[][][] metals = new Object[][][] { default_metals, alloys};
-	public static Object[][][] dusts = new Object[][][] { vanilla, default_metals, alloys};
+	public static MaterialList<IMetalMaterial>[] metals = new MaterialList[] { default_metals, alloys};
+	public static MaterialList<IMetalMaterial>[] dusts = new MaterialList[] { vanilla, default_metals, alloys};
 
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());
@@ -49,9 +51,9 @@ public class ItemManager {
 		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 1));
 		itemHammer = register(new ItemToolCrafting("hammer", 300, 15));
 		itemCutter = register(new ItemToolCrafting("cutter", 250, 10));
-		itemDusts = register(new ItemMetal("dusts", "dust", dusts));
-		itemIngots = register(new ItemMetal("ingots", "ingot", metals));
-		itemNuggets = register(new ItemMetal("nuggets", "nugget", metals));
+		itemDusts = register(new ItemMetal("dusts", dusts));
+		itemIngots = register(new ItemMetal("ingots", metals));
+		itemNuggets = register(new ItemMetal("nuggets", metals));
 		itemCompWires = register(new ItemComponent("wires", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemCompRods = register(new ItemComponent("rods", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemCompScrews = register(new ItemComponent("screws", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));

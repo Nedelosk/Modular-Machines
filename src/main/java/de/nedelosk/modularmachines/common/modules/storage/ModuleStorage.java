@@ -6,17 +6,17 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.common.utils.Log;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleStorage implements IModuleStorage{
 
@@ -33,9 +33,7 @@ public class ModuleStorage implements IModuleStorage{
 		NBTTagList nbtList = new NBTTagList();
 		for(IModuleState module : moduleStates) {
 			NBTTagCompound nbtTag = module.serializeNBT();
-			NBTTagCompound nbtTagContainer = new NBTTagCompound();
-			module.getContainer().getItemStack().writeToNBT(nbtTagContainer);
-			nbtTag.setTag("Container", nbtTagContainer);
+			nbtTag.setString("Container", module.getContainer().getRegistryName().toString());
 			nbtList.appendTag(nbtTag);
 		}
 		nbt.setTag("Modules", nbtList);
@@ -47,9 +45,8 @@ public class ModuleStorage implements IModuleStorage{
 		NBTTagList nbtList = nbt.getTagList("Modules", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
-			NBTTagCompound nbtTagContainer = moduleTag.getCompoundTag("Container");
-			ItemStack moduleItem = ItemStack.loadItemStackFromNBT(nbtTagContainer);
-			IModuleContainer container = ModularManager.getContainerFromItem(moduleItem);
+			ResourceLocation loc = new ResourceLocation(moduleTag.getString("Container"));
+			IModuleContainer container = GameRegistry.findRegistry(IModuleContainer.class).getValue(loc);
 			if(container != null){
 				IModuleState state = container.getModule().createState(modular, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
@@ -89,18 +86,5 @@ public class ModuleStorage implements IModuleStorage{
 			}
 		}
 		return modules;
-	}
-
-	@Override
-	public IModuleState addModule(ItemStack itemStack, IModuleState state) {
-		if (state == null) {
-			return null;
-		}
-
-		if (moduleStates.add(state)) {
-			state.setIndex(modular.getNextIndex());
-			return state;
-		}
-		return null;
 	}
 }

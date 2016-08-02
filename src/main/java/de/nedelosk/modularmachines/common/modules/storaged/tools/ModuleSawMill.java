@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -46,7 +47,7 @@ public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 
 	@Override
 	public int getColor() {
-		return 0xA65005;
+		return new Color(102, 51, 0).getRGB();
 	}
 
 	@Override
@@ -83,9 +84,8 @@ public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void addWidgets(List widgets) {
-			super.addWidgets(widgets);
-			widgets.add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+		public void addWidgets() {
+			gui.getWidgetManager().add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
 	}
 

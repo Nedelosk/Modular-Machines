@@ -77,7 +77,7 @@ public class ModelModular implements IBakedModel {
 					}
 				}
 
-				for(IModuleState moduleState : modularHandler.getModular().getModuleStates()){
+				for(IModuleState moduleState : modularHandler.getModular().getModules()){
 					IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
 
 					if(modelHandler != null){
@@ -233,7 +233,7 @@ public class ModelModular implements IBakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
-		return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/modular_chassi");
 	}
 
 	@Override

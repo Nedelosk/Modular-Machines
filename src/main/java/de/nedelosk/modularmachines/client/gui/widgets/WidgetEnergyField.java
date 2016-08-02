@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.util.ResourceLocation;
@@ -27,14 +27,14 @@ public class WidgetEnergyField extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiBase gui) {
+	public ArrayList<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> description = new ArrayList<String>();
 		description.add(energyInterface.getEnergyStored(type) + " RF / " + energyInterface.getCapacity(type) + " RF");
 		return description;
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(IGuiProvider gui) {
 		if (energyInterface == null) {
 			return;
 		}
@@ -44,7 +44,7 @@ public class WidgetEnergyField extends Widget {
 		if(this.energyInterface.getEnergyStored(type) > 0){
 			int eS = (int) (this.energyInterface.getEnergyStored(type) / 100 * 66);
 			int energy = (int) (eS / (this.energyInterface.getCapacity(type) / 100));
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, 66, energy);
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, pos.width, energy);
 		}
 	}
 }

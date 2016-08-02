@@ -19,17 +19,17 @@ public abstract class Widget<I extends IGuiHandler> {
 		showTooltip = true;
 	}
 
-	public void draw(IGuiBase<I> gui) {
+	public void draw(IGuiProvider<I> gui) {
 	}
 
-	public boolean keyTyped(char keyChar, int keyCode, IGuiBase<I> gui) {
+	public boolean keyTyped(char keyChar, int keyCode, IGuiProvider<I> gui) {
 		return false;
 	}
 
-	public void drawStrings(IGuiBase<I> gui) {
+	public void drawStrings(IGuiProvider<I> gui) {
 	}
 
-	public ArrayList<String> getTooltip(IGuiBase<I> gui) {
+	public ArrayList<String> getTooltip(IGuiProvider<I> gui) {
 		return null;
 	}
 
@@ -37,7 +37,7 @@ public abstract class Widget<I extends IGuiHandler> {
 		return x >= pos.x && y >= pos.y && x < pos.x + pos.width && y < pos.y + pos.height;
 	}
 
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<I> gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider<I> gui) {
 	}
 
 	public Rectangle getPos() {

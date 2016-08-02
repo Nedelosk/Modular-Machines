@@ -1,5 +1,6 @@
 {
 "textures": {
+	"particle": "modularmachines:blocks/modular_chassi",
     "texture": "modularmachines:blocks/modular_chassi"
 },
 "elements": [ 

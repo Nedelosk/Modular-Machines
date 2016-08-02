@@ -10,10 +10,10 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
+import de.nedelosk.modularmachines.common.utils.ContainerUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -47,29 +47,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	/* INEVNTORY */
 	@Override
 	public ItemStack transferStackInSlot(IModularHandler tile, EntityPlayer player, int index, Container container) {
-		ItemStack itemstack = null;
-		Slot slot = container.inventorySlots.get(index);
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if (slot instanceof Slot && !(slot instanceof SlotModule)) {
-				if (!state.getModule().transferInput(tile, state, player, index, container, itemstack1)) {
-					return null;
-				}
-			} else if (!mergeItemStack(itemstack1, 0, 36, false, container)) {
-				return null;
-			}
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
-			}
-			slot.onPickupFromSlot(player, itemstack1);
-		}
-		return itemstack;
+		return ContainerUtil.transferStackInSlot(container.inventorySlots, player, index);
 	}
 
 	@Override

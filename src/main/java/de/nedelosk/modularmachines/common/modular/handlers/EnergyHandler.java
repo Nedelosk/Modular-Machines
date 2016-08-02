@@ -18,9 +18,9 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({
-	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "Tesla"),
-	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "Tesla"),
-	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "Tesla"),
+	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"),
+	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla"),
+	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla"),
 	@Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"),
 	@Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib")
 })
@@ -192,25 +192,25 @@ public class EnergyHandler implements ICapabilityProvider, IEnergyInterface, IEn
 		return null;
 	}
 
-	@Optional.Method(modid = "Tesla")
+	@Optional.Method(modid = "tesla")
 	@Override
 	public long takePower(long power, boolean simulated) {
 		return extractEnergy(EnergyRegistry.redstoneFlux, power, simulated);
 	}
 
-	@Optional.Method(modid = "Tesla")
+	@Optional.Method(modid = "tesla")
 	@Override
 	public long getStoredPower() {
 		return getEnergyStored(EnergyRegistry.redstoneFlux);
 	}
 
-	@Optional.Method(modid = "Tesla")
+	@Optional.Method(modid = "tesla")
 	@Override
 	public long getCapacity() {
 		return getCapacity(EnergyRegistry.redstoneFlux);
 	}
 
-	@Optional.Method(modid = "Tesla")
+	@Optional.Method(modid = "tesla")
 	@Override
 	public long givePower(long power, boolean simulated) {
 		return receiveEnergy(EnergyRegistry.redstoneFlux, power, simulated);

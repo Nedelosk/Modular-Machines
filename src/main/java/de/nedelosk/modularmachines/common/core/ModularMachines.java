@@ -28,6 +28,8 @@ public class ModularMachines {
 	public static File configFolder;
 	public static File configFile;
 
+	public static final ResourceLocation MODULEITEMS =  new ResourceLocation("modularmachines:moduleItems");
+
 	public static IForgeRegistry<IModule> iModuleRegistry;
 	public static IForgeRegistry<IModuleContainer> iModuleContainerRegistry;
 	public static IForgeRegistry<IModuleLoader> iModuleLoaderRegistry;

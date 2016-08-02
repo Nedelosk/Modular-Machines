@@ -27,7 +27,7 @@ public class TabModularMachines extends CreativeTabs {
 				stack = new ItemStack(ItemManager.itemCasings, 1, 0);
 				break;
 			case 1:
-				stack = ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE);
+				stack = ItemModule.createStack(ModuleManager.moduleBoilerBronze, EnumMetalMaterials.BRONZE);
 				break;
 		}
 		return stack;

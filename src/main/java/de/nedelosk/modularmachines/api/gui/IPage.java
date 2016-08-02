@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.api.gui;
 
-import java.util.List;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,13 +8,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface IPage<T extends IGuiHandler> {
 
 	@SideOnly(Side.CLIENT)
-	IGuiBase getGui();
+	IGuiProvider<T> getGui();
 
 	@SideOnly(Side.CLIENT)
-	void setGui(IGuiBase gui);
+	void setGui(IGuiProvider<T> gui);
 
 	@SideOnly(Side.CLIENT)
-	void updateGui(int mouseX, int mouseY);
+	void updateGui();
 
 	@SideOnly(Side.CLIENT)
 	void handleMouseClicked(int mouseX, int mouseY, int mouseButton);
@@ -34,12 +32,6 @@ public interface IPage<T extends IGuiHandler> {
 	void drawFrontBackground(int mouseX, int mouseY);
 
 	@SideOnly(Side.CLIENT)
-	void drawSlots();
-
-	@SideOnly(Side.CLIENT)
-	void drawPlayerInventory();
-
-	@SideOnly(Side.CLIENT)
 	int getXSize();
 
 	@SideOnly(Side.CLIENT)
@@ -49,8 +41,10 @@ public interface IPage<T extends IGuiHandler> {
 	ResourceLocation getGuiTexture();
 
 	@SideOnly(Side.CLIENT)
-	void addButtons(List<Button> buttons);
+	void addButtons();
 
 	@SideOnly(Side.CLIENT)
-	void addWidgets(List<Widget> widgets);
+	void addWidgets();
+
+	String getPageTitle();
 }

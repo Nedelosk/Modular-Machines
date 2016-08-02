@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.api.modular;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
@@ -7,6 +10,7 @@ import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +26,18 @@ public class ModularManager {
 
 	@CapabilityInject(IModuleProvider.class)
 	public static Capability<IModuleProvider> MODULE_PROVIDER_CAPABILITY;
+
+	private static final List<Item> itemsWithModule = new ArrayList<>();
+
+	/**
+	 * To register items for a module.
+	 * Is required to handle the capabilities.
+	 */
+	public static void registerModuleItem(Item item){
+		if(!itemsWithModule.contains(item)){
+			itemsWithModule.add(item);
+		}
+	}
 
 	/**
 	 * Write a modular to a item stack.
@@ -66,6 +82,13 @@ public class ModularManager {
 		return stack;
 	}
 
+	public static boolean isItemRegisteredForModule(Item item){
+		if (item == null) {
+			return false;
+		}
+		return itemsWithModule.contains(item);
+	}
+
 	/**
 	 * @return The matching module container for the stack.
 	 */
@@ -75,11 +98,13 @@ public class ModularManager {
 		}
 		IForgeRegistry<IModuleContainer> containerRegistry = GameRegistry.findRegistry(IModuleContainer.class);
 		for(IModuleContainer container : containerRegistry) {
-			if (container.getItemStack() != null && container.getItemStack().getItem() != null && stack.getItem() == container.getItemStack().getItem()
-					&& stack.getItemDamage() == container.getItemStack().getItemDamage()) {
-				if (container.ignorNBT() || ItemStack.areItemStackTagsEqual(stack, container.getItemStack())) {
-					return container;
-				}
+			ItemStack containerStack = container.getItemStack();
+			if (containerStack != null 
+					&& containerStack.getItem() != null 
+					&& stack.getItem() == containerStack.getItem()
+					&& stack.getItemDamage() == containerStack.getItemDamage()
+					&& (container.ignorNBT() || ItemStack.areItemStackTagsEqual(stack, containerStack))) {
+				return container;
 			}
 		}
 		return null;

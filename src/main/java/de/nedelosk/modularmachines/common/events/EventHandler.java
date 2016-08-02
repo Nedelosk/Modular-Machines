@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.common.events;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -43,11 +42,8 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
-		IModuleContainer container = ModularManager.getContainerFromItem(event.getItemStack());
-		if(container != null){
-			IModuleProvider provider = new ModuleProvider();
-			provider.setState(ModularManager.loadModuleState(null, event.getItemStack(), container));
-			event.addCapability(new ResourceLocation("modularmachines:modules"), provider);
+		if(ModularManager.isItemRegisteredForModule(event.getItem())){
+			event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleProvider());
 		}
 	}
 

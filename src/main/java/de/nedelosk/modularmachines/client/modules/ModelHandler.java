@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.client.modules;
 
+import java.util.Locale;
+
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -95,11 +97,11 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 		if(useStatus){
 			preFixNew+= "_" + (status ? "on" : "off");
 		}
-		return new ResourceLocation(Loader.instance().activeModContainer().getModId(), "module/" + container.getMaterial().getName() + "/" + modelFolder + "/" + preFixNew);
+		return new ResourceLocation(Loader.instance().activeModContainer().getModId(), "module/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH) + "/" + modelFolder + "/" + preFixNew);
 	}
 
 	public IBakedModel getBakedModel(ResourceLocation loc, IModelState modelState, VertexFormat format, Function bakedTextureGetter){
-		IModel model = getModelOrDefault(loc, new ResourceLocation(loc.toString().replace(container.getMaterial().getName(), "default")));
+		IModel model = getModelOrDefault(loc, new ResourceLocation(loc.toString().replace(container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "default")));
 		if(model != null){
 			return model.bake(modelState, format, bakedTextureGetter);
 		}
@@ -115,7 +117,7 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 	}
 
 	public IModel getModelOrDefault(ResourceLocation loc){
-		return getModelOrDefault(loc, new ResourceLocation(loc.toString().replace(container.getMaterial().getName(), "default")));
+		return getModelOrDefault(loc, new ResourceLocation(loc.toString().replace(container.getMaterial().getName().toLowerCase(Locale.ENGLISH), "default")));
 	}
 
 	public static IModel getModelOrDefault(ResourceLocation loc, ResourceLocation locDefault){

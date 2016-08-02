@@ -2,8 +2,8 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 
 import com.google.common.base.Strings;
 
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -277,7 +277,7 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	 * Call this method from your GuiScreen to process the keys into the textbox
 	 */
 	@Override
-	public boolean keyTyped(char keyChar, int keyCode, IGuiBase<T> gui) {
+	public boolean keyTyped(char keyChar, int keyCode, IGuiProvider<T> gui) {
 		if (filter == null || filter.passesFilter(this, keyChar) || isSpecialChar(keyChar, keyCode)) {
 			if (!this.isFocused) {
 				return false;
@@ -378,7 +378,7 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase<T> gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider<T> gui) {
 		boolean flag = isMouseOver(mouseX, mouseY);
 		if (this.canLoseFocus) {
 			this.setFocused(flag);
@@ -397,7 +397,7 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	 * Draws the textbox
 	 */
 	@Override
-	public void draw(IGuiBase<T> gui) {
+	public void draw(IGuiProvider<T> gui) {
 		if (this.getVisible()) {
 			if (this.getEnableBackgroundDrawing()) {
 				Gui.drawRect(gui.getGuiLeft() + pos.x - 1, gui.getGuiTop() + pos.y - 1, gui.getGuiLeft() + pos.x + pos.width + 1,
@@ -449,7 +449,7 @@ public class WidgetTextField<T extends IGuiHandler> extends Widget<T> {
 	/**
 	 * draws the vertical line cursor in the textbox
 	 */
-	private void drawCursorVertical(IGuiBase<T> gui, int startX, int startY, int endX, int endY)
+	private void drawCursorVertical(IGuiProvider<T> gui, int startX, int startY, int endX, int endY)
 	{
 		if (startX < endX)
 		{

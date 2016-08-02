@@ -47,8 +47,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public List<IModuleContentHandler> createContentHandlers(IModuleState state) {
-		List<IModuleContentHandler> handlers = super.createContentHandlers(state);
+	public List<IModuleContentHandler> createHandlers(IModuleState state) {
+		List<IModuleContentHandler> handlers = super.createHandlers(state);
 		handlers.add(new ModuleKineticHandler(state, maxKineticEnergy, 100));
 		return handlers;
 	}

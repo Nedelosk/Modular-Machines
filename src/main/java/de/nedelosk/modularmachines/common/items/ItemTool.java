@@ -24,7 +24,6 @@ public class ItemTool extends Item implements IItemModelRegister {
 	public ItemTool(String name, int maxDamage) {
 		this.setMaxDamage(maxDamage);
 		this.setCreativeTab(CreativeTabs.TOOLS);
-		this.setFull3D();
 		this.maxStackSize = 1;
 		this.setMaxStackSize(1);
 		this.name = name;
@@ -39,9 +38,18 @@ public class ItemTool extends Item implements IItemModelRegister {
 		ModelBakery.registerItemVariants(item, location);
 	}
 
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return getUnlocalizedName().replace("item.", "");
+	}
+
+	@Override
+	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean advanced) {
+		aList.add(Translator.translateToLocal("mm.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
+	}
+
 	@SideOnly(Side.CLIENT)
 	private class ToolMeshDefinition implements ItemMeshDefinition{
-
 		ModelResourceLocation location;
 
 		public ToolMeshDefinition(ModelResourceLocation location) {
@@ -52,16 +60,5 @@ public class ItemTool extends Item implements IItemModelRegister {
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;
 		}
-
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack p_77667_1_) {
-		return getUnlocalizedName().replace("item.", "");
-	}
-
-	@Override
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
-		aList.add(Translator.translateToLocal("mm.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
 	}
 }

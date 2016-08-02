@@ -1,9 +1,7 @@
 package de.nedelosk.modularmachines.api.material;
 
 
-public interface IMetalMaterial extends IMaterial {
+public interface IMetalMaterial extends IColoredMaterial {
 
 	String[] getOreDicts();
-
-	int getColor();
 }

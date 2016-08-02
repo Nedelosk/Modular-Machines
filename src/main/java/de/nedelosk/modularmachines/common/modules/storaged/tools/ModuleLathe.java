@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
@@ -26,7 +28,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleLathe extends ModuleMachineAdvanced{
+public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored{
 
 	public ModuleLathe(int complexity, int speedModifier, EnumModuleSize size) {
 		super("lathe", complexity, speedModifier, size, LatheModes.ROD);
@@ -76,6 +78,11 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 		return false;
 	}
 
+	@Override
+	public int getColor() {
+		return Color.YELLOW.getRGB();
+	}
+
 	/*@SideOnly(Side.CLIENT)
 	@Override
 	public IJEIPage createNEIPage(IModuleJEI module) {
@@ -111,11 +118,11 @@ public class ModuleLathe extends ModuleMachineAdvanced{
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void addWidgets(List widgets) {
+		public void addWidgets() {
 			int burnTime = 0;
 			int burnTimeTotal = 0;
 
-			widgets.add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			gui.getWidgetManager().add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 			gui.getWidgetManager().add(new WidgetButtonMode(86, 16, state.getModule().getCurrentMode(state)));
 		}
 

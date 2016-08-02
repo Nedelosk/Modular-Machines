@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
+import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,8 +68,8 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public List<IModuleContentHandler> createContentHandlers(IModuleState state) {
-		List<IModuleContentHandler> handlers = super.createContentHandlers(state);
+	public List<IModuleContentHandler> createHandlers(IModuleState state) {
+		List<IModuleContentHandler> handlers = super.createHandlers(state);
 		handlers.add(new ModuleHeatBuffer(state, maxHeat, 15F));
 		return handlers;
 	}
@@ -117,6 +118,9 @@ public class ModuleCasing extends Module implements IModuleCasing {
 
 	@Override
 	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+		if(!(container.getItemStack().getItem() instanceof ItemModule)){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
+		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + Translator.translateToLocal("module.storage." + EnumPosition.INTERNAL.getName() + ".name"));
 	}

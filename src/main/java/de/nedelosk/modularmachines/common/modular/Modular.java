@@ -25,7 +25,7 @@ import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
-import de.nedelosk.modularmachines.client.gui.GuiModular;
+import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
@@ -293,10 +293,9 @@ public class Modular implements IModular {
 	@Override
 	public GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory) {
 		if(currentPage != null){
-			return new GuiModular(tile, inventory, currentPage);
+			return new GuiPage(tile, inventory, currentPage);
 		}
 		return null;
-
 	}
 
 	@Override
@@ -304,11 +303,6 @@ public class Modular implements IModular {
 		if(currentPage != null){
 			return new ContainerModular(tile, inventory, currentPage);
 		}
-		return null;
-	}
-
-	@Override
-	public IModuleState addModule(ItemStack itemStack, IModuleState state) {
 		return null;
 	}
 
@@ -323,7 +317,7 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public List<IModuleState> getModuleStates() {
+	public List<IModuleState> getModules() {
 		List<IModuleState> modules = new ArrayList<>();
 		for(IPositionedModuleStorage moduleStorage : storages.values()){
 			if(moduleStorage != null){
@@ -430,17 +424,6 @@ public class Modular implements IModular {
 	@Override
 	public IModular copy(IModularHandler handler) {
 		return new Modular(serializeNBT(), handler);
-	}
-
-	@Override
-	public List<IModuleState> getModules() {
-		List<IModuleState> modules = Lists.newArrayList();
-		for(IPositionedModuleStorage moduleStorage : storages.values()){
-			if(moduleStorage != null){
-				modules.addAll(moduleStorage.getModules());
-			}
-		}
-		return modules;
 	}
 
 	@Override

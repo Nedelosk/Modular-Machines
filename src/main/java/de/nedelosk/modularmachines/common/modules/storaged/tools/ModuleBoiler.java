@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -86,7 +87,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 		FluidTankAdvanced tankWater = tank.getTank(0);
 		FluidTankAdvanced tankSteam = tank.getTank(1);
 		boolean needUpdate = false;
-		IModuleState<IModuleController> controller = ModularUtils.getModule(modular, IModuleController.class);
+		IModuleState<IModuleController> controller = ModularUtils.getFirstModule(modular, IModuleController.class);
 		IModuleState<IModuleCasing> casing = ModularUtils.getCasing(modular);
 
 		if(modular.updateOnInterval(20)){
@@ -192,9 +193,9 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void addWidgets(List widgets) {
-			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
-			widgets.add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
+		public void addWidgets() {
+			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
+			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
 		}
 	}
 
@@ -205,6 +206,6 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 
 	@Override
 	public int getColor() {
-		return 0x959595;
+		return Color.GRAY.getRGB();
 	}
 }

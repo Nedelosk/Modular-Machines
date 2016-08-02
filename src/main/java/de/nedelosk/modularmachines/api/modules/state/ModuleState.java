@@ -42,7 +42,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		List<IModulePage> createdPages = container.getModule().createPages(this);
 		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageCreateEvent(this, createdPages));
 		this.pages = createdPages;
-		this.contentHandlers = container.getModule().createContentHandlers(this);
+		this.contentHandlers = container.getModule().createHandlers(this);
 	}
 
 	@Override

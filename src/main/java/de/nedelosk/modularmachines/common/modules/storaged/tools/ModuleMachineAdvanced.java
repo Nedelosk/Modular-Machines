@@ -52,8 +52,8 @@ public abstract class ModuleMachineAdvanced extends ModuleMachine implements IMo
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void updateGui(int x, int y) {
-			super.updateGui(x, y);
+		public void updateGui() {
+			super.updateGui();
 			List<Widget> widgets = gui.getWidgetManager().getWidgets();
 			for(Widget widget : widgets) {
 				if (widget instanceof WidgetButtonMode) {

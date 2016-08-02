@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
@@ -16,8 +15,6 @@ import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
-import de.nedelosk.modularmachines.common.core.ModuleManager;
-import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeCategory;
@@ -65,13 +62,6 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
 
 		registry.addAdvancedGuiHandlers(new AssemblerAdvancedGuiHandler());
-
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerIron.getRegistryName(), EnumMetalMaterials.IRON), ModuleCategoryUIDs.BOILER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleBoilerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), ModuleCategoryUIDs.BOILER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterIron.getRegistryName(), EnumMetalMaterials.IRON), ModuleCategoryUIDs.ALLOYSMELTER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.moduleAlloySmelterBronze.getRegistryName(), EnumMetalMaterials.BRONZE), ModuleCategoryUIDs.ALLOYSMELTER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.modulePulverizerIron.getRegistryName(), EnumMetalMaterials.IRON), ModuleCategoryUIDs.PULVERIZER);
-		registry.addRecipeCategoryCraftingItem(ItemModule.getItem(ModuleManager.modulePulverizerBronze.getRegistryName(), EnumMetalMaterials.BRONZE), ModuleCategoryUIDs.PULVERIZER);
 
 		registry.addRecipeHandlers(
 				new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class),

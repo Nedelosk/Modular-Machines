@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -18,8 +17,6 @@ import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
@@ -53,7 +50,7 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	/**
 	 * @return A new list of all content handler of the module that are not empty.
 	 */
-	List<IModuleContentHandler> createContentHandlers(IModuleState state);
+	List<IModuleContentHandler> createHandlers(IModuleState state);
 
 	@Nullable
 	@SideOnly(Side.CLIENT)
@@ -61,11 +58,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 
 	@SideOnly(Side.CLIENT)
 	boolean needHandlerReload(IModuleStateClient state);
-
-	/**
-	 * To transfer items into slots. Only for modules with inventory.
-	 */
-	boolean transferInput(IModularHandler tile, IModuleState state, EntityPlayer player, int slotID, Container container, ItemStack stackItem);
 
 	/**
 	 * @return The item that the module drop.

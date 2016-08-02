@@ -34,7 +34,6 @@ public class ContainerAssembler extends ContainerBase<IModularHandler> {
 						this.addSlotToContainer(new SlotAssembler(itemHandler, startSlotIndex + 1 + j + i * 3, 80 + j * 18, 17 + i * 18, assembler, this, storageSlot));
 					}
 				}
-				getClass();
 			}else{
 				addSlotToContainer(new SlotAssembler(itemHandler, startSlotIndex + 1, 98, 17, assembler, this, storageSlot));
 				addSlotToContainer(new SlotAssembler(itemHandler, startSlotIndex + 2, 98, 35, assembler, this, storageSlot));

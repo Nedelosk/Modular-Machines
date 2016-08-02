@@ -5,7 +5,6 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.gui.Button;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
@@ -22,35 +21,35 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
-public class ButtonAssemblerAssembleTab extends Button<IModularHandler> {
+public class AssemblerAssembleTab extends Button<GuiAssembler> {
 
-	protected ResourceLocation guiTextureOverlay = RenderUtil.getResourceLocation("modularmachines", "modular_machine", "gui");
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
 
-	public ButtonAssemblerAssembleTab(int buttonID, int xPos, int yPos) {
-		super(buttonID, xPos, yPos, 28, 21, null);
+	public AssemblerAssembleTab(int ID, int xPosition, int yPosition) {
+		super(ID, xPosition, yPosition, 28, 21, null);
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		if(!gui.getHandler().isAssembled()){
+		if(!getGui().getHandler().isAssembled()){
 			GlStateManager.color(1F, 1F, 1F, 1F);
-			RenderUtil.bindTexture(guiTextureOverlay);
-			gui.getGui().drawTexturedModalRect(xPosition, yPosition, 0,
+			RenderUtil.bindTexture(guiTexture);
+			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, 0,
 					214, 28, 21);
 			try{
-				ItemStack stack = ModularManager.writeModularToItem(new ItemStack(BlockManager.blockModular), gui.getHandler().getAssembler().assemble(), gui.getPlayer());
+				ItemStack stack = ModularManager.writeModularToItem(new ItemStack(BlockManager.blockModular), getGui().getHandler().getAssembler().assemble(), getGui().getPlayer());
 				if(stack != null){
-					drawItemStack(stack, xPosition + 5, yPosition + 2);
+					getGui().drawItemStack(stack, xPosition + 5, yPosition + 2);
 				}
-			}catch(AssemblerException e){
-				((GuiAssembler)gui).lastException = e;
+			}catch(AssemblerException exception){
+				getGui().lastException = exception;
 			}
 		}
 	}
 
 	@Override
-	public void onButtonClick(IGuiBase<IModularHandler> gui) {
-		IModularHandler handler = gui.getHandler();
+	public void onButtonClick() {
+		IModularHandler handler = getGui().getHandler();
 		try{
 			IModular modular = handler.getAssembler().assemble();
 			if(modular != null){
@@ -64,12 +63,12 @@ public class ButtonAssemblerAssembleTab extends Button<IModularHandler> {
 				}
 			}
 		}catch(AssemblerException e){
-			((GuiAssembler)gui).lastException = e;
+			getGui().lastException = e;
 		}
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase<IModularHandler> gui) {
+	public List<String> getTooltip() {
 		return Arrays.asList(Translator.translateToLocal("modular.assembler.assemble"));
 	}
 }

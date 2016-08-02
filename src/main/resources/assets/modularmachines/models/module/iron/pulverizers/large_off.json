@@ -1,5 +1,5 @@
 {
-    "parent": "modularmachines:module/default/machines/arge",
+    "parent": "modularmachines:module/default/machines/large",
 	"textures": {
         "machine": "modularmachines:modules/pulverizer_iron_large_off"
     }

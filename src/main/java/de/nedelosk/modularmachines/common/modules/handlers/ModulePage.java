@@ -6,9 +6,8 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.gui.IButtonManager;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -23,12 +22,12 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
-import de.nedelosk.modularmachines.client.gui.buttons.ButtonModulePageTab;
-import de.nedelosk.modularmachines.client.gui.buttons.ButtonModuleTab;
+import de.nedelosk.modularmachines.client.gui.buttons.ModulePageTab;
+import de.nedelosk.modularmachines.client.gui.buttons.ModuleTab;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
+import de.nedelosk.modularmachines.common.modules.Page;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
@@ -37,43 +36,42 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModulePage<M extends IModule> implements IModulePage {
+public abstract class ModulePage<M extends IModule> extends Page implements IModulePage {
 
-	protected String pageID;
-	protected String title;
 	protected IModular modular;
 	protected IModuleState<M> state;
-	@SideOnly(Side.CLIENT)
-	protected IGuiBase gui;
+	protected String pageID;
 
 	public ModulePage(String pageID, String title, IModuleState<M> module) {
-		this.pageID = pageID;
-		this.title = title;
+		super(title);
 		this.modular = module.getModular();
 		this.state = module;
+		this.pageID = pageID;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void updateGui(int x, int y) {
-		List<Widget> widgets = gui.getWidgetManager().getWidgets();
-		for(Widget widget : widgets) {
-			if (widget instanceof WidgetProgressBar) {
-				WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
-				if(state.getModule() instanceof IModuleMachine){
-					IModuleMachine tool = (IModuleMachine) state.getModule();
-					widgetBar.burntime = tool.getWorkTime(state);
-					widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);
-				}
-			}else if (widget instanceof WidgetFluidTank) {
-				WidgetFluidTank widgetTank = (WidgetFluidTank) widget;
-				IModuleContentHandler contentHandler = state.getContentHandler(IModuleTank.class);
-				if(contentHandler != null && contentHandler instanceof IModuleTank){
-					IModuleTank moduleTank = (IModuleTank) contentHandler;
+	public void updateGui() {
+		if(gui != null){
+			List<Widget> widgets = gui.getWidgetManager().getWidgets();
+			for(Widget widget : widgets) {
+				if (widget instanceof WidgetProgressBar) {
+					WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
+					if(state.getModule() instanceof IModuleMachine){
+						IModuleMachine tool = (IModuleMachine) state.getModule();
+						widgetBar.burntime = tool.getWorkTime(state);
+						widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);
+					}
+				}else if (widget instanceof WidgetFluidTank) {
+					WidgetFluidTank widgetTank = (WidgetFluidTank) widget;
+					IModuleContentHandler contentHandler = state.getContentHandler(IModuleTank.class);
+					if(contentHandler != null && contentHandler instanceof IModuleTank){
+						IModuleTank moduleTank = (IModuleTank) contentHandler;
 
-					if(widgetTank.tank instanceof FluidTankAdvanced){
-						FluidTankAdvanced tank = (FluidTankAdvanced) widgetTank.tank;
-						widgetTank.tank = moduleTank.getTank(tank.index);
+						if(widgetTank.tank instanceof FluidTankAdvanced){
+							FluidTankAdvanced tank = (FluidTankAdvanced) widgetTank.tank;
+							widgetTank.tank = moduleTank.getTank(tank.index);
+						}
 					}
 				}
 			}
@@ -89,42 +87,38 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected boolean renderPageTitle() {
-		return true;
+	@Override
+	public void drawBackground(int mouseX, int mouseY) {
+		super.drawBackground(mouseX, mouseY);
+
+		drawSlots();
+		drawPlayerInventory();
 	}
 
+
 	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
-		IModuleInventory inventory = state.getContentHandler(IModuleInventory.class);
-		if (renderPageTitle()) {
-			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2),
-					6, 4210752);
+	protected void drawPlayerInventory() {
+		if(gui != null){
+			GlStateManager.enableAlpha();
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderUtil.bindTexture(getInventoryTexture());
+			int invPosition = getPlayerInvPosition();
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + 7, gui.getGuiTop() + invPosition, 0, 0, 162, 76);
+			GlStateManager.disableAlpha();
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawBackground(int mouseX, int mouseY) {
-		RenderUtil.bindTexture(getGuiTexture());
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft(), gui.getGuiTop(), 0, 0, getXSize(), getYSize());
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawFrontBackground(int mouseX, int mouseY) {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawSlots() {
-		IModuleInventory inventory = state.getContentHandler(IModuleInventory.class);
-		if (inventory != null && gui.getGui() instanceof GuiContainer) {
-			Container container = ((GuiContainer) gui).inventorySlots;
-			for(int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
-				Slot slot = ((ArrayList<Slot>) container.inventorySlots).get(slotID);
-				if (slot.getSlotIndex() < inventory.getSlots()) {
-					drawSlot(slot);
+	protected void drawSlots() {
+		if(gui != null){
+			IModuleInventory inventory = state.getContentHandler(IModuleInventory.class);
+			if (inventory != null && gui.getGui() instanceof GuiContainer) {
+				Container container = ((GuiContainer) gui).inventorySlots;
+				for(int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
+					Slot slot = ((ArrayList<Slot>) container.inventorySlots).get(slotID);
+					if (slot.getSlotIndex() < inventory.getSlots()) {
+						drawSlot(slot);
+					}
 				}
 			}
 		}
@@ -135,17 +129,6 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(getGuiTexture());
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + slot.xDisplayPosition - 1, gui.getGuiTop() + slot.yDisplayPosition - 1, 56, 238, 18, 18);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawPlayerInventory() {
-		GlStateManager.enableAlpha();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(getInventoryTexture());
-		int invPosition = getPlayerInvPosition();
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + 7, gui.getGuiTop() + invPosition, 7, invPosition, 162, 76);
-		GlStateManager.disableAlpha();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -178,26 +161,29 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addButtons(List buttons) {
-		List<IModuleState> modelsWithPages = getModulesWithPages(modular);
+	public void addButtons() {
+		if(gui != null){
+			IButtonManager buttonManager = gui.getButtonManager();
+			List<IModuleState> modelsWithPages = getModulesWithPages(modular);
 
-		for(int i = 0; i < modelsWithPages.size(); i++) {
-			IModuleState module = modelsWithPages.get(i);
-			buttons.add(new ButtonModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
-					(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
-		}
+			for(int i = 0; i < modelsWithPages.size(); i++) {
+				IModuleState module = modelsWithPages.get(i);
+				buttonManager.add(new ModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
+						(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
+			}
 
-		for(int pageIndex = 0; pageIndex < state.getPages().size(); pageIndex++) {
-			IModulePage page = state.getPages().get(pageIndex);
-			buttons.add(new ButtonModulePageTab(gui.getButtonManager().getButtons().size(),
-					pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
-							pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
+			for(int pageIndex = 0; pageIndex < state.getPages().size(); pageIndex++) {
+				IModulePage page = state.getPages().get(pageIndex);
+				buttonManager.add(new ModulePageTab(gui.getButtonManager().getButtons().size(),
+						pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
+								pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
+			}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addWidgets(List widgets) {
+	public void addWidgets() {
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -211,25 +197,8 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	}
 
 	@Override
-	public String getPageID() {
-		return pageID;
-	}
-
-	@Override
 	public IModular getModular() {
 		return modular;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IGuiBase getGui() {
-		return gui;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void setGui(IGuiBase gui) {
-		this.gui = gui;
 	}
 
 	@Override
@@ -239,7 +208,7 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 
 	public static List<IModuleState> getModulesWithPages(IModular modular){
 		List<IModuleState> modulesWithPages = Lists.newArrayList();
-		for(IModuleState moduleState : modular.getModuleStates()) {
+		for(IModuleState moduleState : modular.getModules()) {
 			if (moduleState != null && !moduleState.getPages().isEmpty()) {
 				modulesWithPages.add(moduleState);
 			}
@@ -248,11 +217,16 @@ public abstract class ModulePage<M extends IModule> implements IModulePage {
 	}
 
 	@Override
-	public String getPageTitle() {
-		return Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
+	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 	}
 
 	@Override
-	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
+	public String getPageTitle() {
+		return "module.page." + title.toLowerCase(Locale.ENGLISH) + ".name";
+	}
+
+	@Override
+	public String getPageID() {
+		return pageID;
 	}
 }

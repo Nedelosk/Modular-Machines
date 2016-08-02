@@ -31,7 +31,4 @@ public interface IModuleContainer extends IForgeRegistryEntry<IModuleContainer>{
 
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip);
-
-	@Override
-	boolean equals(Object obj);
 }

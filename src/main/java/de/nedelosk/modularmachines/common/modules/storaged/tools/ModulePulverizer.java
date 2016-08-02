@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -77,7 +78,7 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 
 	@Override
 	public int getColor() {
-		return 0x88A7D1;
+		return Color.BLUE.getRGB();
 	}
 
 	@Override
@@ -119,9 +120,8 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void addWidgets(List widgets) {
-			super.addWidgets(widgets);
-			widgets.add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+		public void addWidgets() {
+			gui.getWidgetManager().add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
 	}
 
