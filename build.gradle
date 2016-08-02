@@ -74,8 +74,6 @@ artifacts {
 	archives apiJar
 }
 
-idea.module.inheritOutputDirs = true
-
 repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
@@ -123,6 +121,16 @@ processResources {
 	
 	// Move access transformers to META-INF
 	rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+ext.env = System.getenv()
+
+if(env.DRONE_BUILD_NUMBER) { // Drone.io Support
+	ext.buildNumber = env.DRONE_BUILD_NUMBER
+} else if (env.BUILD_NUMBER) { // Jenkins Support
+	ext.buildNumber = env.BUILD_NUMBER
+} else {
+	ext.buildNumber = config.build_number
 }
 
 def getBuildNumber() {
