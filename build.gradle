@@ -21,8 +21,6 @@ plugins {
 	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
 }
 
-apply plugin: 'maven'
-
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
 if (project.hasProperty('buildQualifier')) {
 	version = project.version + '-' + project.buildQualifier
