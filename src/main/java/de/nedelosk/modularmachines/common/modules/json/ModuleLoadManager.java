@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleLoadManager {
 
-	public static final Gson GSON = new GsonBuilder().registerTypeAdapter(IModule.class, new ModuleReader()).registerTypeAdapter(IModuleContainer.class, new ModuleContainerReader()).create();
+	public static final Gson GSON = new GsonBuilder().registerTypeAdapter(IModule.class, new ModuleReader()).registerTypeAdapter(List.class, new ModuleContainerReader()).create();
 	public static ModuleLoader DEFAULT = new ModuleLoader();
 	public static BiMap<String, IModuleLoader> loaders = HashBiMap.create();
 	
@@ -52,10 +52,10 @@ public class ModuleLoadManager {
 		}
 	}
 	
-	private static class ModuleContainerReader implements JsonDeserializer<IModuleContainer>{
+	private static class ModuleContainerReader implements JsonDeserializer<List>{
 
 		@Override
-		public IModuleContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		public List<IModuleContainer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			JsonObject object = json.getAsJsonObject();
 			IModuleLoader loader = null;
 			if(object.has("loader") && object.get("loader").isJsonPrimitive() && object.get("loader").getAsJsonPrimitive().isString()){
