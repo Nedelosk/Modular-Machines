@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -116,7 +117,7 @@ public class JsonUtils {
 	}
 
 	public static String writeItem(ItemStack item) {
-		String itemName = GameRegistry.findRegistry(Item.class).getKey(item.getItem()) + ":" + item.getItemDamage();
+		String itemName = ForgeRegistries.ITEMS.getKey(item.getItem()) + ":" + item.getItemDamage();
 		if (item.hasTagCompound()) {
 			itemName += ":" + item.getTagCompound().toString();
 		}
@@ -138,7 +139,7 @@ public class JsonUtils {
 
 	public static ItemStack parseItem(JsonElement json, String itemName) {
 		String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 4);
-		Item item = GameRegistry.findItem(names[0], names[1]);
+		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(names[0], names[1]));
 		int meta = (names.length >= 3 ? Integer.parseInt(names[2]) : 0);
 		ItemStack stack = new ItemStack(item, 1, meta);
 		if (names.length == 4) {
