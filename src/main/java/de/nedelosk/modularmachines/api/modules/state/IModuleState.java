@@ -49,10 +49,10 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	IModular getModular();
 
 	IModuleContainer getContainer();
-	
+
 	@Override
 	NBTTagCompound serializeNBT();
-	
+
 	@Override
 	void deserializeNBT(NBTTagCompound nbt);
 

@@ -4,7 +4,6 @@ import java.io.File;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
 import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
+import net.minecraftforge.fml.common.registry.RegistryBuilder;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.modularmachines.common.config.ConfigFactory")
 public class ModularMachines {
@@ -32,7 +31,6 @@ public class ModularMachines {
 
 	public static IForgeRegistry<IModule> iModuleRegistry;
 	public static IForgeRegistry<IModuleContainer> iModuleContainerRegistry;
-	public static IForgeRegistry<IModuleLoader> iModuleLoaderRegistry;
 
 	@Instance(Constants.MODID)
 	public static ModularMachines instance;
@@ -45,9 +43,8 @@ public class ModularMachines {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
-		iModuleRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modules"), IModule.class, null, 0, 67108863, true, null, null, null, null);
-		iModuleContainerRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:modulecontainers"), IModuleContainer.class, null, 0, 67108863, true, null, null, null, null);
-		iModuleLoaderRegistry = PersistentRegistryManager.createRegistry(new ResourceLocation("modularmachines:moduleloaders"), IModuleLoader.class, null, 0, 67108863, true, null, null, null, null);
+		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
+		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleContainer.class).create();
 
 		registry = new ModularMachinesRegistry();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
