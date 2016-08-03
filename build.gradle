@@ -17,8 +17,8 @@ buildscript {
 
 plugins {
 	id "net.minecraftforge.gradle.forge" version "2.0.2"
-	/*id "com.matthewprenger.cursegradle" version "1.0.8"
-	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"*/
+	id "com.matthewprenger.cursegradle" version "1.0.8"
+	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
 }
 
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
@@ -123,7 +123,7 @@ def getBuildNumber() {
 	return "$System.env.DRONE_BUILD_NUMBER" != "null" ? "$System.env.DRONE_BUILD_NUMBER" : "0"
 }
 
-/*task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 	filePath = "changelog.html"
 	untaggedName = "Current release ${project.version}"
 	fromCommit = "422008f48869bdb14c60409ba20708b8a5ecd212"
@@ -143,18 +143,20 @@ Please help the project by trying it out and <a href="https://github.com/Nedelos
 }
 
 curseforge {
-	apiKey = project.hasProperty('curseforge_apikey') ? project.curseforge_apikey : '0'
-	project {
-		id = 233073
-		changelog = file('changelog.html')
-		changelogType = 'html'
-		releaseType = 'alpha'
-		addArtifact sourcesJar
-		addArtifact apiJar
-		addArtifact deobfJar
+	if(System.getenv().CURSEAPIKEY != null){
+		apiKey = System.getenv().CURSEAPIKEY
+		project {
+			id = '233073'
+			changelog = file('changelog.html')
+			changelogType = 'html'
+			releaseType = 'alpha'
+			addArtifact sourcesJar
+			addArtifact apiJar
+			addArtifact deobfJar
+		}
 	}
 }
 
 afterEvaluate {
 	tasks.curseforge233073.dependsOn.add(makeChangelog)
-}*/
+}
