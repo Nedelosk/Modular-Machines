@@ -7,6 +7,7 @@ import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleHeatBuffer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -43,34 +44,9 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public int getMaxHeat() {
-		return maxHeat;
-	}
-
-	@Override
-	public float getResistance(IModuleState state) {
-		return resistance;
-	}
-
-	@Override
-	public float getHardness(IModuleState state) {
-		return hardness;
-	}
-
-	@Override
-	public int getHarvestLevel(IModuleState state) {
-		return harvestLevel;
-	}
-
-	@Override
-	public String getHarvestTool(IModuleState state) {
-		return harvestTool;
-	}
-
-	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
-		handlers.add(new ModuleHeatBuffer(state, maxHeat, 15F));
+		handlers.add(new BlockModificator(state, maxHeat, resistance, hardness, harvestTool, harvestLevel));
 		return handlers;
 	}
 
