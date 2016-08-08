@@ -166,7 +166,7 @@ public class RecipeManager {
 				"PRP",
 				"COC",
 				"PRP", 'O', ItemModule.createStack(ModuleManager.modulePulverizerIron, EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'R', "rodBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
-		addShapedRecipe(new ItemStack(ItemManager.itemChassi), "BIB", "I I", "BIB", 'B', Blocks.IRON_BARS, 'I', "ingotIron");
+		addShapedRecipe(new ItemStack(ItemManager.itemChassis), "BIB", "I I", "BIB", 'B', Blocks.IRON_BARS, 'I', "ingotIron");
 	}
 
 	private static void addNormalRecipes() {

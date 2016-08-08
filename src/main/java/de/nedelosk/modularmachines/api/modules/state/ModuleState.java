@@ -9,10 +9,10 @@ import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -21,6 +21,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.INBTSerializable;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
@@ -167,7 +169,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 			}
 		}
 		for(IModuleContentHandler handler : contentHandlers){
-			nbt.setTag(handler.getHandlerUID(), handler.writeToNBT(new NBTTagCompound()));
+			if(handler instanceof INBTSerializable){
+				nbt.setTag(handler.getUID(), ((INBTSerializable)handler).serializeNBT());
+			}
 		}
 		return nbt;
 	}
@@ -184,19 +188,33 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 			}
 		}
 		for(IModuleContentHandler handler : contentHandlers){
-			if(nbt.hasKey(handler.getHandlerUID())){
-				handler.readFromNBT(nbt.getCompoundTag(handler.getHandlerUID()));
+			if(handler instanceof INBTSerializable && nbt.hasKey(handler.getUID())){
+				((INBTSerializable)handler).deserializeNBT(nbt.getCompoundTag(handler.getUID()));
 			}
 		}
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		for(IModuleContentHandler handler : contentHandlers){
+			if(handler instanceof ICapabilityProvider){
+				if(((ICapabilityProvider)handler).hasCapability(capability, facing)){
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		for(IModuleContentHandler handler : contentHandlers){
+			if(handler instanceof ICapabilityProvider){
+				if(((ICapabilityProvider)handler).hasCapability(capability, facing)){
+					return ((ICapabilityProvider)handler).getCapability(capability, facing);
+				}
+			}
+		}
 		return null;
 	}
 

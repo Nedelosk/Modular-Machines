@@ -14,27 +14,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
-import de.nedelosk.modularmachines.common.core.ModularMachines;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ICustomModelLoader;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleLoadManager {
 
 	public static final Gson GSON = new GsonBuilder().registerTypeAdapter(IModule.class, new ModuleReader()).registerTypeAdapter(List.class, new ModuleContainerReader()).create();
 	public static ModuleLoader DEFAULT = new ModuleLoader();
 	public static BiMap<String, IModuleLoader> loaders = HashBiMap.create();
-	
+
 	public static void loadModules(){
 	}
 
 	public static void loadModuleContainers(){
 
 	}
-	
+
 	private static class ModuleReader implements JsonDeserializer<IModule>{
 
 		@Override
@@ -51,7 +47,7 @@ public class ModuleLoadManager {
 			return loader.loadModuleFromJson(object, typeOfT, context);
 		}
 	}
-	
+
 	private static class ModuleContainerReader implements JsonDeserializer<List>{
 
 		@Override

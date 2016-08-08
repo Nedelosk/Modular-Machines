@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.google.common.base.Function;
 
+import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
@@ -60,14 +62,20 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 
 	@Override
 	public void reload(IModuleState<IModuleModuleStorage> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		EnumPosition type = state.getModule().getCurrentPosition(state);
-		if(type != EnumPosition.BACK && type != EnumPosition.TOP){
+		EnumPosition pos = state.getModule().getCurrentPosition(state);
+		if(pos != EnumPosition.BACK && pos != EnumPosition.TOP){
+			IModuleStorage storage;
+			if(state.getModular() instanceof IPositionedModular){
+				storage = ((IPositionedModular)state.getModular()).getModuleStorage(pos);
+			}else{
+				storage = state.getModular();
+			}
 			List<IBakedModel> models = new ArrayList<>();
 			models.add(getBakedModel(drawer, modelState, format, bakedTextureGetter));
 
 			EnumModuleSize size = null;
 			List<IModuleState> modules = new ArrayList<>();
-			for(IModuleState stateStoraged : state.getModular().getModuleStorage(type).getModules()){
+			for(IModuleState stateStoraged : storage.getModules()){
 				if(stateStoraged != null){
 					modules.add(stateStoraged);
 				}
@@ -84,14 +92,14 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			for(IBakedModel model : getWallModels(state, modelState, format, bakedTextureGetter)){
 				models.add(model);
 			}
-			if(type.equals(EnumPosition.LEFT)){
+			if(pos.equals(EnumPosition.LEFT)){
 				bakedModel = new TRSRBakedModel(new ModelModular.ModularBaked(models), 0F, 0F, 0F, 0F, (float) (Math.PI), 0F, 1F);
-			}else if(type.equals(EnumPosition.RIGHT)){
+			}else if(pos.equals(EnumPosition.RIGHT)){
 				bakedModel = new ModelModular.ModularBaked(models);
 			}
-		}else if(type == EnumPosition.TOP){
+		}else if(pos == EnumPosition.TOP){
 			bakedModel = getBakedModel(top, modelState, format, bakedTextureGetter);
-		}else if(type == EnumPosition.BACK){
+		}else if(pos == EnumPosition.BACK){
 			bakedModel = getBakedModel(back, modelState, format, bakedTextureGetter);
 		}
 	}
@@ -100,9 +108,15 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 		List<IBakedModel> wallModels = new ArrayList<>();
 		IModuleModuleStorage drawerModule = state.getModule();
 		EnumModuleSize size = null;
-		EnumPosition type = state.getModule().getCurrentPosition(state);
+		EnumPosition pos = state.getModule().getCurrentPosition(state);
+		IModuleStorage storage;
+		if(state.getModular() instanceof IPositionedModular){
+			storage = ((IPositionedModular)state.getModular()).getModuleStorage(pos);
+		}else{
+			storage = state.getModular();
+		}
 		List<IModuleState> modules = new ArrayList<>();
-		for(IModuleState stateStoraged : state.getModular().getModuleStorage(type).getModules()){
+		for(IModuleState stateStoraged : storage.getModules()){
 			if(stateStoraged != null && stateStoraged != state){
 				modules.add(stateStoraged);
 			}

@@ -2,12 +2,12 @@ package de.nedelosk.modularmachines.common.modular.handlers;
 
 import com.mojang.authlib.GameProfile;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.common.modular.Modular;
-import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
+import de.nedelosk.modularmachines.common.modular.positioned.PositionedModular;
+import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -20,7 +20,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModularHandler implements IModularHandler<IModular, NBTTagCompound>{
+public abstract class ModularHandler implements IModularHandler<IModular, IModularAssembler, NBTTagCompound>{
 
 	protected IModular modular;
 	protected IModularAssembler assembler;
@@ -54,10 +54,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("Modular")) {
-			modular = new Modular(nbt.getCompoundTag("Modular"), this);
+			modular = new PositionedModular(nbt.getCompoundTag("Modular"), this);
 		}
 		if(nbt.hasKey("Assembler")){
-			assembler = new ModularAssembler(this, nbt.getCompoundTag("Assembler"));
+			assembler = new PositionedModularAssembler(this, nbt.getCompoundTag("Assembler"));
 		}
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("owner"));
@@ -141,8 +141,8 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
-			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(this);
+		if(capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY){
+			return ModularMachinesApi.MODULAR_HANDLER_CAPABILITY.cast(this);
 		}
 		if(modular != null){
 			if(modular.hasCapability(capability, facing)){
@@ -154,7 +154,7 @@ public abstract class ModularHandler implements IModularHandler<IModular, NBTTag
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
+		if(capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY){
 			return true;
 		}
 		if(modular != null){

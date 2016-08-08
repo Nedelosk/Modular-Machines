@@ -1,13 +1,14 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class ModularHandlerTileEntity extends ModularHandler implements IModularHandlerTileEntity<IModular, NBTTagCompound> {
+public class ModularHandlerTileEntity extends ModularHandler implements IModularHandlerTileEntity<IModular, IModularAssembler, NBTTagCompound> {
 
 	protected TileEntity tileEntity;
 	protected EnumFacing facing;

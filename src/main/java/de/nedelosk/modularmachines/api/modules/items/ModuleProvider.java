@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.items;
 
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -8,10 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public class ModuleProvider implements IModuleProvider{
 
-	public IModuleState state;
-
-	public ModuleProvider() {
-	}
+	protected IModuleState state;
 
 	@Override
 	public NBTTagCompound serializeNBT() {
@@ -44,13 +41,13 @@ public class ModuleProvider implements IModuleProvider{
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == ModularManager.MODULE_PROVIDER_CAPABILITY;
+		return capability == ModularMachinesApi.MODULE_PROVIDER_CAPABILITY;
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModularManager.MODULE_PROVIDER_CAPABILITY){
-			return ModularManager.MODULE_PROVIDER_CAPABILITY.cast(this);
+		if(capability == ModularMachinesApi.MODULE_PROVIDER_CAPABILITY){
+			return ModularMachinesApi.MODULE_PROVIDER_CAPABILITY.cast(this);
 		}
 		return null;
 	}

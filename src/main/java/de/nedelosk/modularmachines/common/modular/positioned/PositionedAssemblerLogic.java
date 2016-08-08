@@ -1,26 +1,27 @@
-package de.nedelosk.modularmachines.common.modular.assembler;
+package de.nedelosk.modularmachines.common.modular.positioned;
 
-import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 
-public class AssemblerLogic implements IAssemblerLogic {
+public class PositionedAssemblerLogic implements IAssemblerLogic {
 
-	public final IModularAssembler assembler;
+	public final IPositionedModularAssembler assembler;
 	public final EnumPosition position;
 
-	public AssemblerLogic(IModularAssembler assembler, EnumPosition position) {
+	public PositionedAssemblerLogic(IPositionedModularAssembler assembler, EnumPosition position) {
 		this.assembler = assembler;
 		this.position = position;
 	}
@@ -30,7 +31,7 @@ public class AssemblerLogic implements IAssemblerLogic {
 		EnumPosition pos = assembler.getSelectedPosition();
 		IItemHandler itemHandler = assembler.getAssemblerHandler();
 		int index = slot.getSlotIndex() - pos.startSlotIndex;
-		IModuleContainer container = ModularManager.getContainerFromItem(stack);
+		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
 		if(container == null){
 			return false;
 		}
@@ -65,7 +66,7 @@ public class AssemblerLogic implements IAssemblerLogic {
 					}
 					EnumModuleSize usedSize = null;
 					for(int i = pos.startSlotIndex + 1;i < pos.endSlotIndex + 1;i++){
-						IModuleContainer otherContainer = ModularManager.getContainerFromItem(itemHandler.getStackInSlot(i));
+						IModuleContainer otherContainer = ModularMachinesApi.getContainerFromItem(itemHandler.getStackInSlot(i));
 						if(otherContainer != null){
 							usedSize = EnumModuleSize.getNewSize(usedSize, otherContainer.getModule().getSize());
 						}

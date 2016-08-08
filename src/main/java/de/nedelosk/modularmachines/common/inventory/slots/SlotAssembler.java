@@ -1,23 +1,22 @@
 package de.nedelosk.modularmachines.common.inventory.slots;
 
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
+import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotAssembler extends SlotItemHandler {
 
-	protected IModularAssembler assembler;
 	protected SlotAssemblerStorage storageSlot;
-	private ContainerAssembler parent;
+	private Container parent;
 	public boolean isActive;
 	public boolean hasChange;
+	public IAssemblerLogic logic;
 
-	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IModularAssembler assembler, ContainerAssembler parent, SlotAssemblerStorage storageSlot) {
+	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IAssemblerLogic logic, Container parent, SlotAssemblerStorage storageSlot) {
 		super(inventory, index, xPosition, yPosition);
 
-		this.assembler = assembler;
 		this.storageSlot = storageSlot;
 		this.parent = parent;
 		this.isActive = true;
@@ -46,6 +45,6 @@ public class SlotAssembler extends SlotItemHandler {
 		if(!isActive){
 			return false;
 		}
-		return assembler.getLogic(assembler.getSelectedPosition()).isItemValid(stack, this, storageSlot);
+		return logic.isItemValid(stack, this, storageSlot);
 	}
 }

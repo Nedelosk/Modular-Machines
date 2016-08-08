@@ -12,9 +12,9 @@ module.storage.right.name=Right
 module.storage.internal.name=Internal
 modular.assembler.assemble=Assemble Modular
 
-modular.assembler.info=This is a info windows. It shows the proplem when a modular can't be assembled. Or when one o fthe modules require a special module.
-modular.assembler.error.no.casing=The modular has no casing. It requires it to storage the internal modules.
-modular.assembler.error.no.battery=The modular has no battery. One module of the modular requires it to storage RF or EU energy.
+modular.assembler.info=This is a info windows. It shows the proplem when a modular machine can't be assembled. Or when one of the modules require a special module.
+modular.assembler.error.no.casing=The modular maachine has no casing. The modlar requires a casing to storage the internal modules.
+modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machines requires it to storage RF or EU energy.
 
 ####################################
 # Module Tool Modes
@@ -45,8 +45,8 @@ module.casing.name=Casing
 
 module.capacitorbank.name=Capacitor Bank
 
-module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular block.And it defines the maximum complexity of storaged modules.
-module.controller.description=This is a controller module. It defines the maximum complexity of the modular.
+module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular machine block.And it defines the maximum complexity of storaged modules.
+module.controller.description=This is a controller module. It defines the maximum complexity of the modular machine.
 module.drawer.description=This is a drawer module. It defines the maximum complexity of storaged modules.
 module.heater.steam.description=This type of heater genearte his heat from steam.
 module.heater.burning.description=This type of heater genearte his heat from solid fuel, like coal or other furnace fuel.
@@ -84,8 +84,6 @@ itemGroup.modularmachines.modules=Modules
 ####################################
 tile.modular.name=Modular Machine
 tile.modular.description=This is a modular machine. A modular machine contains different modules. A modular machine can be built in a modular assembler.
-tile.modular.assembler.description=The modular assembler is a block with which you can build modular machines.
-modularmachines.item.tile.modular_assembler.0.name=Modular Assembler
 modularmachines.item.casing.iron.name=Iron Casing
 modularmachines.item.casing.bronze.name=Bronze Casing
 modularmachines.item.tile.metal_blocks.tin.name=Block of Tin
@@ -164,9 +162,8 @@ modularmachines.item.moduleCore_normal.name=Module Core
 modularmachines.item.moduleCore_improved.name=Improved Module Core
 modularmachines.item.moduleCore_advanced.name=Advanced Module Core
 item.module.name=Module
-item.modular.chassi.name=Modular Chassi
+item.modular.chassis.name=Modular Chassis
 
-modularmachines.tool.file.stone.name=Stone File
 modularmachines.tool.file.iron.name=Iron File
 modularmachines.tool.file.diamond.name=Diamond File
 modularmachines.tool.hammer.name=Iron Hammer
@@ -177,7 +174,6 @@ component.gears.name=Gear
 component.screws.name=Screw
 component.rods.name=Rod
 component.wires.name=Wire
-component.saw_blades.name=Saw Blade
 
 ####################################
 # Containers
@@ -198,7 +194,7 @@ mm.tooltip.damage=Durability:
 mm.tooltip.tier=Tier: 
 mm.tooltip.material=Material: 
 mm.tooltip.nonefluid=None Fluid
-mm.tooltip.modular.info=This modular contains the following modules: 
+mm.tooltip.modular.info=This modular machine contains the following modules: 
 mm.tooltip.holdshift=<Hold Shift>
 
 ####################################

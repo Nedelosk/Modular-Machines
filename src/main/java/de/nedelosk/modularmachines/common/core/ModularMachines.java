@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.core;
 import java.io.File;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -22,6 +22,9 @@ public class ModularMachines {
 
 	public ModularMachines() {
 		FluidRegistry.enableUniversalBucket();
+
+		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
+		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleContainer.class).create();
 	}
 
 	public static File configFolder;
@@ -42,9 +45,6 @@ public class ModularMachines {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
-		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
-		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleContainer.class).create();
 
 		registry = new ModularMachinesRegistry();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");

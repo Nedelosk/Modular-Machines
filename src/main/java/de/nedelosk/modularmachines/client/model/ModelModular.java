@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -52,7 +52,7 @@ public class ModelModular implements IBakedModel {
 	private IBakedModel missingModel;
 
 	private IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
-		IModularHandler modularHandler = ModularUtils.getModularHandler(provider);
+		IModularHandler modularHandler = getModularHandler(provider);
 		if(modularHandler != null){
 			IModular modular = modularHandler.getModular();
 			if(modularHandler.getModular() != null){
@@ -200,7 +200,7 @@ public class ModelModular implements IBakedModel {
 
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			IModularHandler modularHandler = ModularUtils.getModularHandler(stack);
+			IModularHandler modularHandler = getModularHandler(stack);
 
 			if(modularHandler.getModular() == null && stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());
@@ -214,6 +214,16 @@ public class ModelModular implements IBakedModel {
 			}
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
+	}
+
+	public static IModularHandler getModularHandler(ICapabilityProvider provider){
+		if(provider == null){
+			return null;
+		}
+		if(provider.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)){
+			return provider.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+		}
+		return null;	
 	}
 
 	@Override
@@ -233,7 +243,7 @@ public class ModelModular implements IBakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
-		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/modular_chassi");
+		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/modular_chassis");
 	}
 
 	@Override

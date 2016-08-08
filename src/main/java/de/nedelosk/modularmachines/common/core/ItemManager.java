@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
-import de.nedelosk.modularmachines.common.items.blocks.ItemBlockChassi;
+import de.nedelosk.modularmachines.common.items.blocks.ItemBlockChassis;
 import net.minecraft.item.Item;
 
 public class ItemManager {
@@ -36,7 +36,7 @@ public class ItemManager {
 	public static Item itemModuleCore;
 	public static Item itemModules;
 	public static Item itemCasings;
-	public static Item itemChassi;
+	public static Item itemChassis;
 	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
 	public static MaterialList<IMetalMaterial> default_metals =  new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.STEEL);
 	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND);
@@ -46,7 +46,7 @@ public class ItemManager {
 
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());
-		itemChassi = Registry.register(new ItemBlockChassi(BlockManager.blockModular));
+		itemChassis = Registry.register(new ItemBlockChassis(BlockManager.blockModular));
 		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2));
 		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 1));
 		itemHammer = register(new ItemToolCrafting("hammer", 300, 15));

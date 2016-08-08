@@ -1,7 +1,7 @@
 {
 "textures": {
-	"particle": "modularmachines:blocks/modular_chassi",
-    "texture": "modularmachines:blocks/modular_chassi"
+	"particle": "modularmachines:blocks/modular_chassis",
+    "texture": "modularmachines:blocks/modular_chassis"
 },
 "elements": [ 
 {

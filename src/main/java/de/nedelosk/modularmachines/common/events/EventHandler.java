@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.events;
 
-import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -23,7 +23,7 @@ public class EventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		IModuleContainer container = ModularManager.getContainerFromItem(event.getItemStack());
+		IModuleContainer container = ModularMachinesApi.getContainerFromItem(event.getItemStack());
 		if (container != null) {
 			container.addTooltip(event.getToolTip());
 		}
@@ -42,9 +42,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
-		if(ModularManager.isItemRegisteredForModule(event.getItem())){
-			event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleProvider());
-		}
+		event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleProvider());
 	}
 
 	@SideOnly(Side.CLIENT)

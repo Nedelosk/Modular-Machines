@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.material;
 
-import de.nedelosk.modularmachines.api.Translator;
+import net.minecraft.util.text.translation.I18n;
 
 public enum EnumVanillaMaterials implements IMetalMaterial {
 	COAL(1, "Coal", "coal", 0x3E3E3E, "Coal"), 
@@ -44,6 +44,6 @@ public enum EnumVanillaMaterials implements IMetalMaterial {
 
 	@Override
 	public String getLocalizedName() {
-		return Translator.translateToLocal("material." + unlocalizedName + ".name");
+		return I18n.translateToLocal("material." + unlocalizedName + ".name");
 	}
 }

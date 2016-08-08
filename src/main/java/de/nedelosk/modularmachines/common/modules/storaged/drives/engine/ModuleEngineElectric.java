@@ -2,16 +2,16 @@ package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
+import de.nedelosk.modularmachines.common.utils.Translator;
 
 public class ModuleEngineElectric extends ModuleEngine {
 
@@ -28,7 +28,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 	}
 
 	@Override
-	public void assembleModule(IModularAssembler assembler, IModular modular, IPositionedModuleStorage storage, IModuleState state) throws AssemblerException {
+	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
 		if(modular.getModules(IModuleBattery.class).isEmpty()){
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
 		}

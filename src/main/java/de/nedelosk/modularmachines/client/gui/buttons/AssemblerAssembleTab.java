@@ -3,11 +3,10 @@ package de.nedelosk.modularmachines.client.gui.buttons;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
@@ -15,6 +14,7 @@ import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
@@ -37,7 +37,7 @@ public class AssemblerAssembleTab extends Button<GuiAssembler> {
 			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, 0,
 					214, 28, 21);
 			try{
-				ItemStack stack = ModularManager.writeModularToItem(new ItemStack(BlockManager.blockModular), getGui().getHandler().getAssembler().assemble(), getGui().getPlayer());
+				ItemStack stack = ModularMachinesApi.saveModular(new ItemStack(BlockManager.blockModular), getGui().getHandler().getAssembler().assemble(), getGui().getPlayer());
 				if(stack != null){
 					getGui().drawItemStack(stack, xPosition + 5, yPosition + 2);
 				}

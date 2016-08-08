@@ -2,11 +2,11 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 
 public class WidgetButtonMode extends Widget {
 

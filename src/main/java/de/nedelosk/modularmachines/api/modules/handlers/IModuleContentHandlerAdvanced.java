@@ -8,9 +8,11 @@ import javax.annotation.Nonnull;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IModuleContentHandlerAdvanced<C,M extends IModule> extends IModuleContentHandler {
+public interface IModuleContentHandlerAdvanced<C,M extends IModule> extends IModuleContentHandler, INBTSerializable<NBTTagCompound> {
 
 	/**
 	 * @return The insert filters of the handler.

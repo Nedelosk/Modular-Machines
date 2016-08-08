@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface IModuleStorage extends INBTSerializable<NBTTagCompound>{
 
 	/**
-	 * @return All module states that are have a module that class is a instance of of the moduleClass.
+	 * @return All module states that are have a module that class is a instance of of moduleClass.
 	 */
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
@@ -26,5 +26,10 @@ public interface IModuleStorage extends INBTSerializable<NBTTagCompound>{
 	 * @return A module state that have the index.
 	 */
 	<M extends IModule> IModuleState<M> getModule(int index);
+
+	/**
+	 * @return The first module state that have a module that class is a instance of of moduleClass.
+	 */
+	<M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass);
 
 }

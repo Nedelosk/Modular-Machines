@@ -6,12 +6,11 @@ import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
@@ -283,15 +282,8 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
-		ModularManager.registerModuleItem(ItemManager.itemEngineSteam);
-		ModularManager.registerModuleItem(ItemManager.itemDrawer);
-		ModularManager.registerModuleItem(ItemManager.itemCasings);
-		ModularManager.registerModuleItem(ItemManager.itemModules);
-		ModularManager.registerModuleItem(ItemManager.itemTurbineSteam);
-
 		//Engines
 		if(ItemManager.itemEngineRF != null){
-			ModularManager.registerModuleItem(ItemManager.itemEngineRF);
 			GameRegistry.register(new ModuleContainer(moduleEngineRFIron, new ItemStack(ItemManager.itemEngineRF, 1, 0), EnumMetalMaterials.IRON));
 			GameRegistry.register(new ModuleContainer(moduleEngineRFBronze, new ItemStack(ItemManager.itemEngineRF, 1, 1), EnumMetalMaterials.BRONZE));
 			GameRegistry.register(new ModuleContainer(moduleEngineRFSteel, new ItemStack(ItemManager.itemEngineRF, 1, 2), EnumMetalMaterials.STEEL));
@@ -299,7 +291,6 @@ public class ModuleManager {
 		}
 
 		if(ItemManager.itemEngineEU != null){
-			ModularManager.registerModuleItem(ItemManager.itemEngineEU);
 			GameRegistry.register(new ModuleContainer(moduleEngineEUIron, new ItemStack(ItemManager.itemEngineEU, 1, 0), EnumMetalMaterials.IRON));
 			GameRegistry.register(new ModuleContainer(moduleEngineEUBronze, new ItemStack(ItemManager.itemEngineEU, 1, 1), EnumMetalMaterials.BRONZE));
 			GameRegistry.register(new ModuleContainer(moduleEngineEUSteel, new ItemStack(ItemManager.itemEngineEU, 1, 2), EnumMetalMaterials.STEEL));

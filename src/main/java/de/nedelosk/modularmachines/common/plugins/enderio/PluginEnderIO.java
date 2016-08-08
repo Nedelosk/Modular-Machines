@@ -2,8 +2,7 @@ package de.nedelosk.modularmachines.common.plugins.enderio;
 
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import net.minecraft.item.Item;
@@ -37,9 +36,8 @@ public class PluginEnderIO extends APlugin {
 	}
 
 	@Override
-	public void postInit() {
+	public void init() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
-		ModularManager.registerModuleItem(capacitorBank);
 
 		GameRegistry.register(new ModuleContainer(moduleCapacitorBankBasic, new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.IRON, true));
 		GameRegistry.register(new ModuleContainer(moduleCapacitorBank, new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.BRONZE, true));

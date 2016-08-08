@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.common.utils.Log;
@@ -86,5 +86,10 @@ public class ModuleStorage implements IModuleStorage{
 			}
 		}
 		return modules;
+	}
+
+	@Override
+	public <M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass) {
+		return (IModuleState<M>) getModules(moduleClass).get(0);
 	}
 }

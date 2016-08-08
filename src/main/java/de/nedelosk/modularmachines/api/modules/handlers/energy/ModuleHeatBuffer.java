@@ -1,19 +1,16 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
-import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
+import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler {
+public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INBTSerializable<NBTTagCompound> {
 
-	protected double heatBuffer;
-	protected double capacity;
-	protected double maxExtract;
-	protected double maxReceive;
-	protected IHeatLevel level;
+	protected HeatBuffer heatSource;
 	protected IModuleState state;
 
 	public ModuleHeatBuffer(IModuleState state, float capacity, float maxTransfer) {
@@ -22,10 +19,7 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler {
 
 	public ModuleHeatBuffer(IModuleState state, float capacity, float maxReceive, float maxExtract) {
 		this.state = state;
-		this.capacity = capacity;
-		this.maxReceive = maxReceive;
-		this.maxExtract = maxExtract;
-		this.heatBuffer = EnergyRegistry.COLD_TEMP;
+		this.heatSource = new HeatBuffer(capacity, maxReceive, maxExtract);
 	}
 
 	@Override
@@ -34,75 +28,52 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler {
 	}
 
 	@Override
-	public String getHandlerUID() {
+	public String getUID() {
 		return "HeatBuffer";
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		heatBuffer = nbt.getDouble("Heat");
+	public void deserializeNBT(NBTTagCompound nbt) {
+		heatSource.deserializeNBT(nbt);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		nbt.setDouble("Heat", heatBuffer);
-		return nbt;
+	public NBTTagCompound serializeNBT() {
+		return heatSource.serializeNBT();
 	}
 
 	@Override
 	public double extractHeat(double maxExtract, boolean simulate) {
-		double energyExtracted = Math.min(heatBuffer, Math.min(this.maxExtract, maxExtract));
-
-		if (!simulate) {
-			heatBuffer -= energyExtracted;
-		}
-		return energyExtracted;
+		return  heatSource.extractHeat(maxExtract, simulate);
 	}
 
 	@Override
 	public double receiveHeat(double maxReceive, boolean simulate) {
-		double energyReceived = Math.min(capacity - heatBuffer, Math.min(this.maxReceive, maxReceive));
-
-		if (!simulate) {
-			heatBuffer += energyReceived;
-		}
-		return energyReceived;
+		return heatSource.receiveHeat(maxReceive, simulate);
 	}
 
 	@Override
 	public void increaseHeat(int heatModifier) {
-		if (heatBuffer == capacity) {
-			return;
-		}
-		double step = getHeatLevel().getHeatStepUp();
-		double change = step + (((capacity - heatBuffer) / capacity) * step * heatModifier);
-		heatBuffer += change;
-		heatBuffer = Math.min(heatBuffer, capacity);
+		heatSource.increaseHeat(heatModifier);
 	}
 
 	@Override
 	public void reduceHeat(int heatModifier) {
-		if (heatBuffer == EnergyRegistry.COLD_TEMP) {
-			return;
-		}
-		double step = getHeatLevel().getHeatStepDown();
-		double change = step + ((heatBuffer / capacity) * step * heatModifier);
-		heatBuffer -= change;
-		heatBuffer = Math.max(heatBuffer,  EnergyRegistry.COLD_TEMP);
+		heatSource.reduceHeat(heatModifier);
 	}
 
 	@Override
 	public IHeatLevel getHeatLevel() {
-		return EnergyRegistry.getHeatLevel(heatBuffer);
+		return  heatSource.getHeatLevel();
 	}
 
 	@Override
 	public double getHeatStored() {
-		return heatBuffer;
+		return  heatSource.getHeatStored();
 	}
 
 	@Override
 	public double getCapacity() {
-		return capacity;
+		return heatSource.getCapacity();
 	}
 }

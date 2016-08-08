@@ -3,13 +3,14 @@ package de.nedelosk.modularmachines.common.modular.handlers;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
-public class ModularHandlerItem extends ModularHandler implements IModularHandlerItem<IModular, NBTTagCompound> {
+public class ModularHandlerItem extends ModularHandler implements IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> {
 	private static final String KEY_SLOTS = "Slots";
 	private static final String KEY_UID = "UID";
 	private static final Random rand = new Random();

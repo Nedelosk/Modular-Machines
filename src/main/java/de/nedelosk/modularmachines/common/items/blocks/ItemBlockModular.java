@@ -4,16 +4,17 @@ import java.util.List;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
-import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
+import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
@@ -43,7 +44,7 @@ public class ItemBlockModular extends ItemBlock {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(GuiScreen.isShiftKeyDown()){
-			IModularHandler<IModular, NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandler<IModular, IModularAssembler, NBTTagCompound> handler = stack.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(handler != null){
 				if(stack.hasTagCompound()){
 					handler.deserializeNBT(stack.getTagCompound());
@@ -75,13 +76,13 @@ public class ItemBlockModular extends ItemBlock {
 				world.setBlockToAir(pos);
 				return false;
 			}
-			IModularHandlerItem itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerItem itemHandler = (IModularHandlerItem) stack.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(itemHandler != null){
 				itemHandler.deserializeNBT(stack.getTagCompound());
 			}
 			if(itemHandler != null && itemHandler.getModular() != null){
 				TileModular machine = (TileModular) tile;
-				IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+				IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 				int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 				tileHandler.setOwner(player.getGameProfile());
@@ -95,7 +96,7 @@ public class ItemBlockModular extends ItemBlock {
 					tileHandler.setAssembler(itemHandler.getAssembler().copy(tileHandler));
 				}else{
 					tileHandler.setAssembled(false);
-					tileHandler.setAssembler(new ModularAssembler(tileHandler, new ItemStack[26]));
+					tileHandler.setAssembler(new PositionedModularAssembler(tileHandler, new ItemStack[26]));
 				}
 			}
 

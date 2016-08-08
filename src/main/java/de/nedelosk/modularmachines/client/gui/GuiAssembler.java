@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
+import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.gui.buttons.AssemblerAssembleTab;
@@ -18,6 +18,7 @@ import de.nedelosk.modularmachines.client.gui.buttons.AssemblerTab;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -34,8 +35,13 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		if(!handler.isAssembled()){
-			String s = Translator.translateToLocal("module.storage." + handler.getAssembler().getSelectedPosition().getName() + ".name");
-			this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+			if(handler.getAssembler() instanceof IPositionedModularAssembler){
+				String s = Translator.translateToLocal("module.storage." + ((IPositionedModularAssembler)handler.getAssembler()).getSelectedPosition().getName() + ".name");
+				this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+			}else{
+				String s = Translator.translateToLocal("module.storage.name");
+				this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+			}
 		}
 
 		String exceptionText;
@@ -84,23 +90,24 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
 		if(slot instanceof SlotAssembler){
-			if(((SlotAssembler)slot).isActive){
-				super.drawSlot(slot);
+			if(!((SlotAssembler)slot).isActive){
+				return;
 			}
-		}else{
-			super.drawSlot(slot);
 		}
+		super.drawSlot(slot);
 	}
 
 	@Override
 	public void addButtons() {
 		//left
-		buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, EnumPosition.TOP, false));
-		buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, EnumPosition.LEFT, false));
-		buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, EnumPosition.INTERNAL, false));
-		//right
-		buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
-		buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
+		if(handler.getAssembler() instanceof IPositionedModularAssembler){
+			buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, EnumPosition.TOP, false));
+			buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, EnumPosition.LEFT, false));
+			buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, EnumPosition.INTERNAL, false));
+			//right
+			buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
+			buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
+		}
 		buttonManager.add(new AssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
 	}
 

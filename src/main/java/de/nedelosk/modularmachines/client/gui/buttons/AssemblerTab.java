@@ -3,12 +3,13 @@ package de.nedelosk.modularmachines.client.gui.buttons;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.Translator;
 import de.nedelosk.modularmachines.api.gui.Button;
+import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public class AssemblerTab extends Button<GuiAssembler> {
 		if(!getGui().getHandler().isAssembled()){
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			RenderUtil.bindTexture(guiTexture);
-			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (position.equals(getGui().getHandler().getAssembler().getSelectedPosition())) ? 0 : 28,
+			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (position.equals(((IPositionedModularAssembler)getGui().getHandler().getAssembler()).getSelectedPosition())) ? 0 : 28,
 					right ? 214 : 235, 28, 21);
 			ItemStack item = getGui().getHandler().getAssembler().getAssemblerHandler().getStackInSlot(slotIndex);
 			if(item != null){
@@ -46,8 +47,8 @@ public class AssemblerTab extends Button<GuiAssembler> {
 	@Override
 	public void onButtonClick() {
 		IModularHandler tile = getGui().getHandler();
-		if (!tile.getAssembler().getSelectedPosition().equals(position)) {
-			tile.getAssembler().setSelectedPosition(position);
+		if (!((IPositionedModularAssembler)getGui().getHandler().getAssembler()).getSelectedPosition().equals(position)) {
+			((IPositionedModularAssembler)getGui().getHandler().getAssembler()).setSelectedPosition(position);
 		}
 	}
 

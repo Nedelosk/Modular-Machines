@@ -3,11 +3,10 @@ package de.nedelosk.modularmachines.client.modules;
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleDrive;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.client.model.TRSRBakedModel;
@@ -27,17 +26,17 @@ public class ModelHandlerEngine extends ModelHandler<IModuleEngine> implements I
 
 	@Override
 	public void reload(IModuleState<IModuleEngine> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		EnumModuleSize position = null;
-		for(IModuleState<IModuleDrive> drive : state.getModular().getModuleStorage(EnumPosition.RIGHT).getModules(IModuleDrive.class)){
+		EnumModuleSize size = null;
+		for(IModuleState<IModuleDrive> drive : state.getModular().getModules(IModuleDrive.class)){
 			if(drive.getIndex() == state.getIndex()){
 				break;
 			}else{
-				position = EnumModuleSize.getNewSize(position, drive.getModule().getSize());
+				size = EnumModuleSize.getNewSize(size, drive.getModule().getSize());
 			}
 		}
-		if(position == null){
+		if(size == null){
 			bakedModel = new TRSRBakedModel(getBakedModel(engine, modelState, format, bakedTextureGetter), 0F, 0.5F, 0F, 1F);
-		}else if(position == EnumModuleSize.SMALL){
+		}else if(size == EnumModuleSize.SMALL){
 			bakedModel = new TRSRBakedModel(getBakedModel(engine, modelState, format, bakedTextureGetter), 0F, 0.25F, 0F, 1F);
 		}else{
 			bakedModel = getBakedModel(engine, modelState, format, bakedTextureGetter);

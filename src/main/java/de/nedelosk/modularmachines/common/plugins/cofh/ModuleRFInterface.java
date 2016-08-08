@@ -25,7 +25,7 @@ public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterf
 	}
 
 	@Override
-	public String getHandlerUID() {
+	public String getUID() {
 		return "EnergyInterface";
 	}
 

@@ -30,7 +30,7 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	}
 
 	@Override
-	public String getHandlerUID() {
+	public String getUID() {
 		return "KineticHandler";
 	}
 

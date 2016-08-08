@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modular.assembler;
+package de.nedelosk.modularmachines.common.modular;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;

@@ -4,7 +4,7 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerTileEntity;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -100,8 +100,8 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
-			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
+		if (capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY) {
+			return ModularMachinesApi.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
 		}
 		if(modularHandler != null){
 			if(modularHandler.hasCapability(capability, facing)){
@@ -113,7 +113,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
+		if (capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY) {
 			return true;
 		}
 		if(modularHandler != null){

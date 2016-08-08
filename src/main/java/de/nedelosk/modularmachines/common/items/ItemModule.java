@@ -6,16 +6,16 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import de.nedelosk.modularmachines.api.Translator;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -59,7 +59,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		IModuleContainer container = ModularManager.getContainerFromItem(stack);
+		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
 		if(container != null){
 			return container.getDisplayName();
 		}
@@ -75,7 +75,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		IModuleContainer moduleContainer = ModularManager.getContainerFromItem(stack);
+		IModuleContainer moduleContainer = ModularMachinesApi.getContainerFromItem(stack);
 		if(moduleContainer != null){
 			if(tintIndex == 1){
 				IModule module = moduleContainer.getModule();

@@ -1,9 +1,9 @@
 package de.nedelosk.modularmachines.common.items.blocks;
 
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
-import de.nedelosk.modularmachines.common.modular.assembler.ModularAssembler;
+import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.Block;
@@ -26,13 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBlockChassi extends Item implements IItemModelRegister {
+public class ItemBlockChassis extends Item implements IItemModelRegister {
 
 	public Block block;
 
-	public ItemBlockChassi(Block block) {
+	public ItemBlockChassis(Block block) {
 		this.block = block;
-		setUnlocalizedName("modular.chassi");
+		setUnlocalizedName("modular.chassis");
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ItemBlockChassi extends Item implements IItemModelRegister {
 
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		manager.registerItemModel(item, 0, "modular_chassi");
+		manager.registerItemModel(item, 0, "modular_chassis");
 	}
 
 	/**
@@ -93,11 +93,11 @@ public class ItemBlockChassi extends Item implements IItemModelRegister {
 				return false;
 			}
 			TileModular machine = (TileModular) tile;
-			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 			tileHandler.setAssembled(false);
-			tileHandler.setAssembler(new ModularAssembler(tileHandler, new ItemStack[26]));
+			tileHandler.setAssembler(new PositionedModularAssembler(tileHandler, new ItemStack[26]));
 			tileHandler.setOwner(player.getGameProfile());
 			tileHandler.setFacing(getFacingForHeading(heading));
 

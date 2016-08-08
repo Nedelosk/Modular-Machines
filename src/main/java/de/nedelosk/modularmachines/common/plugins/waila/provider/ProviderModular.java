@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import de.nedelosk.modularmachines.api.modular.ModularManager;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
+import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -32,7 +33,7 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 		if(modular.getModular() == null){
 			return currenttip;
 		}
@@ -42,7 +43,7 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 		if(modular.getModular() == null){
 			return currenttip;
 		}
@@ -52,7 +53,7 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		IModularHandler modular = accessor.getTileEntity().getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		IModularHandler modular = accessor.getTileEntity().getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 		if(modular.getModular() == null){
 			return currenttip;
 		}
@@ -62,13 +63,18 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+		/*IModularHandler modular = te.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if(modular.getModular() == null){*/
 		return tag;
+		/*}
+		return modular.getModular().getNBTData(player, te, tag, world, pos);*/
 	}
 
 	public static class WailaData implements IWailaState {
 
 		private IWailaDataAccessor accessor;
 		private IWailaConfigHandler config;
+		private IModuleState currentState;
 
 		public WailaData(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 			this.accessor = accessor;
@@ -163,6 +169,16 @@ public class ProviderModular implements IWailaDataProvider {
 		@Override
 		public boolean getConfig(String key) {
 			return config.getConfig(key);
+		}
+
+		@Override
+		public IModuleState getState() {
+			return currentState;
+		}
+
+		@Override
+		public void setState(IModuleState state) {
+			this.currentState = state;
 		}
 	}
 }

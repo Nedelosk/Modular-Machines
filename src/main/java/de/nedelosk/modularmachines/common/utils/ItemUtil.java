@@ -6,6 +6,10 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemUtil {
 
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
+		return isIdenticalItem(lhs, rhs, false);
+	}
+
+	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT) {
 		if (lhs == null || rhs == null) {
 			return false;
 		}
@@ -17,7 +21,7 @@ public class ItemUtil {
 				return false;
 			}
 		}
-		return ItemStack.areItemStackTagsEqual(lhs, rhs);
+		return ignorNBT || ItemStack.areItemStackTagsEqual(lhs, rhs);
 	}
 
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {

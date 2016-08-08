@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules.storaged;
 
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.Translator;
+import net.minecraft.util.text.translation.I18n;
 
 public enum EnumModuleSize {
 	UNKNOWN, SMALL, MIDDLE, LARGE;
@@ -25,7 +25,7 @@ public enum EnumModuleSize {
 	}
 
 	public String getLocalizedName(){
-		return Translator.translateToLocal("module.size." + name().toLowerCase(Locale.ENGLISH) + ".name");
+		return I18n.translateToLocal("module.size." + name().toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	public String getName(){

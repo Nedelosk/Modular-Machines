@@ -7,16 +7,14 @@ import java.util.Random;
 
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
+import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
-import de.nedelosk.modularmachines.api.modules.integration.IWailaProvider;
-import de.nedelosk.modularmachines.api.modules.integration.IWailaState;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
@@ -44,7 +42,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleMachine extends Module implements IModuleMachine, IWailaProvider {
+public abstract class ModuleMachine extends Module implements IModuleMachine, IModuleWaila {
 
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
@@ -185,11 +183,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 							}
 						}
 					}else if(type == EnumToolType.HEAT){
-						IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(modular);
-						IHeatSource heatBuffer = casingState.getModule().getHeatSource(casingState);
+						IHeatSource heatBuffer = modular.getHeatSource();
 						if(heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)){
 							heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
-							workTime = 1;	
+							workTime = 1;
+							modular.getHandler().markDirty();
 						}
 					}
 
@@ -208,9 +206,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
 		EnumToolType type = getType(state);
 		if(type == EnumToolType.HEAT){
-			IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(state.getModular());
-			IHeatSource heatBuffer = casingState.getModule().getHeatSource(casingState);
-			if(recipe.get(Recipe.HEAT) > heatBuffer.getHeatStored()){
+			if(recipe.get(Recipe.HEAT) > state.getModular().getHeatSource().getHeatStored()){
 				return false;
 			}
 		}
@@ -220,12 +216,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	public boolean canWork(IModuleState state){
 		EnumToolType type = getType(state);
 		if(type == EnumToolType.HEAT){
-			IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(state.getModular());
-			IHeatSource heatBuffer = casingState.getModule().getHeatSource(casingState);
-			if(casingState == null || casingState.getModule() == null){
-				return false;
-			}
-			return heatBuffer.getHeatStored() > 0;
+			return state.getModular().getHeatSource().getHeatStored() > 0;
 		}else if(type == EnumToolType.KINETIC){
 			IModular modular = state.getModular();
 			for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
@@ -354,7 +345,8 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	protected abstract String getRecipeCategory(IModuleState state);
 
 	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IModuleState state, IWailaState data) {
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaState data) {
+		IModuleState state = data.getState();
 		currenttip.add(state.getContainer().getDisplayName());
 		currenttip.add(TextFormatting.ITALIC + (getWorkTime(state) + " / " + getWorkTimeTotal(state)));
 		return currenttip;
@@ -366,12 +358,12 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IW
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IModuleState state, IWailaState data) {
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data) {
 		return null;
 	}
 
 	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IModuleState state, IWailaState data) {
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaState data) {
 		return null;
 	}
 

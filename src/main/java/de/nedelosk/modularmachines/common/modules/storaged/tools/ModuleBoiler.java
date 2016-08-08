@@ -10,12 +10,9 @@ import de.nedelosk.modularmachines.api.energy.IHeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -25,6 +22,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
@@ -87,8 +85,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 		FluidTankAdvanced tankWater = tank.getTank(0);
 		FluidTankAdvanced tankSteam = tank.getTank(1);
 		boolean needUpdate = false;
-		IModuleState<IModuleController> controller = ModularUtils.getFirstModule(modular, IModuleController.class);
-		IModuleState<IModuleCasing> casing = ModularUtils.getCasing(modular);
+		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
 
 		if(modular.updateOnInterval(20)){
 			if(inventory != null){
@@ -98,7 +95,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 		}
 		if(modular.updateOnInterval(10)){
 			if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
-				IHeatSource heatSource = casing.getModule().getHeatSource(casing);
+				IHeatSource heatSource = modular.getHeatSource();
 				IHeatLevel heatLevel = heatSource.getHeatLevel();
 
 				FluidStack waterStack = tankWater.getFluid();

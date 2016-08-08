@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.modules;
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.renderer.vertex.VertexFormat;

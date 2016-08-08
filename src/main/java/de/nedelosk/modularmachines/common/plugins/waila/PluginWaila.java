@@ -6,7 +6,6 @@ import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.waila.provider.ProviderModular;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 @Optional.Interface(modid = "Waila", iface = "mcp.mobius.waila.api.IWailaRegistrar")
 public class PluginWaila extends APlugin {
@@ -26,7 +25,7 @@ public class PluginWaila extends APlugin {
 
 	@Override
 	public void init() {
-		FMLInterModComms.sendMessage("Waila", "register", PluginWaila.class.getName() + ".register");
+		//FMLInterModComms.sendMessage("Waila", "register", PluginWaila.class.getName() + ".register");
 	}
 
 	@Override

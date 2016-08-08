@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
+import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
@@ -43,7 +44,7 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
-			modularHandler.getAssembler().setSelectedPosition(message.position);
+			((IPositionedModularAssembler)modularHandler.getAssembler()).setSelectedPosition(message.position);
 		}
 		entityPlayerMP.openGui(ModularMachines.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		return null;

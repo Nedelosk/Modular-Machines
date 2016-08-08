@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api;
+package de.nedelosk.modularmachines.common.utils;
 
 import java.util.IllegalFormatException;
 

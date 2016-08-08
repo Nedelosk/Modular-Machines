@@ -10,18 +10,17 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
 import de.nedelosk.modularmachines.api.property.JsonUtils;
-import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleLoader implements IModuleLoader {
 
@@ -55,18 +54,18 @@ public class ModuleLoader implements IModuleLoader {
 		}
 		return null;
 	}
-	
+
 	private static IModuleContainer readContainerFromJson(JsonObject jsonObject){
 		IModule module = null;
 		IMaterial material = null;
 		ItemStack stack = null;
 		boolean ignorNBT = false;
 		List<String> tooltip = null;
-		
+
 		if(jsonObject.has("module") && jsonObject.get("module").isJsonPrimitive() && jsonObject.get("module").getAsJsonPrimitive().isString()){
 			String moduleName = jsonObject.get("module").getAsString();
 			if(moduleName != null){
-				module = ModularMachines.iModuleRegistry.getValue(new ResourceLocation(moduleName));
+				module = ModularMachinesApi.MODULES.getValue(new ResourceLocation(moduleName));
 			}
 		}
 		if(jsonObject.has("material") && jsonObject.get("material").isJsonPrimitive() && jsonObject.get("material").getAsJsonPrimitive().isString()){
@@ -100,7 +99,7 @@ public class ModuleLoader implements IModuleLoader {
 		if(jsonObject.has("ignorNBT") && jsonObject.get("ignorNBT").isJsonPrimitive() && jsonObject.get("ignorNBT").getAsJsonPrimitive().isBoolean()){
 			ignorNBT = jsonObject.get("ignorNBT").getAsBoolean();
 		}
-		
+
 		if(module != null && material != null && stack != null){
 			return new ModuleContainer(module, stack, material, tooltip, ignorNBT);
 		}

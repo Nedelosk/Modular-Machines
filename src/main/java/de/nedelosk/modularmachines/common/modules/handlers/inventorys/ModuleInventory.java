@@ -307,7 +307,8 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt){
+	public NBTTagCompound serializeNBT(){
+		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagList = new NBTTagList();
 		for (int i = 0; i < stacks.length; i++)
 		{
@@ -337,12 +338,12 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public String getHandlerUID() {
+	public String getUID() {
 		return "Items";
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt){
+	public void deserializeNBT(NBTTagCompound nbt){
 		setSize(nbt.hasKey("Size", Constants.NBT.TAG_INT) ? nbt.getInteger("Size") : stacks.length);
 		NBTTagList tagList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); i++){

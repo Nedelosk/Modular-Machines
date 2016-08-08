@@ -1,8 +1,11 @@
-package de.nedelosk.modularmachines.api.modules.integration;
+package de.nedelosk.modularmachines.api.integration;
 
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +33,8 @@ public interface IWailaState {
 	int                  	getMetadata();
 	IBlockState    		 	getBlockState();
 	TileEntity           	getTileEntity();
+	@Nullable
+	IModuleState 			getState();
 	RayTraceResult 		 	getMOP();
 	BlockPos             	getPosition();
 	Vec3d                	getRenderingPosition();
@@ -38,4 +43,6 @@ public interface IWailaState {
 	double               	getPartialFrame();
 	EnumFacing           	getSide();
 	ItemStack            	getStack();
+
+	void 					setState(IModuleState state);
 }

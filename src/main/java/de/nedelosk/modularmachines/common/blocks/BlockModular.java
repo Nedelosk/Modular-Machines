@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -83,7 +83,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public float getBlockHardness(IBlockState blockState, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
 				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
 				return casingState.getModule().getHardness(casingState);
@@ -96,7 +96,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
 				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
 				return casingState.getModule().getResistance(casingState) / 5;
@@ -134,7 +134,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
-			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(modularHandler.getModular() != null && modularHandler.isAssembled()){
 				if(heldItem == null && player.isSneaking()){
 					IModularAssembler assembler = modularHandler.getModular().disassemble();
@@ -168,8 +168,8 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileEntity && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandler modular = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if (tile instanceof TileEntity && tile.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)) {
+			IModularHandler modular = tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if (modular != null && modular.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState state : modular.getModular().getModules()) {
@@ -186,7 +186,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			}else if(modular != null && modular.getAssembler() != null){
 				WorldUtil.dropItems(world, pos, modular.getAssembler().getAssemblerHandler());
 			}
-			WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassi));
+			WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassis));
 		}
 		super.breakBlock(world, pos, blockState);
 	}
@@ -195,9 +195,9 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			IModularHandlerItem<IModular, NBTTagCompound> itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		if (tile.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)) {
+			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> itemHandler = (IModularHandlerItem) stack.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled() && tileModular.getModular() != null){
 				itemHandler.setAssembled(true);
 				itemHandler.setModular(tileModular.getModular().copy(itemHandler));
@@ -226,7 +226,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileModular){
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
 				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
 

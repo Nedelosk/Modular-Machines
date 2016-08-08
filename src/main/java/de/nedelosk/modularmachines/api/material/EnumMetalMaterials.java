@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.material;
 
-import de.nedelosk.modularmachines.api.Translator;
+import net.minecraft.util.text.translation.I18n;
 
 public enum EnumMetalMaterials implements IMetalMaterial {
 	ALUMINIUM(2, "Aluminum", "aluminium", 0xD4E3E6, "Aluminum", "Aluminium"),
@@ -50,6 +50,6 @@ public enum EnumMetalMaterials implements IMetalMaterial {
 
 	@Override
 	public String getLocalizedName() {
-		return Translator.translateToLocal("material." + unlocalizedName + ".name");
+		return I18n.translateToLocal("material." + unlocalizedName + ".name");
 	}
 }

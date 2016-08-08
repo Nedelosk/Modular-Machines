@@ -347,7 +347,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagTankList = nbt.getTagList("Tanks", 10);
 		for(int i = 0;i < nbtTagTankList.tagCount();i++){
 			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(i);
@@ -369,7 +369,8 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagTankList = new NBTTagList();
 
 		for(FluidTankAdvanced tank : tanks){
@@ -396,7 +397,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public String getHandlerUID() {
+	public String getUID() {
 		return "Tanks";
 	}
 

@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.material;
 
-import de.nedelosk.modularmachines.api.Translator;
+import net.minecraft.util.text.translation.I18n;
 
 public enum EnumBlockMaterials implements IMaterial {
 	WOOD(0, "Wood", "wood"), STONE(1, "Stone", "stone"), BRICK(1, "Brick", "brick");
@@ -30,6 +30,6 @@ public enum EnumBlockMaterials implements IMaterial {
 
 	@Override
 	public String getLocalizedName() {
-		return Translator.translateToLocal("material." + unlocalizedName + ".name");
+		return I18n.translateToLocal("material." + unlocalizedName + ".name");
 	}
 }

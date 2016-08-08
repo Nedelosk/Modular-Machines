@@ -8,13 +8,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.core.ItemManager;
-import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeCategory;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeCategory;
@@ -50,7 +50,7 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 				new BoilerRecipeCategory(guiHelper),
 				new PulverizerRecipeCategory(guiHelper));
 
-		for(IModuleContainer container : ModularMachines.iModuleContainerRegistry){
+		for(IModuleContainer container : ModularMachinesApi.MODULE_CONTAINERS){
 			IModule module = container.getModule();
 			if(module instanceof IModuleJEI){
 				registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(container));

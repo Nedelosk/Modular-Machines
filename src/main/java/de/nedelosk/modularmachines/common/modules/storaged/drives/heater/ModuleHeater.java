@@ -3,14 +3,11 @@ package de.nedelosk.modularmachines.common.modules.storaged.drives.heater;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.ModularUtils;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
-import de.nedelosk.modularmachines.api.modules.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
@@ -58,12 +55,10 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		IModuleState<IModuleCasing> casingState = ModularUtils.getCasing(modular);
-		IHeatSource heatBuffer = casingState.getModule().getHeatSource(casingState);
 		if(state.getModular().updateOnInterval(20)){
 			boolean needUpdate = false;
 			if (canAddHeat(state)) {
-				heatBuffer.increaseHeat(heatModifier);
+				modular.getHeatSource().increaseHeat(heatModifier);
 				afterAddHeat(state);
 				needUpdate = true;
 			} else {
@@ -71,7 +66,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 			}
 			if(needUpdate){
 				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), casingState));
+				modular.getHandler().markDirty();
 			}
 		}
 	}
