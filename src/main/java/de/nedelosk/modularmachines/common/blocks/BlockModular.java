@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -85,8 +86,8 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
-				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
-				return casingState.getModule().getHardness(casingState);
+				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
+				return blockModificator.getHardness();
 			}
 		}
 		return super.getBlockHardness(blockState, world, pos);
@@ -98,8 +99,8 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
-				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
-				return casingState.getModule().getResistance(casingState) / 5;
+				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
+				return blockModificator.getResistance() / 5;
 			}
 		}
 		return super.getExplosionResistance(world, pos, exploder, explosion);
@@ -228,10 +229,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		if(tile instanceof TileModular){
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
-				IModuleState<IModuleCasing> casingState = tileModular.getModular().getModules(IModuleCasing.class).get(0);
+				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
 
-				tool = casingState.getModule().getHarvestTool(casingState);
-				harvestLevel = casingState.getModule().getHarvestLevel(casingState);
+				tool = blockModificator.getHarvestTool();
+				harvestLevel = blockModificator.getHarvestLevel();
 			}
 		}
 

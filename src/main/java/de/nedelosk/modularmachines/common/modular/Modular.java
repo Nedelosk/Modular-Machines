@@ -416,4 +416,9 @@ public abstract class Modular implements IModular {
 	public IHeatSource getHeatSource() {
 		return heatSource;
 	}
+	
+	@Override
+	public IBlockModificator getBlockModificator() {
+		return blockModificator;
+	}
 }

@@ -1,11 +1,11 @@
 {
 "elements": [ 
 {
-    "from": [ 0, 2, 3 ],
-    "to": [ 1, 13, 13 ],
+    "from": [ 3, 2, 0 ],
+    "to": [ 13, 13, 1 ],
     "faces": {
-        "west":  { "uv": [ 3, 3, 13, 14 ], "texture": "#module" },
-        "east":  { "uv": [ 3, 3, 13, 14 ], "texture": "#module" }
+        "north": { "uv": [ 3, 3, 13, 14 ], "texture": "#module" },
+        "south": { "uv": [ 3, 3, 13, 14 ], "texture": "#module" }
     }
 }
 ]

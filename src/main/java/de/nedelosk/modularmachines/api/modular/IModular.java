@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
@@ -66,4 +67,6 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 	IModular copy(IModularHandler handler);
 
 	IHeatSource getHeatSource();
+	
+	IBlockModificator getBlockModificator();
 }

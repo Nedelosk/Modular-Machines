@@ -1,18 +1,15 @@
 {
-"textures": {
-    "machine": "modularmachines:blocks/casing/casing_down"
-},
 "elements": [ 
 {
-    "from": [ 15, 9.5, 3 ],
-    "to": [ 16, 13, 13 ],
+    "from": [ 3, 9.5, 8.88178e-016 ],
+    "to": [ 13, 13, 1 ],
     "faces": {
-        "down":  { "uv": [ 1, 13, 0, 3 ], "texture": "#down" },
-        "up":    { "uv": [ 15, 3, 16, 13 ], "texture": "#down" },
-        "north": { "uv": [ 0, 3, 1, 6.5 ], "texture": "#down" },
-        "south": { "uv": [ 15, 3, 16, 6.5 ], "texture": "#down" },
-        "west":  { "uv": [ 3, 3, 13, 6.5 ], "texture": "#down" },
-        "east":  { "uv": [ 3, 3, 13, 6.5 ], "texture": "#down" }
+        "down":  { "uv": [ 1, 13, 0, 3 ], "rotation": 90, "texture": "#down" },
+        "up":    { "uv": [ 15, 3, 16, 13 ], "rotation": 270, "texture": "#down" },
+        "north": { "uv": [ 3, 3, 13, 6.5 ], "texture": "#down" },
+        "south": { "uv": [ 3, 3, 13, 6.5 ], "texture": "#down" },
+        "west":  { "uv": [ 0, 3, 1, 6.5 ], "texture": "#down" },
+        "east":  { "uv": [ 15, 3, 16, 6.5 ], "texture": "#down" }
     }
 }
 ]
