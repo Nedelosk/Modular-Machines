@@ -8,8 +8,9 @@ import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInte
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterface {
+public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterface, INBTSerializable<NBTTagCompound> {
 
 	protected final IModuleState<M> state;
 	protected final EnergyStorage storage;
@@ -28,14 +29,15 @@ public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterf
 	public String getUID() {
 		return "EnergyInterface";
 	}
-
+	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		storage.readFromNBT(nbt);
 	}
-
+	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		storage.writeToNBT(nbt);
 		return nbt;
 	}
