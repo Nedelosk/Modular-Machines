@@ -65,34 +65,6 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public void updateServer(IModuleState<IModule> state, int tickCount) {
-		if(state.getModular().updateOnInterval(10)){
-			boolean oneHeaterWork = false;
-			List<IModuleState<IModuleHeater>> heaters = state.getModular().getModules(IModuleHeater.class);
-			for(IModuleState<IModuleHeater> heater : heaters){
-				if(heater.getModule().isWorking(heater)){
-					oneHeaterWork = true;
-				}
-			}
-			IHeatSource source = getHeatSource(state);
-			if(!oneHeaterWork){
-				source.reduceHeat(2);
-				PacketHandler.INSTANCE.sendToAll(new PacketModule(state.getModular().getHandler(), state));
-			}
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateClient(IModuleState<IModule> state, int tickCount) {
-	}
-
-	@Override
-	public IHeatSource getHeatSource(IModuleState state) {
-		return (IHeatSource) state.getContentHandler(ModuleHeatBuffer.class);
-	}
-
-	@Override
 	public void addTooltip(List<String> tooltip, IModuleContainer container) {
 		if(!(container.getItemStack().getItem() instanceof ItemModule)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
@@ -125,5 +97,4 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	public boolean canUseFor(EnumPosition position, IModuleContainer container) {
 		return position == EnumPosition.INTERNAL;
 	}
-
 }

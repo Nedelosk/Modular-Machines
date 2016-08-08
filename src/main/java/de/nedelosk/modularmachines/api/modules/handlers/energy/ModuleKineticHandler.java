@@ -4,8 +4,9 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleKineticHandler implements IKineticSource, IModuleContentHandler {
+public class ModuleKineticHandler implements IKineticSource, IModuleContentHandler, INBTSerializable<NBTTagCompound> {
 
 	protected double kineticEnergy;
 	protected double capacity;
@@ -35,12 +36,13 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(NBTTagCompound nbt) {
 		kineticEnergy = nbt.getDouble("kineticEnergy");
 	}
-
+	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setDouble("kineticEnergy", kineticEnergy);
 		return nbt;
 	}
