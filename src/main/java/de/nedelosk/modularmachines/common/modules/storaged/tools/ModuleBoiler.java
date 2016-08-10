@@ -112,11 +112,11 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 						}
 
 						waterCost = Math.min(waterCost, water.amount);
-						FluidStack steam = new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER * waterCost);
-						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER * waterCost), false);
+						FluidStack steam = new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER / 2 * waterCost);
+						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
 
 						if(steam.amount > 0){
-							tankWater.drainInternal(waterCost, true);
+							tankWater.drainInternal(waterCost * 15, true);
 							tankSteam.fillInternal(steam, true);
 							PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
 						}

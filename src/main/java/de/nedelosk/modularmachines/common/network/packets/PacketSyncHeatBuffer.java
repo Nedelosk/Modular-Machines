@@ -40,7 +40,7 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IMessa
 	@Override
 	public IMessage onMessage(PacketSyncHeatBuffer message, MessageContext ctx) {
 		IModularHandler modularHandler = message.getModularHandler(ctx);
-		if(modularHandler != null){
+		if(modularHandler != null && modularHandler.getModular() != null){
 			modularHandler.getModular().getHeatSource().setHeatStored(message.heatBuffer);
 			modularHandler.markDirty();
 		}
