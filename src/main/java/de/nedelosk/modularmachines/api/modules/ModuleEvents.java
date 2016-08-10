@@ -5,6 +5,8 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -57,6 +59,52 @@ public class ModuleEvents {
 			super(state);
 		}
 
+	}
+
+	public static class ModuleStateLoadItemEvent extends ModuleStateEvent {
+
+		private final ItemStack stack;
+
+		public ModuleStateLoadItemEvent(IModuleState state, ItemStack stack) {
+			super(state);
+
+			this.stack = stack;
+		}
+
+		public ItemStack getStack() {
+			return stack;
+		};
+
+	}
+
+	public static class ModuleStateLoadEvent extends ModuleStateEvent {
+
+		private final NBTTagCompound nbtTag;
+
+		public ModuleStateLoadEvent(IModuleState state, NBTTagCompound nbtTag) {
+			super(state);
+
+			this.nbtTag = nbtTag;
+		}
+
+		public NBTTagCompound getNBTTag() {
+			return nbtTag;
+		}
+	}
+
+	public static class ModuleStateSaveEvent extends ModuleStateEvent {
+
+		private final NBTTagCompound nbtTag;
+
+		public ModuleStateSaveEvent(IModuleState state, NBTTagCompound nbtTag) {
+			super(state);
+
+			this.nbtTag = nbtTag;
+		}
+
+		public NBTTagCompound getNBTTag() {
+			return nbtTag;
+		}
 	}
 
 	public static class ModuleUpdateEvent extends ModuleStateEvent {

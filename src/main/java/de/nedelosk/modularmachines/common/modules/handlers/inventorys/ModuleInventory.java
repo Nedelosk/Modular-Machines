@@ -368,6 +368,10 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		onLoad();
 	}
 
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
+	}
+
 	protected void validateSlotIndex(int slot){
 		if (slot < 0 || slot >= stacks.length) {
 			throw new RuntimeException("Slot " + slot + " not in valid range - [0," + stacks.length + ")");

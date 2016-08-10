@@ -29,12 +29,12 @@ public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterf
 	public String getUID() {
 		return "EnergyInterface";
 	}
-	
+
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		storage.readFromNBT(nbt);
 	}
-	
+
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();

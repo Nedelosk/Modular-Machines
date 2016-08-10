@@ -28,6 +28,7 @@ import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.Page;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
@@ -222,7 +223,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public String getPageTitle() {
-		return "module.page." + title.toLowerCase(Locale.ENGLISH) + ".name";
+		return Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@Override

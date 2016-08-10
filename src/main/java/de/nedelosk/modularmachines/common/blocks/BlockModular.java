@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
@@ -87,7 +86,9 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
 				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
-				return blockModificator.getHardness();
+				if(blockModificator != null){
+					return blockModificator.getHardness();
+				}
 			}
 		}
 		return super.getBlockHardness(blockState, world, pos);
@@ -100,7 +101,9 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
 			if(tileModular.isAssembled()){
 				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
-				return blockModificator.getResistance() / 5;
+				if(blockModificator != null){
+					return blockModificator.getResistance() / 5;
+				}
 			}
 		}
 		return super.getExplosionResistance(world, pos, exploder, explosion);
@@ -175,7 +178,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState state : modular.getModular().getModules()) {
 					if (state != null) {
-						drops.add(state.getModule().saveDataToItem(state).copy());
+						drops.add(state.getModule().saveDataToItem(state));
 						for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
 							if(handler instanceof IModuleContentHandlerAdvanced){
 								drops.addAll(((IModuleContentHandlerAdvanced)handler).getDrops());
@@ -231,8 +234,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			if(tileModular.isAssembled()){
 				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
 
-				tool = blockModificator.getHarvestTool();
-				harvestLevel = blockModificator.getHarvestLevel();
+				if(blockModificator != null){
+					tool = blockModificator.getHarvestTool();
+					harvestLevel = blockModificator.getHarvestLevel();
+				}
 			}
 		}
 

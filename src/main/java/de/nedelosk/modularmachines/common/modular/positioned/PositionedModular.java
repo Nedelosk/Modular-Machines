@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modular.positioned;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 
@@ -22,19 +23,27 @@ import net.minecraft.nbt.NBTTagList;
 
 public class PositionedModular extends Modular implements IPositionedModular {
 
-	protected EnumMap<EnumPosition, IPositionedModuleStorage> storages = new EnumMap(EnumPosition.class);
+	protected EnumMap<EnumPosition, IPositionedModuleStorage> storages;
 
 	public PositionedModular() {
 		super();
+		if(storages == null){
+			storages = new EnumMap(EnumPosition.class);
+		}
 	}
 
 	public PositionedModular(NBTTagCompound nbt, IModularHandler handler) {
 		super(nbt, handler);
+		if(storages == null){
+			storages = new EnumMap(EnumPosition.class);
+		}
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		super.deserializeNBT(nbt);
+		if(storages == null){
+			storages = new EnumMap(EnumPosition.class);
+		}
 		NBTTagList nbtList = nbt.getTagList("Storages", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
@@ -43,6 +52,7 @@ public class PositionedModular extends Modular implements IPositionedModular {
 			storage.deserializeNBT(moduleTag);
 			storages.put(position, storage);
 		}
+		super.deserializeNBT(nbt);
 	}
 
 	@Override
@@ -56,6 +66,7 @@ public class PositionedModular extends Modular implements IPositionedModular {
 				nbtList.appendTag(nbtTag);
 			}
 		}
+		nbt.setTag("Storages", nbtList);
 		return nbt;
 	}
 
@@ -110,6 +121,11 @@ public class PositionedModular extends Modular implements IPositionedModular {
 	}
 
 	@Override
+	public Collection<IPositionedModuleStorage> getModuleStorages() {
+		return storages.values();
+	}
+
+	@Override
 	public <M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass) {
 		if (moduleClass == null) {
 			return null;
@@ -128,7 +144,11 @@ public class PositionedModular extends Modular implements IPositionedModular {
 		if (moduleClass == null) {
 			return null;
 		}
-		return (IModuleState<M>) getModules(moduleClass).get(0);
+		List modules = getModules(moduleClass);
+		if(modules.isEmpty()){
+			return null;
+		}
+		return (IModuleState<M>) modules.get(0);
 	}
 
 	@Override

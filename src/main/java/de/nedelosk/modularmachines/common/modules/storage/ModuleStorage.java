@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
@@ -16,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleStorage implements IModuleStorage{
 
@@ -34,6 +34,7 @@ public class ModuleStorage implements IModuleStorage{
 		for(IModuleState module : moduleStates) {
 			NBTTagCompound nbtTag = module.serializeNBT();
 			nbtTag.setString("Container", module.getContainer().getRegistryName().toString());
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateSaveEvent(module, nbtTag));
 			nbtList.appendTag(nbtTag);
 		}
 		nbt.setTag("Modules", nbtList);
@@ -46,12 +47,13 @@ public class ModuleStorage implements IModuleStorage{
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
 			ResourceLocation loc = new ResourceLocation(moduleTag.getString("Container"));
-			IModuleContainer container = GameRegistry.findRegistry(IModuleContainer.class).getValue(loc);
+			IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
 			if(container != null){
 				IModuleState state = container.getModule().createState(modular, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
 				state = state.build();
 				state.deserializeNBT(moduleTag);
+				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, moduleTag));
 				moduleStates.add(state);
 			}else{
 				Log.err("Remove module from modular, because the item of the module don't exist any more.");

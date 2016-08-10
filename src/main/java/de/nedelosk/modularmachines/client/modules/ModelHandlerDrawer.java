@@ -92,11 +92,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			for(IBakedModel model : getWallModels(state, modelState, format, bakedTextureGetter)){
 				models.add(model);
 			}
-			if(pos.equals(EnumPosition.LEFT)){
-				bakedModel = new TRSRBakedModel(new ModelModular.ModularBaked(models), 0F, 0F, 0F, 0F, (float) (Math.PI), 0F, 1F);
-			}else if(pos.equals(EnumPosition.RIGHT)){
-				bakedModel = new ModelModular.ModularBaked(models);
-			}
+			bakedModel = new ModelModular.ModularBaked(models);
 		}else if(pos == EnumPosition.TOP){
 			bakedModel = getBakedModel(top, modelState, format, bakedTextureGetter);
 		}else if(pos == EnumPosition.BACK){

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -16,6 +17,8 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
+import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -55,7 +58,7 @@ public class ModelModular implements IBakedModel {
 		IModularHandler modularHandler = getModularHandler(provider);
 		if(modularHandler != null){
 			IModular modular = modularHandler.getModular();
-			if(modularHandler.getModular() != null){
+			if(modular  != null){
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
 
@@ -77,33 +80,34 @@ public class ModelModular implements IBakedModel {
 					}
 				}
 
-				for(IModuleState moduleState : modularHandler.getModular().getModules()){
-					IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
-
-					if(modelHandler != null){
-
-						IBakedModel model = modelHandler.getModel();
-						if(modelHandler.needReload() || model == null){
-							if(modelHandler instanceof IModelHandlerAnimated){
-								IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
-								Minecraft mc = Minecraft.getMinecraft();
-								float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
-								Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
-
-								((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
-								modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE);
-								model = modelHandler.getModel();
-							}else{
-								modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE);
-								model = modelHandler.getModel();
+				if(modular instanceof IPositionedModular){
+					IPositionedModular positionedModular = (IPositionedModular) modular;
+					for(IPositionedModuleStorage storage : positionedModular.getModuleStorages()){
+						List<IBakedModel> positionedModels = new ArrayList<>();
+						for(IModuleState moduleState : storage.getModules()){
+							IBakedModel model = getModel(moduleState, modelState, vertex);
+							if(model != null){
+								positionedModels.add(model);
 							}
-							modelHandler.setNeedReload(false);
 						}
+						float rotation = 0F;
+						EnumPosition pos = storage.getPosition();
+						if(pos == EnumPosition.RIGHT){
+							rotation = (float) (Math.PI / 2);
+						}else if(pos == EnumPosition.LEFT){
+							rotation = -(float) (Math.PI / 2);
+						}
+						models.add(new TRSRBakedModel(new ModularBaked(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
+					}
+				}else{
+					for(IModuleState moduleState : modularHandler.getModular().getModules()){
+						IBakedModel model = getModel(moduleState, modelState, vertex);
 						if(model != null){
 							models.add(model);
 						}
 					}
 				}
+
 				if(!models.isEmpty()){
 					return new ModularBaked(models);
 				}
@@ -115,6 +119,34 @@ public class ModelModular implements IBakedModel {
 			missingModel = ModelLoaderRegistry.getMissingModel().bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 		}
 		return missingModel;
+	}
+
+	public static IBakedModel getModel(IModuleState moduleState, IModelState modelState, VertexFormat vertex){
+		IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
+
+		if(modelHandler != null){
+			IBakedModel model = modelHandler.getModel();
+			if(modelHandler.needReload() || model == null){
+				if(modelHandler instanceof IModelHandlerAnimated){
+					IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
+					Minecraft mc = Minecraft.getMinecraft();
+					float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
+					Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
+
+					((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
+					modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE);
+					model = modelHandler.getModel();
+				}else{
+					modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE);
+					model = modelHandler.getModel();
+				}
+				modelHandler.setNeedReload(false);
+			}
+			if(model != null){
+				return model;
+			}
+		}
+		return null;
 	}
 
 	public static class ModularBaked implements IBakedModel{
@@ -202,7 +234,7 @@ public class ModelModular implements IBakedModel {
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = getModularHandler(stack);
 
-			if(modularHandler.getModular() == null && stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
+			if(stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
 				modularHandler.deserializeNBT(stack.getTagCompound());
 			}
 			IModular modular = modularHandler.getModular();

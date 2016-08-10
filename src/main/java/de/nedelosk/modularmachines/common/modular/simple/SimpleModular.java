@@ -21,7 +21,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SimpleModular extends Modular implements ISimpleModular {
 
@@ -47,6 +46,7 @@ public class SimpleModular extends Modular implements ISimpleModular {
 		for(IModuleState module : moduleStates) {
 			NBTTagCompound nbtTag = module.serializeNBT();
 			nbtTag.setString("Container", module.getContainer().getRegistryName().toString());
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateSaveEvent(module, nbtTag));
 			nbtList.appendTag(nbtTag);
 		}
 		nbt.setTag("Modules", nbtList);
@@ -60,12 +60,13 @@ public class SimpleModular extends Modular implements ISimpleModular {
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
 			ResourceLocation loc = new ResourceLocation(moduleTag.getString("Container"));
-			IModuleContainer container = GameRegistry.findRegistry(IModuleContainer.class).getValue(loc);
+			IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
 			if(container != null){
 				IModuleState state = container.getModule().createState(this, container);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
 				state = state.build();
 				state.deserializeNBT(moduleTag);
+				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, moduleTag));
 				moduleStates.add(state);
 			}else{
 				Log.err("Remove module from modular, because the item of the module don't exist any more.");
@@ -107,7 +108,11 @@ public class SimpleModular extends Modular implements ISimpleModular {
 		if (moduleClass == null) {
 			return null;
 		}
-		return (IModuleState<M>) getModules(moduleClass).get(0);
+		List modules = getModules(moduleClass);
+		if(modules.isEmpty()){
+			return null;
+		}
+		return (IModuleState<M>) modules.get(0);
 	}
 
 	@Override

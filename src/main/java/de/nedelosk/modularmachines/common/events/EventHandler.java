@@ -25,7 +25,7 @@ public class EventHandler {
 	public void tooltipEvent(ItemTooltipEvent event) {
 		IModuleContainer container = ModularMachinesApi.getContainerFromItem(event.getItemStack());
 		if (container != null) {
-			container.addTooltip(event.getToolTip());
+			container.addTooltip(event.getToolTip(), event.getItemStack());
 		}
 	}
 

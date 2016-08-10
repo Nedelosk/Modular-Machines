@@ -26,6 +26,7 @@ import net.minecraft.inventory.Slot;
 public class GuiAssembler extends GuiBase<IModularHandler> {
 
 	public AssemblerException lastException;
+	public boolean hasChange = false;
 
 	public GuiAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -53,6 +54,13 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		if(lastException != null){
 			this.fontRendererObj.drawSplitString(exceptionText, 186, 83, 117, Color.WHITE.getRGB());
 		}
+	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
+
+		hasChange = true;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import de.nedelosk.modularmachines.common.network.packets.PacketModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -23,6 +24,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(PacketSelectAssemblerPosition.class, PacketSelectAssemblerPosition.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketModularAssembler.class, PacketModularAssembler.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSyncHeatBuffer.class, PacketSyncHeatBuffer.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketSyncHeatBuffer.class, PacketSyncHeatBuffer.class, nextID(), Side.CLIENT);
 	}
 
 	public static int nextID() {

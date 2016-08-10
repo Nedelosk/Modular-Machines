@@ -88,9 +88,9 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addTooltip(List<String> tooltip) {
+	public void addTooltip(List<String> tooltip, ItemStack stack) {
 		tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + material.getLocalizedName());
-		module.addTooltip(tooltip, this);
+		module.addTooltip(tooltip, stack, this);
 
 		tooltip.addAll(this.tooltip);
 	}

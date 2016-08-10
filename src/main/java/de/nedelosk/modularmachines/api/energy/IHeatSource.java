@@ -11,6 +11,8 @@ public interface IHeatSource {
 	void reduceHeat(int heatModifier);
 
 	IHeatLevel getHeatLevel();
+	
+	void setHeatStored(double heatBuffer);
 
 	double getHeatStored();
 

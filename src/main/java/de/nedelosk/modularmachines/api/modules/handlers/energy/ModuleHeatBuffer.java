@@ -1,10 +1,13 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -71,9 +74,18 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INB
 	public double getHeatStored() {
 		return  heatSource.getHeatStored();
 	}
+	
+	@Override
+	public void setHeatStored(double heatBuffer) {
+		this.heatSource.setHeatStored(heatBuffer);
+	}
 
 	@Override
 	public double getCapacity() {
 		return heatSource.getCapacity();
+	}
+
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

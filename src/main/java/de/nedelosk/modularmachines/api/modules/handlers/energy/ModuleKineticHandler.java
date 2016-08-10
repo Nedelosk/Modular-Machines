@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -39,7 +42,7 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	public void deserializeNBT(NBTTagCompound nbt) {
 		kineticEnergy = nbt.getDouble("kineticEnergy");
 	}
-	
+
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -97,5 +100,9 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	@Override
 	public double getKineticEnergyStored() {
 		return kineticEnergy;
+	}
+
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

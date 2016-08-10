@@ -157,7 +157,7 @@ modularmachines.item.turbineSteam_steel.name=Steel Steam Turbine
 modularmachines.item.turbineSteam_magmarium.name=Magmarium Steam Turbine
 modularmachines.item.drawer_brick_large.name=Large Brick Module Storage
 modularmachines.item.drawer_brick_small.name=Small Brick Module Storage
-modularmachines.item.moduleCore_basic.name=Basic Module Core
+modularmachines.item.moduleCore_basic.name=Bad Module Core
 modularmachines.item.moduleCore_normal.name=Module Core
 modularmachines.item.moduleCore_improved.name=Improved Module Core
 modularmachines.item.moduleCore_advanced.name=Advanced Module Core
@@ -196,6 +196,11 @@ mm.tooltip.material=Material:
 mm.tooltip.nonefluid=None Fluid
 mm.tooltip.modular.info=This modular machine contains the following modules: 
 mm.tooltip.holdshift=<Hold Shift>
+mm.tooltip.handler.tanks=Tanks: 
+mm.tooltip.handler.tank=Tank
+mm.tooltip.handler.tank.empty=Empty
+mm.tooltip.handler.tank.fluid=Fluid: 
+mm.tooltip.handler.tank.amount=Amount: 
 
 ####################################
 # JEI

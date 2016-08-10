@@ -31,7 +31,7 @@ public interface IModuleContainer extends IForgeRegistryEntry<IModuleContainer>{
 	String getDescription();
 
 	@SideOnly(Side.CLIENT)
-	void addTooltip(List<String> tooltip);
+	void addTooltip(List<String> tooltip, ItemStack stack);
 
 	boolean matches(ItemStack stackToTest);
 }

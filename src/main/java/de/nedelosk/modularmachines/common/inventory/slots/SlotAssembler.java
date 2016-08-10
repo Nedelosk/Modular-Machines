@@ -17,6 +17,7 @@ public class SlotAssembler extends SlotItemHandler {
 	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IAssemblerLogic logic, Container parent, SlotAssemblerStorage storageSlot) {
 		super(inventory, index, xPosition, yPosition);
 
+		this.logic = logic;
 		this.storageSlot = storageSlot;
 		this.parent = parent;
 		this.isActive = true;

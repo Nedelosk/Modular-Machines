@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ISimpleModular;
 import de.nedelosk.modularmachines.api.modular.ISimpleModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.inventory.ContainerSimpleAssembler;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
@@ -38,8 +37,7 @@ public class SimpleModularAssembler extends ModularAssembler implements ISimpleM
 		for(int index = 0;index < 4;index++){
 			ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 			if(slotStack != null){
-				IModuleContainer container = ModularMachinesApi.getContainerFromItem(slotStack);
-				modular.addModule(slotStack, ModularMachinesApi.loadModuleState(modular, slotStack, container));
+				modular.addModule(slotStack, ModularMachinesApi.loadOrCreateModuleState(modular, slotStack));
 			}
 		}
 		for(IModuleState state : modular.getModules()){

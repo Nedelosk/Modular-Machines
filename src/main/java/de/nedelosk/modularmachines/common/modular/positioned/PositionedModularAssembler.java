@@ -9,7 +9,6 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
@@ -19,6 +18,7 @@ import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -76,13 +76,17 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 			for(int index = position.startSlotIndex;index < position.endSlotIndex + 1;index++){
 				ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 				if(slotStack != null){
-					IModuleContainer container = ModularMachinesApi.getContainerFromItem(slotStack);
+					IModuleState state = ModularMachinesApi.loadOrCreateModuleState(modular, slotStack);
 					IPositionedModuleStorage storage = modular.getModuleStorage(position);
-					if(container.getModule() instanceof IModuleModuleStorage && storage == null){
+					if(state.getModule() instanceof IModuleModuleStorage && storage == null){
 						storage = new PositionedModuleStorage(modular, position);
 						modular.setModuleStorage(position, storage);
 					}
-					storage.addModule(slotStack, ModularMachinesApi.loadModuleState(modular, slotStack, container));
+					if(storage != null){
+						storage.addModule(slotStack, state);
+					}else{
+						throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.storage." + position.getName()));
+					}
 				}
 			}
 		}

@@ -1,6 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 
 public interface IModuleContentHandler {
 
@@ -10,4 +13,6 @@ public interface IModuleContentHandler {
 	IModuleState getModuleState();
 
 	String getUID();
+
+	void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state);
 }

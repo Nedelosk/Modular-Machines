@@ -92,5 +92,5 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 * Add a tooltip to a item that are registered for a module container with this module.
 	 */
 	@SideOnly(Side.CLIENT)
-	void addTooltip(List<String> tooltip, IModuleContainer container);
+	void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container);
 }

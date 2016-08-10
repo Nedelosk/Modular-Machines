@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.api.modular;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
@@ -67,6 +68,7 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 	IModular copy(IModularHandler handler);
 
 	IHeatSource getHeatSource();
-	
+
+	@Nullable
 	IBlockModificator getBlockModificator();
 }

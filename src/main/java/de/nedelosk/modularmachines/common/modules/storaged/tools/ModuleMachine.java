@@ -36,6 +36,7 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -187,7 +188,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 						if(heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)){
 							heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
 							workTime = 1;
-							modular.getHandler().markDirty();
+							PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modular.getHandler()));
 						}
 					}
 

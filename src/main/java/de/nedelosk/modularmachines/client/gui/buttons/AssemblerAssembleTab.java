@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 public class AssemblerAssembleTab extends Button<GuiAssembler> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
+	protected ItemStack stack;
 
 	public AssemblerAssembleTab(int ID, int xPosition, int yPosition) {
 		super(ID, xPosition, yPosition, 28, 21, null);
@@ -37,7 +38,10 @@ public class AssemblerAssembleTab extends Button<GuiAssembler> {
 			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, 0,
 					214, 28, 21);
 			try{
-				ItemStack stack = ModularMachinesApi.saveModular(new ItemStack(BlockManager.blockModular), getGui().getHandler().getAssembler().assemble(), getGui().getPlayer());
+				if(getGui().hasChange){
+					stack = ModularMachinesApi.saveModular(new ItemStack(BlockManager.blockModular), getGui().getHandler().getAssembler().assemble(), getGui().getPlayer());
+					getGui().hasChange = false;
+				}
 				if(stack != null){
 					getGui().drawItemStack(stack, xPosition + 5, yPosition + 2);
 				}

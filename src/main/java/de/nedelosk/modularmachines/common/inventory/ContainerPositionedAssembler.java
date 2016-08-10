@@ -8,8 +8,10 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -31,7 +33,7 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 			int startSlotIndex = pos.startSlotIndex;
 			SlotAssemblerStorage storageSlot;
 			IAssemblerLogic logic = assembler.getLogic(pos);
-			addSlotToContainer(storageSlot = new SlotAssemblerStorage(itemHandler, startSlotIndex + 0, 44, 35, logic));
+			addSlotToContainer(storageSlot = new SlotAssemblerStorage(itemHandler, startSlotIndex + 0, 44, 35, this, logic));
 			if(pos == EnumPosition.INTERNAL){
 				for (int i = 0; i < 3; ++i){
 					for (int j = 0; j < 3; ++j){
@@ -48,6 +50,12 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
+		if(handler.getWorld().isRemote){
+			if(Minecraft.getMinecraft().currentScreen instanceof GuiAssembler){
+				GuiAssembler gui = (GuiAssembler) Minecraft.getMinecraft().currentScreen;
+				gui.hasChange = true;
+			}
+		}
 		IPositionedModularAssembler assembler = handler.getAssembler();
 		EnumPosition pos = assembler.getSelectedPosition();
 		if(pos != EnumPosition.INTERNAL){

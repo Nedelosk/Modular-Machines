@@ -31,6 +31,7 @@ import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -129,7 +130,7 @@ public abstract class Modular implements IModular {
 				}
 				if(!oneHeaterWork){
 					heatSource.reduceHeat(2);
-					modularHandler.markDirty();
+					PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modularHandler));
 				}
 			}
 		}
@@ -320,9 +321,11 @@ public abstract class Modular implements IModular {
 		float hardness = 0F;
 		int harvestLevel = 0;
 		String harvestTool = null;
+		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
 			IModuleContentHandler handler = state.getContentHandler(IBlockModificator.class);
 			if(handler instanceof IBlockModificator){
+				hasModificator = true;
 				IBlockModificator modificator = (IBlockModificator) handler;
 				modificators++;
 				maxHeat+=modificator.getMaxHeat();
@@ -333,19 +336,22 @@ public abstract class Modular implements IModular {
 				if(mHarvestTool.equals("wrench")){
 					harvestTool = mHarvestTool;
 				}else if(mHarvestTool.equals("pickaxe")){
-					if(!harvestTool.equals("wrench")){
+					if(harvestTool == null || !harvestTool.equals("wrench")){
 						harvestTool = mHarvestTool;
 					}
 				}else if(mHarvestTool.equals("axe")){
-					if(harvestTool.equals("wrench") && !harvestTool.equals("pickaxe")){
+					if(harvestTool == null || !harvestTool.equals("wrench") && !harvestTool.equals("pickaxe")){
 						harvestTool = mHarvestTool;
 					}
 				}else{
-					if(harvestTool.equals("wrench") && !harvestTool.equals("pickaxe") && !harvestTool.equals("axe")){
+					if(harvestTool == null || !harvestTool.equals("wrench") && !harvestTool.equals("pickaxe") && !harvestTool.equals("axe")){
 						harvestTool = mHarvestTool;
 					}
 				}
 			}
+		}
+		if(!hasModificator){
+			return null;
 		}
 		return new BlockModificator(null, maxHeat / modificators, resistance / modificators, hardness / modificators, harvestTool, harvestLevel / modificators);
 	}
@@ -416,7 +422,7 @@ public abstract class Modular implements IModular {
 	public IHeatSource getHeatSource() {
 		return heatSource;
 	}
-	
+
 	@Override
 	public IBlockModificator getBlockModificator() {
 		return blockModificator;

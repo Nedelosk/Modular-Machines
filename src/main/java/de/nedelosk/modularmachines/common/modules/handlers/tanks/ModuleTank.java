@@ -17,10 +17,12 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -394,6 +396,20 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		}
 		nbt.setTag("Configurations", nbtTagConfigurationList);
 		return nbt;
+	}
+
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
+		tooltip.add(Translator.translateToLocal("mm.tooltip.handler.tanks"));
+		for(FluidTankAdvanced tank : tanks){
+			FluidStack fluidStack = tank.getFluid();
+			tooltip.add(" " + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
+			if(fluidStack != null){
+				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.tank.fluid") + fluidStack.getLocalizedName() + ", " + Translator.translateToLocal("mm.tooltip.handler.tank.amount") + fluidStack.amount);
+			}else{
+				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.tank.empty"));
+			}
+		}
 	}
 
 	@Override

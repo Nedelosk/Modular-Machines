@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -18,6 +19,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
@@ -29,8 +31,10 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
 import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,7 +62,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		if(!(container.getItemStack().getItem() instanceof ItemModule)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
@@ -66,6 +70,17 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
 		if(getPosition(container) != null){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") + Translator.translateToLocal("module.storage." + getPosition(container).getName() + ".name"));
+		}
+		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+		if(provider != null && provider.hasState()){
+			if(!GuiScreen.isShiftKeyDown()){
+				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
+			}else{
+				IModuleState state = provider.createState(null);
+				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+					handler.addToolTip(tooltip, stack, state);
+				}
+			}
 		}
 	}
 
@@ -92,7 +107,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public ItemStack saveDataToItem(IModuleState state) {
-		return state.getContainer().getItemStack();
+		return state.getContainer().getItemStack().copy();
 	}
 
 	@Override

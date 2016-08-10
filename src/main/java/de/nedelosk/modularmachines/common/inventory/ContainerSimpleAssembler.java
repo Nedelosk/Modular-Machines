@@ -7,8 +7,10 @@ import de.nedelosk.modularmachines.api.modular.ISimpleModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +28,7 @@ public class ContainerSimpleAssembler extends ContainerBase<IModularHandler<ISim
 		IItemHandler itemHandler = assembler.getAssemblerHandler();
 		IAssemblerLogic logic = assembler.getLogic();
 		SlotAssemblerStorage storageSlot;
-		addSlotToContainer(storageSlot = new SlotAssemblerStorage(itemHandler, 0, 44, 35, logic));
+		addSlotToContainer(storageSlot = new SlotAssemblerStorage(itemHandler, 0, 44, 35, this, logic));
 		addSlotToContainer(new SlotAssembler(itemHandler, 1, 98, 17, logic, this, storageSlot));
 		addSlotToContainer(new SlotAssembler(itemHandler, 2, 98, 35, logic, this, storageSlot));
 		addSlotToContainer(new SlotAssembler(itemHandler, 3, 98, 53, logic, this, storageSlot));
@@ -34,6 +36,12 @@ public class ContainerSimpleAssembler extends ContainerBase<IModularHandler<ISim
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
+		if(handler.getWorld().isRemote){
+			if(Minecraft.getMinecraft().currentScreen instanceof GuiAssembler){
+				GuiAssembler gui = (GuiAssembler) Minecraft.getMinecraft().currentScreen;
+				gui.hasChange = true;
+			}
+		}
 		ISimpleModularAssembler assembler = handler.getAssembler();
 		SlotAssembler slotFirst = (SlotAssembler) inventorySlots.get(37);
 		SlotAssembler slotSecond = (SlotAssembler) inventorySlots.get(38);

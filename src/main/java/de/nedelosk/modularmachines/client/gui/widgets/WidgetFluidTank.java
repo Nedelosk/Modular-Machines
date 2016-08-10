@@ -55,7 +55,7 @@ public class WidgetFluidTank extends Widget {
 	public IFluidTank tank;
 
 	public WidgetFluidTank(FluidTankAdvanced tank) {
-		super(0, 0, 14, 56);
+		super(0, 0, 18, 60);
 		this.tank = tank;
 		ContentInfo info = tank.moduleTank.getInfo(tank.index);
 		pos.x = info.xPosition;
@@ -63,7 +63,7 @@ public class WidgetFluidTank extends Widget {
 	}
 
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY) {
-		super(posX, posY, 14, 56);
+		super(posX, posY, 18, 60);
 		this.tank = tank;
 	}
 
@@ -112,23 +112,23 @@ public class WidgetFluidTank extends Widget {
 
 		int fluidColor = fluid.getColor(fluidStack);
 
-		int scaledAmount = (fluidStack.amount * pos.height) / tank.getCapacity();
+		int scaledAmount = (fluidStack.amount * 56) / tank.getCapacity();
 		if (fluidStack.amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
 			scaledAmount = MIN_FLUID_HEIGHT;
 		}
-		if (scaledAmount > pos.height) {
-			scaledAmount = pos.height;
+		if (scaledAmount > 56) {
+			scaledAmount = 56;
 		}
 
 		RenderUtil.bindBlockTexture();
 		setGLColorFromInt(fluidColor);
 
-		final int xTileCount = pos.width / TEX_WIDTH;
-		final int xRemainder = pos.width - (xTileCount * TEX_WIDTH);
+		final int xTileCount = 14 / TEX_WIDTH;
+		final int xRemainder = 14 - (xTileCount * TEX_WIDTH);
 		final int yTileCount = scaledAmount / TEX_HEIGHT;
 		final int yRemainder = scaledAmount - (yTileCount * TEX_HEIGHT);
 
-		final int yStart = yPosition + pos.height;
+		final int yStart = yPosition + 56;
 
 		for (int xTile = 0; xTile <= xTileCount; xTile++) {
 			for (int yTile = 0; yTile <= yTileCount; yTile++) {
