@@ -3,10 +3,13 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
@@ -17,6 +20,9 @@ import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDrawer;
 import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -38,7 +44,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize().getLocalizedName());
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
 		List<String> positions = new ArrayList<>();
@@ -50,6 +56,17 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.BACK.getName() + ".name"));
 		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + positions.toString().replace("[", "").replace("]", ""));
+		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+		if(provider != null && provider.hasState()){
+			if(!GuiScreen.isShiftKeyDown()){
+				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
+			}else{
+				IModuleState state = provider.createState(null);
+				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+					handler.addToolTip(tooltip, stack, state);
+				}
+			}
+		}
 	}
 
 	protected ModelHandlerDrawer createModelHandler(IModuleContainer container){

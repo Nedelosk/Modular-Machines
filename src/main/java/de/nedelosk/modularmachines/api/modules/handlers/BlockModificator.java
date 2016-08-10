@@ -1,6 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 
 public class BlockModificator implements IBlockModificator{
 
@@ -53,5 +56,9 @@ public class BlockModificator implements IBlockModificator{
 	@Override
 	public String getHarvestTool() {
 		return harvestTool;
+	}
+
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

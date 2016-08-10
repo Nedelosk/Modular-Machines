@@ -3,11 +3,13 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
@@ -15,6 +17,9 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,12 +64,23 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public void addTooltip(List<String> tooltip, IModuleContainer container) {
+	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		if(!(container.getItemStack().getItem() instanceof ItemModule)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + Translator.translateToLocal("module.storage." + EnumPosition.INTERNAL.getName() + ".name"));
+		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+		if(provider != null && provider.hasState()){
+			if(!GuiScreen.isShiftKeyDown()){
+				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
+			}else{
+				IModuleState state = provider.createState(null);
+				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+					handler.addToolTip(tooltip, stack, state);
+				}
+			}
+		}
 	}
 
 	@Override
