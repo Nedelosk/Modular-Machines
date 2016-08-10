@@ -1,11 +1,14 @@
 package de.nedelosk.modularmachines.common.plugins.cofh;
 
+import java.util.List;
+
 import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -85,5 +88,9 @@ public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterf
 	@Override
 	public EnumFacing getFacing() {
 		return null;
+	}
+
+	@Override
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }
