@@ -483,4 +483,14 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			}
 		}
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		for(FluidTankAdvanced tank : tanks){
+			if(tank != null && !tank.isEmpty()){
+				return false;
+			}
+		}
+		return true;
+	}
 }

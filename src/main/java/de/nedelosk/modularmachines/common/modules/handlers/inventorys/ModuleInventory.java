@@ -650,4 +650,14 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 			}
 		}
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		for(ItemStack stack : stacks){
+			if(stack != null && stack.getItem() != null && stack.stackSize > 0){
+				return false;
+			}
+		}
+		return true;
+	}
 }
