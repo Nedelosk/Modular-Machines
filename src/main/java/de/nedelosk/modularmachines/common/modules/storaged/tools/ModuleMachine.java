@@ -35,7 +35,7 @@ import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -198,7 +198,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 					}
 				}
 				if(needUpdate){
-					PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+					PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
 				}
 			}
 		}

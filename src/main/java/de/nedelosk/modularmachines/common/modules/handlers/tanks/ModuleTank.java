@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
@@ -16,16 +19,22 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
@@ -424,7 +433,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	@Override
 	public void onChange() {
-		PacketHandler.INSTANCE.sendToAll(new PacketModule(state.getModular().getHandler(), state));
+		PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(state.getModular().getHandler(), state));
 	}
 
 	@Override
@@ -456,5 +465,22 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			return false;
 		}
 		return contentInfos[index].isInput;
+	}
+
+	@Override
+	public void cleanHandler(IModuleState state) {
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
+			for(EnumFacing facing : EnumFacing.VALUES){
+				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
+				if(tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())){
+					IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite());
+					for(FluidTankAdvanced tank : getTanks()){
+						tank.drainInternal(fluidHandler.fill(tank.getFluid(), true), true);
+					}
+				}
+			}
+		}
 	}
 }

@@ -12,7 +12,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 
 	protected String title;
 	@SideOnly(Side.CLIENT)
-	protected IGuiProvider gui;
+	protected IGuiProvider<T> gui;
 
 	public Page(String title) {
 		this.title = title;

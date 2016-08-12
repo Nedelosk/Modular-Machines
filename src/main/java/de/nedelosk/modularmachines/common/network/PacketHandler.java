@@ -1,7 +1,8 @@
 package de.nedelosk.modularmachines.common.network;
 
 import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketModuleClean;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
@@ -21,7 +22,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketSelectModule.class, PacketSelectModule.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectModulePage.class, PacketSelectModulePage.class, nextID(), Side.CLIENT);
-		INSTANCE.registerMessage(PacketModule.class, PacketModule.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketSyncModule.class, PacketSyncModule.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketModuleClean.class, PacketModuleClean.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSelectAssemblerPosition.class, PacketSelectAssemblerPosition.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketModularAssembler.class, PacketModularAssembler.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(PacketSyncHeatBuffer.class, PacketSyncHeatBuffer.class, nextID(), Side.SERVER);

@@ -7,6 +7,8 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModularAssembler implements IModularAssembler {
@@ -42,6 +44,7 @@ public abstract class ModularAssembler implements IModularAssembler {
 		return modularHandler;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory) {
 		return new GuiAssembler(tile, inventory);

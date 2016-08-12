@@ -167,17 +167,21 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 			IButtonManager buttonManager = gui.getButtonManager();
 			List<IModuleState> modelsWithPages = getModulesWithPages(modular);
 
-			for(int i = 0; i < modelsWithPages.size(); i++) {
-				IModuleState module = modelsWithPages.get(i);
-				buttonManager.add(new ModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
-						(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
+			if(!modelsWithPages.isEmpty() && modelsWithPages.size() > 1){
+				for(int i = 0; i < modelsWithPages.size(); i++) {
+					IModuleState module = modelsWithPages.get(i);
+					buttonManager.add(new ModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
+							(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
+				}
 			}
 
-			for(int pageIndex = 0; pageIndex < state.getPages().size(); pageIndex++) {
-				IModulePage page = state.getPages().get(pageIndex);
-				buttonManager.add(new ModulePageTab(gui.getButtonManager().getButtons().size(),
-						pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
-								pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
+			if(!state.getPages().isEmpty() && state.getPages().size() > 1){	
+				for(int pageIndex = 0; pageIndex < state.getPages().size(); pageIndex++) {
+					IModulePage page = state.getPages().get(pageIndex);
+					buttonManager.add(new ModulePageTab(gui.getButtonManager().getButtons().size(),
+							pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
+									pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
+				}
 			}
 		}
 	}

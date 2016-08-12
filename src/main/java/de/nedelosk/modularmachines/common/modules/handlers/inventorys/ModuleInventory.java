@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
@@ -20,8 +21,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
@@ -628,5 +632,22 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	@Override
 	public EnumMap<EnumFacing, boolean[]> getConfigurations() {
 		return configurations;
+	}
+	
+	@Override
+	public void cleanHandler(IModuleState state) {
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
+			for(EnumFacing facing : EnumFacing.VALUES){
+				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
+				if(tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite())){
+					IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite());
+					for(int i = 0;i < getSlots();i++){
+						setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, getStackInSlot(i), false));
+					}
+				}
+			}
+		}
 	}
 }

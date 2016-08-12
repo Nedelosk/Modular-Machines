@@ -156,7 +156,7 @@ public abstract class Modular implements IModular {
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));
-			if (nbt.hasKey("CurrentPage")) {
+			if (currentModule != null && nbt.hasKey("CurrentPage")) {
 				String pageID = nbt.getString("CurrentPage");
 				IModulePage currentPage = null;
 				for(IModulePage page : (List<IModulePage>)currentModule.getPages()){

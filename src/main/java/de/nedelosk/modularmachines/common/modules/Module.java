@@ -155,7 +155,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
 			return createClientState(modular, container);
 		}
 		return new ModuleState(modular, container);

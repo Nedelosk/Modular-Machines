@@ -22,7 +22,7 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -97,7 +97,7 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 		}
 
 		if(needUpdate){
-			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+			PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
 		}
 	}
 

@@ -1,10 +1,14 @@
 package de.nedelosk.modularmachines.common.core;
 
+import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
+
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
+import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -14,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.RecipeSorter;
 
 public class ModularMachinesRegistry extends Registry {
 
@@ -35,6 +40,7 @@ public class ModularMachinesRegistry extends Registry {
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModels();
 		}
+		RecipeSorter.register("modularmachines:shapedmodule", ShapedModuleRecipe.class, SHAPED, "before:minecraft:shapeless");
 	}
 
 	@Override

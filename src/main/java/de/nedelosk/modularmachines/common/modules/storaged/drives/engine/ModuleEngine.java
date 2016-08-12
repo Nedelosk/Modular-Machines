@@ -22,7 +22,7 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,9 +35,6 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	protected static final float engineKineticModifier = Config.engineKineticOutput;
 
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
-
-	@SideOnly(Side.CLIENT)
-	public static final PropertyFloat PROGRESS = new PropertyFloat("progress", 0);
 
 	public ModuleEngine(String name, int complexity, double kineticModifier, int maxKineticEnergy, int materialPerTick) {
 		super(name, complexity);
@@ -83,7 +80,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 		}
 
 		if(needUpdate){
-			PacketHandler.INSTANCE.sendToAll(new PacketModule(modular.getHandler(), state));
+			PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
 		}
 	}
 
@@ -94,20 +91,6 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateClient(IModuleState state, int tickCount) {
-		if (isWorking(state)) {
-			addProgress(state, 0.025F);
-			if (getProgress(state) > 1) {
-				setProgress(state, 0);
-			}
-		}else{
-			if(getProgress(state) > 0){
-				if(getProgress(state) < 1){
-					addProgress(state, 0.025F);
-				}else{
-					setProgress(state, 0);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -116,31 +99,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	protected IModuleState createClientState(IModular modular, IModuleContainer container) {
-		return super.createClientState(modular, container).register(PROGRESS);
-	}
-
-	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.RIGHT;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public float getProgress(IModuleState state) {
-		return state.get(PROGRESS);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void setProgress(IModuleState state, float progress) {
-		state.set(PROGRESS, progress);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addProgress(IModuleState state, float progress) {
-		state.set(PROGRESS, state.get(PROGRESS) + progress);
 	}
 
 	@Override
