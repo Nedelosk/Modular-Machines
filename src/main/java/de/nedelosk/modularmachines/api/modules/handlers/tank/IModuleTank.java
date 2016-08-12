@@ -1,11 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public interface IModuleTank<M extends IModule> extends IModuleContentHandlerAdvanced<FluidStack, M>, IFluidHandler {
+public interface IModuleTank<M extends IModule> extends IAdvancedModuleContentHandler<FluidStack, M>, IFluidHandler {
 
 	void onChange();
 

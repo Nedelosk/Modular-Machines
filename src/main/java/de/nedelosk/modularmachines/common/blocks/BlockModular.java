@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -180,8 +180,8 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 					if (state != null) {
 						drops.add(state.getModule().saveDataToItem(state));
 						for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
-							if(handler instanceof IModuleContentHandlerAdvanced){
-								drops.addAll(((IModuleContentHandlerAdvanced)handler).getDrops());
+							if(handler instanceof IAdvancedModuleContentHandler){
+								drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
 							}
 						}
 					}

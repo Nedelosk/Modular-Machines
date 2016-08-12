@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -33,9 +33,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleModuleClearer extends Module implements IModuleModuleCleaner, IModuleColored{
+public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner, IModuleColored{
 
-	public ModuleModuleClearer(String name, int complexity) {
+	public ModuleModuleCleaner(String name, int complexity) {
 		super(name, complexity);
 	}
 
@@ -73,8 +73,8 @@ public class ModuleModuleClearer extends Module implements IModuleModuleCleaner,
 			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
 			IModuleState moduleState = provider.createState(null);
 			for(IModuleContentHandler handler : (List<IModuleContentHandler>)moduleState.getContentHandlers()){
-				if(handler instanceof IModuleContentHandlerAdvanced){
-					((IModuleContentHandlerAdvanced)handler).cleanHandler(state);
+				if(handler instanceof ICleanableModuleContentHandler){
+					((ICleanableModuleContentHandler)handler).cleanHandler(state);
 				}
 			}
 			provider.setState(null);
@@ -84,7 +84,7 @@ public class ModuleModuleClearer extends Module implements IModuleModuleCleaner,
 	public class ModuleClearerPage extends ModulePage{
 
 		public ModuleClearerPage(String pageID, IModuleState module) {
-			super(pageID, "clearer", module);
+			super(pageID, "cleaner", module);
 		}
 		
 		public ModuleClearerPage(String pageID, String title, IModuleState module) {
@@ -112,7 +112,7 @@ public class ModuleModuleClearer extends Module implements IModuleModuleCleaner,
 		
 		private class CleanerButton extends Button{
 			public CleanerButton(int ID, int xPosition, int yPosition) {
-				super(ID, xPosition, yPosition, 115, 20, Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".clear" + ".name"));
+				super(ID, xPosition, yPosition, 115, 20, Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".clean" + ".name"));
 			}
 			
 			@Override
@@ -125,12 +125,10 @@ public class ModuleModuleClearer extends Module implements IModuleModuleCleaner,
 	}
 	
 	private class ItemFilterModule implements IContentFilter<ItemStack, IModule>{
-
 		@Override
 		public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
 			return ModularMachinesApi.getContainerFromItem(content) != null;
 		}
-		
 	}
 
 	@Override

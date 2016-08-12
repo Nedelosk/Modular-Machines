@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -83,11 +84,23 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 			}
 		}
 	}
+	
+	@Override
+	public boolean isClean(IModuleState state) {
+		for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+			if(handler instanceof ICleanableModuleContentHandler){
+				if(!((ICleanableModuleContentHandler) handler).isEmpty()){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return new ResourceLocation("modularmachines:module/windows/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH) + "_" + getSize().getName());
+		return new ResourceLocation("modularmachines:module/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH)+ "/windows/" + getSize().getName());
 	}
 
 	@Override

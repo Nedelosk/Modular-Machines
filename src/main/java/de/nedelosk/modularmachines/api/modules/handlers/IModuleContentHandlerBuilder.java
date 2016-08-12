@@ -28,5 +28,5 @@ public interface IModuleContentHandlerBuilder<C, M extends IModule> {
 	/**
 	 * Build a handler from the builder.
 	 */
-	IModuleContentHandlerAdvanced<C, M> build();
+	IAdvancedModuleContentHandler<C, M> build();
 }

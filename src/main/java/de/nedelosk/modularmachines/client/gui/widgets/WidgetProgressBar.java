@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class WidgetProgressBar extends Widget {
 
@@ -28,6 +29,8 @@ public class WidgetProgressBar extends Widget {
 
 	@Override
 	public void draw(IGuiProvider gui) {
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
 		int process = (burntimeTotal == 0) ? 0 : burntime * pos.width / burntimeTotal;
 		int sx = gui.getGuiLeft();
@@ -36,5 +39,6 @@ public class WidgetProgressBar extends Widget {
 		if (burntime > 0) {
 			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, pos.height);
 		}
+		GlStateManager.disableAlpha();
 	}
 }

@@ -114,7 +114,9 @@ public class ModularMachinesApi {
 		ItemStack stack = moduleState.getModule().saveDataToItem(moduleState);
 		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
 		if(moduleState != null && provider != null){
-			provider.setState(moduleState);
+			if(!moduleState.getModule().isClean(moduleState)){
+				provider.setState(moduleState);
+			}
 		}
 		return stack;
 	}

@@ -20,7 +20,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHe
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
-import de.nedelosk.modularmachines.common.modules.ModuleModuleClearer;
+import de.nedelosk.modularmachines.common.modules.ModuleModuleCleaner;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
@@ -101,7 +101,7 @@ public class ModuleManager {
 	public static ModuleLathe moduleLatheIron;
 	public static ModuleLathe moduleLatheBronze;
 	
-	public static ModuleModuleClearer moduleModuleClearer;
+	public static ModuleModuleCleaner moduleModuleCleaner;
 
 	public static void registerModuels() {
 
@@ -205,9 +205,9 @@ public class ModuleManager {
 		}
 		
 		/* CLEANER */
-		moduleModuleClearer = new ModuleModuleClearer("clearer", 1);
-		moduleModuleClearer.setRegistryName(new ResourceLocation("modularmachines:clearer"));
-		GameRegistry.register(moduleModuleClearer);
+		moduleModuleCleaner = new ModuleModuleCleaner("cleaner", 1);
+		moduleModuleCleaner.setRegistryName(new ResourceLocation("modularmachines:cleaner"));
+		GameRegistry.register(moduleModuleCleaner);
 		
 		
 		/* HEATERS */
@@ -331,7 +331,7 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleDrawerBrickSmall, new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
 
 		//Cleaner
-		registerModuleItem(moduleModuleClearer, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleModuleCleaner, EnumMetalMaterials.IRON);
 		
 		//Boilers
 		registerModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);

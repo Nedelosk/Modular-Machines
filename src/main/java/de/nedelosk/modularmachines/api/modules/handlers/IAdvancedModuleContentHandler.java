@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IModuleContentHandlerAdvanced<C,M extends IModule> extends IModuleContentHandler, INBTSerializable<NBTTagCompound> {
+public interface IAdvancedModuleContentHandler<C,M extends IModule> extends IModuleContentHandler, INBTSerializable<NBTTagCompound>, ICleanableModuleContentHandler {
 
 	/**
 	 * @return The insert filters of the handler.
@@ -54,9 +54,4 @@ public interface IModuleContentHandlerAdvanced<C,M extends IModule> extends IMod
 
 	@Nonnull
 	List<ItemStack> getDrops();
-	
-	/**
-	 * Push the content of this handler into neighbor blocks.
-	 */
-	void cleanHandler(IModuleState state);
 }

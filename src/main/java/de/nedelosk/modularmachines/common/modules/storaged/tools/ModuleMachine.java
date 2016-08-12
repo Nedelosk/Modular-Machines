@@ -12,7 +12,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -68,7 +68,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
-		List<IModuleContentHandlerAdvanced> handlers = state.getContentHandlers();
+		List<IAdvancedModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
@@ -77,17 +77,17 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 				}
 			}
 		}
-		for(IModuleContentHandlerAdvanced handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : handlers) {
 			if (!handler.canAddRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]))) {
 				return false;
 			}
 		}
-		for(IModuleContentHandlerAdvanced handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : handlers) {
 			if (!handler.canRemoveRecipeInputs(chance, recipe.getInputs())) {
 				return false;
 			}
 		}
-		for(IModuleContentHandlerAdvanced handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : handlers) {
 			handler.removeRecipeInputs(chance, recipe.getInputs());
 		}
 		return true;
@@ -121,7 +121,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		int chance = getChance(state);
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
-		List<IModuleContentHandlerAdvanced> handlers = state.getContentHandlers();
+		List<IAdvancedModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
@@ -130,7 +130,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 				}
 			}
 		}
-		for(IModuleContentHandlerAdvanced handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : handlers) {
 			handler.addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
 		}
 		return true;
@@ -144,7 +144,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		Random rand = modular.getHandler().getWorld().rand;
 		EnumToolType type = getType(state);
 		boolean needUpdate = false;
-		IModuleState<IModuleController> controller = modular.getModules(IModuleController.class).get(0);
+		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
 
 		if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
 			if (canWork(state)) {

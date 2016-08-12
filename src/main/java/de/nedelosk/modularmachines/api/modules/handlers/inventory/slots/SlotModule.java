@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory.slots;
 
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerAdvanced;
+import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.Minecraft;
@@ -20,7 +20,7 @@ public class SlotModule extends SlotItemHandler {
 
 	public SlotModule(IModuleState moduleState, int index) {
 		super((IItemHandler) moduleState.getContentHandler(IModuleInventory.class), index, 0, 0);
-		ContentInfo info = ((IModuleContentHandlerAdvanced)moduleState.getContentHandler(IModuleInventory.class)).getInfo(index);
+		ContentInfo info = ((IAdvancedModuleContentHandler)moduleState.getContentHandler(IModuleInventory.class)).getInfo(index);
 		xDisplayPosition = info.xPosition;
 		yDisplayPosition = info.yPosition;
 		this.module = moduleState;

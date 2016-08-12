@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -93,4 +94,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	 */
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container);
+	
+	boolean isClean(IModuleState state);
 }
