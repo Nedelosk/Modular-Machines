@@ -42,7 +42,7 @@ module.heater.steam.name=Steam Heater
 module.alloysmelter.name=Alloy Smelter
 module.pulverizer.name=Pulverizer
 module.casing.name=Casing
-module.clearer.name=Module Clearer
+module.cleaner.name=Module Cleaner
 
 module.capacitorbank.name=Capacitor Bank
 
@@ -187,8 +187,9 @@ module.page.alloysmelter.name=Alloy Smelter
 module.page.pulverizer.name=Pulverizer
 module.page.boiler.name=Boiler
 module.page.heater.name=Heater
-module.page.clearer.name=Module Clearer
-module.page.clearer.clear.name=Clear Module
+module.page.turbine.steam.name=Steam Trubine
+module.page.cleaner.name=Module Cleaner
+module.page.cleaner.clean.name=Clean Module
 
 ####################################
 # Tooltips
