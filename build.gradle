@@ -142,7 +142,7 @@ Please help the project by trying it out and <a href="https://github.com/Nedelos
 """
 }
 
-/*curseforge {
+curseforge {
 	if(System.getenv().CURSEAPIKEY != null){
 		apiKey = System.getenv().CURSEAPIKEY
 		project {
@@ -159,4 +159,4 @@ Please help the project by trying it out and <a href="https://github.com/Nedelos
 
 afterEvaluate {
 	tasks.curseforge233073.dependsOn.add(makeChangelog)
-}*/
+}
