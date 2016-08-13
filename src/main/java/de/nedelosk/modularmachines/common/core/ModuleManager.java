@@ -13,6 +13,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
@@ -20,6 +21,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHe
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
+import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleCleaner;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
 import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
@@ -43,8 +45,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleManager {
 
-	//public static IModuleController moduleControllerIron;
-	//public static IModuleController moduleControllerBronze;
+	public static IModuleController moduleController;
 
 	public static IModuleCasing moduleCasingIron;
 	public static IModuleCasing moduleCasingBronze;
@@ -105,13 +106,9 @@ public class ModuleManager {
 
 	public static void registerModuels() {
 
-		/*moduleControllerIron = new ModuleController(6, 2, 2, 2);
-		moduleControllerIron.setRegistryName(new ResourceLocation("modularmachines:controller.iron"));
-		GameRegistry.register(moduleControllerIron);
-
-		moduleControllerBronze = new ModuleController(12, 3, 3, 3);
-		moduleControllerBronze.setRegistryName(new ResourceLocation("modularmachines:controller.bronze"));
-		GameRegistry.register(moduleControllerBronze);*/
+		moduleController = new ModuleController();
+		moduleController.setRegistryName(new ResourceLocation("modularmachines:controller"));
+		GameRegistry.register(moduleController);
 
 		/* CASINGS */
 		moduleCasingIron = new ModuleCasing(1, 6, 400, 10.0F, 5.0F, "pickaxe", 1);
@@ -319,8 +316,10 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteamMagmarium, new ItemStack(ItemManager.itemTurbineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Controller
-		//addDefaultModuleItem(moduleControllerIron, EnumMetalMaterials.IRON);
-		//addDefaultModuleItem(moduleControllerBronze, EnumMetalMaterials.BRONZE);
+		registerModuleItem(moduleController, EnumMetalMaterials.IRON);
+
+		//Cleaner
+		registerModuleItem(moduleModuleCleaner, EnumMetalMaterials.IRON);
 
 		//Casings
 		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.IRON));
@@ -329,9 +328,6 @@ public class ModuleManager {
 		//Drawers
 		GameRegistry.register(new ModuleContainer(moduleDrawerBrickLarge, new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));
 		GameRegistry.register(new ModuleContainer(moduleDrawerBrickSmall, new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
-
-		//Cleaner
-		registerModuleItem(moduleModuleCleaner, EnumMetalMaterials.IRON);
 
 		//Boilers
 		registerModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);

@@ -42,7 +42,6 @@ public class OreDictionaryManager {
 		registerOre("oreAluminum", new ItemStack(BlockManager.blockOres, 1, 5));
 		registerOre("blockObsidian", Blocks.OBSIDIAN);
 		registerOre("plateStone", new ItemStack(ItemManager.itemCompPlates));
-		registerOre("sawBladeStone", new ItemStack(ItemManager.itemCompSawBlades));
 		registerOre("gearStone", new ItemStack(ItemManager.itemCompGears));
 		registerOre("rodStone", new ItemStack(ItemManager.itemCompRods));
 		registerOre("itemCoal", new ItemStack(Items.COAL));
@@ -51,7 +50,6 @@ public class OreDictionaryManager {
 		registerComponentOres("screw", ItemManager.itemCompScrews);
 		registerComponentOres("gear", ItemManager.itemCompGears);
 		registerComponentOres("wire", ItemManager.itemCompWires);
-		registerComponentOres("sawBlade", ItemManager.itemCompSawBlades);
 		for(ComponentTypes type : ComponentTypes.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
 			for(String oreDict : type.oreDict) {

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.awt.Color;
 import java.util.List;
 import java.util.Locale;
 
@@ -130,6 +129,6 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 
 	@Override
 	public int getColor() {
-		return Color.GREEN.getRGB();
+		return 0x2E5D0E;
 	}
 }

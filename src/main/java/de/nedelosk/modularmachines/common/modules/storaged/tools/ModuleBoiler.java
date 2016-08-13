@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -203,6 +202,6 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 
 	@Override
 	public int getColor() {
-		return Color.GRAY.getRGB();
+		return 0xA287C1;
 	}
 }

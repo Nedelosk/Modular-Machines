@@ -258,7 +258,6 @@ public class RecipeManager {
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompRods, 1, 2), "ingotCopper", "ingotCopper", "toolFile");
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompRods, 1, 3), "ingotBronze", "ingotBronze", "toolFile");
 		addShapelessRecipe(new ItemStack(ItemManager.itemCompRods, 1, 4), "ingotSteel", "ingotSteel", "toolFile");
-		addShapedRecipe(new ItemStack(ItemManager.itemCompSawBlades), " + ", "+-+", " + ", '+', new ItemStack(ItemManager.itemCompRods), '-', "cobblestone");
 		addShapedRecipe(new ItemStack(ItemManager.itemCompGears), " + ", "+-+", " + ", '+', "plateStone", '-', "cobblestone");
 	}
 

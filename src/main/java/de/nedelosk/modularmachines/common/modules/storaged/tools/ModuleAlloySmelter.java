@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
-import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -119,6 +118,6 @@ public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored,
 
 	@Override
 	public int getColor() {
-		return Color.RED.getRGB();
+		return 0x9C1645;
 	}
 }

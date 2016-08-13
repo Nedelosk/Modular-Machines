@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
-import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -78,7 +77,7 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 
 	@Override
 	public int getColor() {
-		return Color.BLUE.getRGB();
+		return 0x286F92;
 	}
 
 	@Override
