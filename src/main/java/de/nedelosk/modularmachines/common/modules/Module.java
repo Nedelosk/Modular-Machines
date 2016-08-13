@@ -216,7 +216,6 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
 	}
 
-	@Optional.Method(modid="JEI")
 	public void openJEI(IModuleState state){
 		if(this instanceof IModuleJEI){
 			Loader.instance();
