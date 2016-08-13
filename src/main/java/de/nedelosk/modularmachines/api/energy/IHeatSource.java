@@ -10,7 +10,7 @@ public interface IHeatSource {
 
 	void reduceHeat(int heatModifier);
 
-	IHeatLevel getHeatLevel();
+	HeatLevel getHeatLevel();
 
 	void setHeatStored(double heatBuffer);
 

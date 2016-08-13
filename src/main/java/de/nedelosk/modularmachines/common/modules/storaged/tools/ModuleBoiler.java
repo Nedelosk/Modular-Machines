@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
-import de.nedelosk.modularmachines.api.energy.IHeatLevel;
+import de.nedelosk.modularmachines.api.energy.HeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -96,7 +96,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 		if(modular.updateOnInterval(10)){
 			if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
 				IHeatSource heatSource = modular.getHeatSource();
-				IHeatLevel heatLevel = heatSource.getHeatLevel();
+				HeatLevel heatLevel = heatSource.getHeatLevel();
 
 				FluidStack waterStack = tankWater.getFluid();
 				if(!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()){

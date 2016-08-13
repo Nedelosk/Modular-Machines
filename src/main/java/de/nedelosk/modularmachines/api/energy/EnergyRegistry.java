@@ -12,7 +12,7 @@ public class EnergyRegistry {
 
 	private static final Map<Pair<IEnergyType, IEnergyType>, IEnergyTransformer> transformers = new HashMap<>();
 	private static final List<IEnergyType> types = new ArrayList<>();
-	private static final List<IHeatLevel> heatLevels = new ArrayList<>();
+	private static final List<HeatLevel> heatLevels = new ArrayList<>();
 
 	public static final float COLD_TEMP = 20;
 	public static final int STEAM_PER_UNIT_WATER = 160;
@@ -34,21 +34,21 @@ public class EnergyRegistry {
 		registerType(new HeatLevel(750, 0.005, 0.085));
 	}
 
-	public static void registerType(IHeatLevel heatLevel){
+	public static void registerType(HeatLevel heatLevel){
 		if(!heatLevels.contains(heatLevel)){
 			heatLevels.add(heatLevel);
 			Collections.sort(heatLevels);
 		}
 	}
 
-	public static int getHeatLevelIndex(IHeatLevel level){
+	public static int getHeatLevelIndex(HeatLevel level){
 		return heatLevels.indexOf(level);
 
 	}
 
-	public static IHeatLevel getHeatLevel(double heat){
+	public static HeatLevel getHeatLevel(double heat){
 		for(int i = heatLevels.size() - 1;i >= 0;i--){
-			IHeatLevel level = heatLevels.get(i);
+			HeatLevel level = heatLevels.get(i);
 			if(level.getHeatMin() <= heat){
 				return level;
 			}

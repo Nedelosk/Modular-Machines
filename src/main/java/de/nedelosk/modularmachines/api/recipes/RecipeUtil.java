@@ -11,21 +11,22 @@ public class RecipeUtil {
 
 	public static final PropertyToolMode LATHEMODE = new PropertyToolMode("mode", LatheModes.class, LatheModes.ROD);
 
-	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output, int speed){
-		return addPulverizer(recipeName, new RecipeItem(input), output, speed);
+	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output, int speed/*, double kinetic*/){
+		return addPulverizer(recipeName, new RecipeItem(input), output, speed/*, kinetic*/);
 	}
 
-	public static boolean addPulverizer(String recipeName, OreStack input, RecipeItem[] output, int speed){
-		return addPulverizer(recipeName, new RecipeItem(input), output, speed);
+	public static boolean addPulverizer(String recipeName, OreStack input, RecipeItem[] output, int speed/*, double kinetic*/){
+		return addPulverizer(recipeName, new RecipeItem(input), output, speed/*, kinetic*/);
 	}
 
-	public static boolean addPulverizer(String recipeName, RecipeItem input, RecipeItem[] output, int speed){
+	public static boolean addPulverizer(String recipeName, RecipeItem input, RecipeItem[] output, int speed/*, double kinetic*/){
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Pulverizer");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder
-		.set(Recipe.INPUTS, new RecipeItem[]{input}).
-		set(Recipe.OUTPUTS, output)
-		.set(Recipe.SPEED, speed);
+		.set(Recipe.INPUTS, new RecipeItem[]{input})
+		.set(Recipe.OUTPUTS, output)
+		.set(Recipe.SPEED, speed)
+		/*.set(Recipe.KINETIC, kinetic)*/;
 		return handler.registerRecipe(builder.build());
 	}
 

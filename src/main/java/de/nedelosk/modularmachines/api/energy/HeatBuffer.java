@@ -76,7 +76,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	}
 
 	@Override
-	public IHeatLevel getHeatLevel() {
+	public HeatLevel getHeatLevel() {
 		return EnergyRegistry.getHeatLevel(heatBuffer);
 	}
 

@@ -24,6 +24,7 @@ public class Recipe implements IRecipe{
 	public static final PropertyInteger SPEED = new PropertyInteger("speed", 0);
 	public static final PropertyDouble HEAT = new PropertyDouble("heat", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("removeHeat", 0);
+	public static final PropertyDouble KINETIC = new PropertyDouble("kinetic", 0);
 
 	protected Map<IProperty, Object> properties;
 

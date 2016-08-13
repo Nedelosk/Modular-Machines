@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.modules.handlers.energy;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
-import de.nedelosk.modularmachines.api.energy.IHeatLevel;
+import de.nedelosk.modularmachines.api.energy.HeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -66,7 +66,7 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INB
 	}
 
 	@Override
-	public IHeatLevel getHeatLevel() {
+	public HeatLevel getHeatLevel() {
 		return  heatSource.getHeatLevel();
 	}
 
