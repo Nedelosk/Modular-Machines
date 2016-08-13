@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import de.nedelosk.modularmachines.common.plugins.cofh.PluginRF;
 import de.nedelosk.modularmachines.common.plugins.enderio.PluginEnderIO;
 import de.nedelosk.modularmachines.common.plugins.ic2.PluginIC2;
-import de.nedelosk.modularmachines.common.plugins.waila.PluginWaila;
+import de.nedelosk.modularmachines.common.plugins.theoneprobe.PluginTheOneProbe;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraftforge.fml.common.Loader;
 
@@ -48,7 +48,7 @@ public class PluginManager {
 	public void registerPlugins() {
 		registerPlugin(new PluginRF());
 		registerPlugin(new PluginIC2());
-		registerPlugin(new PluginWaila());
+		registerPlugin(new PluginTheOneProbe());
 		registerPlugin(new PluginEnderIO());
 		//registerPlugin(new PluginThermalExpansion());
 	}

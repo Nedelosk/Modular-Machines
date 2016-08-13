@@ -100,7 +100,7 @@ public class ModuleManager {
 
 	public static ModuleLathe moduleLatheIron;
 	public static ModuleLathe moduleLatheBronze;
-	
+
 	public static ModuleModuleCleaner moduleModuleCleaner;
 
 	public static void registerModuels() {
@@ -203,13 +203,13 @@ public class ModuleManager {
 			moduleEngineEUMagmarium.setRegistryName(new ResourceLocation("modularmachines:engine.eu.magmarium"));
 			GameRegistry.register(moduleEngineEUMagmarium);
 		}
-		
+
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner", 1);
 		moduleModuleCleaner.setRegistryName(new ResourceLocation("modularmachines:cleaner"));
 		GameRegistry.register(moduleModuleCleaner);
-		
-		
+
+
 		/* HEATERS */
 
 		//Steam
@@ -272,11 +272,11 @@ public class ModuleManager {
 		GameRegistry.register(moduleBoilerMagmarium);
 
 		/* PULVERIZER */
-		modulePulverizerIron = new ModulePulverizer(2, 35, EnumModuleSize.LARGE);
+		modulePulverizerIron = new ModulePulverizer(2, 35, 3, EnumModuleSize.LARGE);
 		modulePulverizerIron.setRegistryName(new ResourceLocation("modularmachines:pulverizer.iron"));
 		GameRegistry.register(modulePulverizerIron);
 
-		modulePulverizerBronze = new ModulePulverizer(4, 25, EnumModuleSize.LARGE);
+		modulePulverizerBronze = new ModulePulverizer(4, 25, 6, EnumModuleSize.LARGE);
 		modulePulverizerBronze.setRegistryName(new ResourceLocation("modularmachines:pulverizer.bronze"));
 		GameRegistry.register(modulePulverizerBronze);
 
@@ -332,7 +332,7 @@ public class ModuleManager {
 
 		//Cleaner
 		registerModuleItem(moduleModuleCleaner, EnumMetalMaterials.IRON);
-		
+
 		//Boilers
 		registerModuleItem(moduleBoilerIron, EnumMetalMaterials.IRON);
 		registerModuleItem(moduleBoilerBronze, EnumMetalMaterials.BRONZE);

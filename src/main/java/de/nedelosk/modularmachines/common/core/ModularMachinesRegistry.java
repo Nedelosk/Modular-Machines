@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;

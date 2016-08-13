@@ -84,7 +84,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	public double getHeatStored() {
 		return heatBuffer;
 	}
-	
+
 	@Override
 	public void setHeatStored(double heatBuffer) {
 		this.heatBuffer = heatBuffer;

@@ -15,7 +15,7 @@ public class Button<G extends IGuiProvider> extends GuiButton {
 	public Button(int ID, int xPosition, int yPosition, String displayString) {
 		super(ID, xPosition, yPosition, displayString);
 	}
-	
+
 	public Button(int ID, int xPosition, int yPosition, int width, int height, String displayString) {
 		super(ID, xPosition, yPosition, width, height, displayString);
 	}

@@ -48,7 +48,7 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 
 	@Override
 	public boolean matches(ItemStack stackToTest){
-		return ItemUtil.isIdenticalItem(stack, stackToTest);
+		return ItemUtil.isIdenticalItem(stack, stackToTest, ignorNBT);
 	}
 
 	@Override

@@ -105,7 +105,7 @@ public class Config {
 	public static void processConfig() {
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();
 		pluginThermalExpansion = config.get(plugins.name, "Thermal Expansion", true).getBoolean();
-		pluginWaila = config.get(plugins.name, "Waila", true).getBoolean();
+		pluginTheOneProbe = config.get(plugins.name, "The One Probe", true).getBoolean();
 		// Ores
 		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true},
 				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
@@ -121,7 +121,7 @@ public class Config {
 	/* MODULAR MACHINES */
 	public static boolean pluginEnderIO;
 	public static boolean pluginThermalExpansion;
-	public static boolean pluginWaila;
+	public static boolean pluginTheOneProbe;
 	public static float engineKineticOutput = 1.0F;
 	public static float turbineKineticOutput = 1.0F;
 	/* FOREST DAY */

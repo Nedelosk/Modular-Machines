@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
-import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,10 +23,10 @@ public class TabModularMachines extends CreativeTabs {
 		ItemStack stack = null;
 		switch (tabIcon) {
 			case 0:
-				stack = new ItemStack(ItemManager.itemCasings, 1, 0);
+				stack = ItemManager.itemCompPlates.getStack(EnumMetalMaterials.STEEL);
 				break;
 			case 1:
-				stack = ItemModule.createStack(ModuleManager.moduleBoilerBronze, EnumMetalMaterials.BRONZE);
+				stack = new ItemStack(ItemManager.itemCasings, 1, 0);
 				break;
 		}
 		return stack;

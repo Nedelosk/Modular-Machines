@@ -2,13 +2,12 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
 import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,7 +37,8 @@ public class WidgetEnergyField extends Widget {
 		if (energyInterface == null) {
 			return;
 		}
-		GL11.glColor3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widget);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
 		if(this.energyInterface.getEnergyStored(type) > 0){
@@ -46,5 +46,6 @@ public class WidgetEnergyField extends Widget {
 			int energy = (int) (eS / (this.energyInterface.getCapacity(type) / 100));
 			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, pos.width, energy);
 		}
+		GlStateManager.disableAlpha();
 	}
 }

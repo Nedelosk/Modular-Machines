@@ -30,8 +30,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePulverizer extends ModuleMachine implements IModuleColored, IModuleJEI{
 
-	public ModulePulverizer(int complexity, int speed, EnumModuleSize size) {
-		super("pulverizer", complexity, speed, size);
+	public ModulePulverizer(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
+		super("pulverizer", complexity, workTimeModifier, maxSpeed, size);
 	}
 
 	@Override

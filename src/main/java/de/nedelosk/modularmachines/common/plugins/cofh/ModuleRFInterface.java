@@ -93,4 +93,9 @@ public class ModuleRFInterface<M extends IModule> implements IModuleEnergyInterf
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
+
+	@Override
+	public void setEnergyStored(IEnergyType energyType, long energy) {
+		storage.setEnergyStored((int) energy);
+	}
 }

@@ -25,8 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 
-	public ModuleSawMill(int complexity, int speed, EnumModuleSize size) {
-		super("sawmill", complexity, speed, size);
+	public ModuleSawMill(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
+		super("sawmill", complexity, workTimeModifier, maxSpeed, size);
 	}
 
 	@Override

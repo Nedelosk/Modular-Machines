@@ -1,32 +1,8 @@
 package de.nedelosk.modularmachines.common.plugins.waila.provider;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+public class ProviderModular /*implements IWailaDataProvider*/ {
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
-import de.nedelosk.modularmachines.api.integration.IWailaState;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
-public class ProviderModular implements IWailaDataProvider {
-
-	@Override
+	/*@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return null;
 	}
@@ -63,11 +39,11 @@ public class ProviderModular implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-		/*IModularHandler modular = te.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-		if(modular.getModular() == null){*/
+		//IModularHandler modular = te.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+		//if(modular.getModular() == null){
 		return tag;
-		/*}
-		return modular.getModular().getNBTData(player, te, tag, world, pos);*/
+		//}
+		//return modular.getModular().getNBTData(player, te, tag, world, pos);
 	}
 
 	public static class WailaData implements IWailaState {
@@ -180,5 +156,5 @@ public class ProviderModular implements IWailaDataProvider {
 		public void setState(IModuleState state) {
 			this.currentState = state;
 		}
-	}
+	}*/
 }

@@ -24,8 +24,8 @@ public abstract class ModuleMachineAdvanced extends ModuleMachine implements IMo
 
 	public final PropertyToolMode MODE;
 
-	public ModuleMachineAdvanced(String name, int complexity, int speedModifier, EnumModuleSize size, IToolMode defaultMode) {
-		super(name, complexity, speedModifier, size);
+	public ModuleMachineAdvanced(String name, int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size, IToolMode defaultMode) {
+		super(name, complexity, workTimeModifier, maxSpeed, size);
 		MODE = new PropertyToolMode("mode", getModeClass(), defaultMode);
 	}
 

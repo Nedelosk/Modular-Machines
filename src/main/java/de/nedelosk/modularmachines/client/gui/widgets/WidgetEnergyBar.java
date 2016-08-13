@@ -2,12 +2,11 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import cofh.api.energy.IEnergyStorage;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -36,12 +35,12 @@ public class WidgetEnergyBar extends Widget {
 		if (storage == null) {
 			return;
 		}
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glColor3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 180, 187, 12, 69);
 		int energy = (this.storage.getEnergyStored() * pos.height) / this.storage.getMaxEnergyStored();
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 192, 256 - energy, pos.width, energy);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GlStateManager.disableAlpha();
 	}
 }

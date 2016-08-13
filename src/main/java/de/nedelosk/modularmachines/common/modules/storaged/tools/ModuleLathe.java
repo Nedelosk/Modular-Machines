@@ -30,8 +30,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored{
 
-	public ModuleLathe(int complexity, int speedModifier, EnumModuleSize size) {
-		super("lathe", complexity, speedModifier, size, LatheModes.ROD);
+	public ModuleLathe(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
+		super("lathe", complexity, workTimeModifier, maxSpeed, size, LatheModes.ROD);
 	}
 
 	// Recipe

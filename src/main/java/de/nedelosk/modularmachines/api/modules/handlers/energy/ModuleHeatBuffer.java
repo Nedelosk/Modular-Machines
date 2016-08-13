@@ -74,7 +74,7 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INB
 	public double getHeatStored() {
 		return  heatSource.getHeatStored();
 	}
-	
+
 	@Override
 	public void setHeatStored(double heatBuffer) {
 		this.heatSource.setHeatStored(heatBuffer);

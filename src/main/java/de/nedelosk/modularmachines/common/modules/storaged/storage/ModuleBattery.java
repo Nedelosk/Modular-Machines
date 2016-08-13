@@ -28,25 +28,33 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
-		List<IModuleContentHandler> handlers = new ArrayList<>();
-		handlers.add(getEnergyInterface(state));
-		return super.createHandlers(state);
+		List<IModuleContentHandler> handlers = super.createHandlers(state);
+		handlers.add(createEnergyInterface(state));
+		return handlers;
 	}
 
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
-		((IModuleEnergyInterface)state.getContentHandler(IModuleEnergyInterface.class)).receiveEnergy(getEnergyType(state), getStorageEnergy(state, stack), false);
+		IModuleContentHandler handler = state.getContentHandler(IModuleEnergyInterface.class);
+		if(handler instanceof IModuleEnergyInterface){
+			IModuleEnergyInterface energyInterface = (IModuleEnergyInterface)handler;
+			energyInterface.setEnergyStored(getEnergyType(state), getStorageEnergy(state, stack));
+		}
 		return state;
 	}
 
 	@Override
 	public ItemStack saveDataToItem(IModuleState state) {
 		ItemStack stack = super.saveDataToItem(state);
-		setStorageEnergy(state, ((IModuleEnergyInterface)state.getContentHandler(IModuleEnergyInterface.class)).getEnergyStored(getEnergyType(state)), stack);
+		IModuleContentHandler handler = state.getContentHandler(IModuleEnergyInterface.class);
+		if(handler instanceof IModuleEnergyInterface){
+			IModuleEnergyInterface energyInterface = (IModuleEnergyInterface)handler;
+			setStorageEnergy(state, energyInterface.getEnergyStored(getEnergyType(state)), stack);
+		}
 		return stack;
 	}
 
-	public abstract IModuleEnergyInterface getEnergyInterface(IModuleState state);
+	public abstract IModuleEnergyInterface createEnergyInterface(IModuleState state);
 
 	public abstract IEnergyType getEnergyType(IModuleState state);
 

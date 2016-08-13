@@ -39,7 +39,7 @@ public class ModuleCapitorBank extends ModuleBattery {
 	}
 
 	@Override
-	public IModuleEnergyInterface getEnergyInterface(IModuleState state) {
+	public IModuleEnergyInterface createEnergyInterface(IModuleState state) {
 		return new ModuleRFInterface(state, defaultStorage);
 	}
 

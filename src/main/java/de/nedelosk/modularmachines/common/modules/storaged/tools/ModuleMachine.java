@@ -24,8 +24,8 @@ import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
+import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
-import de.nedelosk.modularmachines.api.property.PropertyIntegerArray;
 import de.nedelosk.modularmachines.api.property.PropertyRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
@@ -35,8 +35,8 @@ import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -48,18 +48,24 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
+	public static final PropertyFloat SPPED = new PropertyFloat("speed", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("heatToRemove", 0);
 	public static final PropertyDouble HEATREQUIRED = new PropertyDouble("requiredHeat", 0F);
 	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
-	public static final PropertyIntegerArray DRIVEINDEXES = new PropertyIntegerArray("driveIndexs");
 
-	protected final int speedModifier;
+	protected final float maxSpeed;
+	protected final int workTimeModifier;
 	protected final EnumModuleSize size;
 
-	public ModuleMachine(String name, int complexity, int speedModifier, EnumModuleSize size) {
+	public ModuleMachine(String name, int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
 		super(name, complexity);
-		this.speedModifier = speedModifier;
+		this.workTimeModifier = workTimeModifier;
+		this.maxSpeed = maxSpeed;
 		this.size = size;
+	}
+
+	public ModuleMachine(String name, int complexity, int workTimeModifier, EnumModuleSize size) {
+		this(name, complexity, workTimeModifier, 0, size);
 	}
 
 	/* RECIPE */
@@ -180,8 +186,21 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							if(source.getKineticEnergyStored() > 0){
 								source.extractKineticEnergy(1, false);
-								workTime+=1;
+								if(state.get(SPPED) < maxSpeed){
+									state.set(SPPED, state.get(SPPED)+0.01F);
+								}else if(state.get(SPPED) > maxSpeed){
+									state.set(SPPED, maxSpeed);
+								}
+							}else{
+								if(state.get(SPPED) > 0){
+									state.set(SPPED, state.get(SPPED)-0.05F);
+								}else if(0 > state.get(SPPED)){
+									state.set(SPPED, 0F);
+								}
 							}
+						}
+						if(state.get(SPPED) > 0){
+							workTime+=Math.round(state.get(SPPED));
 						}
 					}else if(type == EnumToolType.HEAT){
 						IHeatSource heatBuffer = modular.getHeatSource();
@@ -231,8 +250,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	protected int createWorkTimeTotal(IModuleState state, int recipeSpeed) {
-		int startTime = recipeSpeed * speedModifier;
-		return startTime;
+		return recipeSpeed * workTimeModifier;
 	}
 
 	@Override
@@ -266,9 +284,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 
 	@Override
 	public IModuleState createState(IModular modular, IModuleContainer container) {
-		IModuleState state = super.createState(modular, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE).register(DRIVEINDEXES);
+		IModuleState state = super.createState(modular, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
 		if(getType(state) == EnumToolType.HEAT){
-			state.register(HEATTOREMOVE).register(HEATREQUIRED);
+			state = state.register(HEATTOREMOVE).register(HEATREQUIRED);
+		}else if(getType(state) == EnumToolType.KINETIC){
+			state = state.register(SPPED);
 		}
 		return state;
 	}
@@ -370,7 +390,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 
 	@Override
 	public int getSpeed(IModuleState state) {
-		return speedModifier;
+		return workTimeModifier;
 	}
 
 	@Override

@@ -30,8 +30,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored, IModuleJEI{
 
-	public ModuleAlloySmelter(int complexity, int speed, EnumModuleSize size) {
-		super("alloysmelter", complexity,speed, size);
+	public ModuleAlloySmelter(int complexity, int workTimeModifier, EnumModuleSize size) {
+		super("alloysmelter", complexity, workTimeModifier, size);
 	}
 
 	@Override

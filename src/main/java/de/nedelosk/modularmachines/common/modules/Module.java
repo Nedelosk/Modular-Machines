@@ -84,7 +84,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isClean(IModuleState state) {
 		for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){

@@ -16,7 +16,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
-import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;

@@ -633,7 +633,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	public EnumMap<EnumFacing, boolean[]> getConfigurations() {
 		return configurations;
 	}
-	
+
 	@Override
 	public void cleanHandler(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
@@ -650,7 +650,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		for(ItemStack stack : stacks){

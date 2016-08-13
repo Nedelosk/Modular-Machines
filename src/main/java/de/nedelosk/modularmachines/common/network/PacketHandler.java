@@ -2,12 +2,12 @@ package de.nedelosk.modularmachines.common.network;
 
 import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModuleClean;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;

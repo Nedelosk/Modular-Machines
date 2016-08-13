@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.handlers.tanks;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -28,13 +27,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
@@ -483,7 +478,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		for(FluidTankAdvanced tank : tanks){
