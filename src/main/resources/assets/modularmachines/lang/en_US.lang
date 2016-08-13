@@ -36,6 +36,7 @@ module.engine.electric.rf.name=Redstone Flux Engine
 module.engine.electric.eu.name=Electric Engine
 module.engine.steam.name=Steam Engine
 module.controller.name=Controller
+module.lathe.name=Lathe
 module.boiler.name=Boiler
 module.heater.burning.name=Burning Heater
 module.heater.steam.name=Steam Heater
@@ -190,6 +191,7 @@ module.page.heater.name=Heater
 module.page.turbine.steam.name=Steam Trubine
 module.page.cleaner.name=Module Cleaner
 module.page.cleaner.clean.name=Clean Module
+module.page.lathe.name=Lathe
 
 ####################################
 # Tooltips
@@ -211,5 +213,7 @@ mm.tooltip.handler.tank.amount=Amount:
 ####################################
 gui.mm.jei.category.boiler=Boiler
 gui.mm.jei.category.alloysmelter=Alloy Smelter
+gui.mm.jei.category.lathe=Lathe
+gui.mm.jei.category.pulverizer=Pulverizer
 
 gui.mm.jei.heat=Heat: %s

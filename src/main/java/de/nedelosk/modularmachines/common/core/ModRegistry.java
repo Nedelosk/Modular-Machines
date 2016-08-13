@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
-public class ModularMachinesRegistry extends Registry {
+public class ModRegistry extends Registry {
 
 	public static Config config;
 

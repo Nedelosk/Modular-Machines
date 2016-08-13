@@ -190,8 +190,8 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets() {
-			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
-			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
+			add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
+			add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(1)));
 		}
 	}
 

@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -10,12 +8,13 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineAdvanced;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -23,12 +22,13 @@ import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
+import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import net.minecraft.inventory.Slot;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored{
+public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IModuleJEI{
 
 	public ModuleLathe(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
 		super("lathe", complexity, workTimeModifier, maxSpeed, size, LatheModes.ROD);
@@ -38,6 +38,11 @@ public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
 		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+	}
+
+	@Override
+	public String[] getJEIRecipeCategorys(IModuleContainer container) {
+		return new String[]{ModuleCategoryUIDs.LATHE};
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -80,7 +85,7 @@ public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored
 
 	@Override
 	public int getColor() {
-		return Color.YELLOW.getRGB();
+		return 0xC4C09C;
 	}
 
 	/*@SideOnly(Side.CLIENT)
@@ -110,20 +115,17 @@ public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored
 		}
 	}*/
 
-	public static class ModuleLathePage extends ModuleAdvancedPage{
+	public static class ModuleLathePage extends ModulePage<IModuleModeMachine>{
 
-		public ModuleLathePage(String pageID, IModuleState<IModuleMachineAdvanced> state) {
+		public ModuleLathePage(String pageID, IModuleState<IModuleModeMachine> state) {
 			super(pageID, "lathe", state);
 		}
 
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets() {
-			int burnTime = 0;
-			int burnTimeTotal = 0;
-
-			gui.getWidgetManager().add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-			gui.getWidgetManager().add(new WidgetButtonMode(86, 16, state.getModule().getCurrentMode(state)));
+			add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			add(new WidgetButtonMode(86, 16, state));
 		}
 
 		@Override
@@ -135,10 +137,9 @@ public class ModuleLathe extends ModuleMachineAdvanced implements IModuleColored
 
 		@Override
 		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			ArrayList<Slot> list = new ArrayList<Slot>();
-			list.add(new SlotModule(state, 0));
-			list.add(new SlotModule(state, 1));
-			list.add(new SlotModule(state, 2));
+			modularSlots.add(new SlotModule(state, 0));
+			modularSlots.add(new SlotModule(state, 1));
+			modularSlots.add(new SlotModule(state, 2));
 		}
 
 	}

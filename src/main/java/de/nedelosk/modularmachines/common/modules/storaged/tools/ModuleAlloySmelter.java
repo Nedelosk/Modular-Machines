@@ -112,7 +112,7 @@ public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored,
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets() {
-			gui.getWidgetManager().add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
 	}
 

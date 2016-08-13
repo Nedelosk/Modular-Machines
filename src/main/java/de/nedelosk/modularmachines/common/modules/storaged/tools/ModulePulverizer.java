@@ -120,7 +120,7 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void addWidgets() {
-			gui.getWidgetManager().add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
+			add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
 	}
 

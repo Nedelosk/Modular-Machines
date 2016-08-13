@@ -129,18 +129,16 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 		@Override
 		public void addWidgets() {
-			gui.getWidgetManager().add(new WidgetBurning(80, 18, 0, 0));
+			add(new WidgetBurning(80, 18, 0, 0));
 		}
 
 		@Override
-		public void updateGui() {
-			List<Widget> widgets = gui.getWidgetManager().getWidgets();
-			for(Widget widget : widgets) {
-				if (widget instanceof WidgetBurning) {
-					WidgetBurning widgetBurning = (WidgetBurning) widget;
-					widgetBurning.burnTime = state.get(BURNTIME);
-					widgetBurning.burnTimeTotal = state.get(BURNTIMETOTAL);
-				}
+		protected void onUpdateWidget(Widget widget) {
+			super.onUpdateWidget(widget);
+			if (widget instanceof WidgetBurning) {
+				WidgetBurning widgetBurning = (WidgetBurning) widget;
+				widgetBurning.burnTime = state.get(BURNTIME);
+				widgetBurning.burnTimeTotal = state.get(BURNTIMETOTAL);
 			}
 		}
 

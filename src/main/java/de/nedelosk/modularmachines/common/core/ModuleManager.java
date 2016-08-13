@@ -277,6 +277,15 @@ public class ModuleManager {
 		modulePulverizerBronze.setRegistryName(new ResourceLocation("modularmachines:pulverizer.bronze"));
 		GameRegistry.register(modulePulverizerBronze);
 
+		/* LATHE */
+		moduleLatheIron = new ModuleLathe(2, 40, 2, EnumModuleSize.LARGE);
+		moduleLatheIron.setRegistryName(new ResourceLocation("modularmachines:lathe.iron"));
+		GameRegistry.register(moduleLatheIron);
+
+		moduleLatheBronze = new ModuleLathe(4, 30, 5, EnumModuleSize.LARGE);
+		moduleLatheBronze.setRegistryName(new ResourceLocation("modularmachines:lathe.bronze"));
+		GameRegistry.register(moduleLatheBronze);
+
 		/* ALLOY SMELTERS*/
 		moduleAlloySmelterIron = new ModuleAlloySmelter(2, 35, EnumModuleSize.LARGE);
 		moduleAlloySmelterIron.setRegistryName(new ResourceLocation("modularmachines:alloysmelter.iron"));
@@ -350,6 +359,10 @@ public class ModuleManager {
 		//Pulverizer
 		registerModuleItem(modulePulverizerIron, EnumMetalMaterials.IRON);
 		registerModuleItem(modulePulverizerBronze, EnumMetalMaterials.BRONZE);
+
+		//Lathe
+		registerModuleItem(moduleLatheIron, EnumMetalMaterials.IRON);
+		registerModuleItem(moduleLatheBronze, EnumMetalMaterials.BRONZE);
 	}
 
 	private static void registerModuleItem(IModule module, IMaterial material){

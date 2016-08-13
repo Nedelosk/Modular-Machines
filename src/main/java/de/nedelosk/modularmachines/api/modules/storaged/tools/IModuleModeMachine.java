@@ -3,9 +3,11 @@ package de.nedelosk.modularmachines.api.modules.storaged.tools;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 
-public interface IModuleMachineAdvanced extends IModuleMachine {
+public interface IModuleModeMachine extends IModuleMachine {
 
-	Class<? extends IToolMode> getModeClass();
+	IToolMode getMode(int index);
+
+	IToolMode getNextMode(IModuleState state);
 
 	IToolMode getCurrentMode(IModuleState state);
 

@@ -67,13 +67,17 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 		ItemStack stack = inventory.getStackInSlot(0);
 		if(stack != null){
 			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-			IModuleState moduleState = provider.createState(null);
-			for(IModuleContentHandler handler : (List<IModuleContentHandler>)moduleState.getContentHandlers()){
-				if(handler instanceof ICleanableModuleContentHandler){
-					((ICleanableModuleContentHandler)handler).cleanHandler(state);
+			if(provider != null){
+				IModuleState moduleState = provider.createState(null);
+				if(moduleState != null){
+					for(IModuleContentHandler handler : (List<IModuleContentHandler>)moduleState.getContentHandlers()){
+						if(handler instanceof ICleanableModuleContentHandler){
+							((ICleanableModuleContentHandler)handler).cleanHandler(state);
+						}
+					}
 				}
+				provider.setState(null);
 			}
-			provider.setState(null);
 		}
 	}
 

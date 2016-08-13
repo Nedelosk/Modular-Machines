@@ -167,6 +167,17 @@ public class RecipeManager {
 				"COC",
 				"PRP", 'O', ItemModule.createStack(ModuleManager.modulePulverizerIron, EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'R', "rodBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 		addShapedRecipe(new ItemStack(ItemManager.itemChassis), "BIB", "I I", "BIB", 'B', Blocks.IRON_BARS, 'I', "ingotIron");
+
+		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleLatheIron, EnumMetalMaterials.IRON), 
+				"IGP",
+				"RCR",
+				"PGI", 'R', "rodIron", 'I', "ingotIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+
+		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleLatheBronze, EnumMetalMaterials.BRONZE), 
+				"SGP",
+				"COC",
+				"PGS", 'R', "rodBronze", 'S', "screwBronze", 'G', "gearBronze", 'P', "plateBronze", 'O', ItemModule.createStack(ModuleManager.moduleLatheIron, EnumMetalMaterials.IRON), 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+
 	}
 
 	private static void addNormalRecipes() {
@@ -212,27 +223,25 @@ public class RecipeManager {
 			}
 		}
 		for(IMetalMaterial material : ItemManager.itemCompWires.materials) {
-			ItemStack stack = ItemManager.itemCompWires.getStack(material);
-			ItemComponent component = (ItemComponent) stack.getItem();
 			String[] oreDicts = material.getOreDicts();
 			if(oreDicts != null){
 				for(String oreDict : oreDicts) {
-					if (!oreDict.equals("Bronze") && !oreDict.equals("Steel")) {
-						addShapelessRecipe(stack, "plate" + oreDict, "toolCutter");
-					} else {
-						RecipeUtil.addLathe("plate" + oreDict + "ToWire", new RecipeItem(new OreStack("plate" + oreDict)),
-								new RecipeItem(ItemManager.itemCompWires.getStack(material, 8)), 3, LatheModes.WIRE);
+					addShapelessRecipe(ItemManager.itemCompWires.getStack(material, 3), "plate" + oreDict, "toolCutter");
+					RecipeUtil.addLathe("plate" + oreDict + "ToWire", new RecipeItem(new OreStack("plate" + oreDict)),
+							new RecipeItem(ItemManager.itemCompWires.getStack(material, 9)), 3, LatheModes.WIRE);
+					if(ItemManager.itemNuggets.getStack(material) != null){
+						GameRegistry.addSmelting(ItemManager.itemCompWires.getStack(material), ItemManager.itemNuggets.getStack(material), 0.08F);
+					}else if(material == EnumMetalMaterials.GOLD){
+						GameRegistry.addSmelting(ItemManager.itemCompWires.getStack(material), new ItemStack(Items.GOLD_NUGGET), 0.08F);
 					}
 				}
 			}
 		}
 		for(IMetalMaterial material : ItemManager.itemCompScrews.materials) {
-			ItemStack stack = ItemManager.itemCompScrews.getStack(material);
-			ItemComponent component = (ItemComponent) stack.getItem();
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
 				for(String oreDict : oreDicts) {
-					RecipeUtil.addLathe("wire" + oreDict + "ToScrew", new RecipeItem(new OreStack("wire" + oreDict, 2)), new RecipeItem(stack), 3,
+					RecipeUtil.addLathe("rod" + oreDict + "ToScrew", new RecipeItem(new OreStack("rod" + oreDict, 1)), new RecipeItem(ItemManager.itemCompScrews.getStack(material, 2)), 3,
 							LatheModes.SCREW);
 				}
 			}
@@ -262,11 +271,11 @@ public class RecipeManager {
 	}
 
 	private static void registerLatheRecipes() {
-		RecipeUtil.addLathe("IronRod", new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 0)), 1, LatheModes.ROD);
-		RecipeUtil.addLathe("TinRod", new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 1)), 2, LatheModes.ROD);
-		RecipeUtil.addLathe("CopperRod", new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 2)), 1, LatheModes.ROD);
-		RecipeUtil.addLathe("BronzeRod", new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 3)), 2, LatheModes.ROD);
-		RecipeUtil.addLathe("SteelRod", new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 4)), 3, LatheModes.ROD);
+		RecipeUtil.addLathe("IronRod", new RecipeItem(new OreStack("ingotIron")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 0)), 4, LatheModes.ROD);
+		RecipeUtil.addLathe("TinRod", new RecipeItem(new OreStack("ingotTin")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 1)), 4, LatheModes.ROD);
+		RecipeUtil.addLathe("CopperRod", new RecipeItem(new OreStack("ingotCopper")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 2)), 4, LatheModes.ROD);
+		RecipeUtil.addLathe("BronzeRod", new RecipeItem(new OreStack("ingotBronze")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 3)), 5, LatheModes.ROD);
+		RecipeUtil.addLathe("SteelRod", new RecipeItem(new OreStack("ingotSteel")), new RecipeItem(new ItemStack(ItemManager.itemCompRods, 2, 4)), 6, LatheModes.ROD);
 	}
 
 	private static void registerSawMillRecipes() {
@@ -325,7 +334,7 @@ public class RecipeManager {
 
 	private static void registerBoilerRecipes(){
 		//ONLY FOR JEI
-		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 1)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), EnergyRegistry.STEAM_PER_UNIT_WATER)), 1, 100, 0D);
+		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 15)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), EnergyRegistry.STEAM_PER_UNIT_WATER / 2)), 1, 100, 0D);
 	}
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

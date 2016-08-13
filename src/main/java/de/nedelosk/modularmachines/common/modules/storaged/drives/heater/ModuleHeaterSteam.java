@@ -157,7 +157,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 		@Override
 		public void addWidgets() {
-			gui.getWidgetManager().add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
+			add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
 		}
 
 		@Override

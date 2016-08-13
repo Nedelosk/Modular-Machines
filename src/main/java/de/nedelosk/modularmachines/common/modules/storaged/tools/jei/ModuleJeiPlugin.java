@@ -19,6 +19,8 @@ import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelte
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.alloysmelter.AlloySmelterRecipeWrapper;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeCategory;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.boiler.BoilerRecipeWrapper;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.lathe.LatheRecipeCategory;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.lathe.LatheRecipeWrapper;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer.PulverizerRecipeCategory;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.pulverizer.PulverizerRecipeWrapper;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeHandler;
@@ -26,6 +28,7 @@ import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
@@ -36,6 +39,7 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 
 	public static boolean isAdded;
 	private static List<String> producerHandlers = Lists.newArrayList();
+	public static IJeiRuntime jeiRuntime;
 
 	@Override
 	public void register(IModRegistry registry) {
@@ -48,7 +52,8 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		registry.addRecipeCategories(
 				new AlloySmelterRecipeCategory(guiHelper),
 				new BoilerRecipeCategory(guiHelper),
-				new PulverizerRecipeCategory(guiHelper));
+				new PulverizerRecipeCategory(guiHelper),
+				new LatheRecipeCategory(guiHelper));
 
 		for(IModuleContainer container : ModularMachinesApi.MODULE_CONTAINERS){
 			IModule module = container.getModule();
@@ -66,11 +71,18 @@ public class ModuleJeiPlugin extends BlankModPlugin {
 		registry.addRecipeHandlers(
 				new ModuleRecipeHandler(ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class),
 				new ModuleRecipeHandler(ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class),
-				new ModuleRecipeHandler(ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
+				new ModuleRecipeHandler(ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class),
+				new ModuleRecipeHandler(ModuleCategoryUIDs.LATHE, LatheRecipeWrapper.class));
 
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", ModuleCategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Boiler", ModuleCategoryUIDs.BOILER, BoilerRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", ModuleCategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
+		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Lathe", ModuleCategoryUIDs.LATHE, LatheRecipeWrapper.class, guiHelper));
+	}
+
+	@Override
+	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+		ModuleJeiPlugin.jeiRuntime = jeiRuntime;
 	}
 
 	private static class AssemblerAdvancedGuiHandler implements IAdvancedGuiHandler<GuiAssembler> {

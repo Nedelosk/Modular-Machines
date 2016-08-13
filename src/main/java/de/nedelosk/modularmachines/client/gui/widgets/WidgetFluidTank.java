@@ -46,7 +46,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class WidgetFluidTank extends Widget {
 	private static final int TEX_WIDTH = 14;
 	private static final int TEX_HEIGHT = 14;

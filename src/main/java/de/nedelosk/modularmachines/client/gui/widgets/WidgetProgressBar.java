@@ -6,7 +6,10 @@ import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class WidgetProgressBar extends Widget {
 
 	public int burntime;

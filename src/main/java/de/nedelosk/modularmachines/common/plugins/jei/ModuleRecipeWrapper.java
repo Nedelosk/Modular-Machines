@@ -6,6 +6,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
@@ -89,7 +90,17 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 			try{
 				recipes.add(wrapper.getConstructor(IRecipe.class, String.class).newInstance(recipe, recipeCategoryUid));
 			}catch(Exception e){
+			}
+		}
+		return recipes;
+	}
 
+	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid, Class<? extends ModuleRecipeWrapper> wrapper, IGuiHelper guiHelper) {
+		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
+		for (IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
+			try{
+				recipes.add(wrapper.getConstructor(IRecipe.class, String.class, IGuiHelper.class).newInstance(recipe, recipeCategoryUid, guiHelper));
+			}catch(Exception e){
 			}
 		}
 		return recipes;

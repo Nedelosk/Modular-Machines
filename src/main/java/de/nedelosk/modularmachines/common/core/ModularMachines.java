@@ -30,8 +30,6 @@ public class ModularMachines {
 	public static File configFolder;
 	public static File configFile;
 
-	public static final ResourceLocation MODULEITEMS =  new ResourceLocation("modularmachines:moduleItems");
-
 	public static IForgeRegistry<IModule> iModuleRegistry;
 	public static IForgeRegistry<IModuleContainer> iModuleContainerRegistry;
 
@@ -41,12 +39,12 @@ public class ModularMachines {
 	@SidedProxy(clientSide = "de.nedelosk.modularmachines.client.core.ClientProxy", serverSide = "de.nedelosk.modularmachines.common.core.CommonProxy")
 
 	public static CommonProxy proxy;
-	public static ModularMachinesRegistry registry;
+	public static ModRegistry registry;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
-		registry = new ModularMachinesRegistry();
+		registry = new ModRegistry();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
 		configFile = new File(configFolder, "Modular-Machines.cfg");
 		registry.preInit(instance, event);

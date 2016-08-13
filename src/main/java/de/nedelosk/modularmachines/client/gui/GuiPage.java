@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.client.gui;
 
+import java.io.IOException;
+
 import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
@@ -54,6 +56,12 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 	public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
 		super.drawScreen(mouseX, mouseY, p_73863_3_);
 		page.drawTooltips(mouseX, mouseY);
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		page.handleMouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
