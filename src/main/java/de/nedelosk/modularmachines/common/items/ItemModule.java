@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -75,16 +76,22 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		IModuleContainer moduleContainer = ModularMachinesApi.getContainerFromItem(stack);
-		if(moduleContainer != null){
-			if(tintIndex == 1){
-				IModule module = moduleContainer.getModule();
-				if (module instanceof IModuleColored && stack.hasTagCompound()) {
-					IModuleColored moduleColered = (IModuleColored) module;
-					return moduleColered.getColor();
+		if(stack.hasTagCompound()){
+			NBTTagCompound nbtTag = stack.getTagCompound();
+			if(tintIndex == 0){
+				if(nbtTag.hasKey("Material")){
+					IMaterial material = MaterialRegistry.getMaterial(nbtTag.getString("Material"));
+					if(material instanceof IColoredMaterial){
+						return ((IColoredMaterial)material).getColor();
+					}
 				}
-			}else if(tintIndex == 0 && moduleContainer.getMaterial() instanceof IColoredMaterial){
-				return ((IColoredMaterial)moduleContainer.getMaterial()).getColor();
+			}else if(tintIndex == 1){
+				if(nbtTag.hasKey("Module")){
+					IModule module = ModularMachinesApi.MODULES.getValue(new ResourceLocation(nbtTag.getString("Module")));
+					if(module instanceof IModuleColored){
+						return ((IModuleColored) module).getColor();
+					}
+				}
 			}
 		}
 		return 16777215;
