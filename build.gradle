@@ -54,6 +54,7 @@ task deobfJar(type: Jar) {
 
 task sourcesJar(type: Jar) {
 	from sourceSets.main.allJava
+	exclude 'forestry'
 	classifier = 'sources'
 }
 
