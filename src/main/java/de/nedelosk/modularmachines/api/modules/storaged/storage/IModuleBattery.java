@@ -4,7 +4,7 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 
-public interface IModuleBattery extends IModule {
+public interface IModuleBattery extends IModule, IModuleBatteryProperties {
 
 	void setStorageEnergy(IModuleState<IModuleBattery> state, long energy, ItemStack itemStack);
 

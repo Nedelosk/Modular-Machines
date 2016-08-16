@@ -12,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -25,8 +24,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 
-	public ModuleSawMill(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
-		super("sawmill", complexity, workTimeModifier, maxSpeed, size);
+	public ModuleSawMill() {
+		super("sawmill");
 	}
 
 	@Override

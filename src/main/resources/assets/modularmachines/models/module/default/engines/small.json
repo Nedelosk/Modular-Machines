@@ -1,8 +1,8 @@
 {
 "elements": [ 
 {
-    "from": [ 12, 2, 1 ],
-    "to": [ 13, 5, 4 ],
+    "from": [ 12, 10, 1 ],
+    "to": [ 13, 13, 4 ],
     "faces": {
         "down":  { "uv": [ 8.5, 2.5, 10, 3 ], "rotation": 270, "texture": "#engine" },
         "up":    { "uv": [ 7, 2.5, 8.5, 3 ], "rotation": 90, "texture": "#engine" },
@@ -13,8 +13,8 @@
     }
 },
 {
-    "from": [ 3, 2.5, 1.5 ],
-    "to": [ 13, 4.5, 3.5 ],
+    "from": [ 3, 10.5, 1.5 ],
+    "to": [ 13, 12.5, 3.5 ],
     "faces": {
         "down":  { "uv": [ 7.5, 15, 6.5, 9.5 ], "rotation": 270, "texture": "#engine" },
         "up":    { "uv": [ 5.5, 9.5, 6.5, 15 ], "rotation": 90, "texture": "#engine" },

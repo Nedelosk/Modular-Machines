@@ -14,7 +14,6 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -29,8 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePulverizer extends ModuleMachine implements IModuleColored, IModuleJEI{
 
-	public ModulePulverizer(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
-		super("pulverizer", complexity, workTimeModifier, maxSpeed, size);
+	public ModulePulverizer() {
+		super("pulverizer");
 	}
 
 	@Override

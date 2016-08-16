@@ -68,10 +68,10 @@ public class PositionedAssemblerLogic implements IAssemblerLogic {
 					for(int i = pos.startSlotIndex + 1;i < pos.endSlotIndex + 1;i++){
 						IModuleContainer otherContainer = ModularMachinesApi.getContainerFromItem(itemHandler.getStackInSlot(i));
 						if(otherContainer != null){
-							usedSize = EnumModuleSize.getNewSize(usedSize, otherContainer.getModule().getSize());
+							usedSize = EnumModuleSize.getNewSize(usedSize, otherContainer.getModule().getSize(otherContainer));
 						}
 					}
-					usedSize = EnumModuleSize.getNewSize(usedSize, container.getModule().getSize());
+					usedSize = EnumModuleSize.getNewSize(usedSize, container.getModule().getSize(container));
 					if(usedSize != EnumModuleSize.UNKNOWN){
 						return true;
 					}

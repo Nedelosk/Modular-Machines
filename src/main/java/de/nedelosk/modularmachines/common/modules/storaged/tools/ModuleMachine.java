@@ -11,18 +11,19 @@ import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -48,24 +49,31 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
-	public static final PropertyFloat SPPED = new PropertyFloat("speed", 0);
+	public static final PropertyFloat SPEED = new PropertyFloat("speed", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("heatToRemove", 0);
 	public static final PropertyDouble HEATREQUIRED = new PropertyDouble("requiredHeat", 0F);
 	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
 
-	protected final float maxSpeed;
-	protected final int workTimeModifier;
-	protected final EnumModuleSize size;
-
-	public ModuleMachine(String name, int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
-		super(name, complexity);
-		this.workTimeModifier = workTimeModifier;
-		this.maxSpeed = maxSpeed;
-		this.size = size;
+	public ModuleMachine(String name) {
+		super(name);
 	}
 
-	public ModuleMachine(String name, int complexity, int workTimeModifier, EnumModuleSize size) {
-		this(name, complexity, workTimeModifier, 0, size);
+	@Override
+	public int getWorkTimeModifier(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleMachineProperties){
+			return ((IModuleMachineProperties) properties).getWorkTimeModifier(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public float getMaxSpeed(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleMachineProperties){
+			return ((IModuleMachineProperties) properties).getMaxSpeed(state);
+		}
+		return 0;
 	}
 
 	/* RECIPE */
@@ -186,21 +194,21 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							if(source.getKineticEnergyStored() > 0){
 								source.extractKineticEnergy(1, false);
-								if(state.get(SPPED) < maxSpeed){
-									state.set(SPPED, state.get(SPPED)+0.01F);
-								}else if(state.get(SPPED) > maxSpeed){
-									state.set(SPPED, maxSpeed);
+								if(state.get(SPEED) < getMaxSpeed(state)){
+									state.set(SPEED, state.get(SPEED)+0.01F);
+								}else if(state.get(SPEED) > getMaxSpeed(state)){
+									state.set(SPEED, getMaxSpeed(state));
 								}
 							}else{
-								if(state.get(SPPED) > 0){
-									state.set(SPPED, state.get(SPPED)-0.05F);
-								}else if(0 > state.get(SPPED)){
-									state.set(SPPED, 0F);
+								if(state.get(SPEED) > 0){
+									state.set(SPEED, state.get(SPEED)-0.05F);
+								}else if(0 > state.get(SPEED)){
+									state.set(SPEED, 0F);
 								}
 							}
 						}
-						if(state.get(SPPED) > 0){
-							workTime+=Math.round(state.get(SPPED));
+						if(state.get(SPEED) > 0){
+							workTime+=Math.round(state.get(SPEED));
 						}
 					}else if(type == EnumToolType.HEAT){
 						IHeatSource heatBuffer = modular.getHeatSource();
@@ -250,7 +258,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	protected int createWorkTimeTotal(IModuleState state, int recipeSpeed) {
-		return recipeSpeed * workTimeModifier;
+		return recipeSpeed * getWorkTimeModifier(state);
 	}
 
 	@Override
@@ -288,7 +296,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		if(getType(state) == EnumToolType.HEAT){
 			state = state.register(HEATTOREMOVE).register(HEATREQUIRED);
 		}else if(getType(state) == EnumToolType.KINETIC){
-			state = state.register(SPPED);
+			state = state.register(SPEED);
 		}
 		return state;
 	}
@@ -386,16 +394,6 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaState data) {
 		return null;
-	}
-
-	@Override
-	public int getSpeed(IModuleState state) {
-		return workTimeModifier;
-	}
-
-	@Override
-	public EnumModuleSize getSize() {
-		return size;
 	}
 
 	@Override

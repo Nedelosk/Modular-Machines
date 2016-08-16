@@ -18,7 +18,6 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.IModuleLoader;
 import de.nedelosk.modularmachines.api.property.JsonUtils;
-import de.nedelosk.modularmachines.common.items.ItemModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -72,14 +71,7 @@ public class ModuleLoader implements IModuleLoader {
 			material = MaterialRegistry.getMaterial(jsonObject.get("material").getAsString());
 		}
 		if(jsonObject.has("item") && jsonObject.get("item").isJsonPrimitive() && jsonObject.get("item").getAsJsonPrimitive().isString()){
-			String item = jsonObject.get("item").getAsString();
-			if(item.equals("default")){
-				if(module != null && material != null){
-					stack = ItemModule.registerAndCreateStack(module, material);
-				}
-			}else{
-				stack = JsonUtils.parseItem(jsonObject, "item");
-			}
+			stack = JsonUtils.parseItem(jsonObject, "item");
 		}
 		if(jsonObject.has("tooltip")){
 			if(jsonObject.get("tooltip").isJsonArray()){
@@ -100,7 +92,7 @@ public class ModuleLoader implements IModuleLoader {
 			ignorNBT = jsonObject.get("ignorNBT").getAsBoolean();
 		}
 
-		if(module != null && material != null && stack != null){
+		if(module != null && material != null){
 			return new ModuleContainer(module, stack, material, tooltip, ignorNBT);
 		}
 		return null;

@@ -31,9 +31,11 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	public final PropertyEnum<EnumPosition> STORAGEDPOSITION = new PropertyEnum("storagedPosition", EnumPosition.class, null);
 	public final int allowedStoragedComplexity;
 	public final EnumModuleSize size;
+	public final int complexity;
 
 	public ModuleModuleStorage(int complexity, int allowedStoragedComplexity, EnumModuleSize size) {
-		super("drawer", complexity);
+		super("drawer");
+		this.complexity = complexity;
 		this.allowedStoragedComplexity = allowedStoragedComplexity;
 		this.size = size;
 	}
@@ -45,8 +47,12 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize().getLocalizedName());
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
+		if(getSize(container) != null){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
+		}
+		if(getComplexity(container) >= 0){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
+		}
 		List<String> positions = new ArrayList<>();
 		if(size == EnumModuleSize.LARGE) {
 			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.LEFT.getName() + ".name"));
@@ -110,8 +116,13 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return size;
+	}
+
+	@Override
+	public int getComplexity(IModuleContainer container) {
+		return complexity;
 	}
 
 	@Override

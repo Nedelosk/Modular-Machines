@@ -23,8 +23,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleEngineSteam extends ModuleEngine {
 
-	public ModuleEngineSteam(int complexity, int kineticModifier, int maxKineticEnergy, int materialPerWork) {
-		super("engine.steam", complexity, kineticModifier, materialPerWork, materialPerWork);
+	public ModuleEngineSteam() {
+		super("engine.steam");
 	}
 
 	@Override
@@ -33,9 +33,9 @@ public class ModuleEngineSteam extends ModuleEngine {
 		if(tank == null){
 			return false;
 		}
-		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, materialPerWork), false);
-		if (drained != null && drained.amount >= materialPerWork) {
-			return tank.drainInternal(new FluidStack(FluidManager.Steam, materialPerWork), true).amount >= materialPerWork;
+		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), false);
+		if (drained != null && drained.amount >= getMaterialPerWork(state)) {
+			return tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), true).amount >= getMaterialPerWork(state);
 		} else {
 			return false;
 		}

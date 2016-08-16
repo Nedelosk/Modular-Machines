@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.common.core.FluidManager;
@@ -24,8 +23,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTurbineSteam extends ModuleTurbine {
 
-	public ModuleTurbineSteam(int complexity, EnumModuleSize size, double kineticModifier, int maxKineticEnergy, int steamPerWork) {
-		super("turbine.steam", complexity, size, kineticModifier, maxKineticEnergy, steamPerWork);
+	public ModuleTurbineSteam() {
+		super("turbine.steam");
 	}
 
 	@Override
@@ -34,9 +33,9 @@ public class ModuleTurbineSteam extends ModuleTurbine {
 		if(tank == null){
 			return false;
 		}
-		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, steamPerWork), false);
-		if (drained != null && drained.amount >= steamPerWork) {
-			return tank.drainInternal(new FluidStack(FluidManager.Steam, steamPerWork), true).amount >= steamPerWork;
+		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), false);
+		if (drained != null && drained.amount >= getMaterialPerWork(state)) {
+			return tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), true).amount >= getMaterialPerWork(state);
 		} else {
 			return false;
 		}

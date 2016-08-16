@@ -6,7 +6,7 @@ public interface IHeatSource {
 
 	double receiveHeat(double maxReceive, boolean simulate);
 
-	void increaseHeat(int heatModifier);
+	void increaseHeat(double maxHeat, int heatModifier);
 
 	void reduceHeat(int heatModifier);
 

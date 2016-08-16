@@ -68,10 +68,10 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 			slotLast.hasChange = false;
 			if(slotFirst.getHasStack()){
 				IModuleContainer containerFirst = ModularMachinesApi.getContainerFromItem(slotFirst.getStack());
-				if(containerFirst.getModule().getSize() == EnumModuleSize.LARGE){
+				if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSize.LARGE){
 					slotSecond.setActive(false);
 					slotLast.setActive(false);
-				}else if(containerFirst.getModule().getSize() == EnumModuleSize.MIDDLE){
+				}else if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSize.MIDDLE){
 					if(!slotSecond.getHasStack()){
 						slotSecond.setActive(false);
 					}else{
@@ -81,10 +81,10 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 			}
 			if(slotSecond.getHasStack()){
 				IModuleContainer containerSecond = ModularMachinesApi.getContainerFromItem(slotSecond.getStack());
-				if(containerSecond.getModule().getSize() == EnumModuleSize.LARGE){
+				if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSize.LARGE){
 					slotFirst.setActive(false);
 					slotLast.setActive(false);
-				}else if(containerSecond.getModule().getSize() == EnumModuleSize.MIDDLE){
+				}else if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSize.MIDDLE){
 					if(!slotFirst.getHasStack()){
 						slotFirst.setActive(false);
 					}else{
@@ -94,10 +94,10 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 			}
 			if(slotLast.getHasStack()){
 				IModuleContainer containerLast = ModularMachinesApi.getContainerFromItem(slotLast.getStack());
-				if(containerLast.getModule().getSize() == EnumModuleSize.LARGE){
+				if(containerLast.getModule().getSize(containerLast) == EnumModuleSize.LARGE){
 					slotFirst.setActive(false);
 					slotSecond.setActive(false);
-				}else if(containerLast.getModule().getSize() == EnumModuleSize.MIDDLE){
+				}else if(containerLast.getModule().getSize(containerLast) == EnumModuleSize.MIDDLE){
 					if(!slotSecond.getHasStack()){
 						slotSecond.setActive(false);
 					}else{

@@ -18,7 +18,9 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -84,10 +86,20 @@ public class ModelModular implements IBakedModel {
 					IPositionedModular positionedModular = (IPositionedModular) modular;
 					for(IPositionedModuleStorage storage : positionedModular.getModuleStorages()){
 						List<IBakedModel> positionedModels = new ArrayList<>();
+						EnumModuleSize size = null;
 						for(IModuleState moduleState : storage.getModules()){
 							IBakedModel model = getModel(moduleState, modelState, vertex);
 							if(model != null){
-								positionedModels.add(model);
+								if(size == null){
+									positionedModels.add(model);
+								}else if(size == EnumModuleSize.SMALL){
+									positionedModels.add(new TRSRBakedModel(model, 0F, -0.25F, 0F, 1F));
+								}else{
+									positionedModels.add(new TRSRBakedModel(model, 0F, -0.5F, 0F, 1F));
+								}
+							}
+							if(!(moduleState.getModule() instanceof IModuleModuleStorage)){
+								size = EnumModuleSize.getNewSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
 							}
 						}
 						float rotation = 0F;
@@ -97,7 +109,9 @@ public class ModelModular implements IBakedModel {
 						}else if(pos == EnumPosition.LEFT){
 							rotation = -(float) (Math.PI / 2);
 						}
-						models.add(new TRSRBakedModel(new ModularBaked(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
+						if(!positionedModels.isEmpty()){
+							models.add(new TRSRBakedModel(new ModularBaked(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
+						}
 					}
 				}else{
 					for(IModuleState moduleState : modularHandler.getModular().getModules()){

@@ -92,7 +92,7 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 			if(!preFixNew.isEmpty()){
 				preFixNew+="_";
 			}
-			preFixNew+= container.getModule().getSize().getName();
+			preFixNew+= container.getModule().getSize(container).getName();
 		}
 		if(useStatus){
 			preFixNew+= "_" + (status ? "on" : "off");

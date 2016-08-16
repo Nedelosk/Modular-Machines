@@ -6,7 +6,6 @@ import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.common.modules.storaged.storage.ModuleBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFInterface;
@@ -15,11 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleCapitorBank extends ModuleBattery {
 
-	private EnergyStorage defaultStorage;
-
-	public ModuleCapitorBank(int complexity, EnergyStorage defaultStorage) {
-		super("capacitorbank", complexity);
-		this.defaultStorage = defaultStorage;
+	public ModuleCapitorBank() {
+		super("capacitorbank");
 	}
 
 	@Override
@@ -40,7 +36,7 @@ public class ModuleCapitorBank extends ModuleBattery {
 
 	@Override
 	public IModuleEnergyInterface createEnergyInterface(IModuleState state) {
-		return new ModuleRFInterface(state, defaultStorage);
+		return new ModuleRFInterface(state, new EnergyStorage(getCapacity(state), getMaxReceive(state), getMaxExtract(state)));
 	}
 
 	@Override
@@ -51,10 +47,5 @@ public class ModuleCapitorBank extends ModuleBattery {
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.INTERNAL;
-	}
-
-	@Override
-	public EnumModuleSize getSize() {
-		return EnumModuleSize.LARGE;
 	}
 }

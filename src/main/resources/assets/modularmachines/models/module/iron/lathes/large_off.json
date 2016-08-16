@@ -1,6 +1,7 @@
 {
-    "parent": "modularmachines:module/default/machines/large",
+	"parent": "modularmachines:module/default/machines/large",
 	"textures": {
-        "machine": "modularmachines:modules/lathe_iron_large_off"
-    }
+		"metal": "modularmachines:modules/metal_iron_large",
+		"overlay": "modularmachines:modules/lathe_large_off"
+	}
 }

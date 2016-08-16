@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
@@ -59,10 +60,10 @@ public class ItemManager {
 		itemCompPlates = register(new ItemComponent("plates", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.INVAR));
 		itemCompGears = register(new ItemComponent("gears", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick_large", "brick_small" }));
-		itemEngineSteam = register(new ItemModuleMeta("engineSteam", new String[] { "iron", "bronze", "steel", "magmarium" }));
-		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "iron", "bronze", "steel", "magmarium" }));
+		itemEngineSteam = register(new ItemModuleMeta("engineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
+		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
-		itemModules = register(new ItemModule());
+		ModularMachinesApi.defaultModuleItem = itemModules = register(new ItemModule());
 	}
 
 	public static <I extends Item> I register(I item) {

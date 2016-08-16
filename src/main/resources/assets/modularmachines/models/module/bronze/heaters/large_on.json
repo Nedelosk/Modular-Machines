@@ -1,6 +1,7 @@
 {
-    "parent": "modularmachines:module/default/heaters/large",
+	"parent": "modularmachines:module/default/machines/large",
 	"textures": {
-        "module": "modularmachines:modules/heater_bronze_large_on"
-    }
+		"metal": "modularmachines:modules/metal_bronze_large",
+		"overlay": "modularmachines:modules/heater_large_on"
+	}
 }

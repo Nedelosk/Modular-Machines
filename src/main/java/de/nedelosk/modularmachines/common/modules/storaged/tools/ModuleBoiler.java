@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -24,10 +25,10 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleTool;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
@@ -48,16 +49,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends Module implements IModuleTool, IModuleColored, IModuleJEI {
+public class ModuleBoiler extends Module implements IModuleTool, IModuleColored, IModuleJEI, IModuleBoilerProperties {
 
-	protected EnumModuleSize size;
-	protected int waterPerWork;
+	public ModuleBoiler() {
+		super("boiler");
+	}
 
-	public ModuleBoiler(int complexity, EnumModuleSize size, int waterPerWork) {
-		super("boiler", complexity);
-
-		this.waterPerWork = waterPerWork;
-		this.size = size;
+	@Override
+	public int getWaterPerWork(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleBoilerProperties){
+			return ((IModuleBoilerProperties) properties).getWaterPerWork(state);
+		}
+		return 0;
 	}
 
 	@Override
@@ -68,11 +72,6 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
 		return new String[]{ModuleCategoryUIDs.BOILER};
-	}
-
-	@Override
-	public EnumModuleSize getSize() {
-		return size;
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 				FluidStack waterStack = tankWater.getFluid();
 				if(!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()){
 					if (heatSource.getHeatStored() >= EnergyRegistry.BOILING_POINT){
-						int waterCost = (heatLevel.getIndex() - 1) * waterPerWork;
+						int waterCost = (heatLevel.getIndex() - 1) * getWaterPerWork(state);
 						if (waterCost <= 0){
 							return;
 						}
@@ -141,20 +140,20 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault("boilers", container, ModelHandler.getModelLocation(container, "boilers", container.getModule().getSize())));
+		handlers.add(new ModelHandlerDefault("boilers", container, ModelHandler.getModelLocation(container, "boilers", getSize(container))));
 		return handlers;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault("boilers", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "boilers", state.getContainer().getModule().getSize()));
+		return new ModelHandlerDefault("boilers", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "boilers", getSize(state.getContainer())));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return ModelHandler.getModelLocation(container, "windows",  getSize());
+		return ModelHandler.getModelLocation(container, "windows",  getSize(container));
 	}
 
 	public class BoilerPage extends ModulePage<IModuleTool> {

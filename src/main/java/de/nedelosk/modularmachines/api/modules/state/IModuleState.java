@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -45,6 +46,8 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	IModulePage getPage(String pageID);
 
 	M getModule();
+
+	IModuleProperties getModuleProperties();
 
 	IModular getModular();
 

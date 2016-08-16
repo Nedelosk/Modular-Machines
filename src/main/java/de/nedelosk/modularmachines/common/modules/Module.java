@@ -13,6 +13,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -29,6 +30,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
@@ -41,7 +43,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,16 +50,27 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
 
 	protected final String name;
-	protected final int complexity;
 
-	public Module(String name, int complexity) {
+	public Module(String name) {
 		this.name = name;
-		this.complexity = complexity;
 	}
 
 	@Override
-	public int getComplexity(IModuleState state) {
-		return complexity;
+	public int getComplexity(IModuleContainer container) {
+		IModuleProperties properties = container.getProperties();
+		if(properties == null){
+			return -1;
+		}
+		return properties.getComplexity(container);
+	}
+
+	@Override
+	public EnumModuleSize getSize(IModuleContainer container) {
+		IModuleProperties properties = container.getProperties();
+		if(properties == null){
+			return null;
+		}
+		return properties.getSize(container);
 	}
 
 	@Override
@@ -72,8 +84,12 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		if(!(container.getItemStack().getItem() instanceof ItemModule)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize().getLocalizedName());
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
+		if(getSize(container) != null){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
+		}
+		if(getComplexity(container) >= 0){
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
+		}
 		if(getPosition(container) != null){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") + Translator.translateToLocal("module.storage." + getPosition(container).getName() + ".name"));
 		}
@@ -105,7 +121,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return new ResourceLocation("modularmachines:module/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH)+ "/windows/" + getSize().getName());
+		return new ResourceLocation("modularmachines:module/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH)+ "/windows/" + getSize(container).getName());
 	}
 
 	@Override

@@ -1,10 +1,6 @@
 package de.nedelosk.modularmachines.api.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.property.PropertyToolMode;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleLathe.LatheModes;
 import net.minecraft.item.ItemStack;
 
 public class RecipeUtil {
@@ -78,144 +74,18 @@ public class RecipeUtil {
 		return handler.registerRecipe(builder.build());
 	}
 
-	public static boolean canRemoveRecipeInputs(IRecipeInventory inventory, int chance, RecipeItem[] inputs) {
-		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
-				if (recipeInput != null) {
-					int stackSize = 0;
-					if (recipeInput.isOre()) {
-						stackSize = recipeInput.ore.stackSize;
-					} else if (recipeInput.isItem()) {
-						stackSize = recipeInput.item.stackSize;
-					} else {
-						continue;
-					}
-					ItemStack itemStack = inventory.getStackInSlot(recipeInput.index);
-					if (itemStack.stackSize < stackSize) {
-						return false;
-					}
-					continue;
-				} else {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+	public static enum LatheModes implements IToolMode {
+		ROD("rod"), WIRE("wire"), SCREW("screw");
 
-	public static void removeRecipeInputs(IRecipeInventory inventory, int chance, RecipeItem[] inputs){
-		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
-				if (recipeInput != null) {
-					if (recipeInput.isOre()) {
-						inventory.extractItem(recipeInput.index, recipeInput.ore.stackSize, false);
-					} else if (recipeInput.isItem()) {
-						inventory.extractItem(recipeInput.index, recipeInput.item.stackSize, false);
-					}
-				}
-			}
-		}
-	}
+		private String name;
 
-	public static boolean canAddRecipeOutputs(IRecipeInventory inventory, int chance, RecipeItem[] outputs) {
-		List<ItemStack> outputStacks = new ArrayList<ItemStack>(inventory.getOutputs());
-		if(inventory.getOutputs() > 0) {
-			boolean allFull = true;
-			for (int i = inventory.getInputs(); i < inventory.getInputs() + inventory.getOutputs(); i++) {
-				ItemStack st = inventory.getStackInSlot(i);
-				if(st != null) {
-					st = st.copy();
-					if(allFull && st.stackSize < st.getMaxStackSize()) {
-						allFull = false;
-					}
-				} else {
-					allFull = false;
-				}
-				outputStacks.add(st);
-			}
-			if(allFull) {
-				return false;
-			}
+		private LatheModes(String name) {
+			this.name = name;
 		}
 
-		for (RecipeItem result : outputs) {
-			if(result.item != null) {
-				if(mergeItemResult(result.item, outputStacks) == 0) {
-					return false;
-				}
-			}
+		@Override
+		public String getName() {
+			return name;
 		}
-
-		return true;
-	}
-
-	public static void addRecipeOutputs(IRecipeInventory inventory, int chance, RecipeItem[] outputs) {
-		List<ItemStack> outputStacks = new ArrayList<ItemStack>(inventory.getOutputs());
-		if(inventory.getOutputs() > 0) {
-			for (int i = inventory.getInputs(); i < inventory.getInputs() + inventory.getOutputs(); i++) {
-				ItemStack it = inventory.getStackInSlot(i);
-				if(it != null) {
-					it = it.copy();
-				}
-				outputStacks.add(it);
-			}
-		}
-
-		for (RecipeItem result : outputs) {
-			if(result.item != null) {
-				int numMerged = mergeItemResult(result.item, outputStacks);
-				if(numMerged > 0) {
-					result.item.stackSize -= numMerged;
-				}
-			}
-		}
-
-		if(inventory.getOutputs() > 0) {
-			int listIndex = 0;
-			for (int i = inventory.getInputs(); i < inventory.getInputs() + inventory.getOutputs(); i++) {
-				ItemStack st = outputStacks.get(listIndex);
-				if(st != null) {
-					st = st.copy();
-				}
-				inventory.insertItem(i, st, false);
-				listIndex++;
-			}
-		}
-	}
-
-	private static int mergeItemResult(ItemStack item, List<ItemStack> outputStacks) {
-		int res = 0;
-
-		ItemStack copy = item.copy();
-
-		for (ItemStack outStack : outputStacks) {
-			if(outStack != null && copy != null) {
-				int num = getNumCanMerge(outStack, copy);
-				outStack.stackSize += num;
-				res += num;
-				copy.stackSize -= num;
-				if(copy.stackSize <= 0) {
-					return item.stackSize;
-				}
-			}
-		}
-
-		for (int i = 0; i < outputStacks.size(); i++) {
-			ItemStack outStack = outputStacks.get(i);
-			if(outStack == null) {
-				outputStacks.set(i, copy);
-				return item.stackSize;
-			}
-		}
-
-		return 0;
-	}
-
-	private static int getNumCanMerge(ItemStack itemStack, ItemStack result) {
-		if(!itemStack.isItemEqual(result)) {
-			return 0;
-		}
-		return Math.min(itemStack.getMaxStackSize() - itemStack.stackSize, result.stackSize);
 	}
 }

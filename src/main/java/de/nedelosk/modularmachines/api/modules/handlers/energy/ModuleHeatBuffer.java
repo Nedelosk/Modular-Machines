@@ -56,8 +56,8 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INB
 	}
 
 	@Override
-	public void increaseHeat(int heatModifier) {
-		heatSource.increaseHeat(heatModifier);
+	public void increaseHeat(double maxHeat, int heatModifier) {
+		heatSource.increaseHeat(maxHeat, heatModifier);
 	}
 
 	@Override

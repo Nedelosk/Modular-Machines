@@ -25,13 +25,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModuleController extends Module implements IModuleController, IModuleColored {
 
 	public ModuleController() {
-		super("controller", 1);
+		super("controller");
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		ResourceLocation loc = ModelHandler.getModelLocation(state.getContainer(), "controllers", state.getModule().getSize());
+		ResourceLocation loc = ModelHandler.getModelLocation(state.getContainer(), "controllers", getSize(state.getContainer()));
 		return new ModelHandlerDefault("controllers", state.getContainer(), loc);
 	}
 
@@ -39,7 +39,7 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		ResourceLocation loc = ModelHandler.getModelLocation(container, "controllers", container.getModule().getSize());
+		ResourceLocation loc = ModelHandler.getModelLocation(container, "controllers", getSize(container));
 		handlers.add(new ModelHandlerDefault("controllers", container, loc));
 		return handlers;
 	}
@@ -75,7 +75,7 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.LARGE;
 	}
 }

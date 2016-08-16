@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -10,6 +13,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,6 +32,10 @@ public class ModularMachinesApi {
 
 	public static final IForgeRegistry<IModule> MODULES = GameRegistry.findRegistry(IModule.class);
 	public static final IForgeRegistry<IModuleContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleContainer.class);
+
+	public static Item defaultModuleItem;
+
+	private static List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
 
 	/**
 	 * @return The matching module container for the stack.
@@ -119,6 +127,28 @@ public class ModularMachinesApi {
 			}
 		}
 		return stack;
+	}
+
+	public static ItemStack createDefaultStack(IModuleContainer container) {
+		if(container == null){
+			return null;
+		}
+		if(defaultModuleItem == null){
+			return null;
+		}
+		if(!modulesWithDefaultItem.contains(container)){
+			modulesWithDefaultItem.add(container);
+		}
+		ItemStack itemStack = new ItemStack(defaultModuleItem);
+		NBTTagCompound nbtTag = new NBTTagCompound();
+		nbtTag.setString("Container", container.getRegistryName().toString());
+		itemStack.setTagCompound(nbtTag);
+
+		return itemStack;
+	}
+
+	public static List<IModuleContainer> getModulesWithDefaultItem() {
+		return modulesWithDefaultItem;
 	}
 
 }

@@ -12,7 +12,7 @@ import net.minecraftforge.common.model.IModelState;
 
 public class ModelHandlerDefault extends ModelHandler implements IModelHandler, IModelInitHandler {
 
-	private final ResourceLocation location;
+	protected ResourceLocation location;
 
 	public ModelHandlerDefault(String modelFolder, IModuleContainer container, ResourceLocation location) {
 		super(modelFolder, container);

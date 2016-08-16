@@ -15,7 +15,6 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import net.minecraft.item.ItemStack;
@@ -24,14 +23,9 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModule extends IForgeRegistryEntry<IModule> {
+public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties {
 
 	EnumPosition getPosition(IModuleContainer container);
-
-	/**
-	 * The size of the module.
-	 */
-	EnumModuleSize getSize();
 
 	@SideOnly(Side.CLIENT)
 	EnumWallType getWallType(IModuleState state);
@@ -45,8 +39,6 @@ public interface IModule extends IForgeRegistryEntry<IModule> {
 	String getDisplayName(IModuleContainer container);
 
 	String getDescription(IModuleContainer container);
-
-	int getComplexity(IModuleState state);
 
 	/**
 	 * @return A new list of all content handler of the module that are not empty.

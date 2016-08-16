@@ -1,6 +1,7 @@
 {
     "parent": "modularmachines:module/default/controllers/large",
 	"textures": {
-        "controller": "modularmachines:modules/controller_iron"
+		"overlay": "modularmachines:modules/controller",
+        "metal": "modularmachines:modules/metal_iron_large"
     }
 }

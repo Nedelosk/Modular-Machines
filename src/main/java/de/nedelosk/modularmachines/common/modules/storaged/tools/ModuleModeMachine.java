@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.common.modules.storaged.tools;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.property.PropertyToolMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
@@ -12,8 +11,8 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 
 	public final PropertyToolMode MODE;
 
-	public ModuleModeMachine(String name, int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size, IToolMode defaultMode) {
-		super(name, complexity, workTimeModifier, maxSpeed, size);
+	public ModuleModeMachine(String name, IToolMode defaultMode) {
+		super(name);
 		MODE = new PropertyToolMode("mode", getModeClass(), defaultMode);
 	}
 

@@ -12,13 +12,13 @@ import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
+import de.nedelosk.modularmachines.api.recipes.RecipeUtil.LatheModes;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
@@ -30,8 +30,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IModuleJEI{
 
-	public ModuleLathe(int complexity, int workTimeModifier, float maxSpeed, EnumModuleSize size) {
-		super("lathe", complexity, workTimeModifier, maxSpeed, size, LatheModes.ROD);
+	public ModuleLathe() {
+		super("lathe", LatheModes.ROD);
 	}
 
 	// Recipe
@@ -142,21 +142,6 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 			modularSlots.add(new SlotModule(state, 2));
 		}
 
-	}
-
-	public static enum LatheModes implements IToolMode {
-		ROD("rod"), WIRE("wire"), SCREW("screw");
-
-		private String name;
-
-		private LatheModes(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
 	}
 
 }

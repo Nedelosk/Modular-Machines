@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "modularmachines:modules/module_small",
+		"layer1": "modularmachines:modules/module_small_overlay"
+    }
+}

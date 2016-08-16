@@ -29,8 +29,8 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 
 	protected final int rfOutput;
 
-	public ModulePhotovoltaic(int complexity, int rfOutput) {
-		super("photovoltaic", complexity);
+	public ModulePhotovoltaic(int rfOutput) {
+		super("photovoltaic");
 		this.rfOutput = rfOutput;
 	}
 
@@ -81,7 +81,7 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.LARGE;
 	}
 

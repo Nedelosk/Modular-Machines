@@ -6,6 +6,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -15,6 +16,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
+import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
@@ -28,24 +30,45 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleEngine extends Module implements IModuleEngine {
 
-	protected final double kineticModifier;
-	protected final int maxKineticEnergy;
-	protected final int materialPerWork;
 	protected static final float engineKineticModifier = Config.engineKineticOutput;
 
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 
-	public ModuleEngine(String name, int complexity, double kineticModifier, int maxKineticEnergy, int materialPerTick) {
-		super(name, complexity);
-		this.kineticModifier = kineticModifier;
-		this.maxKineticEnergy = maxKineticEnergy;
-		this.materialPerWork = materialPerTick;
+	public ModuleEngine(String name) {
+		super(name);
+	}
+
+	@Override
+	public int getMaxKineticEnergy(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getMaxKineticEnergy(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public int getMaterialPerWork(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getMaterialPerWork(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public double getKineticModifier(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getKineticModifier(state);
+		}
+		return 0;
 	}
 
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
-		handlers.add(new ModuleKineticHandler(state, maxKineticEnergy, 100));
+		handlers.add(new ModuleKineticHandler(state, getMaxKineticEnergy(state), 100));
 		return handlers;
 	}
 
@@ -66,12 +89,12 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 				if(!isWorking){
 					state.set(WORKING, true);
 				}
-				kineticHandler.increaseKineticEnergy(kineticModifier * engineKineticModifier);
+				kineticHandler.increaseKineticEnergy(getKineticModifier(state) * engineKineticModifier);
 				needUpdate = true;
 			}
 		}else if(isWorking){
 			if(kineticHandler.getKineticEnergyStored() > 0){
-				kineticHandler.reduceKineticEnergy(kineticModifier * engineKineticModifier);
+				kineticHandler.reduceKineticEnergy(getKineticModifier(state) * engineKineticModifier);
 			}else{
 				state.set(WORKING, false);
 			}
@@ -112,7 +135,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.SMALL;
 	}
 
@@ -138,7 +161,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return ModelHandler.getModelLocation(container, "windows",  getSize());
+		return ModelHandler.getModelLocation(container, "windows",  getSize(container));
 	}
 
 }

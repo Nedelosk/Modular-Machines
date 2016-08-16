@@ -31,8 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner, IModuleColored{
 
-	public ModuleModuleCleaner(String name, int complexity) {
-		super(name, complexity);
+	public ModuleModuleCleaner(String name) {
+		super(name);
 	}
 
 	@Override
@@ -41,8 +41,13 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.SMALL;
+	}
+
+	@Override
+	public int getComplexity(IModuleContainer container) {
+		return 1;
 	}
 
 	@Override

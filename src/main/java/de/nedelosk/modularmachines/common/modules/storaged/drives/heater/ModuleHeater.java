@@ -6,14 +6,15 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
+import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterProperties;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
@@ -26,25 +27,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleHeater extends Module implements IModuleHeater, IModuleColored {
 
-	protected final int maxHeat;
-	protected final int heatModifier;
-	protected final EnumModuleSize size;
-
-	public ModuleHeater(String name, int complexity, int maxHeat, int heatModifier, EnumModuleSize size) {
-		super(name, complexity);
-		this.maxHeat = maxHeat;
-		this.heatModifier = heatModifier;
-		this.size = size;
+	public ModuleHeater(String name) {
+		super(name);
 	}
 
 	@Override
-	public int getMaxHeat() {
-		return maxHeat;
+	public double getMaxHeat(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleHeaterProperties){
+			return ((IModuleHeaterProperties) properties).getMaxHeat(state);
+		}
+		return 0;
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
-		return size;
+	public int getHeatModifier(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleHeaterProperties){
+			return ((IModuleHeaterProperties) properties).getHeatModifier(state);
+		}
+		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -59,7 +61,7 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 		if(state.getModular().updateOnInterval(20)){
 			boolean needUpdate = false;
 			if (canAddHeat(state)) {
-				modular.getHeatSource().increaseHeat(heatModifier);
+				modular.getHeatSource().increaseHeat(getMaxHeat(state), getHeatModifier(state));
 				afterAddHeat(state);
 				needUpdate = true;
 			} else {

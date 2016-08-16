@@ -66,14 +66,21 @@ module.capacitorbank.description=This type of battery stores redstone flux.
 ####################################
 material.brick.name=Brick
 material.stone.name=Stone
+material.coal.name=Coal
+material.obsidian.name=Obsidian
+material.diamond.name=Diamond
 material.iron.name=Iron
+material.gold.name=Gold
 material.tin.name=Tin
+material.nickel.name=Nickel
 material.copper.name=Copper
 material.bronze.name=Bronze
 material.aluminium.name=Aluminium
 material.steel.name=Steel
 material.magmarium.name=Magmarium
 material.invar.name=Invar
+material.lead.name=Lead
+material.silver.name=Silver
 
 ####################################
 # Tabs
@@ -176,6 +183,9 @@ component.gears.name=Gear
 component.screws.name=Screw
 component.rods.name=Rod
 component.wires.name=Wire
+component.ingots.name=Ingot
+component.dusts.name=Dusts
+component.nuggets.name=Nuggets
 
 ####################################
 # Containers
@@ -188,6 +198,7 @@ module.page.alloysmelter.name=Alloy Smelter
 module.page.pulverizer.name=Pulverizer
 module.page.boiler.name=Boiler
 module.page.heater.name=Heater
+module.page.engine.steam.name=Steam Engine
 module.page.turbine.steam.name=Steam Trubine
 module.page.cleaner.name=Module Cleaner
 module.page.cleaner.clean.name=Clean Module

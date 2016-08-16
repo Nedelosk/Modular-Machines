@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleCasing extends Module implements IModuleCasing {
 
+	private final int complexity;
 	private final int allowedComplexity;
 	private final int maxHeat;
 	private final float resistance;
@@ -33,13 +34,19 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	private final String harvestTool;
 
 	public ModuleCasing(int complexity, int allowedComplexity, int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
-		super("casing", complexity);
+		super("casing");
+		this.complexity = complexity;
 		this.maxHeat = maxHeat;
 		this.allowedComplexity = allowedComplexity;
 		this.resistance = resistance;
 		this.hardness = hardness;
 		this.harvestTool = harvestTool;
 		this.harvestLevel = harvestLevel;
+	}
+
+	@Override
+	public int getComplexity(IModuleContainer container) {
+		return complexity;
 	}
 
 	@Override
@@ -89,7 +96,7 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public EnumModuleSize getSize() {
+	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.LARGE;
 	}
 

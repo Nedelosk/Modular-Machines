@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
@@ -9,10 +10,9 @@ import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
+import de.nedelosk.modularmachines.api.recipes.RecipeUtil.LatheModes;
 import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
-import de.nedelosk.modularmachines.common.items.ItemModule;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleLathe.LatheModes;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerHeat;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerToolMode;
@@ -51,11 +51,11 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore), 
 				"PWP",
 				"WRW",
-				"PWP", 'P', "plateIron", 'W', "wireIron", 'R', "dustRedstone");
+				"PWP", 'P', "plateBronze", 'W', "wireBronze", 'R', "dustRedstone");
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 1), 
 				"BWB",
 				"PRP",
-				"BWB", 'P', "plateBronze", 'W', "wireBronze", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
+				"BWB", 'P', "plateIron", 'W', "wireIron", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
 
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2),
 				"BWB",
@@ -63,51 +63,51 @@ public class RecipeManager {
 				"BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
 		//Boilers
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleBoilerIron, EnumMetalMaterials.IRON), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[0]), 
 				"PPP",
 				"GCG",
-				"PPP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+				"PPP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleBoilerBronze, EnumMetalMaterials.BRONZE), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[1]), 
 				"PGP",
 				"COC",
-				"PGP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.createStack(ModuleManager.moduleBoilerIron, EnumMetalMaterials.IRON));
+				"PGP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[0]));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleBoilerSteel, EnumMetalMaterials.STEEL), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[2]), 
 				"PGP",
 				"COC",
-				"PGP", 'G', "blockGlass", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ItemModule.createStack(ModuleManager.moduleBoilerBronze, EnumMetalMaterials.BRONZE));
+				"PGP", 'G', "blockGlass", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[1]));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleBoilerMagmarium, EnumMetalMaterials.MAGMARIUM), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[3]), 
 				"PGP",
 				"COC",
-				"PGP", 'G', "blockGlass", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ItemModule.createStack(ModuleManager.moduleBoilerSteel, EnumMetalMaterials.STEEL));
+				"PGP", 'G', "blockGlass", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[2]));
 
 		//Heaters
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleHeaterSteamIron, EnumMetalMaterials.IRON), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteamContainer), 
 				"GPR",
 				"FCF",
-				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', "blockGlass", 'C', new ItemStack(ItemManager.itemModuleCore));
+				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'F', "blockGlass", 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleHeaterBurningIron, EnumMetalMaterials.IRON), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]), 
 				"GPR",
 				"FCF",
-				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
+				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleHeaterBronzeLarge, EnumMetalMaterials.BRONZE), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer), 
 				"GPR",
 				"COC",
-				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ItemModule.createStack(ModuleManager.moduleHeaterBurningIron, EnumMetalMaterials.IRON));
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleHeaterSteelLarge, EnumMetalMaterials.STEEL), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[0]), 
 				"GPR",
 				"COC",
-				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ItemModule.createStack(ModuleManager.moduleHeaterBronzeLarge, EnumMetalMaterials.BRONZE));
+				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleHeaterMagmariumLarge, EnumMetalMaterials.MAGMARIUM), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[0]), 
 				"GPR",
 				"COC",
-				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ItemModule.createStack(ModuleManager.moduleHeaterSteelLarge, EnumMetalMaterials.STEEL));
+				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[0]));
 
 		//Drawers
 		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 0), 
@@ -124,12 +124,12 @@ public class RecipeManager {
 		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 0), 
 				"GHP",
 				"BII",
-				"GHP", 'I', "rodIron", 'H', "ingotIron", 'G', "gearIron", 'P', "plateIron", 'B', Blocks.PISTON);
+				"GHP", 'I', "rodBronze", 'H', "ingotBronze", 'G', "gearBronze", 'P', "plateBronze", 'B', Blocks.PISTON);
 
 		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 1), 
 				"GHP",
 				"BII",
-				"GHP", 'I', "rodBronze", 'H', "ingotBronze", 'G', "gearBronze", 'P', "plateBronze", 'B', new ItemStack(ItemManager.itemEngineSteam, 1, 0));
+				"GHP", 'I', "rodIron", 'H', "ingotIron", 'G', "gearIron", 'P', "plateIron", 'B', new ItemStack(ItemManager.itemEngineSteam, 1, 0));
 
 		addShapedModuleRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 2), 
 				"GHP",
@@ -148,35 +148,36 @@ public class RecipeManager {
 				"IPS", 'I', "ingotIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
 
 		//Alloy Smleters
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleAlloySmelterIron, EnumMetalMaterials.IRON), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleAlloySmelterContainers[0]), 
 				"PWP",
 				"FCF",
-				"PWP", 'W', "wireIron", 'F', Blocks.FURNACE, 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleAlloySmelterBronze, EnumMetalMaterials.BRONZE), 
+				"PWP", 'W', "wireBronze", 'F', Blocks.FURNACE, 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleAlloySmelterContainers[1]), 
 				"PPP",
 				"COC",
-				"PPP", 'O', ItemModule.createStack(ModuleManager.moduleAlloySmelterIron, EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+				"PPP", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleAlloySmelterContainers[0]), 'F', Blocks.FURNACE, 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
-		//Pulverizer
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.modulePulverizerIron, EnumMetalMaterials.IRON), 
+		//Pulverizers
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.modulePulverizerContainers[0]), 
 				"RWF",
 				"PCP",
-				"FWR", 'W', "wireIron", 'R', "rodIron", 'F', Items.FLINT, 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.modulePulverizerBronze, EnumMetalMaterials.BRONZE), 
+				"FWR", 'W', "wireBronze", 'R', "rodBronze", 'F', Items.FLINT, 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.modulePulverizerContainers[1]), 
 				"PRP",
 				"COC",
-				"PRP", 'O', ItemModule.createStack(ModuleManager.modulePulverizerIron, EnumMetalMaterials.IRON), 'F', Blocks.FURNACE, 'P', "plateBronze", 'R', "rodBronze", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+				"PRP", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.modulePulverizerContainers[0]), 'F', Blocks.FURNACE, 'P', "plateIron", 'R', "rodIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 		addShapedRecipe(new ItemStack(ItemManager.itemChassis), "BIB", "I I", "BIB", 'B', Blocks.IRON_BARS, 'I', "ingotIron");
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleLatheIron, EnumMetalMaterials.IRON), 
+		//Lathes
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleLatheContainers[0]), 
 				"IGP",
 				"RCR",
-				"PGI", 'R', "rodIron", 'I', "ingotIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore));
+				"PGI", 'R', "rodBronze", 'I', "ingotBronze", 'G', "gearBronze", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ItemModule.createStack(ModuleManager.moduleLatheBronze, EnumMetalMaterials.BRONZE), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleLatheContainers[1]), 
 				"SGP",
 				"COC",
-				"PGS", 'R', "rodBronze", 'S', "screwBronze", 'G', "gearBronze", 'P', "plateBronze", 'O', ItemModule.createStack(ModuleManager.moduleLatheIron, EnumMetalMaterials.IRON), 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+				"PGS", 'R', "rodIron", 'S', "screwIron", 'G', "gearIron", 'P', "plateIron", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleLatheContainers[0]), 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
 	}
 

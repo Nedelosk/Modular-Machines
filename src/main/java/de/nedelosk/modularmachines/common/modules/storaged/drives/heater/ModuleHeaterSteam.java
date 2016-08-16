@@ -17,7 +17,6 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
@@ -42,8 +41,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public static final PropertyInteger BURNTIME = new PropertyInteger("burnTime", 0);
 	public static final PropertyInteger BURNTIMETOTAL = new PropertyInteger("burnTimeTotal", 0);
 
-	public ModuleHeaterSteam(int complexity, int maxHeat, int heatModifier, EnumModuleSize size) {
-		super("heater.steam", complexity, maxHeat, heatModifier, size);
+	public ModuleHeaterSteam() {
+		super("heater.steam");
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@Override
 	protected void afterAddHeat(IModuleState state) {
-		addBurnTime(state, -10);
+		addBurnTime(state, -10 * getSize(state.getContainer()).ordinal());
 	}
 
 	@Override

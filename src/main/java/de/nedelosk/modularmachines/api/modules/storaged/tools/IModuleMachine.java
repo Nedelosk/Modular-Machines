@@ -7,16 +7,11 @@ import de.nedelosk.modularmachines.api.modules.IModuleWorking;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 
-public interface IModuleMachine extends IModuleTool, IModuleWorking, IModuleRecipe {
+public interface IModuleMachine extends IModuleTool, IModuleWorking, IModuleRecipe, IModuleMachineProperties {
 
 	EnumToolType getType(IModuleState state);
 
 	int getChance(IModuleState state);
-
-	/**
-	 * @return The speed of the machine.
-	 */
-	int getSpeed(IModuleState state);
 
 	/**
 	 * @return All valid recipe for that module state.

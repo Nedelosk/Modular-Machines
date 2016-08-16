@@ -7,6 +7,7 @@ import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -55,6 +56,11 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	}
 
 	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		return getMaterial(stack.getItemDamage()).getLocalizedName() + " " + Translator.translateToLocal("component." + uln + ".name");
+	}
+
+	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName(uln + getName(itemstack.getItemDamage()));
 	}
@@ -91,13 +97,17 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		return null;
 	}
 
-	private String getName(int index) {
+	private IMaterial getMaterial(int index) {
 		int listIndex = 0;
 		while (index > 9) {
 			listIndex++;
 			index -= 10;
 		}
-		return materials[listIndex].getName(index);
+		return materials[listIndex].get(index);
+	}
+
+	private String getName(int index) {
+		return getMaterial(index).getName();
 	}
 
 	private int getColor(int index) {

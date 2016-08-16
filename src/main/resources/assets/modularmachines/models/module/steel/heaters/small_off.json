@@ -1,0 +1,7 @@
+{
+	"parent": "modularmachines:module/default/machines/small",
+	"textures": {
+		"metal": "modularmachines:modules/metal_steel_small",
+		"overlay": "modularmachines:modules/heater_small_off"
+	}
+}

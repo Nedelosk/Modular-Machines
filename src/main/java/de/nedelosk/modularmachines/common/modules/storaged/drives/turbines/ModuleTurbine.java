@@ -7,14 +7,15 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
+import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
@@ -28,31 +29,43 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 
-	protected final EnumModuleSize size;
-	protected final double kineticModifier;
-	protected final int maxKineticEnergy;
-	protected final int steamPerWork;
-
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 	protected static final float turgineKineticModifier = Config.turbineKineticOutput;
 
-	public ModuleTurbine(String name, int complexity, EnumModuleSize size, double kineticModifier, int maxKineticEnergy, int steamPerWork) {
-		super(name, complexity);
+	public ModuleTurbine(String name) {
+		super(name);
+	}
 
-		this.size = size;
-		this.kineticModifier = kineticModifier;
-		this.maxKineticEnergy = maxKineticEnergy;
-		this.steamPerWork = steamPerWork;
+	@Override
+	public int getMaxKineticEnergy(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getMaxKineticEnergy(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public int getMaterialPerWork(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getMaterialPerWork(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public double getKineticModifier(IModuleState state) {
+		IModuleProperties properties = state.getModuleProperties();
+		if(properties instanceof IModuleKineticProperties){
+			return ((IModuleKineticProperties) properties).getKineticModifier(state);
+		}
+		return 0;
 	}
 
 	@Override
 	public EnumPosition getPosition(IModuleContainer container) {
 		return EnumPosition.RIGHT;
-	}
-
-	@Override
-	public EnumModuleSize getSize() {
-		return size;
 	}
 
 	@Override
@@ -62,8 +75,9 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
+		IModuleContainer container = state.getContainer();
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
-		handlers.add(new ModuleKineticHandler(state, maxKineticEnergy, 100));
+		handlers.add(new ModuleKineticHandler(state, getMaxKineticEnergy(state), 100));
 		return handlers;
 	}
 
@@ -74,6 +88,7 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
+		IModuleContainer container = state.getContainer();
 		IModular modular = state.getModular();
 		boolean isWorking = state.get(WORKING);
 		ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
@@ -84,12 +99,12 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 				if(!isWorking){
 					state.set(WORKING, true);
 				}
-				kineticHandler.increaseKineticEnergy(kineticModifier * turgineKineticModifier);
+				kineticHandler.increaseKineticEnergy(getKineticModifier(state) * turgineKineticModifier);
 				needUpdate = true;
 			}
 		}else if(isWorking){
 			if(kineticHandler.getKineticEnergyStored() > 0){
-				kineticHandler.reduceKineticEnergy(kineticModifier * turgineKineticModifier);
+				kineticHandler.reduceKineticEnergy(getKineticModifier(state) * turgineKineticModifier);
 			}else{
 				state.set(WORKING, false);
 			}
@@ -113,14 +128,14 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault("turbines", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "turbines", state.getModule().getSize()));
+		return new ModelHandlerDefault("turbines", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "turbines", getSize(state.getContainer())));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
 		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault("turbines", container, ModelHandler.getModelLocation(container, "turbines", container.getModule().getSize())));
+		handlers.add(new ModelHandlerDefault("turbines", container, ModelHandler.getModelLocation(container, "turbines", getSize(container))));
 		return handlers;
 	}
 

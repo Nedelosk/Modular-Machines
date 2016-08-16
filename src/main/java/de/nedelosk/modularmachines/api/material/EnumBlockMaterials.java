@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.material;
 
+import java.util.Locale;
+
 import net.minecraft.util.text.translation.I18n;
 
 public enum EnumBlockMaterials implements IMaterial {
@@ -25,7 +27,7 @@ public enum EnumBlockMaterials implements IMaterial {
 
 	@Override
 	public String getName() {
-		return name;
+		return name.toLowerCase(Locale.ENGLISH);
 	}
 
 	@Override

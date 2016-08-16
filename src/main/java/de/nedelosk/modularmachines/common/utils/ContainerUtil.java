@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.utils;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.ItemUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

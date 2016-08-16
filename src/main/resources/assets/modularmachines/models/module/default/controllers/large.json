@@ -49,10 +49,16 @@
 },
 {
     "from": [ 3, 2, 0 ],
-    "to": [ 13, 13, 1 ],
+    "to": [ 13, 13, 0.0625 ],
     "faces": {
-        "north": { "uv": [ 3, 3, 13, 14 ], "texture": "#controller" },
-        "south": { "uv": [ 3, 3, 13, 14 ], "texture": "#controller" }
+        "north": { "uv": [ 3, 3, 13, 14 ], "texture": "#metal" }
+    }
+},
+{
+    "from": [ 3, 2, 0 ],
+    "to": [ 13, 13, 0.0625 ],
+    "faces": {
+        "north": { "uv": [ 3, 3, 13, 14 ], "texture": "#overlay" }
     }
 }
 ]

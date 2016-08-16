@@ -85,6 +85,10 @@ repositories {
         name "ProfMobius Maven FS"
         url "http://mobiusstrip.eu/maven"
     }
+	maven {
+		name 'tterrag maven'
+		url "http://maven.tterrag.com/"
+	}
 }
 
 dependencies {
@@ -93,6 +97,7 @@ dependencies {
 	runtime "mezz.jei:jei_${mcversion}:${jei_version}"
 	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
 	deobfCompile "mcp.mobius.waila:Waila:${waila_version}_1.9.4"
+	deobfCompile "mcjty.theoneprobe:TheOneProbe:${top_version}"
 }
 
 processResources {
@@ -123,40 +128,15 @@ def getBuildNumber() {
 	return "$System.env.DRONE_BUILD_NUMBER" != "null" ? "$System.env.DRONE_BUILD_NUMBER" : "0"
 }
 
-task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-	filePath = "changelog.html"
-	untaggedName = "Current release ${project.version}"
-	fromCommit = "422008f48869bdb14c60409ba20708b8a5ecd212"
-	toRef =  "HEAD"
-	templateContent = """
-Alpha version, still buggy. Do not create a world you care about with this version, it can and will break things severely.<br/>
-Please help the project by trying it out and <a href="https://github.com/Nedelosk/Modular-Machines/issues">reporting issues here.</a><br/>
-{{#tags}}
-  <h3>{{name}}</h3>
-  <ul>
-    {{#commits}}
-    <li>{{{message}}} - {{authorName}}</li>
-    {{/commits}}
-  </ul>
-{{/tags}}
-"""
-}
-
 curseforge {
 	if(System.getenv().CURSEAPIKEY != null){
 		apiKey = System.getenv().CURSEAPIKEY
 		project {
 			id = '233073'
-			changelog = file('changelog.html')
-			changelogType = 'html'
 			releaseType = 'alpha'
 			addArtifact sourcesJar
 			addArtifact apiJar
 			addArtifact deobfJar
 		}
 	}
-}
-
-afterEvaluate {
-	tasks.curseforge233073.dependsOn.add(makeChangelog)
 }

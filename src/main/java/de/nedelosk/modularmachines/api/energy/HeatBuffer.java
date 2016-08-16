@@ -54,8 +54,12 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	}
 
 	@Override
-	public void increaseHeat(int heatModifier) {
-		if (heatBuffer == capacity) {
+	public void increaseHeat(double maxHeat, int heatModifier) {
+		double max = maxHeat;
+		if(maxHeat == -1){
+			max = capacity;
+		}
+		if (heatBuffer == max) {
 			return;
 		}
 		double step = getHeatLevel().getHeatStepUp();

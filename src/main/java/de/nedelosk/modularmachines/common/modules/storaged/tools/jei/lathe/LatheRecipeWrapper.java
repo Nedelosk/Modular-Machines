@@ -3,10 +3,8 @@ package de.nedelosk.modularmachines.common.modules.storaged.tools.jei.lathe;
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
-import de.nedelosk.modularmachines.api.recipes.IRecipeHandler;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
-import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.recipe.RecipeHandlerToolMode;
+import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -24,8 +22,7 @@ public class LatheRecipeWrapper extends ModuleRecipeWrapper {
 
 	public LatheRecipeWrapper(IRecipe recipe, String recipeCategoryUid, IGuiHelper guiHelper) {
 		super(recipe, recipeCategoryUid);	
-		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipe.getRecipeCategory());
-		IToolMode mode = recipe.get(((RecipeHandlerToolMode)handler).propertyMode);
+		IToolMode mode = recipe.get(RecipeUtil.LATHEMODE);
 
 		modeBackground = guiHelper.createDrawable(widgetTexture, 238, 0, 18, 18);
 		modeItem = guiHelper.createDrawable(widgetTexture, 238, 18 * mode.ordinal() + 18, 18, 18);

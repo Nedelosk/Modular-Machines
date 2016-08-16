@@ -23,13 +23,13 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		manager.registerItemModel(item, 0, "casing/iron");
-		manager.registerItemModel(item, 1, "casing/bronze");
+		manager.registerItemModel(item, 0, "casing/bronze");
+		manager.registerItemModel(item, 1, "casing/iron");
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + ((stack.getItemDamage() == 0) ? "iron" : "bronze"));
+		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + ((stack.getItemDamage() == 1) ? "iron" : "bronze"));
 	}
 
 	@Override

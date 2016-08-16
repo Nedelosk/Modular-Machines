@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -139,6 +140,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public M getModule() {
 		return (M) container.getModule();
+	}
+
+	@Override
+	public IModuleProperties getModuleProperties() {
+		return container.getProperties();
 	}
 
 	@Override

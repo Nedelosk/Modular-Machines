@@ -17,8 +17,8 @@ public class ModuleEngineElectric extends ModuleEngine {
 
 	protected IEnergyType type;
 
-	public ModuleEngineElectric(int complexity, int kineticModifier, int maxKineticEnergy, int energyPerWork, IEnergyType type) {
-		super("engine.electric." + type.getShortName().toLowerCase(Locale.ENGLISH), complexity, kineticModifier, maxKineticEnergy, energyPerWork);
+	public ModuleEngineElectric(IEnergyType type) {
+		super("engine.electric." + type.getShortName().toLowerCase(Locale.ENGLISH));
 		this.type = type;
 	}
 
@@ -53,8 +53,8 @@ public class ModuleEngineElectric extends ModuleEngine {
 		if(energyHandler == null){
 			return false;
 		}
-		if (energyHandler.extractEnergy(type, materialPerWork, true) == materialPerWork) {
-			return energyHandler.extractEnergy(type, materialPerWork, false) == materialPerWork;
+		if (energyHandler.extractEnergy(type, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
+			return energyHandler.extractEnergy(type, getMaterialPerWork(state), false) == getMaterialPerWork(state);
 		} else {
 			return false;
 		}

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import de.nedelosk.modularmachines.common.utils.ItemUtil;
+import de.nedelosk.modularmachines.api.ItemUtil;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;

@@ -7,12 +7,14 @@ import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
@@ -22,8 +24,35 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleBattery extends Module implements IModuleBattery {
 
-	public ModuleBattery(String name, int complexity) {
-		super(name, complexity);
+	public ModuleBattery(String name) {
+		super(name);
+	}
+
+	@Override
+	public int getCapacity(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleBatteryProperties){
+			return ((IModuleBatteryProperties) properties).getCapacity(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public int getMaxReceive(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleBatteryProperties){
+			return ((IModuleBatteryProperties) properties).getMaxReceive(state);
+		}
+		return 0;
+	}
+
+	@Override
+	public int getMaxExtract(IModuleState state) {
+		IModuleProperties properties = state.getContainer().getProperties();
+		if(properties instanceof IModuleBatteryProperties){
+			return ((IModuleBatteryProperties) properties).getMaxExtract(state);
+		}
+		return 0;
 	}
 
 	@Override

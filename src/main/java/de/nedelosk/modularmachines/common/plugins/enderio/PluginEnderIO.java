@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.common.plugins.enderio;
 
-import cofh.api.energy.EnergyStorage;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBatteryProperties;
+import de.nedelosk.modularmachines.api.modules.storaged.storage.ModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import net.minecraft.item.Item;
@@ -15,23 +18,19 @@ public class PluginEnderIO extends APlugin {
 
 	public static final String MOD_ID = "EnderIO";
 	public static Item capacitorBank;
-	public static ModuleCapitorBank moduleCapacitorBankBasic;
 	public static ModuleCapitorBank moduleCapacitorBank;
-	public static ModuleCapitorBank moduleCapacitorBankVibrant;
+	public static IModuleBatteryProperties[] moduleCapacitorBankProperties = new IModuleBatteryProperties[3];
+	public static IModuleContainer[] moduleCapacitorBankContainers = new IModuleContainer[3];
 
 	@Override
 	public void preInit() {
-		moduleCapacitorBankBasic = new ModuleCapitorBank(2, new EnergyStorage(1000000, 1000));
-		moduleCapacitorBankBasic.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank.basic"));
-		GameRegistry.register(moduleCapacitorBankBasic);
-
-		moduleCapacitorBank = new ModuleCapitorBank(4, new EnergyStorage(15000000, 5000));
+		moduleCapacitorBank = new ModuleCapitorBank();
 		moduleCapacitorBank.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank"));
 		GameRegistry.register(moduleCapacitorBank);
 
-		moduleCapacitorBankVibrant = new ModuleCapitorBank(6, new EnergyStorage(25000000, 25000));
-		moduleCapacitorBankVibrant.setRegistryName(new ResourceLocation("modularmachines:module.battery.capacitorbank.vibrant"));
-		GameRegistry.register(moduleCapacitorBankVibrant);
+		moduleCapacitorBankProperties[0] = new ModuleBatteryProperties(2, EnumModuleSize.LARGE, 1000000, 1000);
+		moduleCapacitorBankProperties[1] = new ModuleBatteryProperties(4, EnumModuleSize.LARGE, 15000000, 5000);
+		moduleCapacitorBankProperties[2] = new ModuleBatteryProperties(6, EnumModuleSize.LARGE, 25000000, 25000);
 
 	}
 
@@ -39,9 +38,9 @@ public class PluginEnderIO extends APlugin {
 	public void init() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
 
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBankBasic, new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.IRON, true));
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBank, new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.BRONZE, true));
-		GameRegistry.register(new ModuleContainer(moduleCapacitorBankVibrant, new ItemStack(capacitorBank, 1, 3), EnumMetalMaterials.STEEL, true));
+		moduleCapacitorBankContainers[0] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[0], new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.IRON, true));
+		moduleCapacitorBankContainers[1] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[1], new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.BRONZE, true));
+		moduleCapacitorBankContainers[2] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[2], new ItemStack(capacitorBank, 1, 3), EnumMetalMaterials.STEEL, true));
 	}
 
 	@Override

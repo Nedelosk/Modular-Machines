@@ -54,8 +54,8 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 				getModelLocation("front_walls/small_down"),
 				getModelLocation("front_walls/small_middle"),
 				getModelLocation("front_walls/small_up"),
-				getModelLocation("front_walls/middle_up"),
 				getModelLocation("front_walls/middle_middle"),
+				getModelLocation("front_walls/middle_up"),
 				getModelLocation("front_walls/large")
 		};
 	}
@@ -72,20 +72,22 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			}
 			List<IBakedModel> models = new ArrayList<>();
 			models.add(getBakedModel(drawer, modelState, format, bakedTextureGetter));
-
-			EnumModuleSize size = null;
 			List<IModuleState> modules = new ArrayList<>();
+
 			for(IModuleState stateStoraged : storage.getModules()){
 				if(stateStoraged != null){
 					modules.add(stateStoraged);
 				}
 			}
+			EnumModuleSize size = null;
 			for(IModuleState storagedState : modules){
-				size = EnumModuleSize.getNewSize(size, storagedState.getModule().getSize());
-				if(size == EnumModuleSize.MIDDLE){
-					models.add(getBakedModel(wall, modelState, format, bakedTextureGetter));
-				}else if(size == EnumModuleSize.SMALL){
-					models.add(new TRSRBakedModel(getBakedModel(wall, modelState, format, bakedTextureGetter), 0F, 0.25F, 0F, 1F));
+				if(!(storagedState.getModule() instanceof IModuleModuleStorage)){
+					size = EnumModuleSize.getNewSize(size, storagedState.getModule().getSize(storagedState.getContainer()));
+					if(size == EnumModuleSize.MIDDLE){
+						models.add(getBakedModel(wall, modelState, format, bakedTextureGetter));
+					}else if(size == EnumModuleSize.SMALL){
+						models.add(new TRSRBakedModel(getBakedModel(wall, modelState, format, bakedTextureGetter), 0F, 0.25F, 0F, 1F));
+					}
 				}
 			}
 
@@ -118,7 +120,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			}
 		}
 		for(IModuleState stateStoraged : modules){
-			EnumModuleSize moduleSize = stateStoraged.getModule().getSize();
+			EnumModuleSize moduleSize = stateStoraged.getModule().getSize(stateStoraged.getContainer());
 			IModule module = stateStoraged.getModule();
 			size = EnumModuleSize.getNewSize(size, moduleSize);
 			EnumWallType wallType = stateStoraged.getModule().getWallType(stateStoraged);
@@ -176,7 +178,9 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 				wallModels.add(getBakedModel(loc, modelState, format, bakedTextureGetter));
 			}
 		}
-		if(size == EnumModuleSize.SMALL){
+		if(size == null){
+			wallModels.add(getBakedModel(walls[7], modelState, format, bakedTextureGetter));
+		}else if(size == EnumModuleSize.SMALL){
 			wallModels.add(getBakedModel(walls[5], modelState, format, bakedTextureGetter));
 		}else if(size == EnumModuleSize.MIDDLE){
 			wallModels.add(getBakedModel(walls[2], modelState, format, bakedTextureGetter));
