@@ -111,7 +111,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0x615524;
 	}
 

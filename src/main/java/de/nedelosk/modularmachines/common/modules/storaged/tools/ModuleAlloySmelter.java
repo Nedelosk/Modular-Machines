@@ -86,6 +86,12 @@ public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored,
 		return pages;
 	}
 
+
+	@Override
+	public int getColor(IModuleContainer container) {
+		return 0x9C1645;
+	}
+
 	public static class AlloySmelterPage extends ModulePage<IModuleMachine> {
 
 		public AlloySmelterPage(String pageID, IModuleState<IModuleMachine> module) {
@@ -113,10 +119,5 @@ public class ModuleAlloySmelter extends ModuleMachine implements IModuleColored,
 		public void addWidgets() {
 			add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
 		}
-	}
-
-	@Override
-	public int getColor() {
-		return 0x9C1645;
 	}
 }

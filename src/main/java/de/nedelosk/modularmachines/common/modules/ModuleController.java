@@ -50,7 +50,7 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0x751818;
 	}
 

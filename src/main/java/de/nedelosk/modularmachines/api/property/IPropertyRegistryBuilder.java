@@ -1,10 +1,10 @@
 package de.nedelosk.modularmachines.api.property;
 
-import java.util.List;
+import java.util.Map;
 
 public interface IPropertyRegistryBuilder extends IPropertyBuilder {
 
-	List<IProperty> getRegisteredProperties();
+	Map<String, IProperty> getRegisteredProperties();
 
 	IPropertyBuilder register(IProperty property);
 }

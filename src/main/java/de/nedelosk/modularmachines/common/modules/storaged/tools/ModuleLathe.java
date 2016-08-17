@@ -84,7 +84,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0xC4C09C;
 	}
 

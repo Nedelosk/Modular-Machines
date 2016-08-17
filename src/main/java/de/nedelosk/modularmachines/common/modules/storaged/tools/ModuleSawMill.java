@@ -45,7 +45,7 @@ public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return new Color(102, 51, 0).getRGB();
 	}
 

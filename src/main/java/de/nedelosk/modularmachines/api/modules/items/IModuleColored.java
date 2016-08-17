@@ -4,5 +4,5 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 
 public interface IModuleColored extends IModule {
 
-	int getColor();
+	int getColor(IModuleContainer container);
 }

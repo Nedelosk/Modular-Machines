@@ -144,7 +144,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0x6E593C;
 	}
 

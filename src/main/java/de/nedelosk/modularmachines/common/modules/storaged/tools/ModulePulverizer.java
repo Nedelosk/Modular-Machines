@@ -75,7 +75,7 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0x286F92;
 	}
 

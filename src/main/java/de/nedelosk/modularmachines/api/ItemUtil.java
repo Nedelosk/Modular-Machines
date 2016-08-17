@@ -1,6 +1,12 @@
 package de.nedelosk.modularmachines.api;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
@@ -44,5 +50,32 @@ public class ItemUtil {
 		} else {
 			return ItemStack.areItemStackTagsEqual(base, comparison);
 		}
+	}
+
+	@Nullable
+	public static String getStackToString(@Nonnull ItemStack stack) {
+		Item item = stack.getItem();
+		if (item == null) {
+			return null;
+		}
+
+		ResourceLocation itemName = item.getRegistryName();
+		if (itemName == null) {
+			return null;
+		}
+		String name = itemName.toString() + ":";
+
+		NBTTagCompound serializedNbt = stack.serializeNBT();
+		NBTTagCompound nbtTagCompound = serializedNbt.getCompoundTag("tag").copy();
+		if (serializedNbt.hasKey("ForgeCaps")) {
+			if (nbtTagCompound == null) {
+				nbtTagCompound = new NBTTagCompound();
+			}
+			nbtTagCompound.setTag("ForgeCaps", serializedNbt.getCompoundTag("ForgeCaps"));
+		}
+		if (nbtTagCompound != null && !nbtTagCompound.hasNoTags()) {
+			name +=':'+nbtTagCompound.toString();
+		}
+		return name;
 	}
 }

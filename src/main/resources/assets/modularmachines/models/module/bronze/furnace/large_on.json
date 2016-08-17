@@ -1,0 +1,7 @@
+{
+	"parent": "modularmachines:module/default/machines/large",
+	"textures": {
+		"metal": "modularmachines:modules/metal_bronze_large",
+		"overlay": "modularmachines:modules/furnace_large_on"
+	}
+}

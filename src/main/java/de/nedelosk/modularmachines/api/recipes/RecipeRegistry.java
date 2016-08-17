@@ -33,7 +33,7 @@ public class RecipeRegistry {
 				if (!input.isItem()) {
 					return false;
 				} else if (item.item.getItem() == input.item.getItem()
-						&& item.item.getItemDamage() == input.item.getItemDamage()
+						&& (item.item.getItemDamage() == input.item.getItemDamage() || item.item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 						&& (testSizeSame && item.item.stackSize <= input.item.stackSize || !testSizeSame)
 						&& (!item.item.hasTagCompound() && !input.item.hasTagCompound()
 								|| ItemStack.areItemStackTagsEqual(item.item, input.item))) {

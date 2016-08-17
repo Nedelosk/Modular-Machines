@@ -41,6 +41,7 @@ import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleH
 import de.nedelosk.modularmachines.common.modules.storaged.drives.turbines.ModuleTurbineSteam;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleBoiler;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleFurnace;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleSawMill;
@@ -99,16 +100,19 @@ public class ModuleManager {
 	public static ModuleSawMill moduleSawMill;
 	public static ModulePulverizer modulePulverizer;
 	public static ModuleLathe moduleLathe;
+	public static ModuleFurnace moduleFurnace;
 	public static IModuleBoilerProperties[] moduleBoilerProperties = new IModuleBoilerProperties[4];
 	public static IModuleMachineProperties[] moduleAlloySmelterProperties = new IModuleMachineProperties[4];
 	public static IModuleMachineProperties[] moduleSawMillProperties = new IModuleMachineProperties[4];
 	public static IModuleMachineProperties[] modulePulverizerProperties = new IModuleMachineProperties[4];
 	public static IModuleMachineProperties[] moduleLatheProperties = new IModuleMachineProperties[4];
+	public static IModuleMachineProperties[] moduleFurnaceProperties = new IModuleMachineProperties[4];
 	public static IModuleContainer[] moduleBoilerContainers = new IModuleContainer[4];
 	public static IModuleContainer[] moduleAlloySmelterContainers = new IModuleContainer[4];
 	public static IModuleContainer[] moduleSawMillContainers = new IModuleContainer[4];
 	public static IModuleContainer[] modulePulverizerContainers = new IModuleContainer[4];
 	public static IModuleContainer[] moduleLatheContainers = new IModuleContainer[4];
+	public static IModuleContainer[] moduleFurnaceContainers = new IModuleContainer[4];
 
 	public static void registerModuels() {
 
@@ -248,13 +252,21 @@ public class ModuleManager {
 		moduleLatheProperties[0] = new ModuleMachineProperties(2, EnumModuleSize.LARGE, 40, 2);
 		moduleLatheProperties[1] = new ModuleMachineProperties(4, EnumModuleSize.LARGE, 30, 5);
 
-		/* ALLOY SMELTERS*/
+		/* ALLOY SMELTERS */
 		moduleAlloySmelter = new ModuleAlloySmelter();
 		moduleAlloySmelter.setRegistryName(new ResourceLocation("modularmachines:alloysmelter"));
 		GameRegistry.register(moduleAlloySmelter);
 
 		moduleAlloySmelterProperties[0] = new ModuleMachineProperties(2, EnumModuleSize.LARGE, 35);
 		moduleAlloySmelterProperties[1] = new ModuleMachineProperties(4, EnumModuleSize.LARGE, 25);
+
+		/* FURNACE */
+		moduleFurnace = new ModuleFurnace();
+		moduleFurnace.setRegistryName(new ResourceLocation("modularmachines:furnace"));
+		GameRegistry.register(moduleFurnace);
+
+		moduleFurnaceProperties[0] = new ModuleMachineProperties(1, EnumModuleSize.LARGE, 30);
+		moduleFurnaceProperties[1] = new ModuleMachineProperties(2, EnumModuleSize.LARGE, 20);
 	}
 
 	public static void registerModuleContainers(){
@@ -328,7 +340,11 @@ public class ModuleManager {
 
 		//Lathe
 		moduleLatheContainers[0] = registerModuleItem(moduleLathe, moduleLatheProperties[0], EnumMetalMaterials.BRONZE);
-		moduleLatheContainers[1] = registerModuleItem(moduleLathe, moduleLatheProperties[0], EnumMetalMaterials.IRON);
+		moduleLatheContainers[1] = registerModuleItem(moduleLathe, moduleLatheProperties[1], EnumMetalMaterials.IRON);
+
+		//Furnace
+		moduleLatheContainers[0] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[0], EnumMetalMaterials.BRONZE);
+		moduleLatheContainers[1] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[1], EnumMetalMaterials.IRON);
 	}
 
 	private static IModuleContainer registerModuleItem(IModule module, IModuleProperties properties, IMaterial material){

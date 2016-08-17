@@ -137,7 +137,7 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0x2E5D0E;
 	}
 }

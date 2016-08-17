@@ -200,7 +200,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor(IModuleContainer container) {
 		return 0xA287C1;
 	}
 }

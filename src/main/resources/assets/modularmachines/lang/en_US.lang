@@ -44,6 +44,7 @@ module.alloysmelter.name=Alloy Smelter
 module.pulverizer.name=Pulverizer
 module.casing.name=Casing
 module.cleaner.name=Module Cleaner
+module.furnace.name=Furnace
 
 module.capacitorbank.name=Capacitor Bank
 
@@ -203,6 +204,7 @@ module.page.turbine.steam.name=Steam Trubine
 module.page.cleaner.name=Module Cleaner
 module.page.cleaner.clean.name=Clean Module
 module.page.lathe.name=Lathe
+module.page.furnace.name=Furnace
 
 ####################################
 # Tooltips

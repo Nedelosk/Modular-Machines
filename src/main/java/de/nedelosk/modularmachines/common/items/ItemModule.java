@@ -104,7 +104,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 				}else if(tintIndex == 1){
 					IModule module = container.getModule();
 					if(module instanceof IModuleColored){
-						return ((IModuleColored) module).getColor();
+						return ((IModuleColored) module).getColor(container);
 					}
 				}
 			}

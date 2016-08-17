@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -30,14 +29,14 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected static final PropertyInteger INDEX = new PropertyInteger("index", -1);
 
 	protected Map<IProperty, Object> properties;
-	protected final List<IProperty> registeredProperties;
+	protected final Map<String, IProperty> registeredProperties;
 	protected final IModular modular;
 	protected final IModuleContainer container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
 
 	public ModuleState(IModular modular, IModuleContainer container) {
-		this.registeredProperties = Lists.newArrayList();
+		this.registeredProperties = Maps.newHashMap();
 		register(INDEX);
 
 		this.modular = modular;
@@ -51,7 +50,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public IModuleState<M> build() {
 		this.properties = Maps.newHashMap();
-		for(IProperty property : registeredProperties){
+		for(IProperty property : registeredProperties.values()){
 			properties.put(property, property.getDefaultValue());
 		}
 		return this;
@@ -60,8 +59,8 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public IModuleState<M> register(IProperty property) {
 		if(properties == null){
-			if(!registeredProperties.contains(property)){
-				registeredProperties.add(property);
+			if(!registeredProperties.containsKey(property.getName()) && !registeredProperties.containsValue(property)){
+				registeredProperties.put(property.getName(), property);
 			}
 		}
 		return this;
@@ -69,7 +68,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
-		if(!registeredProperties.contains(property)){
+		if(!registeredProperties.containsValue(property)){
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
 		if(!properties.containsKey(property)){
@@ -80,7 +79,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
-		if(!registeredProperties.contains(property)){
+		if(!registeredProperties.containsValue(property)){
 			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
 		properties.put(property, value);
@@ -108,7 +107,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public List<IProperty> getRegisteredProperties() {
+	public Map<String, IProperty> getRegisteredProperties() {
 		return registeredProperties;
 	}
 
@@ -184,7 +183,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		for(IProperty property : registeredProperties){
+		for(IProperty property : registeredProperties.values()){
 			try{
 				if(nbt.hasKey(property.getName())){
 					properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
