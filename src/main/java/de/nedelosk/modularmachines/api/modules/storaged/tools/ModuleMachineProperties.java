@@ -1,18 +1,24 @@
 package de.nedelosk.modularmachines.api.modules.storaged.tools;
 
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
+import net.minecraftforge.common.config.Configuration;
 
 public class ModuleMachineProperties extends ModuleProperties implements IModuleMachineProperties {
 
-	protected final float maxSpeed;
-	protected final int workTimeModifier;
+	protected final float defaultMaxSpeed;
+	protected final int defaultWorkTimeModifier;
+	protected float maxSpeed;
+	protected int workTimeModifier;
 
 	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier, float maxSpeed) {
 		super(complexity, size);
-		this.workTimeModifier = workTimeModifier;
-		this.maxSpeed = maxSpeed;
+		this.defaultWorkTimeModifier = workTimeModifier;
+		this.defaultMaxSpeed = maxSpeed;
+		this.maxSpeed = defaultMaxSpeed;
+		this.workTimeModifier = defaultWorkTimeModifier;
 	}
 
 	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier) {
@@ -27,5 +33,12 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	@Override
 	public int getWorkTimeModifier(IModuleState state) {
 		return workTimeModifier;
+	}
+
+	@Override
+	public void processConfig(IModuleContainer container, Configuration config) {
+		super.processConfig(container, config);
+		maxSpeed = config.getFloat("maxSpeed", "modules." + container.getRegistryName(), defaultMaxSpeed, 0.1F, 2.0F, "");
+		workTimeModifier = config.getInt("workTimeModifier", "modules." + container.getRegistryName(), defaultWorkTimeModifier, 0, 100, "");
 	}
 }

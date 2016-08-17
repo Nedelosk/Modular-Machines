@@ -27,7 +27,7 @@ public class ModRegistry extends Registry {
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
 		config = new Config();
 		Config.config = new Configuration(ModularMachines.configFile);
-		Config.syncConfig(false);
+		Config.syncConfig(true);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModuleManager.registerCapability();
 		PacketHandler.preInit();
@@ -63,6 +63,7 @@ public class ModRegistry extends Registry {
 			ModelManager.getInstance().registerModuleModels();
 		}
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
+		Config.syncConfig(true);
 		super.postInit(instance, event);
 	}
 

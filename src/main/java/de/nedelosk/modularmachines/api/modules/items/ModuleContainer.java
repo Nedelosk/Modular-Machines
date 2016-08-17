@@ -89,19 +89,21 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		this.material = material;
 		this.ignorNBT = ignorNBT;
 		this.tooltip = tooltip;
-		String registryName = module.getRegistryName().getResourcePath() + "/";
+		String registryName = module.getRegistryName().getResourcePath() + ".";
 		if(properties != null){
-			registryName +=  properties.getSize(this) + "/" + properties.getComplexity(this) + "/";
+			registryName +=  properties.getSize(this).getName() + ".";
+		}else{
+			registryName +=  module.getSize(this).getName() + ".";
 		}
 		if(stack == null){
-			registryName+=ModularMachinesApi.defaultModuleItem.getRegistryName().getResourcePath() + "/" + material.getName();
+			registryName+=ModularMachinesApi.defaultModuleItem.getRegistryName().getResourcePath() + "." + material.getName();
 			setRegistryName(registryName);
 			stack = ModularMachinesApi.createDefaultStack(this);
 		}
 		this.stack = stack;
 
 		if(getRegistryName() == null){
-			registryName+=stack.getItem().getRegistryName().getResourcePath() + "/" + material.getName();
+			registryName+=stack.getItem().getRegistryName().getResourcePath() + "." + material.getName();
 			setRegistryName(registryName);
 		}
 	}

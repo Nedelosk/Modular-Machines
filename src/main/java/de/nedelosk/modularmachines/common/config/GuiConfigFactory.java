@@ -13,7 +13,6 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings({ "rawtypes" })
 @SideOnly(Side.CLIENT)
 public class GuiConfigFactory extends GuiConfig {
 
@@ -26,7 +25,7 @@ public class GuiConfigFactory extends GuiConfig {
 		String prefix = "mm.config.";
 		for(ConfigGroup group : Config.groups) {
 			list.add(new ConfigElement(
-					Config.config.getCategory(group.lc()).setLanguageKey(prefix + group.lang).setRequiresMcRestart(group.reloadMC)));
+					Config.config.getCategory(group.getLowerCase()).setLanguageKey(prefix + group.lang).setRequiresMcRestart(group.reloadMC)));
 		}
 		return list;
 	}
