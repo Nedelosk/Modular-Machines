@@ -9,12 +9,20 @@ module.storage.top.name=Top
 module.storage.back.name=Back
 module.storage.left.name=Left
 module.storage.right.name=Right
+module.storage.side.name=Side
 module.storage.internal.name=Internal
 modular.assembler.assemble=Assemble Modular
+
+modular.assembler.complexity=Modular Complexity
+modular.assembler.complexity.position=Position Complexity
+modular.assembler.complexity.current=Complexity: 
+modular.assembler.complexity.allowed=Allowed Complexity: 
 
 modular.assembler.info=This is a info windows. It shows the proplem when a modular machine can't be assembled. Or when one of the modules require a special module.
 modular.assembler.error.no.casing=The modular maachine has no casing. The modlar requires a casing to storage the internal modules.
 modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machines requires it to storage RF or EU energy.
+modular.assembler.error.no.storage=The modules at the %s side of the modular machine, have no storage module.
+modular.assembler.error.complexity.position=The modules at the %s side of the modular machine, are to complex for the module storage.
 
 ####################################
 # Module Tool Modes
@@ -220,6 +228,11 @@ mm.tooltip.handler.tank=Tank
 mm.tooltip.handler.tank.empty=Empty
 mm.tooltip.handler.tank.fluid=Fluid: 
 mm.tooltip.handler.tank.amount=Amount: 
+mm.tooltip.handler.inventorys=Slots: 
+mm.tooltip.handler.inventory=Slot: 
+mm.tooltip.handler.inventory.item=Item: 
+mm.tooltip.handler.inventory.amount=Size: 
+mm.tooltip.handler.inventory.empty=Empty
 
 ####################################
 # JEI

@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHand
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
@@ -64,8 +64,8 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.RIGHT;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.RIGHT;
 	}
 
 	@Override

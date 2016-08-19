@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -31,7 +32,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleFurnace extends ModuleMachine implements IModuleColored {
+public class ModuleFurnace extends ModuleMachine implements IModuleColored, IModuleJEI {
 
 	private static final List<IRecipe> furnaceRecipe = new ArrayList<>();
 	public static final PropertyFurnaceRecipe FURNACERECIPE = new PropertyFurnaceRecipe("currentRecipe", furnaceRecipe);
@@ -43,6 +44,11 @@ public class ModuleFurnace extends ModuleMachine implements IModuleColored {
 	@Override
 	public EnumToolType getType(IModuleState state) {
 		return EnumToolType.HEAT;
+	}
+
+	@Override
+	public String[] getJEIRecipeCategorys(IModuleContainer container) {
+		return new String[]{"minecraft.smelting"};
 	}
 
 	@Override

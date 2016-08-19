@@ -3,19 +3,16 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDrawer;
@@ -28,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleModuleStorage extends Module implements IModuleModuleStorage {
 
-	public final PropertyEnum<EnumPosition> STORAGEDPOSITION = new PropertyEnum("storagedPosition", EnumPosition.class, null);
+	public final PropertyEnum<EnumStoragePosition> STORAGEDPOSITION = new PropertyEnum("storagedPosition", EnumStoragePosition.class, null);
 	public final int allowedStoragedComplexity;
 	public final EnumModuleSize size;
 	public final int complexity;
@@ -55,22 +52,20 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 		}
 		List<String> positions = new ArrayList<>();
 		if(size == EnumModuleSize.LARGE) {
-			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.LEFT.getName() + ".name"));
-			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.RIGHT.getName() + ".name"));
+			positions.add(EnumStoragePosition.LEFT.getLocName());
+			positions.add(EnumStoragePosition.RIGHT.getLocName());
 		}else if(size == EnumModuleSize.SMALL) {
-			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.TOP.getName() + ".name"));
-			positions.add(Translator.translateToLocal("module.storage." + EnumPosition.BACK.getName() + ".name"));
+			positions.add(EnumStoragePosition.TOP.getLocName());
+			positions.add(EnumStoragePosition.BACK.getLocName());
 		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + positions.toString().replace("[", "").replace("]", ""));
-		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-		if(provider != null && provider.hasState()){
+		List<String> providerTip = new ArrayList<>();
+		addProviderTooltip(providerTip, stack, container);
+		if(!providerTip.isEmpty()){
 			if(!GuiScreen.isShiftKeyDown()){
 				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 			}else{
-				IModuleState state = provider.createState(null);
-				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
-					handler.addToolTip(tooltip, stack, state);
-				}
+				tooltip.addAll(providerTip);
 			}
 		}
 	}
@@ -94,7 +89,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public int getAllowedComplexity(IModuleState state) {
+	public int getAllowedComplexity(IModuleContainer container) {
 		return allowedStoragedComplexity;
 	}
 
@@ -106,12 +101,12 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public EnumPosition getCurrentPosition(IModuleState state) {
+	public EnumStoragePosition getCurrentPosition(IModuleState state) {
 		return state.get(STORAGEDPOSITION);
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
+	public EnumStoragePosition getPosition(IModuleContainer container) {
 		return null;
 	}
 
@@ -126,7 +121,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public boolean canUseFor(EnumPosition position, IModuleContainer container) {
-		return (size == EnumModuleSize.LARGE) ? position == EnumPosition.LEFT || position == EnumPosition.RIGHT : position == EnumPosition.TOP || position == EnumPosition.BACK;
+	public boolean canUseFor(EnumStoragePosition position, IModuleContainer container) {
+		return (size == EnumModuleSize.LARGE) ? position == EnumStoragePosition.LEFT || position == EnumStoragePosition.RIGHT : position == EnumStoragePosition.TOP || position == EnumStoragePosition.BACK;
 	}
 }

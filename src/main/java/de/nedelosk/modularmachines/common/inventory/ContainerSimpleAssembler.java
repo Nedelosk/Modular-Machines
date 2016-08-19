@@ -42,6 +42,7 @@ public class ContainerSimpleAssembler extends ContainerBase<IModularHandler<ISim
 				gui.hasChange = true;
 			}
 		}
+
 		ISimpleModularAssembler assembler = handler.getAssembler();
 		SlotAssembler slotFirst = (SlotAssembler) inventorySlots.get(37);
 		SlotAssembler slotSecond = (SlotAssembler) inventorySlots.get(38);

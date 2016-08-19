@@ -9,12 +9,16 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.buttons.AssemblerAssembleTab;
 import de.nedelosk.modularmachines.client.gui.buttons.AssemblerTab;
+import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -22,14 +26,22 @@ import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class GuiAssembler extends GuiBase<IModularHandler> {
 
 	public AssemblerException lastException;
 	public boolean hasChange = false;
+	public IModular modular;
+	public ItemStack modularStack;
+	public int complexity;
+	public int complexityAllowed;
+	public int positionComplexity;
+	public int positionComplexityAllowed;
 
 	public GuiAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
+		onUpdate();
 	}
 
 	@Override
@@ -54,6 +66,48 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		if(lastException != null){
 			this.fontRendererObj.drawSplitString(exceptionText, 186, 83, 117, Color.WHITE.getRGB());
 		}
+
+		String complexity = Translator.translateToLocal("modular.assembler.complexity");
+		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRendererObj.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());
+		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
+		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
+		if(handler.getAssembler() instanceof IPositionedModularAssembler){
+			String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
+			this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+			this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+			this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+		}
+	}
+
+	@Override
+	public void updateScreen() {
+		super.updateScreen();
+		if(hasChange){
+			onUpdate();
+			hasChange = false;
+		}
+	}
+
+	protected void onUpdate(){
+		IModularAssembler assembler = handler.getAssembler();
+		if(handler != null && handler.getAssembler() != null){
+			try{
+				lastException = null;
+				modular = assembler.assemble();
+				modularStack = ModularMachinesApi.saveModular(new ItemStack(BlockManager.blockModular), modular, player);
+			}catch(AssemblerException exception){
+				lastException = exception;
+				modular = null;
+				modularStack = null;
+			}
+			complexity = assembler.getComplexity(true, null);
+			complexityAllowed = assembler.getAllowedComplexity(null);
+			if(assembler instanceof IPositionedModularAssembler){
+				IPositionedModularAssembler positionedAssembler = (IPositionedModularAssembler) assembler;
+				positionComplexity = assembler.getComplexity(false, positionedAssembler.getSelectedPosition());
+				positionComplexityAllowed = assembler.getAllowedComplexity(positionedAssembler.getSelectedPosition());
+			}
+		}
 	}
 
 	@Override
@@ -70,6 +124,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(guiTexture);
 		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 77, 130, 173, 126, 83);
+		drawTexturedModalRect(this.guiLeft + -130, this.guiTop + 77, 130, 173, 126, 83);
 		render();
 		widgetManager.drawWidgets();
 	}
@@ -109,12 +164,12 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 	public void addButtons() {
 		//left
 		if(handler.getAssembler() instanceof IPositionedModularAssembler){
-			buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, EnumPosition.TOP, false));
-			buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, EnumPosition.LEFT, false));
-			buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, EnumPosition.INTERNAL, false));
+			buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, EnumStoragePosition.TOP, false));
+			buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, EnumStoragePosition.LEFT, false));
+			buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, EnumStoragePosition.INTERNAL, false));
 			//right
-			buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, EnumPosition.BACK, true));
-			buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, EnumPosition.RIGHT, true));
+			buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, EnumStoragePosition.BACK, true));
+			buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, EnumStoragePosition.RIGHT, true));
 		}
 		buttonManager.add(new AssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
 	}

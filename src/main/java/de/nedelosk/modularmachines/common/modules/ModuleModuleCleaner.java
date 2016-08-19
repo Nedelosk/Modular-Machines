@@ -20,7 +20,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketModuleClean;
@@ -36,8 +36,8 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.INTERNAL;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.INTERNAL;
 	}
 
 	@Override

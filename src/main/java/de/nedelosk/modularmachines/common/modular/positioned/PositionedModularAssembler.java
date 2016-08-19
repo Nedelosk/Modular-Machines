@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modular.positioned;
 
 import java.util.EnumMap;
+import java.util.Locale;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
@@ -11,7 +12,7 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.common.inventory.ContainerPositionedAssembler;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
@@ -26,22 +27,22 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PositionedModularAssembler extends ModularAssembler implements IPositionedModularAssembler {
 
-	protected final EnumMap<EnumPosition, IAssemblerLogic> logics = new EnumMap(EnumPosition.class);
-	protected EnumPosition selectedPosition;
+	protected final EnumMap<EnumStoragePosition, IAssemblerLogic> logics = new EnumMap(EnumStoragePosition.class);
+	protected EnumStoragePosition selectedPosition;
 
 	public PositionedModularAssembler(IModularHandler modularHandler, NBTTagCompound nbtTag) {
 		super(modularHandler, nbtTag);
 
-		for(EnumPosition pos : EnumPosition.values()){
+		for(EnumStoragePosition pos : EnumStoragePosition.values()){
 			logics.put(pos, new PositionedAssemblerLogic(this, pos));
 		}
 	}
 
 	public PositionedModularAssembler(IModularHandler modularHandler, ItemStack[] moduleStacks) {
 		super(modularHandler, moduleStacks);
-		this.selectedPosition = EnumPosition.INTERNAL;
+		this.selectedPosition = EnumStoragePosition.INTERNAL;
 
-		for(EnumPosition pos : EnumPosition.values()){
+		for(EnumStoragePosition pos : EnumStoragePosition.values()){
 			logics.put(pos, new PositionedAssemblerLogic(this, pos));
 		}
 	}
@@ -56,11 +57,11 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		super.deserializeNBT(nbt);
-		selectedPosition = EnumPosition.values()[nbt.getShort("selectedPosition")];
+		selectedPosition = EnumStoragePosition.values()[nbt.getShort("selectedPosition")];
 	}
 
 	@Override
-	public void setSelectedPosition(EnumPosition position) {
+	public void setSelectedPosition(EnumStoragePosition position) {
 		this.selectedPosition = position;
 		if(modularHandler != null && modularHandler.getWorld() != null){
 			if (modularHandler.getWorld().isRemote) {
@@ -72,7 +73,7 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 	@Override
 	public IModular assemble() throws AssemblerException {
 		IPositionedModular modular = new PositionedModular();
-		for(EnumPosition position : EnumPosition.values()){
+		for(EnumStoragePosition position : EnumStoragePosition.values()){
 			for(int index = position.startSlotIndex;index < position.endSlotIndex + 1;index++){
 				ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 				if(slotStack != null){
@@ -85,12 +86,12 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 					if(storage != null){
 						storage.addModule(slotStack, state);
 					}else{
-						throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.storage." + position.getName()));
+						throw new AssemblerException(Translator.translateToLocalFormatted("modular.assembler.no.storage", position.getLocName().toLowerCase(Locale.ENGLISH)));
 					}
 				}
 			}
 		}
-		for(EnumPosition position : EnumPosition.values()){
+		for(EnumStoragePosition position : EnumStoragePosition.values()){
 			IPositionedModuleStorage storage = modular.getModuleStorage(position);
 			if(storage != null){
 				for(IModuleState state : storage.getModules()){
@@ -98,9 +99,10 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 				}
 			}
 		}
-		for(EnumPosition pos : EnumPosition.values()){
+		for(EnumStoragePosition pos : EnumStoragePosition.values()){
 			logics.get(pos).canAssemble(modular);
 		}
+		testComplexity();
 		modular.assembleModular();
 		return modular;
 	}
@@ -111,12 +113,12 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 	}
 
 	@Override
-	public IAssemblerLogic getLogic(EnumPosition pos) {
+	public IAssemblerLogic getLogic(EnumStoragePosition pos) {
 		return logics.get(pos);
 	}
 
 	@Override
-	public EnumPosition getSelectedPosition() {
+	public EnumStoragePosition getSelectedPosition() {
 		return selectedPosition;
 	}
 

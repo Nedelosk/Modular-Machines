@@ -1,15 +1,15 @@
 package de.nedelosk.modularmachines.api.modular;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 
 public interface IPositionedModularAssembler extends IModularAssembler {
 
-	EnumPosition getSelectedPosition();
+	EnumStoragePosition getSelectedPosition();
 
-	void setSelectedPosition(EnumPosition position);
+	void setSelectedPosition(EnumStoragePosition position);
 
-	IAssemblerLogic getLogic(EnumPosition pos);
+	IAssemblerLogic getLogic(EnumStoragePosition pos);
 
 	@Override
 	IPositionedModularAssembler copy(IModularHandler handler);

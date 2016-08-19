@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.client.model.ModelModular;
@@ -62,8 +62,8 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 
 	@Override
 	public void reload(IModuleState<IModuleModuleStorage> state, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		EnumPosition pos = state.getModule().getCurrentPosition(state);
-		if(pos != EnumPosition.BACK && pos != EnumPosition.TOP){
+		EnumStoragePosition pos = state.getModule().getCurrentPosition(state);
+		if(pos != EnumStoragePosition.BACK && pos != EnumStoragePosition.TOP){
 			IModuleStorage storage;
 			if(state.getModular() instanceof IPositionedModular){
 				storage = ((IPositionedModular)state.getModular()).getModuleStorage(pos);
@@ -95,9 +95,9 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 				models.add(model);
 			}
 			bakedModel = new ModelModular.ModularBaked(models);
-		}else if(pos == EnumPosition.TOP){
+		}else if(pos == EnumStoragePosition.TOP){
 			bakedModel = getBakedModel(top, modelState, format, bakedTextureGetter);
-		}else if(pos == EnumPosition.BACK){
+		}else if(pos == EnumStoragePosition.BACK){
 			bakedModel = getBakedModel(back, modelState, format, bakedTextureGetter);
 		}
 	}
@@ -106,7 +106,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 		List<IBakedModel> wallModels = new ArrayList<>();
 		IModuleModuleStorage drawerModule = state.getModule();
 		EnumModuleSize size = null;
-		EnumPosition pos = state.getModule().getCurrentPosition(state);
+		EnumStoragePosition pos = state.getModule().getCurrentPosition(state);
 		IModuleStorage storage;
 		if(state.getModular() instanceof IPositionedModular){
 			storage = ((IPositionedModular)state.getModular()).getModuleStorage(pos);

@@ -116,7 +116,7 @@ public class ModuleManager {
 
 	public static void registerModuels() {
 
-		moduleController = new ModuleController();
+		moduleController = new ModuleController(16);
 		moduleController.setRegistryName(new ResourceLocation("modularmachines:controller"));
 		GameRegistry.register(moduleController);
 
@@ -129,11 +129,11 @@ public class ModuleManager {
 		moduleCasingIron.setRegistryName(new ResourceLocation("modularmachines:casing.iron"));
 		GameRegistry.register(moduleCasingIron);
 
-		moduleDrawerBrickLarge = new ModuleModuleStorage(3, 1, EnumModuleSize.LARGE);
+		moduleDrawerBrickLarge = new ModuleModuleStorage(1, 3, EnumModuleSize.LARGE);
 		moduleDrawerBrickLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.large"));
 		GameRegistry.register(moduleDrawerBrickLarge);
 
-		moduleDrawerBrickSmall = new ModuleModuleStorage(3, 1, EnumModuleSize.SMALL);
+		moduleDrawerBrickSmall = new ModuleModuleStorage(1, 3, EnumModuleSize.SMALL);
 		moduleDrawerBrickSmall.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.small"));
 		GameRegistry.register(moduleDrawerBrickSmall);
 
@@ -343,8 +343,8 @@ public class ModuleManager {
 		moduleLatheContainers[1] = registerModuleItem(moduleLathe, moduleLatheProperties[1], EnumMetalMaterials.IRON);
 
 		//Furnace
-		moduleLatheContainers[0] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[0], EnumMetalMaterials.BRONZE);
-		moduleLatheContainers[1] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[1], EnumMetalMaterials.IRON);
+		moduleFurnaceContainers[0] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[0], EnumMetalMaterials.BRONZE);
+		moduleFurnaceContainers[1] = registerModuleItem(moduleFurnace, moduleFurnaceProperties[1], EnumMetalMaterials.IRON);
 	}
 
 	private static IModuleContainer registerModuleItem(IModule module, IModuleProperties properties, IMaterial material){

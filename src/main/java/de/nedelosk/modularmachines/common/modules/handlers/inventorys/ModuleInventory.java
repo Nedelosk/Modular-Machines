@@ -15,6 +15,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.common.utils.ContainerUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -23,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -374,6 +376,16 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
+		tooltip.add(Translator.translateToLocal("mm.tooltip.handler.inventorys"));
+		for(int i = 0;i < getSlots();i++){
+			ItemStack itemStack = getStackInSlot(i);
+			tooltip.add(" " + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
+			if(itemStack != null){
+				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.inventory.item") + itemStack.getDisplayName() + ", " + Translator.translateToLocal("mm.tooltip.handler.inventory.amount") + itemStack.stackSize);
+			}else{
+				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.inventory.empty"));
+			}
+		}
 	}
 
 	protected void validateSlotIndex(int slot){

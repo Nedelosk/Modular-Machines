@@ -3,17 +3,15 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
 import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -76,22 +74,20 @@ public class ModuleCasing extends Module implements IModuleCasing {
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + Translator.translateToLocal("module.storage." + EnumPosition.INTERNAL.getName() + ".name"));
-		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-		if(provider != null && provider.hasState()){
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + EnumStoragePosition.INTERNAL.getLocName());
+		List<String> providerTip = new ArrayList<>();
+		addProviderTooltip(providerTip, stack, container);
+		if(!providerTip.isEmpty()){
 			if(!GuiScreen.isShiftKeyDown()){
 				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 			}else{
-				IModuleState state = provider.createState(null);
-				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
-					handler.addToolTip(tooltip, stack, state);
-				}
+				tooltip.addAll(providerTip);
 			}
 		}
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
+	public EnumStoragePosition getPosition(IModuleContainer container) {
 		return null;
 	}
 
@@ -101,17 +97,17 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public int getAllowedComplexity(IModuleState state) {
+	public int getAllowedComplexity(IModuleContainer container) {
 		return allowedComplexity;
 	}
 
 	@Override
-	public EnumPosition getCurrentPosition(IModuleState state) {
-		return EnumPosition.INTERNAL;
+	public EnumStoragePosition getCurrentPosition(IModuleState state) {
+		return EnumStoragePosition.INTERNAL;
 	}
 
 	@Override
-	public boolean canUseFor(EnumPosition position, IModuleContainer container) {
-		return position == EnumPosition.INTERNAL;
+	public boolean canUseFor(EnumStoragePosition position, IModuleContainer container) {
+		return position == EnumStoragePosition.INTERNAL;
 	}
 }

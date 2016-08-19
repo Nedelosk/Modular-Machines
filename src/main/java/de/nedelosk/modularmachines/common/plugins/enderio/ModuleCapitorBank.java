@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.modules.storaged.storage.ModuleBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFInterface;
 import net.minecraft.item.ItemStack;
@@ -45,7 +45,7 @@ public class ModuleCapitorBank extends ModuleBattery {
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.INTERNAL;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.INTERNAL;
 	}
 }

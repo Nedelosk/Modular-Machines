@@ -18,7 +18,7 @@ import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
@@ -421,8 +421,8 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.LEFT;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.LEFT;
 	}
 
 }

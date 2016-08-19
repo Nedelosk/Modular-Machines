@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -93,5 +94,19 @@ public class ModuleStorage implements IModuleStorage{
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass) {
 		return (IModuleState<M>) getModules(moduleClass).get(0);
+	}
+
+	@Override
+	public int getComplexity(boolean withStorage) {
+		int complexity = 0;
+		for(IModuleState state : getModules()){
+			if(state != null){	
+				if(state.getModule() instanceof IModuleModuleStorage && !withStorage){
+					continue;
+				}
+				complexity +=state.getModule().getComplexity(state.getContainer());
+			}
+		}
+		return complexity;
 	}
 }

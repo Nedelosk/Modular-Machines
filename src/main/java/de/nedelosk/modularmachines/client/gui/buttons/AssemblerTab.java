@@ -6,7 +6,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -18,12 +18,12 @@ import net.minecraft.util.ResourceLocation;
 public class AssemblerTab extends Button<GuiAssembler> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
-	public EnumPosition position;
+	public EnumStoragePosition position;
 	public int pageIndex;
 	public final boolean right;
 	protected int slotIndex;
 
-	public AssemblerTab(int ID, int xPosition, int yPosition, EnumPosition position, boolean right) {
+	public AssemblerTab(int ID, int xPosition, int yPosition, EnumStoragePosition position, boolean right) {
 		super(ID, xPosition, yPosition, 28, 21, null);
 		this.position = position;
 		this.right = right;

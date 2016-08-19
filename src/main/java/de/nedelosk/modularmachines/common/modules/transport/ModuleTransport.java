@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.transport;
 
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.transports.EnumTransportMode;
 import de.nedelosk.modularmachines.api.modules.transports.IModuleTransport;
 import de.nedelosk.modularmachines.common.modules.Module;
@@ -20,8 +20,8 @@ public class ModuleTransport extends Module implements IModuleTransport {
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.INTERNAL;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.INTERNAL;
 	}
 
 }

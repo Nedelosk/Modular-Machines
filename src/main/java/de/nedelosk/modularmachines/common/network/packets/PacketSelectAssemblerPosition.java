@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,12 +14,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSelectAssemblerPosition extends PacketModularHandler implements IMessageHandler<PacketSelectAssemblerPosition, IMessage> {
 
-	public EnumPosition position;
+	public EnumStoragePosition position;
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		position = EnumPosition.values()[buf.readShort()];
+		position = EnumStoragePosition.values()[buf.readShort()];
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 	public PacketSelectAssemblerPosition() {
 	}
 
-	public PacketSelectAssemblerPosition(IModularHandler handler, EnumPosition position) {
+	public PacketSelectAssemblerPosition(IModularHandler handler, EnumStoragePosition position) {
 		super(handler);
 		this.position = position;
 	}

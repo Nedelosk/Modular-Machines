@@ -6,10 +6,10 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleModuleStorage extends IModule {
 
-	int getAllowedComplexity(IModuleState state);
+	int getAllowedComplexity(IModuleContainer container);
 
-	EnumPosition getCurrentPosition(IModuleState state);
+	EnumStoragePosition getCurrentPosition(IModuleState state);
 
-	boolean canUseFor(EnumPosition position, IModuleContainer container);
+	boolean canUseFor(EnumStoragePosition position, IModuleContainer container);
 
 }

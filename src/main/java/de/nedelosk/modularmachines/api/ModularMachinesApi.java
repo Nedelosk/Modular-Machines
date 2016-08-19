@@ -34,6 +34,7 @@ public class ModularMachinesApi {
 	public static final IForgeRegistry<IModuleContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleContainer.class);
 
 	public static Item defaultModuleItem;
+	public static final int DEFAULT_ALLOWED_COMPLEXITY = 12;
 
 	private static List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
 

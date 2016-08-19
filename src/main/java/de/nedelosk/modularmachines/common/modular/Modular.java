@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
@@ -23,6 +24,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
@@ -411,6 +413,58 @@ public abstract class Modular implements IModular {
 
 		}
 		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
+
+	@Override
+	public <M extends IModule> IModuleState<M> getModule(int index) {
+		for(IModuleState state : getModules()){
+			if(state != null){
+				if(state.getIndex() == index){
+					return state;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public <M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass) {
+		if (moduleClass == null) {
+			return null;
+		}
+		List<IModuleState<M>> modules = Lists.newArrayList();
+		for(IModuleState module : getModules()) {
+			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
+				modules.add(module);
+			}
+		}
+		return modules;
+	}
+
+	@Override
+	public <M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass) {
+		if (moduleClass == null) {
+			return null;
+		}
+		List modules = getModules(moduleClass);
+		if(modules.isEmpty()){
+			return null;
+		}
+		return (IModuleState<M>) modules.get(0);
+	}
+
+	@Override
+	public int getComplexity(boolean withStorage) {
+		int complexity = 0;
+		for(IModuleState state : getModules()){
+			if(state != null){	
+				if(state.getModule() instanceof IModuleModuleStorage && !withStorage){
+					continue;
+				}
+				complexity +=state.getModule().getComplexity(state.getContainer());
+			}
+		}
+		return complexity;
 	}
 
 	@Override

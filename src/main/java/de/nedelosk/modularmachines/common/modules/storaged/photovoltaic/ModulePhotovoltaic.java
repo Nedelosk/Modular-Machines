@@ -12,7 +12,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.photovoltaic.IModulePhotovoltaic;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
@@ -92,7 +92,7 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.TOP;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.TOP;
 	}
 }

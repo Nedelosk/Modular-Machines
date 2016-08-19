@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.modular.ISimpleModular;
 import de.nedelosk.modularmachines.api.modular.ISimpleModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.common.inventory.ContainerSimpleAssembler;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -44,6 +45,8 @@ public class SimpleModularAssembler extends ModularAssembler implements ISimpleM
 			state.getModule().assembleModule(this, modular, modular, state);
 		}
 		logic.canAssemble(modular);
+		IModuleState<IModuleController> controller = null;
+		testComplexity();
 		modular.assembleModular();
 		return modular;
 	}

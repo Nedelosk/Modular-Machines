@@ -91,17 +91,25 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
 		}
 		if(getPosition(container) != null){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") + Translator.translateToLocal("module.storage." + getPosition(container).getName() + ".name"));
+			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") +getPosition(container).getLocName());
 		}
-		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-		if(provider != null && provider.hasState()){
+		List<String> providerTip = new ArrayList<>();
+		addProviderTooltip(providerTip, stack, container);
+		if(!providerTip.isEmpty()){
 			if(!GuiScreen.isShiftKeyDown()){
 				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 			}else{
-				IModuleState state = provider.createState(null);
-				for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
-					handler.addToolTip(tooltip, stack, state);
-				}
+				tooltip.addAll(providerTip);
+			}
+		}
+	}
+
+	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container){
+		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+		if(provider != null && provider.hasState()){
+			IModuleState state = provider.createState(null);
+			for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+				handler.addToolTip(tooltip, stack, state);
 			}
 		}
 	}

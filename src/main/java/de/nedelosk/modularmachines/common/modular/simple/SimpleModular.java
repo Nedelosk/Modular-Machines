@@ -3,14 +3,11 @@ package de.nedelosk.modularmachines.common.modular.simple;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.ISimpleModular;
 import de.nedelosk.modularmachines.api.modular.ISimpleModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -77,42 +74,6 @@ public class SimpleModular extends Modular implements ISimpleModular {
 	@Override
 	public List<IModuleState> getModules() {
 		return moduleStates;
-	}
-
-	@Override
-	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState module : moduleStates) {
-			if (module.getIndex() == index) {
-				return module;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public <M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass) {
-		if (moduleClass == null) {
-			return null;
-		}
-		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : moduleStates) {
-			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
-				modules.add(module);
-			}
-		}
-		return modules;
-	}
-
-	@Override
-	public <M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass) {
-		if (moduleClass == null) {
-			return null;
-		}
-		List modules = getModules(moduleClass);
-		if(modules.isEmpty()){
-			return null;
-		}
-		return (IModuleState<M>) modules.get(0);
 	}
 
 	@Override

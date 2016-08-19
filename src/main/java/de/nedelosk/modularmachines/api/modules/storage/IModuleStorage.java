@@ -32,4 +32,9 @@ public interface IModuleStorage extends INBTSerializable<NBTTagCompound>{
 	 */
 	<M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass);
 
+	/**
+	 * @return The complexity of all module in this storage.
+	 */
+	int getComplexity(boolean withStorage);
+
 }

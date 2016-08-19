@@ -5,16 +5,13 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import net.minecraft.item.ItemStack;
@@ -23,31 +20,31 @@ import net.minecraft.nbt.NBTTagList;
 
 public class PositionedModular extends Modular implements IPositionedModular {
 
-	protected EnumMap<EnumPosition, IPositionedModuleStorage> storages;
+	protected EnumMap<EnumStoragePosition, IPositionedModuleStorage> storages;
 
 	public PositionedModular() {
 		super();
 		if(storages == null){
-			storages = new EnumMap(EnumPosition.class);
+			storages = new EnumMap(EnumStoragePosition.class);
 		}
 	}
 
 	public PositionedModular(NBTTagCompound nbt, IModularHandler handler) {
 		super(nbt, handler);
 		if(storages == null){
-			storages = new EnumMap(EnumPosition.class);
+			storages = new EnumMap(EnumStoragePosition.class);
 		}
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if(storages == null){
-			storages = new EnumMap(EnumPosition.class);
+			storages = new EnumMap(EnumStoragePosition.class);
 		}
 		NBTTagList nbtList = nbt.getTagList("Storages", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
 			NBTTagCompound moduleTag = nbtList.getCompoundTagAt(i);
-			EnumPosition position = EnumPosition.values()[moduleTag.getShort("Position")];
+			EnumStoragePosition position = EnumStoragePosition.values()[moduleTag.getShort("Position")];
 			IPositionedModuleStorage storage = new PositionedModuleStorage(this, position);
 			storage.deserializeNBT(moduleTag);
 			storages.put(position, storage);
@@ -75,7 +72,7 @@ public class PositionedModular extends Modular implements IPositionedModular {
 		ItemStack[] moduleStacks = new ItemStack[26];
 		for(IPositionedModuleStorage moduleStorage : storages.values()){
 			if(moduleStorage != null){
-				EnumPosition position = moduleStorage.getPosition();
+				EnumStoragePosition position = moduleStorage.getPosition();
 				int index = 0;
 				for(IModuleState state : moduleStorage.getModules()) {
 					moduleStacks[position.startSlotIndex + index] = ModularMachinesApi.saveModuleState(state);
@@ -87,12 +84,12 @@ public class PositionedModular extends Modular implements IPositionedModular {
 	}
 
 	@Override
-	public IPositionedModuleStorage getModuleStorage(EnumPosition position) {
+	public IPositionedModuleStorage getModuleStorage(EnumStoragePosition position) {
 		return storages.get(position);
 	}
 
 	@Override
-	public void setModuleStorage(EnumPosition position, IPositionedModuleStorage storage) {
+	public void setModuleStorage(EnumStoragePosition position, IPositionedModuleStorage storage) {
 		storages.put(position, storage);
 	}
 
@@ -108,47 +105,8 @@ public class PositionedModular extends Modular implements IPositionedModular {
 	}
 
 	@Override
-	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IPositionedModuleStorage moduleStorage : storages.values()){
-			if(moduleStorage != null){
-				IModuleState state = moduleStorage.getModule(index);
-				if(state != null){
-					return state;
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
 	public Collection<IPositionedModuleStorage> getModuleStorages() {
 		return storages.values();
-	}
-
-	@Override
-	public <M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass) {
-		if (moduleClass == null) {
-			return null;
-		}
-		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IPositionedModuleStorage moduleStorage : storages.values()){
-			if(moduleStorage != null){
-				modules.addAll(moduleStorage.getModules(moduleClass));
-			}
-		}
-		return modules;
-	}
-
-	@Override
-	public <M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass) {
-		if (moduleClass == null) {
-			return null;
-		}
-		List modules = getModules(moduleClass);
-		if(modules.isEmpty()){
-			return null;
-		}
-		return (IModuleState<M>) modules.get(0);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
@@ -103,10 +103,10 @@ public class ModelModular implements IBakedModel {
 							}
 						}
 						float rotation = 0F;
-						EnumPosition pos = storage.getPosition();
-						if(pos == EnumPosition.RIGHT){
+						EnumStoragePosition pos = storage.getPosition();
+						if(pos == EnumStoragePosition.RIGHT){
 							rotation = (float) (Math.PI / 2);
-						}else if(pos == EnumPosition.LEFT){
+						}else if(pos == EnumStoragePosition.LEFT){
 							rotation = -(float) (Math.PI / 2);
 						}
 						if(!positionedModels.isEmpty()){

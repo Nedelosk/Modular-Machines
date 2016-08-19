@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
@@ -15,8 +15,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<IPositionedModular, IPositionedModularAssembler, NBTTagCompound>> {
 
@@ -27,14 +30,14 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		IPositionedModularAssembler assembler = handler.getAssembler();
-		EnumPosition pos = assembler.getSelectedPosition();
+		EnumStoragePosition pos = assembler.getSelectedPosition();
 		IItemHandler itemHandler = assembler.getAssemblerHandler();
 		if(pos != null){
 			int startSlotIndex = pos.startSlotIndex;
 			SlotAssemblerStorage storageSlot;
 			IAssemblerLogic logic = assembler.getLogic(pos);
 			addSlotToContainer(storageSlot = new SlotAssemblerStorage(itemHandler, startSlotIndex + 0, 44, 35, this, logic));
-			if(pos == EnumPosition.INTERNAL){
+			if(pos == EnumStoragePosition.INTERNAL){
 				for (int i = 0; i < 3; ++i){
 					for (int j = 0; j < 3; ++j){
 						this.addSlotToContainer(new SlotAssembler(itemHandler, startSlotIndex + 1 + j + i * 3, 80 + j * 18, 17 + i * 18, logic, this, storageSlot));
@@ -57,8 +60,19 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 			}
 		}
 		IPositionedModularAssembler assembler = handler.getAssembler();
-		EnumPosition pos = assembler.getSelectedPosition();
-		if(pos != EnumPosition.INTERNAL){
+		EnumStoragePosition pos = assembler.getSelectedPosition();
+		SlotAssemblerStorage slotStorage = (SlotAssemblerStorage) inventorySlots.get(36);
+		if(!slotStorage.getHasStack()){
+			IItemHandlerModifiable itemHandler = handler.getAssembler().getAssemblerHandler();
+			for(int index = pos.startSlotIndex + 1;index < pos.endSlotIndex + 1;index++){
+				ItemStack slotStack = itemHandler.getStackInSlot(index);
+				if(slotStack != null){
+					ItemHandlerHelper.giveItemToPlayer(player, slotStack);
+					itemHandler.setStackInSlot(index, null);
+				}
+			}
+		}
+		if(pos != EnumStoragePosition.INTERNAL){
 			Slot slot = inventorySlots.get(37);
 			SlotAssembler slotFirst = (SlotAssembler) inventorySlots.get(37);
 			SlotAssembler slotSecond = (SlotAssembler) inventorySlots.get(38);

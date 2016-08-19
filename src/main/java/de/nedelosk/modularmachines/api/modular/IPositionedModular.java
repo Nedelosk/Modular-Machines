@@ -4,13 +4,13 @@ import java.util.Collection;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 
 public interface IPositionedModular extends IModular {
 
-	void setModuleStorage(EnumPosition position, IPositionedModuleStorage storage);
+	void setModuleStorage(EnumStoragePosition position, IPositionedModuleStorage storage);
 
-	IPositionedModuleStorage getModuleStorage(EnumPosition position);
+	IPositionedModuleStorage getModuleStorage(EnumStoragePosition position);
 
 	Collection<IPositionedModuleStorage> getModuleStorages();
 

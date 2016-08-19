@@ -11,7 +11,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumPosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
@@ -24,8 +24,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleController extends Module implements IModuleController, IModuleColored {
 
-	public ModuleController() {
+	protected final int allowedComplexity;
+
+	public ModuleController(int allowedComplexity) {
 		super("controller");
+		this.allowedComplexity = allowedComplexity;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -70,12 +73,22 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public EnumPosition getPosition(IModuleContainer container) {
-		return EnumPosition.INTERNAL;
+	public EnumStoragePosition getPosition(IModuleContainer container) {
+		return EnumStoragePosition.INTERNAL;
 	}
 
 	@Override
 	public EnumModuleSize getSize(IModuleContainer container) {
 		return EnumModuleSize.LARGE;
+	}
+
+	@Override
+	public int getComplexity(IModuleContainer container) {
+		return 1;
+	}
+
+	@Override
+	public int getAllowedComplexity(IModuleContainer container) {
+		return allowedComplexity;
 	}
 }
