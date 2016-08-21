@@ -9,17 +9,18 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class PacketModularHandler implements IMessage {
+public abstract class PacketModularHandler extends AbstractPacketThreadsafe {
 
 	private Object identifier;
 
@@ -78,12 +79,12 @@ public abstract class PacketModularHandler implements IMessage {
 		return Minecraft.getMinecraft().thePlayer;
 	}
 
-	public IModularHandler getModularHandler(MessageContext ctx) {
+	public IModularHandler getModularHandler(INetHandler handler) {
 		EntityPlayer player;
-		if(ctx.side == Side.CLIENT){
+		if(handler instanceof INetHandlerPlayClient){
 			player = getPlayer();
 		}else{
-			player = ctx.getServerHandler().playerEntity;
+			player = ((NetHandlerPlayServer)handler).playerEntity;
 		}
 		if(player == null){
 			return null;

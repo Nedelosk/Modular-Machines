@@ -16,7 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.IItemHandler;
 
-public class ContainerSimpleAssembler extends ContainerBase<IModularHandler<ISimpleModular, ISimpleModularAssembler, NBTTagCompound>> {
+public class ContainerSimpleAssembler extends ContainerAssembler<IModularHandler<ISimpleModular, ISimpleModularAssembler, NBTTagCompound>> {
 
 	public ContainerSimpleAssembler(IModularHandler<ISimpleModular, ISimpleModularAssembler, NBTTagCompound> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -98,6 +98,6 @@ public class ContainerSimpleAssembler extends ContainerBase<IModularHandler<ISim
 		if(!slotLast.hasChange){
 			slotLast.setActive(true);
 		}
-		super.onCraftMatrixChanged(inventory);
+		//super.onCraftMatrixChanged(inventory);
 	}
 }

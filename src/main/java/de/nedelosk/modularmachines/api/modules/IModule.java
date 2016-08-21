@@ -87,4 +87,6 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container);
 
 	boolean isClean(IModuleState state);
+
+	void sendModuleUpdate(IModuleState state);
 }

@@ -20,7 +20,6 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -68,10 +67,15 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 				needUpdate = updateFuel(state);
 			}
 			if(needUpdate){
-				PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
-				PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modular.getHandler()));
+				sendModuleUpdate(state);
 			}
 		}
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state) {
+		super.sendModuleUpdate(state);
+		PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(state.getModular().getHandler()));
 	}
 
 	@SideOnly(Side.CLIENT)

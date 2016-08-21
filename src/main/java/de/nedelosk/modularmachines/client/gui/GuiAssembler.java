@@ -71,7 +71,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRendererObj.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
-		if(handler.getAssembler() instanceof IPositionedModularAssembler){
+		if(handler.getAssembler() instanceof IPositionedModularAssembler && positionComplexityAllowed > 0){
 			String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
 			this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
 			this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
@@ -143,6 +143,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 	public void drawSlot(Slot slot) {
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
+		GlStateManager.color(1F, 1F, 1F, 1F);
 		if(slot instanceof SlotAssembler){
 			RenderUtil.bindTexture(guiTexture);
 			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1, ((SlotAssembler)slot).isActive ? 56 : 74, 238, 18, 18);

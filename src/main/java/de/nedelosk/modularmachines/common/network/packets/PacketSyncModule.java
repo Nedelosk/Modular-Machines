@@ -6,17 +6,16 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PacketSyncModule extends PacketModule implements IMessageHandler<PacketSyncModule, IMessage> {
+public class PacketSyncModule extends PacketModule {
 
 	private NBTTagCompound nbt;
 
@@ -46,14 +45,14 @@ public class PacketSyncModule extends PacketModule implements IMessageHandler<Pa
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IMessage onMessage(PacketSyncModule message, MessageContext ctx) {
+	public void handleClientSafe(NetHandlerPlayClient netHandler) {
 		World world = Minecraft.getMinecraft().theWorld;
-		IModularHandler handler = message.getModularHandler(ctx);
+		IModularHandler handler = getModularHandler(netHandler);
 		if (handler == null || handler.getModular() == null) {
-			return null;
+			return;
 		}
-		IModuleState moduleState = handler.getModular().getModule(message.index);
-		moduleState.deserializeNBT(message.nbt);
+		IModuleState moduleState = handler.getModular().getModule(index);
+		moduleState.deserializeNBT(nbt);
 
 		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){
 			((IModuleStateClient)moduleState).getModelHandler().setNeedReload(true);
@@ -62,6 +61,9 @@ public class PacketSyncModule extends PacketModule implements IMessageHandler<Pa
 				world.markBlockRangeForRenderUpdate(pos, pos);
 			}
 		}
-		return null;
+	}
+
+	@Override
+	void handleServerSafe(NetHandlerPlayServer netHandler) {
 	}
 }

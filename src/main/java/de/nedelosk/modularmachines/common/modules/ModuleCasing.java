@@ -13,11 +13,8 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerCasing;
-import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -69,21 +66,14 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
+	protected boolean showSize(IModuleContainer container) {
+		return false;
+	}
+
+	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		if(!(container.getItemStack().getItem() instanceof ItemModule)){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
-		}
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + complexity);
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + EnumStoragePosition.INTERNAL.getLocName());
-		List<String> providerTip = new ArrayList<>();
-		addProviderTooltip(providerTip, stack, container);
-		if(!providerTip.isEmpty()){
-			if(!GuiScreen.isShiftKeyDown()){
-				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
-			}else{
-				tooltip.addAll(providerTip);
-			}
-		}
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.storage.position") + EnumStoragePosition.INTERNAL.getLocName());
+		super.addTooltip(tooltip, stack, container);
 	}
 
 	@Override

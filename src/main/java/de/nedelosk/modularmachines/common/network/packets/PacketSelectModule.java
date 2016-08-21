@@ -3,15 +3,19 @@ package de.nedelosk.modularmachines.common.network.packets;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
+import de.nedelosk.modularmachines.common.inventory.ContainerModular;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.world.WorldServer;
 
-public class PacketSelectModule extends PacketModularHandler implements IMessageHandler<PacketSelectModule, IMessage> {
+public class PacketSelectModule extends PacketModularHandler {
 
 	public int index;
 
@@ -40,14 +44,48 @@ public class PacketSelectModule extends PacketModularHandler implements IMessage
 	}
 
 	@Override
-	public IMessage onMessage(PacketSelectModule message, MessageContext ctx) {
-		World world = ctx.getServerHandler().playerEntity.worldObj;
-		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-		IModularHandler modularHandler = message.getModularHandler(ctx);
+	public void handleClientSafe(NetHandlerPlayClient netHandler) {
+		IModularHandler modularHandler = getModularHandler(netHandler);
 		BlockPos pos = getPos(modularHandler);
 
-		modularHandler.getModular().setCurrentModuleState(modularHandler.getModular().getModule(message.index));
-		entityPlayerMP.openGui(ModularMachines.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-		return null;
+		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+			modularHandler.getModular().setCurrentModuleState(modularHandler.getModular().getModule(index));
+		}
+	}
+
+	@Override
+	public void handleServerSafe(NetHandlerPlayServer netHandler) {
+		IModularHandler modularHandler = getModularHandler(netHandler);
+		BlockPos pos = getPos(modularHandler);
+
+		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+			modularHandler.getModular().setCurrentModuleState(modularHandler.getModular().getModule(index));
+		}
+
+		PacketHandler.INSTANCE.sendToAll(this);
+
+		// find all people who also have the same gui open and update them too
+		WorldServer server = netHandler.playerEntity.getServerWorld();
+		for(EntityPlayer otherPlayer : server.playerEntities) {
+			if(otherPlayer.openContainer instanceof ContainerModular) {
+				ContainerModular assembler = (ContainerModular) otherPlayer.openContainer;
+				if(modularHandler == assembler.getHandler()) {
+					// same gui, send him an update
+					ItemStack heldStack = null;
+					if(otherPlayer.inventory.getItemStack() != null) {
+						heldStack = otherPlayer.inventory.getItemStack();
+						// set it to null so it's not getting dropped
+						otherPlayer.inventory.setItemStack(null);
+					}
+					otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
+
+					if(heldStack != null) {
+						otherPlayer.inventory.setItemStack(heldStack);
+						// also send it to the client
+						((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+					}
+				}
+			}
+		}
 	}
 }

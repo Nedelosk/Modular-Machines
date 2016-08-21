@@ -22,8 +22,6 @@ import de.nedelosk.modularmachines.client.modules.ModelHandler;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.modules.Module;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -102,7 +100,7 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 		}
 
 		if(needUpdate){
-			PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
+			sendModuleUpdate(state);
 		}
 	}
 

@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
@@ -48,7 +48,7 @@ public class AssemblerAssembleTab extends Button<GuiAssembler> {
 				handler.setAssembled(true);
 				handler.setModular(modular);
 				handler.setAssembler(null);
-				PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(handler, true));
+				PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(handler, true));
 				if(handler instanceof IModularHandlerTileEntity){
 					BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
 					handler.getWorld().markBlockRangeForRenderUpdate(pos, pos);

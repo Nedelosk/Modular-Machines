@@ -17,8 +17,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -428,7 +426,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	@Override
 	public void onChange() {
-		PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(state.getModular().getHandler(), state));
+		state.getModule().sendModuleUpdate(state);
 	}
 
 	@Override

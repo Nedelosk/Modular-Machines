@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/module_storage/front_walls/middle",
+	"textures": {
+        "wall": "modularmachines:blocks/casing/drawer_steel"
+    }
+}

@@ -26,6 +26,7 @@ public class SlotAssembler extends SlotItemHandler {
 
 	@Override
 	public void onSlotChanged() {
+		super.onSlotChanged();
 		parent.onCraftMatrixChanged(inventory);
 	}
 

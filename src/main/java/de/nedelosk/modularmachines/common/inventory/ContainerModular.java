@@ -14,7 +14,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerModular extends ContainerBase<IModularHandler> {
+public class ContainerModular extends BaseContainer<IModularHandler> {
 
 	public InventoryPlayer inventory;
 	public IModulePage currentPage;

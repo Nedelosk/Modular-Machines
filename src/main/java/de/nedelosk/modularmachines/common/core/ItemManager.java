@@ -59,7 +59,7 @@ public class ItemManager {
 		itemCompScrews = register(new ItemComponent("screws", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemCompPlates = register(new ItemComponent("plates", EnumMetalMaterials.IRON, EnumMetalMaterials.TIN, EnumMetalMaterials.COPPER, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.INVAR));
 		itemCompGears = register(new ItemComponent("gears", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
-		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick_large", "brick_small" }));
+		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick_large", "brick_small", "bronze_large", "iron_large", "steel_large", "magmarium_large" }));
 		itemEngineSteam = register(new ItemModuleMeta("engineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));

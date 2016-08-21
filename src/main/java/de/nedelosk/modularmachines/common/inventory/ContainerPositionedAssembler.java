@@ -21,7 +21,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<IPositionedModular, IPositionedModularAssembler, NBTTagCompound>> {
+public class ContainerPositionedAssembler extends ContainerAssembler<IModularHandler<IPositionedModular, IPositionedModularAssembler, NBTTagCompound>> {
 
 	public ContainerPositionedAssembler(IModularHandler<IPositionedModular, IPositionedModularAssembler, NBTTagCompound> tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -129,6 +129,6 @@ public class ContainerPositionedAssembler extends ContainerBase<IModularHandler<
 				slotLast.setActive(true);
 			}
 		}
-		super.onCraftMatrixChanged(inventory);
+		//super.onCraftMatrixChanged(inventory);
 	}
 }

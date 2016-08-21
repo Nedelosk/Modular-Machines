@@ -23,7 +23,7 @@ import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModularAssembler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
@@ -147,7 +147,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 							modularHandler.setAssembled(false);
 							modularHandler.setAssembler(assembler);
 							modularHandler.setModular(null);
-							PacketHandler.INSTANCE.sendToServer(new PacketModularAssembler(modularHandler, false));
+							PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(modularHandler, false));
 							world.markBlockRangeForRenderUpdate(pos, pos);
 						}
 					}

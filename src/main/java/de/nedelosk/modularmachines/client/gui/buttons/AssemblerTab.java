@@ -8,6 +8,8 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
@@ -49,6 +51,12 @@ public class AssemblerTab extends Button<GuiAssembler> {
 		IModularHandler tile = getGui().getHandler();
 		if (!((IPositionedModularAssembler)getGui().getHandler().getAssembler()).getSelectedPosition().equals(position)) {
 			((IPositionedModularAssembler)getGui().getHandler().getAssembler()).setSelectedPosition(position);
+			IModularHandler modularHandler = getGui().getHandler();
+			if(modularHandler != null && modularHandler.getWorld() != null){
+				if (modularHandler.getWorld().isRemote) {
+					PacketHandler.INSTANCE.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
+				}
+			}
 		}
 	}
 

@@ -17,9 +17,7 @@ import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
 import de.nedelosk.modularmachines.client.modules.ModelHandlerDrawer;
 import de.nedelosk.modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -43,13 +41,12 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
+	protected boolean showSize(IModuleContainer container) {
+		return false;
+	}
+
+	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		if(getSize(container) != null){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
-		}
-		if(getComplexity(container) >= 0){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
-		}
 		List<String> positions = new ArrayList<>();
 		if(size == EnumModuleSize.LARGE) {
 			positions.add(EnumStoragePosition.LEFT.getLocName());
@@ -58,16 +55,8 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 			positions.add(EnumStoragePosition.TOP.getLocName());
 			positions.add(EnumStoragePosition.BACK.getLocName());
 		}
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.position.can.use") + positions.toString().replace("[", "").replace("]", ""));
-		List<String> providerTip = new ArrayList<>();
-		addProviderTooltip(providerTip, stack, container);
-		if(!providerTip.isEmpty()){
-			if(!GuiScreen.isShiftKeyDown()){
-				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
-			}else{
-				tooltip.addAll(providerTip);
-			}
-		}
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.storage.position") + positions.toString().replace("[", "").replace("]", ""));
+		super.addTooltip(tooltip, stack, container);
 	}
 
 	protected ModelHandlerDrawer createModelHandler(IModuleContainer container){

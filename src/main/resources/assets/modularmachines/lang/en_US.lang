@@ -1,10 +1,3 @@
-mm.module.tooltip.material=Material: 
-mm.module.tooltip.name=Name: 
-mm.module.tooltip.size=Size: 
-mm.module.tooltip.complexity=Complexity: 
-mm.module.tooltip.position.can.use=Can use for Position: 
-mm.module.tooltip.position=Storage Position: 
-
 module.storage.top.name=Top
 module.storage.back.name=Back
 module.storage.left.name=Left
@@ -20,8 +13,10 @@ modular.assembler.complexity.allowed=Allowed Complexity:
 
 modular.assembler.info=This is a info windows. It shows the proplem when a modular machine can't be assembled. Or when one of the modules require a special module.
 modular.assembler.error.no.casing=The modular maachine has no casing. The modlar requires a casing to storage the internal modules.
-modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machines requires it to storage RF or EU energy.
+modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machine requires it to storage RF or EU energy.
 modular.assembler.error.no.storage=The modules at the %s side of the modular machine, have no storage module.
+modular.assembler.error.no.controller=The modules that the modular machine contains are to complex for this simple modular. The modlar requires a controller for handle this complex modules.
+modular.assembler.error.complexity=The modules that the modular machine contains are to complex for the controller. The modlar requires a better controller for handle this complex modules.
 modular.assembler.error.complexity.position=The modules at the %s side of the modular machine, are to complex for the module storage.
 
 ####################################
@@ -125,38 +120,6 @@ modularmachines.block.steam.name=Steam
 ####################################
 # Item
 ####################################
-modularmachines.item.dustsCoal.name=Coal Dust
-modularmachines.item.dustsObsidian.name=Obsidian Dust
-modularmachines.item.dustsIron.name=Iron Dust
-modularmachines.item.dustsGold.name=Gold Dust
-modularmachines.item.dustsDiamond.name=Diamond Dust
-modularmachines.item.dustsCopper.name=Copper Dust
-modularmachines.item.dustsTin.name=Tin Dust
-modularmachines.item.dustsSilver.name=Silver Dust
-modularmachines.item.dustsLead.name=Lead Dust
-modularmachines.item.dustsNickel.name=Nickel Dust
-modularmachines.item.dustsBronze.name=Bronze Dust
-modularmachines.item.dustsInvar.name=Invar Dust
-modularmachines.item.dustsAluminum.name=Aluminum Dust
-modularmachines.item.dustsSteel.name=Steel Dust
-modularmachines.item.ingotsCopper.name=Copper Ingot
-modularmachines.item.ingotsTin.name=Tin Ingot
-modularmachines.item.ingotsSilver.name=Silver Ingot
-modularmachines.item.ingotsLead.name=Lead Ingot
-modularmachines.item.ingotsNickel.name=Nickel Ingot
-modularmachines.item.ingotsBronze.name=Bronze Ingot
-modularmachines.item.ingotsInvar.name=Invar Ingot
-modularmachines.item.ingotsAluminum.name=Aluminum Ingot
-modularmachines.item.ingotsSteel.name=Steel Ingot
-modularmachines.item.nuggetsCopper.name=Copper Nugget
-modularmachines.item.nuggetsTin.name=Tin Nugget
-modularmachines.item.nuggetsSilver.name=Silver Nugget
-modularmachines.item.nuggetsLead.name=Lead Nugget
-modularmachines.item.nuggetsNickel.name=Nickel Nugget
-modularmachines.item.nuggetsBronze.name=Bronze Nugget
-modularmachines.item.nuggetsInvar.name=Invar Nugget
-modularmachines.item.nuggetsAluminum.name=Aluminum Nugget
-modularmachines.item.nuggetsSteel.name=Steel Nugget
 modularmachines.item.engineRF_iron.name=Iron Electric Engine (RF)
 modularmachines.item.engineRF_bronze.name=Bronze Electric Engine (RF)
 modularmachines.item.engineRF_steel.name=Steel Electric Engine (RF)
@@ -174,6 +137,10 @@ modularmachines.item.turbineSteam_bronze.name=Bronze Steam Turbine
 modularmachines.item.turbineSteam_steel.name=Steel Steam Turbine
 modularmachines.item.turbineSteam_magmarium.name=Magmarium Steam Turbine
 modularmachines.item.drawer_brick_large.name=Large Brick Module Storage
+modularmachines.item.drawer_bronze_large.name=Large Bronze Module Storage
+modularmachines.item.drawer_iron_large.name=Large Iron Module Storage
+modularmachines.item.drawer_steel_large.name=Large Steel Module Storage
+modularmachines.item.drawer_magmarium_large.name=Large Magmarium Module Storage
 modularmachines.item.drawer_brick_small.name=Small Brick Module Storage
 modularmachines.item.moduleCore_basic.name=Bad Module Core
 modularmachines.item.moduleCore_normal.name=Module Core
@@ -217,10 +184,13 @@ module.page.furnace.name=Furnace
 ####################################
 # Tooltips
 ####################################
-mm.tooltip.damage=Durability: 
-mm.tooltip.tier=Tier: 
-mm.tooltip.material=Material: 
 mm.tooltip.nonefluid=None Fluid
+mm.module.tooltip.material=Material: 
+mm.module.tooltip.name=Name: 
+mm.module.tooltip.size=Size: 
+mm.module.tooltip.complexity=Complexity: 
+mm.module.tooltip.position=Position: 
+mm.module.tooltip.storage.position=Storage Position: 
 mm.tooltip.modular.info=This modular machine contains the following modules: 
 mm.tooltip.holdshift=<Hold Shift>
 mm.tooltip.handler.tanks=Tanks: 

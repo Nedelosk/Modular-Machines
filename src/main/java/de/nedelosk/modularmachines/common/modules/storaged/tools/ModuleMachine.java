@@ -37,7 +37,6 @@ import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -215,7 +214,6 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 						if(heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)){
 							heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
 							workTime = 1;
-							PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modular.getHandler()));
 						}
 					}
 
@@ -225,9 +223,17 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 					}
 				}
 				if(needUpdate){
-					PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
+					sendModuleUpdate(state);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state) {
+		super.sendModuleUpdate(state);
+		if(getType(state) == EnumToolType.HEAT){
+			PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(state.getModular().getHandler()));
 		}
 	}
 

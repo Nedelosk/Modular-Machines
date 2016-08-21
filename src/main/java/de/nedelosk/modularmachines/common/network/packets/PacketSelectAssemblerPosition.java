@@ -4,15 +4,19 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
+import de.nedelosk.modularmachines.common.inventory.ContainerPositionedAssembler;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.world.WorldServer;
 
-public class PacketSelectAssemblerPosition extends PacketModularHandler implements IMessageHandler<PacketSelectAssemblerPosition, IMessage> {
+public class PacketSelectAssemblerPosition extends PacketModularHandler {
 
 	public EnumStoragePosition position;
 
@@ -37,16 +41,50 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 	}
 
 	@Override
-	public IMessage onMessage(PacketSelectAssemblerPosition message, MessageContext ctx) {
-		World world = ctx.getServerHandler().playerEntity.worldObj;
-		EntityPlayerMP entityPlayerMP = ctx.getServerHandler().playerEntity;
-		IModularHandler modularHandler = message.getModularHandler(ctx);
+	public void handleClientSafe(NetHandlerPlayClient netHandler) {
+		IModularHandler modularHandler = getModularHandler(netHandler);
+
+		if(modularHandler != null && modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
+			IPositionedModularAssembler assembler = (IPositionedModularAssembler) modularHandler.getAssembler();
+			assembler.setSelectedPosition(position);
+		}
+	}
+
+	@Override
+	public void handleServerSafe(NetHandlerPlayServer netHandler) {
+		IModularHandler modularHandler = getModularHandler(netHandler);
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
-			((IPositionedModularAssembler)modularHandler.getAssembler()).setSelectedPosition(message.position);
+			IPositionedModularAssembler assembler = (IPositionedModularAssembler) modularHandler.getAssembler();
+			assembler.setSelectedPosition(position);
 		}
-		entityPlayerMP.openGui(ModularMachines.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-		return null;
+
+		PacketHandler.INSTANCE.sendToAll(this);
+
+		WorldServer server = netHandler.playerEntity.getServerWorld();
+		// find all people who also have the same gui open and update them too
+		for(EntityPlayer otherPlayer : server.playerEntities) {
+			if(otherPlayer.openContainer instanceof ContainerPositionedAssembler) {
+				ContainerPositionedAssembler assembler = (ContainerPositionedAssembler) otherPlayer.openContainer;
+				if(modularHandler == assembler.getHandler()) {
+					// same gui, send him an update
+					ItemStack heldStack = null;
+
+					if(otherPlayer.inventory.getItemStack() != null) {
+						heldStack = otherPlayer.inventory.getItemStack();
+						// set it to null so it's not getting dropped
+						otherPlayer.inventory.setItemStack(null);
+					}
+					otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
+
+					if(heldStack != null) {
+						otherPlayer.inventory.setItemStack(heldStack);
+						// also send it to the client
+						((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+					}
+				}
+			}
+		}
 	}
 }

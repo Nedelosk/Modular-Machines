@@ -1,12 +1,13 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.math.BlockPos;
 
-public class PacketSyncHeatBuffer extends PacketModularHandler implements IMessageHandler<PacketSyncHeatBuffer, IMessage> {
+public class PacketSyncHeatBuffer extends PacketModularHandler {
 
 	public double heatBuffer;
 
@@ -32,13 +33,16 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IMessa
 	}
 
 	@Override
-	public IMessage onMessage(PacketSyncHeatBuffer message, MessageContext ctx) {
-		IModularHandler modularHandler = message.getModularHandler(ctx);
+	public void handleClientSafe(NetHandlerPlayClient netHandler) {
+		IModularHandler modularHandler = getModularHandler(netHandler);
 		if(modularHandler != null && modularHandler.getModular() != null){
-			modularHandler.getModular().getHeatSource().setHeatStored(message.heatBuffer);
-			modularHandler.markDirty();
+			BlockPos pos = ((IModularHandlerTileEntity)modularHandler).getPos();
+			modularHandler.getModular().getHeatSource().setHeatStored(heatBuffer);
 		}
-		return null;
+	}
+
+	@Override
+	void handleServerSafe(NetHandlerPlayServer netHandler) {
 	}
 
 }

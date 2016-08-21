@@ -40,8 +40,6 @@ import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -116,7 +114,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 						if(steam.amount > 0){
 							tankWater.drainInternal(waterCost * 15, true);
 							tankSteam.fillInternal(steam, true);
-							PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(modular.getHandler(), state));
+							sendModuleUpdate(state);
 						}
 					}
 				}

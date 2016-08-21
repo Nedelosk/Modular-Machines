@@ -31,8 +31,6 @@ import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
-import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -266,10 +264,6 @@ public abstract class Modular implements IModular {
 	public void setCurrentModuleState(IModuleState module) {
 		this.currentModule = module;
 		this.currentPage = (IModulePage) currentModule.getPages().get(0);
-		if (getHandler().getWorld().isRemote) {
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule(getHandler(), module));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), currentPage.getPageID()));
-		}
 	}
 
 	@Override
@@ -286,11 +280,6 @@ public abstract class Modular implements IModular {
 				currentPage = (IModulePage) currentModule.getPages().get(0);
 			}
 			this.currentPage = currentPage;
-			if(getHandler() != null && getHandler().getWorld() != null){
-				if (getHandler().getWorld().isRemote) {
-					PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(getHandler(), pageID));
-				}
-			}
 		}
 	}
 

@@ -7,6 +7,8 @@ import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -46,6 +48,7 @@ public class ModulePageTab extends Button<GuiPage<IModularHandler>> {
 		IModularHandler tile = getGui().getHandler();
 		if (!page.getPageID().equals(page.getModuleState().getModular().getCurrentPage().getPageID())) {
 			tile.getModular().setCurrentPage(page.getPageID());
+			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(tile, page.getPageID()));
 		}
 	}
 

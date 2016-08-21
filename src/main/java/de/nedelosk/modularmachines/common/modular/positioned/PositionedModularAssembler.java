@@ -17,8 +17,6 @@ import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.common.inventory.ContainerPositionedAssembler;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -63,11 +61,6 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 	@Override
 	public void setSelectedPosition(EnumStoragePosition position) {
 		this.selectedPosition = position;
-		if(modularHandler != null && modularHandler.getWorld() != null){
-			if (modularHandler.getWorld().isRemote) {
-				PacketHandler.INSTANCE.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
-			}
-		}
 	}
 
 	@Override

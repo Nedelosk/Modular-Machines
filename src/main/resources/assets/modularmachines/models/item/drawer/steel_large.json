@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:item/drawer/drawer",
+    "textures": {
+        "wall": "modularmachines:blocks/casing/drawer_steel"
+    }
+}

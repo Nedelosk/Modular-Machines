@@ -36,6 +36,8 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
@@ -78,24 +80,44 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		return container.getMaterial().getLocalizedName() + " " + Translator.translateToLocal(container.getUnlocalizedName());
 	}
 
+	protected boolean showName(IModuleContainer container){
+		return !(container.getItemStack().getItem() instanceof ItemModule);
+	}
+
+	protected boolean showComplexity(IModuleContainer container){
+		return getComplexity(container) >= 0;
+	}
+
+	protected boolean showPosition(IModuleContainer container){
+		return getPosition(container) != null;
+	}
+
+	protected boolean showSize(IModuleContainer container){
+		return getSize(container) != null;
+	}
+
+	protected boolean showProvider(IModuleContainer container, List<String> providerTip){
+		return !providerTip.isEmpty();
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		if(!(container.getItemStack().getItem() instanceof ItemModule)){
+		if(showName(container)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
-		if(getSize(container) != null){
+		if(showSize(container)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
 		}
-		if(getComplexity(container) >= 0){
+		if(showComplexity(container)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
 		}
-		if(getPosition(container) != null){
+		if(showPosition(container)){
 			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") +getPosition(container).getLocName());
 		}
 		List<String> providerTip = new ArrayList<>();
 		addProviderTooltip(providerTip, stack, container);
-		if(!providerTip.isEmpty()){
+		if(showProvider(container, providerTip)){
 			if(!GuiScreen.isShiftKeyDown()){
 				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 			}else{
@@ -251,5 +273,10 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		PacketHandler.INSTANCE.sendToAll(new PacketSyncModule(state.getModular().getHandler(), state));
 	}
 }
