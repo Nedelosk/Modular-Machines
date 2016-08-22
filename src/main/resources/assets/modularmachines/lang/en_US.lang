@@ -12,11 +12,11 @@ modular.assembler.complexity.current=Complexity:
 modular.assembler.complexity.allowed=Allowed Complexity: 
 
 modular.assembler.info=This is a info windows. It shows the proplem when a modular machine can't be assembled. Or when one of the modules require a special module.
-modular.assembler.error.no.casing=The modular maachine has no casing. The modlar requires a casing to storage the internal modules.
+modular.assembler.error.no.casing=The modular machine has no casing. The modular requires a casing to storage the internal modules.
 modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machine requires it to storage RF or EU energy.
 modular.assembler.error.no.storage=The modules at the %s side of the modular machine, have no storage module.
-modular.assembler.error.no.controller=The modules that the modular machine contains are to complex for this simple modular. The modlar requires a controller for handle this complex modules.
-modular.assembler.error.complexity=The modules that the modular machine contains are to complex for the controller. The modlar requires a better controller for handle this complex modules.
+modular.assembler.error.no.controller=The modules that the modular machine contains are to complex for this simple modular. The modular requires a controller for handle this complex modules.
+modular.assembler.error.complexity=The modules that the modular machine contains are to complex for the controller. The modular requires a better controller for handle this complex modules.
 modular.assembler.error.complexity.position=The modules at the %s side of the modular machine, are to complex for the module storage.
 
 ####################################
