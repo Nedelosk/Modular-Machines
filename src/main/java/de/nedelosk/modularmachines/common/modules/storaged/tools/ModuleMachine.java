@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
@@ -40,6 +41,7 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -232,8 +234,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	@Override
 	public void sendModuleUpdate(IModuleState state) {
 		super.sendModuleUpdate(state);
-		if(getType(state) == EnumToolType.HEAT){
-			PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(state.getModular().getHandler()));
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			if(getType(state) == EnumToolType.HEAT){
+				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+			}
 		}
 	}
 

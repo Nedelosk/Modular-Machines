@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -74,17 +75,15 @@ public class PacketSyncAssembler extends PacketModularHandler {
 			handler.setModular(null);
 		}
 
-		PacketHandler.INSTANCE.sendToAll(this);
+		PacketHandler.sendToNetwork(this, ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) netHandler.playerEntity.worldObj);
 		WorldServer server = netHandler.playerEntity.getServerWorld();
 		BlockPos pos = getPos(handler);
 		server.notifyBlockUpdate(pos, server.getBlockState(pos), server.getBlockState(pos), 3);
 
-		// find all people who also have the same gui open and update them too
 		for(EntityPlayer otherPlayer : server.playerEntities) {
 			if(otherPlayer.openContainer instanceof ContainerAssembler) {
 				ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
 				if(handler == assembler.getHandler()) {
-					// same gui, send him an update
 					ItemStack heldStack = null;
 
 					if(handler.getModular() != null && handler.getModular().getCurrentModuleState() == null){
@@ -92,7 +91,6 @@ public class PacketSyncAssembler extends PacketModularHandler {
 					}else{
 						if(otherPlayer.inventory.getItemStack() != null) {
 							heldStack = otherPlayer.inventory.getItemStack();
-							// set it to null so it's not getting dropped
 							otherPlayer.inventory.setItemStack(null);
 						}
 						otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
@@ -100,7 +98,6 @@ public class PacketSyncAssembler extends PacketModularHandler {
 
 					if(heldStack != null) {
 						otherPlayer.inventory.setItemStack(heldStack);
-						// also send it to the client
 						((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
 					}
 				}

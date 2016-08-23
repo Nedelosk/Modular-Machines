@@ -9,7 +9,12 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.management.PlayerChunkMap;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -36,6 +41,28 @@ public class PacketHandler {
 		INSTANCE.registerMessage(handler, PacketSyncModule.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(handler, PacketSyncModule.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(handler, PacketSyncHeatBuffer.class, nextID(), Side.CLIENT);
+	}
+
+	public static void sendToNetwork(IMessage message, BlockPos pos, WorldServer world) {
+		if (message == null) {
+			return;
+		}
+
+		WorldServer worldServer = world;
+		PlayerChunkMap playerManager = worldServer.getPlayerChunkMap();
+
+		int chunkX = pos.getX() >> 4;
+		int chunkZ = pos.getZ() >> 4;
+
+		for (Object playerObj : world.playerEntities) {
+			if (playerObj instanceof EntityPlayerMP) {
+				EntityPlayerMP player = (EntityPlayerMP) playerObj;
+
+				if (playerManager.isPlayerWatchingChunk(player, chunkX, chunkZ)) {
+					INSTANCE.sendTo(message, player);
+				}
+			}
+		}
 	}
 
 	public static int nextID() {

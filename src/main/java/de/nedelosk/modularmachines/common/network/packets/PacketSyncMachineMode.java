@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 
 public class PacketSyncMachineMode extends PacketModularHandler {
 
@@ -63,6 +64,6 @@ public class PacketSyncMachineMode extends PacketModularHandler {
 			}
 		}
 
-		PacketHandler.INSTANCE.sendToAll(this);
+		PacketHandler.sendToNetwork(this, pos, (WorldServer) netHandler.playerEntity.worldObj);
 	}
 }

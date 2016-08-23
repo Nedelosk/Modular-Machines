@@ -10,13 +10,25 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class AchievementManager {
 
-	public static final Achievement craftCasingIron = new AchievementCrafting("achievement.craftCasingIron", "craftCasingIron", 0, 0,
-			new ItemStack(ItemManager.itemCasings), null);
-	public static final Achievement craftCasingBronze = new AchievementCrafting("achievement.craftCasingBronze", "craftCasingBronze", 2, 0,
-			new ItemStack(ItemManager.itemCasings, 1, 1), craftCasingIron);
+	public static final Achievement craftChassis = new AchievementCrafting("achievement.craftChassis", "craftChassis", 0, 0,
+			new ItemStack(ItemManager.itemChassis), null);
+	public static final Achievement craftCasingBronze = new AchievementCrafting("achievement.craftCasingBronze", "craftCasingBronze", 0, 2,
+			new ItemStack(ItemManager.itemCasings), craftChassis);
+	public static final Achievement craftCasingIron = new AchievementCrafting("achievement.craftCasingIron", "craftCasingIron", 2, 2,
+			new ItemStack(ItemManager.itemCasings, 1, 1), craftCasingBronze);
+	public static final Achievement craftDrawerBrick = new AchievementCrafting("achievement.craftDrawerBrick", "craftDrawerBrick", 0, 4,
+			new ItemStack(ItemManager.itemDrawer), craftCasingBronze);
+	public static final Achievement craftDrawerBronze = new AchievementCrafting("achievement.craftDrawerBronze", "craftDrawerBronze", 2, 4,
+			new ItemStack(ItemManager.itemDrawer, 1, 2), craftDrawerBrick);
+	public static final Achievement craftDrawerIron = new AchievementCrafting("achievement.craftDrawerIron", "craftDrawerIron", 4, 4,
+			new ItemStack(ItemManager.itemDrawer, 1, 3), craftDrawerBronze);
+	public static final Achievement craftDrawerSteel = new AchievementCrafting("achievement.craftDrawerSteel", "craftDrawerSteel", 6, 4,
+			new ItemStack(ItemManager.itemDrawer, 1, 4), craftDrawerIron);
+	public static final Achievement craftDrawerMagmarium = new AchievementCrafting("achievement.craftDrawerMagmarium", "craftDrawerMagmarium", 8, 4,
+			new ItemStack(ItemManager.itemDrawer, 1, 5), craftDrawerSteel);
 
 	public static void registerPage() {
-		AchievementPage.registerAchievementPage(new AchievementPage("Modular Machine's", craftCasingIron, craftCasingBronze));
+		AchievementPage.registerAchievementPage(new AchievementPage("Modular Machine's", craftChassis, craftCasingBronze, craftCasingIron, craftDrawerBrick, craftDrawerBronze, craftDrawerIron, craftDrawerSteel, craftDrawerMagmarium));
 	}
 
 	@SubscribeEvent
