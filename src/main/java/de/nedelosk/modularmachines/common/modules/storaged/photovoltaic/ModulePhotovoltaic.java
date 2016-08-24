@@ -6,22 +6,26 @@ import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.photovoltaic.IModulePhotovoltaic;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
-import de.nedelosk.modularmachines.common.modules.Module;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -38,6 +42,14 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
 		if(modular.getModules(IModuleBattery.class).isEmpty()){
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
+		}
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -92,7 +104,7 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
-		return EnumStoragePosition.TOP;
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.TOP;
 	}
 }

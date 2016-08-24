@@ -7,7 +7,9 @@ import de.nedelosk.modularmachines.api.energy.IEnergyType;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
@@ -16,9 +18,11 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
-import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,6 +30,14 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	public ModuleBattery(String name) {
 		super(name);
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		}
 	}
 
 	@Override

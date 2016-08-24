@@ -5,24 +5,29 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
-import de.nedelosk.modularmachines.client.modules.ModelHandler;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerEngine;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.modules.Module;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -104,6 +109,14 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 		}
 	}
 
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		}
+	}
+
 	protected abstract boolean canWork(IModuleState state);
 
 	protected abstract boolean removeMaterial(IModuleState state);
@@ -119,8 +132,8 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
-		return EnumStoragePosition.RIGHT;
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.SIDE;
 	}
 
 	@Override

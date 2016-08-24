@@ -5,19 +5,26 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerDrawer;
+import de.nedelosk.modularmachines.client.model.ModelHandlerDrawer;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,6 +66,14 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 		super.addTooltip(tooltip, stack, container);
 	}
 
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		}
+	}
+
 	protected ModelHandlerDrawer createModelHandler(IModuleContainer container){
 		return new ModelHandlerDrawer(container);
 	}
@@ -95,7 +110,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
+	public EnumModulePosition getPosition(IModuleContainer container) {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.client.modules;
+package de.nedelosk.modularmachines.client.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +9,24 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
-import de.nedelosk.modularmachines.client.model.ModelModular;
-import de.nedelosk.modularmachines.client.model.TRSRBakedModel;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> implements IModelHandler<IModuleModuleStorage>, IModelInitHandler{
 
 	/**
@@ -94,7 +97,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			for(IBakedModel model : getWallModels(state, modelState, format, bakedTextureGetter)){
 				models.add(model);
 			}
-			bakedModel = new ModelModular.ModularBaked(models);
+			bakedModel = new BakedMultiModel(models);
 		}else if(pos == EnumStoragePosition.TOP){
 			bakedModel = getBakedModel(top, modelState, format, bakedTextureGetter);
 		}else if(pos == EnumStoragePosition.BACK){

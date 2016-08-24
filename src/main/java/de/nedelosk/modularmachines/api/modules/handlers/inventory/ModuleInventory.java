@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.handlers.inventorys;
+package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -9,14 +9,10 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
-import de.nedelosk.modularmachines.common.utils.ContainerUtil;
-import de.nedelosk.modularmachines.common.utils.Translator;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -25,6 +21,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -51,11 +48,6 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	/* INEVNTORY */
-	@Override
-	public ItemStack transferStackInSlot(IModularHandler tile, EntityPlayer player, int index, Container container) {
-		return ContainerUtil.transferStackInSlot(container.inventorySlots, player, index);
-	}
-
 	@Override
 	public boolean mergeItemStack(ItemStack stack, int minSlot, int maxSlot, boolean maxToMin, Container container) {
 		boolean isMerged = false;
@@ -376,14 +368,14 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
-		tooltip.add(Translator.translateToLocal("mm.tooltip.handler.inventorys"));
+		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys"));
 		for(int i = 0;i < getSlots();i++){
 			ItemStack itemStack = getStackInSlot(i);
-			tooltip.add(" " + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
+			tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
 			if(itemStack != null){
-				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.inventory.item") + itemStack.getDisplayName() + ", " + Translator.translateToLocal("mm.tooltip.handler.inventory.amount") + itemStack.stackSize);
+				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.inventory.item") + itemStack.getDisplayName() + ", " + I18n.translateToLocal("mm.tooltip.handler.inventory.amount") + itemStack.stackSize);
 			}else{
-				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.inventory.empty"));
+				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.inventory.empty"));
 			}
 		}
 	}

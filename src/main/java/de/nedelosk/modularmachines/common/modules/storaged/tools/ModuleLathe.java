@@ -1,9 +1,11 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -14,6 +16,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
+import de.nedelosk.modularmachines.api.modules.storaged.tools.ModuleModeMachine;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -25,6 +28,11 @@ import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -43,6 +51,14 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
 		return new String[]{ModuleCategoryUIDs.LATHE};
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -86,6 +102,16 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 	@Override
 	public int getColor(IModuleContainer container) {
 		return 0xC4C09C;
+	}
+
+	@Override
+	public void openJEI(IModuleState state){
+		if(this instanceof IModuleJEI){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			}
+		}
 	}
 
 	/*@SideOnly(Side.CLIENT)

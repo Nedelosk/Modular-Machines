@@ -2,13 +2,13 @@ package de.nedelosk.modularmachines.api.modules.storaged;
 
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.util.text.translation.I18n;
 
 public enum EnumModulePosition {
 	TOP, DOWN, BACK, SIDE, INTERNAL;
 
 	public String getLocName(){
-		return Translator.translateToLocal("module.storage." + getName() + ".name");
+		return I18n.translateToLocal("module.storage." + getName() + ".name");
 	}
 
 	public String getName(){

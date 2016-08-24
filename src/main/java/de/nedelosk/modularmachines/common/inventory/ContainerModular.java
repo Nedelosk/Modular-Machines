@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import de.nedelosk.modularmachines.common.utils.ContainerUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -57,42 +57,7 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = this.inventorySlots.get(slotID);
-		IModular modular = handler.getModular();
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			IModuleInventory inventory = (IModuleInventory) currentPage.getModuleState().getContentHandler(IModuleInventory.class);
-			if (slot instanceof SlotModule && !inventory.isInput(slot.getSlotIndex())) {
-				if (!this.mergeItemStack(itemstack1, 0, 36, true)) {
-					return null;
-				}
-				slot.onSlotChange(itemstack1, itemstack);
-			} else if (slot instanceof Slot) {
-				if (currentPage.getModuleState() != null) {
-					return inventory.transferStackInSlot(handler, player, slotID, this);
-				} else if (slotID >= 0 && slotID < 27) {
-					if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
-						return null;
-					}
-				} else if (slotID >= 27 && slotID < 36 && !this.mergeItemStack(itemstack1, 0, 27, false)) {
-					return null;
-				}
-			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
-				return null;
-			}
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
-			}
-			slot.onPickupFromSlot(player, itemstack1);
-		}
-		return itemstack;
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		return ContainerUtil.transferStackInSlot(inventorySlots, player, index);
 	}
 }

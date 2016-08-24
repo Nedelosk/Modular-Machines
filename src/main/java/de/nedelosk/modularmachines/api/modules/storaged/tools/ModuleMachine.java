@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.storaged.tools;
+package de.nedelosk.modularmachines.api.modules.storaged.tools;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,21 +10,20 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
 import de.nedelosk.modularmachines.api.property.PropertyFloat;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -33,15 +32,9 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
-import de.nedelosk.modularmachines.client.modules.ModelHandler;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
-import de.nedelosk.modularmachines.common.modules.Module;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -231,16 +224,6 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		}
 	}
 
-	@Override
-	public void sendModuleUpdate(IModuleState state) {
-		super.sendModuleUpdate(state);
-		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			if(getType(state) == EnumToolType.HEAT){
-				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
-			}
-		}
-	}
 
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
 		EnumToolType type = getType(state);
@@ -432,8 +415,8 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
-		return EnumStoragePosition.LEFT;
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.SIDE;
 	}
 
 }

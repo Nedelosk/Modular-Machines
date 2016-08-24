@@ -9,19 +9,20 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterProperties;
-import de.nedelosk.modularmachines.client.modules.ModelHandler;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
-import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -77,9 +78,9 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 
 	@Override
 	public void sendModuleUpdate(IModuleState state) {
-		super.sendModuleUpdate(state);
 		IModularHandler handler = state.getModular().getHandler();
 		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
@@ -90,8 +91,8 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
-		return EnumStoragePosition.RIGHT;
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.SIDE;
 	}
 
 	@SideOnly(Side.CLIENT)

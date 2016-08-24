@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.handlers;
+package de.nedelosk.modularmachines.api.modules.handlers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M> {

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.handlers.tanks;
+package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -11,19 +11,17 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -402,14 +400,14 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
-		tooltip.add(Translator.translateToLocal("mm.tooltip.handler.tanks"));
+		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.tanks"));
 		for(FluidTankAdvanced tank : tanks){
 			FluidStack fluidStack = tank.getFluid();
-			tooltip.add(" " + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
+			tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
 			if(fluidStack != null){
-				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.tank.fluid") + fluidStack.getLocalizedName() + ", " + Translator.translateToLocal("mm.tooltip.handler.tank.amount") + fluidStack.amount);
+				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.tank.fluid") + fluidStack.getLocalizedName() + ", " + I18n.translateToLocal("mm.tooltip.handler.tank.amount") + fluidStack.amount);
 			}else{
-				tooltip.add(" - " + Translator.translateToLocal("mm.tooltip.handler.tank.empty"));
+				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.tank.empty"));
 			}
 		}
 	}

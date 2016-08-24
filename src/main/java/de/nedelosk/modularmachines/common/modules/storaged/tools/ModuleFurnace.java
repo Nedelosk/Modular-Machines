@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -26,13 +27,15 @@ import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
 import de.nedelosk.modularmachines.common.recipse.RecipeBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleFurnace extends ModuleMachine implements IModuleColored, IModuleJEI {
+public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored, IModuleJEI {
 
 	private static final List<IRecipe> furnaceRecipe = new ArrayList<>();
 	public static final PropertyFurnaceRecipe FURNACERECIPE = new PropertyFurnaceRecipe("currentRecipe", furnaceRecipe);
@@ -54,6 +57,16 @@ public class ModuleFurnace extends ModuleMachine implements IModuleColored, IMod
 	@Override
 	protected String getModelFolder(IModuleContainer container) {
 		return "furnace";
+	}
+
+	@Override
+	public void openJEI(IModuleState state){
+		if(this instanceof IModuleJEI){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			}
+		}
 	}
 
 	@Override

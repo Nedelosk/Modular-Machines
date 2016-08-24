@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.client.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -110,7 +110,7 @@ public class ModelModular implements IBakedModel {
 							rotation = -(float) (Math.PI / 2);
 						}
 						if(!positionedModels.isEmpty()){
-							models.add(new TRSRBakedModel(new ModularBaked(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
+							models.add(new TRSRBakedModel(new BakedMultiModel(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
 						}
 					}
 				}else{
@@ -123,7 +123,7 @@ public class ModelModular implements IBakedModel {
 				}
 
 				if(!models.isEmpty()){
-					return new ModularBaked(models);
+					return new BakedMultiModel(models);
 				}
 			}else if(modularHandler.getAssembler() != null){
 				return ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
@@ -161,63 +161,6 @@ public class ModelModular implements IBakedModel {
 			}
 		}
 		return null;
-	}
-
-	public static class ModularBaked implements IBakedModel{
-		private final Collection<IBakedModel> models;
-
-		protected final TextureAtlasSprite particleTexture;
-		protected final ItemOverrideList overrides;
-
-		public ModularBaked(Collection<IBakedModel> models){
-			IBakedModel ibakedmodel = models.iterator().next();
-
-			this.models = models;
-			this.particleTexture = ibakedmodel.getParticleTexture();
-			this.overrides = ibakedmodel.getOverrides();
-		}
-
-		@Override
-		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-			List<BakedQuad> quads = new ArrayList<>();
-			for (IBakedModel model : this.models){
-				if(model != null){
-					quads.addAll(model.getQuads(state, side, rand++));
-				}
-			}
-			return quads;
-		}
-
-		@Override
-		public boolean isAmbientOcclusion(){
-			return true;
-		}
-
-		@Override
-		public boolean isGui3d(){
-			return true;
-		}
-
-		@Override
-		public boolean isBuiltInRenderer(){
-			return false;
-		}
-
-		@Override
-		public TextureAtlasSprite getParticleTexture(){
-			return this.particleTexture;
-		}
-
-		@Override
-		public ItemCameraTransforms getItemCameraTransforms(){
-			return ItemCameraTransforms.DEFAULT;
-		}
-
-		@Override
-		public ItemOverrideList getOverrides(){
-			return this.overrides;
-		}
-
 	}
 
 	@Override

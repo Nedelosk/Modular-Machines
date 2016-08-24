@@ -1,7 +1,6 @@
-package de.nedelosk.modularmachines.common.modules;
+package de.nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,19 +10,15 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.ModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
+import de.nedelosk.modularmachines.api.modules.handlers.tank.ModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -34,20 +29,12 @@ import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
-import de.nedelosk.modularmachines.common.items.ItemModule;
-import de.nedelosk.modularmachines.common.modules.handlers.inventorys.ModuleInventoryBuilder;
-import de.nedelosk.modularmachines.common.modules.handlers.tanks.ModuleTankBuilder;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -80,11 +67,11 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public String getDisplayName(IModuleContainer container) {
-		return container.getMaterial().getLocalizedName() + " " + Translator.translateToLocal(container.getUnlocalizedName());
+		return container.getMaterial().getLocalizedName() + " " + I18n.translateToLocal(container.getUnlocalizedName());
 	}
 
 	protected boolean showName(IModuleContainer container){
-		return !(container.getItemStack().getItem() instanceof ItemModule);
+		return !ModularMachinesApi.hasDefaultStack(container);
 	}
 
 	protected boolean showComplexity(IModuleContainer container){
@@ -107,22 +94,22 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		if(showName(container)){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
 		if(showSize(container)){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
 		}
 		if(showComplexity(container)){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
 		}
 		if(showPosition(container)){
-			tooltip.add(Translator.translateToLocal("mm.module.tooltip.position") +getPosition(container).getLocName());
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + getPosition(container).getLocName());
 		}
 		List<String> providerTip = new ArrayList<>();
 		addProviderTooltip(providerTip, stack, container);
 		if(showProvider(container, providerTip)){
 			if(!GuiScreen.isShiftKeyDown()){
-				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
+				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.holdshift"));
 			}else{
 				tooltip.addAll(providerTip);
 			}
@@ -269,20 +256,4 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
 	}
 
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
-			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
-			}
-		}
-	}
-
-	@Override
-	public void sendModuleUpdate(IModuleState state){
-		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
-		}
-	}
 }

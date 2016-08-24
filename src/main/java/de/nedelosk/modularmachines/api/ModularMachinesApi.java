@@ -130,6 +130,10 @@ public class ModularMachinesApi {
 		return stack;
 	}
 
+	public static boolean hasDefaultStack(IModuleContainer container){
+		return modulesWithDefaultItem.contains(container);
+	}
+
 	public static ItemStack createDefaultStack(IModuleContainer container) {
 		if(container == null){
 			return null;

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.client.modules;
+package de.nedelosk.modularmachines.api.modules.models;
 
 import java.util.Locale;
 
@@ -6,7 +6,6 @@ import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -15,7 +14,10 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public abstract class ModelHandler<M extends IModule> implements IModelHandler<M> {
 
 	public IBakedModel bakedModel;

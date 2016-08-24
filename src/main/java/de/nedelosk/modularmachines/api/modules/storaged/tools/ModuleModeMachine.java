@@ -1,9 +1,8 @@
-package de.nedelosk.modularmachines.common.modules.storaged.tools;
+package de.nedelosk.modularmachines.api.modules.storaged.tools;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.property.PropertyToolMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 

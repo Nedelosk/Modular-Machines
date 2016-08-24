@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
+import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -12,21 +13,23 @@ import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerStatus;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePulverizer extends ModuleMachine implements IModuleColored, IModuleJEI{
+public class ModulePulverizer extends ModuleBasicMachine implements IModuleColored, IModuleJEI{
 
 	public ModulePulverizer() {
 		super("pulverizer");
@@ -77,6 +80,16 @@ public class ModulePulverizer extends ModuleMachine implements IModuleColored, I
 	@Override
 	public int getColor(IModuleContainer container) {
 		return 0x286F92;
+	}
+
+	@Override
+	public void openJEI(IModuleState state){
+		if(this instanceof IModuleJEI){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			}
+		}
 	}
 
 	@Override

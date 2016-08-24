@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
@@ -47,7 +48,7 @@ public class PositionedAssemblerLogic implements IAssemblerLogic {
 					if(!storageSlot.getHasStack()){
 						return false;
 					}
-					if(container.getModule().getPosition(container) == pos){
+					if(container.getModule().getPosition(container) == EnumModulePosition.INTERNAL){
 						return true;
 					}
 				}
@@ -63,7 +64,8 @@ public class PositionedAssemblerLogic implements IAssemblerLogic {
 					if(!storageSlot.getHasStack()){
 						return false;
 					}
-					if(container.getModule().getPosition(container) != pos){
+					EnumModulePosition modulePosition = container.getModule().getPosition(container);
+					if(!(modulePosition == EnumModulePosition.SIDE && (pos == EnumStoragePosition.LEFT || pos == EnumStoragePosition.RIGHT) || modulePosition == EnumModulePosition.BACK && pos == EnumStoragePosition.BACK || modulePosition == EnumModulePosition.DOWN && pos == EnumStoragePosition.DOWN || modulePosition == EnumModulePosition.TOP && pos == EnumStoragePosition.TOP)){
 						return false;
 					}
 					EnumModuleSize usedSize = null;

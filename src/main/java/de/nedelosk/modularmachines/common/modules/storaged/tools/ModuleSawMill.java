@@ -22,7 +22,7 @@ import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleSawMill extends ModuleMachine implements IModuleColored{
+public class ModuleSawMill extends ModuleBasicMachine implements IModuleColored{
 
 	public ModuleSawMill() {
 		super("sawmill");
@@ -55,6 +55,16 @@ public class ModuleSawMill extends ModuleMachine implements IModuleColored{
 		pages.add(new SawMillPage("Basic", state));
 		return pages;
 	}
+
+	/*@Override
+	public void openJEI(IModuleState state){
+		if(this instanceof IModuleJEI){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			}
+		}
+	}*/
 
 	@Override
 	public EnumToolType getType(IModuleState state) {

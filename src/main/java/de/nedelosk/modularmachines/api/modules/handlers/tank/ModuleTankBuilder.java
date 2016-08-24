@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.handlers.tanks;
+package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,9 @@ import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.modules.handlers.FilterWrapper;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<M> {

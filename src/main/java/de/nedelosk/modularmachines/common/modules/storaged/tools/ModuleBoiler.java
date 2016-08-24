@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.storaged.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -10,9 +11,11 @@ import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -24,26 +27,31 @@ import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleTool;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
-import de.nedelosk.modularmachines.client.modules.ModelHandler;
-import de.nedelosk.modularmachines.client.modules.ModelHandlerDefault;
 import de.nedelosk.modularmachines.common.core.FluidManager;
-import de.nedelosk.modularmachines.common.modules.Module;
 import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
 import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.modules.storaged.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,6 +68,20 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 			return ((IModuleBoilerProperties) properties).getWaterPerWork(state);
 		}
 		return 0;
+	}
+
+	@Override
+	public void sendModuleUpdate(IModuleState state){
+		IModularHandler handler = state.getModular().getHandler();
+		if(handler instanceof IModularHandlerTileEntity){
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		}
+	}
+
+	@Override
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.SIDE;
 	}
 
 	@Override
@@ -193,8 +215,13 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	}
 
 	@Override
-	public EnumStoragePosition getPosition(IModuleContainer container) {
-		return EnumStoragePosition.LEFT;
+	public void openJEI(IModuleState state){
+		if(this instanceof IModuleJEI){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			}
+		}
 	}
 
 	@Override

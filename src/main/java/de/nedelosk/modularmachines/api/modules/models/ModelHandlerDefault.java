@@ -1,15 +1,17 @@
-package de.nedelosk.modularmachines.client.modules;
+package de.nedelosk.modularmachines.api.modules.models;
 
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelHandlerDefault extends ModelHandler implements IModelHandler, IModelInitHandler {
 
 	protected ResourceLocation location;
