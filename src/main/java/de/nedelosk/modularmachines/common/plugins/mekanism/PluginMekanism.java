@@ -51,6 +51,6 @@ public class PluginMekanism extends APlugin {
 
 	@Override
 	public boolean isActive() {
-		return Config.pluginEnderIO;
+		return Config.pluginMekanism;
 	}
 }
