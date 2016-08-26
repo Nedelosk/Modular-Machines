@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.common.core;
 
 import java.util.concurrent.Callable;
 
-import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
@@ -80,11 +79,10 @@ public class ModuleManager {
 	public static IModuleKineticProperties[] moduleTurbineSteamProperties = new IModuleKineticProperties[4];
 
 	public static IModuleEngine moduleEngineSteam;
-	public static IModuleKineticProperties[] moduleEngineSteamProperties = new IModuleKineticProperties[4];	
-	public static IModuleEngine moduleEngineRF;	
-	public static IModuleKineticProperties[] moduleEngineRFProperties = new IModuleKineticProperties[4];	
-	public static IModuleEngine moduleEngineEU;
-	public static IModuleKineticProperties[] moduleEngineEUProperties = new IModuleKineticProperties[4];		
+	public static IModuleKineticProperties[] moduleEngineSteamProperties = new IModuleKineticProperties[4];		
+
+	public static IModuleEngine moduleEngineElectric;
+	public static IModuleKineticProperties[] moduleEngineElectricProperties = new IModuleKineticProperties[4];	
 
 	public static ModuleHeater moduleHeaterBronze;
 	public static ModuleHeater moduleHeaterIron;
@@ -179,29 +177,15 @@ public class ModuleManager {
 		moduleEngineSteamProperties[2] = new ModuleKineticProperties(5, EnumModuleSize.SMALL, 5, 275, 10);
 		moduleEngineSteamProperties[3] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 8, 350, 5);
 
-		moduleEngineRFProperties[0] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 2, 250, 20); 
-		moduleEngineRFProperties[1] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 4, 250, 25); 
-		moduleEngineRFProperties[2] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 6, 250, 35); 
-		moduleEngineRFProperties[3] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 8, 250, 40); 
+		//Electric
+		moduleEngineElectric = new ModuleEngineElectric();
+		moduleEngineElectric.setRegistryName(new ResourceLocation("modularmachines:engine.electric"));
+		GameRegistry.register(moduleEngineElectric);
 
-		moduleEngineEUProperties[0] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 2, 250, 40); 
-		moduleEngineEUProperties[1] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 4, 250, 50); 
-		moduleEngineEUProperties[2] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 6, 250, 70); 
-		moduleEngineEUProperties[3] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 8, 250, 80); 
-
-		//RF
-		if(EnergyRegistry.redstoneFlux != null){
-			moduleEngineRF = new ModuleEngineElectric(EnergyRegistry.redstoneFlux);
-			moduleEngineRF.setRegistryName(new ResourceLocation("modularmachines:engine.rf"));
-			GameRegistry.register(moduleEngineRF);
-		}
-
-		//EU
-		if(EnergyRegistry.energyUnit != null){
-			moduleEngineEU = new ModuleEngineElectric(EnergyRegistry.energyUnit);
-			moduleEngineEU.setRegistryName(new ResourceLocation("modularmachines:engine.eu"));
-			GameRegistry.register(moduleEngineEU);
-		}
+		moduleEngineElectricProperties[0] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 2, 250, 20); 
+		moduleEngineElectricProperties[1] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 4, 250, 25); 
+		moduleEngineElectricProperties[2] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 6, 250, 35); 
+		moduleEngineElectricProperties[3] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 8, 250, 40); 
 
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner");
@@ -290,26 +274,17 @@ public class ModuleManager {
 	}
 
 	public static void registerModuleContainers(){
-		//Engines
-		if(EnergyRegistry.redstoneFlux != null){
-			GameRegistry.register(new ModuleContainer(moduleEngineRF, moduleEngineRFProperties[0], new ItemStack(ItemManager.itemEngineRF, 1, 0), EnumMetalMaterials.BRONZE));
-			GameRegistry.register(new ModuleContainer(moduleEngineRF, moduleEngineRFProperties[1], new ItemStack(ItemManager.itemEngineRF, 1, 1), EnumMetalMaterials.IRON));
-			GameRegistry.register(new ModuleContainer(moduleEngineRF, moduleEngineRFProperties[2], new ItemStack(ItemManager.itemEngineRF, 1, 2), EnumMetalMaterials.STEEL));
-			GameRegistry.register(new ModuleContainer(moduleEngineRF, moduleEngineRFProperties[3], new ItemStack(ItemManager.itemEngineRF, 1, 3), EnumMetalMaterials.MAGMARIUM));
-		}
-
-		if(EnergyRegistry.energyUnit != null){
-			GameRegistry.register(new ModuleContainer(moduleEngineEU, moduleEngineEUProperties[0], new ItemStack(ItemManager.itemEngineEU, 1, 0), EnumMetalMaterials.BRONZE));
-			GameRegistry.register(new ModuleContainer(moduleEngineEU, moduleEngineEUProperties[1], new ItemStack(ItemManager.itemEngineEU, 1, 1), EnumMetalMaterials.IRON));
-			GameRegistry.register(new ModuleContainer(moduleEngineEU, moduleEngineEUProperties[2], new ItemStack(ItemManager.itemEngineEU, 1, 2), EnumMetalMaterials.STEEL));
-			GameRegistry.register(new ModuleContainer(moduleEngineEU, moduleEngineEUProperties[3], new ItemStack(ItemManager.itemEngineEU, 1, 3), EnumMetalMaterials.MAGMARIUM));
-		}
-
+		// Engines
 		//Steam
 		GameRegistry.register(new ModuleContainer(moduleEngineSteam, moduleEngineSteamProperties[0], new ItemStack(ItemManager.itemEngineSteam, 1, 0), EnumMetalMaterials.BRONZE));
 		GameRegistry.register(new ModuleContainer(moduleEngineSteam, moduleEngineSteamProperties[1], new ItemStack(ItemManager.itemEngineSteam, 1, 1), EnumMetalMaterials.IRON));
 		GameRegistry.register(new ModuleContainer(moduleEngineSteam, moduleEngineSteamProperties[2], new ItemStack(ItemManager.itemEngineSteam, 1, 2), EnumMetalMaterials.STEEL));
 		GameRegistry.register(new ModuleContainer(moduleEngineSteam, moduleEngineSteamProperties[3], new ItemStack(ItemManager.itemEngineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
+
+		GameRegistry.register(new ModuleContainer(ModuleManager.moduleEngineElectric, moduleEngineElectricProperties[0], new ItemStack(ItemManager.itemEngineElectric, 1, 0), EnumMetalMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(ModuleManager.moduleEngineElectric, moduleEngineElectricProperties[1], new ItemStack(ItemManager.itemEngineElectric, 1, 1), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(ModuleManager.moduleEngineElectric, moduleEngineElectricProperties[2], new ItemStack(ItemManager.itemEngineElectric, 1, 2), EnumMetalMaterials.STEEL));
+		GameRegistry.register(new ModuleContainer(ModuleManager.moduleEngineElectric, moduleEngineElectricProperties[3], new ItemStack(ItemManager.itemEngineElectric, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Turbine Steam
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[0], new ItemStack(ItemManager.itemTurbineSteam, 1, 0), EnumMetalMaterials.BRONZE));

@@ -70,6 +70,10 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		return container.getMaterial().getLocalizedName() + " " + I18n.translateToLocal(container.getUnlocalizedName());
 	}
 
+	protected boolean showMaterial(IModuleContainer container){
+		return true;
+	}
+
 	protected boolean showName(IModuleContainer container){
 		return !ModularMachinesApi.hasDefaultStack(container);
 	}
@@ -93,6 +97,9 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
+		if(showMaterial(container)){
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + container.getMaterial().getLocalizedName());
+		}
 		if(showName(container)){
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}

@@ -9,7 +9,6 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -156,7 +155,6 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack) {
-		tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + material.getLocalizedName());
 		module.addTooltip(tooltip, stack, this);
 
 		tooltip.addAll(this.tooltip);

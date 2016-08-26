@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.core;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
-import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
@@ -385,7 +384,7 @@ public class RecipeManager {
 
 	private static void registerBoilerRecipes(){
 		//ONLY FOR JEI
-		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 15)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), EnergyRegistry.STEAM_PER_UNIT_WATER / 2)), 1, 100, 0D);
+		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 15)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), ModularMachinesApi.STEAM_PER_UNIT_WATER / 2)), 1, 100, 0D);
 	}
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {

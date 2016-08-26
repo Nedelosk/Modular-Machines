@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.HeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
@@ -118,7 +118,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 
 				FluidStack waterStack = tankWater.getFluid();
 				if(!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()){
-					if (heatSource.getHeatStored() >= EnergyRegistry.BOILING_POINT){
+					if (heatSource.getHeatStored() >= ModularMachinesApi.BOILING_POINT){
 						int waterCost = (heatLevel.getIndex() - 1) * getWaterPerWork(state);
 						if (waterCost <= 0){
 							return;
@@ -130,8 +130,8 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 						}
 
 						waterCost = Math.min(waterCost, water.amount);
-						FluidStack steam = new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER / 2 * waterCost);
-						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, EnergyRegistry.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
+						FluidStack steam = new FluidStack(FluidManager.Steam, ModularMachinesApi.STEAM_PER_UNIT_WATER / 2 * waterCost);
+						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, ModularMachinesApi.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
 
 						if(steam.amount > 0){
 							tankWater.drainInternal(waterCost * 15, true);

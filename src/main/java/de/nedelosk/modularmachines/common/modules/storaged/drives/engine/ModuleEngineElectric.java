@@ -1,9 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.drives.engine;
 
-import java.util.Locale;
-
-import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
-import de.nedelosk.modularmachines.api.energy.IEnergyType;
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -15,11 +12,8 @@ import de.nedelosk.modularmachines.common.utils.Translator;
 
 public class ModuleEngineElectric extends ModuleEngine {
 
-	protected IEnergyType type;
-
-	public ModuleEngineElectric(IEnergyType type) {
-		super("engine.electric." + type.getShortName().toLowerCase(Locale.ENGLISH));
-		this.type = type;
+	public ModuleEngineElectric() {
+		super("engine.electric");
 	}
 
 	@Override
@@ -37,10 +31,10 @@ public class ModuleEngineElectric extends ModuleEngine {
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();
-		if(modular.getEnergyInterface() == null){
+		if(modular.getEnergyBuffer() == null){
 			return false;
 		}
-		if (modular.getEnergyInterface().getEnergyStored(type) > 0) {
+		if (modular.getEnergyBuffer().getEnergyStored() > 0) {
 			return true;
 		} else {
 			return false;
@@ -49,12 +43,12 @@ public class ModuleEngineElectric extends ModuleEngine {
 
 	@Override
 	public boolean removeMaterial(IModuleState state) {
-		IEnergyInterface energyHandler = state.getModular().getEnergyInterface();
-		if(energyHandler == null){
+		IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
+		if(energyBuffer == null){
 			return false;
 		}
-		if (energyHandler.extractEnergy(type, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
-			return energyHandler.extractEnergy(type, getMaterialPerWork(state), false) == getMaterialPerWork(state);
+		if (energyBuffer.extractEnergy(null, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
+			return energyBuffer.extractEnergy(null, getMaterialPerWork(state), false) == getMaterialPerWork(state);
 		} else {
 			return false;
 		}

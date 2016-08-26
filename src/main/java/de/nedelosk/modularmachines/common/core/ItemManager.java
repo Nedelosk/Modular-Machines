@@ -30,7 +30,7 @@ public class ItemManager {
 	public static ItemComponent itemCompScrews;
 	public static Item itemDrawer;
 	public static Item itemEngineSteam;
-	public static Item itemEngineRF;
+	public static Item itemEngineElectric;
 	public static Item itemEngineEU;
 	public static Item itemTurbineSteam;
 	public static Item itemModuleCore;
@@ -61,6 +61,7 @@ public class ItemManager {
 		itemCompGears = register(new ItemComponent("gears", EnumMetalMaterials.IRON, EnumMetalMaterials.BRONZE, EnumMetalMaterials.STEEL));
 		itemDrawer = register(new ItemModuleMeta("drawer", new String[] { "brick_large", "brick_small", "bronze_large", "iron_large", "steel_large", "magmarium_large" }));
 		itemEngineSteam = register(new ItemModuleMeta("engineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
+		itemEngineElectric = register(new ItemModuleMeta("engineElectric", new String[] { "iron", "bronze", "steel", "magmarium" }));
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		ModularMachinesApi.defaultModuleItem = itemModules = register(new ItemModule());

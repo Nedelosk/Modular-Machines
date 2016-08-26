@@ -89,6 +89,7 @@ public class Config {
 
 	public static void processConfig() {
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();
+		pluginMekanism = config.get(plugins.name, "Mekanism", true).getBoolean();
 		pluginThermalExpansion = config.get(plugins.name, "Thermal Expansion", true).getBoolean();
 		pluginTheOneProbe = config.get(plugins.name, "The One Probe", true).getBoolean();
 		// Ores
@@ -114,6 +115,7 @@ public class Config {
 
 	/* PLUGINS */
 	public static boolean pluginEnderIO;
+	public static boolean pluginMekanism;
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginTheOneProbe;
 	/* MODULES */

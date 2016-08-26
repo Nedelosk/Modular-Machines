@@ -7,7 +7,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
-import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -19,7 +19,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyInterface;
+import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyBuffer;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
@@ -28,8 +28,8 @@ import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
-import de.nedelosk.modularmachines.common.modular.handlers.EnergyHandler;
 import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
+import de.nedelosk.modularmachines.common.modular.handlers.ModularEnergyBuffer;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -54,11 +54,11 @@ public abstract class Modular implements IModular {
 	protected int index;
 	protected IModuleState currentModule;
 	protected IModulePage currentPage;
-	protected EnergyHandler energyHandler;
 	protected FluidHandlerConcatenate fluidHandler;
 	protected ItemHandler itemHandler;
 	protected IBlockModificator blockModificator;
 	protected HeatBuffer heatSource;
+	protected ModularEnergyBuffer energyBuffer;
 
 	// Ticks
 	private static final Random rand = new Random();
@@ -79,6 +79,7 @@ public abstract class Modular implements IModular {
 				heatSource.deserializeNBT(nbt.getCompoundTag("HeatBuffer"));
 			}
 		}
+
 		assembleModular();
 	}
 
@@ -87,7 +88,9 @@ public abstract class Modular implements IModular {
 		createHeatBuffer();
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
-		energyHandler = new EnergyHandler(getInterfaces());
+		if(!getEnergyBuffers().isEmpty()){
+			energyBuffer = new ModularEnergyBuffer(getEnergyBuffers());
+		}
 		if(currentModule == null && getFirstGui() != null){
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
@@ -300,11 +303,6 @@ public abstract class Modular implements IModular {
 		return null;
 	}
 
-	@Override
-	public IEnergyInterface getEnergyInterface() {
-		return energyHandler;
-	}
-
 	protected IBlockModificator buildBlockModificator(){
 		int modificators = 0;
 		int maxHeat = 0;
@@ -369,12 +367,12 @@ public abstract class Modular implements IModular {
 		return fluidHandlers;
 	}
 
-	protected List<IEnergyInterface> getInterfaces(){
-		List<IEnergyInterface> handlers = Lists.newArrayList();
+	protected List<IModuleEnergyBuffer> getEnergyBuffers() {
+		List<IModuleEnergyBuffer> handlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler rnergyInterface = state.getContentHandler(IModuleEnergyInterface.class);
-			if(rnergyInterface instanceof IModuleEnergyInterface){
-				handlers.add((IModuleEnergyInterface) rnergyInterface);
+			IModuleContentHandler rnergyInterface = state.getContentHandler(IModuleEnergyBuffer.class);
+			if(rnergyInterface instanceof IModuleEnergyBuffer){
+				handlers.add((IModuleEnergyBuffer) rnergyInterface);
 			}
 		}
 		return handlers;
@@ -387,9 +385,6 @@ public abstract class Modular implements IModular {
 		}else if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
 		}
-		if(energyHandler != null){
-
-		}
 		return null;
 	}
 
@@ -397,9 +392,6 @@ public abstract class Modular implements IModular {
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
 			return true;
-		}
-		if(energyHandler != null){
-
 		}
 		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
@@ -464,6 +456,11 @@ public abstract class Modular implements IModular {
 	@Override
 	public IHeatSource getHeatSource() {
 		return heatSource;
+	}
+
+	@Override
+	public IEnergyBuffer getEnergyBuffer() {
+		return energyBuffer;
 	}
 
 	@Override

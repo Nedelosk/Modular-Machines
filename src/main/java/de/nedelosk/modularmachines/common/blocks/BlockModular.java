@@ -139,16 +139,12 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
 			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
-			if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-				if(heldItem == null && player.isSneaking()){
-					IModularAssembler assembler = modularHandler.getModular().disassemble();
-					if(assembler != null){
-						if (world.isRemote) {
-							modularHandler.setAssembled(false);
-							modularHandler.setAssembler(assembler);
-							modularHandler.setModular(null);
+			if(world.isRemote){
+				if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+					if(heldItem == null && player.isSneaking()){
+						IModularAssembler assembler = modularHandler.getModular().disassemble();
+						if(assembler != null){
 							PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(modularHandler, false));
-							world.markBlockRangeForRenderUpdate(pos, pos);
 						}
 					}
 				}

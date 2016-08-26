@@ -16,7 +16,7 @@ public class ModuleBatteryProperties extends ModuleProperties implements IModule
 	protected int maxExtract;
 
 	public ModuleBatteryProperties(int complexity, EnumModuleSize size, int capacity, int maxTransfer) {
-		this(capacity, size, capacity, maxTransfer, maxTransfer);
+		this(complexity, size, capacity, maxTransfer, maxTransfer);
 	}
 
 	public ModuleBatteryProperties(int complexity, EnumModuleSize size, int capacity, int maxReceive, int maxExtract) {
@@ -47,7 +47,7 @@ public class ModuleBatteryProperties extends ModuleProperties implements IModule
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		capacity = config.getInt("capacity", "modules." + container.getModule().getRegistryName() + "." + getSize(container), defaultCapacity, 1, Integer.MAX_VALUE, "");
+		capacity = config.getInt("capacity", "modules." + container.getRegistryName(), defaultCapacity, 1, Integer.MAX_VALUE, "");
 		maxExtract = config.getInt("maxExtract", "modules." + container.getRegistryName(), defaultMaxExtract, 1, Integer.MAX_VALUE, "");
 		maxReceive = config.getInt("maxReceive", "modules." + container.getRegistryName(), defaultMaxReceive, 1, Integer.MAX_VALUE, "");
 	}

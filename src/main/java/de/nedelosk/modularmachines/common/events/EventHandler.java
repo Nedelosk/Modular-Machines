@@ -1,14 +1,21 @@
 package de.nedelosk.modularmachines.common.events;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
 import de.nedelosk.modularmachines.client.model.ModelModular;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -25,7 +32,16 @@ public class EventHandler {
 	public void tooltipEvent(ItemTooltipEvent event) {
 		IModuleContainer container = ModularMachinesApi.getContainerFromItem(event.getItemStack());
 		if (container != null) {
-			container.addTooltip(event.getToolTip(), event.getItemStack());
+			if(Keyboard.isKeyDown(Keyboard.KEY_M)){
+				List<String> moduleTooltip = new ArrayList<>();
+				event.getToolTip().add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
+				container.addTooltip(moduleTooltip, event.getItemStack());
+				for(String s : moduleTooltip){
+					event.getToolTip().add(TextFormatting.DARK_GREEN + s);
+				}
+			}else{
+				event.getToolTip().add(TextFormatting.DARK_GREEN + Translator.translateToLocal("mm.tooltip.hold.moduleInfo"));
+			}
 		}
 	}
 

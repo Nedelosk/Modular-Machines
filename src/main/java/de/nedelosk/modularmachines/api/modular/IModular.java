@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -42,8 +42,6 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 	@Nonnull
 	IModularAssembler disassemble();
 
-	IEnergyInterface getEnergyInterface();
-
 	@SideOnly(Side.CLIENT)
 	GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory);
 
@@ -68,6 +66,8 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 	IModular copy(IModularHandler handler);
 
 	IHeatSource getHeatSource();
+
+	IEnergyBuffer getEnergyBuffer();
 
 	@Nullable
 	IBlockModificator getBlockModificator();

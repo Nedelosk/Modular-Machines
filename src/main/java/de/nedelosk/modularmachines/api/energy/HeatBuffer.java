@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.api.energy;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -18,7 +19,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
-		this.heatBuffer = EnergyRegistry.COLD_TEMP;
+		this.heatBuffer = ModularMachinesApi.COLD_TEMP;
 	}
 
 	@Override
@@ -70,18 +71,18 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 
 	@Override
 	public void reduceHeat(int heatModifier) {
-		if (heatBuffer == EnergyRegistry.COLD_TEMP) {
+		if (heatBuffer == ModularMachinesApi.COLD_TEMP) {
 			return;
 		}
 		double step = getHeatLevel().getHeatStepDown();
 		double change = step + ((heatBuffer / capacity) * step * heatModifier);
 		heatBuffer -= change;
-		heatBuffer = Math.max(heatBuffer,  EnergyRegistry.COLD_TEMP);
+		heatBuffer = Math.max(heatBuffer,  ModularMachinesApi.COLD_TEMP);
 	}
 
 	@Override
 	public HeatLevel getHeatLevel() {
-		return EnergyRegistry.getHeatLevel(heatBuffer);
+		return ModularMachinesApi.getHeatLevel(heatBuffer);
 	}
 
 	@Override

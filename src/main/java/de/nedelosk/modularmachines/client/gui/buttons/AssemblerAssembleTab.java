@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
@@ -16,7 +15,6 @@ import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 
 public class AssemblerAssembleTab extends Button<GuiAssembler> {
 
@@ -45,14 +43,7 @@ public class AssemblerAssembleTab extends Button<GuiAssembler> {
 		try{
 			IModular modular = handler.getAssembler().assemble();
 			if(modular != null){
-				handler.setAssembled(true);
-				handler.setModular(modular);
-				handler.setAssembler(null);
 				PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(handler, true));
-				if(handler instanceof IModularHandlerTileEntity){
-					BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
-					handler.getWorld().markBlockRangeForRenderUpdate(pos, pos);
-				}
 			}
 		}catch(AssemblerException e){
 			getGui().lastException = e;

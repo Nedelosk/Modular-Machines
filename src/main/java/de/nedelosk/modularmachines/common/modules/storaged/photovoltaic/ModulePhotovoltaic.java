@@ -1,8 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.storaged.photovoltaic;
 
-import de.nedelosk.modularmachines.api.energy.EnergyRegistry;
-import de.nedelosk.modularmachines.api.energy.IEnergyInterface;
-import de.nedelosk.modularmachines.api.energy.IEnergyType;
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -57,15 +55,14 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	public void updateServer(IModuleState<IModule> state, int tickCount) {
 		if(state.getModular().getHandler() instanceof IModularHandlerTileEntity){
 			IModularHandlerTileEntity handler = (IModularHandlerTileEntity) state.getModular().getHandler();
-			IEnergyInterface energyInterface = state.getModular().getEnergyInterface();
-			IEnergyType type = EnergyRegistry.redstoneFlux;
+			IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
 
-			if(energyInterface.getCapacity(type) > energyInterface.getEnergyStored(type)){
+			if(energyBuffer.getCapacity() > energyBuffer.getEnergyStored()){
 				World world = handler.getWorld();
 				BlockPos pos = handler.getPos();
 				float lightRatio = calculateLightRatio(world);
 				if(world.canSeeSky(pos.up())){
-					energyInterface.receiveEnergy(type, Float.valueOf(rfOutput * lightRatio).intValue(), false);
+					energyBuffer.receiveEnergy(null, Float.valueOf(rfOutput * lightRatio).intValue(), false);
 				}
 			}
 		}
