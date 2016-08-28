@@ -13,19 +13,18 @@ import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.handlers.BlockModificator;
-import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyBuffer;
+import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
+import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
+import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
@@ -312,10 +311,9 @@ public abstract class Modular implements IModular {
 		String harvestTool = null;
 		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
-			IModuleContentHandler handler = state.getContentHandler(IBlockModificator.class);
-			if(handler instanceof IBlockModificator){
+			IBlockModificator modificator = (IBlockModificator) state.getContentHandler(IBlockModificator.class);
+			if(modificator != null){
 				hasModificator = true;
-				IBlockModificator modificator = (IBlockModificator) handler;
 				modificators++;
 				maxHeat+=modificator.getMaxHeat();
 				resistance+=modificator.getResistance();
@@ -348,7 +346,7 @@ public abstract class Modular implements IModular {
 	protected List<IItemHandler> getInventorys(){
 		List<IItemHandler> handlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler inventory = state.getContentHandler(IModuleInventory.class);
+			IModuleContentHandler inventory = (IModuleContentHandler) state.getContentHandler(IModuleInventory.class);
 			if(inventory instanceof IModuleInventory){
 				handlers.add((IItemHandler) inventory);
 			}
@@ -359,7 +357,7 @@ public abstract class Modular implements IModular {
 	protected List<IFluidHandler> getTanks() {
 		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler handler = state.getContentHandler(IModuleTank.class);
+			IModuleContentHandler handler = (IModuleContentHandler) state.getContentHandler(IModuleTank.class);
 			if(handler instanceof IModuleTank){
 				fluidHandlers.add((IFluidHandler) handler);
 			}
@@ -367,12 +365,12 @@ public abstract class Modular implements IModular {
 		return fluidHandlers;
 	}
 
-	protected List<IModuleEnergyBuffer> getEnergyBuffers() {
-		List<IModuleEnergyBuffer> handlers = Lists.newArrayList();
+	protected List<IEnergyBuffer> getEnergyBuffers() {
+		List<IEnergyBuffer> handlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler rnergyInterface = state.getContentHandler(IModuleEnergyBuffer.class);
-			if(rnergyInterface instanceof IModuleEnergyBuffer){
-				handlers.add((IModuleEnergyBuffer) rnergyInterface);
+			IModuleContentHandler rnergyInterface = (IModuleContentHandler) state.getContentHandler(IEnergyBuffer.class);
+			if(rnergyInterface instanceof IEnergyBuffer){
+				handlers.add((IEnergyBuffer) rnergyInterface);
 			}
 		}
 		return handlers;

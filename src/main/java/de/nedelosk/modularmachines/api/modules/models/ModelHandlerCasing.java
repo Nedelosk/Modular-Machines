@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.google.common.base.Function;
 
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;

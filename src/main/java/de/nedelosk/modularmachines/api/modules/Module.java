@@ -27,8 +27,6 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -57,17 +55,21 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	@Override
+	public void sendModuleUpdate(IModuleState state){
+	}
+
+	@Override
 	public EnumModuleSize getSize(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
 		if(properties == null){
-			return null;
+			return EnumModuleSize.SMALL;
 		}
 		return properties.getSize(container);
 	}
 
 	@Override
 	public String getDisplayName(IModuleContainer container) {
-		return container.getMaterial().getLocalizedName() + " " + I18n.translateToLocal(container.getUnlocalizedName());
+		return I18n.translateToLocal(container.getUnlocalizedName());
 	}
 
 	protected boolean showMaterial(IModuleContainer container){

@@ -15,7 +15,7 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.buttons.AssemblerAssembleTab;
 import de.nedelosk.modularmachines.client.gui.buttons.AssemblerTab;
 import de.nedelosk.modularmachines.common.core.BlockManager;

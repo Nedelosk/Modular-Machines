@@ -6,6 +6,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import net.minecraft.item.ItemStack;
@@ -89,11 +90,13 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		this.ignorNBT = ignorNBT;
 		this.tooltip = tooltip;
 		String registryName = module.getRegistryName().getResourcePath() + ".";
-		if(properties != null){
-			registryName +=  properties.getSize(this).getName() + ".";
-		}else{
-			registryName +=  module.getSize(this).getName() + ".";
+		EnumModuleSize size = EnumModuleSize.SMALL;
+		if(properties != null && properties.getSize(this) != null){
+			size = properties.getSize(this);
+		}else if(module.getSize(this) != null){
+			size = module.getSize(this);
 		}
+		registryName +=  size.getName() + ".";
 		if(stack == null){
 			registryName+=ModularMachinesApi.defaultModuleItem.getRegistryName().getResourcePath() + "." + material.getName();
 			setRegistryName(registryName);

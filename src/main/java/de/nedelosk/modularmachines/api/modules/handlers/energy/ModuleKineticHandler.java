@@ -98,7 +98,7 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	}
 
 	@Override
-	public double getKineticEnergyStored() {
+	public double getStored() {
 		return kineticEnergy;
 	}
 

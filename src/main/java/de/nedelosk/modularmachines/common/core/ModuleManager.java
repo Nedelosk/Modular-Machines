@@ -6,44 +6,49 @@ import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleControllerProperties;
+import de.nedelosk.modularmachines.api.modules.IModuleEngine;
+import de.nedelosk.modularmachines.api.modules.IModuleKineticProperties;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorageProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.IModuleTurbine;
+import de.nedelosk.modularmachines.api.modules.ModuleCasingProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleControllerProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleKineticProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleModuleStorageProperties;
+import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
+import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeaterProperties;
+import de.nedelosk.modularmachines.api.modules.heaters.ModuleHeaterProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleEngine;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleKineticProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.IModuleTurbine;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.ModuleKineticProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.IModuleHeaterProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.drives.heaters.ModuleHeaterProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleBoilerProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleMachineProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.ModuleBoilerProperties;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.ModuleMachineProperties;
+import de.nedelosk.modularmachines.api.modules.tools.IModuleBoilerProperties;
+import de.nedelosk.modularmachines.api.modules.tools.IModuleMachineProperties;
+import de.nedelosk.modularmachines.api.modules.tools.ModuleBoilerProperties;
+import de.nedelosk.modularmachines.api.modules.tools.ModuleMachineProperties;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleCleaner;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleStorage;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineElectric;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.engine.ModuleEngineSteam;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeater;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeaterBurning;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.heater.ModuleHeaterSteam;
-import de.nedelosk.modularmachines.common.modules.storaged.drives.turbines.ModuleTurbineSteam;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleAlloySmelter;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleBoiler;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleFurnace;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleLathe;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModulePulverizer;
-import de.nedelosk.modularmachines.common.modules.storaged.tools.ModuleSawMill;
+import de.nedelosk.modularmachines.common.modules.engines.ModuleEngineElectric;
+import de.nedelosk.modularmachines.common.modules.engines.ModuleEngineSteam;
+import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeater;
+import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterBurning;
+import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterSteam;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
+import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
+import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
+import de.nedelosk.modularmachines.common.modules.turbines.ModuleTurbineSteam;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -56,17 +61,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModuleManager {
 
 	public static IModuleController moduleController;
-	public static IModuleContainer moduleControllerContainer;
+	public static IModuleControllerProperties[] moduleControllerProperties = new IModuleControllerProperties[4];
+	public static IModuleContainer[] moduleControllerContainers = new IModuleContainer[4];
 
-	public static IModuleCasing moduleCasingBronze;
-	public static IModuleCasing moduleCasingIron;
+	public static IModuleCasing moduleCasing;
+	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[2];;
 
-	public static IModuleModuleStorage moduleDrawerBrickLarge;
-	public static IModuleModuleStorage moduleDrawerBrickSmall;
-	public static IModuleModuleStorage moduleDrawerBronzeLarge;
-	public static IModuleModuleStorage moduleDrawerIronLarge;
-	public static IModuleModuleStorage moduleDrawerSteelLarge;
-	public static IModuleModuleStorage moduleDrawerMagmariumLarge;
+	public static IModuleModuleStorage moduleDrawer;
+	public static IModuleModuleStorageProperties[] moduleDrawerProperties = new IModuleModuleStorageProperties[6];
 
 	public static IModuleHeater moduleHeaterSteam;
 	public static IModuleHeaterProperties moduleHeaterSteamProperties;
@@ -118,42 +120,34 @@ public class ModuleManager {
 
 	public static void registerModuels() {
 
-		moduleController = new ModuleController(16);
+		moduleController = new ModuleController();
 		moduleController.setRegistryName(new ResourceLocation("modularmachines:controller"));
 		GameRegistry.register(moduleController);
 
+		moduleControllerProperties[0] = new ModuleControllerProperties(1, null, 16);
+		moduleControllerProperties[1] = new ModuleControllerProperties(1, null, 32);
+		moduleControllerProperties[2] = new ModuleControllerProperties(1, null, 64);
+		moduleControllerProperties[3] = new ModuleControllerProperties(1, null, 128);
+
 		/* CASINGS */
-		moduleCasingBronze = new ModuleCasing(1, 6, 550, 10.0F, 1.5F, "pickaxe", 1);
-		moduleCasingBronze.setRegistryName(new ResourceLocation("modularmachines:casing.bronze"));
-		GameRegistry.register(moduleCasingBronze);
+		moduleCasing = new ModuleCasing();
+		moduleCasing.setRegistryName(new ResourceLocation("modularmachines:casing"));
+		GameRegistry.register(moduleCasing);
 
-		moduleCasingIron = new ModuleCasing(2, 12, 550, 10.0F, 5.0F, "pickaxe", 1);
-		moduleCasingIron.setRegistryName(new ResourceLocation("modularmachines:casing.iron"));
-		GameRegistry.register(moduleCasingIron);
+		moduleCasingProperties[0] = new ModuleCasingProperties(1, EnumModuleSize.LARGE, 8, 550, 10.0F, 1.5F, 1, "pickaxe");
+		moduleCasingProperties[1] = new ModuleCasingProperties(2, EnumModuleSize.LARGE, 12, 550, 10.0F, 5.0F, 1, "pickaxe");
 
-		moduleDrawerBrickLarge = new ModuleModuleStorage(1, 3, EnumModuleSize.LARGE);
-		moduleDrawerBrickLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.large"));
-		GameRegistry.register(moduleDrawerBrickLarge);
+		/* MODULE STORAGES */
+		moduleDrawer = new ModuleModuleStorage();
+		moduleDrawer.setRegistryName(new ResourceLocation("modularmachines:drawer"));
+		GameRegistry.register(moduleDrawer);
 
-		moduleDrawerBrickSmall = new ModuleModuleStorage(1, 2, EnumModuleSize.SMALL);
-		moduleDrawerBrickSmall.setRegistryName(new ResourceLocation("modularmachines:drawer.brick.small"));
-		GameRegistry.register(moduleDrawerBrickSmall);
-
-		moduleDrawerBronzeLarge = new ModuleModuleStorage(2, 4, EnumModuleSize.LARGE);
-		moduleDrawerBronzeLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.bronze.large"));
-		GameRegistry.register(moduleDrawerBronzeLarge);
-
-		moduleDrawerIronLarge = new ModuleModuleStorage(3, 8, EnumModuleSize.LARGE);
-		moduleDrawerIronLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.iron.large"));
-		GameRegistry.register(moduleDrawerIronLarge);
-
-		moduleDrawerSteelLarge = new ModuleModuleStorage(4, 12, EnumModuleSize.LARGE);
-		moduleDrawerSteelLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.steel.large"));
-		GameRegistry.register(moduleDrawerSteelLarge);
-
-		moduleDrawerMagmariumLarge = new ModuleModuleStorage(5, 16, EnumModuleSize.LARGE);
-		moduleDrawerMagmariumLarge.setRegistryName(new ResourceLocation("modularmachines:drawer.magmarium.large"));
-		GameRegistry.register(moduleDrawerMagmariumLarge);
+		moduleDrawerProperties[0] = new ModuleModuleStorageProperties(1, EnumModuleSize.LARGE, 4);
+		moduleDrawerProperties[1] = new ModuleModuleStorageProperties(1, EnumModuleSize.SMALL, 3);
+		moduleDrawerProperties[2] = new ModuleModuleStorageProperties(2, EnumModuleSize.LARGE, 8);
+		moduleDrawerProperties[3] = new ModuleModuleStorageProperties(3, EnumModuleSize.LARGE, 16);
+		moduleDrawerProperties[4] = new ModuleModuleStorageProperties(4, EnumModuleSize.LARGE, 32);
+		moduleDrawerProperties[5] = new ModuleModuleStorageProperties(5, EnumModuleSize.LARGE, 64);
 
 		/* TURBINES */
 		//Steam
@@ -182,10 +176,10 @@ public class ModuleManager {
 		moduleEngineElectric.setRegistryName(new ResourceLocation("modularmachines:engine.electric"));
 		GameRegistry.register(moduleEngineElectric);
 
-		moduleEngineElectricProperties[0] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 2, 250, 20); 
-		moduleEngineElectricProperties[1] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 4, 250, 25); 
-		moduleEngineElectricProperties[2] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 6, 250, 35); 
-		moduleEngineElectricProperties[3] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 8, 250, 40); 
+		moduleEngineElectricProperties[0] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 2, 250, 20); 
+		moduleEngineElectricProperties[1] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 4, 250, 25); 
+		moduleEngineElectricProperties[2] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 6, 250, 35); 
+		moduleEngineElectricProperties[3] = new ModuleKineticProperties(12, EnumModuleSize.SMALL, 8, 250, 40); 
 
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner");
@@ -212,14 +206,14 @@ public class ModuleManager {
 		GameRegistry.register(moduleHeaterIron);
 
 		moduleHeaterIronProperties[0] = new ModuleHeaterProperties(2, EnumModuleSize.LARGE, 500, 3);
-		moduleHeaterIronProperties[1] = new ModuleHeaterProperties(1, EnumModuleSize.MIDDLE, 250, 2);
+		moduleHeaterIronProperties[1] = new ModuleHeaterProperties(1, EnumModuleSize.MEDIUM, 250, 2);
 
 		moduleHeaterSteel = new ModuleHeaterBurning();
 		moduleHeaterSteel.setRegistryName(new ResourceLocation("modularmachines:heater.steel"));
 		GameRegistry.register(moduleHeaterSteel);
 
 		moduleHeaterSteelProperties[0] = new ModuleHeaterProperties(3, EnumModuleSize.LARGE, 750, 4);
-		moduleHeaterSteelProperties[1] = new ModuleHeaterProperties(2, EnumModuleSize.MIDDLE, 500, 3);
+		moduleHeaterSteelProperties[1] = new ModuleHeaterProperties(2, EnumModuleSize.MEDIUM, 500, 3);
 		moduleHeaterSteelProperties[2] = new ModuleHeaterProperties(1, EnumModuleSize.SMALL, 250, 2);
 
 		moduleHeaterMagmarium = new ModuleHeaterBurning();
@@ -227,7 +221,7 @@ public class ModuleManager {
 		GameRegistry.register(moduleHeaterMagmarium);
 
 		moduleHeaterMagmariumProperties[0] = new ModuleHeaterProperties(4, EnumModuleSize.LARGE, 1000, 5);
-		moduleHeaterMagmariumProperties[1] = new ModuleHeaterProperties(3, EnumModuleSize.MIDDLE, 670, 4);
+		moduleHeaterMagmariumProperties[1] = new ModuleHeaterProperties(3, EnumModuleSize.MEDIUM, 670, 4);
 		moduleHeaterMagmariumProperties[2] = new ModuleHeaterProperties(2, EnumModuleSize.SMALL, 330, 3);
 
 		/* BOILERS */
@@ -293,22 +287,25 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[3], new ItemStack(ItemManager.itemTurbineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Controller
-		moduleControllerContainer = registerModuleItem(moduleController, null, EnumMetalMaterials.IRON);
+		moduleControllerContainers[0] = registerModuleItem(moduleController, moduleControllerProperties[0], EnumMetalMaterials.BRONZE);
+		moduleControllerContainers[1] = registerModuleItem(moduleController, moduleControllerProperties[1], EnumMetalMaterials.IRON);
+		moduleControllerContainers[2] = registerModuleItem(moduleController, moduleControllerProperties[2], EnumMetalMaterials.STEEL);
+		moduleControllerContainers[3] = registerModuleItem(moduleController, moduleControllerProperties[3], EnumMetalMaterials.MAGMARIUM);
 
 		//Cleaner
 		moduleModuleCleanerContainer = registerModuleItem(moduleModuleCleaner, null, EnumMetalMaterials.IRON);
 
 		//Casings
-		GameRegistry.register(new ModuleContainer(moduleCasingBronze, new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.BRONZE));
-		GameRegistry.register(new ModuleContainer(moduleCasingIron, new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[0], new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[1], new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.IRON));
 
 		//Drawers
-		GameRegistry.register(new ModuleContainer(moduleDrawerBrickLarge, new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));
-		GameRegistry.register(new ModuleContainer(moduleDrawerBrickSmall, new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
-		GameRegistry.register(new ModuleContainer(moduleDrawerBronzeLarge, new ItemStack(ItemManager.itemDrawer, 1, 2), EnumMetalMaterials.BRONZE));
-		GameRegistry.register(new ModuleContainer(moduleDrawerIronLarge, new ItemStack(ItemManager.itemDrawer, 1, 3), EnumMetalMaterials.IRON));
-		GameRegistry.register(new ModuleContainer(moduleDrawerSteelLarge, new ItemStack(ItemManager.itemDrawer, 1, 4), EnumMetalMaterials.STEEL));
-		GameRegistry.register(new ModuleContainer(moduleDrawerMagmariumLarge, new ItemStack(ItemManager.itemDrawer, 1, 5), EnumMetalMaterials.MAGMARIUM));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[0], new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[1], new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[2], new ItemStack(ItemManager.itemDrawer, 1, 2), EnumMetalMaterials.BRONZE));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[3], new ItemStack(ItemManager.itemDrawer, 1, 3), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[4], new ItemStack(ItemManager.itemDrawer, 1, 4), EnumMetalMaterials.STEEL));
+		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[5], new ItemStack(ItemManager.itemDrawer, 1, 5), EnumMetalMaterials.MAGMARIUM));
 
 		//Boilers
 		moduleBoilerContainers[0] = registerModuleItem(moduleBoiler, moduleBoilerProperties[0], EnumMetalMaterials.BRONZE);

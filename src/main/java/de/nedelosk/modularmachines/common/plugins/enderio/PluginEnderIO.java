@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.common.plugins.enderio;
 
 import cofh.api.energy.IEnergyContainerItem;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.storage.IModuleBatteryProperties;
+import de.nedelosk.modularmachines.api.modules.storages.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
@@ -35,9 +35,9 @@ public class PluginEnderIO extends APlugin {
 	public void init() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
 
-		moduleCapacitorBankProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, 1000000, 1000, (IEnergyContainerItem) capacitorBank);
-		moduleCapacitorBankProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, 15000000, 5000, (IEnergyContainerItem) capacitorBank);
-		moduleCapacitorBankProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, 25000000, 25000, (IEnergyContainerItem) capacitorBank);
+		moduleCapacitorBankProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, 1000000, 1000, 2, (IEnergyContainerItem) capacitorBank);
+		moduleCapacitorBankProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, 15000000, 5000, 3, (IEnergyContainerItem) capacitorBank);
+		moduleCapacitorBankProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, 25000000, 25000, 4, (IEnergyContainerItem) capacitorBank);
 
 		moduleCapacitorBankContainers[0] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[0], new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.IRON, true));
 		moduleCapacitorBankContainers[1] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[1], new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.BRONZE, true));

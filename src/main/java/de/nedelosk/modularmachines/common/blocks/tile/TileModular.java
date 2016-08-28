@@ -8,11 +8,8 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerTileEntity;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
-import ic2.api.info.Info;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
@@ -22,7 +19,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.common.Optional;
@@ -114,39 +110,19 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	}
 
 	@Override
-	public void update() {
-		if (!addedToEnet) {
-			onLoaded();
-		}
-		super.update();
-	}
-
-	public void onLoaded() {
-		if (!addedToEnet &&
-				!worldObj.isRemote &&
-				Info.isIc2Available()) {
-
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-
-			addedToEnet = true;
-		}
-	}
-
-	@Override
 	public void invalidate() {
 		super.invalidate();
 
-		onChunkUnload();
+		if (modularHandler != null) {
+			modularHandler.invalidate();
+		}
 	}
 
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if (addedToEnet &&
-				Info.isIc2Available()) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-
-			addedToEnet = false;
+		if (modularHandler != null) {
+			modularHandler.invalidate();
 		}
 	}
 
@@ -289,7 +265,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "IC2")
 	@Override
 	public int getSinkTier() {
-		return 1;
+		return 4;
 	}
 
 	/*@Optional.Method(modid = "IC2")

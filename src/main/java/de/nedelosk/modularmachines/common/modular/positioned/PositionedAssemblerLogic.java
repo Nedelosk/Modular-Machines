@@ -8,12 +8,12 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
+import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -56,7 +56,7 @@ public class PositionedAssemblerLogic implements IAssemblerLogic {
 			default:
 				if(storageSlot == null){
 					if(container.getModule() instanceof IModuleModuleStorage){
-						if(((IModuleModuleStorage)container.getModule()).canUseFor(pos, container)){
+						if(((IModuleModuleStorage)container.getModule()).isValidForPosition(pos, container)){
 							return true;
 						}
 					}

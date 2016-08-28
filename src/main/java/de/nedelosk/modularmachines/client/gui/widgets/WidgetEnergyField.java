@@ -2,9 +2,9 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
 
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
-import de.nedelosk.modularmachines.api.modules.handlers.energy.IModuleEnergyBuffer;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -15,9 +15,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class WidgetEnergyField extends Widget {
 
 	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
-	public IModuleEnergyBuffer energyBuffer;
+	public IEnergyBuffer energyBuffer;
 
-	public WidgetEnergyField(IModuleEnergyBuffer energyInterface, int posX, int posY) {
+	public WidgetEnergyField(IEnergyBuffer energyInterface, int posX, int posY) {
 		super(posX, posY, 66, 66);
 		this.energyBuffer = energyInterface;
 	}

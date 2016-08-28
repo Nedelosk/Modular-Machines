@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.common.modules.transport;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.transports.EnumTransportMode;
 import de.nedelosk.modularmachines.api.modules.transports.IModuleTransport;
 import de.nedelosk.modularmachines.common.network.PacketHandler;

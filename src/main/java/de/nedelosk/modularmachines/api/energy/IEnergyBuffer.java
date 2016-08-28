@@ -8,9 +8,11 @@ public interface IEnergyBuffer {
 
 	long receiveEnergy(EnumFacing facing, long maxReceive, boolean simulate);
 
-	void setEnergyStored(long energy);
+	void loadEnergy(long energy);
 
 	long getEnergyStored();
 
 	long getCapacity();
+
+	int getTier();
 }

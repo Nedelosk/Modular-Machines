@@ -12,15 +12,15 @@ import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -43,6 +43,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.ModelStateComposition;
 import net.minecraftforge.client.model.animation.Animation;
@@ -88,18 +89,20 @@ public class ModelModular implements IBakedModel {
 						List<IBakedModel> positionedModels = new ArrayList<>();
 						EnumModuleSize size = null;
 						for(IModuleState moduleState : storage.getModules()){
-							IBakedModel model = getModel(moduleState, modelState, vertex);
-							if(model != null){
-								if(size == null){
-									positionedModels.add(model);
-								}else if(size == EnumModuleSize.SMALL){
-									positionedModels.add(new TRSRBakedModel(model, 0F, -0.25F, 0F, 1F));
-								}else{
-									positionedModels.add(new TRSRBakedModel(model, 0F, -0.5F, 0F, 1F));
+							if(((IModuleStateClient)moduleState).getModelHandler() != null){
+								IBakedModel model = getModel(moduleState, modelState, vertex);
+								if(model != null){
+									if(size == null){
+										positionedModels.add(model);
+									}else if(size == EnumModuleSize.SMALL){
+										positionedModels.add(new TRSRBakedModel(model, 0F, -0.25F, 0F, 1F));
+									}else{
+										positionedModels.add(new TRSRBakedModel(model, 0F, -0.5F, 0F, 1F));
+									}
 								}
-							}
-							if(!(moduleState.getModule() instanceof IModuleModuleStorage)){
-								size = EnumModuleSize.getNewSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
+								if(!(moduleState.getModule() instanceof IModuleModuleStorage)){
+									size = EnumModuleSize.getNewSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
+								}
 							}
 						}
 						float rotation = 0F;
@@ -123,7 +126,7 @@ public class ModelModular implements IBakedModel {
 				}
 
 				if(!models.isEmpty()){
-					return new BakedMultiModel(models);
+					return new IPerspectiveAwareModel.MapWrapper(new BakedMultiModel(models), modelState);
 				}
 			}else if(modularHandler.getAssembler() != null){
 				return ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);

@@ -6,18 +6,18 @@ import java.util.List;
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modular.IPositionedModular;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumWallType;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -86,7 +86,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			for(IModuleState storagedState : modules){
 				if(!(storagedState.getModule() instanceof IModuleModuleStorage)){
 					size = EnumModuleSize.getNewSize(size, storagedState.getModule().getSize(storagedState.getContainer()));
-					if(size == EnumModuleSize.MIDDLE){
+					if(size == EnumModuleSize.MEDIUM){
 						models.add(getBakedModel(wall, modelState, format, bakedTextureGetter));
 					}else if(size == EnumModuleSize.SMALL){
 						models.add(new TRSRBakedModel(getBakedModel(wall, modelState, format, bakedTextureGetter), 0F, 0.25F, 0F, 1F));
@@ -137,7 +137,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 					}
 				}
 				wallModels.add(getBakedModel(walls[1], modelState, format, bakedTextureGetter));
-			}else if(size == EnumModuleSize.MIDDLE){
+			}else if(size == EnumModuleSize.MEDIUM){
 				if(wallType != EnumWallType.NONE){
 					if(moduleSize == EnumModuleSize.SMALL){
 						if(wallType == EnumWallType.WINDOW){
@@ -145,7 +145,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 						}else{
 							loc = walls[3];
 						}
-					}else if(moduleSize == EnumModuleSize.MIDDLE){	
+					}else if(moduleSize == EnumModuleSize.MEDIUM){	
 						if(wallType == EnumWallType.WINDOW){
 							wallModels.add(new TRSRBakedModel(getBakedModel(module.getWindowLocation(stateStoraged.getContainer()), modelState, format, bakedTextureGetter), 0F, 0.25F, 0F, 1F));
 						}else{
@@ -162,7 +162,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 						}else{
 							loc = walls[2];
 						}
-					}else if(moduleSize == EnumModuleSize.MIDDLE){	
+					}else if(moduleSize == EnumModuleSize.MEDIUM){	
 						if(wallType == EnumWallType.WINDOW){
 							wallModels.add(getBakedModel(module.getWindowLocation(stateStoraged.getContainer()), modelState, format, bakedTextureGetter));
 						}else{
@@ -185,7 +185,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			wallModels.add(getBakedModel(walls[7], modelState, format, bakedTextureGetter));
 		}else if(size == EnumModuleSize.SMALL){
 			wallModels.add(getBakedModel(walls[5], modelState, format, bakedTextureGetter));
-		}else if(size == EnumModuleSize.MIDDLE){
+		}else if(size == EnumModuleSize.MEDIUM){
 			wallModels.add(getBakedModel(walls[2], modelState, format, bakedTextureGetter));
 		}
 		return wallModels;

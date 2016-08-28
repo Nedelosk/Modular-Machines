@@ -92,7 +92,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <H extends IModuleContentHandler> H getContentHandler(Class<? extends H> handlerClass) {
+	public <H> H getContentHandler(Class<? extends H> handlerClass) {
 		for(IModuleContentHandler handler : contentHandlers){
 			if(handlerClass.isAssignableFrom(handler.getClass())){
 				return (H) handler;

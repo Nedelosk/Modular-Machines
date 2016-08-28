@@ -9,9 +9,10 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.common.modular.Modular;
 import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import net.minecraft.item.ItemStack;
@@ -69,6 +70,9 @@ public class PositionedModular extends Modular implements IPositionedModular {
 
 	@Override
 	public IPositionedModularAssembler disassemble() {
+		if(modularHandler instanceof IModularHandlerTileEntity){
+			((IModularHandlerTileEntity)modularHandler).invalidate();
+		}
 		ItemStack[] moduleStacks = new ItemStack[26];
 		for(IPositionedModuleStorage moduleStorage : storages.values()){
 			if(moduleStorage != null){

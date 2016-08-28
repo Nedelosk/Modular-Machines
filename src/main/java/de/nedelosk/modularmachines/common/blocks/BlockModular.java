@@ -11,9 +11,10 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -156,6 +157,18 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 				player.openGui(ModularMachines.instance, 0, player.worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileModular) {
+			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			if(modularHandler.isAssembled() && modularHandler.getModular() != null){
+				return !modularHandler.getModular().getModules(IModuleController.class).isEmpty();
+			}
 		}
 		return false;
 	}

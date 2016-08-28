@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.plugins.cofh;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.common.modules.storaged.storage.ModuleBattery;
+import de.nedelosk.modularmachines.common.modules.storages.ModuleBattery;
 import net.minecraft.item.ItemStack;
 
 public class ModuleRFBattery extends ModuleBattery {
@@ -23,7 +23,7 @@ public class ModuleRFBattery extends ModuleBattery {
 	}
 
 	@Override
-	public void setStorageEnergy(IModuleState state, long energy, ItemStack itemStack) {
+	public void saveEnergy(IModuleState state, long energy, ItemStack itemStack) {
 		IModuleProperties properties = state.getModuleProperties();
 		if(properties instanceof ModuleRFBatteryProperties){
 			ModuleRFBatteryProperties batteryProperties = (ModuleRFBatteryProperties) properties;

@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/windows/medium",
+	"textures": {
+        "window": "modularmachines:modules/iron_window_medium"
+    }
+}

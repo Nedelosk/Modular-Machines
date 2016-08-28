@@ -31,13 +31,12 @@ mode.screw.name=Screw Mode
 ####################################
 module.size.large.name=Large
 module.size.small.name=Small
-module.size.middle.name=Middle
+module.size.medium.name=Medium
 
 module.drawer.name=Drawer
 module.turbine.steam.name=Steam Turbine
-module.engine.electric.rf.name=Redstone Flux Engine
-module.engine.electric.eu.name=Electric Engine
 module.engine.steam.name=Steam Engine
+module.engine.electric.name=Electric Engine
 module.controller.name=Controller
 module.lathe.name=Lathe
 module.boiler.name=Boiler
@@ -185,9 +184,11 @@ mm.tooltip.nonefluid=None Fluid
 mm.module.tooltip.material=Material: 
 mm.module.tooltip.name=Name: 
 mm.module.tooltip.size=Size: 
+mm.module.allowed.complexity=Allowed Complexity: 
 mm.module.tooltip.complexity=Complexity: 
 mm.module.tooltip.position=Position: 
 mm.module.tooltip.storage.position=Storage Position: 
+mm.module.tooltip.tier=Power Tier: 
 mm.tooltip.modular.info=This modular machine contains the following modules: 
 mm.tooltip.moduleInfo=Module Infos
 mm.tooltip.hold.moduleInfo=<Hold M For Module Infos>

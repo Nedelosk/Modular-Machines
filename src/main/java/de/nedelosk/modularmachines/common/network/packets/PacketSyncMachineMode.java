@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.network.packets;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.tools.IModuleModeMachine;
+import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.network.NetHandlerPlayClient;

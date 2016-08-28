@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleContentHandlerBuilder<C, M extends IModule> {

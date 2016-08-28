@@ -20,6 +20,21 @@ public class Config {
 	public static final List<ConfigGroup> groups;
 	public static Configuration config;
 
+	/* MODULES */
+	public static int defaultAllowedStorageComplexity = 4;
+	public static int defaultAllowedCasingComplexity = 8;
+	public static int defaultAllowedComplexity = 12;
+	public static int defaultAllowedControllerComplexity = 16;
+
+	/* PLUGINS */
+	public static boolean pluginEnderIO;
+	public static boolean pluginMekanism;
+	public static boolean pluginThermalExpansion;
+	public static boolean pluginTheOneProbe;
+
+	/* ORES */
+	public static boolean[] generateOre;
+
 	static {
 		groups = new ArrayList<ConfigGroup>();
 	}
@@ -88,6 +103,13 @@ public class Config {
 	}
 
 	public static void processConfig() {
+		//Modules
+		defaultAllowedStorageComplexity = config.getInt("Default Allowed Storage Complexity", modules.name, 4, 1, 64, "");
+		defaultAllowedCasingComplexity = config.getInt("Default Allowed Casing Complexity", modules.name, 8, 2, 64, "");
+		defaultAllowedComplexity = config.getInt("Default Allowed Modular Machine Complexity", modules.name, 12, 4, 64, "");
+		defaultAllowedControllerComplexity = config.getInt("Default Allowed Controller Complexity", modules.name, 16, 4, 256, "");
+
+		//Plugins
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();
 		pluginMekanism = config.get(plugins.name, "Mekanism", true).getBoolean();
 		pluginThermalExpansion = config.get(plugins.name, "Thermal Expansion", true).getBoolean();
@@ -95,9 +117,6 @@ public class Config {
 		// Ores
 		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true},
 				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
-		//Modules
-		engineKineticOutput = config.getFloat("Engine Kinetic Output", modules.name, 1.0F, 0.1F, 2.0F, " The kinetic output of the engine.");
-		turbineKineticOutput = config.getFloat("Turbine Kinetic Output", modules.name, 1.0F, 0.1F, 2.0F, " The kinetic output of the turbine.");
 	}
 
 	public static void processModuleConfig(){
@@ -112,15 +131,4 @@ public class Config {
 			}
 		}
 	}
-
-	/* PLUGINS */
-	public static boolean pluginEnderIO;
-	public static boolean pluginMekanism;
-	public static boolean pluginThermalExpansion;
-	public static boolean pluginTheOneProbe;
-	/* MODULES */
-	public static float engineKineticOutput = 1.0F;
-	public static float turbineKineticOutput = 1.0F;
-	/* ORES */
-	public static boolean[] generateOre;
 }

@@ -14,4 +14,6 @@ public interface IModularHandlerTileEntity<M extends IModular, A extends IModula
 
 	BlockPos getPos();
 
+	void invalidate();
+
 }

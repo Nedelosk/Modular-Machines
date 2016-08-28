@@ -35,7 +35,7 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	 */
 	List<IModuleContentHandler> getContentHandlers();
 
-	<H extends IModuleContentHandler> H getContentHandler(Class<? extends H> contentClass);
+	<H> H getContentHandler(Class<? extends H> contentClass);
 
 	int getIndex();
 

@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.ISimpleModular;
 import de.nedelosk.modularmachines.api.modular.ISimpleModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -91,6 +92,9 @@ public class SimpleModular extends Modular implements ISimpleModular {
 
 	@Override
 	public ISimpleModularAssembler disassemble() {
+		if(modularHandler instanceof IModularHandlerTileEntity){
+			((IModularHandlerTileEntity)modularHandler).invalidate();
+		}
 		ItemStack[] moduleStacks = new ItemStack[26];
 		int index = 0;
 		for(IModuleState state : moduleStates) {

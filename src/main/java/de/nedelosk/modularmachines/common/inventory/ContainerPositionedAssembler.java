@@ -5,9 +5,9 @@ import de.nedelosk.modularmachines.api.modular.IAssemblerLogic;
 import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssembler;
 import de.nedelosk.modularmachines.common.inventory.slots.SlotAssemblerStorage;
@@ -85,7 +85,7 @@ public class ContainerPositionedAssembler extends ContainerAssembler<IModularHan
 				if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSize.LARGE){
 					slotSecond.setActive(false);
 					slotLast.setActive(false);
-				}else if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSize.MIDDLE){
+				}else if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSize.MEDIUM){
 					if(!slotSecond.getHasStack()){
 						slotSecond.setActive(false);
 					}else{
@@ -98,7 +98,7 @@ public class ContainerPositionedAssembler extends ContainerAssembler<IModularHan
 				if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSize.LARGE){
 					slotFirst.setActive(false);
 					slotLast.setActive(false);
-				}else if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSize.MIDDLE){
+				}else if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSize.MEDIUM){
 					if(!slotFirst.getHasStack()){
 						slotFirst.setActive(false);
 					}else{
@@ -111,7 +111,7 @@ public class ContainerPositionedAssembler extends ContainerAssembler<IModularHan
 				if(containerLast.getModule().getSize(containerLast) == EnumModuleSize.LARGE){
 					slotFirst.setActive(false);
 					slotSecond.setActive(false);
-				}else if(containerLast.getModule().getSize(containerLast) == EnumModuleSize.MIDDLE){
+				}else if(containerLast.getModule().getSize(containerLast) == EnumModuleSize.MEDIUM){
 					if(!slotSecond.getHasStack()){
 						slotSecond.setActive(false);
 					}else{

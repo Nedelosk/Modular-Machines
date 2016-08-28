@@ -4,12 +4,13 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
+import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -62,7 +63,7 @@ public abstract class ModularAssembler implements IModularAssembler {
 		int complexity = getComplexity(true, null);
 		int allowedComplexity = getAllowedComplexity(null);
 		if(complexity > allowedComplexity){
-			if(allowedComplexity == ModularMachinesApi.DEFAULT_ALLOWED_COMPLEXITY){
+			if(allowedComplexity == Config.defaultAllowedComplexity){
 				throw new AssemblerException(Translator.translateToLocalFormatted("modular.assembler.error.no.controller"));
 			}
 			throw new AssemblerException(Translator.translateToLocalFormatted("modular.assembler.error.complexity"));
@@ -115,7 +116,7 @@ public abstract class ModularAssembler implements IModularAssembler {
 					}
 				}
 			}
-			return ModularMachinesApi.DEFAULT_ALLOWED_COMPLEXITY;
+			return Config.defaultAllowedComplexity;
 		}else{
 			for(int index = position.startSlotIndex;index < position.endSlotIndex + 1;index++){
 				ItemStack slotStack = assemblerHandler.getStackInSlot(index);

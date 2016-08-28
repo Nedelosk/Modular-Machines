@@ -5,7 +5,12 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleController;
+import de.nedelosk.modularmachines.api.modules.IModuleControllerProperties;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -13,11 +18,11 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleController;
+import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -28,11 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleController extends Module implements IModuleController, IModuleColored {
 
-	protected final int allowedComplexity;
-
-	public ModuleController(int allowedComplexity) {
+	public ModuleController() {
 		super("controller");
-		this.allowedComplexity = allowedComplexity;
 	}
 
 	@Override
@@ -41,6 +43,12 @@ public class ModuleController extends Module implements IModuleController, IModu
 		if(handler instanceof IModularHandlerTileEntity){
 			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 		}
+	}
+
+	@Override
+	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
+		super.addTooltip(tooltip, stack, container);
+		tooltip.add(Translator.translateToLocal("mm.module.allowed.complexity") + getAllowedComplexity(container));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -95,12 +103,11 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public int getComplexity(IModuleContainer container) {
-		return 1;
-	}
-
-	@Override
 	public int getAllowedComplexity(IModuleContainer container) {
-		return allowedComplexity;
+		IModuleProperties properties = container.getProperties();
+		if(properties instanceof IModuleControllerProperties){
+			return ((IModuleControllerProperties) properties).getAllowedComplexity(container);
+		}
+		return Config.defaultAllowedControllerComplexity;
 	}
 }

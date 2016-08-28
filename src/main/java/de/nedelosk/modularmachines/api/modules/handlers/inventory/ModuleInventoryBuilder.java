@@ -7,8 +7,8 @@ import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.FilterWrapper;
-import de.nedelosk.modularmachines.api.modules.handlers.IContentFilter;
+import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
+import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 

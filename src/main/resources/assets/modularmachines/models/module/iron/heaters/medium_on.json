@@ -1,0 +1,7 @@
+{
+	"parent": "modularmachines:module/default/machines/medium",
+	"textures": {
+		"metal": "modularmachines:modules/metal_iron_medium",
+		"overlay": "modularmachines:modules/heater_medium_on"
+	}
+}

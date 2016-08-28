@@ -7,19 +7,22 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
+import de.nedelosk.modularmachines.api.modules.IModuleModuleStorageProperties;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.storaged.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.storaged.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.property.PropertyEnum;
 import de.nedelosk.modularmachines.client.model.ModelHandlerDrawer;
+import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -31,15 +34,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModuleModuleStorage extends Module implements IModuleModuleStorage {
 
 	public final PropertyEnum<EnumStoragePosition> STORAGEDPOSITION = new PropertyEnum("storagedPosition", EnumStoragePosition.class, null);
-	public final int allowedStoragedComplexity;
-	public final EnumModuleSize size;
-	public final int complexity;
 
-	public ModuleModuleStorage(int complexity, int allowedStoragedComplexity, EnumModuleSize size) {
+	public ModuleModuleStorage() {
 		super("drawer");
-		this.complexity = complexity;
-		this.allowedStoragedComplexity = allowedStoragedComplexity;
-		this.size = size;
 	}
 
 	@Override
@@ -55,6 +52,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		List<String> positions = new ArrayList<>();
+		EnumModuleSize size = getSize(container);
 		if(size == EnumModuleSize.LARGE) {
 			positions.add(EnumStoragePosition.LEFT.getLocName());
 			positions.add(EnumStoragePosition.RIGHT.getLocName());
@@ -63,6 +61,7 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 			positions.add(EnumStoragePosition.BACK.getLocName());
 		}
 		tooltip.add(Translator.translateToLocal("mm.module.tooltip.storage.position") + positions.toString().replace("[", "").replace("]", ""));
+		tooltip.add(Translator.translateToLocal("mm.module.allowed.complexity") + getAllowedComplexity(container));
 		super.addTooltip(tooltip, stack, container);
 	}
 
@@ -94,7 +93,11 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 
 	@Override
 	public int getAllowedComplexity(IModuleContainer container) {
-		return allowedStoragedComplexity;
+		IModuleProperties properties = container.getProperties();
+		if(properties instanceof IModuleModuleStorageProperties){
+			return ((IModuleModuleStorageProperties)properties).getAllowedComplexity(container);
+		}
+		return Config.defaultAllowedStorageComplexity;
 	}
 
 	@Override
@@ -115,17 +118,11 @@ public class ModuleModuleStorage extends Module implements IModuleModuleStorage 
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
-		return size;
-	}
-
-	@Override
-	public int getComplexity(IModuleContainer container) {
-		return complexity;
-	}
-
-	@Override
-	public boolean canUseFor(EnumStoragePosition position, IModuleContainer container) {
-		return (size == EnumModuleSize.LARGE) ? position == EnumStoragePosition.LEFT || position == EnumStoragePosition.RIGHT : position == EnumStoragePosition.TOP || position == EnumStoragePosition.BACK;
+	public boolean isValidForPosition(EnumStoragePosition position, IModuleContainer container) {
+		IModuleProperties properties = container.getProperties();
+		if(properties instanceof IModuleModuleStorageProperties){
+			return ((IModuleModuleStorageProperties)properties).isValidForPosition(position, container);
+		}
+		return false;
 	}
 }

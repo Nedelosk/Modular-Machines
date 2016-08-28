@@ -10,7 +10,7 @@ public interface IKineticSource {
 
 	void reduceKineticEnergy(double kineticModifier);
 
-	double getKineticEnergyStored();
+	double getStored();
 
 	double getCapacity();
 

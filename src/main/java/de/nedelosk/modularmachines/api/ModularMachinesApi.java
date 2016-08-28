@@ -38,7 +38,6 @@ public class ModularMachinesApi {
 	private static final List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
 
 	public static Item defaultModuleItem;
-	public static final int DEFAULT_ALLOWED_COMPLEXITY = 12;
 
 	public static final float COLD_TEMP = 20;
 	public static final int STEAM_PER_UNIT_WATER = 160;

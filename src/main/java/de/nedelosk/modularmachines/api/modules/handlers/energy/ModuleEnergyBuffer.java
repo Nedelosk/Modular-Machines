@@ -2,37 +2,41 @@ package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleEnergyBuffer implements IModuleEnergyBuffer, INBTSerializable<NBTTagCompound>{
+public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler, INBTSerializable<NBTTagCompound>{
 
 	protected final IModuleState state;
 	protected final long capacity;
 	protected final long maxReceive;
 	protected final long maxExtract;
+	protected final int tier;
 	protected long energy;
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity) {
-		this(state, capacity, capacity, capacity);
+	public ModuleEnergyBuffer(IModuleState state, int capacity, int tier) {
+		this(state, capacity, capacity, capacity, tier);
 	}
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxTransfer) {
-		this(state, capacity, maxTransfer, maxTransfer);
+	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxTransfer, int tier) {
+		this(state, capacity, maxTransfer, maxTransfer, tier);
 	}
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxReceive, int maxExtract) {
+	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxReceive, int maxExtract, int tier) {
 		this.state = state;
+		this.tier = tier;
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
 	}
 
 	@Override
-	public void setEnergyStored(long energy) {
+	public void loadEnergy(long energy) {
 		this.energy = energy;
 
 		if (this.energy > capacity) {
@@ -70,6 +74,11 @@ public class ModuleEnergyBuffer implements IModuleEnergyBuffer, INBTSerializable
 	@Override
 	public long getCapacity() {
 		return capacity;
+	}
+
+	@Override
+	public int getTier() {
+		return tier;
 	}
 
 	@Override
