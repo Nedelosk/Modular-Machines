@@ -102,9 +102,10 @@ public abstract class ModuleBattery extends Module implements IModuleBattery {
 
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
+		state = super.loadStateFromItem(state, stack);
 		IEnergyBuffer energyBuffer = (IEnergyBuffer) state.getContentHandler(IEnergyBuffer.class);
 		if(energyBuffer != null){
-			energyBuffer.loadEnergy(getStorageEnergy(state, stack));
+			energyBuffer.setEnergy(loadEnergy(state, stack));
 		}
 		return state;
 	}

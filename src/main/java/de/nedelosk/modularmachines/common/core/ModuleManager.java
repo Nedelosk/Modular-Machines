@@ -166,20 +166,20 @@ public class ModuleManager {
 		moduleEngineSteam.setRegistryName(new ResourceLocation("modularmachines:engine.steam"));
 		GameRegistry.register(moduleEngineSteam);
 
-		moduleEngineSteamProperties[0] = new ModuleKineticProperties(3, EnumModuleSize.SMALL, 3, 150, 20);
-		moduleEngineSteamProperties[1] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 4, 250, 15);
-		moduleEngineSteamProperties[2] = new ModuleKineticProperties(5, EnumModuleSize.SMALL, 5, 275, 10);
-		moduleEngineSteamProperties[3] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 8, 350, 5);
+		moduleEngineSteamProperties[0] = new ModuleKineticProperties(3, EnumModuleSize.SMALL, 6, 150, 15);
+		moduleEngineSteamProperties[1] = new ModuleKineticProperties(4, EnumModuleSize.SMALL, 8, 250, 20);
+		moduleEngineSteamProperties[2] = new ModuleKineticProperties(5, EnumModuleSize.SMALL, 10, 275, 35);
+		moduleEngineSteamProperties[3] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 12, 350, 50);
 
 		//Electric
 		moduleEngineElectric = new ModuleEngineElectric();
 		moduleEngineElectric.setRegistryName(new ResourceLocation("modularmachines:engine.electric"));
 		GameRegistry.register(moduleEngineElectric);
 
-		moduleEngineElectricProperties[0] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 2, 250, 20); 
-		moduleEngineElectricProperties[1] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 4, 250, 25); 
-		moduleEngineElectricProperties[2] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 6, 250, 35); 
-		moduleEngineElectricProperties[3] = new ModuleKineticProperties(12, EnumModuleSize.SMALL, 8, 250, 40); 
+		moduleEngineElectricProperties[0] = new ModuleKineticProperties(6, EnumModuleSize.SMALL, 6, 150, 20); 
+		moduleEngineElectricProperties[1] = new ModuleKineticProperties(8, EnumModuleSize.SMALL, 8, 250, 35); 
+		moduleEngineElectricProperties[2] = new ModuleKineticProperties(10, EnumModuleSize.SMALL, 10, 275, 50); 
+		moduleEngineElectricProperties[3] = new ModuleKineticProperties(12, EnumModuleSize.SMALL, 12, 350, 70); 
 
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner");

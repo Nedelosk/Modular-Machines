@@ -43,7 +43,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
 	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
-	public static final PropertyFloat SPEED = new PropertyFloat("speed", 0);
+	public static final PropertyDouble SPEED = new PropertyDouble("speed", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("heatToRemove", 0);
 	public static final PropertyDouble HEATREQUIRED = new PropertyDouble("requiredHeat", 0F);
 	public static final PropertyRecipe RECIPE = new PropertyRecipe("currentRecipe");
@@ -62,7 +62,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 	}
 
 	@Override
-	public float getMaxSpeed(IModuleState state) {
+	public double getMaxSpeed(IModuleState state) {
 		IModuleProperties properties = state.getModuleProperties();
 		if(properties instanceof IModuleMachineProperties){
 			return ((IModuleMachineProperties) properties).getMaxSpeed(state);
@@ -187,16 +187,16 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 						for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							double kinetic = source.getStored() / source.getCapacity();
-							if(source.getStored() > 0){
+							if(source.getStored() > 0F){
 								source.extractKineticEnergy(kinetic, false);
 								if(state.get(SPEED) < getMaxSpeed(state)){
-									state.set(SPEED, state.get(SPEED)+kinetic / 10);
+									state.set(SPEED, state.get(SPEED)+ kinetic / 10F);
 								}else if(state.get(SPEED) > getMaxSpeed(state)){
 									state.set(SPEED, getMaxSpeed(state));
 								}
 							}else{
-								if(state.get(SPEED) > 0){
-									state.set(SPEED, state.get(SPEED)-kinetic / 5);
+								if(state.get(SPEED) > 0F){
+									state.set(SPEED, state.get(SPEED)-kinetic / 5F);
 								}else if(0 > state.get(SPEED)){
 									state.set(SPEED, 0F);
 								}

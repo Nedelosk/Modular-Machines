@@ -16,6 +16,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -34,6 +35,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected final IModuleContainer container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
+	protected ItemStack stack;
 
 	public ModuleState(IModular modular, IModuleContainer container) {
 		this.registeredProperties = Maps.newHashMap();
@@ -135,6 +137,16 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		}
 		return null;
 	}
+	
+	@Override
+	public ItemStack getStack() {
+		return stack;
+	}
+	
+	@Override
+	public void setStack(ItemStack stack) {
+		this.stack = stack;
+	}
 
 	@Override
 	public M getModule() {
@@ -164,6 +176,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
+		if(stack != null){
+			nbt.setTag("Stack", stack.serializeNBT());
+		}
 		for(Entry<IProperty, Object> object : properties.entrySet()){
 			try{
 				if(object.getValue() != null){
@@ -183,6 +198,10 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
+		if(nbt.hasKey("Stack")){
+			NBTTagCompound nbtTag = nbt.getCompoundTag("Stack");
+			stack = ItemStack.loadItemStackFromNBT(nbtTag);
+		}
 		for(IProperty property : registeredProperties.values()){
 			try{
 				if(nbt.hasKey(property.getName())){

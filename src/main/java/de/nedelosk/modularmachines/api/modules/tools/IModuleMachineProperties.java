@@ -5,7 +5,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleMachineProperties extends IModuleProperties {
 
-	float getMaxSpeed(IModuleState state);
+	double getMaxSpeed(IModuleState state);
 
 	int getWorkTimeModifier(IModuleState state);
 }

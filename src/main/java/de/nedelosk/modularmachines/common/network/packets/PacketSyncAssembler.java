@@ -85,6 +85,7 @@ public class PacketSyncAssembler extends PacketModularHandler {
 			}
 
 			if(hasWorked){
+				handler.markDirty();
 				PacketHandler.sendToNetwork(this, ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) netHandler.playerEntity.worldObj);
 				WorldServer server = netHandler.playerEntity.getServerWorld();
 				BlockPos pos = getPos(handler);

@@ -72,14 +72,16 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 				if(slotStack != null){
 					IModuleState state = ModularMachinesApi.loadOrCreateModuleState(modular, slotStack);
 					IPositionedModuleStorage storage = modular.getModuleStorage(position);
-					if(state.getModule() instanceof IModuleModuleStorage && storage == null){
+					if(state != null && state.getModule() instanceof IModuleModuleStorage && storage == null){
 						storage = new PositionedModuleStorage(modular, position);
 						modular.setModuleStorage(position, storage);
 					}
-					if(storage != null){
-						storage.addModule(slotStack, state);
-					}else{
-						throw new AssemblerException(Translator.translateToLocalFormatted("modular.assembler.no.storage", position.getLocName().toLowerCase(Locale.ENGLISH)));
+					if(state != null){
+						if(storage != null){
+							storage.addModule(slotStack, state);
+						}else{
+							throw new AssemblerException(Translator.translateToLocalFormatted("modular.assembler.no.storage", position.getLocName().toLowerCase(Locale.ENGLISH)));
+						}
 					}
 				}
 			}

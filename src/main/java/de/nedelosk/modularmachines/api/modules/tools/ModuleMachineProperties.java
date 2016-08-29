@@ -8,12 +8,12 @@ import net.minecraftforge.common.config.Configuration;
 
 public class ModuleMachineProperties extends ModuleProperties implements IModuleMachineProperties {
 
-	protected final float defaultMaxSpeed;
+	protected double defaultMaxSpeed;
 	protected final int defaultWorkTimeModifier;
-	protected float maxSpeed;
+	protected double maxSpeed;
 	protected int workTimeModifier;
 
-	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier, float maxSpeed) {
+	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier, double maxSpeed) {
 		super(complexity, size);
 		this.defaultWorkTimeModifier = workTimeModifier;
 		this.defaultMaxSpeed = maxSpeed;
@@ -26,7 +26,7 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	}
 
 	@Override
-	public float getMaxSpeed(IModuleState state) {
+	public double getMaxSpeed(IModuleState state) {
 		return maxSpeed;
 	}
 
@@ -38,7 +38,7 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		maxSpeed = config.getFloat("maxSpeed", "modules." + container.getRegistryName(), defaultMaxSpeed, 0.1F, 2.0F, "");
+		maxSpeed = getDouble(config, "maxSpeed", "modules." + container.getRegistryName(), defaultMaxSpeed, 0.1D, 2.0D, "");
 		workTimeModifier = config.getInt("workTimeModifier", "modules." + container.getRegistryName(), defaultWorkTimeModifier, 0, 100, "");
 	}
 }

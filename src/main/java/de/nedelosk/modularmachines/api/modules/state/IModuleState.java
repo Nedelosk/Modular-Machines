@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertySetter;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -47,6 +48,10 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	M getModule();
 
+	ItemStack getStack();
+	
+	void setStack(ItemStack stack);
+	
 	IModuleProperties getModuleProperties();
 
 	IModular getModular();

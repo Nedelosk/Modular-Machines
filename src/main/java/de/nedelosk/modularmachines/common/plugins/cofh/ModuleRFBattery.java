@@ -28,14 +28,20 @@ public class ModuleRFBattery extends ModuleBattery {
 		if(properties instanceof ModuleRFBatteryProperties){
 			ModuleRFBatteryProperties batteryProperties = (ModuleRFBatteryProperties) properties;
 			if(batteryProperties.containerItem != null) {
-				batteryProperties.containerItem.receiveEnergy(itemStack, Long.valueOf(energy).intValue(), false);
+				int oldEnergy = batteryProperties.containerItem.getEnergyStored(itemStack);
+				int capa = batteryProperties.containerItem.getMaxEnergyStored(itemStack);
+				if(oldEnergy > energy) {
+					batteryProperties.containerItem.extractEnergy(itemStack, Long.valueOf(oldEnergy - energy).intValue(), false);
+				}else if(oldEnergy < energy){
+					batteryProperties.containerItem.receiveEnergy(itemStack, Long.valueOf(energy - oldEnergy).intValue(), false);
+				}
 				return;
 			}
 		}
 	}
 
 	@Override
-	public long getStorageEnergy(IModuleState state, ItemStack itemStack) {
+	public long loadEnergy(IModuleState state, ItemStack itemStack) {
 		IModuleProperties properties = state.getModuleProperties();
 		if(properties instanceof ModuleRFBatteryProperties){
 			ModuleRFBatteryProperties batteryProperties = (ModuleRFBatteryProperties) properties;

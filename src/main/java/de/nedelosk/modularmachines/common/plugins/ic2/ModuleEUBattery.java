@@ -31,11 +31,10 @@ public class ModuleEUBattery extends ModuleBattery {
 	}
 
 	@Override
-	public long getStorageEnergy(IModuleState state, ItemStack itemStack) {
+	public long loadEnergy(IModuleState state, ItemStack itemStack) {
 		if(!itemStack.hasTagCompound()){
 			return 0;
 		}
-		NBTTagCompound nbtTag = itemStack.getTagCompound();
-		return (long) nbtTag.getDouble("energy") * 2;
+		return Double.valueOf(itemStack.getTagCompound().getDouble("energy") * 2).longValue();
 	}
 }

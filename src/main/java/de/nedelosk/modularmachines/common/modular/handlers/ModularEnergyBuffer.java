@@ -53,14 +53,14 @@ public class ModularEnergyBuffer implements IEnergyBuffer {
 	}
 
 	@Override
-	public void loadEnergy(long energy) {
+	public void setEnergy(long energy) {
 		for(IEnergyBuffer energyBuffer : buffers){
 			long capacity = energyBuffer.getCapacity();
 			if(energy > capacity){
-				energyBuffer.loadEnergy(capacity);
+				energyBuffer.setEnergy(capacity);
 				energy-=capacity;
 			}else{
-				energyBuffer.loadEnergy(energy);
+				energyBuffer.setEnergy(energy);
 				break;
 			}
 			if(energy <= 0){

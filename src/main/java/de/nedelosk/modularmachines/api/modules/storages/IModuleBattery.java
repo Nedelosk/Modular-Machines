@@ -8,5 +8,5 @@ public interface IModuleBattery extends IModule, IModuleBatteryProperties {
 
 	void saveEnergy(IModuleState<IModuleBattery> state, long energy, ItemStack itemStack);
 
-	long getStorageEnergy(IModuleState<IModuleBattery> state, ItemStack itemStack);
+	long loadEnergy(IModuleState<IModuleBattery> state, ItemStack itemStack);
 }

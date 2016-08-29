@@ -143,10 +143,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			if(world.isRemote){
 				if(modularHandler.getModular() != null && modularHandler.isAssembled()){
 					if(heldItem == null && player.isSneaking()){
-						IModularAssembler assembler = modularHandler.getModular().disassemble();
-						if(assembler != null){
-							PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(modularHandler, false));
-						}
+						PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(modularHandler, false));
 					}
 				}
 			}

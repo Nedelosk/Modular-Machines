@@ -36,7 +36,7 @@ public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler,
 	}
 
 	@Override
-	public void loadEnergy(long energy) {
+	public void setEnergy(long energy) {
 		this.energy = energy;
 
 		if (this.energy > capacity) {

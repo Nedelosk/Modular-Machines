@@ -11,6 +11,8 @@ import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -32,11 +34,12 @@ public class PluginMekanism extends APlugin {
 	@Override
 	public void init() {
 		energyCube = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "EnergyCube"));
-
-		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, 2000000, 800, 1, (IEnergyContainerItem) energyCube);
-		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, 8000000, 3200, 2, (IEnergyContainerItem) energyCube);
-		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, 32000000, 12800, 3, (IEnergyContainerItem) energyCube);
-		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSize.LARGE, 128000000, 51200, 4, (IEnergyContainerItem) energyCube);
+		IEnergyContainerItem energyItem = (IEnergyContainerItem) energyCube;
+		
+		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, (int) (2000000 * 0.4), 800, 1, energyItem);
+		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, (int) (8000000 * 0.4), 3200, 2, energyItem);
+		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, (int) (32000000 * 0.4), 12800, 3, energyItem);
+		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSize.LARGE, (int) (128000000 * 0.4), 51200, 4, energyItem);
 
 		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[0], EnumMetalMaterials.IRON, 0));
 		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[1], EnumMetalMaterials.OSMIUM, 1));

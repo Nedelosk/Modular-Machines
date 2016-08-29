@@ -49,6 +49,8 @@ module.cleaner.name=Module Cleaner
 module.furnace.name=Furnace
 
 module.capacitorbank.name=Capacitor Bank
+module.energycube.name=Energy Cube
+module.euBattery.name=Industrialcraft Battery
 
 module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular machine block.And it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module. It defines the maximum complexity of the modular machine.

@@ -170,6 +170,9 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public ItemStack saveDataToItem(IModuleState state) {
+		if(state.getStack() != null){
+			return state.getStack().copy();
+		}
 		return state.getContainer().getItemStack().copy();
 	}
 
@@ -235,6 +238,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
+		state.setStack(stack);
 		return state;
 	}
 
