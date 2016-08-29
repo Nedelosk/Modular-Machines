@@ -14,6 +14,7 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ModuleTab extends Button<GuiPage<IModularHandler>> {
@@ -36,7 +37,11 @@ public class ModuleTab extends Button<GuiPage<IModularHandler>> {
 		RenderUtil.bindTexture(guiTexture);
 		getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
-		getGui().drawItemStack(state.getContainer().getItemStack(), xPosition + (right ? 5 : 7), yPosition + 2);
+		ItemStack stack = state.getStack();
+		if(stack == null){
+			stack = state.getContainer().getItemStack();
+		}
+		getGui().drawItemStack(stack, xPosition + (right ? 5 : 7), yPosition + 2);
 	}
 
 	@Override
