@@ -48,25 +48,31 @@ public abstract class Registry {
 
 	public abstract IGuiHandler getGuiHandler();
 
-	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBucket, boolean isGas) {
-		if (FluidRegistry.getFluid(fluidName) == null) {
+	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBlock, boolean isGas, int density) {
+		Fluid fluid = FluidRegistry.getFluid(fluidName);
+		if (fluid == null) {
 			ResourceLocation stillLocation = new ResourceLocation("modularmachines:blocks/fluids/" + fluidName + "_still");
-			Fluid fluid = new Fluid(fluidName, stillLocation, stillLocation).setTemperature(temperature);
+			fluid = new Fluid(fluidName, stillLocation, stillLocation).setTemperature(temperature);
 			fluid.setUnlocalizedName(fluidName);
 			if (isGas) {
 				fluid.setGaseous(isGas);
 			}
+			fluid.setDensity(density);
 			FluidRegistry.registerFluid(fluid);
-			Block fluidBlock = new FluidBlock(fluid, material, fluidName);
-			fluidBlock.setRegistryName("fluid_" + fluidName);
-			GameRegistry.register(fluidBlock);
-			ItemBlock itemBlock = new ItemBlock(fluidBlock);
-			itemBlock.setRegistryName("fluid_" + fluidName);
-			GameRegistry.register(itemBlock);
-			ModularMachines.proxy.registerFluidStateMapper(fluidBlock, fluid);
 		}
-		if (createBucket) {
-			FluidRegistry.addBucketForFluid(FluidRegistry.getFluid(fluidName));
+		if (createBlock) {
+			if(!fluid.canBePlacedInWorld()){
+				Block fluidBlock = new FluidBlock(fluid, material, fluidName);
+				fluidBlock.setRegistryName("fluid_" + fluidName);
+				GameRegistry.register(fluidBlock);
+				ItemBlock itemBlock = new ItemBlock(fluidBlock);
+				itemBlock.setRegistryName("fluid_" + fluidName);
+				GameRegistry.register(itemBlock);
+				ModularMachines.proxy.registerFluidStateMapper(fluidBlock, fluid);
+			}
+			if(!FluidRegistry.getBucketFluids().contains(fluid)){
+				FluidRegistry.addBucketForFluid(fluid);
+			}
 		}
 		return FluidRegistry.getFluid(fluidName);
 	}

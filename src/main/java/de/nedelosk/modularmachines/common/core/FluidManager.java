@@ -8,6 +8,6 @@ public class FluidManager {
 	public static Fluid Steam;
 
 	public static void registerFluids() {
-		Steam = Registry.registerFluid("steam", 500, Material.LAVA, true, true);
+		Steam = Registry.registerFluid("steam", 500, Material.LAVA, false, true, 0);
 	}
 }
