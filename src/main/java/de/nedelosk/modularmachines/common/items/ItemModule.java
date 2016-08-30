@@ -38,7 +38,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	public void registerModel(Item item, IModelManager manager) {
 		ModelResourceLocation[] locs = new ModelResourceLocation[]{
 				ModelManager.getInstance().getModelLocation("module_small"),
-				ModelManager.getInstance().getModelLocation("module_middle"),
+				ModelManager.getInstance().getModelLocation("module_medium"),
 				ModelManager.getInstance().getModelLocation("module_large")
 		};
 		manager.registerItemModel(item, new ModuleItemMeshDefinition(locs));

@@ -137,12 +137,12 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ItemStack getStack() {
 		return stack;
 	}
-	
+
 	@Override
 	public void setStack(ItemStack stack) {
 		this.stack = stack;

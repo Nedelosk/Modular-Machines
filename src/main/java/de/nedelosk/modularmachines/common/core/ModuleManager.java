@@ -65,7 +65,7 @@ public class ModuleManager {
 	public static IModuleContainer[] moduleControllerContainers = new IModuleContainer[4];
 
 	public static IModuleCasing moduleCasing;
-	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[2];;
+	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[4];
 
 	public static IModuleModuleStorage moduleDrawer;
 	public static IModuleModuleStorageProperties[] moduleDrawerProperties = new IModuleModuleStorageProperties[6];
@@ -134,8 +134,10 @@ public class ModuleManager {
 		moduleCasing.setRegistryName(new ResourceLocation("modularmachines:casing"));
 		GameRegistry.register(moduleCasing);
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(1, EnumModuleSize.LARGE, 8, 550, 10.0F, 1.5F, 1, "pickaxe");
-		moduleCasingProperties[1] = new ModuleCasingProperties(2, EnumModuleSize.LARGE, 12, 550, 10.0F, 5.0F, 1, "pickaxe");
+		moduleCasingProperties[0] = new ModuleCasingProperties(1, EnumModuleSize.LARGE, 8, 550, 7.0F, 1.5F, 1, "pickaxe");
+		moduleCasingProperties[1] = new ModuleCasingProperties(2, EnumModuleSize.LARGE, 12, 550, 9.0F, 5.0F, 1, "pickaxe");
+		moduleCasingProperties[2] = new ModuleCasingProperties(3, EnumModuleSize.LARGE, 16, 650, 10.0F, 5.0F, 1, "pickaxe");
+		moduleCasingProperties[3] = new ModuleCasingProperties(4, EnumModuleSize.LARGE, 20, 750, 11.0F, 5.0F, 1, "pickaxe");
 
 		/* MODULE STORAGES */
 		moduleDrawer = new ModuleModuleStorage();
@@ -298,6 +300,8 @@ public class ModuleManager {
 		//Casings
 		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[0], new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.BRONZE));
 		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[1], new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.IRON));
+		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[2], new ItemStack(ItemManager.itemCasings, 1, 2), EnumMetalMaterials.STEEL));
+		GameRegistry.register(new ModuleContainer(moduleCasing, moduleCasingProperties[3], new ItemStack(ItemManager.itemCasings, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Drawers
 		GameRegistry.register(new ModuleContainer(moduleDrawer, moduleDrawerProperties[0], new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK));

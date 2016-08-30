@@ -69,6 +69,16 @@ public class RecipeManager {
 				"+ +", 
 				"---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
 
+		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 2), 
+				"+++", 
+				"+ +", 
+				"---", '+', "plateSteel", '-', Blocks.BRICK_BLOCK);
+
+		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 3), 
+				"+++", 
+				"+ +", 
+				"---", '+', "plateMagmarium", '-', Blocks.BRICK_BLOCK);
+
 		//Drawers
 		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 0), 
 				"BIB",

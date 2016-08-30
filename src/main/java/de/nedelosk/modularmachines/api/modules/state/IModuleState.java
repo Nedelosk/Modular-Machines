@@ -49,9 +49,9 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	M getModule();
 
 	ItemStack getStack();
-	
+
 	void setStack(ItemStack stack);
-	
+
 	IModuleProperties getModuleProperties();
 
 	IModular getModular();

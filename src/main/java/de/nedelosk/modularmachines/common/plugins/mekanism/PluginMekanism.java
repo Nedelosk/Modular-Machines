@@ -11,8 +11,6 @@ import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,7 +33,7 @@ public class PluginMekanism extends APlugin {
 	public void init() {
 		energyCube = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "EnergyCube"));
 		IEnergyContainerItem energyItem = (IEnergyContainerItem) energyCube;
-		
+
 		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, (int) (2000000 * 0.4), 800, 1, energyItem);
 		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, (int) (8000000 * 0.4), 3200, 2, energyItem);
 		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, (int) (32000000 * 0.4), 12800, 3, energyItem);

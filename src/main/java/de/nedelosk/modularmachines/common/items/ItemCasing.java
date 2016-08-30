@@ -14,6 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCasing extends Item implements IItemModelRegister {
 
+	private String[] casings = new String[]{"bronze", "iron", "steel", "magmarium"};
+
 	public ItemCasing() {
 		setUnlocalizedName("casing");
 		setHasSubtypes(true);
@@ -23,18 +25,19 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		manager.registerItemModel(item, 0, "casing/bronze");
-		manager.registerItemModel(item, 1, "casing/iron");
+		for(int i = 0;i < casings.length;i++){
+			manager.registerItemModel(item, i, "casing/" + casings[i]);
+		}
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + ((stack.getItemDamage() == 1) ? "iron" : "bronze"));
+		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + casings[stack.getItemDamage()]);
 	}
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < casings.length; i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
