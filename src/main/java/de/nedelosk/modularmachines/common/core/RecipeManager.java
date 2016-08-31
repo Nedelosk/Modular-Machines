@@ -89,6 +89,26 @@ public class RecipeManager {
 				"III",
 				"I I",
 				"III", 'I', "ingotBrick");
+		
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 2), 
+				"IPI",
+				"IPI",
+				"IPI", 'I', "ingotBronze", 'P', "plateBronze");
+		
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 3), 
+				"IPI",
+				"IPI",
+				"IPI", 'I', "ingotIron", 'P', "plateIron");
+		
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 4), 
+				"IPI",
+				"IPI",
+				"IPI", 'I', "ingotSteel", 'P', "plateSteel");
+		
+		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 5), 
+				"IPI",
+				"IPI",
+				"IPI", 'I', "ingotMagmarium", 'P', "plateMagmarium");
 
 		//Engines
 		addShapedRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 0), 
