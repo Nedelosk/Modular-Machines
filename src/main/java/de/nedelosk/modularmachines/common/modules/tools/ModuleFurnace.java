@@ -6,39 +6,29 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.ItemUtil;
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
-import de.nedelosk.modularmachines.api.modules.tools.IModuleMachine;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IRecipeBuilder;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
-import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import de.nedelosk.modularmachines.common.modules.pages.FurnacePage;
+import de.nedelosk.modularmachines.common.modules.propertys.PropertyFurnaceRecipe;
 import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import de.nedelosk.modularmachines.common.recipse.RecipeBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored, IModuleJEI {
 
-	private static final List<IRecipe> furnaceRecipe = new ArrayList<>();
-	public static final PropertyFurnaceRecipe FURNACERECIPE = new PropertyFurnaceRecipe("currentRecipe", furnaceRecipe);
+	public static final PropertyFurnaceRecipe FURNACERECIPE = new PropertyFurnaceRecipe("currentRecipe", makeRecipes());
 
 	public ModuleFurnace() {
 		super("furnace");
@@ -103,23 +93,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored,
 
 	@Override
 	public List<IRecipe> getRecipes(IModuleState state) {
-		if(furnaceRecipe.isEmpty()){
-			for(Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()){
-				ItemStack input = entry.getKey();
-				ItemStack output = entry.getValue();
-				if(input != null && output != null){
-					IRecipeBuilder builder = new RecipeBuilder();
-					builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output))
-					.set(Recipe.INPUTS, new RecipeItem[]{new RecipeItem(entry.getKey())})
-					.set(Recipe.OUTPUTS, new RecipeItem[]{new RecipeItem(entry.getValue())})
-					.set(Recipe.HEAT, 50D)
-					.set(Recipe.HEATTOREMOVE, 0.15D)
-					.set(Recipe.SPEED, 1);
-					furnaceRecipe.add(builder.build());
-				}
-			}
-		}
-		return furnaceRecipe;
+		return FURNACERECIPE.getRecipes();
 	}
 
 	@Override
@@ -129,28 +103,23 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored,
 		return pages;
 	}
 
-	public static class FurnacePage extends ModulePage<IModuleMachine> {
-		public FurnacePage(String pageID, IModuleState<IModuleMachine> module) {
-			super(pageID, "furnace", module);
+	protected static List<IRecipe> makeRecipes(){
+		List<IRecipe> furnaceRecipe = new ArrayList<>();
+		for(Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()){
+			ItemStack input = entry.getKey();
+			ItemStack output = entry.getValue();
+			if(input != null && output != null){
+				IRecipeBuilder builder = new RecipeBuilder();
+				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output))
+				.set(Recipe.INPUTS, new RecipeItem[]{new RecipeItem(entry.getKey())})
+				.set(Recipe.OUTPUTS, new RecipeItem[]{new RecipeItem(entry.getValue())})
+				.set(Recipe.HEAT, 50D)
+				.set(Recipe.HEATTOREMOVE, 0.15D)
+				.set(Recipe.SPEED, 1);
+				furnaceRecipe.add(builder.build());
+			}
 		}
-
-		@Override
-		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, 55, 35, new ItemFilterMachine());
-			invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
-		}
-
-		@Override
-		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0));
-			modularSlots.add(new SlotModule(state, 1));
-		}
-
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void addWidgets() {
-			add(new WidgetProgressBar(82, 35, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-		}
+		return furnaceRecipe;
 	}
 
 	@Override

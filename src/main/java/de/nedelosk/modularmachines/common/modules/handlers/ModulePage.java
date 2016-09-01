@@ -109,8 +109,8 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 			WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
 			if(state.getModule() instanceof IModuleMachine){
 				IModuleMachine tool = (IModuleMachine) state.getModule();
-				widgetBar.burntime = tool.getWorkTime(state);
-				widgetBar.burntimeTotal = tool.getWorkTimeTotal(state);
+				widgetBar.workTime = tool.getWorkTime(state);
+				widgetBar.worktTimeTotal = tool.getWorkTimeTotal(state);
 			}
 		}else if (widget instanceof WidgetFluidTank) {
 			WidgetFluidTank widgetTank = (WidgetFluidTank) widget;

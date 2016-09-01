@@ -18,6 +18,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -75,7 +76,6 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
-		List<IAdvancedModuleContentHandler> handlers = state.getContentHandlers();
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
@@ -84,17 +84,23 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 				}
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : handlers) {
+		List<IAdvancedModuleContentHandler> advancedHandlers = new ArrayList<>();
+		for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+			if(handler instanceof IAdvancedModuleContentHandler){
+				advancedHandlers.add((IAdvancedModuleContentHandler) handler);
+			}
+		}
+		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
 			if (!handler.canAddRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]))) {
 				return false;
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
 			if (!handler.canRemoveRecipeInputs(chance, recipe.getInputs())) {
 				return false;
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : handlers) {
+		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
 			handler.removeRecipeInputs(chance, recipe.getInputs());
 		}
 		return true;

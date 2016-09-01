@@ -64,6 +64,10 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 		page.handleMouseClicked(mouseX, mouseY, mouseButton);
 	}
 
+	public IPage getPage() {
+		return page;
+	}
+
 	@Override
 	public Gui getGui() {
 		return this;

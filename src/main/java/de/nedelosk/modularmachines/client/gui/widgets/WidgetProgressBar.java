@@ -3,8 +3,14 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.gui.Widget;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,20 +18,33 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class WidgetProgressBar extends Widget {
 
-	public int burntime;
-	public int burntimeTotal;
+	public int workTime;
+	public int worktTimeTotal;
 
-	public WidgetProgressBar(int posX, int posY, int burntime, int burntimeTotal) {
+	public WidgetProgressBar(int posX, int posY, int workTime, int workTimeTotal) {
 		super(posX, posY, 22, 17);
-		this.burntime = burntime;
-		this.burntimeTotal = burntimeTotal;
+		this.workTime = workTime;
+		this.worktTimeTotal = workTimeTotal;
 	}
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<String>();
-		if (burntimeTotal != 0) {
-			list.add(burntime + " / " + burntimeTotal);
+		if (worktTimeTotal != 0) {
+			list.add(workTime + " / " + worktTimeTotal);
+		}
+		if(gui instanceof GuiPage){
+			GuiPage guiPage = (GuiPage) gui;
+			IPage page = guiPage.getPage();
+			if(page instanceof IModulePage){
+				IModuleState state = ((IModulePage) page).getModuleState();
+				if(state.getModule() instanceof IModuleJEI){
+					IModuleJEI moduleJei = (IModuleJEI) state.getModule();
+					if(moduleJei.getJEIRecipeCategorys(state.getContainer()) != null){
+						list.add(Translator.translateToLocal("jei.tooltip.show.recipes"));
+					}
+				}
+			}
 		}
 		return list;
 	}
@@ -35,11 +54,11 @@ public class WidgetProgressBar extends Widget {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
-		int process = (burntimeTotal == 0) ? 0 : burntime * pos.width / burntimeTotal;
+		int process = (worktTimeTotal == 0) ? 0 : workTime * pos.width / worktTimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, pos.width, pos.height);
-		if (burntime > 0) {
+		if (workTime > 0) {
 			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, pos.height);
 		}
 		GlStateManager.disableAlpha();

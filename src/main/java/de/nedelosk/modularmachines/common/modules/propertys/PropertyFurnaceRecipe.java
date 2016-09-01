@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools;
+package de.nedelosk.modularmachines.common.modules.propertys;
 
 import java.util.List;
 
@@ -29,5 +29,9 @@ public class PropertyFurnaceRecipe extends PropertyBase<IRecipe, NBTTagString, I
 			}
 		}
 		return null;
+	}
+
+	public List<IRecipe> getRecipes(){
+		return recipes;
 	}
 }
