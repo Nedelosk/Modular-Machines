@@ -1,6 +1,8 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.IPage;
@@ -20,6 +22,7 @@ public class WidgetProgressBar extends Widget {
 
 	public int workTime;
 	public int worktTimeTotal;
+	public List<String> jeiTooltip;
 
 	public WidgetProgressBar(int posX, int posY, int workTime, int workTimeTotal) {
 		super(posX, posY, 22, 17);
@@ -33,18 +36,26 @@ public class WidgetProgressBar extends Widget {
 		if (worktTimeTotal != 0) {
 			list.add(workTime + " / " + worktTimeTotal);
 		}
-		if(gui instanceof GuiPage){
-			GuiPage guiPage = (GuiPage) gui;
-			IPage page = guiPage.getPage();
-			if(page instanceof IModulePage){
-				IModuleState state = ((IModulePage) page).getModuleState();
-				if(state.getModule() instanceof IModuleJEI){
-					IModuleJEI moduleJei = (IModuleJEI) state.getModule();
-					if(moduleJei.getJEIRecipeCategorys(state.getContainer()) != null){
-						list.add(Translator.translateToLocal("jei.tooltip.show.recipes"));
+		if(jeiTooltip == null){
+			if(gui instanceof GuiPage){
+				GuiPage guiPage = (GuiPage) gui;
+				IPage page = guiPage.getPage();
+				if(page instanceof IModulePage){
+					IModuleState state = ((IModulePage) page).getModuleState();
+					if(state.getModule() instanceof IModuleJEI){
+						IModuleJEI moduleJei = (IModuleJEI) state.getModule();
+						if(moduleJei.getJEIRecipeCategorys(state.getContainer()) != null){
+							jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
+						}
 					}
 				}
 			}
+			if(jeiTooltip == null){
+				jeiTooltip = new ArrayList<>();
+			}
+		}
+		if(!jeiTooltip.isEmpty()){
+			list.addAll(jeiTooltip);
 		}
 		return list;
 	}

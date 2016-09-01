@@ -1,0 +1,7 @@
+{
+    "parent": "modularmachines:module/default/controllers/large",
+	"textures": {
+		"overlay": "modularmachines:modules/controller",
+        "metal": "modularmachines:modules/metal_magmarium_large"
+    }
+}

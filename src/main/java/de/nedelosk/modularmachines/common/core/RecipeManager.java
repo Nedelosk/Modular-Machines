@@ -381,26 +381,16 @@ public class RecipeManager {
 		RecipeUtil.addPulverizer("CoalToDust", new OreStack("itemCoal"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2)) }, 7);
 		/* INGOTS */
 		for(IMaterial material : MaterialRegistry.getMaterials()){
-			if(material != null && ItemManager.itemDusts.getStack(material) != null && material instanceof IMetalMaterial){
-				String[] oreDicts = ((IMetalMaterial)material).getOreDicts();
-				for(String oreDict : oreDicts){
-					String ingot = "ingot" + oreDict;
-					RecipeUtil.addPulverizer(ingot + "ToDust", new OreStack(ingot), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(material)) }, 7);
+			if(!(material instanceof EnumVanillaMaterials)){
+				if(material != null && ItemManager.itemDusts.getStack(material) != null && material instanceof IMetalMaterial){
+					String[] oreDicts = ((IMetalMaterial)material).getOreDicts();
+					for(String oreDict : oreDicts){
+						String ingot = "ingot" + oreDict;
+						RecipeUtil.addPulverizer(ingot + "ToDust", new OreStack(ingot), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(material)) }, 7);
+					}
 				}
 			}
 		}
-		/*RecipeUtil.addPulverizer("IronIngotToDust", new OreStack("ingotIron"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 2)) }, 7);
-		RecipeUtil.addPulverizer("GoldIngotToDust", new OreStack("ingotGold"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 3)) }, 7);
-		RecipeUtil.addPulverizer("DiamondGemToDust", new OreStack("gemDiamond"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 4)) }, 7);
-		RecipeUtil.addPulverizer("CopperIngotToDust", new OreStack("ingotCopper"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 20)) }, 7);
-		RecipeUtil.addPulverizer("TinIngotToDust", new OreStack("ingotTin"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 11)) }, 7);
-		RecipeUtil.addPulverizer("SilverIngotToDust", new OreStack("ingotSilver"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 12)) }, 7);
-		RecipeUtil.addPulverizer("LeadIngotToDust", new OreStack("ingotLead"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 13)) }, 7);
-		RecipeUtil.addPulverizer("NickelIngotToDust", new OreStack("ingotNickel"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 14)) }, 7);
-		RecipeUtil.addPulverizer("AluminumIngotToDust", new OreStack("ingotAluminum"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 15)) }, 7);
-		RecipeUtil.addPulverizer("AluminiumIngotToDust", new OreStack("ingotAluminium"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 15)) }, 7);
-		RecipeUtil.addPulverizer("BronzeIngotToDust", new OreStack("ingotBronze"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 20)) }, 7);
-		RecipeUtil.addPulverizer("InvarIngotToDust", new OreStack("ingotInvar"), new RecipeItem[] { new RecipeItem(new ItemStack(ItemManager.itemDusts, 1, 21)) }, 7);*/
 	}
 
 	private static void registerAlloySmelterRecipes() {
