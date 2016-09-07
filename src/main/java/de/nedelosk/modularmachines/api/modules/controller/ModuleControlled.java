@@ -31,7 +31,9 @@ public abstract class ModuleControlled extends Module implements IModuleControll
 	@Override
 	public void onModularAssembled(IModuleState state) {
 		super.onModularAssembled(state);
-		state.addPage(getControllerPage(state));
+		if(state.getModular().getModule(IModuleController.class) != null){
+			state.addPage(getControllerPage(state));
+		}
 	}
 
 	@Override
