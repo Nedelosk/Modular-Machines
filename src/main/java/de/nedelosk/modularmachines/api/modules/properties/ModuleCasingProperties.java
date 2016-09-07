@@ -1,5 +1,6 @@
-package de.nedelosk.modularmachines.api.modules;
+package de.nedelosk.modularmachines.api.modules.properties;
 
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;

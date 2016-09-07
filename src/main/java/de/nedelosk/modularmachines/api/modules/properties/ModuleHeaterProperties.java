@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.heaters;
+package de.nedelosk.modularmachines.api.modules.properties;
 
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;

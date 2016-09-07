@@ -19,6 +19,9 @@ public class MaterialRegistry {
 	}
 
 	public static IMaterial getMaterial(String name) {
+		if(name == null){
+			return null;
+		}
 		for(IMaterial material : materials) {
 			if (material.getName().equals(name)) {
 				return material;

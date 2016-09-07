@@ -5,11 +5,14 @@ import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.json.EnumLoaderType;
+import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.api.modules.storages.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
+import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryPropertiesLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +29,9 @@ public class PluginEnderIO extends APlugin {
 
 	@Override
 	public void preInit() {
+		if(ModuleRFBatteryPropertiesLoader.loader == null){
+			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new ModuleRFBatteryPropertiesLoader());
+		}
 		moduleCapacitorBank = new ModuleRFBattery("capacitorbank");
 		moduleCapacitorBank.setRegistryName(new ResourceLocation("modularmachines:battery.capacitorbank"));
 		GameRegistry.register(moduleCapacitorBank);

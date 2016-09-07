@@ -1,5 +1,8 @@
-package de.nedelosk.modularmachines.api.modules;
+package de.nedelosk.modularmachines.api.modules.properties;
 
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.IModulePropertiesConfigurable;
+import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;

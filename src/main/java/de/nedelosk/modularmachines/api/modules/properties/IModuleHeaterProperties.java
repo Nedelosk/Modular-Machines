@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.heaters;
+package de.nedelosk.modularmachines.api.modules.properties;
 
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;

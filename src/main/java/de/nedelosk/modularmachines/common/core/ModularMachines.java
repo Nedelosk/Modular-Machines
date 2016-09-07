@@ -4,6 +4,7 @@ import java.io.File;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.common.modules.json.ModuleLoadManager;
 import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -45,6 +46,7 @@ public class ModularMachines {
 	public void preInit(FMLPreInitializationEvent event) {
 
 		registry = new ModRegistry();
+		new ModuleLoadManager();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
 		configFile = new File(configFolder, "Modular-Machines.cfg");
 		registry.preInit(instance, event);
@@ -57,6 +59,8 @@ public class ModularMachines {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		ModuleLoadManager.loadModules();
+		ModuleLoadManager.loadModuleContainers();
 		registry.postInit(instance, event);
 		RecipeJsonManager.checkRecipes();
 	}

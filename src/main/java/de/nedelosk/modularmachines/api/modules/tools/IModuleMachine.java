@@ -5,6 +5,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modules.IModuleRecipe;
 import de.nedelosk.modularmachines.api.modules.IModuleWorking;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 
 public interface IModuleMachine extends IModuleTool, IModuleWorking, IModuleRecipe, IModuleMachineProperties {

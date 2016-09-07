@@ -59,7 +59,7 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 	protected Class<? extends IModulePage> getMainPageClass() {
 		return MainPage.class;
 	}
-	
+
 	@Override
 	protected IModulePage getControllerPage(IModuleState state) {
 		return new ControllerPage(state);

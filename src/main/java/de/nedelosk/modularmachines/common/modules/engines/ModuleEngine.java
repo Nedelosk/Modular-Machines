@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.engines;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
@@ -13,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleEngine;
-import de.nedelosk.modularmachines.api.modules.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
@@ -24,6 +22,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerEngine;
+import de.nedelosk.modularmachines.api.modules.properties.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
 import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;

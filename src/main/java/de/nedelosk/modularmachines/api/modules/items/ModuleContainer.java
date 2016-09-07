@@ -160,6 +160,8 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 	public void addTooltip(List<String> tooltip, ItemStack stack) {
 		module.addTooltip(tooltip, stack, this);
 
-		tooltip.addAll(this.tooltip);
+		if(tooltip != null && !tooltip.isEmpty()){
+			tooltip.addAll(this.tooltip);
+		}
 	}
 }

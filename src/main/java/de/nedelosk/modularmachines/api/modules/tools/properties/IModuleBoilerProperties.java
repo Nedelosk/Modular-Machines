@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.tools;
+package de.nedelosk.modularmachines.api.modules.tools.properties;
 
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;

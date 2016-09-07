@@ -5,11 +5,14 @@ import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.json.EnumLoaderType;
+import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.api.modules.storages.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
+import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBatteryPropertiesLoader;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -24,6 +27,9 @@ public class PluginMekanism extends APlugin {
 
 	@Override
 	public void preInit() {
+		if(ModuleRFBatteryPropertiesLoader.loader == null){
+			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new ModuleRFBatteryPropertiesLoader());
+		}
 		moduleEnergyCube = new ModuleRFBattery("energycube");
 		moduleEnergyCube.setRegistryName(new ResourceLocation("modularmachines:battery.energycube"));
 		GameRegistry.register(moduleEnergyCube);

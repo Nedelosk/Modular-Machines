@@ -137,18 +137,34 @@ public class JsonUtils {
 		return new ResourceLocation(location[0], "textures/" + location[1]);
 	}
 
-	public static ItemStack parseItem(JsonElement json, String itemName) {
-		String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 4);
-		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(names[0], names[1]));
-		int meta = (names.length >= 3 ? Integer.parseInt(names[2]) : 0);
-		ItemStack stack = new ItemStack(item, 1, meta);
-		if (names.length == 4) {
-			try {
-				stack.setTagCompound(JsonToNBT.getTagFromJson(names[3]));
-			} catch (Exception e) {
-			}
+	public static Item parseItem(JsonElement json, String itemName) {
+		try{
+			String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 2);
+			String modID = names.length == 1 ? "minecraft" : names[0];
+			String name = names.length == 1 ? names[0] : names[1];
+			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(modID, name));
+			return item;
+		}catch(Exception e){	
 		}
-		return stack;
+		return null;
+	}
+
+	public static ItemStack parseItemStack(JsonElement json, String itemName) {
+		try{
+			String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 4);
+			Item item = parseItem(json, itemName);
+			int meta = (names.length >= 3 ? Integer.parseInt(names[2]) : 0);
+			ItemStack stack = new ItemStack(item, 1, meta);
+			if (names.length == 4) {
+				try {
+					stack.setTagCompound(JsonToNBT.getTagFromJson(names[3]));
+				} catch (Exception e) {
+				}
+			}
+			return stack;
+		}catch(Exception e){	
+		}
+		return null;
 	}
 
 	public static JsonElement writeLocation(ResourceLocation location) {
@@ -161,5 +177,33 @@ public class JsonUtils {
 			itemName += ":" + item.getTagCompound().toString();
 		}
 		return new JsonPrimitive(itemName);
+	}
+
+	public static String getString(JsonElement json){
+		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()){
+			return json.getAsJsonPrimitive().getAsString();
+		}
+		return null;
+	}
+
+	public static int getInt(JsonElement json){
+		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+			return json.getAsJsonPrimitive().getAsInt();
+		}
+		return 0;
+	}
+
+	public static double getDouble(JsonElement json){
+		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+			return json.getAsJsonPrimitive().getAsDouble();
+		}
+		return 0.0D;
+	}
+
+	public static float getFloat(JsonElement json){
+		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+			return json.getAsJsonPrimitive().getAsFloat();
+		}
+		return 0.0F;
 	}
 }
