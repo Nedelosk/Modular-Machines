@@ -40,9 +40,7 @@ public class ModuleProvider implements IModuleProvider{
 		ResourceLocation loc = new ResourceLocation(stateTag.getString("Container"));
 		IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
 		if(container != null){
-			IModuleState state = container.getModule().createState(modular, container);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-			state = state.build();
+			IModuleState state = ModularMachinesApi.createModuleState(modular, container);
 			state.deserializeNBT(stateTag);
 			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, stateTag));
 			return state;

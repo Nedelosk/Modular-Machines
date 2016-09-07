@@ -218,7 +218,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 				|| modularHandler.getModular().getEnergyBuffer() == null){
 			return 0;
 		}
-		return (int) modularHandler.getModular().getEnergyBuffer().receiveEnergy(from, maxReceive, simulate);
+		return (int) modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, from, maxReceive, simulate);
 	}
 
 	@Optional.Method(modid = "CoFHLib")
@@ -229,7 +229,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 				|| modularHandler.getModular().getEnergyBuffer() == null){
 			return 0;
 		}
-		return (int) modularHandler.getModular().getEnergyBuffer().extractEnergy(from, maxExtract, simulate);
+		return (int) modularHandler.getModular().getEnergyBuffer().extractEnergy(null, from, maxExtract, simulate);
 	}
 
 	@Optional.Method(modid = "IC2")
@@ -246,7 +246,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 				|| modularHandler.getModular().getEnergyBuffer() == null){
 			return amount;
 		}
-		long receivedEnergy = modularHandler.getModular().getEnergyBuffer().receiveEnergy(directionFrom, (long) amount * 2, false);
+		long receivedEnergy = modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, directionFrom, (long) amount * 2, false);
 		return amount - receivedEnergy / 2;
 	}
 
@@ -325,7 +325,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 					|| modularHandler.getModular().getEnergyBuffer() == null){
 				return 0;
 			}
-			return modularHandler.getModular().getEnergyBuffer().extractEnergy(facing, power, simulated);
+			return modularHandler.getModular().getEnergyBuffer().extractEnergy(null, facing, power, simulated);
 		}
 
 		@Optional.Method(modid = "tesla")
@@ -336,7 +336,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 					|| modularHandler.getModular().getEnergyBuffer() == null){
 				return 0;
 			}
-			return modularHandler.getModular().getEnergyBuffer().receiveEnergy(facing, power, simulated);
+			return modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, facing, power, simulated);
 		}
 
 		@Optional.Method(modid = "tesla")

@@ -39,16 +39,16 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 
 	@Override
 	public int addFluidTank(int capacity, boolean isInput, int xPosition, int yPosition, IContentFilter<FluidStack, M>... filters) {
-		int newIndex = tankInfos.size();
-		tankInfos.put(new FluidTankAdvanced(capacity, null, newIndex), new ContentInfo(xPosition, yPosition, isInput));
+		int index = tankInfos.size();
+		tankInfos.put(new FluidTankAdvanced(capacity, null, index), new ContentInfo(index, xPosition, yPosition, isInput));
 		if (isInput) {
-			addInsertFilter(newIndex, filters);
+			addInsertFilter(index, filters);
 		} else {
-			addExtractFilter(newIndex, filters);
+			addExtractFilter(index, filters);
 		}
 
 		isEmpty = false;
-		return newIndex;
+		return index;
 	}
 
 	@Override

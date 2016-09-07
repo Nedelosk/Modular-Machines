@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.storage;
+package de.nedelosk.modularmachines.api.modules.storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +12,17 @@ import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ModuleStorage implements IModuleStorage{
+public class AdvancedModuleStorage implements IAdvancedModuleStorage{
 
 	protected final List<IModuleState> moduleStates = new ArrayList<>();
 	protected final IModular modular;
 
-	public ModuleStorage(IModular modular) {
+	public AdvancedModuleStorage(IModular modular) {
 		this.modular = modular;
 	}
 
@@ -50,14 +48,10 @@ public class ModuleStorage implements IModuleStorage{
 			ResourceLocation loc = new ResourceLocation(moduleTag.getString("Container"));
 			IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
 			if(container != null){
-				IModuleState state = container.getModule().createState(modular, container);
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-				state = state.build();
+				IModuleState state = ModularMachinesApi.createModuleState(modular, container);
 				state.deserializeNBT(moduleTag);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, moduleTag));
 				moduleStates.add(state);
-			}else{
-				Log.err("Remove module from modular, because the item of the module don't exist any more.");
 			}
 		}
 	}

@@ -60,9 +60,7 @@ public class SimpleModular extends Modular implements ISimpleModular {
 			ResourceLocation loc = new ResourceLocation(moduleTag.getString("Container"));
 			IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
 			if(container != null){
-				IModuleState state = container.getModule().createState(this, container);
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-				state = state.build();
+				IModuleState state = ModularMachinesApi.createModuleState(this, container);
 				state.deserializeNBT(moduleTag);
 				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, moduleTag));
 				moduleStates.add(state);

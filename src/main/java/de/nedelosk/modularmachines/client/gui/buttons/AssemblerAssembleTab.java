@@ -18,22 +18,18 @@ import net.minecraft.util.ResourceLocation;
 
 public class AssemblerAssembleTab extends Button<GuiAssembler> {
 
-	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
-
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public AssemblerAssembleTab(int ID, int xPosition, int yPosition) {
 		super(ID, xPosition, yPosition, 28, 21, null);
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		if(!getGui().getHandler().isAssembled()){
-			GlStateManager.color(1F, 1F, 1F, 1F);
-			RenderUtil.bindTexture(guiTexture);
-			getGui().getGui().drawTexturedModalRect(xPosition, yPosition, 0,
-					214, 28, 21);
-			if(getGui().modularStack != null){
-				getGui().drawItemStack(getGui().modularStack, xPosition + 5, yPosition + 2);
-			}
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		RenderUtil.bindTexture(guiTexture);
+		getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (getGui().modularStack == null) ? 28 : 0, 214, 28, 21);
+		if(getGui().modularStack != null){
+			getGui().drawItemStack(getGui().modularStack, xPosition + 5, yPosition + 2);
 		}
 	}
 

@@ -1,29 +1,25 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory.slots;
 
-import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.handlers.inventory.SlotInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotModule extends SlotItemHandler {
 
-	public IModuleState module;
-	private String backgroundTexture = null;
+	public IModulePage page;
+	public SlotInfo info;
 
-	public SlotModule(IModuleState moduleState, int index) {
-		super((IItemHandler) moduleState.getContentHandler(IModuleInventory.class), index, 0, 0);
-		ContentInfo info = ((IAdvancedModuleContentHandler)moduleState.getContentHandler(IModuleInventory.class)).getInfo(index);
-		xDisplayPosition = info.xPosition;
-		yDisplayPosition = info.yPosition;
-		this.module = moduleState;
+	public SlotModule(IModulePage page, SlotInfo info) {
+		super(page.getInventory(), info.index, info.xPosition, info.yPosition);
+		this.info = info;
+		this.page = page;
 	}
 
 	@Override
@@ -38,20 +34,14 @@ public class SlotModule extends SlotItemHandler {
 
 	@Override
 	public void onSlotChanged() {
-		module.getModular().getHandler().markDirty();;
-	}
-
-	public SlotModule setBackgroundTexture(String backgroundTexture) {
-		this.backgroundTexture = backgroundTexture;
-		return this;
+		page.getModuleState().getModular().getHandler().markDirty();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public TextureAtlasSprite getBackgroundSprite() {
-		ItemStack stack = getStack();
-		if (backgroundTexture != null) {
-			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:gui/" + backgroundTexture);
+		if (info.backgroundTexture != null) {
+			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:gui/" + info.backgroundTexture);
 		} else {
 			return null;
 		}

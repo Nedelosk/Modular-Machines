@@ -1,10 +1,13 @@
 package de.nedelosk.modularmachines.api.modules.tools;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyToolMode;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
+import de.nedelosk.modularmachines.common.modules.pages.MainPage;
 
 public abstract class ModuleModeMachine extends ModuleMachine implements IModuleModeMachine {
 
@@ -50,5 +53,15 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 	@Override
 	public void setCurrentMode(IModuleState state, IToolMode mode) {
 		state.set(MODE, mode);
+	}
+
+	@Override
+	protected Class<? extends IModulePage> getMainPageClass() {
+		return MainPage.class;
+	}
+	
+	@Override
+	protected IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 }

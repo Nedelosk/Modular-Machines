@@ -14,9 +14,9 @@ import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.PositionedModuleStorage;
 import de.nedelosk.modularmachines.common.inventory.ContainerPositionedAssembler;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
-import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -98,7 +98,7 @@ public class PositionedModularAssembler extends ModularAssembler implements IPos
 			logics.get(pos).canAssemble(modular);
 		}
 		testComplexity();
-		modular.assembleModular();
+		modular.onModularAssembled();
 		return modular;
 	}
 

@@ -85,11 +85,22 @@ public class ModularMachinesApi {
 	}
 
 	public static IModuleState loadModuleState(IModular modular, ItemStack stack){
-		if(stack.hasCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null)){
+		if(stack != null && stack.hasCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null)){
 			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
 			if(provider != null){
 				return provider.createState(modular);
 			}
+		}
+		return null;
+	}
+
+	public static IModuleState createModuleState(IModular modular, IModuleContainer container){
+		IModuleState state = null;
+		if(container != null){
+			state = container.getModule().createState(modular, container);
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+			state = state.build();
+			return state;
 		}
 		return null;
 	}
@@ -101,23 +112,19 @@ public class ModularMachinesApi {
 		IModuleState state = loadModuleState(modular, stack);
 		if(state != null){
 			return state;
+		}else{
+			state = createModuleState(modular, getContainerFromItem(stack, modular));
 		}
-		IModuleContainer container = getContainerFromItem(stack, modular);
-		if(container != null){
-			state = container.getModule().createState(modular, container);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-			state = state.build();
-			if(stack != null &&  stack.getItem() != null){
-				state = state.getModule().loadStateFromItem(state, stack);
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadItemEvent(state, stack));
-			}
-			if(stack.hasCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null)){
-				IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-				if(provider != null ){
-					provider.setState(state);
-				}
-			}
+		if(state != null){
+			state = state.getModule().loadStateFromItem(state, stack);
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadItemEvent(state, stack));
 		}
+		/*if(stack.hasCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null)){
+			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+			if(provider != null ){
+				provider.setState(state);
+			}
+		}*/
 		return state;
 	}
 

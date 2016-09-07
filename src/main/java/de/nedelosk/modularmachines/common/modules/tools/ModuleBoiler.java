@@ -15,9 +15,10 @@ import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
@@ -33,6 +34,7 @@ import de.nedelosk.modularmachines.api.modules.tools.IModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleTool;
 import de.nedelosk.modularmachines.common.core.FluidManager;
 import de.nedelosk.modularmachines.common.modules.pages.BoilerPage;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
 import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -46,7 +48,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends Module implements IModuleTool, IModuleColored, IModuleJEI, IModuleBoilerProperties {
+public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModuleColored, IModuleJEI, IModuleBoilerProperties {
 
 	public ModuleBoiler() {
 		super("boiler");
@@ -89,8 +91,9 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
 		Random rand = modular.getHandler().getWorld().rand;
-		IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
-		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		IModulePage page = state.getPage(BoilerPage.class);
+		IModuleInventory inventory = page.getInventory();
+		IModuleTank tank = page.getTank();
 		FluidTankAdvanced tankWater = tank.getTank(0);
 		FluidTankAdvanced tankSteam = tank.getTank(1);
 		boolean needUpdate = false;
@@ -143,7 +146,7 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new BoilerPage("Basic", "boiler", state));
+		pages.add(new BoilerPage(state));
 		return pages;
 	}
 
@@ -180,5 +183,10 @@ public class ModuleBoiler extends Module implements IModuleTool, IModuleColored,
 	@Override
 	public int getColor(IModuleContainer container) {
 		return 0xA287C1;
+	}
+
+	@Override
+	protected IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 }

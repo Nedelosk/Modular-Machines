@@ -8,10 +8,12 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleController;
-import de.nedelosk.modularmachines.api.modules.IModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.EnumRedstoneMode;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -69,7 +71,13 @@ public class ModuleController extends Module implements IModuleController, IModu
 
 	@Override
 	public boolean canWork(IModuleState controllerState, IModuleState moduleState) {
-		return !hasRedstoneSignal(controllerState.getModular().getHandler());
+		if(moduleState.getModule() instanceof IModuleControlled){
+			IModuleControlled controlled = (IModuleControlled) moduleState.getModule();
+			EnumRedstoneMode mode = controlled.getModuleControl(moduleState).getRedstoneMode();
+			boolean hasSignal = hasRedstoneSignal(controllerState.getModular().getHandler());
+			return mode == EnumRedstoneMode.IGNORE || hasSignal && mode == EnumRedstoneMode.ON || !hasSignal && mode == EnumRedstoneMode.OFF;
+		}
+		return true;
 	}
 
 	@Override

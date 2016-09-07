@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.common.utils.ContainerUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +30,7 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 	protected void addSlots(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			List<SlotModule> slots = Lists.newArrayList();
-			if (currentPage.getModuleState().getContentHandler(IModuleInventory.class) != null) {
+			if (currentPage.getInventory() != null) {
 				currentPage.createSlots(this, slots);
 				for(SlotModule slot : slots) {
 					addSlotToContainer(slot);

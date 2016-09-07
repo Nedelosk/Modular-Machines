@@ -14,8 +14,10 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleTurbine;
-import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -23,18 +25,24 @@ import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleTurbine extends Module implements IModuleTurbine{
+public abstract class ModuleTurbine extends ModuleControlled implements IModuleTurbine{
 
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 
 	public ModuleTurbine(String name) {
-		super(name);
+		super("turbine." + name);
+	}
+
+	@Override
+	public IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 
 	@Override
@@ -84,21 +92,22 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 
 	@Override
 	public IKineticSource getKineticSource(IModuleState state) {
-		return (IKineticSource) state.getContentHandler(ModuleKineticHandler.class);
+		return state.getContentHandler(ModuleKineticHandler.class);
 	}
 
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		if(state.getModular().updateOnInterval(2)){
-			boolean isWorking = state.get(WORKING);
-			ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
+		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
+		if(state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
+			boolean isWorking = isWorking(state);
+			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
 
 			if (canWork(state)) {
 				if (removeMaterial(state)) {
 					if(!isWorking){
-						state.set(WORKING, true);
+						setIsWorking(state, true);
 					}
 					kineticHandler.increaseKineticEnergy(getKineticModifier(state) * 2);
 					needUpdate = true;
@@ -107,7 +116,7 @@ public abstract class ModuleTurbine extends Module implements IModuleTurbine{
 				if(kineticHandler.getStored() > 0){
 					kineticHandler.reduceKineticEnergy(getKineticModifier(state) * 2);
 				}else{
-					state.set(WORKING, false);
+					setIsWorking(state, false);
 				}
 				needUpdate = true;
 			}

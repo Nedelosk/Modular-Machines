@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -83,7 +82,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored,
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+		return state.getPage(FurnacePage.class).getInventory().getRecipeItems();
 	}
 
 	@Override
@@ -99,7 +98,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored,
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new FurnacePage("Basic", state));
+		pages.add(new FurnacePage(state));
 		return pages;
 	}
 

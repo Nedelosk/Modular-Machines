@@ -1,12 +1,11 @@
-package de.nedelosk.modularmachines.common.modules.storage;
+package de.nedelosk.modularmachines.api.modules.storage;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
 import net.minecraft.item.ItemStack;
 
-public class PositionedModuleStorage extends ModuleStorage implements IPositionedModuleStorage {
+public class PositionedModuleStorage extends AdvancedModuleStorage implements IPositionedModuleStorage {
 
 	protected EnumStoragePosition position;
 

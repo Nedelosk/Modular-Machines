@@ -9,10 +9,11 @@ import com.google.common.collect.Maps;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.storage.IModuleHandler;
+import de.nedelosk.modularmachines.api.modules.storage.ModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -20,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -32,6 +32,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected Map<IProperty, Object> properties;
 	protected final Map<String, IProperty> registeredProperties;
 	protected final IModular modular;
+	protected final IModuleHandler moduleHandler;
 	protected final IModuleContainer container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
@@ -43,10 +44,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 		this.modular = modular;
 		this.container = container;
-		List<IModulePage> createdPages = container.getModule().createPages(this);
-		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageCreateEvent(this, createdPages));
-		this.pages = createdPages;
+		this.pages = container.getModule().createPages(this);
 		this.contentHandlers = container.getModule().createHandlers(this);
+		if(modular != null){
+			this.moduleHandler = new ModuleHandler(modular, this);
+		}else{
+			this.moduleHandler = null;
+		}
 	}
 
 	@Override
@@ -86,6 +90,16 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		}
 		properties.put(property, value);
 		return this;
+	}
+
+	@Override
+	public <P extends IModulePage> P getPage(Class<? extends P> pageClass){
+		for(IModulePage page : pages){
+			if(pageClass.isAssignableFrom(page.getClass())){
+				return (P) page;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -129,7 +143,21 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
+	public void addPage(IModulePage page) {
+		if(page == null || modular == null){
+			return;
+		}
+		if(getPage(page.getPageID()) != null){
+			return;
+		}
+		pages.add(page);
+	}
+
+	@Override
 	public IModulePage getPage(String pageID) {
+		if(pageID == null){
+			return null;
+		}
 		for(IModulePage page : pages){
 			if(page.getPageID().equals(pageID)){
 				return page;
@@ -156,6 +184,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public IModuleProperties getModuleProperties() {
 		return container.getProperties();
+	}
+
+	@Override
+	public IModuleHandler getModuleHandler() {
+		return moduleHandler;
 	}
 
 	@Override
@@ -193,6 +226,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 				nbt.setTag(handler.getUID(), ((INBTSerializable)handler).serializeNBT());
 			}
 		}
+		for(IModulePage page : pages){
+			nbt.setTag(page.getPageID(), page.serializeNBT());
+		}
 		return nbt;
 	}
 
@@ -215,6 +251,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 			if(handler instanceof INBTSerializable && nbt.hasKey(handler.getUID())){
 				((INBTSerializable)handler).deserializeNBT(nbt.getCompoundTag(handler.getUID()));
 			}
+		}
+		for(IModulePage page : pages){
+			page.deserializeNBT(nbt.getCompoundTag(page.getPageID()));
 		}
 	}
 

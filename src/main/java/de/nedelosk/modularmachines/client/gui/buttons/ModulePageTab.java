@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModulePageTab extends Button<GuiPage<IModularHandler>> {
 
-	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public IModulePage page;
 	public boolean isDown;
 	public int pageIndex;

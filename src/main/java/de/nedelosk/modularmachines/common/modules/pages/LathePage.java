@@ -1,32 +1,26 @@
 package de.nedelosk.modularmachines.common.modules.pages;
 
-import java.util.List;
-
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
-import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class LathePage extends ModulePage<IModuleModeMachine>{
+public class LathePage extends MainPage<IModuleModeMachine>{
 
-	public LathePage(String pageID, IModuleState<IModuleModeMachine> state) {
-		super(pageID, "lathe", state);
+	public LathePage(IModuleState<IModuleModeMachine> state) {
+		super("lathe", state);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-		add(new WidgetProgressBar(82, 36, state.getModule().getWorkTime(state), state.getModule().getWorkTimeTotal(state)));
-		add(new WidgetButtonMode(86, 16, state));
+		add(new WidgetProgressBar(82, 36, moduleState.getModule().getWorkTime(moduleState), moduleState.getModule().getWorkTimeTotal(moduleState)));
+		add(new WidgetButtonMode(86, 16, moduleState));
 	}
 
 	@Override
@@ -34,13 +28,6 @@ public class LathePage extends ModulePage<IModuleModeMachine>{
 		invBuilder.addInventorySlot(true, 54, 35, new ItemFilterMachine());
 		invBuilder.addInventorySlot(false, 116, 35, new OutputAllFilter());
 		invBuilder.addInventorySlot(false, 134, 35, new OutputAllFilter());
-	}
-
-	@Override
-	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-		modularSlots.add(new SlotModule(state, 0));
-		modularSlots.add(new SlotModule(state, 1));
-		modularSlots.add(new SlotModule(state, 2));
 	}
 
 }

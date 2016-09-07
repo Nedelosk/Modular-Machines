@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
+import javax.annotation.Nonnull;
+
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.recipes.IRecipeInventory;
@@ -18,4 +20,12 @@ public interface IModuleInventory<M extends IModule> extends IAdvancedModuleCont
 	ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate);
 
 	boolean mergeItemStack(ItemStack stack, int minSlot, int maxSlot, boolean maxToMin, Container container);
+
+	@Override
+	@Nonnull
+	SlotInfo getInfo(int index);
+
+	@Override
+	@Nonnull
+	SlotInfo[] getContentInfos();
 }

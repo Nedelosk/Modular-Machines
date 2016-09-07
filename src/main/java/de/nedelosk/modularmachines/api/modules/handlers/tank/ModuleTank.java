@@ -63,7 +63,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public RecipeItem[] getInputItems() {
+	public RecipeItem[] getRecipeItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
 		for(int index = 0; index < getInputs(); index++) {
 			FluidStack input = getTank(index).getFluid();

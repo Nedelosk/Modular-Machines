@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.heaters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -11,7 +12,9 @@ import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeaterProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
@@ -20,6 +23,7 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
@@ -28,10 +32,20 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleHeater extends Module implements IModuleHeater, IModuleColored {
+public abstract class ModuleHeater extends ModuleControlled implements IModuleHeater, IModuleColored {
 
 	public ModuleHeater(String name) {
 		super("heater." + name);
+	}
+
+	@Override
+	public List<IModuleState> getUsedModules(IModuleState state){
+		return Collections.emptyList();
+	}
+
+	@Override
+	protected IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 
 	@Override
@@ -61,7 +75,8 @@ public abstract class ModuleHeater extends Module implements IModuleHeater, IMod
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		if(state.getModular().updateOnInterval(20)){
+		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
+		if(state.getModular().updateOnInterval(20) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
 			boolean needUpdate = false;
 			if (canAddHeat(state)) {
 				modular.getHeatSource().increaseHeat(getMaxHeat(state), getHeatModifier(state));

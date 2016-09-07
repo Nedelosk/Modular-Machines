@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -31,19 +30,19 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	protected ItemStack[] stacks;
 	protected final EnumMap<EnumFacing, boolean[]> configurations = new EnumMap(EnumFacing.class);
-	protected final ContentInfo[] contentInfos;
+	protected final SlotInfo[] contentInfos;
 	protected final IModuleState<M> state;
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
 
-	public ModuleInventory(int size, ContentInfo[] inputs, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
-		this.stacks = new ItemStack[size];
-		this.contentInfos = inputs;
+	public ModuleInventory(SlotInfo[] contentInfos, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+		this.stacks = new ItemStack[contentInfos.length];
+		this.contentInfos = contentInfos;
 		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 		for(EnumFacing facing : EnumFacing.values()){
-			configurations.put(facing, new boolean[size]);
+			configurations.put(facing, new boolean[contentInfos.length]);
 		}
 	}
 
@@ -436,7 +435,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public RecipeItem[] getInputItems() {
+	public RecipeItem[] getRecipeItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
 		for(int index = 0; index < getInputs(); index++) {
 			ItemStack input = getStackInSlot(index);
@@ -609,7 +608,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public ContentInfo getInfo(int index) {
+	public SlotInfo getInfo(int index) {
 		if(contentInfos.length <= index){
 			return null;
 		}
@@ -617,7 +616,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public ContentInfo[] getContentInfos() {
+	public SlotInfo[] getContentInfos() {
 		return contentInfos;
 	}
 

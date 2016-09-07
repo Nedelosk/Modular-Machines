@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.engines;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
@@ -14,8 +15,10 @@ import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -23,6 +26,7 @@ import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerEngine;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.util.ResourceLocation;
@@ -30,12 +34,17 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleEngine extends Module implements IModuleEngine {
+public abstract class ModuleEngine extends ModuleControlled implements IModuleEngine {
 
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 
 	public ModuleEngine(String name) {
 		super("engine." + name);
+	}
+
+	@Override
+	protected IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 
 	@Override
@@ -74,15 +83,16 @@ public abstract class ModuleEngine extends Module implements IModuleEngine {
 
 	@Override
 	public IKineticSource getKineticSource(IModuleState state) {
-		return (IKineticSource) state.getContentHandler(ModuleKineticHandler.class);
+		return state.getContentHandler(ModuleKineticHandler.class);
 	}
 
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		if(state.getModular().updateOnInterval(2)){
+		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
+		if(state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
 			boolean isWorking = state.get(WORKING);
-			ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
+			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
 
 			if (canWork(state)) {

@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
@@ -79,11 +80,11 @@ public abstract class Modular implements IModular {
 			}
 		}
 
-		assembleModular();
+		onModularAssembled();
 	}
 
 	@Override
-	public void assembleModular() {
+	public void onModularAssembled() {
 		createHeatBuffer();
 		fluidHandler = new FluidHandlerConcatenate(getTanks());
 		itemHandler = new ItemHandler(getInventorys());
@@ -94,6 +95,12 @@ public abstract class Modular implements IModular {
 			currentModule = getFirstGui();
 			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
 		}
+		for(IModuleState state : getModules()){
+			if(state != null){
+				state.getModule().onModularAssembled(state);
+			}
+		}
+		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModularAssembledEvent(this));
 	}
 
 	private void createHeatBuffer(){
@@ -311,7 +318,7 @@ public abstract class Modular implements IModular {
 		String harvestTool = null;
 		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
-			IBlockModificator modificator = (IBlockModificator) state.getContentHandler(IBlockModificator.class);
+			IBlockModificator modificator = state.getContentHandler(IBlockModificator.class);
 			if(modificator != null){
 				hasModificator = true;
 				modificators++;
@@ -346,23 +353,41 @@ public abstract class Modular implements IModular {
 	protected List<IItemHandler> getInventorys(){
 		List<IItemHandler> handlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler inventory = (IModuleContentHandler) state.getContentHandler(IModuleInventory.class);
-			if(inventory instanceof IModuleInventory){
-				handlers.add((IItemHandler) inventory);
+			addInventory(state, handlers);
+			for(IModulePage page : (List<IModulePage>)state.getPages()){
+				if(page != null){
+					addInventory(page, handlers);
+				}
 			}
 		}
 		return handlers;
 	}
 
+	private void addInventory(IModuleContentProvider provider, List<IItemHandler> handlers){
+		IModuleContentHandler inventory = provider.getContentHandler(IModuleInventory.class);
+		if(inventory instanceof IModuleInventory){
+			handlers.add((IModuleInventory) inventory);
+		}
+	}
+
 	protected List<IFluidHandler> getTanks() {
 		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler handler = (IModuleContentHandler) state.getContentHandler(IModuleTank.class);
-			if(handler instanceof IModuleTank){
-				fluidHandlers.add((IFluidHandler) handler);
+			addTank(state, fluidHandlers);
+			for(IModulePage page : (List<IModulePage>)state.getPages()){
+				if(page != null){
+					addTank(page, fluidHandlers);
+				}
 			}
 		}
 		return fluidHandlers;
+	}
+
+	private void addTank(IModuleContentProvider provider, List<IFluidHandler> handlers){
+		IModuleContentHandler tank = provider.getContentHandler(IModuleTank.class);
+		if(tank instanceof IModuleTank){
+			handlers.add((IModuleTank) tank);
+		}
 	}
 
 	protected List<IEnergyBuffer> getEnergyBuffers() {

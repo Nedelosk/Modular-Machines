@@ -27,9 +27,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiAssembler extends GuiBase<IModularHandler> {
 
+	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public AssemblerException lastException;
 	public boolean hasChange = false;
 	public IModular modular;
@@ -64,7 +66,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 			exceptionText = Translator.translateToLocal("modular.assembler.info");
 		}
 		if(lastException != null){
-			this.fontRendererObj.drawSplitString(exceptionText, 186, 83, 117, Color.WHITE.getRGB());
+			this.fontRendererObj.drawSplitString(exceptionText, 186, 8, 117, Color.WHITE.getRGB());
 		}
 
 		String complexity = Translator.translateToLocal("modular.assembler.complexity");
@@ -122,9 +124,10 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, p_146976_2_, p_146976_3_);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderUtil.bindTexture(modularWdgets);
+		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 2, 0, 0, 126, 158);
+		drawTexturedModalRect(this.guiLeft + -130, this.guiTop + 77, 130, 0, 126, 83);
 		RenderUtil.bindTexture(guiTexture);
-		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 77, 130, 173, 126, 83);
-		drawTexturedModalRect(this.guiLeft + -130, this.guiTop + 77, 130, 173, 126, 83);
 		render();
 		widgetManager.drawWidgets();
 	}
@@ -144,13 +147,13 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
 		GlStateManager.color(1F, 1F, 1F, 1F);
+		RenderUtil.bindTexture(modularWdgets);
 		if(slot instanceof SlotAssembler){
-			RenderUtil.bindTexture(guiTexture);
-			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1, ((SlotAssembler)slot).isActive ? 56 : 74, 238, 18, 18);
+			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1,  56, ((SlotAssembler)slot).isActive ? 238 : 220, 18, 18);
 		}else if(slot instanceof SlotAssemblerStorage){
-			RenderUtil.bindTexture(guiTexture);
 			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1, 56, 238, 18, 18);
 		}
+		RenderUtil.bindTexture(guiTexture);
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
 		if(slot instanceof SlotAssembler){
@@ -182,6 +185,6 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 
 	@Nonnull
 	public List<Rectangle> getExtraGuiAreas() {
-		return Collections.singletonList(new Rectangle(guiLeft + 180, guiTop + 77, 126, 83));
+		return Collections.singletonList(new Rectangle(guiLeft + 180, guiTop + 2, 126, 158));
 	}
 }

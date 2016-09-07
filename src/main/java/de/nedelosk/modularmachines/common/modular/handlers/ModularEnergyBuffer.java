@@ -1,27 +1,41 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.util.EnumFacing;
 
-public class ModularEnergyBuffer implements IEnergyBuffer {
+public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler> implements IEnergyBuffer {
 
-	public List<IEnergyBuffer> buffers;
+	public final List<E> buffers;
 
-	public ModularEnergyBuffer(List<IEnergyBuffer> buffers) {
+	public ModularEnergyBuffer(List<E> buffers) {
 		this.buffers = buffers;
 	}
 
 	@Override
-	public long extractEnergy(EnumFacing facing, long maxExtract, boolean simulate) {
+	public long extractEnergy(IModuleState moduleState, EnumFacing facing, long maxExtract, boolean simulate) {
+		List<E> buffers = this.buffers;
+		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
+			List<E> newBuffers = new ArrayList();
+			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
+			for(E energyBuffer : buffers){
+				if(control.hasPermission(energyBuffer.getModuleState())){
+					newBuffers.add(energyBuffer);
+				}
+			}
+			buffers = newBuffers;
+		}
 		long totalExtract = 0;
-		for(IEnergyBuffer energyBuffer : buffers){
-			long extract = energyBuffer.extractEnergy(facing, maxExtract, simulate);
-			IModuleState state = ((IModuleContentHandler)energyBuffer).getModuleState();
-			if(state != null){
+		for(E energyBuffer : buffers){
+			IModuleState state = energyBuffer.getModuleState();
+			long extract = energyBuffer.extractEnergy(state, facing, maxExtract, simulate);
+			if(state != null && extract > 0){
 				state.getModule().sendModuleUpdate(state);
 			}
 			totalExtract+=extract;
@@ -34,12 +48,23 @@ public class ModularEnergyBuffer implements IEnergyBuffer {
 	}
 
 	@Override
-	public long receiveEnergy(EnumFacing facing, long maxReceive, boolean simulate) {
+	public long receiveEnergy(IModuleState moduleState, EnumFacing facing, long maxReceive, boolean simulate) {
+		List<E> buffers = this.buffers;
+		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
+			List<E> newBuffers = new ArrayList();
+			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
+			for(E energyBuffer : buffers){
+				if(control.hasPermission(energyBuffer.getModuleState())){
+					newBuffers.add(energyBuffer);
+				}
+			}
+			buffers = newBuffers;
+		}
 		long totalReceived = 0;
-		for(IEnergyBuffer energyBuffer : buffers){
-			long receive = energyBuffer.receiveEnergy(facing, maxReceive, simulate);
-			IModuleState state = ((IModuleContentHandler)energyBuffer).getModuleState();
-			if(state != null){
+		for(E energyBuffer : buffers){
+			IModuleState state = energyBuffer.getModuleState();
+			long receive = energyBuffer.receiveEnergy(state, facing, maxReceive, simulate);
+			if(state != null && receive > 0){
 				state.getModule().sendModuleUpdate(state);
 			}
 			totalReceived+=receive;

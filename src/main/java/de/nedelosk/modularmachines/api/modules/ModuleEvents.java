@@ -1,8 +1,6 @@
 package de.nedelosk.modularmachines.api.modules;
 
-import java.util.List;
-
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
@@ -25,7 +23,7 @@ public class ModuleEvents {
 		}
 	}
 
-	public static class ModuleStateEvent extends Event {
+	public static abstract class ModuleStateEvent extends Event {
 
 		private final IModuleState state;
 
@@ -38,27 +36,28 @@ public class ModuleEvents {
 		}
 	}
 
-	public static class ModulePageCreateEvent extends ModuleStateEvent {
+	public static abstract class ModularEvent extends Event {
+		private final IModular modular;
 
-		private final List<IModulePage> pages;
-
-		public ModulePageCreateEvent(IModuleState state, List<IModulePage> pages) {
-			super(state);
-			this.pages = pages;
+		public ModularEvent(IModular modular) {
+			this.modular = modular;
 		}
 
-		public List<IModulePage> getModulePages() {
-			return pages;
+		public IModular getModular() {
+			return modular;
 		}
+	}
 
+	public static class ModularAssembledEvent extends ModularEvent {
+		public ModularAssembledEvent(IModular modular) {
+			super(modular);
+		}
 	}
 
 	public static class ModuleStateCreateEvent extends ModuleStateEvent {
-
 		public ModuleStateCreateEvent(IModuleState state) {
 			super(state);
 		}
-
 	}
 
 	public static class ModuleStateLoadItemEvent extends ModuleStateEvent {

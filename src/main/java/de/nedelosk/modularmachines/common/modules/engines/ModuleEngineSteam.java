@@ -2,22 +2,12 @@ package de.nedelosk.modularmachines.common.modules.engines;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleEngine;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.common.core.FluidManager;
-import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
-import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
-import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
+import de.nedelosk.modularmachines.common.modules.pages.SteamEnginePage;
 import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -29,7 +19,7 @@ public class ModuleEngineSteam extends ModuleEngine {
 
 	@Override
 	public boolean removeMaterial(IModuleState state) {
-		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		IModuleTank tank = state.getPage(SteamEnginePage.class).getTank();
 		if(tank == null){
 			return false;
 		}
@@ -46,8 +36,9 @@ public class ModuleEngineSteam extends ModuleEngine {
 		super.updateServer(state, tickCount);
 
 		if(state.getModular().updateOnInterval(20)){
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
-			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+			IModulePage page = state.getPage(SteamEnginePage.class);
+			IModuleInventory inventory = page.getInventory();
+			IModuleTank tank = page.getTank();
 
 			ModuleUtil.tryEmptyContainer(0, 1, inventory, tank.getTank(0));
 		}
@@ -55,7 +46,7 @@ public class ModuleEngineSteam extends ModuleEngine {
 
 	@Override
 	public boolean canWork(IModuleState state) {
-		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		IModuleTank tank = state.getPage(SteamEnginePage.class).getTank();
 		if(tank == null){
 			return false;
 		}
@@ -71,37 +62,7 @@ public class ModuleEngineSteam extends ModuleEngine {
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new EnginePage("Basic", state));
+		pages.add(new SteamEnginePage(state));
 		return pages;
-	}
-
-	public class EnginePage extends ModulePage<IModuleEngine>{
-
-		public EnginePage(String pageID, IModuleState<IModuleEngine> module) {
-			super(pageID, "engine.steam", module);
-		}
-
-		@Override
-		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter(true));
-			invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
-		}
-
-		@Override
-		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0).setBackgroundTexture("liquid"));
-			modularSlots.add(new SlotModule(state, 1).setBackgroundTexture("container"));
-		}
-
-		@Override
-		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilter(FluidManager.Steam));
-		}
-
-		@Override
-		public void addWidgets() {
-			add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
-		}
-
 	}
 }

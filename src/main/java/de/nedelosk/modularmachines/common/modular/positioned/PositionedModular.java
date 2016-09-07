@@ -13,8 +13,8 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.PositionedModuleStorage;
 import de.nedelosk.modularmachines.common.modular.Modular;
-import de.nedelosk.modularmachines.common.modules.storage.PositionedModuleStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

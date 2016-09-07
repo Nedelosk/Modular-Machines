@@ -12,6 +12,8 @@ public interface IModuleInventoryBuilder<M extends IModule> extends IModuleConte
 	 */
 	int addInventorySlot(boolean isInput, int xPosition, int yPosition, IContentFilter<ItemStack, M>... filters);
 
+	int addInventorySlot(boolean isInput, int xPosition, int yPosition, String backgroundTexture, IContentFilter<ItemStack, M>... filters);
+
 	@Override
 	IModuleInventory build();
 }

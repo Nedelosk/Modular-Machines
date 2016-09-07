@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModuleTab extends Button<GuiPage<IModularHandler>> {
 
-	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public final IModuleState state;
 	public final IModularHandler tile;
 	public final boolean right;

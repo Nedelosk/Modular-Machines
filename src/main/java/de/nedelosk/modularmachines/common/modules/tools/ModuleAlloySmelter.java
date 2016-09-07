@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -39,7 +38,7 @@ public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleCol
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+		return state.getPage(AlloySmelterPage.class).getInventory().getRecipeItems();
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleCol
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new AlloySmelterPage("Basic", state));
+		pages.add(new AlloySmelterPage(state));
 		return pages;
 	}
 

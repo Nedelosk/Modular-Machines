@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.photovoltaics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -10,12 +13,14 @@ import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.photovoltaics.IModulePhotovoltaic;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storages.IModuleBattery;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -27,7 +32,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
+public class ModulePhotovoltaic extends ModuleControlled implements IModulePhotovoltaic{
 
 	protected final int rfOutput;
 
@@ -62,7 +67,7 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 				BlockPos pos = handler.getPos();
 				float lightRatio = calculateLightRatio(world);
 				if(world.canSeeSky(pos.up())){
-					energyBuffer.receiveEnergy(null, Float.valueOf(rfOutput * lightRatio).intValue(), false);
+					energyBuffer.receiveEnergy(state, null, Float.valueOf(rfOutput * lightRatio).longValue(), false);
 				}
 			}
 		}
@@ -103,5 +108,15 @@ public class ModulePhotovoltaic extends Module implements IModulePhotovoltaic{
 	@Override
 	public EnumModulePosition getPosition(IModuleContainer container) {
 		return EnumModulePosition.TOP;
+	}
+
+	@Override
+	public List<IModuleState> getUsedModules(IModuleState state) {
+		return new ArrayList(state.getModular().getModules(IModuleBattery.class));
+	}
+
+	@Override
+	protected IModulePage getControllerPage(IModuleState state) {
+		return new ControllerPage(state);
 	}
 }

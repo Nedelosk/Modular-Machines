@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class AssemblerTab extends Button<GuiAssembler> {
 
-	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_machine.png");
+	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public EnumStoragePosition position;
 	public int pageIndex;
 	public final boolean right;

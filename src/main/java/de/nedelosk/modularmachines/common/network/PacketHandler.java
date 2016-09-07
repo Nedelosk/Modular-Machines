@@ -9,6 +9,8 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncPermission;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncRedstoneMode;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.util.math.BlockPos;
@@ -39,7 +41,10 @@ public class PacketHandler {
 		INSTANCE.registerMessage(handler, PacketSyncAssembler.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(handler, PacketSyncAssembler.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(handler, PacketSyncModule.class, nextID(), Side.CLIENT);
-		INSTANCE.registerMessage(handler, PacketSyncModule.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(handler, PacketSyncRedstoneMode.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(handler, PacketSyncRedstoneMode.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(handler, PacketSyncPermission.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(handler, PacketSyncPermission.class, nextID(), Side.CLIENT);
 		INSTANCE.registerMessage(handler, PacketSyncHeatBuffer.class, nextID(), Side.CLIENT);
 	}
 

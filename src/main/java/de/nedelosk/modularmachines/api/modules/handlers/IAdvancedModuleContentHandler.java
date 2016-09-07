@@ -42,7 +42,10 @@ public interface IAdvancedModuleContentHandler<C,M extends IModule> extends IMod
 
 	int getOutputs();
 
-	RecipeItem[] getInputItems();
+	/**
+	 * @return The content of the handler as a RecipeItem.
+	 */
+	RecipeItem[] getRecipeItems();
 
 	void removeRecipeInputs(int chance, RecipeItem[] inputs);
 

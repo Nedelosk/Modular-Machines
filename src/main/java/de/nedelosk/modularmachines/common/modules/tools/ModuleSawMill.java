@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -22,7 +21,7 @@ public class ModuleSawMill extends ModuleBasicMachine implements IModuleColored{
 
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+		return state.getPage(SawMillPage.class).getInventory().getRecipeItems();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -44,7 +43,7 @@ public class ModuleSawMill extends ModuleBasicMachine implements IModuleColored{
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new SawMillPage("Basic", state));
+		pages.add(new SawMillPage(state));
 		return pages;
 	}
 

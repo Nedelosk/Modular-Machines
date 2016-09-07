@@ -47,7 +47,7 @@ public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler,
 	}
 
 	@Override
-	public long receiveEnergy(EnumFacing facing, long maxReceive, boolean simulate) {
+	public long receiveEnergy(IModuleState state, EnumFacing facing, long maxReceive, boolean simulate) {
 		long energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
 
 		if (!simulate) {
@@ -57,7 +57,7 @@ public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler,
 	}
 
 	@Override
-	public long extractEnergy(EnumFacing facing, long maxExtract, boolean simulate) {
+	public long extractEnergy(IModuleState state, EnumFacing facing, long maxExtract, boolean simulate) {
 		long energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 
 		if (!simulate) {

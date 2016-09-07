@@ -86,5 +86,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 
 	boolean isClean(IModuleState state);
 
+	void onModularAssembled(IModuleState state);
+
 	void sendModuleUpdate(IModuleState state);
 }

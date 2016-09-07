@@ -1,33 +1,18 @@
 package de.nedelosk.modularmachines.common.modules.heaters;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
-import de.nedelosk.modularmachines.common.core.FluidManager;
-import de.nedelosk.modularmachines.common.modules.handlers.FluidFilter;
-import de.nedelosk.modularmachines.common.modules.handlers.ItemFluidFilter;
-import de.nedelosk.modularmachines.common.modules.handlers.ModulePage;
-import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
-import de.nedelosk.modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.FontRenderer;
+import de.nedelosk.modularmachines.common.modules.pages.SteamHeaterPage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -79,7 +64,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@Override
 	protected boolean updateFuel(IModuleState state) {
-		IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+		IModuleTank tank = state.getPage(SteamHeaterPage.class).getTank();
 		FluidStack input = tank.getTank(0).getFluid();
 		if(input == null){
 			if(tank.drainInternal(80, true) != null){
@@ -94,8 +79,9 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		if(state.getModular().updateOnInterval(20)){
-			IModuleInventory inventory = (IModuleInventory) state.getContentHandler(IModuleInventory.class);
-			IModuleTank tank = (IModuleTank) state.getContentHandler(IModuleTank.class);
+			IModulePage page = state.getPage(SteamHeaterPage.class);
+			IModuleInventory inventory = page.getInventory();
+			IModuleTank tank = page.getTank();
 			if(inventory != null){
 				if(inventory.getStackInSlot(0) != null){
 					ItemStack stack = inventory.getStackInSlot(0);
@@ -139,50 +125,12 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new HeaterSteamPage("Basic", state));
+		pages.add(new SteamHeaterPage(state));
 		return pages;
 	}
 
 	@Override
 	public int getColor(IModuleContainer container) {
 		return 0x6E593C;
-	}
-
-	public class HeaterSteamPage extends ModulePage<IModuleHeaterBurning>{
-
-		public HeaterSteamPage(String pageID, IModuleState<IModuleHeaterBurning> heaterState) {
-			super(pageID, "heater", heaterState);
-		}
-
-		@Override
-		public void addWidgets() {
-			add(new WidgetFluidTank(state.getContentHandler(IModuleTank.class).getTank(0)));
-		}
-
-		@Override
-		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
-			super.drawForeground(fontRenderer, mouseX, mouseY);
-			DecimalFormat f = new DecimalFormat("#0.00"); 
-
-			String heatName = Translator.translateToLocalFormatted("module.heater.heat", f.format(state.getModular().getHeatSource().getHeatStored()));
-			fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2),45, Color.gray.getRGB());
-		}
-
-		@Override
-		public void createInventory(IModuleInventoryBuilder invBuilder) {
-			invBuilder.addInventorySlot(true, 15, 28, new ItemFluidFilter(true));
-			invBuilder.addInventorySlot(false, 15, 48, new OutputAllFilter());
-		}
-
-		@Override
-		public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-			modularSlots.add(new SlotModule(state, 0).setBackgroundTexture("liquid"));
-			modularSlots.add(new SlotModule(state, 1).setBackgroundTexture("container"));
-		}
-
-		@Override
-		public void createTank(IModuleTankBuilder tankBuilder) {
-			tankBuilder.addFluidTank(16000, true, 80, 18, new FluidFilter(FluidManager.Steam));
-		}
 	}
 }

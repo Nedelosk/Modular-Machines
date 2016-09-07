@@ -20,11 +20,19 @@ modular.assembler.error.complexity=The modules that the modular machine contains
 modular.assembler.error.complexity.position=The modules at the %s side of the modular machine, are to complex for the module storage.
 
 ####################################
-# Module Tool Modes
+# Module Modes
 ####################################
+## Tool Modes
+
+# Lathe
 mode.rod.name=Rod Mode
 mode.wire.name=Wire Mode
 mode.screw.name=Screw Mode
+
+## Redstone Modes
+mode.redstone.ignore.name=Ignore Redstone signals
+mode.redstone.on.name=Only Work with a redstone signal
+mode.redstone.off.name=Only Work without redstone signal
 
 ####################################
 # Modules
@@ -180,6 +188,7 @@ module.page.cleaner.clean.name=Clean Module
 module.page.lathe.name=Lathe
 module.page.furnace.name=Furnace
 module.page.battery.name=Battery
+module.page.controller.name=Controller
 
 ####################################
 # Tooltips

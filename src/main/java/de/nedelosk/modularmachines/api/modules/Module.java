@@ -13,12 +13,6 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.ModuleInventoryBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.ModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -37,7 +31,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
+public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
 
 	protected final String name;
 
@@ -129,7 +123,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
 		if(provider != null && provider.hasState()){
 			IModuleState state = provider.createState(null);
-			for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+			for(IModuleContentHandler handler : state.getContentHandlers()){
 				handler.addToolTip(tooltip, stack, state);
 			}
 		}
@@ -137,7 +131,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public boolean isClean(IModuleState state) {
-		for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+		for(IModuleContentHandler handler : state.getContentHandlers()){
 			if(handler instanceof ICleanableModuleContentHandler){
 				if(!((ICleanableModuleContentHandler) handler).isEmpty()){
 					return false;
@@ -178,45 +172,7 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state){
-		List<IModuleContentHandler> handlers = Lists.newArrayList();
-		IModuleInventory inv = createInventory(state);
-		if(inv != null){
-			handlers.add(inv);
-		}
-		IModuleTank tank = createTank(state);
-		if(tank != null){
-			handlers.add(tank);
-		}
-		return handlers;
-	}
-
-	protected IModuleInventory createInventory(IModuleState state) {
-		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
-		invBuilder.setModuleState(state);
-		if (state.getPages() != null) {
-			for(IModulePage page : (List<IModulePage>) state.getPages()) {
-				page.createInventory(invBuilder);
-			}
-		}
-		if(!invBuilder.isEmpty()){
-			return invBuilder.build();
-		}
-		return null;
-	}
-
-	protected IModuleTank createTank(IModuleState state) {
-		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
-
-		tankBuilder.setModuleState(state);
-		if (state.getPages() != null) {
-			for(IModulePage page : (List<IModulePage>) state.getPages()) {
-				page.createTank(tankBuilder);
-			}
-		}
-		if(!tankBuilder.isEmpty()){
-			return tankBuilder.build();
-		}
-		return null;
+		return Lists.newArrayList();
 	}
 
 	@Override
@@ -225,10 +181,13 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 	}
 
 	protected final IModuleState createDefaultState(IModular modular, IModuleContainer container){
+		IModuleState state;
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
-			return createClientState(modular, container);
+			state = createClientState(modular, container);
+		}else{
+			state = new ModuleState(modular, container);
 		}
-		return new ModuleState(modular, container);
+		return state;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -267,6 +226,15 @@ public abstract class Module extends IForgeRegistryEntry.Impl<IModule> implement
 
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
+	}
+
+	@Override
+	public void onModularAssembled(IModuleState state) {
+	}
+
+	@Override
+	public EnumModulePosition getPosition(IModuleContainer container) {
+		return EnumModulePosition.INTERNAL;
 	}
 
 }

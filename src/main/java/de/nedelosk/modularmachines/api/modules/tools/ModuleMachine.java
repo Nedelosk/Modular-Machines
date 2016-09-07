@@ -13,12 +13,13 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleController;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -38,7 +39,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleMachine extends Module implements IModuleMachine, IModuleWaila {
+public abstract class ModuleMachine extends ModuleControlled implements IModuleMachine, IModuleWaila {
 
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
@@ -85,7 +86,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 			}
 		}
 		List<IAdvancedModuleContentHandler> advancedHandlers = new ArrayList<>();
-		for(IModuleContentHandler handler : (List<IModuleContentHandler>)state.getContentHandlers()){
+		for(IModuleContentHandler handler : getHandlers(state)){
 			if(handler instanceof IAdvancedModuleContentHandler){
 				advancedHandlers.add((IAdvancedModuleContentHandler) handler);
 			}
@@ -130,11 +131,15 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 
 	protected abstract String getModelFolder(IModuleContainer container);
 
+	protected List<IModuleContentHandler> getHandlers(IModuleState state){
+		return state.getPage(getMainPageClass()).getContentHandlers();
+	}
+
 	protected boolean addOutput(IModuleState state) {
 		int chance = getChance(state);
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
-		List<IAdvancedModuleContentHandler> handlers = state.getContentHandlers();
+		List<IModuleContentHandler> handlers = getHandlers(state);
 		List<RecipeItem> outputs = new ArrayList();
 		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
 			if(item != null){
@@ -143,8 +148,10 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 				}
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : handlers) {
-			handler.addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
+		for(IModuleContentHandler handler : handlers) {
+			if(handler instanceof IAdvancedModuleContentHandler){
+				((IAdvancedModuleContentHandler)handler).addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
+			}
 		}
 		return true;
 	}
@@ -159,7 +166,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		boolean needUpdate = false;
 		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
 
-		if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
+		if((controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
 			if (canWork(state)) {
 				IRecipe currentRecipe = getCurrentRecipe(state);
 				if (getWorkTime(state) >= getWorkTimeTotal(state) || currentRecipe == null) {
@@ -189,7 +196,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 				}else{
 					int workTime = 0;
 					if(type == EnumToolType.KINETIC){
-						for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
+						for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)){
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							double kinetic = source.getStored() / source.getCapacity();
 							if(source.getStored() > 0F){
@@ -247,7 +254,7 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 			return state.getModular().getHeatSource().getHeatStored() > 0;
 		}else if(type == EnumToolType.KINETIC){
 			IModular modular = state.getModular();
-			for(IModuleState<IModuleKinetic> otherState : modular.getModules(IModuleKinetic.class)){
+			for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)){
 				IKineticSource source = otherState.getModule().getKineticSource(otherState);
 				if(source.getStored() > 0){
 					return true;
@@ -255,6 +262,11 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<IModuleState> getUsedModules(IModuleState state) {
+		return new ArrayList(state.getModular().getModules(IModuleKinetic.class));
 	}
 
 	protected int createWorkTimeTotal(IModuleState state, int recipeSpeed) {
@@ -413,6 +425,8 @@ public abstract class ModuleMachine extends Module implements IModuleMachine, IM
 		}
 		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
 	}
+
+	protected abstract Class<? extends IModulePage> getMainPageClass();
 
 	@SideOnly(Side.CLIENT)
 	@Override

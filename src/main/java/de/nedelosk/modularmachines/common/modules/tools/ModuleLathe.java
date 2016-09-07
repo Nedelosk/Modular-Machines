@@ -6,7 +6,6 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -37,7 +36,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 	// Recipe
 	@Override
 	public RecipeItem[] getInputs(IModuleState state) {
-		return ((IModuleInventory)state.getContentHandler(IModuleInventory.class)).getInputItems();
+		return state.getPage(LathePage.class).getInventory().getRecipeItems();
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
-		pages.add(new LathePage("Basic", state));
+		pages.add(new LathePage(state));
 		return pages;
 	}
 

@@ -1,12 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.google.common.collect.Maps;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -17,7 +14,7 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 	protected IModuleState<M> state;
 	protected FilterWrapper insertFilter = new FilterWrapper(true);
 	protected FilterWrapper extractFilter = new FilterWrapper(false);
-	protected Map<Integer, ContentInfo> contentInfos = Maps.newHashMap();
+	protected List<SlotInfo> contentInfos = new ArrayList<>();
 	protected boolean isEmpty = true;
 
 	public ModuleInventoryBuilder() {
@@ -40,30 +37,25 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 
 	@Override
 	public int addInventorySlot(boolean isInput, int xPosition, int yPosition, IContentFilter<ItemStack, M>... filters) {
-		int newIndex = contentInfos.size();
-		contentInfos.put(newIndex, new ContentInfo(xPosition, yPosition, isInput));
+		return addInventorySlot(isInput, xPosition, yPosition, null, filters);
+	}
+
+	@Override
+	public int addInventorySlot(boolean isInput, int xPosition, int yPosition, String backgroundTexture, IContentFilter<ItemStack, M>... filters) {
+		int index = contentInfos.size();
+		contentInfos.add(new SlotInfo(index, xPosition, yPosition, isInput, backgroundTexture));
 		if (isInput) {
-			addInsertFilter(newIndex, filters);
+			addInsertFilter(index, filters);
 		} else {
-			addExtractFilter(newIndex, filters);
+			addExtractFilter(index, filters);
 		}
 		isEmpty = false;
-		return newIndex;
+		return index;
 	}
 
 	@Override
 	public IModuleInventory build() {
-		int size = 0;
-		for(Entry<Integer, ContentInfo> entry : contentInfos.entrySet()) {
-			if (entry.getKey() > size) {
-				size = entry.getKey();
-			}
-		}
-		ContentInfo[] contentInfos = new ContentInfo[size + 1];
-		for(Entry<Integer, ContentInfo> entry : this.contentInfos.entrySet()) {
-			contentInfos[entry.getKey()] = entry.getValue();
-		}
-		return new ModuleInventory(size + 1, contentInfos, state, new FilterWrapper(insertFilter.getSlotFilters(), true),
+		return new ModuleInventory(contentInfos.toArray(new SlotInfo[contentInfos.size()]), state, new FilterWrapper(insertFilter.getSlotFilters(), true),
 				new FilterWrapper(extractFilter.getSlotFilters(), false));
 	}
 

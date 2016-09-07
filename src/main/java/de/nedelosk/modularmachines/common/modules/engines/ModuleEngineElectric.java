@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.engines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -29,6 +32,11 @@ public class ModuleEngineElectric extends ModuleEngine {
 	}
 
 	@Override
+	public List<IModuleState> getUsedModules(IModuleState state) {
+		return new ArrayList(state.getModular().getModules(IModuleBattery.class));
+	}
+
+	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();
 		if(modular.getEnergyBuffer() == null){
@@ -47,8 +55,8 @@ public class ModuleEngineElectric extends ModuleEngine {
 		if(energyBuffer == null){
 			return false;
 		}
-		if (energyBuffer.extractEnergy(null, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
-			return energyBuffer.extractEnergy(null, getMaterialPerWork(state), false) == getMaterialPerWork(state);
+		if (energyBuffer.extractEnergy(state, null, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
+			return energyBuffer.extractEnergy(state, null, getMaterialPerWork(state), false) == getMaterialPerWork(state);
 		} else {
 			return false;
 		}

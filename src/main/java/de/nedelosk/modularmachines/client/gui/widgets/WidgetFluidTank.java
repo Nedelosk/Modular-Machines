@@ -57,12 +57,9 @@ public class WidgetFluidTank extends Widget {
 
 	public IFluidTank tank;
 
-	public WidgetFluidTank(FluidTankAdvanced tank) {
-		super(0, 0, 18, 60);
+	public WidgetFluidTank(FluidTankAdvanced tank, ContentInfo info) {
+		super(info.xPosition, info.yPosition, 18, 60);
 		this.tank = tank;
-		ContentInfo info = tank.moduleTank.getInfo(tank.index);
-		pos.x = info.xPosition;
-		pos.y = info.yPosition;
 	}
 
 	public WidgetFluidTank(IFluidTank tank, int posX, int posY) {

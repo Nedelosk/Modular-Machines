@@ -12,7 +12,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IAdvancedModuleStorage;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModular extends IModuleStorage, ICapabilityProvider {
+public interface IModular extends IAdvancedModuleStorage, ICapabilityProvider {
 
 	void update(boolean isServer);
 
@@ -61,7 +61,7 @@ public interface IModular extends IModuleStorage, ICapabilityProvider {
 
 	//NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos);
 
-	void assembleModular() throws AssemblerException;
+	void onModularAssembled() throws AssemblerException;
 
 	IModular copy(IModularHandler handler);
 
