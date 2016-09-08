@@ -100,6 +100,7 @@ dependencies {
 	//deobfCompile "mcp.mobius.waila:Waila:${waila_version}_1.9.4"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe:${top_version}"
 	deobfCompile "slimeknights.mantle:Mantle:${mcversion}-${mantle_version}"
+	deobfCompile "net.sengir.forestry:forestry_${mcversion}:${forestry_version}"
 }
 
 processResources {
@@ -135,7 +136,7 @@ curseforge {
 		apiKey = System.getenv().CURSEAPIKEY
 		project {
 			id = '233073'
-			releaseType = 'alpha'
+			releaseType = 'beta'
 			addArtifact sourcesJar
 			addArtifact apiJar
 			addArtifact deobfJar
