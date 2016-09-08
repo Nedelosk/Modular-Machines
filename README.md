@@ -1,5 +1,7 @@
 # Modular-Machines
 
+[Curse Forge](https://minecraft.curseforge.com/projects/modular-machines)
+
 [![Build Status](https://drone.io/github.com/Nedelosk/Modular-Machines/status.png)](https://drone.io/github.com/Nedelosk/Modular-Machines/latest)
 
 ### License & Copyright
