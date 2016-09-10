@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.items.blocks;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
+import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
@@ -125,5 +126,10 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 	@Override
 	public int getMetadata(int i) {
 		return i;
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return Registry.setUnlocalizedItemName(super.getUnlocalizedName(stack).replace("item.", ""));
 	}
 }

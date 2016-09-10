@@ -14,8 +14,8 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.pages.AlloySmelterPage;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.plugins.jei.CategoryUIDs;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +33,7 @@ public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleCol
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{ModuleCategoryUIDs.ALLOYSMELTER};
+		return new String[]{CategoryUIDs.ALLOYSMELTER};
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleCol
 		if(this instanceof IModuleJEI){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}

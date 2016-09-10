@@ -25,7 +25,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 		this.setCreativeTab(TabModularMachines.tabModularMachines);
 		this.setHasSubtypes(true);
 		this.componentName = name;
-		this.materials = new MaterialList<IMetalMaterial>(materials);
+		this.materials = new MaterialList<>(materials);
 	}
 
 	@Override

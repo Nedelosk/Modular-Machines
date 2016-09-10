@@ -92,7 +92,7 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 
 	@Override
 	public IKineticSource getKineticSource(IModuleState state) {
-		return (IKineticSource) state.getContentHandler(ModuleKineticHandler.class);
+		return state.getContentHandler(ModuleKineticHandler.class);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
 		if(state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
 			boolean isWorking = isWorking(state);
-			ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
+			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
 
 			if (canWork(state)) {

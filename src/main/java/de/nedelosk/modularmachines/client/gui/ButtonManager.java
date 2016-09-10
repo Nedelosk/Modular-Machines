@@ -15,7 +15,7 @@ public class ButtonManager<G extends IGuiProvider> implements IButtonManager<G> 
 
 	public final G gui;
 	public final Minecraft minecraft;
-	protected final ArrayList<Button> buttons = new ArrayList<Button>();
+	protected final ArrayList<Button> buttons = new ArrayList<>();
 
 	public ButtonManager(G gui) {
 		this.gui = gui;

@@ -322,7 +322,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 			return null;
 		}
 		testRecipes: for(IRecipe recipe : recipes) {
-			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
+			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
 			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}
@@ -361,7 +361,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 			return false;
 		}
 		for(IRecipe recipe : recipes) {
-			ArrayList<RecipeItem> recipeInputs = new ArrayList<RecipeItem>();
+			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
 			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}

@@ -122,14 +122,10 @@ public class GuiAssembler extends GuiBase<IModularHandler> {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, p_146976_2_, p_146976_3_);
-
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(modularWdgets);
 		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 2, 0, 0, 126, 158);
 		drawTexturedModalRect(this.guiLeft + -130, this.guiTop + 77, 130, 0, 126, 83);
-		RenderUtil.bindTexture(guiTexture);
-		render();
-		widgetManager.drawWidgets();
 	}
 
 	@Override

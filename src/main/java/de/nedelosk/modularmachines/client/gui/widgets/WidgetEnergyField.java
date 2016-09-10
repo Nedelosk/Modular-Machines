@@ -24,7 +24,7 @@ public class WidgetEnergyField extends Widget {
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> description = new ArrayList<String>();
+		ArrayList<String> description = new ArrayList<>();
 		description.add(energyBuffer.getEnergyStored() + " RF / " + energyBuffer.getCapacity() + " RF");
 		return description;
 	}

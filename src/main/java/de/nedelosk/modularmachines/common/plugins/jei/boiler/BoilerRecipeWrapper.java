@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.alloysmelter;
+package de.nedelosk.modularmachines.common.plugins.jei.boiler;
 
 import java.awt.Color;
 
@@ -8,14 +8,14 @@ import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 
-public class AlloySmelterRecipeWrapper extends ModuleRecipeWrapper {
+public class BoilerRecipeWrapper extends ModuleRecipeWrapper {
 
-	public AlloySmelterRecipeWrapper(IRecipe recipe, String recipeCategoryUid) {
+	public BoilerRecipeWrapper(IRecipe recipe, String recipeCategoryUid) {
 		super(recipe, recipeCategoryUid);
 	}
 
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", recipe.get(Recipe.HEAT)), 72, 5, Color.gray.getRGB());
+		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", recipe.get(Recipe.HEAT)), 58, 14, Color.gray.getRGB());
 	}
 }

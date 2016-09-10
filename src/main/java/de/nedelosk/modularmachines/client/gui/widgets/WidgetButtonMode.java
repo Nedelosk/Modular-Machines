@@ -31,7 +31,7 @@ public class WidgetButtonMode extends Widget {
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		list.add(Translator.translateToLocal("mode." + getMode().getName() + ".name"));
 		return list;
 	}

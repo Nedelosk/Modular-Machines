@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.core.ModelManager;
+import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -70,6 +71,11 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	}
 
 	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return Registry.setUnlocalizedItemName(super.getUnlocalizedName(stack).replace("item.", ""));
+	}
+
+	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		if(stack.hasTagCompound()){
 			NBTTagCompound nbtTag = stack.getTagCompound();
@@ -80,7 +86,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 				}
 			}
 		}
-		return Translator.translateToLocal("item.module.name");
+		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override

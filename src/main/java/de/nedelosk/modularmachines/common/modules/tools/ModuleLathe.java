@@ -18,10 +18,10 @@ import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeUtil;
 import de.nedelosk.modularmachines.api.recipes.RecipeUtil.LatheModes;
 import de.nedelosk.modularmachines.common.modules.pages.LathePage;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import de.nedelosk.modularmachines.common.plugins.jei.CategoryUIDs;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,7 +41,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{ModuleCategoryUIDs.LATHE};
+		return new String[]{CategoryUIDs.LATHE};
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IM
 		if(this instanceof IModuleJEI){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}

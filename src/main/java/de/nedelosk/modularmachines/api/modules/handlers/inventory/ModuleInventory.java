@@ -476,7 +476,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
-		List<ItemStack> outputStacks = new ArrayList<ItemStack>(getOutputs());
+		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if(getOutputs() > 0) {
 			boolean allFull = true;
 			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
@@ -559,7 +559,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
-		List<ItemStack> outputStacks = new ArrayList<ItemStack>(getOutputs());
+		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if(getOutputs() > 0) {
 			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack it = getStackInSlot(i);

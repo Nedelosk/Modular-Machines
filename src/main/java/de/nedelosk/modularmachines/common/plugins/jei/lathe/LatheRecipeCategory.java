@@ -1,10 +1,10 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.lathe;
+package de.nedelosk.modularmachines.common.plugins.jei.lathe;
 
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
+import de.nedelosk.modularmachines.common.plugins.jei.CategoryUIDs;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
@@ -24,7 +24,7 @@ public class LatheRecipeCategory extends ModuleRecipeCategory {
 	private int outputSlotSecond = 2;
 
 	public LatheRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.lathe", ModuleCategoryUIDs.LATHE);
+		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.lathe", CategoryUIDs.LATHE);
 
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
 

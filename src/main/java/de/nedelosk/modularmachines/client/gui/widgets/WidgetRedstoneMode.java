@@ -30,7 +30,7 @@ public class WidgetRedstoneMode extends Widget {
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		list.add(getMode().getLocName());
 		return list;
 	}

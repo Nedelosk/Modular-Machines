@@ -318,7 +318,7 @@ public abstract class Modular implements IModular {
 		String harvestTool = null;
 		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
-			IBlockModificator modificator = (IBlockModificator) state.getContentHandler(IBlockModificator.class);
+			IBlockModificator modificator = state.getContentHandler(IBlockModificator.class);
 			if(modificator != null){
 				hasModificator = true;
 				modificators++;

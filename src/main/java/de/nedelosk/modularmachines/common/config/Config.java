@@ -36,7 +36,7 @@ public class Config {
 	public static boolean[] generateOre;
 
 	static {
-		groups = new ArrayList<ConfigGroup>();
+		groups = new ArrayList<>();
 	}
 
 	public Config() {

@@ -21,7 +21,7 @@ public class GuiConfigFactory extends GuiConfig {
 	}
 
 	private static List<IConfigElement> getConfigElements(GuiScreen parent) {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
+		List<IConfigElement> list = new ArrayList<>();
 		String prefix = "mm.config.";
 		for(ConfigGroup group : Config.groups) {
 			list.add(new ConfigElement(

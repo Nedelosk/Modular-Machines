@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modules.tools.jei.lathe;
+package de.nedelosk.modularmachines.common.plugins.jei.lathe;
 
 import javax.annotation.Nonnull;
 

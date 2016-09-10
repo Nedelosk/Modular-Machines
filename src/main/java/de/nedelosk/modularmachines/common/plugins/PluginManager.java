@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.Loader;
 
 public class PluginManager {
 
-	public final ArrayList<APlugin> loadedPlugins = new ArrayList<APlugin>();
-	public final ArrayList<APlugin> registeredPlugins = new ArrayList<APlugin>();
+	public final ArrayList<APlugin> loadedPlugins = new ArrayList<>();
+	public final ArrayList<APlugin> registeredPlugins = new ArrayList<>();
 
 	private void registerPlugin(APlugin plugin) {
 		registeredPlugins.add(plugin);

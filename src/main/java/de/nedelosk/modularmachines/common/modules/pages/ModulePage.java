@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
+import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -33,8 +34,7 @@ import de.nedelosk.modularmachines.client.gui.buttons.ModuleTab;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.modules.Page;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
@@ -90,16 +90,16 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 				Loader.instance();
 				if(Loader.isModLoaded("JEI")){
 					if(mouseButton == 0){
-						ModuleJeiPlugin.jeiRuntime.getRecipesGui().showRecipes(tank.tank.getFluid());
+						JeiPlugin.jeiRuntime.getRecipesGui().showRecipes(tank.tank.getFluid());
 					}else{
-						ModuleJeiPlugin.jeiRuntime.getRecipesGui().showUses(tank.tank.getFluid());
+						JeiPlugin.jeiRuntime.getRecipesGui().showUses(tank.tank.getFluid());
 					}
 				}
 			}
 		}else if(widget instanceof WidgetBurning){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Collections.singletonList(VanillaRecipeCategoryUid.FUEL));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Collections.singletonList(VanillaRecipeCategoryUid.FUEL));
 			}
 		}
 	}

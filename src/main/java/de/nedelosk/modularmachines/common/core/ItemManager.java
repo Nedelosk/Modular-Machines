@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.common.items.ItemCasing;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.items.ItemModuleHolder;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockChassis;
@@ -65,6 +66,7 @@ public class ItemManager {
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		ModularMachinesApi.defaultModuleItem = itemModules = register(new ItemModule());
+		ModularMachinesApi.defaultHolderItem = register(new ItemModuleHolder());
 	}
 
 	public static <I extends Item> I register(I item) {

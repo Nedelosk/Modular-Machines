@@ -16,7 +16,7 @@ public class WidgetManager<G extends IGuiProvider> implements IWidgetManager<G> 
 
 	public final G gui;
 	public final Minecraft minecraft;
-	protected final List<Widget> widgets = new ArrayList<Widget>();
+	protected final List<Widget> widgets = new ArrayList<>();
 
 	public WidgetManager(G gui) {
 		this.gui = gui;

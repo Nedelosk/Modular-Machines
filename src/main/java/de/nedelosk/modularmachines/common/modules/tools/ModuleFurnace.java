@@ -19,7 +19,7 @@ import de.nedelosk.modularmachines.api.recipes.Recipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.pages.FurnacePage;
 import de.nedelosk.modularmachines.common.modules.propertys.PropertyFurnaceRecipe;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import de.nedelosk.modularmachines.common.recipse.RecipeBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -53,7 +53,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored,
 		if(this instanceof IModuleJEI){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}

@@ -5,28 +5,39 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.ItemUtil;
+import de.nedelosk.modularmachines.api.recipes.IModuleCrafterRecipe;
+import de.nedelosk.modularmachines.api.recipes.ModuleCraftingWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class ShapedModuleRecipe extends ShapedOreRecipe {
+public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 	//Added in for future ease of change, but hard coded for now.
 	private static final int MAX_CRAFT_GRID_WIDTH = 3;
 	private static final int MAX_CRAFT_GRID_HEIGHT = 3;
 
+	private ItemStack holder = null;
 	private ItemStack output = null;
 	private Object[] input = null;
 	private int width;
 	private int height;
 	private boolean mirrored = true;
 
-	public ShapedModuleRecipe(ItemStack result, Object... recipe) {
-		super(result, recipe);
+
+	public ModuleCrafterRecipe(ItemStack result, Object... recipe) {
+		this(result, null, recipe);
+	}
+
+	public ModuleCrafterRecipe(ItemStack result, ItemStack holder, Object... recipe) {
 		output = result.copy();
+		if(holder != null){
+			this.holder = holder.copy();
+		}
 
 		String shape = "";
 		int idx = 0;
@@ -99,7 +110,10 @@ public class ShapedModuleRecipe extends ShapedOreRecipe {
 	}
 
 	@Override
-	public boolean matches(InventoryCrafting inv, World world) {
+	public boolean matches(ModuleCraftingWrapper inv, World world) {
+		if (holder != null && !ItemUtil.isCraftingEquivalent(holder, inv.getHolder())) {
+			return false;
+		}
 		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
 			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
@@ -116,6 +130,25 @@ public class ShapedModuleRecipe extends ShapedOreRecipe {
 	}
 
 	@Override
+	public boolean matches(InventoryCrafting inv, World world) {
+		if (holder != null) {
+			return false;
+		}
+		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
+				if (checkMatch(inv, x, y, false)) {
+					return true;
+				}
+
+				if (mirrored && checkMatch(inv, x, y, true)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	@SuppressWarnings("unchecked")
 	public boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror) {
 		for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
@@ -156,5 +189,45 @@ public class ShapedModuleRecipe extends ShapedOreRecipe {
 		}
 
 		return true;
+	}
+
+	@Override
+	public ItemStack getHolder() {
+		return holder;
+	}
+
+	@Override
+	public ItemStack getCraftingResult(InventoryCrafting inv) {
+		return output.copy();
+	}
+
+	@Override
+	public int getRecipeSize() {
+		return input.length;
+	}
+
+	@Override
+	public ItemStack getRecipeOutput() {
+		return output;
+	}
+
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+	}
+
+	@Override
+	public Object[] getInput() {
+		return input;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
 	}
 }

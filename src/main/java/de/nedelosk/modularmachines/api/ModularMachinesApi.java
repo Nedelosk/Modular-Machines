@@ -1,10 +1,14 @@
 package de.nedelosk.modularmachines.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.energy.HeatLevel;
+import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -36,8 +40,10 @@ public class ModularMachinesApi {
 	public static final IForgeRegistry<IModuleContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleContainer.class);
 	private static final List<HeatLevel> HEAT_LEVELS = new ArrayList<>();
 	private static final List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
+	private static final Map<IMetalMaterial, ItemStack[]> materialsWithHolder = new HashMap<>();
 
 	public static Item defaultModuleItem;
+	public static Item defaultHolderItem;
 
 	public static final float COLD_TEMP = 20;
 	public static final int STEAM_PER_UNIT_WATER = 160;
@@ -156,6 +162,9 @@ public class ModularMachinesApi {
 		if(!modulesWithDefaultItem.contains(container)){
 			modulesWithDefaultItem.add(container);
 		}
+		if(container.getMaterial() instanceof IMetalMaterial){
+			addMaterial((IMetalMaterial) container.getMaterial());
+		}
 		ItemStack itemStack = new ItemStack(defaultModuleItem);
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setString("Container", container.getRegistryName().toString());
@@ -164,8 +173,45 @@ public class ModularMachinesApi {
 		return itemStack;
 	}
 
+	public static ItemStack getHolder(IMetalMaterial material, int meta){
+		if(defaultHolderItem == null){
+			return null;
+		}
+		if(material != null){
+			if(!materialsWithHolder.containsKey(material)){
+				addMaterial(material);
+			}
+			return materialsWithHolder.get(material)[meta];
+		}
+		return null;
+	}
+
+	public static void addMaterial(IMetalMaterial material){
+		if(defaultHolderItem == null){
+			return;
+		}
+		if(material != null){
+			if(!materialsWithHolder.containsKey(material)){
+				ItemStack[] holders = new ItemStack[3];
+				for(int i = 0;i < 3;i++){
+					ItemStack stack = new ItemStack(defaultHolderItem, 1, i);
+					NBTTagCompound nbtTag = new NBTTagCompound();
+					nbtTag.setString("Material",  material.getName());
+					stack.setTagCompound(nbtTag);
+					holders[i] = stack;
+				}
+				materialsWithHolder.put(material, holders);
+			}
+		}
+	}
+
 	public static List<IModuleContainer> getModulesWithDefaultItem() {
 		return modulesWithDefaultItem;
+	}
+
+
+	public static Collection<IMetalMaterial> getMaterialsWithHolder() {
+		return materialsWithHolder.keySet();
 	}
 
 	static{

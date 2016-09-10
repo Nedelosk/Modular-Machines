@@ -174,7 +174,7 @@ public class WidgetFluidTank extends Widget {
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> description = new ArrayList<String>();
+		ArrayList<String> description = new ArrayList<>();
 		if (tank == null || tank.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));
 		} else {

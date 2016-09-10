@@ -25,7 +25,7 @@ public abstract class ModuleControlled extends Module implements IModuleControll
 
 	@Override
 	public IModuleControl getModuleControl(IModuleState state) {
-		return (IModuleControl) state.getContentHandler(IModuleControl.class);
+		return state.getContentHandler(IModuleControl.class);
 	}
 
 	@Override

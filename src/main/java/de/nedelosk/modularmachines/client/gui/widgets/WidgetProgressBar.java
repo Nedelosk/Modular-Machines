@@ -32,7 +32,7 @@ public class WidgetProgressBar extends Widget {
 
 	@Override
 	public ArrayList<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		if (worktTimeTotal != 0) {
 			list.add(workTime + " / " + worktTimeTotal);
 		}

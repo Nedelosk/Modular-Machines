@@ -60,12 +60,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockModular extends BlockContainerForest implements IItemModelRegister, IStateMapperRegister {
 
 	public BlockModular() {
-		super(Material.IRON);
+		super(Material.IRON, TabModularMachines.tabModules);
 		setSoundType(SoundType.METAL);
 		setHardness(2.0F);
 		setHarvestLevel("pickaxe", 1);
 		setUnlocalizedName("modular");
-		setCreativeTab(TabModularMachines.tabModules);
 	}
 
 	@SideOnly(Side.CLIENT)

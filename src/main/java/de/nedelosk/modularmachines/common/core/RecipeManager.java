@@ -7,6 +7,8 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
@@ -16,7 +18,7 @@ import de.nedelosk.modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerDefault;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerHeat;
 import de.nedelosk.modularmachines.common.modules.tools.recipe.RecipeHandlerToolMode;
-import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
+import de.nedelosk.modularmachines.common.recipse.ModuleCrafterRecipe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -46,6 +48,24 @@ public class RecipeManager {
 		addModuleRecipes();
 	}
 
+	public static void registerHolderRecipes(){
+		for(IMetalMaterial material : ModularMachinesApi.getMaterialsWithHolder()){
+			ItemStack holderLarge = ModularMachinesApi.getHolder(material, 0).copy();
+			ItemStack holderMedium = ModularMachinesApi.getHolder(material, 1).copy();
+			ItemStack holderSmall = ModularMachinesApi.getHolder(material, 2).copy();
+			for(String oreDict : material.getOreDicts()){
+				addShapedRecipe(holderLarge, "WPW", "IPI", "WPW", 'P', "plate" + oreDict, 'I', "ingot" + oreDict, 'W', "wire" + oreDict);
+			} 
+			addShapelessRecipe(holderLarge, holderMedium, holderMedium);
+			addShapelessRecipe(holderMedium, holderSmall, holderSmall);
+			addShapelessRecipe(holderLarge, holderSmall, holderSmall, holderSmall, holderSmall);
+			holderMedium.stackSize = 2;
+			holderSmall.stackSize = 2;
+			addShapelessRecipe(holderMedium, holderLarge);
+			addShapelessRecipe(holderSmall, holderMedium);
+		}
+	}
+
 	private static void addModuleRecipes(){
 		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMetalMaterials.TIN), "oreTin", "toolHammer");
 		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER), "oreCopper", "toolHammer");
@@ -57,6 +77,11 @@ public class RecipeManager {
 
 		ItemStack cupperDust = ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER);
 		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMetalMaterials.BRONZE, 3), cupperDust, cupperDust, cupperDust, ItemManager.itemDusts.getStack(EnumMetalMaterials.TIN));
+
+		addShapedRecipe(new ItemStack(BlockManager.blockModuleCrafter), 
+				"LCL", 
+				"CWC",
+				"LCL", 'L', "logWood", 'C', "cobblestone", 'W', Blocks.CRAFTING_TABLE);
 
 		//Casings
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings), 
@@ -168,7 +193,7 @@ public class RecipeManager {
 				"BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 
 		//Boilers
-		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[0]), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleBoilerContainers[0]),
 				"PPP",
 				"GCG",
 				"PPP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
@@ -194,25 +219,51 @@ public class RecipeManager {
 				"FCF",
 				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'F', "blockGlass", 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer), 
 				"GPR",
 				"FCF",
 				"RPG", 'R', "rodBronze", 'G', "gearBronze", 'P', "plateBronze", 'F', Blocks.FURNACE, 'C', new ItemStack(ItemManager.itemModuleCore));
 
-		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer), 
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]), 
 				"GPR",
 				"COC",
-				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]));
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer));
+		
+
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[1]), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer));
 
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[0]), 
 				"GPR",
 				"COC",
-				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer));
+				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[1]), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[1]));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[2]), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[1]));
 
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[0]), 
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[0]));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[1]), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[1]));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[2]), 
+				"GPR",
+				"COC",
+				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[2]));
 
 		//Alloy Smleters
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleAlloySmelterContainers[0]), 
@@ -245,6 +296,33 @@ public class RecipeManager {
 				"SGP",
 				"COC",
 				"PGS", 'R', "rodIron", 'S', "screwIron", 'G', "gearIron", 'P', "plateIron", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleLatheContainers[0]), 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+		
+		//Cleaner
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleModuleCleanerContainer), 
+				"GPG",
+				"CBC",
+				"GUG", 'B', "blockRedstone", 'G', "blockGlass", 'U', "dustRedstone", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+		
+		//Controllers
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[0]), 
+				"PUL",
+				"RBC",
+				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'R', Items.REPEATER, 'C', Items.COMPARATOR, 'P', "plateBronze", 'B', new ItemStack(ItemManager.itemModuleCore));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[1]), 
+				"PUL",
+				"BOB",
+				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[0]), 'P', "plateIron", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[2]), 
+				"PUL",
+				"BOB",
+				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[1]), 'P', "plateSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 2));
+		
+		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[3]), 
+				"PUL",
+				"BOB",
+				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[2]), 'P', "plateMagmarium", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 2));
 
 	}
 
@@ -407,8 +485,36 @@ public class RecipeManager {
 		RecipeUtil.addBoilerRecipe("WaterToSteam", new RecipeItem(new FluidStack(FluidRegistry.WATER, 15)), new RecipeItem(new FluidStack(FluidRegistry.getFluid("steam"), ModularMachinesApi.STEAM_PER_UNIT_WATER / 2)), 1, 100, 0D);
 	}
 
+	private static void addShapedModuleRecipe(ItemStack stack, ItemStack holder, Object... obj) {
+		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));
+	}
+	
+	private static void addShapedModuleRecipe(ItemStack stack, boolean generateHolder, Object... obj) {
+		ItemStack holder = null;
+		if(generateHolder){
+			IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+			if(container != null){
+				IMaterial material = container.getMaterial();
+				EnumModuleSize size = container.getModule().getSize(container);
+				if(material instanceof IMetalMaterial){
+					holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSize.SMALL) ? 2 : (size == EnumModuleSize.MEDIUM) ? 1 : 0);
+				}
+			}
+		}
+		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));
+	}
+
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {
-		GameRegistry.addRecipe(new ShapedModuleRecipe(stack, obj));
+		ItemStack holder = null;
+		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+		if(container != null){
+			IMaterial material = container.getMaterial();
+			EnumModuleSize size = container.getModule().getSize(container);
+			if(material instanceof IMetalMaterial){
+				holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSize.SMALL) ? 2 : (size == EnumModuleSize.MEDIUM) ? 1 : 0);
+			}
+		}
+		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));
 	}
 
 	private static void addShapedRecipe(ItemStack stack, Object... obj) {

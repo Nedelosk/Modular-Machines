@@ -14,8 +14,8 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.common.modules.pages.PulverizerPage;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
+import de.nedelosk.modularmachines.common.plugins.jei.CategoryUIDs;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +33,7 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{ModuleCategoryUIDs.PULVERIZER};
+		return new String[]{CategoryUIDs.PULVERIZER};
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -78,7 +78,7 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 		if(this instanceof IModuleJEI){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}

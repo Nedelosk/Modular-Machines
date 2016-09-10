@@ -23,6 +23,12 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 	}
 
 	@Override
+	public void initGui() {
+		super.initGui();
+		page.initGui();
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		page.drawForeground(getFontRenderer(), mouseX, mouseY);
 	}

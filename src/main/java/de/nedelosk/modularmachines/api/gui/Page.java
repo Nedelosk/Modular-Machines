@@ -1,10 +1,8 @@
-package de.nedelosk.modularmachines.common.modules;
+package de.nedelosk.modularmachines.api.gui;
 
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
-import de.nedelosk.modularmachines.api.gui.IPage;
-import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -23,10 +21,18 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	public void updateGui() {
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void initGui(){
+	}
+
 	@SideOnly(Side.CLIENT)
 	protected boolean renderPageTitle() {
 		return true;
 	}
+
+	@SideOnly(Side.CLIENT)
+	protected abstract ResourceLocation getGuiTexture();
 
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -41,7 +47,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
 		if(gui != null){
-			RenderUtil.bindTexture(getGuiTexture());
+			Minecraft.getMinecraft().renderEngine.bindTexture(getGuiTexture());
 			gui.getGui().drawTexturedModalRect(gui.getGuiLeft(), gui.getGuiTop(), 0, 0, getXSize(), getYSize());
 		}
 	}

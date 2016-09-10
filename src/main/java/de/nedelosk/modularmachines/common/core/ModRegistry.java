@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
-import de.nedelosk.modularmachines.common.recipse.ShapedModuleRecipe;
+import de.nedelosk.modularmachines.common.recipse.ModuleCrafterRecipe;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -39,14 +39,14 @@ public class ModRegistry extends Registry {
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModels();
 		}
-		RecipeSorter.register("modularmachines:shapedmodule", ShapedModuleRecipe.class, SHAPED, "before:minecraft:shapeless");
+		RecipeSorter.register("modularmachines:module_crafter", ModuleCrafterRecipe.class, SHAPED, "before:minecraft:shapeless");
+		OreDictionaryManager.registerOres();
 	}
 
 	@Override
 	public void init(Object instance, FMLInitializationEvent event) {
 		AchievementManager achManager = new AchievementManager();
 		MinecraftForge.EVENT_BUS.register(achManager);
-		OreDictionaryManager.registerOres();
 		ModuleManager.registerModuels();
 		ModuleManager.registerModuleContainers();
 		RecipeManager.registerRecipes();
@@ -64,6 +64,7 @@ public class ModRegistry extends Registry {
 		}
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 		Config.syncConfig(true);
+		RecipeManager.registerHolderRecipes();
 		super.postInit(instance, event);
 	}
 

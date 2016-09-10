@@ -34,11 +34,11 @@ import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleBoilerPro
 import de.nedelosk.modularmachines.common.core.FluidManager;
 import de.nedelosk.modularmachines.common.modules.pages.BoilerPage;
 import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleCategoryUIDs;
-import de.nedelosk.modularmachines.common.modules.tools.jei.ModuleJeiPlugin;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import de.nedelosk.modularmachines.common.plugins.jei.CategoryUIDs;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import de.nedelosk.modularmachines.common.utils.ModuleUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
@@ -83,7 +83,7 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{ModuleCategoryUIDs.BOILER};
+		return new String[]{CategoryUIDs.BOILER};
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 		if(this instanceof IModuleJEI){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}
