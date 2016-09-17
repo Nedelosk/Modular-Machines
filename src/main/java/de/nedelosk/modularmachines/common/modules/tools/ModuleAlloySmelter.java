@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleColored, IModuleJEI{
+public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI{
 
 	public ModuleAlloySmelter() {
 		super("alloysmelter");

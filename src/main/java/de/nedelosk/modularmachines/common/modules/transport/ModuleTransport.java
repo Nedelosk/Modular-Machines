@@ -2,9 +2,11 @@ package de.nedelosk.modularmachines.common.modules.transport;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.transports.EnumTransportMode;
 import de.nedelosk.modularmachines.api.modules.transports.IModuleTransport;
@@ -12,7 +14,7 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.world.WorldServer;
 
-public class ModuleTransport extends Module implements IModuleTransport {
+public class ModuleTransport extends Module implements IModuleTransport, IModulePositioned {
 
 	protected int transportedAmount;
 
@@ -26,8 +28,8 @@ public class ModuleTransport extends Module implements IModuleTransport {
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.INTERNAL;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.CASING};
 	}
 
 	@Override

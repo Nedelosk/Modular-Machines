@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -61,7 +61,7 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 		return getModelLocation(container, modelFolder, prefix, useSize);
 	}
 
-	public ResourceLocation getModelLocation(EnumModuleSize size){
+	public ResourceLocation getModelLocation(EnumModuleSizes size){
 		return getModelLocation(container, modelFolder, size);
 	}
 
@@ -77,7 +77,7 @@ public abstract class ModelHandler<M extends IModule> implements IModelHandler<M
 		return getModelLocation(container, modelFolder, prefix, false, false, false);
 	}
 
-	public static ResourceLocation getModelLocation(IModuleContainer container, String modelFolder, EnumModuleSize size){
+	public static ResourceLocation getModelLocation(IModuleContainer container, String modelFolder, EnumModuleSizes size){
 		return getModelLocation(container, modelFolder, "", size != null, false, false);
 	}
 

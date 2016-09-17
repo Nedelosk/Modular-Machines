@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import net.minecraftforge.common.config.Configuration;
@@ -10,7 +10,7 @@ public class ModuleControllerProperties extends ModuleProperties implements IMod
 	private final int defaultAllowedComplexity;
 	private int allowedComplexity;
 
-	public ModuleControllerProperties(int complexity, EnumModuleSize size, int allowedComplexity) {
+	public ModuleControllerProperties(int complexity, EnumModuleSizes size, int allowedComplexity) {
 		super(complexity, size);
 		this.defaultAllowedComplexity = allowedComplexity;
 		this.allowedComplexity = allowedComplexity;

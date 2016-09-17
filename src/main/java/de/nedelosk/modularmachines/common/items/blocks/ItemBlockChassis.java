@@ -4,7 +4,7 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.core.Registry;
-import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
+import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.Block;
@@ -98,7 +98,7 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 			tileHandler.setAssembled(false);
-			tileHandler.setAssembler(new PositionedModularAssembler(tileHandler, new ItemStack[26]));
+			tileHandler.setAssembler(new ModularAssembler(tileHandler));
 			tileHandler.setOwner(player.getGameProfile());
 			tileHandler.setFacing(getFacingForHeading(heading));
 

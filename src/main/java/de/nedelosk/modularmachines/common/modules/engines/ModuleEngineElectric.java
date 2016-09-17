@@ -9,8 +9,8 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storages.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;
 import de.nedelosk.modularmachines.common.utils.Translator;
 
 public class ModuleEngineElectric extends ModuleEngine {
@@ -25,7 +25,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 	}
 
 	@Override
-	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
+	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 		if(modular.getModules(IModuleBattery.class).isEmpty()){
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
 		}

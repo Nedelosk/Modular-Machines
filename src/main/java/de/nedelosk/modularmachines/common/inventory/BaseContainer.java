@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.common.inventory;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.common.utils.ContainerUtil;
@@ -100,5 +102,15 @@ public abstract class BaseContainer<H extends IGuiHandler> extends Container imp
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 		return ContainerUtil.transferStackInSlot(inventorySlots, player, slotIndex);
+	}
+
+	@Override
+	public EntityPlayer getPlayer() {
+		return player;
+	}
+
+	@Override
+	public List<Slot> getSlots() {
+		return inventorySlots;
 	}
 }

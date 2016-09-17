@@ -35,7 +35,7 @@ public class ModuleTab extends Button<GuiPage<IModularHandler>> {
 	public void drawButton(Minecraft mc, int mx, int my) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
-		getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModuleState())) ? 0 : 28,
+		getGui().getGui().drawTexturedModalRect(xPosition, yPosition, (state.equals(tile.getModular().getCurrentModule())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
 		ItemStack stack = state.getStack();
 		if(stack == null){
@@ -47,9 +47,9 @@ public class ModuleTab extends Button<GuiPage<IModularHandler>> {
 	@Override
 	public void onButtonClick() {
 		IModular modular = getGui().getHandler().getModular();
-		IModuleState currentModule = modular.getCurrentModuleState();
+		IModuleState currentModule = modular.getCurrentModule();
 		if (currentModule.getIndex() != state.getIndex()) {
-			modular.setCurrentModuleState(state);
+			modular.setCurrentModule(state);
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule(tile, state));
 			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(tile, tile.getModular().getCurrentPage().getPageID()));
 		}

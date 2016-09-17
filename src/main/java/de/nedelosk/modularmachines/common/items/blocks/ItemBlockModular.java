@@ -12,8 +12,8 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
+import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
-import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -38,7 +38,7 @@ public class ItemBlockModular extends ItemBlock {
 
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-		return new ModularHandlerItem(stack);
+		return new ModularHandlerItem(stack, ModularMachinesApi.DEFAULT_STORAGES);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class ItemBlockModular extends ItemBlock {
 					tileHandler.setAssembler(itemHandler.getAssembler().copy(tileHandler));
 				}else{
 					tileHandler.setAssembled(false);
-					tileHandler.setAssembler(new PositionedModularAssembler(tileHandler, new ItemStack[26]));
+					tileHandler.setAssembler(new ModularAssembler(tileHandler));
 				}
 			}
 

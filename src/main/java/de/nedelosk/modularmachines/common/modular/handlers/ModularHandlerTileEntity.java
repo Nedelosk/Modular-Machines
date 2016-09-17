@@ -1,8 +1,11 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyTile;
@@ -22,8 +25,8 @@ public class ModularHandlerTileEntity extends ModularHandler implements IModular
 	protected EnumFacing facing;
 	protected boolean addedToEnet;
 
-	public ModularHandlerTileEntity(TileEntity tileEntity) {
-		super(tileEntity.getWorld());
+	public ModularHandlerTileEntity(TileEntity tileEntity, List<IStoragePosition> positions) {
+		super(tileEntity.getWorld(), positions);
 
 		this.tileEntity = tileEntity;
 	}

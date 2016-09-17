@@ -1,19 +1,24 @@
 package de.nedelosk.modularmachines.common.modular;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
-import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
@@ -25,7 +30,14 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import de.nedelosk.modularmachines.api.modules.storage.module.IBasicModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
@@ -37,6 +49,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -48,8 +61,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class Modular implements IModular {
+public class Modular implements IModular {
 
+	protected Map<IStoragePosition, IStorage> storages;
 	protected IModularHandler modularHandler;
 	protected int index;
 	protected IModuleState currentModule;
@@ -65,6 +79,7 @@ public abstract class Modular implements IModular {
 	private int tickCount = rand.nextInt(256);
 
 	public Modular() {
+		storages = new HashMap<>();
 	}
 
 	public Modular(NBTTagCompound nbt, IModularHandler handler) {
@@ -180,6 +195,15 @@ public abstract class Modular implements IModular {
 				this.currentPage = currentPage;
 			}
 		}
+		NBTTagList list = nbt.getTagList("Storages", 10);
+		for(int i = 0;i < list.tagCount();i++){
+			NBTTagCompound tagCompound = list.getCompoundTagAt(i);
+			IModuleState<IStorageModule> module = ModularMachinesApi.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
+			IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
+			IStorage storage = module.getModule().createStorage(module, this, position);
+			storage.deserializeNBT(tagCompound.getCompoundTag("Storage"));
+			storages.put(position, storage);
+		}
 	}
 
 	@Override
@@ -194,6 +218,18 @@ public abstract class Modular implements IModular {
 		if(heatSource != null){
 			nbt.setTag("HeatBuffer", heatSource.serializeNBT());
 		}
+		NBTTagList list = new NBTTagList();
+		for(Entry<IStoragePosition, IStorage> entry : storages.entrySet()){
+			if(entry.getValue() != null){
+				IStorage storage = entry.getValue();
+				NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setTag("State", ModularMachinesApi.writeStateToNBT(this, storage.getModule()));
+				tagCompound.setTag("Storage", storage.serializeNBT());
+				tagCompound.setInteger("Position", modularHandler.getStoragePositions().indexOf(entry.getKey()));
+				list.appendTag(tagCompound);
+			}
+		}
+		nbt.setTag("Storages", list);
 		return nbt;
 	}
 
@@ -218,59 +254,17 @@ public abstract class Modular implements IModular {
 	}
 
 	@Override
-	public List getWailaBody(ItemStack itemStack, List currenttip, IWailaState data) {
-		for(IModuleState state : getWailaModules()) {
-			if (state.getModule() instanceof IModuleWaila) {
-				data.setState(state);
-				List<String> tip = ((IModuleWaila) state.getModule()).getWailaBody(itemStack, currenttip, data);
-				if (tip != null) {
-					currenttip = tip;
-				}
-			}
-		}
-		return currenttip;
-	}
-
-	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaState data) {
-		for(IModuleState state : getWailaModules()) {
-			if (state.getModule() instanceof IModuleWaila) {
-				data.setState(state);
-				List<String> tip = ((IModuleWaila) state.getModule()).getWailaHead(itemStack, currenttip, data);
-				if (tip != null) {
-					currenttip = tip;
-				}
-			}
-		}
-		return currenttip;
-	}
-
-	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaState data) {
-		for(IModuleState state : getWailaModules()) {
-			if (state.getModule() instanceof IModuleWaila) {
-				data.setState(state);
-				List<String> tip = ((IModuleWaila) state.getModule()).getWailaTail(itemStack, currenttip, data);
-				if (tip != null) {
-					currenttip = tip;
-				}
-			}
-		}
-		return currenttip;
-	}
-
-	@Override
 	public IModulePage getCurrentPage() {
 		return currentPage;
 	}
 
 	@Override
-	public IModuleState getCurrentModuleState() {
+	public IModuleState getCurrentModule() {
 		return currentModule;
 	}
 
 	@Override
-	public void setCurrentModuleState(IModuleState module) {
+	public void setCurrentModule(IModuleState module) {
 		this.currentModule = module;
 		this.currentPage = (IModulePage) currentModule.getPages().get(0);
 	}
@@ -318,7 +312,7 @@ public abstract class Modular implements IModular {
 		String harvestTool = null;
 		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
-			IBlockModificator modificator = (IBlockModificator) state.getContentHandler(IBlockModificator.class);
+			IBlockModificator modificator = state.getContentHandler(IBlockModificator.class);
 			if(modificator != null){
 				hasModificator = true;
 				modificators++;
@@ -420,10 +414,31 @@ public abstract class Modular implements IModular {
 	}
 
 	@Override
+	public List<IModuleState> getModules() {
+		List<IModuleState> modules = new ArrayList<>();
+		for(IStorage storage : storages.values()){
+			if(storage != null){
+				modules.add(storage.getModule());
+				if(storage instanceof IModuleStorage){
+					IModuleStorage moduleStorage = (IModuleStorage) storage;
+					if(!moduleStorage.getModules().isEmpty()){
+						modules.addAll(moduleStorage.getModules());
+					}
+				}
+			}
+		}
+		return modules;
+	}
+
+	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState state : getModules()){
-			if(state != null){
-				if(state.getIndex() == index){
+		for(IStorage storage : storages.values()){
+			if (storage.getModule().getIndex() == index) {
+				return (IModuleState<M>) storage.getModule();
+			}
+			if(storage instanceof IModuleStorage){
+				IModuleState<M> state = ((IModuleStorage) storage).getModule(index);
+				if(state != null){
 					return state;
 				}
 			}
@@ -437,9 +452,12 @@ public abstract class Modular implements IModular {
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : getModules()) {
-			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
-				modules.add(module);
+		for(IStorage storage : storages.values()){
+			if (moduleClass.isAssignableFrom(storage.getModule().getModule().getClass())) {
+				modules.add((IModuleState<M>) storage.getModule());
+			}
+			if(storage instanceof IModuleStorage){
+				modules.addAll(((IModuleStorage) storage).getModules(moduleClass));
 			}
 		}
 		return modules;
@@ -450,22 +468,37 @@ public abstract class Modular implements IModular {
 		if (moduleClass == null) {
 			return null;
 		}
-		List modules = getModules(moduleClass);
-		if(modules.isEmpty()){
-			return null;
+		for(IStorage storage : storages.values()){
+			if (moduleClass.isAssignableFrom(storage.getModule().getModule().getClass())) {
+				return (IModuleState<M>) storage.getModule();
+			}
+			if(storage instanceof IModuleStorage){
+				IModuleState<M> state = ((IModuleStorage) storage).getModule(moduleClass);
+				if(state != null){
+					return state;
+				}
+			}
 		}
-		return (IModuleState<M>) modules.get(0);
+		return null;
 	}
 
 	@Override
 	public int getComplexity(boolean withStorage) {
 		int complexity = 0;
-		for(IModuleState state : getModules()){
-			if(state != null){	
-				if(state.getModule() instanceof IModuleModuleStorage && !withStorage){
-					continue;
+		for(IStorage storage : storages.values()){
+			if(storage instanceof IModuleStorage){
+				if(storage instanceof IBasicModuleStorage){
+					complexity+=((IBasicModuleStorage) storage).getComplexity(withStorage);
+				}else{
+					for(IModuleState state : ((IModuleStorage) storage).getModules()){
+						if(state != null){	
+							if(state.getModule() instanceof IModuleModuleStorage && !withStorage){
+								continue;
+							}
+							complexity +=state.getModule().getComplexity(state.getContainer());
+						}
+					}
 				}
-				complexity +=state.getModule().getComplexity(state.getContainer());
 			}
 		}
 		return complexity;
@@ -489,5 +522,44 @@ public abstract class Modular implements IModular {
 	@Override
 	public IBlockModificator getBlockModificator() {
 		return blockModificator;
+	}
+
+	@Override
+	public boolean addStorage(IStorage storage) {
+		if(!storages.containsKey(storage.getPosition()) && storage.getModule() != null){
+			storages.put(storage.getPosition(), storage);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Map<IStoragePosition, IStorage> getStorages() {
+		return Collections.unmodifiableMap(storages);
+	}
+
+	@Override
+	public IModular copy(IModularHandler handler) {
+		return new Modular(serializeNBT(), handler);
+	}
+
+	@Override
+	public IModularAssembler disassemble() {
+		if(modularHandler instanceof IModularHandlerTileEntity){
+			((IModularHandlerTileEntity)modularHandler).invalidate();
+		}
+		ItemStack[] stacks = new ItemStack[modularHandler.getStoragePositions().size()];
+		Map<IStoragePosition, IStoragePage> pages = new HashMap<>();
+		for(IStoragePosition position : (List<IStoragePosition>)modularHandler.getStoragePositions()){
+			IStorage storage = storages.get(position);
+			if(storage != null){
+				IModuleState<IStorageModule> module = storage.getModule();
+				stacks[modularHandler.getStoragePositions().indexOf(position)] = ModularMachinesApi.saveModuleState(module);
+				pages.put(position, module.getModule().createPage(null, this, storage, module, position));
+			}else{
+				pages.put(position, null);
+			}
+		}
+		return new ModularAssembler(modularHandler, stacks, pages);
 	}
 }

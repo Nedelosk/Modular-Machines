@@ -223,20 +223,6 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		super.drawBackground(mouseX, mouseY);
 
 		drawSlots();
-		drawPlayerInventory();
-	}
-
-
-	@SideOnly(Side.CLIENT)
-	protected void drawPlayerInventory() {
-		if(gui != null){
-			GlStateManager.enableAlpha();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderUtil.bindTexture(getInventoryTexture());
-			int invPosition = getPlayerInvPosition();
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + 7, gui.getGuiTop() + invPosition, 0, 0, 162, 76);
-			GlStateManager.disableAlpha();
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -261,6 +247,11 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + slot.xDisplayPosition - 1, gui.getGuiTop() + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 	}
 
+	@Override
+	public int getPlayerInvPosition() {
+		return 83;
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public int getXSize() {
@@ -274,19 +265,9 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	}
 
 	@Override
-	public int getPlayerInvPosition() {
-		return 83;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getGuiTexture() {
 		return new ResourceLocation("modularmachines:textures/gui/modular_machine.png");
-	}
-
-	@SideOnly(Side.CLIENT)
-	protected ResourceLocation getInventoryTexture() {
-		return new ResourceLocation("modularmachines:textures/gui/inventory_player.png");
 	}
 
 	@SideOnly(Side.CLIENT)

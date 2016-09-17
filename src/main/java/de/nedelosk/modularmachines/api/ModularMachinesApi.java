@@ -17,11 +17,14 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -41,6 +44,7 @@ public class ModularMachinesApi {
 	private static final List<HeatLevel> HEAT_LEVELS = new ArrayList<>();
 	private static final List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
 	private static final Map<IMetalMaterial, ItemStack[]> materialsWithHolder = new HashMap<>();
+	public static final List<IStoragePosition> DEFAULT_STORAGES = new ArrayList<>();
 
 	public static Item defaultModuleItem;
 	public static Item defaultHolderItem;
@@ -48,6 +52,28 @@ public class ModularMachinesApi {
 	public static final float COLD_TEMP = 20;
 	public static final int STEAM_PER_UNIT_WATER = 160;
 	public static final float BOILING_POINT = 100;
+
+	static{
+		registerType(new HeatLevel(COLD_TEMP, 0.1, 0.02));
+		registerType(new HeatLevel(50, 0.085, 0.035));
+		registerType(new HeatLevel(100, 0.075, 0.045));
+		registerType(new HeatLevel(150, 0.065, 0.050));
+		registerType(new HeatLevel(200, 0.035, 0.055));
+		registerType(new HeatLevel(250, 0.030, 0.060));
+		registerType(new HeatLevel(300, 0.025, 0.065));
+		registerType(new HeatLevel(400, 0.020, 0.065));
+		registerType(new HeatLevel(500, 0.015, 0.075));
+		registerType(new HeatLevel(750, 0.005, 0.085));
+
+		DEFAULT_STORAGES.add(EnumStoragePositions.CASING);
+		DEFAULT_STORAGES.add(EnumStoragePositions.LEFT);
+		DEFAULT_STORAGES.add(EnumStoragePositions.RIGHT);
+		DEFAULT_STORAGES.add(EnumStoragePositions.TOP);
+		DEFAULT_STORAGES.add(EnumStoragePositions.BACK);
+	}
+
+	private ModularMachinesApi() {
+	}
 
 	/**
 	 * @return The matching module container for the stack.
@@ -71,6 +97,28 @@ public class ModularMachinesApi {
 			if(container.matches(stack)){
 				return container;
 			}
+		}
+		return null;
+	}
+
+	public static NBTTagCompound writeStateToNBT(IModular modular, IModuleState moduleState){
+		if(moduleState != null && moduleState.getContainer() != null){
+			NBTTagCompound compoundTag = moduleState.serializeNBT();
+			compoundTag.setString("Container", moduleState.getContainer().getRegistryName().toString());
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateSaveEvent(moduleState, compoundTag));
+			return compoundTag;
+		}
+		return null;
+	}
+
+	public static IModuleState loadStateFromNBT(IModular modular, NBTTagCompound compoundTag){
+		ResourceLocation loc = new ResourceLocation(compoundTag.getString("Container"));
+		IModuleContainer container = MODULE_CONTAINERS.getValue(loc);
+		if(container != null){
+			IModuleState state = ModularMachinesApi.createModuleState(modular, container);
+			state.deserializeNBT(compoundTag);
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, compoundTag));
+			return state;
 		}
 		return null;
 	}
@@ -212,19 +260,6 @@ public class ModularMachinesApi {
 
 	public static Collection<IMetalMaterial> getMaterialsWithHolder() {
 		return materialsWithHolder.keySet();
-	}
-
-	static{
-		registerType(new HeatLevel(COLD_TEMP, 0.1, 0.02));
-		registerType(new HeatLevel(50, 0.085, 0.035));
-		registerType(new HeatLevel(100, 0.075, 0.045));
-		registerType(new HeatLevel(150, 0.065, 0.050));
-		registerType(new HeatLevel(200, 0.035, 0.055));
-		registerType(new HeatLevel(250, 0.030, 0.060));
-		registerType(new HeatLevel(300, 0.025, 0.065));
-		registerType(new HeatLevel(400, 0.020, 0.065));
-		registerType(new HeatLevel(500, 0.015, 0.075));
-		registerType(new HeatLevel(750, 0.005, 0.085));
 	}
 
 	public static void registerType(HeatLevel heatLevel){

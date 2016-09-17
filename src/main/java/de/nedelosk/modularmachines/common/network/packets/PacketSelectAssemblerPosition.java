@@ -1,10 +1,10 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.modular.IPositionedModularAssembler;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
-import de.nedelosk.modularmachines.common.inventory.ContainerPositionedAssembler;
+import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -18,26 +18,27 @@ import net.minecraft.world.WorldServer;
 
 public class PacketSelectAssemblerPosition extends PacketModularHandler {
 
-	public EnumStoragePosition position;
+	public int position;
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		position = EnumStoragePosition.values()[buf.readShort()];
+		position = buf.readShort();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
-		buf.writeShort(position.ordinal());
+		buf.writeShort(position);
 	}
 
 	public PacketSelectAssemblerPosition() {
 	}
 
-	public PacketSelectAssemblerPosition(IModularHandler handler, EnumStoragePosition position) {
+	public PacketSelectAssemblerPosition(IModularHandler handler, IStoragePosition position) {
 		super(handler);
-		this.position = position;
+		IModularAssembler assembler = handler.getAssembler();
+		this.position = assembler.getIndex(position);
 	}
 
 	@Override
@@ -45,8 +46,8 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler {
 		IModularHandler modularHandler = getModularHandler(netHandler);
 
 		if(modularHandler != null && modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
-			IPositionedModularAssembler assembler = (IPositionedModularAssembler) modularHandler.getAssembler();
-			assembler.setSelectedPosition(position);
+			IModularAssembler assembler = modularHandler.getAssembler();
+			assembler.setSelectedPosition(assembler.getStoragePositions().get(position));
 		}
 	}
 
@@ -56,16 +57,16 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler {
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
-			IPositionedModularAssembler assembler = (IPositionedModularAssembler) modularHandler.getAssembler();
-			assembler.setSelectedPosition(position);
+			IModularAssembler assembler = modularHandler.getAssembler();
+			assembler.setSelectedPosition(assembler.getStoragePositions().get(position));
 		}
 
 		PacketHandler.sendToNetwork(this, pos, (WorldServer) netHandler.playerEntity.worldObj);
 
 		WorldServer server = netHandler.playerEntity.getServerWorld();
 		for(EntityPlayer otherPlayer : server.playerEntities) {
-			if(otherPlayer.openContainer instanceof ContainerPositionedAssembler) {
-				ContainerPositionedAssembler assembler = (ContainerPositionedAssembler) otherPlayer.openContainer;
+			if(otherPlayer.openContainer instanceof ContainerAssembler) {
+				ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
 				if(modularHandler == assembler.getHandler()) {
 					ItemStack heldStack = null;
 

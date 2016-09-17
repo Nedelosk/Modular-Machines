@@ -49,7 +49,7 @@ public class PacketSelectModule extends PacketModularHandler {
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			modularHandler.getModular().setCurrentModuleState(modularHandler.getModular().getModule(index));
+			modularHandler.getModular().setCurrentModule(modularHandler.getModular().getModule(index));
 		}
 	}
 
@@ -59,7 +59,7 @@ public class PacketSelectModule extends PacketModularHandler {
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			modularHandler.getModular().setCurrentModuleState(modularHandler.getModular().getModule(index));
+			modularHandler.getModular().setCurrentModule(modularHandler.getModular().getModule(index));
 		}
 
 		PacketHandler.sendToNetwork(this, pos, (WorldServer) netHandler.playerEntity.worldObj);

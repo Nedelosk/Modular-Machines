@@ -11,7 +11,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleHandler;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
@@ -37,10 +37,6 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	@Override
 	@Nonnull
 	IModuleState<M> build();
-
-	@Nullable
-	@Override
-	<H> H getContentHandler(@Nonnull Class<? extends H> contentClass);
 
 	int getIndex();
 

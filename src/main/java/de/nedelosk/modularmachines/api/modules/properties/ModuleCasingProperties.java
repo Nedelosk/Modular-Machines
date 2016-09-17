@@ -1,11 +1,13 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.module.ModuleModuleStorageProperties;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModuleCasingProperties extends ModuleModuleStorageProperties implements IModuleBlockModificatorProperties {
@@ -21,8 +23,8 @@ public class ModuleCasingProperties extends ModuleModuleStorageProperties implem
 	protected int harvestLevel;
 	protected String harvestTool;
 
-	public ModuleCasingProperties(int complexity, EnumModuleSize size, int allowedComplexity, int maxHeat, float resistance, float hardness, int harvestLevel, String harvestTool) {
-		super(complexity, size, allowedComplexity);
+	public ModuleCasingProperties(int complexity, EnumModuleSizes size, int allowedComplexity, int maxHeat, float resistance, float hardness, int harvestLevel, String harvestTool) {
+		super(complexity, size, allowedComplexity, EnumModulePositions.CASING);
 		this.defaultMaxHeat = maxHeat;
 		this.defaultResistance = resistance;
 		this.defaultHardness = hardness;

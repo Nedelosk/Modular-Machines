@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
@@ -25,7 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.Loader;
 
-public class ModuleFurnace extends ModuleBasicMachine implements IModuleColored, IModuleJEI {
+public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI {
 
 	public static final PropertyFurnaceRecipe FURNACERECIPE = new PropertyFurnaceRecipe("currentRecipe", makeRecipes());
 

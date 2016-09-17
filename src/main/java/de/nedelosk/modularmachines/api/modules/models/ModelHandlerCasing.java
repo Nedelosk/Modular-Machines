@@ -2,14 +2,16 @@ package de.nedelosk.modularmachines.api.modules.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
@@ -39,17 +41,14 @@ public class ModelHandlerCasing extends ModelHandler implements IModelHandler, I
 	}
 
 	@Override
-	public void reload(IModuleState state, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
+	public void reload(IModuleState state, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
 		if(state.getModular() != null){
-			List<EnumStoragePosition> positions = new ArrayList<>();
-			for(IModuleState<IModuleModuleStorage> storage : state.getModular().getModules(IModuleModuleStorage.class)){
-				positions.add(storage.getModule().getCurrentPosition(storage));
-			}
-			if(!positions.contains(EnumStoragePosition.LEFT)){
+			Set<IStoragePosition> positions = state.getModular().getStorages().keySet();
+			if(!positions.contains(EnumStoragePositions.LEFT)){
 				models.add(getBakedModel(casing_left, modelState, format, bakedTextureGetter));
 			}
-			if(!positions.contains(EnumStoragePosition.RIGHT)){
+			if(!positions.contains(EnumStoragePositions.RIGHT)){
 				models.add(getBakedModel(casing_right, modelState, format, bakedTextureGetter));
 			}
 		}

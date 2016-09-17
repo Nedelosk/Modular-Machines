@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -228,7 +228,7 @@ public class RecipeManager {
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodIron", 'G', "gearIron", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterBronzeContainer));
-		
+
 
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[1]), 
 				"GPR",
@@ -239,12 +239,12 @@ public class RecipeManager {
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[0]));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[1]), 
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodSteel", 'G', "gearSteel", 'P', "plateSteel", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 2), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterIronContainers[1]));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[2]), 
 				"GPR",
 				"COC",
@@ -254,12 +254,12 @@ public class RecipeManager {
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[0]));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[1]), 
 				"GPR",
 				"COC",
 				"RPG", 'R', "rodMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 3), 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterSteelContainers[1]));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleHeaterMagmariumContainers[2]), 
 				"GPR",
 				"COC",
@@ -296,29 +296,29 @@ public class RecipeManager {
 				"SGP",
 				"COC",
 				"PGS", 'R', "rodIron", 'S', "screwIron", 'G', "gearIron", 'P', "plateIron", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleLatheContainers[0]), 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
-		
+
 		//Cleaner
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleModuleCleanerContainer), 
 				"GPG",
 				"CBC",
 				"GUG", 'B', "blockRedstone", 'G', "blockGlass", 'U', "dustRedstone", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1));
-		
+
 		//Controllers
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[0]), 
 				"PUL",
 				"RBC",
 				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'R', Items.REPEATER, 'C', Items.COMPARATOR, 'P', "plateBronze", 'B', new ItemStack(ItemManager.itemModuleCore));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[1]), 
 				"PUL",
 				"BOB",
 				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[0]), 'P', "plateIron", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[2]), 
 				"PUL",
 				"BOB",
 				"LUP", 'L', Blocks.LEVER, 'U', "dustRedstone", 'O', ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[1]), 'P', "plateSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 2));
-		
+
 		addShapedModuleRecipe(ModularMachinesApi.createDefaultStack(ModuleManager.moduleControllerContainers[3]), 
 				"PUL",
 				"BOB",
@@ -488,16 +488,16 @@ public class RecipeManager {
 	private static void addShapedModuleRecipe(ItemStack stack, ItemStack holder, Object... obj) {
 		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));
 	}
-	
+
 	private static void addShapedModuleRecipe(ItemStack stack, boolean generateHolder, Object... obj) {
 		ItemStack holder = null;
 		if(generateHolder){
 			IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
 			if(container != null){
 				IMaterial material = container.getMaterial();
-				EnumModuleSize size = container.getModule().getSize(container);
+				EnumModuleSizes size = container.getModule().getSize(container);
 				if(material instanceof IMetalMaterial){
-					holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSize.SMALL) ? 2 : (size == EnumModuleSize.MEDIUM) ? 1 : 0);
+					holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSizes.SMALL) ? 2 : (size == EnumModuleSizes.MEDIUM) ? 1 : 0);
 				}
 			}
 		}
@@ -509,9 +509,9 @@ public class RecipeManager {
 		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
 		if(container != null){
 			IMaterial material = container.getMaterial();
-			EnumModuleSize size = container.getModule().getSize(container);
+			EnumModuleSizes size = container.getModule().getSize(container);
 			if(material instanceof IMetalMaterial){
-				holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSize.SMALL) ? 2 : (size == EnumModuleSize.MEDIUM) ? 1 : 0);
+				holder = ModularMachinesApi.getHolder((IMetalMaterial) material, (size == EnumModuleSizes.SMALL) ? 2 : (size == EnumModuleSizes.MEDIUM) ? 1 : 0);
 			}
 		}
 		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));

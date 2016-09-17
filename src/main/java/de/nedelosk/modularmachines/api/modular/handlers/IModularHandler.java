@@ -1,5 +1,8 @@
 package de.nedelosk.modularmachines.api.modular.handlers;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
@@ -7,6 +10,7 @@ import com.mojang.authlib.GameProfile;
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -40,5 +44,8 @@ public interface IModularHandler<M extends IModular, A extends IModularAssembler
 	void setAssembled(boolean isAssembled);
 
 	boolean isAssembled();
+
+	@Nonnull
+	List<IStoragePosition> getStoragePositions();
 
 }

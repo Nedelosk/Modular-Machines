@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModulePropertiesConfigurable;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -16,7 +16,7 @@ public class ModuleKineticProperties extends ModuleProperties implements IModule
 	protected int maxKineticEnergy;
 	protected int materialPerWork;
 
-	public ModuleKineticProperties(int complexity, EnumModuleSize size, double kineticModifier, int maxKineticEnergy, int materialPerWork) {
+	public ModuleKineticProperties(int complexity, EnumModuleSizes size, double kineticModifier, int maxKineticEnergy, int materialPerWork) {
 		super(complexity, size);
 		this.defaultKineticModifier = kineticModifier;
 		this.defaultMaxKineticEnergy = maxKineticEnergy;

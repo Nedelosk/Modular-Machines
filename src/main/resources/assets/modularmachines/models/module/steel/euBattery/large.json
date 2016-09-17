@@ -1,0 +1,9 @@
+{
+    "parent": "modularmachines:module/default/euBattery/large",
+    "textures": {
+        "front": "ic2:blocks/wiring/storage/mfsu_front",
+		"bottom": "ic2:blocks/wiring/storage/mfsu_bottomtop",
+		"side": "ic2:blocks/wiring/storage/mfsu_leftrightback",
+		"top": "ic2:blocks/wiring/storage/mfsu_bottomtop"
+    }
+}

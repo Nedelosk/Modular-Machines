@@ -1,15 +1,14 @@
 package de.nedelosk.modularmachines.common.plugins.ic2;
 
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
-import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleCasingProperties;
-import de.nedelosk.modularmachines.api.modules.storages.IModuleBatteryProperties;
-import de.nedelosk.modularmachines.api.modules.storages.ModuleBatteryProperties;
+import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
+import de.nedelosk.modularmachines.api.modules.storage.energy.ModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.core.ModuleManager;
 import de.nedelosk.modularmachines.common.modules.storages.ModuleBattery;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
@@ -48,18 +47,18 @@ public class PluginIC2 extends APlugin {
 		casing = IC2Items.getItem("resource", "machine");
 		casingAdvanced = IC2Items.getItem("resource", "advanced_machine");
 
-		moduleBatteryProperties[0] = new ModuleBatteryProperties(2, EnumModuleSize.LARGE, 80000, 320, 1);
-		moduleBatteryProperties[1] = new ModuleBatteryProperties(4, EnumModuleSize.LARGE, 600000, 1280, 2);
-		moduleBatteryProperties[2] = new ModuleBatteryProperties(6, EnumModuleSize.LARGE, 8000000, 5120, 3);
-		moduleBatteryProperties[3] = new ModuleBatteryProperties(8, EnumModuleSize.LARGE, 80000000, 20480, 4);
+		moduleBatteryProperties[0] = new ModuleBatteryProperties(2, EnumModuleSizes.LARGE, 80000, 320, 1);
+		moduleBatteryProperties[1] = new ModuleBatteryProperties(4, EnumModuleSizes.LARGE, 600000, 1280, 2);
+		moduleBatteryProperties[2] = new ModuleBatteryProperties(6, EnumModuleSizes.LARGE, 8000000, 5120, 3);
+		moduleBatteryProperties[3] = new ModuleBatteryProperties(8, EnumModuleSizes.LARGE, 80000000, 20480, 4);
 
 		moduleBatteryContainers[0] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[0], batBox, EnumMetalMaterials.TIN, true));
 		moduleBatteryContainers[1] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[1], cesu, EnumMetalMaterials.BRONZE, true));
-		moduleBatteryContainers[2] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[2], mfe, EnumMetalMaterials.GOLD, true));
-		moduleBatteryContainers[3] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[3], mfsu, EnumVanillaMaterials.DIAMOND, true));
+		moduleBatteryContainers[2] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[2], mfe, EnumMetalMaterials.IRON, true));
+		moduleBatteryContainers[3] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[3], mfsu, EnumMetalMaterials.STEEL, true));
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(2, EnumModuleSize.LARGE, 12, 550, 7.0F, 1.5F, 1, "pickaxe");
-		moduleCasingProperties[1] = new ModuleCasingProperties(4, EnumModuleSize.LARGE, 20, 700, 9.0F, 2.54F, 1, "pickaxe");
+		moduleCasingProperties[0] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 7.0F, 1.5F, 1, "pickaxe");
+		moduleCasingProperties[1] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 700, 9.0F, 2.54F, 1, "pickaxe");
 
 		IModule engine = ModuleManager.moduleEngineElectric;
 		IModuleProperties properties = ModuleManager.moduleEngineElectricProperties[1];

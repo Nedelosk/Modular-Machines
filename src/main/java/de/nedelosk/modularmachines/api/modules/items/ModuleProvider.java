@@ -6,7 +6,6 @@ import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -37,15 +36,7 @@ public class ModuleProvider implements IModuleProvider{
 		if(stateTag == null || stateTag.hasNoTags()){
 			return null;
 		}
-		ResourceLocation loc = new ResourceLocation(stateTag.getString("Container"));
-		IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(loc);
-		if(container != null){
-			IModuleState state = ModularMachinesApi.createModuleState(modular, container);
-			state.deserializeNBT(stateTag);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, stateTag));
-			return state;
-		}
-		return null;
+		return ModularMachinesApi.loadStateFromNBT(modular, stateTag);
 	}
 
 	@Override

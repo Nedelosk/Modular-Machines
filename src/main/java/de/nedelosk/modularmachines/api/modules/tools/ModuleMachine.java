@@ -10,7 +10,6 @@ import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.integration.IWailaState;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
@@ -25,6 +24,9 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
@@ -40,7 +42,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleMachine extends ModuleControlled implements IModuleMachine, IModuleWaila {
+public abstract class ModuleMachine extends ModuleControlled implements IModuleMachine, IModuleWaila, IModulePositioned {
 
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
@@ -436,8 +438,8 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.SIDE;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.SIDE};
 	}
 
 }

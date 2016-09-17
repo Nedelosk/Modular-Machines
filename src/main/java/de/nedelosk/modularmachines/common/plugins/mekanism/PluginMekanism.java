@@ -2,12 +2,11 @@ package de.nedelosk.modularmachines.common.plugins.mekanism;
 
 import cofh.api.energy.IEnergyContainerItem;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
-import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.EnumLoaderType;
 import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
-import de.nedelosk.modularmachines.api.modules.storages.IModuleBatteryProperties;
+import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
 import de.nedelosk.modularmachines.common.plugins.cofh.ModuleRFBattery;
@@ -30,7 +29,7 @@ public class PluginMekanism extends APlugin {
 		if(ModuleRFBatteryPropertiesLoader.loader == null){
 			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new ModuleRFBatteryPropertiesLoader());
 		}
-		moduleEnergyCube = new ModuleRFBattery("energycube");
+		moduleEnergyCube = new ModuleRFBattery("energy_cube");
 		moduleEnergyCube.setRegistryName(new ResourceLocation("modularmachines:battery.energycube"));
 		GameRegistry.register(moduleEnergyCube);
 	}
@@ -40,15 +39,15 @@ public class PluginMekanism extends APlugin {
 		energyCube = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "EnergyCube"));
 		IEnergyContainerItem energyItem = (IEnergyContainerItem) energyCube;
 
-		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSize.LARGE, (int) (2000000 * 0.4), 800, 1, energyItem);
-		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSize.LARGE, (int) (8000000 * 0.4), 3200, 2, energyItem);
-		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSize.LARGE, (int) (32000000 * 0.4), 12800, 3, energyItem);
-		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSize.LARGE, (int) (128000000 * 0.4), 51200, 4, energyItem);
+		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, (int) (2000000 * 0.4), 800, 1, energyItem);
+		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, (int) (8000000 * 0.4), 3200, 2, energyItem);
+		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, (int) (32000000 * 0.4), 12800, 3, energyItem);
+		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSizes.LARGE, (int) (128000000 * 0.4), 51200, 4, energyItem);
 
 		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[0], EnumMetalMaterials.IRON, 0));
 		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[1], EnumMetalMaterials.OSMIUM, 1));
 		moduleEnergyCubeContainers[2] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[2], EnumMetalMaterials.GOLD, 2));
-		moduleEnergyCubeContainers[3] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[3], EnumVanillaMaterials.DIAMOND, 3));
+		moduleEnergyCubeContainers[3] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[3], EnumMetalMaterials.STEEL, 3));
 	}
 
 	@Override

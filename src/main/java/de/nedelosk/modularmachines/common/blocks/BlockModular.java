@@ -15,7 +15,9 @@ import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredBlock;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
@@ -25,6 +27,7 @@ import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
+import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
@@ -57,7 +60,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockModular extends BlockContainerForest implements IItemModelRegister, IStateMapperRegister {
+public class BlockModular extends BlockContainerForest implements IItemModelRegister, IColoredBlock, IStateMapperRegister {
 
 	public BlockModular() {
 		super(Material.IRON, TabModularMachines.tabModules);
@@ -178,10 +181,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileEntity && tile.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandler modular = tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
-			if (modular != null && modular.getModular() != null) {
+			IModularHandler modularHandler = tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			if (modularHandler != null && modularHandler.getModular() != null) {
 				List<ItemStack> drops = Lists.newArrayList();
-				for(IModuleState state : modular.getModular().getModules()) {
+				for(IModuleState state : modularHandler.getModular().getModules()) {
 					if (state != null) {
 						drops.add(state.getModule().saveDataToItem(state));
 						for(IModuleContentHandler handler : state.getContentHandlers()){
@@ -192,10 +195,14 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 					}
 				}
 				WorldUtil.dropItem(world, pos, drops);
-			}else if(modular != null && modular.getAssembler() != null){
-				WorldUtil.dropItems(world, pos, modular.getAssembler().getAssemblerHandler());
+			}else if(modularHandler != null && modularHandler.getAssembler() != null){
+				WorldUtil.dropItems(world, pos, modularHandler.getAssembler().getItemHandler());
+				for(IStoragePage page : modularHandler.getAssembler().getStoragePages()){
+					if(page != null){
+						WorldUtil.dropItems(world, pos, page.getItemHandler());
+					}
+				}
 			}
-			WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassis));
 		}
 		super.breakBlock(world, pos, blockState);
 	}
@@ -279,11 +286,32 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return Collections.emptyList();
+		return Collections.singletonList(new ItemStack(ItemManager.itemCasings));
 	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
+	}
+
+	@Override
+	public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+		if(pos != null){
+			TileEntity tile = world.getTileEntity(pos);
+			if(tile instanceof TileModular){
+				IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+				if(tileModular.isAssembled()){
+					for(IModuleState<IModuleColoredBlock> moduleState : tileModular.getModular().getModules(IModuleColoredBlock.class)){
+						if(moduleState != null){
+							int color = moduleState.getModule().getColor(moduleState, tintIndex);
+							if(color > 0){
+								return color;
+							}
+						}
+					}
+				}
+			}
+		}
+		return 0;
 	}
 }

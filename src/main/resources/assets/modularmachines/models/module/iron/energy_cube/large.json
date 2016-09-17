@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/energy_cube/large",
+    "textures": {
+        "metal": "blocks/iron_block"
+    }
+}

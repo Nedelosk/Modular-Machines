@@ -4,24 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IPositionedModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
-import de.nedelosk.modularmachines.api.modules.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
-import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelHandlerAnimated;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.storage.IPositionedModuleStorage;
-import de.nedelosk.modularmachines.client.core.ClientProxy.DefaultTextureGetter;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper.DefaultTextureGetter;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
@@ -46,8 +38,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.ModelStateComposition;
-import net.minecraftforge.client.model.animation.Animation;
-import net.minecraftforge.common.animation.Event;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -83,46 +73,46 @@ public class ModelModular implements IBakedModel {
 					}
 				}
 
-				if(modular instanceof IPositionedModular){
-					IPositionedModular positionedModular = (IPositionedModular) modular;
-					for(IPositionedModuleStorage storage : positionedModular.getModuleStorages()){
+				for(IStorage storage : modular.getStorages().values()){
+					IBakedModel model = ModuleModelHelper.getModel(storage.getModule(), storage, modelState, vertex);
+					if(model != null){
+						//Rotate the storage module model
+						if(!(storage instanceof IModuleStorage)){
+							model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, storage.getPosition().getRotation(), 0F, 1F);
+						}
+						models.add(model);
+					}
+					/*if(storage instanceof IModuleStorage){
 						List<IBakedModel> positionedModels = new ArrayList<>();
-						EnumModuleSize size = null;
-						for(IModuleState moduleState : storage.getModules()){
+						EnumModuleSizes size = null;
+						for(IModuleState moduleState : ((IModuleStorage)storage).getModules()){
 							if(((IModuleStateClient)moduleState).getModelHandler() != null){
 								IBakedModel model = getModel(moduleState, modelState, vertex);
 								if(model != null){
 									if(size == null){
 										positionedModels.add(model);
-									}else if(size == EnumModuleSize.SMALL){
+									}else if(size == EnumModuleSizes.SMALL){
 										positionedModels.add(new TRSRBakedModel(model, 0F, -0.25F, 0F, 1F));
 									}else{
 										positionedModels.add(new TRSRBakedModel(model, 0F, -0.5F, 0F, 1F));
 									}
 								}
 								if(!(moduleState.getModule() instanceof IModuleModuleStorage)){
-									size = EnumModuleSize.getNewSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
+									size = EnumModuleSizes.getSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
 								}
 							}
 						}
 						float rotation = 0F;
-						EnumStoragePosition pos = storage.getPosition();
-						if(pos == EnumStoragePosition.RIGHT){
+						IStoragePosition pos = storage.getPosition();
+						if(pos == EnumStoragePositions.RIGHT){
 							rotation = (float) (Math.PI / 2);
-						}else if(pos == EnumStoragePosition.LEFT){
+						}else if(pos == EnumStoragePositions.LEFT){
 							rotation = -(float) (Math.PI / 2);
 						}
 						if(!positionedModels.isEmpty()){
 							models.add(new TRSRBakedModel(new BakedMultiModel(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
 						}
-					}
-				}else{
-					for(IModuleState moduleState : modularHandler.getModular().getModules()){
-						IBakedModel model = getModel(moduleState, modelState, vertex);
-						if(model != null){
-							models.add(model);
-						}
-					}
+					}*/
 				}
 
 				if(!models.isEmpty()){
@@ -136,34 +126,6 @@ public class ModelModular implements IBakedModel {
 			missingModel = ModelLoaderRegistry.getMissingModel().bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 		}
 		return missingModel;
-	}
-
-	public static IBakedModel getModel(IModuleState moduleState, IModelState modelState, VertexFormat vertex){
-		IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
-
-		if(modelHandler != null){
-			IBakedModel model = modelHandler.getModel();
-			if(modelHandler.needReload() || model == null){
-				if(modelHandler instanceof IModelHandlerAnimated){
-					IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
-					Minecraft mc = Minecraft.getMinecraft();
-					float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
-					Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
-
-					((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
-					modelHandler.reload(moduleState, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE);
-					model = modelHandler.getModel();
-				}else{
-					modelHandler.reload(moduleState, modelState, vertex, DefaultTextureGetter.INSTANCE);
-					model = modelHandler.getModel();
-				}
-				modelHandler.setNeedReload(false);
-			}
-			if(model != null){
-				return model;
-			}
-		}
-		return null;
 	}
 
 	@Override

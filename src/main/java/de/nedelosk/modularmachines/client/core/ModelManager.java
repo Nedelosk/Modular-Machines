@@ -245,10 +245,10 @@ public class ModelManager implements IModelManager {
 		}
 
 		@Override
-		public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+		public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
 			Block block = state.getBlock();
 			if (block instanceof IColoredBlock) {
-				return ((IColoredBlock) block).colorMultiplier(state, worldIn, pos, tintIndex);
+				return ((IColoredBlock) block).colorMultiplier(state, world, pos, tintIndex);
 			}
 			return 0xffffff;
 		}

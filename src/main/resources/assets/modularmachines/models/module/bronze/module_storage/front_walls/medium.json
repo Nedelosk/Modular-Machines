@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/module_storage/front_walls/medium",
-	"textures": {
-        "wall": "modularmachines:blocks/casing/drawer_bronze"
-    }
-}

@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -13,7 +13,7 @@ public class ModuleHeaterProperties extends ModuleProperties implements IModuleH
 	protected double maxHeat;
 	protected int heatModifier;
 
-	public ModuleHeaterProperties(int complexity, EnumModuleSize size, double maxHeat, int heatModifier) {
+	public ModuleHeaterProperties(int complexity, EnumModuleSizes size, double maxHeat, int heatModifier) {
 		super(complexity, size);
 		this.defaultMaxHeat = maxHeat;
 		this.defaultHeatModifier = heatModifier;

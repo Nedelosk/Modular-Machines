@@ -13,7 +13,9 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
+import de.nedelosk.modularmachines.client.gui.GuiModuleCrafter;
 import de.nedelosk.modularmachines.common.core.BlockManager;
+import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.inventory.ContainerModuleCrafter;
 import de.nedelosk.modularmachines.common.plugins.jei.alloysmelter.AlloySmelterRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.alloysmelter.AlloySmelterRecipeWrapper;
@@ -46,8 +48,9 @@ public class JeiPlugin extends BlankModPlugin {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
-		/* Disabled because jei has a bug*/
-		//registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ItemManager.itemModules, ModularMachinesApi.defaultHolderItem));
+		registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ItemManager.itemModules, ModularMachinesApi.defaultHolderItem);
+
+		registry.addRecipeClickArea(GuiModuleCrafter.class, 93, 35, 22, 15, VanillaRecipeCategoryUid.CRAFTING, CategoryUIDs.CRAFTING);
 
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
 		registry.addRecipeCategories(

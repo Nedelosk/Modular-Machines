@@ -3,7 +3,7 @@ module.storage.back.name=Back
 module.storage.left.name=Left
 module.storage.right.name=Right
 module.storage.side.name=Side
-module.storage.internal.name=Internal
+module.storage.casing.name=Casing
 modular.assembler.assemble=Assemble Modular
 
 modular.assembler.complexity=Modular Complexity

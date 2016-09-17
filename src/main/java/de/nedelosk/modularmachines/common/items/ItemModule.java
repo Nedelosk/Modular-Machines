@@ -6,13 +6,12 @@ import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
-import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -109,8 +108,8 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 					}
 				}else if(tintIndex == 1){
 					IModule module = container.getModule();
-					if(module instanceof IModuleColored){
-						return ((IModuleColored) module).getColor(container);
+					if(module instanceof IModuleColoredItem){
+						return ((IModuleColoredItem) module).getColor(container);
 					}
 				}
 			}

@@ -48,7 +48,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	protected boolean addedToEnet;
 
 	public TileModular() {
-		modularHandler = new ModularHandlerTileEntity(this);
+		modularHandler = new ModularHandlerTileEntity(this, ModularMachinesApi.DEFAULT_STORAGES);
 		for(EnumFacing face : EnumFacing.VALUES){
 			teslas.put(face, new Tesla(face));
 		}
@@ -66,7 +66,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("ModularHandler")) {
-			modularHandler = new ModularHandlerTileEntity(this);
+			modularHandler = new ModularHandlerTileEntity(this, ModularMachinesApi.DEFAULT_STORAGES);
 			modularHandler.deserializeNBT(nbt.getCompoundTag("ModularHandler"));
 		}
 	}

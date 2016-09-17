@@ -16,11 +16,13 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -53,10 +55,10 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
+	public EnumModuleSizes getSize(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
 		if(properties == null){
-			return EnumModuleSize.SMALL;
+			return EnumModuleSizes.SMALL;
 		}
 		return properties.getSize(container);
 	}
@@ -79,7 +81,8 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected boolean showPosition(IModuleContainer container){
-		return getPosition(container) != null;
+		IModulePostion[] positions = ((IModulePositioned)this).getValidPositions(container);
+		return positions != null && positions.length > 0;
 	}
 
 	protected boolean showSize(IModuleContainer container){
@@ -105,8 +108,20 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 		if(showComplexity(container)){
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
 		}
-		if(showPosition(container)){
-			tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + getPosition(container).getLocName());
+		if(this instanceof IModulePositioned){
+			if(showPosition(container)){
+				IModulePositioned module = (IModulePositioned) this;
+				IModulePostion[] positions = module.getValidPositions(container);
+				StringBuilder builder = new StringBuilder();
+				for(int i = 0;i < positions.length;i++){
+					IModulePostion pos = positions[i];
+					if(pos != null){
+						builder.append(pos.getLocName() + ((i - 1 < positions.length) ? ", " : ""));
+					}
+				}
+
+				tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + builder.toString());
+			}
 		}
 		List<String> providerTip = new ArrayList<>();
 		addProviderTooltip(providerTip, stack, container);
@@ -225,16 +240,11 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
+	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 	}
 
 	@Override
 	public void onModularAssembled(IModuleState state) {
-	}
-
-	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.INTERNAL;
 	}
 
 }

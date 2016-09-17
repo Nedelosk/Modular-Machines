@@ -1,20 +1,15 @@
 package de.nedelosk.modularmachines.client.core;
 
-import com.google.common.base.Function;
-
 import de.nedelosk.modularmachines.common.core.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
 
@@ -72,16 +67,6 @@ public class ClientProxy extends CommonProxy {
 			return fluidLocation;
 		}
 	}
-
-	public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite>{
-		INSTANCE;
-
-		@Override
-		public TextureAtlasSprite apply(ResourceLocation location)
-		{
-			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-		}
-	} 
 
 	@Override
 	public void registerBlock(Block block){

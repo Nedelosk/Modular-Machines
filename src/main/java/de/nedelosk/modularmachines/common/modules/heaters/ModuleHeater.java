@@ -7,7 +7,6 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -16,11 +15,14 @@ import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleHeaterProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
@@ -32,7 +34,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleHeater extends ModuleControlled implements IModuleHeater, IModuleColored {
+public abstract class ModuleHeater extends ModuleControlled implements IModuleHeater, IModuleColoredItem, IModulePositioned {
 
 	public ModuleHeater(String name) {
 		super("heater." + name);
@@ -106,8 +108,8 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.SIDE;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.SIDE};
 	}
 
 	@SideOnly(Side.CLIENT)

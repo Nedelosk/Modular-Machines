@@ -97,6 +97,7 @@ dependencies {
 	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
 	runtime "mezz.jei:jei_${mcversion}:${jei_version}"
 	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:dev"
 	//deobfCompile "mcp.mobius.waila:Waila:${waila_version}_1.9.4"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe:${top_version}"
 	deobfCompile "slimeknights.mantle:Mantle:${mcversion}-${mantle_version}"

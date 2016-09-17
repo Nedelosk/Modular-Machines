@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/capacitor_bank/large",
+    "textures": {
+		"side": "enderio:blocks/capacitorBankVibrantBorder"
+    }
+}

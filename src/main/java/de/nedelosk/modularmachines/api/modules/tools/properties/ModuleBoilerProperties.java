@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.tools.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -11,7 +11,7 @@ public class ModuleBoilerProperties extends ModuleProperties implements IModuleB
 	protected int waterPerWork;
 	protected final int defaultWaterPerWork;
 
-	public ModuleBoilerProperties(int complexity, EnumModuleSize size, int waterPerWork) {
+	public ModuleBoilerProperties(int complexity, EnumModuleSizes size, int waterPerWork) {
 		super(complexity, size);
 
 		this.defaultWaterPerWork = waterPerWork;

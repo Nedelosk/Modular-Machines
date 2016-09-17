@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
@@ -13,7 +13,7 @@ import de.nedelosk.modularmachines.common.modules.pages.SawMillPage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleSawMill extends ModuleBasicMachine implements IModuleColored{
+public class ModuleSawMill extends ModuleBasicMachine implements IModuleColoredItem{
 
 	public ModuleSawMill() {
 		super("sawmill");

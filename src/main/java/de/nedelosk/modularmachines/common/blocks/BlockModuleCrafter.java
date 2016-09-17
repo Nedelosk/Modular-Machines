@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.blocks;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModuleCrafter;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
+import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
 import forestry.api.core.IModelManager;
 import net.minecraft.block.material.Material;
@@ -45,6 +46,15 @@ public class BlockModuleCrafter extends BlockContainerForest implements IItemMod
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
 		manager.registerItemModel(item, 0);
+	}
+
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileModuleCrafter) {
+			WorldUtil.dropItems(world, pos);
+		}
+		super.breakBlock(world, pos, blockState);
 	}
 
 	@Override

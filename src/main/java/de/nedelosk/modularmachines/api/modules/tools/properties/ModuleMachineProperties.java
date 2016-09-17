@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.tools.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -13,7 +13,7 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	protected double maxSpeed;
 	protected int workTimeModifier;
 
-	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier, double maxSpeed) {
+	public ModuleMachineProperties(int complexity, EnumModuleSizes size, int workTimeModifier, double maxSpeed) {
 		super(complexity, size);
 		this.defaultWorkTimeModifier = workTimeModifier;
 		this.defaultMaxSpeed = maxSpeed;
@@ -21,7 +21,7 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 		this.workTimeModifier = defaultWorkTimeModifier;
 	}
 
-	public ModuleMachineProperties(int complexity, EnumModuleSize size, int workTimeModifier) {
+	public ModuleMachineProperties(int complexity, EnumModuleSizes size, int workTimeModifier) {
 		this(complexity, size, workTimeModifier, 0);
 	}
 

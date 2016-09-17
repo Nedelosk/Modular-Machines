@@ -3,28 +3,35 @@ package de.nedelosk.modularmachines.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
-import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerCasing;
+import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleBlockModificatorProperties;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleModuleStorageProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import de.nedelosk.modularmachines.api.modules.storage.StorageModule;
+import de.nedelosk.modularmachines.api.modules.storage.module.IDefaultModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.module.ModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.module.ModuleStoragePage;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleCasing extends Module implements IModuleCasing {
+public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleStorage> {
 
 	public ModuleCasing() {
 		super("casing");
@@ -60,20 +67,20 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
+	protected boolean showPosition(IModuleContainer container) {
+		return false;
+	}
+
+	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		tooltip.add(Translator.translateToLocal("mm.module.tooltip.storage.position") + EnumStoragePosition.INTERNAL.getLocName());
+		tooltip.add(Translator.translateToLocal("mm.module.tooltip.storage.position") + EnumStoragePositions.CASING.getLocName());
 		tooltip.add(Translator.translateToLocal("mm.module.allowed.complexity") + getAllowedComplexity(container));		
 		super.addTooltip(tooltip, stack, container);
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return null;
-	}
-
-	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
-		return EnumModuleSize.LARGE;
+	public EnumModuleSizes getSize(IModuleContainer container) {
+		return EnumModuleSizes.LARGE;
 	}
 
 	@Override
@@ -86,12 +93,12 @@ public class ModuleCasing extends Module implements IModuleCasing {
 	}
 
 	@Override
-	public EnumStoragePosition getCurrentPosition(IModuleState state) {
-		return EnumStoragePosition.INTERNAL;
+	public EnumStoragePositions getCurrentPosition(IModuleState state) {
+		return EnumStoragePositions.CASING;
 	}
 
 	@Override
-	public boolean isValidForPosition(EnumStoragePosition position, IModuleContainer container) {
+	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
 		if(properties instanceof IModuleModuleStorageProperties){
 			return ((IModuleModuleStorageProperties)properties).isValidForPosition(position, container);
@@ -107,5 +114,18 @@ public class ModuleCasing extends Module implements IModuleCasing {
 			return blockModificator.createBlockModificator(state);
 		}
 		return null;
+	}
+
+	@Override
+	public ModuleStorage createStorage(IModuleState state, IModular modular, IStoragePosition position) {
+		return new ModuleStorage(modular, position, state, EnumModuleSizes.LARGEST, true);
+	}
+
+	@Override
+	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state, IStoragePosition position) {
+		if(storage instanceof IDefaultModuleStorage){
+			return new ModuleStoragePage(assembler, (IDefaultModuleStorage) storage);
+		}
+		return new ModuleStoragePage(assembler, EnumModuleSizes.LARGEST, position);
 	}
 }

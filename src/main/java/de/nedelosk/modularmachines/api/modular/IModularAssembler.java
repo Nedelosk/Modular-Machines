@@ -1,20 +1,20 @@
 package de.nedelosk.modularmachines.api.modular;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.EnumStoragePosition;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.IItemHandler;
 
-public interface IModularAssembler extends INBTSerializable<NBTTagCompound> {
+public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGuiHandler {
 
 	@Nonnull
 	IModularHandler getHandler();
@@ -22,17 +22,33 @@ public interface IModularAssembler extends INBTSerializable<NBTTagCompound> {
 	@Nullable
 	IModular assemble() throws AssemblerException;
 
-	@SideOnly(Side.CLIENT)
-	GuiContainer createGui(IModularHandler tile, InventoryPlayer inventory);
+	int getComplexity(boolean withStorage, @Nullable IStoragePosition position);
 
-	Container createContainer(IModularHandler tile, InventoryPlayer inventory);
+	int getAllowedComplexity(@Nullable IStoragePosition position);
 
-	IItemHandlerModifiable getAssemblerHandler();
+	@Nonnull
+	IModularAssembler copy(@Nonnull IModularHandler handler);
 
-	int getComplexity(boolean withStorage, EnumStoragePosition position);
+	void setSelectedPosition(IStoragePosition position);
 
-	int getAllowedComplexity(EnumStoragePosition position);
+	IItemHandler getItemHandler();
 
-	IModularAssembler copy(IModularHandler handler);
+	@Nullable
+	IStoragePage getStoragePage(IStoragePosition position);
+
+	int getIndex(@Nonnull IStoragePosition position);
+
+	@Nonnull
+	Collection<IStoragePage> getStoragePages();
+
+	@Nonnull
+	IStoragePosition getSelectedPosition();
+
+	@Nonnull
+	List<IStoragePosition> getStoragePositions();
+
+	void updatePages(IStoragePosition position);
+
+	void onStorageChange();
 
 }

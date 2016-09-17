@@ -9,6 +9,6 @@ public interface IModuleProperties {
 	/**
 	 * The size of the module.
 	 */
-	EnumModuleSize getSize(IModuleContainer container);
+	EnumModuleSizes getSize(IModuleContainer container);
 
 }

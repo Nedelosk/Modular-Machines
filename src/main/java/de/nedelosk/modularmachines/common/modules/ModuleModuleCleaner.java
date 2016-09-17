@@ -5,8 +5,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
 import de.nedelosk.modularmachines.api.modules.Module;
@@ -14,9 +13,12 @@ import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentH
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modules.pages.CleanerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -26,20 +28,20 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner, IModuleColored{
+public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner, IModulePositioned, IModuleColoredItem{
 
 	public ModuleModuleCleaner(String name) {
 		super(name);
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.INTERNAL;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.CASING};
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
-		return EnumModuleSize.SMALL;
+	public EnumModuleSizes getSize(IModuleContainer container) {
+		return EnumModuleSizes.SMALL;
 	}
 
 	@Override

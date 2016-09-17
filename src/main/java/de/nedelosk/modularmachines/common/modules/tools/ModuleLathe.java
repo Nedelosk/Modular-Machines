@@ -7,11 +7,10 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
-import de.nedelosk.modularmachines.api.modules.tools.ModuleModeMachine;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleLathe extends ModuleModeMachine implements IModuleColored, IModuleJEI{
+public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem, IModuleJEI{
 
 	public ModuleLathe() {
 		super("lathe", LatheModes.ROD);

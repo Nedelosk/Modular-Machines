@@ -1,13 +1,12 @@
 package de.nedelosk.modularmachines.common.modules.turbines;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -22,6 +21,9 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleKineticProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.property.PropertyBool;
@@ -32,7 +34,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleTurbine extends ModuleControlled implements IModuleTurbine{
+public abstract class ModuleTurbine extends ModuleControlled implements IModuleTurbine, IModulePositioned{
 
 	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
 
@@ -73,8 +75,8 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.SIDE;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.SIDE};
 	}
 
 	@Override
@@ -92,7 +94,7 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 
 	@Override
 	public IKineticSource getKineticSource(IModuleState state) {
-		return (ModuleKineticHandler)state.getContentHandler(ModuleKineticHandler.class);
+		return state.getContentHandler(ModuleKineticHandler.class);
 	}
 
 	@Override
@@ -101,7 +103,7 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
 		if(state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
 			boolean isWorking = isWorking(state);
-			ModuleKineticHandler kineticHandler = (ModuleKineticHandler) state.getContentHandler(ModuleKineticHandler.class);
+			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
 
 			if (canWork(state)) {
@@ -153,9 +155,7 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault("turbines", container, ModelHandler.getModelLocation(container, "turbines", getSize(container))));
-		return handlers;
+		return Collections.singletonList(new ModelHandlerDefault("turbines", container, ModelHandler.getModelLocation(container, "turbines", getSize(container))));
 	}
 
 	@Override

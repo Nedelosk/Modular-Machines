@@ -1,13 +1,17 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.authlib.GameProfile;
 
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.common.modular.positioned.PositionedModular;
-import de.nedelosk.modularmachines.common.modular.positioned.PositionedModularAssembler;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.common.modular.Modular;
+import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,14 +26,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModularHandler implements IModularHandler<IModular, IModularAssembler, NBTTagCompound>{
 
+	protected final List<IStoragePosition> positions;
 	protected IModular modular;
 	protected IModularAssembler assembler;
 	protected World world;
 	protected GameProfile owner;
 	protected boolean isAssembled;
 
-	public ModularHandler(World world) {
+	public ModularHandler(World world, List<IStoragePosition> positions) {
 		this.world = world;
+		this.positions = positions;
 		this.isAssembled = false;
 	}
 
@@ -39,13 +45,13 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 		if (modular != null) {
 			nbt.setTag("Modular", modular.serializeNBT());
 		}
+		if(assembler != null){
+			nbt.setTag("Assembler", assembler.serializeNBT());
+		}
 		if (this.owner != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			NBTUtil.writeGameProfile(nbtTag, owner);
 			nbt.setTag("owner", nbtTag);
-		}
-		if(assembler != null){
-			nbt.setTag("Assembler", assembler.serializeNBT());
 		}
 		nbt.setBoolean("isAssembled", isAssembled);
 		return nbt;
@@ -54,10 +60,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("Modular")) {
-			modular = new PositionedModular(nbt.getCompoundTag("Modular"), this);
+			modular = new Modular(nbt.getCompoundTag("Modular"), this);
 		}
 		if(nbt.hasKey("Assembler")){
-			assembler = new PositionedModularAssembler(this, nbt.getCompoundTag("Assembler"));
+			assembler = new ModularAssembler(this, nbt.getCompoundTag("Assembler"));
 		}
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("owner"));
@@ -70,7 +76,7 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 		if (modular != null) {
 			return modular.createContainer(this, inventory);
 		}else if (assembler != null) {
-			return assembler.createContainer(this, inventory);
+			return assembler.createContainer(inventory);
 		}
 		return null;
 	}
@@ -81,7 +87,7 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 		if (modular != null) {
 			return modular.createGui(this, inventory);
 		}else if (assembler != null) {
-			return assembler.createGui(this, inventory);
+			return assembler.createGui(inventory);
 		}
 		return null;
 	}
@@ -178,6 +184,11 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 	@Override
 	public void setWorld(World world) {
 		this.world = world;
+	}
+
+	@Override
+	public List<IStoragePosition> getStoragePositions() {
+		return Collections.unmodifiableList(positions);
 	}
 
 	protected EntityPlayer getPlayer(){

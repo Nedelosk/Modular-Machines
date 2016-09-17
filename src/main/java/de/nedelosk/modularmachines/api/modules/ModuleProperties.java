@@ -8,9 +8,9 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 
 	protected final int defaultComplexity;
 	protected int complexity;
-	protected final EnumModuleSize size;
+	protected final EnumModuleSizes size;
 
-	public ModuleProperties(int complexity, EnumModuleSize size) {
+	public ModuleProperties(int complexity, EnumModuleSizes size) {
 		this.defaultComplexity = complexity;
 		this.size = size;
 		this.complexity = defaultComplexity;
@@ -22,7 +22,7 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container){
+	public EnumModuleSizes getSize(IModuleContainer container){
 		return size;
 	}
 

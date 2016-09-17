@@ -2,13 +2,14 @@ package de.nedelosk.modularmachines.common.modules.json;
 
 import com.google.gson.JsonObject;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.json.ICustomLoader;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleCasingProperties;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleHeaterProperties;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleKineticProperties;
-import de.nedelosk.modularmachines.api.modules.properties.ModuleModuleStorageProperties;
+import de.nedelosk.modularmachines.api.modules.storage.module.ModuleModuleStorageProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.ModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.ModuleMachineProperties;
 import de.nedelosk.modularmachines.api.property.JsonUtils;
@@ -20,14 +21,14 @@ public class DefaultPropertiesLoader {
 	private DefaultPropertiesLoader() {
 	}
 
-	public static EnumModuleSize getSize(JsonObject obj){
+	public static EnumModuleSizes getSize(JsonObject obj){
 		int size = JsonUtils.getInt(obj.get("size"));
-		if(size >= EnumModuleSize.VALUES.length){
-			size = EnumModuleSize.VALUES.length - 1;
+		if(size >= EnumModuleSizes.VALUES.length){
+			size = EnumModuleSizes.VALUES.length - 1;
 		}else if(size < 1){
 			size = 1;
 		}
-		return EnumModuleSize.values()[size];
+		return EnumModuleSizes.values()[size];
 	}
 
 	public static class MachinePropertiesLoader implements ICustomLoader{
@@ -119,7 +120,7 @@ public class DefaultPropertiesLoader {
 		public Object loadFromJson(JsonObject jsonObject) {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			int allowedComplexity = JsonUtils.getInt(jsonObject.get("allowedComplexity"));
-			return new ModuleModuleStorageProperties(complexity, getSize(jsonObject), allowedComplexity);
+			return new ModuleModuleStorageProperties(complexity, getSize(jsonObject), allowedComplexity, EnumModulePositions.SIDE);
 		}
 	}
 

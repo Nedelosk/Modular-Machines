@@ -1,23 +1,25 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.controller.EnumRedstoneMode;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.config.Config;
@@ -33,7 +35,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleController extends Module implements IModuleController, IModuleColored {
+public class ModuleController extends Module implements IModuleController, IModulePositioned, IModuleColoredItem {
 
 	public ModuleController() {
 		super("controller");
@@ -63,10 +65,8 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
 		ResourceLocation loc = ModelHandler.getModelLocation(container, "controllers", getSize(container));
-		handlers.add(new ModelHandlerDefault("controllers", container, loc));
-		return handlers;
+		return Collections.singletonList(new ModelHandlerDefault("controllers", container, loc));
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.INTERNAL;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.CASING};
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
-		return EnumModuleSize.LARGE;
+	public EnumModuleSizes getSize(IModuleContainer container) {
+		return EnumModuleSizes.LARGE;
 	}
 
 	@Override

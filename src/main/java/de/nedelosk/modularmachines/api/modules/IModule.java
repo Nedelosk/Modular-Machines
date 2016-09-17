@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
@@ -22,8 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties {
-
-	EnumModulePosition getPosition(IModuleContainer container);
 
 	@SideOnly(Side.CLIENT)
 	EnumWallType getWallType(IModuleState state);
@@ -71,7 +69,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	 */
 	IModuleState createState(IModular modular, IModuleContainer container);
 
-	void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException;
+	void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException;
 
 	/* MODULE CONTAINERS */
 	@Nullable

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storages.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetEnergyField;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

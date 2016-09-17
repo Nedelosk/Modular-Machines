@@ -1,10 +1,12 @@
 package de.nedelosk.modularmachines.common.modular.handlers;
 
+import java.util.List;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
@@ -17,8 +19,8 @@ public class ModularHandlerItem extends ModularHandler implements IModularHandle
 
 	protected final ItemStack parent;
 
-	public ModularHandlerItem(ItemStack parent) {
-		super(null);
+	public ModularHandlerItem(ItemStack parent, List<IStoragePosition> positions) {
+		super(null, positions);
 
 		this.parent = parent;
 	}

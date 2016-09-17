@@ -9,17 +9,19 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.photovoltaics.IModulePhotovoltaic;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.IModuleStorage;
-import de.nedelosk.modularmachines.api.modules.storages.IModuleBattery;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;
 import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
@@ -32,7 +34,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePhotovoltaic extends ModuleControlled implements IModulePhotovoltaic{
+public class ModulePhotovoltaic extends ModuleControlled implements IModulePhotovoltaic, IModulePositioned{
 
 	protected final int rfOutput;
 
@@ -42,7 +44,7 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 	}
 
 	@Override
-	public void assembleModule(IModularAssembler assembler, IModular modular, IModuleStorage storage, IModuleState state) throws AssemblerException {
+	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 		if(modular.getModules(IModuleBattery.class).isEmpty()){
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
 		}
@@ -95,8 +97,8 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 	}
 
 	@Override
-	public EnumModuleSize getSize(IModuleContainer container) {
-		return EnumModuleSize.LARGE;
+	public EnumModuleSizes getSize(IModuleContainer container) {
+		return EnumModuleSizes.LARGE;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -106,8 +108,8 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.TOP;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.TOP};
 	}
 
 	@Override

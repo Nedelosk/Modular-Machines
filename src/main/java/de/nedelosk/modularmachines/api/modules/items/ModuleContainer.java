@@ -6,7 +6,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSize;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import net.minecraft.item.ItemStack;
@@ -90,7 +90,7 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		this.ignorNBT = ignorNBT;
 		this.tooltip = tooltip;
 		String registryName = module.getRegistryName().getResourcePath() + ".";
-		EnumModuleSize size = EnumModuleSize.SMALL;
+		EnumModuleSizes size = EnumModuleSizes.SMALL;
 		if(properties != null && properties.getSize(this) != null){
 			size = properties.getSize(this);
 		}else if(module.getSize(this) != null){

@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModulePosition;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -23,11 +22,14 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInvento
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColored;
+import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
+import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
+import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleTool;
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleBoilerProperties;
@@ -47,7 +49,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModuleColored, IModuleJEI, IModuleBoilerProperties {
+public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModulePositioned, IModuleColoredItem, IModuleJEI, IModuleBoilerProperties {
 
 	public ModuleBoiler() {
 		super("boiler");
@@ -72,8 +74,8 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 	}
 
 	@Override
-	public EnumModulePosition getPosition(IModuleContainer container) {
-		return EnumModulePosition.SIDE;
+	public IModulePostion[] getValidPositions(IModuleContainer container) {
+		return new IModulePostion[]{EnumModulePositions.SIDE};
 	}
 
 	@Override
@@ -152,9 +154,7 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerDefault("boilers", container, ModelHandler.getModelLocation(container, "boilers", getSize(container))));
-		return handlers;
+		return Collections.singletonList(new ModelHandlerDefault("boilers", container, ModelHandler.getModelLocation(container, "boilers", getSize(container))));
 	}
 
 	@SideOnly(Side.CLIENT)
