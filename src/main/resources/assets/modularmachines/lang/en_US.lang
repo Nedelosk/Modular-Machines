@@ -1,10 +1,10 @@
-module.storage.top.name=Top
-module.storage.back.name=Back
-module.storage.left.name=Left
-module.storage.right.name=Right
-module.storage.side.name=Side
-module.storage.casing.name=Casing
-modular.assembler.assemble=Assemble Modular
+module.storage.top.name=Top module storage
+module.storage.back.name=Back module storage
+module.storage.left.name=Left module storage
+module.storage.right.name=Right module storge
+module.storage.side.name=Side module storge
+module.storage.casing.name=Casing storge
+modular.assembler.assemble=Modular Assembling device
 
 modular.assembler.complexity=Modular Complexity
 modular.assembler.complexity.position=Position Complexity
@@ -25,12 +25,12 @@ modular.assembler.error.complexity.position=The modules on the %s side of this m
 ## Tool Modes
 
 # Lathe
-mode.rod.name=Rod Mode
-mode.wire.name=Wire Mode
-mode.screw.name=Screw Mode
+mode.rod.name=Rod cutting Mode
+mode.wire.name=Wire cutting Mode
+mode.screw.name=Screw cutting Mode
 
 ## Redstone Modes
-mode.redstone.ignore.name=Ignore Redstone signals
+mode.redstone.ignore.name=Ignore all Redstone signals
 mode.redstone.on.name=Only Work with a redstone signal
 mode.redstone.off.name=Only Work without redstone signal
 
@@ -98,14 +98,14 @@ material.silver.name=Silver
 ####################################
 # Tabs
 ####################################
-itemGroup.modularmachines=Modular Machine's
-itemGroup.modularmachines.modules=Modules
+itemGroup.modularmachines=Modular Machines
+itemGroup.modularmachines.modules=Modular Machines modules
 
 ####################################
 # Blocks
 ####################################
 tile.modular.name=Modular Machine
-tile.modular.description=This is a modular machine, a modular machine contains different modules, modular machines are built in a modular assembler.
+tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in a modular assembler.
 modularmachines.item.casing.bronze.name=Bronze Casing
 modularmachines.item.casing.iron.name=Iron Casing
 modularmachines.item.casing.steel.name=Steel Casing
@@ -207,8 +207,8 @@ mm.module.tooltip.position=Position:
 mm.module.tooltip.storage.position=Storage Position: 
 mm.module.tooltip.tier=Power Tier: 
 mm.tooltip.modular.info=This modular machine contains the following modules: 
-mm.tooltip.moduleInfo=Module Infos
-mm.tooltip.hold.moduleInfo=<Hold M For Module Infos>
+mm.tooltip.moduleInfo=Module Info
+mm.tooltip.hold.moduleInfo=<Hold M For Module Info>
 mm.tooltip.holdshift=<Hold Shift>
 mm.tooltip.handler.tanks=Tanks: 
 mm.tooltip.handler.tank=Tank
