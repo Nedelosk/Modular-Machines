@@ -8,7 +8,7 @@ modular.assembler.assemble=Modular Assembling Machine
 
 modular.assembler.complexity=Module Complexity
 modular.assembler.complexity.position=Position Complexity
-modular.assembler.complexity.current=Complexity: 
+modular.assembler.complexity.current=Current Complexity: 
 modular.assembler.complexity.allowed=Max Controler Complexity: 
 
 modular.assembler.info=I am a info window I show: the problem when a modular machine can't be assembled, Or when one of the modules in a Modular Machine require a secondary module.
@@ -58,7 +58,7 @@ module.furnace.name=Furnace
 
 module.capacitorbank.name=Capacitor Bank
 module.energycube.name=Energy storage Cube
-module.euBattery.name=Mini ic2 RE Battery pack
+module.euBattery.name=ic2 RE Battery pack
 
 module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
@@ -202,7 +202,7 @@ mm.module.tooltip.material=Material:
 mm.module.tooltip.name=Name: 
 mm.module.tooltip.size=Size: 
 mm.module.allowed.complexity=Max Controller Complexity: 
-mm.module.tooltip.complexity=Complexity: 
+mm.module.tooltip.complexity=Current Complexity: 
 mm.module.tooltip.position=Position: 
 mm.module.tooltip.storage.position=Storage Position: 
 mm.module.tooltip.tier=Power Tier: 
