@@ -4,14 +4,14 @@ module.storage.left.name=Left module storage
 module.storage.right.name=Right module storge
 module.storage.side.name=Side module storge
 module.storage.casing.name=Casing storge
-modular.assembler.assemble=Modular Assembling device
+modular.assembler.assemble=Modular Assembling Machine
 
-modular.assembler.complexity=Modular Complexity
+modular.assembler.complexity=Module Complexity
 modular.assembler.complexity.position=Position Complexity
 modular.assembler.complexity.current=Complexity: 
-modular.assembler.complexity.allowed=Allowed Complexity: 
+modular.assembler.complexity.allowed=Max Controler Complexity: 
 
-modular.assembler.info=I am a info window I show: the problem when a modular machine can't be assembled, Or when one of the modules require a special module.
+modular.assembler.info=I am a info window I show: the problem when a modular machine can't be assembled, Or when one of the modules in a Modular Machine require a secondary module.
 modular.assembler.error.no.casing=This modular machine has no casing, modular machines require a casing to store internal modules.
 modular.assembler.error.no.battery=This modular machine has no battery, One module of this modular machine requires a battery to store RF or EU energy.
 modular.assembler.error.no.storage=The module on %s side of the modular machine has no storage module.
@@ -37,19 +37,19 @@ mode.redstone.off.name=Only Work without redstone signal
 ####################################
 # Modules
 ####################################
-module.size.large.name=Large
+module.size.large.name=Enhanced
 module.size.small.name=Small
-module.size.medium.name=Medium
+module.size.medium.name=Normal
 
-module.drawer.name=Drawer
+module.drawer.name=Storage Drawer
 module.turbine.steam.name=Steam Turbine
 module.engine.steam.name=Steam Engine
 module.engine.electric.name=Electric Engine
-module.controller.name=Controller
+module.controller.name=Module Controller
 module.lathe.name=Lathe
-module.boiler.name=Boiler
-module.heater.burning.name=Burning Heater
-module.heater.steam.name=Steam Heater
+module.boiler.name=Steam Boiler
+module.heater.burning.name=Combustion Heat Generation Device
+module.heater.steam.name=Steam Based Heat Transfer Device
 module.alloysmelter.name=Alloy Smelter
 module.pulverizer.name=Pulverizer
 module.casing.name=Casing
@@ -57,8 +57,8 @@ module.cleaner.name=Module Cleaner
 module.furnace.name=Furnace
 
 module.capacitorbank.name=Capacitor Bank
-module.energycube.name=Energy Cube
-module.euBattery.name=Industrialcraft Battery
+module.energycube.name=Energy storage Cube
+module.euBattery.name=Mini ic2 RE Battery pack
 
 module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
@@ -105,7 +105,7 @@ itemGroup.modularmachines.modules=Modular Machines modules
 # Blocks
 ####################################
 tile.modular.name=Modular Machine
-tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in a modular assembler.
+tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in the module assembling machine.
 modularmachines.item.casing.bronze.name=Bronze Casing
 modularmachines.item.casing.iron.name=Iron Casing
 modularmachines.item.casing.steel.name=Steel Casing
@@ -132,25 +132,25 @@ modularmachines.block.steam.name=Steam
 ####################################
 # Item
 ####################################
-modularmachines.item.engineElectric_iron.name=Iron Electric Engine
-modularmachines.item.engineElectric_bronze.name=Bronze Electric Engine
-modularmachines.item.engineElectric_steel.name=Steel Electric Engine
-modularmachines.item.engineElectric_magmarium.name=Magmarium Electric Engine
-modularmachines.item.engineSteam_iron.name=Iron Steam Engine
-modularmachines.item.engineSteam_bronze.name=Bronze Steam Engine
-modularmachines.item.engineSteam_steel.name=Steel Steam Engine
-modularmachines.item.engineSteam_magmarium.name=Magmarium Steam Engine
-modularmachines.item.turbineSteam_iron.name=Iron Steam Turbine
-modularmachines.item.turbineSteam_bronze.name=Bronze Steam Turbine
-modularmachines.item.turbineSteam_steel.name=Steel Steam Turbine
-modularmachines.item.turbineSteam_magmarium.name=Magmarium Steam Turbine
+modularmachines.item.engineElectric_iron.name=Iron Encased Electric Engine
+modularmachines.item.engineElectric_bronze.name=Bronze Encased Electric Engine
+modularmachines.item.engineElectric_steel.name=Steel Encased Electric Engine
+modularmachines.item.engineElectric_magmarium.name=Magmarium Encased Electric Engine
+modularmachines.item.engineSteam_iron.name=Iron Encased Steam Engine
+modularmachines.item.engineSteam_bronze.name=Bronze Encased Steam Engine
+modularmachines.item.engineSteam_steel.name=Steel Encased Steam Engine
+modularmachines.item.engineSteam_magmarium.name=Magmarium Encased Steam Engine
+modularmachines.item.turbineSteam_iron.name=Iron Encased Steam Turbine
+modularmachines.item.turbineSteam_bronze.name=Bronze Encased Steam Turbine
+modularmachines.item.turbineSteam_steel.name=Steel Encased Steam Turbine
+modularmachines.item.turbineSteam_magmarium.name=Magmarium Encased Steam Turbine
 modularmachines.item.drawer_brick_large.name=Large Brick Module Storage
 modularmachines.item.drawer_bronze_large.name=Large Bronze Module Storage
 modularmachines.item.drawer_iron_large.name=Large Iron Module Storage
 modularmachines.item.drawer_steel_large.name=Large Steel Module Storage
 modularmachines.item.drawer_magmarium_large.name=Large Magmarium Module Storage
 modularmachines.item.drawer_brick_small.name=Small Brick Module Storage
-modularmachines.item.moduleCore_basic.name=Bad Module Core
+modularmachines.item.moduleCore_basic.name=Basic Module Core
 modularmachines.item.moduleCore_normal.name=Module Core
 modularmachines.item.moduleCore_improved.name=Improved Module Core
 modularmachines.item.moduleCore_advanced.name=Advanced Module Core
@@ -164,7 +164,7 @@ modularmachines.tool.file.iron.name=Iron File
 modularmachines.tool.file.diamond.name=Diamond File
 modularmachines.tool.hammer.name=Iron Hammer
 modularmachines.tool.knife.name=Knife
-modularmachines.tool.cutter.name=Cutter
+modularmachines.tool.cutter.name=Cutting tool
 component.plates.name=Plate
 component.gears.name=Gear
 component.screws.name=Screw
@@ -197,11 +197,11 @@ module.page.controller.name=Controller
 ####################################
 # Tooltips
 ####################################
-mm.tooltip.nonefluid=None Fluid
+mm.tooltip.nonefluid=No Fluid
 mm.module.tooltip.material=Material: 
 mm.module.tooltip.name=Name: 
 mm.module.tooltip.size=Size: 
-mm.module.allowed.complexity=Allowed Complexity: 
+mm.module.allowed.complexity=Max Controller Complexity: 
 mm.module.tooltip.complexity=Complexity: 
 mm.module.tooltip.position=Position: 
 mm.module.tooltip.storage.position=Storage Position: 
