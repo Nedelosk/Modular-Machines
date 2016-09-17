@@ -1,23 +1,23 @@
-module.storage.top.name=Top
-module.storage.back.name=Back
-module.storage.left.name=Left
-module.storage.right.name=Right
-module.storage.side.name=Side
-module.storage.casing.name=Casing
-modular.assembler.assemble=Assemble Modular
+module.storage.top.name=Top module storage
+module.storage.back.name=Back module storage
+module.storage.left.name=Left module storage
+module.storage.right.name=Right module storge
+module.storage.side.name=Side module storge
+module.storage.casing.name=Casing storge
+modular.assembler.assemble=Modular Assembling device
 
 modular.assembler.complexity=Modular Complexity
 modular.assembler.complexity.position=Position Complexity
 modular.assembler.complexity.current=Complexity: 
 modular.assembler.complexity.allowed=Allowed Complexity: 
 
-modular.assembler.info=This is a info windows. It shows the proplem when a modular machine can't be assembled. Or when one of the modules require a special module.
-modular.assembler.error.no.casing=The modular machine has no casing. The modular machine requires a casing to storage the internal modules.
-modular.assembler.error.no.battery=The modular machine has no battery. One module of the modular machine requires it to storage RF or EU energy.
-modular.assembler.error.no.storage=The modules at the %s side of the modular machine, have no storage module.
-modular.assembler.error.no.controller=The modules that the modular machine contains are to complex for this simple modular machine. The modular machine requires a controller for handle this complex modules.
-modular.assembler.error.complexity=The modules that the modular machine contains are to complex for the controller. The modular machine requires a better controller for handle this complex modules.
-modular.assembler.error.complexity.position=The modules at the %s side of the modular machine, are to complex for the module storage.
+modular.assembler.info=I am a info window I show: the problem when a modular machine can't be assembled, Or when one of the modules require a special module.
+modular.assembler.error.no.casing=This modular machine has no casing, modular machines require a casing to store internal modules.
+modular.assembler.error.no.battery=This modular machine has no battery, One module of this modular machine requires a battery to store RF or EU energy.
+modular.assembler.error.no.storage=The module on %s side of the modular machine has no storage module.
+modular.assembler.error.no.controller=The modules that are in this modular machine contains are to complex for a controler-less modular machine, put a controller in this frame handle more complex modules.
+modular.assembler.error.complexity=The modules in this modular machine are to complex for this machine's controling unit, please put a better controller in to this frame to handle this complexity of modules.
+modular.assembler.error.complexity.position=The modules on the %s side of this modular machine are to complex for the module storage of this machine.
 
 ####################################
 # Module Modes
@@ -25,12 +25,12 @@ modular.assembler.error.complexity.position=The modules at the %s side of the mo
 ## Tool Modes
 
 # Lathe
-mode.rod.name=Rod Mode
-mode.wire.name=Wire Mode
-mode.screw.name=Screw Mode
+mode.rod.name=Rod cutting Mode
+mode.wire.name=Wire cutting Mode
+mode.screw.name=Screw cutting Mode
 
 ## Redstone Modes
-mode.redstone.ignore.name=Ignore Redstone signals
+mode.redstone.ignore.name=Ignore all Redstone signals
 mode.redstone.on.name=Only Work with a redstone signal
 mode.redstone.off.name=Only Work without redstone signal
 
@@ -60,18 +60,18 @@ module.capacitorbank.name=Capacitor Bank
 module.energycube.name=Energy Cube
 module.euBattery.name=Industrialcraft Battery
 
-module.casing.description=This is a casing module.It defines the the harvest level, harvest tool and the resistance of the modular machine block.And it defines the maximum complexity of storaged modules.
-module.controller.description=This is a controller module. It defines the maximum complexity of the modular machine.
-module.drawer.description=This is a drawer module. It defines the maximum complexity of storaged modules.
-module.heater.steam.description=This type of heater genearte his heat from steam.
-module.heater.burning.description=This type of heater genearte his heat from solid fuel, like coal or other furnace fuel.
-module.engine.electric.rf.description=This type of engine generate his kinetic energy from redstone flux.
-module.engine.electric.eu.description=This type of engine generate his kinetic energy from eu.
-module.engine.steam.description=This type of engine generate his kinetic energy from steam.
-module.boiler.description=This machine module generate steam and consume water.
-module.alloysmelter.description=This machine is used to smelt two metals into a new.
-module.pulverizer.description=This machine is used to pulverize a items.
-module.turbine.steam.description=This type of turbine generate his kinetic energy from steam. It is larger that a steam engine, but it is faster than three steam engines. 
+module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
+module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
+module.drawer.description=This is a drawer module, It defines the maximum complexity of storaged modules.
+module.heater.steam.description=This type of heater generates heat from steam.
+module.heater.burning.description=This type of heater generates heat from solid fuel, like coal or other furnace fuel.
+module.engine.electric.rf.description=This type of engine generates kinetic energy from redstone flux.
+module.engine.electric.eu.description=This type of engine generates kinetic energy from ic2 energy units.
+module.engine.steam.description=This type of engine generates kinetic energy from steam.
+module.boiler.description=This machine module generates steam and consumes water.
+module.alloysmelter.description=This machine is used to smelt two metals into one new metal.
+module.pulverizer.description=This machine is used to pulverize items.
+module.turbine.steam.description=This type of turbine generates kinetic energy from steam. It is larger than a steam engine, but also is faster than three steam engines! 
 module.capacitorbank.description=This type of battery stores redstone flux.
 
 ####################################
@@ -98,14 +98,14 @@ material.silver.name=Silver
 ####################################
 # Tabs
 ####################################
-itemGroup.modularmachines=Modular Machine's
-itemGroup.modularmachines.modules=Modules
+itemGroup.modularmachines=Modular Machines
+itemGroup.modularmachines.modules=Modular Machines modules
 
 ####################################
 # Blocks
 ####################################
 tile.modular.name=Modular Machine
-tile.modular.description=This is a modular machine. A modular machine contains different modules. A modular machine can be built in a modular assembler.
+tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in a modular assembler.
 modularmachines.item.casing.bronze.name=Bronze Casing
 modularmachines.item.casing.iron.name=Iron Casing
 modularmachines.item.casing.steel.name=Steel Casing
@@ -207,8 +207,8 @@ mm.module.tooltip.position=Position:
 mm.module.tooltip.storage.position=Storage Position: 
 mm.module.tooltip.tier=Power Tier: 
 mm.tooltip.modular.info=This modular machine contains the following modules: 
-mm.tooltip.moduleInfo=Module Infos
-mm.tooltip.hold.moduleInfo=<Hold M For Module Infos>
+mm.tooltip.moduleInfo=Module Info
+mm.tooltip.hold.moduleInfo=<Hold M For Module Info>
 mm.tooltip.holdshift=<Hold Shift>
 mm.tooltip.handler.tanks=Tanks: 
 mm.tooltip.handler.tank=Tank
