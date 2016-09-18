@@ -23,7 +23,7 @@ public class ModuleBatteryProperties extends StorageModuleProperties implements 
 	}
 
 	public ModuleBatteryProperties(int complexity, EnumModuleSizes size, int capacity, int maxReceive, int maxExtract, int tier) {
-		super(complexity, size, EnumModulePositions.SIDE);
+		super(complexity, size, EnumModulePositions.SIDE, EnumModulePositions.BACK);
 		this.defaultCapacity = capacity;
 		this.defaultMaxReceive = maxReceive;
 		this.defaultMaxExtract = maxExtract;

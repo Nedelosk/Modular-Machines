@@ -11,21 +11,23 @@ import de.nedelosk.modularmachines.api.modules.storage.IStorageModuleProperties;
 
 public class StorageModuleProperties extends ModuleProperties implements IStorageModuleProperties {
 
-	protected final IModulePostion position;
+	protected final IModulePostion[] positions;
 
-	public StorageModuleProperties(int complexity, EnumModuleSizes size, IModulePostion position) {
+	public StorageModuleProperties(int complexity, EnumModuleSizes size, IModulePostion... positions) {
 		super(complexity, size);
-		this.position = position;
+		this.positions = positions;
 	}
 
 	@Override
-	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container) {
-		for(IModulePostion pos : position.getPostions()){
-			if(pos == this.position){
-				if(this.position == EnumModulePositions.CASING && !(container.getModule() instanceof IModuleCasing)){
-					return false;
+	public boolean isValidForPosition(IStoragePosition storagePosition, IModuleContainer container) {
+		for(IModulePostion pos : storagePosition.getPostions()){
+			for(IModulePostion position : positions){
+				if(pos == position){
+					if(position == EnumModulePositions.CASING && !(container.getModule() instanceof IModuleCasing)){
+						continue;
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;

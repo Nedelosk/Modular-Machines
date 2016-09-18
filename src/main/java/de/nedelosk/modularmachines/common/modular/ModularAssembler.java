@@ -247,6 +247,15 @@ public class ModularAssembler implements IModularAssembler {
 			}
 			return Config.defaultAllowedComplexity;
 		}else{
+			ItemStack storageStack = itemHandler.getStackInSlot(getIndex(position));
+			if(storageStack != null){
+				IModuleContainer container = ModularMachinesApi.getContainerFromItem(storageStack);
+				if(container != null){
+					if(container.getModule() instanceof IModuleModuleStorage){
+						return ((IModuleModuleStorage) container.getModule()).getAllowedComplexity(container);
+					}
+				}
+			}
 			if(pages.get(position) != null){
 				IItemHandler assemblerHandler = pages.get(position).getItemHandler();
 				for(int index = 0;index < assemblerHandler.getSlots();index++){

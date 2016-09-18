@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import net.minecraft.util.text.translation.I18n;
 
 public enum EnumStoragePositions implements IStoragePosition{
-	CASING(EnumModuleSizes.LARGEST, EnumModulePositions.CASING), LEFT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, -(float) (Math.PI / 2)), RIGHT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, (float) (Math.PI / 2)), TOP(EnumModuleSizes.LARGE), BACK(EnumModuleSizes.LARGE);
+	CASING(EnumModuleSizes.LARGEST, EnumModulePositions.CASING), LEFT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, -(float) (Math.PI / 2)), RIGHT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, (float) (Math.PI / 2)), TOP(EnumModuleSizes.LARGE, EnumModulePositions.TOP), BACK(EnumModuleSizes.LARGE, EnumModulePositions.BACK, (float) (Math.PI));
 
 	float rotation;
 	EnumModuleSizes size;
