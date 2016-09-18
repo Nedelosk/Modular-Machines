@@ -1,10 +1,10 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerItem;
+import de.nedelosk.modularmachines.common.modular.ModularHandlerItem;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,14 +100,14 @@ public abstract class PacketModularHandler extends AbstractPacketThreadsafe {
 					break;
 				}
 			}
-			if(stack != null && stack.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)){
-				return stack.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			if(stack != null && stack.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+				return stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			}
 		}else if(identifier instanceof BlockPos){
 			BlockPos pos = (BlockPos) identifier;
 			TileEntity tile = world.getTileEntity(pos);
-			if(tile != null && tile.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)){
-				return tile.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			if(tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+				return tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			}
 		}
 		return null;

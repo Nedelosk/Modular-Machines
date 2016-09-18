@@ -2,11 +2,11 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
@@ -54,9 +54,9 @@ public class ItemModuleHolder extends Item implements IColoredItem, IItemModelRe
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IMetalMaterial material : ModularMachinesApi.getMaterialsWithHolder()){
+		for(IMetalMaterial material : ModuleManager.getMaterialsWithHolder()){
 			for(int i = 0;i < 3;i++){
-				subItems.add(ModularMachinesApi.getHolder(material, i));
+				subItems.add(ModuleManager.getHolder(material, i));
 			}
 		}
 	}

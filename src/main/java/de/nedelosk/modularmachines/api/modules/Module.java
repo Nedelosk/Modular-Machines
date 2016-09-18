@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -73,7 +72,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected boolean showName(IModuleContainer container){
-		return !ModularMachinesApi.hasDefaultStack(container);
+		return !ModuleManager.hasDefaultStack(container);
 	}
 
 	protected boolean showComplexity(IModuleContainer container){
@@ -135,7 +134,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container){
-		IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+		IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 		if(provider != null && provider.hasState()){
 			IModuleState state = provider.createState(null);
 			for(IModuleContentHandler handler : state.getContentHandlers()){

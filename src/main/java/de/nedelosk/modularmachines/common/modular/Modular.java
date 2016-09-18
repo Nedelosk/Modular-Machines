@@ -10,7 +10,6 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
@@ -21,6 +20,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -40,8 +40,6 @@ import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStora
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
-import de.nedelosk.modularmachines.common.modular.handlers.ItemHandler;
-import de.nedelosk.modularmachines.common.modular.handlers.ModularEnergyBuffer;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -78,15 +76,15 @@ public class Modular implements IModular {
 	private static final Random rand = new Random();
 	private int tickCount = rand.nextInt(256);
 
-	public Modular() {
+	public Modular(IModularHandler handler) {
 		storages = new HashMap<>();
-	}
-
-	public Modular(NBTTagCompound nbt, IModularHandler handler) {
-		this();
 		if(handler != null){
 			setHandler(handler);
 		}
+	}
+
+	public Modular(IModularHandler handler, NBTTagCompound nbt) {
+		this(handler);
 		if(nbt != null){
 			deserializeNBT(nbt);
 			if(nbt.hasKey("HeatBuffer")){
@@ -201,7 +199,7 @@ public class Modular implements IModular {
 		NBTTagList list = nbt.getTagList("Storages", 10);
 		for(int i = 0;i < list.tagCount();i++){
 			NBTTagCompound tagCompound = list.getCompoundTagAt(i);
-			IModuleState<IStorageModule> module = ModularMachinesApi.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
+			IModuleState<IStorageModule> module = ModuleManager.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
 			IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
 			IStorage storage = module.getModule().createStorage(module, this, position);
 			storage.deserializeNBT(tagCompound.getCompoundTag("Storage"));
@@ -226,7 +224,7 @@ public class Modular implements IModular {
 			if(entry.getValue() != null){
 				IStorage storage = entry.getValue();
 				NBTTagCompound tagCompound = new NBTTagCompound();
-				tagCompound.setTag("State", ModularMachinesApi.writeStateToNBT(this, storage.getModule()));
+				tagCompound.setTag("State", ModuleManager.writeStateToNBT(this, storage.getModule()));
 				tagCompound.setTag("Storage", storage.serializeNBT());
 				tagCompound.setInteger("Position", modularHandler.getStoragePositions().indexOf(entry.getKey()));
 				list.appendTag(tagCompound);
@@ -543,7 +541,7 @@ public class Modular implements IModular {
 
 	@Override
 	public IModular copy(IModularHandler handler) {
-		return new Modular(serializeNBT(), handler);
+		return new Modular(handler, serializeNBT());
 	}
 
 	@Override
@@ -557,7 +555,7 @@ public class Modular implements IModular {
 			IStorage storage = storages.get(position);
 			if(storage != null){
 				IModuleState<IStorageModule> module = storage.getModule();
-				stacks[modularHandler.getStoragePositions().indexOf(position)] = ModularMachinesApi.saveModuleState(module);
+				stacks[modularHandler.getStoragePositions().indexOf(position)] = ModuleManager.saveModuleStateToItem(module);
 				pages.put(position, module.getModule().createPage(null, this, storage, module, position));
 			}else{
 				pages.put(position, null);

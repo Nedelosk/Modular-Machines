@@ -2,9 +2,11 @@ package de.nedelosk.modularmachines.common.core;
 
 import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
 
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
+import de.nedelosk.modularmachines.common.modular.ModularHelper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import de.nedelosk.modularmachines.common.recipse.ModuleCrafterRecipe;
@@ -25,6 +27,7 @@ public class ModRegistry extends Registry {
 
 	@Override
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
+		ModularManager.helper = new ModularHelper();
 		config = new Config();
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);

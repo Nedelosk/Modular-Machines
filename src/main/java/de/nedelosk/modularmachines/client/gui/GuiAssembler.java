@@ -10,12 +10,12 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IAssemblerGui;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.SlotAssembler;
@@ -109,7 +109,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 			try{
 				lastException = null;
 				modular = assembler.assemble();
-				modularStack = ModularMachinesApi.saveModular(new ItemStack(BlockManager.blockModular), modular, player);
+				modularStack = ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player);
 			}catch(AssemblerException exception){
 				lastException = exception;
 				modular = null;

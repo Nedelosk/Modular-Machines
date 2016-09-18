@@ -1,17 +1,14 @@
-package de.nedelosk.modularmachines.common.modular.handlers;
+package de.nedelosk.modularmachines.api.modular.handlers;
 
 import java.util.Collections;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
-import de.nedelosk.modularmachines.common.modular.Modular;
-import de.nedelosk.modularmachines.common.modular.ModularAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -60,10 +57,10 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("Modular")) {
-			modular = new Modular(nbt.getCompoundTag("Modular"), this);
+			modular = ModularManager.helper.createModular(this, nbt.getCompoundTag("Modular"));
 		}
 		if(nbt.hasKey("Assembler")){
-			assembler = new ModularAssembler(this, nbt.getCompoundTag("Assembler"));
+			assembler = ModularManager.helper.createModularAssembler(this, nbt.getCompoundTag("Assembler"));
 		}
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("owner"));
@@ -147,8 +144,8 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY){
-			return ModularMachinesApi.MODULAR_HANDLER_CAPABILITY.cast(this);
+		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
+			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(this);
 		}
 		if(modular != null){
 			if(modular.hasCapability(capability, facing)){
@@ -160,7 +157,7 @@ public abstract class ModularHandler implements IModularHandler<IModular, IModul
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if(capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY){
+		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
 			return true;
 		}
 		if(modular != null){

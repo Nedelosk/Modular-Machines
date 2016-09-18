@@ -1,10 +1,10 @@
 package de.nedelosk.modularmachines.common.core;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialList;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.common.items.ItemCasing;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
@@ -65,8 +65,8 @@ public class ItemManager {
 		itemEngineElectric = register(new ItemModuleMeta("engineElectric", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
-		ModularMachinesApi.defaultModuleItem = itemModules = register(new ItemModule());
-		ModularMachinesApi.defaultHolderItem = register(new ItemModuleHolder());
+		ModuleManager.defaultModuleItem = itemModules = register(new ItemModule());
+		ModuleManager.defaultHolderItem = register(new ItemModuleHolder());
 	}
 
 	public static <I extends Item> I register(I item) {

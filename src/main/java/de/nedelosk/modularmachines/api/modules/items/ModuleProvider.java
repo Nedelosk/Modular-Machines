@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.api.modules.items;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -36,7 +36,7 @@ public class ModuleProvider implements IModuleProvider{
 		if(stateTag == null || stateTag.hasNoTags()){
 			return null;
 		}
-		return ModularMachinesApi.loadStateFromNBT(modular, stateTag);
+		return ModuleManager.loadStateFromNBT(modular, stateTag);
 	}
 
 	@Override
@@ -52,13 +52,13 @@ public class ModuleProvider implements IModuleProvider{
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == ModularMachinesApi.MODULE_PROVIDER_CAPABILITY;
+		return capability == ModuleManager.MODULE_PROVIDER_CAPABILITY;
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModularMachinesApi.MODULE_PROVIDER_CAPABILITY){
-			return ModularMachinesApi.MODULE_PROVIDER_CAPABILITY.cast(this);
+		if(capability == ModuleManager.MODULE_PROVIDER_CAPABILITY){
+			return ModuleManager.MODULE_PROVIDER_CAPABILITY.cast(this);
 		}
 		return null;
 	}

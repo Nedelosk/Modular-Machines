@@ -7,11 +7,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.ICustomLoader;
 import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
@@ -39,7 +39,7 @@ public class DefaultLoaders {
 
 			String moduleName = JsonUtils.getString(jsonObject.get("module"));
 			if(moduleName != null){
-				module = ModularMachinesApi.MODULES.getValue(new ResourceLocation(moduleName));
+				module = ModuleManager.MODULES.getValue(new ResourceLocation(moduleName));
 			}
 			material = MaterialRegistry.getMaterial(JsonUtils.getString(jsonObject.get("material")));
 			if(JsonUtils.getString(jsonObject.get("item")) != null){

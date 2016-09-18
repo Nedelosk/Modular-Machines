@@ -1,7 +1,5 @@
 package de.nedelosk.modularmachines.api.energy;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
-
 public class HeatLevel implements Comparable<HeatLevel> {
 	protected final double heatMin;
 	protected final double heatStepUp;
@@ -18,7 +16,7 @@ public class HeatLevel implements Comparable<HeatLevel> {
 	}
 
 	public int getIndex() {
-		return ModularMachinesApi.getHeatLevelIndex(this);
+		return HeatManager.getHeatLevelIndex(this);
 	}
 
 	public double getHeatStepUp() {

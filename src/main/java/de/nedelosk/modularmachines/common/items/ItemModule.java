@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.core.ModelManager;
@@ -60,7 +60,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 			if(stack.hasTagCompound()){
 				NBTTagCompound nbtTag = stack.getTagCompound();
 				if(nbtTag.hasKey("Container")){
-					IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
+					IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
 					return locs[container.getModule().getSize(container).ordinal()-1];
 				}
 			}
@@ -79,7 +79,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 		if(stack.hasTagCompound()){
 			NBTTagCompound nbtTag = stack.getTagCompound();
 			if(nbtTag.hasKey("Container")){
-				IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
+				IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
 				if(container != null){
 					return container.getDisplayName();
 				}
@@ -90,8 +90,8 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IModuleContainer container : ModularMachinesApi.getModulesWithDefaultItem()){
-			subItems.add(ModularMachinesApi.createDefaultStack(container));
+		for(IModuleContainer container : ModuleManager.getModulesWithDefaultItem()){
+			subItems.add(ModuleManager.createDefaultStack(container));
 		}
 	}
 
@@ -100,7 +100,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 		if(stack.hasTagCompound()){
 			NBTTagCompound nbtTag = stack.getTagCompound();
 			if(nbtTag.hasKey("Container")){
-				IModuleContainer container = ModularMachinesApi.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
+				IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
 				if(tintIndex == 0){
 					IMaterial material = container.getMaterial();
 					if(material instanceof IColoredMaterial){

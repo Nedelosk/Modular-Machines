@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.Storage;
@@ -38,7 +38,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
 		for(IModuleState moduleState : moduleStates) {
-			NBTTagCompound compoundTag = ModularMachinesApi.writeStateToNBT(modular, moduleState);
+			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(modular, moduleState);
 			if(compoundTag != null){
 				nbtList.appendTag(compoundTag);
 			}
@@ -51,7 +51,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList nbtList = nbt.getTagList("Modules", 10);
 		for(int i = 0; i < nbtList.tagCount(); i++) {
-			IModuleState moduleState = ModularMachinesApi.loadStateFromNBT(modular, nbtList.getCompoundTagAt(i));
+			IModuleState moduleState = ModuleManager.loadStateFromNBT(modular, nbtList.getCompoundTagAt(i));
 			if(moduleState != null){
 				moduleStates.add(moduleState);
 			}
@@ -134,7 +134,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 		int index = 0;
 		for(IModuleState state : moduleStates){
 			if(state != null){
-				stacks[index] = ModularMachinesApi.saveModuleState(state);
+				stacks[index] = ModuleManager.saveModuleStateToItem(state);
 				index+= state.getModule().getSize(state.getContainer()).slots;
 			}
 		}

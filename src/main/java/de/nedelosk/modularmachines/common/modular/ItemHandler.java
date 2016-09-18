@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modular.handlers;
+package de.nedelosk.modularmachines.common.modular;
 
 import java.util.List;
 

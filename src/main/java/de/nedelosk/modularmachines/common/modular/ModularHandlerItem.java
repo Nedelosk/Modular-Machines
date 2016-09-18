@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.common.modular.handlers;
+package de.nedelosk.modularmachines.common.modular;
 
 import java.util.List;
 import java.util.Random;
@@ -6,6 +6,7 @@ import java.util.Random;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
+import de.nedelosk.modularmachines.api.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

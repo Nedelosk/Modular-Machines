@@ -1,11 +1,11 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
@@ -71,7 +71,7 @@ public abstract class StoragePage extends Page implements IStoragePage {
 	@Override
 	public IStorage assemble(IModular modular) throws AssemblerException {
 		ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(position));
-		IModuleState storageState = ModularMachinesApi.loadOrCreateModuleState(modular, storageStack);
+		IModuleState storageState = ModuleManager.loadOrCreateModuleState(modular, storageStack);
 		if(storageState.getModule() instanceof IStorageModule){
 			IStorageModule module = (IStorageModule) storageState.getModule();
 			return module.createStorage(storageState, modular, position);

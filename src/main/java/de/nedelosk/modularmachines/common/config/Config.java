@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modules.IModuleConfigurable;
 import de.nedelosk.modularmachines.api.modules.IModulePropertiesConfigurable;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.common.core.Constants;
 import de.nedelosk.modularmachines.common.utils.Log;
@@ -120,7 +120,7 @@ public class Config {
 	}
 
 	public static void processModuleConfig(){
-		for(IModuleContainer container : ModularMachinesApi.MODULE_CONTAINERS){
+		for(IModuleContainer container : ModuleManager.MODULE_CONTAINERS){
 			if(container != null){
 				if(container.getModule() instanceof IModuleConfigurable){
 					((IModuleConfigurable)container.getModule()).processConfig(container, config);

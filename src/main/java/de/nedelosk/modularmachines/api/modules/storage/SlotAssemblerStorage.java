@@ -1,9 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 	}
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+		IModuleContainer container = ModuleManager.getContainerFromItem(stack);
 		if(container == null){
 			return false;
 		}

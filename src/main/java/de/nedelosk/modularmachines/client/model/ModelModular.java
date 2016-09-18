@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -174,8 +174,8 @@ public class ModelModular implements IBakedModel {
 		if(provider == null){
 			return null;
 		}
-		if(provider.hasCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null)){
-			return provider.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+		if(provider.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+			return provider.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 		}
 		return null;	
 	}

@@ -2,10 +2,10 @@ package de.nedelosk.modularmachines.common.modules.pages;
 
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -39,7 +39,7 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner>{
 	private class ItemFilterModule implements IContentFilter<ItemStack, IModule>{
 		@Override
 		public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
-			return ModularMachinesApi.getContainerFromItem(content) != null;
+			return ModuleManager.getContainerFromItem(content) != null;
 		}
 	}
 

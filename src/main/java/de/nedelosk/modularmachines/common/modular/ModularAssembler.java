@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -18,6 +17,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
@@ -172,7 +172,7 @@ public class ModularAssembler implements IModularAssembler {
 			for(IStoragePosition otherPosition : indexes){
 				ItemStack storageStack = itemHandler.getStackInSlot(getIndex(otherPosition));
 				if(storageStack != null){
-					IModuleContainer container = ModularMachinesApi.getContainerFromItem(storageStack);
+					IModuleContainer container = ModuleManager.getContainerFromItem(storageStack);
 					if(container != null){
 						if(withStorage || !(container.getModule() instanceof IStorageModule)){
 							complexity+=container.getModule().getComplexity(container);
@@ -185,7 +185,7 @@ public class ModularAssembler implements IModularAssembler {
 					for(int index = 0;index < assemblerHandler.getSlots();index++){
 						ItemStack stack = assemblerHandler.getStackInSlot(index);
 						if(stack != null){
-							IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+							IModuleContainer container = ModuleManager.getContainerFromItem(stack);
 							if(container != null){
 								if(container.getModule() instanceof IModuleModuleStorage &&!withStorage){
 									continue;
@@ -199,7 +199,7 @@ public class ModularAssembler implements IModularAssembler {
 		}else{
 			ItemStack storageStack = itemHandler.getStackInSlot(getIndex(position));
 			if(storageStack != null){
-				IModuleContainer container = ModularMachinesApi.getContainerFromItem(storageStack);
+				IModuleContainer container = ModuleManager.getContainerFromItem(storageStack);
 				if(container != null){
 					if(withStorage || !(container.getModule() instanceof IStorageModule)){
 						complexity+=container.getModule().getComplexity(container);
@@ -211,7 +211,7 @@ public class ModularAssembler implements IModularAssembler {
 				for(int index = 0;index < assemblerHandler.getSlots();index++){
 					ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 					if(slotStack != null){
-						IModuleContainer container = ModularMachinesApi.getContainerFromItem(slotStack);
+						IModuleContainer container = ModuleManager.getContainerFromItem(slotStack);
 						if(container != null){
 							if(container.getModule() instanceof IModuleModuleStorage &&!withStorage){
 								continue;
@@ -234,7 +234,7 @@ public class ModularAssembler implements IModularAssembler {
 					for(int index = 0;index < assemblerHandler.getSlots();index++){
 						ItemStack stack = assemblerHandler.getStackInSlot(index);
 						if(stack != null){
-							IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+							IModuleContainer container = ModuleManager.getContainerFromItem(stack);
 							if(container != null){
 								IModule module = container.getModule();
 								if(module instanceof IModuleController) {
@@ -249,7 +249,7 @@ public class ModularAssembler implements IModularAssembler {
 		}else{
 			ItemStack storageStack = itemHandler.getStackInSlot(getIndex(position));
 			if(storageStack != null){
-				IModuleContainer container = ModularMachinesApi.getContainerFromItem(storageStack);
+				IModuleContainer container = ModuleManager.getContainerFromItem(storageStack);
 				if(container != null){
 					if(container.getModule() instanceof IModuleModuleStorage){
 						return ((IModuleModuleStorage) container.getModule()).getAllowedComplexity(container);
@@ -261,7 +261,7 @@ public class ModularAssembler implements IModularAssembler {
 				for(int index = 0;index < assemblerHandler.getSlots();index++){
 					ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 					if(slotStack != null){
-						IModuleContainer container = ModularMachinesApi.getContainerFromItem(slotStack);
+						IModuleContainer container = ModuleManager.getContainerFromItem(slotStack);
 						if(container != null){
 							IModule module = container.getModule();
 							if(module instanceof IModuleModuleStorage) {
@@ -297,7 +297,7 @@ public class ModularAssembler implements IModularAssembler {
 
 	@Override
 	public IModular assemble() throws AssemblerException {
-		IModular modular = new Modular();
+		IModular modular = new Modular(modularHandler);
 		for(IStoragePage page : pages.values()){
 			if(page != null){
 				modular.addStorage(page.assemble(modular));
@@ -347,7 +347,7 @@ public class ModularAssembler implements IModularAssembler {
 				ItemStack stack = itemHandler.getStackInSlot(getIndex(pos));
 				if(page == null){
 					if(stack != null){
-						IModuleState state = ModularMachinesApi.loadOrCreateModuleState(null, stack);
+						IModuleState state = ModuleManager.loadOrCreateModuleState(null, stack);
 						if(state != null){
 							pages.put(pos, ((IStorageModule)state.getModule()).createPage(this, null, null, state, pos));
 						}

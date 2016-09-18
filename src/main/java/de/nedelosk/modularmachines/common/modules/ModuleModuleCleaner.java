@@ -2,13 +2,13 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
 import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -70,7 +70,7 @@ public class ModuleModuleCleaner extends Module implements IModuleModuleCleaner,
 		IModuleInventory inventory = state.getPage(CleanerPage.class).getInventory();
 		ItemStack stack = inventory.getStackInSlot(0);
 		if(stack != null){
-			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
+			IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 			if(provider != null){
 				IModuleState moduleState = provider.createState(null);
 				if(moduleState != null){

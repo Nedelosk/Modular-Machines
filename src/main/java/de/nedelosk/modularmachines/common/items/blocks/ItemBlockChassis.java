@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.items.blocks;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.core.Registry;
@@ -94,7 +94,7 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 				return false;
 			}
 			TileModular machine = (TileModular) tile;
-			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularMachinesApi.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 			tileHandler.setAssembled(false);

@@ -2,11 +2,12 @@ package de.nedelosk.modularmachines.common.core;
 
 import java.util.concurrent.Callable;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
@@ -34,7 +35,6 @@ import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleBoilerPro
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.ModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.ModuleMachineProperties;
-import de.nedelosk.modularmachines.common.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.common.modules.ModuleCasing;
 import de.nedelosk.modularmachines.common.modules.ModuleController;
 import de.nedelosk.modularmachines.common.modules.ModuleModuleCleaner;
@@ -367,7 +367,7 @@ public class ModuleManager {
 		}, new Callable<IModularHandler>(){
 			@Override
 			public IModularHandler call() throws Exception{
-				return new ModularHandler(null, ModularMachinesApi.DEFAULT_STORAGES) {
+				return new ModularHandler(null, ModularManager.DEFAULT_STORAGE_POSITIONS) {
 					@Override
 					public void markDirty() {
 					}

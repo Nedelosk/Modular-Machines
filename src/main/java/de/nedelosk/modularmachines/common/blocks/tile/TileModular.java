@@ -4,10 +4,10 @@ import java.util.EnumMap;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.common.modular.handlers.ModularHandlerTileEntity;
+import de.nedelosk.modularmachines.common.modular.ModularHandlerTileEntity;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import net.darkhax.tesla.api.ITeslaConsumer;
@@ -48,7 +48,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	protected boolean addedToEnet;
 
 	public TileModular() {
-		modularHandler = new ModularHandlerTileEntity(this, ModularMachinesApi.DEFAULT_STORAGES);
+		modularHandler = new ModularHandlerTileEntity(this, ModularManager.DEFAULT_STORAGE_POSITIONS);
 		for(EnumFacing face : EnumFacing.VALUES){
 			teslas.put(face, new Tesla(face));
 		}
@@ -66,7 +66,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("ModularHandler")) {
-			modularHandler = new ModularHandlerTileEntity(this, ModularMachinesApi.DEFAULT_STORAGES);
+			modularHandler = new ModularHandlerTileEntity(this, ModularManager.DEFAULT_STORAGE_POSITIONS);
 			modularHandler.deserializeNBT(nbt.getCompoundTag("ModularHandler"));
 		}
 	}
@@ -141,8 +141,8 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY) {
-			return ModularMachinesApi.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
+			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
 		}
 		if(TESLA_CONSUMER != null){
 			if(capability == TESLA_CONSUMER){
@@ -166,7 +166,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == ModularMachinesApi.MODULAR_HANDLER_CAPABILITY) {
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
 			return true;
 		}
 		if(TESLA_CONSUMER != null){

@@ -1,10 +1,11 @@
-package de.nedelosk.modularmachines.common.modular.handlers;
+package de.nedelosk.modularmachines.common.modular;
 
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -69,33 +70,32 @@ public class ModularHandlerTileEntity extends ModularHandler implements IModular
 	}
 
 	@Override
-	public void updateServer() {
-		if(!addedToEnet && modular != null && modular.getEnergyBuffer() != null){
-			onLoaded();
-		}
-		super.updateServer();
+	public TileEntity getTile() {
+		return tileEntity;
 	}
 
-	protected void onLoaded() {
-		if(Loader.isModLoaded("IC2")){
+	@Override
+	public void updateServer() {
+		super.updateServer();
+		if(!addedToEnet && getModular() != null && getModular().getEnergyBuffer() != null && Loader.isModLoaded("IC2")){
 			onLoadedIC2();
 		}
 	}
 
 	@Override
 	public void invalidate(){
-		if(addedToEnet && modular != null && modular.getEnergyBuffer() != null && Loader.isModLoaded("IC2")){
+		if(addedToEnet && getModular() != null && getModular().getEnergyBuffer() != null && Loader.isModLoaded("IC2")){
 			invalidateIC2();
 		}
 	}
 
 	@Optional.Method(modid = "IC2")
 	protected void onLoadedIC2(){
-		if (!world.isRemote && Info.isIc2Available() && tileEntity instanceof IEnergyTile) {
+		if (!getWorld().isRemote && Info.isIc2Available() &&getTile() instanceof IEnergyTile) {
 
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) tileEntity));
-			IBlockState state = world.getBlockState(getPos());
-			world.notifyBlockOfStateChange(getPos(), state.getBlock());
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) getTile()));
+			IBlockState state = getWorld().getBlockState(getPos());
+			getWorld().notifyBlockOfStateChange(getPos(), state.getBlock());
 
 			addedToEnet = true;
 		}
@@ -103,11 +103,11 @@ public class ModularHandlerTileEntity extends ModularHandler implements IModular
 
 	@Optional.Method(modid = "IC2")
 	protected void invalidateIC2(){
-		if (Info.isIc2Available() && tileEntity instanceof IEnergyTile) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) tileEntity));
+		if (Info.isIc2Available() && getTile() instanceof IEnergyTile) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) getTile()));
 
-			IBlockState state = world.getBlockState(getPos());
-			world.notifyBlockOfStateChange(getPos(), state.getBlock());
+			IBlockState state = getWorld().getBlockState(getPos());
+			getWorld().notifyBlockOfStateChange(getPos(), state.getBlock());
 
 			addedToEnet = false;
 		}

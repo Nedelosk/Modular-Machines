@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
@@ -14,6 +13,7 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -92,7 +92,7 @@ public class ModuleStoragePage extends StoragePage {
 		for(int index = 0;index < slots.size();index++){
 			SlotAssembler slot = slots.get(index);
 			if(slot.getHasStack()){
-				IModuleContainer moduleContainer = ModularMachinesApi.getContainerFromItem(slot.getStack());
+				IModuleContainer moduleContainer = ModuleManager.getContainerFromItem(slot.getStack());
 				if(moduleContainer == null){
 					ItemHandlerHelper.giveItemToPlayer(container.getPlayer(), slot.getStack());
 					itemHandler.setStackInSlot(1 + index, null);
@@ -201,7 +201,7 @@ public class ModuleStoragePage extends StoragePage {
 
 	@Override
 	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
-		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
+		IModuleContainer container = ModuleManager.getContainerFromItem(stack);
 		if(slot == null || container == null){
 			return false;
 		}
@@ -227,7 +227,7 @@ public class ModuleStoragePage extends StoragePage {
 		}
 		EnumModuleSizes usedSize = null;
 		for(int index = 0;index < position.getSize().slots;index++){
-			IModuleContainer otherContainer = ModularMachinesApi.getContainerFromItem(itemHandler.getStackInSlot(index));
+			IModuleContainer otherContainer = ModuleManager.getContainerFromItem(itemHandler.getStackInSlot(index));
 			if(otherContainer != null){
 				usedSize = EnumModuleSizes.getSize(usedSize, otherContainer.getModule().getSize(otherContainer));
 			}
@@ -299,7 +299,7 @@ public class ModuleStoragePage extends StoragePage {
 			for(int index = 0;index < itemHandler.getSlots();index++){
 				ItemStack stack = itemHandler.getStackInSlot(index);
 				if(stack != null){
-					IModuleState state = ModularMachinesApi.loadOrCreateModuleState(modular, stack);
+					IModuleState state = ModuleManager.loadOrCreateModuleState(modular, stack);
 					if(state != null){
 						moduleStorage.addModule(stack, state);
 					}

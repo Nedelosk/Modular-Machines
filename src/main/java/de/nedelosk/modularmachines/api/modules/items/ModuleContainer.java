@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.ItemUtil;
-import de.nedelosk.modularmachines.api.ModularMachinesApi;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
@@ -98,9 +98,9 @@ public class ModuleContainer extends IForgeRegistryEntry.Impl<IModuleContainer> 
 		}
 		registryName +=  size.getName() + ".";
 		if(stack == null){
-			registryName+=ModularMachinesApi.defaultModuleItem.getRegistryName().getResourcePath() + "." + material.getName();
+			registryName+=ModuleManager.defaultModuleItem.getRegistryName().getResourcePath() + "." + material.getName();
 			setRegistryName(registryName);
-			stack = ModularMachinesApi.createDefaultStack(this);
+			stack = ModuleManager.createDefaultStack(this);
 		}
 		this.stack = stack;
 
