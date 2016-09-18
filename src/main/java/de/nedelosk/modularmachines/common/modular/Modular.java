@@ -153,8 +153,11 @@ public class Modular implements IModular {
 					}
 				}
 				if(!oneHeaterWork){
+					double oldHeat = heatSource.getHeatStored();
 					heatSource.reduceHeat(2);
-					PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modularHandler));
+					if(oldHeat != heatSource.getHeatStored()){
+						PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modularHandler));
+					}
 				}
 			}
 		}
