@@ -71,9 +71,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		}else{
 			exceptionText = Translator.translateToLocal("modular.assembler.info");
 		}
-		if(lastException != null){
-			this.fontRendererObj.drawSplitString(exceptionText, 186, 8, 117, Color.WHITE.getRGB());
-		}
+		this.fontRendererObj.drawSplitString(exceptionText, 186, 8, 117, Color.WHITE.getRGB());
 
 		String complexity = Translator.translateToLocal("modular.assembler.complexity");
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRendererObj.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());

@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleEnergyBuffer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.BasicStoragePage;
@@ -34,6 +35,11 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 
 	public ModuleBattery(String name) {
 		super(name);
+	}
+
+	@Override
+	protected IStoragePosition[] getPositions(IModuleContainer container) {
+		return new IStoragePosition[] {EnumStoragePositions.LEFT, EnumStoragePositions.RIGHT, EnumStoragePositions.BACK};
 	}
 
 	@Override
