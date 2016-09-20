@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import de.nedelosk.modularmachines.api.material.EnumBlockMaterials;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
+import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -29,8 +30,11 @@ import de.nedelosk.modularmachines.api.modules.properties.ModuleCasingProperties
 import de.nedelosk.modularmachines.api.modules.properties.ModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleHeaterProperties;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleKineticProperties;
+import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
+import de.nedelosk.modularmachines.api.modules.storage.IStorageModuleProperties;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleModuleStorageProperties;
+import de.nedelosk.modularmachines.api.modules.storage.module.StorageModuleProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleBoilerProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.modules.tools.properties.ModuleBoilerProperties;
@@ -44,6 +48,7 @@ import de.nedelosk.modularmachines.common.modules.engines.ModuleEngineSteam;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeater;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterSteam;
+import de.nedelosk.modularmachines.common.modules.storages.ModuleChest;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleFurnace;
@@ -51,6 +56,7 @@ import de.nedelosk.modularmachines.common.modules.tools.ModuleLathe;
 import de.nedelosk.modularmachines.common.modules.tools.ModulePulverizer;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleSawMill;
 import de.nedelosk.modularmachines.common.modules.turbines.ModuleTurbineSteam;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -87,6 +93,9 @@ public class ModuleManager {
 
 	public static IModuleEngine moduleEngineElectric;
 	public static IModuleKineticProperties[] moduleEngineElectricProperties = new IModuleKineticProperties[4];	
+
+	public static IStorageModule moduleChest;
+	public static IStorageModuleProperties moduleChestProperties;
 
 	public static ModuleHeater moduleHeaterBronze;
 	public static ModuleHeater moduleHeaterIron;
@@ -184,6 +193,12 @@ public class ModuleManager {
 		moduleEngineElectricProperties[1] = new ModuleKineticProperties(8, EnumModuleSizes.SMALL, 8, 250, 35); 
 		moduleEngineElectricProperties[2] = new ModuleKineticProperties(10, EnumModuleSizes.SMALL, 10, 275, 50); 
 		moduleEngineElectricProperties[3] = new ModuleKineticProperties(12, EnumModuleSizes.SMALL, 12, 350, 70); 
+
+		moduleChest = new ModuleChest("chest");
+		moduleChest.setRegistryName(new ResourceLocation("modularmachines:chest"));
+		GameRegistry.register(moduleChest);
+
+		moduleChestProperties = new StorageModuleProperties(1, EnumModuleSizes.LARGE, EnumModulePositions.SIDE, EnumModulePositions.BACK);
 
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner");
@@ -289,6 +304,9 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[1], new ItemStack(ItemManager.itemTurbineSteam, 1, 1), EnumMetalMaterials.IRON));
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[2], new ItemStack(ItemManager.itemTurbineSteam, 1, 2), EnumMetalMaterials.STEEL));
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[3], new ItemStack(ItemManager.itemTurbineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
+
+		//Chest
+		GameRegistry.register(new ModuleContainer(moduleChest, moduleChestProperties, new ItemStack(Blocks.CHEST), EnumVanillaMaterials.WOOD));
 
 		//Controller
 		moduleControllerContainers[0] = registerModuleItem(moduleController, moduleControllerProperties[0], EnumMetalMaterials.BRONZE);

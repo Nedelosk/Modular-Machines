@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;

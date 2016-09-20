@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.modules.models;
 
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;

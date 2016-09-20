@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.api.modules.models;
 
 import com.google.common.base.Function;
 
-import de.nedelosk.modularmachines.api.modules.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
