@@ -300,7 +300,9 @@ public class ModularAssembler implements IModularAssembler {
 		IModular modular = new Modular(modularHandler);
 		for(IStoragePage page : pages.values()){
 			if(page != null){
-				modular.addStorage(page.assemble(modular));
+				IStorage storage = page.assemble(modular);
+				storage.getModule().setIndex(modular.getNextIndex());
+				modular.addStorage(storage);
 			}
 		}
 		for(IStorage storage : modular.getStorages().values()){

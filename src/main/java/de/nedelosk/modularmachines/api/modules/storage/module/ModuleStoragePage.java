@@ -293,7 +293,6 @@ public class ModuleStoragePage extends StoragePage {
 	@Override
 	public IStorage assemble(IModular modular) throws AssemblerException {
 		IStorage storage = super.assemble(modular);
-		storage.getModule().setIndex(modular.getNextIndex());
 		if(storage instanceof IAddableModuleStorage){
 			IAddableModuleStorage moduleStorage = (IAddableModuleStorage) storage;
 			for(int index = 0;index < itemHandler.getSlots();index++){

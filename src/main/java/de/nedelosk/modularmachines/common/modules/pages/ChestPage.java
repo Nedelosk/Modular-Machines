@@ -1,9 +1,9 @@
 package de.nedelosk.modularmachines.common.modules.pages;
 
+import de.nedelosk.modularmachines.api.modules.handlers.filters.DefaultFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleMachine;
-import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 
 public class ChestPage extends MainPage<IModuleMachine> {
 
@@ -15,7 +15,7 @@ public class ChestPage extends MainPage<IModuleMachine> {
 	public void createInventory(IModuleInventoryBuilder invBuilder) {
 		for (int j = 0; j < 3; ++j) {
 			for (int k = 0; k < 9; ++k) {
-				invBuilder.addInventorySlot(true, 8 + k * 18, 18 + j * 18, new ItemFilterMachine());
+				invBuilder.addInventorySlot(true, 8 + k * 18, 18 + j * 18, DefaultFilter.INSTANCE);
 			}
 		}
 	}

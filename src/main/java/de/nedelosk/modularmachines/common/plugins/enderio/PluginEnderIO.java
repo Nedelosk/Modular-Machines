@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.plugins.enderio;
 
-import cofh.api.energy.IEnergyContainerItem;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
