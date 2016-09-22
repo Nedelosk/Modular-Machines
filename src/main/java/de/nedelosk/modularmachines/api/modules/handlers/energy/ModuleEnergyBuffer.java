@@ -113,4 +113,14 @@ public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler,
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
+
+	@Override
+	public boolean canExtract() {
+		return true;
+	}
+
+	@Override
+	public boolean canReceive() {
+		return true;
+	}
 }
