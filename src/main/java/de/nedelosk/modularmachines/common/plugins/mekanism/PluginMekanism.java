@@ -37,12 +37,11 @@ public class PluginMekanism extends APlugin {
 	@Override
 	public void init() {
 		energyCube = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "EnergyCube"));
-		IEnergyContainerItem energyItem = (IEnergyContainerItem) energyCube;
 
-		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, (int) (2000000 * 0.4), 800, 1, energyItem);
-		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, (int) (8000000 * 0.4), 3200, 2, energyItem);
-		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, (int) (32000000 * 0.4), 12800, 3, energyItem);
-		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSizes.LARGE, (int) (128000000 * 0.4), 51200, 4, energyItem);
+		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, (int) (2000000 * 0.4), 800, 1);
+		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, (int) (8000000 * 0.4), 3200, 2);
+		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, (int) (32000000 * 0.4), 12800, 3);
+		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSizes.LARGE, (int) (128000000 * 0.4), 51200, 4);
 
 		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[0], EnumMetalMaterials.IRON, 0));
 		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[1], EnumMetalMaterials.OSMIUM, 1));

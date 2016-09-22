@@ -41,9 +41,9 @@ public class PluginEnderIO extends APlugin {
 	public void init() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
 
-		moduleCapacitorBankProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, 1000000, 1000, 2, (IEnergyContainerItem) capacitorBank);
-		moduleCapacitorBankProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, 15000000, 5000, 3, (IEnergyContainerItem) capacitorBank);
-		moduleCapacitorBankProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, 25000000, 25000, 4, (IEnergyContainerItem) capacitorBank);
+		moduleCapacitorBankProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, 1000000, 1000, 2);
+		moduleCapacitorBankProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, 15000000, 5000, 3);
+		moduleCapacitorBankProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, 25000000, 25000, 4);
 
 		moduleCapacitorBankContainers[0] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[0], new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.BRONZE, true));
 		moduleCapacitorBankContainers[1] = GameRegistry.register(new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[1], new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.IRON, true));

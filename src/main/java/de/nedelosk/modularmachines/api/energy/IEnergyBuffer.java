@@ -16,4 +16,8 @@ public interface IEnergyBuffer {
 	long getCapacity();
 
 	int getTier();
+
+	boolean canExtract();
+
+	boolean canReceive();
 }

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.modular;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
@@ -22,14 +21,13 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	public long extractEnergy(IModuleState moduleState, EnumFacing facing, long maxExtract, boolean simulate) {
 		List<E> buffers = this.buffers;
 		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
-			List<E> newBuffers = new ArrayList();
+			buffers.clear();
 			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
 			for(E energyBuffer : buffers){
 				if(control.hasPermission(energyBuffer.getModuleState())){
-					newBuffers.add(energyBuffer);
+					buffers.add(energyBuffer);
 				}
 			}
-			buffers = newBuffers;
 		}
 		long totalExtract = 0;
 		for(E energyBuffer : buffers){
@@ -51,14 +49,13 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	public long receiveEnergy(IModuleState moduleState, EnumFacing facing, long maxReceive, boolean simulate) {
 		List<E> buffers = this.buffers;
 		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
-			List<E> newBuffers = new ArrayList();
+			buffers.clear();
 			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
 			for(E energyBuffer : buffers){
 				if(control.hasPermission(energyBuffer.getModuleState())){
-					newBuffers.add(energyBuffer);
+					buffers.add(energyBuffer);
 				}
 			}
-			buffers = newBuffers;
 		}
 		long totalReceived = 0;
 		for(E energyBuffer : buffers){
@@ -121,5 +118,15 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 			}
 		}
 		return tier;
+	}
+
+	@Override
+	public boolean canExtract() {
+		return !buffers.isEmpty();
+	}
+
+	@Override
+	public boolean canReceive() {
+		return !buffers.isEmpty();
 	}
 }
