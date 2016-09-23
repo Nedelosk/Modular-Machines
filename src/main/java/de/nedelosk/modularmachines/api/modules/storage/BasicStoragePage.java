@@ -6,6 +6,9 @@ import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.inventory.Slot;
@@ -31,7 +34,7 @@ public class BasicStoragePage extends StoragePage {
 	}
 
 	@Override
-	public void createSlots(IContainerBase<IModularHandler> container, List<Slot> slots) {
+	public void createSlots(IAssemblerContainer container, List<Slot> slots) {
 		if(position != null){
 			SlotAssemblerStorage storageSlot;
 			slots.add(storageSlot = new SlotAssemblerStorage(assembler.getItemHandler(), assembler.getIndex(position), 44, 35, this, position, container));
@@ -39,7 +42,7 @@ public class BasicStoragePage extends StoragePage {
 	}
 
 	@Override
-	public void onSlotChanged(IContainerBase<IModularHandler> container) {
+	public void onSlotChanged(IAssemblerContainer container) {
 	}
 
 	@Override

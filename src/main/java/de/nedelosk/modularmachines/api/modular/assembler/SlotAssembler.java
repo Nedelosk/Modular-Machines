@@ -1,6 +1,7 @@
-package de.nedelosk.modularmachines.api.modules.storage;
+package de.nedelosk.modularmachines.api.modular.assembler;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -9,11 +10,11 @@ public class SlotAssembler extends SlotItemHandler {
 
 	protected final SlotAssemblerStorage storageSlot;
 	protected final IStoragePage page;
-	protected final IContainerBase container;
+	protected final IAssemblerContainer container;
 	public boolean isActive;
 	public boolean hasChange;
 
-	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IStoragePage page, IContainerBase container, SlotAssemblerStorage storageSlot) {
+	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IStoragePage page, IAssemblerContainer container, SlotAssemblerStorage storageSlot) {
 		super(inventory, index, xPosition, yPosition);
 
 		this.storageSlot = storageSlot;

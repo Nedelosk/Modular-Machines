@@ -10,6 +10,9 @@ import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
 import de.nedelosk.modularmachines.api.modular.IAssemblerGui;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -20,8 +23,6 @@ import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
-import de.nedelosk.modularmachines.api.modules.storage.SlotAssembler;
-import de.nedelosk.modularmachines.api.modules.storage.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modules.storage.StoragePage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Slot;
@@ -44,7 +45,7 @@ public class ModuleStoragePage extends StoragePage {
 	}
 
 	@Override
-	public void createSlots(IContainerBase<IModularHandler> container, List<Slot> slots) {
+	public void createSlots(IAssemblerContainer container, List<Slot> slots) {
 		if(position != null){
 			SlotAssemblerStorage storageSlot;
 			slots.add(storageSlot = new SlotAssemblerStorage(assembler.getItemHandler(), assembler.getIndex(position), 44, 35, this, position, container));
@@ -63,7 +64,7 @@ public class ModuleStoragePage extends StoragePage {
 	}
 
 	@Override
-	public void onSlotChanged(IContainerBase<IModularHandler> container) {
+	public void onSlotChanged(IAssemblerContainer container) {
 		if(assembler.getHandler().getWorld().isRemote){
 			if(Minecraft.getMinecraft().currentScreen instanceof IAssemblerGui){
 				((IAssemblerGui) Minecraft.getMinecraft().currentScreen).setHasChange();

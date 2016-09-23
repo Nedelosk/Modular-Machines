@@ -14,6 +14,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredBlock;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -192,6 +193,15 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 								drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
 							}
 						}
+						for(IModulePage page : (List<IModulePage>)state.getPages()){
+							if(page != null){
+								for(IModuleContentHandler handler : page.getContentHandlers()){
+									if(handler instanceof IAdvancedModuleContentHandler){
+										drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+									}
+								}
+							}
+						}
 					}
 				}
 				WorldUtil.dropItem(world, pos, drops);
@@ -212,14 +222,14 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandler tileHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(tileModular.isAssembled() && tileModular.getModular() != null){
+			if(tileHandler.isAssembled() && tileHandler.getModular() != null){
 				itemHandler.setAssembled(true);
-				itemHandler.setModular(tileModular.getModular().copy(itemHandler));
-			}else if(!tileModular.isAssembled() && tileModular.getAssembler() != null){
+				itemHandler.setModular(tileHandler.getModular().copy(itemHandler));
+			}else if(!tileHandler.isAssembled() && tileHandler.getAssembler() != null){
 				itemHandler.setAssembled(false);
-				itemHandler.setAssembler(tileModular.getAssembler().copy(itemHandler));
+				itemHandler.setAssembler(tileHandler.getAssembler().copy(itemHandler));
 			}
 			itemHandler.setOwner(player.getGameProfile());
 			itemHandler.setWorld(world);
@@ -227,6 +237,26 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			stack.setTagCompound(itemHandler.serializeNBT());
 		}
 		return stack;
+	}
+	
+	@Override
+	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
+			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			if(modularHandler.getFacing() != axis){
+				modularHandler.setFacing(axis);
+				modularHandler.markDirty();
+				world.markBlockRangeForRenderUpdate(pos, pos);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public EnumFacing[] getValidRotations(World world, BlockPos pos) {
+		return EnumFacing.HORIZONTALS;
 	}
 
 	@Override

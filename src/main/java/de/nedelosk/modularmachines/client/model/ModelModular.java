@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper.DefaultTextureGetter;
+import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
 import de.nedelosk.modularmachines.client.core.ModelManager;
@@ -40,6 +41,7 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.ModelStateComposition;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 public class ModelModular implements IBakedModel {
@@ -55,24 +57,6 @@ public class ModelModular implements IBakedModel {
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
 
-				if(modularHandler instanceof IModularHandlerTileEntity){
-					IModularHandlerTileEntity moduleHandlerTile = (IModularHandlerTileEntity) modularHandler;
-					EnumFacing facing = moduleHandlerTile.getFacing();
-					if(facing != null){
-						ModelRotation rotation;
-						if(facing == EnumFacing.SOUTH){
-							rotation = ModelRotation.X0_Y180;
-						}else if(facing == EnumFacing.WEST){
-							rotation = ModelRotation.X0_Y270;
-						}else if(facing == EnumFacing.EAST){
-							rotation = ModelRotation.X0_Y90;
-						}else{
-							rotation = ModelRotation.X0_Y0;
-						}
-						modelState = new ModelStateComposition(modelState, rotation);
-					}
-				}
-
 				for(IStorage storage : modular.getStorages().values()){
 					IBakedModel model = ModuleModelHelper.getModel(storage.getModule(), storage, modelState, vertex);
 					if(model != null){
@@ -82,41 +66,24 @@ public class ModelModular implements IBakedModel {
 						}
 						models.add(model);
 					}
-					/*if(storage instanceof IModuleStorage){
-						List<IBakedModel> positionedModels = new ArrayList<>();
-						EnumModuleSizes size = null;
-						for(IModuleState moduleState : ((IModuleStorage)storage).getModules()){
-							if(((IModuleStateClient)moduleState).getModelHandler() != null){
-								IBakedModel model = getModel(moduleState, modelState, vertex);
-								if(model != null){
-									if(size == null){
-										positionedModels.add(model);
-									}else if(size == EnumModuleSizes.SMALL){
-										positionedModels.add(new TRSRBakedModel(model, 0F, -0.25F, 0F, 1F));
-									}else{
-										positionedModels.add(new TRSRBakedModel(model, 0F, -0.5F, 0F, 1F));
-									}
-								}
-								if(!(moduleState.getModule() instanceof IModuleModuleStorage)){
-									size = EnumModuleSizes.getSize(size, moduleState.getModule().getSize(moduleState.getContainer()));
-								}
-							}
-						}
-						float rotation = 0F;
-						IStoragePosition pos = storage.getPosition();
-						if(pos == EnumStoragePositions.RIGHT){
-							rotation = (float) (Math.PI / 2);
-						}else if(pos == EnumStoragePositions.LEFT){
-							rotation = -(float) (Math.PI / 2);
-						}
-						if(!positionedModels.isEmpty()){
-							models.add(new TRSRBakedModel(new BakedMultiModel(positionedModels), 0F, 0F, 0F, 0F, rotation, 0F, 1F));
-						}
-					}*/
 				}
 
 				if(!models.isEmpty()){
-					return new IPerspectiveAwareModel.MapWrapper(new BakedMultiModel(models), modelState);
+					float rotation = 0F;
+					if(modularHandler instanceof IModularHandlerTileEntity){
+						IModularHandlerTileEntity moduleHandlerTile = (IModularHandlerTileEntity) modularHandler;
+						EnumFacing facing = moduleHandlerTile.getFacing();
+						if(facing != null){
+							if(facing == EnumFacing.SOUTH){
+								rotation = (float) Math.PI;
+							}else if(facing == EnumFacing.WEST){
+								rotation = (float) Math.PI / 2;
+							}else if(facing == EnumFacing.EAST){
+								rotation = (float) -(Math.PI / 2);
+							}
+						}
+					}
+					return new IPerspectiveAwareModel.MapWrapper(new TRSRBakedModel(new BakedMultiModel(models), 0F, 0F, 0F, 0F, rotation, 0F, 1F), modelState);
 				}
 			}else if(modularHandler.getAssembler() != null){
 				return ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);

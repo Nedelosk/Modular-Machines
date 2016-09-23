@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModu
 import de.nedelosk.modularmachines.common.utils.ContainerUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -53,10 +54,5 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 				addSlotToContainer(new Slot(inventoryPlayer, j1, 8 + j1 * 18, invPosition + 58));
 			}
 		}
-	}
-
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		return ContainerUtil.transferStackInSlot(inventorySlots, player, index);
 	}
 }

@@ -1,16 +1,20 @@
 package de.nedelosk.modularmachines.api.modules.storage.module;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.Storage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,9 +22,9 @@ import net.minecraft.nbt.NBTTagList;
 
 public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefaultModuleStorage, IAddableModuleStorage{
 
-	protected final List<IModuleState> moduleStates;
+	protected List<IModuleState> moduleStates;
 	protected final EnumModuleSizes size;
-	protected final boolean isAddable;
+	protected final boolean isAddable; 
 
 	public ModuleStorage(IModular modular, IStoragePosition position, IModuleState storageModule, EnumModuleSizes size) {
 		this(modular, position, storageModule, size, false);
@@ -60,7 +64,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 
 	@Override
 	public List<IModuleState> getModules() {
-		return moduleStates;
+		return Collections.unmodifiableList(moduleStates);
 	}
 
 	@Override
@@ -84,7 +88,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 				modules.add(module);
 			}
 		}
-		return modules;
+		return Collections.unmodifiableList(modules);
 	}
 
 	@Override
@@ -109,7 +113,6 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 		}
 		return complexity;
 	}
-
 
 	@Override
 	public boolean addModule(ItemStack itemStack, IModuleState state) {

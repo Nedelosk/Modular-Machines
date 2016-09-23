@@ -10,6 +10,9 @@ import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -20,13 +23,13 @@ public interface IStoragePage extends IPage {
 	@Nonnull
 	IItemHandlerStorage getItemHandler();
 
-	void createSlots(@Nonnull IContainerBase<IModularHandler> container, @Nonnull List<Slot> slots);
+	void createSlots(@Nonnull IAssemblerContainer container, @Nonnull List<Slot> slots);
 
 	boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot);
 
 	int getPlayerInvPosition();
 
-	void onSlotChanged(@Nonnull IContainerBase<IModularHandler> container);
+	void onSlotChanged(@Nonnull IAssemblerContainer container);
 
 	void setAssembler(@Nonnull IModularAssembler assembler);
 

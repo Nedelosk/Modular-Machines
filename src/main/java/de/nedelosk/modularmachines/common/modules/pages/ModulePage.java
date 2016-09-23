@@ -181,7 +181,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		if(inventory != null){
 			handlers.add(inventory);
 		}
-		return null;
+		return handlers;
 	}
 
 	@Override
