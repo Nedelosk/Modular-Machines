@@ -1,8 +1,6 @@
 # Modular-Machines
 
-[Curse Forge](https://minecraft.curseforge.com/projects/modular-machines)
-
-[![Build Status](https://drone.io/github.com/Nedelosk/Modular-Machines/status.png)](https://drone.io/github.com/Nedelosk/Modular-Machines/latest)
+[![Build Status](https://drone.io/github.com/Nedelosk/Modular-Machines/status.png)](https://drone.io/github.com/Nedelosk/Modular-Machines/latest) [![](http://cf.way2muchnoise.eu/full_modular-machines_downloads.svg)](http://minecraft.curseforge.com/projects/modular-machines) [![](http://cf.way2muchnoise.eu/versions/Available%20For%20Minecraft_modular-machines_all.svg)](http://minecraft.curseforge.com/projects/modular-machines)
 
 ### License & Copyright
 The MIT License (MIT)
