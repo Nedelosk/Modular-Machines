@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.modular.assembler;
 
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

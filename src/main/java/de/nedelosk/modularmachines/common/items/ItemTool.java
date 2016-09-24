@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.items;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.client.core.ModelManager;
+import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;

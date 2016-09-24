@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.client.core;
 
+import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

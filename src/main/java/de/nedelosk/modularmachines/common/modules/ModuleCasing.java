@@ -1,7 +1,8 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -12,8 +13,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerCasing;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleBlockModificatorProperties;
@@ -28,6 +29,7 @@ import de.nedelosk.modularmachines.api.modules.storage.module.ModuleStoragePage;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,15 +52,21 @@ public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleS
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerCasing(state.getContainer());
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerCasing(
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "casing"), 
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_left"), 
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_right"));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerCasing(container));
-		return handlers;
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "casing"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "casings", "casing"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_left"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "casings", "side_left"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_right"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "casings", "side_right"));
+		return locations;
 	}
 
 	@Override

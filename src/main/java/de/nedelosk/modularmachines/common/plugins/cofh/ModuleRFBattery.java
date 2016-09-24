@@ -1,17 +1,17 @@
 package de.nedelosk.modularmachines.common.plugins.cofh;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
 import cofh.api.energy.IEnergyContainerItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.modules.storages.ModuleBattery;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,14 +25,15 @@ public class ModuleRFBattery extends ModuleBattery {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		return Collections.singletonList(new ModelHandlerDefault(name, container, ModelHandler.getModelLocation(container, name, getSize(container))));
+	public IModelHandler createModelHandler(IModuleState state) {
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(name, state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), name, getSize(state.getContainer())));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, getSize(container)));
 	}
 
 	@Override

@@ -1,7 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.engines;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -18,9 +19,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandlerEngine;
+import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -163,15 +163,16 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerEngine(state.getContainer());
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "engines", getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(new ModelHandlerEngine(container));
-		return handlers;
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "engines", getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "engines", getSize(container)));
+		return locations;
 	}
 
 	@Override
@@ -182,7 +183,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return ModelHandler.getModelLocation(container, "windows",  getSize(container));
+		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows",  getSize(container));
 	}
 
 }

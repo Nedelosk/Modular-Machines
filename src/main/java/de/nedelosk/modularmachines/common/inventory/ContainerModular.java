@@ -7,12 +7,8 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
-import de.nedelosk.modularmachines.common.utils.ContainerUtil;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class ContainerModular extends BaseContainer<IModularHandler> {
 

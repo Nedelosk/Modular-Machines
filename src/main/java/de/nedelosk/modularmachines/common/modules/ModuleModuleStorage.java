@@ -1,7 +1,8 @@
 package de.nedelosk.modularmachines.common.modules;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -11,7 +12,7 @@ import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleModuleStorageProperties;
@@ -29,6 +30,7 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,22 +55,44 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 		}
 	}
 
-	protected ModelHandlerDrawer createModelHandler(IModuleContainer container){
-		return new ModelHandlerDrawer(container);
+	@SideOnly(Side.CLIENT)
+	@Override
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		Map<ResourceLocation, ResourceLocation> locations = new HashMap();
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "drawer"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "top"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "back"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "back"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "wall"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "wall"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/stick_down"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/stick_down"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/stick_up"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/stick_up"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_down"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/small_down"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_medium"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/small_medium"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_up"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/small_up"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/medium_medium"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/medium_medium"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/medium_up"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/medium_up"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/large"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "front_walls/large"));
+		return locations;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		return createModelHandler(state.getContainer());
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List<IModelInitHandler> handlers = new ArrayList<>();
-		handlers.add(createModelHandler(container));
-		return handlers;
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDrawer(
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "back"),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "wall"),
+				new ResourceLocation[]{
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/stick_down"),
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/stick_up"),
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_down"),
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_medium"),
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/small_up"), 
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/medium_medium"),
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/medium_up"), 
+						ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "front_walls/large")
+				});
 	}
 
 	@Override

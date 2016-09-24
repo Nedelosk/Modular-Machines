@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
 import de.nedelosk.modularmachines.api.modular.IAssemblerGui;
@@ -13,7 +12,6 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;

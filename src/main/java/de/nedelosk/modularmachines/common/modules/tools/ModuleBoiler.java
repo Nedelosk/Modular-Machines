@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.energy.HeatLevel;
@@ -24,9 +25,8 @@ import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -153,20 +153,21 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		return Collections.singletonList(new ModelHandlerDefault("boilers", container, ModelHandler.getModelLocation(container, "boilers", getSize(container))));
+	public IModelHandler createModelHandler(IModuleState state) {
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "boilers", getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault("boilers", state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), "boilers", getSize(state.getContainer())));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "boilers", getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "boilers", getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return ModelHandler.getModelLocation(container, "windows",  getSize(container));
+		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows",  getSize(container));
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 package de.nedelosk.modularmachines.common.modules.heaters;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -17,9 +18,8 @@ import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -115,23 +115,20 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		ResourceLocation[] locs = new ResourceLocation[]{
-				ModelHandler.getModelLocation(state.getContainer(), "heaters", true),
-				ModelHandler.getModelLocation(state.getContainer(), "heaters", false)
-		};
-		return new ModelHandlerStatus("heaters", state.getContainer(), locs);
+		IModuleContainer container = state.getContainer();
+		ResourceLocation[] locations = new ResourceLocation[2];
+		locations[0] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", getSize(container), true);
+		locations[1] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", getSize(container), false);
+		return new ModelHandlerStatus(locations);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List handlers = new ArrayList<>();
-		ResourceLocation[] locs = new ResourceLocation[]{
-				ModelHandler.getModelLocation(container, "heaters", true),
-				ModelHandler.getModelLocation(container, "heaters", false)
-		};
-		handlers.add(new ModelHandlerStatus("heaters", container, locs));
-		return handlers;
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", getSize(container), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", getSize(container), true));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", getSize(container), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", getSize(container), false));
+		return locations;
 	}
 
 	protected abstract boolean canAddHeat(IModuleState state);

@@ -2,14 +2,12 @@ package de.nedelosk.modularmachines.api.modules.storage;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.client.core;
+package de.nedelosk.modularmachines.client.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,6 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
 
-import de.nedelosk.modularmachines.api.modules.ModuleEvents;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
 import forestry.api.core.IItemModelRegister;
@@ -32,7 +28,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -159,23 +154,6 @@ public class ModelManager implements IModelManager {
 		}
 		if (item instanceof IColoredItem) {
 			itemColorList.add((IColoredItem) item);
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerModuleModels() {
-		for(IModuleContainer container : ModuleManager.MODULE_CONTAINERS){
-			if(container != null && container.getModule() != null){
-				List<IModelInitHandler> handlers = container.getModule().getInitModelHandlers(container);
-				if(handlers != null && !handlers.isEmpty()){
-					for(IModelInitHandler handle : handlers){
-						if(handle != null){
-							handle.initModels(container);
-						}
-					}
-				}
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleModelInitEvent(container));
-			}
 		}
 	}
 

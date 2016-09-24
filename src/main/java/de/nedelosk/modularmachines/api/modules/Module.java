@@ -1,8 +1,9 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -15,7 +16,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -159,7 +159,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleContainer container) {
-		return new ResourceLocation("modularmachines:module/" + container.getMaterial().getName().toLowerCase(Locale.ENGLISH)+ "/windows/" + getSize(container).getName());
+		return null;
 	}
 
 	@Override
@@ -221,10 +221,10 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 		return new ArrayList<>();
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		return new ArrayList<>();
+	@Override
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		return Collections.emptyMap();
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -2,7 +2,9 @@ package de.nedelosk.modularmachines.client.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
@@ -10,12 +12,12 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
-import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper;
-import de.nedelosk.modularmachines.api.modules.models.ModuleModelHelper.DefaultTextureGetter;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader.DefaultTextureGetter;
+import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
-import de.nedelosk.modularmachines.client.core.ModelManager;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import net.minecraft.block.state.IBlockState;
@@ -24,7 +26,6 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
-import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -36,29 +37,58 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.ModelStateComposition;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelModular implements IBakedModel {
 
 	private ItemOverrideList overrideList;
 	private IBakedModel missingModel;
+	private IBakedModel assemblerModel;
+
+	public static Set<IModularHandlerTileEntity> modularHandlers = new HashSet();
+
+	@SubscribeEvent
+	public static void onBakeModel(ModelBakeEvent event) {
+		for(IModularHandlerTileEntity modularHandler : modularHandlers){
+			TileEntity tileEntity = modularHandler.getTile();
+			if(tileEntity != null){
+				if(tileEntity.isInvalid()){
+					modularHandlers.remove(modularHandler);
+				}else{
+					if(modularHandler.getModular() != null){
+						for(IModuleState state : modularHandler.getModular().getModules()){
+							if(state instanceof IModuleStateClient){
+								((IModuleStateClient) state).getModelHandler().setNeedReload(true);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	private IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = getModularHandler(provider);
 		if(modularHandler != null){
+			if(modularHandler instanceof IModularHandlerTileEntity){
+				modularHandlers.add((IModularHandlerTileEntity) modularHandler);
+			}
 			IModular modular = modularHandler.getModular();
 			if(modular  != null){
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
 
 				for(IStorage storage : modular.getStorages().values()){
-					IBakedModel model = ModuleModelHelper.getModel(storage.getModule(), storage, modelState, vertex);
+					IBakedModel model = ModuleModelLoader.getModel(storage.getModule(), storage, modelState, vertex);
 					if(model != null){
 						//Rotate the storage module model
 						if(!(storage instanceof IModuleStorage)){
@@ -86,7 +116,10 @@ public class ModelModular implements IBakedModel {
 					return new IPerspectiveAwareModel.MapWrapper(new TRSRBakedModel(new BakedMultiModel(models), 0F, 0F, 0F, 0F, rotation, 0F, 1F), modelState);
 				}
 			}else if(modularHandler.getAssembler() != null){
-				return ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
+				if(assemblerModel == null){
+					return assemblerModel = ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
+				}
+				return assemblerModel;
 			}
 		}
 		if(missingModel == null){

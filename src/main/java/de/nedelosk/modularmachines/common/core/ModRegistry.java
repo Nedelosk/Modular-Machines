@@ -3,7 +3,9 @@ package de.nedelosk.modularmachines.common.core;
 import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
 
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.client.core.ModelManager;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
+import de.nedelosk.modularmachines.client.model.ModelManager;
+import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.modular.ModularHelper;
@@ -32,6 +34,7 @@ public class ModRegistry extends Registry {
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		MinecraftForge.EVENT_BUS.register(ModelModular.class);
 		ModuleManager.registerCapability();
 		PacketHandler.preInit();
 		FluidManager.registerFluids();
@@ -63,7 +66,7 @@ public class ModRegistry extends Registry {
 	@Override
 	public void postInit(Object instance, FMLPostInitializationEvent event) {
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
-			ModelManager.getInstance().registerModuleModels();
+			ModuleModelLoader.loadModels();
 		}
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 		Config.syncConfig(true);

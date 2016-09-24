@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
-import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;

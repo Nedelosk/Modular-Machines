@@ -2,7 +2,9 @@ package de.nedelosk.modularmachines.api.modules.tools;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
@@ -21,9 +23,8 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -113,23 +114,20 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		ResourceLocation[] locs = new ResourceLocation[]{
-				ModelHandler.getModelLocation(state.getContainer(), getModelFolder(state.getContainer()), true),
-				ModelHandler.getModelLocation(state.getContainer(), getModelFolder(state.getContainer()), false)
-		};
-		return new ModelHandlerStatus(getModelFolder(state.getContainer()), state.getContainer(), locs);
+		IModuleContainer container = state.getContainer();
+		ResourceLocation[] locations = new ResourceLocation[2];
+		locations[0] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), true);
+		locations[1] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), false);
+		return new ModelHandlerStatus(locations);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		List handlers = new ArrayList<>();
-		ResourceLocation[] locs = new ResourceLocation[]{
-				ModelHandler.getModelLocation(container, getModelFolder(container), true),
-				ModelHandler.getModelLocation(container, getModelFolder(container), false)
-		};
-		handlers.add(new ModelHandlerStatus(getModelFolder(container), container, locs));
-		return handlers;
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), getSize(container), true));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), getSize(container), false));
+		return locations;
 	}
 
 	protected abstract String getModelFolder(IModuleContainer container);

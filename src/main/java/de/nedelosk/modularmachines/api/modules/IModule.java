@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,7 +13,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
@@ -75,7 +75,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	/* MODULE CONTAINERS */
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	List<IModelInitHandler> getInitModelHandlers(@Nullable IModuleContainer container);
+	Map<ResourceLocation, ResourceLocation> getModelLocations(@Nullable IModuleContainer container);
 
 	/**
 	 * Add a tooltip to a item that are registered for a module container with this module.

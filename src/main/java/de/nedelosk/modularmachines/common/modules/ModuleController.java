@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.modules;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -14,9 +15,8 @@ import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -58,15 +58,14 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		ResourceLocation loc = ModelHandler.getModelLocation(state.getContainer(), "controllers", getSize(state.getContainer()));
-		return new ModelHandlerDefault("controllers", state.getContainer(), loc);
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		ResourceLocation loc = ModelHandler.getModelLocation(container, "controllers", getSize(container));
-		return Collections.singletonList(new ModelHandlerDefault("controllers", container, loc));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "controllers", getSize(container)));
 	}
 
 	@Override

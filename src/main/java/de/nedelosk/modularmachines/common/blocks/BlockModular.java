@@ -238,7 +238,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		}
 		return stack;
 	}
-	
+
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -253,7 +253,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		}
 		return false;
 	}
-	
+
 	@Override
 	public EnumFacing[] getValidRotations(World world, BlockPos pos) {
 		return EnumFacing.HORIZONTALS;

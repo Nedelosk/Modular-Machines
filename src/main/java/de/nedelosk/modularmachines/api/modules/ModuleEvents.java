@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,19 +8,6 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class ModuleEvents {
-
-	public static class ModuleModelInitEvent extends Event {
-
-		private final IModuleContainer moduleContainer;
-
-		public ModuleModelInitEvent(IModuleContainer moduleContainer) {
-			this.moduleContainer = moduleContainer;
-		}
-
-		public IModuleContainer getContainer() {
-			return moduleContainer;
-		}
-	}
 
 	public static abstract class ModuleStateEvent extends Event {
 

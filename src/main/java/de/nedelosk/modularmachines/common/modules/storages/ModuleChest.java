@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.modules.storages;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -10,9 +11,8 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntit
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
-import de.nedelosk.modularmachines.api.modules.models.IModelInitHandler;
-import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -24,6 +24,7 @@ import de.nedelosk.modularmachines.api.modules.storage.StorageModule;
 import de.nedelosk.modularmachines.common.modules.pages.ChestPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,14 +37,15 @@ public class ModuleChest extends StorageModule {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public List<IModelInitHandler> getInitModelHandlers(IModuleContainer container) {
-		return Collections.singletonList(new ModelHandlerDefault(name, container, ModelHandler.getModelLocation(container, name, getSize(container))));
+	public IModelHandler createModelHandler(IModuleState state) {
+		IModuleContainer container = state.getContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, getSize(container)));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IModelHandler createModelHandler(IModuleState state) {
-		return new ModelHandlerDefault(name, state.getContainer(), ModelHandler.getModelLocation(state.getContainer(), name, getSize(state.getContainer())));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, getSize(container)));
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import cofh.api.energy.IEnergyReceiver;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.modular.ModularHandlerTileEntity;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
@@ -115,6 +116,9 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		if (modularHandler != null) {
 			modularHandler.invalidate();
 		}
+		if(worldObj.isRemote){
+			removeHandler();
+		}
 	}
 
 	@Override
@@ -123,6 +127,14 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		if (modularHandler != null) {
 			modularHandler.invalidate();
 		}
+		if(worldObj.isRemote){
+			removeHandler();
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void removeHandler(){
+		ModelModular.modularHandlers.remove(modularHandler);
 	}
 
 	@Override

@@ -2,12 +2,9 @@ package de.nedelosk.modularmachines.api.modules.storage;
 
 import javax.annotation.Nonnull;
 
-import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.module.IAddableModuleStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -27,7 +24,7 @@ public interface IStorage {
 	NBTTagCompound serializeNBT();
 
 	void deserializeNBT(NBTTagCompound nbt);
-	
+
 	ItemStack[] toPageStacks();
 
 }

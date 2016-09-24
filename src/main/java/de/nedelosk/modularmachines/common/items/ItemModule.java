@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.client.core.ModelManager;
+import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;

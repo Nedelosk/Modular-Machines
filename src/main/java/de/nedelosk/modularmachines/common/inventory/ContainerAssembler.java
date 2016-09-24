@@ -11,10 +11,6 @@ import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -23,7 +19,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 	private final IStoragePage page;
 	private boolean transferStack = false;
 	private boolean hasStorageChange= false;
-	
+
 	public ContainerAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		IModularAssembler assembler = handler.getAssembler();
@@ -32,7 +28,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.onSlotChanged(this);
 		}
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 		transferStack = true;
@@ -44,8 +40,8 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 		}
 		return stack;
 	}
-	
-	
+
+
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
 		IModularAssembler assembler = handler.getAssembler();

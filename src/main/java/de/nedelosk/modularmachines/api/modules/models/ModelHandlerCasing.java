@@ -7,7 +7,6 @@ import java.util.Set;
 import com.google.common.base.Function;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -22,24 +21,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelHandlerCasing extends ModelHandler implements IModelHandler, IModelInitHandler {
+public class ModelHandlerCasing extends ModelHandler implements IModelHandler {
 
 	private final ResourceLocation casing;
 	private final ResourceLocation casing_left;
 	private final ResourceLocation casing_right;
 
-	public ModelHandlerCasing(IModuleContainer container) {
-		super("casings", container);
-		casing = getModelLocation("casing");
-		casing_left = getModelLocation("side_left");
-		casing_right= getModelLocation("side_right");
-	}
-
-	@Override
-	public void initModels(IModuleContainer container) {
-		getModelOrDefault(casing);
-		getModelOrDefault(casing_left);
-		getModelOrDefault(casing_right);
+	public ModelHandlerCasing(ResourceLocation... locations) {
+		casing = locations[0];
+		casing_left = locations[1];
+		casing_right= locations[2];
 	}
 
 	@Override
@@ -48,17 +39,17 @@ public class ModelHandlerCasing extends ModelHandler implements IModelHandler, I
 		if(state.getModular() != null){
 			Set<IStoragePosition> positions = state.getModular().getStorages().keySet();
 			if(!positions.contains(EnumStoragePositions.LEFT)){
-				models.add(getBakedModel(casing_left, modelState, format, bakedTextureGetter));
+				models.add(ModuleModelLoader.getModel(casing_left, format));
 			}
 			if(!positions.contains(EnumStoragePositions.RIGHT)){
-				models.add(getBakedModel(casing_right, modelState, format, bakedTextureGetter));
+				models.add(ModuleModelLoader.getModel(casing_right, format));
 			}
 		}
-		models.add(getBakedModel(casing, modelState, format, bakedTextureGetter));
+		models.add(ModuleModelLoader.getModel(casing, format));
 		for(IModuleState moduleState : ((IModuleStorage)storage).getModules()){
 			IModule module = moduleState.getModule();
 			if(((IModuleStateClient)moduleState).getModelHandler() != null){
-				models.add(ModuleModelHelper.getModel(moduleState, storage, modelState, format));
+				models.add(ModuleModelLoader.getModel(moduleState, storage, modelState, format));
 			}
 		}
 		bakedModel = new BakedMultiModel(models);

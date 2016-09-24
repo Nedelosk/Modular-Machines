@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
+import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -18,7 +18,6 @@ import net.minecraft.util.registry.IRegistry;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -45,17 +44,6 @@ public class EventHandler {
 		}
 	}
 
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void onModuleModelInit(ModuleEvents.ModuleModelInitEvent event) {
-		IModuleContainer conatiner = event.getContainer();
-		ResourceLocation windowLocation = conatiner.getModule().getWindowLocation(conatiner);
-		if(windowLocation != null){
-			ModelLoaderRegistry.getModelOrMissing(windowLocation);
-		}
-	}
-
 	@SubscribeEvent
 	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
 		event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleProvider());
@@ -63,7 +51,7 @@ public class EventHandler {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onTextureStitch(TextureStitchEvent event) {
+	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/container"));
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/liquid"));
 	}
@@ -74,5 +62,6 @@ public class EventHandler {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
 		registry.putObject(new ModelResourceLocation("modularmachines:modular", "inventory"), new ModelModular());
+		ModuleModelLoader.loadModels();
 	}
 }
