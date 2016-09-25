@@ -65,8 +65,8 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		widgetManager.add(new WidgetAssemblerTab(8, 27, tile.getAssembler(), positions.get(1), false));
 		widgetManager.add(new WidgetAssemblerTab(8, 49, tile.getAssembler(), positions.get(2), false));
 		//right
-		widgetManager.add(new WidgetAssemblerTab(140, 5, tile.getAssembler(), positions.get(0), true));
-		widgetManager.add(new WidgetAssemblerTab(140, 27, tile.getAssembler(), positions.get(0), true));
+		widgetManager.add(new WidgetAssemblerTab(140, 5, tile.getAssembler(), positions.get(3), true));
+		widgetManager.add(new WidgetAssemblerTab(140, 27, tile.getAssembler(), positions.get(4), true));
 		widgetManager.add(assembleTab = new WidgetAssembleTab(140, 49));
 
 		onUpdate();
