@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
+import de.nedelosk.modularmachines.api.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetController;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetRedstoneMode;
@@ -28,6 +29,7 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
+		super.addWidgets();
 		add(new WidgetRedstoneMode(6, 9, moduleState));
 		if(usedModules.isEmpty()){
 			return;

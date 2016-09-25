@@ -84,9 +84,7 @@ public class WidgetManager<G extends IGuiProvider> implements IWidgetManager<G> 
 	public void drawTooltip(int mX, int mY) {
 		for(Widget widget : widgets) {
 			if (widget.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
-				if(widget.showTooltip) {
-					RenderUtil.renderTooltip(mX, mY, widget.getTooltip(gui));
-				}
+				RenderUtil.renderTooltip(mX, mY, widget.getTooltip(gui));
 			}
 		}
 	}

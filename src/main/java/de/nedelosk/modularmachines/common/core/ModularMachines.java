@@ -44,7 +44,7 @@ public class ModularMachines {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
+		proxy.preInit();
 		registry = new ModRegistry();
 		new ModuleLoadManager();
 		configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");

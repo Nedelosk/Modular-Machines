@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.client.core;
 
+import de.nedelosk.modularmachines.api.gui.GuiManager;
+import de.nedelosk.modularmachines.client.gui.GuiHelper;
 import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
 import net.minecraft.block.Block;
@@ -15,6 +17,11 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
 
 public class ClientProxy extends CommonProxy {
+
+	@Override
+	public void preInit(){
+		GuiManager.helper = new GuiHelper();
+	}
 
 	@Override
 	public void registerFluidStateMapper(Block block, final Fluid fluid) {

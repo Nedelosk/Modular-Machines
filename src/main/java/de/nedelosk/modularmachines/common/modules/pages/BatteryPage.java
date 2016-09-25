@@ -22,7 +22,7 @@ public class BatteryPage extends MainPage<IModuleBattery> {
 		super.updateGui();
 		for(Widget widget : (ArrayList<Widget>) gui.getWidgetManager().getWidgets()) {
 			if (widget instanceof WidgetEnergyField) {
-				((WidgetEnergyField) widget).energyBuffer = moduleState.getContentHandler(IEnergyBuffer.class);
+				((WidgetEnergyField) widget).setProvider(moduleState.getContentHandler(IEnergyBuffer.class));
 			}
 		}
 	}
@@ -30,6 +30,7 @@ public class BatteryPage extends MainPage<IModuleBattery> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-		gui.getWidgetManager().add(new WidgetEnergyField(moduleState.getContentHandler(IEnergyBuffer.class), 55, 15));
+		super.addWidgets();
+		gui.getWidgetManager().add(new WidgetEnergyField(55, 15, moduleState.getContentHandler(IEnergyBuffer.class)));
 	}
 }

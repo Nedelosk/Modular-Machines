@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
@@ -14,19 +15,17 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 
-public class WidgetController extends Widget {
+public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
 	public IModuleState state;
-	public IModuleState<IModuleControlled> control;
 
-	public WidgetController(int posX, int posY, IModuleState<IModuleControlled> control, IModuleState state) {
-		super(posX, posY, 18, 18);
+	public WidgetController(int posX, int posY, IModuleState<IModuleControlled> provider, IModuleState state) {
+		super(posX, posY, 18, 18, provider);
 		this.state = state;
-		this.control = control;
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(state.getContainer().getDisplayName());
 		return list;
@@ -39,7 +38,7 @@ public class WidgetController extends Widget {
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		boolean hasPermission = control.getModule().getModuleControl(control).hasPermission(state);
+		boolean hasPermission = provider.getModule().getModuleControl(provider).hasPermission(state);
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, hasPermission ? 220 : 148, 0, 18, 18);
 		ItemStack stack = state.getStack();
 		if(stack == null){
@@ -57,8 +56,8 @@ public class WidgetController extends Widget {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 
-		control.getModule().getModuleControl(control).setPermission(state, !control.getModule().getModuleControl(control).hasPermission(state));
+		provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));
 
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), control, state));
+		PacketHandler.INSTANCE.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
 	}
 }

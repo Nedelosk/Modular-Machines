@@ -59,6 +59,11 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	}
 
 	@Override
+	public int getBurnTimeTotal(IModuleState state) {
+		return state.get(BURNTIMETOTAL);
+	}
+
+	@Override
 	public void setBurnTime(IModuleState state, int burnTime) {
 		state.set(BURNTIME, burnTime);
 	}

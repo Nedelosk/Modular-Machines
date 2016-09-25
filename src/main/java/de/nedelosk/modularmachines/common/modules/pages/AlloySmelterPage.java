@@ -26,6 +26,7 @@ public class AlloySmelterPage extends MainPage<IModuleMachine> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-		add(new WidgetProgressBar(82, 35, moduleState.getModule().getWorkTime(moduleState), moduleState.getModule().getWorkTimeTotal(moduleState)));
+		super.addWidgets();
+		add(new WidgetProgressBar(82, 35, moduleState));
 	}
 }

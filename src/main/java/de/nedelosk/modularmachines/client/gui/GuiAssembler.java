@@ -19,9 +19,13 @@ import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
-import de.nedelosk.modularmachines.client.gui.buttons.AssemblerAssembleTab;
-import de.nedelosk.modularmachines.client.gui.buttons.AssemblerTab;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssembleTab;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssemblerTab;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -34,15 +38,16 @@ import net.minecraft.util.ResourceLocation;
 public class GuiAssembler extends GuiBase<IModularHandler> implements IAssemblerGui{
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
-	public final IPage page;
+	public final IStoragePage page;
 	public AssemblerException lastException;
 	public boolean hasChange = false;
 	public IModular modular;
-	public ItemStack modularStack;
 	public int complexity;
 	public int complexityAllowed;
 	public int positionComplexity;
 	public int positionComplexityAllowed;
+
+	public final WidgetAssembleTab assembleTab;
 
 	public GuiAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -53,6 +58,16 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 			page.setGui(this);
 			page.addWidgets();
 		}
+
+		List<IStoragePosition> positions = handler.getStoragePositions();
+		//left
+		widgetManager.add(new WidgetAssemblerTab(8, 5, tile.getAssembler(), positions.get(0), false));
+		widgetManager.add(new WidgetAssemblerTab(8, 27, tile.getAssembler(), positions.get(1), false));
+		widgetManager.add(new WidgetAssemblerTab(8, 49, tile.getAssembler(), positions.get(2), false));
+		//right
+		widgetManager.add(new WidgetAssemblerTab(140, 5, tile.getAssembler(), positions.get(0), true));
+		widgetManager.add(new WidgetAssemblerTab(140, 27, tile.getAssembler(), positions.get(0), true));
+		widgetManager.add(assembleTab = new WidgetAssembleTab(140, 49));
 
 		onUpdate();
 	}
@@ -78,11 +93,15 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
 
-		if(positionComplexityAllowed > 0){
-			String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
-			this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
-			this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
-			this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+		if(positionComplexityAllowed > 0 && page != null){
+			ItemStack stack = page.getStorageStack();
+			IModuleContainer contrainer = ModuleManager.getContainerFromItem(stack);
+			if(contrainer != null && contrainer.getModule() instanceof IModuleModuleStorage){
+				String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
+				this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+				this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+				this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+			}
 		}
 
 		if(page != null){
@@ -109,11 +128,11 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 			try{
 				lastException = null;
 				modular = assembler.assemble();
-				modularStack = ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player);
+				assembleTab.setProvider(ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player));
 			}catch(AssemblerException exception){
 				lastException = exception;
 				modular = null;
-				modularStack = null;
+				assembleTab.setProvider(null);
 			}
 			complexity = assembler.getComplexity(true, null);
 			complexityAllowed = assembler.getAllowedComplexity(null);
@@ -183,16 +202,6 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 	@Override
 	public void addButtons() {
-		//left
-		List<IStoragePosition> positions = handler.getStoragePositions();
-		buttonManager.add(new AssemblerTab(0, guiLeft + 8, guiTop + 5, positions.get(0), false));
-		buttonManager.add(new AssemblerTab(1, guiLeft + 8, guiTop + 27, positions.get(1), false));
-		buttonManager.add(new AssemblerTab(2, guiLeft + 8, guiTop + 49, positions.get(2), false));
-		//right
-		buttonManager.add(new AssemblerTab(3, guiLeft + 140, guiTop + 5, positions.get(3), true));
-		buttonManager.add(new AssemblerTab(4, guiLeft + 140, guiTop + 27, positions.get(4), true));
-		buttonManager.add(new AssemblerAssembleTab(5, guiLeft + 140, guiTop + 49));
-
 		if(page != null){
 			page.addButtons();
 		}

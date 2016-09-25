@@ -7,6 +7,7 @@ import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.util.Translator;
 import net.minecraft.util.ResourceLocation;
@@ -53,7 +54,7 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 	}
 
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull ModuleCrafterRecipeWrapper recipeWrapper) {
+	public void setRecipe(IRecipeLayout recipeLayout, ModuleCrafterRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
 		guiItemStacks.init(craftOutputSlot, false, 122, 18);
@@ -71,6 +72,11 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 		craftingGridHelper.setOutput(guiItemStacks, recipeWrapper.getOutputs());
 
 		guiItemStacks.set(craftHolderSlot, recipeWrapper.getHolder());
+	}
+
+	@Override
+	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull ModuleCrafterRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		setRecipe(recipeLayout, recipeWrapper);
 	}
 
 }

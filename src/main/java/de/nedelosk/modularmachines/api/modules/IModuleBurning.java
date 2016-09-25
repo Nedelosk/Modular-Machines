@@ -4,6 +4,8 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleBurning extends IModule{
 
+	int getBurnTimeTotal(IModuleState state);
+
 	int getBurnTime(IModuleState state);
 
 	void addBurnTime(IModuleState state, int burntime);

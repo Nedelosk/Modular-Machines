@@ -10,6 +10,7 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 
 public class BoilerRecipeCategory extends ModuleRecipeCategory {
@@ -44,8 +45,6 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 		arrow.draw(minecraft, 72, 25);
 	}
 
-
-
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, ModuleRecipeWrapper recipeWrapper) {
 		recipeLayout.getFluidStacks().init(0, true, 37, 3, 16, 58, 16000, false, tankOverlay);
@@ -53,5 +52,10 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 
 		recipeLayout.getFluidStacks().set(0, recipeWrapper.getFluidInputs());
 		recipeLayout.getFluidStacks().set(1, recipeWrapper.getFluidOutputs());
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, ModuleRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		setRecipe(recipeLayout, recipeWrapper);
 	}
 }

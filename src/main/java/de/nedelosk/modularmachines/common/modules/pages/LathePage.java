@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.pages;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetButtonMode;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetMode;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import de.nedelosk.modularmachines.common.modules.handlers.ItemFilterMachine;
 import de.nedelosk.modularmachines.common.modules.handlers.OutputAllFilter;
@@ -19,8 +19,9 @@ public class LathePage extends MainPage<IModuleModeMachine>{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-		add(new WidgetProgressBar(82, 36, moduleState.getModule().getWorkTime(moduleState), moduleState.getModule().getWorkTimeTotal(moduleState)));
-		add(new WidgetButtonMode(86, 16, moduleState));
+		super.addWidgets();
+		add(new WidgetProgressBar(82, 36, moduleState));
+		add(new WidgetMode(86, 16, moduleState));
 	}
 
 	@Override

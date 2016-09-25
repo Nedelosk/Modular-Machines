@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.api.recipes.IModuleCrafterRecipe;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import net.minecraft.item.ItemStack;
@@ -65,6 +66,12 @@ public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IS
 	@Override
 	public int getHeight() {
 		return height;
+	}
+
+	@Override
+	public void getIngredients(IIngredients ingredients) {
+		ingredients.setInputs(ItemStack.class, getInputs());
+		ingredients.setOutputs(ItemStack.class, getOutputs());
 	}
 
 }

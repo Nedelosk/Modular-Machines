@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -141,6 +143,16 @@ public class ModuleManager {
 			}
 		}*/
 		return state;
+	}
+
+	public static List<IModuleState> getModulesWithPages(IModular modular){
+		List<IModuleState> modulesWithPages = Lists.newArrayList();
+		for(IModuleState moduleState : modular.getModules()) {
+			if (moduleState != null && !moduleState.getPages().isEmpty()) {
+				modulesWithPages.add(moduleState);
+			}
+		}
+		return modulesWithPages;
 	}
 
 	public static boolean hasDefaultStack(IModuleContainer container){

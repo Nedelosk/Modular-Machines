@@ -1,22 +1,18 @@
-package de.nedelosk.modularmachines.common.modules.pages;
+package de.nedelosk.modularmachines.api.modules.handlers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import com.google.common.collect.Lists;
-
 import de.nedelosk.modularmachines.api.gui.Button;
+import de.nedelosk.modularmachines.api.gui.GuiManager;
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.ModuleInventoryBuilder;
@@ -26,25 +22,16 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.ModuleTankBuilder;
-import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.tools.IModuleMachine;
-import de.nedelosk.modularmachines.client.gui.buttons.ModulePageTab;
-import de.nedelosk.modularmachines.client.gui.buttons.ModuleTab;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
-import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
-import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
-import de.nedelosk.modularmachines.common.utils.RenderUtil;
-import de.nedelosk.modularmachines.common.utils.Translator;
-import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -80,28 +67,6 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@SideOnly(Side.CLIENT)
 	protected void onClickeWidget(Widget widget, int mouseButton){
-		if(widget instanceof WidgetProgressBar){
-			if(moduleState.getModule() instanceof IModuleJEI){
-				((IModuleJEI)moduleState.getModule()).openJEI(moduleState);
-			}
-		}else if(widget instanceof WidgetFluidTank){
-			WidgetFluidTank tank = (WidgetFluidTank) widget;
-			if(tank.tank.getFluid() != null){
-				Loader.instance();
-				if(Loader.isModLoaded("JEI")){
-					if(mouseButton == 0){
-						JeiPlugin.jeiRuntime.getRecipesGui().showRecipes(tank.tank.getFluid());
-					}else{
-						JeiPlugin.jeiRuntime.getRecipesGui().showUses(tank.tank.getFluid());
-					}
-				}
-			}
-		}else if(widget instanceof WidgetBurning){
-			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Collections.singletonList(VanillaRecipeCategoryUid.FUEL));
-			}
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -116,20 +81,18 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@SideOnly(Side.CLIENT)
 	protected void onUpdateWidget(Widget widget){
-		if (widget instanceof WidgetProgressBar) {
-			WidgetProgressBar widgetBar = (WidgetProgressBar) widget;
-			if(moduleState.getModule() instanceof IModuleMachine){
-				IModuleMachine tool = (IModuleMachine) moduleState.getModule();
-				widgetBar.workTime = tool.getWorkTime(moduleState);
-				widgetBar.worktTimeTotal = tool.getWorkTimeTotal(moduleState);
+		if (widget.getProvider() instanceof IModuleState) {
+			Widget<IModuleState> widgetState = widget;
+			if(!widgetState.getProvider().equals(moduleState)){
+				widgetState.setProvider(moduleState);
 			}
-		}else if (widget instanceof WidgetFluidTank) {
-			WidgetFluidTank widgetTank = (WidgetFluidTank) widget;
+		}else if (widget.getProvider() instanceof IFluidTank) {
+			Widget<IFluidTank> widgetTank = widget;
 			if(tank != null){
-				if(widgetTank.tank instanceof FluidTankAdvanced){
-					FluidTankAdvanced tank = this.tank.getTank(((FluidTankAdvanced)widgetTank.tank).index);
-					if(!((FluidTankAdvanced)widgetTank.tank).equals(tank)){
-						widgetTank.tank = tank;
+				if(widgetTank.getProvider() instanceof FluidTankAdvanced){
+					FluidTankAdvanced tank = this.tank.getTank(((FluidTankAdvanced)widgetTank.getProvider()).index);
+					if(!((FluidTankAdvanced)widgetTank.getProvider()).equals(tank)){
+						widgetTank.setProvider(tank);
 					}
 				}
 			}
@@ -243,7 +206,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@SideOnly(Side.CLIENT)
 	protected void drawSlot(Slot slot) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(modularWdgets);
+		Minecraft.getMinecraft().renderEngine.bindTexture(modularWdgets);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + slot.xDisplayPosition - 1, gui.getGuiTop() + slot.yDisplayPosition - 1, 56, 238, 18, 18);
 	}
 
@@ -270,31 +233,6 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		return new ResourceLocation("modularmachines:textures/gui/modular_machine.png");
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addButtons() {
-		if(gui != null){
-			List<IModuleState> modelsWithPages = getModulesWithPages(modular);
-
-			if(!modelsWithPages.isEmpty() && modelsWithPages.size() > 1){
-				for(int i = 0; i < modelsWithPages.size(); i++) {
-					IModuleState module = modelsWithPages.get(i);
-					add(new ModuleTab(i, (i >= 7) ? gui.getGuiLeft() + getXSize() : gui.getGuiLeft() - 28,
-							(i >= 7) ? gui.getGuiTop() + 8 + 22 * (i - 7) : gui.getGuiTop() + 8 + 22 * i, module, modular.getHandler(), i >= 7));
-				}
-			}
-
-			if(!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1){	
-				for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
-					IModulePage page = moduleState.getPages().get(pageIndex);
-					add(new ModulePageTab(gui.getButtonManager().getButtons().size(),
-							pageIndex > 4 ? 12 + gui.getGuiLeft() + (pageIndex - 5) * 30 : 12 + gui.getGuiLeft() + pageIndex * 30,
-									pageIndex > 4 ? gui.getGuiTop() + getYSize() : gui.getGuiTop() - 19, pageIndex > 4 ? true : false, page, pageIndex));
-				}
-			}
-		}
-	}
-
 	protected void add(Widget widget){
 		if(gui != null){
 			gui.getWidgetManager().add(widget);
@@ -310,10 +248,26 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
+		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(modular);
+
+		if(!modulesWithPages.isEmpty() && modulesWithPages.size() > 1){
+			for(int i = 0; i < modulesWithPages.size(); i++) {
+				IModuleState module = modulesWithPages.get(i);
+				boolean isRight = i >= 7;
+				add(GuiManager.helper.createModuleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), module, modulesWithPages));
+			}
+		}
+
+		if(!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1){	
+			for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
+				IModulePage page = moduleState.getPages().get(pageIndex);
+				add(GuiManager.helper.createModulePageTab(pageIndex > 4 ? 12  + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : - 19, page));
+			}
+		}
 		if(tank != null){
 			for(ContentInfo info : tank.getContentInfos()){
 				if(info != null){
-					add(new WidgetFluidTank(tank.getTank(info.index), info));
+					add(GuiManager.helper.createFluidTank(info.xPosition, info.yPosition, tank.getTank(info.index)));
 				}
 			}
 		}
@@ -334,16 +288,6 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		return moduleState;
 	}
 
-	public static List<IModuleState> getModulesWithPages(IModular modular){
-		List<IModuleState> modulesWithPages = Lists.newArrayList();
-		for(IModuleState moduleState : modular.getModules()) {
-			if (moduleState != null && !moduleState.getPages().isEmpty()) {
-				modulesWithPages.add(moduleState);
-			}
-		}
-		return modulesWithPages;
-	}
-
 	@Override
 	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 		if(inventory != null){
@@ -357,7 +301,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public String getPageTitle() {
-		return Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
+		return I18n.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
 	@Override

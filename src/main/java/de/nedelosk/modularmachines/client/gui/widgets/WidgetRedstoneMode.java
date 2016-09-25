@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
@@ -15,21 +16,18 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 
-public class WidgetRedstoneMode extends Widget {
+public class WidgetRedstoneMode extends Widget<IModuleState<IModuleControlled>> {
 
-	public IModuleState<IModuleControlled> state;
-
-	public WidgetRedstoneMode(int posX, int posY, IModuleState<IModuleControlled> state) {
-		super(posX, posY, 18, 18);
-		this.state = state;
+	public WidgetRedstoneMode(int posX, int posY, IModuleState<IModuleControlled> provider) {
+		super(posX, posY, 18, 18, provider);
 	}
 
 	private EnumRedstoneMode getMode(){
-		return state.getModule().getModuleControl(state).getRedstoneMode();
+		return provider.getModule().getModuleControl(provider).getRedstoneMode();
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(getMode().getLocName());
 		return list;
@@ -50,14 +48,14 @@ public class WidgetRedstoneMode extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-		IModuleControlled module = state.getModule();
+		IModuleControlled module = provider.getModule();
 
 		if(mouseButton == 1){
-			module.getModuleControl(state).setRedstoneMode(getMode().previous());
+			module.getModuleControl(provider).setRedstoneMode(getMode().previous());
 		}else{
-			module.getModuleControl(state).setRedstoneMode(getMode().next());
+			module.getModuleControl(provider).setRedstoneMode(getMode().next());
 		}
 
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncRedstoneMode(state.getModular().getHandler(), state));
+		PacketHandler.INSTANCE.sendToServer(new PacketSyncRedstoneMode(provider.getModular().getHandler(), provider));
 	}
 }

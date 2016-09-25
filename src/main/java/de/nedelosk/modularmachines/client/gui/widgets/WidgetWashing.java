@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
@@ -22,7 +23,7 @@ public class WidgetWashing extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<>();
 		if (worktTimeTotal != 0) {
 			list.add(workTime + " / " + worktTimeTotal);

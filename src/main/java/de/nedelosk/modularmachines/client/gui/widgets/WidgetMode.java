@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
@@ -16,21 +17,18 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 
-public class WidgetButtonMode extends Widget {
+public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 
-	public IModuleState<IModuleModeMachine> state;
-
-	public WidgetButtonMode(int posX, int posY, IModuleState<IModuleModeMachine> state) {
-		super(posX, posY, 18, 18);
-		this.state = state;
+	public WidgetMode(int posX, int posY, IModuleState<IModuleModeMachine> provider) {
+		super(posX, posY, 18, 18, provider);
 	}
 
 	private IToolMode getMode(){
-		return state.getModule().getCurrentMode(state);
+		return provider.getModule().getCurrentMode(provider);
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(Translator.translateToLocal("mode." + getMode().getName() + ".name"));
 		return list;
@@ -51,9 +49,9 @@ public class WidgetButtonMode extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-		IModuleModeMachine module = state.getModule();
+		IModuleModeMachine module = provider.getModule();
 
-		module.setCurrentMode(state, module.getNextMode(state));
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode(state.getModular().getHandler(), state));
+		module.setCurrentMode(provider, module.getNextMode(provider));
+		PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode(provider.getModular().getHandler(), provider));
 	}
 }

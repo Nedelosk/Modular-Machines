@@ -7,6 +7,7 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.gui.Widget;
+import de.nedelosk.modularmachines.api.modules.IModuleWorking;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -18,23 +19,27 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class WidgetProgressBar extends Widget {
+public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleState<M>> {
 
-	public int workTime;
-	public int worktTimeTotal;
 	public List<String> jeiTooltip;
 
-	public WidgetProgressBar(int posX, int posY, int workTime, int workTimeTotal) {
-		super(posX, posY, 22, 17);
-		this.workTime = workTime;
-		this.worktTimeTotal = workTimeTotal;
+	public WidgetProgressBar(int posX, int posY, IModuleState<M> working) {
+		super(posX, posY, 22, 17, working);
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+		super.handleMouseClick(mouseX, mouseY, mouseButton, gui);
+		if(provider.getModule() instanceof IModuleJEI){
+			((IModuleJEI)provider.getModule()).openJEI(provider);
+		}
+	}
+
+	@Override
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> list = new ArrayList<>();
-		if (worktTimeTotal != 0) {
-			list.add(workTime + " / " + worktTimeTotal);
+		if (provider.getModule().getWorkTimeTotal(provider) != 0) {
+			list.add(provider.getModule().getWorkTime(provider) + " / " + provider.getModule().getWorkTimeTotal(provider));
 		}
 		if(jeiTooltip == null){
 			if(gui instanceof GuiPage){
@@ -62,6 +67,8 @@ public class WidgetProgressBar extends Widget {
 
 	@Override
 	public void draw(IGuiProvider gui) {
+		int worktTimeTotal = provider.getModule().getWorkTimeTotal(provider);
+		int workTime = provider.getModule().getWorkTime(provider);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);

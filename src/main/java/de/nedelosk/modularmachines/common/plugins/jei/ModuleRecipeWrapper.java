@@ -7,6 +7,7 @@ import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
 import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
@@ -104,5 +105,21 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 			}
 		}
 		return recipes;
+	}
+
+	@Override
+	public void getIngredients(IIngredients ingredients) {
+		if(!getInputs().isEmpty()){
+			ingredients.setInputs(ItemStack.class, getInputs());
+		}
+		if(!getOutputs().isEmpty()){
+			ingredients.setOutputs(ItemStack.class, getOutputs());
+		}
+		if(!getFluidInputs().isEmpty()){
+			ingredients.setInputs(FluidStack.class, getFluidInputs());
+		}
+		if(!getFluidOutputs().isEmpty()){
+			ingredients.setOutputs(FluidStack.class, getFluidOutputs());
+		}
 	}
 }

@@ -12,6 +12,7 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 
 public class PulverizerRecipeCategory extends ModuleRecipeCategory {
@@ -59,5 +60,10 @@ public class PulverizerRecipeCategory extends ModuleRecipeCategory {
 		if(outputs.size() > 1 && outputs.get(1) != null){
 			recipeLayout.getItemStacks().setFromRecipe(outputSlotSecond, outputs.get(1));
 		}
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, ModuleRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		setRecipe(recipeLayout, recipeWrapper);
 	}
 }

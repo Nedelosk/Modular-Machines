@@ -26,15 +26,16 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.Widget;
-import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
+import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
+import mezz.jei.api.recipe.IFocus.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -46,25 +47,28 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class WidgetFluidTank extends Widget {
+public class WidgetFluidTank extends Widget<IFluidTank> {
 	private static final int TEX_WIDTH = 14;
 	private static final int TEX_HEIGHT = 14;
 	private static final int MIN_FLUID_HEIGHT = 1;
 
-	public IFluidTank tank;
-
-	public WidgetFluidTank(FluidTankAdvanced tank, ContentInfo info) {
-		super(info.xPosition, info.yPosition, 18, 60);
-		this.tank = tank;
+	public WidgetFluidTank(int posX, int posY, IFluidTank provider) {
+		super(posX, posY, 18, 60, provider);
 	}
 
-	public WidgetFluidTank(IFluidTank tank, int posX, int posY) {
-		super(posX, posY, 18, 60);
-		this.tank = tank;
+	@Override
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+		if(provider != null && provider.getFluid() != null){
+			Loader.instance();
+			if(Loader.isModLoaded("JEI")){
+				JeiPlugin.jeiRuntime.getRecipesGui().show(JeiPlugin.jeiRuntime.getRecipeRegistry().createFocus(mouseButton == 0 ? Mode.OUTPUT : Mode.INPUT, provider.getFluid()));
+			}
+		}
 	}
 
 	@Override
@@ -77,7 +81,7 @@ public class WidgetFluidTank extends Widget {
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, pos.width, pos.height);
 
-		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, tank.getFluid());
+		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, provider.getFluid());
 
 		GlStateManager.color(1, 1, 1, 1);
 
@@ -112,7 +116,7 @@ public class WidgetFluidTank extends Widget {
 
 		int fluidColor = fluid.getColor(fluidStack);
 
-		int scaledAmount = (fluidStack.amount * 56) / tank.getCapacity();
+		int scaledAmount = (fluidStack.amount * 56) / provider.getCapacity();
 		if (fluidStack.amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
 			scaledAmount = MIN_FLUID_HEIGHT;
 		}
@@ -173,13 +177,13 @@ public class WidgetFluidTank extends Widget {
 	}
 
 	@Override
-	public ArrayList<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiProvider gui) {
 		ArrayList<String> description = new ArrayList<>();
-		if (tank == null || tank.getFluidAmount() == 0) {
+		if (provider == null || provider.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));
 		} else {
-			description.add(tank.getFluidAmount() + " " + Translator.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity()
-			+ " " + Translator.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
+			description.add(provider.getFluidAmount() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb / " + provider.getCapacity()
+			+ " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb");
 		}
 		return description;
 	}
