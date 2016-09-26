@@ -180,7 +180,10 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 				IModularHandler modularHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				if (modularHandler != null && modularHandler.getModular() != null) {
 					ItemStack harvestTool = player.getHeldItemMainhand();
-					int level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
+					int level = -1;
+					if(harvestTool != null && harvestTool.getItem() != null){
+						level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
+					}
 					if(level >= 0){
 						WorldUtil.dropItem(world, pos, ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
 					}else{
