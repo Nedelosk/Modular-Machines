@@ -12,6 +12,7 @@ import de.nedelosk.modularmachines.common.items.ItemModule;
 import de.nedelosk.modularmachines.common.items.ItemModuleHolder;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
+import de.nedelosk.modularmachines.common.items.ItemWrench;
 import de.nedelosk.modularmachines.common.items.blocks.ItemBlockChassis;
 import net.minecraft.item.Item;
 
@@ -38,6 +39,7 @@ public class ItemManager {
 	public static Item itemModules;
 	public static Item itemCasings;
 	public static Item itemChassis;
+	public static Item itemWrench;
 	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
 	public static MaterialList<IMetalMaterial> default_metals =  new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.STEEL);
 	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND);
@@ -65,6 +67,7 @@ public class ItemManager {
 		itemEngineElectric = register(new ItemModuleMeta("engineElectric", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
+		itemWrench = register(new ItemWrench());
 		ModuleManager.defaultModuleItem = itemModules = register(new ItemModule());
 		ModuleManager.defaultHolderItem = register(new ItemModuleHolder());
 	}

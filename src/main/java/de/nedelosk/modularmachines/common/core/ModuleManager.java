@@ -145,10 +145,10 @@ public class ModuleManager {
 		moduleCasing.setRegistryName(new ResourceLocation("modularmachines:casing"));
 		GameRegistry.register(moduleCasing);
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(1, EnumModuleSizes.LARGE, 8, 550, 7.0F, 1.5F, 1, "pickaxe");
-		moduleCasingProperties[1] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 9.0F, 5.0F, 1, "pickaxe");
-		moduleCasingProperties[2] = new ModuleCasingProperties(3, EnumModuleSizes.LARGE, 16, 650, 10.0F, 5.0F, 1, "pickaxe");
-		moduleCasingProperties[3] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 750, 11.0F, 5.0F, 1, "pickaxe");
+		moduleCasingProperties[0] = new ModuleCasingProperties(1, EnumModuleSizes.LARGE, 8, 550, 7.0F, 1.5F);
+		moduleCasingProperties[1] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 9.0F, 5.0F);
+		moduleCasingProperties[2] = new ModuleCasingProperties(3, EnumModuleSizes.LARGE, 16, 650, 10.0F, 5.0F);
+		moduleCasingProperties[3] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 750, 11.0F, 5.0F);
 
 		/* MODULE STORAGES */
 		moduleDrawer = new ModuleModuleStorage();

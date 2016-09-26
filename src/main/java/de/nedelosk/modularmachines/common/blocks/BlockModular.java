@@ -5,11 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
@@ -23,7 +20,6 @@ import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
-import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -44,7 +40,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -67,7 +62,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		super(Material.IRON, TabModularMachines.tabModules);
 		setSoundType(SoundType.METAL);
 		setHardness(2.0F);
-		setHarvestLevel("pickaxe", 1);
+		setHarvestLevel("wrench", 0);
 		setUnlocalizedName("modular");
 	}
 
@@ -177,44 +172,50 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 	}
 
-
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState blockState) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileEntity && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandler modularHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if (modularHandler != null && modularHandler.getModular() != null) {
-				List<ItemStack> drops = Lists.newArrayList();
-				for(IModuleState state : modularHandler.getModular().getModules()) {
-					if (state != null) {
-						drops.add(state.getModule().saveDataToItem(state));
-						for(IModuleContentHandler handler : state.getContentHandlers()){
-							if(handler instanceof IAdvancedModuleContentHandler){
-								drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
-							}
-						}
-						for(IModulePage page : (List<IModulePage>)state.getPages()){
-							if(page != null){
-								for(IModuleContentHandler handler : page.getContentHandlers()){
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState blockState, EntityPlayer player) {
+		if(!world.isRemote){
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
+				IModularHandler modularHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+				if (modularHandler != null && modularHandler.getModular() != null) {
+					ItemStack harvestTool = player.getHeldItemMainhand();
+					int level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
+					if(level >= 0){
+						WorldUtil.dropItem(world, pos, ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
+					}else{
+						List<ItemStack> drops = Lists.newArrayList();
+						for(IModuleState moduleState : modularHandler.getModular().getModules()) {
+							if (moduleState != null) {
+								drops.add(moduleState.getModule().saveDataToItem(moduleState));
+								for(IModuleContentHandler handler : moduleState.getContentHandlers()){
 									if(handler instanceof IAdvancedModuleContentHandler){
 										drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
 									}
 								}
+								for(IModulePage page : (List<IModulePage>)moduleState.getPages()){
+									if(page != null){
+										for(IModuleContentHandler handler : page.getContentHandlers()){
+											if(handler instanceof IAdvancedModuleContentHandler){
+												drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+											}
+										}
+									}
+								}
 							}
 						}
+						WorldUtil.dropItem(world, pos, drops);
 					}
-				}
-				WorldUtil.dropItem(world, pos, drops);
-			}else if(modularHandler != null && modularHandler.getAssembler() != null){
-				WorldUtil.dropItems(world, pos, modularHandler.getAssembler().getItemHandler());
-				for(IStoragePage page : modularHandler.getAssembler().getStoragePages()){
-					if(page != null){
-						WorldUtil.dropItems(world, pos, page.getItemHandler());
+				}else if(modularHandler != null && modularHandler.getAssembler() != null){
+					WorldUtil.dropItems(world, pos, modularHandler.getAssembler().getItemHandler());
+					for(IStoragePage page : modularHandler.getAssembler().getStoragePages()){
+						if(page != null){
+							WorldUtil.dropItems(world, pos, page.getItemHandler());
+						}
 					}
 				}
 			}
 		}
-		super.breakBlock(world, pos, blockState);
 	}
 
 	@Override
@@ -222,19 +223,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
-			IModularHandler tileHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(tileHandler.isAssembled() && tileHandler.getModular() != null){
-				itemHandler.setAssembled(true);
-				itemHandler.setModular(tileHandler.getModular().copy(itemHandler));
-			}else if(!tileHandler.isAssembled() && tileHandler.getAssembler() != null){
-				itemHandler.setAssembled(false);
-				itemHandler.setAssembler(tileHandler.getAssembler().copy(itemHandler));
-			}
-			itemHandler.setOwner(player.getGameProfile());
-			itemHandler.setWorld(world);
-			itemHandler.setUID();
-			stack.setTagCompound(itemHandler.serializeNBT());
+			return ModularManager.saveModularToItem(stack, tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null), player);
 		}
 		return stack;
 	}
@@ -260,63 +249,8 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 	}
 
 	@Override
-	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
-		IBlockState state = world.getBlockState(pos);
-		state = state.getBlock().getActualState(state, world, pos);
-		if (state.getMaterial().isToolNotRequired()){
-			return true;
-		}
-
-		String tool = getHarvestTool(state);
-		int harvestLevel = getHarvestLevel(state);
-
-		TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileModular){
-			IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(tileModular.isAssembled()){
-				IBlockModificator blockModificator = tileModular.getModular().getBlockModificator();
-
-				if(blockModificator != null){
-					tool = blockModificator.getHarvestTool();
-					harvestLevel = blockModificator.getHarvestLevel();
-				}
-			}
-		}
-
-		ItemStack stack = player.inventory.getCurrentItem();
-		if (stack == null || tool == null){
-			return player.canHarvestBlock(state);
-		}
-
-		int toolLevel = stack.getItem().getHarvestLevel(stack, tool);
-		if (toolLevel < 0){
-			return player.canHarvestBlock(state);
-		}
-
-		return toolLevel >= harvestLevel;
-	}
-
-	@Override
-	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World world, BlockPos pos) {
-		float hardness = state.getBlockHardness(world, pos);
-		if (hardness < 0.0F)
-		{
-			return 0.0F;
-		}
-
-		if (!canHarvestBlock(world, pos, player))
-		{
-			return player.getDigSpeed(state, pos) / hardness / 100F;
-		}
-		else
-		{
-			return player.getDigSpeed(state, pos) / hardness / 30F;
-		}
-	}
-
-	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return Collections.singletonList(new ItemStack(ItemManager.itemCasings));
+		return Collections.emptyList();
 	}
 
 	@Override

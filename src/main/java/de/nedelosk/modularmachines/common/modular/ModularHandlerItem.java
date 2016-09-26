@@ -3,8 +3,6 @@ package de.nedelosk.modularmachines.common.modular;
 import java.util.List;
 import java.util.Random;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
@@ -13,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
-public class ModularHandlerItem extends ModularHandler implements IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> {
+public class ModularHandlerItem extends ModularHandler implements IModularHandlerItem<NBTTagCompound> {
 	private static final String KEY_SLOTS = "Slots";
 	private static final String KEY_UID = "UID";
 	private static final Random rand = new Random();

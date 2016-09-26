@@ -11,17 +11,13 @@ public class BlockModificator implements IModuleContentHandler, IBlockModificato
 	private final int maxHeat;
 	private final float resistance;
 	private final float hardness;
-	private final int harvestLevel;
-	private final String harvestTool;
 	private final IModuleState state;
 
-	public BlockModificator(IModuleState state, int maxHeat, float resistance, float hardness, String harvestTool, int harvestLevel) {
+	public BlockModificator(IModuleState state, int maxHeat, float resistance, float hardness) {
 		this.state = state;
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
-		this.harvestTool = harvestTool;
-		this.harvestLevel = harvestLevel;
 	}
 
 	@Override
@@ -47,16 +43,6 @@ public class BlockModificator implements IModuleContentHandler, IBlockModificato
 	@Override
 	public float getHardness() {
 		return hardness;
-	}
-
-	@Override
-	public int getHarvestLevel() {
-		return harvestLevel;
-	}
-
-	@Override
-	public String getHarvestTool() {
-		return harvestTool;
 	}
 
 	@Override

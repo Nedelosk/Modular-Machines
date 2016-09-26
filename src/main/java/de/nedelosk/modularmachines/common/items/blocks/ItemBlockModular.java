@@ -5,7 +5,6 @@ import java.util.List;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
@@ -44,7 +43,7 @@ public class ItemBlockModular extends ItemBlock {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(GuiScreen.isShiftKeyDown()){
-			IModularHandler<IModular, IModularAssembler, NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandler<NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			if(handler != null){
 				if(stack.hasTagCompound()){
 					handler.deserializeNBT(stack.getTagCompound());
@@ -52,7 +51,11 @@ public class ItemBlockModular extends ItemBlock {
 					IModular modular = handler.getModular();
 					for(IModuleState state : modular.getModules()){
 						if(state != null){
-							tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName());
+							ItemStack moduleStack = state.getStack();
+							if(moduleStack == null){
+								moduleStack = state.getContainer().getItemStack();
+							}
+							tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName() + " - " + moduleStack.getDisplayName());
 						}
 					}
 				}

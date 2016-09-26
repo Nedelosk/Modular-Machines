@@ -32,8 +32,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModulePage<M extends IModule> extends Page implements IModulePage {
 
@@ -149,10 +151,10 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public <H> H getContentHandler(Class<? extends H> contentClass) {
-		if(IModuleInventory.class.isAssignableFrom(contentClass)){
+		if(IItemHandler.class.isAssignableFrom(contentClass) || IModuleInventory.class.isAssignableFrom(contentClass)){
 			return (H) inventory;
 		}
-		if(IModuleTank.class.isAssignableFrom(contentClass)){
+		if(IFluidHandler.class.isAssignableFrom(contentClass) || IModuleTank.class.isAssignableFrom(contentClass)){
 			return (H) tank;
 		}
 		return null;

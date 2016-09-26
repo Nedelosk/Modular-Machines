@@ -107,10 +107,6 @@ itemGroup.modularmachines.modules=Modular Machines modules
 ####################################
 tile.modular.name=Modular Machine
 tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in the module assembling machine.
-modularmachines.item.casing.bronze.name=Bronze Casing
-modularmachines.item.casing.iron.name=Iron Casing
-modularmachines.item.casing.steel.name=Steel Casing
-modularmachines.item.casing.magmarium.name=Magmarium Casing
 modularmachines.item.tile.module_crafter.default.name=Module Crafter
 modularmachines.item.tile.metal_blocks.tin.name=Block of Tin
 modularmachines.item.tile.metal_blocks.copper.name=Block of Copper
@@ -160,7 +156,11 @@ modularmachines.item.module_holders.1.name=Medium Module Holder
 modularmachines.item.module_holders.2.name=Small Module Holder
 modularmachines.item.modules.name=Module
 modularmachines.item.modular.chassis.name=Modular Chassis
-
+modularmachines.item.casing.bronze.name=Bronze Casing
+modularmachines.item.casing.iron.name=Iron Casing
+modularmachines.item.casing.steel.name=Steel Casing
+modularmachines.item.casing.magmarium.name=Magmarium Casing
+modularmachines.item.wrench.name=Wrench
 modularmachines.tool.file.iron.name=Iron File
 modularmachines.tool.file.diamond.name=Diamond File
 modularmachines.tool.hammer.name=Iron Hammer

@@ -57,8 +57,8 @@ public class PluginIC2 extends APlugin {
 		moduleBatteryContainers[2] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[2], mfe, EnumMetalMaterials.IRON, true));
 		moduleBatteryContainers[3] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[3], mfsu, EnumMetalMaterials.STEEL, true));
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 7.0F, 1.5F, 1, "pickaxe");
-		moduleCasingProperties[1] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 700, 9.0F, 2.54F, 1, "pickaxe");
+		moduleCasingProperties[0] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 7.0F, 1.5F);
+		moduleCasingProperties[1] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 700, 9.0F, 2.54F);
 
 		IModule engine = ModuleManager.moduleEngineElectric;
 		IModuleProperties properties = ModuleManager.moduleEngineElectricProperties[1];

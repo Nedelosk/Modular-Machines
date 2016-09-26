@@ -309,8 +309,6 @@ public class Modular implements IModular {
 		int maxHeat = 0;
 		float resistance = 0F;
 		float hardness = 0F;
-		int harvestLevel = 0;
-		String harvestTool = null;
 		boolean hasModificator = false;
 		for(IModuleState state : getModules()){
 			IBlockModificator modificator = state.getContentHandler(IBlockModificator.class);
@@ -320,29 +318,12 @@ public class Modular implements IModular {
 				maxHeat+=modificator.getMaxHeat();
 				resistance+=modificator.getResistance();
 				hardness+=modificator.getHardness();
-				harvestLevel+=modificator.getHarvestLevel();
-				String mHarvestTool = modificator.getHarvestTool();
-				if(mHarvestTool.equals("wrench")){
-					harvestTool = mHarvestTool;
-				}else if(mHarvestTool.equals("pickaxe")){
-					if(harvestTool == null || !harvestTool.equals("wrench")){
-						harvestTool = mHarvestTool;
-					}
-				}else if(mHarvestTool.equals("axe")){
-					if(harvestTool == null || !harvestTool.equals("wrench") && !harvestTool.equals("pickaxe")){
-						harvestTool = mHarvestTool;
-					}
-				}else{
-					if(harvestTool == null || !harvestTool.equals("wrench") && !harvestTool.equals("pickaxe") && !harvestTool.equals("axe")){
-						harvestTool = mHarvestTool;
-					}
-				}
 			}
 		}
 		if(!hasModificator){
 			return null;
 		}
-		return new BlockModificator(null, maxHeat / modificators, resistance / modificators, hardness / modificators, harvestTool, harvestLevel / modificators);
+		return new BlockModificator(null, maxHeat / modificators, resistance / modificators, hardness / modificators / modificators);
 	}
 
 	protected List<IItemHandler> getInventorys(){

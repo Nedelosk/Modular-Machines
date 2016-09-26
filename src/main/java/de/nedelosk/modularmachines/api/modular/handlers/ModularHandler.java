@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModularHandler implements IModularHandler<IModular, IModularAssembler, NBTTagCompound>{
+public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	protected final List<IStoragePosition> positions;
 	protected IModular modular;

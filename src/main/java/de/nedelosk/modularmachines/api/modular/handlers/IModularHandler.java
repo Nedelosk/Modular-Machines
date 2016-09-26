@@ -15,21 +15,21 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public interface IModularHandler<M extends IModular, A extends IModularAssembler, N extends NBTBase> extends IGuiHandler, ICapabilitySerializable<N> {
+public interface IModularHandler<N extends NBTBase> extends IGuiHandler, ICapabilitySerializable<N> {
 
 	void setWorld(World world);
 
 	World getWorld();
 
-	void setModular(@Nullable M modular);
+	void setModular(@Nullable IModular modular);
 
 	@Nullable
-	M getModular();
+	IModular getModular();
 
-	void setAssembler(@Nullable A assembler);
+	void setAssembler(@Nullable IModularAssembler assembler);
 
 	@Nullable
-	A getAssembler();
+	IModularAssembler getAssembler();
 
 	void markDirty();
 

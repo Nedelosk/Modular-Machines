@@ -2,8 +2,6 @@ package de.nedelosk.modularmachines.common.modular;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modular.handlers.ModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
@@ -20,7 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
-public class ModularHandlerTileEntity extends ModularHandler implements IModularHandlerTileEntity<IModular, IModularAssembler, NBTTagCompound> {
+public class ModularHandlerTileEntity extends ModularHandler implements IModularHandlerTileEntity<NBTTagCompound> {
 
 	protected TileEntity tileEntity;
 	protected EnumFacing facing;

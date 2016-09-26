@@ -141,6 +141,11 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 			for(IModuleContentHandler handler : state.getContentHandlers()){
 				handler.addToolTip(tooltip, stack, state);
 			}
+			for(IModulePage page : (List<IModulePage>) state.getPages()){
+				for(IModuleContentHandler handler : page.getContentHandlers()){
+					handler.addToolTip(tooltip, stack, state);
+				}
+			}
 		}
 	}
 
@@ -150,6 +155,15 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 			if(handler instanceof ICleanableModuleContentHandler){
 				if(!((ICleanableModuleContentHandler) handler).isEmpty()){
 					return false;
+				}
+			}
+		}
+		for(IModulePage page : (List<IModulePage>) state.getPages()){
+			for(IModuleContentHandler handler : page.getContentHandlers()){
+				if(handler instanceof ICleanableModuleContentHandler){
+					if(!((ICleanableModuleContentHandler) handler).isEmpty()){
+						return false;
+					}
 				}
 			}
 		}

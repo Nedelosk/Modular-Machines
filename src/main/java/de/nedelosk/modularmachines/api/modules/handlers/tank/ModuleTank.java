@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.handlers.tank;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -403,11 +405,9 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.tanks"));
 		for(FluidTankAdvanced tank : tanks){
 			FluidStack fluidStack = tank.getFluid();
-			tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
 			if(fluidStack != null){
+				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
 				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.tank.fluid") + fluidStack.getLocalizedName() + ", " + I18n.translateToLocal("mm.tooltip.handler.tank.amount") + fluidStack.amount);
-			}else{
-				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.tank.empty"));
 			}
 		}
 	}
@@ -463,10 +463,25 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 		IModularHandler handler = state.getModular().getHandler();
 		if(handler instanceof IModularHandlerTileEntity){
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
+			List<IFluidHandler> handlers = new ArrayList<>();
+			for(IModuleState moduleState : state.getModuleHandler().getModules()){
+				if(moduleState.getContentHandler(IFluidHandler.class) != null){
+					handlers.add(moduleState.getContentHandler(IFluidHandler.class));
+				}
+				for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
+					if(page.getContentHandler(IFluidHandler.class) != null){
+						handlers.add(page.getContentHandler(IFluidHandler.class));
+					}
+				}
+			}
 			for(EnumFacing facing : EnumFacing.VALUES){
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
 				if(tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())){
-					IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite());
+					handlers.add(tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite()));
+				}
+			}
+			for(IFluidHandler fluidHandler : handlers){
+				if(!isEmpty()){
 					for(FluidTankAdvanced tank : getTanks()){
 						tank.drainInternal(fluidHandler.fill(tank.getFluid(), true), true);
 					}

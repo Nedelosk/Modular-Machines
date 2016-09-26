@@ -41,8 +41,7 @@ public class ModuleHandler implements IModuleHandler {
 	@Override
 	public List<IModuleState> getModules() {
 		List<IModuleState> modules = new ArrayList<>();
-		List<IModuleState> defaultModules = defaultStorage.getModules();
-		for(IModuleState state : defaultModules){
+		for(IModuleState state : defaultStorage.getModules()){
 			if(control != null && control.hasPermission(state)){
 				modules.add(state);
 			}

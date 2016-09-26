@@ -21,8 +21,10 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 		this.usedModules = new ArrayList<>();
 		IModuleControl control = module.getModule().getModuleControl(module);
 		for(IModuleState state : module.getModule().getUsedModules(module)){
-			this.usedModules.add(state.getIndex());
-			control.setPermission(state, true);
+			if(state.getIndex() != module.getIndex()){
+				this.usedModules.add(state.getIndex());
+				control.setPermission(state, true);
+			}
 		}
 	}
 

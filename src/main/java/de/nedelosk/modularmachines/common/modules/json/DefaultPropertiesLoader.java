@@ -104,9 +104,7 @@ public class DefaultPropertiesLoader {
 			int maxHeat = JsonUtils.getInt(jsonObject.get("maxHeat"));
 			float resistance = JsonUtils.getFloat(jsonObject.get("resistance"));
 			float hardness = JsonUtils.getFloat(jsonObject.get("hardness"));
-			int harvestLevel = JsonUtils.getInt(jsonObject.get("harvestLevel"));
-			String harvestTool = JsonUtils.getString(jsonObject.get("harvestTool"));
-			return new ModuleCasingProperties(complexity, getSize(jsonObject), allowedComplexity, maxHeat, resistance, hardness, harvestLevel, harvestTool);
+			return new ModuleCasingProperties(complexity, getSize(jsonObject), allowedComplexity, maxHeat, resistance, hardness);
 		}
 	}
 

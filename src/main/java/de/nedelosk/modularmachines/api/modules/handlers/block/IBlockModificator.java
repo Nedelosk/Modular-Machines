@@ -9,8 +9,4 @@ public interface IBlockModificator {
 
 	float getHardness();
 
-	int getHarvestLevel();
-
-	String getHarvestTool();
-
 }

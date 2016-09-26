@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -370,11 +371,9 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys"));
 		for(int i = 0;i < getSlots();i++){
 			ItemStack itemStack = getStackInSlot(i);
-			tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
 			if(itemStack != null){
+				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
 				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.inventory.item") + itemStack.getDisplayName() + ", " + I18n.translateToLocal("mm.tooltip.handler.inventory.amount") + itemStack.stackSize);
-			}else{
-				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.inventory.empty"));
 			}
 		}
 	}
@@ -642,10 +641,25 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 		IModularHandler handler = state.getModular().getHandler();
 		if(handler instanceof IModularHandlerTileEntity){
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
+			List<IItemHandler> handlers = new ArrayList<>();
+			for(IModuleState moduleState : state.getModuleHandler().getModules()){
+				if(moduleState.getContentHandler(IItemHandler.class) != null){
+					handlers.add(moduleState.getContentHandler(IItemHandler.class));
+				}
+				for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
+					if(page.getContentHandler(IItemHandler.class) != null){
+						handlers.add(page.getContentHandler(IItemHandler.class));
+					}
+				}
+			}
 			for(EnumFacing facing : EnumFacing.VALUES){
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
 				if(tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite())){
-					IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite());
+					handlers.add(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite()));
+				}
+			}
+			for(IItemHandler itemHandler : handlers){
+				if(!isEmpty()){
 					for(int i = 0;i < getSlots();i++){
 						setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, getStackInSlot(i), false));
 					}

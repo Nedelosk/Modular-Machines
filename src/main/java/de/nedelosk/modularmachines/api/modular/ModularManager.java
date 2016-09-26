@@ -29,10 +29,26 @@ public class ModularManager {
 	 * Write a modular to a item stack.
 	 */
 	public static ItemStack saveModularToItem(ItemStack modularItem, IModular modular, EntityPlayer player){
-		IModularHandler modularHandler = modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
+		IModularHandlerItem<NBTTagCompound> itemHandler = (IModularHandlerItem<NBTTagCompound>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
 		modularItem = modularItem.copy();
-		IModularHandlerItem<IModular, IModularAssembler, NBTTagCompound> itemHandler = (IModularHandlerItem) modularHandler;
 		itemHandler.setModular(modular);
+		itemHandler.setWorld(player.getEntityWorld());
+		itemHandler.setOwner(player.getGameProfile());
+		itemHandler.setUID();
+		modularItem.setTagCompound(itemHandler.serializeNBT());
+		return modularItem;
+	}
+
+	public static ItemStack saveModularToItem(ItemStack modularItem, IModularHandler modularHandler, EntityPlayer player){
+		IModularHandlerItem<NBTTagCompound> itemHandler = (IModularHandlerItem<NBTTagCompound>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
+		modularItem = modularItem.copy();
+		if(modularHandler.isAssembled() && modularHandler.getModular() != null){
+			itemHandler.setAssembled(true);
+			itemHandler.setModular(modularHandler.getModular().copy(itemHandler));
+		}else if(!modularHandler.isAssembled() && modularHandler.getAssembler() != null){
+			itemHandler.setAssembled(false);
+			itemHandler.setAssembler(modularHandler.getAssembler().copy(itemHandler));
+		}
 		itemHandler.setWorld(player.getEntityWorld());
 		itemHandler.setOwner(player.getGameProfile());
 		itemHandler.setUID();
