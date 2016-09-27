@@ -49,6 +49,9 @@ jar {
     manifest {
         attributes 'FMLAT': 'modularmachines_at.cfg'
     }
+	into ('forestry/api') {
+		from "./src/main/java/forestry/api/LICENSE.txt"
+	}
 }
 
 publishing {
