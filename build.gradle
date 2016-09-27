@@ -22,6 +22,9 @@ plugins {
 	id "com.jfrog.bintray" version "1.7"
 }
 
+apply plugin: "java"
+apply plugin: "maven-publish"
+
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
 if (project.hasProperty('buildQualifier')) {
 	version = project.version + '-' + project.buildQualifier
@@ -48,6 +51,20 @@ jar {
     }
 }
 
+publishing {
+	publications {
+		MCMMPublish(MavenPublication) {
+			from components.java
+			artifact deobfJar
+			artifact sourcesJar
+			artifact apiJar
+			groupId project.group
+			artifactId project.archivesBaseName
+			version project.version
+		}
+	}
+}
+
 bintray {
 	if(System.getenv().BINTRAY_USER != null){
 		user = System.getenv('BINTRAY_USER')
@@ -59,20 +76,6 @@ bintray {
 			version {
 				name = project.version
 			}
-		}
-	}
-}
-
-publishing {
-	publications {
-		MCMMPublish(MavenPublication) {
-			from components.java
-			artifact deobfJar
-			artifact sourcesJar
-			artifact apiJar
-			groupId project.group
-			artifactId project.archivesBaseName
-			version project.version
 		}
 	}
 }
