@@ -19,6 +19,7 @@ plugins {
 	id "net.minecraftforge.gradle.forge" version "2.0.2"
 	id "com.matthewprenger.cursegradle" version "1.0.8"
 	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
+	id "com.jfrog.bintray" version "1.7"
 }
 
 version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
@@ -45,6 +46,33 @@ jar {
     manifest {
         attributes 'FMLAT': 'modularmachines_at.cfg'
     }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+	publications = ["MCMMPublish"]
+	pkg {
+        repo = 'MC'
+        name = project.group
+		version {
+			name = project.version
+		}
+    }
+}
+
+publishing {
+	publications {
+		MCMMPublish(MavenPublication) {
+			from components.java
+			artifact deobfJar
+			artifact sourcesJar
+			artifact apiJar
+			groupId project.group
+			artifactId project.archivesBaseName
+			version project.version
+		}
+	}
 }
 
 task deobfJar(type: Jar) {

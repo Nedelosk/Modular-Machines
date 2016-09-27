@@ -333,6 +333,7 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemFileIron), true, "  I", "FIF", "S  ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
 		addShapedRecipe(new ItemStack(ItemManager.itemFileDiamond), true, "  D", "FDF", "S  ", 'D', "gemDiamond", 'F', Items.FLINT, 'S', "stickWood");
 		addShapedRecipe(new ItemStack(ItemManager.itemCutter), "  S", "FS ", "IF ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
+		addShapedRecipe(new ItemStack(ItemManager.itemWrench), "I I", " I ", " I ", 'I', "ingotIron");
 	}
 
 	private static void addMachineRecipes() {

@@ -16,6 +16,10 @@ public class ItemUtil {
 	}
 
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT) {
+		return isIdenticalItem(lhs, rhs, ignorNBT, false);
+	}
+	
+	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT, boolean ignorDisplay) {
 		if (lhs == null || rhs == null) {
 			return false;
 		}
@@ -27,7 +31,20 @@ public class ItemUtil {
 				return false;
 			}
 		}
-		return ignorNBT || ItemStack.areItemStackTagsEqual(lhs, rhs);
+		if(!ignorNBT){
+			if(ignorDisplay){
+				if(rhs.hasTagCompound()){
+					lhs = lhs.copy();
+					rhs.getTagCompound().removeTag("display");
+				}
+				if(rhs.hasTagCompound()){
+					rhs = rhs.copy();
+					rhs.getTagCompound().removeTag("display");
+				}
+			}
+			return ItemStack.areItemStackTagsEqual(lhs, rhs);
+		}
+		return true;
 	}
 
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {

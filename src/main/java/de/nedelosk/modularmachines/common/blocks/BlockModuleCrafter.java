@@ -79,7 +79,7 @@ public class BlockModuleCrafter extends BlockContainerForest implements IItemMod
 
 	@Override
 	public BlockRenderLayer getBlockLayer() {
-		return BlockRenderLayer.CUTOUT;
+		return BlockRenderLayer.SOLID;
 	}
 
 }

@@ -198,7 +198,7 @@ public class ModuleManager {
 		moduleChest.setRegistryName(new ResourceLocation("modularmachines:chest"));
 		GameRegistry.register(moduleChest);
 
-		moduleChestProperties = new StorageModuleProperties(1, EnumModuleSizes.LARGE, EnumModulePositions.SIDE, EnumModulePositions.BACK);
+		moduleChestProperties = new StorageModuleProperties(1, EnumModuleSizes.LARGEST, EnumModulePositions.SIDE, EnumModulePositions.BACK);
 
 		/* CLEANER */
 		moduleModuleCleaner = new ModuleModuleCleaner("cleaner");
@@ -306,7 +306,7 @@ public class ModuleManager {
 		GameRegistry.register(new ModuleContainer(moduleTurbineSteam, moduleTurbineSteamProperties[3], new ItemStack(ItemManager.itemTurbineSteam, 1, 3), EnumMetalMaterials.MAGMARIUM));
 
 		//Chest
-		GameRegistry.register(new ModuleContainer(moduleChest, moduleChestProperties, new ItemStack(Blocks.CHEST), EnumVanillaMaterials.WOOD));
+		GameRegistry.register(new ModuleContainer(moduleChest, moduleChestProperties, new ItemStack(Blocks.CHEST), EnumVanillaMaterials.WOOD, true));
 
 		//Controller
 		moduleControllerContainers[0] = registerModuleItem(moduleController, moduleControllerProperties[0], EnumMetalMaterials.BRONZE);

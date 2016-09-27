@@ -181,12 +181,18 @@ public class Modular implements IModular {
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList list = nbt.getTagList("Storages", 10);
 		for(int i = 0;i < list.tagCount();i++){
-			NBTTagCompound tagCompound = list.getCompoundTagAt(i);
-			IModuleState<IStorageModule> module = ModuleManager.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
-			IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
-			IStorage storage = module.getModule().createStorage(module, this, position);
-			storage.deserializeNBT(tagCompound.getCompoundTag("Storage"));
-			storages.put(position, storage);
+			try{
+				NBTTagCompound tagCompound = list.getCompoundTagAt(i);
+				IModuleState<IStorageModule> module = ModuleManager.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
+				IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
+				if(module != null){
+					IStorage storage = module.getModule().createStorage(module, this, position);
+					storage.deserializeNBT(tagCompound.getCompoundTag("Storage"));
+					storages.put(position, storage);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));

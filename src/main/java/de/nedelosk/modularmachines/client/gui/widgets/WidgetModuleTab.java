@@ -58,6 +58,10 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 
 	@Override
 	public List<String> getTooltip(IGuiProvider gui) {
+		ItemStack stack = provider.getStack();
+		if(stack != null && stack.hasDisplayName()){
+			return Arrays.asList(stack.getDisplayName());
+		}
 		return Arrays.asList(provider.getContainer().getDisplayName());
 	}
 }

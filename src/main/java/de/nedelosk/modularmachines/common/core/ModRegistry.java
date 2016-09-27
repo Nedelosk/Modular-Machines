@@ -34,7 +34,6 @@ public class ModRegistry extends Registry {
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		MinecraftForge.EVENT_BUS.register(ModelModular.class);
 		ModuleManager.registerCapability();
 		PacketHandler.preInit();
 		FluidManager.registerFluids();
@@ -44,6 +43,7 @@ public class ModRegistry extends Registry {
 		super.preInit(instance, event);
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			ModelManager.getInstance().registerModels();
+			MinecraftForge.EVENT_BUS.register(ModelModular.class);
 		}
 		RecipeSorter.register("modularmachines:module_crafter", ModuleCrafterRecipe.class, SHAPED, "before:minecraft:shapeless");
 		OreDictionaryManager.registerOres();

@@ -28,6 +28,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
@@ -303,6 +304,10 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public String getPageTitle() {
+		ItemStack stack = moduleState.getStack();
+		if(stack != null && stack.hasDisplayName()){
+			return stack.getDisplayName();
+		}
 		return I18n.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
 	}
 

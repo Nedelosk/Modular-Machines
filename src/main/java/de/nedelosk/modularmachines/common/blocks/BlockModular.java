@@ -20,6 +20,7 @@ import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
+import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
@@ -217,6 +218,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 						}
 					}
 				}
+				WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassis));
 			}
 		}
 	}

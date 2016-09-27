@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
@@ -26,9 +27,14 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
 	@Override
 	public List<String> getTooltip(IGuiProvider gui) {
-		ArrayList<String> list = new ArrayList<>();
-		list.add(state.getContainer().getDisplayName());
-		return list;
+		ItemStack stack = state.getStack();
+		if(stack == null){
+			stack = state.getContainer().getItemStack();
+		}
+		if(stack != null && stack.hasDisplayName()){
+			return Arrays.asList(stack.getDisplayName());
+		}
+		return Arrays.asList(state.getContainer().getDisplayName());
 	}
 
 	@Override

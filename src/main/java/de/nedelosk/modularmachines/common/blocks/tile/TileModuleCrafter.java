@@ -5,6 +5,8 @@ import de.nedelosk.modularmachines.common.inventory.ContainerModuleCrafter;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileModuleCrafter extends TileBaseInventory {
 
@@ -12,6 +14,7 @@ public class TileModuleCrafter extends TileBaseInventory {
 		super(11);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public GuiContainer createGui(InventoryPlayer inventory) {
 		return new GuiModuleCrafter(this, inventory);

@@ -97,7 +97,7 @@ public class PacketSyncAssembler extends PacketModularHandler {
 						if(handler == assembler.getHandler()) {
 							ItemStack heldStack = null;
 
-							if(handler.getModular() != null && handler.getModular().getCurrentModule() == null){
+							if(handler.getModular() != null &&  (handler.getModular().getCurrentModule() == null || handler.getModular().getCurrentPage() == null)){
 								otherPlayer.closeScreen();
 							}else{
 								if(otherPlayer.inventory.getItemStack() != null) {
