@@ -49,16 +49,18 @@ jar {
 }
 
 bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-	publications = ["MCMMPublish"]
-	pkg {
-        repo = 'MC'
-        name = project.group
-		version {
-			name = project.version
+	if(System.getenv().BINTRAY_USER != null){
+		user = System.getenv('BINTRAY_USER')
+		key = System.getenv('BINTRAY_KEY')
+		publications = ["MCMMPublish"]
+		pkg {
+			repo = 'MC'
+			name = project.group
+			version {
+				name = project.version
+			}
 		}
-    }
+	}
 }
 
 publishing {
