@@ -29,6 +29,7 @@ import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import de.nedelosk.modularmachines.api.property.PropertyDouble;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
@@ -162,6 +163,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
+		IModuleHandler handler = state.getModuleHandler();
 		Random rand = modular.getHandler().getWorld().rand;
 		EnumToolType type = getType(state);
 		boolean needUpdate = false;
@@ -197,7 +199,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 				}else{
 					int workTime = 0;
 					if(type == EnumToolType.KINETIC){
-						for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)){
+						for(IModuleState<IModuleKinetic> otherState : handler.getModules(IModuleKinetic.class)){
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							double kinetic = source.getStored() / source.getCapacity();
 							if(source.getStored() > 0F){

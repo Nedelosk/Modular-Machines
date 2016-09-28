@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.api.modular.assembler;
 
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
@@ -51,7 +52,8 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 		IModule module = container.getModule();
 		if(module instanceof IStorageModule){
 			if(((IStorageModule)module).isValidForPosition(position, container)){
-				return true;
+				IModularAssembler assembler = this.container.getHandler().getAssembler();
+				return container.getModule().isValid(this.container.getHandler().getAssembler(), position, stack, null, this);
 			}
 		}
 		return false;

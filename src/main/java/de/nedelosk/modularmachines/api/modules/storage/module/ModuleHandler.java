@@ -30,9 +30,11 @@ public class ModuleHandler implements IModuleHandler {
 	public <M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass) {
 		List<IModuleState<M>> modules = new ArrayList<>();
 		List<IModuleState<M>> defaultModules = defaultStorage.getModules(moduleClass);
-		for(IModuleState<M> state : defaultModules){
-			if(control != null && control.hasPermission(state)){
-				modules.add(state);
+		if(control != null) {
+			for(IModuleState<M> state : defaultModules){
+				if(control.hasPermission(state)){
+					modules.add(state);
+				}
 			}
 		}
 		return modules;
@@ -41,9 +43,11 @@ public class ModuleHandler implements IModuleHandler {
 	@Override
 	public List<IModuleState> getModules() {
 		List<IModuleState> modules = new ArrayList<>();
-		for(IModuleState state : defaultStorage.getModules()){
-			if(control != null && control.hasPermission(state)){
-				modules.add(state);
+		if(control != null){
+			for(IModuleState state : defaultStorage.getModules()){
+				if(control.hasPermission(state)){
+					modules.add(state);
+				}
 			}
 		}
 		return modules;

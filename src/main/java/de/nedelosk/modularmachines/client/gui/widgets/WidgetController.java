@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

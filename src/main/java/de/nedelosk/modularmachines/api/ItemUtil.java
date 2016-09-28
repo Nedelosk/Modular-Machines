@@ -18,7 +18,7 @@ public class ItemUtil {
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT) {
 		return isIdenticalItem(lhs, rhs, ignorNBT, false);
 	}
-	
+
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT, boolean ignorDisplay) {
 		if (lhs == null || rhs == null) {
 			return false;

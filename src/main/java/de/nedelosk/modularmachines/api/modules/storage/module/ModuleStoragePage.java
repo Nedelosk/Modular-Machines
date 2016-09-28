@@ -136,66 +136,6 @@ public class ModuleStoragePage extends StoragePage {
 				slot.setActive(true);
 			}
 		}
-		/* if(pos != EnumStoragePositions.INTERNAL){
-			SlotAssembler slotFirst = (SlotAssembler) inventorySlots.get(37);
-			SlotAssembler slotSecond = (SlotAssembler) inventorySlots.get(38);
-			SlotAssembler slotLast = (SlotAssembler) inventorySlots.get(39);
-			slotFirst.hasChange = false;
-			slotSecond.hasChange = false;
-			slotLast.hasChange = false;
-			if(slotFirst.getHasStack()){
-				IModuleContainer containerFirst = ModularMachinesApi.getContainerFromItem(slotFirst.getStack());
-				if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSizes.LARGE){
-					slotSecond.setActive(false);
-					slotLast.setActive(false);
-				}else if(containerFirst.getModule().getSize(containerFirst) == EnumModuleSizes.MEDIUM){
-					if(!slotSecond.getHasStack()){
-						slotSecond.setActive(false);
-					}else{
-						slotLast.setActive(false);
-					}
-				}
-			}
-			if(slotSecond.getHasStack()){
-				IModuleContainer containerSecond = ModularMachinesApi.getContainerFromItem(slotSecond.getStack());
-				if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSizes.LARGE){
-					slotFirst.setActive(false);
-					slotLast.setActive(false);
-				}else if(containerSecond.getModule().getSize(containerSecond) == EnumModuleSizes.MEDIUM){
-					if(!slotFirst.getHasStack()){
-						slotFirst.setActive(false);
-					}else{
-						slotLast.setActive(false);
-					}
-				}
-			}
-			if(slotLast.getHasStack()){
-				IModuleContainer containerLast = ModularMachinesApi.getContainerFromItem(slotLast.getStack());
-				if(containerLast.getModule().getSize(containerLast) == EnumModuleSizes.LARGE){
-					slotFirst.setActive(false);
-					slotSecond.setActive(false);
-				}else if(containerLast.getModule().getSize(containerLast) == EnumModuleSizes.MEDIUM){
-					if(!slotSecond.getHasStack()){
-						slotSecond.setActive(false);
-					}else{
-						slotFirst.setActive(false);
-					}
-				}
-			}
-			if(!slotFirst.hasChange){
-				slotFirst.setActive(true);
-			}
-			if(!slotSecond.hasChange){
-				slotSecond.setActive(true);
-			}
-			if(!slotLast.hasChange){
-				slotLast.setActive(true);
-			}
-		}*/
-	}
-
-	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container){
-		return true;
 	}
 
 	@Override
@@ -216,6 +156,7 @@ public class ModuleStoragePage extends StoragePage {
 					for(IModulePostion otherPositionModule : positions){
 						if(otherPositionModule == otherPositionStorage){
 							hasPosition = true;
+							break;
 						}
 					}
 				}
@@ -232,61 +173,9 @@ public class ModuleStoragePage extends StoragePage {
 			}
 		}
 		if(usedSize != EnumModuleSizes.UNKNOWN && (usedSize == null || usedSize.ordinal() <= position.getSize().ordinal())){
-			return true;
+			return container.getModule().isValid(assembler, position, stack, slot, storageSlot);
 		}
 		return false;
-		/*EnumStoragePositions pos = assembler.getSelectedPosition();
-		IItemHandler itemHandler = assembler.getItemHandler();
-		int index = slot.getSlotIndex() - pos.startSlotIndex;
-		IModuleContainer container = ModularMachinesApi.getContainerFromItem(stack);
-		if(container == null){
-			return false;
-		}
-		switch (pos) {
-			case INTERNAL:
-				if(storageSlot == null){
-					if(container.getModule() instanceof IModuleCasing){
-						return true;
-					}
-				}else{
-					if(!storageSlot.getHasStack()){
-						return false;
-					}
-					if(container.getModule().getValidPositions(container) == EnumModulePositions.CASING){
-						return true;
-					}
-				}
-				break;
-			default:
-				if(storageSlot == null){
-					if(container.getModule() instanceof IModuleModuleStorage){
-						if(((IModuleModuleStorage)container.getModule()).isValidForPosition(pos, container)){
-							return true;
-						}
-					}
-				}else{
-					if(!storageSlot.getHasStack()){
-						return false;
-					}
-					EnumModulePositions modulePosition = container.getModule().getValidPositions(container);
-					if(!(modulePosition == EnumModulePositions.SIDE && (pos == EnumStoragePositions.LEFT || pos == EnumStoragePositions.RIGHT) || modulePosition == EnumModulePositions.BACK && pos == EnumStoragePositions.BACK || modulePosition == EnumModulePositions.TOP && pos == EnumStoragePositions.TOP)){
-						return false;
-					}
-					EnumModuleSizes usedSize = null;
-					for(int i = pos.startSlotIndex + 1;i < pos.endSlotIndex + 1;i++){
-						IModuleContainer otherContainer = ModularMachinesApi.getContainerFromItem(itemHandler.getStackInSlot(i));
-						if(otherContainer != null){
-							usedSize = EnumModuleSizes.getSize(usedSize, otherContainer.getModule().getSize(otherContainer));
-						}
-					}
-					usedSize = EnumModuleSizes.getSize(usedSize, container.getModule().getSize(container));
-					if(usedSize != EnumModuleSizes.UNKNOWN){
-						return true;
-					}
-				}
-				break;
-		}
-		return false;*/
 	}
 
 	@Override

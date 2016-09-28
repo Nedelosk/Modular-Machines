@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
@@ -84,7 +83,7 @@ public class ModuleChest extends StorageModule implements IModulePositioned {
 		}
 		return new BasicStoragePage(assembler, position);
 	}
-	
+
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
 		return new IModulePostion[]{EnumModulePositions.CASING};

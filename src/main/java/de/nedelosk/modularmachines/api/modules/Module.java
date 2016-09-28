@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -23,6 +25,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -255,6 +258,11 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
+	}
+
+	@Override
+	public boolean isValid(IModularAssembler assembler, IStoragePage page, ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
+		return true;
 	}
 
 	@Override

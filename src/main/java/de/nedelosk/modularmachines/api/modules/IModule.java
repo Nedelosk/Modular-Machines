@@ -9,10 +9,13 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
+import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
@@ -71,6 +74,8 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	IModuleState createState(IModular modular, IModuleContainer container);
 
 	void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException;
+
+	boolean isValid(@Nonnull IModularAssembler assembler, @Nonnull IStoragePosition position, @Nonnull ItemStack stack, @Nullable SlotAssembler slot, @Nonnull SlotAssemblerStorage storageSlot);
 
 	/* MODULE CONTAINERS */
 	@Nullable
