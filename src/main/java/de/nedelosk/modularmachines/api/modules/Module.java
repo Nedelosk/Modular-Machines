@@ -20,6 +20,7 @@ import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
@@ -259,9 +260,9 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 	}
-
+	
 	@Override
-	public boolean isValid(IModularAssembler assembler, IStoragePage page, ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
+	public boolean isValid(IModularAssembler assembler, IStoragePosition position, ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
 		return true;
 	}
 
