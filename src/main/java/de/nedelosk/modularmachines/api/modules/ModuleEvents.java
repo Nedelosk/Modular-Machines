@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,6 +91,27 @@ public class ModuleEvents {
 		public NBTTagCompound getNBTTag() {
 			return nbtTag;
 		}
+	}
+	
+	public static class ModulePageUpdateEvent extends ModuleStateEvent {
+
+		private final Side updateSide;
+		private final IModulePage modulePage;
+
+		public ModulePageUpdateEvent(IModuleState state, IModulePage modulePage, Side updateSide) {
+			super(state);
+			this.modulePage = modulePage;
+			this.updateSide = updateSide;
+		}
+		
+		public IModulePage getModulePage() {
+			return modulePage;
+		}
+
+		public Side getUpdateSide() {
+			return updateSide;
+		}
+
 	}
 
 	public static class ModuleUpdateEvent extends ModuleStateEvent {

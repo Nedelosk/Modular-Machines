@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.modules.generator;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleTickable;
+import de.nedelosk.modularmachines.api.modules.ITickable;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.world.WorldServer;
 
-public abstract class ModuleGenerator extends Module implements IModuleTickable, IModulePositioned {
+public abstract class ModuleGenerator extends Module implements ITickable, IModulePositioned {
 
 	public ModuleGenerator(String name) {
 		super("generator." + name);

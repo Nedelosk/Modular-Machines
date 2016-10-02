@@ -20,7 +20,7 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.IModuleTickable;
+import de.nedelosk.modularmachines.api.modules.ITickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
@@ -167,13 +167,25 @@ public class Modular implements IModular {
 			}
 		}
 		for(IModuleState moduleState : getModules()) {
-			if (moduleState != null && moduleState.getModule() instanceof IModuleTickable) {
-				MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
-				IModuleTickable module = (IModuleTickable)moduleState.getModule();
-				if (isServer) {
-					module.updateServer(moduleState, tickCount);
-				} else {
-					module.updateClient(moduleState, tickCount);
+			if (moduleState != null) {
+				if(moduleState.getModule() instanceof ITickable){
+					MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
+					ITickable module = (ITickable)moduleState.getModule();
+					if (isServer) {
+						module.updateServer(moduleState, tickCount);
+					} else {
+						module.updateClient(moduleState, tickCount);
+					}
+				}
+				for(IModulePage page : (List<IModulePage>)moduleState.getPages()){
+					if(page instanceof ITickable){
+						MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageUpdateEvent(moduleState, page, isServer ? Side.SERVER : Side.CLIENT));
+						if (isServer) {
+							((ITickable)page).updateServer(moduleState, tickCount);
+						} else {
+							((ITickable)page).updateClient(moduleState, tickCount);
+						}
+					}
 				}
 			}
 		}

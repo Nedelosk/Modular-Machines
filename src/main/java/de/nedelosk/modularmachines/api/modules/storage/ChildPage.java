@@ -182,6 +182,10 @@ public class ChildPage implements IStoragePage{
 		}
 		return null;
 	}
+	
+	@Override
+	public void detectAndSendChanges() {
+	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
