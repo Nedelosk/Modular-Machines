@@ -17,6 +17,10 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	public Page(String title) {
 		this.title = title;
 	}
+	
+	@Override
+	public void detectAndSendChanges() {
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override

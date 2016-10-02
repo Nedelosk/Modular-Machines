@@ -22,6 +22,12 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 		addInventory(inventoryPlayer);
 		addSlots(inventoryPlayer);
 	}
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+		currentPage.detectAndSendChanges();
+	}
 
 	@Override
 	protected void addSlots(InventoryPlayer inventoryPlayer) {

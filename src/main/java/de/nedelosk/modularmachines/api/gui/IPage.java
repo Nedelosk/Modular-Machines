@@ -44,6 +44,8 @@ public interface IPage<T extends IGuiHandler> {
 
 	@SideOnly(Side.CLIENT)
 	void addWidgets();
+	
+	void detectAndSendChanges();
 
 	String getPageTitle();
 }

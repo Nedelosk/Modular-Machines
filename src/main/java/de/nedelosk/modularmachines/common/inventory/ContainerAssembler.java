@@ -28,6 +28,14 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.onSlotChanged(this);
 		}
 	}
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+		if(page != null){
+			page.detectAndSendChanges();
+		}
+	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
