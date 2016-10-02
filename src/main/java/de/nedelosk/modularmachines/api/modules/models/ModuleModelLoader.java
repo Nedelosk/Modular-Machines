@@ -200,6 +200,6 @@ public class ModuleModelLoader {
 		if(preFixNew.isEmpty()){
 			preFixNew = "default";
 		}
-		return new ResourceLocation(Loader.instance().activeModContainer().getModId(), "module/" + material.toLowerCase(Locale.ENGLISH) + "/" + folder + "/" + preFixNew);
+		return new ResourceLocation(modID, "module/" + material.toLowerCase(Locale.ENGLISH) + "/" + folder + "/" + preFixNew);
 	}
 }
