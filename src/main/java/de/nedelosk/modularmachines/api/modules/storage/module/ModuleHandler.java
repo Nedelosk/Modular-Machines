@@ -1,11 +1,13 @@
 package de.nedelosk.modularmachines.api.modules.storage.module;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -79,5 +81,10 @@ public class ModuleHandler implements IModuleHandler {
 	@Override
 	public IModuleStorage getDefaultStorage() {
 		return defaultStorage;
+	}
+
+	@Override
+	public List<IModuleProvider> getProviders() {
+		return Collections.emptyList();
 	}
 }
