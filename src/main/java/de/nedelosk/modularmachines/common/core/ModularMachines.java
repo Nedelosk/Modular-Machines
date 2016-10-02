@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.core;
 import java.io.File;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.common.modules.json.ModuleLoadManager;
 import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager;
 import net.minecraft.util.ResourceLocation;
@@ -25,14 +25,14 @@ public class ModularMachines {
 		FluidRegistry.enableUniversalBucket();
 
 		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
-		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleContainer.class).create();
+		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleItemContainer.class).create();
 	}
 
 	public static File configFolder;
 	public static File configFile;
 
 	public static IForgeRegistry<IModule> iModuleRegistry;
-	public static IForgeRegistry<IModuleContainer> iModuleContainerRegistry;
+	public static IForgeRegistry<IModuleItemContainer> iModuleContainerRegistry;
 
 	@Instance(Constants.MODID)
 	public static ModularMachines instance;

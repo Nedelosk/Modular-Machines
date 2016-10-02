@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import de.nedelosk.modularmachines.api.modules.json.ICustomLoader;
 import de.nedelosk.modularmachines.api.property.JsonUtils;
 import de.nedelosk.modularmachines.common.core.Constants;
-import de.nedelosk.modularmachines.common.modules.json.DefaultPropertiesLoader;
 import net.minecraft.util.ResourceLocation;
 
 public class ModuleRFBatteryPropertiesLoader implements ICustomLoader {
@@ -24,6 +23,6 @@ public class ModuleRFBatteryPropertiesLoader implements ICustomLoader {
 		int maxExtract = JsonUtils.getInt(jsonObject.get("maxExtract"));
 		int maxReceive = JsonUtils.getInt(jsonObject.get("maxReceive"));
 		int tier = JsonUtils.getInt(jsonObject.get("tier"));
-		return new ModuleRFBatteryProperties(complexity, DefaultPropertiesLoader.getSize(jsonObject), capacity, maxExtract, maxReceive, tier);
+		return new ModuleRFBatteryProperties(complexity, capacity, maxExtract, maxReceive, tier);
 	}
 }

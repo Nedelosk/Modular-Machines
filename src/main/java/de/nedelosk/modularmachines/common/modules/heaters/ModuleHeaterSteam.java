@@ -2,11 +2,11 @@ package de.nedelosk.modularmachines.common.modules.heaters;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -31,8 +31,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(BURNTIME).register(BURNTIMETOTAL);
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		return super.createState(provider, container).register(BURNTIME).register(BURNTIMETOTAL);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@Override
 	protected void afterAddHeat(IModuleState state) {
-		addBurnTime(state, -10 * getSize(state.getContainer()).ordinal());
+		addBurnTime(state, -10 * state.getContainer().getItemContainer().getSize().ordinal());
 	}
 
 	@Override

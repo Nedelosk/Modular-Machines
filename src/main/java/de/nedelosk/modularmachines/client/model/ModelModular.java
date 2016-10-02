@@ -88,13 +88,15 @@ public class ModelModular implements IBakedModel {
 				List<IBakedModel> models = new ArrayList<>();
 
 				for(IStorage storage : modular.getStorages().values()){
-					IBakedModel model = ModuleModelLoader.getModel(storage.getModule(), storage, modelState, vertex);
-					if(model != null){
-						//Rotate the storage module model
-						if(!(storage instanceof IModuleStorage)){
-							model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, storage.getPosition().getRotation(), 0F, 1F);
+					for(IModuleState state : storage.getProvider().getModuleStates()){
+						IBakedModel model = ModuleModelLoader.getModel(state, storage, modelState, vertex);
+						if(model != null){
+							//Rotate the storage module model
+							if(!(storage instanceof IModuleStorage)){
+								model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, storage.getPosition().getRotation(), 0F, 1F);
+							}
+							models.add(model);
 						}
-						models.add(model);
 					}
 				}
 

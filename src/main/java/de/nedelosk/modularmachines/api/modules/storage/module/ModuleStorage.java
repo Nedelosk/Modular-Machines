@@ -6,67 +6,82 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.Storage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 
 public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefaultModuleStorage, IAddableModuleStorage{
 
-	protected List<IModuleState> moduleStates;
+	protected List<IModuleProvider> providers;
 	protected final EnumModuleSizes size;
 	protected final boolean isAddable; 
 
-	public ModuleStorage(IModular modular, IStoragePosition position, IModuleState storageModule, EnumModuleSizes size) {
-		this(modular, position, storageModule, size, false);
+	public ModuleStorage(IStoragePosition position, IModuleProvider storageProvider, EnumModuleSizes size) {
+		this(position, storageProvider, size, false);
 	}
 
-	public ModuleStorage(IModular modular, IStoragePosition position, IModuleState storageModule, EnumModuleSizes size, boolean isAddable) {
-		super(modular, position, storageModule);
-		this.moduleStates = new ArrayList<>();
+	public ModuleStorage(IStoragePosition position, IModuleProvider storageProvider, EnumModuleSizes size, boolean isAddable) {
+		super(position, storageProvider);
+		this.providers = new ArrayList<>();
 		this.size = size;
 		this.isAddable = isAddable;
 	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		NBTTagList nbtList = new NBTTagList();
-		for(IModuleState moduleState : moduleStates) {
-			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(modular, moduleState);
-			if(compoundTag != null){
-				nbtList.appendTag(compoundTag);
+		NBTTagCompound nbtTag = new NBTTagCompound();
+		NBTTagList containerList = new NBTTagList();
+		for(IModuleProvider provider : providers) {
+			NBTTagCompound nbtCompound = provider.serializeNBT();
+			if(!ItemUtil.isIdenticalItem(provider.getItemStack(), provider.getContainer().getItemStack())){
+				nbtCompound.setTag("Item", provider.getItemStack().serializeNBT());
 			}
+			nbtCompound.setString("Container", provider.getContainer().getRegistryName().toString());
+			containerList.appendTag(nbtCompound);
 		}
-		nbt.setTag("Modules", nbtList);
-		return nbt;
+		nbtTag.setTag("Providers", containerList);
+		return nbtTag;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		NBTTagList nbtList = nbt.getTagList("Modules", 10);
-		for(int i = 0; i < nbtList.tagCount(); i++) {
-			IModuleState moduleState = ModuleManager.loadStateFromNBT(modular, nbtList.getCompoundTagAt(i));
-			if(moduleState != null){
-				moduleStates.add(moduleState);
+		NBTTagList containerList = nbt.getTagList("Providers", 10);
+		for(int i = 0; i < containerList.tagCount(); i++) {
+			NBTTagCompound nbtCompound = containerList.getCompoundTagAt(i);
+			IModuleItemContainer itemContainer = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtCompound.getString("Container")));
+			ItemStack itemStack = null;
+			if(nbtCompound.hasKey("Item")){
+				itemStack = ItemStack.loadItemStackFromNBT(nbtCompound.getCompoundTag("Item"));
 			}
+			IModuleProvider provider = new ModuleProvider(itemContainer, getModular(), itemStack);
+			provider.deserializeNBT(nbtCompound);
+			providers.add(provider);
 		}
 	}
 
 	@Override
 	public List<IModuleState> getModules() {
+		List<IModuleState> moduleStates = new ArrayList<>();
+		for(IModuleProvider states : providers){
+			moduleStates.addAll(states.getModuleStates());
+		}
 		return Collections.unmodifiableList(moduleStates);
 	}
 
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState module : moduleStates) {
+		for(IModuleState module : getModules()) {
 			if (module.getIndex() == index) {
 				return module;
 			}
@@ -80,7 +95,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : moduleStates) {
+		for(IModuleState module : getModules()) {
 			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
 				modules.add(module);
 			}
@@ -112,13 +127,15 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	}
 
 	@Override
-	public boolean addModule(ItemStack itemStack, IModuleState state) {
-		if (!isAddable || state == null) {
+	public boolean addModule(IModuleProvider provider) {
+		if (!isAddable || provider == null) {
 			return false;
 		}
 
-		if (moduleStates.add(state)) {
-			state.setIndex(modular.getNextIndex());
+		if (providers.add(provider)) {
+			for(IModuleState state : provider.getModuleStates()){
+				state.setIndex(getModular().getNextIndex());
+			}
 		}
 		return true;
 	}
@@ -132,12 +149,17 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	public ItemStack[] toPageStacks() {
 		ItemStack[] stacks = new ItemStack[size.slots];
 		int index = 0;
-		for(IModuleState state : moduleStates){
-			if(state != null){
-				stacks[index] = ModuleManager.saveModuleStateToItem(state);
-				index+= state.getModule().getSize(state.getContainer()).slots;
+		for(IModuleProvider provider : providers){
+			if(provider != null){
+				stacks[index] = ModuleManager.saveModuleStateToItem(provider);
+				index+= provider.getContainer().getSize().slots;
 			}
 		}
 		return stacks;
+	}
+
+	@Override
+	public List<IModuleProvider> getProviders() {
+		return providers;
 	}
 }

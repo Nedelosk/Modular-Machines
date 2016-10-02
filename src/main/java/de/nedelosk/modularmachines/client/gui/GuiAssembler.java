@@ -20,7 +20,8 @@ import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
@@ -95,12 +96,17 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 		if(positionComplexityAllowed > 0 && page != null){
 			ItemStack stack = page.getStorageStack();
-			IModuleContainer contrainer = ModuleManager.getContainerFromItem(stack);
-			if(contrainer != null && contrainer.getModule() instanceof IModuleModuleStorage){
-				String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
-				this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
-				this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
-				this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+			IModuleItemContainer itemContrainer = ModuleManager.getContainerFromItem(stack);
+			if(itemContrainer != null){
+				for(IModuleContainer container : itemContrainer.getContainers()){
+					if(container.getModule() instanceof IModuleModuleStorage){
+						String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
+						this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+						break;
+					}
+				}
 			}
 		}
 

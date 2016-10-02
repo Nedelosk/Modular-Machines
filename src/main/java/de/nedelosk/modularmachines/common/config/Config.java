@@ -7,7 +7,8 @@ import java.util.Locale;
 import de.nedelosk.modularmachines.api.modules.IModuleConfigurable;
 import de.nedelosk.modularmachines.api.modules.IModulePropertiesConfigurable;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.common.core.Constants;
 import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraftforge.common.config.Configuration;
@@ -120,13 +121,15 @@ public class Config {
 	}
 
 	public static void processModuleConfig(){
-		for(IModuleContainer container : ModuleManager.MODULE_CONTAINERS){
-			if(container != null){
-				if(container.getModule() instanceof IModuleConfigurable){
-					((IModuleConfigurable)container.getModule()).processConfig(container, config);
-				}
-				if(container.getProperties() instanceof IModulePropertiesConfigurable){
-					((IModulePropertiesConfigurable)container.getProperties()).processConfig(container, config);
+		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS){
+			if(itemContainer != null){
+				for(IModuleContainer container : itemContainer.getContainers()){
+					if(container.getModule() instanceof IModuleConfigurable){
+						((IModuleConfigurable)container.getModule()).processConfig(container, config);
+					}
+					if(container.getProperties() instanceof IModulePropertiesConfigurable){
+						((IModulePropertiesConfigurable)container.getProperties()).processConfig(container, config);
+					}
 				}
 			}
 		}

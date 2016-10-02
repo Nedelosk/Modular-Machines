@@ -12,12 +12,14 @@ import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleTurbine;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleKineticHandler;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
@@ -87,7 +89,6 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
-		IModuleContainer container = state.getContainer();
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
 		handlers.add(new ModuleKineticHandler(state, getMaxKineticEnergy(state), 100));
 		return handlers;
@@ -150,19 +151,19 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		IModuleContainer container = state.getContainer();
-		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "turbines", getSize(container)));
+		IModuleItemContainer container = state.getContainer().getItemContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "turbines", container.getSize()));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "turbines", getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "turbines", getSize(container)));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "turbines", container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "turbines", container.getSize()));
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(WORKING);
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		return super.createState(provider, container).register(WORKING);
 	}
 
 	@Override

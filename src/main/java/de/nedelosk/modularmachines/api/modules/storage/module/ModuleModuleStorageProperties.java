@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.storage.module;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleModuleStorageProperties;
 import net.minecraftforge.common.config.Configuration;
@@ -11,8 +10,8 @@ public class ModuleModuleStorageProperties extends StorageModuleProperties imple
 	protected final int defaultAllowedComplexity;
 	protected int allowedComplexity;
 
-	public ModuleModuleStorageProperties(int complexity, EnumModuleSizes size, int allowedComplexity, IModulePostion position) {
-		super(complexity, size, position);
+	public ModuleModuleStorageProperties(int complexity, int allowedComplexity, IModulePostion position) {
+		super(complexity, position);
 		this.defaultAllowedComplexity = allowedComplexity;
 		this.allowedComplexity = allowedComplexity;
 	}
@@ -25,6 +24,6 @@ public class ModuleModuleStorageProperties extends StorageModuleProperties imple
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		allowedComplexity = config.getInt("allowedComplexity", "modules." + container.getRegistryName(), defaultAllowedComplexity, 8, 256, "The allowed complexity of the controller.");
+		allowedComplexity = config.getInt("allowedComplexity", "modules." + container.getItemContainer().getRegistryName(), defaultAllowedComplexity, 8, 256, "The allowed complexity of the controller.");
 	}
 }

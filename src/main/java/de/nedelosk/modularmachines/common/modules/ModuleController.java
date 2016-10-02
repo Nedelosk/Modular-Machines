@@ -6,14 +6,14 @@ import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.controller.EnumRedstoneMode;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
@@ -58,14 +58,14 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		IModuleContainer container = state.getContainer();
-		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", getSize(container)));
+		IModuleItemContainer container = state.getContainer().getItemContainer();
+		return new ModelHandlerDefault(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", container.getSize()));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", getSize(container)), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "controllers", getSize(container)));
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "controllers", container.getSize()));
 	}
 
 	@Override
@@ -102,11 +102,6 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
 		return new IModulePostion[]{EnumModulePositions.CASING};
-	}
-
-	@Override
-	public EnumModuleSizes getSize(IModuleContainer container) {
-		return EnumModuleSizes.LARGE;
 	}
 
 	@Override

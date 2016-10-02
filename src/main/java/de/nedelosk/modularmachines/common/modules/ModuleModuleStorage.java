@@ -10,10 +10,11 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleModuleStorageProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -57,7 +58,7 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap();
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "drawer"));
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "top"));
@@ -77,7 +78,7 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		IModuleContainer container = state.getContainer();
+		IModuleItemContainer container = state.getContainer().getItemContainer();
 		return new ModelHandlerDrawer(
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"),
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"),
@@ -105,29 +106,15 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 	}
 
 	@Override
-	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container) {
-		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IModuleModuleStorageProperties){
-			return ((IModuleModuleStorageProperties)properties).isValidForPosition(position, container);
-		}
-		return false;
+	public ModuleStorage createStorage(IModuleProvider provider, IStoragePosition position) {
+		return new ModuleStorage(position, provider, EnumModuleSizes.LARGE, true);
 	}
 
 	@Override
-	public ModuleStorage createStorage(IModuleState state, IModular modular, IStoragePosition position) {
-		return new ModuleStorage(modular, position, state, EnumModuleSizes.LARGE, true);
-	}
-
-	@Override
-	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state, IStoragePosition position) {
+	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IStoragePosition position) {
 		if(storage instanceof IDefaultModuleStorage){
 			return new ModuleStoragePage(assembler, (IDefaultModuleStorage) storage);
 		}
 		return new ModuleStoragePage(assembler, EnumModuleSizes.LARGE, position);
-	}
-
-	@Override
-	public EnumStoragePositions getCurrentPosition(IModuleState state) {
-		return null;
 	}
 }

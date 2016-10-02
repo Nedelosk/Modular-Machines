@@ -12,11 +12,13 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemProvider;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -26,7 +28,6 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.state.ModuleState;
 import de.nedelosk.modularmachines.api.modules.state.ModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
-import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -59,15 +60,6 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public EnumModuleSizes getSize(IModuleContainer container) {
-		IModuleProperties properties = container.getProperties();
-		if(properties == null){
-			return EnumModuleSizes.SMALL;
-		}
-		return properties.getSize(container);
-	}
-
-	@Override
 	public String getDisplayName(IModuleContainer container) {
 		return I18n.translateToLocal(container.getUnlocalizedName());
 	}
@@ -77,7 +69,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected boolean showName(IModuleContainer container){
-		return !ModuleManager.hasDefaultStack(container);
+		return !ModuleManager.hasDefaultStack(container.getItemContainer());
 	}
 
 	protected boolean showComplexity(IModuleContainer container){
@@ -90,7 +82,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected boolean showSize(IModuleContainer container){
-		return getSize(container) != null;
+		return true;
 	}
 
 	protected boolean showProvider(IModuleContainer container, List<String> providerTip){
@@ -101,13 +93,13 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		if(showMaterial(container)){
-			tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + container.getMaterial().getLocalizedName());
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + container.getItemContainer().getMaterial().getLocalizedName());
 		}
 		if(showName(container)){
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
 		if(showSize(container)){
-			tooltip.add(I18n.translateToLocal("mm.module.tooltip.size") + getSize(container).getLocalizedName());
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.size") + container.getItemContainer().getSize().getLocalizedName());
 		}
 		if(showComplexity(container)){
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
@@ -139,15 +131,16 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container){
-		IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(provider != null && provider.hasState()){
-			IModuleState state = provider.createState(null);
-			for(IModuleContentHandler handler : state.getContentHandlers()){
-				handler.addToolTip(tooltip, stack, state);
-			}
-			for(IModulePage page : (List<IModulePage>) state.getPages()){
-				for(IModuleContentHandler handler : page.getContentHandlers()){
+		IModuleItemProvider itemProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
+		if(itemProvider != null && itemProvider.hasStates()){
+			for(IModuleState state : itemProvider.createStates(null)){
+				for(IModuleContentHandler handler : state.getContentHandlers()){
 					handler.addToolTip(tooltip, stack, state);
+				}
+				for(IModulePage page : (List<IModulePage>) state.getPages()){
+					for(IModuleContentHandler handler : page.getContentHandlers()){
+						handler.addToolTip(tooltip, stack, state);
+					}
 				}
 			}
 		}
@@ -176,7 +169,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ResourceLocation getWindowLocation(IModuleContainer container) {
+	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
 		return null;
 	}
 
@@ -196,11 +189,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public ItemStack saveDataToItem(IModuleState state) {
-		if(state.getStack() != null){
-			return state.getStack().copy();
-		}
-		return state.getContainer().getItemStack().copy();
+	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
 	}
 
 	@Override
@@ -209,28 +198,27 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return createDefaultState(modular, container);
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		return createDefaultState(provider, container);
 	}
 
-	protected final IModuleState createDefaultState(IModular modular, IModuleContainer container){
+	protected final IModuleState createDefaultState(IModuleProvider provider, IModuleContainer container){
 		IModuleState state;
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
-			state = createClientState(modular, container);
+			state = createClientState(provider, container);
 		}else{
-			state = new ModuleState(modular, container);
+			state = new ModuleState(provider, container);
 		}
 		return state;
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected IModuleState createClientState(IModular modular, IModuleContainer container){
-		return new ModuleStateClient(modular, container);
+	protected IModuleState createClientState(IModuleProvider provider, IModuleContainer container){
+		return new ModuleStateClient(provider, container);
 	}
 
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
-		state.setStack(stack);
 		return state;
 	}
 
@@ -241,7 +229,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		return Collections.emptyMap();
 	}
 
@@ -260,7 +248,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 	}
-	
+
 	@Override
 	public boolean isValid(IModularAssembler assembler, IStoragePosition position, ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
 		return true;

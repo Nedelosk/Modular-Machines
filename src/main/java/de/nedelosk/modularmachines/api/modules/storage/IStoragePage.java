@@ -47,4 +47,16 @@ public interface IStoragePage extends IPage {
 	@Nullable
 	IStorage assemble(IModular modular) throws AssemblerException;
 
+	@Nonnull
+	IStoragePage setParent(@Nullable IStoragePage parentPage);
+
+	@Nullable
+	IStoragePage getParent();
+
+	@Nonnull
+	IStoragePage addChild(IStoragePage childPage);
+
+	@Nonnull
+	List<IStoragePage> getChilds();
+
 }

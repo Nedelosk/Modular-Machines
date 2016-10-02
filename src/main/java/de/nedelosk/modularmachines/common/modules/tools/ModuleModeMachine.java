@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
-import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.modules.tools.ModuleMachine;
@@ -21,8 +21,8 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		return super.createState(modular, container).register(MODE);
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		return super.createState(provider, container).register(MODE);
 	}
 
 	protected abstract Class<? extends IToolMode> getModeClass();

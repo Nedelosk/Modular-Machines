@@ -8,15 +8,15 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.IPropertyRegistryBuilder;
 import de.nedelosk.modularmachines.api.property.IPropertySetter;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -56,11 +56,6 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 	@Nonnull
 	M getModule();
 
-	@Nullable
-	ItemStack getStack();
-
-	void setStack(@Nullable ItemStack stack);
-
 	@Nonnull
 	IModuleProperties getModuleProperties();
 
@@ -72,6 +67,9 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	@Nonnull
 	IModuleContainer getContainer();
+
+	@Nullable
+	IModuleProvider getProvider();
 
 	@Override
 	@Nonnull

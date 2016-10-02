@@ -14,8 +14,10 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
@@ -48,49 +50,52 @@ public class ModuleModelLoader {
 		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
-		for(IModuleContainer container : ModuleManager.MODULE_CONTAINERS){
-			if(container != null && container.getModule() != null){
-				Map<ResourceLocation, ResourceLocation> locatons = container.getModule().getModelLocations(container);
-				if(locatons != null && !locatons.isEmpty()){
-					for(Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()){
-						if(locaton != null && !modelLocations.contains(locaton.getKey())){
-							Builder<VertexFormat, IBakedModel> baker = new Builder<>();
-							IModel model;
-							try{
-								model= ModelLoaderRegistry.getModel(locaton.getKey());
-							}catch(Exception exceptionModel){
-								loadingExceptions.put(locaton.getKey(), exceptionModel);
-								try {
-									model = ModelLoaderRegistry.getModel(locaton.getValue());
-								} catch (Exception exceptionDefaultModel) {
-									loadingExceptions.put(locaton.getValue(), exceptionDefaultModel);
-									model = null;
+		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS){
+			if(itemContainer != null){
+				for(IModuleContainer moduleContainer : itemContainer.getContainers()){
+					IModule module = moduleContainer.getModule();
+					Map<ResourceLocation, ResourceLocation> locatons = module.getModelLocations(itemContainer);
+					if(locatons != null && !locatons.isEmpty()){
+						for(Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()){
+							if(locaton != null && !modelLocations.contains(locaton.getKey())){
+								Builder<VertexFormat, IBakedModel> baker = new Builder<>();
+								IModel model;
+								try{
+									model= ModelLoaderRegistry.getModel(locaton.getKey());
+								}catch(Exception exceptionModel){
+									loadingExceptions.put(locaton.getKey(), exceptionModel);
+									try {
+										model = ModelLoaderRegistry.getModel(locaton.getValue());
+									} catch (Exception exceptionDefaultModel) {
+										loadingExceptions.put(locaton.getValue(), exceptionDefaultModel);
+										model = null;
+									}
 								}
-							}
-							if(model != null){
-								baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
-								baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
-								modelBaker.put(locaton.getKey(), baker.build());
-								modelLocations.add(locaton.getKey());
+								if(model != null){
+									baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
+									baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
+									modelBaker.put(locaton.getKey(), baker.build());
+									modelLocations.add(locaton.getKey());
+								}
 							}
 						}
 					}
-				}
-				ResourceLocation windowLocation = container.getModule().getWindowLocation(container);
-				if(windowLocation != null && !modelLocations.contains(windowLocation)){
-					Builder<VertexFormat, IBakedModel> windowBaker = new Builder<>();
-					IModel model;
-					try{
-						model = ModelLoaderRegistry.getModel(windowLocation);
-					}catch(Exception exceptionModel){
-						loadingExceptions.put(windowLocation, exceptionModel);
-						model = null;
-					}
-					if(model != null){
-						windowBaker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
-						windowBaker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
-						modelBaker.put(windowLocation, windowBaker.build());
-						modelLocations.add(windowLocation);
+					ResourceLocation windowLocation = module.getWindowLocation(itemContainer);
+					if(windowLocation != null && !modelLocations.contains(windowLocation)){
+						Builder<VertexFormat, IBakedModel> windowBaker = new Builder<>();
+						IModel model;
+						try{
+							model = ModelLoaderRegistry.getModel(windowLocation);
+						}catch(Exception exceptionModel){
+							loadingExceptions.put(windowLocation, exceptionModel);
+							model = null;
+						}
+						if(model != null){
+							windowBaker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
+							windowBaker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
+							modelBaker.put(windowLocation, windowBaker.build());
+							modelLocations.add(windowLocation);
+						}
 					}
 				}
 			}

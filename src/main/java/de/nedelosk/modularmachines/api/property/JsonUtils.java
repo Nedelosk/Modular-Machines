@@ -5,6 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
+import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.Item;
@@ -177,6 +184,39 @@ public class JsonUtils {
 			itemName += ":" + item.getTagCompound().toString();
 		}
 		return new JsonPrimitive(itemName);
+	}
+
+	public static EnumModuleSizes getSize(JsonObject json){
+		int size = getInt(json.get("size"));
+		if(size >= EnumModuleSizes.VALUES.length){
+			size = EnumModuleSizes.VALUES.length - 1;
+		}else if(size < 1){
+			size = 1;
+		}
+		return EnumModuleSizes.values()[size];
+	}
+
+	public static IModuleContainer getContainer(JsonObject json){
+		IModule module = null;
+		IModuleProperties properties = null;
+		String moduleName = JsonUtils.getString(json.get("module"));
+		if(moduleName != null){
+			module = ModuleManager.MODULES.getValue(new ResourceLocation(moduleName));
+		}
+		if(json.has("properties") && json.get("properties").isJsonObject()){
+			properties = ModuleLoaderRegistry.loadPropertiesFromJson(json.get("properties").getAsJsonObject());
+		}
+		if(module != null){
+			return new ModuleContainer(module, properties);
+		}
+		return null;
+	}
+
+	public static JsonArray getArray(JsonElement json){
+		if(json != null && json.isJsonArray()){
+			return json.getAsJsonArray();
+		}
+		return null;
 	}
 
 	public static String getString(JsonElement json){

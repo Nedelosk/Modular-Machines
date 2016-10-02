@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.api.modules.storage.module;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 /**
@@ -19,6 +20,8 @@ public interface IModuleStorage {
 	 * @return All modules states in a list.
 	 */
 	List<IModuleState> getModules();
+
+	List<IModuleProvider> getProviders();
 
 	/**
 	 * @return A module state that have the index.

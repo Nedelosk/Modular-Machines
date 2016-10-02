@@ -9,9 +9,11 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerCasing;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
@@ -52,7 +54,7 @@ public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleS
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		IModuleContainer container = state.getContainer();
+		IModuleItemContainer container = state.getContainer().getItemContainer();
 		return new ModelHandlerCasing(
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "casing"), 
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_left"), 
@@ -61,7 +63,7 @@ public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleS
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "casing"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "casings", "casing"));
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "casings", "side_left"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "casings", "side_left"));
@@ -87,31 +89,12 @@ public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleS
 	}
 
 	@Override
-	public EnumModuleSizes getSize(IModuleContainer container) {
-		return EnumModuleSizes.LARGE;
-	}
-
-	@Override
 	public int getAllowedComplexity(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
 		if(properties instanceof IModuleModuleStorageProperties){
 			return ((IModuleModuleStorageProperties)properties).getAllowedComplexity(container);
 		}
 		return Config.defaultAllowedCasingComplexity;
-	}
-
-	@Override
-	public EnumStoragePositions getCurrentPosition(IModuleState state) {
-		return EnumStoragePositions.CASING;
-	}
-
-	@Override
-	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container) {
-		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IModuleModuleStorageProperties){
-			return ((IModuleModuleStorageProperties)properties).isValidForPosition(position, container);
-		}
-		return false;
 	}
 
 	@Override
@@ -125,12 +108,12 @@ public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleS
 	}
 
 	@Override
-	public ModuleStorage createStorage(IModuleState state, IModular modular, IStoragePosition position) {
-		return new ModuleStorage(modular, position, state, EnumModuleSizes.LARGEST, true);
+	public ModuleStorage createStorage(IModuleProvider provider, IStoragePosition position) {
+		return new ModuleStorage(position, provider, EnumModuleSizes.LARGEST, true);
 	}
 
 	@Override
-	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state, IStoragePosition position) {
+	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IStoragePosition position) {
 		if(storage instanceof IDefaultModuleStorage){
 			return new ModuleStoragePage(assembler, (IDefaultModuleStorage) storage);
 		}

@@ -3,7 +3,8 @@ package de.nedelosk.modularmachines.api.modular.assembler;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
@@ -45,17 +46,42 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		IModuleContainer container = ModuleManager.getContainerFromItem(stack);
-		if(container == null){
+		IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
+		if(itemContainer == null){
 			return false;
 		}
-		IModule module = container.getModule();
-		if(module instanceof IStorageModule){
-			if(((IStorageModule)module).isValidForPosition(position, container)){
-				IModularAssembler assembler = this.container.getHandler().getAssembler();
-				return container.getModule().isValid(this.container.getHandler().getAssembler(), position, stack, null, this);
+		Boolean isValid = null;
+		for(IModuleContainer container : itemContainer.getContainers()){
+			IModule module = container.getModule();
+			if(module instanceof IStorageModule){
+				if(((IStorageModule)module).isValidForPosition(position, container)){
+					IModularAssembler assembler = this.container.getHandler().getAssembler();
+					if(container.getModule().isValid(this.container.getHandler().getAssembler(), position, stack, null, this)){
+						IStoragePosition second = ((IStorageModule) module).getSecondPosition(container, position);
+						if(second != null){
+							if(this.container.getHandler().getAssembler().getStoragePage(second) == null && second != position){
+								if(isValid == null){
+									if(itemContainer.needOnlyOnePosition(container)){
+										isValid = true;
+										break;
+									}
+								}
+							}else{
+								isValid = false;
+							}
+						}
+						if(isValid == null){
+							isValid = true;
+						}
+					}else {
+						isValid = false;
+					}
+				}
 			}
 		}
-		return false;
+		if(isValid == null){
+			isValid = false;
+		}
+		return isValid;
 	}
 }

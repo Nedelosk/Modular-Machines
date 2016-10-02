@@ -2,7 +2,6 @@ package de.nedelosk.modularmachines.common.modules.json;
 
 import com.google.gson.JsonObject;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.json.ICustomLoader;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleCasingProperties;
@@ -21,16 +20,6 @@ public class DefaultPropertiesLoader {
 	private DefaultPropertiesLoader() {
 	}
 
-	public static EnumModuleSizes getSize(JsonObject obj){
-		int size = JsonUtils.getInt(obj.get("size"));
-		if(size >= EnumModuleSizes.VALUES.length){
-			size = EnumModuleSizes.VALUES.length - 1;
-		}else if(size < 1){
-			size = 1;
-		}
-		return EnumModuleSizes.values()[size];
-	}
-
 	public static class MachinePropertiesLoader implements ICustomLoader{
 		@Override
 		public boolean accepts(ResourceLocation name) {
@@ -42,7 +31,7 @@ public class DefaultPropertiesLoader {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			double maxSpeed = JsonUtils.getDouble(jsonObject.get("maxSpeed"));
 			int workTimeModifier = JsonUtils.getInt(jsonObject.get("workTimeModifier"));
-			return new ModuleMachineProperties(complexity, getSize(jsonObject), workTimeModifier, maxSpeed);
+			return new ModuleMachineProperties(complexity, workTimeModifier, maxSpeed);
 		}
 	}
 
@@ -57,7 +46,7 @@ public class DefaultPropertiesLoader {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			double maxHeat = JsonUtils.getDouble(jsonObject.get("maxHeat"));
 			int heatModifier = JsonUtils.getInt(jsonObject.get("heatModifier"));
-			return new ModuleHeaterProperties(complexity, getSize(jsonObject), maxHeat, heatModifier);
+			return new ModuleHeaterProperties(complexity, maxHeat, heatModifier);
 		}
 	}
 
@@ -73,7 +62,7 @@ public class DefaultPropertiesLoader {
 			double kineticModifier = JsonUtils.getDouble(jsonObject.get("kineticModifier"));
 			int maxKineticEnergy = JsonUtils.getInt(jsonObject.get("maxKineticEnergy"));
 			int materialPerWork = JsonUtils.getInt(jsonObject.get("materialPerWork"));
-			return new ModuleKineticProperties(complexity, getSize(jsonObject), kineticModifier, maxKineticEnergy, materialPerWork);
+			return new ModuleKineticProperties(complexity, kineticModifier, maxKineticEnergy, materialPerWork);
 		}
 	}
 
@@ -87,7 +76,7 @@ public class DefaultPropertiesLoader {
 		public Object loadFromJson(JsonObject jsonObject) {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			int waterPerWork = JsonUtils.getInt(jsonObject.get("waterPerWork"));
-			return new ModuleBoilerProperties(complexity, getSize(jsonObject), waterPerWork);
+			return new ModuleBoilerProperties(complexity, waterPerWork);
 		}
 	}
 
@@ -104,7 +93,7 @@ public class DefaultPropertiesLoader {
 			int maxHeat = JsonUtils.getInt(jsonObject.get("maxHeat"));
 			float resistance = JsonUtils.getFloat(jsonObject.get("resistance"));
 			float hardness = JsonUtils.getFloat(jsonObject.get("hardness"));
-			return new ModuleCasingProperties(complexity, getSize(jsonObject), allowedComplexity, maxHeat, resistance, hardness);
+			return new ModuleCasingProperties(complexity, allowedComplexity, maxHeat, resistance, hardness);
 		}
 	}
 
@@ -118,7 +107,7 @@ public class DefaultPropertiesLoader {
 		public Object loadFromJson(JsonObject jsonObject) {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			int allowedComplexity = JsonUtils.getInt(jsonObject.get("allowedComplexity"));
-			return new ModuleModuleStorageProperties(complexity, getSize(jsonObject), allowedComplexity, EnumModulePositions.SIDE);
+			return new ModuleModuleStorageProperties(complexity, allowedComplexity, EnumModulePositions.SIDE);
 		}
 	}
 
@@ -132,7 +121,7 @@ public class DefaultPropertiesLoader {
 		public Object loadFromJson(JsonObject jsonObject) {
 			int complexity = JsonUtils.getInt(jsonObject.get("complexity"));
 			int allowedComplexity = JsonUtils.getInt(jsonObject.get("allowedComplexity"));
-			return new ModuleControllerProperties(complexity, getSize(jsonObject), allowedComplexity);
+			return new ModuleControllerProperties(complexity, allowedComplexity);
 		}
 	}
 

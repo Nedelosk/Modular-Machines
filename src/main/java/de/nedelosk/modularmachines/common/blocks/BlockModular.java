@@ -8,12 +8,13 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredBlock;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredBlock;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
@@ -189,24 +190,28 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 						WorldUtil.dropItem(world, pos, ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
 					}else{
 						List<ItemStack> drops = Lists.newArrayList();
-						for(IModuleState moduleState : modularHandler.getModular().getModules()) {
-							if (moduleState != null) {
-								drops.add(moduleState.getModule().saveDataToItem(moduleState));
-								for(IModuleContentHandler handler : moduleState.getContentHandlers()){
-									if(handler instanceof IAdvancedModuleContentHandler){
-										drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+						for(IModuleProvider provider : modularHandler.getModular().getProviders()){
+							ItemStack itemStack = provider.getItemStack().copy();
+							for(IModuleState moduleState : provider.getModuleStates()) {
+								if (moduleState != null) {
+									for(IModuleContentHandler handler : moduleState.getContentHandlers()){
+										if(handler instanceof IAdvancedModuleContentHandler){
+											drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+										}
 									}
-								}
-								for(IModulePage page : (List<IModulePage>)moduleState.getPages()){
-									if(page != null){
-										for(IModuleContentHandler handler : page.getContentHandlers()){
-											if(handler instanceof IAdvancedModuleContentHandler){
-												drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+									for(IModulePage page : (List<IModulePage>)moduleState.getPages()){
+										if(page != null){
+											for(IModuleContentHandler handler : page.getContentHandlers()){
+												if(handler instanceof IAdvancedModuleContentHandler){
+													drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+												}
 											}
 										}
 									}
+									moduleState.getModule().saveDataToItem(itemStack, moduleState);
 								}
 							}
+							drops.add(itemStack);
 						}
 						WorldUtil.dropItem(world, pos, drops);
 					}

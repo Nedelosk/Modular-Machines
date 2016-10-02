@@ -2,21 +2,27 @@ package de.nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemProvider;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -25,12 +31,12 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class ModuleManager {
 
-	@CapabilityInject(IModuleProvider.class)
-	public static Capability<IModuleProvider> MODULE_PROVIDER_CAPABILITY;
+	@CapabilityInject(IModuleItemProvider.class)
+	public static Capability<IModuleItemProvider> MODULE_PROVIDER_CAPABILITY;
 
 	public static final IForgeRegistry<IModule> MODULES = GameRegistry.findRegistry(IModule.class);
-	public static final IForgeRegistry<IModuleContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleContainer.class);
-	private static final List<IModuleContainer> modulesWithDefaultItem = new ArrayList<>();
+	public static final IForgeRegistry<IModuleItemContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleItemContainer.class);
+	private static final List<IModuleItemContainer> modulesWithDefaultItem = new ArrayList<>();
 	private static final Map<IMetalMaterial, ItemStack[]> materialsWithHolder = new HashMap<>();
 
 	public static Item defaultModuleItem;
@@ -42,22 +48,22 @@ public class ModuleManager {
 	/**
 	 * @return The matching module container for the stack.
 	 */
-	public static IModuleContainer getContainerFromItem(ItemStack stack){
+	public static IModuleItemContainer getContainerFromItem(ItemStack stack){
 		return getContainerFromItem(stack, null);
 	}
 
 	/**
 	 * @return The matching module container for the stack.
 	 */
-	public static IModuleContainer getContainerFromItem(ItemStack stack, IModular modular){
+	public static IModuleItemContainer getContainerFromItem(ItemStack stack, IModular modular){
 		if (stack == null) {
 			return null;
 		}
-		IModuleState state = loadModuleStateFromItem(modular, stack);
-		if(state != null){
-			return state.getContainer();
+		IModuleItemContainer itemContainer = getContainerFromItem(modular, stack);
+		if(itemContainer != null){
+			return itemContainer;
 		}
-		for(IModuleContainer container : MODULE_CONTAINERS) {
+		for(IModuleItemContainer container : MODULE_CONTAINERS) {
 			if(container.matches(stack)){
 				return container;
 			}
@@ -65,21 +71,19 @@ public class ModuleManager {
 		return null;
 	}
 
-	public static NBTTagCompound writeStateToNBT(IModular modular, IModuleState moduleState){
+	public static NBTTagCompound writeStateToNBT(IModuleState moduleState){
 		if(moduleState != null && moduleState.getContainer() != null){
 			NBTTagCompound compoundTag = moduleState.serializeNBT();
-			compoundTag.setString("Container", moduleState.getContainer().getRegistryName().toString());
+			compoundTag.setInteger("Index", moduleState.getContainer().getIndex());
 			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateSaveEvent(moduleState, compoundTag));
 			return compoundTag;
 		}
 		return null;
 	}
 
-	public static IModuleState loadStateFromNBT(IModular modular, NBTTagCompound compoundTag){
-		ResourceLocation loc = new ResourceLocation(compoundTag.getString("Container"));
-		IModuleContainer container = MODULE_CONTAINERS.getValue(loc);
-		if(container != null){
-			IModuleState state = ModuleManager.createModuleState(modular, container);
+	public static IModuleState loadStateFromNBT(IModuleProvider provider, IModuleItemContainer itemContainer, NBTTagCompound compoundTag){
+		if(itemContainer != null){
+			IModuleState state = ModuleManager.createModuleState(provider, itemContainer, compoundTag.getInteger("Index"));
 			state.deserializeNBT(compoundTag);
 			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadEvent(state, compoundTag));
 			return state;
@@ -90,34 +94,103 @@ public class ModuleManager {
 	/**
 	 * Save a module state to the module provider capability in the item stack.
 	 */
-	public static ItemStack saveModuleStateToItem(IModuleState moduleState){
-		ItemStack stack = moduleState.getModule().saveDataToItem(moduleState);
-		IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(moduleState != null && provider != null){
-			if(!moduleState.getModule().isClean(moduleState)){
-				provider.setState(moduleState);
+	public static ItemStack saveModuleStateToItem(IModuleProvider provider){
+		ItemStack stack = provider.getItemStack().copy();
+		if(provider != null){
+			for(IModuleState state : provider.getModuleStates()){
+				if(state != null){
+					state.getModule().saveDataToItem(stack, state);
+				}
+			}
+		}
+		IModuleItemProvider itemProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
+		if(itemProvider != null && provider != null){
+			List<IModuleState> states = new ArrayList<>();
+			for(IModuleState state : provider.getModuleStates()){
+				if(!state.getModule().isClean(state)){
+					states.add(state);
+				}
+			}
+			if(!states.isEmpty()){
+				itemProvider.setStates(states);
 			}
 		}
 		return stack;
 	}
 
-	public static IModuleState loadModuleStateFromItem(IModular modular, ItemStack stack){
+	public static IModuleItemContainer getContainerFromItem(IModular modular, ItemStack stack){
 		if(stack != null && stack.hasCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null)){
-			IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
+			IModuleItemProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 			if(provider != null){
-				return provider.createState(modular);
+				return provider.getContainer();
 			}
 		}
 		return null;
 	}
 
-	public static IModuleState createModuleState(IModular modular, IModuleContainer container){
-		IModuleState state = null;
-		if(container != null){
-			state = container.getModule().createState(modular, container);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
-			state = state.build();
-			return state;
+	public static IModuleItemProvider loadModuleStateFromItem(IModular modular, ItemStack stack){
+		if(stack != null && stack.hasCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null)){
+			return stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
+		}
+		return null;
+	}
+
+	public static IModuleState createModuleState(IModuleProvider provider, IModuleItemContainer itemContainer, int index){
+		if(itemContainer != null){
+			IModuleContainer container = itemContainer.getContainer(index);
+			if(container != null){
+				IModuleState state = container.getModule().createState(provider, container);
+				if(state != null){
+					MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+					return state.build();
+				}
+			}
+		}
+		return null;
+	}
+
+	public static List<IModuleState> createModuleState(IModuleProvider provider, IModuleItemContainer itemContainer){
+		if(itemContainer != null){
+			List<IModuleState> moduleStates = new ArrayList<>();
+			for(IModuleContainer container : itemContainer.getContainers()){
+				if(container != null){
+					IModuleState state = container.getModule().createState(provider, container);
+					if(state != null){
+						MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateCreateEvent(state));
+						moduleStates.add(state.build());
+					}
+				}
+			}
+			return moduleStates;
+		}
+		return Collections.emptyList();
+	}
+
+	public static IModuleState<IStorageModule> getStorageState(IModuleProvider provider, IStoragePosition position){
+		for(IModuleState moduleState : provider.getModuleStates()){
+			IModule module = moduleState.getModule();
+			if(module instanceof IStorageModule){
+				IStorageModule storageModule = (IStorageModule) module;
+				if(storageModule.isValidForPosition(position, moduleState.getContainer())){
+					return moduleState;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static IModuleContainer<IStorageModule, IModuleProperties> getStorageContainer(IModuleItemContainer itemContainer, IStoragePosition position){
+		if(itemContainer == null){
+			return null;
+		}
+		for(IModuleContainer moduleContainer : itemContainer.getContainers()){
+			IModule module = moduleContainer.getModule();
+			if(module instanceof IStorageModule){
+				IStorageModule storageModule = (IStorageModule) module;
+				if(storageModule.isValidForPosition(position, moduleContainer)){
+					return moduleContainer;
+				}
+			}
 		}
 		return null;
 	}
@@ -125,24 +198,39 @@ public class ModuleManager {
 	/**
 	 * Create a module state, post a ModuleStateCreateEvent and load the state data from the item stack. 
 	 */
-	public static IModuleState loadOrCreateModuleState(IModular modular, ItemStack stack) {
-		IModuleState state = loadModuleStateFromItem(modular, stack);
-		if(state != null){
-			return state;
-		}else{
-			state = createModuleState(modular, getContainerFromItem(stack, modular));
-		}
-		if(state != null){
-			state = state.getModule().loadStateFromItem(state, stack);
-			MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadItemEvent(state, stack));
-		}
-		/*if(stack.hasCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null)){
-			IModuleProvider provider = stack.getCapability(ModularMachinesApi.MODULE_PROVIDER_CAPABILITY, null);
-			if(provider != null ){
-				provider.setState(state);
+	public static IModuleProvider loadOrCreateModuleProvider(IModular modular, ItemStack stack) {
+		IModuleItemProvider itemProvider = loadModuleStateFromItem(modular, stack);
+		IModuleItemContainer itemContainer = getContainerFromItem(stack, modular);
+		IModuleProvider provider = new ModuleProvider(itemContainer, modular, stack.copy(), new ArrayList<>());
+		Map<Boolean, IModuleState> moduleStates = new HashMap<>();
+		if(itemProvider != null){
+			for(IModuleState moduleState : itemProvider.createStates(provider)){
+				moduleStates.put(true, moduleState);
 			}
-		}*/
-		return state;
+			CONTAINERS: for(IModuleContainer container : itemContainer.getContainers()){
+				for(IModuleState moduleState : moduleStates.values()){
+					if(moduleState.getContainer() == container){
+						continue CONTAINERS;
+					}
+				}
+				moduleStates.put(false, createModuleState(provider, itemContainer, container.getIndex()));
+			}
+		}else{
+			for(IModuleState moduleState : createModuleState(provider, itemContainer)){
+				moduleStates.put(false, moduleState);
+			}
+		}
+		for(Entry<Boolean, IModuleState> stateEntry : moduleStates.entrySet()){
+			if(stateEntry.getKey()){
+				IModuleState state = stateEntry.getValue();
+				if(state != null){
+					state = state.getModule().loadStateFromItem(state, stack);
+					MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleStateLoadItemEvent(state, stack));
+				}
+			}
+		}
+		provider.getModuleStates().addAll(moduleStates.values());
+		return provider;
 	}
 
 	public static List<IModuleState> getModulesWithPages(IModular modular){
@@ -155,11 +243,11 @@ public class ModuleManager {
 		return modulesWithPages;
 	}
 
-	public static boolean hasDefaultStack(IModuleContainer container){
+	public static boolean hasDefaultStack(IModuleItemContainer container){
 		return modulesWithDefaultItem.contains(container);
 	}
 
-	public static ItemStack createDefaultStack(IModuleContainer container) {
+	public static ItemStack createDefaultStack(IModuleItemContainer container) {
 		if(container == null){
 			return null;
 		}
@@ -174,7 +262,13 @@ public class ModuleManager {
 		}
 		ItemStack itemStack = new ItemStack(defaultModuleItem);
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setString("Container", container.getRegistryName().toString());
+		nbtTag.setString("Material", container.getMaterial().getName());
+		nbtTag.setString("Size", container.getSize().getName());
+		String moduleName = "";
+		for(IModuleContainer moduleContainer : container.getContainers()){
+			moduleName+= "."+moduleContainer.getDisplayName();
+		}
+		nbtTag.setString("ModuleName", moduleName.replaceFirst(".", ""));
 		itemStack.setTagCompound(nbtTag);
 
 		return itemStack;
@@ -212,7 +306,7 @@ public class ModuleManager {
 		}
 	}
 
-	public static List<IModuleContainer> getModulesWithDefaultItem() {
+	public static List<IModuleItemContainer> getModulesWithDefaultItem() {
 		return modulesWithDefaultItem;
 	}
 

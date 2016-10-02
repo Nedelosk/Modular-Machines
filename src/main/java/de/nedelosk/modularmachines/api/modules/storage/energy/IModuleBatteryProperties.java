@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.storage.energy;
 
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModuleProperties;
 

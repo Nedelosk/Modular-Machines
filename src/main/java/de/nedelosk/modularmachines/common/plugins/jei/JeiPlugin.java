@@ -10,8 +10,9 @@ import com.google.common.collect.Lists;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.client.gui.GuiModuleCrafter;
 import de.nedelosk.modularmachines.common.core.BlockManager;
@@ -59,13 +60,15 @@ public class JeiPlugin extends BlankModPlugin {
 				new PulverizerRecipeCategory(guiHelper),
 				new LatheRecipeCategory(guiHelper));
 
-		for(IModuleContainer container : ModuleManager.MODULE_CONTAINERS){
-			IModule module = container.getModule();
-			if(module instanceof IModuleJEI){
-				registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(container));
-			}
-			if(container.getDescription() != null){
-				registry.addDescription(container.getItemStack(), container.getDescription());
+		for(IModuleItemContainer container : ModuleManager.MODULE_CONTAINERS){
+			for(IModuleContainer moduleContainer : container.getContainers()){
+				IModule module = moduleContainer.getModule();
+				if(module instanceof IModuleJEI){
+					registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(moduleContainer));
+				}
+				if(moduleContainer.getDescription() != null){
+					registry.addDescription(container.getItemStack(), moduleContainer.getDescription());
+				}
 			}
 		}
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");

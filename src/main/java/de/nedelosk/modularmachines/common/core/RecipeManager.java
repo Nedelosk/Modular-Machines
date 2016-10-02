@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.api.material.IMetalMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialList;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.recipes.OreStack;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
 import de.nedelosk.modularmachines.api.recipes.RecipeRegistry;
@@ -495,10 +495,10 @@ public class RecipeManager {
 	private static void addShapedModuleRecipe(ItemStack stack, boolean generateHolder, Object... obj) {
 		ItemStack holder = null;
 		if(generateHolder){
-			IModuleContainer container = de.nedelosk.modularmachines.api.modules.ModuleManager.getContainerFromItem(stack);
+			IModuleItemContainer container = de.nedelosk.modularmachines.api.modules.ModuleManager.getContainerFromItem(stack);
 			if(container != null){
 				IMaterial material = container.getMaterial();
-				EnumModuleSizes size = container.getModule().getSize(container);
+				EnumModuleSizes size = container.getSize();
 				if(material instanceof IMetalMaterial){
 					holder = de.nedelosk.modularmachines.api.modules.ModuleManager.getHolder((IMetalMaterial) material, (size == EnumModuleSizes.SMALL) ? 2 : (size == EnumModuleSizes.MEDIUM) ? 1 : 0);
 				}
@@ -509,10 +509,10 @@ public class RecipeManager {
 
 	private static void addShapedModuleRecipe(ItemStack stack, Object... obj) {
 		ItemStack holder = null;
-		IModuleContainer container = de.nedelosk.modularmachines.api.modules.ModuleManager.getContainerFromItem(stack);
+		IModuleItemContainer container = de.nedelosk.modularmachines.api.modules.ModuleManager.getContainerFromItem(stack);
 		if(container != null){
 			IMaterial material = container.getMaterial();
-			EnumModuleSizes size = container.getModule().getSize(container);
+			EnumModuleSizes size = container.getSize();
 			if(material instanceof IMetalMaterial){
 				holder = de.nedelosk.modularmachines.api.modules.ModuleManager.getHolder((IMetalMaterial) material, (size == EnumModuleSizes.SMALL) ? 2 : (size == EnumModuleSizes.MEDIUM) ? 1 : 0);
 			}

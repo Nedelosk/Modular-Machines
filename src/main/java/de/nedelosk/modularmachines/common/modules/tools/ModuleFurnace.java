@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import de.nedelosk.modularmachines.api.ItemUtil;
-import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.EnumToolType;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
@@ -44,7 +45,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 	}
 
 	@Override
-	protected String getModelFolder(IModuleContainer container) {
+	protected String getModelFolder(IModuleItemContainer container) {
 		return "furnace";
 	}
 
@@ -59,8 +60,8 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		IModuleState state = createDefaultState(modular, container)
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		IModuleState state = createDefaultState(provider, container)
 				.register(WORKTIME)
 				.register(WORKTIMETOTAL)
 				.register(CHANCE)

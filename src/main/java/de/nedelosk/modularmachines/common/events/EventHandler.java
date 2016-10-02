@@ -6,8 +6,8 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.ModuleProvider;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleItemProvider;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -29,7 +29,7 @@ public class EventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		IModuleContainer container = ModuleManager.getContainerFromItem(event.getItemStack());
+		IModuleItemContainer container = ModuleManager.getContainerFromItem(event.getItemStack());
 		if (container != null) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_M)){
 				List<String> moduleTooltip = new ArrayList<>();
@@ -46,7 +46,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
-		event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleProvider());
+		event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleItemProvider());
 	}
 
 	@SideOnly(Side.CLIENT)

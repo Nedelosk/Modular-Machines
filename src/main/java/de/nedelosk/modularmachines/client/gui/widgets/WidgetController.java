@@ -26,12 +26,9 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
 	@Override
 	public List<String> getTooltip(IGuiProvider gui) {
-		ItemStack stack = state.getStack();
-		if(stack == null){
-			stack = state.getContainer().getItemStack();
-		}
-		if(stack != null && stack.hasDisplayName()){
-			return Arrays.asList(stack.getDisplayName());
+		ItemStack itemStack = state.getProvider().getItemStack();
+		if(itemStack != null && itemStack.hasDisplayName()){
+			return Arrays.asList(itemStack.getDisplayName());
 		}
 		return Arrays.asList(state.getContainer().getDisplayName());
 	}
@@ -45,11 +42,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 		int sy = gui.getGuiTop();
 		boolean hasPermission = provider.getModule().getModuleControl(provider).hasPermission(state);
 		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, hasPermission ? 220 : 148, 0, 18, 18);
-		ItemStack stack = state.getStack();
-		if(stack == null){
-			stack = state.getContainer().getItemStack();
-		}
-		gui.drawItemStack(stack, sx + pos.x + 1, sy + pos.y + 1);
+		gui.drawItemStack(state.getProvider().getItemStack(), sx + pos.x + 1, sy + pos.y + 1);
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		if(!hasPermission){
 			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 130, 0, 18, 18);

@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.storage.energy;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.module.StorageModuleProperties;
@@ -18,12 +17,12 @@ public class ModuleBatteryProperties extends StorageModuleProperties implements 
 	protected int maxExtract;
 	protected int tier;
 
-	public ModuleBatteryProperties(int complexity, EnumModuleSizes size, int capacity, int maxTransfer, int tier) {
-		this(complexity, size, capacity, maxTransfer, maxTransfer, tier);
+	public ModuleBatteryProperties(int complexity, int capacity, int maxTransfer, int tier) {
+		this(complexity, capacity, maxTransfer, maxTransfer, tier);
 	}
 
-	public ModuleBatteryProperties(int complexity, EnumModuleSizes size, int capacity, int maxReceive, int maxExtract, int tier) {
-		super(complexity, size, EnumModulePositions.SIDE, EnumModulePositions.BACK);
+	public ModuleBatteryProperties(int complexity, int capacity, int maxReceive, int maxExtract, int tier) {
+		super(complexity, EnumModulePositions.SIDE, EnumModulePositions.BACK);
 		this.defaultCapacity = capacity;
 		this.defaultMaxReceive = maxReceive;
 		this.defaultMaxExtract = maxExtract;
@@ -57,9 +56,9 @@ public class ModuleBatteryProperties extends StorageModuleProperties implements 
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		capacity = config.getInt("capacity", "modules." + container.getRegistryName(), defaultCapacity, 1, Integer.MAX_VALUE, "");
-		maxExtract = config.getInt("maxExtract", "modules." + container.getRegistryName(), defaultMaxExtract, 1, Integer.MAX_VALUE, "");
-		maxReceive = config.getInt("maxReceive", "modules." + container.getRegistryName(), defaultMaxReceive, 1, Integer.MAX_VALUE, "");
-		tier = config.getInt("tier", "modules." + container.getRegistryName(), defaultTier, 1, 4, "1 = LV, 2 = MV, 3 = HV, 4 = EV");
+		capacity = config.getInt("capacity", "modules." + container.getItemContainer().getRegistryName(), defaultCapacity, 1, Integer.MAX_VALUE, "");
+		maxExtract = config.getInt("maxExtract", "modules." + container.getItemContainer().getRegistryName(), defaultMaxExtract, 1, Integer.MAX_VALUE, "");
+		maxReceive = config.getInt("maxReceive", "modules." + container.getItemContainer().getRegistryName(), defaultMaxReceive, 1, Integer.MAX_VALUE, "");
+		tier = config.getInt("tier", "modules." + container.getItemContainer().getRegistryName(), defaultTier, 1, 4, "1 = LV, 2 = MV, 3 = HV, 4 = EV");
 	}
 }

@@ -304,7 +304,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public String getPageTitle() {
-		ItemStack stack = moduleState.getStack();
+		ItemStack stack = moduleState.getProvider().getItemStack();
 		if(stack != null && stack.hasDisplayName()){
 			return stack.getDisplayName();
 		}

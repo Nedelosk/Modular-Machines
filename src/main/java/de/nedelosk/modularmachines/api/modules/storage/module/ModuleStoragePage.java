@@ -15,11 +15,12 @@ import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.StoragePage;
 import net.minecraft.client.Minecraft;
@@ -91,14 +92,14 @@ public class ModuleStoragePage extends StoragePage {
 		for(int index = 0;index < slots.size();index++){
 			SlotAssembler slot = slots.get(index);
 			if(slot.getHasStack()){
-				IModuleContainer moduleContainer = ModuleManager.getContainerFromItem(slot.getStack());
-				if(moduleContainer == null){
+				IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(slot.getStack());
+				if(itemContainer == null){
 					ItemHandlerHelper.giveItemToPlayer(container.getPlayer(), slot.getStack());
 					itemHandler.setStackInSlot(1 + index, null);
 					onSlotChanged(container);
 					return;
 				}
-				EnumModuleSizes size = moduleContainer.getModule().getSize(moduleContainer);
+				EnumModuleSizes size = itemContainer.getSize();
 				int usedSlots = 1;
 				int testedSlots = 0;
 				if(usedSlots < size.slots & index - testedSlots > 0){
@@ -140,42 +141,61 @@ public class ModuleStoragePage extends StoragePage {
 
 	@Override
 	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
-		IModuleContainer container = ModuleManager.getContainerFromItem(stack);
-		if(slot == null || container == null){
+		IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
+		if(slot == null || itemContainer == null){
 			return false;
 		}
-		IModule module = container.getModule();
-		if(storageSlot == null || !storageSlot.getHasStack()){
-			return false;
-		}
-		if(module instanceof IModulePositioned){
-			IModulePostion[] positions = ((IModulePositioned) module).getValidPositions(container);
-			boolean hasPosition = positions.length <= 0;
-			if(!hasPosition){
-				for(IModulePostion otherPositionStorage : position.getPostions()){
-					for(IModulePostion otherPositionModule : positions){
-						if(otherPositionModule == otherPositionStorage){
-							hasPosition = true;
-							break;
+		boolean hasPosition = false;
+		for(IModuleContainer container : itemContainer.getContainers()){
+			IModule module = container.getModule();
+			if(storageSlot == null || !storageSlot.getHasStack()){
+				return false;
+			}
+			if(module instanceof IModulePositioned){
+				IModulePostion[] positions = ((IModulePositioned) module).getValidPositions(container);
+				hasPosition = positions.length <= 0;
+				if(!hasPosition){
+					for(IModulePostion otherPositionStorage : position.getPostions()){
+						for(IModulePostion otherPositionModule : positions){
+							if(otherPositionModule == otherPositionStorage){
+								hasPosition = true;
+								break;
+							}
 						}
 					}
 				}
 			}
-			if(!hasPosition){
-				return false;
-			}
+		}
+		if(!hasPosition){
+			return false;
 		}
 		EnumModuleSizes usedSize = null;
 		for(int index = 0;index < position.getSize().slots;index++){
-			IModuleContainer otherContainer = ModuleManager.getContainerFromItem(itemHandler.getStackInSlot(index));
-			if(otherContainer != null){
-				usedSize = EnumModuleSizes.getSize(usedSize, otherContainer.getModule().getSize(otherContainer));
+			IModuleItemContainer otherItemContainer = ModuleManager.getContainerFromItem(itemHandler.getStackInSlot(index));
+			if(otherItemContainer != null){
+				usedSize = EnumModuleSizes.getSize(usedSize, otherItemContainer.getSize());
 			}
 		}
+		Boolean isValid = null;
 		if(usedSize != EnumModuleSizes.UNKNOWN && (usedSize == null || usedSize.ordinal() <= position.getSize().ordinal())){
-			return container.getModule().isValid(assembler, position, stack, slot, storageSlot);
+			for(IModuleContainer container : itemContainer.getContainers()){
+				if(container.getModule().isValid(assembler, position, stack, slot, storageSlot)){						
+					if(itemContainer.needOnlyOnePosition(container)){
+						isValid = true;
+						break;
+					}
+					if(isValid == null){
+						isValid = true;
+					}
+				}else {
+					isValid = false;
+				}
+			}
 		}
-		return false;
+		if(isValid == null){
+			isValid = false;
+		}
+		return isValid;
 	}
 
 	@Override
@@ -186,9 +206,9 @@ public class ModuleStoragePage extends StoragePage {
 			for(int index = 0;index < itemHandler.getSlots();index++){
 				ItemStack stack = itemHandler.getStackInSlot(index);
 				if(stack != null){
-					IModuleState state = ModuleManager.loadOrCreateModuleState(modular, stack);
-					if(state != null){
-						moduleStorage.addModule(stack, state);
+					IModuleProvider provider = ModuleManager.loadOrCreateModuleProvider(modular, stack);
+					if(provider != null && provider.getModuleStates().isEmpty()){
+						moduleStorage.addModule(provider);
 					}
 				}
 			}

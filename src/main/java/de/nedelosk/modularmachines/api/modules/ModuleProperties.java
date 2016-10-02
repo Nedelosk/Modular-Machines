@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules;
 
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -8,11 +8,9 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 
 	protected final int defaultComplexity;
 	protected int complexity;
-	protected final EnumModuleSizes size;
 
-	public ModuleProperties(int complexity, EnumModuleSizes size) {
+	public ModuleProperties(int complexity) {
 		this.defaultComplexity = complexity;
-		this.size = size;
 		this.complexity = defaultComplexity;
 	}
 
@@ -22,13 +20,8 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 	}
 
 	@Override
-	public EnumModuleSizes getSize(IModuleContainer container){
-		return size;
-	}
-
-	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
-		complexity = config.getInt("complexity", "modules." + container.getRegistryName(), defaultComplexity, 0, 64, "The complexity of the controller.");
+		complexity = config.getInt("complexity", "modules." + container.getItemContainer().getRegistryName(), defaultComplexity, 0, 64, "The complexity of the controller.");
 	}
 
 	public double getDouble(Configuration config, String name, String category, double defaultValue, double minValue, double maxValue, String comment){

@@ -1,8 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.tools.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;
 
@@ -13,16 +12,16 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	protected double maxSpeed;
 	protected int workTimeModifier;
 
-	public ModuleMachineProperties(int complexity, EnumModuleSizes size, int workTimeModifier, double maxSpeed) {
-		super(complexity, size);
+	public ModuleMachineProperties(int complexity, int workTimeModifier, double maxSpeed) {
+		super(complexity);
 		this.defaultWorkTimeModifier = workTimeModifier;
 		this.defaultMaxSpeed = maxSpeed;
 		this.maxSpeed = defaultMaxSpeed;
 		this.workTimeModifier = defaultWorkTimeModifier;
 	}
 
-	public ModuleMachineProperties(int complexity, EnumModuleSizes size, int workTimeModifier) {
-		this(complexity, size, workTimeModifier, 0);
+	public ModuleMachineProperties(int complexity, int workTimeModifier) {
+		this(complexity, workTimeModifier, 0);
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class ModuleMachineProperties extends ModuleProperties implements IModule
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		maxSpeed = getDouble(config, "maxSpeed", "modules." + container.getRegistryName(), defaultMaxSpeed, 0.1D, 2.0D, "");
-		workTimeModifier = config.getInt("workTimeModifier", "modules." + container.getRegistryName(), defaultWorkTimeModifier, 0, 100, "");
+		maxSpeed = getDouble(config, "maxSpeed", "modules." + container.getItemContainer().getRegistryName(), defaultMaxSpeed, 0.1D, 2.0D, "");
+		workTimeModifier = config.getInt("workTimeModifier", "modules." + container.getItemContainer().getRegistryName(), defaultWorkTimeModifier, 0, 100, "");
 	}
 }

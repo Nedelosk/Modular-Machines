@@ -6,8 +6,9 @@ import de.nedelosk.modularmachines.api.material.IColoredMaterial;
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.Registry;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
@@ -20,8 +21,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -57,12 +56,9 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
-			if(stack.hasTagCompound()){
-				NBTTagCompound nbtTag = stack.getTagCompound();
-				if(nbtTag.hasKey("Container")){
-					IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
-					return locs[container.getModule().getSize(container).ordinal()-1];
-				}
+			IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
+			if(itemContainer != null){
+				return locs[itemContainer.getSize().ordinal()-1];
 			}
 			return ModelManager.getInstance().getModelLocation("module_large");
 		}
@@ -76,21 +72,16 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if(stack.hasTagCompound()){
-			NBTTagCompound nbtTag = stack.getTagCompound();
-			if(nbtTag.hasKey("Container")){
-				IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
-				if(container != null){
-					return container.getDisplayName();
-				}
-			}
+		IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
+		if(itemContainer != null){
+			return itemContainer.getContainer(0).getDisplayName();
 		}
 		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IModuleContainer container : ModuleManager.getModulesWithDefaultItem()){
+		for(IModuleItemContainer container : ModuleManager.getModulesWithDefaultItem()){
 			subItems.add(ModuleManager.createDefaultStack(container));
 		}
 	}
@@ -98,15 +89,15 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		if(stack.hasTagCompound()){
-			NBTTagCompound nbtTag = stack.getTagCompound();
-			if(nbtTag.hasKey("Container")){
-				IModuleContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtTag.getString("Container")));
+			IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
+			if(itemContainer != null){
 				if(tintIndex == 0){
-					IMaterial material = container.getMaterial();
+					IMaterial material = itemContainer.getMaterial();
 					if(material instanceof IColoredMaterial){
 						return ((IColoredMaterial)material).getColor();
 					}
 				}else if(tintIndex == 1){
+					IModuleContainer container = itemContainer.getContainer(0);
 					IModule module = container.getModule();
 					if(module instanceof IModuleColoredItem){
 						return ((IModuleColoredItem) module).getColor(container);

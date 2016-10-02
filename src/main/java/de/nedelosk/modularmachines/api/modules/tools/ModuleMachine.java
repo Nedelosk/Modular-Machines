@@ -14,6 +14,9 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.energy.IModuleKinetic;
@@ -21,7 +24,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHa
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleWaila;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
@@ -115,23 +117,23 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
-		IModuleContainer container = state.getContainer();
+		IModuleItemContainer container = state.getContainer().getItemContainer();
 		ResourceLocation[] locations = new ResourceLocation[2];
-		locations[0] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), true);
-		locations[1] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), false);
+		locations[0] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), true);
+		locations[1] = ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), false);
 		return new ModelHandlerStatus(locations);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleContainer container) {
+	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), getSize(container), true));
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), getSize(container), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), getSize(container), false));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), true));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), false));
 		return locations;
 	}
 
-	protected abstract String getModelFolder(IModuleContainer container);
+	protected abstract String getModelFolder(IModuleItemContainer container);
 
 	protected List<IModuleContentHandler> getHandlers(IModuleState state){
 		return state.getPage(getMainPageClass()).getContentHandlers();
@@ -188,7 +190,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 							setCurrentRecipe(state, null);
 							return;
 						}
-						setWorkTimeTotal(state, createWorkTimeTotal(state, validRecipe.getSpeed()) / state.getContainer().getMaterial().getTier());
+						setWorkTimeTotal(state, createWorkTimeTotal(state, validRecipe.getSpeed()) / state.getContainer().getItemContainer().getMaterial().getTier());
 						state.set(CHANCE, rand.nextInt(100));
 						if(type == EnumToolType.HEAT){
 							state.set(HEATTOREMOVE, validRecipe.get(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
@@ -306,8 +308,8 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	}
 
 	@Override
-	public IModuleState createState(IModular modular, IModuleContainer container) {
-		IModuleState state = super.createState(modular, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
+	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
+		IModuleState state = super.createState(provider, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
 		if(getType(state) == EnumToolType.HEAT){
 			state = state.register(HEATTOREMOVE).register(HEATREQUIRED);
 		}else if(getType(state) == EnumToolType.KINETIC){

@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.modular.ModularAssembler;
@@ -49,13 +50,16 @@ public class ItemBlockModular extends ItemBlock {
 					handler.deserializeNBT(stack.getTagCompound());
 					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 					IModular modular = handler.getModular();
-					for(IModuleState state : modular.getModules()){
-						if(state != null){
-							ItemStack moduleStack = state.getStack();
-							if(moduleStack == null){
-								moduleStack = state.getContainer().getItemStack();
+					for(IModuleProvider provider : modular.getProviders()){
+						if(provider != null){
+							ItemStack itemStack = provider.getItemStack();
+							String moduleName = "";
+							for(IModuleState state : provider.getModuleStates()){
+								if(state != null){
+									moduleName+=state.getContainer().getDisplayName() + " - ";
+								}
 							}
-							tooltip.add(ChatFormatting.GRAY + state.getContainer().getDisplayName() + " - " + moduleStack.getDisplayName());
+							tooltip.add(ChatFormatting.GRAY + moduleName + itemStack.getDisplayName());
 						}
 					}
 				}

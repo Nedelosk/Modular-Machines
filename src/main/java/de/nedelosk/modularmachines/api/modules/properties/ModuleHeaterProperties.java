@@ -1,8 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;
 
@@ -13,8 +12,8 @@ public class ModuleHeaterProperties extends ModuleProperties implements IModuleH
 	protected double maxHeat;
 	protected int heatModifier;
 
-	public ModuleHeaterProperties(int complexity, EnumModuleSizes size, double maxHeat, int heatModifier) {
-		super(complexity, size);
+	public ModuleHeaterProperties(int complexity, double maxHeat, int heatModifier) {
+		super(complexity);
 		this.defaultMaxHeat = maxHeat;
 		this.defaultHeatModifier = heatModifier;
 		this.heatModifier = heatModifier;
@@ -34,7 +33,7 @@ public class ModuleHeaterProperties extends ModuleProperties implements IModuleH
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		maxHeat = getDouble(config, "maxHeat", "modules." + container.getRegistryName(), defaultMaxHeat, 1.0D, 10000.0D, "The max heat of the heater.");
-		heatModifier = config.getInt("heatModifier", "modules." + container.getRegistryName(), defaultHeatModifier, 1, 25, "");
+		maxHeat = getDouble(config, "maxHeat", "modules." + container.getItemContainer().getRegistryName(), defaultMaxHeat, 1.0D, 10000.0D, "The max heat of the heater.");
+		heatModifier = config.getInt("heatModifier", "modules." + container.getItemContainer().getRegistryName(), defaultHeatModifier, 1, 25, "");
 	}
 }

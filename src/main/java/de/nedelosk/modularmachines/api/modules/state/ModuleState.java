@@ -9,15 +9,15 @@ import com.google.common.collect.Maps;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
 import de.nedelosk.modularmachines.api.property.PropertyInteger;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -31,23 +31,22 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	protected Map<IProperty, Object> properties;
 	protected final Map<String, IProperty> registeredProperties;
-	protected final IModular modular;
 	protected final IModuleHandler moduleHandler;
-	protected final IModuleContainer container;
+	protected final IModuleContainer<M, IModuleProperties> container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
-	protected ItemStack stack;
+	protected final IModuleProvider provider;
 
-	public ModuleState(IModular modular, IModuleContainer container) {
+	public ModuleState(IModuleProvider provider, IModuleContainer container) {
 		this.registeredProperties = Maps.newHashMap();
 		register(INDEX);
 
-		this.modular = modular;
+		this.provider = provider;
 		this.container = container;
 		this.pages = container.getModule().createPages(this);
 		this.contentHandlers = container.getModule().createHandlers(this);
-		if(modular != null){
-			this.moduleHandler = new ModuleHandler(modular, this);
+		if(provider != null && provider.getModular() != null){
+			this.moduleHandler = new ModuleHandler(provider.getModular(), this);
 		}else{
 			this.moduleHandler = null;
 		}
@@ -144,7 +143,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void addPage(IModulePage page) {
-		if(page == null || modular == null){
+		if(page == null || provider == null){
 			return;
 		}
 		if(getPage(page.getPageID()) != null){
@@ -167,18 +166,8 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public ItemStack getStack() {
-		return stack;
-	}
-
-	@Override
-	public void setStack(ItemStack stack) {
-		this.stack = stack;
-	}
-
-	@Override
 	public M getModule() {
-		return (M) container.getModule();
+		return container.getModule();
 	}
 
 	@Override
@@ -192,8 +181,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
+	public IModuleProvider getProvider() {
+		return provider;
+	}
+
+	@Override
 	public IModular getModular() {
-		return modular;
+		return provider.getModular();
 	}
 
 	@Override
@@ -209,9 +203,6 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if(stack != null){
-			nbt.setTag("Stack", stack.serializeNBT());
-		}
 		for(Entry<IProperty, Object> object : properties.entrySet()){
 			try{
 				if(object.getValue() != null){
@@ -234,10 +225,6 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if(nbt.hasKey("Stack")){
-			NBTTagCompound nbtTag = nbt.getCompoundTag("Stack");
-			stack = ItemStack.loadItemStackFromNBT(nbtTag);
-		}
 		for(IProperty property : registeredProperties.values()){
 			try{
 				if(nbt.hasKey(property.getName())){

@@ -1,6 +1,6 @@
 {
 "textures": {
-    "wall": "blocks/casing/casing_down"
+    "wall": "modularmachines:blocks/casing/casing_down"
 },
 "elements": [ 
 {

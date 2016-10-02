@@ -1,10 +1,9 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleModuleStorageProperties;
@@ -19,8 +18,8 @@ public class ModuleCasingProperties extends ModuleModuleStorageProperties implem
 	protected float resistance;
 	protected float hardness;
 
-	public ModuleCasingProperties(int complexity, EnumModuleSizes size, int allowedComplexity, int maxHeat, float resistance, float hardness) {
-		super(complexity, size, allowedComplexity, EnumModulePositions.CASING);
+	public ModuleCasingProperties(int complexity, int allowedComplexity, int maxHeat, float resistance, float hardness) {
+		super(complexity, allowedComplexity, EnumModulePositions.CASING);
 		this.defaultMaxHeat = maxHeat;
 		this.defaultResistance = resistance;
 		this.defaultHardness = hardness;
@@ -37,8 +36,8 @@ public class ModuleCasingProperties extends ModuleModuleStorageProperties implem
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		maxHeat = config.getInt("maxHeat", "modules." + container.getRegistryName(), defaultMaxHeat, 1, 10000, "");
-		resistance = config.getFloat("resistance", "modules." + container.getRegistryName(), defaultResistance, 1.0F, 15.0F, "");
-		hardness = config.getFloat("hardness", "modules." + container.getRegistryName(), defaultHardness, 1.0F, 15.0F, "");
+		maxHeat = config.getInt("maxHeat", "modules." + container.getItemContainer().getRegistryName(), defaultMaxHeat, 1, 10000, "");
+		resistance = config.getFloat("resistance", "modules." + container.getItemContainer().getRegistryName(), defaultResistance, 1.0F, 15.0F, "");
+		hardness = config.getFloat("hardness", "modules." + container.getItemContainer().getRegistryName(), defaultHardness, 1.0F, 15.0F, "");
 	}
 }

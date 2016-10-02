@@ -1,9 +1,8 @@
 package de.nedelosk.modularmachines.api.modules.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModulePropertiesConfigurable;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;
 
@@ -16,8 +15,8 @@ public class ModuleKineticProperties extends ModuleProperties implements IModule
 	protected int maxKineticEnergy;
 	protected int materialPerWork;
 
-	public ModuleKineticProperties(int complexity, EnumModuleSizes size, double kineticModifier, int maxKineticEnergy, int materialPerWork) {
-		super(complexity, size);
+	public ModuleKineticProperties(int complexity, double kineticModifier, int maxKineticEnergy, int materialPerWork) {
+		super(complexity);
 		this.defaultKineticModifier = kineticModifier;
 		this.defaultMaxKineticEnergy = maxKineticEnergy;
 		this.defaultMaterialPerWork = materialPerWork;
@@ -41,9 +40,9 @@ public class ModuleKineticProperties extends ModuleProperties implements IModule
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		kineticModifier = getDouble(config, "kineticModifier", "modules." + container.getRegistryName(), defaultKineticModifier, 0.0D, 100.0D, "");
-		maxKineticEnergy = config.getInt("maxKineticEnergy", "modules." + container.getRegistryName(), defaultMaxKineticEnergy, 0, 10000, "");
-		materialPerWork = config.getInt("materialPerWork", "modules." + container.getRegistryName(), defaultMaterialPerWork, 0, 1000, "");
+		kineticModifier = getDouble(config, "kineticModifier", "modules." + container.getItemContainer().getRegistryName(), defaultKineticModifier, 0.0D, 100.0D, "");
+		maxKineticEnergy = config.getInt("maxKineticEnergy", "modules." + container.getItemContainer().getRegistryName(), defaultMaxKineticEnergy, 0, 10000, "");
+		materialPerWork = config.getInt("materialPerWork", "modules." + container.getItemContainer().getRegistryName(), defaultMaterialPerWork, 0, 1000, "");
 	}
 
 }

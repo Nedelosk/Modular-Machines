@@ -3,22 +3,16 @@ package de.nedelosk.modularmachines.common.modules.storages;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
-import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleEnergyBuffer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import de.nedelosk.modularmachines.api.modules.storage.BasicStoragePage;
-import de.nedelosk.modularmachines.api.modules.storage.IStorage;
-import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
-import de.nedelosk.modularmachines.api.modules.storage.Storage;
 import de.nedelosk.modularmachines.api.modules.storage.StorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
@@ -110,13 +104,12 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	}
 
 	@Override
-	public ItemStack saveDataToItem(IModuleState state) {
-		ItemStack stack = super.saveDataToItem(state);
+	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
+		super.saveDataToItem(itemStack, state);
 		IEnergyBuffer energyBuffer = state.<IEnergyBuffer>getContentHandler(IEnergyBuffer.class);
 		if(energyBuffer != null){
-			saveEnergy(state, energyBuffer.getEnergyStored(), stack);
+			saveEnergy(state, energyBuffer.getEnergyStored(), itemStack);
 		}
-		return stack;
 	}
 
 	@Override
@@ -124,18 +117,5 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 		List<IModulePage> pages = super.createPages(state);
 		pages.add(new BatteryPage(state));
 		return pages;
-	}
-
-	@Override
-	public IStorage createStorage(IModuleState state, IModular modular, IStoragePosition position) {
-		return new Storage(modular, position, state);
-	}
-
-	@Override
-	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state, IStoragePosition position) {
-		if(storage != null){
-			return new BasicStoragePage(assembler, storage);
-		}
-		return new BasicStoragePage(assembler, position);
 	}
 }

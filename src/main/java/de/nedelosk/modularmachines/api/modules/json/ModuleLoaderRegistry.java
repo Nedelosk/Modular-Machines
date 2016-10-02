@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import net.minecraft.util.ResourceLocation;
 
 public class ModuleLoaderRegistry{
@@ -67,7 +67,7 @@ public class ModuleLoaderRegistry{
 		return (IModuleProperties) loader.loadFromJson(jsonObject);
 	}
 
-	public static IModuleContainer loadContainerFromJson(JsonObject jsonObject){
+	public static IModuleItemContainer loadContainerFromJson(JsonObject jsonObject){
 		ICustomLoader loader = null;
 		if(jsonObject.has("loader") && jsonObject.get("loader").isJsonPrimitive() && jsonObject.get("loader").getAsJsonPrimitive().isString()){
 			ResourceLocation loaderLocation = new ResourceLocation(jsonObject.get("loader").getAsString());
@@ -81,23 +81,23 @@ public class ModuleLoaderRegistry{
 		if(loader == null){
 			loader = defaultContainerLoader;
 		}
-		return (IModuleContainer) loader.loadFromJson(jsonObject);
+		return (IModuleItemContainer) loader.loadFromJson(jsonObject);
 	}
 
-	public static List<IModuleContainer> loadContainersFromJson(JsonElement jsonElement){
-		List<IModuleContainer> containers = new ArrayList<>();
+	public static List<IModuleItemContainer> loadContainersFromJson(JsonElement jsonElement){
+		List<IModuleItemContainer> containers = new ArrayList<>();
 		if(jsonElement.isJsonArray()){
 			JsonArray array = jsonElement.getAsJsonArray();
 			for(JsonElement entry : array){
 				if(entry.isJsonObject()){
-					IModuleContainer container = loadContainerFromJson(entry.getAsJsonObject());
+					IModuleItemContainer container = loadContainerFromJson(entry.getAsJsonObject());
 					if(container != null){
 						containers.add(container);
 					}
 				}
 			}
 		}else{
-			IModuleContainer container = loadContainerFromJson(jsonElement.getAsJsonObject());
+			IModuleItemContainer container = loadContainerFromJson(jsonElement.getAsJsonObject());
 			if(container != null){
 				containers.add(container);
 			}

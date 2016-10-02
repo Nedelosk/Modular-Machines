@@ -8,6 +8,7 @@ import com.google.common.base.Function;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.models.BakedMultiModel;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandler;
@@ -71,7 +72,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			EnumModuleSizes size = null;
 			for(IModuleState storagedState : modules){
 				if(!(storagedState.getModule() instanceof IModuleModuleStorage)){
-					size = EnumModuleSizes.getSize(size, storagedState.getModule().getSize(storagedState.getContainer()));
+					size = EnumModuleSizes.getSize(size, storagedState.getContainer().getItemContainer().getSize());
 					if(size == EnumModuleSizes.MEDIUM){
 						models.add(ModuleModelLoader.getModel(wall, format));
 					}else if(size == EnumModuleSizes.SMALL){
@@ -100,8 +101,9 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			}
 		}
 		for(IModuleState moduleState : modules){
-			EnumModuleSizes moduleSize = moduleState.getModule().getSize(moduleState.getContainer());
+			EnumModuleSizes moduleSize = moduleState.getContainer().getItemContainer().getSize();
 			IModule module = moduleState.getModule();
+			IModuleItemContainer itemContainer = moduleState.getContainer().getItemContainer();
 			if(((IModuleStateClient)moduleState).getModelHandler() != null){
 				IBakedModel model = ModuleModelLoader.getModel(moduleState, storage, modelState, format);
 				if(model != null){
@@ -120,7 +122,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			if(size == EnumModuleSizes.SMALL){
 				if(wallType != EnumWallType.NONE){
 					if(wallType == EnumWallType.WINDOW){
-						models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer()), format), 0F, 0.5F, 0F, 1F));
+						models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer().getItemContainer()), format), 0F, 0.5F, 0F, 1F));
 					}else{
 						location = walls[4];
 					}
@@ -130,13 +132,13 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 				if(wallType != EnumWallType.NONE){
 					if(moduleSize == EnumModuleSizes.SMALL){
 						if(wallType == EnumWallType.WINDOW){
-							models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer()), format), 0F, 0.25F, 0F, 1F));
+							models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(itemContainer), format), 0F, 0.25F, 0F, 1F));
 						}else{
 							location = walls[3];
 						}
 					}else if(moduleSize == EnumModuleSizes.MEDIUM){	
 						if(wallType == EnumWallType.WINDOW){
-							models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer()), format), 0F, 0.25F, 0F, 1F));
+							models.add(new TRSRBakedModel(ModuleModelLoader.getModel(module.getWindowLocation(itemContainer), format), 0F, 0.25F, 0F, 1F));
 						}else{
 							location = walls[6];
 						}
@@ -147,19 +149,19 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 				if(wallType != EnumWallType.NONE){
 					if(moduleSize == EnumModuleSizes.SMALL){
 						if(wallType == EnumWallType.WINDOW){
-							location = module.getWindowLocation(moduleState.getContainer());
+							location = module.getWindowLocation(itemContainer);
 						}else{
 							location = walls[2];
 						}
 					}else if(moduleSize == EnumModuleSizes.MEDIUM){	
 						if(wallType == EnumWallType.WINDOW){
-							models.add(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer()), format));
+							models.add(ModuleModelLoader.getModel(module.getWindowLocation(itemContainer), format));
 						}else{
 							location = walls[5];
 						}
 					}else if(moduleSize == EnumModuleSizes.LARGE){
 						if(wallType == EnumWallType.WINDOW){
-							models.add(ModuleModelLoader.getModel(module.getWindowLocation(moduleState.getContainer()), format));
+							models.add(ModuleModelLoader.getModel(module.getWindowLocation(itemContainer), format));
 						}else{
 							location = walls[7];
 						}

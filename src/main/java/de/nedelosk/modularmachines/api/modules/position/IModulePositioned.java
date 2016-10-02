@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.position;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 
 public interface IModulePositioned extends IModule {
 

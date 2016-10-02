@@ -1,21 +1,19 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
-import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Storage implements IStorage{
 
-	protected final IModular modular;
 	protected final IStoragePosition position;
-	protected final IModuleState storageModule;
+	protected final IModuleProvider storageProvider;
 
-	public Storage(IModular modular, IStoragePosition position, IModuleState storageModule) {
-		this.modular = modular;
+	public Storage(IStoragePosition position, IModuleProvider storageProvider) {
 		this.position = position;
-		this.storageModule = storageModule;
+		this.storageProvider = storageProvider;
 	}
 
 	@Override
@@ -28,13 +26,13 @@ public class Storage implements IStorage{
 	}
 
 	@Override
-	public IModuleState<IStorageModule> getModule() {
-		return storageModule;
+	public IModuleProvider getProvider() {
+		return storageProvider;
 	}
 
 	@Override
 	public IModular getModular() {
-		return modular;
+		return storageProvider.getModular();
 	}
 
 	@Override

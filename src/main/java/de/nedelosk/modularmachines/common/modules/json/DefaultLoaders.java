@@ -9,12 +9,10 @@ import com.google.gson.JsonObject;
 
 import de.nedelosk.modularmachines.api.material.IMaterial;
 import de.nedelosk.modularmachines.api.material.MaterialRegistry;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
-import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.json.ICustomLoader;
-import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.api.property.JsonUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -30,23 +28,36 @@ public class DefaultLoaders {
 
 		@Override
 		public Object loadFromJson(JsonObject jsonObject) {
-			IModule module = null;
+			EnumModuleSizes size = JsonUtils.getSize(jsonObject);
 			IMaterial material = null;
-			IModuleProperties properties = null;
 			ItemStack stack = null;
 			boolean ignorNBT = false;
 			List<String> tooltip = new ArrayList<>();
+			IModuleContainer[] containers = null;
 
-			String moduleName = JsonUtils.getString(jsonObject.get("module"));
-			if(moduleName != null){
-				module = ModuleManager.MODULES.getValue(new ResourceLocation(moduleName));
+			JsonArray containerArray = JsonUtils.getArray(jsonObject.get("containers"));
+			if(containerArray != null){
+				List<IModuleContainer> containerList = new ArrayList<>();
+				for(JsonElement ele : containerArray){
+					if(ele instanceof JsonObject) {
+						IModuleContainer container = JsonUtils.getContainer(ele.getAsJsonObject());
+						if(container != null){
+							containerList.add(container);
+						}
+					}
+				}
+				if(!containerList.isEmpty()){
+					containers = containerList.toArray(new IModuleContainer[containerList.size()]);
+				}
+			}else{
+				IModuleContainer container = JsonUtils.getContainer(jsonObject);
+				if(container != null){
+					containers = new IModuleContainer[]{container};
+				}
 			}
 			material = MaterialRegistry.getMaterial(JsonUtils.getString(jsonObject.get("material")));
 			if(JsonUtils.getString(jsonObject.get("item")) != null){
 				stack = JsonUtils.parseItemStack(jsonObject, "item");
-			}
-			if(jsonObject.has("properties") && jsonObject.get("properties").isJsonObject()){
-				properties = ModuleLoaderRegistry.loadPropertiesFromJson(jsonObject.get("properties").getAsJsonObject());
 			}
 			if(jsonObject.has("tooltip")){
 				if(jsonObject.get("tooltip").isJsonArray()){
@@ -64,8 +75,8 @@ public class DefaultLoaders {
 				ignorNBT = jsonObject.get("ignorNBT").getAsBoolean();
 			}
 
-			if(module != null && material != null){
-				return new ModuleContainer(module, properties, stack, material, tooltip, ignorNBT);
+			if(containers != null && material != null){
+				return new ModuleItemContainer(stack, material, size, tooltip, ignorNBT, containers);
 			}
 			return null;
 		}

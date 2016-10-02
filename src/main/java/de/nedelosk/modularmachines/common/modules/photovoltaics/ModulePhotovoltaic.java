@@ -9,12 +9,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.photovoltaics.IModulePhotovoltaic;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
@@ -94,11 +93,6 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 
 		lightValue = MathHelper.clamp_int(lightValue, 0, 15);
 		return lightValue / 15f;
-	}
-
-	@Override
-	public EnumModuleSizes getSize(IModuleContainer container) {
-		return EnumModuleSizes.LARGE;
 	}
 
 	@SideOnly(Side.CLIENT)

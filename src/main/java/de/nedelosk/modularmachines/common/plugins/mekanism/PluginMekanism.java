@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.plugins.mekanism;
 
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleContainer;
 import de.nedelosk.modularmachines.api.modules.json.EnumLoaderType;
 import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
@@ -21,12 +21,12 @@ public class PluginMekanism extends APlugin {
 	public static Item energyCube;
 	public static ModuleRFBattery moduleEnergyCube;
 	public static IModuleBatteryProperties[] moduleEnergyCubeProperties = new IModuleBatteryProperties[4];
-	public static IModuleContainer[] moduleEnergyCubeContainers = new IModuleContainer[4];
+	public static IModuleItemContainer[] moduleEnergyCubeContainers = new IModuleItemContainer[4];
 
 	@Override
 	public void preInit() {
 		if(ModuleRFBatteryPropertiesLoader.loader == null){
-			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new ModuleRFBatteryPropertiesLoader());
+			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, ModuleRFBatteryPropertiesLoader.loader = new ModuleRFBatteryPropertiesLoader());
 		}
 		moduleEnergyCube = new ModuleRFBattery("energy_cube");
 		moduleEnergyCube.setRegistryName(new ResourceLocation("modularmachines:battery.energycube"));
@@ -37,15 +37,15 @@ public class PluginMekanism extends APlugin {
 	public void init() {
 		energyCube = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "EnergyCube"));
 
-		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, EnumModuleSizes.LARGE, (int) (2000000 * 0.4), 800, 1);
-		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, EnumModuleSizes.LARGE, (int) (8000000 * 0.4), 3200, 2);
-		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, EnumModuleSizes.LARGE, (int) (32000000 * 0.4), 12800, 3);
-		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, EnumModuleSizes.LARGE, (int) (128000000 * 0.4), 51200, 4);
+		moduleEnergyCubeProperties[0] = new ModuleRFBatteryProperties(2, (int) (2000000 * 0.4), 800, 1);
+		moduleEnergyCubeProperties[1] = new ModuleRFBatteryProperties(4, (int) (8000000 * 0.4), 3200, 2);
+		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, (int) (32000000 * 0.4), 12800, 3);
+		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, (int) (128000000 * 0.4), 51200, 4);
 
-		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[0], EnumMetalMaterials.IRON, 0));
-		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[1], EnumMetalMaterials.OSMIUM, 1));
-		moduleEnergyCubeContainers[2] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[2], EnumMetalMaterials.GOLD, 2));
-		moduleEnergyCubeContainers[3] = GameRegistry.register(new ModuleContainerEnergyCube(moduleEnergyCube, moduleEnergyCubeProperties[3], EnumMetalMaterials.STEEL, 3));
+		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.IRON, 0, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[0])));
+		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.OSMIUM, 1, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[1])));
+		moduleEnergyCubeContainers[2] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.GOLD, 2, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[2])));
+		moduleEnergyCubeContainers[3] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.STEEL, 3, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[3])));
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -21,7 +22,6 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	protected final IStoragePosition position;
 	protected final boolean right;
-	protected int slotIndex = -1;
 
 	public WidgetAssemblerTab(int xPosition, int yPosition, IModularAssembler provider, IStoragePosition position, boolean right) {
 		super(xPosition, yPosition, 28, 21, provider);
@@ -31,16 +31,16 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 
 	@Override
 	public void draw(IGuiProvider gui) {
-		if(slotIndex < 0){
-			this.slotIndex = provider.getIndex(position);
-		}
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (position.equals(provider.getSelectedPosition())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
-		ItemStack item = provider.getItemHandler().getStackInSlot(slotIndex);
-		if(item != null){
-			gui.drawItemStack(item, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
+		IStoragePage page = provider.getStoragePage(position);
+		if(page != null){
+			ItemStack item = provider.getStoragePage(position).getStorageStack();
+			if(item != null){
+				gui.drawItemStack(item, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
+			}
 		}
 	}
 

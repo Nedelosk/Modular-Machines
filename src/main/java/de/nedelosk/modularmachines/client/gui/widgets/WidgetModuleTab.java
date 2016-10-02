@@ -34,11 +34,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider.equals(moduleHandler.getModular().getCurrentModule())) ? 0 : 28,
 				right ? 214 : 235, 28, 21);
-		ItemStack stack = provider.getStack();
-		if(stack == null){
-			stack = provider.getContainer().getItemStack();
-		}
-		gui.drawItemStack(stack, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
+		gui.drawItemStack(provider.getProvider().getItemStack(), gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
 	}
 
 	@Override
@@ -58,9 +54,9 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 
 	@Override
 	public List<String> getTooltip(IGuiProvider gui) {
-		ItemStack stack = provider.getStack();
-		if(stack != null && stack.hasDisplayName()){
-			return Arrays.asList(stack.getDisplayName());
+		ItemStack itemStack = provider.getProvider().getItemStack();
+		if(itemStack != null && itemStack.hasDisplayName()){
+			return Arrays.asList(itemStack.getDisplayName());
 		}
 		return Arrays.asList(provider.getContainer().getDisplayName());
 	}

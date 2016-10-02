@@ -1,23 +1,23 @@
 package de.nedelosk.modularmachines.common.modules;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemProvider;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -40,11 +40,6 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
 		return new IModulePostion[]{EnumModulePositions.CASING};
-	}
-
-	@Override
-	public EnumModuleSizes getSize(IModuleContainer container) {
-		return EnumModuleSizes.SMALL;
 	}
 
 	@Override
@@ -73,28 +68,31 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 		IModuleInventory inventory = state.getPage(CleanerPage.class).getInventory();
 		ItemStack stack = inventory.getStackInSlot(0);
 		if(stack != null){
-			IModuleProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
+			IModuleItemProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 			if(provider != null){
-				IModuleState moduleState = provider.createState(null);
-				if(moduleState != null){
-					for(IModuleContentHandler handler : moduleState.getContentHandlers()){
-						if(handler instanceof ICleanableModuleContentHandler){
-							((ICleanableModuleContentHandler)handler).cleanHandler(state);
-						}
-					}
-					for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
-						for(IModuleContentHandler handler : page.getContentHandlers()){
+				List<IModuleState> modules = provider.createStates(null);
+				Iterator<IModuleState> states = modules.iterator();
+				while(states.hasNext()){
+					IModuleState moduleState = states.next();
+					if(moduleState != null){
+						for(IModuleContentHandler handler : moduleState.getContentHandlers()){
 							if(handler instanceof ICleanableModuleContentHandler){
 								((ICleanableModuleContentHandler)handler).cleanHandler(state);
 							}
 						}
+						for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
+							for(IModuleContentHandler handler : page.getContentHandlers()){
+								if(handler instanceof ICleanableModuleContentHandler){
+									((ICleanableModuleContentHandler)handler).cleanHandler(state);
+								}
+							}
+						}
+					}
+					if(moduleState.getModule().isClean(moduleState)){
+						states.remove();
 					}
 				}
-				if(moduleState.getModule().isClean(moduleState)){
-					provider.setState(null);
-				}else{
-					provider.setState(moduleState);
-				}
+				provider.setStates(modules);
 			}
 		}
 	}

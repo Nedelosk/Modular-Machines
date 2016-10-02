@@ -11,9 +11,11 @@ import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -32,7 +34,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 
 	@SideOnly(Side.CLIENT)
 	@Nullable
-	ResourceLocation getWindowLocation(IModuleContainer container);
+	ResourceLocation getWindowLocation(IModuleItemContainer container);
 
 	String getUnlocalizedName(IModuleContainer container);
 
@@ -55,7 +57,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	/**
 	 * @return The item that the module drop.
 	 */
-	ItemStack saveDataToItem(IModuleState state);
+	void saveDataToItem(ItemStack itemStack, IModuleState state);
 
 	/**
 	 * To load datas from the item into the state.
@@ -71,7 +73,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	/**
 	 * Crate a new module state for the module.
 	 */
-	IModuleState createState(IModular modular, IModuleContainer container);
+	IModuleState createState(IModuleProvider provider, IModuleContainer container);
 
 	void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException;
 
@@ -80,7 +82,7 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	/* MODULE CONTAINERS */
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	Map<ResourceLocation, ResourceLocation> getModelLocations(@Nullable IModuleContainer container);
+	Map<ResourceLocation, ResourceLocation> getModelLocations(@Nullable IModuleItemContainer container);
 
 	/**
 	 * Add a tooltip to a item that are registered for a module container with this module.

@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.items;
+package de.nedelosk.modularmachines.api.modules.containers;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
 

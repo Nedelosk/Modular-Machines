@@ -1,9 +1,8 @@
 package de.nedelosk.modularmachines.api.modules.storage.module;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModuleCasing;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
@@ -13,9 +12,14 @@ public class StorageModuleProperties extends ModuleProperties implements IStorag
 
 	protected final IModulePostion[] positions;
 
-	public StorageModuleProperties(int complexity, EnumModuleSizes size, IModulePostion... positions) {
-		super(complexity, size);
+	public StorageModuleProperties(int complexity, IModulePostion... positions) {
+		super(complexity);
 		this.positions = positions;
+	}
+
+	@Override
+	public IStoragePosition getSecondPosition(IModuleContainer container, IStoragePosition position) {
+		return null;
 	}
 
 	@Override

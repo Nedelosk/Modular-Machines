@@ -10,6 +10,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
@@ -18,9 +19,14 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.IModuleTickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
@@ -49,6 +55,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -183,10 +190,17 @@ public class Modular implements IModular {
 		for(int i = 0;i < list.tagCount();i++){
 			try{
 				NBTTagCompound tagCompound = list.getCompoundTagAt(i);
-				IModuleState<IStorageModule> module = ModuleManager.loadStateFromNBT(this, tagCompound.getCompoundTag("State"));
+				IModuleItemContainer itemContainer = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(tagCompound.getString("Container")));
+				ItemStack itemStack = null;
+				if(tagCompound.hasKey("Item")){
+					itemStack = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("Item"));
+				}
+				IModuleProvider provider = new ModuleProvider(itemContainer, this, itemStack);
+				provider.deserializeNBT(tagCompound.getCompoundTag("Provider"));
 				IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
-				if(module != null){
-					IStorage storage = module.getModule().createStorage(module, this, position);
+				IModuleState<IStorageModule> moduleState = ModuleManager.getStorageState(provider, position);
+				if(moduleState != null && moduleState.getModule() != null){
+					IStorage storage = moduleState.getModule().createStorage(provider, position);
 					storage.deserializeNBT(tagCompound.getCompoundTag("Storage"));
 					storages.put(position, storage);
 				}
@@ -230,7 +244,12 @@ public class Modular implements IModular {
 			if(entry.getValue() != null){
 				IStorage storage = entry.getValue();
 				NBTTagCompound tagCompound = new NBTTagCompound();
-				tagCompound.setTag("State", ModuleManager.writeStateToNBT(this, storage.getModule()));
+				IModuleProvider provider = storage.getProvider();
+				if(!ItemUtil.isIdenticalItem(provider.getItemStack(), provider.getContainer().getItemStack())){
+					tagCompound.setTag("Item", provider.getItemStack().serializeNBT());
+				}
+				tagCompound.setString("Container", provider.getContainer().getRegistryName().toString());
+				tagCompound.setTag("Provider", provider.serializeNBT());
 				tagCompound.setTag("Storage", storage.serializeNBT());
 				tagCompound.setInteger("Position", modularHandler.getStoragePositions().indexOf(entry.getKey()));
 				list.appendTag(tagCompound);
@@ -406,11 +425,12 @@ public class Modular implements IModular {
 		List<IModuleState> modules = new ArrayList<>();
 		for(IStorage storage : storages.values()){
 			if(storage != null){
-				modules.add(storage.getModule());
+				modules.addAll(storage.getProvider().getModuleStates());
 				if(storage instanceof IModuleStorage){
 					IModuleStorage moduleStorage = (IModuleStorage) storage;
-					if(!moduleStorage.getModules().isEmpty()){
-						modules.addAll(moduleStorage.getModules());
+					List<IModuleState> moduleStates = moduleStorage.getModules();
+					if(!moduleStates.isEmpty()){
+						modules.addAll(moduleStates);
 					}
 				}
 			}
@@ -419,10 +439,30 @@ public class Modular implements IModular {
 	}
 
 	@Override
+	public List<IModuleProvider> getProviders() {
+		List<IModuleProvider> providers = new ArrayList<>();
+		for(IStorage storage : storages.values()){
+			if(storage != null){
+				providers.add(storage.getProvider());
+				if(storage instanceof IModuleStorage){
+					IModuleStorage moduleStorage = (IModuleStorage) storage;
+					List<IModuleProvider> moduleProviders = moduleStorage.getProviders();
+					if(!moduleProviders.isEmpty()){
+						providers.addAll(moduleProviders);
+					}
+				}
+			}
+		}
+		return providers;
+	}
+
+	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
 		for(IStorage storage : storages.values()){
-			if (storage.getModule().getIndex() == index) {
-				return (IModuleState<M>) storage.getModule();
+			for(IModuleState state : storage.getProvider().getModuleStates()){
+				if (state.getIndex() == index) {
+					return state;
+				}
 			}
 			if(storage instanceof IModuleStorage){
 				IModuleState<M> state = ((IModuleStorage) storage).getModule(index);
@@ -441,8 +481,10 @@ public class Modular implements IModular {
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
 		for(IStorage storage : storages.values()){
-			if (moduleClass.isAssignableFrom(storage.getModule().getModule().getClass())) {
-				modules.add((IModuleState<M>) storage.getModule());
+			for(IModuleState state : storage.getProvider().getModuleStates()){
+				if (moduleClass.isAssignableFrom(state.getModule().getClass())) {
+					modules.add(state);
+				}
 			}
 			if(storage instanceof IModuleStorage){
 				modules.addAll(((IModuleStorage) storage).getModules(moduleClass));
@@ -457,8 +499,10 @@ public class Modular implements IModular {
 			return null;
 		}
 		for(IStorage storage : storages.values()){
-			if (moduleClass.isAssignableFrom(storage.getModule().getModule().getClass())) {
-				return (IModuleState<M>) storage.getModule();
+			for(IModuleState state : storage.getProvider().getModuleStates()){
+				if (moduleClass.isAssignableFrom(state.getModule().getClass())) {
+					return state;
+				}
 			}
 			if(storage instanceof IModuleStorage){
 				IModuleState<M> state = ((IModuleStorage) storage).getModule(moduleClass);
@@ -514,7 +558,7 @@ public class Modular implements IModular {
 
 	@Override
 	public boolean addStorage(IStorage storage) {
-		if(!storages.containsKey(storage.getPosition()) && storage.getModule() != null){
+		if(!storages.containsKey(storage.getPosition()) && storage.getProvider() != null){
 			storages.put(storage.getPosition(), storage);
 			return true;
 		}
@@ -541,9 +585,18 @@ public class Modular implements IModular {
 		for(IStoragePosition position : (List<IStoragePosition>)modularHandler.getStoragePositions()){
 			IStorage storage = storages.get(position);
 			if(storage != null){
-				IModuleState<IStorageModule> module = storage.getModule();
-				stacks[modularHandler.getStoragePositions().indexOf(position)] = ModuleManager.saveModuleStateToItem(module);
-				pages.put(position, module.getModule().createPage(null, this, storage, module, position));
+				IModuleProvider provider = storage.getProvider();
+				stacks[modularHandler.getStoragePositions().indexOf(position)] = ModuleManager.saveModuleStateToItem(provider);
+				IModuleState<IStorageModule> state = ModuleManager.getStorageState(provider, position);
+				IModuleContainer<IStorageModule, IModuleProperties> moduleContainer = state.getContainer();
+				IStoragePage page = state.getModule().createPage(null, this, storage, position);
+				pages.put(position, page);
+				IStoragePosition secondPos = moduleContainer.getModule().getSecondPosition(moduleContainer, position);
+				if(secondPos != null && secondPos != position){
+					IStoragePage secondPage = moduleContainer.getModule().createSecondPage(position);
+					page.addChild(secondPage);
+					pages.put(secondPos, secondPage);
+				}
 			}else{
 				pages.put(position, null);
 			}

@@ -4,8 +4,9 @@ import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
-import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.properties.ModuleCasingProperties;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.api.modules.storage.energy.ModuleBatteryProperties;
@@ -28,7 +29,7 @@ public class PluginIC2 extends APlugin {
 
 	public static ModuleBattery moduleBattery;
 	public static IModuleBatteryProperties[] moduleBatteryProperties = new IModuleBatteryProperties[4];
-	public static IModuleContainer[] moduleBatteryContainers = new IModuleContainer[4];
+	public static IModuleItemContainer[] moduleBatteryContainers = new IModuleItemContainer[4];
 	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[2];
 
 	@Override
@@ -47,25 +48,25 @@ public class PluginIC2 extends APlugin {
 		casing = IC2Items.getItem("resource", "machine");
 		casingAdvanced = IC2Items.getItem("resource", "advanced_machine");
 
-		moduleBatteryProperties[0] = new ModuleBatteryProperties(2, EnumModuleSizes.LARGE, 80000, 320, 1);
-		moduleBatteryProperties[1] = new ModuleBatteryProperties(4, EnumModuleSizes.LARGE, 600000, 1280, 2);
-		moduleBatteryProperties[2] = new ModuleBatteryProperties(6, EnumModuleSizes.LARGE, 8000000, 5120, 3);
-		moduleBatteryProperties[3] = new ModuleBatteryProperties(8, EnumModuleSizes.LARGE, 80000000, 20480, 4);
+		moduleBatteryProperties[0] = new ModuleBatteryProperties(2, 80000, 320, 1);
+		moduleBatteryProperties[1] = new ModuleBatteryProperties(4, 600000, 1280, 2);
+		moduleBatteryProperties[2] = new ModuleBatteryProperties(6, 8000000, 5120, 3);
+		moduleBatteryProperties[3] = new ModuleBatteryProperties(8, 80000000, 20480, 4);
 
-		moduleBatteryContainers[0] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[0], batBox, EnumMetalMaterials.TIN, true));
-		moduleBatteryContainers[1] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[1], cesu, EnumMetalMaterials.BRONZE, true));
-		moduleBatteryContainers[2] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[2], mfe, EnumMetalMaterials.IRON, true));
-		moduleBatteryContainers[3] = GameRegistry.register(new ModuleContainer(moduleBattery, moduleBatteryProperties[3], mfsu, EnumMetalMaterials.STEEL, true));
+		moduleBatteryContainers[0] = GameRegistry.register(new ModuleItemContainer(batBox, EnumMetalMaterials.TIN, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleBattery, moduleBatteryProperties[0])));
+		moduleBatteryContainers[1] = GameRegistry.register(new ModuleItemContainer(cesu, EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleBattery, moduleBatteryProperties[1])));
+		moduleBatteryContainers[2] = GameRegistry.register(new ModuleItemContainer(mfe, EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleBattery, moduleBatteryProperties[2])));
+		moduleBatteryContainers[3] = GameRegistry.register(new ModuleItemContainer(mfsu, EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleBattery, moduleBatteryProperties[3])));
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(2, EnumModuleSizes.LARGE, 12, 550, 7.0F, 1.5F);
-		moduleCasingProperties[1] = new ModuleCasingProperties(4, EnumModuleSizes.LARGE, 20, 700, 9.0F, 2.54F);
+		moduleCasingProperties[0] = new ModuleCasingProperties(2, 12, 550, 7.0F, 1.5F);
+		moduleCasingProperties[1] = new ModuleCasingProperties(4, 20, 700, 9.0F, 2.54F);
 
 		IModule engine = ModuleManager.moduleEngineElectric;
 		IModuleProperties properties = ModuleManager.moduleEngineElectricProperties[1];
-		GameRegistry.register(new ModuleContainer(engine, properties, IC2Items.getItem("crafting", "electric_motor"), EnumMetalMaterials.IRON, false));
+		GameRegistry.register(new ModuleItemContainer(IC2Items.getItem("crafting", "electric_motor"), EnumMetalMaterials.IRON, EnumModuleSizes.SMALL, false, new ModuleContainer(engine, properties)));
 
-		GameRegistry.register(new ModuleContainer(ModuleManager.moduleCasing, moduleCasingProperties[0], casing, EnumMetalMaterials.IRON));
-		GameRegistry.register(new ModuleContainer(ModuleManager.moduleCasing, moduleCasingProperties[1], casingAdvanced, EnumMetalMaterials.STEEL));
+		GameRegistry.register(new ModuleItemContainer(casing, EnumMetalMaterials.IRON, EnumModuleSizes.LARGEST, new ModuleContainer(ModuleManager.moduleCasing, moduleCasingProperties[0])));
+		GameRegistry.register(new ModuleItemContainer(casingAdvanced, EnumMetalMaterials.STEEL, EnumModuleSizes.LARGEST, new ModuleContainer(ModuleManager.moduleCasing, moduleCasingProperties[1])));
 	}
 
 	@Override

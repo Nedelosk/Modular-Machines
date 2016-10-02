@@ -16,7 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.json.EnumLoaderType;
 import de.nedelosk.modularmachines.api.modules.json.ModuleLoaderRegistry;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
@@ -50,8 +50,8 @@ public class ModuleLoadManager {
 				for(File file : containerFolder.listFiles()){
 					if(file.getName().endsWith(".json")){
 						Reader reader = new BufferedReader(new FileReader(file));
-						List<IModuleContainer> containers = GSON.fromJson(reader, List.class);
-						for(IModuleContainer container : containers){
+						List<IModuleItemContainer> containers = GSON.fromJson(reader, List.class);
+						for(IModuleItemContainer container : containers){
 							GameRegistry.register(container);
 						}
 						reader.close();
@@ -72,7 +72,7 @@ public class ModuleLoadManager {
 
 	private static class ModuleContainerReader implements JsonDeserializer<List>{
 		@Override
-		public List<IModuleContainer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		public List<IModuleItemContainer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			return ModuleLoaderRegistry.loadContainersFromJson(json);
 		}
 	}

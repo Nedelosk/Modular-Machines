@@ -1,11 +1,15 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.AssemblerItemHandler;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
@@ -17,6 +21,8 @@ public abstract class StoragePage extends Page implements IStoragePage {
 
 	protected final IItemHandlerStorage itemHandler;
 	protected final IStoragePosition position;
+	protected final List<IStoragePage> childs;
+	protected IStoragePage parent;
 	protected IModularAssembler assembler;
 
 	public StoragePage(IModularAssembler assembler, IStoragePosition position) {
@@ -32,6 +38,7 @@ public abstract class StoragePage extends Page implements IStoragePage {
 		this.assembler = assembler;
 		this.itemHandler = itemHandler;
 		this.position = position;
+		this.childs = new ArrayList<>();
 	}
 
 	@Override
@@ -71,10 +78,10 @@ public abstract class StoragePage extends Page implements IStoragePage {
 	@Override
 	public IStorage assemble(IModular modular) throws AssemblerException {
 		ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(position));
-		IModuleState storageState = ModuleManager.loadOrCreateModuleState(modular, storageStack);
-		if(storageState.getModule() instanceof IStorageModule){
-			IStorageModule module = (IStorageModule) storageState.getModule();
-			return module.createStorage(storageState, modular, position);
+		IModuleProvider provider = ModuleManager.loadOrCreateModuleProvider(modular, storageStack);
+		IModuleState<IStorageModule> storageContainer = ModuleManager.getStorageState(provider, position);
+		if(storageContainer != null && storageContainer.getModule() != null){
+			return storageContainer.getModule().createStorage(provider, position);
 		}
 		return null;
 	}
@@ -93,5 +100,32 @@ public abstract class StoragePage extends Page implements IStoragePage {
 		if(nbt.hasKey("itemHandler") && itemHandler != null){
 			CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage().readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, itemHandler, null, nbt.getTag("itemHandler"));
 		}
+	}
+
+	@Override
+	public IStoragePage setParent(IStoragePage parentPage) {
+		if(parent != parentPage){
+			parent = parentPage;
+		}
+		return this;
+	}
+
+	@Override
+	public IStoragePage getParent() {
+		return parent;
+	}
+
+	@Override
+	public IStoragePage addChild(IStoragePage childPage) {
+		if(!childs.contains(childPage)){
+			childs.add(childPage);
+			childPage.setParent(this);
+		}
+		return this;
+	}
+
+	@Override
+	public List<IStoragePage> getChilds() {
+		return childs;
 	}
 }

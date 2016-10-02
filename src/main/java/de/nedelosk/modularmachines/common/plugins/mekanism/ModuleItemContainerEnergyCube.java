@@ -1,18 +1,18 @@
 package de.nedelosk.modularmachines.common.plugins.mekanism;
 
 import de.nedelosk.modularmachines.api.material.IMaterial;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.IModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.ModuleContainer;
+import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.ModuleItemContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ModuleContainerEnergyCube extends ModuleContainer {
+public class ModuleItemContainerEnergyCube extends ModuleItemContainer {
 
 	private final int tier;
 
-	public ModuleContainerEnergyCube(IModule module, IModuleProperties properties, IMaterial material, int tier) {
-		super(module, properties, new ItemStack(PluginMekanism.energyCube), material, true);
+	public ModuleItemContainerEnergyCube(IMaterial material, int tier, IModuleContainer... containers) {
+		super(new ItemStack(PluginMekanism.energyCube), material, EnumModuleSizes.LARGE, true, containers);
 		this.tier = tier;
 	}
 

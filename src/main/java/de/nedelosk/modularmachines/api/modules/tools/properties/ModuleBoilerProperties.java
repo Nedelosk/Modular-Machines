@@ -1,8 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.tools.properties;
 
-import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleProperties;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;
 
@@ -11,8 +10,8 @@ public class ModuleBoilerProperties extends ModuleProperties implements IModuleB
 	protected int waterPerWork;
 	protected final int defaultWaterPerWork;
 
-	public ModuleBoilerProperties(int complexity, EnumModuleSizes size, int waterPerWork) {
-		super(complexity, size);
+	public ModuleBoilerProperties(int complexity, int waterPerWork) {
+		super(complexity);
 
 		this.defaultWaterPerWork = waterPerWork;
 		this.waterPerWork = waterPerWork;
@@ -26,6 +25,6 @@ public class ModuleBoilerProperties extends ModuleProperties implements IModuleB
 	@Override
 	public void processConfig(IModuleContainer container, Configuration config) {
 		super.processConfig(container, config);
-		waterPerWork = config.getInt("waterPerWork", "modules." + container.getRegistryName(), defaultWaterPerWork, 0, 35, "");
+		waterPerWork = config.getInt("waterPerWork", "modules." + container.getItemContainer().getRegistryName(), defaultWaterPerWork, 0, 35, "");
 	}
 }

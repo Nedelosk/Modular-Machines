@@ -3,10 +3,11 @@ package de.nedelosk.modularmachines.common.modules.tools;
 import java.util.Arrays;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
-import de.nedelosk.modularmachines.api.modules.items.IModuleColoredItem;
-import de.nedelosk.modularmachines.api.modules.items.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerStatus;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -48,7 +49,7 @@ public class ModuleAlloySmelter extends ModuleBasicMachine implements IModuleCol
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected String getModelFolder(IModuleContainer container) {
+	protected String getModelFolder(IModuleItemContainer container) {
 		return "alloysmelters";
 	}
 
