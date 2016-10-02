@@ -72,7 +72,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 		onUpdate();
 	}
-	
+
 	@Override
 	public void onGuiClosed() {
 		super.onGuiClosed();

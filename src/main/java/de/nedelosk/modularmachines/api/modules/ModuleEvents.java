@@ -92,7 +92,7 @@ public class ModuleEvents {
 			return nbtTag;
 		}
 	}
-	
+
 	public static class ModulePageUpdateEvent extends ModuleStateEvent {
 
 		private final Side updateSide;
@@ -103,7 +103,7 @@ public class ModuleEvents {
 			this.modulePage = modulePage;
 			this.updateSide = updateSide;
 		}
-		
+
 		public IModulePage getModulePage() {
 			return modulePage;
 		}

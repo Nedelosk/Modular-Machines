@@ -18,7 +18,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	public Page(String title) {
 		this.title = title;
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 	}
@@ -131,7 +131,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	public void setGui(IGuiProvider gui) {
 		this.gui = gui;
 	}
-	
+
 	@Override
 	public IContainerBase<T> getContainer(){
 		return container;

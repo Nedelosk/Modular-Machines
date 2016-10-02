@@ -29,7 +29,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.onSlotChanged(this);
 		}
 	}
-	
+
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
@@ -37,7 +37,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.setContainer(null);
 		}
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();

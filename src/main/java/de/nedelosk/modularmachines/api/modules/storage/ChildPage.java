@@ -41,7 +41,7 @@ public class ChildPage implements IStoragePage{
 	public void setGui(IGuiProvider gui) {
 		this.gui = gui;
 	}
-	
+
 	@Override
 	public IContainerBase getContainer(){
 		return container;
@@ -194,7 +194,7 @@ public class ChildPage implements IStoragePage{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 	}

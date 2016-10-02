@@ -27,7 +27,7 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 		super.onGuiClosed();
 		page.setGui(null);
 	}
-	
+
 	@Override
 	public void initGui() {
 		super.initGui();

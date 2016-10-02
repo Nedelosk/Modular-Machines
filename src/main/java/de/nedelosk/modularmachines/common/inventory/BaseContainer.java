@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -38,6 +39,11 @@ public abstract class BaseContainer<H extends IGuiHandler> extends Container imp
 		for(int j1 = 0; j1 < 9; j1++) {
 			addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 142));
 		}
+	}
+
+	@Override
+	public List<IContainerListener> getListeners(){
+		return listeners;
 	}
 
 	@Override
