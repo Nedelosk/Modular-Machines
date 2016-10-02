@@ -70,9 +70,4 @@ public class ModuleChest extends StorageModule implements IModulePositioned {
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
 		return new IModulePostion[]{EnumModulePositions.CASING};
 	}
-
-	@Override
-	public IStoragePosition getSecondPosition(IModuleContainer container, IStoragePosition position) {
-		return EnumStoragePositions.BACK;
-	}
 }
