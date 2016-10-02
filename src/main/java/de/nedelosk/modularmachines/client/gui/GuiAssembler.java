@@ -72,6 +72,14 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 		onUpdate();
 	}
+	
+	@Override
+	public void onGuiClosed() {
+		super.onGuiClosed();
+		if(page != null){
+			page.setGui(null);
+		}
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {

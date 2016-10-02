@@ -13,6 +13,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	protected String title;
 	@SideOnly(Side.CLIENT)
 	protected IGuiProvider<T> gui;
+	protected IContainerBase<T> container;
 
 	public Page(String title) {
 		this.title = title;
@@ -129,6 +130,16 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	@SideOnly(Side.CLIENT)
 	public void setGui(IGuiProvider gui) {
 		this.gui = gui;
+	}
+	
+	@Override
+	public IContainerBase<T> getContainer(){
+		return container;
+	}
+
+	@Override
+	public void setContainer(IContainerBase<T> container){
+		this.container = container;
 	}
 
 	@Override

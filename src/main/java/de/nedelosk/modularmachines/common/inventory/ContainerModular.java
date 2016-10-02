@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.slots.SlotModule;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
@@ -19,6 +20,7 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 		super(tileModularMachine, inventoryPlayer);
 		this.inventory = inventoryPlayer;
 		this.currentPage = currentPage;
+		this.currentPage.setContainer(this);
 		addInventory(inventoryPlayer);
 		addSlots(inventoryPlayer);
 	}
@@ -27,6 +29,14 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		currentPage.detectAndSendChanges();
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer playerIn) {
+		super.onContainerClosed(playerIn);
+		if(currentPage != null){
+			currentPage.setContainer(null);
+		}
 	}
 
 	@Override

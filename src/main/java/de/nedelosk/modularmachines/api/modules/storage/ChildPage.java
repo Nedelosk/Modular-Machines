@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.api.modules.storage;
 import java.util.Collections;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.gui.IContainerBase;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -22,6 +23,7 @@ public class ChildPage implements IStoragePage{
 
 	@SideOnly(Side.CLIENT)
 	protected IGuiProvider gui;
+	protected IContainerBase container;
 	protected final IStoragePosition position;
 	protected IStoragePage parent;
 	protected IModularAssembler assembler;
@@ -38,6 +40,16 @@ public class ChildPage implements IStoragePage{
 	@Override
 	public void setGui(IGuiProvider gui) {
 		this.gui = gui;
+	}
+	
+	@Override
+	public IContainerBase getContainer(){
+		return container;
+	}
+
+	@Override
+	public void setContainer(IContainerBase container){
+		this.container = container;
 	}
 
 	@Override

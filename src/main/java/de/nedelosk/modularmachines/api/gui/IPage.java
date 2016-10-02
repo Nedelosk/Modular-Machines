@@ -11,6 +11,10 @@ public interface IPage<T extends IGuiHandler> {
 
 	@SideOnly(Side.CLIENT)
 	void setGui(IGuiProvider<T> gui);
+	
+	IContainerBase<T> getContainer();
+
+	void setContainer(IContainerBase<T> container);
 
 	@SideOnly(Side.CLIENT)
 	void updateGui();

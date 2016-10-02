@@ -25,7 +25,16 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 		IModularAssembler assembler = handler.getAssembler();
 		page = assembler.getStoragePage(assembler.getSelectedPosition());
 		if(page != null){
+			page.setContainer(this);
 			page.onSlotChanged(this);
+		}
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer playerIn) {
+		super.onContainerClosed(playerIn);
+		if(page != null){
+			page.setContainer(null);
 		}
 	}
 	

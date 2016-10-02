@@ -23,6 +23,12 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 	}
 
 	@Override
+	public void onGuiClosed() {
+		super.onGuiClosed();
+		page.setGui(null);
+	}
+	
+	@Override
 	public void initGui() {
 		super.initGui();
 		page.initGui();
