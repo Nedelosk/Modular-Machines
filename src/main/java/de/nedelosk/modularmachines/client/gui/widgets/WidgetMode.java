@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.recipes.IToolMode;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncMachineMode;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncToolMode;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
@@ -52,6 +52,6 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 		IModuleModeMachine module = provider.getModule();
 
 		module.setCurrentMode(provider, module.getNextMode(provider));
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncMachineMode(provider.getModular().getHandler(), provider));
+		PacketHandler.sendToServer(new PacketSyncToolMode(provider.getModular().getHandler(), provider));
 	}
 }

@@ -1,34 +1,52 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
+import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import io.netty.buffer.ByteBuf;
 
 public abstract class PacketModule extends PacketModularHandler {
 
 	protected int index;
+	protected String pageId;
 
 	public PacketModule() {
 	}
 
-	public PacketModule(IModularHandler handler, IModuleState module) {
-		this(handler, module.getIndex());
+	public PacketModule(IModuleState module) {
+		this(module.getModular().getHandler(), module.getIndex(), null);
+		IModulePage currentPage = module.getModular().getCurrentPage();
+		if(currentPage.getModuleState().getIndex() == module.getIndex()){
+			pageId = currentPage.getPageID();
+		}
 	}
 
-	public PacketModule(IModularHandler handler, int index) {
+	public PacketModule(IModularHandler handler, int index, String pageId) {
 		super(handler);
 		this.index = index;
+		this.pageId = pageId;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
-		super.fromBytes(buf);
-		index = buf.readInt();
+	public void readData(DataInputStreamMM data) throws IOException {
+		super.readData(data);
+		index = data.readInt();
+		if(data.readBoolean()){
+			pageId = DataInputStream.readUTF(data);
+		}
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
-		super.toBytes(buf);
-		buf.writeInt(index);
+	protected void writeData(DataOutputStreamMM data) throws IOException {
+		super.writeData(data);
+		data.writeInt(index);
+		data.writeBoolean(pageId != null);
+		if(pageId != null){
+			data.writeUTF(pageId);
+		}
 	}
 }

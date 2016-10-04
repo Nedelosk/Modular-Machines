@@ -10,6 +10,7 @@ import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
@@ -19,8 +20,10 @@ public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGu
 	@Nonnull
 	IModularHandler getHandler();
 
+	void assemble(EntityPlayer player);
+
 	@Nullable
-	IModular assemble() throws AssemblerException;
+	IModular createModular() throws AssemblerException;
 
 	int getComplexity(boolean withStorage, @Nullable IStoragePosition position);
 

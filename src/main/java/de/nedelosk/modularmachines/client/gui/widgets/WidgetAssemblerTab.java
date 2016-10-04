@@ -51,7 +51,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 			IModularHandler modularHandler = provider.getHandler();
 			if(modularHandler != null && modularHandler.getWorld() != null){
 				if (modularHandler.getWorld().isRemote) {
-					PacketHandler.INSTANCE.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
+					PacketHandler.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
 				}
 			}
 		}

@@ -45,10 +45,14 @@ import de.nedelosk.modularmachines.api.modules.storage.module.IBasicModuleStorag
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleStorage;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
+import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHandlerState;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -56,6 +60,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -150,18 +156,21 @@ public class Modular implements IModular {
 		tickCount++;
 		if(isServer){
 			if(updateOnInterval(10)){
-				boolean oneHeaterWork = false;
-				List<IModuleState<IModuleHeater>> heaters = getModules(IModuleHeater.class);
-				for(IModuleState<IModuleHeater> heater : heaters){
-					if(heater.getModule().isWorking(heater)){
-						oneHeaterWork = true;
+				if(modularHandler instanceof IModularHandlerTileEntity){
+					boolean oneHeaterWork = false;
+					List<IModuleState<IModuleHeater>> heaters = getModules(IModuleHeater.class);
+					for(IModuleState<IModuleHeater> heater : heaters){
+						if(heater.getModule().isWorking(heater)){
+							oneHeaterWork = true;
+						}
 					}
-				}
-				if(!oneHeaterWork){
-					double oldHeat = heatSource.getHeatStored();
-					heatSource.reduceHeat(2);
-					if(oldHeat != heatSource.getHeatStored()){
-						PacketHandler.INSTANCE.sendToAll(new PacketSyncHeatBuffer(modularHandler));
+					if(!oneHeaterWork){
+						double oldHeat = heatSource.getHeatStored();
+						heatSource.reduceHeat(2);
+						if(oldHeat != heatSource.getHeatStored()){
+							IModularHandlerTileEntity tileEntity = (IModularHandlerTileEntity) modularHandler;
+							PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(modularHandler), tileEntity.getPos(), (WorldServer) tileEntity.getWorld());
+						}
 					}
 				}
 			}
@@ -588,7 +597,39 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public IModularAssembler disassemble() {
+	public void disassemble(EntityPlayer player) {
+		if(modularHandler != null){
+			modularHandler.setAssembled(false);
+			modularHandler.setAssembler(modularHandler.getModular().createAssembler());
+			modularHandler.setModular(null);
+
+			if(modularHandler.getWorld().isRemote){
+				if(modularHandler instanceof IModularHandlerTileEntity){
+					IModularHandlerTileEntity tileEntity = (IModularHandlerTileEntity) modularHandler;
+					BlockPos pos = tileEntity.getPos();
+
+					modularHandler.getWorld().markBlockRangeForRenderUpdate(pos, pos);
+				}
+			}else{
+				modularHandler.markDirty();
+				if(modularHandler instanceof IModularHandlerTileEntity){
+					IModularHandlerTileEntity tileEntity = (IModularHandlerTileEntity) modularHandler;
+					BlockPos pos = tileEntity.getPos();
+
+					WorldServer server = (WorldServer) modularHandler.getWorld();
+					PacketHandler.sendToNetwork(new PacketSyncHandlerState(tileEntity, false), pos, server);
+
+					IBlockState blockState = server.getBlockState(pos);
+					server.notifyBlockUpdate(pos, blockState, blockState, 3);
+
+					player.openGui(ModularMachines.instance, 0, server, pos.getX(), pos.getY(), pos.getZ());
+				}
+			}
+		}
+	}
+
+	@Override
+	public IModularAssembler createAssembler() {
 		if(modularHandler instanceof IModularHandlerTileEntity){
 			((IModularHandlerTileEntity)modularHandler).invalidate();
 		}

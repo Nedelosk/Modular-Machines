@@ -1,51 +1,32 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
+import java.io.IOException;
+
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.inventory.ContainerModular;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-public class PacketSelectModule extends PacketModularHandler {
-
-	public int index;
-
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		super.fromBytes(buf);
-		index = buf.readInt();
-	}
-
-	@Override
-	public void toBytes(ByteBuf buf) {
-		super.toBytes(buf);
-		buf.writeInt(index);
-	}
+public class PacketSelectModule extends PacketModule implements IPacketClient, IPacketServer {
 
 	public PacketSelectModule() {
 	}
 
-	public PacketSelectModule(IModularHandler handler, IModuleState module) {
-		this(handler, module.getIndex());
-	}
-
-	public PacketSelectModule(IModularHandler handler, int index) {
-		super(handler);
-		this.index = index;
+	public PacketSelectModule(IModuleState module) {
+		super(module);
 	}
 
 	@Override
-	public void handleClientSafe(NetHandlerPlayClient netHandler) {
-		IModularHandler modularHandler = getModularHandler(netHandler);
+	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
+		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
@@ -54,17 +35,17 @@ public class PacketSelectModule extends PacketModularHandler {
 	}
 
 	@Override
-	public void handleServerSafe(NetHandlerPlayServer netHandler) {
-		IModularHandler modularHandler = getModularHandler(netHandler);
+	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
+		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
 			modularHandler.getModular().setCurrentModule(modularHandler.getModular().getModule(index));
 		}
 
-		PacketHandler.sendToNetwork(this, pos, (WorldServer) netHandler.playerEntity.worldObj);
+		WorldServer server = player.getServerWorld();
+		PacketHandler.sendToNetwork(this, pos, server);
 
-		WorldServer server = netHandler.playerEntity.getServerWorld();
 		for(EntityPlayer otherPlayer : server.playerEntities) {
 			if(otherPlayer.openContainer instanceof ContainerModular) {
 				ContainerModular assembler = (ContainerModular) otherPlayer.openContainer;
@@ -83,5 +64,10 @@ public class PacketSelectModule extends PacketModularHandler {
 				}
 			}
 		}
+	}
+
+	@Override
+	public PacketId getPacketId() {
+		return PacketId.SELECT_MODULE;
 	}
 }

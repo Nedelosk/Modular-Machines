@@ -53,7 +53,7 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 	public void sendModuleUpdate(IModuleState state){
 		IModularHandler handler = state.getModular().getHandler();
 		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 

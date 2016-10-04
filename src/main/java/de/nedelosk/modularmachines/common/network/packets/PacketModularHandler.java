@@ -1,26 +1,22 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
+import java.io.IOException;
+
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
+import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.common.modular.ModularHandlerItem;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetHandler;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class PacketModularHandler extends AbstractPacketThreadsafe {
+public abstract class PacketModularHandler extends Packet {
 
 	private Object identifier;
 
@@ -36,29 +32,29 @@ public abstract class PacketModularHandler extends AbstractPacketThreadsafe {
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	protected void writeData(DataOutputStreamMM data) throws IOException {
 		if(identifier instanceof String){
-			buf.writeByte(0);
-			ByteBufUtils.writeUTF8String(buf, (String) identifier);
+			data.writeByte(0);
+			data.writeUTF((String) identifier);
 		}else if(identifier instanceof BlockPos){
-			buf.writeByte(1);
+			data.writeByte(1);
 			BlockPos pos = (BlockPos) identifier;
-			buf.writeInt(pos.getX());
-			buf.writeInt(pos.getY());
-			buf.writeInt(pos.getZ());
+			data.writeInt(pos.getX());
+			data.writeInt(pos.getY());
+			data.writeInt(pos.getZ());
 		}
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
-		byte handlerType = buf.readByte();
+	public void readData(DataInputStreamMM data) throws IOException {
+		byte handlerType = data.readByte();
 		if(handlerType == 0){
-			identifier = ByteBufUtils.readUTF8String(buf);
+			identifier = data.readUTF();
 
 		}else if( handlerType == 1){
-			int x = buf.readInt();
-			int y = buf.readInt();
-			int z = buf.readInt();
+			int x = data.readInt();
+			int y = data.readInt();
+			int z = data.readInt();
 			identifier = new BlockPos(x, y, z);
 		}
 	}
@@ -74,18 +70,7 @@ public abstract class PacketModularHandler extends AbstractPacketThreadsafe {
 		return null;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public EntityPlayer getPlayer(){
-		return Minecraft.getMinecraft().thePlayer;
-	}
-
-	public IModularHandler getModularHandler(INetHandler handler) {
-		EntityPlayer player;
-		if(handler instanceof INetHandlerPlayClient){
-			player = getPlayer();
-		}else{
-			player = ((NetHandlerPlayServer)handler).playerEntity;
-		}
+	public IModularHandler getModularHandler(EntityPlayer player) {
 		if(player == null){
 			return null;
 		}

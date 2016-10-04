@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketModuleClean;
+import de.nedelosk.modularmachines.common.network.packets.PacketModuleCleaner;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -51,7 +51,7 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner>{
 
 		@Override
 		public void onButtonClick() {
-			PacketHandler.INSTANCE.sendToServer(new PacketModuleClean(moduleState));
+			PacketHandler.sendToServer(new PacketModuleCleaner(moduleState));
 		}
 
 	}

@@ -24,8 +24,6 @@ import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
@@ -140,10 +138,14 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
 			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(world.isRemote){
+			if(!world.isRemote){
 				if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-					if(heldItem == null && player.isSneaking()){
-						PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(modularHandler, false));
+					if(player.isSneaking() && heldItem != null){
+						IBlockState blockState = world.getBlockState(pos);
+						if(heldItem.getItem().getHarvestLevel(heldItem, "wrench", player, blockState) >= 0){
+							modularHandler.getModular().disassemble(player);
+							return true;
+						}
 					}
 				}
 			}

@@ -15,6 +15,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IBasicModuleStorage;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -77,11 +78,13 @@ public interface IModular extends IBasicModuleStorage, ICapabilityProvider {
 	@Nonnull
 	IModular copy(IModularHandler handler);
 
+	void disassemble(EntityPlayer player);
+
 	/**
 	 * Disassemble the modular.
 	 */
 	@Nonnull
-	IModularAssembler disassemble();
+	IModularAssembler createAssembler();
 
 	/**
 	 * @return The next valid index for a new module state.

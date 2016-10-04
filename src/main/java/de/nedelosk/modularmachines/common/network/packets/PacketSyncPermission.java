@@ -1,16 +1,18 @@
 package de.nedelosk.modularmachines.common.network.packets;
 
+import java.io.IOException;
+
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
+import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
+import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
 
-public class PacketSyncPermission extends PacketModularHandler {
+public class PacketSyncPermission extends PacketModularHandler implements IPacketClient, IPacketServer{
 
 	public boolean permission;
 	public int moduleIndex;
@@ -28,24 +30,24 @@ public class PacketSyncPermission extends PacketModularHandler {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
-		super.fromBytes(buf);
-		permission = buf.readBoolean();
-		moduleIndex = buf.readInt();
-		index = buf.readInt();
+	public void readData(DataInputStreamMM data) throws IOException {
+		super.readData(data);
+		permission = data.readBoolean();
+		moduleIndex = data.readInt();
+		index = data.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
-		super.toBytes(buf);
-		buf.writeBoolean(permission);
-		buf.writeInt(moduleIndex);
-		buf.writeInt(index);
+	protected void writeData(DataOutputStreamMM data) throws IOException {
+		super.writeData(data);
+		data.writeBoolean(permission);
+		data.writeInt(moduleIndex);
+		data.writeInt(index);
 	}
 
 	@Override
-	public void handleClientSafe(NetHandlerPlayClient netHandler) {
-		IModularHandler modularHandler = getModularHandler(netHandler);
+	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
+		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
@@ -57,8 +59,8 @@ public class PacketSyncPermission extends PacketModularHandler {
 	}
 
 	@Override
-	public void handleServerSafe(NetHandlerPlayServer netHandler) {
-		IModularHandler modularHandler = getModularHandler(netHandler);
+	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
+		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
@@ -68,6 +70,11 @@ public class PacketSyncPermission extends PacketModularHandler {
 			}
 		}
 
-		PacketHandler.sendToNetwork(this, pos, (WorldServer) netHandler.playerEntity.worldObj);
+		PacketHandler.sendToNetwork(this, pos, player.getServerWorld());
+	}
+
+	@Override
+	public PacketId getPacketId() {
+		return PacketId.SYNC_PERMISSON;
 	}
 }

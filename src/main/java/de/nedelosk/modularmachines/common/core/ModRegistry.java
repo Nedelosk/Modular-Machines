@@ -35,7 +35,7 @@ public class ModRegistry extends Registry {
 		Config.syncConfig(true);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModuleManager.registerCapability();
-		PacketHandler.preInit();
+		new PacketHandler();
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
 		ItemManager.registerItems();

@@ -3,43 +3,37 @@ package de.nedelosk.modularmachines.common.network.packets;
 import java.io.IOException;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.controller.EnumRedstoneMode;
-import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
-public class PacketSyncRedstoneMode extends PacketModularHandler implements IPacketClient, IPacketServer {
+public class PacketSyncToolMode extends PacketModule implements IPacketClient, IPacketServer {
 
 	private int mode;
-	private int index;
 
-	public PacketSyncRedstoneMode() {
-		super();
+	public PacketSyncToolMode() {
 	}
 
-	public PacketSyncRedstoneMode(IModularHandler modularHandler, IModuleState<IModuleControlled> moduleState) {
-		super(modularHandler);
-		this.mode = moduleState.getModule().getModuleControl(moduleState).getRedstoneMode().ordinal();
-		this.index = moduleState.getIndex();
+	public PacketSyncToolMode(IModularHandler modularHandler, IModuleState<IModuleModeMachine> moduleState) {
+		super(moduleState);
+		this.mode = moduleState.getModule().getCurrentMode(moduleState).ordinal();
 	}
 
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(mode);
-		data.writeInt(index);
 	}
 
 	@Override
 	public void readData(DataInputStreamMM data) throws IOException {
 		super.readData(data);
 		mode = data.readInt();
-		index = data.readInt();
 	}
 
 	@Override
@@ -48,9 +42,9 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
-			if (moduleState != null) {
-				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
+			IModuleState<IModuleModeMachine> machine = modularHandler.getModular().getModule(index);
+			if (machine != null) {
+				machine.getModule().setCurrentMode(machine, machine.getModule().getMode(mode));
 			}
 		}
 	}
@@ -61,9 +55,9 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
-			if (moduleState != null) {
-				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
+			IModuleState<IModuleModeMachine> machine = modularHandler.getModular().getModule(index);
+			if (machine != null) {
+				machine.getModule().setCurrentMode(machine, machine.getModule().getMode(mode));
 			}
 		}
 
@@ -72,6 +66,6 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 
 	@Override
 	public PacketId getPacketId() {
-		return PacketId.SYNC_REDSTONE_MODE;
+		return PacketId.SYNC_TOOL_MODE;
 	}
 }

@@ -34,7 +34,10 @@ import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.inventory.ContainerAssembler;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHandlerState;
 import de.nedelosk.modularmachines.common.utils.Translator;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -317,7 +320,65 @@ public class ModularAssembler implements IModularAssembler {
 	}
 
 	@Override
-	public IModular assemble() throws AssemblerException {
+	public void assemble(EntityPlayer player) {
+		if(modularHandler != null){
+			modularHandler.setAssembled(true);
+			try{
+				modularHandler.setModular(modularHandler.getAssembler().createModular());
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
+			if(modularHandler.getWorld().isRemote){
+				if(modularHandler instanceof IModularHandlerTileEntity){
+					IModularHandlerTileEntity tileEntity = (IModularHandlerTileEntity) modularHandler;
+					BlockPos pos = tileEntity.getPos();
+
+					modularHandler.getWorld().markBlockRangeForRenderUpdate(pos, pos);
+				}
+			}else{
+				modularHandler.markDirty();
+				if(modularHandler instanceof IModularHandlerTileEntity){
+					IModularHandlerTileEntity tileEntity = (IModularHandlerTileEntity) modularHandler;
+					BlockPos pos = tileEntity.getPos();
+
+					WorldServer server = (WorldServer) modularHandler.getWorld();
+					PacketHandler.sendToNetwork(new PacketSyncHandlerState(tileEntity, true), pos, server);
+
+					IBlockState blockState = server.getBlockState(pos);
+					server.notifyBlockUpdate(pos, blockState, blockState, 3);
+
+					boolean canOpenGui = modularHandler.getModular() != null &&  (modularHandler.getModular().getCurrentModule() == null || modularHandler.getModular().getCurrentPage() == null);
+
+					for(EntityPlayer otherPlayer : server.playerEntities) {
+						if(otherPlayer.openContainer instanceof ContainerAssembler) {
+							ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
+							if(modularHandler == assembler.getHandler()) {
+								if(canOpenGui){
+									otherPlayer.closeScreen();
+								}else{
+									ItemStack heldStack = null;
+									if(otherPlayer.inventory.getItemStack() != null) {
+										heldStack = otherPlayer.inventory.getItemStack();
+										otherPlayer.inventory.setItemStack(null);
+									}
+									otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
+
+									if(heldStack != null) {
+										otherPlayer.inventory.setItemStack(heldStack);
+										((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public IModular createModular() throws AssemblerException {
 		IModular modular = new Modular(modularHandler);
 		for(IStoragePage page : pages.values()){
 			if(page != null){

@@ -42,10 +42,10 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
-		IModularHandler tile = (IModularHandler) gui.getHandler();
+		IModularHandler modularHandler = (IModularHandler) gui.getHandler();
 		if (!provider.getPageID().equals(provider.getModuleState().getModular().getCurrentPage().getPageID())) {
-			tile.getModular().setCurrentPage(provider.getPageID());
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(tile, provider.getPageID()));
+			modularHandler.getModular().setCurrentPage(provider.getPageID());
+			PacketHandler.sendToServer(new PacketSelectModulePage(modularHandler, provider.getPageID()));
 		}
 	}
 

@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.blocks.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -23,8 +22,6 @@ public abstract class TileBase extends TileEntity implements ITickable {
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		writeToNBT(nbtTag);
 		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
 	}
 

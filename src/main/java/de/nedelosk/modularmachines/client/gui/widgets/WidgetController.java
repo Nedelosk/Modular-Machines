@@ -56,6 +56,6 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
 		provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));
 
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
+		PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
 	}
 }

@@ -62,6 +62,7 @@ public class ChildPage implements IStoragePage{
 	@Override
 	public void initGui() {
 		if(parent != null){
+			parent.setGui(gui);
 			parent.initGui();
 		}
 	}

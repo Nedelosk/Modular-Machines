@@ -56,6 +56,6 @@ public class WidgetRedstoneMode extends Widget<IModuleState<IModuleControlled>> 
 			module.getModuleControl(provider).setRedstoneMode(getMode().next());
 		}
 
-		PacketHandler.INSTANCE.sendToServer(new PacketSyncRedstoneMode(provider.getModular().getHandler(), provider));
+		PacketHandler.sendToServer(new PacketSyncRedstoneMode(provider.getModular().getHandler(), provider));
 	}
 }

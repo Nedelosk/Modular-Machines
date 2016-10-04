@@ -141,7 +141,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		if(handler != null && handler.getAssembler() != null){
 			try{
 				lastException = null;
-				modular = assembler.assemble();
+				modular = assembler.createModular();
 				assembleTab.setProvider(ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player));
 			}catch(AssemblerException exception){
 				lastException = exception;
@@ -160,6 +160,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		super.initGui();
 
 		if(page != null){
+			page.setGui(this);
 			page.initGui();
 		}
 

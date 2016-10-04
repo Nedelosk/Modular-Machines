@@ -70,7 +70,7 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 		IModularHandler handler = state.getModular().getHandler();
 		if(handler instanceof IModularHandlerTileEntity){
 			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
-			PacketHandler.sendToNetwork(new PacketSyncModule(handler, state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 

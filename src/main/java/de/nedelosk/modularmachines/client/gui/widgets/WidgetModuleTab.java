@@ -43,8 +43,8 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 		IModuleState currentModule = modular.getCurrentModule();
 		if (currentModule.getIndex() != provider.getIndex()) {
 			modular.setCurrentModule(provider);
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModule(moduleHandler, provider));
-			PacketHandler.INSTANCE.sendToServer(new PacketSelectModulePage(moduleHandler, moduleHandler.getModular().getCurrentPage().getPageID()));
+			PacketHandler.sendToServer(new PacketSelectModule(provider));
+			PacketHandler.sendToServer(new PacketSelectModulePage(moduleHandler, moduleHandler.getModular().getCurrentPage().getPageID()));
 		}
 	}
 

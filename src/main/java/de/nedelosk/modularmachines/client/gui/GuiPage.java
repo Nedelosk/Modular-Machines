@@ -31,6 +31,7 @@ public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
 	@Override
 	public void initGui() {
 		super.initGui();
+		page.setGui(this);
 		page.initGui();
 	}
 

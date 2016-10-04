@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
-import de.nedelosk.modularmachines.common.network.packets.PacketSyncAssembler;
+import de.nedelosk.modularmachines.common.network.packets.PacketSyncHandlerState;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -38,9 +38,9 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
 		IModularHandler handler = (IModularHandler) gui.getHandler();
 		try{
-			IModular modular = handler.getAssembler().assemble();
+			IModular modular = handler.getAssembler().createModular();
 			if(modular != null){
-				PacketHandler.INSTANCE.sendToServer(new PacketSyncAssembler(handler, true));
+				PacketHandler.sendToServer(new PacketSyncHandlerState(handler, true));
 			}
 		}catch(AssemblerException e){
 		}
