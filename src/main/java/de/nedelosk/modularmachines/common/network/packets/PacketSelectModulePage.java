@@ -26,7 +26,6 @@ public class PacketSelectModulePage extends PacketModule implements IPacketClien
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
 			modularHandler.getModular().setCurrentPage(pageId);

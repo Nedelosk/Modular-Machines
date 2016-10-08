@@ -45,7 +45,7 @@ public class PacketSyncModule extends PacketModule implements IPacketClient{
 		if (handler == null || handler.getModular() == null) {
 			return;
 		}
-		IModuleState moduleState = handler.getModular().getModule(index);
+		IModuleState moduleState = getModule(handler);
 		moduleState.deserializeNBT(nbt);
 
 		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){

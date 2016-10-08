@@ -18,6 +18,12 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 
 	public PacketUpdateModule() {
 	}
+	
+
+	public PacketUpdateModule(IModuleState state) {
+		super(state);
+		this.modularHandler = state.getModular().getHandler();
+	}
 
 	public PacketUpdateModule(IModularHandler handler, int index, String pageId) {
 		super(handler, index, pageId);
@@ -50,7 +56,7 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 		if(index > 0){
 			IModularHandler modularHandler = getModularHandler(player);
 			if(modularHandler.isAssembled()){
-				IModuleState state = modularHandler.getModular().getModule(index);
+				IModuleState state = getModule(modularHandler);
 				if(pageId != null){
 					IModulePage page = state.getPage(pageId);
 					if(page instanceof IStreamable){

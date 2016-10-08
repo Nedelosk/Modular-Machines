@@ -3,11 +3,19 @@ package de.nedelosk.modularmachines.common.network.packets;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.modular.ModularHandlerItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public abstract class PacketModule extends PacketModularHandler {
 
@@ -29,6 +37,17 @@ public abstract class PacketModule extends PacketModularHandler {
 		super(handler);
 		this.index = index;
 		this.pageId = pageId;
+	}
+	
+	public IModuleState getModule(EntityPlayer player) {
+		return getModule(getModularHandler(player));
+	}
+	
+	public IModuleState getModule(IModularHandler handler) {
+		if(handler == null || handler.getModular() == null){
+			return null;
+		}
+		return handler.getModular().getModule(index);
 	}
 
 	@Override

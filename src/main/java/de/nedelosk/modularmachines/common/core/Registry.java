@@ -27,7 +27,6 @@ public abstract class Registry {
 	public void preInit(Object instance, FMLPreInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
 		if (pluginManager != null) {
-			pluginManager.registerPlugins();
 			pluginManager.preInit();
 		}
 	}

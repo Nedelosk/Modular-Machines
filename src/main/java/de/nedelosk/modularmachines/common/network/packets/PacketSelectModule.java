@@ -27,10 +27,10 @@ public class PacketSelectModule extends PacketModule implements IPacketClient, I
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-		BlockPos pos = getPos(modularHandler);
+		IModuleState moduleState = getModule(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			modularHandler.getModular().setCurrentModule(modularHandler.getModular().getModule(index));
+			modularHandler.getModular().setCurrentModule(moduleState);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class PacketSelectModule extends PacketModule implements IPacketClient, I
 		BlockPos pos = getPos(modularHandler);
 
 		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-			modularHandler.getModular().setCurrentModule(modularHandler.getModular().getModule(index));
+			modularHandler.getModular().setCurrentModule(getModule(modularHandler));
 		}
 
 		WorldServer server = player.getServerWorld();

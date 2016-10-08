@@ -12,7 +12,8 @@ public enum PacketId {
 	SYNC_TOOL_MODE,
 	SYNC_PERMISSON,
 	SYNC_MODULE,
-	UPDATE_MODULE;
+	UPDATE_MODULE,
+	ACTIVE_MODULE_BEE_LOGIC;
 
 	public static final PacketId[] VALUES = values();
 

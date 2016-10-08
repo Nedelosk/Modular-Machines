@@ -36,15 +36,16 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 	}
 
 	public ModuleItemContainer(ItemStack stack, IMaterial material, EnumModuleSizes size, List<String> tooltip, boolean ignorNBT, IModuleContainer... containers) {
+		String modID = Loader.instance().activeModContainer().getModId();
 		if(size == null || material == null){
-			throw new NullPointerException("The mod " + Loader.instance().activeModContainer().getModId() + " has tried to register a module item container, with a size or a material which was null.");
+			throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with a size or a material which was null.");
 		}
 		if(containers == null || containers.length <= 0){
-			throw new NullPointerException("The mod " + Loader.instance().activeModContainer().getModId() + " has tried to register a module item container, with no module containers.");
+			throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with no module containers.");
 		}
 		for(IModuleContainer container : containers){
 			if(container == null){
-				throw new NullPointerException("The mod " + Loader.instance().activeModContainer().getModId() + " has tried to register a module item container, with a module container which was null.");
+				throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with a module container which was null.");
 			}
 		}
 		this.material = material;
@@ -61,7 +62,7 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 		this.stack = stack;
 
 		if(getRegistryName() == null){
-			setRegistryName(material.getName() + "." + size.getName() + "." + stack.getItem().getRegistryName().getResourcePath() + "." + stack.getItemDamage() + (stack.hasTagCompound() ? "." + stack.getTagCompound().toString() : ""));
+			setRegistryName(modID + ":" + material.getName() + "." + size.getName() + "." + stack.getItem().getRegistryName().getResourcePath() + "." + stack.getItemDamage() + (stack.hasTagCompound() ? "." + stack.getTagCompound().toString() : ""));
 		}
 	}
 

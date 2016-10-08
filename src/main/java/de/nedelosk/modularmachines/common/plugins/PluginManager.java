@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 
 import de.nedelosk.modularmachines.common.plugins.enderio.PluginEnderIO;
+import de.nedelosk.modularmachines.common.plugins.forestry.PluginForestry;
 import de.nedelosk.modularmachines.common.plugins.ic2.PluginIC2;
 import de.nedelosk.modularmachines.common.plugins.mekanism.PluginMekanism;
 import de.nedelosk.modularmachines.common.plugins.theoneprobe.PluginTheOneProbe;
@@ -31,7 +32,13 @@ public class PluginManager {
 	}
 
 	public void preInit() {
+		registerPlugin(new PluginIC2());
+		registerPlugin(new PluginTheOneProbe());
+		registerPlugin(new PluginEnderIO());
+		registerPlugin(new PluginMekanism());
+		registerPlugin(new PluginForestry());
 		loadPlugins();
+		
 		for(APlugin plugin : loadedPlugins) {
 			plugin.preInit();
 		}
@@ -48,13 +55,5 @@ public class PluginManager {
 			plugin.init();
 			plugin.registerRecipes();
 		}
-	}
-
-	public void registerPlugins() {
-		registerPlugin(new PluginIC2());
-		registerPlugin(new PluginTheOneProbe());
-		registerPlugin(new PluginEnderIO());
-		registerPlugin(new PluginMekanism());
-		//registerPlugin(new PluginThermalExpansion());
 	}
 }
