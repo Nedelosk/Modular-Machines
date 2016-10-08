@@ -107,7 +107,11 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 		if(tooltip != null && !tooltip.isEmpty()){
 			tooltip.addAll(this.tooltip);
 		}
+		int index = 0;
 		for(IModuleContainer container : containers){
+			if(containers.size() > 1){
+				tooltip.add(" - " + index + " - ");
+			}
 			container.addTooltip(tooltip, stack);
 		}
 	}

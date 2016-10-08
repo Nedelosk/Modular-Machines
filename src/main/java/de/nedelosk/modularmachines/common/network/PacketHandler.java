@@ -17,6 +17,7 @@ import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncPermission;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncRedstoneMode;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncToolMode;
+import de.nedelosk.modularmachines.common.network.packets.PacketUpdateModule;
 import de.nedelosk.modularmachines.common.utils.Log;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
@@ -66,13 +67,14 @@ public class PacketHandler {
 		registerClientPacket(new PacketSyncPermission());
 		registerServerPacket(new PacketSyncPermission());
 		registerClientPacket(new PacketSyncHeatBuffer());
+		registerClientPacket(new PacketUpdateModule());
 	}
 
-	private static void registerClientPacket(IPacketClient packet) {
+	public static void registerClientPacket(IPacketClient packet) {
 		packet.getPacketId().setPacketClient(packet);
 	}
 
-	private static void registerServerPacket(IPacketServer packet) {
+	public static void registerServerPacket(IPacketServer packet) {
 		packet.getPacketId().setPacketServer(packet);
 	}
 

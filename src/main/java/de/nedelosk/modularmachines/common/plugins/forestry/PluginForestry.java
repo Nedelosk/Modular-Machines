@@ -8,7 +8,9 @@ import de.nedelosk.modularmachines.api.modules.containers.ModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.storage.module.StorageModuleProperties;
 import de.nedelosk.modularmachines.common.core.Constants;
+import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.APlugin;
+import de.nedelosk.modularmachines.common.plugins.forestry.network.PacketBeeLogicActiveModule;
 import forestry.apiculture.PluginApiculture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +25,8 @@ public class PluginForestry extends APlugin {
 	
 	@Override
 	public void preInit() {
+		PacketHandler.registerClientPacket(new PacketBeeLogicActiveModule());
+		
 		moduleBeeHouse = new ModuleBeeHouse("bee_house", false);
 		moduleBeeHouse.setRegistryName(new ResourceLocation(Constants.MODID, "bee_house"));
 		GameRegistry.register(moduleBeeHouse);

@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheBuilderSpec;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
@@ -31,6 +36,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -50,11 +56,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelModular implements IBakedModel {
 
-	private ItemOverrideList overrideList;
-	private IBakedModel missingModel;
-	private IBakedModel assemblerModel;
-
-	public static Set<IModularHandlerTileEntity> modularHandlers = new HashSet();
+	public static final Set<IModularHandlerTileEntity> modularHandlers = new HashSet<>();
+	private static final Cache<IModularHandler, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
+	
+	private static final ItemOverrideList overrideList = new ItemOverrideListModular();
+	private static IBakedModel missingModel;
+	private static IBakedModel assemblerModel;
 
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
@@ -74,9 +81,12 @@ public class ModelModular implements IBakedModel {
 				}
 			}
 		}
+		inventoryCache.invalidateAll();
+		assemblerModel = null;
+		missingModel = null;
 	}
 
-	private IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
+	private static IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
 		IModularHandler modularHandler = getModularHandler(provider);
 		if(modularHandler != null){
 			if(modularHandler instanceof IModularHandlerTileEntity){
@@ -148,7 +158,7 @@ public class ModelModular implements IBakedModel {
 		return Collections.emptyList();
 	}
 
-	public class ItemOverrideListModular extends ItemOverrideList{
+	private static class ItemOverrideListModular extends ItemOverrideList{
 
 		public ItemOverrideListModular() {
 			super(Collections.emptyList());
@@ -158,15 +168,19 @@ public class ModelModular implements IBakedModel {
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = getModularHandler(stack);
 
-			if(stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
-				modularHandler.deserializeNBT(stack.getTagCompound());
-			}
-			IModular modular = modularHandler.getModular();
-			if(modular != null){
-				IBakedModel model = bakeModel(stack, DefaultVertexFormats.ITEM);
-				if(model != null){
-					return model;
+			IBakedModel bakedModel = inventoryCache.getIfPresent(modularHandler);
+			if(bakedModel == null){
+				if(stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
+					modularHandler.deserializeNBT(stack.getTagCompound());
 				}
+				IModular modular = modularHandler.getModular();
+				if(modular != null){
+					bakedModel = bakeModel(stack, DefaultVertexFormats.ITEM);
+					inventoryCache.put(modularHandler, bakedModel);
+				}
+			}
+			if(bakedModel != null){
+				return bakedModel;
 			}
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
@@ -209,9 +223,6 @@ public class ModelModular implements IBakedModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		if(overrideList == null){
-			overrideList = new ItemOverrideListModular();
-		}
 		return overrideList;
 	}
 }

@@ -57,10 +57,20 @@ module.cleaner.name=Module Cleaner
 module.furnace.name=Furnace
 module.chest.name=Chest
 
+#EnderIO
 module.capacitorbank.name=Capacitor Bank
+
+#Mekanism
 module.energycube.name=Energy Cube
+
+#IC2
 module.euBattery.name=IC2 RE Battery pack
 
+#Forestry
+module.apiary.name=Apiary
+module.bee_house.name=Bee House
+
+#Description's
 module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
 module.drawer.description=This is a drawer module, It defines the maximum complexity of storaged modules.
@@ -73,12 +83,15 @@ module.boiler.description=This machine module generates steam and consumes water
 module.alloysmelter.description=This machine is used to smelt two metals into one new metal.
 module.pulverizer.description=This machine is used to pulverize items.
 module.turbine.steam.description=This type of turbine generates kinetic energy from steam. It is larger than a steam engine, but also is faster than three steam engines! 
+
+#EnderIO
 module.capacitorbank.description=This type of battery stores redstone flux.
 
 ####################################
 # Materials
 ####################################
 material.brick.name=Brick
+material.wood.name=Wood
 material.stone.name=Stone
 material.coal.name=Coal
 material.obsidian.name=Obsidian
@@ -195,6 +208,11 @@ module.page.furnace.name=Furnace
 module.page.battery.name=Battery
 module.page.controller.name=Controller
 module.page.chest.name=Chest
+
+#Forestry
+module.page.apiary.name=Apiary
+module.page.bee_house.name=Bee House
+module.page.frame_housing.name=Frame Housing
 
 ####################################
 # Tooltips

@@ -1,11 +1,16 @@
 package de.nedelosk.modularmachines.common.core;
 
 import java.io.File;
+import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.common.modules.json.ModuleLoadManager;
 import de.nedelosk.modularmachines.common.recipse.RecipeJsonManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistry.AddCallback;
 import net.minecraftforge.fml.common.registry.RegistryBuilder;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "de.nedelosk.modularmachines.common.config.ConfigFactory")
@@ -26,6 +32,19 @@ public class ModularMachines {
 
 		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
 		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleItemContainer.class).create();
+	}
+	
+	private class AddModuleContainerCallback implements AddCallback<IModuleItemContainer>{
+
+		@Override
+		public void onAdd(IModuleItemContainer obj, int id, Map<ResourceLocation, ?> slaveset) {
+			Item item = obj.getItemStack().getItem();
+			if(ModuleManager.moduleItems.equals(item)){
+				ModuleManager.moduleItems.add(obj.getItemStack().getItem());
+			}
+			
+		}
+		
 	}
 
 	public static File configFolder;

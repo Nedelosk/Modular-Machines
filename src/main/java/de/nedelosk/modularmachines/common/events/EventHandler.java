@@ -46,7 +46,9 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onInitCapabilities(AttachCapabilitiesEvent.Item event) {
-		event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleItemProvider());
+		if(ModuleManager.moduleItems.equals(event.getItem())){
+			event.addCapability(new ResourceLocation("modularmachines:modules"), new ModuleItemProvider());
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

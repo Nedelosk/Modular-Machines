@@ -25,6 +25,7 @@ import de.nedelosk.modularmachines.common.plugins.jei.lathe.LatheRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.lathe.LatheRecipeWrapper;
 import de.nedelosk.modularmachines.common.plugins.jei.pulverizer.PulverizerRecipeCategory;
 import de.nedelosk.modularmachines.common.plugins.jei.pulverizer.PulverizerRecipeWrapper;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
@@ -66,8 +67,9 @@ public class JeiPlugin extends BlankModPlugin {
 				if(module instanceof IModuleJEI){
 					registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(moduleContainer));
 				}
-				if(moduleContainer.getDescription() != null){
-					registry.addDescription(container.getItemStack(), moduleContainer.getDescription());
+				String description = moduleContainer.getDescription();
+				if(moduleContainer.getDescription() != null && Translator.canTranslateToLocal(description)){
+					registry.addDescription(container.getItemStack(), description);
 				}
 			}
 		}

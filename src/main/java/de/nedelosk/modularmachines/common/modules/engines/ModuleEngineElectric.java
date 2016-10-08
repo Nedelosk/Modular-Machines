@@ -20,11 +20,6 @@ public class ModuleEngineElectric extends ModuleEngine {
 	}
 
 	@Override
-	public String getDescription(IModuleContainer container) {
-		return super.getDescription(container);
-	}
-
-	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
 		if(modular.getModules(IModuleBattery.class).isEmpty()){
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));

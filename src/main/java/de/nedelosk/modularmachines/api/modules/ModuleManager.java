@@ -36,6 +36,7 @@ public class ModuleManager {
 
 	public static final IForgeRegistry<IModule> MODULES = GameRegistry.findRegistry(IModule.class);
 	public static final IForgeRegistry<IModuleItemContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleItemContainer.class);
+	public static final List<Item> moduleItems = new ArrayList();
 	private static final List<IModuleItemContainer> modulesWithDefaultItem = new ArrayList<>();
 	private static final Map<IMetalMaterial, ItemStack[]> materialsWithHolder = new HashMap<>();
 
