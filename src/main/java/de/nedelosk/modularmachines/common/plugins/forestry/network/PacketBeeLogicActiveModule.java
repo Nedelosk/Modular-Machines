@@ -2,9 +2,6 @@ package de.nedelosk.modularmachines.common.plugins.forestry.network;
 
 import java.io.IOException;
 
-import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
@@ -12,18 +9,12 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.network.packets.IPacketClient;
 import de.nedelosk.modularmachines.common.network.packets.PacketId;
 import de.nedelosk.modularmachines.common.network.packets.PacketModule;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.apiculture.BeekeepingLogic;
 import forestry.core.network.DataInputStreamForestry;
 import forestry.core.network.DataOutputStreamForestry;
-import forestry.core.network.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.network.packets.PacketCoordinates;
-import forestry.core.proxy.Proxies;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketBeeLogicActiveModule extends PacketModule implements IPacketClient {
 	private BeekeepingLogic beekeepingLogic;

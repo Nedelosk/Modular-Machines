@@ -3,12 +3,12 @@ package de.nedelosk.modularmachines.common.plugins.forestry.pages;
 import java.io.IOException;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.IStreamable;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.modules.pages.MainPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.IPacketClient;
 import de.nedelosk.modularmachines.common.network.packets.PacketUpdateModule;
@@ -25,24 +25,24 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BeeHousePage extends ModulePage<ModuleBeeHouse> implements IStreamable {
+public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamable {
 
 	private int previousBreedingProgressPercent = 0;
-	
+
 	public BeeHousePage(String title, IModuleState<ModuleBeeHouse> moduleState) {
-		super("MainPage", title, moduleState);
+		super(title, moduleState);
 	}
-	
+
 	@Override
 	public int getYSize() {
 		return 190;
 	}
-	
+
 	@Override
 	public int getPlayerInvPosition() {
 		return 107;
 	}
-	
+
 	@Override
 	protected void createInventory(IModuleInventoryBuilder invBuilder) {	
 		// Queen/Princess
@@ -60,19 +60,19 @@ public class BeeHousePage extends ModulePage<ModuleBeeHouse> implements IStreama
 		invBuilder.addInventorySlot(false, 95, 39);
 		invBuilder.addInventorySlot(false, 116, 26);
 	}
-	
+
 	@Override
 	public void writeData(DataOutputStreamMM data) throws IOException {
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
 		data.writeInt(housing.getBeekeepingLogic().getBeeProgressPercent());
 	}
-	
+
 	@Override
 	public void readData(DataInputStreamMM data) throws IOException {
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
 		housing.setBreedingProgressPercent(data.readInt());
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
@@ -82,7 +82,7 @@ public class BeeHousePage extends ModulePage<ModuleBeeHouse> implements IStreama
 			sendPacketToListeners(new PacketUpdateModule(moduleState));
 		}
 	}
-	
+
 	protected final void sendPacketToListeners(IPacketClient packet) {
 		for (IContainerListener listener : (List<IContainerListener>)container.getListeners()) {
 			if (listener instanceof EntityPlayer) {
@@ -92,12 +92,12 @@ public class BeeHousePage extends ModulePage<ModuleBeeHouse> implements IStreama
 			}
 		}
 	}
-	
+
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
 		super.drawBackground(mouseX, mouseY);
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
-		
+
 		drawHealthMeter(gui.getGuiLeft() + 20, gui.getGuiTop() + 37, housing.getHealthScaled(46), EnumTankLevel.rateTankLevel(housing.getHealthScaled(100)));
 	}
 
@@ -107,16 +107,16 @@ public class BeeHousePage extends ModulePage<ModuleBeeHouse> implements IStreama
 
 		gui.getGui().drawTexturedModalRect(x, y + 46 - height, i, k + 46 - height, 4, height);
 	}
-	
+
 	@Override
 	protected void drawSlot(Slot slot) {
 	}
-	
+
 	@Override
 	protected ResourceLocation getInventoryTexture() {
 		return null;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getGuiTexture() {

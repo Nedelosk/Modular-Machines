@@ -2,9 +2,7 @@ package de.nedelosk.modularmachines.common.plugins.forestry.handlers;
 
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.forestry.network.PacketBeeLogicActiveModule;
-import forestry.api.apiculture.IBeeHousing;
 import forestry.apiculture.BeekeepingLogic;
-import forestry.core.proxy.Proxies;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -12,12 +10,12 @@ import net.minecraft.world.WorldServer;
 public class ModuleBeekeepingLogic extends BeekeepingLogic {
 
 	private BeeHouseHandler housing;
-	
+
 	public ModuleBeekeepingLogic(BeeHouseHandler housing) {
 		super(housing);
 		this.housing = housing;
 	}
-	
+
 	@Override
 	public void syncToClient() {
 		World world = housing.getWorldObj();
@@ -25,7 +23,7 @@ public class ModuleBeekeepingLogic extends BeekeepingLogic {
 			PacketHandler.sendToNetwork(new PacketBeeLogicActiveModule(housing.getModuleState(), housing), housing.getCoordinates(), (WorldServer) world);
 		}
 	}
-	
+
 	@Override
 	public void syncToClient(EntityPlayerMP player) {
 		World world = housing.getWorldObj();

@@ -38,7 +38,7 @@ public class PluginManager {
 		registerPlugin(new PluginMekanism());
 		registerPlugin(new PluginForestry());
 		loadPlugins();
-		
+
 		for(APlugin plugin : loadedPlugins) {
 			plugin.preInit();
 		}

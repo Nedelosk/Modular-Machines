@@ -18,7 +18,7 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 
 	public PacketUpdateModule() {
 	}
-	
+
 
 	public PacketUpdateModule(IModuleState state) {
 		super(state);

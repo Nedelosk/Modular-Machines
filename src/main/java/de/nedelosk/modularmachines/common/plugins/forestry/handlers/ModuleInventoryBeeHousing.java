@@ -3,15 +3,13 @@ package de.nedelosk.modularmachines.common.plugins.forestry.handlers;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.apiculture.InventoryBeeHousing;
-import forestry.core.utils.InventoryUtil;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 
 	private final IModuleInventory inventory;
-	
+
 	public ModuleInventoryBeeHousing(IModuleInventory inventory) {
 		this.inventory = inventory;
 	}
@@ -48,7 +46,7 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 		if (success && doAdd) {
 			addStack(inventory, stack, startSlot, slots, true);
 		}
-		
+
 		return success;
 	}
 
@@ -116,5 +114,5 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 
 		return added;
 	}
-	
+
 }

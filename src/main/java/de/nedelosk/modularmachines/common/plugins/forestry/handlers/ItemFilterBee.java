@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 public class ItemFilterBee implements IContentFilter<ItemStack, IModule> {
 
 	private final boolean isDrone;
-	
+
 	public ItemFilterBee(boolean isDrone) {
 		this.isDrone = isDrone;
 	}
-	
+
 	@Override
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
 		EnumBeeType type = BeeManager.beeRoot.getType(content);

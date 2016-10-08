@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheBuilderSpec;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
@@ -36,7 +35,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -58,7 +56,7 @@ public class ModelModular implements IBakedModel {
 
 	public static final Set<IModularHandlerTileEntity> modularHandlers = new HashSet<>();
 	private static final Cache<IModularHandler, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
-	
+
 	private static final ItemOverrideList overrideList = new ItemOverrideListModular();
 	private static IBakedModel missingModel;
 	private static IBakedModel assemblerModel;

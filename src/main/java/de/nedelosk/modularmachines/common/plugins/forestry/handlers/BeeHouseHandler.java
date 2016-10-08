@@ -53,7 +53,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	protected World worldObj;
 	protected Biome cachedBiome;
 	protected int breedingProgressPercent;
-	
+
 	public BeeHouseHandler(@Nonnull IModuleState<ModuleBeeHouse> state, @Nonnull IBeeHousingInventory inventory) {
 		this.state = state;
 		this.inventory = inventory;
@@ -62,12 +62,12 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 		this.worldObj = state.getModular().getHandler().getWorld();
 		this.beeLogic = new ModuleBeekeepingLogic(this);
 	}
-	
+
 	public void init(IBeeModifier beeModifier, IBeeListener beeListener){
 		this.beeModifier = beeModifier;
 		this.beeListener = beeListener;
 	}
-	
+
 	@Override
 	public BlockPos getCoordinates() {
 		if(state.getModular().getHandler() instanceof IModularHandlerTileEntity){
@@ -108,15 +108,15 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	public float getExactHumidity() {
 		return ForestryAPI.climateManager.getHumidity(worldObj, getCoordinates());
 	}
-	
+
 	public int getHealthScaled(int i) {
 		return breedingProgressPercent * i / 100;
 	}
-	
+
 	public void setBreedingProgressPercent(int breedingProgressPercent) {
 		this.breedingProgressPercent = breedingProgressPercent;
 	}
-	
+
 	@Override
 	public World getWorldObj() {
 		if(worldObj == null){
@@ -133,7 +133,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 			beeModifiers.add(beeModifier);
 
 			IModulePage page = state.getPage(FrameHousingPage.class);
-			
+
 			for (IHiveFrame frame : getFrames(page.getInventory())) {
 				beeModifiers.add(frame.getBeeModifier());
 			}
@@ -142,7 +142,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 		}
 		return Collections.singleton(beeModifier);
 	}
-	
+
 	public Collection<IHiveFrame> getFrames(IModuleInventory inventory) {
 		Collection<IHiveFrame> hiveFrames = new ArrayList<>(3);
 
@@ -180,7 +180,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	public IModuleState getModuleState() {
 		return state;
 	}
-	
+
 	@Override
 	public int getBlockLightValue() {
 		return worldObj.getLightFromNeighbors(getCoordinates().up());
@@ -206,12 +206,12 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	public String getUID() {
 		return "BeeHouse";
 	}
-	
+
 	@Override
 	public NBTTagCompound serializeNBT() {
 		return beeLogic.writeToNBT(new NBTTagCompound());
 	}
-	
+
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		beeLogic.readFromNBT(nbt);
@@ -219,7 +219,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
-		
+
 	}
 
 }

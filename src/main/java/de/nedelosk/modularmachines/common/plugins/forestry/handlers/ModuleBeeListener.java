@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ModuleBeeListener extends DefaultBeeListener {
-	
+
 	private final IBeeHousing beeHousing;
 	private final IBeeHousingInventory beeHousingInventory;
 	private final IModuleInventory frameHousingInventory;
@@ -48,5 +48,5 @@ public class ModuleBeeListener extends DefaultBeeListener {
 			frameHousingInventory.setStackInSlot(i, usedFrame);
 		}
 	}
-	
+
 }

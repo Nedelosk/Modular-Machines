@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
-import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;

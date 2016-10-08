@@ -33,12 +33,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModuleBeeHouse extends StorageModule implements ITickable {
 
 	public final boolean isApiary;
-	
+
 	public ModuleBeeHouse(String name, boolean isApiary) {
 		super(name);
 		this.isApiary = isApiary;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
@@ -54,7 +54,7 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()));
 		return locations;
 	}
-	
+
 	@Override
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
@@ -62,7 +62,7 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 		handlers.add(new BeeHouseHandler(state, new ModuleInventoryBeeHousing(page.getInventory())));
 		return handlers;
 	}
-	
+
 	@Override
 	public void onModularAssembled(IModuleState state) {
 		BeeHouseHandler housing = state.getContentHandler(BeeHouseHandler.class);
@@ -73,7 +73,7 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 			housing.init(new BeehouseBeeModifier(), new DefaultBeeListener());
 		}
 	}
-	
+
 	@Override
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
