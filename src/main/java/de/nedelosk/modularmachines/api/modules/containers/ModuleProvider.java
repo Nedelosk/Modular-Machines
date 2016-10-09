@@ -1,7 +1,7 @@
 package de.nedelosk.modularmachines.api.modules.containers;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -19,15 +19,10 @@ public class ModuleProvider implements IModuleProvider {
 	private final List<IModuleState> moduleStates;
 
 	public ModuleProvider(IModuleItemContainer itemContainer, IModular modular, ItemStack itemStack) {
-		this(itemContainer, modular, itemStack, new ArrayList<>());
-	}
-
-	public ModuleProvider(IModuleItemContainer itemContainer, IModular modular, ItemStack itemStack, Collection<IModuleState> moduleStates) {
 		this.itemContainer = itemContainer;
 		this.modular = modular;
 		this.itemStack = itemStack;
 		this.moduleStates = new ArrayList<>();
-		this.moduleStates.addAll(moduleStates);
 	}
 
 	@Override
@@ -36,8 +31,21 @@ public class ModuleProvider implements IModuleProvider {
 	}
 
 	@Override
+	public void addModuleState(IModuleState moduleState) {
+		if(moduleState.getProvider() != this){
+			moduleState.setProvider(this);
+		}
+		moduleStates.add(moduleState);
+	}
+
+	@Override
 	public List<IModuleState> getModuleStates() {
 		return moduleStates;
+	}
+
+	@Override
+	public Iterator<IModuleState> iterator() {
+		return moduleStates.iterator();
 	}
 
 	@Override

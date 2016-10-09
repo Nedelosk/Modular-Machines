@@ -65,4 +65,9 @@ public enum EnumStoragePositions implements IStoragePosition{
 		}
 		return 1;
 	}
+
+	@Override
+	public String toString() {
+		return getLocName();
+	}
 }

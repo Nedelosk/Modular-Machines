@@ -3,9 +3,9 @@ package de.nedelosk.modularmachines.common.modules.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.modules.ModulePage;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
-import de.nedelosk.modularmachines.api.modules.handlers.ModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetController;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetRedstoneMode;

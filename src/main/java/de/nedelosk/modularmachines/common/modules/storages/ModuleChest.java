@@ -6,9 +6,9 @@ import java.util.Map;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.models.ModelHandlerDefault;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;

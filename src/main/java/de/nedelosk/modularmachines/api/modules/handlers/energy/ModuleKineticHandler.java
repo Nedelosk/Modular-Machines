@@ -1,41 +1,27 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.energy.IKineticSource;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleKineticHandler implements IKineticSource, IModuleContentHandler, INBTSerializable<NBTTagCompound> {
+public class ModuleKineticHandler extends BlankModuleContentHandler implements IKineticSource, INBTSerializable<NBTTagCompound> {
 
 	protected double kineticEnergy;
-	protected double capacity;
-	protected double maxExtract;
-	protected double maxReceive;
-	protected IModuleState state;
+	protected final double capacity;
+	protected final double maxExtract;
+	protected final double maxReceive;
 
-	public ModuleKineticHandler(IModuleState state, double capacity, double maxTransfer) {
-		this(state, capacity, maxTransfer, maxTransfer);
+	public ModuleKineticHandler(IModuleState moduleState, double capacity, double maxTransfer) {
+		this(moduleState, capacity, maxTransfer, maxTransfer);
 	}
 
-	public ModuleKineticHandler(IModuleState state, double capacity, double maxReceive, double maxExtract) {
-		this.state = state;
+	public ModuleKineticHandler(IModuleState moduleState, double capacity, double maxReceive, double maxExtract) {
+		super(moduleState, "KineticHandler");
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
-	}
-
-	@Override
-	public IModuleState getModuleState() {
-		return state;
-	}
-
-	@Override
-	public String getUID() {
-		return "KineticHandler";
 	}
 
 	@Override
@@ -100,9 +86,5 @@ public class ModuleKineticHandler implements IKineticSource, IModuleContentHandl
 	@Override
 	public double getStored() {
 		return kineticEnergy;
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,7 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemProvider;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
@@ -107,16 +106,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 		if(this instanceof IModulePositioned){
 			if(showPosition(container)){
 				IModulePositioned module = (IModulePositioned) this;
-				IModulePostion[] positions = module.getValidPositions(container);
-				StringBuilder builder = new StringBuilder();
-				for(int i = 0;i < positions.length;i++){
-					IModulePostion pos = positions[i];
-					if(pos != null){
-						builder.append(pos.getLocName() + ((i - 1 < positions.length) ? ", " : ""));
-					}
-				}
-
-				tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + builder.toString());
+				tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + Arrays.toString(module.getValidPositions(container)).replace("[", "").replace("]", ""));
 			}
 		}
 		List<String> providerTip = new ArrayList<>();
@@ -132,13 +122,10 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container){
 		IModuleItemProvider itemProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(itemProvider != null && itemProvider.hasStates()){
-			for(IModuleState state : itemProvider.createStates(null)){
-				for(IModuleContentHandler handler : state.getContentHandlers()){
-					handler.addToolTip(tooltip, stack, state);
-				}
-				for(IModulePage page : (List<IModulePage>) state.getPages()){
-					for(IModuleContentHandler handler : page.getContentHandlers()){
+		if(itemProvider != null && !itemProvider.isEmpty()){
+			for(IModuleState state : itemProvider){
+				if(state.getModule().equals(this)){
+					for(IModuleContentHandler handler : state.getAllContentHandlers()){
 						handler.addToolTip(tooltip, stack, state);
 					}
 				}
@@ -148,20 +135,9 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@Override
 	public boolean isClean(IModuleState state) {
-		for(IModuleContentHandler handler : state.getContentHandlers()){
-			if(handler instanceof ICleanableModuleContentHandler){
-				if(!((ICleanableModuleContentHandler) handler).isEmpty()){
-					return false;
-				}
-			}
-		}
-		for(IModulePage page : (List<IModulePage>) state.getPages()){
-			for(IModuleContentHandler handler : page.getContentHandlers()){
-				if(handler instanceof ICleanableModuleContentHandler){
-					if(!((ICleanableModuleContentHandler) handler).isEmpty()){
-						return false;
-					}
-				}
+		for(IModuleContentHandler handler : state.getAllContentHandlers()){
+			if(handler.isCleanable() && !handler.isEmpty()){
+				return false;
 			}
 		}
 		return true;
@@ -186,10 +162,6 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public String getDescription(IModuleContainer container) {
 		return "module." + name + ".description";
-	}
-
-	@Override
-	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
 	}
 
 	@Override
@@ -220,6 +192,10 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
 		return state;
+	}
+
+	@Override
+	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
 	}
 
 	@Override

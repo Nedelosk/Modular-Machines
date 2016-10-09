@@ -14,13 +14,13 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.EnumWallType;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.FluidTankAdvanced;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
@@ -126,8 +126,8 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 						}
 
 						waterCost = Math.min(waterCost, water.amount);
-						FluidStack steam = new FluidStack(FluidManager.Steam, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost);
-						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.Steam, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
+						FluidStack steam = new FluidStack(FluidManager.STEAM, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost);
+						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.STEAM, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
 
 						if(steam.amount > 0){
 							tankWater.drainInternal(waterCost * 15, true);

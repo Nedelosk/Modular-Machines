@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.api.modules;
 
+import javax.annotation.Nonnull;
+
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.recipes.IRecipe;
 import de.nedelosk.modularmachines.api.recipes.RecipeItem;
@@ -19,6 +21,6 @@ public interface IModuleRecipe extends IModule {
 	/**
 	 * @return True if the stack is a input, of a recipe, at the matching position.
 	 */
-	boolean isRecipeInput(IModuleState state, RecipeItem item);
+	boolean isRecipeInput(IModuleState state, @Nonnull RecipeItem item);
 
 }

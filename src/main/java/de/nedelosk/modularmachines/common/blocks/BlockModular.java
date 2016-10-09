@@ -13,7 +13,6 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
@@ -138,17 +137,6 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileModular) {
 			IModularHandlerTileEntity modularHandler = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(!world.isRemote){
-				if(modularHandler.getModular() != null && modularHandler.isAssembled()){
-					if(player.isSneaking() && heldItem != null){
-						IBlockState blockState = world.getBlockState(pos);
-						if(heldItem.getItem().getHarvestLevel(heldItem, "wrench", player, blockState) >= 0){
-							modularHandler.getModular().disassemble(player);
-							return true;
-						}
-					}
-				}
-			}
 			if (modularHandler.getModular() == null && modularHandler.getAssembler() == null || modularHandler.createContainer(player.inventory) == null) {
 				return false;
 			}
@@ -196,18 +184,9 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 							ItemStack itemStack = provider.getItemStack().copy();
 							for(IModuleState moduleState : provider.getModuleStates()) {
 								if (moduleState != null) {
-									for(IModuleContentHandler handler : moduleState.getContentHandlers()){
+									for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
 										if(handler instanceof IAdvancedModuleContentHandler){
 											drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
-										}
-									}
-									for(IModulePage page : (List<IModulePage>)moduleState.getPages()){
-										if(page != null){
-											for(IModuleContentHandler handler : page.getContentHandlers()){
-												if(handler instanceof IAdvancedModuleContentHandler){
-													drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
-												}
-											}
 										}
 									}
 									moduleState.getModule().saveDataToItem(itemStack, moduleState);

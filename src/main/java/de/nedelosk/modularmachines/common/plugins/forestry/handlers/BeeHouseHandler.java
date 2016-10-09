@@ -10,8 +10,8 @@ import javax.annotation.Nonnull;
 import com.mojang.authlib.GameProfile;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.plugins.forestry.ModuleBeeHouse;
@@ -39,8 +39,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, IClimatised, INBTSerializable<NBTTagCompound> {
-	protected final IModuleState<ModuleBeeHouse> state;
+public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> implements IBeeHousing, IClimatised, INBTSerializable<NBTTagCompound> {
 	@Nonnull
 	protected final IBeeHousingInventory inventory;
 	@Nonnull
@@ -54,12 +53,12 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	protected Biome cachedBiome;
 	protected int breedingProgressPercent;
 
-	public BeeHouseHandler(@Nonnull IModuleState<ModuleBeeHouse> state, @Nonnull IBeeHousingInventory inventory) {
-		this.state = state;
+	public BeeHouseHandler(@Nonnull IModuleState<ModuleBeeHouse> moduleState, @Nonnull IBeeHousingInventory inventory) {
+		super(moduleState, "BeeHouse");
 		this.inventory = inventory;
 		this.beeModifier = new DefaultBeeModifier();
 		this.beeListener = new DefaultBeeListener();
-		this.worldObj = state.getModular().getHandler().getWorld();
+		this.worldObj = moduleState.getModular().getHandler().getWorld();
 		this.beeLogic = new ModuleBeekeepingLogic(this);
 	}
 
@@ -70,8 +69,8 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 
 	@Override
 	public BlockPos getCoordinates() {
-		if(state.getModular().getHandler() instanceof IModularHandlerTileEntity){
-			return ((IModularHandlerTileEntity)state.getModular().getHandler()).getPos();
+		if(moduleState.getModular().getHandler() instanceof IModularHandlerTileEntity){
+			return ((IModularHandlerTileEntity)moduleState.getModular().getHandler()).getPos();
 		}
 		return null;
 	}
@@ -120,19 +119,19 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	@Override
 	public World getWorldObj() {
 		if(worldObj == null){
-			worldObj = state.getModular().getHandler().getWorld();
+			worldObj = moduleState.getModular().getHandler().getWorld();
 		}
 		return worldObj;
 	}
 
 	@Override
 	public Iterable<IBeeModifier> getBeeModifiers() {
-		if(state.getModule().isApiary){
+		if(moduleState.getModule().isApiary){
 			List<IBeeModifier> beeModifiers = new ArrayList<>();
 
 			beeModifiers.add(beeModifier);
 
-			IModulePage page = state.getPage(FrameHousingPage.class);
+			IModulePage page = moduleState.getPage(FrameHousingPage.class);
 
 			for (IHiveFrame frame : getFrames(page.getInventory())) {
 				beeModifiers.add(frame.getBeeModifier());
@@ -178,7 +177,7 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 
 	@Override
 	public IModuleState getModuleState() {
-		return state;
+		return moduleState;
 	}
 
 	@Override
@@ -193,18 +192,13 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 
 	@Override
 	public GameProfile getOwner() {
-		return state.getModular().getHandler().getOwner();
+		return moduleState.getModular().getHandler().getOwner();
 	}
 
 	@Override
 	public Vec3d getBeeFXCoordinates() {
 		BlockPos pos = getCoordinates();
 		return new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-	}
-
-	@Override
-	public String getUID() {
-		return "BeeHouse";
 	}
 
 	@Override
@@ -215,11 +209,6 @@ public class BeeHouseHandler implements IModuleContentHandler, IBeeHousing, ICli
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		beeLogic.readFromNBT(nbt);
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
-
 	}
 
 }

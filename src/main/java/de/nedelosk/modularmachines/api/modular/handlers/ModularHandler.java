@@ -28,12 +28,10 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 	protected IModularAssembler assembler;
 	protected World world;
 	protected GameProfile owner;
-	protected boolean isAssembled;
 
 	public ModularHandler(World world, List<IStoragePosition> positions) {
 		this.world = world;
 		this.positions = positions;
-		this.isAssembled = false;
 	}
 
 	@Override
@@ -50,7 +48,6 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 			NBTUtil.writeGameProfile(nbtTag, owner);
 			nbt.setTag("owner", nbtTag);
 		}
-		nbt.setBoolean("isAssembled", isAssembled);
 		return nbt;
 	}
 
@@ -65,7 +62,6 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 		if (nbt.hasKey("owner")) {
 			owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("owner"));
 		}
-		isAssembled = nbt.getBoolean("isAssembled");
 	}
 
 	@Override
@@ -134,12 +130,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public boolean isAssembled() {
-		return isAssembled;
-	}
-
-	@Override
-	public void setAssembled(boolean isAssembled) {
-		this.isAssembled = isAssembled;
+		return modular != null;
 	}
 
 	@Override

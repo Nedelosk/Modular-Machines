@@ -12,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.Storage;
@@ -64,7 +63,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 			if(nbtCompound.hasKey("Item")){
 				itemStack = ItemStack.loadItemStackFromNBT(nbtCompound.getCompoundTag("Item"));
 			}
-			IModuleProvider provider = new ModuleProvider(itemContainer, getModular(), itemStack);
+			IModuleProvider provider = itemContainer.createModuleProvider(itemContainer, getModular(), itemStack);
 			provider.deserializeNBT(nbtCompound);
 			providers.add(provider);
 		}

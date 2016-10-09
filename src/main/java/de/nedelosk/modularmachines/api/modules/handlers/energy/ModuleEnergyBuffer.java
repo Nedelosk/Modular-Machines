@@ -1,34 +1,30 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler, INBTSerializable<NBTTagCompound>{
+public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEnergyBuffer, INBTSerializable<NBTTagCompound>{
 
-	protected final IModuleState state;
 	protected final long capacity;
 	protected final long maxReceive;
 	protected final long maxExtract;
 	protected final int tier;
 	protected long energy;
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity, int tier) {
-		this(state, capacity, capacity, capacity, tier);
+	public ModuleEnergyBuffer(IModuleState moduleState, int capacity, int tier) {
+		this(moduleState, capacity, capacity, capacity, tier);
 	}
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxTransfer, int tier) {
-		this(state, capacity, maxTransfer, maxTransfer, tier);
+	public ModuleEnergyBuffer(IModuleState moduleState, int capacity, int maxTransfer, int tier) {
+		this(moduleState, capacity, maxTransfer, maxTransfer, tier);
 	}
 
-	public ModuleEnergyBuffer(IModuleState state, int capacity, int maxReceive, int maxExtract, int tier) {
-		this.state = state;
+	public ModuleEnergyBuffer(IModuleState moduleState, int capacity, int maxReceive, int maxExtract, int tier) {
+		super(moduleState, "EnergyBuffer");
 		this.tier = tier;
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
@@ -98,20 +94,6 @@ public class ModuleEnergyBuffer implements IEnergyBuffer, IModuleContentHandler,
 		if (energy > capacity) {
 			energy = capacity;
 		}
-	}
-
-	@Override
-	public IModuleState getModuleState() {
-		return state;
-	}
-
-	@Override
-	public String getUID() {
-		return "EnergyBuffer";
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 
 	@Override

@@ -96,13 +96,10 @@ public class ItemBlockModular extends ItemBlock {
 				tileHandler.setFacing(getFacingForHeading(heading));
 
 				if(itemHandler.isAssembled() && itemHandler.getModular() != null){
-					tileHandler.setAssembled(true);
 					tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
 				}else if(!itemHandler.isAssembled() && itemHandler.getAssembler() != null){
-					tileHandler.setAssembled(false);
 					tileHandler.setAssembler(itemHandler.getAssembler().copy(tileHandler));
 				}else{
-					tileHandler.setAssembled(false);
 					tileHandler.setAssembler(new ModularAssembler(tileHandler));
 				}
 			}

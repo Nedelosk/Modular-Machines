@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.handlers.inventory.slots;
 
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.SlotInfo;
 import net.minecraft.client.Minecraft;

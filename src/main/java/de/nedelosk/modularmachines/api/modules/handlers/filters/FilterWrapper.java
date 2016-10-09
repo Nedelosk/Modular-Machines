@@ -12,7 +12,6 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M> {
 
 	private final Map<Integer, List<IContentFilter<C, M>>> slotFilters;
-
 	private final boolean isInput;
 
 	public FilterWrapper(boolean isInput) {

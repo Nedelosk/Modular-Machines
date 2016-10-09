@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.state;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,11 +9,11 @@ import com.google.common.collect.Maps;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
@@ -35,7 +36,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	protected final IModuleContainer<M, IModuleProperties> container;
 	protected final List<IModuleContentHandler> contentHandlers;
 	protected final List<IModulePage> pages;
-	protected final IModuleProvider provider;
+	protected IModuleProvider provider;
 
 	public ModuleState(IModuleProvider provider, IModuleContainer container) {
 		this.registeredProperties = Maps.newHashMap();
@@ -117,6 +118,16 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
+	public List<IModuleContentHandler> getAllContentHandlers() {
+		List<IModuleContentHandler> contentHandlers = new ArrayList<>();
+		contentHandlers.addAll(getContentHandlers());
+		for(IModulePage page : pages){
+			contentHandlers.addAll(page.getContentHandlers());
+		}
+		return contentHandlers;
+	}
+
+	@Override
 	public Map<IProperty, Object> getProperties() {
 		return properties;
 	}
@@ -181,12 +192,20 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
+	public void setProvider(IModuleProvider provider) {
+		this.provider = provider;
+	}
+
+	@Override
 	public IModuleProvider getProvider() {
 		return provider;
 	}
 
 	@Override
 	public IModular getModular() {
+		if(provider == null){
+			return null;
+		}
 		return provider.getModular();
 	}
 

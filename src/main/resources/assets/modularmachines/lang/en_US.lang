@@ -4,7 +4,8 @@ module.storage.left.name=Left Storage
 module.storage.right.name=Right Storge
 module.storage.side.name=Side Storge
 module.storage.casing.name=Casing Storge
-modular.assembler.assemble=Modular Assembling Machine
+modular.assembler.assemble=Assembling Modular Machine
+modular.modular.disassemble=Disassembling Modular Machine
 
 modular.assembler.complexity=Module Complexity
 modular.assembler.complexity.position=Position Complexity
@@ -56,6 +57,7 @@ module.casing.name=Casing
 module.cleaner.name=Module Cleaner
 module.furnace.name=Furnace
 module.chest.name=Chest
+module.moduleStorage.name=Module Storage
 
 #EnderIO
 module.capacitorbank.name=Capacitor Bank
@@ -174,6 +176,7 @@ modularmachines.item.casing.iron.name=Iron Casing
 modularmachines.item.casing.steel.name=Steel Casing
 modularmachines.item.casing.magmarium.name=Magmarium Casing
 modularmachines.item.wrench.name=Wrench
+modularmachines.item.module_container.name=Module Container
 modularmachines.tool.file.iron.name=Iron File
 modularmachines.tool.file.diamond.name=Diamond File
 modularmachines.tool.hammer.name=Iron Hammer
@@ -228,7 +231,9 @@ mm.module.tooltip.storage.position=Storage Position:
 mm.module.tooltip.tier=Power Tier: 
 mm.tooltip.modular.info=This modular machine contains the following modules: 
 mm.tooltip.moduleInfo=Module Info
-mm.tooltip.hold.moduleInfo=<Hold M For Module Info>
+mm.tooltip.moduleContainer=This item is a module container. It contains the data of one or more modules. If you want to get original item back, simple sneak and right click.
+mm.tooltip.moduleContainer.warning=WARNING This action delete all module data that the item contains and give or drop all items that the modules of the item contains !!!
+mm.tooltip.hold.moduleInfo=<Hold %s For Module Info>
 mm.tooltip.holdshift=<Hold Shift>
 mm.tooltip.handler.tanks=Tanks: 
 mm.tooltip.handler.tank=Tank

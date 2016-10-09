@@ -5,9 +5,9 @@ import java.util.List;
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModuleBurning;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleWorking;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
@@ -43,5 +43,5 @@ public interface IGuiHelper {
 	/* ASSEMBLER */
 	Widget<IModularAssembler> createAssemblerTab(int xPosition, int yPosition, IModularAssembler provider, IStoragePosition position, boolean right);
 
-	Widget<ItemStack> createAssembleTab(int xPosition, int yPosition);
+	Widget<ItemStack> createAssembleTab(int xPosition, int yPosition, boolean isRight);
 }

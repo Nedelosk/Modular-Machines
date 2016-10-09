@@ -43,10 +43,8 @@ public class ModularManager {
 		IModularHandlerItem<NBTTagCompound> itemHandler = (IModularHandlerItem<NBTTagCompound>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
 		modularItem = modularItem.copy();
 		if(modularHandler.isAssembled() && modularHandler.getModular() != null){
-			itemHandler.setAssembled(true);
 			itemHandler.setModular(modularHandler.getModular().copy(itemHandler));
 		}else if(!modularHandler.isAssembled() && modularHandler.getAssembler() != null){
-			itemHandler.setAssembled(false);
 			itemHandler.setAssembler(modularHandler.getAssembler().copy(itemHandler));
 		}
 		itemHandler.setWorld(player.getEntityWorld());

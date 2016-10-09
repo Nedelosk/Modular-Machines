@@ -7,11 +7,11 @@ import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.IMultiModuleContentHandlerProvider;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleHandler;
 import de.nedelosk.modularmachines.api.property.IProperty;
 import de.nedelosk.modularmachines.api.property.IPropertyProvider;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public interface IModuleState<M extends IModule> extends IPropertyProvider, ICapabilityProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder, IModuleContentProvider {
+public interface IModuleState<M extends IModule> extends IPropertyProvider, ICapabilityProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder, IMultiModuleContentHandlerProvider {
 
 	@Override
 	@Nonnull
@@ -67,6 +67,8 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	@Nonnull
 	IModuleContainer getContainer();
+
+	void setProvider(@Nullable IModuleProvider provider);
 
 	@Nullable
 	IModuleProvider getProvider();

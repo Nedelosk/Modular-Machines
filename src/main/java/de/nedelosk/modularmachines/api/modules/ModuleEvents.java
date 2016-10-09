@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.modules;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

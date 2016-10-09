@@ -41,8 +41,6 @@ public interface IModularHandler<N extends NBTBase> extends IGuiHandler, ICapabi
 
 	void setOwner(GameProfile owner);
 
-	void setAssembled(boolean isAssembled);
-
 	boolean isAssembled();
 
 	@Nonnull

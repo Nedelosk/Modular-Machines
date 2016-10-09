@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.common.plugins.forestry.pages;
 
-import de.nedelosk.modularmachines.api.modules.handlers.ModulePage;
+import de.nedelosk.modularmachines.api.modules.ModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.Constants;

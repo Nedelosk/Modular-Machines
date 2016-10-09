@@ -9,14 +9,13 @@ import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModuleModuleCleaner;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemProvider;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
-import de.nedelosk.modularmachines.api.modules.handlers.ICleanableModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
@@ -70,29 +69,20 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 		if(stack != null){
 			IModuleItemProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 			if(provider != null){
-				List<IModuleState> modules = provider.createStates(null);
-				Iterator<IModuleState> states = modules.iterator();
-				while(states.hasNext()){
-					IModuleState moduleState = states.next();
+				Iterator<IModuleState> moduleStates = provider.iterator();
+				while(moduleStates.hasNext()){
+					IModuleState moduleState = moduleStates.next();
 					if(moduleState != null){
-						for(IModuleContentHandler handler : moduleState.getContentHandlers()){
-							if(handler instanceof ICleanableModuleContentHandler){
-								((ICleanableModuleContentHandler)handler).cleanHandler(state);
-							}
-						}
-						for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
-							for(IModuleContentHandler handler : page.getContentHandlers()){
-								if(handler instanceof ICleanableModuleContentHandler){
-									((ICleanableModuleContentHandler)handler).cleanHandler(state);
-								}
+						for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
+							if(handler.isCleanable()){
+								handler.cleanHandler(state);
 							}
 						}
 					}
 					if(moduleState.getModule().isClean(moduleState)){
-						states.remove();
+						moduleStates.remove();
 					}
 				}
-				provider.setStates(modules);
 			}
 		}
 	}
@@ -114,19 +104,11 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	public List<IModuleState> getUsedModules(IModuleState state) {
 		List<IModuleState> modules = new ArrayList<>();
 		IModular modular = state.getModular();
-		MODULES: for(IModuleState moduleState : modular.getModules()){
-			for(IModuleContentHandler handler : moduleState.getContentHandlers()){
-				if(handler instanceof ICleanableModuleContentHandler){
+		for(IModuleState moduleState : modular.getModules()){
+			for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
+				if(handler != null && handler.isCleanable()){
 					modules.add(moduleState);
-					continue MODULES;
-				}
-			}
-			for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
-				for(IModuleContentHandler handler : page.getContentHandlers()){
-					if(handler instanceof ICleanableModuleContentHandler){
-						modules.add(moduleState);
-						continue MODULES;
-					}
+					break;
 				}
 			}
 		}

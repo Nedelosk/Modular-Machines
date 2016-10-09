@@ -8,7 +8,8 @@ import java.util.Map.Entry;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -27,19 +28,18 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
+public class ModuleInventory<M extends IModule> extends BlankModuleContentHandler<M> implements IModuleInventory<M> {
 
 	protected ItemStack[] stacks;
 	protected final EnumMap<EnumFacing, boolean[]> configurations = new EnumMap(EnumFacing.class);
 	protected final SlotInfo[] contentInfos;
-	protected final IModuleState<M> state;
 	protected final FilterWrapper insertFilter;
 	protected final FilterWrapper extractFilter;
 
-	public ModuleInventory(SlotInfo[] contentInfos, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleInventory(SlotInfo[] contentInfos, IModuleState<M> moduleState, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+		super(moduleState, "Items");
 		this.stacks = new ItemStack[contentInfos.length];
 		this.contentInfos = contentInfos;
-		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 		for(EnumFacing facing : EnumFacing.values()){
@@ -336,11 +336,6 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public String getUID() {
-		return "Items";
-	}
-
-	@Override
 	public void deserializeNBT(NBTTagCompound nbt){
 		setSize(nbt.hasKey("Size", Constants.NBT.TAG_INT) ? nbt.getInteger("Size") : stacks.length);
 		NBTTagList tagList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
@@ -367,7 +362,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 	}
 
 	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys"));
 		for(int i = 0;i < getSlots();i++){
 			ItemStack itemStack = getStackInSlot(i);
@@ -395,12 +390,12 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack) {
-		return insertFilter.isValid(index, stack, state);
+		return insertFilter.isValid(index, stack, moduleState);
 	}
 
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack) {
-		return extractFilter.isValid(index, stack, state);
+		return extractFilter.isValid(index, stack, moduleState);
 	}
 
 	@Override
@@ -603,7 +598,7 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 
 	@Override
 	public IModuleState<M> getModuleState() {
-		return state;
+		return moduleState;
 	}
 
 	@Override
@@ -666,6 +661,11 @@ public class ModuleInventory<M extends IModule> implements IModuleInventory<M> {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isCleanable() {
+		return true;
 	}
 
 	@Override

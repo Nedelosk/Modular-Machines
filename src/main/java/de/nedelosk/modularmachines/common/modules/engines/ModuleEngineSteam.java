@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.common.modules.engines;
 
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -23,9 +23,9 @@ public class ModuleEngineSteam extends ModuleEngine {
 		if(tank == null){
 			return false;
 		}
-		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), false);
+		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.STEAM, getMaterialPerWork(state)), false);
 		if (drained != null && drained.amount >= getMaterialPerWork(state)) {
-			return tank.drainInternal(new FluidStack(FluidManager.Steam, getMaterialPerWork(state)), true).amount >= getMaterialPerWork(state);
+			return tank.drainInternal(new FluidStack(FluidManager.STEAM, getMaterialPerWork(state)), true).amount >= getMaterialPerWork(state);
 		} else {
 			return false;
 		}

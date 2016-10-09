@@ -7,9 +7,9 @@ import de.nedelosk.modularmachines.api.gui.IGuiHelper;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModuleBurning;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleWorking;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
@@ -89,7 +89,7 @@ public class GuiHelper implements IGuiHelper {
 	}
 
 	@Override
-	public Widget<ItemStack> createAssembleTab(int xPosition, int yPosition) {
-		return new WidgetAssembleTab(xPosition, yPosition);
+	public Widget<ItemStack> createAssembleTab(int xPosition, int yPosition, boolean isRight) {
+		return new WidgetAssembleTab(xPosition, yPosition, isRight);
 	}
 }

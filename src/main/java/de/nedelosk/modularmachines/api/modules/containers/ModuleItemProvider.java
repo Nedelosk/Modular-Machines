@@ -2,73 +2,58 @@ package de.nedelosk.modularmachines.api.modules.containers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class ModuleItemProvider implements IModuleItemProvider{
+public class ModuleItemProvider implements IModuleItemProvider {
 
-	protected NBTTagCompound stateTag;
+	protected final List<IModuleState> moduleStates;
+	protected ItemStack itemStack;
+	protected IModuleItemContainer container;
+
+	public ModuleItemProvider() {
+		this.moduleStates = new ArrayList<>();
+	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
-		NBTTagCompound tag = new NBTTagCompound();
-		if(stateTag != null){
-			tag.setTag("State", stateTag.copy());
+		NBTTagCompound nbtCompound = new NBTTagCompound();
+		if(itemStack != null){
+			nbtCompound.setTag("ItemStack", itemStack.serializeNBT());
 		}
-		return tag;
+		NBTTagList moduleList = new NBTTagList();
+		for(IModuleState moduleState : moduleStates){
+			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(moduleState);
+			if(compoundTag != null){
+				moduleList.appendTag(compoundTag);
+			}
+		}
+		nbtCompound.setTag("Modules", moduleList);
+		return nbtCompound;
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
-		if(nbt.hasKey("State", 10)){
-			stateTag = nbt.getCompoundTag("State");
-		}else{
-			stateTag = null;
+	public void deserializeNBT(NBTTagCompound nbtCompound) {
+		if(nbtCompound.hasKey("ItemStack")){
+			setItemStack(ItemStack.loadItemStackFromNBT(nbtCompound.getCompoundTag("ItemStack")));
 		}
-	}
-
-	@Override
-	public List<IModuleState> createStates(IModuleProvider provider) {
-		if(stateTag == null || stateTag.hasNoTags() || !stateTag.hasKey("Container")){
-			return Collections.emptyList();
-		}
-		List<IModuleState> moduleStates = new ArrayList<>();
-		IModuleItemContainer container = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(stateTag.getString("Container")));
-		NBTTagList moduleList = stateTag.getTagList("Modules", 10);
+		NBTTagList moduleList = nbtCompound.getTagList("Modules", 10);
 		for(int i = 0; i < moduleList.tagCount(); i++) {
 			NBTTagCompound compoundTag = moduleList.getCompoundTagAt(i);
 			if(compoundTag != null){
-				IModuleState moduleState = ModuleManager.loadStateFromNBT(provider, container, compoundTag);
+				IModuleState moduleState = ModuleManager.loadStateFromNBT(null, container, compoundTag);
 				if(moduleState != null){
 					moduleStates.add(moduleState);
 				}
 			}
-		}
-		return moduleStates;
-	}
-
-	@Override
-	public void setStates(List<IModuleState> states) {
-		if(states == null || states.isEmpty()){
-			stateTag = null;
-		}else{
-			stateTag = new NBTTagCompound();
-			NBTTagList moduleList = new NBTTagList();
-			for(IModuleState moduleState : states){
-				NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(moduleState);
-				if(compoundTag != null){
-					moduleList.appendTag(compoundTag);
-				}
-			}
-			stateTag.setString("Container", states.get(0).getProvider().getContainer().getRegistryName().toString());
-			stateTag.setTag("Modules", moduleList);
 		}
 	}
 
@@ -86,15 +71,45 @@ public class ModuleItemProvider implements IModuleItemProvider{
 	}
 
 	@Override
-	public boolean hasStates() {
-		return stateTag != null;
+	public Iterator<IModuleState> iterator() {
+		return moduleStates.iterator();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return moduleStates.isEmpty();
 	}
 
 	@Override
 	public IModuleItemContainer getContainer() {
-		if(stateTag == null || stateTag.hasNoTags() || !stateTag.hasKey("Container")){
-			return null;
+		return container;
+	}
+
+	@Override
+	public ItemStack getItemStack() {
+		return itemStack;
+	}
+
+	@Override
+	public void setItemStack(ItemStack itemStack) {
+		this.itemStack = itemStack;
+		if(itemStack != null){
+			container = ModuleManager.getContainerFromItem(itemStack);
 		}
-		return ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(stateTag.getString("Container")));
+	}
+
+	@Override
+	public List<IModuleState> getModuleStates() {
+		return Collections.unmodifiableList(moduleStates);
+	}
+
+	@Override
+	public boolean addModuleState(IModuleState moduleState) {
+		return moduleStates.add(moduleState);
+	}
+
+	@Override
+	public boolean removeModuleState(IModuleState moduleState) {
+		return moduleStates.remove(moduleState);
 	}
 }

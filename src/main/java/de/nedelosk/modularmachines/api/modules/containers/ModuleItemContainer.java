@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.nedelosk.modularmachines.api.ItemUtil;
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import net.minecraft.item.ItemStack;
@@ -60,10 +61,6 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 			stack = ModuleManager.createDefaultStack(this);
 		}
 		this.stack = stack;
-
-		if(getRegistryName() == null){
-			setRegistryName(modID + ":" + material.getName() + "." + size.getName() + "." + stack.getItem().getRegistryName().getResourcePath() + "." + stack.getItemDamage() + (stack.hasTagCompound() ? "." + stack.getTagCompound().toString() : ""));
-		}
 	}
 
 	@Override
@@ -114,6 +111,16 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 			}
 			container.addTooltip(tooltip, stack);
 		}
+	}
+
+	@Override
+	public IModuleProvider createModuleProvider(IModuleItemContainer itemContainer, IModular modular, ItemStack itemStack) {
+		return new ModuleProvider(itemContainer, modular, itemStack);
+	}
+
+	@Override
+	public ItemStack createModuleItemContainer() {
+		return new ItemStack(ModuleManager.defaultModuleItemContainer);
 	}
 
 	@Override

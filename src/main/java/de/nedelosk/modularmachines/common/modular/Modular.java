@@ -19,6 +19,7 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.ITickable;
 import de.nedelosk.modularmachines.api.modules.ModuleEvents;
@@ -26,10 +27,8 @@ import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentProvider;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandlerProvider;
 import de.nedelosk.modularmachines.api.modules.handlers.block.BlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -216,7 +215,7 @@ public class Modular implements IModular {
 				if(tagCompound.hasKey("Item")){
 					itemStack = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("Item"));
 				}
-				IModuleProvider provider = new ModuleProvider(itemContainer, this, itemStack);
+				IModuleProvider provider = itemContainer.createModuleProvider(itemContainer, this, itemStack);
 				provider.deserializeNBT(tagCompound.getCompoundTag("Provider"));
 				IStoragePosition position = (IStoragePosition) modularHandler.getStoragePositions().get(tagCompound.getInteger("Position"));
 				IModuleState<IStorageModule> moduleState = ModuleManager.getStorageState(provider, position);
@@ -385,10 +384,10 @@ public class Modular implements IModular {
 		return handlers;
 	}
 
-	private void addInventory(IModuleContentProvider provider, List<IItemHandler> handlers){
-		IModuleContentHandler inventory = provider.getContentHandler(IModuleInventory.class);
-		if(inventory instanceof IModuleInventory){
-			handlers.add((IModuleInventory) inventory);
+	private void addInventory(IModuleContentHandlerProvider provider, List<IItemHandler> handlers){
+		IModuleInventory inventory = provider.getContentHandler(IModuleInventory.class);
+		if(inventory != null){
+			handlers.add(inventory);
 		}
 	}
 
@@ -405,10 +404,10 @@ public class Modular implements IModular {
 		return fluidHandlers;
 	}
 
-	private void addTank(IModuleContentProvider provider, List<IFluidHandler> handlers){
-		IModuleContentHandler tank = provider.getContentHandler(IModuleTank.class);
-		if(tank instanceof IModuleTank){
-			handlers.add((IModuleTank) tank);
+	private void addTank(IModuleContentHandlerProvider provider, List<IFluidHandler> handlers){
+		IModuleTank tank = provider.getContentHandler(IModuleTank.class);
+		if(tank != null){
+			handlers.add(tank);
 		}
 	}
 
@@ -599,7 +598,6 @@ public class Modular implements IModular {
 	@Override
 	public void disassemble(EntityPlayer player) {
 		if(modularHandler != null){
-			modularHandler.setAssembled(false);
 			modularHandler.setAssembler(modularHandler.getModular().createAssembler());
 			modularHandler.setModular(null);
 

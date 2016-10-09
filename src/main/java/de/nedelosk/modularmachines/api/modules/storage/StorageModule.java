@@ -1,6 +1,6 @@
 package de.nedelosk.modularmachines.api.modules.storage;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -25,13 +25,7 @@ public abstract class StorageModule extends Module implements IStorageModule {
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		if(showPosition(container)){
-			List<String> positions = new ArrayList<>();
-			for(IStoragePosition position : getPositions(container)){
-				if(position !=null){
-					positions.add(position.getLocName());
-				}
-			}
-			tooltip.add(I18n.translateToLocal("mm.module.tooltip.storage.position") + positions.toString().replace("[", "").replace("]", ""));
+			tooltip.add(I18n.translateToLocal("mm.module.tooltip.storage.position") + Arrays.toString(getPositions(container)).replace("[", "").replace("]", ""));
 		}
 		super.addTooltip(tooltip, stack, container);
 	}

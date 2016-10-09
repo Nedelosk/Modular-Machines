@@ -1,8 +1,8 @@
 package de.nedelosk.modularmachines.common.modules.tools;
 
+import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.tools.IModuleModeMachine;
 import de.nedelosk.modularmachines.api.modules.tools.ModuleMachine;

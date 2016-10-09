@@ -4,11 +4,11 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IModuleContentProvider {
+public interface IModuleContentHandlerProvider {
 
 	List<IModuleContentHandler> getContentHandlers();
 
-	<H> H getContentHandler(Class<? extends H> contentClass);
+	<H> H getContentHandler(Class<? extends H> handlerClass);
 
 	NBTTagCompound serializeNBT();
 

@@ -1,33 +1,19 @@
 package de.nedelosk.modularmachines.api.modules.handlers.block;
 
-import java.util.List;
-
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 
-public class BlockModificator implements IModuleContentHandler, IBlockModificator{
+public class BlockModificator extends BlankModuleContentHandler implements IBlockModificator{
 
 	private final int maxHeat;
 	private final float resistance;
 	private final float hardness;
-	private final IModuleState state;
 
-	public BlockModificator(IModuleState state, int maxHeat, float resistance, float hardness) {
-		this.state = state;
+	public BlockModificator(IModuleState moduleState, int maxHeat, float resistance, float hardness) {
+		super(moduleState, "BlockModificator");
 		this.maxHeat = maxHeat;
 		this.resistance = resistance;
 		this.hardness = hardness;
-	}
-
-	@Override
-	public IModuleState getModuleState() {
-		return state;
-	}
-
-	@Override
-	public String getUID() {
-		return "BlockModificator";
 	}
 
 	@Override
@@ -43,9 +29,5 @@ public class BlockModificator implements IModuleContentHandler, IBlockModificato
 	@Override
 	public float getHardness() {
 		return hardness;
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

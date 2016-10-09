@@ -16,4 +16,9 @@ public enum EnumModulePositions implements IModulePostion {
 	public String getName(){
 		return name().toLowerCase(Locale.ENGLISH);
 	}
+
+	@Override
+	public String toString() {
+		return getLocName();
+	}
 }

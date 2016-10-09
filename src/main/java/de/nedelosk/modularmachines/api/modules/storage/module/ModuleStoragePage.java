@@ -207,7 +207,7 @@ public class ModuleStoragePage extends StoragePage {
 				ItemStack stack = itemHandler.getStackInSlot(index);
 				if(stack != null){
 					IModuleProvider provider = ModuleManager.loadOrCreateModuleProvider(modular, stack);
-					if(provider != null && provider.getModuleStates().isEmpty()){
+					if(provider != null && !provider.getModuleStates().isEmpty()){
 						moduleStorage.addModule(provider);
 					}
 				}

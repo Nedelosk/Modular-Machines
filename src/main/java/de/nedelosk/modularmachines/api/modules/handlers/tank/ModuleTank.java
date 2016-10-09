@@ -11,8 +11,9 @@ import com.google.common.collect.Lists;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModule;
+import de.nedelosk.modularmachines.api.modules.IModulePage;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
-import de.nedelosk.modularmachines.api.modules.handlers.IModulePage;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.FilterWrapper;
 import de.nedelosk.modularmachines.api.modules.handlers.filters.IContentFilter;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -29,19 +30,18 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-public class ModuleTank<M extends IModule> implements IModuleTank<M> {
+public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> implements IModuleTank<M> {
 
 	protected final FluidTankAdvanced[] tanks;
 	protected final ContentInfo[] contentInfos;
 	protected final EnumMap<EnumFacing, boolean[]> configurations = new EnumMap(EnumFacing.class);
-	protected final IModuleState<M> state;
 	private final FilterWrapper insertFilter;
 	private final FilterWrapper extractFilter;
 
-	public ModuleTank(FluidTankAdvanced[] tanks, ContentInfo[] contentInfos, IModuleState<M> state, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+	public ModuleTank(FluidTankAdvanced[] tanks, ContentInfo[] contentInfos, IModuleState<M> moduleState, FilterWrapper insertFilter, FilterWrapper extractFilter) {
+		super(moduleState, "Tanks");
 		this.tanks = tanks;
 		this.contentInfos = contentInfos;
-		this.state = state;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
 
@@ -401,7 +401,7 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
+	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.tanks"));
 		for(FluidTankAdvanced tank : tanks){
 			FluidStack fluidStack = tank.getFluid();
@@ -413,18 +413,8 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 	}
 
 	@Override
-	public String getUID() {
-		return "Tanks";
-	}
-
-	@Override
-	public IModuleState<M> getModuleState() {
-		return state;
-	}
-
-	@Override
 	public void onChange() {
-		state.getModule().sendModuleUpdate(state);
+		moduleState.getModule().sendModuleUpdate(moduleState);
 	}
 
 	@Override
@@ -488,6 +478,11 @@ public class ModuleTank<M extends IModule> implements IModuleTank<M> {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isCleanable() {
+		return true;
 	}
 
 	@Override

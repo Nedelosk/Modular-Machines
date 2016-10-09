@@ -7,7 +7,6 @@ import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.client.model.ModelModular;
 import de.nedelosk.modularmachines.common.config.Config;
-import de.nedelosk.modularmachines.common.events.EventHandler;
 import de.nedelosk.modularmachines.common.modular.ModularHelper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
@@ -33,7 +32,6 @@ public class ModRegistry extends Registry {
 		config = new Config();
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModuleManager.registerCapability();
 		new PacketHandler();
 		FluidManager.registerFluids();

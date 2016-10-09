@@ -9,6 +9,7 @@ import de.nedelosk.modularmachines.common.items.ItemCasing;
 import de.nedelosk.modularmachines.common.items.ItemComponent;
 import de.nedelosk.modularmachines.common.items.ItemMetal;
 import de.nedelosk.modularmachines.common.items.ItemModule;
+import de.nedelosk.modularmachines.common.items.ItemModuleContainer;
 import de.nedelosk.modularmachines.common.items.ItemModuleHolder;
 import de.nedelosk.modularmachines.common.items.ItemModuleMeta;
 import de.nedelosk.modularmachines.common.items.ItemToolCrafting;
@@ -37,6 +38,8 @@ public class ItemManager {
 	public static Item itemTurbineSteam;
 	public static Item itemModuleCore;
 	public static Item itemModules;
+	public static Item itemModuleHolder;
+	public static Item itemModuleContainer;
 	public static Item itemCasings;
 	public static Item itemChassis;
 	public static Item itemWrench;
@@ -69,7 +72,8 @@ public class ItemManager {
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemWrench = register(new ItemWrench());
 		ModuleManager.defaultModuleItem = itemModules = register(new ItemModule());
-		ModuleManager.defaultHolderItem = register(new ItemModuleHolder());
+		ModuleManager.defaultModuleHolderItem = itemModuleHolder = register(new ItemModuleHolder());
+		ModuleManager.defaultModuleItemContainer = itemModuleContainer = register(new ItemModuleContainer());
 	}
 
 	public static <I extends Item> I register(I item) {

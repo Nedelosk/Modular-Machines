@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import de.nedelosk.modularmachines.api.material.IMaterial;
+import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
@@ -28,6 +29,12 @@ public interface IModuleItemContainer extends IForgeRegistryEntry<IModuleItemCon
 	boolean needOnlyOnePosition(IModuleContainer container);
 
 	IModuleItemContainer setNeedOnlyOnePosition(boolean needOnlyOnePosition);
+
+	@Nonnull
+	ItemStack createModuleItemContainer();
+
+	@Nonnull
+	IModuleProvider createModuleProvider(IModuleItemContainer itemContainer, IModular modular, ItemStack itemStack);
 
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip, ItemStack stack);

@@ -1,9 +1,18 @@
 package de.nedelosk.modularmachines.client.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import de.nedelosk.modularmachines.api.gui.GuiManager;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.client.gui.GuiHelper;
 import de.nedelosk.modularmachines.client.model.ModelManager;
 import de.nedelosk.modularmachines.common.core.CommonProxy;
+import de.nedelosk.modularmachines.common.core.Constants;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -11,16 +20,46 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
+
+	public static KeyBinding MODULE_INFO = new KeyBinding("key.mm.showModuleIndo", KeyConflictContext.GUI, Keyboard.KEY_M, Constants.NAME);
 
 	@Override
 	public void preInit(){
 		GuiManager.helper = new GuiHelper();
+	}
+
+	@Override
+	public void init(){
+		ClientRegistry.registerKeyBinding(MODULE_INFO);
+	}
+
+	@Override
+	public List<String> addModuleInfo(ItemStack itemStack) {
+		List<String> tooltip = new ArrayList<>();
+		IModuleItemContainer container = ModuleManager.getContainerFromItem(itemStack);
+		if (container != null) {
+			if(Keyboard.isKeyDown(MODULE_INFO.getKeyCode())){
+				List<String> moduleTooltip = new ArrayList<>();
+				tooltip.add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
+				container.addTooltip(moduleTooltip, itemStack);
+				for(String s : moduleTooltip){
+					tooltip.add(TextFormatting.DARK_GREEN + s);
+				}
+			}else{
+				tooltip.add(TextFormatting.DARK_GREEN + Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", Keyboard.getKeyName(MODULE_INFO.getKeyCode())));
+			}
+		}
+		return tooltip;
 	}
 
 	@Override

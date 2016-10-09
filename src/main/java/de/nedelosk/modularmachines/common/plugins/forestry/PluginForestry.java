@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.common.plugins.forestry;
 
+import static de.nedelosk.modularmachines.api.modules.ModuleManager.register;
+
 import de.nedelosk.modularmachines.api.material.EnumVanillaMaterials;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 import de.nedelosk.modularmachines.api.modules.IModule;
@@ -37,8 +39,8 @@ public class PluginForestry extends APlugin {
 
 	@Override
 	public void init() {
-		GameRegistry.register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "bee_house"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleBeeHouse, new StorageModuleProperties(1, EnumModulePositions.SIDE))));
-		GameRegistry.register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "apiary"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleApiary, new StorageModuleProperties(2, EnumModulePositions.SIDE))));
+		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "bee_house"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleBeeHouse, new StorageModuleProperties(1, EnumModulePositions.SIDE))));
+		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "apiary"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleApiary, new StorageModuleProperties(2, EnumModulePositions.SIDE))));
 	}
 
 	@Override

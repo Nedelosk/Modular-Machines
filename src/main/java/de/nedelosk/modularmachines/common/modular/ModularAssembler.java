@@ -322,7 +322,6 @@ public class ModularAssembler implements IModularAssembler {
 	@Override
 	public void assemble(EntityPlayer player) {
 		if(modularHandler != null){
-			modularHandler.setAssembled(true);
 			try{
 				modularHandler.setModular(modularHandler.getAssembler().createModular());
 			}catch(Exception e){

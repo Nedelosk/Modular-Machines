@@ -1,4 +1,4 @@
-package de.nedelosk.modularmachines.api.modules.handlers;
+package de.nedelosk.modularmachines.api.modules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
-import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.ModuleManager;
+import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
+import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.ModuleInventoryBuilder;
@@ -23,6 +23,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTank;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.handlers.tank.ModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.common.core.ItemManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -42,11 +43,11 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 
-	protected IModular modular;
-	protected IModuleState<M> moduleState;
-	protected IModuleInventory inventory;
-	protected IModuleTank tank;
-	protected String pageID;
+	protected final IModuleState<M> moduleState;
+	protected final IModuleInventory inventory;
+	protected final IModuleTank tank;
+	protected final String pageID;
+	private IModular modular;
 
 	public ModulePage(String pageID, String title, IModuleState<M> moduleState) {
 		super(title);
@@ -251,15 +252,21 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(modular);
 
+		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(getModular());
+		int i = 0;
 		if(!modulesWithPages.isEmpty() && modulesWithPages.size() > 1){
-			for(int i = 0; i < modulesWithPages.size(); i++) {
+			for(i = 0;i < modulesWithPages.size(); i++) {
 				IModuleState module = modulesWithPages.get(i);
 				boolean isRight = i >= 7;
 				add(GuiManager.helper.createModuleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), module, modulesWithPages));
 			}
 		}
+
+		boolean isRight = i >= 7;
+		Widget widget = GuiManager.helper.createAssembleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), isRight);
+		add(widget);
+		widget.setProvider(new ItemStack(ItemManager.itemChassis));
 
 		if(!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1){	
 			for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
@@ -283,6 +290,9 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public IModular getModular() {
+		if(modular == null && moduleState.getModular() != null){
+			modular = moduleState.getModular();
+		}
 		return modular;
 	}
 

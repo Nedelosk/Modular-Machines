@@ -29,6 +29,7 @@ public class DefaultLoaders {
 		@Override
 		public Object loadFromJson(JsonObject jsonObject) {
 			EnumModuleSizes size = JsonUtils.getSize(jsonObject);
+			String name = null;
 			IMaterial material = null;
 			ItemStack stack = null;
 			boolean ignorNBT = false;
@@ -59,6 +60,7 @@ public class DefaultLoaders {
 			if(JsonUtils.getString(jsonObject.get("item")) != null){
 				stack = JsonUtils.parseItemStack(jsonObject, "item");
 			}
+			name = JsonUtils.getString(jsonObject.get("registry_name"));
 			if(jsonObject.has("tooltip")){
 				if(jsonObject.get("tooltip").isJsonArray()){
 					JsonArray array = jsonObject.get("tooltip").getAsJsonArray();
@@ -75,8 +77,8 @@ public class DefaultLoaders {
 				ignorNBT = jsonObject.get("ignorNBT").getAsBoolean();
 			}
 
-			if(containers != null && material != null){
-				return new ModuleItemContainer(stack, material, size, tooltip, ignorNBT, containers);
+			if(containers != null && material != null && name != null){
+				return new ModuleItemContainer(stack, material, size, tooltip, ignorNBT, containers).setRegistryName(new ResourceLocation(name));
 			}
 			return null;
 		}

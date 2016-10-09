@@ -3,11 +3,11 @@ package de.nedelosk.modularmachines.common.modules.pages;
 import java.awt.Color;
 import java.text.DecimalFormat;
 
+import de.nedelosk.modularmachines.api.modules.handlers.filters.ItemFliterFurnaceFuel;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeaterBurning;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetBurning;
-import de.nedelosk.modularmachines.common.modules.handlers.ItemFliterFurnaceFuel;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -38,6 +38,6 @@ public class BurningHeaterPage extends MainPage<IModuleHeaterBurning>{
 
 	@Override
 	public void createInventory(IModuleInventoryBuilder invBuilder) {
-		invBuilder.addInventorySlot(true, 80, 35, new ItemFliterFurnaceFuel());
+		invBuilder.addInventorySlot(true, 80, 35, ItemFliterFurnaceFuel.INSTANCE);
 	}
 }

@@ -6,9 +6,9 @@ import net.minecraftforge.common.util.INBTSerializable;
 public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound> {
 
 	protected double heatBuffer;
-	protected double capacity;
-	protected double maxExtract;
-	protected double maxReceive;
+	protected final double capacity;
+	protected final double maxExtract;
+	protected final double maxReceive;
 
 	public HeatBuffer(float capacity, float maxTransfer) {
 		this(capacity, maxTransfer, maxTransfer);

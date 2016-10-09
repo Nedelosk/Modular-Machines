@@ -76,10 +76,12 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	@Override
 	public void detectAndSendChanges() {
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
-		int breedingProgressPercen = housing.getBeekeepingLogic().getBeeProgressPercent();
-		if(previousBreedingProgressPercent != breedingProgressPercen){
-			previousBreedingProgressPercent = breedingProgressPercen;
-			sendPacketToListeners(new PacketUpdateModule(moduleState));
+		if(housing != null){
+			int breedingProgressPercen = housing.getBeekeepingLogic().getBeeProgressPercent();
+			if(previousBreedingProgressPercent != breedingProgressPercen){
+				previousBreedingProgressPercent = breedingProgressPercen;
+				sendPacketToListeners(new PacketUpdateModule(moduleState));
+			}
 		}
 	}
 

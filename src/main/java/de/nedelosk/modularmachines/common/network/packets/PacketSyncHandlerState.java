@@ -5,7 +5,6 @@ import java.io.IOException;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
-import de.nedelosk.modularmachines.common.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -38,9 +37,13 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 		IModularHandler modularHandler = getModularHandler(player);
 		if(modularHandler != null){
 			if(isAssembled){
-				modularHandler.getAssembler().assemble(player);
+				if(modularHandler.getAssembler() != null){
+					modularHandler.getAssembler().assemble(player);
+				}
 			}else{
-				modularHandler.getModular().disassemble(player);
+				if(modularHandler.getModular() != null){
+					modularHandler.getModular().disassemble(player);
+				}
 			}
 		}
 	}
@@ -51,13 +54,15 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 
 		if(modularHandler != null){
 			if(isAssembled){
-				modularHandler.getAssembler().assemble(player);
+				if(modularHandler.getAssembler() != null){
+					modularHandler.getAssembler().assemble(player);
+				}
 			}else{
-				modularHandler.getModular().disassemble(player);
+				if(modularHandler.getModular() != null){
+					modularHandler.getModular().disassemble(player);
+				}
 			}
 		}
-
-		PacketHandler.sendToNetwork(this, getPos(modularHandler), player.getServerWorld());
 	}
 
 	@Override

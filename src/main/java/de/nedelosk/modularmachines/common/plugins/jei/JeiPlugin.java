@@ -49,7 +49,7 @@ public class JeiPlugin extends BlankModPlugin {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
-		registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ModuleManager.defaultModuleItem, ModuleManager.defaultHolderItem);
+		registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ModuleManager.defaultModuleItem, ModuleManager.defaultModuleHolderItem);
 
 		registry.addRecipeClickArea(GuiModuleCrafter.class, 93, 35, 22, 15, VanillaRecipeCategoryUid.CRAFTING, CategoryUIDs.CRAFTING);
 
@@ -75,6 +75,8 @@ public class JeiPlugin extends BlankModPlugin {
 		}
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
 
+		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockManager.blockModuleCrafter), CategoryUIDs.CRAFTING);
+
 		registry.addAdvancedGuiHandlers(new AssemblerAdvancedGuiHandler());
 
 		registry.addRecipeHandlers(
@@ -90,7 +92,6 @@ public class JeiPlugin extends BlankModPlugin {
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Lathe", CategoryUIDs.LATHE, LatheRecipeWrapper.class, guiHelper));
 
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
-
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerModuleCrafter.class, VanillaRecipeCategoryUid.CRAFTING, 36, 9, 0, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerModuleCrafter.class, CategoryUIDs.CRAFTING, 36, 10, 0, 36);
 	}

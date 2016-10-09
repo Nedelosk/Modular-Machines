@@ -1,40 +1,23 @@
 package de.nedelosk.modularmachines.api.modules.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleControl implements IModuleControl, IModuleContentHandler, INBTSerializable<NBTTagCompound> {
+public class ModuleControl extends BlankModuleContentHandler implements IModuleControl, INBTSerializable<NBTTagCompound> {
 
-	private IModuleState state;
 	private Map<Integer, Boolean> permissions = new HashMap<>();
 	private EnumRedstoneMode mode;
 
-	public ModuleControl(IModuleState state) {
-		this.state = state;
+	public ModuleControl(IModuleState moduleState) {
+		super(moduleState, "Control");
 		this.mode = EnumRedstoneMode.IGNORE;
-	}
-
-	@Override
-	public IModuleState getModuleState() {
-		return state;
-	}
-
-	@Override
-	public String getUID() {
-		return "Control";
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 
 	@Override
@@ -83,5 +66,14 @@ public class ModuleControl implements IModuleControl, IModuleContentHandler, INB
 			NBTTagCompound tag = list.getCompoundTagAt(i);
 			permissions.put(tag.getInteger("Index"), tag.getBoolean("Permission"));
 		}
+	}
+
+	@Override
+	public void cleanHandler(IModuleState state) {
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
 	}
 }

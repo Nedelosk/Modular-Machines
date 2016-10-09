@@ -10,13 +10,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IModuleProvider extends INBTSerializable<NBTTagCompound> {
+public interface IModuleProvider extends INBTSerializable<NBTTagCompound>, Iterable<IModuleState> {
 
 	@Nonnull
 	IModuleItemContainer getContainer();
 
 	@Nonnull
 	ItemStack getItemStack();
+
+	void addModuleState(@Nonnull IModuleState moduleState);
 
 	@Nonnull
 	List<IModuleState> getModuleStates();

@@ -1,38 +1,24 @@
 package de.nedelosk.modularmachines.api.modules.handlers.energy;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.energy.HeatBuffer;
 import de.nedelosk.modularmachines.api.energy.HeatLevel;
 import de.nedelosk.modularmachines.api.energy.IHeatSource;
-import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
+import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INBTSerializable<NBTTagCompound> {
+public class ModuleHeatBuffer extends BlankModuleContentHandler implements IHeatSource, INBTSerializable<NBTTagCompound> {
 
-	protected HeatBuffer heatSource;
-	protected IModuleState state;
+	protected final HeatBuffer heatSource;
 
-	public ModuleHeatBuffer(IModuleState state, float capacity, float maxTransfer) {
-		this(state, capacity, maxTransfer, maxTransfer);
+	public ModuleHeatBuffer(IModuleState moduleState, float capacity, float maxTransfer) {
+		this(moduleState, capacity, maxTransfer, maxTransfer);
 	}
 
-	public ModuleHeatBuffer(IModuleState state, float capacity, float maxReceive, float maxExtract) {
-		this.state = state;
+	public ModuleHeatBuffer(IModuleState moduleState, float capacity, float maxReceive, float maxExtract) {
+		super(moduleState, "HeatBuffer");
 		this.heatSource = new HeatBuffer(capacity, maxReceive, maxExtract);
-	}
-
-	@Override
-	public IModuleState getModuleState() {
-		return state;
-	}
-
-	@Override
-	public String getUID() {
-		return "HeatBuffer";
 	}
 
 	@Override
@@ -83,9 +69,5 @@ public class ModuleHeatBuffer implements IHeatSource, IModuleContentHandler, INB
 	@Override
 	public double getCapacity() {
 		return heatSource.getCapacity();
-	}
-
-	@Override
-	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState state) {
 	}
 }

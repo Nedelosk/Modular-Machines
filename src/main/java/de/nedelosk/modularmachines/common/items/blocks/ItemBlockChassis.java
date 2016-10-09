@@ -97,7 +97,6 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-			tileHandler.setAssembled(false);
 			tileHandler.setAssembler(new ModularAssembler(tileHandler));
 			tileHandler.setOwner(player.getGameProfile());
 			tileHandler.setFacing(getFacingForHeading(heading));
