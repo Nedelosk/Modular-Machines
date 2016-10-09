@@ -8,7 +8,7 @@ Add to your build.gradle:
 ```gradle
 repositories {
   maven {
-    // location of the maven that hosts JEI files
+    // location of the maven that hosts modular machines files
     url "http://dl.bintray.com/nedelosk/MC"
   }
 }
