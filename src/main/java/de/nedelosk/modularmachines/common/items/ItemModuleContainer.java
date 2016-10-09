@@ -36,7 +36,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class ItemModuleContainer extends Item implements IColoredItem, IItemModelRegister {
 
 	public ItemModuleContainer() {
-		setCreativeTab(TabModularMachines.tabModules);
 		setUnlocalizedName("module_container");
 		setMaxStackSize(1);
 	}
@@ -105,10 +104,6 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		ItemStack itemStack = new ItemStack(item);
-		IModuleItemProvider moduleProvider = itemStack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		moduleProvider.setItemStack(new ItemStack(Items.STICK));
-		subItems.add(itemStack);
 	}
 
 	@Override

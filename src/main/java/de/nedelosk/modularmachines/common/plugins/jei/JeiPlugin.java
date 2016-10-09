@@ -54,6 +54,7 @@ public class JeiPlugin extends BlankModPlugin {
 		registry.addRecipeClickArea(GuiModuleCrafter.class, 93, 35, 22, 15, VanillaRecipeCategoryUid.CRAFTING, CategoryUIDs.CRAFTING);
 
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
+		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(ModuleManager.defaultModuleItemContainer));
 		registry.addRecipeCategories(
 				new ModuleCrafterRecipeCategory(guiHelper),
 				new AlloySmelterRecipeCategory(guiHelper),
