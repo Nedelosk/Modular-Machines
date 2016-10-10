@@ -11,6 +11,7 @@ import de.nedelosk.modularmachines.api.gui.Page;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.ContentInfo;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.inventory.IModuleInventory;
@@ -263,10 +264,12 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 			}
 		}
 
-		boolean isRight = i >= 7;
-		Widget widget = GuiManager.helper.createAssembleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), isRight);
-		add(widget);
-		widget.setProvider(new ItemStack(ItemManager.itemChassis));
+		if(modular.getModule(IModuleController.class) != null){
+			boolean isRight = i >= 7;
+			Widget widget = GuiManager.helper.createAssembleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), isRight);
+			add(widget);
+			widget.setProvider(new ItemStack(ItemManager.itemChassis));
+		}
 
 		if(!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1){	
 			for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
