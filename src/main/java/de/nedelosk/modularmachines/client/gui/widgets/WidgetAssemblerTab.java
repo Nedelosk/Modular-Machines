@@ -37,7 +37,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 				right ? 214 : 235, 28, 21);
 		IStoragePage page = provider.getStoragePage(position);
 		if(page != null){
-			ItemStack item = provider.getStoragePage(position).getStorageStack();
+			ItemStack item = page.getStorageStack();
 			if(item != null){
 				gui.drawItemStack(item, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
 			}

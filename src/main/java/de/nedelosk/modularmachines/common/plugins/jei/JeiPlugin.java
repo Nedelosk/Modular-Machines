@@ -31,6 +31,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModRegistry;
+import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
@@ -45,11 +46,14 @@ public class JeiPlugin extends BlankModPlugin {
 	public static IJeiRuntime jeiRuntime;
 
 	@Override
+	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+		subtypeRegistry.useNbtForSubtypes(ModuleManager.defaultModuleItem, ModuleManager.defaultModuleHolderItem);
+	}
+
+	@Override
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-
-		registry.getJeiHelpers().getSubtypeRegistry().useNbtForSubtypes(ModuleManager.defaultModuleItem, ModuleManager.defaultModuleHolderItem);
 
 		registry.addRecipeClickArea(GuiModuleCrafter.class, 93, 35, 22, 15, VanillaRecipeCategoryUid.CRAFTING, CategoryUIDs.CRAFTING);
 

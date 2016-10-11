@@ -27,6 +27,8 @@ public class Config {
 	public static int defaultAllowedComplexity = 12;
 	public static int defaultAllowedControllerComplexity = 16;
 
+	public static boolean destroyItemsAfterDestroyModular;
+
 	/* PLUGINS */
 	public static boolean pluginEnderIO;
 	public static boolean pluginMekanism;
@@ -109,6 +111,8 @@ public class Config {
 		defaultAllowedCasingComplexity = config.getInt("Default Allowed Casing Complexity", modules.name, 8, 2, 64, "");
 		defaultAllowedComplexity = config.getInt("Default Allowed Modular Machine Complexity", modules.name, 12, 4, 64, "");
 		defaultAllowedControllerComplexity = config.getInt("Default Allowed Controller Complexity", modules.name, 16, 4, 256, "");
+
+		destroyItemsAfterDestroyModular = config.getBoolean("Destroy after destroy modular machine", modules.name, false, "After you break a modular machine, every module item have a chance to disappear.");
 
 		//Plugins
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();

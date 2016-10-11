@@ -11,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHa
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.Registry;
-import de.nedelosk.modularmachines.common.core.TabModularMachines;
 import de.nedelosk.modularmachines.common.utils.IColoredItem;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import forestry.api.core.IItemModelRegister;
@@ -19,7 +18,6 @@ import forestry.api.core.IModelManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

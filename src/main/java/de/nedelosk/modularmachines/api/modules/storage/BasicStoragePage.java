@@ -34,8 +34,7 @@ public class BasicStoragePage extends StoragePage {
 	@Override
 	public void createSlots(IAssemblerContainer container, List<Slot> slots) {
 		if(position != null){
-			SlotAssemblerStorage storageSlot;
-			slots.add(storageSlot = new SlotAssemblerStorage(assembler.getItemHandler(), assembler.getIndex(position), 44, 35, this, position, container));
+			slots.add(new SlotAssemblerStorage(assembler, 44, 35, this, position, container));
 		}
 	}
 

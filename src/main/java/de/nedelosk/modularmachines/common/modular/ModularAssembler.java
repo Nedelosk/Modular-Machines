@@ -300,7 +300,7 @@ public class ModularAssembler implements IModularAssembler {
 	}
 
 	@Override
-	public IItemHandler getItemHandler() {
+	public IItemHandlerStorage getItemHandler() {
 		return itemHandler;
 	}
 
@@ -417,9 +417,6 @@ public class ModularAssembler implements IModularAssembler {
 
 	@Override
 	public int getIndex(IStoragePosition position) {
-		if(indexes.indexOf(position) < 0){
-			getClass();
-		}
 		return indexes.indexOf(position);
 	}
 

@@ -39,6 +39,12 @@ public enum EnumModuleSizes {
 			return firstSize;
 		}else if(firstSize == null && secondSize == null){
 			return UNKNOWN;
+		}else if(firstSize == LARGE && secondSize == LARGE){
+			return LARGER;
+		}else if(firstSize == LARGER && secondSize == LARGE){
+			return LARGEST;
+		}else if(firstSize == LARGE && secondSize == LARGER){
+			return LARGEST;
 		}
 		int newSize = firstSize.ordinal() + secondSize.ordinal();
 		if(VALUES.length > newSize){

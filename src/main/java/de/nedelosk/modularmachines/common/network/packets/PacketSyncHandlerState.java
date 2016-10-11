@@ -7,6 +7,8 @@ import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSyncHandlerState extends PacketModularHandler implements IPacketClient, IPacketServer {
 
@@ -32,6 +34,7 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 		data.writeBoolean(isAssembled);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);

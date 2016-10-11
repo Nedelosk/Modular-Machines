@@ -27,6 +27,8 @@ public interface IModulePage extends IPage, IModuleContentHandlerProvider {
 
 	IModuleState getModuleState();
 
+	String getTabTitle();
+
 	String getPageID();
 
 	@Override

@@ -51,6 +51,6 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 
 	@Override
 	public List getTooltip(IGuiProvider gui) {
-		return Arrays.asList(provider.getPageTitle());
+		return Arrays.asList(provider.getTabTitle());
 	}
 }

@@ -10,6 +10,8 @@ import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.IStreamable;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketUpdateModule extends PacketModule implements IPacketClient {
 
@@ -51,6 +53,7 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		if(index > 0){

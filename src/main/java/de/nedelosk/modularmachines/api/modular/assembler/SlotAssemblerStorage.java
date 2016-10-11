@@ -9,7 +9,6 @@ import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotAssemblerStorage extends SlotItemHandler {
@@ -18,8 +17,8 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 	protected final IStoragePosition position;
 	protected final IAssemblerContainer container;
 
-	public SlotAssemblerStorage(IItemHandler inventory, int index, int xPosition, int yPosition, IStoragePage page, IStoragePosition position, IAssemblerContainer container) {
-		super(inventory, index, xPosition, yPosition);
+	public SlotAssemblerStorage(IModularAssembler assembler, int xPosition, int yPosition, IStoragePage page, IStoragePosition position, IAssemblerContainer container) {
+		super(assembler.getItemHandler(), assembler.getIndex(position), xPosition, yPosition);
 
 		this.container = container;
 		this.position = position;

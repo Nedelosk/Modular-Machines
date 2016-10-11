@@ -111,8 +111,10 @@ public class WorldUtil {
 		}
 	}
 
-	public static void dropItem(World world, BlockPos pos, Collection<ItemStack> items) {
-		dropItems(world, pos, items.toArray(new ItemStack[items.size()]));
+	public static void dropItems(World world, BlockPos pos, Collection<ItemStack> stacks) {
+		for(ItemStack stack : stacks) {
+			dropItem(world, pos, stack);
+		}
 	}
 
 	public static void dropItems(Entity entity, ItemStack[] stacks) {

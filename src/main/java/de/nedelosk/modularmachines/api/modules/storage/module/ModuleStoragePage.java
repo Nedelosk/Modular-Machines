@@ -47,7 +47,7 @@ public class ModuleStoragePage extends StoragePage {
 	public void createSlots(IAssemblerContainer container, List<Slot> slots) {
 		if(position != null){
 			SlotAssemblerStorage storageSlot;
-			slots.add(storageSlot = new SlotAssemblerStorage(assembler.getItemHandler(), assembler.getIndex(position), 44, 35, this, position, container));
+			slots.add(storageSlot = new SlotAssemblerStorage(assembler, 44, 35, this, position, container));
 			if(size	== EnumModuleSizes.LARGEST){
 				for (int i = 0; i < 3; ++i){
 					for (int j = 0; j < 3; ++j){
@@ -169,7 +169,7 @@ public class ModuleStoragePage extends StoragePage {
 		if(!hasPosition){
 			return false;
 		}
-		EnumModuleSizes usedSize = null;
+		EnumModuleSizes usedSize = itemContainer.getSize();
 		for(int index = 0;index < position.getSize().slots;index++){
 			IModuleItemContainer otherItemContainer = ModuleManager.getContainerFromItem(itemHandler.getStackInSlot(index));
 			if(otherItemContainer != null){

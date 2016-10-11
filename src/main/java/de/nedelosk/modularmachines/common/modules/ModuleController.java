@@ -4,10 +4,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import de.nedelosk.modularmachines.api.modular.AssemblerException;
+import de.nedelosk.modularmachines.api.modular.IModular;
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredItem;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
@@ -22,7 +26,9 @@ import de.nedelosk.modularmachines.api.modules.position.IModulePositioned;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import de.nedelosk.modularmachines.api.modules.storage.IStorage;
 import de.nedelosk.modularmachines.common.config.Config;
+import de.nedelosk.modularmachines.common.modules.pages.MainPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
 import de.nedelosk.modularmachines.common.utils.Translator;
@@ -77,6 +83,20 @@ public class ModuleController extends Module implements IModuleController, IModu
 			return mode == EnumRedstoneMode.IGNORE || hasSignal && mode == EnumRedstoneMode.ON || !hasSignal && mode == EnumRedstoneMode.OFF;
 		}
 		return true;
+	}
+
+	@Override
+	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
+		if(modular.getModules(IModuleController.class).size() > 1){
+			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.too.many.controllers"));
+		}
+	}
+
+	@Override
+	public void onModularAssembled(IModuleState state) {
+		if(ModuleManager.getModulesWithPages(state.getModular()).isEmpty()){
+			state.addPage(new MainPage(null, state));
+		}
 	}
 
 	@Override

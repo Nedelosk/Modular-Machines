@@ -17,6 +17,7 @@ modular.assembler.error.no.casing=This modular machine has no casing, modular ma
 modular.assembler.error.no.battery=This modular machine has no battery, One module of this modular machine requires a battery to store RF or EU energy.
 modular.assembler.error.no.storage=The module on %s side of the modular machine has no storage module.
 modular.assembler.error.no.controller=The modules that are in this modular machine contains are to complex for a controler-less modular machine, put a controller in this frame handle more complex modules.
+modular.assembler.error.too.many.controllers=This modular machine has too many controller modules, a modular machine can only have one.
 modular.assembler.error.complexity=The modules in this modular machine are to complex for this machine's controling unit, please put a better controller in to this frame to handle this complexity of modules.
 modular.assembler.error.complexity.position=The modules on the %s side of this modular machine are to complex for the module storage of this machine.
 

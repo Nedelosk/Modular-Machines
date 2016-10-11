@@ -44,7 +44,7 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
-		if (renderPageTitle()) {
+		if (renderPageTitle() && getPageTitle() != null) {
 			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2),
 					6, 4210752);
 		}

@@ -253,7 +253,6 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
-
 		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(getModular());
 		int i = 0;
 		if(!modulesWithPages.isEmpty() && modulesWithPages.size() > 1){
@@ -321,7 +320,15 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		if(stack != null && stack.hasDisplayName()){
 			return stack.getDisplayName();
 		}
+		if(title == null || title.isEmpty()){
+			return null;
+		}
 		return I18n.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");
+	}
+
+	@Override
+	public String getTabTitle() {
+		return getPageTitle();
 	}
 
 	@Override

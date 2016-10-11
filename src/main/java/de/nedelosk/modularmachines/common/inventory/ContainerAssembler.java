@@ -17,13 +17,28 @@ import net.minecraft.item.ItemStack;
 public class ContainerAssembler extends BaseContainer<IModularHandler> implements IAssemblerContainer {
 
 	private final IStoragePage page;
+	private boolean afterPage = false;
 	private boolean transferStack = false;
 	private boolean hasStorageChange= false;
 
 	public ContainerAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
 		IModularAssembler assembler = handler.getAssembler();
-		page = assembler.getStoragePage(assembler.getSelectedPosition());
+		IStoragePosition position = assembler.getSelectedPosition();
+		this.page = assembler.getStoragePage(position);
+		assembler.updatePages(null);
+
+		//Add slots to container
+		if(page == null){
+			addSlotToContainer(new SlotAssemblerStorage(assembler, 44, 35, null, position, this));
+		}else{
+			List<Slot> slots = new ArrayList<>();
+			page.createSlots(this, slots);
+			for(Slot slot : slots){
+				addSlotToContainer(slot);
+			}
+		}
+
 		if(page != null){
 			page.setContainer(this);
 			page.onSlotChanged(this);
@@ -61,18 +76,6 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		IModularAssembler assembler = handler.getAssembler();
-		IStoragePosition position = assembler.getSelectedPosition();
-		IStoragePage page = assembler.getStoragePage(position);
-		if(page == null){
-			addSlotToContainer(new SlotAssemblerStorage(assembler.getItemHandler(), assembler.getIndex(position), 44, 35, null, position, this));
-		}else{
-			List<Slot> slots = new ArrayList<>();
-			page.createSlots(this, slots);
-			for(Slot slot : slots){
-				addSlotToContainer(slot);
-			}
-		}
 	}
 
 	@Override

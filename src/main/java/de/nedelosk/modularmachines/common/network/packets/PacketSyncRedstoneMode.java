@@ -12,6 +12,8 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSyncRedstoneMode extends PacketModularHandler implements IPacketClient, IPacketServer {
 
@@ -42,6 +44,7 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 		index = data.readInt();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);

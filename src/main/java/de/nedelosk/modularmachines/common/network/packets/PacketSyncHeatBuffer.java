@@ -8,6 +8,8 @@ import de.nedelosk.modularmachines.api.modules.network.DataInputStreamMM;
 import de.nedelosk.modularmachines.api.modules.network.DataOutputStreamMM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacketClient {
 
@@ -34,6 +36,7 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacke
 		data.writeDouble(heatBuffer);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);

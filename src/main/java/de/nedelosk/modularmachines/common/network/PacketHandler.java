@@ -36,6 +36,8 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketE
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketHandler {
 
@@ -100,6 +102,7 @@ public class PacketHandler {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static void sendToServer(IPacketServer packet) {
 		NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getConnection();
 		if (netHandler != null) {
@@ -135,6 +138,7 @@ public class PacketHandler {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onPacket(ClientCustomPacketEvent event) {
 		DataInputStreamMM data = getStream(event.getPacket());
@@ -155,6 +159,7 @@ public class PacketHandler {
 		return new DataInputStreamMM(is);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private static void checkThreadAndEnqueue(final IPacketClient packet, final DataInputStreamMM data, final EntityPlayer player, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
 			threadListener.addScheduledTask(new Runnable() {

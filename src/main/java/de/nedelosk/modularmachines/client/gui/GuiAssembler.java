@@ -50,25 +50,44 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 	public final WidgetAssembleTab assembleTab;
 
-	public GuiAssembler(IModularHandler tile, InventoryPlayer inventory) {
-		super(tile, inventory);
+	public GuiAssembler(IModularHandler modularHandler, InventoryPlayer inventory) {
+		super(modularHandler, inventory);
 
-		this.page = tile.getAssembler().getStoragePage(tile.getAssembler().getSelectedPosition());
+		this.page = modularHandler.getAssembler().getStoragePage(modularHandler.getAssembler().getSelectedPosition());
 
 		if(page != null){
 			page.setGui(this);
 			page.addWidgets();
 		}
 
+		WidgetAssembleTab assembleTab = null;
+		IModularAssembler assembler = modularHandler.getAssembler();
+		int xPosLeft = 8;
+		int xPosRight = 140;
+		int pageSize = 69;
+		int yStartPos = 3;
 		List<IStoragePosition> positions = handler.getStoragePositions();
-		//left
-		widgetManager.add(new WidgetAssemblerTab(8, 5, tile.getAssembler(), positions.get(0), false));
-		widgetManager.add(new WidgetAssemblerTab(8, 27, tile.getAssembler(), positions.get(1), false));
-		widgetManager.add(new WidgetAssemblerTab(8, 49, tile.getAssembler(), positions.get(2), false));
-		//right
-		widgetManager.add(new WidgetAssemblerTab(140, 5, tile.getAssembler(), positions.get(3), true));
-		widgetManager.add(new WidgetAssemblerTab(140, 27, tile.getAssembler(), positions.get(4), true));
-		widgetManager.add(assembleTab = new WidgetAssembleTab(140, 49, true));
+		double positionsPerSize = (positions.size() + 1) / 2;
+		double spacePerTab = pageSize / positionsPerSize;
+		int positionIndex = 0;
+		for(int side = 0;side < 2;side++){
+			for(int index = 0;index < positionsPerSize;index++){
+				boolean isRight = side == 1;
+				int xPos = side == 0 ? xPosLeft : xPosRight;
+				int yPos = (int) Math.round(yStartPos + (index * spacePerTab));
+				if(positionIndex < positions.size()){
+					widgetManager.add(new WidgetAssemblerTab(xPos, yPos, assembler, positions.get(positionIndex), isRight));
+					positionIndex++;
+				}else{
+					widgetManager.add(assembleTab = new WidgetAssembleTab(xPos, yPos, isRight));
+				}
+			}
+		}
+
+		if(assembleTab == null){
+			widgetManager.add(assembleTab = new WidgetAssembleTab(140, 49, true));
+		}
+		this.assembleTab = assembleTab;
 
 		onUpdate();
 	}
@@ -138,7 +157,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 	protected void onUpdate(){
 		IModularAssembler assembler = handler.getAssembler();
-		if(handler != null && handler.getAssembler() != null){
+		if(handler != null && assembler != null){
 			try{
 				lastException = null;
 				modular = assembler.createModular();

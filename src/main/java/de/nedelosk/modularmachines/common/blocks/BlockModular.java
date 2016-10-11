@@ -2,24 +2,30 @@ package de.nedelosk.modularmachines.common.blocks;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleColoredBlock;
+import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.block.IBlockModificator;
+import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import de.nedelosk.modularmachines.client.core.ClientProxy;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import de.nedelosk.modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import de.nedelosk.modularmachines.common.blocks.tile.TileModular;
+import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
@@ -54,6 +60,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
 public class BlockModular extends BlockContainerForest implements IItemModelRegister, IColoredBlock, IStateMapperRegister {
 
@@ -170,16 +177,66 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
 				IModularHandler modularHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-				if (modularHandler != null && modularHandler.getModular() != null) {
-					ItemStack harvestTool = player.getHeldItemMainhand();
-					int level = -1;
-					if(harvestTool != null && harvestTool.getItem() != null){
-						level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
+				Random random = world.rand;
+				List<ItemStack> drops = Lists.newArrayList();
+				if(modularHandler != null){
+					if (modularHandler.getModular() != null) {
+						ItemStack harvestTool = player.getHeldItemMainhand();
+						int level = -1;
+						if(harvestTool != null && harvestTool.getItem() != null){
+							level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
+						}
+						if(level >= 0){
+							drops.add(ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
+						}else{
+							for(IModuleProvider provider : modularHandler.getModular().getProviders()){
+								ItemStack itemStack = provider.getItemStack().copy();
+								for(IModuleState moduleState : provider.getModuleStates()) {
+									if (moduleState != null) {
+										for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
+											if(handler instanceof IAdvancedModuleContentHandler){
+												drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+											}
+										}
+										moduleState.getModule().saveDataToItem(itemStack, moduleState);
+									}
+								}
+								drops.add(testStack(itemStack, random));
+							}
+						}
+					}else if(modularHandler.getAssembler() != null){
+						IModularAssembler assembler = modularHandler.getAssembler();
+						for(IStoragePosition postion : assembler.getStoragePositions()){
+							IStoragePage page = assembler.getStoragePage(postion);
+							ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(postion));
+							drops.add(testStack(storageStack, random));
+							if(page != null){
+								IItemHandler itemHandler = page.getItemHandler();
+								for(int i = 0;i < itemHandler.getSlots();i++){
+									drops.add(testStack(itemHandler.getStackInSlot(i), random));
+								}
+							}
+						}
 					}
-					if(level >= 0){
-						WorldUtil.dropItem(world, pos, ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
-					}else{
-						List<ItemStack> drops = Lists.newArrayList();
+				}
+				if(!Config.destroyItemsAfterDestroyModular || random.nextBoolean()){
+					drops.add(new ItemStack(ItemManager.itemChassis));
+				}
+				WorldUtil.dropItems(world, pos, drops);
+			}
+		}
+	}
+
+	@Override
+	public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
+		if(!world.isRemote){
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
+				IModularHandler modularHandler = tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+				Random random = world.rand;
+				List<ItemStack> drops = Lists.newArrayList();
+				if(modularHandler != null) {
+					if (modularHandler.getModular() != null) {
 						for(IModuleProvider provider : modularHandler.getModular().getProviders()){
 							ItemStack itemStack = provider.getItemStack().copy();
 							for(IModuleState moduleState : provider.getModuleStates()) {
@@ -192,21 +249,44 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 									moduleState.getModule().saveDataToItem(itemStack, moduleState);
 								}
 							}
-							drops.add(itemStack);
+							drops.add(testStack(itemStack, random));
 						}
-						WorldUtil.dropItem(world, pos, drops);
-					}
-				}else if(modularHandler != null && modularHandler.getAssembler() != null){
-					WorldUtil.dropItems(world, pos, modularHandler.getAssembler().getItemHandler());
-					for(IStoragePage page : modularHandler.getAssembler().getStoragePages()){
-						if(page != null){
-							WorldUtil.dropItems(world, pos, page.getItemHandler());
+					}else if(modularHandler.getAssembler() != null){
+						IModularAssembler assembler = modularHandler.getAssembler();
+						for(IStoragePosition postion : assembler.getStoragePositions()){
+							IStoragePage page = assembler.getStoragePage(postion);
+							ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(postion));
+							drops.add(testStack(storageStack, random));
+							if(page != null){
+								IItemHandler itemHandler = page.getItemHandler();
+								for(int i = 0;i < itemHandler.getSlots();i++){
+									drops.add(testStack(itemHandler.getStackInSlot(i), random));
+								}
+							}
 						}
 					}
 				}
-				WorldUtil.dropItem(world, pos, new ItemStack(ItemManager.itemChassis));
+				if(!Config.destroyItemsAfterDestroyModular || random.nextBoolean()){
+					drops.add(new ItemStack(ItemManager.itemChassis));
+				}
+				WorldUtil.dropItems(world, pos, drops);
 			}
 		}
+		super.onBlockExploded(world, pos, explosion);
+	}
+
+	private ItemStack testStack(ItemStack stack, Random random){
+		if(!Config.destroyItemsAfterDestroyModular){
+			return stack;
+		}
+		IModuleItemContainer moduleContainer = ModuleManager.getContainerFromItem(stack);
+		if(moduleContainer != null){
+			if(random.nextInt(moduleContainer.getMaterial().getTier()) == 0){
+				return stack;
+			}
+			return null;
+		}
+		return stack;
 	}
 
 	@Override

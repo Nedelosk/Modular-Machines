@@ -99,13 +99,7 @@ public class Modular implements IModular {
 		this(handler);
 		if(nbt != null){
 			deserializeNBT(nbt);
-			if(nbt.hasKey("HeatBuffer")){
-				createHeatBuffer();
-				heatSource.deserializeNBT(nbt.getCompoundTag("HeatBuffer"));
-			}
 		}
-
-		onModularAssembled();
 	}
 
 	@Override
@@ -116,16 +110,16 @@ public class Modular implements IModular {
 		if(!getEnergyBuffers().isEmpty()){
 			energyBuffer = new ModularEnergyBuffer(getEnergyBuffers());
 		}
-		if(currentModule == null && getFirstGui() != null){
-			currentModule = getFirstGui();
-			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
-		}
 		for(IModuleState state : getModules()){
 			if(state != null){
 				state.getModule().onModularAssembled(state);
 			}
 		}
 		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModularAssembledEvent(this));
+		if(currentModule == null && getFirstGui() != null){
+			currentModule = getFirstGui();
+			setCurrentPage(((IModulePage)currentModule.getPages().get(0)).getPageID());
+		}
 	}
 
 	private void createHeatBuffer(){
@@ -227,6 +221,10 @@ public class Modular implements IModular {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+		}
+		onModularAssembled();
+		if(nbt.hasKey("HeatBuffer")){
+			heatSource.deserializeNBT(nbt.getCompoundTag("HeatBuffer"));
 		}
 		if (nbt.hasKey("CurrentModule")) {
 			currentModule = getModule(nbt.getInteger("CurrentModule"));

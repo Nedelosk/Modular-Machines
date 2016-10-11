@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketModuleCleaner extends PacketModule implements IPacketClient, IPacketServer {
 
@@ -23,6 +25,7 @@ public class PacketModuleCleaner extends PacketModule implements IPacketClient, 
 		super(module);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException  {
 		Container container = player.openContainer;

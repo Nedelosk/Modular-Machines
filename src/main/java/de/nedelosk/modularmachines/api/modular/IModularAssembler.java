@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.storage.IItemHandlerStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.items.IItemHandler;
 
 public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGuiHandler {
 
@@ -34,7 +34,7 @@ public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGu
 
 	void setSelectedPosition(IStoragePosition position);
 
-	IItemHandler getItemHandler();
+	IItemHandlerStorage getItemHandler();
 
 	@Nullable
 	IStoragePage getStoragePage(IStoragePosition position);
