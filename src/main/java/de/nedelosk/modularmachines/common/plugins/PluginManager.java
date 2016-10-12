@@ -40,20 +40,32 @@ public class PluginManager {
 		loadPlugins();
 
 		for(APlugin plugin : loadedPlugins) {
-			plugin.preInit();
+			try{
+				plugin.preInit();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void postInit() {
 		for(APlugin plugin : loadedPlugins) {
-			plugin.postInit();
+			try{
+				plugin.postInit();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void init() {
 		for(APlugin plugin : loadedPlugins) {
-			plugin.init();
-			plugin.registerRecipes();
+			try{
+				plugin.init();
+				plugin.registerRecipes();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 }
