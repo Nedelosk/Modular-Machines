@@ -1,5 +1,7 @@
 package de.nedelosk.modularmachines.common.plugins.mekanism;
 
+
+import static de.nedelosk.modularmachines.api.modules.ModuleManager.register;
 import de.nedelosk.modularmachines.api.material.EnumMetalMaterials;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.ModuleContainer;
@@ -42,10 +44,10 @@ public class PluginMekanism extends APlugin {
 		moduleEnergyCubeProperties[2] = new ModuleRFBatteryProperties(6, (int) (32000000 * 0.4), 12800, 3);
 		moduleEnergyCubeProperties[3] = new ModuleRFBatteryProperties(8, (int) (128000000 * 0.4), 51200, 4);
 
-		moduleEnergyCubeContainers[0] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.IRON, 0, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[0])));
-		moduleEnergyCubeContainers[1] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.OSMIUM, 1, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[1])));
-		moduleEnergyCubeContainers[2] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.GOLD, 2, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[2])));
-		moduleEnergyCubeContainers[3] = GameRegistry.register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.STEEL, 3, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[3])));
+		moduleEnergyCubeContainers[0] = register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.IRON, 0, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[0])), "battery.mekanism.energycube.0");
+		moduleEnergyCubeContainers[1] = register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.OSMIUM, 1, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[1])), "battery.mekanism.energycube.1");
+		moduleEnergyCubeContainers[2] = register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.GOLD, 2, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[2])), "battery.mekanism.energycube.2");
+		moduleEnergyCubeContainers[3] = register(new ModuleItemContainerEnergyCube(EnumMetalMaterials.STEEL, 3, new ModuleContainer(moduleEnergyCube, moduleEnergyCubeProperties[3])), "battery.mekanism.energycube.3");
 	}
 
 	@Override
