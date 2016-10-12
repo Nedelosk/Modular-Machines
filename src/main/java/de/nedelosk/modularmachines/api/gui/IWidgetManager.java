@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.gui;
 import java.util.Collection;
 import java.util.List;
 
-public interface IWidgetManager<G extends IGuiProvider> {
+public interface IWidgetManager<G extends IGuiBase> {
 
 	void add(Widget slot);
 

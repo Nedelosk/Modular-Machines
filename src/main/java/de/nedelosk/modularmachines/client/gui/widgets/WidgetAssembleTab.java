@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
@@ -11,6 +11,7 @@ import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncHandlerState;
+import de.nedelosk.modularmachines.common.utils.Log;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +29,7 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider == null) ? 28 : 0, isRight ? 214 : 235, 28, 21);
@@ -38,7 +39,7 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		IModularHandler handler = (IModularHandler) gui.getHandler();
 		if(!handler.isAssembled()){
 			try{
@@ -57,7 +58,7 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		IModularHandler handler = (IModularHandler) gui.getHandler();
 		if(!handler.isAssembled()){
 			return Arrays.asList(Translator.translateToLocal("modular.assembler.assemble"));

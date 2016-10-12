@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.common.core;
 
 import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
 
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modules.models.ModuleModelLoader;
 import de.nedelosk.modularmachines.client.model.ModelManager;
@@ -11,6 +12,11 @@ import de.nedelosk.modularmachines.common.modular.ModularHelper;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.plugins.PluginManager;
 import de.nedelosk.modularmachines.common.recipse.ModuleCrafterRecipe;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,7 +28,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
-public class ModRegistry extends Registry {
+public class ModRegistry extends Registry implements IGuiHandler {
 
 	public static Config config;
 
@@ -79,6 +85,36 @@ public class ModRegistry extends Registry {
 
 	@Override
 	public IGuiHandler getGuiHandler() {
-		return ModularMachines.proxy;
+		return this;
 	}
+	
+	@Override
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+		switch (ID) {
+			case 0:
+				if (tile != null && tile instanceof IGuiProvider) {
+					return ((IGuiProvider) tile).createContainer(player.inventory);
+				}
+			default:
+				return null;
+		}
+	}
+
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+		if ((world instanceof WorldClient)) {
+			switch (ID) {
+				case 0:
+					if (tile instanceof IGuiProvider) {
+						return ((IGuiProvider) tile).createGui(player.inventory);
+					}
+				default:
+					return null;
+			}
+		}
+		return null;
+	}
+	
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
@@ -28,7 +28,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleS
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton, gui);
 		if(provider.getModule() instanceof IModuleJEI){
 			((IModuleJEI)provider.getModule()).openJEI(provider);
@@ -36,7 +36,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleS
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<>();
 		if (provider.getModule().getWorkTimeTotal(provider) != 0) {
 			list.add(provider.getModule().getWorkTime(provider) + " / " + provider.getModule().getWorkTimeTotal(provider));
@@ -66,7 +66,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleS
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		int worktTimeTotal = provider.getModule().getWorkTimeTotal(provider);
 		int workTime = provider.getModule().getWorkTime(provider);
 		GlStateManager.color(1F, 1F, 1F, 1F);

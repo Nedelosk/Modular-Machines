@@ -28,6 +28,7 @@ import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStora
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssembleTab;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssemblerTab;
 import de.nedelosk.modularmachines.common.core.BlockManager;
+import de.nedelosk.modularmachines.common.utils.Log;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;

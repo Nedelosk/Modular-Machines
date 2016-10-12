@@ -3,19 +3,23 @@ package de.nedelosk.modularmachines.common.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerAssembler extends BaseContainer<IModularHandler> implements IAssemblerContainer {
 
+	private IModularAssembler assembler;
 	private final IStoragePage page;
 	private boolean afterPage = false;
 	private boolean transferStack = false;
@@ -23,10 +27,10 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 
 	public ContainerAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
-		IModularAssembler assembler = handler.getAssembler();
+		assembler = handler.getAssembler();
 		IStoragePosition position = assembler.getSelectedPosition();
-		this.page = assembler.getStoragePage(position);
 		assembler.updatePages(null);
+		this.page = assembler.getStoragePage(position);
 
 		//Add slots to container
 		if(page == null){
@@ -43,6 +47,14 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.setContainer(this);
 			page.onSlotChanged(this);
 		}
+	}
+	
+	@Override
+	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+		assembler.beforeSlotClick(slotId, dragType, clickTypeIn, player);
+		ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
+		assembler.afterSlotClick(slotId, dragType, clickTypeIn, player);
+		return stack;
 	}
 
 	@Override
@@ -63,14 +75,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
-		transferStack = true;
-		ItemStack stack = super.transferStackInSlot(player, slotIndex);
-		transferStack = false;
-		if(hasStorageChange){
-			handler.getAssembler().onStorageChange();
-			hasStorageChange = false;
-		}
-		return stack;
+		return super.transferStackInSlot(player, slotIndex);
 	}
 
 

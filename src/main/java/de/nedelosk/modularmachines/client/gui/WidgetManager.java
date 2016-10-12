@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 
-public class WidgetManager<G extends IGuiProvider> implements IWidgetManager<G> {
+public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	public final G gui;
 	public final Minecraft minecraft;

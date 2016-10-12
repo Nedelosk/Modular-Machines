@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,7 +23,7 @@ public class WidgetWashing extends Widget {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<>();
 		if (worktTimeTotal != 0) {
 			list.add(workTime + " / " + worktTimeTotal);
@@ -32,7 +32,7 @@ public class WidgetWashing extends Widget {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);

@@ -103,6 +103,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 	public void setModular(IModular modular) {
 		if(modular != null){
 			modular.setHandler(this);
+			setAssembler(null);
 		}
 		this.modular = modular;
 		markDirty();
@@ -110,6 +111,9 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public void setAssembler(IModularAssembler assembler) {
+		if(assembler != null){
+			setModular(null);
+		}
 		this.assembler = assembler;
 	}
 

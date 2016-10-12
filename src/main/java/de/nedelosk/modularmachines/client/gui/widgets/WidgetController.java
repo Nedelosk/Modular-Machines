@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -25,7 +25,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ItemStack itemStack = state.getProvider().getItemStack();
 		if(itemStack != null && itemStack.hasDisplayName()){
 			return Arrays.asList(itemStack.getDisplayName());
@@ -34,7 +34,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
@@ -51,7 +51,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 
 		provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));

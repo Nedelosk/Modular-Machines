@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public interface IButtonManager<G extends IGuiProvider> {
+public interface IButtonManager<G extends IGuiBase> {
 
 	void add(Button button);
 

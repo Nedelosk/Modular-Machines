@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.IModuleBurning;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -19,19 +19,19 @@ public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleState
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		if(Loader.isModLoaded("JEI")){
 			JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Collections.singletonList(VanillaRecipeCategoryUid.FUEL));
 		}
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();

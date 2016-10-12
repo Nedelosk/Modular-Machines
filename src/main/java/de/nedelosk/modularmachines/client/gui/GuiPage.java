@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.gui.IPage;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiPage<H extends IGuiHandler> extends GuiBase<H> {
+public class GuiPage<H extends IGuiProvider> extends GuiBase<H> {
 
 	protected IPage page;
 

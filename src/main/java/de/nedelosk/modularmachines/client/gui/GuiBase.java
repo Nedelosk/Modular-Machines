@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
 import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IWidgetManager;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,7 +23,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase<H extends IGuiHandler> extends GuiContainer implements IGuiProvider<H> {
+public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer implements IGuiBase<H> {
 
 	protected final ResourceLocation guiTexture;
 	protected final H handler;

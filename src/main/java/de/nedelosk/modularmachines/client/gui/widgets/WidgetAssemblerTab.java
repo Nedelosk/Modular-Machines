@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -30,7 +30,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (position.equals(provider.getSelectedPosition())) ? 0 : 28,
@@ -45,7 +45,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		if (!provider.getSelectedPosition().equals(position)) {
 			provider.setSelectedPosition(position);
 			IModularHandler modularHandler = provider.getHandler();
@@ -58,7 +58,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		return Arrays.asList(Translator.translateToLocal("module.storage." + position.getName() + ".name"));
 	}
 }

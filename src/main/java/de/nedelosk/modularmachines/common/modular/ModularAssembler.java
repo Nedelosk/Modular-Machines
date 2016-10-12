@@ -42,6 +42,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -60,6 +61,7 @@ public class ModularAssembler implements IModularAssembler {
 	protected final Map<IStoragePosition, IStoragePage> pages;
 	protected final List<IStoragePosition> indexes;
 	protected final IModularHandler modularHandler;
+	protected boolean hasChange = false;
 	protected IStoragePosition selectedPosition;
 
 	public ModularAssembler(IModularHandler modularHandler, ItemStack[] stacks, Map<IStoragePosition, IStoragePage> pages) {
@@ -323,7 +325,7 @@ public class ModularAssembler implements IModularAssembler {
 	public void assemble(EntityPlayer player) {
 		if(modularHandler != null){
 			try{
-				modularHandler.setModular(modularHandler.getAssembler().createModular());
+				modularHandler.setModular(createModular());
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -424,6 +426,38 @@ public class ModularAssembler implements IModularAssembler {
 	public IModularAssembler copy(IModularHandler handler) {
 		return new ModularAssembler(handler, pages);
 	}
+	
+	@Override
+	public void beforeSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+	}
+	
+	@Override
+	public void afterSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+		if(hasChange){
+			BlockPos pos = ((IModularHandlerTileEntity)modularHandler).getPos();
+			WorldServer server = (WorldServer) modularHandler.getWorld();
+			for(EntityPlayer otherPlayer : server.playerEntities) {
+				if(otherPlayer.openContainer instanceof ContainerAssembler) {
+					ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
+					if(modularHandler == assembler.getHandler()) {
+						ItemStack heldStack = null;
+
+						if(otherPlayer.inventory.getItemStack() != null) {
+							heldStack = otherPlayer.inventory.getItemStack();
+							otherPlayer.inventory.setItemStack(null);
+						}
+						otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
+
+						if(heldStack != null && heldStack.stackSize > 0) {
+							otherPlayer.inventory.setItemStack(heldStack);
+							((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+						}
+					}
+				}
+			}
+			hasChange = false;
+		}
+	}
 
 	@Override
 	public void updatePages(IStoragePosition position){
@@ -457,29 +491,9 @@ public class ModularAssembler implements IModularAssembler {
 	}
 
 	@Override
-	public void onStorageChange(){
+	public void onStorageSlotChange(){
 		if(!modularHandler.getWorld().isRemote && modularHandler instanceof IModularHandlerTileEntity){
-			BlockPos pos = ((IModularHandlerTileEntity)modularHandler).getPos();
-			WorldServer server = (WorldServer) modularHandler.getWorld();
-			for(EntityPlayer otherPlayer : server.playerEntities) {
-				if(otherPlayer.openContainer instanceof ContainerAssembler) {
-					ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
-					if(modularHandler == assembler.getHandler()) {
-						ItemStack heldStack = null;
-
-						if(otherPlayer.inventory.getItemStack() != null) {
-							heldStack = otherPlayer.inventory.getItemStack();
-							otherPlayer.inventory.setItemStack(null);
-						}
-						otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
-
-						if(heldStack != null) {
-							otherPlayer.inventory.setItemStack(heldStack);
-							((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
-						}
-					}
-				}
-			}
+			hasChange = true;
 		}
 	}
 

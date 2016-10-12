@@ -66,14 +66,13 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("ModularHandler")) {
-			modularHandler = new ModularHandlerTileEntity(this, ModularManager.DEFAULT_STORAGE_POSITIONS);
 			modularHandler.deserializeNBT(nbt.getCompoundTag("ModularHandler"));
 		}
 	}
 
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+		return serializeNBT();
 	}
 
 	@Override

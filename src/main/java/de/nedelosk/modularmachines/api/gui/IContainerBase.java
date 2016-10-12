@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 
-public interface IContainerBase<T extends IGuiHandler> {
+public interface IContainerBase<T extends IGuiProvider> {
 
 	T getHandler();
 

@@ -26,17 +26,17 @@ public abstract class Widget<P> {
 		this.provider = provider;
 	}
 
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 	}
 
-	public boolean keyTyped(char keyChar, int keyCode, IGuiProvider gui) {
+	public boolean keyTyped(char keyChar, int keyCode, IGuiBase gui) {
 		return false;
 	}
 
-	public void drawStrings(IGuiProvider gui) {
+	public void drawStrings(IGuiBase gui) {
 	}
 
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		return null;
 	}
 
@@ -44,7 +44,7 @@ public abstract class Widget<P> {
 		return x >= pos.x && y >= pos.y && x < pos.x + pos.width && y < pos.y + pos.height;
 	}
 
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 	}
 
 	public Rectangle getPos() {

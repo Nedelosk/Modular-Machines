@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
@@ -26,7 +26,7 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -41,7 +41,7 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		IModularHandler modularHandler = (IModularHandler) gui.getHandler();
 		if (!provider.getPageID().equals(provider.getModuleState().getModular().getCurrentPage().getPageID())) {
 			modularHandler.getModular().setCurrentPage(provider.getPageID());
@@ -50,7 +50,7 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 	}
 
 	@Override
-	public List getTooltip(IGuiProvider gui) {
+	public List getTooltip(IGuiBase gui) {
 		return Arrays.asList(provider.getTabTitle());
 	}
 }

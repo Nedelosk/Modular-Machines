@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
@@ -29,7 +29,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider.equals(moduleHandler.getModular().getCurrentModule())) ? 0 : 28,
@@ -38,7 +38,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		IModular modular = moduleHandler.getModular();
 		IModuleState currentModule = modular.getCurrentModule();
 		if (currentModule.getIndex() != provider.getIndex()) {
@@ -53,7 +53,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ItemStack itemStack = provider.getProvider().getItemStack();
 		if(itemStack != null && itemStack.hasDisplayName()){
 			return Arrays.asList(itemStack.getDisplayName());

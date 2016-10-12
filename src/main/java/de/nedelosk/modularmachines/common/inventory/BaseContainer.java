@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.common.inventory;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.common.utils.ContainerUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-public abstract class BaseContainer<H extends IGuiHandler> extends Container implements IContainerBase<H> {
+public abstract class BaseContainer<H extends IGuiProvider> extends Container implements IContainerBase<H> {
 
 	protected H handler;
 	protected EntityPlayer player;

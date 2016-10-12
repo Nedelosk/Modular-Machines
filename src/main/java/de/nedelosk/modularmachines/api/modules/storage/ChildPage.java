@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.gui.IContainerBase;
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.modular.AssemblerException;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ChildPage implements IStoragePage{
 
 	@SideOnly(Side.CLIENT)
-	protected IGuiProvider gui;
+	protected IGuiBase gui;
 	protected IContainerBase container;
 	protected final IStoragePosition position;
 	protected IStoragePage parent;
@@ -33,12 +33,12 @@ public class ChildPage implements IStoragePage{
 	}
 
 	@Override
-	public IGuiProvider getGui() {
+	public IGuiBase getGui() {
 		return gui;
 	}
 
 	@Override
-	public void setGui(IGuiProvider gui) {
+	public void setGui(IGuiBase gui) {
 		this.gui = gui;
 	}
 

@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
+import de.nedelosk.modularmachines.api.modules.storage.StoragePage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -36,11 +37,7 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 		if(page != null){
 			page.onSlotChanged(container);
 		}
-		if(!container.transferStack()){
-			container.getHandler().getAssembler().onStorageChange();
-		}else{
-			container.setHasStorageChange(true);
-		}
+		container.getHandler().getAssembler().onStorageSlotChange();
 	}
 
 	@Override

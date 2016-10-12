@@ -30,7 +30,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.plugins.jei.JeiPlugin;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
@@ -62,7 +62,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiProvider gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		if(provider != null && provider.getFluid() != null){
 			Loader.instance();
 			if(Loader.isModLoaded("JEI")){
@@ -72,7 +72,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlpha();
 
@@ -177,7 +177,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<>();
 		if (provider == null || provider.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-public class CommonProxy implements IGuiHandler {
+public class CommonProxy {
 
 	public void preInit(){
 	}
@@ -25,35 +25,6 @@ public class CommonProxy implements IGuiHandler {
 
 	public List<String> addModuleInfo(ItemStack itemStack){
 		return Collections.emptyList();
-	}
-
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		switch (ID) {
-			case 0:
-				if (tile != null && tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
-					return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).createContainer(player.inventory);
-				}
-			default:
-				return null;
-		}
-	}
-
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		if ((world instanceof WorldClient)) {
-			switch (ID) {
-				case 0:
-					if (tile instanceof de.nedelosk.modularmachines.api.gui.IGuiHandler) {
-						return ((de.nedelosk.modularmachines.api.gui.IGuiHandler) tile).createGui(player.inventory);
-					}
-				default:
-					return null;
-			}
-		}
-		return null;
 	}
 
 	public void registerStateMapper(Block block, IStateMapper mapper) {

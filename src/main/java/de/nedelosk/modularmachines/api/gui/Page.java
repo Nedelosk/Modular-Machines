@@ -8,11 +8,11 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class Page<T extends IGuiHandler> implements IPage<T> {
+public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 
 	protected String title;
 	@SideOnly(Side.CLIENT)
-	protected IGuiProvider<T> gui;
+	protected IGuiBase<T> gui;
 	protected IContainerBase<T> container;
 
 	public Page(String title) {
@@ -122,13 +122,13 @@ public abstract class Page<T extends IGuiHandler> implements IPage<T> {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IGuiProvider getGui() {
+	public IGuiBase getGui() {
 		return gui;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setGui(IGuiProvider gui) {
+	public void setGui(IGuiBase gui) {
 		this.gui = gui;
 	}
 

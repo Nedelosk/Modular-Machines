@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL11;
 
 import de.nedelosk.modularmachines.api.gui.Button;
 import de.nedelosk.modularmachines.api.gui.IButtonManager;
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 
-public class ButtonManager<G extends IGuiProvider> implements IButtonManager<G> {
+public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 
 	public final G gui;
 	public final Minecraft minecraft;

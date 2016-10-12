@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
-import de.nedelosk.modularmachines.api.gui.IGuiProvider;
+import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,14 +19,14 @@ public class WidgetEnergyBar extends Widget<IEnergyBuffer> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiProvider gui) {
+	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<>();
 		description.add(provider.getEnergyStored() + " RF / " + provider.getCapacity() + " RF");
 		return description;
 	}
 
 	@Override
-	public void draw(IGuiProvider gui) {
+	public void draw(IGuiBase gui) {
 		if (provider == null) {
 			return;
 		}

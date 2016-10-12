@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderItem;
 
-public class Button<G extends IGuiProvider> extends GuiButton {
+public class Button<G extends IGuiBase> extends GuiButton {
 
 	protected RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
 	private G gui;

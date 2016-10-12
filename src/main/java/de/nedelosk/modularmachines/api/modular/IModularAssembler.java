@@ -6,16 +6,17 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import de.nedelosk.modularmachines.api.gui.IGuiHandler;
+import de.nedelosk.modularmachines.api.gui.IGuiProvider;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IItemHandlerStorage;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGuiHandler {
+public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGuiProvider {
 
 	@Nonnull
 	IModularHandler getHandler();
@@ -52,6 +53,10 @@ public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGu
 
 	void updatePages(IStoragePosition position);
 
-	void onStorageChange();
+	void onStorageSlotChange();
+	
+	void beforeSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player);
+	
+	void afterSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player);
 
 }

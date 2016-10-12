@@ -1,16 +1,18 @@
 package de.nedelosk.modularmachines.api.gui;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IPage<T extends IGuiHandler> {
+public interface IPage<T extends IGuiProvider> {
 
 	@SideOnly(Side.CLIENT)
-	IGuiProvider<T> getGui();
+	IGuiBase<T> getGui();
 
 	@SideOnly(Side.CLIENT)
-	void setGui(IGuiProvider<T> gui);
+	void setGui(IGuiBase<T> gui);
 
 	IContainerBase<T> getContainer();
 
