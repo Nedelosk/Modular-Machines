@@ -154,12 +154,12 @@ public class ModuleManager {
 		register(moduleStorage, "modulestorage");
 
 		//Small
-		moduleModuleStorageSmallProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.SIDE);
-		moduleModuleStorageSmallProperties[1] = new ModuleModuleStorageProperties(2, 5, EnumModulePositions.SIDE);
-		moduleModuleStorageSmallProperties[2] = new ModuleModuleStorageProperties(3, 7, EnumModulePositions.SIDE);
-		moduleModuleStorageSmallProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.SIDE);
-		moduleModuleStorageSmallProperties[4] = new ModuleModuleStorageProperties(5, 18, EnumModulePositions.SIDE);
-		moduleModuleStorageSmallProperties[5] = new ModuleModuleStorageProperties(6, 24, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[1] = new ModuleModuleStorageProperties(2, 5, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[2] = new ModuleModuleStorageProperties(3, 7, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[4] = new ModuleModuleStorageProperties(5, 18, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[5] = new ModuleModuleStorageProperties(6, 24, EnumModulePositions.TOP);
 
 		//Large
 		moduleModuleStorageLargeProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.SIDE);

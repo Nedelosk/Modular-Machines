@@ -22,7 +22,7 @@ public class Config {
 	public static Configuration config;
 
 	/* MODULES */
-	public static int defaultAllowedStorageComplexity = 4;
+	public static int defaultAllowedStorageComplexity = 3;
 	public static int defaultAllowedCasingComplexity = 8;
 	public static int defaultAllowedComplexity = 12;
 	public static int defaultAllowedControllerComplexity = 16;
