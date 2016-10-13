@@ -1,6 +1,6 @@
 {
     "parent": "modularmachines:module/default/module_storage/front_walls/large",
 	"textures": {
-        "wall": "modularmachines:blocks/casing/drawer_magmarium"
+        "wall": "modularmachines:blocks/casing/moduleStorage_magmarium"
     }
 }

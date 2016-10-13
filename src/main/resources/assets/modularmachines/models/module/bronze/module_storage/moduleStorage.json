@@ -1,5 +1,5 @@
 {
-    "parent": "modularmachines:module/default/module_storage/front_walls/stick_down",
+    "parent": "modularmachines:module/default/module_storage/moduleStorage",
 	"textures": {
         "wall": "modularmachines:blocks/casing/moduleStorage_bronze"
     }

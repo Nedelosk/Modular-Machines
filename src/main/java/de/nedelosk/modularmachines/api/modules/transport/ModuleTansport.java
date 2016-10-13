@@ -8,11 +8,11 @@ import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
 import de.nedelosk.modularmachines.api.modules.controller.ModuleControlled;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public abstract class ModuleTansportManager<H> extends ModuleControlled {
+public abstract class ModuleTansport<H> extends ModuleControlled {
 
 	protected Class<H> handlerClass;
 
-	public ModuleTansportManager(String name, Class<H> handlerClass) {
+	public ModuleTansport(String name, Class<H> handlerClass) {
 		super(name);
 		this.handlerClass = handlerClass;
 	}

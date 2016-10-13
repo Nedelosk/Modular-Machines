@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> implements IModelHandler<IModuleModuleStorage>{
+public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage> implements IModelHandler<IModuleModuleStorage>{
 
 	private final ResourceLocation storageModel;
 	private final ResourceLocation top;
@@ -47,7 +47,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 	 */
 	private final ResourceLocation[] walls;
 
-	public ModelHandlerDrawer(ResourceLocation storageModel, ResourceLocation top, ResourceLocation back, ResourceLocation wall, ResourceLocation[] walls) {
+	public ModelHandlerModuleStorage(ResourceLocation storageModel, ResourceLocation top, ResourceLocation back, ResourceLocation wall, ResourceLocation[] walls) {
 		this.storageModel = storageModel;
 		this.top = top;
 		this.back = back;

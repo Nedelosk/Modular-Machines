@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/module_storage/drawer",
-	"textures": {
-        "wall": "modularmachines:blocks/casing/drawer_wood"
-    }
-}

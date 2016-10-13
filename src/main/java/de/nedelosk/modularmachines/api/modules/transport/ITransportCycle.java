@@ -7,7 +7,13 @@ public interface ITransportCycle<H> {
 	void work();
 
 	void canWork();
+	
+	int getProperty();
 
-	H getHandler();
+	ITransportHandler getParent();
+	
+	H getStartHandler();
+	
+	H getEndHandler();
 
 }

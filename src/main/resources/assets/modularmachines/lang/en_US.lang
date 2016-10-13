@@ -43,7 +43,7 @@ module.size.large.name=Large
 module.size.small.name=Small
 module.size.medium.name=Normal
 
-module.drawer.name=Storage Drawer
+module.moduleStorage.name=Storage moduleStorage
 module.turbine.steam.name=Steam Turbine
 module.engine.steam.name=Steam Engine
 module.engine.electric.name=Electric Engine
@@ -76,7 +76,7 @@ module.bee_house.name=Bee House
 #Description's
 module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
 module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
-module.drawer.description=This is a drawer module, It defines the maximum complexity of storaged modules.
+module.moduleStorage.description=This is a moduleStorage module, It defines the maximum complexity of storaged modules.
 module.heater.steam.description=This type of heater generates heat from steam.
 module.heater.burning.description=This type of heater generates heat from solid fuel, like coal or other furnace fuel.
 module.engine.electric.rf.description=This type of engine generates kinetic energy from redstone flux.

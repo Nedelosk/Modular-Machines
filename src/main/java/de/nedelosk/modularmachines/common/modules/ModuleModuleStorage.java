@@ -25,7 +25,7 @@ import de.nedelosk.modularmachines.api.modules.storage.module.IDefaultModuleStor
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleStorage;
 import de.nedelosk.modularmachines.api.modules.storage.module.ModuleStoragePage;
-import de.nedelosk.modularmachines.client.model.ModelHandlerDrawer;
+import de.nedelosk.modularmachines.client.model.ModelHandlerModuleStorage;
 import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
@@ -60,7 +60,7 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "drawer"));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "moduleStorage"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "moduleStorage"));
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "top"));
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "back"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "back"));
 		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "wall"), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "module_storage", "wall"));
@@ -79,8 +79,8 @@ public class ModuleModuleStorage extends StorageModule implements IModuleModuleS
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		IModuleItemContainer container = state.getContainer().getItemContainer();
-		return new ModelHandlerDrawer(
-				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "drawer"),
+		return new ModelHandlerModuleStorage(
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "moduleStorage"),
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "top"),
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "back"),
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "module_storage", "wall"),

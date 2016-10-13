@@ -20,6 +20,7 @@ import de.nedelosk.modularmachines.api.modules.containers.ModuleProvider;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
+import de.nedelosk.modularmachines.api.modules.transport.ITransportHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,6 +40,7 @@ public class ModuleManager {
 	public static final IForgeRegistry<IModuleItemContainer> MODULE_CONTAINERS = GameRegistry.findRegistry(IModuleItemContainer.class);
 	private static final List<IModuleItemContainer> modulesWithDefaultItem = new ArrayList<>();
 	private static final Map<IMetalMaterial, ItemStack[]> materialsWithHolder = new HashMap<>();
+	private static final Map<Integer, List<ITransportHandler>> transprotHandlers = new HashMap<>();
 
 	public static Item defaultModuleItem;
 	public static Item defaultModuleHolderItem;
@@ -63,6 +65,29 @@ public class ModuleManager {
 	public static IModuleItemContainer register(IModuleItemContainer itemContainer, String registryName){
 		itemContainer.setRegistryName(new ResourceLocation("modularmachines", registryName));
 		return GameRegistry.register(itemContainer);
+	}
+	
+	public static ITransportHandler register(ITransportHandler handler){
+		Integer level = Integer.valueOf(handler.getLevel());
+		if(transprotHandlers.get(level) == null){
+			transprotHandlers.put(level, new ArrayList<>());
+		}
+		if(!transprotHandlers.get(level).contains(handler)){
+			transprotHandlers.get(level).add(handler);
+		}
+		return handler;
+	}
+	
+	public static List<ITransportHandler> getTransportHandles(int handlerLevel){
+		List<ITransportHandler> transprotHandlers = new ArrayList<>();
+		for(int i = handlerLevel;i > 0;i--){
+			Integer level = Integer.valueOf(i);
+			List<ITransportHandler> handlers = ModuleManager.transprotHandlers.get(level);
+			if(handlers != null){
+				transprotHandlers.addAll(handlers);
+			}
+		}
+		return transprotHandlers;
 	}
 
 	/**

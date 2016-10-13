@@ -1,6 +1,6 @@
 {
     "parent": "modularmachines:module/default/module_storage/back",
 	"textures": {
-        "wall": "modularmachines:blocks/casing/drawer_iron"
+        "wall": "modularmachines:blocks/casing/moduleStorage_iron"
     }
 }
