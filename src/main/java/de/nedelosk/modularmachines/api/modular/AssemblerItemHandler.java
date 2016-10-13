@@ -30,6 +30,10 @@ public class AssemblerItemHandler extends ItemStackHandler implements IItemHandl
 		this.position = position;
 	}
 
+	public ItemStack[] getStacks(){
+		return stacks;
+	}
+
 	@Override
 	public void setAssembler(IModularAssembler assembler) {
 		this.assembler = assembler;
@@ -61,5 +65,4 @@ public class AssemblerItemHandler extends ItemStackHandler implements IItemHandl
 			assembler.updatePages(position);
 		}
 	}
-
 }

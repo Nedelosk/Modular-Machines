@@ -89,53 +89,88 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings), 
 				"+++", 
 				"+ +",
-				"---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
+				"---", '+', "plankWood", '-', "logWood");
 
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 1), 
 				"+++", 
-				"+ +", 
-				"---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
+				"+ +",
+				"---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
 
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 2), 
 				"+++", 
 				"+ +", 
-				"---", '+', "plateSteel", '-', Blocks.BRICK_BLOCK);
+				"---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
 
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 3), 
 				"+++", 
 				"+ +", 
+				"---", '+', "plateSteel", '-', Blocks.BRICK_BLOCK);
+
+		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 4), 
+				"+++", 
+				"+ +", 
 				"---", '+', "plateMagmarium", '-', Blocks.BRICK_BLOCK);
 
-		//Drawers
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 0), 
+		//Module Storages
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge), 
+				"BIB",
+				"BIB",
+				"BIB", 'I', "stickWood", 'B', "logWood");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall), 
+				"III",
+				"I I",
+				"III", 'I', "stickWood");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1), 
 				"BIB",
 				"BIB",
 				"BIB", 'I', "ingotBrick", 'B', new ItemStack(Blocks.BRICK_BLOCK));
 
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 1), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 1), 
 				"III",
 				"I I",
 				"III", 'I', "ingotBrick");
 
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 2), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 2), 
 				"IPI",
 				"IPI",
 				"IPI", 'I', "ingotBronze", 'P', "plateBronze");
 
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 3), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 2), 
+				"III",
+				"I I",
+				"III", 'I', "ingotBronze");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 3), 
 				"IPI",
 				"IPI",
 				"IPI", 'I', "ingotIron", 'P', "plateIron");
 
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 4), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 3), 
+				"III",
+				"I I",
+				"III", 'I', "ingotIron");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 4), 
 				"IPI",
 				"IPI",
 				"IPI", 'I', "ingotSteel", 'P', "plateSteel");
 
-		addShapedRecipe(new ItemStack(ItemManager.itemDrawer, 1, 5), 
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 4), 
+				"III",
+				"I I",
+				"III", 'I', "ingotSteel");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 5), 
 				"IPI",
 				"IPI",
 				"IPI", 'I', "ingotMagmarium", 'P', "plateMagmarium");
+
+		addShapedRecipe(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 5), 
+				"III",
+				"I I",
+				"III", 'I', "ingotMagmarium");
 
 		//Engines
 		addShapedRecipe(new ItemStack(ItemManager.itemEngineSteam, 1, 0), 

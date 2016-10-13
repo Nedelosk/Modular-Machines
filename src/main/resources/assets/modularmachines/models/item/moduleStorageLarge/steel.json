@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:item/moduleStorageLarge/moduleStorageLarge",
+    "textures": {
+        "wall": "modularmachines:blocks/casing/moduleStorage_steel"
+    }
+}

@@ -3,14 +3,12 @@ package de.nedelosk.modularmachines.common.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.assembler.IAssemblerContainer;
 import de.nedelosk.modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
-import de.nedelosk.modularmachines.common.utils.Log;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -48,7 +46,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 			page.onSlotChanged(this);
 		}
 	}
-	
+
 	@Override
 	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 		assembler.beforeSlotClick(slotId, dragType, clickTypeIn, player);

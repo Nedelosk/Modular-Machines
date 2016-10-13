@@ -1,5 +1,5 @@
 {
-    "parent": "modularmachines:item/drawer/drawer",
+    "parent": "modularmachines:item/moduleStorageLarge/moduleStorageLarge",
     "textures": {
         "wall": "modularmachines:blocks/casing/casing_down"
     }

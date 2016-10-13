@@ -104,7 +104,7 @@ public class ModelHandlerDrawer extends ModelHandler<IModuleModuleStorage> imple
 			EnumModuleSizes moduleSize = moduleState.getContainer().getItemContainer().getSize();
 			IModule module = moduleState.getModule();
 			IModuleItemContainer itemContainer = moduleState.getContainer().getItemContainer();
-			if(((IModuleStateClient)moduleState).getModelHandler() != null){
+			if(moduleState instanceof IModuleStateClient && ((IModuleStateClient)moduleState).getModelHandler() != null){
 				IBakedModel model = ModuleModelLoader.getModel(moduleState, storage, modelState, format);
 				if(model != null){
 					if(size == null){

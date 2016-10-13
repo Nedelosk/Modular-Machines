@@ -57,7 +57,7 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ModularAssembler implements IModularAssembler {
 
-	protected final IItemHandlerStorage itemHandler;
+	protected final AssemblerItemHandler itemHandler;
 	protected final Map<IStoragePosition, IStoragePage> pages;
 	protected final List<IStoragePosition> indexes;
 	protected final IModularHandler modularHandler;
@@ -83,7 +83,7 @@ public class ModularAssembler implements IModularAssembler {
 		deserializeNBT(nbtTag);
 	}
 
-	public ModularAssembler(IModularHandler modularHandler, IItemHandlerStorage itemHandler, Map<IStoragePosition, IStoragePage> pages) {
+	public ModularAssembler(IModularHandler modularHandler, AssemblerItemHandler itemHandler, Map<IStoragePosition, IStoragePage> pages) {
 		this.modularHandler = modularHandler;
 		this.pages = pages;
 		this.itemHandler = itemHandler;
@@ -424,13 +424,13 @@ public class ModularAssembler implements IModularAssembler {
 
 	@Override
 	public IModularAssembler copy(IModularHandler handler) {
-		return new ModularAssembler(handler, pages);
+		return new ModularAssembler(handler, itemHandler.getStacks(), new HashMap(pages));
 	}
-	
+
 	@Override
 	public void beforeSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 	}
-	
+
 	@Override
 	public void afterSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 		if(hasChange){

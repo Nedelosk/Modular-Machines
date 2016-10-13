@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:item/moduleStorageSmall/moduleStorageSmall",
+    "textures": {
+        "wall": "modularmachines:blocks/casing/moduleStorage_magmarium"
+    }
+}

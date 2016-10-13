@@ -73,10 +73,11 @@ public class ModuleManager {
 	public static IModuleItemContainer[] moduleControllerContainers = new IModuleItemContainer[4];
 
 	public static IModuleCasing moduleCasing;
-	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[4];
+	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[5];
 
 	public static IModuleModuleStorage moduleStorage;
-	public static IModuleModuleStorageProperties[] moduleDrawerProperties = new IModuleModuleStorageProperties[6];
+	public static IModuleModuleStorageProperties[] moduleModuleStorageLargeProperties = new IModuleModuleStorageProperties[6];
+	public static IModuleModuleStorageProperties[] moduleModuleStorageSmallProperties = new IModuleModuleStorageProperties[6];
 
 	public static IModuleHeater moduleHeaterSteam;
 	public static IModuleHeaterProperties moduleHeaterSteamProperties;
@@ -142,21 +143,31 @@ public class ModuleManager {
 		moduleCasing = new ModuleCasing();
 		register(moduleCasing, "casing");
 
-		moduleCasingProperties[0] = new ModuleCasingProperties(1, 8, 550, 7.0F, 1.5F);
-		moduleCasingProperties[1] = new ModuleCasingProperties(2, 12, 550, 9.0F, 5.0F);
-		moduleCasingProperties[2] = new ModuleCasingProperties(3, 16, 650, 10.0F, 5.0F);
-		moduleCasingProperties[3] = new ModuleCasingProperties(4, 20, 750, 11.0F, 5.0F);
+		moduleCasingProperties[0] = new ModuleCasingProperties(1, 4, 250, 3.5F, 0.75F);
+		moduleCasingProperties[1] = new ModuleCasingProperties(2, 8, 550, 7.0F, 1.5F);
+		moduleCasingProperties[2] = new ModuleCasingProperties(3, 12, 550, 9.0F, 5.0F);
+		moduleCasingProperties[3] = new ModuleCasingProperties(4, 16, 650, 10.0F, 5.0F);
+		moduleCasingProperties[4] = new ModuleCasingProperties(5, 20, 750, 11.0F, 5.0F);
 
 		/* MODULE STORAGES */
 		moduleStorage = new ModuleModuleStorage();
 		register(moduleStorage, "modulestorage");
 
-		moduleDrawerProperties[0] = new ModuleModuleStorageProperties(1, 4, EnumModulePositions.SIDE);
-		moduleDrawerProperties[1] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.TOP);
-		moduleDrawerProperties[2] = new ModuleModuleStorageProperties(2, 8, EnumModulePositions.SIDE);
-		moduleDrawerProperties[3] = new ModuleModuleStorageProperties(3, 16, EnumModulePositions.SIDE);
-		moduleDrawerProperties[4] = new ModuleModuleStorageProperties(4, 32, EnumModulePositions.SIDE);
-		moduleDrawerProperties[5] = new ModuleModuleStorageProperties(5, 64, EnumModulePositions.SIDE);
+		//Small
+		moduleModuleStorageSmallProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[1] = new ModuleModuleStorageProperties(2, 5, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[2] = new ModuleModuleStorageProperties(3, 7, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[4] = new ModuleModuleStorageProperties(5, 18, EnumModulePositions.SIDE);
+		moduleModuleStorageSmallProperties[5] = new ModuleModuleStorageProperties(6, 24, EnumModulePositions.SIDE);
+
+		//Large
+		moduleModuleStorageLargeProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.SIDE);
+		moduleModuleStorageLargeProperties[1] = new ModuleModuleStorageProperties(2, 6, EnumModulePositions.SIDE);
+		moduleModuleStorageLargeProperties[2] = new ModuleModuleStorageProperties(3, 9, EnumModulePositions.SIDE);
+		moduleModuleStorageLargeProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.SIDE);
+		moduleModuleStorageLargeProperties[4] = new ModuleModuleStorageProperties(5, 32, EnumModulePositions.SIDE);
+		moduleModuleStorageLargeProperties[5] = new ModuleModuleStorageProperties(6, 64, EnumModulePositions.SIDE);
 
 		/* TURBINES */
 		//Steam
@@ -299,18 +310,26 @@ public class ModuleManager {
 		moduleModuleCleanerContainer = registerModuleItem(moduleModuleCleaner, null, EnumMetalMaterials.IRON, EnumModuleSizes.SMALL);
 
 		//Casings
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 0), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[0])), "casing.bronze");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.IRON, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[1])), "casing.iron");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 2), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[2])), "casing.steel");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 3), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[3])), "casing.magmarium");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 0), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[0])), "casing.wood");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 1), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[1])), "casing.bronze");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 2), EnumMetalMaterials.IRON, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[2])), "casing.iron");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 3), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[3])), "casing.steel");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemCasings, 1, 4), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGEST, new ModuleContainer(moduleCasing, moduleCasingProperties[4])), "casing.magmarium");
 
 		//Drawers
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 0), EnumBlockMaterials.BRICK, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleDrawerProperties[0])), "modulestorage.brick.large");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 1), EnumBlockMaterials.BRICK, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleDrawerProperties[1])), "modulestorage.brick.small");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 2), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleDrawerProperties[2])), "modulestorage.bronze.large");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 3), EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleDrawerProperties[3])), "modulestorage.iron.large");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 4), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleDrawerProperties[4])), "modulestorage.steel.large");
-		register(new ModuleItemContainer(new ItemStack(ItemManager.itemDrawer, 1, 5), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleDrawerProperties[5])), "modulestorage.magmarium.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 0), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[0])), "modulestorage.wood.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 0), EnumVanillaMaterials.WOOD, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[0])), "modulestorage.wood.small");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1), EnumBlockMaterials.BRICK, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[1])), "modulestorage.brick.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 1), EnumBlockMaterials.BRICK, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[1])), "modulestorage.brick.small");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 2), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[2])), "modulestorage.bronze.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 2), EnumMetalMaterials.BRONZE, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[2])), "modulestorage.bronze.small");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 3), EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[3])), "modulestorage.iron.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 3), EnumMetalMaterials.IRON, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[3])), "modulestorage.iron.small");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 4), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[4])), "modulestorage.steel.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 4), EnumMetalMaterials.STEEL, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[4])), "modulestorage.steel.small");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 5), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGE, new ModuleContainer(moduleStorage, moduleModuleStorageLargeProperties[5])), "modulestorage.magmarium.large");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemModuleStorageSmall, 1, 5), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.SMALL, new ModuleContainer(moduleStorage, moduleModuleStorageSmallProperties[5])), "modulestorage.magmarium.small");
+
 
 		//Boilers
 		moduleBoilerContainers[0] = registerModuleItem(moduleBoiler, moduleBoilerProperties[0], EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE);

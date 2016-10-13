@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCasing extends Item implements IItemModelRegister {
 
-	private String[] casings = new String[]{"bronze", "iron", "steel", "magmarium"};
+	private String[] casings = new String[]{ "wood", "bronze", "iron", "steel", "magmarium" };
 
 	public ItemCasing() {
 		setUnlocalizedName("casing");

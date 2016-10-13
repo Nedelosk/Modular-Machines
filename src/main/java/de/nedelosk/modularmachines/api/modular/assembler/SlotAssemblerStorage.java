@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.IStorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.IStoragePage;
-import de.nedelosk.modularmachines.api.modules.storage.StoragePage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 

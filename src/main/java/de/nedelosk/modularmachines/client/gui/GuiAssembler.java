@@ -28,7 +28,6 @@ import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStora
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssembleTab;
 import de.nedelosk.modularmachines.client.gui.widgets.WidgetAssemblerTab;
 import de.nedelosk.modularmachines.common.core.BlockManager;
-import de.nedelosk.modularmachines.common.utils.Log;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
 import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -41,6 +40,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public final IStoragePage page;
+	public final IModularAssembler assembler;
 	public AssemblerException lastException;
 	public boolean hasChange = false;
 	public IModular modular;
@@ -54,7 +54,9 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	public GuiAssembler(IModularHandler modularHandler, InventoryPlayer inventory) {
 		super(modularHandler, inventory);
 
-		this.page = modularHandler.getAssembler().getStoragePage(modularHandler.getAssembler().getSelectedPosition());
+		this.assembler = modularHandler.getAssembler();
+
+		this.page = assembler.getStoragePage(modularHandler.getAssembler().getSelectedPosition());
 
 		if(page != null){
 			page.setGui(this);
@@ -157,7 +159,6 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	}
 
 	protected void onUpdate(){
-		IModularAssembler assembler = handler.getAssembler();
 		if(handler != null && assembler != null){
 			try{
 				lastException = null;
