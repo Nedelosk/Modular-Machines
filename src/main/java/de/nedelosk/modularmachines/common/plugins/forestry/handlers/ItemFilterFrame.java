@@ -12,5 +12,4 @@ public class ItemFilterFrame implements IContentFilter<ItemStack, IModule> {
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
 		return content != null && content.getItem() instanceof IHiveFrame;
 	}
-
 }

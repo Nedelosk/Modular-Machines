@@ -43,20 +43,20 @@ public class ItemBlockModular extends ItemBlock {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if(GuiScreen.isShiftKeyDown()){
-			IModularHandler<NBTTagCompound> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(handler != null){
-				if(stack.hasTagCompound()){
+		if (GuiScreen.isShiftKeyDown()) {
+			IModularHandler<NBTTagCompound, Object> handler = stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			if (handler != null) {
+				if (stack.hasTagCompound()) {
 					handler.deserializeNBT(stack.getTagCompound());
 					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 					IModular modular = handler.getModular();
-					for(IModuleProvider provider : modular.getProviders()){
-						if(provider != null){
+					for(IModuleProvider provider : modular.getProviders()) {
+						if (provider != null) {
 							ItemStack itemStack = provider.getItemStack();
 							String moduleName = "";
-							for(IModuleState state : provider.getModuleStates()){
-								if(state != null){
-									moduleName+=state.getContainer().getDisplayName() + " - ";
+							for(IModuleState state : provider.getModuleStates()) {
+								if (state != null) {
+									moduleName += state.getContainer().getDisplayName() + " - ";
 								}
 							}
 							tooltip.add(ChatFormatting.GRAY + moduleName + itemStack.getDisplayName());
@@ -64,50 +64,45 @@ public class ItemBlockModular extends ItemBlock {
 					}
 				}
 			}
-		}else{
+		} else {
 			tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 		}
 		super.addInformation(stack, playerIn, tooltip, advanced);
 	}
 
 	@Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
 		if (!world.setBlockState(pos, newState, 3)) {
 			return false;
 		}
-
 		IBlockState state = world.getBlockState(pos);
-		if (state.getBlock() == this.block){
+		if (state.getBlock() == this.block) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (!(tile instanceof TileModular)) {
 				world.setBlockToAir(pos);
 				return false;
 			}
 			IModularHandlerItem itemHandler = (IModularHandlerItem) stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
-			if(itemHandler != null){
+			if (itemHandler != null) {
 				itemHandler.deserializeNBT(stack.getTagCompound());
 			}
-			if(itemHandler != null && itemHandler.getModular() != null){
+			if (itemHandler != null && itemHandler.getModular() != null) {
 				TileModular machine = (TileModular) tile;
 				IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
 				tileHandler.setOwner(player.getGameProfile());
 				tileHandler.setFacing(getFacingForHeading(heading));
-
-				if(itemHandler.isAssembled() && itemHandler.getModular() != null){
+				if (itemHandler.isAssembled() && itemHandler.getModular() != null) {
 					tileHandler.setModular(itemHandler.getModular().copy(tileHandler));
-				}else if(!itemHandler.isAssembled() && itemHandler.getAssembler() != null){
+				} else if (!itemHandler.isAssembled() && itemHandler.getAssembler() != null) {
 					tileHandler.setAssembler(itemHandler.getAssembler().copy(tileHandler));
-				}else{
+				} else {
 					tileHandler.setAssembler(new ModularAssembler(tileHandler));
 				}
 			}
-
 			setTileEntityNBT(world, player, pos, stack);
 		}
 		this.block.onBlockPlacedBy(world, pos, state, player, stack);
-
 		return true;
 	}
 

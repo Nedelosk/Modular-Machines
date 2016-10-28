@@ -7,12 +7,14 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 /**
- * A storage to storage module states. It stores his own parent and other modules states.
+ * A storage to storage module states. It stores his own parent and other
+ * modules states.
  */
 public interface IModuleStorage {
 
 	/**
-	 * @return All module states that are have a module that class is a instance of of moduleClass.
+	 * @return All module states that are have a module that class is a instance
+	 *         of of moduleClass.
 	 */
 	<M extends IModule> List<IModuleState<M>> getModules(Class<? extends M> moduleClass);
 
@@ -29,8 +31,8 @@ public interface IModuleStorage {
 	<M extends IModule> IModuleState<M> getModule(int index);
 
 	/**
-	 * @return The first module state that have a module that class is a instance of of moduleClass.
+	 * @return The first module state that have a module that class is a
+	 *         instance of of moduleClass.
 	 */
 	<M extends IModule> IModuleState<M> getModule(Class<? extends M> moduleClass);
-
 }

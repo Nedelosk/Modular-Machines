@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.api.modules.storage;
 import java.util.Arrays;
 import java.util.List;
 
+import de.nedelosk.modularmachines.api.modular.ExpandedStoragePositions;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
@@ -10,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.Module;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleProvider;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.storage.module.IModuleModuleStorage;
 import net.minecraft.item.ItemStack;
@@ -24,22 +24,22 @@ public abstract class StorageModule extends Module implements IStorageModule {
 
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		if(showPosition(container)){
+		if (showPosition(container)) {
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.storage.position") + Arrays.toString(getPositions(container)).replace("[", "").replace("]", ""));
 		}
 		super.addTooltip(tooltip, stack, container);
 	}
 
-	protected IStoragePosition[] getPositions(IModuleContainer container){
-		if(this instanceof IModuleModuleStorage){
+	protected IStoragePosition[] getPositions(IModuleContainer container) {
+		if (this instanceof IModuleModuleStorage) {
 			EnumModuleSizes size = container.getItemContainer().getSize();
-			if(size == EnumModuleSizes.LARGE) {
-				return new IStoragePosition[] {EnumStoragePositions.LEFT, EnumStoragePositions.RIGHT};
-			}else if(size == EnumModuleSizes.SMALL) {
-				return new IStoragePosition[] {EnumStoragePositions.TOP, EnumStoragePositions.BACK};
+			if (size == EnumModuleSizes.LARGE) {
+				return new IStoragePosition[] { ExpandedStoragePositions.LEFT, ExpandedStoragePositions.RIGHT };
+			} else if (size == EnumModuleSizes.SMALL) {
+				return new IStoragePosition[] { ExpandedStoragePositions.TOP, ExpandedStoragePositions.BACK };
 			}
 		}
-		return new IStoragePosition[] {EnumStoragePositions.LEFT, EnumStoragePositions.RIGHT, EnumStoragePositions.TOP, EnumStoragePositions.BACK, EnumStoragePositions.CASING};
+		return new IStoragePosition[] { ExpandedStoragePositions.LEFT, ExpandedStoragePositions.RIGHT, ExpandedStoragePositions.TOP, ExpandedStoragePositions.BACK, ExpandedStoragePositions.CASING };
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public abstract class StorageModule extends Module implements IStorageModule {
 	@Override
 	public boolean isValidForPosition(IStoragePosition position, IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IStorageModuleProperties){
-			return ((IStorageModuleProperties)properties).isValidForPosition(position, container);
+		if (properties instanceof IStorageModuleProperties) {
+			return ((IStorageModuleProperties) properties).isValidForPosition(position, container);
 		}
 		return false;
 	}
@@ -63,7 +63,7 @@ public abstract class StorageModule extends Module implements IStorageModule {
 
 	@Override
 	public IStoragePage createPage(IModularAssembler assembler, IModular modular, IStorage storage, IStoragePosition position) {
-		if(storage != null){
+		if (storage != null) {
 			return new BasicStoragePage(assembler, storage);
 		}
 		return new BasicStoragePage(assembler, position);
@@ -77,8 +77,8 @@ public abstract class StorageModule extends Module implements IStorageModule {
 	@Override
 	public IStoragePosition getSecondPosition(IModuleContainer container, IStoragePosition position) {
 		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IStorageModuleProperties){
-			return ((IStorageModuleProperties)properties).getSecondPosition(container, position);
+		if (properties instanceof IStorageModuleProperties) {
+			return ((IStorageModuleProperties) properties).getSecondPosition(container, position);
 		}
 		return null;
 	}

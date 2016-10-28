@@ -34,7 +34,7 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
-		if(currentPage != null){
+		if (currentPage != null) {
 			currentPage.setContainer(null);
 		}
 	}
@@ -56,7 +56,6 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
 		if (currentPage != null) {
 			int invPosition = currentPage.getPlayerInvPosition() + 1;
-
 			for(int i1 = 0; i1 < 3; i1++) {
 				for(int l1 = 0; l1 < 9; l1++) {
 					addSlotToContainer(new Slot(inventoryPlayer, l1 + i1 * 9 + 9, 8 + l1 * 18, invPosition + i1 * 18));

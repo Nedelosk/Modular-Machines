@@ -1,27 +1,19 @@
 /*
- * For the fluid rendering: 
- * 
- * The MIT License (MIT)
- * 
- * Copyright (c) 2014-2015 mezz
- * 
+ * For the fluid rendering: The MIT License (MIT) Copyright (c) 2014-2015 mezz
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * furnished to do so, subject to the following conditions: The above copyright
+ * notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS",
+ * WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package de.nedelosk.modularmachines.client.gui.widgets;
 
@@ -53,6 +45,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetFluidTank extends Widget<IFluidTank> {
+
 	private static final int TEX_WIDTH = 14;
 	private static final int TEX_HEIGHT = 14;
 	private static final int MIN_FLUID_HEIGHT = 1;
@@ -63,9 +56,9 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		if(provider != null && provider.getFluid() != null){
+		if (provider != null && provider.getFluid() != null) {
 			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
+			if (Loader.isModLoaded("JEI")) {
 				JeiPlugin.jeiRuntime.getRecipesGui().show(JeiPlugin.jeiRuntime.getRecipeRegistry().createFocus(mouseButton == 0 ? Mode.OUTPUT : Mode.INPUT, provider.getFluid()));
 			}
 		}
@@ -75,27 +68,21 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 	public void draw(IGuiBase gui) {
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlpha();
-
 		GlStateManager.color(1, 1, 1, 1);
-
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, pos.width, pos.height);
-
 		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, provider.getFluid());
-
 		GlStateManager.color(1, 1, 1, 1);
-
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0, 0, 200);
 		RenderUtil.bindTexture(widgetTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, pos.width - 2, pos.height);
 		GlStateManager.popMatrix();
-
 		GlStateManager.disableAlpha();
 		GlStateManager.disableBlend();
 	}
 
-	private void drawFluid( final int xPosition, final int yPosition, @Nullable FluidStack fluidStack) {
+	private void drawFluid(final int xPosition, final int yPosition, @Nullable FluidStack fluidStack) {
 		if (fluidStack == null) {
 			return;
 		}
@@ -103,7 +90,6 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		if (fluid == null) {
 			return;
 		}
-
 		TextureMap textureMapBlocks = Minecraft.getMinecraft().getTextureMapBlocks();
 		ResourceLocation fluidStill = fluid.getStill();
 		TextureAtlasSprite fluidStillSprite = null;
@@ -113,9 +99,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		if (fluidStillSprite == null) {
 			fluidStillSprite = textureMapBlocks.getMissingSprite();
 		}
-
 		int fluidColor = fluid.getColor(fluidStack);
-
 		int scaledAmount = (fluidStack.amount * 56) / provider.getCapacity();
 		if (fluidStack.amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
 			scaledAmount = MIN_FLUID_HEIGHT;
@@ -123,19 +107,15 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		if (scaledAmount > 56) {
 			scaledAmount = 56;
 		}
-
 		RenderUtil.bindBlockTexture();
 		setGLColorFromInt(fluidColor);
-
 		final int xTileCount = 14 / TEX_WIDTH;
 		final int xRemainder = 14 - (xTileCount * TEX_WIDTH);
 		final int yTileCount = scaledAmount / TEX_HEIGHT;
 		final int yRemainder = scaledAmount - (yTileCount * TEX_HEIGHT);
-
 		final int yStart = yPosition + 56;
-
-		for (int xTile = 0; xTile <= xTileCount; xTile++) {
-			for (int yTile = 0; yTile <= yTileCount; yTile++) {
+		for(int xTile = 0; xTile <= xTileCount; xTile++) {
+			for(int yTile = 0; yTile <= yTileCount; yTile++) {
 				int width = (xTile == xTileCount) ? xRemainder : TEX_WIDTH;
 				int height = (yTile == yTileCount) ? yRemainder : TEX_HEIGHT;
 				int x = xPosition + (xTile * TEX_WIDTH);
@@ -143,7 +123,6 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 				if (width > 0 && height > 0) {
 					int maskTop = TEX_HEIGHT - height;
 					int maskRight = TEX_WIDTH - width;
-
 					drawFluidTexture(x, y, fluidStillSprite, maskTop, maskRight, 100);
 				}
 			}
@@ -154,7 +133,6 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		float red = (color >> 16 & 0xFF) / 255.0F;
 		float green = (color >> 8 & 0xFF) / 255.0F;
 		float blue = (color & 0xFF) / 255.0F;
-
 		GlStateManager.color(red, green, blue, 1.0F);
 	}
 
@@ -165,7 +143,6 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		double vMax = textureSprite.getMaxV();
 		uMax = uMax - (maskRight / 16.0 * (uMax - uMin));
 		vMax = vMax - (maskTop / 16.0 * (vMax - vMin));
-
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexBuffer = tessellator.getBuffer();
 		vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -182,8 +159,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		if (provider == null || provider.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));
 		} else {
-			description.add(provider.getFluidAmount() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb / " + provider.getCapacity()
-			+ " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb");
+			description.add(provider.getFluidAmount() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb / " + provider.getCapacity() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb");
 		}
 		return description;
 	}

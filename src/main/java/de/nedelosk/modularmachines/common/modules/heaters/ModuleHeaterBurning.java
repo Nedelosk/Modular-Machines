@@ -36,15 +36,15 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	@Override
 	public boolean needHandlerReload(IModuleStateClient state) {
 		IModelHandler handler = state.getModelHandler();
-		if(handler instanceof ModelHandlerStatus){
+		if (handler instanceof ModelHandlerStatus) {
 			ModelHandlerStatus status = (ModelHandlerStatus) handler;
-			if(getBurnTime(state) > 0){
-				if(!status.status){
+			if (getBurnTime(state) > 0) {
+				if (!status.status) {
 					status.status = true;
 					return true;
 				}
-			}else{
-				if(status.status){
+			} else {
+				if (status.status) {
 					status.status = false;
 					return true;
 				}
@@ -87,9 +87,8 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 	protected boolean updateFuel(IModuleState state) {
 		IModuleInventory inventory = state.getPage(BurningHeaterPage.class).getInventory();
 		ItemStack input = inventory.getStackInSlot(0);
-
-		if(input != null){
-			if(inventory.extractItemInternal(0, 1, false) != null){
+		if (input != null) {
+			if (inventory.extractItemInternal(0, 1, false) != null) {
 				setBurnTime(state, TileEntityFurnace.getItemBurnTime(input));
 				state.set(BURNTIMETOTAL, TileEntityFurnace.getItemBurnTime(input));
 				return true;

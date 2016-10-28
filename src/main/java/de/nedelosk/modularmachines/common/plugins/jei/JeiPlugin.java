@@ -54,48 +54,31 @@ public class JeiPlugin extends BlankModPlugin {
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-
 		registry.addRecipeClickArea(GuiModuleCrafter.class, 93, 35, 22, 15, VanillaRecipeCategoryUid.CRAFTING, CategoryUIDs.CRAFTING);
-
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(ModuleManager.defaultModuleItemContainer));
-		registry.addRecipeCategories(
-				new ModuleCrafterRecipeCategory(guiHelper),
-				new AlloySmelterRecipeCategory(guiHelper),
-				new BoilerRecipeCategory(guiHelper),
-				new PulverizerRecipeCategory(guiHelper),
-				new LatheRecipeCategory(guiHelper));
-
-		for(IModuleItemContainer container : ModuleManager.MODULE_CONTAINERS){
-			for(IModuleContainer moduleContainer : container.getContainers()){
+		registry.addRecipeCategories(new ModuleCrafterRecipeCategory(guiHelper), new AlloySmelterRecipeCategory(guiHelper), new BoilerRecipeCategory(guiHelper), new PulverizerRecipeCategory(guiHelper), new LatheRecipeCategory(guiHelper));
+		for(IModuleItemContainer container : ModuleManager.MODULE_CONTAINERS) {
+			for(IModuleContainer moduleContainer : container.getContainers()) {
 				IModule module = moduleContainer.getModule();
-				if(module instanceof IModuleJEI){
+				if (module instanceof IModuleJEI) {
 					registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(moduleContainer));
 				}
 				String description = moduleContainer.getDescription();
-				if(moduleContainer.getDescription() != null && Translator.canTranslateToLocal(description)){
+				if (moduleContainer.getDescription() != null && Translator.canTranslateToLocal(description)) {
 					registry.addDescription(container.getItemStack(), description);
 				}
 			}
 		}
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
-
 		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockManager.blockModuleCrafter), CategoryUIDs.CRAFTING);
-
 		registry.addAdvancedGuiHandlers(new AssemblerAdvancedGuiHandler());
-
-		registry.addRecipeHandlers(
-				new ModuleCrafterRecipeHandler(),
-				new ModuleRecipeHandler(CategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class),
-				new ModuleRecipeHandler(CategoryUIDs.BOILER, BoilerRecipeWrapper.class),
-				new ModuleRecipeHandler(CategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class),
-				new ModuleRecipeHandler(CategoryUIDs.LATHE, LatheRecipeWrapper.class));
-
+		registry.addRecipeHandlers(new ModuleCrafterRecipeHandler(), new ModuleRecipeHandler(CategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class), new ModuleRecipeHandler(CategoryUIDs.BOILER, BoilerRecipeWrapper.class),
+				new ModuleRecipeHandler(CategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class), new ModuleRecipeHandler(CategoryUIDs.LATHE, LatheRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", CategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Boiler", CategoryUIDs.BOILER, BoilerRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Pulverizer", CategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("Lathe", CategoryUIDs.LATHE, LatheRecipeWrapper.class, guiHelper));
-
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerModuleCrafter.class, VanillaRecipeCategoryUid.CRAFTING, 36, 9, 0, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerModuleCrafter.class, CategoryUIDs.CRAFTING, 36, 10, 0, 36);
@@ -107,6 +90,7 @@ public class JeiPlugin extends BlankModPlugin {
 	}
 
 	private static class AssemblerAdvancedGuiHandler implements IAdvancedGuiHandler<GuiAssembler> {
+
 		@Nonnull
 		@Override
 		public Class<GuiAssembler> getGuiContainerClass() {

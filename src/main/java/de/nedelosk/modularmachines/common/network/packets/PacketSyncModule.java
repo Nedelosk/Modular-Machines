@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PacketSyncModule extends PacketModule implements IPacketClient{
+public class PacketSyncModule extends PacketModule implements IPacketClient {
 
 	private NBTTagCompound nbt;
 
@@ -47,10 +47,9 @@ public class PacketSyncModule extends PacketModule implements IPacketClient{
 		}
 		IModuleState moduleState = getModule(handler);
 		moduleState.deserializeNBT(nbt);
-
-		if(moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)){
-			((IModuleStateClient)moduleState).getModelHandler().setNeedReload(true);
-			if(handler instanceof IModularHandlerTileEntity){
+		if (moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)) {
+			((IModuleStateClient) moduleState).getModelHandler().setNeedReload(true);
+			if (handler instanceof IModularHandlerTileEntity) {
 				BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
 				player.worldObj.markBlockRangeForRenderUpdate(pos, pos);
 			}

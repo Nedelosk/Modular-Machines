@@ -106,7 +106,7 @@ public class WorldUtil {
 	}
 
 	public static void dropItems(World world, BlockPos pos, IItemHandler handler) {
-		for(int i = 0;i < handler.getSlots();i++) {
+		for(int i = 0; i < handler.getSlots(); i++) {
 			dropItem(world, pos, handler.getStackInSlot(i));
 		}
 	}

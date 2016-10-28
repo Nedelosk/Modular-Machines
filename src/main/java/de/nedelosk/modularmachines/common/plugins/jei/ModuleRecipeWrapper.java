@@ -27,14 +27,14 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 	@Override
 	public List getInputs() {
 		List inputs = new ArrayList<>();
-		for(RecipeItem item : recipe.getInputs()){
-			if(item != null && !item.isNull()){
-				if(item.isItem()){
+		for(RecipeItem item : recipe.getInputs()) {
+			if (item != null && !item.isNull()) {
+				if (item.isItem()) {
 					inputs.add(item.item);
-				}else if(item.isOre()){
+				} else if (item.isOre()) {
 					List oreStacks = new ArrayList<>();
 					List<ItemStack> stacks = OreDictionary.getOres(item.ore.oreDict);
-					for(ItemStack stack : stacks){
+					for(ItemStack stack : stacks) {
 						ItemStack newStack = stack.copy();
 						newStack.stackSize = item.ore.stackSize;
 						oreStacks.add(newStack);
@@ -49,9 +49,9 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 	@Override
 	public List getOutputs() {
 		List inputs = new ArrayList<>();
-		for(RecipeItem item : recipe.getOutputs()){
-			if(item != null && !item.isNull()){
-				if(item.isItem()){
+		for(RecipeItem item : recipe.getOutputs()) {
+			if (item != null && !item.isNull()) {
+				if (item.isItem()) {
 					inputs.add(item.item);
 				}
 			}
@@ -62,9 +62,9 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 	@Override
 	public List<FluidStack> getFluidInputs() {
 		List inputs = new ArrayList<>();
-		for(RecipeItem item : recipe.getInputs()){
-			if(item != null && !item.isNull()){
-				if(item.isFluid()){
+		for(RecipeItem item : recipe.getInputs()) {
+			if (item != null && !item.isNull()) {
+				if (item.isFluid()) {
 					inputs.add(item.fluid);
 				}
 			}
@@ -75,9 +75,9 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 	@Override
 	public List<FluidStack> getFluidOutputs() {
 		List inputs = new ArrayList<>();
-		for(RecipeItem item : recipe.getOutputs()){
-			if(item != null && !item.isNull()){
-				if(item.isFluid()){
+		for(RecipeItem item : recipe.getOutputs()) {
+			if (item != null && !item.isNull()) {
+				if (item.isFluid()) {
 					inputs.add(item.fluid);
 				}
 			}
@@ -87,10 +87,10 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 
 	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid, Class<? extends ModuleRecipeWrapper> wrapper) {
 		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
-		for (IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
-			try{
+		for(IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
+			try {
 				recipes.add(wrapper.getConstructor(IRecipe.class, String.class).newInstance(recipe, recipeCategoryUid));
-			}catch(Exception e){
+			} catch (Exception e) {
 			}
 		}
 		return recipes;
@@ -98,10 +98,10 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 
 	public static List<ModuleRecipeWrapper> getRecipes(String recipeCategory, String recipeCategoryUid, Class<? extends ModuleRecipeWrapper> wrapper, IGuiHelper guiHelper) {
 		List<ModuleRecipeWrapper> recipes = new ArrayList<>();
-		for (IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
-			try{
+		for(IRecipe recipe : RecipeRegistry.getRecipeHandler(recipeCategory).getRecipes()) {
+			try {
 				recipes.add(wrapper.getConstructor(IRecipe.class, String.class, IGuiHelper.class).newInstance(recipe, recipeCategoryUid, guiHelper));
-			}catch(Exception e){
+			} catch (Exception e) {
 			}
 		}
 		return recipes;
@@ -109,16 +109,16 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
-		if(!getInputs().isEmpty()){
+		if (!getInputs().isEmpty()) {
 			ingredients.setInputs(ItemStack.class, getInputs());
 		}
-		if(!getOutputs().isEmpty()){
+		if (!getOutputs().isEmpty()) {
 			ingredients.setOutputs(ItemStack.class, getOutputs());
 		}
-		if(!getFluidInputs().isEmpty()){
+		if (!getFluidInputs().isEmpty()) {
 			ingredients.setInputs(FluidStack.class, getFluidInputs());
 		}
-		if(!getFluidOutputs().isEmpty()){
+		if (!getFluidOutputs().isEmpty()) {
 			ingredients.setOutputs(FluidStack.class, getFluidOutputs());
 		}
 	}

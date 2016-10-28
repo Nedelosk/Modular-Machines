@@ -48,14 +48,14 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public int getComplexity(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
-		if(properties == null){
+		if (properties == null) {
 			return -1;
 		}
 		return properties.getComplexity(container);
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 	}
 
 	@Override
@@ -63,69 +63,69 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 		return I18n.translateToLocal(container.getUnlocalizedName());
 	}
 
-	protected boolean showMaterial(IModuleContainer container){
+	protected boolean showMaterial(IModuleContainer container) {
 		return true;
 	}
 
-	protected boolean showName(IModuleContainer container){
+	protected boolean showName(IModuleContainer container) {
 		return !ModuleManager.hasDefaultStack(container.getItemContainer());
 	}
 
-	protected boolean showComplexity(IModuleContainer container){
+	protected boolean showComplexity(IModuleContainer container) {
 		return getComplexity(container) >= 0;
 	}
 
-	protected boolean showPosition(IModuleContainer container){
-		IModulePostion[] positions = ((IModulePositioned)this).getValidPositions(container);
+	protected boolean showPosition(IModuleContainer container) {
+		IModulePostion[] positions = ((IModulePositioned) this).getValidPositions(container);
 		return positions != null && positions.length > 0;
 	}
 
-	protected boolean showSize(IModuleContainer container){
+	protected boolean showSize(IModuleContainer container) {
 		return true;
 	}
 
-	protected boolean showProvider(IModuleContainer container, List<String> providerTip){
+	protected boolean showProvider(IModuleContainer container, List<String> providerTip) {
 		return !providerTip.isEmpty();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
-		if(showMaterial(container)){
+		if (showMaterial(container)) {
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.material") + container.getItemContainer().getMaterial().getLocalizedName());
 		}
-		if(showName(container)){
+		if (showName(container)) {
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.name") + container.getDisplayName());
 		}
-		if(showSize(container)){
+		if (showSize(container)) {
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.size") + container.getItemContainer().getSize().getLocalizedName());
 		}
-		if(showComplexity(container)){
+		if (showComplexity(container)) {
 			tooltip.add(I18n.translateToLocal("mm.module.tooltip.complexity") + getComplexity(container));
 		}
-		if(this instanceof IModulePositioned){
-			if(showPosition(container)){
+		if (this instanceof IModulePositioned) {
+			if (showPosition(container)) {
 				IModulePositioned module = (IModulePositioned) this;
 				tooltip.add(I18n.translateToLocal("mm.module.tooltip.position") + Arrays.toString(module.getValidPositions(container)).replace("[", "").replace("]", ""));
 			}
 		}
 		List<String> providerTip = new ArrayList<>();
 		addProviderTooltip(providerTip, stack, container);
-		if(showProvider(container, providerTip)){
-			if(!GuiScreen.isShiftKeyDown()){
+		if (showProvider(container, providerTip)) {
+			if (!GuiScreen.isShiftKeyDown()) {
 				tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.holdshift"));
-			}else{
+			} else {
 				tooltip.addAll(providerTip);
 			}
 		}
 	}
 
-	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container){
+	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		IModuleItemProvider itemProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(itemProvider != null && !itemProvider.isEmpty()){
-			for(IModuleState state : itemProvider){
-				if(state.getModule().equals(this)){
-					for(IModuleContentHandler handler : state.getAllContentHandlers()){
+		if (itemProvider != null && !itemProvider.isEmpty()) {
+			for(IModuleState state : itemProvider) {
+				if (state.getModule().equals(this)) {
+					for(IModuleContentHandler handler : state.getAllContentHandlers()) {
 						handler.addToolTip(tooltip, stack, state);
 					}
 				}
@@ -135,8 +135,8 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@Override
 	public boolean isClean(IModuleState state) {
-		for(IModuleContentHandler handler : state.getAllContentHandlers()){
-			if(handler.isCleanable() && !handler.isEmpty()){
+		for(IModuleContentHandler handler : state.getAllContentHandlers()) {
+			if (handler.isCleanable() && !handler.isEmpty()) {
 				return false;
 			}
 		}
@@ -165,7 +165,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	}
 
 	@Override
-	public List<IModuleContentHandler> createHandlers(IModuleState state){
+	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		return Lists.newArrayList();
 	}
 
@@ -174,18 +174,18 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 		return createDefaultState(provider, container);
 	}
 
-	protected final IModuleState createDefaultState(IModuleProvider provider, IModuleContainer container){
+	protected final IModuleState createDefaultState(IModuleProvider provider, IModuleContainer container) {
 		IModuleState state;
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
 			state = createClientState(provider, container);
-		}else{
+		} else {
 			state = new ModuleState(provider, container);
 		}
 		return state;
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected IModuleState createClientState(IModuleProvider provider, IModuleContainer container){
+	protected IModuleState createClientState(IModuleProvider provider, IModuleContainer container) {
 		return new ModuleStateClient(provider, container);
 	}
 
@@ -233,5 +233,4 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	@Override
 	public void onModularAssembled(IModuleState state) {
 	}
-
 }

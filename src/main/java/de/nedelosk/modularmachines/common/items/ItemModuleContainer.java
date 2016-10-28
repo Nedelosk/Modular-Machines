@@ -41,25 +41,25 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
 		IModuleItemProvider moduleProvider = itemStack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(moduleProvider != null && moduleProvider.getItemStack() != null){
-			if(player.isSneaking()){
+		if (moduleProvider != null && moduleProvider.getItemStack() != null) {
+			if (player.isSneaking()) {
 				ItemStack providerStack = moduleProvider.getItemStack().copy();
 				boolean dropItems = !world.isRemote;
 				List<ItemStack> drops = Lists.newArrayList();
 				for(IModuleState moduleState : moduleProvider) {
 					if (moduleState != null) {
-						if(dropItems){
-							for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
-								if(handler instanceof IAdvancedModuleContentHandler){
-									drops.addAll(((IAdvancedModuleContentHandler)handler).getDrops());
+						if (dropItems) {
+							for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+								if (handler instanceof IAdvancedModuleContentHandler) {
+									drops.addAll(((IAdvancedModuleContentHandler) handler).getDrops());
 								}
 							}
 						}
 						moduleState.getModule().saveDataToItem(itemStack, moduleState);
 					}
 				}
-				if(dropItems){
-					for(ItemStack stack : drops){
+				if (dropItems) {
+					for(ItemStack stack : drops) {
 						ItemHandlerHelper.giveItemToPlayer(player, stack);
 					}
 				}
@@ -88,7 +88,7 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		IModuleItemProvider moduleProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(moduleProvider != null && moduleProvider.getItemStack() != null){
+		if (moduleProvider != null && moduleProvider.getItemStack() != null) {
 			return super.getItemStackDisplayName(stack) + ": " + moduleProvider.getItemStack().getDisplayName();
 		}
 		return super.getItemStackDisplayName(stack);
@@ -107,7 +107,7 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		IModuleItemProvider moduleProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-		if(moduleProvider != null && moduleProvider.getItemStack() != null){
+		if (moduleProvider != null && moduleProvider.getItemStack() != null) {
 			ItemStack providerStack = moduleProvider.getItemStack();
 			return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(providerStack, tintIndex);
 		}

@@ -20,24 +20,20 @@ public class Config {
 
 	public static final List<ConfigGroup> groups;
 	public static Configuration config;
-
 	/* MODULES */
 	public static int defaultAllowedStorageComplexity = 3;
 	public static int defaultAllowedCasingComplexity = 8;
 	public static int defaultAllowedComplexity = 12;
 	public static int defaultAllowedControllerComplexity = 16;
-
+	public static int allowedTransportCycleComplexity = 8;
 	public static boolean destroyItemsAfterDestroyModular;
-
 	/* PLUGINS */
 	public static boolean pluginEnderIO;
 	public static boolean pluginMekanism;
 	public static boolean pluginThermalExpansion;
 	public static boolean pluginTheOneProbe;
-
 	/* ORES */
 	public static boolean[] generateOre;
-
 	static {
 		groups = new ArrayList<>();
 	}
@@ -50,7 +46,6 @@ public class Config {
 		config.load();
 	}
 
-
 	public static void save() {
 		if (config.hasChanged()) {
 			config.save();
@@ -58,6 +53,7 @@ public class Config {
 	}
 
 	public static class ConfigGroup {
+
 		public final String name;
 		public final String lang;
 		public final boolean reloadMC;
@@ -106,33 +102,31 @@ public class Config {
 	}
 
 	public static void processConfig() {
-		//Modules
+		// Modules
 		defaultAllowedStorageComplexity = config.getInt("Default Allowed Storage Complexity", modules.name, 4, 1, 64, "");
 		defaultAllowedCasingComplexity = config.getInt("Default Allowed Casing Complexity", modules.name, 8, 2, 64, "");
 		defaultAllowedComplexity = config.getInt("Default Allowed Modular Machine Complexity", modules.name, 12, 4, 64, "");
 		defaultAllowedControllerComplexity = config.getInt("Default Allowed Controller Complexity", modules.name, 16, 4, 256, "");
-
+		allowedTransportCycleComplexity = config.getInt("Allowed Transport Cycle Complexity", modules.name, 8, 4, 32, "");
 		destroyItemsAfterDestroyModular = config.getBoolean("Destroy after destroy modular machine", modules.name, false, "After you break a modular machine, every module item have a chance to disappear.");
-
-		//Plugins
+		// Plugins
 		pluginEnderIO = config.get(plugins.name, "EnderIO", true).getBoolean();
 		pluginMekanism = config.get(plugins.name, "Mekanism", true).getBoolean();
 		pluginThermalExpansion = config.get(plugins.name, "Thermal Expansion", true).getBoolean();
 		pluginTheOneProbe = config.get(plugins.name, "The One Probe", true).getBoolean();
 		// Ores
-		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true},
-				"Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
+		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
 	}
 
-	public static void processModuleConfig(){
-		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS){
-			if(itemContainer != null){
-				for(IModuleContainer container : itemContainer.getContainers()){
-					if(container.getModule() instanceof IModuleConfigurable){
-						((IModuleConfigurable)container.getModule()).processConfig(container, config);
+	public static void processModuleConfig() {
+		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
+			if (itemContainer != null) {
+				for(IModuleContainer container : itemContainer.getContainers()) {
+					if (container.getModule() instanceof IModuleConfigurable) {
+						((IModuleConfigurable) container.getModule()).processConfig(container, config);
 					}
-					if(container.getProperties() instanceof IModulePropertiesConfigurable){
-						((IModulePropertiesConfigurable)container.getProperties()).processConfig(container, config);
+					if (container.getProperties() instanceof IModulePropertiesConfigurable) {
+						((IModulePropertiesConfigurable) container.getProperties()).processConfig(container, config);
 					}
 				}
 			}

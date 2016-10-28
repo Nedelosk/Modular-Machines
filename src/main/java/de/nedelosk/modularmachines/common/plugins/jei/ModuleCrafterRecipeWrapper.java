@@ -22,7 +22,7 @@ public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IS
 
 	public ModuleCrafterRecipeWrapper(@Nonnull IModuleCrafterRecipe recipe) {
 		this.recipe = recipe;
-		for (Object input : this.recipe.getInput()) {
+		for(Object input : this.recipe.getInput()) {
 			if (input instanceof ItemStack) {
 				ItemStack itemStack = (ItemStack) input;
 				if (itemStack.stackSize != 1) {
@@ -54,7 +54,7 @@ public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IS
 		return Collections.singletonList(recipe.getRecipeOutput());
 	}
 
-	public ItemStack getHolder(){
+	public ItemStack getHolder() {
 		return recipe.getHolder();
 	}
 
@@ -73,5 +73,4 @@ public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IS
 		ingredients.setInputs(ItemStack.class, getInputs());
 		ingredients.setOutputs(ItemStack.class, getOutputs());
 	}
-
 }

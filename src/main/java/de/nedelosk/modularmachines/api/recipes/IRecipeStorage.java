@@ -11,5 +11,4 @@ public interface IRecipeStorage {
 	NBTTagCompound writeToNBT(NBTTagCompound nbtTag);
 
 	void readFromNBT(NBTTagCompound nbtTag);
-
 }

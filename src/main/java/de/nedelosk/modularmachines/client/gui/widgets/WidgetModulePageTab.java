@@ -32,8 +32,7 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, provider.getModuleState().getModular().getCurrentPage().getPageID().equals(provider.getPageID()) ? 74 : 103,
-				isDown ? 237 : 218, 29, 19);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, provider.getModuleState().getModular().getCurrentPage().getPageID().equals(provider.getPageID()) ? 74 : 103, isDown ? 237 : 218, 29, 19);
 		RenderUtil.bindTexture(new ResourceLocation("modularmachines:textures/gui/widgets.png"));
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x + 6, gui.getGuiTop() + pos.y, 0, 18 + pageIndex * 18, 18, 18);
 		GlStateManager.disableBlend();

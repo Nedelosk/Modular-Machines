@@ -46,18 +46,16 @@ public class JsonUtils {
 				if (!recipeObject.has("Item") || !recipeObject.get("Item").isJsonPrimitive() || !recipeObject.get("Item").getAsJsonPrimitive().isString()) {
 					item = null;
 				}
-				if (!recipeObject.has("Amount") || !recipeObject.get("Amount").isJsonPrimitive()
-						|| !recipeObject.get("Amount").getAsJsonPrimitive().isNumber()) {
+				if (!recipeObject.has("Amount") || !recipeObject.get("Amount").isJsonPrimitive() || !recipeObject.get("Amount").getAsJsonPrimitive().isNumber()) {
 					item = null;
 				}
-				if (!recipeObject.has("Chance") || !recipeObject.get("Chance").isJsonPrimitive()
-						|| !recipeObject.get("Chance").getAsJsonPrimitive().isNumber()) {
+				if (!recipeObject.has("Chance") || !recipeObject.get("Chance").isJsonPrimitive() || !recipeObject.get("Chance").getAsJsonPrimitive().isNumber()) {
 					item = null;
 				}
 				String type = recipeObject.get("Type").getAsJsonPrimitive().getAsString();
 				String itemName = recipeObject.get("Item").getAsJsonPrimitive().getAsString();
 				int amount = recipeObject.get("Amount").getAsJsonPrimitive().getAsInt();
-				int chance =  recipeObject.get("Chance").getAsJsonPrimitive().getAsInt();
+				int chance = recipeObject.get("Chance").getAsJsonPrimitive().getAsInt();
 				if (type.equals("Ore")) {
 					item[i] = new RecipeItem(i, new OreStack(itemName, amount), chance);
 				} else if (type.equals("Item")) {
@@ -145,19 +143,19 @@ public class JsonUtils {
 	}
 
 	public static Item parseItem(JsonElement json, String itemName) {
-		try{
+		try {
 			String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 2);
 			String modID = names.length == 1 ? "minecraft" : names[0];
 			String name = names.length == 1 ? names[0] : names[1];
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(modID, name));
 			return item;
-		}catch(Exception e){	
+		} catch (Exception e) {
 		}
 		return null;
 	}
 
 	public static ItemStack parseItemStack(JsonElement json, String itemName) {
-		try{
+		try {
 			String[] names = json.getAsJsonObject().get(itemName).getAsString().split(":", 4);
 			Item item = parseItem(json, itemName);
 			int meta = (names.length >= 3 ? Integer.parseInt(names[2]) : 0);
@@ -169,7 +167,7 @@ public class JsonUtils {
 				}
 			}
 			return stack;
-		}catch(Exception e){	
+		} catch (Exception e) {
 		}
 		return null;
 	}
@@ -186,62 +184,62 @@ public class JsonUtils {
 		return new JsonPrimitive(itemName);
 	}
 
-	public static EnumModuleSizes getSize(JsonObject json){
+	public static EnumModuleSizes getSize(JsonObject json) {
 		int size = getInt(json.get("size"));
-		if(size >= EnumModuleSizes.VALUES.length){
+		if (size >= EnumModuleSizes.VALUES.length) {
 			size = EnumModuleSizes.VALUES.length - 1;
-		}else if(size < 1){
+		} else if (size < 1) {
 			size = 1;
 		}
 		return EnumModuleSizes.values()[size];
 	}
 
-	public static IModuleContainer getContainer(JsonObject json){
+	public static IModuleContainer getContainer(JsonObject json) {
 		IModule module = null;
 		IModuleProperties properties = null;
 		String moduleName = JsonUtils.getString(json.get("module"));
-		if(moduleName != null){
+		if (moduleName != null) {
 			module = ModuleManager.MODULES.getValue(new ResourceLocation(moduleName));
 		}
-		if(json.has("properties") && json.get("properties").isJsonObject()){
+		if (json.has("properties") && json.get("properties").isJsonObject()) {
 			properties = ModuleLoaderRegistry.loadPropertiesFromJson(json.get("properties").getAsJsonObject());
 		}
-		if(module != null){
+		if (module != null) {
 			return new ModuleContainer(module, properties);
 		}
 		return null;
 	}
 
-	public static JsonArray getArray(JsonElement json){
-		if(json != null && json.isJsonArray()){
+	public static JsonArray getArray(JsonElement json) {
+		if (json != null && json.isJsonArray()) {
 			return json.getAsJsonArray();
 		}
 		return null;
 	}
 
-	public static String getString(JsonElement json){
-		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()){
+	public static String getString(JsonElement json) {
+		if (json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isString()) {
 			return json.getAsJsonPrimitive().getAsString();
 		}
 		return null;
 	}
 
-	public static int getInt(JsonElement json){
-		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+	public static int getInt(JsonElement json) {
+		if (json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()) {
 			return json.getAsJsonPrimitive().getAsInt();
 		}
 		return 0;
 	}
 
-	public static double getDouble(JsonElement json){
-		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+	public static double getDouble(JsonElement json) {
+		if (json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()) {
 			return json.getAsJsonPrimitive().getAsDouble();
 		}
 		return 0.0D;
 	}
 
-	public static float getFloat(JsonElement json){
-		if(json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()){
+	public static float getFloat(JsonElement json) {
+		if (json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()) {
 			return json.getAsJsonPrimitive().getAsFloat();
 		}
 		return 0.0F;

@@ -22,7 +22,7 @@ public class WidgetRedstoneMode extends Widget<IModuleState<IModuleControlled>> 
 		super(posX, posY, 18, 18, provider);
 	}
 
-	private EnumRedstoneMode getMode(){
+	private EnumRedstoneMode getMode() {
 		return provider.getModule().getModuleControl(provider).getRedstoneMode();
 	}
 
@@ -49,13 +49,11 @@ public class WidgetRedstoneMode extends Widget<IModuleState<IModuleControlled>> 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 		IModuleControlled module = provider.getModule();
-
-		if(mouseButton == 1){
+		if (mouseButton == 1) {
 			module.getModuleControl(provider).setRedstoneMode(getMode().previous());
-		}else{
+		} else {
 			module.getModuleControl(provider).setRedstoneMode(getMode().next());
 		}
-
 		PacketHandler.sendToServer(new PacketSyncRedstoneMode(provider.getModular().getHandler(), provider));
 	}
 }

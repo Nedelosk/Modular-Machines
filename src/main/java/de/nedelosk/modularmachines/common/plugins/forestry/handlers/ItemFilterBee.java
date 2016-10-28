@@ -20,5 +20,4 @@ public class ItemFilterBee implements IContentFilter<ItemStack, IModule> {
 		EnumBeeType type = BeeManager.beeRoot.getType(content);
 		return type == null ? false : isDrone && type == EnumBeeType.DRONE || !isDrone && (type == EnumBeeType.PRINCESS || type == EnumBeeType.QUEEN);
 	}
-
 }

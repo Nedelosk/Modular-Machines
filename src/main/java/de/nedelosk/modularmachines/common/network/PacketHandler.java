@@ -46,7 +46,6 @@ public class PacketHandler {
 
 	public PacketHandler() {
 		channel.register(this);
-
 		registerClientPacket(new PacketModuleCleaner());
 		registerServerPacket(new PacketModuleCleaner());
 		registerClientPacket(new PacketSelectAssemblerPosition());
@@ -84,17 +83,13 @@ public class PacketHandler {
 		if (packet == null) {
 			return;
 		}
-
 		WorldServer worldServer = world;
 		PlayerChunkMap playerManager = worldServer.getPlayerChunkMap();
-
 		int chunkX = pos.getX() >> 4;
 		int chunkZ = pos.getZ() >> 4;
-
-		for (Object playerObj : world.playerEntities) {
+		for(Object playerObj : world.playerEntities) {
 			if (playerObj instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) playerObj;
-
 				if (playerManager.isPlayerWatchingChunk(player, chunkX, chunkZ)) {
 					sendToPlayer(packet, player);
 				}
@@ -114,7 +109,6 @@ public class PacketHandler {
 		if (!(entityplayer instanceof EntityPlayerMP) || entityplayer instanceof FakePlayer) {
 			return;
 		}
-
 		EntityPlayerMP player = (EntityPlayerMP) entityplayer;
 		sendPacket(packet.getPacket(), player);
 	}
@@ -127,7 +121,6 @@ public class PacketHandler {
 	public void onPacket(ServerCustomPacketEvent event) {
 		DataInputStreamMM data = getStream(event.getPacket());
 		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).playerEntity;
-
 		try {
 			byte packetIdOrdinal = data.readByte();
 			PacketId packetId = PacketId.VALUES[packetIdOrdinal];
@@ -143,7 +136,6 @@ public class PacketHandler {
 	public void onPacket(ClientCustomPacketEvent event) {
 		DataInputStreamMM data = getStream(event.getPacket());
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
 		try {
 			byte packetIdOrdinal = data.readByte();
 			PacketId packetId = PacketId.VALUES[packetIdOrdinal];
@@ -163,6 +155,7 @@ public class PacketHandler {
 	private static void checkThreadAndEnqueue(final IPacketClient packet, final DataInputStreamMM data, final EntityPlayer player, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
 			threadListener.addScheduledTask(new Runnable() {
+
 				@Override
 				public void run() {
 					try {
@@ -179,6 +172,7 @@ public class PacketHandler {
 	private static void checkThreadAndEnqueue(final IPacketServer packet, final DataInputStreamMM data, final EntityPlayerMP player, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
 			threadListener.addScheduledTask(new Runnable() {
+
 				@Override
 				public void run() {
 					try {

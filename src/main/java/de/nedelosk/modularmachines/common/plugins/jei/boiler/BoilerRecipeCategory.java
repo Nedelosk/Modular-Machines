@@ -14,6 +14,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 
 public class BoilerRecipeCategory extends ModuleRecipeCategory {
+
 	@Nonnull
 	private final IDrawableAnimated arrow;
 	@Nonnull
@@ -25,9 +26,7 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 
 	public BoilerRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.boiler", CategoryUIDs.BOILER);
-
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
-
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(widgetTexture, 76, 0, 22, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
@@ -35,7 +34,6 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 	@Override
 	public void drawExtras(Minecraft minecraft) {
 		tank.draw(minecraft, 36, 2);
-
 		tank.draw(minecraft, 112, 2);
 	}
 
@@ -49,7 +47,6 @@ public class BoilerRecipeCategory extends ModuleRecipeCategory {
 	public void setRecipe(IRecipeLayout recipeLayout, ModuleRecipeWrapper recipeWrapper) {
 		recipeLayout.getFluidStacks().init(0, true, 37, 3, 16, 58, 16000, false, tankOverlay);
 		recipeLayout.getFluidStacks().init(1, false, 113, 3, 16, 58, 16000, false, tankOverlay);
-
 		recipeLayout.getFluidStacks().set(0, recipeWrapper.getFluidInputs());
 		recipeLayout.getFluidStacks().set(1, recipeWrapper.getFluidOutputs());
 	}

@@ -24,8 +24,7 @@ public class GuiConfigFactory extends GuiConfig {
 		List<IConfigElement> list = new ArrayList<>();
 		String prefix = "mm.config.";
 		for(ConfigGroup group : Config.groups) {
-			list.add(new ConfigElement(
-					Config.config.getCategory(group.getLowerCase()).setLanguageKey(prefix + group.lang).setRequiresMcRestart(group.reloadMC)));
+			list.add(new ConfigElement(Config.config.getCategory(group.getLowerCase()).setLanguageKey(prefix + group.lang).setRequiresMcRestart(group.reloadMC)));
 		}
 		return list;
 	}

@@ -17,23 +17,23 @@ public abstract class ModuleTansport<H> extends ModuleControlled {
 		this.handlerClass = handlerClass;
 	}
 
-	public List<ITransportCycle> getCycles(IModuleState moduleState){
+	public List<ITransportCycle> getCycles(IModuleState moduleState) {
 		IModular modular = moduleState.getModular();
 		IModuleControl control = getModuleControl(moduleState);
-		for(IModuleState otherState : modular.getModules()){
-			if(!control.hasPermission(moduleState)){
+		for(IModuleState otherState : modular.getModules()) {
+			if (!control.hasPermission(moduleState)) {
 				continue;
 			}
 		}
 		return null;
 	}
 
-	public List<H> getHandlers(IModuleState moduleState){
+	public List<H> getHandlers(IModuleState moduleState) {
 		List<H> handlers = new ArrayList<>();
 		IModular modular = moduleState.getModular();
-		for(IModuleState otherState : modular.getModules()){
+		for(IModuleState otherState : modular.getModules()) {
 			H handler = otherState.getContentHandler(handlerClass);
-			if(handler != null){
+			if (handler != null) {
 				handlers.add(handler);
 				break;
 			}
@@ -45,8 +45,8 @@ public abstract class ModuleTansport<H> extends ModuleControlled {
 	public List<IModuleState> getUsedModules(IModuleState moduleState) {
 		List<IModuleState> usedModules = new ArrayList<>();
 		IModular modular = moduleState.getModular();
-		for(IModuleState otherState : modular.getModules()){
-			if(otherState.getContentHandler(handlerClass) != null){
+		for(IModuleState otherState : modular.getModules()) {
+			if (otherState.getContentHandler(handlerClass) != null) {
 				usedModules.add(otherState);
 				break;
 			}

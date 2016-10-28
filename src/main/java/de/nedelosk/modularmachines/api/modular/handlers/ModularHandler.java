@@ -1,14 +1,11 @@
 package de.nedelosk.modularmachines.api.modular.handlers;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.mojang.authlib.GameProfile;
 
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
-import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -21,15 +18,15 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
+public abstract class ModularHandler<K> implements IModularHandler<NBTTagCompound, K> {
 
-	protected final List<IStoragePosition> positions;
+	protected final StoragePositions<K> positions;
 	protected IModular modular;
 	protected IModularAssembler assembler;
 	protected World world;
 	protected GameProfile owner;
 
-	public ModularHandler(World world, List<IStoragePosition> positions) {
+	public ModularHandler(World world, StoragePositions<K> positions) {
 		this.world = world;
 		this.positions = positions;
 	}
@@ -40,7 +37,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 		if (modular != null) {
 			nbt.setTag("Modular", modular.serializeNBT());
 		}
-		if(assembler != null){
+		if (assembler != null) {
 			nbt.setTag("Assembler", assembler.serializeNBT());
 		}
 		if (this.owner != null) {
@@ -56,7 +53,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 		if (nbt.hasKey("Modular")) {
 			modular = ModularManager.helper.createModular(this, nbt.getCompoundTag("Modular"));
 		}
-		if(nbt.hasKey("Assembler")){
+		if (nbt.hasKey("Assembler")) {
 			assembler = ModularManager.helper.createModularAssembler(this, nbt.getCompoundTag("Assembler"));
 		}
 		if (nbt.hasKey("owner")) {
@@ -68,7 +65,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 	public Container createContainer(InventoryPlayer inventory) {
 		if (modular != null) {
 			return modular.createContainer(this, inventory);
-		}else if (assembler != null) {
+		} else if (assembler != null) {
 			return assembler.createContainer(inventory);
 		}
 		return null;
@@ -79,7 +76,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 	public GuiContainer createGui(InventoryPlayer inventory) {
 		if (modular != null) {
 			return modular.createGui(this, inventory);
-		}else if (assembler != null) {
+		} else if (assembler != null) {
 			return assembler.createGui(inventory);
 		}
 		return null;
@@ -101,7 +98,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public void setModular(IModular modular) {
-		if(modular != null){
+		if (modular != null) {
 			modular.setHandler(this);
 			setAssembler(null);
 		}
@@ -111,7 +108,7 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public void setAssembler(IModularAssembler assembler) {
-		if(assembler != null){
+		if (assembler != null) {
 			setModular(null);
 		}
 		this.assembler = assembler;
@@ -139,11 +136,11 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
 			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(this);
 		}
-		if(modular != null){
-			if(modular.hasCapability(capability, facing)){
+		if (modular != null) {
+			if (modular.hasCapability(capability, facing)) {
 				return modular.getCapability(capability, facing);
 			}
 		}
@@ -152,11 +149,11 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if(capability == ModularManager.MODULAR_HANDLER_CAPABILITY){
+		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
 			return true;
 		}
-		if(modular != null){
-			if(modular.hasCapability(capability, facing)){
+		if (modular != null) {
+			if (modular.hasCapability(capability, facing)) {
 				return true;
 			}
 		}
@@ -179,11 +176,11 @@ public abstract class ModularHandler implements IModularHandler<NBTTagCompound>{
 	}
 
 	@Override
-	public List<IStoragePosition> getStoragePositions() {
-		return Collections.unmodifiableList(positions);
+	public StoragePositions<K> getPositions() {
+		return positions;
 	}
 
-	protected EntityPlayer getPlayer(){
+	protected EntityPlayer getPlayer() {
 		return world.getPlayerEntityByName(getOwner().getName());
 	}
 }

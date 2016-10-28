@@ -23,7 +23,7 @@ public abstract class TileMachineBase extends TileBaseInventory {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		if(facing != null){
+		if (facing != null) {
 			nbt.setInteger("facing", facing.ordinal());
 		}
 		if (this.owner != null) {
@@ -37,7 +37,7 @@ public abstract class TileMachineBase extends TileBaseInventory {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		if(nbt.hasKey("facing")){
+		if (nbt.hasKey("facing")) {
 			facing = EnumFacing.VALUES[nbt.getInteger("facing")];
 		}
 		if (nbt.hasKey("owner")) {

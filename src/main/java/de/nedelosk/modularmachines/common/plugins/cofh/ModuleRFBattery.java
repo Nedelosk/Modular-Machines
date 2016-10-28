@@ -34,7 +34,8 @@ public class ModuleRFBattery extends ModuleBattery {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, container.getSize()));
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, container.getSize()));
 	}
 
 	@Override
@@ -49,22 +50,22 @@ public class ModuleRFBattery extends ModuleBattery {
 
 	@Override
 	public void saveEnergy(IModuleState state, long energy, ItemStack itemStack) {
-		if(itemStack.hasCapability(CapabilityEnergy.ENERGY, null)){
+		if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
 			IEnergyStorage storage = itemStack.getCapability(CapabilityEnergy.ENERGY, null);
 			int oldEnergy = storage.getEnergyStored();
 			int capa = storage.getMaxEnergyStored();
-			if(oldEnergy > energy) {
+			if (oldEnergy > energy) {
 				storage.extractEnergy(Long.valueOf(oldEnergy - energy).intValue(), false);
-			}else if(oldEnergy < energy){
+			} else if (oldEnergy < energy) {
 				storage.receiveEnergy(Long.valueOf(energy - oldEnergy).intValue(), false);
 			}
-		}else if(itemStack.getItem() instanceof IEnergyContainerItem){
+		} else if (itemStack.getItem() instanceof IEnergyContainerItem) {
 			IEnergyContainerItem item = (IEnergyContainerItem) itemStack.getItem();
 			int oldEnergy = item.getEnergyStored(itemStack);
 			int capa = item.getMaxEnergyStored(itemStack);
-			if(oldEnergy > energy) {
+			if (oldEnergy > energy) {
 				item.extractEnergy(itemStack, Long.valueOf(oldEnergy - energy).intValue(), false);
-			}else if(oldEnergy < energy){
+			} else if (oldEnergy < energy) {
 				item.receiveEnergy(itemStack, Long.valueOf(energy - oldEnergy).intValue(), false);
 			}
 		}
@@ -72,9 +73,9 @@ public class ModuleRFBattery extends ModuleBattery {
 
 	@Override
 	public long loadEnergy(IModuleState state, ItemStack itemStack) {
-		if(itemStack.hasCapability(CapabilityEnergy.ENERGY, null)){
+		if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
 			return itemStack.getCapability(CapabilityEnergy.ENERGY, null).getEnergyStored();
-		}else if(itemStack.getItem() instanceof IEnergyContainerItem){
+		} else if (itemStack.getItem() instanceof IEnergyContainerItem) {
 			return ((IEnergyContainerItem) itemStack.getItem()).getEnergyStored(itemStack);
 		}
 		return 0;

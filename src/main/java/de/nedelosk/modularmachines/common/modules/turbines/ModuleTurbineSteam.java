@@ -20,7 +20,7 @@ public class ModuleTurbineSteam extends ModuleTurbine {
 	@Override
 	public boolean removeMaterial(IModuleState state) {
 		IModuleTank tank = state.getPage(SteamTurbinePage.class).getTank();
-		if(tank == null){
+		if (tank == null) {
 			return false;
 		}
 		FluidStack drained = tank.drainInternal(new FluidStack(FluidManager.STEAM, getMaterialPerWork(state)), false);
@@ -34,12 +34,10 @@ public class ModuleTurbineSteam extends ModuleTurbine {
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		super.updateServer(state, tickCount);
-
-		if(state.getModular().updateOnInterval(20)){
+		if (state.getModular().updateOnInterval(20)) {
 			IModulePage page = state.getPage(SteamTurbinePage.class);
 			IModuleInventory inventory = page.getInventory();
 			IModuleTank tank = page.getTank();
-
 			ModuleUtil.tryEmptyContainer(0, 1, inventory, tank.getTank(0));
 		}
 	}
@@ -47,12 +45,12 @@ public class ModuleTurbineSteam extends ModuleTurbine {
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModuleTank tank = state.getPage(SteamTurbinePage.class).getTank();
-		if(tank == null){
+		if (tank == null) {
 			return false;
 		}
 		if (tank.getTank(0).getFluid() == null) {
 			return false;
-		} 
+		}
 		if (tank.getTank(0).getFluid().amount > 0) {
 			return true;
 		}

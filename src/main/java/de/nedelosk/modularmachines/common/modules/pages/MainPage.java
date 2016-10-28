@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.modules.ModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraft.util.text.translation.I18n;
 
-public class MainPage<M extends IModule> extends ModulePage<M>{
+public class MainPage<M extends IModule> extends ModulePage<M> {
 
 	protected final String tabTitle;
 
@@ -23,7 +23,7 @@ public class MainPage<M extends IModule> extends ModulePage<M>{
 
 	@Override
 	public String getTabTitle() {
-		if(tabTitle == null || tabTitle.isEmpty()){
+		if (tabTitle == null || tabTitle.isEmpty()) {
 			return super.getTabTitle();
 		}
 		return I18n.translateToLocal("module.page." + tabTitle.toLowerCase(Locale.ENGLISH) + ".name");

@@ -55,8 +55,7 @@ public class ModuleInventoryBuilder<M extends IModule> implements IModuleInvento
 
 	@Override
 	public IModuleInventory build() {
-		return new ModuleInventory(contentInfos.toArray(new SlotInfo[contentInfos.size()]), state, new FilterWrapper(insertFilter.getSlotFilters(), true),
-				new FilterWrapper(extractFilter.getSlotFilters(), false));
+		return new ModuleInventory(contentInfos.toArray(new SlotInfo[contentInfos.size()]), state, new FilterWrapper(insertFilter.getSlotFilters(), true), new FilterWrapper(extractFilter.getSlotFilters(), false));
 	}
 
 	@Override

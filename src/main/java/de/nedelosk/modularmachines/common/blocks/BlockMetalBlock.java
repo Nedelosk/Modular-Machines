@@ -58,7 +58,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		for(ComponentTypes type : ComponentTypes.values()){
+		for(ComponentTypes type : ComponentTypes.values()) {
 			manager.registerItemModel(item, type.ordinal());
 		}
 	}
@@ -70,16 +70,13 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 		}
 	}
 
-	public static enum ComponentTypes implements IStringSerializable{
-		TIN(0xCACECF, "tin", "Tin"),
-		COPPER(0xCC6410, "copper", "Copper"),
-		BRONZE(0xCA9956, "bronze", "Bronze"),
-		STEEL(0xA0A0A0, "steel", "Steel"),
-		INVAR(0xA1A48C, "invar", "Invar");
+	public static enum ComponentTypes implements IStringSerializable {
+		TIN(0xCACECF, "tin", "Tin"), COPPER(0xCC6410, "copper", "Copper"), BRONZE(0xCA9956, "bronze", "Bronze"), STEEL(0xA0A0A0, "steel", "Steel"), INVAR(0xA1A48C, "invar", "Invar");
 
 		public int color;
 		public String name;
 		public String[] oreDict;
+
 		private ComponentTypes(int color, String name, String... oreDict) {
 			this.color = color;
 			this.name = name;

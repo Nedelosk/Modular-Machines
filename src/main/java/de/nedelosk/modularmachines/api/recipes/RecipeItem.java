@@ -168,17 +168,17 @@ public class RecipeItem {
 		return !isFluid() && !isItem() && !isOre();
 	}
 
-	public RecipeItem copy(){
+	public RecipeItem copy() {
 		ItemStack item = this.item;
 		FluidStack fluid = this.fluid;
 		OreStack ore = this.ore;
-		if(item != null){
+		if (item != null) {
 			item = item.copy();
 		}
-		if(fluid != null){
+		if (fluid != null) {
 			fluid = fluid.copy();
 		}
-		if(ore != null){
+		if (ore != null) {
 			ore = new OreStack(ore.oreDict, ore.stackSize);
 		}
 		return new RecipeItem(index, item, fluid, ore, chance);

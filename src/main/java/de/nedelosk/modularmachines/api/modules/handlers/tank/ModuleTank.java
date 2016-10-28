@@ -44,12 +44,10 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		this.contentInfos = contentInfos;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-
-		for(FluidTankAdvanced tank : tanks){
+		for(FluidTankAdvanced tank : tanks) {
 			tank.moduleTank = this;
 		}
-
-		for(EnumFacing facing : EnumFacing.values()){
+		for(EnumFacing facing : EnumFacing.values()) {
 			configurations.put(facing, new boolean[tanks.length]);
 		}
 	}
@@ -104,7 +102,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 			for(RecipeItem output : outputs) {
 				if (output != null) {
 					if (output.isFluid()) {
-						if(output.chance == -1 || chance <= output.chance){
+						if (output.chance == -1 || chance <= output.chance) {
 							int test = fillInternal(output.fluid, false);
 							if (test != output.fluid.amount) {
 								return false;
@@ -139,7 +137,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		if (outputs != null) {
 			for(RecipeItem item : outputs) {
 				if (item != null && item.isFluid()) {
-					if(item.chance == -1 || chance <= item.chance){
+					if (item.chance == -1 || chance <= item.chance) {
 						fillInternal(item.fluid.copy(), true);
 					}
 				}
@@ -148,16 +146,14 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public int fillInternal(FluidStack resource, boolean doFill){
+	public int fillInternal(FluidStack resource, boolean doFill) {
 		if (resource == null || resource.amount <= 0) {
 			return 0;
 		}
-
 		resource = resource.copy();
-
 		int totalFillAmount = 0;
-		for (FluidTankAdvanced handler : tanks){
-			if(isInput(handler.index)){
+		for(FluidTankAdvanced handler : tanks) {
+			if (isInput(handler.index)) {
 				continue;
 			}
 			int fillAmount = handler.fillInternal(resource, doFill);
@@ -171,26 +167,23 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public FluidStack drainInternal(FluidStack resource, boolean doDrain){
+	public FluidStack drainInternal(FluidStack resource, boolean doDrain) {
 		if (resource == null || resource.amount <= 0) {
 			return null;
 		}
-
 		resource = resource.copy();
-
 		FluidStack totalDrained = null;
-		for (FluidTankAdvanced handler : tanks){
-			if(!isInput(handler.index)){
+		for(FluidTankAdvanced handler : tanks) {
+			if (!isInput(handler.index)) {
 				continue;
 			}
 			FluidStack drain = handler.drainInternal(resource, doDrain);
-			if (drain != null){
+			if (drain != null) {
 				if (totalDrained == null) {
 					totalDrained = drain;
 				} else {
 					totalDrained.amount += drain.amount;
 				}
-
 				resource.amount -= drain.amount;
 				if (resource.amount <= 0) {
 					break;
@@ -201,30 +194,29 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public FluidStack drainInternal(int maxDrain, boolean doDrain){
+	public FluidStack drainInternal(int maxDrain, boolean doDrain) {
 		if (maxDrain == 0) {
 			return null;
 		}
 		FluidStack totalDrained = null;
-		for (FluidTankAdvanced handler : tanks){
-			if(!isInput(handler.index)){
+		for(FluidTankAdvanced handler : tanks) {
+			if (!isInput(handler.index)) {
 				continue;
 			}
-			if (totalDrained == null){
+			if (totalDrained == null) {
 				totalDrained = handler.drainInternal(maxDrain, doDrain);
-				if (totalDrained != null){
+				if (totalDrained != null) {
 					maxDrain -= totalDrained.amount;
 				}
-			}else{
+			} else {
 				FluidStack copy = totalDrained.copy();
 				copy.amount = maxDrain;
 				FluidStack drain = handler.drainInternal(copy, doDrain);
-				if (drain != null){
+				if (drain != null) {
 					totalDrained.amount += drain.amount;
 					maxDrain -= drain.amount;
 				}
 			}
-
 			if (maxDrain <= 0) {
 				break;
 			}
@@ -233,25 +225,22 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public IFluidTankProperties[] getTankProperties()
-	{
+	public IFluidTankProperties[] getTankProperties() {
 		List<IFluidTankProperties> properties = Lists.newArrayList();
-		for (IFluidHandler handler : tanks){
+		for(IFluidHandler handler : tanks) {
 			Collections.addAll(properties, handler.getTankProperties());
 		}
 		return properties.toArray(new IFluidTankProperties[properties.size()]);
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill){
+	public int fill(FluidStack resource, boolean doFill) {
 		if (resource == null || resource.amount <= 0) {
 			return 0;
 		}
-
 		resource = resource.copy();
-
 		int totalFillAmount = 0;
-		for (IFluidHandler handler : tanks){
+		for(IFluidHandler handler : tanks) {
 			int fillAmount = handler.fill(resource, doFill);
 			totalFillAmount += fillAmount;
 			resource.amount -= fillAmount;
@@ -263,23 +252,20 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain){
+	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (resource == null || resource.amount <= 0) {
 			return null;
 		}
-
 		resource = resource.copy();
-
 		FluidStack totalDrained = null;
-		for (IFluidHandler handler : tanks){
+		for(IFluidHandler handler : tanks) {
 			FluidStack drain = handler.drain(resource, doDrain);
-			if (drain != null){
+			if (drain != null) {
 				if (totalDrained == null) {
 					totalDrained = drain;
 				} else {
 					totalDrained.amount += drain.amount;
 				}
-
 				resource.amount -= drain.amount;
 				if (resource.amount <= 0) {
 					break;
@@ -290,27 +276,26 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain){
+	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (maxDrain == 0) {
 			return null;
 		}
 		FluidStack totalDrained = null;
-		for (IFluidHandler handler : tanks){
-			if (totalDrained == null){
+		for(IFluidHandler handler : tanks) {
+			if (totalDrained == null) {
 				totalDrained = handler.drain(maxDrain, doDrain);
-				if (totalDrained != null){
+				if (totalDrained != null) {
 					maxDrain -= totalDrained.amount;
 				}
-			}else{
+			} else {
 				FluidStack copy = totalDrained.copy();
 				copy.amount = maxDrain;
 				FluidStack drain = handler.drain(copy, doDrain);
-				if (drain != null){
+				if (drain != null) {
 					totalDrained.amount += drain.amount;
 					maxDrain -= drain.amount;
 				}
 			}
-
 			if (maxDrain <= 0) {
 				break;
 			}
@@ -353,19 +338,19 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagTankList = nbt.getTagList("Tanks", 10);
-		for(int i = 0;i < nbtTagTankList.tagCount();i++){
+		for(int i = 0; i < nbtTagTankList.tagCount(); i++) {
 			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(i);
 			int capacity = tankTag.getInteger("Capacity");
 			int index = tankTag.getInteger("Index");
 			tanks[index] = new FluidTankAdvanced(capacity, this, index, tankTag);
 		}
 		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
-		for(int index = 0;index < nbtTagConfigurationList.tagCount();index++){
+		for(int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
 			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
 			EnumFacing facing = EnumFacing.VALUES[index];
 			boolean[] configurations = new boolean[this.configurations.get(facing).length];
 			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
-			for(int i = 0;i < this.configurations.get(facing).length;i++){
+			for(int i = 0; i < this.configurations.get(facing).length; i++) {
 				configurations[i] = tankConfiguration[i] == 1;
 			}
 			this.configurations.put(facing, configurations);
@@ -376,21 +361,21 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagTankList = new NBTTagList();
-
-		for(FluidTankAdvanced tank : tanks){
+		for(FluidTankAdvanced tank : tanks) {
 			NBTTagCompound tankTag = new NBTTagCompound();
 			tank.writeToNBT(tankTag);
 			tankTag.setInteger("Index", tank.index);
-			tankTag.setInteger("Capacity", tank.getCapacity());;
+			tankTag.setInteger("Capacity", tank.getCapacity());
+			;
 			nbtTagTankList.appendTag(tankTag);
 		}
 		nbt.setTag("Tanks", nbtTagTankList);
 		NBTTagList nbtTagConfigurationList = new NBTTagList();
-		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()){
+		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
 			NBTTagCompound entryTag = new NBTTagCompound();
 			entryTag.setInteger("Face", entry.getKey().ordinal());
 			byte[] configurations = new byte[entry.getValue().length];
-			for(int i = 0;i < entry.getValue().length;i++){
+			for(int i = 0; i < entry.getValue().length; i++) {
 				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
 			}
 			entryTag.setByteArray("Configurations", configurations);
@@ -403,9 +388,9 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.tanks"));
-		for(FluidTankAdvanced tank : tanks){
+		for(FluidTankAdvanced tank : tanks) {
 			FluidStack fluidStack = tank.getFluid();
-			if(fluidStack != null){
+			if (fluidStack != null) {
 				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
 				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.tank.fluid") + fluidStack.getLocalizedName() + ", " + I18n.translateToLocal("mm.tooltip.handler.tank.amount") + fluidStack.amount);
 			}
@@ -429,7 +414,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 
 	@Override
 	public ContentInfo getInfo(int index) {
-		if(contentInfos.length <= index){
+		if (contentInfos.length <= index) {
 			return null;
 		}
 		return contentInfos[index];
@@ -442,7 +427,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 
 	@Override
 	public boolean isInput(int index) {
-		if(contentInfos.length <= index){
+		if (contentInfos.length <= index) {
 			return false;
 		}
 		return contentInfos[index].isInput;
@@ -451,28 +436,28 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void cleanHandler(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
+		if (handler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
 			List<IFluidHandler> handlers = new ArrayList<>();
-			for(IModuleState moduleState : state.getModuleHandler().getModules()){
-				if(moduleState.getContentHandler(IFluidHandler.class) != null){
+			for(IModuleState moduleState : state.getModuleHandler().getModules()) {
+				if (moduleState.getContentHandler(IFluidHandler.class) != null) {
 					handlers.add(moduleState.getContentHandler(IFluidHandler.class));
 				}
-				for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
-					if(page.getContentHandler(IFluidHandler.class) != null){
+				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
+					if (page.getContentHandler(IFluidHandler.class) != null) {
 						handlers.add(page.getContentHandler(IFluidHandler.class));
 					}
 				}
 			}
-			for(EnumFacing facing : EnumFacing.VALUES){
+			for(EnumFacing facing : EnumFacing.VALUES) {
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
-				if(tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())){
+				if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())) {
 					handlers.add(tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite()));
 				}
 			}
-			for(IFluidHandler fluidHandler : handlers){
-				if(!isEmpty()){
-					for(FluidTankAdvanced tank : getTanks()){
+			for(IFluidHandler fluidHandler : handlers) {
+				if (!isEmpty()) {
+					for(FluidTankAdvanced tank : getTanks()) {
 						tank.drainInternal(fluidHandler.fill(tank.getFluid(), true), true);
 					}
 				}
@@ -487,8 +472,8 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 
 	@Override
 	public boolean isEmpty() {
-		for(FluidTankAdvanced tank : tanks){
-			if(tank != null && !tank.isEmpty()){
+		for(FluidTankAdvanced tank : tanks) {
+			if (tank != null && !tank.isEmpty()) {
 				return false;
 			}
 		}

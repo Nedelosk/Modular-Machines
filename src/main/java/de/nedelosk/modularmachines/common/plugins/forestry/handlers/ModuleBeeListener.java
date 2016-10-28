@@ -27,26 +27,20 @@ public class ModuleBeeListener extends DefaultBeeListener {
 	public void wearOutEquipment(int amount) {
 		IBeekeepingMode beekeepingMode = BeeManager.beeRoot.getBeekeepingMode(beeHousing.getWorldObj());
 		int wear = Math.round(amount * beekeepingMode.getWearModifier());
-
-		for (int i = 0; i < 3; i++) {
+		for(int i = 0; i < 3; i++) {
 			ItemStack hiveFrameStack = frameHousingInventory.getStackInSlot(i);
 			if (hiveFrameStack == null) {
 				continue;
 			}
-
 			Item hiveFrameItem = hiveFrameStack.getItem();
 			if (!(hiveFrameItem instanceof IHiveFrame)) {
 				continue;
 			}
-
 			IHiveFrame hiveFrame = (IHiveFrame) hiveFrameItem;
-
 			ItemStack queenStack = beeHousingInventory.getQueen();
 			IBee queen = BeeManager.beeRoot.getMember(queenStack);
 			ItemStack usedFrame = hiveFrame.frameUsed(beeHousing, hiveFrameStack, queen, wear);
-
 			frameHousingInventory.setStackInSlot(i, usedFrame);
 		}
 	}
-
 }

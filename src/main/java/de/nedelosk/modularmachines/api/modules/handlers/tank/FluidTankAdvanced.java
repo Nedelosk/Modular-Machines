@@ -54,17 +54,17 @@ public class FluidTankAdvanced extends FluidTank {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof FluidTankAdvanced)){
+		if (!(obj instanceof FluidTankAdvanced)) {
 			return false;
 		}
 		FluidTankAdvanced tank = (FluidTankAdvanced) obj;
-		if(tank == this){
+		if (tank == this) {
 			return true;
 		}
-		if(tank.fluid == null && fluid == null){
+		if (tank.fluid == null && fluid == null) {
 			return true;
 		}
-		if(fluid == null){
+		if (fluid == null) {
 			return false;
 		}
 		return fluid.isFluidStackIdentical(tank.fluid);

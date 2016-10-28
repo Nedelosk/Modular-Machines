@@ -19,7 +19,6 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 
 	public SlotAssemblerStorage(IModularAssembler assembler, int xPosition, int yPosition, IStoragePage page, IStoragePosition position, IAssemblerContainer container) {
 		super(assembler.getItemHandler(), assembler.getIndex(position), xPosition, yPosition);
-
 		this.container = container;
 		this.position = position;
 		this.page = page;
@@ -33,7 +32,7 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 	@Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
-		if(page != null){
+		if (page != null) {
 			page.onSlotChanged(container);
 		}
 		container.getHandler().getAssembler().onStorageSlotChange();
@@ -42,39 +41,39 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 	@Override
 	public boolean isItemValid(ItemStack stack) {
 		IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
-		if(itemContainer == null){
+		if (itemContainer == null) {
 			return false;
 		}
 		Boolean isValid = null;
-		for(IModuleContainer container : itemContainer.getContainers()){
+		for(IModuleContainer container : itemContainer.getContainers()) {
 			IModule module = container.getModule();
-			if(module instanceof IStorageModule){
-				if(((IStorageModule)module).isValidForPosition(position, container)){
+			if (module instanceof IStorageModule) {
+				if (((IStorageModule) module).isValidForPosition(position, container)) {
 					IModularAssembler assembler = this.container.getHandler().getAssembler();
-					if(container.getModule().isValid(this.container.getHandler().getAssembler(), position, stack, null, this)){
+					if (container.getModule().isValid(this.container.getHandler().getAssembler(), position, stack, null, this)) {
 						IStoragePosition second = ((IStorageModule) module).getSecondPosition(container, position);
-						if(second != null){
-							if(this.container.getHandler().getAssembler().getStoragePage(second) == null && second != position){
-								if(isValid == null){
-									if(itemContainer.needOnlyOnePosition(container)){
+						if (second != null) {
+							if (this.container.getHandler().getAssembler().getStoragePage(second) == null && second != position) {
+								if (isValid == null) {
+									if (itemContainer.needOnlyOnePosition(container)) {
 										isValid = true;
 										break;
 									}
 								}
-							}else{
+							} else {
 								isValid = false;
 							}
 						}
-						if(isValid == null){
+						if (isValid == null) {
 							isValid = true;
 						}
-					}else {
+					} else {
 						isValid = false;
 					}
 				}
 			}
 		}
-		if(isValid == null){
+		if (isValid == null) {
 			isValid = false;
 		}
 		return isValid;

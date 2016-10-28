@@ -27,11 +27,9 @@ public class PluginForestry extends APlugin {
 	@Override
 	public void preInit() {
 		PacketHandler.registerClientPacket(new PacketBeeLogicActiveModule());
-
 		moduleBeeHouse = new ModuleBeeHouse("bee_house", false);
 		moduleBeeHouse.setRegistryName(new ResourceLocation(Constants.MODID, "bee_house"));
 		GameRegistry.register(moduleBeeHouse);
-
 		moduleApiary = new ModuleBeeHouse("apiary", true);
 		moduleApiary.setRegistryName(new ResourceLocation(Constants.MODID, "apiary"));
 		GameRegistry.register(moduleApiary);
@@ -39,8 +37,10 @@ public class PluginForestry extends APlugin {
 
 	@Override
 	public void init() {
-		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "bee_house"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleBeeHouse, new StorageModuleProperties(1, EnumModulePositions.SIDE))));
-		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "apiary"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE, new ModuleContainer(moduleApiary, new StorageModuleProperties(2, EnumModulePositions.SIDE))));
+		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "bee_house"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE,
+				new ModuleContainer(moduleBeeHouse, new StorageModuleProperties(1, EnumModulePositions.SIDE))));
+		register(new ModuleItemContainer(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(MOD_ID, "apiary"))), EnumVanillaMaterials.WOOD, EnumModuleSizes.LARGE,
+				new ModuleContainer(moduleApiary, new StorageModuleProperties(2, EnumModulePositions.SIDE))));
 	}
 
 	@Override

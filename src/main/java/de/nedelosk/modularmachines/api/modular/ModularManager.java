@@ -1,16 +1,15 @@
 package de.nedelosk.modularmachines.api.modular;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableMap;
 
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -18,18 +17,24 @@ public class ModularManager {
 
 	@CapabilityInject(IModularHandler.class)
 	public static Capability<IModularHandler> MODULAR_HANDLER_CAPABILITY;
-
-	/* A list of all storage positions that a default modular assembler have.*/
-	public static final List<IStoragePosition> DEFAULT_STORAGE_POSITIONS = Lists.newArrayList(EnumStoragePositions.CASING, EnumStoragePositions.LEFT, EnumStoragePositions.RIGHT, EnumStoragePositions.TOP, EnumStoragePositions.BACK);
-
-	/* A helper to create modulars, modular assemblers and modular handlers*/
+	public static final StoragePositions<EnumFacing> DEFAULT_STORAGE_POSITIONS;
+	/* A helper to create modulars, modular assemblers and modular handlers */
 	public static IModularHelper helper;
+	static {
+		ImmutableMap.Builder<EnumFacing, IStoragePosition> builder = new ImmutableMap.Builder<>();
+		builder.put(EnumFacing.NORTH, ExpandedStoragePositions.CASING);
+		builder.put(EnumFacing.SOUTH, ExpandedStoragePositions.BACK);
+		builder.put(EnumFacing.EAST, ExpandedStoragePositions.LEFT);
+		builder.put(EnumFacing.WEST, ExpandedStoragePositions.RIGHT);
+		builder.put(EnumFacing.UP, ExpandedStoragePositions.TOP);
+		DEFAULT_STORAGE_POSITIONS = new StoragePositions(builder.build());
+	}
 
 	/**
 	 * Write a modular to a item stack.
 	 */
-	public static ItemStack saveModularToItem(ItemStack modularItem, IModular modular, EntityPlayer player){
-		IModularHandlerItem<NBTTagCompound> itemHandler = (IModularHandlerItem<NBTTagCompound>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
+	public static ItemStack saveModularToItem(ItemStack modularItem, IModular modular, EntityPlayer player) {
+		IModularHandlerItem<NBTTagCompound, Object> itemHandler = (IModularHandlerItem<NBTTagCompound, Object>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
 		modularItem = modularItem.copy();
 		itemHandler.setModular(modular);
 		itemHandler.setWorld(player.getEntityWorld());
@@ -39,12 +44,12 @@ public class ModularManager {
 		return modularItem;
 	}
 
-	public static ItemStack saveModularToItem(ItemStack modularItem, IModularHandler modularHandler, EntityPlayer player){
-		IModularHandlerItem<NBTTagCompound> itemHandler = (IModularHandlerItem<NBTTagCompound>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
+	public static ItemStack saveModularToItem(ItemStack modularItem, IModularHandler modularHandler, EntityPlayer player) {
+		IModularHandlerItem<NBTTagCompound, Object> itemHandler = (IModularHandlerItem<NBTTagCompound, Object>) modularItem.getCapability(MODULAR_HANDLER_CAPABILITY, null);
 		modularItem = modularItem.copy();
-		if(modularHandler.isAssembled() && modularHandler.getModular() != null){
+		if (modularHandler.isAssembled() && modularHandler.getModular() != null) {
 			itemHandler.setModular(modularHandler.getModular().copy(itemHandler));
-		}else if(!modularHandler.isAssembled() && modularHandler.getAssembler() != null){
+		} else if (!modularHandler.isAssembled() && modularHandler.getAssembler() != null) {
 			itemHandler.setAssembler(modularHandler.getAssembler().copy(itemHandler));
 		}
 		itemHandler.setWorld(player.getEntityWorld());

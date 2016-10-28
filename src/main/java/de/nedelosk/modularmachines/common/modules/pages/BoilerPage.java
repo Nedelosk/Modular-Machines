@@ -19,7 +19,6 @@ public class BoilerPage extends MainPage<IModuleTool> {
 	public void createInventory(IModuleInventoryBuilder invBuilder) {
 		invBuilder.addInventorySlot(true, 15, 28, "liquid", ItemFilterFluid.get(FluidRegistry.WATER));
 		invBuilder.addInventorySlot(false, 15, 48, "container", OutputFilter.INSTANCE);
-
 		invBuilder.addInventorySlot(true, 147, 28, "container", ItemFilterFluid.INSTANCE);
 		invBuilder.addInventorySlot(false, 147, 48, "liquid", OutputFilter.INSTANCE);
 	}

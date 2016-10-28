@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.common.config.Configuration;
 
-public class ModuleKineticProperties extends ModuleProperties implements IModuleKineticProperties, IModulePropertiesConfigurable{
+public class ModuleKineticProperties extends ModuleProperties implements IModuleKineticProperties, IModulePropertiesConfigurable {
 
 	protected final double defaultKineticModifier;
 	protected final int defaultMaxKineticEnergy;
@@ -23,17 +23,17 @@ public class ModuleKineticProperties extends ModuleProperties implements IModule
 	}
 
 	@Override
-	public double getKineticModifier(IModuleState state){
+	public double getKineticModifier(IModuleState state) {
 		return kineticModifier;
 	}
 
 	@Override
-	public int getMaxKineticEnergy(IModuleState state){
+	public int getMaxKineticEnergy(IModuleState state) {
 		return maxKineticEnergy;
 	}
 
 	@Override
-	public int getMaterialPerWork(IModuleState state){
+	public int getMaterialPerWork(IModuleState state) {
 		return materialPerWork;
 	}
 
@@ -44,5 +44,4 @@ public class ModuleKineticProperties extends ModuleProperties implements IModule
 		maxKineticEnergy = config.getInt("maxKineticEnergy", "modules." + container.getItemContainer().getRegistryName(), defaultMaxKineticEnergy, 0, 10000, "");
 		materialPerWork = config.getInt("materialPerWork", "modules." + container.getItemContainer().getRegistryName(), defaultMaterialPerWork, 0, 1000, "");
 	}
-
 }

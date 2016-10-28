@@ -8,12 +8,12 @@ public enum EnumModulePositions implements IModulePostion {
 	CASING, SIDE, TOP, BACK;
 
 	@Override
-	public String getLocName(){
+	public String getLocName() {
 		return I18n.translateToLocal("module.storage." + getName() + ".name");
 	}
 
 	@Override
-	public String getName(){
+	public String getName() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 

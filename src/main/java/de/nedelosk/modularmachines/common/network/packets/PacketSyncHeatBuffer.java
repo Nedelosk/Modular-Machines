@@ -20,7 +20,6 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacke
 
 	public PacketSyncHeatBuffer(IModularHandler handler) {
 		super(handler);
-
 		heatBuffer = handler.getModular().getHeatSource().getHeatStored();
 	}
 
@@ -40,8 +39,8 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacke
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-		if(modularHandler != null && modularHandler.getModular() != null){
-			BlockPos pos = ((IModularHandlerTileEntity)modularHandler).getPos();
+		if (modularHandler != null && modularHandler.getModular() != null) {
+			BlockPos pos = ((IModularHandlerTileEntity) modularHandler).getPos();
 			modularHandler.getModular().getHeatSource().setHeatStored(heatBuffer);
 		}
 	}
@@ -50,5 +49,4 @@ public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacke
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HEAT;
 	}
-
 }

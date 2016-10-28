@@ -42,26 +42,26 @@ public class ModuleModelLoader {
 	private static ImmutableMap<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> models;
 
 	public static void loadModels() {
-		if(models != null){
+		if (models != null) {
 			models = null;
 		}
 		IModel missingModel = ModelLoaderRegistry.getMissingModel();
 		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
-		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS){
-			if(itemContainer != null){
-				for(IModuleContainer moduleContainer : itemContainer.getContainers()){
+		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
+			if (itemContainer != null) {
+				for(IModuleContainer moduleContainer : itemContainer.getContainers()) {
 					IModule module = moduleContainer.getModule();
 					Map<ResourceLocation, ResourceLocation> locatons = module.getModelLocations(itemContainer);
-					if(locatons != null && !locatons.isEmpty()){
-						for(Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()){
-							if(locaton != null && !modelLocations.contains(locaton.getKey())){
+					if (locatons != null && !locatons.isEmpty()) {
+						for(Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()) {
+							if (locaton != null && !modelLocations.contains(locaton.getKey())) {
 								Builder<VertexFormat, IBakedModel> baker = new Builder<>();
 								IModel model;
-								try{
-									model= ModelLoaderRegistry.getModel(locaton.getKey());
-								}catch(Exception exceptionModel){
+								try {
+									model = ModelLoaderRegistry.getModel(locaton.getKey());
+								} catch (Exception exceptionModel) {
 									loadingExceptions.put(locaton.getKey(), exceptionModel);
 									try {
 										model = ModelLoaderRegistry.getModel(locaton.getValue());
@@ -70,7 +70,7 @@ public class ModuleModelLoader {
 										model = null;
 									}
 								}
-								if(model != null){
+								if (model != null) {
 									baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
 									baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
 									modelBaker.put(locaton.getKey(), baker.build());
@@ -80,16 +80,16 @@ public class ModuleModelLoader {
 						}
 					}
 					ResourceLocation windowLocation = module.getWindowLocation(itemContainer);
-					if(windowLocation != null && !modelLocations.contains(windowLocation)){
+					if (windowLocation != null && !modelLocations.contains(windowLocation)) {
 						Builder<VertexFormat, IBakedModel> windowBaker = new Builder<>();
 						IModel model;
-						try{
+						try {
 							model = ModelLoaderRegistry.getModel(windowLocation);
-						}catch(Exception exceptionModel){
+						} catch (Exception exceptionModel) {
 							loadingExceptions.put(windowLocation, exceptionModel);
 							model = null;
 						}
-						if(model != null){
+						if (model != null) {
 							windowBaker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
 							windowBaker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
 							modelBaker.put(windowLocation, windowBaker.build());
@@ -100,103 +100,100 @@ public class ModuleModelLoader {
 			}
 		}
 		ModuleModelLoader.models = modelBaker.build();
-		for(Exception e : loadingExceptions.values()){
+		for(Exception e : loadingExceptions.values()) {
 			e.printStackTrace();
 		}
 	}
 
-	public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite>{
+	public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite> {
 		INSTANCE;
 
 		@Override
-		public TextureAtlasSprite apply(ResourceLocation location)
-		{
+		public TextureAtlasSprite apply(ResourceLocation location) {
 			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
 		}
-	} 
+	}
 
-	public static IBakedModel getModel(IModuleState moduleState, IStorage storage, IModelState modelState, VertexFormat vertex){
-		IModelHandler modelHandler = ((IModuleStateClient)moduleState).getModelHandler();
-
-		if(modelHandler != null){
+	public static IBakedModel getModel(IModuleState moduleState, IStorage storage, IModelState modelState, VertexFormat vertex) {
+		IModelHandler modelHandler = ((IModuleStateClient) moduleState).getModelHandler();
+		if (modelHandler != null) {
 			IBakedModel model = modelHandler.getModel();
-			if(modelHandler.needReload() || model == null){
-				if(modelHandler instanceof IModelHandlerAnimated){
+			if (modelHandler.needReload() || model == null) {
+				if (modelHandler instanceof IModelHandlerAnimated) {
 					IModelHandlerAnimated modelHandlerAnimated = (IModelHandlerAnimated) modelHandler;
 					Minecraft mc = Minecraft.getMinecraft();
 					float time = Animation.getWorldTime(mc.theWorld, mc.getRenderPartialTicks());
 					Pair<IModelState, Iterable<Event>> pair = modelHandlerAnimated.getStateMachine(moduleState).apply(time);
-
-					((IModelHandlerAnimated)modelHandler).handleEvents(modelHandler, time, pair.getRight());
+					((IModelHandlerAnimated) modelHandler).handleEvents(modelHandler, time, pair.getRight());
 					modelHandler.reload(moduleState, storage, new ModelStateComposition(modelState, pair.getLeft()), vertex, DefaultTextureGetter.INSTANCE);
 					model = modelHandler.getModel();
-				}else{
+				} else {
 					modelHandler.reload(moduleState, storage, modelState, vertex, DefaultTextureGetter.INSTANCE);
 					model = modelHandler.getModel();
 				}
 				modelHandler.setNeedReload(false);
 			}
-			if(model != null){
+			if (model != null) {
 				return model;
 			}
 		}
 		return null;
 	}
 
-	public static IBakedModel getModel(ResourceLocation location, VertexFormat format){
-		if(!models.containsKey(location)){
+	public static IBakedModel getModel(ResourceLocation location, VertexFormat format) {
+		if (!models.containsKey(location)) {
 			return null;
 		}
-		if(!models.get(location).containsKey(format)){
+		if (!models.get(location).containsKey(format)) {
 			return null;
 		}
 		return models.get(location).get(format);
 	}
 
 	/* LOACTIONS */
-	public static ResourceLocation getModelLocation(String modID, String material, String folder){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder) {
 		return getModelLocation(modID, material, folder, null, null, null);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix) {
 		return getModelLocation(modID, material, folder, prefix, null, null);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, EnumModuleSizes size){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, EnumModuleSizes size) {
 		return getModelLocation(modID, material, folder, null, size, null);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, Boolean status){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, Boolean status) {
 		return getModelLocation(modID, material, folder, null, null, status);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, EnumModuleSizes size, Boolean status){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, EnumModuleSizes size, Boolean status) {
 		return getModelLocation(modID, material, folder, null, size, status);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, Boolean status){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, Boolean status) {
 		return getModelLocation(modID, material, folder, prefix, null, status);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, EnumModuleSizes size){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, EnumModuleSizes size) {
 		return getModelLocation(modID, material, folder, prefix, size, null);
 	}
 
-	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, EnumModuleSizes size, Boolean status){
+	public static ResourceLocation getModelLocation(String modID, String material, String folder, String prefix, EnumModuleSizes size, Boolean status) {
 		String preFixNew = prefix;
-		if(preFixNew == null){
+		if (preFixNew == null) {
 			preFixNew = "";
 		}
-		if(size != null){
-			if(!preFixNew.isEmpty()){
-				preFixNew +="_";
+		if (size != null) {
+			if (!preFixNew.isEmpty()) {
+				preFixNew += "_";
 			}
 			preFixNew += size.getName();
 		}
-		if(status != null){
+		if (status != null) {
 			preFixNew += (!preFixNew.isEmpty() ? "_" : "") + (status ? "on" : "off");
 		}
-		if(preFixNew.isEmpty()){
+		if (preFixNew.isEmpty()) {
 			preFixNew = "default";
 		}
 		return new ResourceLocation(modID, "module/" + material.toLowerCase(Locale.ENGLISH) + "/" + folder + "/" + preFixNew);

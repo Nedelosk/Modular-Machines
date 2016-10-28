@@ -14,7 +14,7 @@ public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, IModule>
 
 	@Override
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> moduleState) {
-		if(content == null){
+		if (content == null) {
 			return false;
 		}
 		return TileEntityFurnace.getItemBurnTime(content) > 0;

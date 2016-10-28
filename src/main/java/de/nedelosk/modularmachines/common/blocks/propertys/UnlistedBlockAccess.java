@@ -4,6 +4,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 public final class UnlistedBlockAccess implements IUnlistedProperty<IBlockAccess> {
+
 	public static UnlistedBlockAccess BLOCKACCESS = new UnlistedBlockAccess();
 
 	@Override

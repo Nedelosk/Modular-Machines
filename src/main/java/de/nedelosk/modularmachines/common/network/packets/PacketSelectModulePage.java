@@ -29,8 +29,7 @@ public class PacketSelectModulePage extends PacketModule implements IPacketClien
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			modularHandler.getModular().setCurrentPage(pageId);
 		}
 	}
@@ -39,28 +38,24 @@ public class PacketSelectModulePage extends PacketModule implements IPacketClien
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			modularHandler.getModular().setCurrentPage(pageId);
 		}
-
 		WorldServer server = player.getServerWorld();
 		PacketHandler.sendToNetwork(this, pos, server);
-
 		for(EntityPlayer otherPlayer : server.playerEntities) {
-			if(otherPlayer.openContainer instanceof ContainerModular) {
+			if (otherPlayer.openContainer instanceof ContainerModular) {
 				ContainerModular container = (ContainerModular) otherPlayer.openContainer;
-				if(modularHandler == container.getHandler()) {
+				if (modularHandler == container.getHandler()) {
 					ItemStack heldStack = null;
-					if(otherPlayer.inventory.getItemStack() != null) {
+					if (otherPlayer.inventory.getItemStack() != null) {
 						heldStack = otherPlayer.inventory.getItemStack();
 						otherPlayer.inventory.setItemStack(null);
 					}
 					otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
-
-					if(heldStack != null) {
+					if (heldStack != null) {
 						otherPlayer.inventory.setItemStack(heldStack);
-						((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+						((EntityPlayerMP) otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
 					}
 				}
 			}

@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.api.material;
 
-public interface IColoredMaterial extends IMaterial{
+public interface IColoredMaterial extends IMaterial {
 
 	int getColor();
-
 }

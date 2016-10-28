@@ -23,15 +23,15 @@ public class PropertyFurnaceRecipe extends PropertyBase<IRecipe, NBTTagString, I
 
 	@Override
 	public IRecipe readFromNBT(NBTTagString nbt, IPropertyProvider state) {
-		for(IRecipe recipe : recipes){
-			if(recipe != null && recipe.getRecipeName() != null && recipe.getRecipeName().equals(nbt.getString())){
+		for(IRecipe recipe : recipes) {
+			if (recipe != null && recipe.getRecipeName() != null && recipe.getRecipeName().equals(nbt.getString())) {
 				return recipe;
 			}
 		}
 		return null;
 	}
 
-	public List<IRecipe> getRecipes(){
+	public List<IRecipe> getRecipes() {
 		return recipes;
 	}
 }

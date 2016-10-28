@@ -33,7 +33,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePhotovoltaic extends ModuleControlled implements IModulePhotovoltaic, IModulePositioned{
+public class ModulePhotovoltaic extends ModuleControlled implements IModulePhotovoltaic, IModulePositioned {
 
 	protected final int rfOutput;
 
@@ -44,30 +44,29 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
-		if(modular.getModules(IModuleBattery.class).isEmpty()){
+		if (modular.getModules(IModuleBattery.class).isEmpty()) {
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
 		}
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
 	@Override
 	public void updateServer(IModuleState<IModule> state, int tickCount) {
-		if(state.getModular().getHandler() instanceof IModularHandlerTileEntity){
+		if (state.getModular().getHandler() instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity handler = (IModularHandlerTileEntity) state.getModular().getHandler();
 			IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
-
-			if(energyBuffer.getCapacity() > energyBuffer.getEnergyStored()){
+			if (energyBuffer.getCapacity() > energyBuffer.getEnergyStored()) {
 				World world = handler.getWorld();
 				BlockPos pos = handler.getPos();
 				float lightRatio = calculateLightRatio(world);
-				if(world.canSeeSky(pos.up())){
+				if (world.canSeeSky(pos.up())) {
 					energyBuffer.receiveEnergy(state, null, Float.valueOf(rfOutput * lightRatio).longValue(), false);
 				}
 			}
@@ -82,15 +81,12 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 	private float calculateLightRatio(World world) {
 		int lightValue = EnumSkyBlock.SKY.defaultLightValue - world.getSkylightSubtracted();
 		float sunAngle = world.getCelestialAngleRadians(1.0F);
-
 		if (sunAngle < (float) Math.PI) {
 			sunAngle += (0.0F - sunAngle) * 0.2F;
 		} else {
 			sunAngle += (((float) Math.PI * 2F) - sunAngle) * 0.2F;
 		}
-
 		lightValue = Math.round(lightValue * MathHelper.cos(sunAngle));
-
 		lightValue = MathHelper.clamp_int(lightValue, 0, 15);
 		return lightValue / 15f;
 	}
@@ -103,7 +99,7 @@ public class ModulePhotovoltaic extends ModuleControlled implements IModulePhoto
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.TOP};
+		return new IModulePostion[] { EnumModulePositions.TOP };
 	}
 
 	@Override

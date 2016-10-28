@@ -20,29 +20,46 @@ import net.minecraft.world.World;
 
 public interface IWailaState {
 
-	//Config
-	Set<String> 			getModuleNames();
+	// Config
+	Set<String> getModuleNames();
+
 	HashMap<String, String> getConfigKeys(String modName);
-	boolean 				getConfig(String key, boolean defvalue);
-	boolean 				getConfig(String key);	
 
-	//Accessor
-	World        		 	getWorld();
-	EntityPlayer 		 	getPlayer();
-	Block        		 	getBlock();
-	int                  	getMetadata();
-	IBlockState    		 	getBlockState();
-	TileEntity           	getTileEntity();
+	boolean getConfig(String key, boolean defvalue);
+
+	boolean getConfig(String key);
+
+	// Accessor
+	World getWorld();
+
+	EntityPlayer getPlayer();
+
+	Block getBlock();
+
+	int getMetadata();
+
+	IBlockState getBlockState();
+
+	TileEntity getTileEntity();
+
 	@Nullable
-	IModuleState 			getState();
-	RayTraceResult 		 	getMOP();
-	BlockPos             	getPosition();
-	Vec3d                	getRenderingPosition();
-	NBTTagCompound       	getNBTData();
-	int                  	getNBTInteger(NBTTagCompound tag, String keyname);
-	double               	getPartialFrame();
-	EnumFacing           	getSide();
-	ItemStack            	getStack();
+	IModuleState getState();
 
-	void 					setState(IModuleState state);
+	RayTraceResult getMOP();
+
+	BlockPos getPosition();
+
+	Vec3d getRenderingPosition();
+
+	NBTTagCompound getNBTData();
+
+	int getNBTInteger(NBTTagCompound tag, String keyname);
+
+	double getPartialFrame();
+
+	EnumFacing getSide();
+
+	ItemStack getStack();
+
+	void setState(IModuleState state);
 }

@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.FluidManager;
 
-public class SteamEnginePage extends MainPage<IModuleEngine>{
+public class SteamEnginePage extends MainPage<IModuleEngine> {
 
 	public SteamEnginePage(IModuleState<IModuleEngine> module) {
 		super("engine.steam", module);
@@ -25,5 +25,4 @@ public class SteamEnginePage extends MainPage<IModuleEngine>{
 	public void createTank(IModuleTankBuilder tankBuilder) {
 		tankBuilder.addFluidTank(16000, true, 80, 18, FluidFilter.get(FluidManager.STEAM));
 	}
-
 }

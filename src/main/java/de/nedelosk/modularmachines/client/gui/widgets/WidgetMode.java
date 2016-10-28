@@ -23,7 +23,7 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 		super(posX, posY, 18, 18, provider);
 	}
 
-	private IToolMode getMode(){
+	private IToolMode getMode() {
 		return provider.getModule().getCurrentMode(provider);
 	}
 
@@ -50,7 +50,6 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 		IModuleModeMachine module = provider.getModule();
-
 		module.setCurrentMode(provider, module.getNextMode(provider));
 		PacketHandler.sendToServer(new PacketSyncToolMode(provider.getModular().getHandler(), provider));
 	}

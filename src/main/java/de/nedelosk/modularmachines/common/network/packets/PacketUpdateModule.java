@@ -21,7 +21,6 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 	public PacketUpdateModule() {
 	}
 
-
 	public PacketUpdateModule(IModuleState state) {
 		super(state);
 		this.modularHandler = state.getModular().getHandler();
@@ -35,17 +34,17 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
 		super.writeData(data);
-		if(index > 0){
-			if(modularHandler.isAssembled()){
+		if (index > 0) {
+			if (modularHandler.isAssembled()) {
 				IModuleState state = modularHandler.getModular().getModule(index);
-				if(pageId != null){
+				if (pageId != null) {
 					IModulePage page = state.getPage(pageId);
-					if(page instanceof IStreamable){
+					if (page instanceof IStreamable) {
 						((IStreamable) page).writeData(data);
 					}
-				}else{
+				} else {
 					IModule module = state.getModule();
-					if(module instanceof IStreamable){
+					if (module instanceof IStreamable) {
 						((IStreamable) module).writeData(data);
 					}
 				}
@@ -56,18 +55,18 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		if(index > 0){
+		if (index > 0) {
 			IModularHandler modularHandler = getModularHandler(player);
-			if(modularHandler.isAssembled()){
+			if (modularHandler.isAssembled()) {
 				IModuleState state = getModule(modularHandler);
-				if(pageId != null){
+				if (pageId != null) {
 					IModulePage page = state.getPage(pageId);
-					if(page instanceof IStreamable){
+					if (page instanceof IStreamable) {
 						((IStreamable) page).readData(data);
 					}
-				}else{
+				} else {
 					IModule module = state.getModule();
-					if(module instanceof IStreamable){
+					if (module instanceof IStreamable) {
 						((IStreamable) module).readData(data);
 					}
 				}

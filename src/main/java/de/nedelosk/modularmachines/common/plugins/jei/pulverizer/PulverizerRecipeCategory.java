@@ -16,6 +16,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 
 public class PulverizerRecipeCategory extends ModuleRecipeCategory {
+
 	@Nonnull
 	private final IDrawableAnimated arrow;
 	@Nonnull
@@ -26,9 +27,7 @@ public class PulverizerRecipeCategory extends ModuleRecipeCategory {
 
 	public PulverizerRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.pulverizer", CategoryUIDs.PULVERIZER);
-
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
-
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(widgetTexture, 76, 0, 22, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
@@ -51,13 +50,11 @@ public class PulverizerRecipeCategory extends ModuleRecipeCategory {
 		recipeLayout.getItemStacks().init(inputSlot, true, 56, 16);
 		recipeLayout.getItemStacks().init(outputSlotFirst, false, 116, 16);
 		recipeLayout.getItemStacks().init(outputSlotSecond, false, 134, 16);
-
 		List inputs = recipeWrapper.getInputs();
 		recipeLayout.getItemStacks().setFromRecipe(inputSlot, inputs.get(0));
-
 		List outputs = recipeWrapper.getOutputs();
 		recipeLayout.getItemStacks().setFromRecipe(outputSlotFirst, outputs.get(0));
-		if(outputs.size() > 1 && outputs.get(1) != null){
+		if (outputs.size() > 1 && outputs.get(1) != null) {
 			recipeLayout.getItemStacks().setFromRecipe(outputSlotSecond, outputs.get(1));
 		}
 	}

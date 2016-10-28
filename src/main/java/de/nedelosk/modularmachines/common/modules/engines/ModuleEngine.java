@@ -52,7 +52,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public int getMaxKineticEnergy(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleKineticProperties){
+		if (properties instanceof IModuleKineticProperties) {
 			return ((IModuleKineticProperties) properties).getMaxKineticEnergy(state);
 		}
 		return 0;
@@ -61,7 +61,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public int getMaterialPerWork(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleKineticProperties){
+		if (properties instanceof IModuleKineticProperties) {
 			return ((IModuleKineticProperties) properties).getMaterialPerWork(state);
 		}
 		return 0;
@@ -70,7 +70,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public double getKineticModifier(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleKineticProperties){
+		if (properties instanceof IModuleKineticProperties) {
 			return ((IModuleKineticProperties) properties).getKineticModifier(state);
 		}
 		return 0;
@@ -91,40 +91,38 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
-		if(state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
+		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
+		if (state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))) {
 			boolean isWorking = state.get(WORKING);
 			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
-
 			if (canWork(state)) {
 				if (removeMaterial(state)) {
-					if(!isWorking){
+					if (!isWorking) {
 						state.set(WORKING, true);
 					}
 					kineticHandler.increaseKineticEnergy(getKineticModifier(state) * 2);
 					needUpdate = true;
 				}
-			}else if(isWorking){
-				if(kineticHandler.getStored() > 0){
+			} else if (isWorking) {
+				if (kineticHandler.getStored() > 0) {
 					kineticHandler.reduceKineticEnergy(getKineticModifier(state) * 2);
-				}else{
+				} else {
 					state.set(WORKING, false);
 				}
 				needUpdate = true;
 			}
-
-			if(needUpdate){
+			if (needUpdate) {
 				sendModuleUpdate(state);
 			}
 		}
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -144,7 +142,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.SIDE};
+		return new IModulePostion[] { EnumModulePositions.SIDE };
 	}
 
 	@Override
@@ -167,7 +165,8 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "engines", container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "engines", container.getSize()));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "engines", container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "engines", container.getSize()));
 		return locations;
 	}
 
@@ -179,7 +178,6 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
-		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows",  container.getSize());
+		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
 	}
-
 }

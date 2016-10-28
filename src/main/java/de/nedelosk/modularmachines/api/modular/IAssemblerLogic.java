@@ -13,5 +13,4 @@ public interface IAssemblerLogic {
 
 	@Nonnull
 	IModularAssembler getAssembler();
-
 }

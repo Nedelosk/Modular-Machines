@@ -12,5 +12,4 @@ public interface IModuleControl<M extends IModule> {
 	EnumRedstoneMode getRedstoneMode();
 
 	void setRedstoneMode(EnumRedstoneMode mode);
-
 }

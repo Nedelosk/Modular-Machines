@@ -26,29 +26,23 @@ public abstract class RecipeHandler implements IRecipeHandler {
 	}
 
 	@Override
-	public IRecipeBuilder getDefaultTemplate(){
+	public IRecipeBuilder getDefaultTemplate() {
 		IRecipeBuilder builder = createBuilder();
-		return builder.set(Recipe.CATEGORY, recipeCategory)
-				.set(Recipe.NAME, "Default")
-				.set(Recipe.INPUTS, new RecipeItem[0])
-				.set(Recipe.OUTPUTS, new RecipeItem[0])
-				.set(Recipe.SPEED, 0);
+		return builder.set(Recipe.CATEGORY, recipeCategory).set(Recipe.NAME, "Default").set(Recipe.INPUTS, new RecipeItem[0]).set(Recipe.OUTPUTS, new RecipeItem[0]).set(Recipe.SPEED, 0);
 	}
 
 	@Override
 	public boolean registerRecipe(IRecipe recipe) {
-		if(recipe == null){
+		if (recipe == null) {
 			return false;
 		}
-
-		try{
-			if(!isRecipeValid(recipe)){
+		try {
+			if (!isRecipeValid(recipe)) {
 				return false;
 			}
-		}catch(Exception exception){
+		} catch (Exception exception) {
 			return false;
 		}
-
 		for(int index = 0; index < recipe.getInputs().length; index++) {
 			recipe.getInputs()[index].index = index;
 		}
@@ -58,10 +52,9 @@ public abstract class RecipeHandler implements IRecipeHandler {
 		return recipes.add(recipe);
 	}
 
-
 	@Override
 	public boolean removeRecipe(IRecipe recipe) {
-		if(recipes.contains(recipe)){
+		if (recipes.contains(recipe)) {
 			return false;
 		}
 		return recipes.remove(recipe);
@@ -79,19 +72,19 @@ public abstract class RecipeHandler implements IRecipeHandler {
 
 	@Override
 	public boolean isRecipeValid(IRecipe recipe) {
-		if(recipe.getInputs() == null || recipe.getInputs().length == 0){
+		if (recipe.getInputs() == null || recipe.getInputs().length == 0) {
 			return false;
 		}
-		if(recipe.getOutputs() == null || recipe.getOutputs().length == 0){
+		if (recipe.getOutputs() == null || recipe.getOutputs().length == 0) {
 			return false;
 		}
-		if(recipe.getRecipeName() == null){
+		if (recipe.getRecipeName() == null) {
 			return false;
 		}
-		if(recipe.getRecipeCategory() == null){
+		if (recipe.getRecipeCategory() == null) {
 			return false;
 		}
-		if(recipe.getSpeed() == 0){
+		if (recipe.getSpeed() == 0) {
 			return false;
 		}
 		return true;

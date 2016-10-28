@@ -111,8 +111,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entitiPlayer) {
-		return this.worldObj.getTileEntity(pos) != this ? false
-				: entitiPlayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(pos) != this ? false : entitiPlayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -202,7 +201,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return true;
 		}
 		return super.hasCapability(capability, facing);
@@ -210,10 +209,9 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
 		}
 		return super.getCapability(capability, facing);
 	}
-
 }

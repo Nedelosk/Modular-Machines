@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class FurnacePage extends MainPage<IModuleMachine> {
+
 	public FurnacePage(IModuleState<IModuleMachine> module) {
 		super("furnace", module);
 	}

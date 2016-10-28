@@ -4,19 +4,19 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.nbt.NBTTagDouble;
 
-public class PropertyDouble extends PropertyBase<Double, NBTTagDouble, IPropertyProvider> implements IPropertyJson<Double, NBTTagDouble, IPropertyProvider, JsonPrimitive>{
+public class PropertyDouble extends PropertyBase<Double, NBTTagDouble, IPropertyProvider> implements IPropertyJson<Double, NBTTagDouble, IPropertyProvider, JsonPrimitive> {
 
-	public PropertyDouble(String name, double defaultValue){
+	public PropertyDouble(String name, double defaultValue) {
 		super(name, Double.class, Double.valueOf(defaultValue));
 	}
 
 	@Override
-	public boolean equals(Object obj){
-		if (this == obj){
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		}else if (obj instanceof PropertyDouble && super.equals(obj)){
+		} else if (obj instanceof PropertyDouble && super.equals(obj)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

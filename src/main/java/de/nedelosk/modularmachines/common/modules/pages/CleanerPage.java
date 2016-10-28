@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CleanerPage extends MainPage<IModuleModuleCleaner>{
+public class CleanerPage extends MainPage<IModuleModuleCleaner> {
 
 	public CleanerPage(IModuleState<IModuleModuleCleaner> module) {
 		super("cleaner", module);
@@ -31,12 +31,13 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner>{
 	@Override
 	public void addButtons() {
 		super.addButtons();
-		if(gui != null){
+		if (gui != null) {
 			gui.getButtonManager().add(new CleanerButton(gui.getButtonManager().getButtons().size(), gui.getGuiLeft() + 32, gui.getGuiTop() + 57));
 		}
 	}
 
-	private class ItemFilterModule implements IContentFilter<ItemStack, IModule>{
+	private class ItemFilterModule implements IContentFilter<ItemStack, IModule> {
+
 		@Override
 		public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
 			return ModuleManager.getContainerFromItem(content) != null;
@@ -44,7 +45,8 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner>{
 	}
 
 	@SideOnly(Side.CLIENT)
-	private class CleanerButton extends Button{
+	private class CleanerButton extends Button {
+
 		public CleanerButton(int ID, int xPosition, int yPosition) {
 			super(ID, xPosition, yPosition, 115, 20, Translator.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".clean" + ".name"));
 		}
@@ -53,7 +55,5 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner>{
 		public void onButtonClick() {
 			PacketHandler.sendToServer(new PacketModuleCleaner(moduleState));
 		}
-
 	}
-
 }

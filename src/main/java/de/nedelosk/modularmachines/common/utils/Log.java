@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.common.core.Constants;
 
 public class Log {
 
-
 	public static void log(String modID, Level level, String msg, Object... args) {
 		LogManager.getLogger(modID).log(level, new MessageFormatMessage(msg, args));
 	}

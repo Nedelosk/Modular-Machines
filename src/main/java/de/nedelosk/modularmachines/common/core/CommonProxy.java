@@ -11,13 +11,13 @@ import net.minecraftforge.fluids.Fluid;
 
 public class CommonProxy {
 
-	public void preInit(){
+	public void preInit() {
 	}
 
-	public void init(){
+	public void init() {
 	}
 
-	public List<String> addModuleInfo(ItemStack itemStack){
+	public List<String> addModuleInfo(ItemStack itemStack) {
 		return Collections.emptyList();
 	}
 
@@ -27,11 +27,9 @@ public class CommonProxy {
 	public void registerFluidStateMapper(Block block, Fluid fluid) {
 	}
 
-	public void registerBlock(Block block){
-
+	public void registerBlock(Block block) {
 	}
 
-	public void registerItem(Item item){
-
+	public void registerItem(Item item) {
 	}
 }

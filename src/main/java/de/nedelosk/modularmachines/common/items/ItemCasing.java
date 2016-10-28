@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCasing extends Item implements IItemModelRegister {
 
-	private String[] casings = new String[]{ "wood", "bronze", "iron", "steel", "magmarium" };
+	private String[] casings = new String[] { "wood", "bronze", "iron", "steel", "magmarium" };
 
 	public ItemCasing() {
 		setUnlocalizedName("casing");
@@ -25,7 +25,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		for(int i = 0;i < casings.length;i++){
+		for(int i = 0; i < casings.length; i++) {
 			manager.registerItemModel(item, i, "casing/" + casings[i]);
 		}
 	}
@@ -41,5 +41,4 @@ public class ItemCasing extends Item implements IItemModelRegister {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}
-
 }

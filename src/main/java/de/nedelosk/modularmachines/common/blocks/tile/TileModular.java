@@ -8,7 +8,6 @@ import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.client.model.ModelModular;
-import de.nedelosk.modularmachines.common.modular.ModularHandlerTileEntity;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import net.darkhax.tesla.api.ITeslaConsumer;
@@ -28,12 +27,8 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Optional.InterfaceList({
-	@Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"),
-	@Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib"),
-	@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-	@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2")
-})
+@Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"), @Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib"),
+		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergyReceiver, IEnergySink {
 
 	@CapabilityInject(ITeslaConsumer.class)
@@ -42,14 +37,14 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	public static Capability<ITeslaProducer> TESLA_PRODUCER = null;
 	@CapabilityInject(ITeslaHolder.class)
 	public static Capability<ITeslaHolder> TESLA_HOLDER = null;
-
 	protected EnumMap<EnumFacing, SideCapability> sides = new EnumMap(EnumFacing.class);
-	protected IModularHandlerTileEntity modularHandler;
+	protected final IModularHandlerTileEntity modularHandler;
 	protected boolean addedToEnet;
 
-	public TileModular() {
-		modularHandler = new ModularHandlerTileEntity(this, ModularManager.DEFAULT_STORAGE_POSITIONS);
-		for(EnumFacing face : EnumFacing.VALUES){
+	public TileModular(IModularHandlerTileEntity modularHandler) {
+		this.modularHandler = modularHandler;
+		modularHandler.setTile(this);
+		for(EnumFacing face : EnumFacing.VALUES) {
 			sides.put(face, new SideCapability(face));
 		}
 	}
@@ -111,11 +106,10 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Override
 	public void invalidate() {
 		super.invalidate();
-
 		if (modularHandler != null) {
 			modularHandler.invalidate();
 		}
-		if(worldObj.isRemote){
+		if (worldObj.isRemote) {
 			removeHandler();
 		}
 	}
@@ -126,13 +120,13 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		if (modularHandler != null) {
 			modularHandler.invalidate();
 		}
-		if(worldObj.isRemote){
+		if (worldObj.isRemote) {
 			removeHandler();
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	private void removeHandler(){
+	private void removeHandler() {
 		ModelModular.modularHandlers.remove(modularHandler);
 	}
 
@@ -144,7 +138,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Override
 	public void setWorldObj(World world) {
 		super.setWorldObj(world);
-		if(modularHandler != null){
+		if (modularHandler != null) {
 			modularHandler.setWorld(world);
 		}
 	}
@@ -154,23 +148,23 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
 			return ModularManager.MODULAR_HANDLER_CAPABILITY.cast(modularHandler);
 		}
-		if(TESLA_CONSUMER != null){
-			if(capability == TESLA_CONSUMER){
+		if (TESLA_CONSUMER != null) {
+			if (capability == TESLA_CONSUMER) {
 				SideCapability tesla = sides.get(facing);
 				return TESLA_CONSUMER.cast(tesla);
-			}else if(capability == TESLA_PRODUCER){
+			} else if (capability == TESLA_PRODUCER) {
 				SideCapability tesla = sides.get(facing);
 				return TESLA_PRODUCER.cast(tesla);
-			}else if(capability == TESLA_HOLDER){
+			} else if (capability == TESLA_HOLDER) {
 				SideCapability tesla = sides.get(facing);
 				return TESLA_HOLDER.cast(tesla);
 			}
 		}
-		if(capability == CapabilityEnergy.ENERGY){
+		if (capability == CapabilityEnergy.ENERGY) {
 			return CapabilityEnergy.ENERGY.cast(sides.get(facing));
 		}
-		if(modularHandler != null){
-			if(modularHandler.hasCapability(capability, facing)){
+		if (modularHandler != null) {
+			if (modularHandler.hasCapability(capability, facing)) {
 				return modularHandler.getCapability(capability, facing);
 			}
 		}
@@ -182,16 +176,16 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		if (capability == ModularManager.MODULAR_HANDLER_CAPABILITY) {
 			return true;
 		}
-		if(TESLA_CONSUMER != null){
-			if(capability == TESLA_CONSUMER || capability == TESLA_PRODUCER || capability == TESLA_HOLDER){
+		if (TESLA_CONSUMER != null) {
+			if (capability == TESLA_CONSUMER || capability == TESLA_PRODUCER || capability == TESLA_HOLDER) {
 				return true;
 			}
 		}
-		if(capability == CapabilityEnergy.ENERGY){
+		if (capability == CapabilityEnergy.ENERGY) {
 			return true;
 		}
-		if(modularHandler != null){
-			if(modularHandler.hasCapability(capability, facing)){
+		if (modularHandler != null) {
+			if (modularHandler.hasCapability(capability, facing)) {
 				return true;
 			}
 		}
@@ -201,9 +195,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int getEnergyStored(EnumFacing from) {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return 0;
 		}
 		return (int) modularHandler.getModular().getEnergyBuffer().getEnergyStored();
@@ -212,9 +204,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int getMaxEnergyStored(EnumFacing from) {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return 0;
 		}
 		return (int) modularHandler.getModular().getEnergyBuffer().getCapacity();
@@ -223,15 +213,13 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public boolean canConnectEnergy(EnumFacing from) {
-		return 	modularHandler != null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyBuffer() != null;
+		return modularHandler != null && modularHandler.getModular() != null && modularHandler.getModular().getEnergyBuffer() != null;
 	}
 
 	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return 0;
 		}
 		return (int) modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, from, maxReceive, simulate);
@@ -240,9 +228,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "CoFHLib")
 	@Override
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return 0;
 		}
 		return (int) modularHandler.getModular().getEnergyBuffer().extractEnergy(null, from, maxExtract, simulate);
@@ -257,9 +243,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "IC2")
 	@Override
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return amount;
 		}
 		long receivedEnergy = modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, directionFrom, (long) amount * 2, false);
@@ -269,9 +253,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	@Optional.Method(modid = "IC2")
 	@Override
 	public double getDemandedEnergy() {
-		if(modularHandler == null 
-				|| modularHandler.getModular() == null
-				|| modularHandler.getModular().getEnergyBuffer() == null){
+		if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 			return 0;
 		}
 		IEnergyBuffer buffer = modularHandler.getModular().getEnergyBuffer();
@@ -284,48 +266,29 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		return 4;
 	}
 
-	/*@Optional.Method(modid = "IC2")
-	@Override
-	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return false;
-	}
-
-	@Optional.Method(modid = "IC2")
-	@Override
-	public double getOfferedEnergy() {
-		double energy = 0;
-		for(IEnergySource energyInterface : getEnergyInterfaces(EnergyRegistry.energyUnit, null, IEnergySource.class)){
-			energy +=energyInterface.getOfferedEnergy();
-		}
-		return energy;
-	}
-
-	@Optional.Method(modid = "IC2")
-	@Override
-	public void drawEnergy(double amount) {
-		for(IEnergySource energyInterface : getEnergyInterfaces(EnergyRegistry.energyUnit, null, IEnergySource.class)){
-			energyInterface.drawEnergy(amount);
-		}
-	}
-
-	@Optional.Method(modid = "IC2")
-	@Override
-	public int getSourceTier() {
-		int tier = 1;
-		for(IEnergySource energyInterface : getEnergyInterfaces(EnergyRegistry.energyUnit, null, IEnergySource.class)){
-			if(energyInterface.getSourceTier() > tier){
-				tier = energyInterface.getSourceTier();
-			}
-		}
-		return tier;
-	}*/
-
-	@Optional.InterfaceList({
-		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"),
-		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla"),
-		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla")
-	})
-	private class SideCapability implements ITeslaConsumer, ITeslaHolder, ITeslaProducer, IEnergyStorage{
+	/*
+	 * @Optional.Method(modid = "IC2")
+	 * @Override public boolean emitsEnergyTo(IEnergyAcceptor receiver,
+	 * EnumFacing side) { return false; }
+	 * @Optional.Method(modid = "IC2")
+	 * @Override public double getOfferedEnergy() { double energy = 0;
+	 * for(IEnergySource energyInterface :
+	 * getEnergyInterfaces(EnergyRegistry.energyUnit, null,
+	 * IEnergySource.class)){ energy +=energyInterface.getOfferedEnergy(); }
+	 * return energy; }
+	 * @Optional.Method(modid = "IC2")
+	 * @Override public void drawEnergy(double amount) { for(IEnergySource
+	 * energyInterface : getEnergyInterfaces(EnergyRegistry.energyUnit, null,
+	 * IEnergySource.class)){ energyInterface.drawEnergy(amount); } }
+	 * @Optional.Method(modid = "IC2")
+	 * @Override public int getSourceTier() { int tier = 1; for(IEnergySource
+	 * energyInterface : getEnergyInterfaces(EnergyRegistry.energyUnit, null,
+	 * IEnergySource.class)){ if(energyInterface.getSourceTier() > tier){ tier =
+	 * energyInterface.getSourceTier(); } } return tier; }
+	 */
+	@Optional.InterfaceList({ @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"), @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla"),
+			@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla") })
+	private class SideCapability implements ITeslaConsumer, ITeslaHolder, ITeslaProducer, IEnergyStorage {
 
 		private EnumFacing facing;
 
@@ -335,9 +298,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public int receiveEnergy(int maxReceive, boolean simulate) {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return (int) modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, facing, maxReceive, simulate);
@@ -345,9 +306,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public int extractEnergy(int maxExtract, boolean simulate) {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return (int) modularHandler.getModular().getEnergyBuffer().extractEnergy(null, facing, maxExtract, simulate);
@@ -355,9 +314,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public int getEnergyStored() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return (int) modularHandler.getModular().getEnergyBuffer().getEnergyStored();
@@ -365,9 +322,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public int getMaxEnergyStored() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return (int) modularHandler.getModular().getEnergyBuffer().getCapacity();
@@ -375,9 +330,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public boolean canExtract() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return false;
 			}
 			return modularHandler.getModular().getEnergyBuffer().canExtract();
@@ -385,9 +338,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 
 		@Override
 		public boolean canReceive() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return false;
 			}
 			return modularHandler.getModular().getEnergyBuffer().canReceive();
@@ -396,9 +347,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		@Optional.Method(modid = "tesla")
 		@Override
 		public long takePower(long power, boolean simulated) {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return modularHandler.getModular().getEnergyBuffer().extractEnergy(null, facing, power, simulated);
@@ -407,9 +356,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		@Optional.Method(modid = "tesla")
 		@Override
 		public long givePower(long power, boolean simulated) {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
 			return modularHandler.getModular().getEnergyBuffer().receiveEnergy(null, facing, power, simulated);
@@ -418,25 +365,19 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 		@Optional.Method(modid = "tesla")
 		@Override
 		public long getStoredPower() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
-			return  modularHandler.getModular().getEnergyBuffer().getEnergyStored();
+			return modularHandler.getModular().getEnergyBuffer().getEnergyStored();
 		}
 
 		@Optional.Method(modid = "tesla")
 		@Override
 		public long getCapacity() {
-			if(modularHandler == null 
-					|| modularHandler.getModular() == null
-					|| modularHandler.getModular().getEnergyBuffer() == null){
+			if (modularHandler == null || modularHandler.getModular() == null || modularHandler.getModular().getEnergyBuffer() == null) {
 				return 0;
 			}
-			return  modularHandler.getModular().getEnergyBuffer().getCapacity();
+			return modularHandler.getModular().getEnergyBuffer().getCapacity();
 		}
-
 	}
-
 }

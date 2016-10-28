@@ -17,10 +17,8 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 	private static final int craftOutputSlot = 0;
 	private static final int craftInputSlot1 = 1;
 	private static final int craftHolderSlot = 11;
-
 	public static final int width = 144;
 	public static final int height = 54;
-
 	@Nonnull
 	private final IDrawable background;
 	@Nonnull
@@ -56,21 +54,16 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, ModuleCrafterRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
 		guiItemStacks.init(craftOutputSlot, false, 122, 18);
-
-		for (int y = 0; y < 3; ++y) {
-			for (int x = 0; x < 3; ++x) {
+		for(int y = 0; y < 3; ++y) {
+			for(int x = 0; x < 3; ++x) {
 				int index = craftInputSlot1 + x + (y * 3);
 				guiItemStacks.init(index, true, 27 + x * 18, y * 18);
 			}
 		}
-
 		guiItemStacks.init(craftHolderSlot, true, 0, 0);
-
 		craftingGridHelper.setInput(guiItemStacks, recipeWrapper.getGridInputs(), recipeWrapper.getWidth(), recipeWrapper.getHeight());
 		craftingGridHelper.setOutput(guiItemStacks, recipeWrapper.getOutputs());
-
 		guiItemStacks.set(craftHolderSlot, recipeWrapper.getHolder());
 	}
 
@@ -78,5 +71,4 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull ModuleCrafterRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		setRecipe(recipeLayout, recipeWrapper);
 	}
-
 }

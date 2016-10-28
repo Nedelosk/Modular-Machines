@@ -42,7 +42,7 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 	}
 
 	@Override
-	public List<IContainerListener> getListeners(){
+	public List<IContainerListener> getListeners() {
 		return listeners;
 	}
 
@@ -55,19 +55,16 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		if(handler instanceof TileEntity){
+		if (handler instanceof TileEntity) {
 			TileEntity tile = (TileEntity) handler;
 			BlockPos pos = tile.getPos();
 			Block block = tile.getWorld().getBlockState(pos).getBlock();
 			// does the block we interacted with still exist?
-			if(block == Blocks.AIR || block != tile.getBlockType()) {
+			if (block == Blocks.AIR || block != tile.getBlockType()) {
 				return false;
 			}
-
 			// too far away from block?
-			return player.getDistanceSq(pos.getX() + 0.5d,
-					pos.getY() + 0.5d,
-					pos.getZ() + 0.5d) <= 64;
+			return player.getDistanceSq(pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d) <= 64;
 		}
 		return true;
 	}
@@ -80,17 +77,16 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 		// find another player that already has the gui for this tile open
 		WorldServer server = playerOpened.getServerWorld();
 		for(EntityPlayer player : server.playerEntities) {
-			if(player == playerOpened) {
+			if (player == playerOpened) {
 				continue;
 			}
-			if(player.openContainer instanceof BaseContainer) {
-				if(this.sameGui((BaseContainer<H>) player.openContainer)) {
+			if (player.openContainer instanceof BaseContainer) {
+				if (this.sameGui((BaseContainer<H>) player.openContainer)) {
 					syncWithOtherContainer((BaseContainer<H>) player.openContainer, playerOpened);
 					return;
 				}
 			}
 		}
-
 		// no player has a container open for the tile
 		syncNewContainer(playerOpened);
 	}
@@ -99,8 +95,8 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 	}
 
 	/**
-	 * Called when the container is opened and no other player has it open.
-	 * Set the default state here.
+	 * Called when the container is opened and no other player has it open. Set
+	 * the default state here.
 	 */
 	protected void syncNewContainer(EntityPlayerMP player) {
 	}

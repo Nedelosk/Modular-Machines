@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.modules.handlers.block;
 
-
 public interface IBlockModificator {
 
 	int getMaxHeat();
@@ -8,5 +7,4 @@ public interface IBlockModificator {
 	float getResistance();
 
 	float getHardness();
-
 }

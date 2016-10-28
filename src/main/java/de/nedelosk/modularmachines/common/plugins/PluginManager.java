@@ -22,7 +22,7 @@ public class PluginManager {
 		Log.logPluginManager(Level.INFO, "Register Plugin: " + plugin.getRequiredMod());
 	}
 
-	private void loadPlugins(){
+	private void loadPlugins() {
 		for(APlugin plugin : registeredPlugins) {
 			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.isActive()) {
 				loadedPlugins.add(plugin);
@@ -38,11 +38,10 @@ public class PluginManager {
 		registerPlugin(new PluginMekanism());
 		registerPlugin(new PluginForestry());
 		loadPlugins();
-
 		for(APlugin plugin : loadedPlugins) {
-			try{
+			try {
 				plugin.preInit();
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -50,9 +49,9 @@ public class PluginManager {
 
 	public void postInit() {
 		for(APlugin plugin : loadedPlugins) {
-			try{
+			try {
 				plugin.postInit();
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -60,10 +59,10 @@ public class PluginManager {
 
 	public void init() {
 		for(APlugin plugin : loadedPlugins) {
-			try{
+			try {
 				plugin.init();
 				plugin.registerRecipes();
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -24,19 +24,17 @@ public class RecipeRegistry {
 	}
 
 	/**
-	 * @param testSizeSame Test the stackSize or the amount of the two RecipeItem's.
+	 * @param testSizeSame
+	 *            Test the stackSize or the amount of the two RecipeItem's.
 	 * @return True if the input equals the item
 	 */
-	public static boolean itemEqualsItem(RecipeItem item, RecipeItem input, boolean testSizeSame){
+	public static boolean itemEqualsItem(RecipeItem item, RecipeItem input, boolean testSizeSame) {
 		if (input != null) {
 			if (item.isItem()) {
 				if (!input.isItem()) {
 					return false;
-				} else if (item.item.getItem() == input.item.getItem()
-						&& (item.item.getItemDamage() == input.item.getItemDamage() || item.item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-						&& (testSizeSame && item.item.stackSize <= input.item.stackSize || !testSizeSame)
-						&& (!item.item.hasTagCompound() && !input.item.hasTagCompound()
-								|| ItemStack.areItemStackTagsEqual(item.item, input.item))) {
+				} else if (item.item.getItem() == input.item.getItem() && (item.item.getItemDamage() == input.item.getItemDamage() || item.item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+						&& (testSizeSame && item.item.stackSize <= input.item.stackSize || !testSizeSame) && (!item.item.hasTagCompound() && !input.item.hasTagCompound() || ItemStack.areItemStackTagsEqual(item.item, input.item))) {
 					return true;
 				}
 				return false;
@@ -44,7 +42,7 @@ public class RecipeRegistry {
 				if (!input.isFluid()) {
 					return false;
 				} else if (item.fluid.isFluidEqual(input.fluid)) {
-					if(testSizeSame && item.fluid.amount <= input.fluid.amount || !testSizeSame){
+					if (testSizeSame && item.fluid.amount <= input.fluid.amount || !testSizeSame) {
 						return true;
 					}
 				}
@@ -52,7 +50,7 @@ public class RecipeRegistry {
 			} else if (item.isOre()) {
 				if (input.isOre()) {
 					if (item.ore.equals(input.ore)) {
-						if(testSizeSame && item.ore.stackSize <= input.ore.stackSize || !testSizeSame){
+						if (testSizeSame && item.ore.stackSize <= input.ore.stackSize || !testSizeSame) {
 							return true;
 						}
 					}
@@ -61,7 +59,7 @@ public class RecipeRegistry {
 				if (!input.isItem()) {
 					return false;
 				}
-				if(testSizeSame && !(item.ore.stackSize <= input.item.stackSize)){
+				if (testSizeSame && !(item.ore.stackSize <= input.item.stackSize)) {
 					return false;
 				}
 				int ore = OreDictionary.getOreID(item.ore.oreDict);
@@ -95,7 +93,6 @@ public class RecipeRegistry {
 		return handlers.get(recipeCategory);
 	}
 
-
 	/**
 	 * @return A map with all recipe handlers that are in the registry.
 	 */
@@ -106,19 +103,18 @@ public class RecipeRegistry {
 	/**
 	 * Write a recipe to a NBTTagCompound.
 	 */
-	public static NBTTagCompound writeRecipeToNBT(IRecipe recipe){
+	public static NBTTagCompound writeRecipeToNBT(IRecipe recipe) {
 		return recipe.serializeNBT();
 	}
 
 	/**
 	 * Read a recipe form the NBTTagCompound.
 	 */
-	public static IRecipe readRecipeFromNBT(NBTTagCompound nbtCompound){
+	public static IRecipe readRecipeFromNBT(NBTTagCompound nbtCompound) {
 		String recipeCategory = nbtCompound.getString(Recipe.CATEGORY.getName());
 		IRecipeHandler handler = getRecipeHandler(recipeCategory);
 		IRecipe recipe = handler.buildDefault();
 		recipe.deserializeNBT(nbtCompound);
 		return recipe;
-
 	}
 }

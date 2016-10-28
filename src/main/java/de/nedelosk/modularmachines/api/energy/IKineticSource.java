@@ -13,5 +13,4 @@ public interface IKineticSource {
 	double getStored();
 
 	double getCapacity();
-
 }

@@ -28,45 +28,38 @@ public class DataInputStreamMM extends DataInputStream {
 	public ItemStack readItemStack() throws IOException {
 		ItemStack itemstack = null;
 		String itemName = readUTF();
-
 		if (!itemName.isEmpty()) {
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
 			int stackSize = readVarInt();
 			int meta = readVarInt();
 			itemstack = new ItemStack(item, stackSize, meta);
-
 			if (item.isDamageable() || item.getShareTag()) {
 				itemstack.setTagCompound(readNBTTagCompound());
 			}
 		}
-
 		return itemstack;
 	}
 
 	public ItemStack[] readItemStacks() throws IOException {
 		int stackCount = readVarInt();
-
 		ItemStack[] itemStacks = new ItemStack[stackCount];
-		for (int i = 0; i < stackCount; i++) {
+		for(int i = 0; i < stackCount; i++) {
 			itemStacks[i] = readItemStack();
 		}
-
 		return itemStacks;
 	}
 
 	public void readItemStacks(Collection<ItemStack> itemStacks) throws IOException {
 		itemStacks.clear();
-
 		int stackCount = readVarInt();
-		for (int i = 0; i < stackCount; i++) {
+		for(int i = 0; i < stackCount; i++) {
 			itemStacks.add(readItemStack());
 		}
 	}
 
 	public void readInventory(IInventory inventory) throws IOException {
 		int size = readVarInt();
-
-		for (int i = 0; i < size; i++) {
+		for(int i = 0; i < size; i++) {
 			ItemStack stack = readItemStack();
 			inventory.setInventorySlotContents(i, stack);
 		}
@@ -89,7 +82,7 @@ public class DataInputStreamMM extends DataInputStream {
 		outputList.clear();
 		int length = readVarInt();
 		if (length > 0) {
-			for (int i = 0; i < length; i++) {
+			for(int i = 0; i < length; i++) {
 				T streamable = readStreamable(streamableClass);
 				outputList.add(streamable);
 			}
@@ -97,23 +90,21 @@ public class DataInputStreamMM extends DataInputStream {
 	}
 
 	/**
-	 * Reads a compressed int from the buffer. To do so it maximally reads 5 byte-sized chunks whose most significant
-	 * bit dictates whether another byte should be read.
+	 * Reads a compressed int from the buffer. To do so it maximally reads 5
+	 * byte-sized chunks whose most significant bit dictates whether another
+	 * byte should be read.
 	 */
 	public int readVarInt() throws IOException {
 		int varInt = 0;
 		int size = 0;
 		byte b0;
-
 		do {
 			b0 = readByte();
 			varInt |= (b0 & 127) << size++ * 7;
-
 			if (size > 5) {
 				throw new InvalidObjectException("VarInt too big");
 			}
 		} while ((b0 & 128) == 128);
-
 		return varInt;
 	}
 
@@ -129,7 +120,6 @@ public class DataInputStreamMM extends DataInputStream {
 
 	public NBTTagCompound readNBTTagCompound() throws IOException {
 		int length = readVarInt();
-
 		if (length < 0) {
 			return null;
 		} else {
@@ -145,7 +135,6 @@ public class DataInputStreamMM extends DataInputStream {
 			if (fluid == null) {
 				return null;
 			}
-
 			return new FluidStack(fluid, amount);
 		}
 		return null;

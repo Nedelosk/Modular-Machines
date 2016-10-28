@@ -30,7 +30,7 @@ public class PluginEnderIO extends APlugin {
 
 	@Override
 	public void preInit() {
-		if(ModuleRFBatteryPropertiesLoader.loader == null){
+		if (ModuleRFBatteryPropertiesLoader.loader == null) {
 			ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, ModuleRFBatteryPropertiesLoader.loader = new ModuleRFBatteryPropertiesLoader());
 		}
 		moduleCapacitorBank = new ModuleRFBattery("capacitor_bank");
@@ -40,14 +40,15 @@ public class PluginEnderIO extends APlugin {
 	@Override
 	public void init() {
 		capacitorBank = ForgeRegistries.ITEMS.getValue(new ResourceLocation(getRequiredMod(), "blockCapBank"));
-
 		moduleCapacitorBankProperties[0] = new ModuleRFBatteryProperties(2, 1000000, 1000, 2);
 		moduleCapacitorBankProperties[1] = new ModuleRFBatteryProperties(4, 15000000, 5000, 3);
 		moduleCapacitorBankProperties[2] = new ModuleRFBatteryProperties(6, 25000000, 25000, 4);
-
-		moduleCapacitorBankContainers[0] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[0])), "battery.enderio.capacitorBank-basic");
-		moduleCapacitorBankContainers[1] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[1])), "battery.enderio.capacitorBank");
-		moduleCapacitorBankContainers[2] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 3), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[2])), "battery.enderio.capacitorBank.vibrant");
+		moduleCapacitorBankContainers[0] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 1), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[0])),
+				"battery.enderio.capacitorBank-basic");
+		moduleCapacitorBankContainers[1] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 2), EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[1])),
+				"battery.enderio.capacitorBank");
+		moduleCapacitorBankContainers[2] = register(new ModuleItemContainer(new ItemStack(capacitorBank, 1, 3), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, true, new ModuleContainer(moduleCapacitorBank, moduleCapacitorBankProperties[2])),
+				"battery.enderio.capacitorBank.vibrant");
 	}
 
 	@Override

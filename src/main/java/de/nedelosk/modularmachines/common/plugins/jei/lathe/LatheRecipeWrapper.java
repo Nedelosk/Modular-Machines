@@ -17,13 +17,11 @@ public class LatheRecipeWrapper extends ModuleRecipeWrapper {
 	private final IDrawable modeItem;
 	@Nonnull
 	private final IDrawable modeBackground;
-
 	protected final static ResourceLocation widgetTexture = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 
 	public LatheRecipeWrapper(IRecipe recipe, String recipeCategoryUid, IGuiHelper guiHelper) {
-		super(recipe, recipeCategoryUid);	
+		super(recipe, recipeCategoryUid);
 		IToolMode mode = recipe.get(RecipeUtil.LATHEMODE);
-
 		modeBackground = guiHelper.createDrawable(widgetTexture, 238, 0, 18, 18);
 		modeItem = guiHelper.createDrawable(widgetTexture, 238, 18 * mode.ordinal() + 18, 18, 18);
 	}

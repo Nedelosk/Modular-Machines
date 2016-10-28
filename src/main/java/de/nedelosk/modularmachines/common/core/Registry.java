@@ -60,7 +60,7 @@ public abstract class Registry {
 			FluidRegistry.registerFluid(fluid);
 		}
 		if (createBlock) {
-			if(!fluid.canBePlacedInWorld()){
+			if (!fluid.canBePlacedInWorld()) {
 				Block fluidBlock = new FluidBlock(fluid, material, fluidName);
 				fluidBlock.setRegistryName("fluid_" + fluidName);
 				GameRegistry.register(fluidBlock);
@@ -69,7 +69,7 @@ public abstract class Registry {
 				GameRegistry.register(itemBlock);
 				ModularMachines.proxy.registerFluidStateMapper(fluidBlock, fluid);
 			}
-			if(!FluidRegistry.getBucketFluids().contains(fluid)){
+			if (!FluidRegistry.getBucketFluids().contains(fluid)) {
 				FluidRegistry.addBucketForFluid(fluid);
 			}
 		}
@@ -79,10 +79,10 @@ public abstract class Registry {
 	public static <V extends IForgeRegistryEntry<V>> IForgeRegistryEntry<V> register(V entry, String name) {
 		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), name));
 		GameRegistry.register(entry);
-		if(entry instanceof Block){
+		if (entry instanceof Block) {
 			ModularMachines.proxy.registerBlock((Block) entry);
-		}else if(entry instanceof Item){
-			ModularMachines.proxy.registerItem((Item)entry);
+		} else if (entry instanceof Item) {
+			ModularMachines.proxy.registerItem((Item) entry);
 		}
 		return entry;
 	}

@@ -21,7 +21,7 @@ public class ModuleCrafterWorkbenchRecipeWrapper extends BlankRecipeWrapper impl
 
 	public ModuleCrafterWorkbenchRecipeWrapper(@Nonnull IModuleCrafterRecipe recipe) {
 		this.recipe = recipe;
-		for (Object input : this.recipe.getInput()) {
+		for(Object input : this.recipe.getInput()) {
 			if (input instanceof ItemStack) {
 				ItemStack itemStack = (ItemStack) input;
 				if (itemStack.stackSize != 1) {
@@ -60,5 +60,4 @@ public class ModuleCrafterWorkbenchRecipeWrapper extends BlankRecipeWrapper impl
 		ingredients.setInputs(ItemStack.class, getInputs());
 		ingredients.setOutputs(ItemStack.class, getOutputs());
 	}
-
 }

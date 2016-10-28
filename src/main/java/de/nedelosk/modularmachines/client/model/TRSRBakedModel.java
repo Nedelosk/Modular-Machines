@@ -1,12 +1,24 @@
 /*******************************************************************************
- * The MIT License (MIT)
- * Copyright (c) 2013-2014 Slime Knights (mDiyo, fuj1n, Sunstrike, progwml6, pillbox, alexbegt)
+ * The MIT License (MIT) Copyright (c) 2013-2014 Slime Knights (mDiyo, fuj1n,
+ * Sunstrike, progwml6, pillbox, alexbegt)
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * Any alternate licenses are noted where appropriate.
  ******************************************************************************/
@@ -53,44 +65,36 @@ public class TRSRBakedModel implements IBakedModel {
 	}
 
 	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
-		this(original, new TRSRTransformation(new Vector3f(x, y, z),
-				null,
-				new Vector3f(scaleX, scaleY, scaleZ),
-				TRSRTransformation.quatFromYXZ(rotY, rotX, rotZ)));
+		this(original, new TRSRTransformation(new Vector3f(x, y, z), null, new Vector3f(scaleX, scaleY, scaleZ), TRSRTransformation.quatFromYXZ(rotY, rotX, rotZ)));
 	}
 
 	public TRSRBakedModel(IBakedModel original, TRSRTransformation transform) {
 		this.original = original;
-
 		ImmutableList.Builder<BakedQuad> builder;
 		builder = ImmutableList.builder();
-
 		transform = TRSRTransformation.blockCenterToCorner(transform);
-
 		// face quads
 		EnumMap<EnumFacing, ImmutableList<BakedQuad>> faces = Maps.newEnumMap(EnumFacing.class);
-		for (EnumFacing face : EnumFacing.values()) {
+		for(EnumFacing face : EnumFacing.values()) {
 			if (!original.isBuiltInRenderer()) {
-				for (BakedQuad quad : original.getQuads(null, face, 0)) {
+				for(BakedQuad quad : original.getQuads(null, face, 0)) {
 					Transformer transformer = new Transformer(transform, quad.getFormat());
 					quad.pipe(transformer);
 					builder.add(transformer.build());
 				}
 			}
-			//faces.put(face, builder.build());
+			// faces.put(face, builder.build());
 			faces.put(face, ImmutableList.of());
 		}
-
 		// general quads
-		//builder = ImmutableList.builder();
+		// builder = ImmutableList.builder();
 		if (!original.isBuiltInRenderer()) {
-			for (BakedQuad quad : original.getQuads(null, null, 0)) {
+			for(BakedQuad quad : original.getQuads(null, null, 0)) {
 				Transformer transformer = new Transformer(transform, quad.getFormat());
 				quad.pipe(transformer);
 				builder.add(transformer.build());
 			}
 		}
-
 		this.general = builder.build();
 		this.faces = Maps.immutableEnumMap(faces);
 	}
@@ -152,7 +156,6 @@ public class TRSRBakedModel implements IBakedModel {
 		@Override
 		public void put(int element, float... data) {
 			VertexFormatElement.EnumUsage usage = parent.getVertexFormat().getElement(element).getUsage();
-
 			// transform normals and position
 			if (usage == VertexFormatElement.EnumUsage.POSITION && data.length >= 3) {
 				Vector4f vec = new Vector4f(data);

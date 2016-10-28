@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 
-public interface IStorageModuleProperties extends IModuleProperties {	
+public interface IStorageModuleProperties extends IModuleProperties {
 
 	@Nullable
 	IStoragePosition getSecondPosition(@Nonnull IModuleContainer container, @Nonnull IStoragePosition position);

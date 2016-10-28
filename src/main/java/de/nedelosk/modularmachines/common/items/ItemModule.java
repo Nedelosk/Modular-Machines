@@ -35,18 +35,14 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerModel(Item item, IModelManager manager) {
-		ModelResourceLocation[] locs = new ModelResourceLocation[]{
-				ModelManager.getInstance().getModelLocation("module_small"),
-				ModelManager.getInstance().getModelLocation("module_medium"),
-				ModelManager.getInstance().getModelLocation("module_large")
-		};
+		ModelResourceLocation[] locs = new ModelResourceLocation[] { ModelManager.getInstance().getModelLocation("module_small"), ModelManager.getInstance().getModelLocation("module_medium"), ModelManager.getInstance().getModelLocation("module_large") };
 		manager.registerItemModel(item, new ModuleItemMeshDefinition(locs));
 		ModelBakery.registerItemVariants(item, locs[0]);
 		ModelBakery.registerItemVariants(item, locs[1]);
 		ModelBakery.registerItemVariants(item, locs[2]);
 	}
 
-	private static class ModuleItemMeshDefinition implements ItemMeshDefinition{
+	private static class ModuleItemMeshDefinition implements ItemMeshDefinition {
 
 		private ModelResourceLocation[] locs;
 
@@ -57,12 +53,11 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
-			if(itemContainer != null){
-				return locs[itemContainer.getSize().ordinal()-1];
+			if (itemContainer != null) {
+				return locs[itemContainer.getSize().ordinal() - 1];
 			}
 			return ModelManager.getInstance().getModelLocation("module_large");
 		}
-
 	}
 
 	@Override
@@ -73,7 +68,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
-		if(itemContainer != null){
+		if (itemContainer != null) {
 			return itemContainer.getContainer(0).getDisplayName();
 		}
 		return super.getItemStackDisplayName(stack);
@@ -81,25 +76,25 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IModuleItemContainer container : ModuleManager.getModulesWithDefaultItem()){
+		for(IModuleItemContainer container : ModuleManager.getModulesWithDefaultItem()) {
 			subItems.add(ModuleManager.createDefaultStack(container));
 		}
 	}
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		if(stack.hasTagCompound()){
+		if (stack.hasTagCompound()) {
 			IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
-			if(itemContainer != null){
-				if(tintIndex == 0){
+			if (itemContainer != null) {
+				if (tintIndex == 0) {
 					IMaterial material = itemContainer.getMaterial();
-					if(material instanceof IColoredMaterial){
-						return ((IColoredMaterial)material).getColor();
+					if (material instanceof IColoredMaterial) {
+						return ((IColoredMaterial) material).getColor();
 					}
-				}else if(tintIndex == 1){
+				} else if (tintIndex == 1) {
 					IModuleContainer container = itemContainer.getContainer(0);
 					IModule module = container.getModule();
-					if(module instanceof IModuleColoredItem){
+					if (module instanceof IModuleColoredItem) {
 						return ((IModuleColoredItem) module).getColor(container);
 					}
 				}

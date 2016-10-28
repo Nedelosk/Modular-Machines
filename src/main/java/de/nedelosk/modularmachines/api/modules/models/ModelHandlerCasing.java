@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.google.common.base.Function;
 
+import de.nedelosk.modularmachines.api.modular.ExpandedStoragePositions;
 import de.nedelosk.modularmachines.api.modules.IModule;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.state.IModuleStateClient;
@@ -30,25 +30,25 @@ public class ModelHandlerCasing extends ModelHandler implements IModelHandler {
 	public ModelHandlerCasing(ResourceLocation... locations) {
 		casing = locations[0];
 		casing_left = locations[1];
-		casing_right= locations[2];
+		casing_right = locations[2];
 	}
 
 	@Override
 	public void reload(IModuleState state, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
-		if(state.getModular() != null){
+		if (state.getModular() != null) {
 			Set<IStoragePosition> positions = state.getModular().getStorages().keySet();
-			if(!positions.contains(EnumStoragePositions.LEFT)){
+			if (!positions.contains(ExpandedStoragePositions.LEFT)) {
 				models.add(ModuleModelLoader.getModel(casing_left, format));
 			}
-			if(!positions.contains(EnumStoragePositions.RIGHT)){
+			if (!positions.contains(ExpandedStoragePositions.RIGHT)) {
 				models.add(ModuleModelLoader.getModel(casing_right, format));
 			}
 		}
 		models.add(ModuleModelLoader.getModel(casing, format));
-		for(IModuleState moduleState : ((IModuleStorage)storage).getModules()){
+		for(IModuleState moduleState : ((IModuleStorage) storage).getModules()) {
 			IModule module = moduleState.getModule();
-			if(((IModuleStateClient)moduleState).getModelHandler() != null){
+			if (((IModuleStateClient) moduleState).getModelHandler() != null) {
 				models.add(ModuleModelLoader.getModel(moduleState, storage, modelState, format));
 			}
 		}

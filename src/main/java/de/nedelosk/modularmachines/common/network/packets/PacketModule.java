@@ -21,7 +21,7 @@ public abstract class PacketModule extends PacketModularHandler {
 	public PacketModule(IModuleState module) {
 		this(module.getModular().getHandler(), module.getIndex(), null);
 		IModulePage currentPage = module.getModular().getCurrentPage();
-		if(currentPage.getModuleState().getIndex() == module.getIndex()){
+		if (currentPage.getModuleState().getIndex() == module.getIndex()) {
 			pageId = currentPage.getPageID();
 		}
 	}
@@ -37,7 +37,7 @@ public abstract class PacketModule extends PacketModularHandler {
 	}
 
 	public IModuleState getModule(IModularHandler handler) {
-		if(handler == null || handler.getModular() == null){
+		if (handler == null || handler.getModular() == null) {
 			return null;
 		}
 		return handler.getModular().getModule(index);
@@ -47,7 +47,7 @@ public abstract class PacketModule extends PacketModularHandler {
 	public void readData(DataInputStreamMM data) throws IOException {
 		super.readData(data);
 		index = data.readInt();
-		if(data.readBoolean()){
+		if (data.readBoolean()) {
 			pageId = DataInputStream.readUTF(data);
 		}
 	}
@@ -57,7 +57,7 @@ public abstract class PacketModule extends PacketModularHandler {
 		super.writeData(data);
 		data.writeInt(index);
 		data.writeBoolean(pageId != null);
-		if(pageId != null){
+		if (pageId != null) {
 			data.writeUTF(pageId);
 		}
 	}

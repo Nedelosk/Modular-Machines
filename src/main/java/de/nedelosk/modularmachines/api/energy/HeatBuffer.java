@@ -36,7 +36,6 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	@Override
 	public double extractHeat(double maxExtract, boolean simulate) {
 		double energyExtracted = Math.min(heatBuffer, Math.min(this.maxExtract, maxExtract));
-
 		if (!simulate) {
 			heatBuffer -= energyExtracted;
 		}
@@ -46,7 +45,6 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	@Override
 	public double receiveHeat(double maxReceive, boolean simulate) {
 		double energyReceived = Math.min(capacity - heatBuffer, Math.min(this.maxReceive, maxReceive));
-
 		if (!simulate) {
 			heatBuffer += energyReceived;
 		}
@@ -56,7 +54,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	@Override
 	public void increaseHeat(double maxHeat, int heatModifier) {
 		double max = maxHeat;
-		if(maxHeat == -1){
+		if (maxHeat == -1) {
 			max = capacity;
 		}
 		if (heatBuffer == max) {
@@ -76,7 +74,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		double step = getHeatLevel().getHeatStepDown();
 		double change = step + ((heatBuffer / capacity) * step * heatModifier);
 		heatBuffer -= change;
-		heatBuffer = Math.max(heatBuffer,  HeatManager.COLD_TEMP);
+		heatBuffer = Math.max(heatBuffer, HeatManager.COLD_TEMP);
 	}
 
 	@Override

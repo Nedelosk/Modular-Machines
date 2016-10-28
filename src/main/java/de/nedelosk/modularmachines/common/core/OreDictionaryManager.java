@@ -20,7 +20,7 @@ public class OreDictionaryManager {
 		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
 		for(MaterialList<IMetalMaterial> metals : ItemManager.metals) {
 			for(IMetalMaterial material : metals) {
-				for(String oreDict : material.getOreDicts()){
+				for(String oreDict : material.getOreDicts()) {
 					registerOre("ingot" + oreDict, ItemManager.itemIngots.getStack(oreDict));
 					registerOre("nugget" + oreDict, ItemManager.itemNuggets.getStack(oreDict));
 				}
@@ -28,7 +28,7 @@ public class OreDictionaryManager {
 		}
 		for(MaterialList<IMetalMaterial> metals : ItemManager.dusts) {
 			for(IMetalMaterial material : metals) {
-				for(String oreDict : material.getOreDicts()){
+				for(String oreDict : material.getOreDicts()) {
 					registerOre("dust" + oreDict, ItemManager.itemDusts.getStack(oreDict));
 				}
 			}
@@ -58,7 +58,7 @@ public class OreDictionaryManager {
 		}
 	}
 
-	private static void registerComponentOres(String preFix, ItemComponent component){
+	private static void registerComponentOres(String preFix, ItemComponent component) {
 		for(IMetalMaterial material : component.materials) {
 			ItemStack stack = component.getStack(material);
 			String[] oreDicts = material.getOreDicts();

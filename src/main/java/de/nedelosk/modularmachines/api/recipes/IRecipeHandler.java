@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.recipes;
 
 import java.util.List;
 
-public interface IRecipeHandler{
+public interface IRecipeHandler {
 
 	IRecipeBuilder createBuilder();
 

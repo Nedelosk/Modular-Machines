@@ -15,7 +15,6 @@ public class SlotAssembler extends SlotItemHandler {
 
 	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, IStoragePage page, IAssemblerContainer container, SlotAssemblerStorage storageSlot) {
 		super(inventory, index, xPosition, yPosition);
-
 		this.storageSlot = storageSlot;
 		this.page = page;
 		this.container = container;
@@ -36,14 +35,14 @@ public class SlotAssembler extends SlotItemHandler {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-		if(!hasChange){
+		if (!hasChange) {
 			this.hasChange = true;
 		}
 	}
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if(!isActive){
+		if (!isActive) {
 			return false;
 		}
 		return page.isItemValid(stack, this, storageSlot);

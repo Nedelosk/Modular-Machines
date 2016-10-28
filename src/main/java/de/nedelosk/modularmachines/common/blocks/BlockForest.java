@@ -22,5 +22,4 @@ public class BlockForest extends Block {
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);
 	}
-
 }

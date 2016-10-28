@@ -9,5 +9,4 @@ public interface IRecipeProvider {
 	List<IRecipe> getRecipes();
 
 	IRecipe getValidRecipe(Object... ingredients);
-
 }

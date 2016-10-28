@@ -19,8 +19,8 @@ public interface IModuleRecipe extends IModule {
 	void setCurrentRecipe(IModuleState state, IRecipe recipe);
 
 	/**
-	 * @return True if the stack is a input, of a recipe, at the matching position.
+	 * @return True if the stack is a input, of a recipe, at the matching
+	 *         position.
 	 */
 	boolean isRecipeInput(IModuleState state, @Nonnull RecipeItem item);
-
 }

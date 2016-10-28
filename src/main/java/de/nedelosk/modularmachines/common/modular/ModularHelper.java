@@ -1,28 +1,32 @@
 package de.nedelosk.modularmachines.common.modular;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modular.IModularHelper;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerEntity;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.position.StoragePositions;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public class ModularHelper implements IModularHelper {
 
 	@Override
-	public IModularHandlerItem createItemHandler(ItemStack parent, List<IStoragePosition> positions) {
+	public IModularHandlerItem createItemHandler(ItemStack parent, StoragePositions positions) {
 		return new ModularHandlerItem(parent, positions);
 	}
 
 	@Override
-	public IModularHandlerTileEntity createTileEntityHandler(TileEntity parent, List<IStoragePosition> positions) {
-		return new ModularHandlerTileEntity(parent, positions);
+	public IModularHandlerTileEntity createTileEntityHandler(StoragePositions positions) {
+		return new ModularHandlerTileEntity(positions);
+	}
+
+	@Override
+	public IModularHandlerEntity createEntityHandler(Entity entity, StoragePositions positions) {
+		return null;
 	}
 
 	@Override

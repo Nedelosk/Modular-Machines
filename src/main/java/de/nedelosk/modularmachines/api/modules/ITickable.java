@@ -10,5 +10,4 @@ public interface ITickable {
 
 	@SideOnly(Side.CLIENT)
 	void updateClient(IModuleState<IModule> state, int tickCount);
-
 }

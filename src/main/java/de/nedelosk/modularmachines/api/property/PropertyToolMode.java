@@ -30,5 +30,4 @@ public class PropertyToolMode extends PropertyBase<IToolMode, NBTTagInt, IProper
 	public IToolMode readFromJson(JsonPrimitive object) {
 		return getValueClass().getEnumConstants()[object.getAsInt()];
 	}
-
 }

@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules;
 
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public interface IModuleBurning extends IModule{
+public interface IModuleBurning extends IModule {
 
 	int getBurnTimeTotal(IModuleState state);
 

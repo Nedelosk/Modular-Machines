@@ -17,5 +17,4 @@ public interface IHeatSource {
 	double getHeatStored();
 
 	double getCapacity();
-
 }

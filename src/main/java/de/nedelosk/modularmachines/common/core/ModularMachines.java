@@ -25,22 +25,17 @@ public class ModularMachines {
 	public ModularMachines() {
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FluidRegistry.enableUniversalBucket();
-
 		iModuleRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modules")).setType(IModule.class).create();
 		iModuleContainerRegistry = new RegistryBuilder().setIDRange(0, 4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleItemContainer.class).create();
 	}
 
 	public static File configFolder;
 	public static File configFile;
-
 	public static IForgeRegistry<IModule> iModuleRegistry;
 	public static IForgeRegistry<IModuleItemContainer> iModuleContainerRegistry;
-
 	@Instance(Constants.MODID)
 	public static ModularMachines instance;
-
 	@SidedProxy(clientSide = "de.nedelosk.modularmachines.client.core.ClientProxy", serverSide = "de.nedelosk.modularmachines.common.core.CommonProxy")
-
 	public static CommonProxy proxy;
 	public static ModRegistry registry;
 

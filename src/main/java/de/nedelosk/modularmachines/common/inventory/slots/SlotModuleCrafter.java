@@ -10,7 +10,7 @@ public class SlotModuleCrafter extends Slot {
 
 	public SlotModuleCrafter(IInventory inventoryIn, int index, int xPosition, int yPosition, Container container) {
 		super(inventoryIn, index, xPosition, yPosition);
-		this.container = container;	
+		this.container = container;
 	}
 
 	@Override

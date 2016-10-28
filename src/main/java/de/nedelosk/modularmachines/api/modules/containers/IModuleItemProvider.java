@@ -20,13 +20,12 @@ public interface IModuleItemProvider extends ICapabilitySerializable<NBTTagCompo
 
 	void setItemStack(@Nonnull ItemStack itemStack);
 
-	boolean addModuleState(@Nonnull IModuleState  moduleState);
+	boolean addModuleState(@Nonnull IModuleState moduleState);
 
-	boolean removeModuleState(@Nonnull IModuleState  moduleState);
+	boolean removeModuleState(@Nonnull IModuleState moduleState);
 
 	boolean isEmpty();
 
 	@Nonnull
 	List<IModuleState> getModuleStates();
-
 }

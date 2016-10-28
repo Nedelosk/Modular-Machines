@@ -14,7 +14,6 @@ public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRec
 	protected IDrawable tankOverlay;
 	protected String inventoryName;
 	protected String uid;
-
 	protected final static ResourceLocation widgetTexture = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 	protected final static ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/jei/background.png");
 

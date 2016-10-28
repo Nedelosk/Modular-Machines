@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.recipes;
 
 import net.minecraftforge.items.IItemHandler;
 
-public interface IRecipeInventory extends IItemHandler{
+public interface IRecipeInventory extends IItemHandler {
 
 	int getInputs();
 

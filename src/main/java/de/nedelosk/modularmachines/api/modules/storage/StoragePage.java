@@ -59,7 +59,7 @@ public abstract class StoragePage extends Page implements IStoragePage {
 
 	@Override
 	public void setAssembler(IModularAssembler assembler) {
-		if(assembler != null){
+		if (assembler != null) {
 			this.positionIndex = assembler.getIndex(position);
 		}
 		this.assembler = assembler;
@@ -73,10 +73,10 @@ public abstract class StoragePage extends Page implements IStoragePage {
 
 	@Override
 	public ItemStack getStorageStack() {
-		if(positionIndex < 0){
+		if (positionIndex < 0) {
 			return null;
 		}
-		if(assembler != null){
+		if (assembler != null) {
 			return assembler.getItemHandler().getStackInSlot(positionIndex);
 		}
 		return null;
@@ -85,10 +85,10 @@ public abstract class StoragePage extends Page implements IStoragePage {
 	@Override
 	public IStorage assemble(IModular modular) throws AssemblerException {
 		ItemStack storageStack = getStorageStack();
-		if(storageStack != null) {
+		if (storageStack != null) {
 			IModuleProvider provider = ModuleManager.loadOrCreateModuleProvider(modular, storageStack);
 			IModuleState<IStorageModule> storageState = ModuleManager.getStorageState(provider, position);
-			if(storageState != null && storageState.getModule() != null){
+			if (storageState != null && storageState.getModule() != null) {
 				return storageState.getModule().createStorage(provider, position);
 			}
 		}
@@ -98,7 +98,7 @@ public abstract class StoragePage extends Page implements IStoragePage {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound tagCompound = new NBTTagCompound();
-		if(itemHandler != null){
+		if (itemHandler != null) {
 			tagCompound.setTag("itemHandler", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage().writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, itemHandler, null));
 		}
 		return tagCompound;
@@ -106,14 +106,14 @@ public abstract class StoragePage extends Page implements IStoragePage {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if(nbt.hasKey("itemHandler") && itemHandler != null){
+		if (nbt.hasKey("itemHandler") && itemHandler != null) {
 			CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage().readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, itemHandler, null, nbt.getTag("itemHandler"));
 		}
 	}
 
 	@Override
 	public IStoragePage setParent(IStoragePage parentPage) {
-		if(parent != parentPage){
+		if (parent != parentPage) {
 			parent = parentPage;
 		}
 		return this;
@@ -126,7 +126,7 @@ public abstract class StoragePage extends Page implements IStoragePage {
 
 	@Override
 	public IStoragePage addChild(IStoragePage childPage) {
-		if(!childs.contains(childPage)){
+		if (!childs.contains(childPage)) {
 			childs.add(childPage);
 			childPage.setParent(this);
 		}

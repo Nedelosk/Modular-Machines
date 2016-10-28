@@ -66,8 +66,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	protected boolean updateFuel(IModuleState state) {
 		IModuleTank tank = state.getPage(SteamHeaterPage.class).getTank();
 		FluidStack input = tank.getTank(0).getFluid();
-		if(input == null){
-			if(tank.drainInternal(80, true) != null){
+		if (input == null) {
+			if (tank.drainInternal(80, true) != null) {
 				setBurnTime(state, 50);
 				state.set(BURNTIMETOTAL, 50);
 				return true;
@@ -78,18 +78,18 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
-		if(state.getModular().updateOnInterval(20)){
+		if (state.getModular().updateOnInterval(20)) {
 			IModulePage page = state.getPage(SteamHeaterPage.class);
 			IModuleInventory inventory = page.getInventory();
 			IModuleTank tank = page.getTank();
-			if(inventory != null){
-				if(inventory.getStackInSlot(0) != null){
+			if (inventory != null) {
+				if (inventory.getStackInSlot(0) != null) {
 					ItemStack stack = inventory.getStackInSlot(0);
 					IFluidHandler fludiHandler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
 					ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, false);
-					if(containerStack != null){
-						if(inventory.extractItem(0, 1, true) != null){
-							if(inventory.insertItem(1, containerStack, true) == null){
+					if (containerStack != null) {
+						if (inventory.extractItem(0, 1, true) != null) {
+							if (inventory.insertItem(1, containerStack, true) == null) {
 								inventory.insertItem(1, FluidUtil.tryEmptyContainer(stack, tank.getTank(0), 1000, null, true), false);
 								inventory.extractItem(0, 1, false);
 							}
@@ -105,15 +105,15 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	@Override
 	public boolean needHandlerReload(IModuleStateClient state) {
 		IModelHandler handler = state.getModelHandler();
-		if(handler instanceof ModelHandlerStatus){
+		if (handler instanceof ModelHandlerStatus) {
 			ModelHandlerStatus status = (ModelHandlerStatus) handler;
-			if(getBurnTime(state) > 0){
-				if(!status.status){
+			if (getBurnTime(state) > 0) {
+				if (!status.status) {
 					status.status = true;
 					return true;
 				}
-			}else{
-				if(status.status){
+			} else {
+				if (status.status) {
 					status.status = false;
 					return true;
 				}

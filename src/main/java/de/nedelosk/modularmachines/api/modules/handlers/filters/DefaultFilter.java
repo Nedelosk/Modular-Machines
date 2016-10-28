@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.modules.handlers.filters;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public class DefaultFilter implements IContentFilter<Object, IModule>{
+public class DefaultFilter implements IContentFilter<Object, IModule> {
 
 	public static final IContentFilter INSTANCE = new DefaultFilter();
 

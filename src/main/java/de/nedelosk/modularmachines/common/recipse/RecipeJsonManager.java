@@ -34,8 +34,7 @@ public class RecipeJsonManager {
 	public static final File recipeFile = new File(ModularMachines.configFolder, "recipes");
 	public static final RecipeWriter writer = new RecipeWriter();
 	public static final RecipeParser parser = new RecipeParser();
-	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(RecipeEntry.class, writer)
-			.registerTypeAdapter(RecipeEntry.class, parser).create();
+	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(RecipeEntry.class, writer).registerTypeAdapter(RecipeEntry.class, parser).create();
 
 	public static void checkRecipes() {
 		writeRecipesFiles();
@@ -43,7 +42,7 @@ public class RecipeJsonManager {
 	}
 
 	private static void parseRecipesFiles() {
-		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()){
+		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
 			String recipeCategory = handler.getRecipeCategory();
 			try {
 				File categoryFile = new File(recipeFile, recipeCategory.toLowerCase(Locale.ENGLISH) + "_recipes.json");
@@ -62,7 +61,6 @@ public class RecipeJsonManager {
 		JsonReader reader = new JsonReader(bReader);
 		JsonElement element = Streams.parse(reader);
 		reader.close();
-
 		return getActiveRecipes(getGoups(element));
 	}
 
@@ -70,11 +68,10 @@ public class RecipeJsonManager {
 		if (!recipeFile.exists()) {
 			recipeFile.mkdirs();
 		}
-		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()){
+		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
 			try {
 				File categoryFile = new File(recipeFile, handler.getRecipeCategory().toLowerCase(Locale.ENGLISH) + "_recipes.json");
 				List<IRecipe> recipes = handler.getRecipes();
-
 				if (!categoryFile.exists()) {
 					writeRecipes(categoryFile, recipes);
 				} else {
@@ -92,7 +89,6 @@ public class RecipeJsonManager {
 		JsonElement element = Streams.parse(jsonReader);
 		Map<String, RecipeGroup> groups = getGoups(element);
 		RecipeGroup groupDefault = groups.get("Default");
-
 		if (groupDefault == null) {
 			try {
 				writeRecipes(recipeFile, recipes);
@@ -102,12 +98,11 @@ public class RecipeJsonManager {
 				e.printStackTrace();
 			}
 		}
-
 		List<RecipeEntry> entrys = new ArrayList<>();
 		for(IRecipe recipe : recipes) {
 			Iterator<RecipeEntry> oldEntrys = groupDefault.recipes.iterator();
 			boolean isActive = true;
-			while(oldEntrys.hasNext()) {
+			while (oldEntrys.hasNext()) {
 				RecipeEntry entry = oldEntrys.next();
 				if (!entry.isActive && recipe.getRecipeName().equals(entry.name)) {
 					isActive = false;
@@ -118,16 +113,13 @@ public class RecipeJsonManager {
 			}
 			entrys.add(new RecipeEntry(recipe.getRecipeName(), isActive, recipe));
 		}
-
 		groupDefault.recipes.clear();
 		groupDefault.recipes.addAll(entrys);
 		jsonReader.close();
-
 		JsonObject object = new JsonObject();
 		for(Entry<String, RecipeGroup> group : groups.entrySet()) {
 			object.add(group.getKey(), GSON.toJsonTree(group.getValue()));
 		}
-
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
 		writer.write(GSON.toJson(object));
 		writer.close();
@@ -136,8 +128,7 @@ public class RecipeJsonManager {
 	private static Map<String, RecipeGroup> getGoups(JsonElement element) {
 		Map<String, RecipeGroup> groups = Maps.newHashMap();
 		JsonObject object = element.getAsJsonObject();
-
-		for(Entry<String, JsonElement> groupEntry : object.entrySet()){
+		for(Entry<String, JsonElement> groupEntry : object.entrySet()) {
 			JsonElement groupElement = groupEntry.getValue();
 			if (groupElement != null && groupElement != JsonNull.INSTANCE) {
 				try {
@@ -148,7 +139,6 @@ public class RecipeJsonManager {
 				}
 			}
 		}
-
 		return groups;
 	}
 
@@ -166,24 +156,19 @@ public class RecipeJsonManager {
 
 	private static void writeRecipes(File categoryFile, List<IRecipe> recipes) throws IOException {
 		Map<String, RecipeGroup> groups;
-
 		if (!categoryFile.exists()) {
 			categoryFile.createNewFile();
 			groups = new HashMap();
-		}else{
+		} else {
 			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(categoryFile)));
 			JsonElement element = Streams.parse(jsonReader);
-
 			groups = getGoups(element);
 			jsonReader.close();
 		}
-
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(categoryFile)));
-
 			groups.put("Default", new RecipeGroup(recipes, "Default"));
 			writer.write(GSON.toJson(groups));
-
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();

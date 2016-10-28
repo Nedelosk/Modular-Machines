@@ -6,5 +6,4 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 public interface IModulePositioned extends IModule {
 
 	IModulePostion[] getValidPositions(IModuleContainer container);
-
 }

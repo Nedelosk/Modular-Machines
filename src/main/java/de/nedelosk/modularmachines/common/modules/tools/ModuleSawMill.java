@@ -14,7 +14,7 @@ import de.nedelosk.modularmachines.common.modules.pages.SawMillPage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleSawMill extends ModuleBasicMachine implements IModuleColoredItem{
+public class ModuleSawMill extends ModuleBasicMachine implements IModuleColoredItem {
 
 	public ModuleSawMill() {
 		super("sawmill");
@@ -48,16 +48,12 @@ public class ModuleSawMill extends ModuleBasicMachine implements IModuleColoredI
 		return pages;
 	}
 
-	/*@Override
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
-			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
-			}
-		}
-	}*/
-
+	/*
+	 * @Override public void openJEI(IModuleState state){ if(this instanceof
+	 * IModuleJEI){ Loader.instance(); if(Loader.isModLoaded("JEI")){
+	 * ModuleJeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList((
+	 * (IModuleJEI)this).getJEIRecipeCategorys(state.getContainer()))); } } }
+	 */
 	@Override
 	public EnumToolType getType(IModuleState state) {
 		return EnumToolType.KINETIC;

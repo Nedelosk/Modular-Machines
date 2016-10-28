@@ -19,5 +19,4 @@ public interface IRecipe extends IPropertyProvider {
 	JsonObject writeToJson();
 
 	void readFromJson(JsonObject jsonObject);
-
 }

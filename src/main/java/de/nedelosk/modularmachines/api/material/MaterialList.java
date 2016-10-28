@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.material;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MaterialList<M extends IMaterial> implements Iterable<M>{
+public class MaterialList<M extends IMaterial> implements Iterable<M> {
 
 	private M[] materials;
 
@@ -15,20 +15,20 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 		return materials;
 	}
 
-	public M get(int index){
-		if(index >= materials.length){
+	public M get(int index) {
+		if (index >= materials.length) {
 			return null;
 		}
 		return materials[index];
 	}
 
-	public int getIndex(M material){
-		if(material == null){
+	public int getIndex(M material) {
+		if (material == null) {
 			return -1;
 		}
 		int index = 0;
-		for(M otherMaterial : materials){
-			if(otherMaterial.equals(material)){
+		for(M otherMaterial : materials) {
+			if (otherMaterial.equals(material)) {
 				return index;
 			}
 			index++;
@@ -36,14 +36,14 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 		return -1;
 	}
 
-	public M getFromOre(String oreDict){
-		for(M otherMaterial : materials){
-			if(otherMaterial instanceof IMetalMaterial){
+	public M getFromOre(String oreDict) {
+		for(M otherMaterial : materials) {
+			if (otherMaterial instanceof IMetalMaterial) {
 				IMetalMaterial metalMaterial = (IMetalMaterial) otherMaterial;
 				String[] oreDicts = metalMaterial.getOreDicts();
-				if(oreDicts != null && oreDicts.length > 0){
-					for(String otherOreDict : oreDicts){
-						if(otherOreDict.equals(oreDict)){
+				if (oreDicts != null && oreDicts.length > 0) {
+					for(String otherOreDict : oreDicts) {
+						if (otherOreDict.equals(oreDict)) {
 							return otherMaterial;
 						}
 					}
@@ -54,23 +54,23 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 	}
 
 	public String getName(int index) {
-		if(index >= materials.length){
+		if (index >= materials.length) {
 			return null;
 		}
 		M material = materials[index];
-		if(material == null){
+		if (material == null) {
 			return null;
 		}
 		return material.getName();
 	}
 
 	public int getColor(int index) {
-		if(index >= materials.length){
+		if (index >= materials.length) {
 			return -1;
 		}
 		M material = materials[index];
-		if(material instanceof IColoredMaterial){
-			return ((IColoredMaterial)material).getColor();
+		if (material instanceof IColoredMaterial) {
+			return ((IColoredMaterial) material).getColor();
 		}
 		return -1;
 	}
@@ -82,10 +82,11 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 	@Override
 	public Iterator<M> iterator() {
 		return new Iterator<M>() {
+
 			int index = 0;
 
 			@Override
-			public boolean hasNext(){
+			public boolean hasNext() {
 				return (index < materials.length);
 			}
 
@@ -95,7 +96,7 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 					throw new NoSuchElementException("Array index: " + index);
 				}
 				index++;
-				return materials[index-1];
+				return materials[index - 1];
 			}
 
 			@Override
@@ -104,5 +105,4 @@ public class MaterialList<M extends IMaterial> implements Iterable<M>{
 			}
 		};
 	}
-
 }

@@ -61,7 +61,6 @@ public class GuiPage<H extends IGuiProvider> extends GuiBase<H> {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-
 		page.updateGui();
 	}
 

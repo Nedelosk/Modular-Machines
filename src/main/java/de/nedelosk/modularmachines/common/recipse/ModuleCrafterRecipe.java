@@ -17,10 +17,10 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
-	//Added in for future ease of change, but hard coded for now.
+
+	// Added in for future ease of change, but hard coded for now.
 	private static final int MAX_CRAFT_GRID_WIDTH = 3;
 	private static final int MAX_CRAFT_GRID_HEIGHT = 3;
-
 	private ItemStack holder = null;
 	private ItemStack output = null;
 	private Object[] input = null;
@@ -28,20 +28,17 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 	private int height;
 	private boolean mirrored = true;
 
-
 	public ModuleCrafterRecipe(ItemStack result, Object... recipe) {
 		this(result, null, recipe);
 	}
 
 	public ModuleCrafterRecipe(ItemStack result, ItemStack holder, Object... recipe) {
 		output = result.copy();
-		if(holder != null){
+		if (holder != null) {
 			this.holder = holder.copy();
 		}
-
 		String shape = "";
 		int idx = 0;
-
 		if (recipe[idx] instanceof Boolean) {
 			mirrored = (Boolean) recipe[idx];
 			if (recipe[idx + 1] instanceof Object[]) {
@@ -50,15 +47,12 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 				idx = 1;
 			}
 		}
-
 		if (recipe[idx] instanceof String[]) {
 			String[] parts = (String[]) recipe[idx++];
-
-			for (String s : parts) {
+			for(String s : parts) {
 				width = s.length();
 				shape += s;
 			}
-
 			height = parts.length;
 		} else {
 			while (recipe[idx] instanceof String) {
@@ -68,22 +62,18 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 				height++;
 			}
 		}
-
 		if (width * height != shape.length()) {
 			String ret = "Invalid shaped ore recipe: ";
-			for (Object tmp : recipe) {
+			for(Object tmp : recipe) {
 				ret += tmp + ", ";
 			}
 			ret += output;
 			throw new RuntimeException(ret);
 		}
-
 		HashMap<Character, Object> itemMap = new HashMap<>();
-
-		for (; idx < recipe.length; idx += 2) {
+		for(; idx < recipe.length; idx += 2) {
 			Character chr = (Character) recipe[idx];
 			Object in = recipe[idx + 1];
-
 			if (in instanceof ItemStack) {
 				itemMap.put(chr, ((ItemStack) in).copy());
 			} else if (in instanceof Item) {
@@ -94,17 +84,16 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 				itemMap.put(chr, OreDictionary.getOres((String) in));
 			} else {
 				String ret = "Invalid shaped ore recipe: ";
-				for (Object tmp : recipe) {
+				for(Object tmp : recipe) {
 					ret += tmp + ", ";
 				}
 				ret += output;
 				throw new RuntimeException(ret);
 			}
 		}
-
 		input = new Object[width * height];
 		int x = 0;
-		for (char chr : shape.toCharArray()) {
+		for(char chr : shape.toCharArray()) {
 			input[x++] = itemMap.get(chr);
 		}
 	}
@@ -114,18 +103,16 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		if (holder != null && !ItemUtil.isCraftingEquivalent(holder, inv.getHolder())) {
 			return false;
 		}
-		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
-			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
+		for(int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for(int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
 					return true;
 				}
-
 				if (mirrored && checkMatch(inv, x, y, true)) {
 					return true;
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -134,29 +121,26 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		if (holder != null) {
 			return false;
 		}
-		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
-			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
+		for(int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for(int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
 					return true;
 				}
-
 				if (mirrored && checkMatch(inv, x, y, true)) {
 					return true;
 				}
 			}
 		}
-
 		return false;
 	}
 
 	@SuppressWarnings("unchecked")
 	public boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror) {
-		for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
-			for (int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
+		for(int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
+			for(int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
 				int subX = x - startX;
 				int subY = y - startY;
 				Object target = null;
-
 				if (subX >= 0 && subY >= 0 && subX < width && subY < height) {
 					if (mirror) {
 						target = input[width - subX - 1 + subY * width];
@@ -164,21 +148,17 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 						target = input[subX + subY * width];
 					}
 				}
-
 				ItemStack slot = inv.getStackInRowAndColumn(x, y);
-
 				if (target instanceof ItemStack) {
 					if (!ItemUtil.isCraftingEquivalent((ItemStack) target, slot)) {
 						return false;
 					}
 				} else if (target instanceof List) {
 					boolean matched = false;
-
 					Iterator<ItemStack> itr = ((List<ItemStack>) target).iterator();
 					while (itr.hasNext() && !matched) {
 						matched = ItemUtil.isCraftingEquivalent(itr.next(), slot);
 					}
-
 					if (!matched) {
 						return false;
 					}
@@ -187,7 +167,6 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 				}
 			}
 		}
-
 		return true;
 	}
 

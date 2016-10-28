@@ -30,7 +30,7 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		for(IMetalMaterial material : materials){
+		for(IMetalMaterial material : materials) {
 			manager.registerItemModel(item, materials.getIndex(material), "components/" + componentName);
 		}
 	}
@@ -52,14 +52,14 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 		}
 	}
 
-	public ItemStack getStack(IMetalMaterial material, int size){
-		if(materials.getIndex(material) > -1){
+	public ItemStack getStack(IMetalMaterial material, int size) {
+		if (materials.getIndex(material) > -1) {
 			return new ItemStack(this, size, materials.getIndex(material));
 		}
 		return null;
 	}
 
-	public ItemStack getStack(IMetalMaterial material){
+	public ItemStack getStack(IMetalMaterial material) {
 		return getStack(material, 1);
 	}
 

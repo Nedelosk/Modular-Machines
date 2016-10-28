@@ -7,7 +7,7 @@ import de.nedelosk.modularmachines.api.modules.models.IModelHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleStateClient<M extends IModule> extends ModuleState<M> implements IModuleStateClient<M>{
+public class ModuleStateClient<M extends IModule> extends ModuleState<M> implements IModuleStateClient<M> {
 
 	@SideOnly(Side.CLIENT)
 	protected IModelHandler modelHandler;
@@ -19,7 +19,7 @@ public class ModuleStateClient<M extends IModule> extends ModuleState<M> impleme
 	@Override
 	public IModuleState<M> build() {
 		super.build();
-		modelHandler = getModule().createModelHandler(this);	
+		modelHandler = getModule().createModelHandler(this);
 		return this;
 	}
 

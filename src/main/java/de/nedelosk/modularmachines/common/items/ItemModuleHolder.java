@@ -29,9 +29,9 @@ public class ItemModuleHolder extends Item implements IColoredItem, IItemModelRe
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if(stack.hasTagCompound()){
+		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtTag = stack.getTagCompound();
-			if(nbtTag.hasKey("Material", 8)){
+			if (nbtTag.hasKey("Material", 8)) {
 				IMaterial mat = MaterialRegistry.getMaterial(nbtTag.getString("Material"));
 				return mat.getLocalizedName() + " " + super.getItemStackDisplayName(stack);
 			}
@@ -54,8 +54,8 @@ public class ItemModuleHolder extends Item implements IColoredItem, IItemModelRe
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IMetalMaterial material : ModuleManager.getMaterialsWithHolder()){
-			for(int i = 0;i < 3;i++){
+		for(IMetalMaterial material : ModuleManager.getMaterialsWithHolder()) {
+			for(int i = 0; i < 3; i++) {
 				subItems.add(ModuleManager.getHolder(material, i));
 			}
 		}
@@ -63,14 +63,13 @@ public class ItemModuleHolder extends Item implements IColoredItem, IItemModelRe
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		if(stack.hasTagCompound()){
+		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtTag = stack.getTagCompound();
-			if(nbtTag.hasKey("Material", 8)){
+			if (nbtTag.hasKey("Material", 8)) {
 				IMaterial mat = MaterialRegistry.getMaterial(nbtTag.getString("Material"));
-				return ((IColoredMaterial)mat).getColor();
+				return ((IColoredMaterial) mat).getColor();
 			}
 		}
 		return 16777215;
 	}
 }
-

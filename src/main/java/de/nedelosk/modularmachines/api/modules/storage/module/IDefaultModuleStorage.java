@@ -9,5 +9,4 @@ public interface IDefaultModuleStorage extends IModuleStorage, IStorage {
 	 * @return The size of the storage.
 	 */
 	EnumModuleSizes getSize();
-
 }

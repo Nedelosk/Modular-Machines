@@ -43,7 +43,6 @@ import net.minecraftforge.items.IItemHandler;
 public abstract class ModulePage<M extends IModule> extends Page implements IModulePage {
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
-
 	protected final IModuleState<M> moduleState;
 	protected final IModuleInventory inventory;
 	protected final IModuleTank tank;
@@ -62,41 +61,41 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		if(gui != null){
+		if (gui != null) {
 			Widget widget = gui.getWidgetManager().getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
-			if(widget != null){
+			if (widget != null) {
 				onClickeWidget(widget, mouseButton);
 			}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected void onClickeWidget(Widget widget, int mouseButton){
+	protected void onClickeWidget(Widget widget, int mouseButton) {
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateGui() {
-		if(gui != null){
-			for(Widget widget : (List<Widget>)gui.getWidgetManager().getWidgets()) {
+		if (gui != null) {
+			for(Widget widget : (List<Widget>) gui.getWidgetManager().getWidgets()) {
 				onUpdateWidget(widget);
 			}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected void onUpdateWidget(Widget widget){
+	protected void onUpdateWidget(Widget widget) {
 		if (widget.getProvider() instanceof IModuleState) {
 			Widget<IModuleState> widgetState = widget;
-			if(!widgetState.getProvider().equals(moduleState)){
+			if (!widgetState.getProvider().equals(moduleState)) {
 				widgetState.setProvider(moduleState);
 			}
-		}else if (widget.getProvider() instanceof IFluidTank) {
+		} else if (widget.getProvider() instanceof IFluidTank) {
 			Widget<IFluidTank> widgetTank = widget;
-			if(tank != null){
-				if(widgetTank.getProvider() instanceof FluidTankAdvanced){
-					FluidTankAdvanced tank = this.tank.getTank(((FluidTankAdvanced)widgetTank.getProvider()).index);
-					if(!((FluidTankAdvanced)widgetTank.getProvider()).equals(tank)){
+			if (tank != null) {
+				if (widgetTank.getProvider() instanceof FluidTankAdvanced) {
+					FluidTankAdvanced tank = this.tank.getTank(((FluidTankAdvanced) widgetTank.getProvider()).index);
+					if (!((FluidTankAdvanced) widgetTank.getProvider()).equals(tank)) {
 						widgetTank.setProvider(tank);
 					}
 				}
@@ -108,7 +107,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		IModuleInventoryBuilder invBuilder = new ModuleInventoryBuilder();
 		invBuilder.setModuleState(moduleState);
 		createInventory(invBuilder);
-		if(!invBuilder.isEmpty()){
+		if (!invBuilder.isEmpty()) {
 			return invBuilder.build();
 		}
 		return null;
@@ -118,7 +117,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		IModuleTankBuilder tankBuilder = new ModuleTankBuilder();
 		tankBuilder.setModuleState(moduleState);
 		createTank(tankBuilder);
-		if(!tankBuilder.isEmpty()){
+		if (!tankBuilder.isEmpty()) {
 			return tankBuilder.build();
 		}
 		return null;
@@ -131,22 +130,22 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	}
 
 	@Override
-	public IModuleTank getTank(){
+	public IModuleTank getTank() {
 		return tank;
 	}
 
 	@Override
-	public IModuleInventory getInventory(){
+	public IModuleInventory getInventory() {
 		return inventory;
 	}
 
 	@Override
 	public List<IModuleContentHandler> getContentHandlers() {
 		List<IModuleContentHandler> handlers = new ArrayList<>();
-		if(tank != null){
+		if (tank != null) {
 			handlers.add(tank);
 		}
-		if(inventory != null){
+		if (inventory != null) {
 			handlers.add(inventory);
 		}
 		return handlers;
@@ -154,33 +153,33 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public <H> H getContentHandler(Class<? extends H> contentClass) {
-		if(IItemHandler.class.isAssignableFrom(contentClass) || IModuleInventory.class.isAssignableFrom(contentClass)){
+		if (IItemHandler.class.isAssignableFrom(contentClass) || IModuleInventory.class.isAssignableFrom(contentClass)) {
 			return (H) inventory;
 		}
-		if(IFluidHandler.class.isAssignableFrom(contentClass) || IModuleTank.class.isAssignableFrom(contentClass)){
+		if (IFluidHandler.class.isAssignableFrom(contentClass) || IModuleTank.class.isAssignableFrom(contentClass)) {
 			return (H) tank;
 		}
 		return null;
 	}
 
 	@Override
-	public  NBTTagCompound serializeNBT(){
+	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if(tank != null){
+		if (tank != null) {
 			nbt.setTag("Tank", tank.serializeNBT());
-		}	  
-		if(inventory != null){
+		}
+		if (inventory != null) {
 			nbt.setTag("Inventory", inventory.serializeNBT());
 		}
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt){
-		if(nbt.hasKey("Tank") && tank != null){
+	public void deserializeNBT(NBTTagCompound nbt) {
+		if (nbt.hasKey("Tank") && tank != null) {
 			tank.deserializeNBT(nbt.getCompoundTag("Tank"));
 		}
-		if(nbt.hasKey("Inventory") && inventory != null){
+		if (nbt.hasKey("Inventory") && inventory != null) {
 			inventory.deserializeNBT(nbt.getCompoundTag("Inventory"));
 		}
 	}
@@ -189,13 +188,12 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
 		super.drawBackground(mouseX, mouseY);
-
 		drawSlots();
 	}
 
 	@SideOnly(Side.CLIENT)
 	protected void drawSlots() {
-		if(gui != null){
+		if (gui != null) {
 			if (inventory != null && gui.getGui() instanceof GuiContainer) {
 				Container container = ((GuiContainer) gui).inventorySlots;
 				for(int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
@@ -238,47 +236,33 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		return new ResourceLocation("modularmachines:textures/gui/modular_machine.png");
 	}
 
-	protected void add(Widget widget){
-		if(gui != null){
-			gui.getWidgetManager().add(widget);
-		}
-	}
-
-	protected void add(Button button){
-		if(gui != null){
-			gui.getButtonManager().add(button);
-		}
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
 		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(getModular());
 		int i = 0;
-		if(!modulesWithPages.isEmpty() && modulesWithPages.size() > 1){
-			for(i = 0;i < modulesWithPages.size(); i++) {
+		if (!modulesWithPages.isEmpty() && modulesWithPages.size() > 1) {
+			for(i = 0; i < modulesWithPages.size(); i++) {
 				IModuleState module = modulesWithPages.get(i);
 				boolean isRight = i >= 7;
-				add(GuiManager.helper.createModuleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), module, modulesWithPages));
+				add(GuiManager.helper.createModuleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), module, modulesWithPages));
 			}
 		}
-
-		if(modular.getModule(IModuleController.class) != null){
+		if (modular.getModule(IModuleController.class) != null) {
 			boolean isRight = i >= 7;
-			Widget widget = GuiManager.helper.createAssembleTab(isRight ? getXSize() : - 28, 8 + 22 * (isRight ? i - 7 : i), isRight);
+			Widget widget = GuiManager.helper.createAssembleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), isRight);
 			add(widget);
 			widget.setProvider(new ItemStack(ItemManager.itemChassis));
 		}
-
-		if(!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1){	
+		if (!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1) {
 			for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
 				IModulePage page = moduleState.getPages().get(pageIndex);
-				add(GuiManager.helper.createModulePageTab(pageIndex > 4 ? 12  + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : - 19, page));
+				add(GuiManager.helper.createModulePageTab(pageIndex > 4 ? 12 + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : -19, page));
 			}
 		}
-		if(tank != null){
-			for(ContentInfo info : tank.getContentInfos()){
-				if(info != null){
+		if (tank != null) {
+			for(ContentInfo info : tank.getContentInfos()) {
+				if (info != null) {
 					add(GuiManager.helper.createFluidTank(info.xPosition, info.yPosition, tank.getTank(info.index)));
 				}
 			}
@@ -292,7 +276,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public IModular getModular() {
-		if(modular == null && moduleState.getModular() != null){
+		if (modular == null && moduleState.getModular() != null) {
 			modular = moduleState.getModular();
 		}
 		return modular;
@@ -305,9 +289,9 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 
 	@Override
 	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
-		if(inventory != null){
-			for(SlotInfo info : inventory.getContentInfos()){
-				if(info != null){
+		if (inventory != null) {
+			for(SlotInfo info : inventory.getContentInfos()) {
+				if (info != null) {
 					modularSlots.add(new SlotModule(this, info));
 				}
 			}
@@ -317,10 +301,10 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@Override
 	public String getPageTitle() {
 		ItemStack stack = moduleState.getProvider().getItemStack();
-		if(stack != null && stack.hasDisplayName()){
+		if (stack != null && stack.hasDisplayName()) {
 			return stack.getDisplayName();
 		}
-		if(title == null || title.isEmpty()){
+		if (title == null || title.isEmpty()) {
 			return null;
 		}
 		return I18n.translateToLocal("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name");

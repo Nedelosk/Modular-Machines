@@ -39,7 +39,6 @@ public class ModuleKineticHandler extends BlankModuleContentHandler implements I
 	@Override
 	public double extractKineticEnergy(double maxExtract, boolean simulate) {
 		double energyExtracted = Math.min(kineticEnergy, Math.min(this.maxExtract, maxExtract));
-
 		if (!simulate) {
 			kineticEnergy -= energyExtracted;
 		}
@@ -49,7 +48,6 @@ public class ModuleKineticHandler extends BlankModuleContentHandler implements I
 	@Override
 	public double receiveKineticEnergy(double maxReceive, boolean simulate) {
 		double energyReceived = Math.min(capacity - kineticEnergy, Math.min(this.maxReceive, maxReceive));
-
 		if (!simulate) {
 			kineticEnergy += energyReceived;
 		}
@@ -75,7 +73,7 @@ public class ModuleKineticHandler extends BlankModuleContentHandler implements I
 		double step = 0.01D;
 		double change = step + ((kineticEnergy / capacity) * step * kineticModifier);
 		kineticEnergy -= change;
-		kineticEnergy = Math.max(kineticEnergy,  0);
+		kineticEnergy = Math.max(kineticEnergy, 0);
 	}
 
 	@Override

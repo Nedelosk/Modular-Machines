@@ -32,9 +32,9 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		int listIndex=0;
-		for(MaterialList list : materials){
-			for(IMaterial material : list.getMaterials()){
+		int listIndex = 0;
+		for(MaterialList list : materials) {
+			for(IMaterial material : list.getMaterials()) {
 				manager.registerItemModel(item, listIndex * 10 + list.getIndex(material), "components/" + uln);
 			}
 			listIndex++;
@@ -48,8 +48,8 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(MaterialList list : materials){
-			for(IMaterial material : list.getMaterials()){
+		for(MaterialList list : materials) {
+			for(IMaterial material : list.getMaterials()) {
 				subItems.add(getStack(material));
 			}
 		}
@@ -65,15 +65,15 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		return Registry.setUnlocalizedItemName(uln + getName(itemstack.getItemDamage()));
 	}
 
-	public ItemStack getStack(IMaterial material){
+	public ItemStack getStack(IMaterial material) {
 		return getStack(material, 1);
 	}
 
-	public ItemStack getStack(IMaterial material, int size){
-		int listIndex=0;
-		for(MaterialList list : materials){
+	public ItemStack getStack(IMaterial material, int size) {
+		int listIndex = 0;
+		for(MaterialList list : materials) {
 			int index = list.getIndex(material);
-			if(index > -1){
+			if (index > -1) {
 				return new ItemStack(this, size, listIndex * 10 + index);
 			}
 			listIndex++;
@@ -81,15 +81,15 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		return null;
 	}
 
-	public ItemStack getStack(String oreDict){
+	public ItemStack getStack(String oreDict) {
 		return getStack(oreDict, 1);
 	}
 
-	public ItemStack getStack(String oreDict, int size){
-		int listIndex=0;
-		for(MaterialList list : materials){
+	public ItemStack getStack(String oreDict, int size) {
+		int listIndex = 0;
+		for(MaterialList list : materials) {
 			int index = list.getIndex(list.getFromOre(oreDict));
-			if(index > -1){
+			if (index > -1) {
 				return new ItemStack(this, size, listIndex * 10 + index);
 			}
 			listIndex++;

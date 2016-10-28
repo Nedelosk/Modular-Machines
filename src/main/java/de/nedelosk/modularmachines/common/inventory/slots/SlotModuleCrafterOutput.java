@@ -13,7 +13,6 @@ public class SlotModuleCrafterOutput extends SlotOutput {
 
 	public SlotModuleCrafterOutput(int slotIndex, int posX, int posY, ContainerModuleCrafter container) {
 		super(new InventoryCraftResult(), slotIndex, posX, posY);
-
 		this.container = container;
 	}
 
@@ -22,7 +21,6 @@ public class SlotModuleCrafterOutput extends SlotOutput {
 		FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, container.getHandler());
 		stack.onCrafting(playerIn.getEntityWorld(), playerIn, stack.stackSize);
 		container.onResultTaken(playerIn, stack);
-
 		super.onPickupFromSlot(playerIn, stack);
 	}
 }

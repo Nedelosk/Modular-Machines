@@ -59,6 +59,17 @@ public abstract class Widget<P> {
 		return provider;
 	}
 
+	public boolean isFocused() {
+		return false;
+	}
+
+	public void setFocused(boolean focused) {
+	}
+
+	public String getText() {
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;

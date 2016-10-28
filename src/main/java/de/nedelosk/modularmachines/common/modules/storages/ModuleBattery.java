@@ -3,6 +3,7 @@ package de.nedelosk.modularmachines.common.modules.storages;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
+import de.nedelosk.modularmachines.api.modular.ExpandedStoragePositions;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
@@ -10,7 +11,6 @@ import de.nedelosk.modularmachines.api.modules.IModuleProperties;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleEnergyBuffer;
-import de.nedelosk.modularmachines.api.modules.position.EnumStoragePositions;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.api.modules.storage.StorageModule;
@@ -25,7 +25,7 @@ import net.minecraft.world.WorldServer;
 
 public abstract class ModuleBattery extends StorageModule implements IModuleBattery {
 
-	private static final String[] tiers = new  String[]{"LV", "MV", "HV", "EV"};
+	private static final String[] tiers = new String[] { "LV", "MV", "HV", "EV" };
 
 	public ModuleBattery(String name) {
 		super(name);
@@ -33,14 +33,14 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 
 	@Override
 	protected IStoragePosition[] getPositions(IModuleContainer container) {
-		return new IStoragePosition[] {EnumStoragePositions.LEFT, EnumStoragePositions.RIGHT, EnumStoragePositions.BACK};
+		return new IStoragePosition[] { ExpandedStoragePositions.LEFT, ExpandedStoragePositions.RIGHT, ExpandedStoragePositions.BACK };
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -53,7 +53,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public int getCapacity(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleBatteryProperties){
+		if (properties instanceof IModuleBatteryProperties) {
 			return ((IModuleBatteryProperties) properties).getCapacity(state);
 		}
 		return 0;
@@ -62,7 +62,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public int getMaxReceive(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleBatteryProperties){
+		if (properties instanceof IModuleBatteryProperties) {
 			return ((IModuleBatteryProperties) properties).getMaxReceive(state);
 		}
 		return 0;
@@ -71,7 +71,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public int getMaxExtract(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleBatteryProperties){
+		if (properties instanceof IModuleBatteryProperties) {
 			return ((IModuleBatteryProperties) properties).getMaxExtract(state);
 		}
 		return 0;
@@ -80,7 +80,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public int getTier(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IModuleBatteryProperties){
+		if (properties instanceof IModuleBatteryProperties) {
 			return ((IModuleBatteryProperties) properties).getTier(container);
 		}
 		return 0;
@@ -97,7 +97,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	public IModuleState loadStateFromItem(IModuleState state, ItemStack stack) {
 		state = super.loadStateFromItem(state, stack);
 		IEnergyBuffer energyBuffer = state.getContentHandler(IEnergyBuffer.class);
-		if(energyBuffer != null){
+		if (energyBuffer != null) {
 			energyBuffer.setEnergy(loadEnergy(state, stack));
 		}
 		return state;
@@ -106,8 +106,8 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
 		super.saveDataToItem(itemStack, state);
-		IEnergyBuffer energyBuffer = state.<IEnergyBuffer>getContentHandler(IEnergyBuffer.class);
-		if(energyBuffer != null){
+		IEnergyBuffer energyBuffer = state.<IEnergyBuffer> getContentHandler(IEnergyBuffer.class);
+		if (energyBuffer != null) {
 			saveEnergy(state, energyBuffer.getEnergyStored(), itemStack);
 		}
 	}

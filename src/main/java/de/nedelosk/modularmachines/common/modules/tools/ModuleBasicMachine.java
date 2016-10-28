@@ -20,13 +20,13 @@ public abstract class ModuleBasicMachine extends ModuleMachine {
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			if(getType(state) == EnumToolType.HEAT){
-				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			if (getType(state) == EnumToolType.HEAT) {
+				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 			}
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 

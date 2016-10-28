@@ -31,7 +31,6 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 	public IToolMode getNextMode(IModuleState state) {
 		IToolMode[] modes = getModeClass().getEnumConstants();
 		IToolMode mode = getCurrentMode(state);
-
 		if (mode.ordinal() == modes.length - 1) {
 			return getMode(0);
 		}
@@ -41,7 +40,7 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 	@Override
 	public IToolMode getMode(int index) {
 		IToolMode[] modes = getModeClass().getEnumConstants();
-		if(modes.length <= index){
+		if (modes.length <= index) {
 			return null;
 		}
 		return modes[index];

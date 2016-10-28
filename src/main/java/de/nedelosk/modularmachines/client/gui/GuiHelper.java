@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modular.IModularAssembler;
 import de.nedelosk.modularmachines.api.modules.IModuleBurning;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
-import de.nedelosk.modularmachines.api.modules.IModuleWorking;
+import de.nedelosk.modularmachines.api.modules.IModuleWorkerTime;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
@@ -39,7 +39,7 @@ public class GuiHelper implements IGuiHelper {
 	}
 
 	@Override
-	public Widget<IModuleState<IModuleWorking>> createProgressBar(int xPosition, IModuleState<IModuleWorking> provider) {
+	public Widget<IModuleState<IModuleWorkerTime>> createProgressBar(int xPosition, IModuleState<IModuleWorkerTime> provider) {
 		return new WidgetProgressBar(xPosition, xPosition, provider);
 	}
 

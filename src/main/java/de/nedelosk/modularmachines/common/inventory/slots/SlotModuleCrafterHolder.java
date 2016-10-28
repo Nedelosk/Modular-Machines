@@ -16,21 +16,20 @@ public class SlotModuleCrafterHolder extends SlotModuleCrafter {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if(stack == null){
+		if (stack == null) {
 			return false;
 		}
-		for(IRecipe recipe : CraftingManager.getInstance().getRecipeList()){
-			if(recipe instanceof IModuleCrafterRecipe){
+		for(IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
+			if (recipe instanceof IModuleCrafterRecipe) {
 				IModuleCrafterRecipe crafterRecipe = (IModuleCrafterRecipe) recipe;
-				if(crafterRecipe.getHolder() == null){
+				if (crafterRecipe.getHolder() == null) {
 					continue;
 				}
-				if(ItemUtil.isCraftingEquivalent(stack, crafterRecipe.getHolder())){
+				if (ItemUtil.isCraftingEquivalent(stack, crafterRecipe.getHolder())) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
 }

@@ -48,8 +48,7 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-
-		if(modularHandler != null && modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
+		if (modularHandler != null && modularHandler.getAssembler() != null && !modularHandler.isAssembled()) {
 			IModularAssembler assembler = modularHandler.getAssembler();
 			assembler.setSelectedPosition(assembler.getStoragePositions().get(position));
 		}
@@ -59,30 +58,25 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getAssembler() != null && !modularHandler.isAssembled()){
+		if (modularHandler.getAssembler() != null && !modularHandler.isAssembled()) {
 			IModularAssembler assembler = modularHandler.getAssembler();
 			assembler.setSelectedPosition(assembler.getStoragePositions().get(position));
 		}
-
 		WorldServer server = player.getServerWorld();
 		PacketHandler.sendToNetwork(this, pos, server);
-
 		for(EntityPlayer otherPlayer : server.playerEntities) {
-			if(otherPlayer.openContainer instanceof ContainerAssembler) {
+			if (otherPlayer.openContainer instanceof ContainerAssembler) {
 				ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
-				if(modularHandler == assembler.getHandler()) {
+				if (modularHandler == assembler.getHandler()) {
 					ItemStack heldStack = null;
-
-					if(otherPlayer.inventory.getItemStack() != null) {
+					if (otherPlayer.inventory.getItemStack() != null) {
 						heldStack = otherPlayer.inventory.getItemStack();
 						otherPlayer.inventory.setItemStack(null);
 					}
 					otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
-
-					if(heldStack != null) {
+					if (heldStack != null) {
 						otherPlayer.inventory.setItemStack(heldStack);
-						((EntityPlayerMP)otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
+						((EntityPlayerMP) otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
 					}
 				}
 			}

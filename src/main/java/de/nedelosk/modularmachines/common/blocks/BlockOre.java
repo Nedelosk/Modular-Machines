@@ -58,7 +58,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
-		for(OreType type : OreType.values()){
+		for(OreType type : OreType.values()) {
 			manager.registerItemModel(item, type.ordinal(), "ores/" + type.getName());
 		}
 	}
@@ -76,13 +76,12 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 		}
 	}
 
-	public static enum OreType implements IStringSerializable{
+	public static enum OreType implements IStringSerializable {
 		COPPER, TIN, SILVER, LEAD, NICKEL, ALUMINIUM;
 
 		@Override
 		public String getName() {
 			return name().toLowerCase(Locale.ENGLISH);
 		}
-
 	}
 }

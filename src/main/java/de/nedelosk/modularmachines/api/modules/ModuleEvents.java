@@ -23,6 +23,7 @@ public class ModuleEvents {
 	}
 
 	public static abstract class ModularEvent extends Event {
+
 		private final IModular modular;
 
 		public ModularEvent(IModular modular) {
@@ -35,12 +36,14 @@ public class ModuleEvents {
 	}
 
 	public static class ModularAssembledEvent extends ModularEvent {
+
 		public ModularAssembledEvent(IModular modular) {
 			super(modular);
 		}
 	}
 
 	public static class ModuleStateCreateEvent extends ModuleStateEvent {
+
 		public ModuleStateCreateEvent(IModuleState state) {
 			super(state);
 		}
@@ -52,14 +55,12 @@ public class ModuleEvents {
 
 		public ModuleStateLoadItemEvent(IModuleState state, ItemStack stack) {
 			super(state);
-
 			this.stack = stack;
 		}
 
 		public ItemStack getStack() {
 			return stack;
 		};
-
 	}
 
 	public static class ModuleStateLoadEvent extends ModuleStateEvent {
@@ -68,7 +69,6 @@ public class ModuleEvents {
 
 		public ModuleStateLoadEvent(IModuleState state, NBTTagCompound nbtTag) {
 			super(state);
-
 			this.nbtTag = nbtTag;
 		}
 
@@ -83,7 +83,6 @@ public class ModuleEvents {
 
 		public ModuleStateSaveEvent(IModuleState state, NBTTagCompound nbtTag) {
 			super(state);
-
 			this.nbtTag = nbtTag;
 		}
 
@@ -110,7 +109,6 @@ public class ModuleEvents {
 		public Side getUpdateSide() {
 			return updateSide;
 		}
-
 	}
 
 	public static class ModuleUpdateEvent extends ModuleStateEvent {
@@ -125,6 +123,5 @@ public class ModuleEvents {
 		public Side getUpdateSide() {
 			return updateSide;
 		}
-
 	}
 }

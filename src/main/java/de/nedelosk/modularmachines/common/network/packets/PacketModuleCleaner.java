@@ -27,26 +27,23 @@ public class PacketModuleCleaner extends PacketModule implements IPacketClient, 
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException  {
+	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		Container container = player.openContainer;
-		if(container instanceof ContainerModular) {
+		if (container instanceof ContainerModular) {
 			IModularHandler handler = getModularHandler(player);
 			IModuleState state = handler.getModular().getModule(index);
-
-			((IModuleModuleCleaner)state.getModule()).cleanModule(state);
+			((IModuleModuleCleaner) state.getModule()).cleanModule(state);
 		}
 	}
 
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		Container container = player.openContainer;
-		if(container instanceof ContainerModular) {
+		if (container instanceof ContainerModular) {
 			IModularHandler handler = getModularHandler(player);
 			IModuleState state = handler.getModular().getModule(index);
-
-			((IModuleModuleCleaner)state.getModule()).cleanModule(state);
-
-			PacketHandler.sendToNetwork(this, ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) player.worldObj);
+			((IModuleModuleCleaner) state.getModule()).cleanModule(state);
+			PacketHandler.sendToNetwork(this, ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) player.worldObj);
 		}
 	}
 

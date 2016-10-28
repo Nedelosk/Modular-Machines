@@ -42,7 +42,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		this.contentInfos = contentInfos;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-		for(EnumFacing facing : EnumFacing.values()){
+		for(EnumFacing facing : EnumFacing.values()) {
 			configurations.put(facing, new boolean[contentInfos.length]);
 		}
 	}
@@ -61,9 +61,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 			while (stack.stackSize > 0 && (!maxToMin && currentSlot < maxSlot || maxToMin && currentSlot >= minSlot)) {
 				slot = container.inventorySlots.get(currentSlot);
 				slotStack = slot.getStack();
-				if (slotStack != null && slotStack.getItem() == stack.getItem()
-						&& (!stack.getHasSubtypes() || stack.getItemDamage() == slotStack.getItemDamage())
-						&& ItemStack.areItemStackTagsEqual(stack, slotStack)) {
+				if (slotStack != null && slotStack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getItemDamage() == slotStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, slotStack)) {
 					int l = slotStack.stackSize + stack.stackSize;
 					if (l <= stack.getMaxStackSize()) {
 						stack.stackSize = 0;
@@ -110,12 +108,12 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		return isMerged;
 	}
 
-	public void setSize(int size){
+	public void setSize(int size) {
 		stacks = new ItemStack[size];
 	}
 
 	@Override
-	public void setStackInSlot(int slot, ItemStack stack){
+	public void setStackInSlot(int slot, ItemStack stack) {
 		validateSlotIndex(slot);
 		if (ItemStack.areItemStacksEqual(this.stacks[slot], stack)) {
 			return;
@@ -125,193 +123,154 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public int getSlots(){
+	public int getSlots() {
 		return stacks.length;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot){
+	public ItemStack getStackInSlot(int slot) {
 		validateSlotIndex(slot);
 		return this.stacks[slot];
 	}
 
-
 	@Override
-	public ItemStack extractItemInternal(int slot, int amount, boolean simulate){
+	public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
 		if (amount == 0) {
 			return null;
 		}
-
 		validateSlotIndex(slot);
-
 		ItemStack existing = this.stacks[slot];
-
-		if(!canExtractItem(slot, existing)){
+		if (!canExtractItem(slot, existing)) {
 			return null;
 		}
-
 		if (existing == null) {
 			return null;
 		}
-
 		int toExtract = Math.min(amount, existing.getMaxStackSize());
-
-		if (existing.stackSize <= toExtract){
-			if (!simulate){
+		if (existing.stackSize <= toExtract) {
+			if (!simulate) {
 				this.stacks[slot] = null;
 				onContentsChanged(slot);
 			}
 			return existing;
-		}else{
-			if (!simulate){
+		} else {
+			if (!simulate) {
 				this.stacks[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
 				onContentsChanged(slot);
 			}
-
 			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
 		}
 	}
 
 	@Override
-	public ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate){
+	public ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate) {
 		if (stack == null || stack.stackSize == 0) {
 			return null;
 		}
-
 		validateSlotIndex(slot);
-
 		ItemStack existing = this.stacks[slot];
-
-		if(canInsertItem(slot, existing)){
+		if (canInsertItem(slot, existing)) {
 			return stack;
 		}
-
 		int limit = getStackLimit(slot, stack);
-
-		if (existing != null){
+		if (existing != null) {
 			if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
 				return stack;
 			}
-
 			limit -= existing.stackSize;
 		}
-
 		if (limit <= 0) {
 			return stack;
 		}
-
 		boolean reachedLimit = stack.stackSize > limit;
-
-		if (!simulate){
-			if (existing == null){
+		if (!simulate) {
+			if (existing == null) {
 				this.stacks[slot] = reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack;
-			}else{
+			} else {
 				existing.stackSize += reachedLimit ? limit : stack.stackSize;
 			}
 			onContentsChanged(slot);
 		}
-
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
 	}
 
 	@Override
-	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate){
+	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 		if (stack == null || stack.stackSize == 0) {
 			return null;
 		}
-
 		validateSlotIndex(slot);
-
 		ItemStack existing = this.stacks[slot];
-
-		if(!isInput(slot)){
+		if (!isInput(slot)) {
 			return stack;
 		}
-
-		if(!canInsertItem(slot, stack)){
+		if (!canInsertItem(slot, stack)) {
 			return stack;
 		}
-
 		int limit = getStackLimit(slot, stack);
-
-		if (existing != null){
+		if (existing != null) {
 			if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
 				return stack;
 			}
-
 			limit -= existing.stackSize;
 		}
-
 		if (limit <= 0) {
 			return stack;
 		}
-
 		boolean reachedLimit = stack.stackSize > limit;
-
-		if (!simulate){
-			if (existing == null){
+		if (!simulate) {
+			if (existing == null) {
 				this.stacks[slot] = reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack;
-			}else{
+			} else {
 				existing.stackSize += reachedLimit ? limit : stack.stackSize;
 			}
 			onContentsChanged(slot);
 		}
-
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
 	}
 
 	@Override
-	public ItemStack extractItem(int slot, int amount, boolean simulate){
+	public ItemStack extractItem(int slot, int amount, boolean simulate) {
 		if (amount == 0) {
 			return null;
 		}
-
 		validateSlotIndex(slot);
-
 		ItemStack existing = this.stacks[slot];
-
-		if(isInput(slot)){
+		if (isInput(slot)) {
 			return null;
 		}
-
-		if(!canExtractItem(slot, existing)){
+		if (!canExtractItem(slot, existing)) {
 			return null;
 		}
-
 		if (existing == null) {
 			return null;
 		}
-
 		int toExtract = Math.min(amount, existing.getMaxStackSize());
-
-		if (existing.stackSize <= toExtract){
-			if (!simulate){
+		if (existing.stackSize <= toExtract) {
+			if (!simulate) {
 				this.stacks[slot] = null;
 				onContentsChanged(slot);
 			}
 			return existing;
-		}else{
-			if (!simulate){
+		} else {
+			if (!simulate) {
 				this.stacks[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
 				onContentsChanged(slot);
 			}
-
 			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
 		}
 	}
 
-	protected int getStackLimit(int slot, ItemStack stack){
+	protected int getStackLimit(int slot, ItemStack stack) {
 		return stack.getMaxStackSize();
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT(){
+	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagList = new NBTTagList();
-		for (int i = 0; i < stacks.length; i++)
-		{
-			if (stacks[i] != null)
-			{
+		for(int i = 0; i < stacks.length; i++) {
+			if (stacks[i] != null) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				itemTag.setInteger("Slot", i);
 				stacks[i].writeToNBT(itemTag);
@@ -321,11 +280,11 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		nbt.setTag("Items", nbtTagList);
 		nbt.setInteger("Size", stacks.length);
 		NBTTagList nbtTagConfigurationList = new NBTTagList();
-		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()){
+		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
 			NBTTagCompound entryTag = new NBTTagCompound();
 			entryTag.setInteger("Face", entry.getKey().ordinal());
 			byte[] configurations = new byte[entry.getValue().length];
-			for(int i = 0;i < entry.getValue().length;i++){
+			for(int i = 0; i < entry.getValue().length; i++) {
 				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
 			}
 			entryTag.setByteArray("Configurations", configurations);
@@ -336,24 +295,23 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt){
+	public void deserializeNBT(NBTTagCompound nbt) {
 		setSize(nbt.hasKey("Size", Constants.NBT.TAG_INT) ? nbt.getInteger("Size") : stacks.length);
 		NBTTagList tagList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-		for (int i = 0; i < tagList.tagCount(); i++){
+		for(int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
 			int slot = itemTags.getInteger("Slot");
-
-			if (slot >= 0 && slot < stacks.length){
+			if (slot >= 0 && slot < stacks.length) {
 				stacks[slot] = ItemStack.loadItemStackFromNBT(itemTags);
 			}
 		}
 		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
-		for(int index = 0;index < nbtTagConfigurationList.tagCount();index++){
+		for(int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
 			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
 			EnumFacing facing = EnumFacing.VALUES[index];
 			boolean[] configurations = new boolean[this.configurations.get(facing).length];
 			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
-			for(int i = 0;i < this.configurations.get(facing).length;i++){
+			for(int i = 0; i < this.configurations.get(facing).length; i++) {
 				configurations[i] = tankConfiguration[i] == 1;
 			}
 			this.configurations.put(facing, configurations);
@@ -364,28 +322,25 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys"));
-		for(int i = 0;i < getSlots();i++){
+		for(int i = 0; i < getSlots(); i++) {
 			ItemStack itemStack = getStackInSlot(i);
-			if(itemStack != null){
+			if (itemStack != null) {
 				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
 				tooltip.add(" - " + I18n.translateToLocal("mm.tooltip.handler.inventory.item") + itemStack.getDisplayName() + ", " + I18n.translateToLocal("mm.tooltip.handler.inventory.amount") + itemStack.stackSize);
 			}
 		}
 	}
 
-	protected void validateSlotIndex(int slot){
+	protected void validateSlotIndex(int slot) {
 		if (slot < 0 || slot >= stacks.length) {
 			throw new RuntimeException("Slot " + slot + " not in valid range - [0," + stacks.length + ")");
 		}
 	}
 
-	protected void onLoad(){
-
+	protected void onLoad() {
 	}
 
-	protected void onContentsChanged(int slot)
-	{
-
+	protected void onContentsChanged(int slot) {
 	}
 
 	@Override
@@ -400,7 +355,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 
 	@Override
 	public boolean isInput(int index) {
-		if(contentInfos.length <= index){
+		if (contentInfos.length <= index) {
 			return false;
 		}
 		return contentInfos[index].isInput;
@@ -471,13 +426,13 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
-		if(getOutputs() > 0) {
+		if (getOutputs() > 0) {
 			boolean allFull = true;
-			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack st = getStackInSlot(i);
-				if(st != null) {
+				if (st != null) {
 					st = st.copy();
-					if(allFull && st.stackSize < st.getMaxStackSize()) {
+					if (allFull && st.stackSize < st.getMaxStackSize()) {
 						allFull = false;
 					}
 				} else {
@@ -485,19 +440,17 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 				}
 				outputStacks.add(st);
 			}
-			if(allFull) {
+			if (allFull) {
 				return false;
 			}
 		}
-
-		for (RecipeItem result : outputs) {
-			if(result.item != null) {
-				if(mergeItemResult(result.item, outputStacks) == 0) {
+		for(RecipeItem result : outputs) {
+			if (result.item != null) {
+				if (mergeItemResult(result.item, outputStacks) == 0) {
 					return false;
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -517,67 +470,61 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	protected int getNumCanMerge(ItemStack itemStack, ItemStack result) {
-		if(!itemStack.isItemEqual(result)) {
+		if (!itemStack.isItemEqual(result)) {
 			return 0;
 		}
 		return Math.min(itemStack.getMaxStackSize() - itemStack.stackSize, result.stackSize);
 	}
 
 	protected int mergeItemResult(ItemStack item, List<ItemStack> outputStacks) {
-
 		int res = 0;
-
 		ItemStack copy = item.copy();
-		for (ItemStack outStack : outputStacks) {
-			if(outStack != null && copy != null) {
+		for(ItemStack outStack : outputStacks) {
+			if (outStack != null && copy != null) {
 				int num = getNumCanMerge(outStack, copy);
 				outStack.stackSize += num;
 				res += num;
 				copy.stackSize -= num;
-				if(copy.stackSize <= 0) {
+				if (copy.stackSize <= 0) {
 					return item.stackSize;
 				}
 			}
 		}
-
-		for (int i = 0; i < outputStacks.size(); i++) {
+		for(int i = 0; i < outputStacks.size(); i++) {
 			ItemStack outStack = outputStacks.get(i);
-			if(outStack == null) {
+			if (outStack == null) {
 				outputStacks.set(i, copy);
 				return item.stackSize;
 			}
 		}
-
 		return 0;
 	}
 
 	@Override
 	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
-		if(getOutputs() > 0) {
-			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+		if (getOutputs() > 0) {
+			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack it = getStackInSlot(i);
-				if(it != null) {
+				if (it != null) {
 					it = it.copy();
 				}
 				outputStacks.add(it);
 			}
 		}
-
-		for (RecipeItem result : outputs) {
-			if(result.item != null) {
+		for(RecipeItem result : outputs) {
+			if (result.item != null) {
 				int numMerged = mergeItemResult(result.item, outputStacks);
-				if(numMerged > 0) {
+				if (numMerged > 0) {
 					result.item.stackSize -= numMerged;
 				}
 			}
 		}
-
-		if(getOutputs() > 0) {
+		if (getOutputs() > 0) {
 			int listIndex = 0;
-			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack st = outputStacks.get(listIndex);
-				if(st != null) {
+				if (st != null) {
 					st = st.copy();
 				}
 				setStackInSlot(i, st);
@@ -603,7 +550,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 
 	@Override
 	public SlotInfo getInfo(int index) {
-		if(contentInfos.length <= index){
+		if (contentInfos.length <= index) {
 			return null;
 		}
 		return contentInfos[index];
@@ -617,9 +564,9 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public List<ItemStack> getDrops() {
 		List<ItemStack> drops = new ArrayList<>();
-		for(int i = 0;i < getSlots();i++){
+		for(int i = 0; i < getSlots(); i++) {
 			ItemStack stack = getStackInSlot(i);
-			if(stack != null){
+			if (stack != null) {
 				drops.add(stack);
 			}
 		}
@@ -634,28 +581,28 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public void cleanHandler(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
+		if (handler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
 			List<IItemHandler> handlers = new ArrayList<>();
-			for(IModuleState moduleState : state.getModuleHandler().getModules()){
-				if(moduleState.getContentHandler(IItemHandler.class) != null){
+			for(IModuleState moduleState : state.getModuleHandler().getModules()) {
+				if (moduleState.getContentHandler(IItemHandler.class) != null) {
 					handlers.add(moduleState.getContentHandler(IItemHandler.class));
 				}
-				for(IModulePage page : (List<IModulePage>) moduleState.getPages()){
-					if(page.getContentHandler(IItemHandler.class) != null){
+				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
+					if (page.getContentHandler(IItemHandler.class) != null) {
 						handlers.add(page.getContentHandler(IItemHandler.class));
 					}
 				}
 			}
-			for(EnumFacing facing : EnumFacing.VALUES){
+			for(EnumFacing facing : EnumFacing.VALUES) {
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
-				if(tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite())){
+				if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite())) {
 					handlers.add(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite()));
 				}
 			}
-			for(IItemHandler itemHandler : handlers){
-				if(!isEmpty()){
-					for(int i = 0;i < getSlots();i++){
+			for(IItemHandler itemHandler : handlers) {
+				if (!isEmpty()) {
+					for(int i = 0; i < getSlots(); i++) {
 						setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, getStackInSlot(i), false));
 					}
 				}
@@ -670,8 +617,8 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack stack : stacks){
-			if(stack != null && stack.getItem() != null && stack.stackSize > 0){
+		for(ItemStack stack : stacks) {
+			if (stack != null && stack.getItem() != null && stack.stackSize > 0) {
 				return false;
 			}
 		}

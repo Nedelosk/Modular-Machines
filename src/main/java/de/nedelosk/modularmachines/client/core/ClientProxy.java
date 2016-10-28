@@ -34,12 +34,12 @@ public class ClientProxy extends CommonProxy {
 	public static KeyBinding MODULE_INFO = new KeyBinding("key.mm.showModuleIndo", KeyConflictContext.GUI, Keyboard.KEY_M, Constants.NAME);
 
 	@Override
-	public void preInit(){
+	public void preInit() {
 		GuiManager.helper = new GuiHelper();
 	}
 
 	@Override
-	public void init(){
+	public void init() {
 		ClientRegistry.registerKeyBinding(MODULE_INFO);
 	}
 
@@ -48,14 +48,14 @@ public class ClientProxy extends CommonProxy {
 		List<String> tooltip = new ArrayList<>();
 		IModuleItemContainer container = ModuleManager.getContainerFromItem(itemStack);
 		if (container != null) {
-			if(Keyboard.isKeyDown(MODULE_INFO.getKeyCode())){
+			if (Keyboard.isKeyDown(MODULE_INFO.getKeyCode())) {
 				List<String> moduleTooltip = new ArrayList<>();
 				tooltip.add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
 				container.addTooltip(moduleTooltip, itemStack);
-				for(String s : moduleTooltip){
+				for(String s : moduleTooltip) {
 					tooltip.add(TextFormatting.DARK_GREEN + s);
 				}
-			}else{
+			} else {
 				tooltip.add(TextFormatting.DARK_GREEN + Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", Keyboard.getKeyName(MODULE_INFO.getKeyCode())));
 			}
 		}
@@ -77,6 +77,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private static class FluidStateMapper extends StateMapperBase {
+
 		private final ModelResourceLocation fluidLocation;
 
 		public FluidStateMapper(ModelResourceLocation fluidLocation) {
@@ -90,6 +91,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public static class BlockModeStateMapper extends StateMapperBase {
+
 		private final ModelResourceLocation location;
 
 		public BlockModeStateMapper(ModelResourceLocation location) {
@@ -103,6 +105,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	private static class FluidItemMeshDefinition implements ItemMeshDefinition {
+
 		private final ModelResourceLocation fluidLocation;
 
 		public FluidItemMeshDefinition(ModelResourceLocation fluidLocation) {
@@ -116,12 +119,12 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerBlock(Block block){
+	public void registerBlock(Block block) {
 		ModelManager.getInstance().registerBlockClient(block);
 	}
 
 	@Override
-	public void registerItem(Item item){
+	public void registerItem(Item item) {
 		ModelManager.getInstance().registerItemClient(item);
 	}
 }

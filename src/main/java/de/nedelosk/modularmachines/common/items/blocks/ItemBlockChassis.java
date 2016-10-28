@@ -38,7 +38,7 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public CreativeTabs getCreativeTab(){
+	public CreativeTabs getCreativeTab() {
 		return this.block.getCreativeTabToDisplayOn();
 	}
 
@@ -51,60 +51,46 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
-
-		if (!block.isReplaceable(worldIn, pos))
-		{
+		if (!block.isReplaceable(worldIn, pos)) {
 			pos = pos.offset(facing);
 		}
-
-		if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack))
-		{
+		if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity) null, stack)) {
 			int i = this.getMetadata(stack.getMetadata());
 			IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn);
-
-			if (placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1))
-			{
+			if (placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)) {
 				SoundType soundtype = this.block.getSoundType();
 				worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 				--stack.stackSize;
 			}
-
 			return EnumActionResult.SUCCESS;
-		}
-		else
-		{
+		} else {
 			return EnumActionResult.FAIL;
 		}
 	}
 
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState){
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
 		if (!world.setBlockState(pos, newState, 3)) {
 			return false;
 		}
-
 		IBlockState state = world.getBlockState(pos);
-		if (state.getBlock() == this.block){
+		if (state.getBlock() == this.block) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (!(tile instanceof TileModular)) {
 				world.setBlockToAir(pos);
 				return false;
 			}
 			TileModular machine = (TileModular) tile;
-			IModularHandlerTileEntity  tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
+			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) machine.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
 			tileHandler.setAssembler(new ModularAssembler(tileHandler));
 			tileHandler.setOwner(player.getGameProfile());
 			tileHandler.setFacing(getFacingForHeading(heading));
-
 			ItemBlock.setTileEntityNBT(world, player, pos, stack);
 		}
 		this.block.onBlockPlacedBy(world, pos, state, player, stack);
-
 		return true;
 	}
 

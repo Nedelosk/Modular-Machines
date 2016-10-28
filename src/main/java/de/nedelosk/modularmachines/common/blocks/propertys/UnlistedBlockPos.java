@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 public final class UnlistedBlockPos implements IUnlistedProperty<BlockPos> {
+
 	public static UnlistedBlockPos POS = new UnlistedBlockPos();
 
 	@Override

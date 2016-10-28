@@ -23,7 +23,7 @@ public class ModuleCrafterRecipeHandler implements IRecipeHandler<IModuleCrafter
 
 	@Override
 	public String getRecipeCategoryUid(IModuleCrafterRecipe recipe) {
-		if(recipe.getHolder() != null){
+		if (recipe.getHolder() != null) {
 			return CategoryUIDs.CRAFTING;
 		}
 		return VanillaRecipeCategoryUid.CRAFTING;
@@ -31,7 +31,7 @@ public class ModuleCrafterRecipeHandler implements IRecipeHandler<IModuleCrafter
 
 	@Override
 	public IRecipeWrapper getRecipeWrapper(IModuleCrafterRecipe recipe) {
-		if(recipe.getHolder() == null){
+		if (recipe.getHolder() == null) {
 			return new ModuleCrafterWorkbenchRecipeWrapper(recipe);
 		}
 		return new ModuleCrafterRecipeWrapper(recipe);
@@ -45,10 +45,11 @@ public class ModuleCrafterRecipeHandler implements IRecipeHandler<IModuleCrafter
 			return false;
 		}
 		int inputCount = 0;
-		for (Object input : recipe.getInput()) {
+		for(Object input : recipe.getInput()) {
 			if (input instanceof List) {
 				if (((List) input).isEmpty()) {
-					// missing items for an oreDict name. This is normal behavior, but the recipe is invalid.
+					// missing items for an oreDict name. This is normal
+					// behavior, but the recipe is invalid.
 					return false;
 				}
 			}

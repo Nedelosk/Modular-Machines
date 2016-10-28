@@ -10,5 +10,4 @@ public interface IAssemblerContainer extends IContainerBase<IModularHandler> {
 	boolean hasStorageChange();
 
 	void setHasStorageChange(boolean hasChange);
-
 }

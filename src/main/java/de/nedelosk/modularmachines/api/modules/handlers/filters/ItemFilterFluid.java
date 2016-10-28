@@ -17,8 +17,8 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, IModule> {
 	public static final ItemFilterFluid INSTANCE = new ItemFilterFluid(true);
 	private static final Map<Fluid, ItemFilterFluid> FILTERS = new HashMap<>();
 
-	public static ItemFilterFluid get(Fluid fluidFilter){
-		if(!FILTERS.containsKey(fluidFilter)){
+	public static ItemFilterFluid get(Fluid fluidFilter) {
+		if (!FILTERS.containsKey(fluidFilter)) {
 			FILTERS.put(fluidFilter, new ItemFilterFluid(fluidFilter));
 			return FILTERS.get(fluidFilter);
 		}
@@ -43,24 +43,24 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, IModule> {
 
 	@Override
 	public boolean isValid(int index, ItemStack content, IModuleState<IModule> module) {
-		if(content == null) {
+		if (content == null) {
 			return false;
 		}
-		if(content.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)){
+		if (content.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
 			IFluidHandler handler = content.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-			if(handler.getTankProperties() == null || handler.getTankProperties().length <= 0){
-				if(empty){
+			if (handler.getTankProperties() == null || handler.getTankProperties().length <= 0) {
+				if (empty) {
 					return true;
 				}
 				return false;
 			}
-			for(IFluidTankProperties property : handler.getTankProperties()){
-				if(property != null){
+			for(IFluidTankProperties property : handler.getTankProperties()) {
+				if (property != null) {
 					FluidStack tankContent = property.getContents();
-					if(tankContent != null){
-						if((fluidFilter == null || tankContent.getFluid() != null && tankContent.getFluid() == fluidFilter)){
+					if (tankContent != null) {
+						if ((fluidFilter == null || tankContent.getFluid() != null && tankContent.getFluid() == fluidFilter)) {
 							continue;
-						}else{
+						} else {
 							return false;
 						}
 					}

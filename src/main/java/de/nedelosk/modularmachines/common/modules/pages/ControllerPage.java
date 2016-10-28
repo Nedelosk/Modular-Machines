@@ -20,8 +20,8 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 		super("Controller", "controller", module);
 		this.usedModules = new ArrayList<>();
 		IModuleControl control = module.getModule().getModuleControl(module);
-		for(IModuleState state : module.getModule().getUsedModules(module)){
-			if(state.getIndex() != module.getIndex()){
+		for(IModuleState state : module.getModule().getUsedModules(module)) {
+			if (state.getIndex() != module.getIndex()) {
 				this.usedModules.add(state.getIndex());
 				control.setPermission(state, true);
 			}
@@ -33,13 +33,13 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 	public void addWidgets() {
 		super.addWidgets();
 		add(new WidgetRedstoneMode(6, 9, moduleState));
-		if(usedModules.isEmpty()){
+		if (usedModules.isEmpty()) {
 			return;
 		}
 		int index = 0;
-		for(int y = 0;y < 3;y++){
-			for(int x = 0;x < 5;x++){
-				if(usedModules.size() == index){
+		for(int y = 0; y < 3; y++) {
+			for(int x = 0; x < 5; x++) {
+				if (usedModules.size() == index) {
 					return;
 				}
 				IModuleState state = moduleState.getModular().getModule(usedModules.get(index));

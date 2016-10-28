@@ -15,7 +15,7 @@ import de.nedelosk.modularmachines.api.property.PropertyString;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Recipe implements IRecipe{
+public class Recipe implements IRecipe {
 
 	public static final PropertyRecipeItems INPUTS = new PropertyRecipeItems("inputs");
 	public static final PropertyRecipeItems OUTPUTS = new PropertyRecipeItems("outputs");
@@ -25,7 +25,6 @@ public class Recipe implements IRecipe{
 	public static final PropertyDouble HEAT = new PropertyDouble("heat", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("removeHeat", 0);
 	public static final PropertyDouble KINETIC = new PropertyDouble("kinetic", 0);
-
 	protected Map<IProperty, Object> properties;
 
 	public Recipe(Map<IProperty, Object> properties) {
@@ -39,7 +38,7 @@ public class Recipe implements IRecipe{
 
 	@Override
 	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
-		if(!properties.containsKey(property)){
+		if (!properties.containsKey(property)) {
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the recipe.");
 		}
 		return (T) properties.get(property);
@@ -73,8 +72,8 @@ public class Recipe implements IRecipe{
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		for(Entry<IProperty, Object> object : properties.entrySet()){
-			if(object.getValue() != null){
+		for(Entry<IProperty, Object> object : properties.entrySet()) {
+			if (object.getValue() != null) {
 				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
 			}
 		}
@@ -83,8 +82,8 @@ public class Recipe implements IRecipe{
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		for(IProperty property : properties.keySet()){
-			if(nbt.hasKey(property.getName())){
+		for(IProperty property : properties.keySet()) {
+			if (nbt.hasKey(property.getName())) {
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
 			}
 		}
@@ -93,9 +92,9 @@ public class Recipe implements IRecipe{
 	@Override
 	public JsonObject writeToJson() {
 		JsonObject jsonObject = new JsonObject();
-		for(Entry<IProperty, Object> object : properties.entrySet()){
-			if(object.getValue() != null && object.getKey() instanceof IPropertyJson){
-				jsonObject.add(object.getKey().getName(), ((IPropertyJson)object.getKey()).writeToJson(object.getValue()));
+		for(Entry<IProperty, Object> object : properties.entrySet()) {
+			if (object.getValue() != null && object.getKey() instanceof IPropertyJson) {
+				jsonObject.add(object.getKey().getName(), ((IPropertyJson) object.getKey()).writeToJson(object.getValue()));
 			}
 		}
 		return jsonObject;
@@ -103,9 +102,9 @@ public class Recipe implements IRecipe{
 
 	@Override
 	public void readFromJson(JsonObject jsonObject) {
-		for(IProperty property : properties.keySet()){
-			if(jsonObject.has(property.getName())){
-				properties.put(property, ((IPropertyJson)property).readFromJson(jsonObject.get(property.getName())));
+		for(IProperty property : properties.keySet()) {
+			if (jsonObject.has(property.getName())) {
+				properties.put(property, ((IPropertyJson) property).readFromJson(jsonObject.get(property.getName())));
 			}
 		}
 	}

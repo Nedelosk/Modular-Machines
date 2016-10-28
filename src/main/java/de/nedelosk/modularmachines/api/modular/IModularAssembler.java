@@ -58,5 +58,4 @@ public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGu
 	void beforeSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player);
 
 	void afterSlotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player);
-
 }

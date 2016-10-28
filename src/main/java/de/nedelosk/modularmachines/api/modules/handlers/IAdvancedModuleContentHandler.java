@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IAdvancedModuleContentHandler<C,M extends IModule> extends IModuleContentHandler<M>, INBTSerializable<NBTTagCompound> {
+public interface IAdvancedModuleContentHandler<C, M extends IModule> extends IModuleContentHandler<M>, INBTSerializable<NBTTagCompound> {
 
 	/**
 	 * @return The insert filters of the handler.

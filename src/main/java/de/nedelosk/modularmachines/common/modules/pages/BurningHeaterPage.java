@@ -13,7 +13,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BurningHeaterPage extends MainPage<IModuleHeaterBurning>{
+public class BurningHeaterPage extends MainPage<IModuleHeaterBurning> {
 
 	public BurningHeaterPage(IModuleState<IModuleHeaterBurning> heaterState) {
 		super("heater", heaterState);
@@ -30,10 +30,9 @@ public class BurningHeaterPage extends MainPage<IModuleHeaterBurning>{
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 		super.drawForeground(fontRenderer, mouseX, mouseY);
-		DecimalFormat f = new DecimalFormat("#0.00"); 
-
+		DecimalFormat f = new DecimalFormat("#0.00");
 		String heatName = Translator.translateToLocalFormatted("module.heater.heat", f.format(moduleState.getModular().getHeatSource().getHeatStored()));
-		fontRenderer.drawString(heatName, 90 - (fontRenderer.getStringWidth(heatName) / 2),55, Color.gray.getRGB());
+		fontRenderer.drawString(heatName, 90 - (fontRenderer.getStringWidth(heatName) / 2), 55, Color.gray.getRGB());
 	}
 
 	@Override

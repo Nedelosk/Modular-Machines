@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ChildPage implements IStoragePage{
+public class ChildPage implements IStoragePage {
 
 	@SideOnly(Side.CLIENT)
 	protected IGuiBase gui;
@@ -43,25 +43,25 @@ public class ChildPage implements IStoragePage{
 	}
 
 	@Override
-	public IContainerBase getContainer(){
+	public IContainerBase getContainer() {
 		return container;
 	}
 
 	@Override
-	public void setContainer(IContainerBase container){
+	public void setContainer(IContainerBase container) {
 		this.container = container;
 	}
 
 	@Override
 	public void updateGui() {
-		if(parent != null){
+		if (parent != null) {
 			parent.updateGui();
 		}
 	}
 
 	@Override
 	public void initGui() {
-		if(parent != null){
+		if (parent != null) {
 			parent.setGui(gui);
 			parent.initGui();
 		}
@@ -69,42 +69,42 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		if(parent != null){
+		if (parent != null) {
 			parent.handleMouseClicked(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
-		if(parent != null){
+		if (parent != null) {
 			parent.drawForeground(fontRenderer, mouseX, mouseY);
 		}
 	}
 
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
-		if(parent != null){
+		if (parent != null) {
 			parent.drawBackground(mouseX, mouseY);
 		}
 	}
 
 	@Override
 	public void drawTooltips(int mouseX, int mouseY) {
-		if(parent != null){
+		if (parent != null) {
 			parent.drawTooltips(mouseX, mouseY);
 		}
 	}
 
 	@Override
 	public void drawFrontBackground(int mouseX, int mouseY) {
-		if(parent != null){
+		if (parent != null) {
 			parent.drawFrontBackground(mouseX, mouseY);
 		}
 	}
 
 	@Override
 	public int getXSize() {
-		if(parent != null){
+		if (parent != null) {
 			return parent.getXSize();
 		}
 		return 0;
@@ -112,7 +112,7 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public int getYSize() {
-		if(parent != null){
+		if (parent != null) {
 			return parent.getYSize();
 		}
 		return 0;
@@ -120,21 +120,21 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public void addButtons() {
-		if(parent != null){
+		if (parent != null) {
 			parent.addButtons();
 		}
 	}
 
 	@Override
 	public void addWidgets() {
-		if(parent != null){
+		if (parent != null) {
 			parent.addWidgets();
 		}
 	}
 
 	@Override
 	public String getPageTitle() {
-		if(parent != null){
+		if (parent != null) {
 			parent.getPageTitle();
 		}
 		return null;
@@ -142,7 +142,7 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public IItemHandlerStorage getItemHandler() {
-		if(parent != null){
+		if (parent != null) {
 			return parent.getItemHandler();
 		}
 		return null;
@@ -150,14 +150,14 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public void createSlots(IAssemblerContainer container, List<Slot> slots) {
-		if(parent != null){
+		if (parent != null) {
 			parent.createSlots(container, slots);
 		}
 	}
 
 	@Override
 	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
-		if(parent != null){
+		if (parent != null) {
 			return parent.isItemValid(stack, slot, storageSlot);
 		}
 		return false;
@@ -165,7 +165,7 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public int getPlayerInvPosition() {
-		if(parent != null){
+		if (parent != null) {
 			return parent.getPlayerInvPosition();
 		}
 		return 0;
@@ -173,7 +173,7 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public void onSlotChanged(IAssemblerContainer container) {
-		if(parent != null){
+		if (parent != null) {
 			parent.onSlotChanged(container);
 		}
 	}
@@ -190,7 +190,7 @@ public class ChildPage implements IStoragePage{
 
 	@Override
 	public ItemStack getStorageStack() {
-		if(parent != null){
+		if (parent != null) {
 			return parent.getStorageStack();
 		}
 		return null;

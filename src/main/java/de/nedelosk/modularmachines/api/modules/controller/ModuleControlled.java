@@ -31,14 +31,14 @@ public abstract class ModuleControlled extends Module implements IModuleControll
 	@Override
 	public void onModularAssembled(IModuleState state) {
 		super.onModularAssembled(state);
-		if(state.getModular().getModule(IModuleController.class) != null){
+		if (state.getModular().getModule(IModuleController.class) != null) {
 			state.addPage(getControllerPage(state));
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public List<IModuleState> getUsedModules(IModuleState state){
+	public List<IModuleState> getUsedModules(IModuleState state) {
 		return Collections.emptyList();
 	}
 

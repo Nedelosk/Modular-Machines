@@ -42,7 +42,8 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	String getDescription(IModuleContainer container);
 
 	/**
-	 * @return A new list of all content handler of the module that are not empty.
+	 * @return A new list of all content handler of the module that are not
+	 *         empty.
 	 */
 	List<IModuleContentHandler> createHandlers(IModuleState state);
 
@@ -84,7 +85,8 @@ public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties
 	Map<ResourceLocation, ResourceLocation> getModelLocations(@Nullable IModuleItemContainer container);
 
 	/**
-	 * Add a tooltip to a item that are registered for a module container with this module.
+	 * Add a tooltip to a item that are registered for a module container with
+	 * this module.
 	 */
 	@SideOnly(Side.CLIENT)
 	void addTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container);

@@ -8,5 +8,4 @@ public interface IModuleHeaterProperties extends IModuleProperties {
 	double getMaxHeat(IModuleState state);
 
 	int getHeatModifier(IModuleState state);
-
 }

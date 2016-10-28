@@ -41,7 +41,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{"minecraft.smelting"};
+		return new String[] { "minecraft.smelting" };
 	}
 
 	@Override
@@ -50,24 +50,18 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 	}
 
 	@Override
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
+	public void openJEI(IModuleState state) {
+		if (this instanceof IModuleJEI) {
 			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			if (Loader.isModLoaded("JEI")) {
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI) this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}
 
 	@Override
 	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
-		IModuleState state = createDefaultState(provider, container)
-				.register(WORKTIME)
-				.register(WORKTIMETOTAL)
-				.register(CHANCE)
-				.register(FURNACERECIPE)
-				.register(HEATTOREMOVE)
-				.register(HEATREQUIRED);
+		IModuleState state = createDefaultState(provider, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(FURNACERECIPE).register(HEATTOREMOVE).register(HEATREQUIRED);
 		return state;
 	}
 
@@ -103,19 +97,15 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 		return pages;
 	}
 
-	protected static List<IRecipe> makeRecipes(){
+	protected static List<IRecipe> makeRecipes() {
 		List<IRecipe> furnaceRecipe = new ArrayList<>();
-		for(Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()){
+		for(Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
 			ItemStack input = entry.getKey();
 			ItemStack output = entry.getValue();
-			if(input != null && output != null){
+			if (input != null && output != null) {
 				IRecipeBuilder builder = new RecipeBuilder();
-				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output))
-				.set(Recipe.INPUTS, new RecipeItem[]{new RecipeItem(entry.getKey())})
-				.set(Recipe.OUTPUTS, new RecipeItem[]{new RecipeItem(entry.getValue())})
-				.set(Recipe.HEAT, 50D)
-				.set(Recipe.HEATTOREMOVE, 0.15D)
-				.set(Recipe.SPEED, 1);
+				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output)).set(Recipe.INPUTS, new RecipeItem[] { new RecipeItem(entry.getKey()) })
+						.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
 				furnaceRecipe.add(builder.build());
 			}
 		}

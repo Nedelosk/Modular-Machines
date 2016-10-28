@@ -12,7 +12,6 @@ public class ModuleBoilerProperties extends ModuleProperties implements IModuleB
 
 	public ModuleBoilerProperties(int complexity, int waterPerWork) {
 		super(complexity);
-
 		this.defaultWaterPerWork = waterPerWork;
 		this.waterPerWork = waterPerWork;
 	}

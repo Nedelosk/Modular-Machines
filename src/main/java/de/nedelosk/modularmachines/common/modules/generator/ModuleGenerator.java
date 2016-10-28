@@ -22,14 +22,14 @@ public abstract class ModuleGenerator extends Module implements ITickable, IModu
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.SIDE};
+		return new IModulePostion[] { EnumModulePositions.SIDE };
 	}
 
 	@Override
 	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 

@@ -16,6 +16,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 
 public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
+
 	@Nonnull
 	private final IDrawableAnimated arrow;
 	@Nonnull
@@ -27,9 +28,7 @@ public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
 
 	public AlloySmelterRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(guiTexture, 0, 0, 166, 55), guiHelper, "gui.mm.jei.category.alloysmelter", CategoryUIDs.ALLOYSMELTER);
-
 		arrowDefault = guiHelper.createDrawable(widgetTexture, 54, 0, 22, 17);
-
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(widgetTexture, 76, 0, 22, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
@@ -54,16 +53,14 @@ public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
 		recipeLayout.getItemStacks().init(inputSlotSecond, true, 54, 16);
 		recipeLayout.getItemStacks().init(outputSlotFirst, false, 116, 16);
 		recipeLayout.getItemStacks().init(outputSlotSecond, false, 134, 16);
-
 		List inputs = recipeWrapper.getInputs();
 		recipeLayout.getItemStacks().setFromRecipe(inputSlotFirst, inputs.get(0));
-		if(inputs.get(1) != null){
+		if (inputs.get(1) != null) {
 			recipeLayout.getItemStacks().setFromRecipe(inputSlotSecond, inputs.get(1));
 		}
-
 		List outputs = recipeWrapper.getOutputs();
 		recipeLayout.getItemStacks().setFromRecipe(outputSlotFirst, outputs.get(0));
-		if(outputs.size() > 1 && outputs.get(1) != null){
+		if (outputs.size() > 1 && outputs.get(1) != null) {
 			recipeLayout.getItemStacks().setFromRecipe(outputSlotSecond, outputs.get(1));
 		}
 	}

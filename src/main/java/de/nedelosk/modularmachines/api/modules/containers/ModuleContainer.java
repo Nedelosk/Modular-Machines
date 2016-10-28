@@ -34,7 +34,7 @@ public class ModuleContainer<M extends IModule, P extends IModuleProperties> imp
 
 	@Override
 	public void setItemContainer(IModuleItemContainer itemContainer) {
-		if(this.itemContainer == null && itemContainer != null){
+		if (this.itemContainer == null && itemContainer != null) {
 			this.itemContainer = itemContainer;
 		}
 	}
@@ -56,7 +56,7 @@ public class ModuleContainer<M extends IModule, P extends IModuleProperties> imp
 
 	@Override
 	public int getIndex() {
-		if(itemContainer == null){
+		if (itemContainer == null) {
 			return -1;
 		}
 		return itemContainer.getIndex(this);

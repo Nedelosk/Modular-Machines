@@ -21,12 +21,12 @@ public class ModuleHeaterProperties extends ModuleProperties implements IModuleH
 	}
 
 	@Override
-	public double getMaxHeat(IModuleState state){
+	public double getMaxHeat(IModuleState state) {
 		return maxHeat;
 	}
 
 	@Override
-	public int getHeatModifier(IModuleState state){
+	public int getHeatModifier(IModuleState state) {
 		return heatModifier;
 	}
 

@@ -58,5 +58,4 @@ public interface IStoragePage extends IPage {
 
 	@Nonnull
 	List<IStoragePage> getChilds();
-
 }

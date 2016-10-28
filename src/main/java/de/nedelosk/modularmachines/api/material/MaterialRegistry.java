@@ -19,7 +19,7 @@ public class MaterialRegistry {
 	}
 
 	public static IMaterial getMaterial(String name) {
-		if(name == null){
+		if (name == null) {
 			return null;
 		}
 		for(IMaterial material : materials) {

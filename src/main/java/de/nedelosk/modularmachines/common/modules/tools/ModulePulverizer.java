@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModulePulverizer extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI{
+public class ModulePulverizer extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI {
 
 	public ModulePulverizer() {
 		super("pulverizer");
@@ -34,7 +34,7 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{CategoryUIDs.PULVERIZER};
+		return new String[] { CategoryUIDs.PULVERIZER };
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -52,15 +52,15 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 	@Override
 	public boolean needHandlerReload(IModuleStateClient state) {
 		IModelHandler handler = state.getModelHandler();
-		if(handler instanceof ModelHandlerStatus){
+		if (handler instanceof ModelHandlerStatus) {
 			ModelHandlerStatus status = (ModelHandlerStatus) handler;
-			if(getWorkTime(state) > 0){
-				if(!status.status){
+			if (getWorkTime(state) > 0) {
+				if (!status.status) {
 					status.status = true;
 					return true;
 				}
-			}else{
-				if(status.status){
+			} else {
+				if (status.status) {
 					status.status = false;
 					return true;
 				}
@@ -75,11 +75,11 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 	}
 
 	@Override
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
+	public void openJEI(IModuleState state) {
+		if (this instanceof IModuleJEI) {
 			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			if (Loader.isModLoaded("JEI")) {
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI) this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}
@@ -95,5 +95,4 @@ public class ModulePulverizer extends ModuleBasicMachine implements IModuleColor
 	public RecipeItem[] getInputs(IModuleState state) {
 		return state.getPage(PulverizerPage.class).getInventory().getRecipeItems();
 	}
-
 }

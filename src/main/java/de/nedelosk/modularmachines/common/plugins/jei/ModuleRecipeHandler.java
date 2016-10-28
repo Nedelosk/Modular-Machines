@@ -35,17 +35,16 @@ public class ModuleRecipeHandler<R extends ModuleRecipeWrapper> implements IReci
 
 	@Override
 	public boolean isRecipeValid(R recipe) {
-		if(recipe.getInputs().isEmpty()){
-			if(recipe.getFluidInputs().isEmpty()){
+		if (recipe.getInputs().isEmpty()) {
+			if (recipe.getFluidInputs().isEmpty()) {
 				return false;
 			}
 		}
-		if(recipe.getOutputs().isEmpty()){
-			if(recipe.getFluidOutputs().isEmpty()){
+		if (recipe.getOutputs().isEmpty()) {
+			if (recipe.getFluidOutputs().isEmpty()) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 }

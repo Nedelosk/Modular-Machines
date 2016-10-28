@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.IPage;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
-import de.nedelosk.modularmachines.api.modules.IModuleWorking;
+import de.nedelosk.modularmachines.api.modules.IModuleWorkerTime;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.client.gui.GuiPage;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleState<M>> {
+public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModuleState<M>> {
 
 	public List<String> jeiTooltip;
 
@@ -30,8 +30,8 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleS
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton, gui);
-		if(provider.getModule() instanceof IModuleJEI){
-			((IModuleJEI)provider.getModule()).openJEI(provider);
+		if (provider.getModule() instanceof IModuleJEI) {
+			((IModuleJEI) provider.getModule()).openJEI(provider);
 		}
 	}
 
@@ -41,25 +41,25 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget<IModuleS
 		if (provider.getModule().getWorkTimeTotal(provider) != 0) {
 			list.add(provider.getModule().getWorkTime(provider) + " / " + provider.getModule().getWorkTimeTotal(provider));
 		}
-		if(jeiTooltip == null){
-			if(gui instanceof GuiPage){
+		if (jeiTooltip == null) {
+			if (gui instanceof GuiPage) {
 				GuiPage guiPage = (GuiPage) gui;
 				IPage page = guiPage.getPage();
-				if(page instanceof IModulePage){
+				if (page instanceof IModulePage) {
 					IModuleState state = ((IModulePage) page).getModuleState();
-					if(state.getModule() instanceof IModuleJEI){
+					if (state.getModule() instanceof IModuleJEI) {
 						IModuleJEI moduleJei = (IModuleJEI) state.getModule();
-						if(moduleJei.getJEIRecipeCategorys(state.getContainer()) != null){
+						if (moduleJei.getJEIRecipeCategorys(state.getContainer()) != null) {
 							jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
 						}
 					}
 				}
 			}
-			if(jeiTooltip == null){
+			if (jeiTooltip == null) {
 				jeiTooltip = new ArrayList<>();
 			}
 		}
-		if(!jeiTooltip.isEmpty()){
+		if (!jeiTooltip.isEmpty()) {
 			list.addAll(jeiTooltip);
 		}
 		return list;

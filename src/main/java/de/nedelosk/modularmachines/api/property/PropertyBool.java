@@ -4,19 +4,19 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.nbt.NBTTagByte;
 
-public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider> implements IPropertyJson<Boolean, NBTTagByte, IPropertyProvider, JsonPrimitive>{
+public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyProvider> implements IPropertyJson<Boolean, NBTTagByte, IPropertyProvider, JsonPrimitive> {
 
 	public PropertyBool(String name, boolean defaultValue) {
 		super(name, Boolean.class, Boolean.valueOf(defaultValue));
 	}
 
 	@Override
-	public boolean equals(Object obj){
-		if (this == obj){
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		}else if (obj instanceof PropertyBool && super.equals(obj)){
+		} else if (obj instanceof PropertyBool && super.equals(obj)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -33,7 +33,7 @@ public class PropertyBool extends PropertyBase<Boolean, NBTTagByte, IPropertyPro
 
 	@Override
 	public NBTTagByte writeToNBT(IPropertyProvider state, Boolean value) {
-		return new NBTTagByte((byte)(value ? 1 : 0));
+		return new NBTTagByte((byte) (value ? 1 : 0));
 	}
 
 	@Override

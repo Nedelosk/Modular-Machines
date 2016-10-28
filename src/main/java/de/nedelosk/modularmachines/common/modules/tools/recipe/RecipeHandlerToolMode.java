@@ -9,7 +9,6 @@ public class RecipeHandlerToolMode extends RecipeHandler {
 
 	public RecipeHandlerToolMode(String recipeCategory, PropertyToolMode propertyMode) {
 		super(recipeCategory);
-
 		this.propertyMode = propertyMode;
 	}
 
@@ -20,8 +19,8 @@ public class RecipeHandlerToolMode extends RecipeHandler {
 
 	@Override
 	public boolean isRecipeValid(IRecipe recipe) {
-		if(super.isRecipeValid(recipe)){
-			if(recipe.get(propertyMode) == null){
+		if (super.isRecipeValid(recipe)) {
+			if (recipe.get(propertyMode) == null) {
 				return false;
 			}
 			return true;

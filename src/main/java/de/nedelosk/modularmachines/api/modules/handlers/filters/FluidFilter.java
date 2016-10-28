@@ -8,12 +8,12 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class FluidFilter implements IContentFilter<FluidStack, IModule>{
+public class FluidFilter implements IContentFilter<FluidStack, IModule> {
 
 	private static final Map<Fluid, FluidFilter> FILTERS = new HashMap<>();
 
-	public static FluidFilter get(Fluid fluidFilter){
-		if(!FILTERS.containsKey(fluidFilter)){
+	public static FluidFilter get(Fluid fluidFilter) {
+		if (!FILTERS.containsKey(fluidFilter)) {
 			FILTERS.put(fluidFilter, new FluidFilter(fluidFilter));
 			return FILTERS.get(fluidFilter);
 		}
@@ -28,7 +28,7 @@ public class FluidFilter implements IContentFilter<FluidStack, IModule>{
 
 	@Override
 	public boolean isValid(int index, FluidStack content, IModuleState<IModule> module) {
-		if(content == null){
+		if (content == null) {
 			return false;
 		}
 		return content.getFluid() == fluidFilter;

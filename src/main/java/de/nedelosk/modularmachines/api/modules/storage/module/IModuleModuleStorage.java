@@ -12,5 +12,4 @@ public interface IModuleModuleStorage<S extends IAddableModuleStorage & IDefault
 	@Override
 	@Nonnull
 	S createStorage(IModuleProvider provider, IStoragePosition position);
-
 }

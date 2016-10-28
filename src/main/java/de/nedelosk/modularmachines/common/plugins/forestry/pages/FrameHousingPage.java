@@ -28,7 +28,7 @@ public class FrameHousingPage extends ModulePage<ModuleBeeHouse> {
 	}
 
 	@Override
-	protected void createInventory(IModuleInventoryBuilder invBuilder) {	
+	protected void createInventory(IModuleInventoryBuilder invBuilder) {
 		invBuilder.addInventorySlot(true, 80, 18, new ItemFilterFrame());
 		invBuilder.addInventorySlot(true, 80, 47, new ItemFilterFrame());
 		invBuilder.addInventorySlot(true, 80, 76, new ItemFilterFrame());
@@ -48,5 +48,4 @@ public class FrameHousingPage extends ModulePage<ModuleBeeHouse> {
 	public ResourceLocation getGuiTexture() {
 		return new ResourceLocation(Constants.MODID, "textures/gui/frame_housing.png");
 	}
-
 }

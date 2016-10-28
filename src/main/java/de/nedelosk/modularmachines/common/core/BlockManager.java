@@ -24,7 +24,7 @@ public class BlockManager {
 		blockOres = new BlockOre();
 		register(blockOres, new ItemBlockForest(blockOres));
 		blockMetalBlocks = new BlockMetalBlock();
-		register(blockMetalBlocks, new  ItemBlockMetalBlock(blockMetalBlocks));
+		register(blockMetalBlocks, new ItemBlockMetalBlock(blockMetalBlocks));
 		blockModular = new BlockModular();
 		register(blockModular, new ItemBlockModular(blockModular));
 		blockModuleCrafter = new BlockModuleCrafter();

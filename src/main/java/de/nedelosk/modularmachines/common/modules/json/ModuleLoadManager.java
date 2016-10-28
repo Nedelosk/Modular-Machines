@@ -28,7 +28,6 @@ public class ModuleLoadManager {
 
 	public ModuleLoadManager() {
 		ModuleLoaderRegistry.registerLoader(EnumLoaderType.CONTAINER, ModuleLoaderRegistry.defaultContainerLoader = new DefaultLoaders.ContainerLoader());
-
 		ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new DefaultPropertiesLoader.BoilerPropertiesLoader());
 		ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new DefaultPropertiesLoader.CasingPropertiesLoader());
 		ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new DefaultPropertiesLoader.ControllerPropertiesLoader());
@@ -38,43 +37,44 @@ public class ModuleLoadManager {
 		ModuleLoaderRegistry.registerLoader(EnumLoaderType.PROPERTY, new DefaultPropertiesLoader.ModuleStoragePropertiesLoader());
 	}
 
-	public static void loadModules(){
+	public static void loadModules() {
 	}
 
-	public static void loadModuleContainers(){
-		try{
+	public static void loadModuleContainers() {
+		try {
 			File containerFolder = new File(ModularMachines.configFolder, "containers");
-			if(!containerFolder.exists()){
+			if (!containerFolder.exists()) {
 				containerFolder.mkdirs();
-			}else{
-				for(File file : containerFolder.listFiles()){
-					if(file.getName().endsWith(".json")){
+			} else {
+				for(File file : containerFolder.listFiles()) {
+					if (file.getName().endsWith(".json")) {
 						Reader reader = new BufferedReader(new FileReader(file));
 						List<IModuleItemContainer> containers = GSON.fromJson(reader, List.class);
-						for(IModuleItemContainer container : containers){
+						for(IModuleItemContainer container : containers) {
 							GameRegistry.register(container);
 						}
 						reader.close();
 					}
 				}
 			}
-		}catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static class ModuleReader implements JsonDeserializer<IModule>{
+	private static class ModuleReader implements JsonDeserializer<IModule> {
+
 		@Override
 		public IModule deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			return ModuleLoaderRegistry.loadModuleFromJson(json.getAsJsonObject());
 		}
 	}
 
-	private static class ModuleContainerReader implements JsonDeserializer<List>{
+	private static class ModuleContainerReader implements JsonDeserializer<List> {
+
 		@Override
 		public List<IModuleItemContainer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			return ModuleLoaderRegistry.loadContainersFromJson(json);
 		}
 	}
-
 }

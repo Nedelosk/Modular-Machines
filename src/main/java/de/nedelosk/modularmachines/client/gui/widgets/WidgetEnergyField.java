@@ -37,9 +37,9 @@ public class WidgetEnergyField extends Widget<IEnergyBuffer> {
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widget);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
-		if(this.provider.getEnergyStored() > 0){
+		if (this.provider.getEnergyStored() > 0) {
 			int eS = (int) (this.provider.getEnergyStored() / 100 * 66);
-			int energy = (int) (eS / (this.provider.getCapacity() / 100)) ;
+			int energy = (int) (eS / (this.provider.getCapacity() / 100));
 			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, pos.width, energy);
 		}
 		GlStateManager.disableAlpha();

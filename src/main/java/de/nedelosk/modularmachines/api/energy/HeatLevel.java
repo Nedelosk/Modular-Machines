@@ -1,6 +1,7 @@
 package de.nedelosk.modularmachines.api.energy;
 
 public class HeatLevel implements Comparable<HeatLevel> {
+
 	protected final double heatMin;
 	protected final double heatStepUp;
 	protected final double heatStepDown;
@@ -29,13 +30,12 @@ public class HeatLevel implements Comparable<HeatLevel> {
 
 	@Override
 	public int compareTo(HeatLevel o) {
-		if(o == null){
+		if (o == null) {
 			return 1;
 		}
-		if(o.getHeatMin() < heatMin){
+		if (o.getHeatMin() < heatMin) {
 			return 1;
-
-		}else if(o.getHeatMin() == heatMin){
+		} else if (o.getHeatMin() == heatMin) {
 			return 0;
 		}
 		return -1;

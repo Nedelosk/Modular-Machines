@@ -33,7 +33,7 @@ public class ModuleHeatBuffer extends BlankModuleContentHandler implements IHeat
 
 	@Override
 	public double extractHeat(double maxExtract, boolean simulate) {
-		return  heatSource.extractHeat(maxExtract, simulate);
+		return heatSource.extractHeat(maxExtract, simulate);
 	}
 
 	@Override
@@ -53,12 +53,12 @@ public class ModuleHeatBuffer extends BlankModuleContentHandler implements IHeat
 
 	@Override
 	public HeatLevel getHeatLevel() {
-		return  heatSource.getHeatLevel();
+		return heatSource.getHeatLevel();
 	}
 
 	@Override
 	public double getHeatStored() {
-		return  heatSource.getHeatStored();
+		return heatSource.getHeatStored();
 	}
 
 	@Override

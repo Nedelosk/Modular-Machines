@@ -5,5 +5,4 @@ public interface IModulePostion {
 	String getLocName();
 
 	String getName();
-
 }

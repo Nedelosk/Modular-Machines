@@ -19,18 +19,18 @@ public class ModuleItemContainerEnergyCube extends ModuleItemContainer {
 	@Override
 	public boolean matches(ItemStack stackToTest) {
 		boolean matches = super.matches(stackToTest);
-		if(!matches){
+		if (!matches) {
 			return false;
 		}
-		if(!stackToTest.hasTagCompound()){
+		if (!stackToTest.hasTagCompound()) {
 			return false;
 		}
 		NBTTagCompound nbtTag = stackToTest.getTagCompound();
-		if(!nbtTag.hasKey("tier")) {
+		if (!nbtTag.hasKey("tier")) {
 			return false;
 		}
 		int nbtTier = nbtTag.getInteger("tier");
-		if(nbtTier != tier){
+		if (nbtTier != tier) {
 			return false;
 		}
 		return true;

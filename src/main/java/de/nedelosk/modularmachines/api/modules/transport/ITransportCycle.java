@@ -2,18 +2,21 @@ package de.nedelosk.modularmachines.api.modules.transport;
 
 public interface ITransportCycle<H> {
 
+	int getComplexity();
+
 	int getTime();
 
 	void work();
 
-	void canWork();
-	
+	boolean canWork();
+
 	int getProperty();
 
-	ITransportHandler getParent();
-	
-	H getStartHandler();
-	
-	H getEndHandler();
+	ITransportHandlerWrapper<H> getStartHandler();
 
+	int[] getStartSlots();
+
+	ITransportHandlerWrapper<H> getEndHandler();
+
+	int[] getEndSlots();
 }

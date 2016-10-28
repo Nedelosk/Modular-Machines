@@ -2,7 +2,8 @@ package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTBase;
 
-public interface IProperty<V, N extends NBTBase, P extends IPropertyProvider>{
+public interface IProperty<V, N extends NBTBase, P extends IPropertyProvider> {
+
 	String getName();
 
 	Class<? extends V> getValueClass();

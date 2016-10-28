@@ -30,7 +30,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleModuleCleaner extends ModuleControlled implements IModuleModuleCleaner, IModulePositioned, IModuleColoredItem{
+public class ModuleModuleCleaner extends ModuleControlled implements IModuleModuleCleaner, IModulePositioned, IModuleColoredItem {
 
 	public ModuleModuleCleaner(String name) {
 		super(name);
@@ -38,7 +38,7 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.CASING};
+		return new IModulePostion[] { EnumModulePositions.CASING };
 	}
 
 	@Override
@@ -66,20 +66,20 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	public void cleanModule(IModuleState state) {
 		IModuleInventory inventory = state.getPage(CleanerPage.class).getInventory();
 		ItemStack stack = inventory.getStackInSlot(0);
-		if(stack != null){
+		if (stack != null) {
 			IModuleItemProvider provider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-			if(provider != null){
+			if (provider != null) {
 				Iterator<IModuleState> moduleStates = provider.iterator();
-				while(moduleStates.hasNext()){
+				while (moduleStates.hasNext()) {
 					IModuleState moduleState = moduleStates.next();
-					if(moduleState != null){
-						for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
-							if(handler.isCleanable()){
+					if (moduleState != null) {
+						for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+							if (handler.isCleanable()) {
 								handler.cleanHandler(state);
 							}
 						}
 					}
-					if(moduleState.getModule().isClean(moduleState)){
+					if (moduleState.getModule().isClean(moduleState)) {
 						moduleStates.remove();
 					}
 				}
@@ -88,10 +88,10 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -104,9 +104,9 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	public List<IModuleState> getUsedModules(IModuleState state) {
 		List<IModuleState> modules = new ArrayList<>();
 		IModular modular = state.getModular();
-		for(IModuleState moduleState : modular.getModules()){
-			for(IModuleContentHandler handler : moduleState.getAllContentHandlers()){
-				if(handler != null && handler.isCleanable()){
+		for(IModuleState moduleState : modular.getModules()) {
+			for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+				if (handler != null && handler.isCleanable()) {
 					modules.add(moduleState);
 					break;
 				}

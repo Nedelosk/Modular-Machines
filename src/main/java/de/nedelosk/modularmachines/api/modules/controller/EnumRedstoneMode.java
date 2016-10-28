@@ -9,27 +9,27 @@ public enum EnumRedstoneMode {
 
 	public static EnumRedstoneMode[] VALUES = values();
 
-	public EnumRedstoneMode next(){
+	public EnumRedstoneMode next() {
 		int next = ordinal() + 1;
-		if(VALUES.length == next){
+		if (VALUES.length == next) {
 			next = 0;
 		}
 		return VALUES[next];
 	}
 
-	public EnumRedstoneMode previous(){
+	public EnumRedstoneMode previous() {
 		int previous = ordinal() - 1;
-		if(previous < 0){
+		if (previous < 0) {
 			previous = VALUES.length - 1;
 		}
 		return VALUES[previous];
 	}
 
-	public String getLocName(){
+	public String getLocName() {
 		return I18n.translateToLocal("mode.redstone." + getName() + ".name");
 	}
 
-	public String getName(){
+	public String getName() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

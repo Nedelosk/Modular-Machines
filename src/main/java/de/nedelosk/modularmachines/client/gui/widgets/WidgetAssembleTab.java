@@ -32,7 +32,7 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
 		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider == null) ? 28 : 0, isRight ? 214 : 235, 28, 21);
-		if(provider != null){
+		if (provider != null) {
 			gui.drawItemStack(provider, gui.getGuiLeft() + pos.x + 5, gui.getGuiTop() + pos.y + 2);
 		}
 	}
@@ -40,17 +40,17 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		IModularHandler handler = (IModularHandler) gui.getHandler();
-		if(!handler.isAssembled()){
-			try{
+		if (!handler.isAssembled()) {
+			try {
 				IModular modular = handler.getAssembler().createModular();
-				if(modular != null){
+				if (modular != null) {
 					PacketHandler.sendToServer(new PacketSyncHandlerState(handler, true));
 				}
-			}catch(AssemblerException e){
+			} catch (AssemblerException e) {
 			}
-		}else{
+		} else {
 			IModularAssembler modularAssembler = handler.getModular().createAssembler();
-			if(modularAssembler != null){
+			if (modularAssembler != null) {
 				PacketHandler.sendToServer(new PacketSyncHandlerState(handler, false));
 			}
 		}
@@ -59,9 +59,9 @@ public class WidgetAssembleTab extends Widget<ItemStack> {
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
 		IModularHandler handler = (IModularHandler) gui.getHandler();
-		if(!handler.isAssembled()){
+		if (!handler.isAssembled()) {
 			return Arrays.asList(Translator.translateToLocal("modular.assembler.assemble"));
-		}else{
+		} else {
 			return Arrays.asList(Translator.translateToLocal("modular.modular.disassemble"));
 		}
 	}

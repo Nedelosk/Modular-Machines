@@ -42,8 +42,7 @@ public class PacketSyncToolMode extends PacketModule implements IPacketClient, I
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleModeMachine> machine = getModule(modularHandler);
 			if (machine != null) {
 				machine.getModule().setCurrentMode(machine, machine.getModule().getMode(mode));
@@ -55,14 +54,12 @@ public class PacketSyncToolMode extends PacketModule implements IPacketClient, I
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleModeMachine> machine = modularHandler.getModular().getModule(index);
 			if (machine != null) {
 				machine.getModule().setCurrentMode(machine, machine.getModule().getMode(mode));
 			}
 		}
-
 		PacketHandler.sendToNetwork(this, pos, player.getServerWorld());
 	}
 

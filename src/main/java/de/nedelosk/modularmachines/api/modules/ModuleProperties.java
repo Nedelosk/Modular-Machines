@@ -15,7 +15,7 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 	}
 
 	@Override
-	public int getComplexity(IModuleContainer container){
+	public int getComplexity(IModuleContainer container) {
 		return complexity;
 	}
 
@@ -24,11 +24,11 @@ public class ModuleProperties implements IModuleProperties, IModulePropertiesCon
 		complexity = config.getInt("complexity", "modules." + container.getItemContainer().getRegistryName(), defaultComplexity, 0, 64, "The complexity of the controller.");
 	}
 
-	public double getDouble(Configuration config, String name, String category, double defaultValue, double minValue, double maxValue, String comment){
+	public double getDouble(Configuration config, String name, String category, double defaultValue, double minValue, double maxValue, String comment) {
 		return getDouble(config, name, category, defaultValue, minValue, maxValue, comment, name);
 	}
 
-	public double getDouble(Configuration config, String name, String category, double defaultValue, double minValue, double maxValue, String comment, String langKey){
+	public double getDouble(Configuration config, String name, String category, double defaultValue, double minValue, double maxValue, String comment, String langKey) {
 		Property prop = config.get(category, name, defaultValue);
 		prop.setLanguageKey(langKey);
 		prop.setComment(comment + " [range: " + minValue + " ~ " + maxValue + ", default: " + defaultValue + "]");

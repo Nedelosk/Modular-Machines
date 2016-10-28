@@ -25,7 +25,7 @@ public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleState
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		if(Loader.isModLoaded("JEI")){
+		if (Loader.isModLoaded("JEI")) {
 			JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Collections.singletonList(VanillaRecipeCategoryUid.FUEL));
 		}
 	}

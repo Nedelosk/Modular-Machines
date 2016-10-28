@@ -42,7 +42,7 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	}
 
 	@Override
-	public List<IModuleState> getUsedModules(IModuleState state){
+	public List<IModuleState> getUsedModules(IModuleState state) {
 		return Collections.emptyList();
 	}
 
@@ -54,7 +54,7 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@Override
 	public double getMaxHeat(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleHeaterProperties){
+		if (properties instanceof IModuleHeaterProperties) {
 			return ((IModuleHeaterProperties) properties).getMaxHeat(state);
 		}
 		return 0;
@@ -63,7 +63,7 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@Override
 	public int getHeatModifier(IModuleState state) {
 		IModuleProperties properties = state.getContainer().getProperties();
-		if(properties instanceof IModuleHeaterProperties){
+		if (properties instanceof IModuleHeaterProperties) {
 			return ((IModuleHeaterProperties) properties).getHeatModifier(state);
 		}
 		return 0;
@@ -78,8 +78,8 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@Override
 	public void updateServer(IModuleState state, int tickCount) {
 		IModular modular = state.getModular();
-		IModuleState<IModuleController> controller =  modular.getModule(IModuleController.class);
-		if(state.getModular().updateOnInterval(20) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
+		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
+		if (state.getModular().updateOnInterval(20) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))) {
 			boolean needUpdate = false;
 			if (canAddHeat(state)) {
 				modular.getHeatSource().increaseHeat(getMaxHeat(state), getHeatModifier(state));
@@ -88,7 +88,7 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 			} else {
 				needUpdate = updateFuel(state);
 			}
-			if(needUpdate){
+			if (needUpdate) {
 				sendModuleUpdate(state);
 			}
 		}
@@ -97,9 +97,9 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@Override
 	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -110,7 +110,7 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.SIDE};
+		return new IModulePostion[] { EnumModulePositions.SIDE };
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -127,8 +127,10 @@ public abstract class ModuleHeater extends ModuleControlled implements IModuleHe
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", container.getSize(), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", container.getSize(), true));
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", container.getSize(), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", container.getSize(), false));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", container.getSize(), true),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", container.getSize(), true));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "heaters", container.getSize(), false),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", container.getSize(), false));
 		return locations;
 	}
 

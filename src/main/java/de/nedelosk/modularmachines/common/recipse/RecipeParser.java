@@ -59,7 +59,7 @@ public class RecipeParser implements JsonDeserializer<RecipeEntry> {
 			recipeName = null;
 		}
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler(recipeCategory);
-		if(handler == null){
+		if (handler == null) {
 			return null;
 		}
 		IRecipe recipe = handler.buildDefault();

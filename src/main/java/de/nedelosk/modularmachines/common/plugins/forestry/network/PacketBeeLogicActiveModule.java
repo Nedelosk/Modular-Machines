@@ -17,6 +17,7 @@ import forestry.core.network.DataOutputStreamForestry;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketBeeLogicActiveModule extends PacketModule implements IPacketClient {
+
 	private BeekeepingLogic beekeepingLogic;
 
 	public PacketBeeLogicActiveModule() {
@@ -25,7 +26,7 @@ public class PacketBeeLogicActiveModule extends PacketModule implements IPacketC
 	public PacketBeeLogicActiveModule(IModuleState module, IBeeHousing beeHousing) {
 		super(module);
 		this.beekeepingLogic = (BeekeepingLogic) beeHousing.getBeekeepingLogic();
-		this.index = ((IModuleContentHandler)beeHousing).getModuleState().getIndex();
+		this.index = ((IModuleContentHandler) beeHousing).getModuleState().getIndex();
 	}
 
 	@Override

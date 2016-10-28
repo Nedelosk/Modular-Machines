@@ -32,7 +32,8 @@ public class ModuleEUBattery extends ModuleBattery {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, container.getSize()));
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", name, container.getSize()));
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class ModuleEUBattery extends ModuleBattery {
 
 	@Override
 	public void saveEnergy(IModuleState state, long energy, ItemStack itemStack) {
-		if(!itemStack.hasTagCompound()){
+		if (!itemStack.hasTagCompound()) {
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 		itemStack.getTagCompound().setDouble("energy", energy / 2);
@@ -55,7 +56,7 @@ public class ModuleEUBattery extends ModuleBattery {
 
 	@Override
 	public long loadEnergy(IModuleState state, ItemStack itemStack) {
-		if(!itemStack.hasTagCompound()){
+		if (!itemStack.hasTagCompound()) {
 			return 0;
 		}
 		return Double.valueOf(itemStack.getTagCompound().getDouble("energy") * 2).longValue();

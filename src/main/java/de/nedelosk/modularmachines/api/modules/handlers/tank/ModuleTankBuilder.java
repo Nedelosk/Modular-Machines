@@ -46,7 +46,6 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 		} else {
 			addExtractFilter(index, filters);
 		}
-
 		isEmpty = false;
 		return index;
 	}
@@ -55,7 +54,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	public IModuleTank build() {
 		FluidTankAdvanced[] tanks = new FluidTankAdvanced[tankInfos.size()];
 		ContentInfo[] contentInfos = new ContentInfo[tankInfos.size()];
-		for(Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()){
+		for(Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()) {
 			FluidTankAdvanced tank = entry.getKey();
 			tanks[tank.index] = tank;
 			contentInfos[tank.index] = entry.getValue();

@@ -56,13 +56,13 @@ public class ModelItemModuleContainer implements IBakedModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		if(overrideList == null){
+		if (overrideList == null) {
 			overrideList = new ModuleItemContainerOverrideList();
 		}
 		return overrideList;
 	}
 
-	private static class ModuleItemContainerOverrideList extends ItemOverrideList{
+	private static class ModuleItemContainerOverrideList extends ItemOverrideList {
 
 		public ModuleItemContainerOverrideList() {
 			super(Collections.emptyList());
@@ -71,11 +71,10 @@ public class ModelItemModuleContainer implements IBakedModel {
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModuleItemProvider moduleProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
-			if(moduleProvider != null && moduleProvider.getItemStack() != null){
+			if (moduleProvider != null && moduleProvider.getItemStack() != null) {
 				return Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(moduleProvider.getItemStack(), world, entity);
 			}
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
-
 	}
 }

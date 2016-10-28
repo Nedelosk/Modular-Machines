@@ -20,25 +20,25 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long extractEnergy(IModuleState moduleState, EnumFacing facing, long maxExtract, boolean simulate) {
 		List<E> buffers = this.buffers;
-		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
+		if (moduleState != null && moduleState.getModule() instanceof IModuleControlled) {
 			buffers.clear();
-			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
-			for(E energyBuffer : buffers){
-				if(control.hasPermission(energyBuffer.getModuleState())){
+			IModuleControl control = ((IModuleControlled) moduleState.getModule()).getModuleControl(moduleState);
+			for(E energyBuffer : buffers) {
+				if (control.hasPermission(energyBuffer.getModuleState())) {
 					buffers.add(energyBuffer);
 				}
 			}
 		}
 		long totalExtract = 0;
-		for(E energyBuffer : buffers){
+		for(E energyBuffer : buffers) {
 			IModuleState state = energyBuffer.getModuleState();
 			long extract = energyBuffer.extractEnergy(state, facing, maxExtract, simulate);
-			if(state != null && extract > 0){
+			if (state != null && extract > 0) {
 				state.getModule().sendModuleUpdate(state);
 			}
-			totalExtract+=extract;
-			maxExtract-=extract;
-			if(maxExtract <= 0){
+			totalExtract += extract;
+			maxExtract -= extract;
+			if (maxExtract <= 0) {
 				break;
 			}
 		}
@@ -48,25 +48,25 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long receiveEnergy(IModuleState moduleState, EnumFacing facing, long maxReceive, boolean simulate) {
 		List<E> buffers = this.buffers;
-		if(moduleState != null && moduleState.getModule() instanceof IModuleControlled){
+		if (moduleState != null && moduleState.getModule() instanceof IModuleControlled) {
 			buffers.clear();
-			IModuleControl control = ((IModuleControlled)moduleState.getModule()).getModuleControl(moduleState);
-			for(E energyBuffer : buffers){
-				if(control.hasPermission(energyBuffer.getModuleState())){
+			IModuleControl control = ((IModuleControlled) moduleState.getModule()).getModuleControl(moduleState);
+			for(E energyBuffer : buffers) {
+				if (control.hasPermission(energyBuffer.getModuleState())) {
 					buffers.add(energyBuffer);
 				}
 			}
 		}
 		long totalReceived = 0;
-		for(E energyBuffer : buffers){
+		for(E energyBuffer : buffers) {
 			IModuleState state = energyBuffer.getModuleState();
 			long receive = energyBuffer.receiveEnergy(state, facing, maxReceive, simulate);
-			if(state != null && receive > 0){
+			if (state != null && receive > 0) {
 				state.getModule().sendModuleUpdate(state);
 			}
-			totalReceived+=receive;
-			maxReceive-=receive;
-			if(maxReceive <= 0){
+			totalReceived += receive;
+			maxReceive -= receive;
+			if (maxReceive <= 0) {
 				break;
 			}
 			break;
@@ -76,16 +76,16 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 
 	@Override
 	public void setEnergy(long energy) {
-		for(IEnergyBuffer energyBuffer : buffers){
+		for(IEnergyBuffer energyBuffer : buffers) {
 			long capacity = energyBuffer.getCapacity();
-			if(energy > capacity){
+			if (energy > capacity) {
 				energyBuffer.setEnergy(capacity);
-				energy-=capacity;
-			}else{
+				energy -= capacity;
+			} else {
 				energyBuffer.setEnergy(energy);
 				break;
 			}
-			if(energy <= 0){
+			if (energy <= 0) {
 				break;
 			}
 		}
@@ -94,8 +94,8 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long getEnergyStored() {
 		long energyStored = 0;
-		for(IEnergyBuffer energyBuffer : buffers){
-			energyStored +=energyBuffer.getEnergyStored();
+		for(IEnergyBuffer energyBuffer : buffers) {
+			energyStored += energyBuffer.getEnergyStored();
 		}
 		return energyStored;
 	}
@@ -103,8 +103,8 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long getCapacity() {
 		long capacity = 0;
-		for(IEnergyBuffer energyBuffer : buffers){
-			capacity +=energyBuffer.getCapacity();
+		for(IEnergyBuffer energyBuffer : buffers) {
+			capacity += energyBuffer.getCapacity();
 		}
 		return capacity;
 	}
@@ -112,8 +112,8 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public int getTier() {
 		int tier = 1;
-		for(IEnergyBuffer energyBuffer : buffers){
-			if(energyBuffer.getTier() > tier){
+		for(IEnergyBuffer energyBuffer : buffers) {
+			if (energyBuffer.getTier() > tier) {
 				tier = energyBuffer.getTier();
 			}
 		}

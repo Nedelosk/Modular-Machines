@@ -3,7 +3,6 @@ package de.nedelosk.modularmachines.api.modules.storage.module;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
 import de.nedelosk.modularmachines.api.modules.position.IModulePostion;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleModuleStorageProperties;
-import de.nedelosk.modularmachines.common.config.Config;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModuleModuleStorageProperties extends StorageModuleProperties implements IModuleModuleStorageProperties {

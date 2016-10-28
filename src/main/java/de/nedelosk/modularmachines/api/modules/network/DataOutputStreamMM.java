@@ -26,7 +26,6 @@ public class DataOutputStreamMM extends DataOutputStream {
 			writeUTF(ForgeRegistries.ITEMS.getKey(itemstack.getItem()).toString());
 			writeVarInt(itemstack.stackSize);
 			writeVarInt(itemstack.getItemDamage());
-
 			if (itemstack.getItem().isDamageable() || itemstack.getItem().getShareTag()) {
 				writeNBTTagCompound(itemstack.getTagCompound());
 			}
@@ -35,14 +34,14 @@ public class DataOutputStreamMM extends DataOutputStream {
 
 	public void writeItemStacks(ItemStack[] itemStacks) throws IOException {
 		writeVarInt(itemStacks.length);
-		for (ItemStack itemstack : itemStacks) {
+		for(ItemStack itemstack : itemStacks) {
 			writeItemStack(itemstack);
 		}
 	}
 
 	public void writeItemStacks(Collection<ItemStack> itemStacks) throws IOException {
 		writeVarInt(itemStacks.size());
-		for (ItemStack itemstack : itemStacks) {
+		for(ItemStack itemstack : itemStacks) {
 			writeItemStack(itemstack);
 		}
 	}
@@ -50,8 +49,7 @@ public class DataOutputStreamMM extends DataOutputStream {
 	public void writeInventory(IInventory inventory) throws IOException {
 		int size = inventory.getSizeInventory();
 		writeVarInt(size);
-
-		for (int i = 0; i < size; i++) {
+		for(int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getStackInSlot(i);
 			writeItemStack(stack);
 		}
@@ -71,24 +69,24 @@ public class DataOutputStreamMM extends DataOutputStream {
 			writeVarInt(0);
 		} else {
 			writeVarInt(streamables.size());
-			for (IStreamable streamable : streamables) {
+			for(IStreamable streamable : streamables) {
 				writeStreamable(streamable);
 			}
 		}
 	}
 
 	/**
-	 * Writes a compressed int to the buffer. The smallest number of bytes to fit the passed int will be written. Of
-	 * each such byte only 7 bits will be used to describe the actual value since its most significant bit dictates
-	 * whether the next byte is part of that same int. Micro-optimization for int values that are expected to have
-	 * values below 128.
+	 * Writes a compressed int to the buffer. The smallest number of bytes to
+	 * fit the passed int will be written. Of each such byte only 7 bits will be
+	 * used to describe the actual value since its most significant bit dictates
+	 * whether the next byte is part of that same int. Micro-optimization for
+	 * int values that are expected to have values below 128.
 	 */
 	public void writeVarInt(int varInt) throws IOException {
 		while ((varInt & -128) != 0) {
 			writeByte(varInt & 127 | 128);
 			varInt >>>= 7;
 		}
-
 		writeByte(varInt);
 	}
 

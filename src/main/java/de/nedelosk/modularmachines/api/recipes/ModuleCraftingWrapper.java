@@ -14,7 +14,7 @@ public class ModuleCraftingWrapper extends InventoryCrafting {
 		this.defaultInventory = defaultInventory;
 	}
 
-	public ItemStack getHolder(){
+	public ItemStack getHolder() {
 		return defaultInventory.getStackInSlot(9);
 	}
 

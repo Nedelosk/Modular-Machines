@@ -5,7 +5,7 @@ import java.util.Locale;
 import net.minecraft.util.text.translation.I18n;
 
 public enum EnumModuleSizes {
-	UNKNOWN(0), 
+	UNKNOWN(0),
 	/* S * 1 */
 	SMALL(1),
 	/* S * 2 */
@@ -18,7 +18,7 @@ public enum EnumModuleSizes {
 	/* S * 6 */
 	/* M * 3 */
 	/* L * 2 */
-	LARGER(6), 
+	LARGER(6),
 	/* S * 9 */
 	/* M * 4.5 */
 	/* L * 3 */
@@ -27,38 +27,36 @@ public enum EnumModuleSizes {
 	public int slots;
 	public static final EnumModuleSizes[] VALUES = values();
 
-
 	private EnumModuleSizes(int slots) {
 		this.slots = slots;
 	}
 
-	public static EnumModuleSizes getSize(EnumModuleSizes firstSize, EnumModuleSizes secondSize){
-		if(firstSize == null && secondSize != null){
+	public static EnumModuleSizes getSize(EnumModuleSizes firstSize, EnumModuleSizes secondSize) {
+		if (firstSize == null && secondSize != null) {
 			return secondSize;
-		}else if(firstSize != null && secondSize == null){
+		} else if (firstSize != null && secondSize == null) {
 			return firstSize;
-		}else if(firstSize == null && secondSize == null){
+		} else if (firstSize == null && secondSize == null) {
 			return UNKNOWN;
-		}else if(firstSize == LARGE && secondSize == LARGE){
+		} else if (firstSize == LARGE && secondSize == LARGE) {
 			return LARGER;
-		}else if(firstSize == LARGER && secondSize == LARGE){
+		} else if (firstSize == LARGER && secondSize == LARGE) {
 			return LARGEST;
-		}else if(firstSize == LARGE && secondSize == LARGER){
+		} else if (firstSize == LARGE && secondSize == LARGER) {
 			return LARGEST;
 		}
 		int newSize = firstSize.ordinal() + secondSize.ordinal();
-		if(VALUES.length > newSize){
+		if (VALUES.length > newSize) {
 			return VALUES[newSize];
 		}
 		return UNKNOWN;
 	}
 
-	public String getLocalizedName(){
+	public String getLocalizedName() {
 		return I18n.translateToLocal("module.size." + name().toLowerCase(Locale.ENGLISH) + ".name");
 	}
 
-	public String getName(){
+	public String getName() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
-
 }

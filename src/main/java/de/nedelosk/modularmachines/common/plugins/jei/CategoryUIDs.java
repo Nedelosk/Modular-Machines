@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.common.plugins.jei;
 
-
 public class CategoryUIDs {
 
 	public static final String ALLOYSMELTER = "modularmachines.alloysmelter";

@@ -29,7 +29,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	protected static final PropertyInteger INDEX = new PropertyInteger("index", -1);
-
 	protected Map<IProperty, Object> properties;
 	protected final Map<String, IProperty> registeredProperties;
 	protected final IModuleHandler moduleHandler;
@@ -41,14 +40,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public ModuleState(IModuleProvider provider, IModuleContainer container) {
 		this.registeredProperties = Maps.newHashMap();
 		register(INDEX);
-
 		this.provider = provider;
 		this.container = container;
 		this.pages = container.getModule().createPages(this);
 		this.contentHandlers = container.getModule().createHandlers(this);
-		if(provider != null && provider.getModular() != null){
+		if (provider != null && provider.getModular() != null) {
 			this.moduleHandler = new ModuleHandler(provider.getModular(), this);
-		}else{
+		} else {
 			this.moduleHandler = null;
 		}
 	}
@@ -56,7 +54,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public IModuleState<M> build() {
 		this.properties = Maps.newHashMap();
-		for(IProperty property : registeredProperties.values()){
+		for(IProperty property : registeredProperties.values()) {
 			properties.put(property, property.getDefaultValue());
 		}
 		return this;
@@ -64,8 +62,8 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public IModuleState<M> register(IProperty property) {
-		if(properties == null){
-			if(!registeredProperties.containsKey(property.getName()) && !registeredProperties.containsValue(property)){
+		if (properties == null) {
+			if (!registeredProperties.containsKey(property.getName()) && !registeredProperties.containsValue(property)) {
 				registeredProperties.put(property.getName(), property);
 			}
 		}
@@ -74,10 +72,10 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
-		if(!registeredProperties.containsValue(property)){
+		if (!registeredProperties.containsValue(property)) {
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
-		if(!properties.containsKey(property)){
+		if (!properties.containsKey(property)) {
 			return null;
 		}
 		return (T) properties.get(property);
@@ -85,7 +83,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
-		if(!registeredProperties.containsValue(property)){
+		if (!registeredProperties.containsValue(property)) {
 			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
 		properties.put(property, value);
@@ -93,9 +91,9 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <P extends IModulePage> P getPage(Class<? extends P> pageClass){
-		for(IModulePage page : pages){
-			if(pageClass.isAssignableFrom(page.getClass())){
+	public <P extends IModulePage> P getPage(Class<? extends P> pageClass) {
+		for(IModulePage page : pages) {
+			if (pageClass.isAssignableFrom(page.getClass())) {
 				return (P) page;
 			}
 		}
@@ -109,8 +107,8 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <H> H getContentHandler(Class<? extends H> handlerClass) {
-		for(IModuleContentHandler handler : contentHandlers){
-			if(handlerClass.isAssignableFrom(handler.getClass())){
+		for(IModuleContentHandler handler : contentHandlers) {
+			if (handlerClass.isAssignableFrom(handler.getClass())) {
 				return (H) handler;
 			}
 		}
@@ -121,10 +119,20 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public List<IModuleContentHandler> getAllContentHandlers() {
 		List<IModuleContentHandler> contentHandlers = new ArrayList<>();
 		contentHandlers.addAll(getContentHandlers());
-		for(IModulePage page : pages){
+		for(IModulePage page : pages) {
 			contentHandlers.addAll(page.getContentHandlers());
 		}
 		return contentHandlers;
+	}
+	
+	@Override
+	public <H> H getContentHandlerFromAll(Class<? extends H> handlerClass) {
+		for(IModuleContentHandler handler : getAllContentHandlers()) {
+			if (handlerClass.isAssignableFrom(handler.getClass())) {
+				return (H) handler;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -154,10 +162,10 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void addPage(IModulePage page) {
-		if(page == null || provider == null){
+		if (page == null || provider == null) {
 			return;
 		}
-		if(getPage(page.getPageID()) != null){
+		if (getPage(page.getPageID()) != null) {
 			return;
 		}
 		pages.add(page);
@@ -165,11 +173,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public IModulePage getPage(String pageID) {
-		if(pageID == null){
+		if (pageID == null) {
 			return null;
 		}
-		for(IModulePage page : pages){
-			if(page.getPageID().equals(pageID)){
+		for(IModulePage page : pages) {
+			if (page.getPageID().equals(pageID)) {
 				return page;
 			}
 		}
@@ -203,7 +211,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public IModular getModular() {
-		if(provider == null){
+		if (provider == null) {
 			return null;
 		}
 		return provider.getModular();
@@ -222,21 +230,21 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		for(Entry<IProperty, Object> object : properties.entrySet()){
-			try{
-				if(object.getValue() != null){
+		for(Entry<IProperty, Object> object : properties.entrySet()) {
+			try {
+				if (object.getValue() != null) {
 					nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		for(IModuleContentHandler handler : contentHandlers){
-			if(handler instanceof INBTSerializable){
-				nbt.setTag(handler.getUID(), ((INBTSerializable)handler).serializeNBT());
+		for(IModuleContentHandler handler : contentHandlers) {
+			if (handler instanceof INBTSerializable) {
+				nbt.setTag(handler.getUID(), ((INBTSerializable) handler).serializeNBT());
 			}
 		}
-		for(IModulePage page : pages){
+		for(IModulePage page : pages) {
 			nbt.setTag(page.getPageID(), page.serializeNBT());
 		}
 		return nbt;
@@ -244,30 +252,30 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		for(IProperty property : registeredProperties.values()){
-			try{
-				if(nbt.hasKey(property.getName())){
+		for(IProperty property : registeredProperties.values()) {
+			try {
+				if (nbt.hasKey(property.getName())) {
 					properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		for(IModuleContentHandler handler : contentHandlers){
-			if(handler instanceof INBTSerializable && nbt.hasKey(handler.getUID())){
-				((INBTSerializable)handler).deserializeNBT(nbt.getCompoundTag(handler.getUID()));
+		for(IModuleContentHandler handler : contentHandlers) {
+			if (handler instanceof INBTSerializable && nbt.hasKey(handler.getUID())) {
+				((INBTSerializable) handler).deserializeNBT(nbt.getCompoundTag(handler.getUID()));
 			}
 		}
-		for(IModulePage page : pages){
+		for(IModulePage page : pages) {
 			page.deserializeNBT(nbt.getCompoundTag(page.getPageID()));
 		}
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		for(IModuleContentHandler handler : contentHandlers){
-			if(handler instanceof ICapabilityProvider){
-				if(((ICapabilityProvider)handler).hasCapability(capability, facing)){
+		for(IModuleContentHandler handler : contentHandlers) {
+			if (handler instanceof ICapabilityProvider) {
+				if (((ICapabilityProvider) handler).hasCapability(capability, facing)) {
 					return true;
 				}
 			}
@@ -277,10 +285,10 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		for(IModuleContentHandler handler : contentHandlers){
-			if(handler instanceof ICapabilityProvider){
-				if(((ICapabilityProvider)handler).hasCapability(capability, facing)){
-					return ((ICapabilityProvider)handler).getCapability(capability, facing);
+		for(IModuleContentHandler handler : contentHandlers) {
+			if (handler instanceof ICapabilityProvider) {
+				if (((ICapabilityProvider) handler).hasCapability(capability, facing)) {
+					return ((ICapabilityProvider) handler).getCapability(capability, facing);
 				}
 			}
 		}

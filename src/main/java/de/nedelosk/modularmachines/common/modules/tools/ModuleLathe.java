@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem, IModuleJEI{
+public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem, IModuleJEI {
 
 	public ModuleLathe() {
 		super("lathe", LatheModes.ROD);
@@ -41,14 +41,14 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{CategoryUIDs.LATHE};
+		return new String[] { CategoryUIDs.LATHE };
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -82,8 +82,8 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem
 
 	@Override
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
-		if(super.isRecipeValid(recipe, state)){
-			if(recipe.get(RecipeUtil.LATHEMODE) == getCurrentMode(state)){
+		if (super.isRecipeValid(recipe, state)) {
+			if (recipe.get(RecipeUtil.LATHEMODE) == getCurrentMode(state)) {
 				return true;
 			}
 		}
@@ -96,13 +96,12 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem
 	}
 
 	@Override
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
+	public void openJEI(IModuleState state) {
+		if (this instanceof IModuleJEI) {
 			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			if (Loader.isModLoaded("JEI")) {
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI) this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}
-
 }

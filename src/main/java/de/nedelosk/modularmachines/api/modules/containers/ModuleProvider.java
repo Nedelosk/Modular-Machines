@@ -32,7 +32,7 @@ public class ModuleProvider implements IModuleProvider {
 
 	@Override
 	public void addModuleState(IModuleState moduleState) {
-		if(moduleState.getProvider() != this){
+		if (moduleState.getProvider() != this) {
 			moduleState.setProvider(this);
 		}
 		moduleStates.add(moduleState);
@@ -50,7 +50,7 @@ public class ModuleProvider implements IModuleProvider {
 
 	@Override
 	public ItemStack getItemStack() {
-		if(itemStack == null){
+		if (itemStack == null) {
 			return itemContainer.getItemStack();
 		}
 		return itemStack;
@@ -65,9 +65,9 @@ public class ModuleProvider implements IModuleProvider {
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbtCompound = new NBTTagCompound();
 		NBTTagList moduleList = new NBTTagList();
-		for(IModuleState moduleState : moduleStates){
+		for(IModuleState moduleState : moduleStates) {
 			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(moduleState);
-			if(compoundTag != null){
+			if (compoundTag != null) {
 				moduleList.appendTag(compoundTag);
 			}
 		}
@@ -80,9 +80,9 @@ public class ModuleProvider implements IModuleProvider {
 		NBTTagList moduleList = nbtCompound.getTagList("Modules", 10);
 		for(int i = 0; i < moduleList.tagCount(); i++) {
 			NBTTagCompound compoundTag = moduleList.getCompoundTagAt(i);
-			if(compoundTag != null){
+			if (compoundTag != null) {
 				IModuleState moduleState = ModuleManager.loadStateFromNBT(this, itemContainer, compoundTag);
-				if(moduleState != null){
+				if (moduleState != null) {
 					moduleStates.add(moduleState);
 				}
 			}

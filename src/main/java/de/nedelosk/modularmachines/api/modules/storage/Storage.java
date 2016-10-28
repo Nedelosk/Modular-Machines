@@ -6,7 +6,7 @@ import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Storage implements IStorage{
+public class Storage implements IStorage {
 
 	protected final IStoragePosition position;
 	protected final IModuleProvider storageProvider;

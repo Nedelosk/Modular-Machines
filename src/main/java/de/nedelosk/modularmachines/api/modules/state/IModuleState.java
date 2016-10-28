@@ -79,5 +79,4 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	@Override
 	void deserializeNBT(@Nonnull NBTTagCompound nbt);
-
 }

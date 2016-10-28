@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEnergyBuffer, INBTSerializable<NBTTagCompound>{
+public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEnergyBuffer, INBTSerializable<NBTTagCompound> {
 
 	protected final long capacity;
 	protected final long maxReceive;
@@ -34,7 +34,6 @@ public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEn
 	@Override
 	public void setEnergy(long energy) {
 		this.energy = energy;
-
 		if (this.energy > capacity) {
 			this.energy = capacity;
 		} else if (this.energy < 0) {
@@ -45,7 +44,6 @@ public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEn
 	@Override
 	public long receiveEnergy(IModuleState state, EnumFacing facing, long maxReceive, boolean simulate) {
 		long energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
-
 		if (!simulate) {
 			energy += energyReceived;
 		}
@@ -55,7 +53,6 @@ public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEn
 	@Override
 	public long extractEnergy(IModuleState state, EnumFacing facing, long maxExtract, boolean simulate) {
 		long energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
-
 		if (!simulate) {
 			energy -= energyExtracted;
 		}
@@ -90,7 +87,6 @@ public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEn
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		this.energy = nbt.getLong("Energy");
-
 		if (energy > capacity) {
 			energy = capacity;
 		}

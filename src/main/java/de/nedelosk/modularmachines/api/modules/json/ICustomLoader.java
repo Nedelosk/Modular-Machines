@@ -9,5 +9,4 @@ public interface ICustomLoader {
 	boolean accepts(ResourceLocation name);
 
 	Object loadFromJson(JsonObject jsonObject);
-
 }

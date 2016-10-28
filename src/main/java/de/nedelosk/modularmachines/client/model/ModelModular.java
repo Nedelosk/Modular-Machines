@@ -56,22 +56,21 @@ public class ModelModular implements IBakedModel {
 
 	public static final Set<IModularHandlerTileEntity> modularHandlers = new HashSet<>();
 	private static final Cache<IModularHandler, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
-
 	private static final ItemOverrideList overrideList = new ItemOverrideListModular();
 	private static IBakedModel missingModel;
 	private static IBakedModel assemblerModel;
 
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
-		for(IModularHandlerTileEntity modularHandler : modularHandlers){
+		for(IModularHandlerTileEntity modularHandler : modularHandlers) {
 			TileEntity tileEntity = modularHandler.getTile();
-			if(tileEntity != null){
-				if(tileEntity.isInvalid()){
+			if (tileEntity != null) {
+				if (tileEntity.isInvalid()) {
 					modularHandlers.remove(modularHandler);
-				}else{
-					if(modularHandler.getModular() != null){
-						for(IModuleState state : modularHandler.getModular().getModules()){
-							if(state instanceof IModuleStateClient){
+				} else {
+					if (modularHandler.getModular() != null) {
+						for(IModuleState state : modularHandler.getModular().getModules()) {
+							if (state instanceof IModuleStateClient) {
 								((IModuleStateClient) state).getModelHandler().setNeedReload(true);
 							}
 						}
@@ -84,55 +83,53 @@ public class ModelModular implements IBakedModel {
 		missingModel = null;
 	}
 
-	private static IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex){
+	private static IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex) {
 		IModularHandler modularHandler = getModularHandler(provider);
-		if(modularHandler != null){
-			if(modularHandler instanceof IModularHandlerTileEntity){
+		if (modularHandler != null) {
+			if (modularHandler instanceof IModularHandlerTileEntity) {
 				modularHandlers.add((IModularHandlerTileEntity) modularHandler);
 			}
 			IModular modular = modularHandler.getModular();
-			if(modular  != null){
+			if (modular != null) {
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
-
-				for(IStorage storage : modular.getStorages().values()){
-					for(IModuleState state : storage.getProvider().getModuleStates()){
+				for(IStorage storage : modular.getStorages().values()) {
+					for(IModuleState state : storage.getProvider().getModuleStates()) {
 						IBakedModel model = ModuleModelLoader.getModel(state, storage, modelState, vertex);
-						if(model != null){
-							//Rotate the storage module model
-							if(!(storage instanceof IModuleStorage)){
+						if (model != null) {
+							// Rotate the storage module model
+							if (!(storage instanceof IModuleStorage)) {
 								model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, storage.getPosition().getRotation(), 0F, 1F);
 							}
 							models.add(model);
 						}
 					}
 				}
-
-				if(!models.isEmpty()){
+				if (!models.isEmpty()) {
 					float rotation = 0F;
-					if(modularHandler instanceof IModularHandlerTileEntity){
+					if (modularHandler instanceof IModularHandlerTileEntity) {
 						IModularHandlerTileEntity moduleHandlerTile = (IModularHandlerTileEntity) modularHandler;
 						EnumFacing facing = moduleHandlerTile.getFacing();
-						if(facing != null){
-							if(facing == EnumFacing.SOUTH){
+						if (facing != null) {
+							if (facing == EnumFacing.SOUTH) {
 								rotation = (float) Math.PI;
-							}else if(facing == EnumFacing.WEST){
+							} else if (facing == EnumFacing.WEST) {
 								rotation = (float) Math.PI / 2;
-							}else if(facing == EnumFacing.EAST){
+							} else if (facing == EnumFacing.EAST) {
 								rotation = (float) -(Math.PI / 2);
 							}
 						}
 					}
 					return new IPerspectiveAwareModel.MapWrapper(new TRSRBakedModel(new BakedMultiModel(models), 0F, 0F, 0F, 0F, rotation, 0F, 1F), modelState);
 				}
-			}else if(modularHandler.getAssembler() != null){
-				if(assemblerModel == null){
+			} else if (modularHandler.getAssembler() != null) {
+				if (assemblerModel == null) {
 					return assemblerModel = ModelLoaderRegistry.getModelOrMissing(new ResourceLocation("modularmachines:block/modular")).bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 				}
 				return assemblerModel;
 			}
 		}
-		if(missingModel == null){
+		if (missingModel == null) {
 			missingModel = ModelLoaderRegistry.getMissingModel().bake(ModelManager.getInstance().DEFAULT_BLOCK, vertex, DefaultTextureGetter.INSTANCE);
 		}
 		return missingModel;
@@ -140,15 +137,14 @@ public class ModelModular implements IBakedModel {
 
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-		if(state instanceof IExtendedBlockState){
+		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState stateExtended = (IExtendedBlockState) state;
 			IBlockAccess world = stateExtended.getValue(UnlistedBlockAccess.BLOCKACCESS);
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
-			if(pos != null && world != null){
+			if (pos != null && world != null) {
 				TileEntity tile = world.getTileEntity(pos);
-
 				IBakedModel model = bakeModel(tile, DefaultVertexFormats.BLOCK);
-				if(model != null){
+				if (model != null) {
 					return model.getQuads(state, side, rand);
 				}
 			}
@@ -156,7 +152,7 @@ public class ModelModular implements IBakedModel {
 		return Collections.emptyList();
 	}
 
-	private static class ItemOverrideListModular extends ItemOverrideList{
+	private static class ItemOverrideListModular extends ItemOverrideList {
 
 		public ItemOverrideListModular() {
 			super(Collections.emptyList());
@@ -165,33 +161,32 @@ public class ModelModular implements IBakedModel {
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			IModularHandler modularHandler = getModularHandler(stack);
-
 			IBakedModel bakedModel = inventoryCache.getIfPresent(modularHandler);
-			if(bakedModel == null){
-				if(stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem){
+			if (bakedModel == null) {
+				if (stack.hasTagCompound() && modularHandler instanceof IModularHandlerItem) {
 					modularHandler.deserializeNBT(stack.getTagCompound());
 				}
 				IModular modular = modularHandler.getModular();
-				if(modular != null){
+				if (modular != null) {
 					bakedModel = bakeModel(stack, DefaultVertexFormats.ITEM);
 					inventoryCache.put(modularHandler, bakedModel);
 				}
 			}
-			if(bakedModel != null){
+			if (bakedModel != null) {
 				return bakedModel;
 			}
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
 	}
 
-	public static IModularHandler getModularHandler(ICapabilityProvider provider){
-		if(provider == null){
+	public static IModularHandler getModularHandler(ICapabilityProvider provider) {
+		if (provider == null) {
 			return null;
 		}
-		if(provider.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+		if (provider.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
 			return provider.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 		}
-		return null;	
+		return null;
 	}
 
 	@Override

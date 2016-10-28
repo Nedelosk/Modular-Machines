@@ -19,5 +19,4 @@ public interface IStorageModule extends IModule, IStorageModuleProperties {
 
 	@Nonnull
 	IStoragePage createSecondPage(@Nonnull IStoragePosition position);
-
 }

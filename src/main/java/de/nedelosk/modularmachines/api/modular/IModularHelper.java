@@ -1,21 +1,25 @@
 package de.nedelosk.modularmachines.api.modular;
 
-import java.util.List;
-
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerEntity;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerItem;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
+import de.nedelosk.modularmachines.api.modules.position.StoragePositions;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public interface IModularHelper {
 
 	/* HANDLERS */
-	IModularHandlerItem createItemHandler(ItemStack parent, List<IStoragePosition> positions);
+	IModularHandlerItem createItemHandler(ItemStack parent, StoragePositions positions);
 
-	IModularHandlerTileEntity createTileEntityHandler(TileEntity parent, List<IStoragePosition> positions);
+	/**
+	 * You have to set the tileEntity after creating the handler.
+	 */
+	IModularHandlerTileEntity createTileEntityHandler(StoragePositions positions);
+
+	IModularHandlerEntity createEntityHandler(Entity entity, StoragePositions positions);
 
 	/* MODULARS */
 	IModular createModular(IModularHandler modularHandler);
@@ -26,5 +30,4 @@ public interface IModularHelper {
 	IModularAssembler createModularAssembler(IModularHandler modularHandler);
 
 	IModularAssembler createModularAssembler(IModularHandler modularHandler, NBTTagCompound nbtTag);
-
 }

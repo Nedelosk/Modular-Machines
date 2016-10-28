@@ -9,5 +9,4 @@ public interface IModuleJEI extends IModule {
 	String[] getJEIRecipeCategorys(IModuleContainer container);
 
 	void openJEI(IModuleState state);
-
 }

@@ -11,5 +11,4 @@ public interface IModuleHandler extends IModuleStorage {
 
 	@Nonnull
 	IModuleStorage getDefaultStorage();
-
 }

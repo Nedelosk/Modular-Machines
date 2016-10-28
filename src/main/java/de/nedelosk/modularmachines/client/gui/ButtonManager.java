@@ -30,7 +30,7 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 
 	@Override
 	public void add(Collection<Button> buttons) {
-		for(Button button : buttons){
+		for(Button button : buttons) {
 			add(button);
 		}
 	}
@@ -70,7 +70,7 @@ public class ButtonManager<G extends IGuiBase> implements IButtonManager<G> {
 		gui.setZLevel(100.0F);
 		gui.getRenderItem().zLevel = 100.0F;
 		for(Button button : buttons) {
-			if(button.enabled){
+			if (button.enabled) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				button.drawButton(minecraft, 0, 0);
 			}

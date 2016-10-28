@@ -51,7 +51,8 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), name, container.getSize()));
 		return locations;
 	}
 
@@ -66,10 +67,10 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 	@Override
 	public void onModularAssembled(IModuleState state) {
 		BeeHouseHandler housing = state.getContentHandler(BeeHouseHandler.class);
-		if(isApiary){
+		if (isApiary) {
 			IModulePage page = state.getPage(FrameHousingPage.class);
 			housing.init(new ApiaryBeeModifier(), new ModuleBeeListener(housing, housing.getBeeInventory(), page.getInventory()));
-		}else{
+		} else {
 			housing.init(new BeehouseBeeModifier(), new DefaultBeeListener());
 		}
 	}
@@ -78,7 +79,7 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 	public List<IModulePage> createPages(IModuleState state) {
 		List<IModulePage> pages = super.createPages(state);
 		pages.add(new BeeHousePage(name, state));
-		if(isApiary){
+		if (isApiary) {
 			pages.add(new FrameHousingPage("frame_housing", state));
 		}
 		return pages;
@@ -101,11 +102,9 @@ public class ModuleBeeHouse extends StorageModule implements ITickable {
 		IModular modular = state.getModular();
 		if (beeLogic.canDoBeeFX() && modular.updateOnInterval(4)) {
 			beeLogic.doBeeFX();
-
 			if (modular.updateOnInterval(50)) {
 				TileBeeHousingBase.doPollenFX(housing.getWorldObj(), housing.getCoordinates().getX(), housing.getCoordinates().getY(), housing.getCoordinates().getZ());
 			}
 		}
 	}
-
 }

@@ -40,9 +40,9 @@ public interface IGuiBase<T extends IGuiProvider> {
 	@SideOnly(Side.CLIENT)
 	Gui getGui();
 
+	void onTextFieldChanged(Widget widget, String oldText);
+
 	EntityPlayer getPlayer();
 
 	T getHandler();
-
-
 }

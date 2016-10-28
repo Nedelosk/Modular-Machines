@@ -26,5 +26,4 @@ public interface IStorage {
 	void deserializeNBT(NBTTagCompound nbt);
 
 	ItemStack[] toPageStacks();
-
 }

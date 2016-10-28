@@ -1,6 +1,5 @@
 package de.nedelosk.modularmachines.api.modules.handlers;
 
-
 public class ContentInfo {
 
 	public boolean isInput;

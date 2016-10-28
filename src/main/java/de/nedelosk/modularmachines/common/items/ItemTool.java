@@ -34,7 +34,7 @@ public class ItemTool extends Item implements IItemModelRegister {
 	@Override
 	public void registerModel(Item item, IModelManager manager) {
 		ModelResourceLocation location = ModelManager.getInstance().getModelLocation("tools/" + name.replace(".", "_"));
-		manager.registerItemModel(item,  new ToolMeshDefinition(location));
+		manager.registerItemModel(item, new ToolMeshDefinition(location));
 		ModelBakery.registerItemVariants(item, location);
 	}
 
@@ -49,7 +49,8 @@ public class ItemTool extends Item implements IItemModelRegister {
 	}
 
 	@SideOnly(Side.CLIENT)
-	private class ToolMeshDefinition implements ItemMeshDefinition{
+	private class ToolMeshDefinition implements ItemMeshDefinition {
+
 		ModelResourceLocation location;
 
 		public ToolMeshDefinition(ModelResourceLocation location) {

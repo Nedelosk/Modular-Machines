@@ -9,7 +9,7 @@ import de.nedelosk.modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 import de.nedelosk.modularmachines.common.core.FluidManager;
 
-public class SteamTurbinePage extends MainPage<IModuleTurbine>{
+public class SteamTurbinePage extends MainPage<IModuleTurbine> {
 
 	public SteamTurbinePage(IModuleState<IModuleTurbine> module) {
 		super("turbine.steam", module);

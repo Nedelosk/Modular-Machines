@@ -22,11 +22,10 @@ public class ModelHandlerStatus extends ModelHandler {
 
 	@Override
 	public void reload(IModuleState state, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
-		if(status){
+		if (status) {
 			bakedModel = ModuleModelLoader.getModel(locations[0], format);
-		}else{
+		} else {
 			bakedModel = ModuleModelLoader.getModel(locations[1], format);
 		}
-
 	}
 }

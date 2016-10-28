@@ -16,8 +16,8 @@ public class RecipeHandlerHeat extends RecipeHandler {
 
 	@Override
 	public boolean isRecipeValid(IRecipe recipe) {
-		if(super.isRecipeValid(recipe)){
-			if(recipe.get(Recipe.HEAT) == 0){
+		if (super.isRecipeValid(recipe)) {
+			if (recipe.get(Recipe.HEAT) == 0) {
 				return false;
 			}
 			return true;

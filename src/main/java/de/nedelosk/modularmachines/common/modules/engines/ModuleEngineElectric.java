@@ -20,7 +20,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
-		if(modular.getModules(IModuleBattery.class).isEmpty()){
+		if (modular.getModules(IModuleBattery.class).isEmpty()) {
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
 		}
 	}
@@ -33,7 +33,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();
-		if(modular.getEnergyBuffer() == null){
+		if (modular.getEnergyBuffer() == null) {
 			return false;
 		}
 		if (modular.getEnergyBuffer().getEnergyStored() > 0) {
@@ -46,7 +46,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 	@Override
 	public boolean removeMaterial(IModuleState state) {
 		IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
-		if(energyBuffer == null){
+		if (energyBuffer == null) {
 			return false;
 		}
 		if (energyBuffer.extractEnergy(state, null, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {

@@ -63,7 +63,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@Override
 	public int getWorkTimeModifier(IModuleState state) {
 		IModuleProperties properties = state.getModuleProperties();
-		if(properties instanceof IModuleMachineProperties){
+		if (properties instanceof IModuleMachineProperties) {
 			return ((IModuleMachineProperties) properties).getWorkTimeModifier(state);
 		}
 		return 0;
@@ -72,7 +72,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@Override
 	public double getMaxSpeed(IModuleState state) {
 		IModuleProperties properties = state.getModuleProperties();
-		if(properties instanceof IModuleMachineProperties){
+		if (properties instanceof IModuleMachineProperties) {
 			return ((IModuleMachineProperties) properties).getMaxSpeed(state);
 		}
 		return 0;
@@ -85,16 +85,16 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
-			if(item != null){
-				if(item.chance == -1 || item.chance >= chance){
+		for(RecipeItem item : getCurrentRecipe(state).getOutputs()) {
+			if (item != null) {
+				if (item.chance == -1 || item.chance >= chance) {
 					outputs.add(item.copy());
 				}
 			}
 		}
 		List<IAdvancedModuleContentHandler> advancedHandlers = new ArrayList<>();
-		for(IModuleContentHandler handler : getHandlers(state)){
-			if(handler instanceof IAdvancedModuleContentHandler){
+		for(IModuleContentHandler handler : getHandlers(state)) {
+			if (handler instanceof IAdvancedModuleContentHandler) {
 				advancedHandlers.add((IAdvancedModuleContentHandler) handler);
 			}
 		}
@@ -128,14 +128,16 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
 		Map<ResourceLocation, ResourceLocation> locations = new HashMap<>();
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), true), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), true));
-		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), false), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), false));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), true),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), true));
+		locations.put(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), getModelFolder(container), container.getSize(), false),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", getModelFolder(container), container.getSize(), false));
 		return locations;
 	}
 
 	protected abstract String getModelFolder(IModuleItemContainer container);
 
-	protected List<IModuleContentHandler> getHandlers(IModuleState state){
+	protected List<IModuleContentHandler> getHandlers(IModuleState state) {
 		return state.getPage(getMainPageClass()).getContentHandlers();
 	}
 
@@ -145,16 +147,16 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		IModularHandler tile = modular.getHandler();
 		List<IModuleContentHandler> handlers = getHandlers(state);
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getCurrentRecipe(state).getOutputs()){
-			if(item != null){
-				if(item.chance == -1 || item.chance >= chance){
+		for(RecipeItem item : getCurrentRecipe(state).getOutputs()) {
+			if (item != null) {
+				if (item.chance == -1 || item.chance >= chance) {
 					outputs.add(item.copy());
 				}
 			}
 		}
 		for(IModuleContentHandler handler : handlers) {
-			if(handler instanceof IAdvancedModuleContentHandler){
-				((IAdvancedModuleContentHandler)handler).addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
+			if (handler instanceof IAdvancedModuleContentHandler) {
+				((IAdvancedModuleContentHandler) handler).addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
 			}
 		}
 		return true;
@@ -170,8 +172,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		EnumToolType type = getType(state);
 		boolean needUpdate = false;
 		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
-
-		if((controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))){
+		if ((controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))) {
 			if (canWork(state)) {
 				IRecipe currentRecipe = getCurrentRecipe(state);
 				if (getWorkTime(state) >= getWorkTimeTotal(state) || currentRecipe == null) {
@@ -192,76 +193,74 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 						}
 						setWorkTimeTotal(state, createWorkTimeTotal(state, validRecipe.getSpeed()) / state.getContainer().getItemContainer().getMaterial().getTier());
 						state.set(CHANCE, rand.nextInt(100));
-						if(type == EnumToolType.HEAT){
+						if (type == EnumToolType.HEAT) {
 							state.set(HEATTOREMOVE, validRecipe.get(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
 							state.set(HEATREQUIRED, validRecipe.get(Recipe.HEAT));
 						}
 						needUpdate = true;
 					}
-				}else{
+				} else {
 					int workTime = 0;
-					if(type == EnumToolType.KINETIC){
-						for(IModuleState<IModuleKinetic> otherState : handler.getModules(IModuleKinetic.class)){
+					if (type == EnumToolType.KINETIC) {
+						for(IModuleState<IModuleKinetic> otherState : handler.getModules(IModuleKinetic.class)) {
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							double kinetic = source.getStored() / source.getCapacity();
-							if(source.getStored() > 0F){
+							if (source.getStored() > 0F) {
 								source.extractKineticEnergy(kinetic, false);
-								if(state.get(SPEED) < getMaxSpeed(state)){
-									state.set(SPEED, state.get(SPEED)+ kinetic / 10F);
-								}else if(state.get(SPEED) > getMaxSpeed(state)){
+								if (state.get(SPEED) < getMaxSpeed(state)) {
+									state.set(SPEED, state.get(SPEED) + kinetic / 10F);
+								} else if (state.get(SPEED) > getMaxSpeed(state)) {
 									state.set(SPEED, getMaxSpeed(state));
 								}
-							}else{
-								if(state.get(SPEED) > 0F){
-									state.set(SPEED, state.get(SPEED)-kinetic / 5F);
-								}else if(0 > state.get(SPEED)){
+							} else {
+								if (state.get(SPEED) > 0F) {
+									state.set(SPEED, state.get(SPEED) - kinetic / 5F);
+								} else if (0 > state.get(SPEED)) {
 									state.set(SPEED, 0F);
 								}
 							}
 						}
-						if(state.get(SPEED) > 0){
-							workTime+=Math.round(state.get(SPEED));
+						if (state.get(SPEED) > 0) {
+							workTime += Math.round(state.get(SPEED));
 						}
-					}else if(type == EnumToolType.HEAT){
+					} else if (type == EnumToolType.HEAT) {
 						IHeatSource heatBuffer = modular.getHeatSource();
-						if(heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)){
+						if (heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)) {
 							heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
 							workTime = 1;
 						}
 					}
-
-					if(workTime > 0){
+					if (workTime > 0) {
 						needUpdate = true;
 						addWorkTime(state, workTime);
 					}
 				}
-				if(needUpdate){
+				if (needUpdate) {
 					sendModuleUpdate(state);
 				}
 			}
 		}
 	}
 
-
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
 		EnumToolType type = getType(state);
-		if(type == EnumToolType.HEAT){
-			if(recipe.get(Recipe.HEAT) > state.getModular().getHeatSource().getHeatStored()){
+		if (type == EnumToolType.HEAT) {
+			if (recipe.get(Recipe.HEAT) > state.getModular().getHeatSource().getHeatStored()) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public boolean canWork(IModuleState state){
+	public boolean canWork(IModuleState state) {
 		EnumToolType type = getType(state);
-		if(type == EnumToolType.HEAT){
+		if (type == EnumToolType.HEAT) {
 			return state.getModular().getHeatSource().getHeatStored() > 0;
-		}else if(type == EnumToolType.KINETIC){
+		} else if (type == EnumToolType.KINETIC) {
 			IModular modular = state.getModular();
-			for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)){
+			for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)) {
 				IKineticSource source = otherState.getModule().getKineticSource(otherState);
-				if(source.getStored() > 0){
+				if (source.getStored() > 0) {
 					return true;
 				}
 			}
@@ -304,15 +303,20 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	}
 
 	@Override
+	public boolean isWorking(IModuleState state) {
+		return state.get(WORKTIME) > 0;
+	}
+
+	@Override
 	public void updateClient(IModuleState state, int tickCount) {
 	}
 
 	@Override
 	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
 		IModuleState state = super.createState(provider, container).register(WORKTIME).register(WORKTIMETOTAL).register(CHANCE).register(RECIPE);
-		if(getType(state) == EnumToolType.HEAT){
+		if (getType(state) == EnumToolType.HEAT) {
 			state = state.register(HEATTOREMOVE).register(HEATREQUIRED);
-		}else if(getType(state) == EnumToolType.KINETIC){
+		} else if (getType(state) == EnumToolType.KINETIC) {
 			state = state.register(SPEED);
 		}
 		return state;
@@ -333,7 +337,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 			for(int i = 0; i < recipeInputs.size(); i++) {
 				RecipeItem recipeInput = recipeInputs.get(i);
 				RecipeItem machineInput = inputs[i];
-				if(recipeInput == null || machineInput == null){
+				if (recipeInput == null || machineInput == null) {
 					continue testRecipes;
 				}
 				if (machineInput.isNull()) {
@@ -341,17 +345,17 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 						continue testRecipes;
 					}
 					continue;
-				}else if (recipeInput.isNull()) {
+				} else if (recipeInput.isNull()) {
 					if (!machineInput.isNull()) {
 						continue testRecipes;
 					}
 					continue;
-				}else if(RecipeRegistry.itemEqualsItem(recipeInput, machineInput, true)){
+				} else if (RecipeRegistry.itemEqualsItem(recipeInput, machineInput, true)) {
 					continue;
 				}
 				continue testRecipes;
 			}
-			if(isRecipeValid(recipe, state)){
+			if (isRecipeValid(recipe, state)) {
 				return recipe;
 			}
 		}
@@ -380,7 +384,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 				if (recipeInput.index != item.index) {
 					continue;
 				}
-				if(RecipeRegistry.itemEqualsItem(recipeInput, item, false)){
+				if (RecipeRegistry.itemEqualsItem(recipeInput, item, false)) {
 					return true;
 				}
 			}
@@ -425,7 +429,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	@Override
 	public List<IRecipe> getRecipes(IModuleState state) {
-		if(RecipeRegistry.getRecipeHandler(getRecipeCategory(state)) == null){
+		if (RecipeRegistry.getRecipeHandler(getRecipeCategory(state)) == null) {
 			return Collections.emptyList();
 		}
 		return RecipeRegistry.getRecipeHandler(getRecipeCategory(state)).getRecipes();
@@ -441,7 +445,6 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.SIDE};
+		return new IModulePostion[] { EnumModulePositions.SIDE };
 	}
-
 }

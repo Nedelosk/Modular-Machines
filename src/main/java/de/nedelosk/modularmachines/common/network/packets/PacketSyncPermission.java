@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PacketSyncPermission extends PacketModularHandler implements IPacketClient, IPacketServer{
+public class PacketSyncPermission extends PacketModularHandler implements IPacketClient, IPacketServer {
 
 	public boolean permission;
 	public int moduleIndex;
@@ -52,8 +52,7 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setPermission(modularHandler.getModular().getModule(moduleIndex), permission);
@@ -65,14 +64,12 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setPermission(modularHandler.getModular().getModule(moduleIndex), permission);
 			}
 		}
-
 		PacketHandler.sendToNetwork(this, pos, player.getServerWorld());
 	}
 

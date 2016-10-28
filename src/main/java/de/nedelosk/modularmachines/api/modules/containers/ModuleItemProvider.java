@@ -26,13 +26,13 @@ public class ModuleItemProvider implements IModuleItemProvider {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbtCompound = new NBTTagCompound();
-		if(itemStack != null){
+		if (itemStack != null) {
 			nbtCompound.setTag("ItemStack", itemStack.serializeNBT());
 		}
 		NBTTagList moduleList = new NBTTagList();
-		for(IModuleState moduleState : moduleStates){
+		for(IModuleState moduleState : moduleStates) {
 			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(moduleState);
-			if(compoundTag != null){
+			if (compoundTag != null) {
 				moduleList.appendTag(compoundTag);
 			}
 		}
@@ -42,15 +42,15 @@ public class ModuleItemProvider implements IModuleItemProvider {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbtCompound) {
-		if(nbtCompound.hasKey("ItemStack")){
+		if (nbtCompound.hasKey("ItemStack")) {
 			setItemStack(ItemStack.loadItemStackFromNBT(nbtCompound.getCompoundTag("ItemStack")));
 		}
 		NBTTagList moduleList = nbtCompound.getTagList("Modules", 10);
 		for(int i = 0; i < moduleList.tagCount(); i++) {
 			NBTTagCompound compoundTag = moduleList.getCompoundTagAt(i);
-			if(compoundTag != null){
+			if (compoundTag != null) {
 				IModuleState moduleState = ModuleManager.loadStateFromNBT(null, container, compoundTag);
-				if(moduleState != null){
+				if (moduleState != null) {
 					moduleStates.add(moduleState);
 				}
 			}
@@ -64,7 +64,7 @@ public class ModuleItemProvider implements IModuleItemProvider {
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModuleManager.MODULE_PROVIDER_CAPABILITY){
+		if (capability == ModuleManager.MODULE_PROVIDER_CAPABILITY) {
 			return ModuleManager.MODULE_PROVIDER_CAPABILITY.cast(this);
 		}
 		return null;
@@ -93,7 +93,7 @@ public class ModuleItemProvider implements IModuleItemProvider {
 	@Override
 	public void setItemStack(ItemStack itemStack) {
 		this.itemStack = itemStack;
-		if(itemStack != null){
+		if (itemStack != null) {
 			container = ModuleManager.getContainerFromItem(itemStack);
 		}
 	}

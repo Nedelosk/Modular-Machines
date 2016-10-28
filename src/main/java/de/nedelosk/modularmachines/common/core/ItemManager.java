@@ -45,11 +45,12 @@ public class ItemManager {
 	public static Item itemChassis;
 	public static Item itemWrench;
 	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
-	public static MaterialList<IMetalMaterial> default_metals =  new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM, EnumMetalMaterials.STEEL);
+	public static MaterialList<IMetalMaterial> default_metals = new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM,
+			EnumMetalMaterials.STEEL);
 	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND);
 	/* metal for ingot's, nugget's, block's */
-	public static MaterialList<IMetalMaterial>[] metals = new MaterialList[] { default_metals, alloys};
-	public static MaterialList<IMetalMaterial>[] dusts = new MaterialList[] { vanilla, default_metals, alloys};
+	public static MaterialList<IMetalMaterial>[] metals = new MaterialList[] { default_metals, alloys };
+	public static MaterialList<IMetalMaterial>[] dusts = new MaterialList[] { vanilla, default_metals, alloys };
 
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());

@@ -40,6 +40,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> implements IBeeHousing, IClimatised, INBTSerializable<NBTTagCompound> {
+
 	@Nonnull
 	protected final IBeeHousingInventory inventory;
 	@Nonnull
@@ -62,15 +63,15 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 		this.beeLogic = new ModuleBeekeepingLogic(this);
 	}
 
-	public void init(IBeeModifier beeModifier, IBeeListener beeListener){
+	public void init(IBeeModifier beeModifier, IBeeListener beeListener) {
 		this.beeModifier = beeModifier;
 		this.beeListener = beeListener;
 	}
 
 	@Override
 	public BlockPos getCoordinates() {
-		if(moduleState.getModular().getHandler() instanceof IModularHandlerTileEntity){
-			return ((IModularHandlerTileEntity)moduleState.getModular().getHandler()).getPos();
+		if (moduleState.getModular().getHandler() instanceof IModularHandlerTileEntity) {
+			return ((IModularHandlerTileEntity) moduleState.getModular().getHandler()).getPos();
 		}
 		return null;
 	}
@@ -118,7 +119,7 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 
 	@Override
 	public World getWorldObj() {
-		if(worldObj == null){
+		if (worldObj == null) {
 			worldObj = moduleState.getModular().getHandler().getWorld();
 		}
 		return worldObj;
@@ -126,17 +127,13 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 
 	@Override
 	public Iterable<IBeeModifier> getBeeModifiers() {
-		if(moduleState.getModule().isApiary){
+		if (moduleState.getModule().isApiary) {
 			List<IBeeModifier> beeModifiers = new ArrayList<>();
-
 			beeModifiers.add(beeModifier);
-
 			IModulePage page = moduleState.getPage(FrameHousingPage.class);
-
-			for (IHiveFrame frame : getFrames(page.getInventory())) {
+			for(IHiveFrame frame : getFrames(page.getInventory())) {
 				beeModifiers.add(frame.getBeeModifier());
 			}
-
 			return beeModifiers;
 		}
 		return Collections.singleton(beeModifier);
@@ -144,19 +141,16 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 
 	public Collection<IHiveFrame> getFrames(IModuleInventory inventory) {
 		Collection<IHiveFrame> hiveFrames = new ArrayList<>(3);
-
-		for (int i = 0; i < 3; i++) {
+		for(int i = 0; i < 3; i++) {
 			ItemStack stackInSlot = inventory.getStackInSlot(i);
 			if (stackInSlot == null) {
 				continue;
 			}
-
 			Item itemInSlot = stackInSlot.getItem();
 			if (itemInSlot instanceof IHiveFrame) {
 				hiveFrames.add((IHiveFrame) itemInSlot);
 			}
 		}
-
 		return hiveFrames;
 	}
 
@@ -210,5 +204,4 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 	public void deserializeNBT(NBTTagCompound nbt) {
 		beeLogic.readFromNBT(nbt);
 	}
-
 }

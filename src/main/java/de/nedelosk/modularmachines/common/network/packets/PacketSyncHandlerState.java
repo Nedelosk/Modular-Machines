@@ -38,13 +38,13 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-		if(modularHandler != null){
-			if(isAssembled){
-				if(modularHandler.getAssembler() != null){
+		if (modularHandler != null) {
+			if (isAssembled) {
+				if (modularHandler.getAssembler() != null) {
 					modularHandler.getAssembler().assemble(player);
 				}
-			}else{
-				if(modularHandler.getModular() != null){
+			} else {
+				if (modularHandler.getModular() != null) {
 					modularHandler.getModular().disassemble(player);
 				}
 			}
@@ -54,14 +54,13 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
-
-		if(modularHandler != null){
-			if(isAssembled){
-				if(modularHandler.getAssembler() != null){
+		if (modularHandler != null) {
+			if (isAssembled) {
+				if (modularHandler.getAssembler() != null) {
 					modularHandler.getAssembler().assemble(player);
 				}
-			}else{
-				if(modularHandler.getModular() != null){
+			} else {
+				if (modularHandler.getModular() != null) {
 					modularHandler.getModular().disassemble(player);
 				}
 			}
@@ -72,5 +71,4 @@ public class PacketSyncHandlerState extends PacketModularHandler implements IPac
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HANDLER_STATE;
 	}
-
 }

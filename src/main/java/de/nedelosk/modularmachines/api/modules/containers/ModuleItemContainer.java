@@ -38,33 +38,33 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 
 	public ModuleItemContainer(ItemStack stack, IMaterial material, EnumModuleSizes size, List<String> tooltip, boolean ignorNBT, IModuleContainer... containers) {
 		String modID = Loader.instance().activeModContainer().getModId();
-		if(size == null || material == null){
+		if (size == null || material == null) {
 			throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with a size or a material which was null.");
 		}
-		if(containers == null || containers.length <= 0){
+		if (containers == null || containers.length <= 0) {
 			throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with no module containers.");
 		}
-		for(IModuleContainer container : containers){
-			if(container == null){
+		for(IModuleContainer container : containers) {
+			if (container == null) {
 				throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with a module container which was null.");
 			}
 		}
 		this.material = material;
 		this.ignorNBT = ignorNBT;
 		this.size = size;
-		for(IModuleContainer container : containers){
+		for(IModuleContainer container : containers) {
 			container.setItemContainer(this);
 		}
 		this.containers = Arrays.asList(containers);
 		this.tooltip = tooltip;
-		if(stack == null){
+		if (stack == null) {
 			stack = ModuleManager.createDefaultStack(this);
 		}
 		this.stack = stack;
 	}
 
 	@Override
-	public boolean matches(ItemStack stackToTest){
+	public boolean matches(ItemStack stackToTest) {
 		return ItemUtil.isIdenticalItem(stack, stackToTest, ignorNBT, true);
 	}
 
@@ -101,12 +101,12 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addTooltip(List<String> tooltip, ItemStack stack) {
-		if(tooltip != null && !tooltip.isEmpty()){
+		if (tooltip != null && !tooltip.isEmpty()) {
 			tooltip.addAll(this.tooltip);
 		}
 		int index = 0;
-		for(IModuleContainer container : containers){
-			if(containers.size() > 1){
+		for(IModuleContainer container : containers) {
+			if (containers.size() > 1) {
 				tooltip.add(" - " + index + " - ");
 			}
 			container.addTooltip(tooltip, stack);

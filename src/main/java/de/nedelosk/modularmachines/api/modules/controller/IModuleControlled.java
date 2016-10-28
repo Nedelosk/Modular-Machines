@@ -10,5 +10,4 @@ public interface IModuleControlled extends IModule {
 	IModuleControl getModuleControl(IModuleState state);
 
 	List<IModuleState> getUsedModules(IModuleState state);
-
 }

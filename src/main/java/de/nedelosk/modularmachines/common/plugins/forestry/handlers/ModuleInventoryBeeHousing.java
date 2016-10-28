@@ -42,26 +42,21 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 	private static boolean tryAddStack(IItemHandlerModifiable inventory, ItemStack stack, int startSlot, int slots, boolean all, boolean doAdd) {
 		int added = addStack(inventory, stack, startSlot, slots, false);
 		boolean success = all ? added == stack.stackSize : added > 0;
-
 		if (success && doAdd) {
 			addStack(inventory, stack, startSlot, slots, true);
 		}
-
 		return success;
 	}
 
 	private static int addStack(IItemHandlerModifiable inventory, ItemStack stack, int startSlot, int slots, boolean doAdd) {
-
 		int added = 0;
 		// Add to existing stacks first
-		for (int i = startSlot; i < startSlot + slots; i++) {
-
+		for(int i = startSlot; i < startSlot + slots; i++) {
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
 			// Empty slot. Add
 			if (inventoryStack == null || inventoryStack.getItem() == null) {
 				continue;
 			}
-
 			// Already occupied by different item, skip this slot.
 			if (!inventoryStack.isStackable()) {
 				continue;
@@ -72,7 +67,6 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 			if (!ItemStack.areItemStackTagsEqual(inventoryStack, stack)) {
 				continue;
 			}
-
 			int remain = stack.stackSize - added;
 			int space = inventoryStack.getMaxStackSize() - inventoryStack.stackSize;
 			// No space left, skip this slot.
@@ -86,33 +80,25 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 				}
 				return stack.stackSize;
 			}
-
 			// Not enough space
 			if (doAdd) {
 				inventoryStack.stackSize = inventoryStack.getMaxStackSize();
 			}
-
 			added += space;
 		}
-
 		if (added >= stack.stackSize) {
 			return added;
 		}
-
-		for (int i = startSlot; i < startSlot + slots; i++) {
+		for(int i = startSlot; i < startSlot + slots; i++) {
 			if (inventory.getStackInSlot(i) != null) {
 				continue;
 			}
-
 			if (doAdd) {
 				inventory.setStackInSlot(i, stack.copy());
 				inventory.getStackInSlot(i).stackSize = stack.stackSize - added;
 			}
 			return stack.stackSize;
-
 		}
-
 		return added;
 	}
-
 }

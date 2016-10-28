@@ -45,7 +45,7 @@ public class ModRegistry extends Registry implements IGuiHandler {
 		ItemManager.registerItems();
 		BlockManager.registerTiles();
 		super.preInit(instance, event);
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			ModelManager.getInstance().registerModels();
 			MinecraftForge.EVENT_BUS.register(ModelModular.class);
 		}
@@ -61,7 +61,7 @@ public class ModRegistry extends Registry implements IGuiHandler {
 		ModuleManager.registerModuleContainers();
 		RecipeManager.registerRecipes();
 		AchievementManager.registerPage();
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			ModelManager.getInstance().registerItemAndBlockColors();
 		}
 		super.init(instance, event);
@@ -69,7 +69,7 @@ public class ModRegistry extends Registry implements IGuiHandler {
 
 	@Override
 	public void postInit(Object instance, FMLPostInitializationEvent event) {
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			ModuleModelLoader.loadModels();
 		}
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
@@ -116,5 +116,4 @@ public class ModRegistry extends Registry implements IGuiHandler {
 		}
 		return null;
 	}
-
 }

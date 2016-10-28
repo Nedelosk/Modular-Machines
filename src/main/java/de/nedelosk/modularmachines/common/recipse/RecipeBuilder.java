@@ -11,7 +11,7 @@ import de.nedelosk.modularmachines.api.recipes.IRecipeBuilder;
 import de.nedelosk.modularmachines.api.recipes.Recipe;
 import net.minecraft.nbt.NBTBase;
 
-public class RecipeBuilder implements IRecipeBuilder{
+public class RecipeBuilder implements IRecipeBuilder {
 
 	protected final Map<IProperty, Object> properties;
 
@@ -21,7 +21,7 @@ public class RecipeBuilder implements IRecipeBuilder{
 
 	@Override
 	public <T, V extends T> IRecipeBuilder set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
-		if(property instanceof IPropertyJson){
+		if (property instanceof IPropertyJson) {
 			properties.put(property, value);
 		}
 		return this;

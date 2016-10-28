@@ -30,7 +30,7 @@ public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void initGui(){
+	public void initGui() {
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -45,25 +45,23 @@ public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 		if (renderPageTitle() && getPageTitle() != null) {
-			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2),
-					6, 4210752);
+			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2), 6, 4210752);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
-		if(gui != null && getGuiTexture() != null){
+		if (gui != null && getGuiTexture() != null) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(getGuiTexture());
 			gui.getGui().drawTexturedModalRect(gui.getGuiLeft(), gui.getGuiTop(), 0, 0, getXSize(), getYSize());
 		}
-
 		drawPlayerInventory();
 	}
 
 	@SideOnly(Side.CLIENT)
 	protected void drawPlayerInventory() {
-		if(gui != null && getInventoryTexture() != null && getPlayerInvPosition() >= 0){
+		if (gui != null && getInventoryTexture() != null && getPlayerInvPosition() >= 0) {
 			GlStateManager.enableAlpha();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			Minecraft.getMinecraft().renderEngine.bindTexture(getInventoryTexture());
@@ -77,11 +75,22 @@ public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 	protected ResourceLocation getInventoryTexture() {
 		return new ResourceLocation("modularmachines:textures/gui/inventory_player.png");
 	}
+	
+	protected void add(Widget widget) {
+		if (gui != null) {
+			gui.getWidgetManager().add(widget);
+		}
+	}
+
+	protected void add(Button button) {
+		if (gui != null) {
+			gui.getButtonManager().add(button);
+		}
+	}
 
 	public int getPlayerInvPosition() {
 		return -1;
 	}
-
 
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -133,18 +142,17 @@ public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 	}
 
 	@Override
-	public IContainerBase<T> getContainer(){
+	public IContainerBase<T> getContainer() {
 		return container;
 	}
 
 	@Override
-	public void setContainer(IContainerBase<T> container){
+	public void setContainer(IContainerBase<T> container) {
 		this.container = container;
 	}
 
 	@Override
-	public String getPageTitle(){
+	public String getPageTitle() {
 		return I18n.translateToLocal(title);
 	}
-
 }

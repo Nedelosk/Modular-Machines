@@ -3,7 +3,7 @@ package de.nedelosk.modularmachines.api.modules.handlers.block;
 import de.nedelosk.modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public class BlockModificator extends BlankModuleContentHandler implements IBlockModificator{
+public class BlockModificator extends BlankModuleContentHandler implements IBlockModificator {
 
 	private final int maxHeat;
 	private final float resistance;

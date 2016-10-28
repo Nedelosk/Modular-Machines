@@ -31,13 +31,13 @@ public class ItemUtil {
 				return false;
 			}
 		}
-		if(!ignorNBT){
-			if(ignorDisplay){
-				if(rhs.hasTagCompound()){
+		if (!ignorNBT) {
+			if (ignorDisplay) {
+				if (rhs.hasTagCompound()) {
 					lhs = lhs.copy();
 					rhs.getTagCompound().removeTag("display");
 				}
-				if(rhs.hasTagCompound()){
+				if (rhs.hasTagCompound()) {
 					rhs = rhs.copy();
 					rhs.getTagCompound().removeTag("display");
 				}
@@ -51,17 +51,14 @@ public class ItemUtil {
 		if (base == null || comparison == null) {
 			return false;
 		}
-
 		if (base.getItem() != comparison.getItem()) {
 			return false;
 		}
-
 		if (base.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 			if (base.getItemDamage() != comparison.getItemDamage()) {
 				return false;
 			}
 		}
-
 		if (!base.hasTagCompound() || base.getTagCompound().hasNoTags()) {
 			return true;
 		} else {
@@ -75,13 +72,11 @@ public class ItemUtil {
 		if (item == null) {
 			return null;
 		}
-
 		ResourceLocation itemName = item.getRegistryName();
 		if (itemName == null) {
 			return null;
 		}
 		String name = itemName.toString() + ":";
-
 		NBTTagCompound serializedNbt = stack.serializeNBT();
 		NBTTagCompound nbtTagCompound = serializedNbt.getCompoundTag("tag").copy();
 		if (serializedNbt.hasKey("ForgeCaps")) {
@@ -91,7 +86,7 @@ public class ItemUtil {
 			nbtTagCompound.setTag("ForgeCaps", serializedNbt.getCompoundTag("ForgeCaps"));
 		}
 		if (nbtTagCompound != null && !nbtTagCompound.hasNoTags()) {
-			name +=':'+nbtTagCompound.toString();
+			name += ':' + nbtTagCompound.toString();
 		}
 		return name;
 	}

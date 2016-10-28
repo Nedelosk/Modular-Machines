@@ -10,7 +10,7 @@ import de.nedelosk.modularmachines.client.gui.widgets.WidgetProgressBar;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class LathePage extends MainPage<IModuleModeMachine>{
+public class LathePage extends MainPage<IModuleModeMachine> {
 
 	public LathePage(IModuleState<IModuleModeMachine> state) {
 		super("lathe", state);
@@ -30,5 +30,4 @@ public class LathePage extends MainPage<IModuleModeMachine>{
 		invBuilder.addInventorySlot(false, 116, 35, OutputFilter.INSTANCE);
 		invBuilder.addInventorySlot(false, 134, 35, OutputFilter.INSTANCE);
 	}
-
 }

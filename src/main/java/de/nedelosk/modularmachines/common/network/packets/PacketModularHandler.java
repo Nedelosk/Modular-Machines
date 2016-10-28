@@ -24,19 +24,19 @@ public abstract class PacketModularHandler extends Packet {
 	}
 
 	protected PacketModularHandler(IModularHandler handler) {
-		if(handler instanceof IModularHandlerItem){
+		if (handler instanceof IModularHandlerItem) {
 			this.identifier = ((IModularHandlerItem) handler).getUID();
-		}else if(handler instanceof IModularHandlerTileEntity){
+		} else if (handler instanceof IModularHandlerTileEntity) {
 			this.identifier = ((IModularHandlerTileEntity) handler).getPos();
 		}
 	}
 
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
-		if(identifier instanceof String){
+		if (identifier instanceof String) {
 			data.writeByte(0);
 			data.writeUTF((String) identifier);
-		}else if(identifier instanceof BlockPos){
+		} else if (identifier instanceof BlockPos) {
 			data.writeByte(1);
 			BlockPos pos = (BlockPos) identifier;
 			data.writeInt(pos.getX());
@@ -48,10 +48,9 @@ public abstract class PacketModularHandler extends Packet {
 	@Override
 	public void readData(DataInputStreamMM data) throws IOException {
 		byte handlerType = data.readByte();
-		if(handlerType == 0){
+		if (handlerType == 0) {
 			identifier = data.readUTF();
-
-		}else if( handlerType == 1){
+		} else if (handlerType == 1) {
 			int x = data.readInt();
 			int y = data.readInt();
 			int z = data.readInt();
@@ -59,11 +58,11 @@ public abstract class PacketModularHandler extends Packet {
 		}
 	}
 
-	public static BlockPos getPos(IModularHandler modularHandler){
-		if(modularHandler instanceof IModularHandlerItem){
+	public static BlockPos getPos(IModularHandler modularHandler) {
+		if (modularHandler instanceof IModularHandlerItem) {
 			IModularHandlerItem handlerItem = (IModularHandlerItem) modularHandler;
 			return handlerItem.getPlayerPos();
-		}else if(modularHandler instanceof IModularHandlerTileEntity){
+		} else if (modularHandler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity handlerTile = (IModularHandlerTileEntity) modularHandler;
 			return handlerTile.getPos();
 		}
@@ -71,27 +70,27 @@ public abstract class PacketModularHandler extends Packet {
 	}
 
 	public IModularHandler getModularHandler(EntityPlayer player) {
-		if(player == null){
+		if (player == null) {
 			return null;
 		}
 		World world = player.worldObj;
-		if(identifier instanceof String){
+		if (identifier instanceof String) {
 			String UID = (String) identifier;
 			ItemStack stack = null;
-			for (EnumHand hand : EnumHand.values()) {
+			for(EnumHand hand : EnumHand.values()) {
 				ItemStack held = player.getHeldItem(hand);
 				if (ModularHandlerItem.hasItemUID(held, UID)) {
 					stack = held;
 					break;
 				}
 			}
-			if(stack != null && stack.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+			if (stack != null && stack.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
 				return stack.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			}
-		}else if(identifier instanceof BlockPos){
+		} else if (identifier instanceof BlockPos) {
 			BlockPos pos = (BlockPos) identifier;
 			TileEntity tile = world.getTileEntity(pos);
-			if(tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)){
+			if (tile != null && tile.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null)) {
 				return tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 			}
 		}

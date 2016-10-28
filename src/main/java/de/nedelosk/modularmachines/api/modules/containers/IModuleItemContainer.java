@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModuleItemContainer extends IForgeRegistryEntry<IModuleItemContainer>{
+public interface IModuleItemContainer extends IForgeRegistryEntry<IModuleItemContainer> {
 
 	@Nonnull
 	ItemStack getItemStack();

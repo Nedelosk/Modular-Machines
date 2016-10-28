@@ -7,14 +7,13 @@ import de.nedelosk.modularmachines.api.modules.storage.IItemHandlerStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class AssemblerItemHandler extends ItemStackHandler implements IItemHandlerStorage {	
+public class AssemblerItemHandler extends ItemStackHandler implements IItemHandlerStorage {
 
 	protected IModularAssembler assembler;
 	protected IStoragePosition position;
 
-	public AssemblerItemHandler(ItemStack[] stacks, @Nullable IModularAssembler assembler, @Nullable IStoragePosition position){
+	public AssemblerItemHandler(ItemStack[] stacks, @Nullable IModularAssembler assembler, @Nullable IStoragePosition position) {
 		super(stacks);
-
 		this.assembler = assembler;
 		this.position = position;
 	}
@@ -25,12 +24,11 @@ public class AssemblerItemHandler extends ItemStackHandler implements IItemHandl
 
 	public AssemblerItemHandler(int size, @Nullable IModularAssembler assembler, @Nullable IStoragePosition position) {
 		super(size);
-
 		this.assembler = assembler;
 		this.position = position;
 	}
 
-	public ItemStack[] getStacks(){
+	public ItemStack[] getStacks() {
 		return stacks;
 	}
 
@@ -61,7 +59,7 @@ public class AssemblerItemHandler extends ItemStackHandler implements IItemHandl
 
 	@Override
 	protected void onContentsChanged(int slot) {
-		if(assembler != null){
+		if (assembler != null) {
 			assembler.updatePages(position);
 		}
 	}

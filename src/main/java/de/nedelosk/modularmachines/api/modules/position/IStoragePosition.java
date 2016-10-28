@@ -2,7 +2,7 @@ package de.nedelosk.modularmachines.api.modules.position;
 
 import de.nedelosk.modularmachines.api.modules.EnumModuleSizes;
 
-public interface IStoragePosition{
+public interface IStoragePosition {
 
 	IModulePostion[] getPostions();
 
@@ -14,6 +14,6 @@ public interface IStoragePosition{
 
 	float getRotation();
 
-	//Because compareTo don't work with enums
+	// Because compareTo don't work with enums
 	int getProperty(IStoragePosition position);
 }

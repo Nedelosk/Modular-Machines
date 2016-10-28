@@ -20,7 +20,8 @@ public class DefaultPropertiesLoader {
 	private DefaultPropertiesLoader() {
 	}
 
-	public static class MachinePropertiesLoader implements ICustomLoader{
+	public static class MachinePropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("machine");
@@ -35,7 +36,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class HeaterPropertiesLoader implements ICustomLoader{
+	public static class HeaterPropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("heater");
@@ -50,7 +52,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class KineticPropertiesLoader implements ICustomLoader{
+	public static class KineticPropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("kinetic");
@@ -66,7 +69,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class BoilerPropertiesLoader implements ICustomLoader{
+	public static class BoilerPropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("boiler");
@@ -80,7 +84,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class CasingPropertiesLoader implements ICustomLoader{
+	public static class CasingPropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("casing");
@@ -97,7 +102,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class ModuleStoragePropertiesLoader implements ICustomLoader{
+	public static class ModuleStoragePropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("modulestorage");
@@ -111,7 +117,8 @@ public class DefaultPropertiesLoader {
 		}
 	}
 
-	public static class ControllerPropertiesLoader implements ICustomLoader{
+	public static class ControllerPropertiesLoader implements ICustomLoader {
+
 		@Override
 		public boolean accepts(ResourceLocation name) {
 			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("controller");
@@ -124,6 +131,4 @@ public class DefaultPropertiesLoader {
 			return new ModuleControllerProperties(complexity, allowedComplexity);
 		}
 	}
-
-
 }

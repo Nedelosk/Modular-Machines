@@ -37,10 +37,9 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		buttonManager = new ButtonManager(this);
-
-		if(getTextureModID() != null && getGuiTexture() != null){
+		if (getTextureModID() != null && getGuiTexture() != null) {
 			guiTexture = new ResourceLocation(getTextureModID(), "textures/gui/" + getGuiTexture() + ".png");
-		}else{
+		} else {
 			guiTexture = null;
 		}
 	}
@@ -51,11 +50,11 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		initButtons();
 	}
 
-	protected void initButtons(){
+	protected void initButtons() {
 		Iterator<GuiButton> buttonIter = buttonList.iterator();
-		while(buttonIter.hasNext()){
+		while (buttonIter.hasNext()) {
 			GuiButton button = buttonIter.next();
-			if(button instanceof Button){
+			if (button instanceof Button) {
 				buttonIter.remove();
 			}
 		}
@@ -188,10 +187,13 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		this.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
 		this.itemRender.zLevel = 0.0F;
 		GlStateManager.disableLighting();
-
 		GlStateManager.popMatrix();
 		GlStateManager.disableDepth();
 		GlStateManager.enableLighting();
 		RenderHelper.disableStandardItemLighting();
+	}
+
+	@Override
+	public void onTextFieldChanged(de.nedelosk.modularmachines.api.gui.Widget widget, String oldText) {
 	}
 }

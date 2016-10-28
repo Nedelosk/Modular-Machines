@@ -48,10 +48,10 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
@@ -71,12 +71,13 @@ public class ModuleController extends Module implements IModuleController, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "controllers", container.getSize()));
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "controllers", container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "controllers", container.getSize()));
 	}
 
 	@Override
 	public boolean canWork(IModuleState controllerState, IModuleState moduleState) {
-		if(moduleState.getModule() instanceof IModuleControlled){
+		if (moduleState.getModule() instanceof IModuleControlled) {
 			IModuleControlled controlled = (IModuleControlled) moduleState.getModule();
 			EnumRedstoneMode mode = controlled.getModuleControl(moduleState).getRedstoneMode();
 			boolean hasSignal = hasRedstoneSignal(controllerState.getModular().getHandler());
@@ -87,14 +88,14 @@ public class ModuleController extends Module implements IModuleController, IModu
 
 	@Override
 	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
-		if(modular.getModules(IModuleController.class).size() > 1){
+		if (modular.getModules(IModuleController.class).size() > 1) {
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.too.many.controllers"));
 		}
 	}
 
 	@Override
 	public void onModularAssembled(IModuleState state) {
-		if(ModuleManager.getModulesWithPages(state.getModular()).isEmpty()){
+		if (ModuleManager.getModulesWithPages(state.getModular()).isEmpty()) {
 			state.addPage(new MainPage(null, state));
 		}
 	}
@@ -105,9 +106,9 @@ public class ModuleController extends Module implements IModuleController, IModu
 	}
 
 	private boolean hasRedstoneSignal(IModularHandler handler) {
-		if(handler instanceof IModularHandlerTileEntity){
+		if (handler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity tile = (IModularHandlerTileEntity) handler;
-			for (EnumFacing direction : EnumFacing.VALUES) {
+			for(EnumFacing direction : EnumFacing.VALUES) {
 				BlockPos side = tile.getPos().offset(direction);
 				EnumFacing dir = direction.getOpposite();
 				World world = tile.getWorld();
@@ -121,13 +122,13 @@ public class ModuleController extends Module implements IModuleController, IModu
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.CASING};
+		return new IModulePostion[] { EnumModulePositions.CASING };
 	}
 
 	@Override
 	public int getAllowedComplexity(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
-		if(properties instanceof IModuleControllerProperties){
+		if (properties instanceof IModuleControllerProperties) {
 			return ((IModuleControllerProperties) properties).getAllowedComplexity(container);
 		}
 		return Config.defaultAllowedControllerComplexity;

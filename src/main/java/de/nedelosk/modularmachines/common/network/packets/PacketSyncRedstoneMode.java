@@ -49,8 +49,7 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
@@ -62,14 +61,12 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
-
-		if(modularHandler.getModular() != null && modularHandler.isAssembled()){
+		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
 			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
 			}
 		}
-
 		PacketHandler.sendToNetwork(this, pos, player.getServerWorld());
 	}
 

@@ -4,7 +4,7 @@ import de.nedelosk.modularmachines.api.energy.IHeatSource;
 import de.nedelosk.modularmachines.api.modular.IModular;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
-public class ModuleEngineStirling extends ModuleEngine{
+public class ModuleEngineStirling extends ModuleEngine {
 
 	public ModuleEngineStirling() {
 		super("stirling");
@@ -13,7 +13,7 @@ public class ModuleEngineStirling extends ModuleEngine{
 	@Override
 	public boolean canWork(IModuleState state) {
 		IModular modular = state.getModular();
-		if(modular.getEnergyBuffer() == null){
+		if (modular.getEnergyBuffer() == null) {
 			return false;
 		}
 		return modular.getEnergyBuffer().getEnergyStored() > 0;
@@ -22,7 +22,7 @@ public class ModuleEngineStirling extends ModuleEngine{
 	@Override
 	public boolean removeMaterial(IModuleState state) {
 		IHeatSource heatBuffer = state.getModular().getHeatSource();
-		if(heatBuffer == null){
+		if (heatBuffer == null) {
 			return false;
 		}
 		if (heatBuffer.extractHeat(getMaterialPerWork(state), true) == getMaterialPerWork(state)) {

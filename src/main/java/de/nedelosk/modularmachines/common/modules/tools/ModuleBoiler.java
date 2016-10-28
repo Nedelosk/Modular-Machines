@@ -59,24 +59,24 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 	@Override
 	public int getWaterPerWork(IModuleState state) {
 		IModuleProperties properties = state.getModuleProperties();
-		if(properties instanceof IModuleBoilerProperties){
+		if (properties instanceof IModuleBoilerProperties) {
 			return ((IModuleBoilerProperties) properties).getWaterPerWork(state);
 		}
 		return 0;
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state){
+	public void sendModuleUpdate(IModuleState state) {
 		IModularHandler handler = state.getModular().getHandler();
-		if(handler instanceof IModularHandlerTileEntity){
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity)handler).getPos(), (WorldServer) handler.getWorld());
+		if (handler instanceof IModularHandlerTileEntity) {
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(handler), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
+			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
 	}
 
 	@Override
 	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[]{EnumModulePositions.SIDE};
+		return new IModulePostion[] { EnumModulePositions.SIDE };
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 
 	@Override
 	public String[] getJEIRecipeCategorys(IModuleContainer container) {
-		return new String[]{CategoryUIDs.BOILER};
+		return new String[] { CategoryUIDs.BOILER };
 	}
 
 	@Override
@@ -100,36 +100,31 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 		FluidTankAdvanced tankSteam = tank.getTank(1);
 		boolean needUpdate = false;
 		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
-
-		if(modular.updateOnInterval(20)){
-			if(inventory != null){
+		if (modular.updateOnInterval(20)) {
+			if (inventory != null) {
 				ModuleUtil.tryEmptyContainer(0, 1, inventory, tank.getTank(0));
 				ModuleUtil.tryFillContainer(2, 3, inventory, tank.getTank(1));
 			}
 		}
-		if(modular.updateOnInterval(10)){
-			if(controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)){
+		if (modular.updateOnInterval(10)) {
+			if (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state)) {
 				IHeatSource heatSource = modular.getHeatSource();
 				HeatLevel heatLevel = heatSource.getHeatLevel();
-
 				FluidStack waterStack = tankWater.getFluid();
-				if(!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()){
-					if (heatSource.getHeatStored() >= HeatManager.BOILING_POINT){
+				if (!tankWater.isEmpty() && waterStack != null && waterStack.amount > 0 && !tankSteam.isFull()) {
+					if (heatSource.getHeatStored() >= HeatManager.BOILING_POINT) {
 						int waterCost = (heatLevel.getIndex() - 1) * getWaterPerWork(state);
-						if (waterCost <= 0){
+						if (waterCost <= 0) {
 							return;
 						}
-
 						FluidStack water = tankWater.drainInternal(waterCost * 15, false);
-						if (water == null){
+						if (water == null) {
 							return;
 						}
-
 						waterCost = Math.min(waterCost, water.amount);
 						FluidStack steam = new FluidStack(FluidManager.STEAM, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost);
 						steam.amount = tankSteam.fillInternal(new FluidStack(FluidManager.STEAM, HeatManager.STEAM_PER_UNIT_WATER / 2 * waterCost), false);
-
-						if(steam.amount > 0){
+						if (steam.amount > 0) {
 							tankWater.drainInternal(waterCost * 15, true);
 							tankSteam.fillInternal(steam, true);
 							sendModuleUpdate(state);
@@ -162,21 +157,22 @@ public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModu
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Map<ResourceLocation, ResourceLocation> getModelLocations(IModuleItemContainer container) {
-		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "boilers", container.getSize()), ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "boilers", container.getSize()));
+		return Collections.singletonMap(ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "boilers", container.getSize()),
+				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "boilers", container.getSize()));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
-		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows",  container.getSize());
+		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
 	}
 
 	@Override
-	public void openJEI(IModuleState state){
-		if(this instanceof IModuleJEI){
+	public void openJEI(IModuleState state) {
+		if (this instanceof IModuleJEI) {
 			Loader.instance();
-			if(Loader.isModLoaded("JEI")){
-				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI)this).getJEIRecipeCategorys(state.getContainer())));
+			if (Loader.isModLoaded("JEI")) {
+				JeiPlugin.jeiRuntime.getRecipesGui().showCategories(Arrays.asList(((IModuleJEI) this).getJEIRecipeCategorys(state.getContainer())));
 			}
 		}
 	}

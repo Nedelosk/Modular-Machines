@@ -21,7 +21,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 	private final IStoragePage page;
 	private boolean afterPage = false;
 	private boolean transferStack = false;
-	private boolean hasStorageChange= false;
+	private boolean hasStorageChange = false;
 
 	public ContainerAssembler(IModularHandler tile, InventoryPlayer inventory) {
 		super(tile, inventory);
@@ -29,19 +29,17 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 		IStoragePosition position = assembler.getSelectedPosition();
 		assembler.updatePages(null);
 		this.page = assembler.getStoragePage(position);
-
-		//Add slots to container
-		if(page == null){
+		// Add slots to container
+		if (page == null) {
 			addSlotToContainer(new SlotAssemblerStorage(assembler, 44, 35, null, position, this));
-		}else{
+		} else {
 			List<Slot> slots = new ArrayList<>();
 			page.createSlots(this, slots);
-			for(Slot slot : slots){
+			for(Slot slot : slots) {
 				addSlotToContainer(slot);
 			}
 		}
-
-		if(page != null){
+		if (page != null) {
 			page.setContainer(this);
 			page.onSlotChanged(this);
 		}
@@ -58,7 +56,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
-		if(page != null){
+		if (page != null) {
 			page.setContainer(null);
 		}
 	}
@@ -66,7 +64,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-		if(page != null){
+		if (page != null) {
 			page.detectAndSendChanges();
 		}
 	}
@@ -75,7 +73,6 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 		return super.transferStackInSlot(player, slotIndex);
 	}
-
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {

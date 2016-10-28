@@ -81,5 +81,4 @@ public class BlockModuleCrafter extends BlockContainerForest implements IItemMod
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.SOLID;
 	}
-
 }

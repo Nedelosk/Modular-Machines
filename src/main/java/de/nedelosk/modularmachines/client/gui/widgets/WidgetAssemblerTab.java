@@ -33,12 +33,11 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	public void draw(IGuiBase gui) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (position.equals(provider.getSelectedPosition())) ? 0 : 28,
-				right ? 214 : 235, 28, 21);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (position.equals(provider.getSelectedPosition())) ? 0 : 28, right ? 214 : 235, 28, 21);
 		IStoragePage page = provider.getStoragePage(position);
-		if(page != null){
+		if (page != null) {
 			ItemStack item = page.getStorageStack();
-			if(item != null){
+			if (item != null) {
 				gui.drawItemStack(item, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
 			}
 		}
@@ -49,7 +48,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 		if (!provider.getSelectedPosition().equals(position)) {
 			provider.setSelectedPosition(position);
 			IModularHandler modularHandler = provider.getHandler();
-			if(modularHandler != null && modularHandler.getWorld() != null){
+			if (modularHandler != null && modularHandler.getWorld() != null) {
 				if (modularHandler.getWorld().isRemote) {
 					PacketHandler.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
 				}

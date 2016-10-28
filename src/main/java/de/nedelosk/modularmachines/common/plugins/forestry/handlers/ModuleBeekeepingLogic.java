@@ -31,5 +31,4 @@ public class ModuleBeekeepingLogic extends BeekeepingLogic {
 			PacketHandler.sendToPlayer(new PacketBeeLogicActiveModule(housing.getModuleState(), housing), player);
 		}
 	}
-
 }

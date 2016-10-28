@@ -2,19 +2,19 @@ package de.nedelosk.modularmachines.api.property;
 
 import net.minecraft.nbt.NBTTagInt;
 
-public class PropertyEnum<T extends Enum<T>> extends PropertyBase<T, NBTTagInt, IPropertyProvider>{
+public class PropertyEnum<T extends Enum<T>> extends PropertyBase<T, NBTTagInt, IPropertyProvider> {
 
-	public PropertyEnum(String name, Class<T> valueClass, T defaultValue){
+	public PropertyEnum(String name, Class<T> valueClass, T defaultValue) {
 		super(name, valueClass, defaultValue);
 	}
 
 	@Override
-	public boolean equals(Object obj){
-		if (this == obj){
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		}else if (obj instanceof PropertyEnum && super.equals(obj)){
+		} else if (obj instanceof PropertyEnum && super.equals(obj)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

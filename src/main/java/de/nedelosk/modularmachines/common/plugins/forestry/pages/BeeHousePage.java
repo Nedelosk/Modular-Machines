@@ -44,13 +44,11 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	}
 
 	@Override
-	protected void createInventory(IModuleInventoryBuilder invBuilder) {	
+	protected void createInventory(IModuleInventoryBuilder invBuilder) {
 		// Queen/Princess
 		invBuilder.addInventorySlot(true, 29, 39, new ItemFilterBee(false));
-
 		// Drone
 		invBuilder.addInventorySlot(true, 29, 65, new ItemFilterBee(true));
-
 		// Product Inventory
 		invBuilder.addInventorySlot(false, 116, 52);
 		invBuilder.addInventorySlot(false, 137, 39);
@@ -76,9 +74,9 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	@Override
 	public void detectAndSendChanges() {
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
-		if(housing != null){
+		if (housing != null) {
 			int breedingProgressPercen = housing.getBeekeepingLogic().getBeeProgressPercent();
-			if(previousBreedingProgressPercent != breedingProgressPercen){
+			if (previousBreedingProgressPercent != breedingProgressPercen) {
 				previousBreedingProgressPercent = breedingProgressPercen;
 				sendPacketToListeners(new PacketUpdateModule(moduleState));
 			}
@@ -86,7 +84,7 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	}
 
 	protected final void sendPacketToListeners(IPacketClient packet) {
-		for (IContainerListener listener : (List<IContainerListener>)container.getListeners()) {
+		for(IContainerListener listener : (List<IContainerListener>) container.getListeners()) {
 			if (listener instanceof EntityPlayer) {
 				PacketHandler.sendToPlayer(packet, (EntityPlayer) listener);
 			} else {
@@ -99,14 +97,12 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	public void drawBackground(int mouseX, int mouseY) {
 		super.drawBackground(mouseX, mouseY);
 		BeeHouseHandler housing = moduleState.getContentHandler(BeeHouseHandler.class);
-
 		drawHealthMeter(gui.getGuiLeft() + 20, gui.getGuiTop() + 37, housing.getHealthScaled(46), EnumTankLevel.rateTankLevel(housing.getHealthScaled(100)));
 	}
 
 	private void drawHealthMeter(int x, int y, int height, EnumTankLevel rated) {
 		int i = 176 + rated.getLevelScaled(16);
 		int k = 0;
-
 		gui.getGui().drawTexturedModalRect(x, y + 46 - height, i, k + 46 - height, 4, height);
 	}
 
@@ -124,5 +120,4 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	public ResourceLocation getGuiTexture() {
 		return new ResourceLocation(Constants.MOD_ID, Constants.TEXTURE_PATH_GUI + "/alveary.png");
 	}
-
 }
