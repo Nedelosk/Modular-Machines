@@ -58,11 +58,11 @@ public class WidgetTextField extends Widget {
 	public WidgetTextField(int posX, int posY, int width, int height) {
 		this(posX, posY, width, height, 0);
 	}
-	
+
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId) {
 		this(posX, posY, width, height, componentId, Minecraft.getMinecraft().fontRendererObj);
 	}
-	
+
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId, FontRenderer fontrendererObj) {
 		super(posX, posY, width, height);
 		this.id = componentId;

@@ -8,6 +8,7 @@ import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.ModularManager;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import de.nedelosk.modularmachines.client.model.ModelModular;
+import de.nedelosk.modularmachines.common.modular.ModularHandlerTileEntity;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import net.darkhax.tesla.api.ITeslaConsumer;
@@ -28,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"), @Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib"),
-		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
+	@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergyReceiver, IEnergySink {
 
 	@CapabilityInject(ITeslaConsumer.class)
@@ -41,8 +42,8 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	protected final IModularHandlerTileEntity modularHandler;
 	protected boolean addedToEnet;
 
-	public TileModular(IModularHandlerTileEntity modularHandler) {
-		this.modularHandler = modularHandler;
+	public TileModular() {
+		this.modularHandler = new ModularHandlerTileEntity(ModularManager.DEFAULT_STORAGE_POSITIONS);
 		modularHandler.setTile(this);
 		for(EnumFacing face : EnumFacing.VALUES) {
 			sides.put(face, new SideCapability(face));
@@ -181,15 +182,12 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 				return true;
 			}
 		}
-		if (capability == CapabilityEnergy.ENERGY) {
-			return true;
-		}
 		if (modularHandler != null) {
 			if (modularHandler.hasCapability(capability, facing)) {
 				return true;
 			}
 		}
-		return super.hasCapability(capability, facing);
+		return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
 	}
 
 	@Optional.Method(modid = "CoFHLib")
@@ -287,7 +285,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	 * energyInterface.getSourceTier(); } } return tier; }
 	 */
 	@Optional.InterfaceList({ @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"), @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla"),
-			@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla") })
+		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla") })
 	private class SideCapability implements ITeslaConsumer, ITeslaHolder, ITeslaProducer, IEnergyStorage {
 
 		private EnumFacing facing;

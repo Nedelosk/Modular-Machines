@@ -2,6 +2,7 @@ package de.nedelosk.modularmachines.api.modules.transport;
 
 import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.state.IModuleState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
@@ -52,5 +53,15 @@ public class TransportHandlerWrapper<H> implements ITransportHandlerWrapper<H> {
 	@Override
 	public TileEntity getTileEntity() {
 		return tileEntity;
+	}
+
+	@Override
+	public ItemStack getTabItem() {
+		return null;
+	}
+
+	@Override
+	public String getTabTooltip() {
+		return null;
 	}
 }

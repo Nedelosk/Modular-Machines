@@ -75,7 +75,7 @@ public abstract class Page<T extends IGuiProvider> implements IPage<T> {
 	protected ResourceLocation getInventoryTexture() {
 		return new ResourceLocation("modularmachines:textures/gui/inventory_player.png");
 	}
-	
+
 	protected void add(Widget widget) {
 		if (gui != null) {
 			gui.getWidgetManager().add(widget);

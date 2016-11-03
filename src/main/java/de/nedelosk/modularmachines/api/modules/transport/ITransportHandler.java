@@ -8,7 +8,7 @@ import de.nedelosk.modularmachines.api.modules.state.IModuleState;
 
 public interface ITransportHandler<H, T extends ITransportCycle<H>> {
 
-	void work(IModuleState<IModuleTansport> moduleState);
+	void work(IModuleState<IModuleTansport> moduleState, int ticks);
 
 	ITransportCyclePage<H, T> createCyclePage(IModuleState<IModuleTansport> transportModule, @Nullable T cycle);
 

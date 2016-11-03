@@ -37,10 +37,10 @@ public interface ITransportHandlerWrapper<H> {
 	 */
 	@Nullable
 	TileEntity getTileEntity();
-	
+
 	@Nonnull
 	ItemStack getTabItem();
-	
+
 	@Nonnull
 	String getTabTooltip();
 }

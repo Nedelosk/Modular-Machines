@@ -22,6 +22,8 @@ import de.nedelosk.modularmachines.api.modules.containers.ModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.containers.ModuleItemProvider;
 import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
 import de.nedelosk.modularmachines.api.modules.heaters.IModuleHeater;
+import de.nedelosk.modularmachines.api.modules.photovoltaics.IModulePhotovoltaicProperties;
+import de.nedelosk.modularmachines.api.modules.photovoltaics.ModulePhotovoltaicProperties;
 import de.nedelosk.modularmachines.api.modules.position.EnumModulePositions;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleControllerProperties;
 import de.nedelosk.modularmachines.api.modules.properties.IModuleHeaterProperties;
@@ -49,6 +51,7 @@ import de.nedelosk.modularmachines.common.modules.engines.ModuleEngineSteam;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeater;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import de.nedelosk.modularmachines.common.modules.heaters.ModuleHeaterSteam;
+import de.nedelosk.modularmachines.common.modules.photovoltaics.ModulePhotovoltaic;
 import de.nedelosk.modularmachines.common.modules.storages.ModuleChest;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleAlloySmelter;
 import de.nedelosk.modularmachines.common.modules.tools.ModuleBoiler;
@@ -72,6 +75,8 @@ public class ModuleManager {
 	public static IModuleController moduleController;
 	public static IModuleControllerProperties[] moduleControllerProperties = new IModuleControllerProperties[4];
 	public static IModuleItemContainer[] moduleControllerContainers = new IModuleItemContainer[4];
+	public static ModulePhotovoltaic modulePhotovoltaic;
+	public static IModulePhotovoltaicProperties[] modulePhotovoltaicProperties = new IModulePhotovoltaicProperties[4];
 	public static IModuleCasing moduleCasing;
 	public static ModuleCasingProperties[] moduleCasingProperties = new ModuleCasingProperties[5];
 	public static IModuleModuleStorage moduleStorage;
@@ -128,6 +133,12 @@ public class ModuleManager {
 		moduleControllerProperties[1] = new ModuleControllerProperties(1, 32);
 		moduleControllerProperties[2] = new ModuleControllerProperties(1, 64);
 		moduleControllerProperties[3] = new ModuleControllerProperties(1, 128);
+		modulePhotovoltaic = new ModulePhotovoltaic();
+		register(modulePhotovoltaic, "photovoltaic");
+		modulePhotovoltaicProperties[0] = new ModulePhotovoltaicProperties(2, 35);
+		modulePhotovoltaicProperties[1] = new ModulePhotovoltaicProperties(4, 75);
+		modulePhotovoltaicProperties[2] = new ModulePhotovoltaicProperties(6, 125);
+		modulePhotovoltaicProperties[3] = new ModulePhotovoltaicProperties(8, 185);
 		/* CASINGS */
 		moduleCasing = new ModuleCasing();
 		register(moduleCasing, "casing");
@@ -140,12 +151,12 @@ public class ModuleManager {
 		moduleStorage = new ModuleModuleStorage();
 		register(moduleStorage, "modulestorage");
 		// Small
-		moduleModuleStorageSmallProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.TOP);
-		moduleModuleStorageSmallProperties[1] = new ModuleModuleStorageProperties(2, 5, EnumModulePositions.TOP);
-		moduleModuleStorageSmallProperties[2] = new ModuleModuleStorageProperties(3, 7, EnumModulePositions.TOP);
-		moduleModuleStorageSmallProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.TOP);
-		moduleModuleStorageSmallProperties[4] = new ModuleModuleStorageProperties(5, 18, EnumModulePositions.TOP);
-		moduleModuleStorageSmallProperties[5] = new ModuleModuleStorageProperties(6, 24, EnumModulePositions.TOP);
+		moduleModuleStorageSmallProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.TOP, EnumModulePositions.BACK);
+		moduleModuleStorageSmallProperties[1] = new ModuleModuleStorageProperties(2, 5, EnumModulePositions.TOP, EnumModulePositions.BACK);
+		moduleModuleStorageSmallProperties[2] = new ModuleModuleStorageProperties(3, 7, EnumModulePositions.TOP, EnumModulePositions.BACK);
+		moduleModuleStorageSmallProperties[3] = new ModuleModuleStorageProperties(4, 12, EnumModulePositions.TOP, EnumModulePositions.BACK);
+		moduleModuleStorageSmallProperties[4] = new ModuleModuleStorageProperties(5, 14, EnumModulePositions.TOP, EnumModulePositions.BACK);
+		moduleModuleStorageSmallProperties[5] = new ModuleModuleStorageProperties(6, 18, EnumModulePositions.TOP, EnumModulePositions.BACK);
 		// Large
 		moduleModuleStorageLargeProperties[0] = new ModuleModuleStorageProperties(1, 3, EnumModulePositions.SIDE);
 		moduleModuleStorageLargeProperties[1] = new ModuleModuleStorageProperties(2, 6, EnumModulePositions.SIDE);
@@ -261,6 +272,11 @@ public class ModuleManager {
 		moduleControllerContainers[1] = registerModuleItem(moduleController, moduleControllerProperties[1], EnumMetalMaterials.IRON, EnumModuleSizes.LARGE);
 		moduleControllerContainers[2] = registerModuleItem(moduleController, moduleControllerProperties[2], EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE);
 		moduleControllerContainers[3] = registerModuleItem(moduleController, moduleControllerProperties[3], EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGE);
+		// Photovoltaic
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemPhotovoltaic, 1, 0), EnumMetalMaterials.BRONZE, EnumModuleSizes.LARGE, new ModuleContainer(modulePhotovoltaic, modulePhotovoltaicProperties[0])), "photovoltaic.basic");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemPhotovoltaic, 1, 1), EnumMetalMaterials.IRON, EnumModuleSizes.LARGE, new ModuleContainer(modulePhotovoltaic, modulePhotovoltaicProperties[1])), "photovoltaic.default");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemPhotovoltaic, 1, 2), EnumMetalMaterials.STEEL, EnumModuleSizes.LARGE, new ModuleContainer(modulePhotovoltaic, modulePhotovoltaicProperties[2])), "photovoltaic.improved");
+		register(new ModuleItemContainer(new ItemStack(ItemManager.itemPhotovoltaic, 1, 3), EnumMetalMaterials.MAGMARIUM, EnumModuleSizes.LARGE, new ModuleContainer(modulePhotovoltaic, modulePhotovoltaicProperties[3])), "photovoltaic.advanced");
 		// Cleaner
 		moduleModuleCleanerContainer = registerModuleItem(moduleModuleCleaner, null, EnumMetalMaterials.IRON, EnumModuleSizes.SMALL);
 		// Casings

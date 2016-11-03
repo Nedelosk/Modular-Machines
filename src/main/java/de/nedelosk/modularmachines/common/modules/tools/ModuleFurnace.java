@@ -105,7 +105,7 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 			if (input != null && output != null) {
 				IRecipeBuilder builder = new RecipeBuilder();
 				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output)).set(Recipe.INPUTS, new RecipeItem[] { new RecipeItem(entry.getKey()) })
-						.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
+				.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
 				furnaceRecipe.add(builder.build());
 			}
 		}

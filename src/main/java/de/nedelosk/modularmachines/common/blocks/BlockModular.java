@@ -31,7 +31,6 @@ import de.nedelosk.modularmachines.common.config.Config;
 import de.nedelosk.modularmachines.common.core.ItemManager;
 import de.nedelosk.modularmachines.common.core.ModularMachines;
 import de.nedelosk.modularmachines.common.core.TabModularMachines;
-import de.nedelosk.modularmachines.common.modular.ModularHandlerTileEntity;
 import de.nedelosk.modularmachines.common.utils.IColoredBlock;
 import de.nedelosk.modularmachines.common.utils.WorldUtil;
 import forestry.api.core.IItemModelRegister;
@@ -160,7 +159,7 @@ public class BlockModular extends BlockContainerForest implements IItemModelRegi
 		// return new TileModular(new
 		// ModularHandlerTileEntity(Collections.singletonList(SingleStoragePositions.SIDE)));
 		// }
-		return new TileModular(new ModularHandlerTileEntity(ModularManager.DEFAULT_STORAGE_POSITIONS));
+		return new TileModular();
 	}
 
 	@Override

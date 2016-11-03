@@ -50,12 +50,12 @@ public class AchievementManager {
 	public static void registerPage() {
 		AchievementPage.registerAchievementPage(new AchievementPage(
 				Constants.NAME/*
-								 * , craftChassis, craftCasingWood,
-								 * craftCasingBronze, craftCasingIron,
-								 * craftDrawerBrick, craftDrawerBronze,
-								 * craftDrawerIron, craftDrawerSteel,
-								 * craftDrawerMagmarium
-								 */));
+				 * , craftChassis, craftCasingWood,
+				 * craftCasingBronze, craftCasingIron,
+				 * craftDrawerBrick, craftDrawerBronze,
+				 * craftDrawerIron, craftDrawerSteel,
+				 * craftDrawerMagmarium
+				 */));
 	}
 
 	@SubscribeEvent

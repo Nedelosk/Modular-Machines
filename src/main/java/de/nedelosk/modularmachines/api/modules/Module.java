@@ -49,7 +49,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	public int getComplexity(IModuleContainer container) {
 		IModuleProperties properties = container.getProperties();
 		if (properties == null) {
-			return -1;
+			return 0;
 		}
 		return properties.getComplexity(container);
 	}

@@ -22,17 +22,17 @@ public class ItemTransportHandler extends TransportHandler<IItemHandler, ItemTra
 	}
 
 	@Override
-	public void work(IModuleState<IModuleTansport> moduleState) {
+	public void work(IModuleState<IModuleTansport> moduleState, int ticks) {
 		for(ITransportCycle cycle : getCycles(moduleState)) {
 			if (cycle.canWork()) {
-				cycle.work();
+				cycle.work(ticks);
 			}
 		}
 	}
 
 	@Override
 	public ITransportCyclePage<IItemHandler, ItemTransportCycle> createCyclePage(IModuleState<IModuleTansport> transportModule, ItemTransportCycle cycle) {
-		return null;
+		return new ItemTransportCyclePage();
 	}
 
 	@Override

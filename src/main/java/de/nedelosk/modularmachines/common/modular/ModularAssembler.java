@@ -1,9 +1,6 @@
 package de.nedelosk.modularmachines.common.modular;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,8 +84,7 @@ public class ModularAssembler implements IModularAssembler {
 		this.modularHandler = modularHandler;
 		this.pages = pages;
 		this.itemHandler = itemHandler;
-		this.indexes = new ArrayList<>(pages.keySet());
-		Collections.sort(indexes, StoragePositionComperator.INSTANCE);
+		this.indexes = modularHandler.getPositions().asList();
 		this.selectedPosition = indexes.get(0);
 		updatePages(null);
 	}
@@ -484,15 +480,6 @@ public class ModularAssembler implements IModularAssembler {
 	public void onStorageSlotChange() {
 		if (!modularHandler.getWorld().isRemote && modularHandler instanceof IModularHandlerTileEntity) {
 			hasChange = true;
-		}
-	}
-
-	private enum StoragePositionComperator implements Comparator<IStoragePosition> {
-		INSTANCE;
-
-		@Override
-		public int compare(IStoragePosition arg0, IStoragePosition arg1) {
-			return arg0.getProperty(arg1);
 		}
 	}
 }

@@ -124,7 +124,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		}
 		return contentHandlers;
 	}
-	
+
 	@Override
 	public <H> H getContentHandlerFromAll(Class<? extends H> handlerClass) {
 		for(IModuleContentHandler handler : getAllContentHandlers()) {
@@ -294,5 +294,4 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		}
 		return null;
 	}
-
 }

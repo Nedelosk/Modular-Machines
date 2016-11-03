@@ -1,14 +1,21 @@
 package de.nedelosk.modularmachines.common.modules.storages;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.modular.ExpandedStoragePositions;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.api.modules.IModuleProperties;
+import de.nedelosk.modularmachines.api.modules.ITickable;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControl;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleControlled;
+import de.nedelosk.modularmachines.api.modules.controller.IModuleController;
+import de.nedelosk.modularmachines.api.modules.controller.ModuleControl;
 import de.nedelosk.modularmachines.api.modules.handlers.IModuleContentHandler;
 import de.nedelosk.modularmachines.api.modules.handlers.energy.ModuleEnergyBuffer;
 import de.nedelosk.modularmachines.api.modules.position.IStoragePosition;
@@ -17,13 +24,17 @@ import de.nedelosk.modularmachines.api.modules.storage.StorageModule;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBattery;
 import de.nedelosk.modularmachines.api.modules.storage.energy.IModuleBatteryProperties;
 import de.nedelosk.modularmachines.common.modules.pages.BatteryPage;
+import de.nedelosk.modularmachines.common.modules.pages.ControllerPage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSyncModule;
+import de.nedelosk.modularmachines.common.utils.EnergyUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleBattery extends StorageModule implements IModuleBattery {
+public abstract class ModuleBattery extends StorageModule implements IModuleBattery, IModuleControlled, ITickable {
 
 	private static final String[] tiers = new String[] { "LV", "MV", "HV", "EV" };
 
@@ -42,6 +53,22 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 		if (handler instanceof IModularHandlerTileEntity) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
 		}
+	}
+
+	@Override
+	public void updateServer(IModuleState<IModule> state, int tickCount) {
+		IModuleState<IModuleController> controller = state.getModular().getModule(IModuleController.class);
+		if (controller != null && controller.getModule().canWork(controller, state) && tickCount % 2 == 0) {
+			IModularHandler modularHandler = state.getModular().getHandler();
+			if (modularHandler instanceof IModularHandlerTileEntity) {
+				EnergyUtil.transferEnergy(modularHandler.getWorld(), ((IModularHandlerTileEntity) modularHandler).getPos(), state.getContentHandler(IEnergyBuffer.class), getCapacity(state) / 10000, false);
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateClient(IModuleState<IModule> state, int tickCount) {
 	}
 
 	@Override
@@ -90,6 +117,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	public List<IModuleContentHandler> createHandlers(IModuleState state) {
 		List<IModuleContentHandler> handlers = super.createHandlers(state);
 		handlers.add(new ModuleEnergyBuffer(state, getCapacity(state), getMaxReceive(state), getMaxExtract(state), getTier(state.getContainer())));
+		handlers.add(new ModuleControl(state));
 		return handlers;
 	}
 
@@ -117,5 +145,24 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 		List<IModulePage> pages = super.createPages(state);
 		pages.add(new BatteryPage(state));
 		return pages;
+	}
+
+	@Override
+	public IModuleControl getModuleControl(IModuleState state) {
+		return state.getContentHandler(IModuleControl.class);
+	}
+
+	@Override
+	public void onModularAssembled(IModuleState state) {
+		super.onModularAssembled(state);
+		if (state.getModular().getModule(IModuleController.class) != null) {
+			state.addPage(new ControllerPage(state));
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public List<IModuleState> getUsedModules(IModuleState state) {
+		return Collections.emptyList();
 	}
 }

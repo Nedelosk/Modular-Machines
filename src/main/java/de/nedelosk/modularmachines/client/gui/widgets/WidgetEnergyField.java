@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.client.gui.widgets;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,13 +8,17 @@ import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
 import de.nedelosk.modularmachines.api.gui.IGuiBase;
 import de.nedelosk.modularmachines.api.gui.Widget;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import de.nedelosk.modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends Widget<IEnergyBuffer> {
+
+	public static final NumberFormat NF = NumberFormat.getIntegerInstance();
 
 	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 
@@ -24,7 +29,8 @@ public class WidgetEnergyField extends Widget<IEnergyBuffer> {
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<>();
-		description.add(provider.getEnergyStored() + " RF / " + provider.getCapacity() + " RF");
+		description.add(TextFormatting.WHITE + NF.format(provider.getEnergyStored()) + " " + Translator.translateToLocal("mm.tooltip.widget.energy.field.of"));
+		description.add(TextFormatting.WHITE + NF.format(provider.getCapacity()) + " " + TextFormatting.GRAY + Translator.translateToLocal("mm.tooltip.widget.energy.field.rf"));
 		return description;
 	}
 

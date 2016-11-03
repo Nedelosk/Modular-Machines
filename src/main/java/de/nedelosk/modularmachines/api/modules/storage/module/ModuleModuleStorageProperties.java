@@ -10,7 +10,7 @@ public class ModuleModuleStorageProperties extends StorageModuleProperties imple
 	protected final int defaultAllowedComplexity;
 	protected int allowedComplexity;
 
-	public ModuleModuleStorageProperties(int complexity, int allowedComplexity, IModulePostion position) {
+	public ModuleModuleStorageProperties(int complexity, int allowedComplexity, IModulePostion... position) {
 		super(complexity, position);
 		this.defaultAllowedComplexity = allowedComplexity;
 		this.allowedComplexity = allowedComplexity;

@@ -6,7 +6,7 @@ public interface ITransportCycle<H> {
 
 	int getTime();
 
-	void work();
+	void work(int ticks);
 
 	boolean canWork();
 

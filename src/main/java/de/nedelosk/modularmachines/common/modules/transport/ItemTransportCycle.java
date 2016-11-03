@@ -1,7 +1,6 @@
 package de.nedelosk.modularmachines.common.modules.transport;
 
 import de.nedelosk.modularmachines.api.modules.transport.ITransportCycle;
-import de.nedelosk.modularmachines.api.modules.transport.ITransportHandler;
 import de.nedelosk.modularmachines.api.modules.transport.ITransportHandlerWrapper;
 import de.nedelosk.modularmachines.api.modules.transport.TransportCycle;
 import net.minecraft.item.ItemStack;
@@ -14,20 +13,22 @@ public class ItemTransportCycle extends TransportCycle<IItemHandler> implements 
 	}
 
 	@Override
-	public void work() {
-		ItemStack[] startStacks = new ItemStack[startSlots.length];
-		for(int i = 0; i < startSlots.length; i++) {
-			startStacks[i] = startHandler.getHandler().extractItem(startSlots[i], amount, true);
-		}
-		for(int startIndex = 0; startIndex < startSlots.length; startIndex++) {
-			ItemStack itemStack = startStacks[startIndex];
-			if (itemStack != null && itemStack.stackSize > 0) {
-				for(int endIndex = 0; endIndex < endSlots.length; endIndex++) {
-					ItemStack latestSack = itemStack;
-					if (itemStack != null && itemStack.stackSize > 0) {
-						itemStack = endHandler.getHandler().insertItem(endSlots[endIndex], itemStack, true);
-						if (latestSack != null && itemStack == null || itemStack != null && latestSack.stackSize > itemStack.stackSize) {
-							startHandler.getHandler().extractItem(startSlots[startIndex], itemStack.stackSize - endHandler.getHandler().insertItem(endSlots[endIndex], itemStack, false).stackSize, false);
+	public void work(int ticks) {
+		if (ticks % time == 0) {
+			ItemStack[] startStacks = new ItemStack[startSlots.length];
+			for(int i = 0; i < startSlots.length; i++) {
+				startStacks[i] = startHandler.getHandler().extractItem(startSlots[i], amount, true);
+			}
+			for(int startIndex = 0; startIndex < startSlots.length; startIndex++) {
+				ItemStack itemStack = startStacks[startIndex];
+				if (itemStack != null && itemStack.stackSize > 0) {
+					for(int endIndex = 0; endIndex < endSlots.length; endIndex++) {
+						ItemStack latestSack = itemStack;
+						if (itemStack != null && itemStack.stackSize > 0) {
+							itemStack = endHandler.getHandler().insertItem(endSlots[endIndex], itemStack, true);
+							if (latestSack != null && itemStack == null || itemStack != null && latestSack.stackSize > itemStack.stackSize) {
+								startHandler.getHandler().extractItem(startSlots[startIndex], itemStack.stackSize - endHandler.getHandler().insertItem(endSlots[endIndex], itemStack, false).stackSize, false);
+							}
 						}
 					}
 				}

@@ -50,16 +50,18 @@ public class ItemBlockModular extends ItemBlock {
 					handler.deserializeNBT(stack.getTagCompound());
 					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 					IModular modular = handler.getModular();
-					for(IModuleProvider provider : modular.getProviders()) {
-						if (provider != null) {
-							ItemStack itemStack = provider.getItemStack();
-							String moduleName = "";
-							for(IModuleState state : provider.getModuleStates()) {
-								if (state != null) {
-									moduleName += state.getContainer().getDisplayName() + " - ";
+					if (modular != null) {
+						for(IModuleProvider provider : modular.getProviders()) {
+							if (provider != null) {
+								ItemStack itemStack = provider.getItemStack();
+								String moduleName = "";
+								for(IModuleState state : provider.getModuleStates()) {
+									if (state != null) {
+										moduleName += state.getContainer().getDisplayName() + " - ";
+									}
 								}
+								tooltip.add(ChatFormatting.GRAY + moduleName + itemStack.getDisplayName());
 							}
-							tooltip.add(ChatFormatting.GRAY + moduleName + itemStack.getDisplayName());
 						}
 					}
 				}

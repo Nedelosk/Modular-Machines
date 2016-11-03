@@ -59,9 +59,10 @@ module.cleaner.name=Module Cleaner
 module.furnace.name=Furnace
 module.chest.name=Chest
 module.moduleStorage.name=Module Storage
+module.photovoltaic.name=Photovoltaic
 
 #EnderIO
-module.capacitorbank.name=Capacitor Bank
+module.capacitor_bank.name=Capacitor Bank
 
 #Mekanism
 module.energycube.name=Energy Cube
@@ -88,7 +89,7 @@ module.pulverizer.description=This machine is used to pulverize items.
 module.turbine.steam.description=This type of turbine generates kinetic energy from steam. It is larger than a steam engine, but also is faster than three steam engines! 
 
 #EnderIO
-module.capacitorbank.description=This type of battery stores redstone flux.
+module.capacitor_bank.description=This type of battery stores redstone flux.
 
 ####################################
 # Materials
@@ -185,6 +186,10 @@ modularmachines.item.casing.steel.name=Steel Casing
 modularmachines.item.casing.magmarium.name=Magmarium Casing
 modularmachines.item.wrench.name=Wrench
 modularmachines.item.module_container.name=Module Container
+modularmachines.item.photovoltaic_basic.name=Base Photovoltaic Panel
+modularmachines.item.photovoltaic_improved.name=Improved Photovoltaic Panel
+modularmachines.item.photovoltaic_default.name=Default Photovoltaic Panel
+modularmachines.item.photovoltaic_advanced.name=Advanced Photovoltaic Panel
 modularmachines.tool.file.iron.name=Iron File
 modularmachines.tool.file.diamond.name=Diamond File
 modularmachines.tool.hammer.name=Iron Hammer
@@ -253,6 +258,8 @@ mm.tooltip.handler.inventory=Slot:
 mm.tooltip.handler.inventory.item=Item: 
 mm.tooltip.handler.inventory.amount=Size: 
 mm.tooltip.handler.inventory.empty=Empty
+mm.tooltip.widget.energy.field.of=of
+mm.tooltip.widget.energy.field.rf=RF
 
 ####################################
 # JEI

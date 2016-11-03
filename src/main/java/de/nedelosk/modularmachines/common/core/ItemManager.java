@@ -44,10 +44,11 @@ public class ItemManager {
 	public static Item itemCasings;
 	public static Item itemChassis;
 	public static Item itemWrench;
+	public static Item itemPhotovoltaic;
 	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
 	public static MaterialList<IMetalMaterial> default_metals = new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM,
 			EnumMetalMaterials.STEEL);
-	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND);
+	public static MaterialList<IMetalMaterial> vanilla = new MaterialList(EnumVanillaMaterials.COAL, EnumVanillaMaterials.OBSIDIAN, EnumMetalMaterials.IRON, EnumMetalMaterials.GOLD, EnumVanillaMaterials.DIAMOND, EnumVanillaMaterials.DIRT);
 	/* metal for ingot's, nugget's, block's */
 	public static MaterialList<IMetalMaterial>[] metals = new MaterialList[] { default_metals, alloys };
 	public static MaterialList<IMetalMaterial>[] dusts = new MaterialList[] { vanilla, default_metals, alloys };
@@ -74,6 +75,7 @@ public class ItemManager {
 		itemTurbineSteam = register(new ItemModuleMeta("turbineSteam", new String[] { "bronze", "iron", "steel", "magmarium" }));
 		itemModuleCore = register(new ItemModuleMeta("moduleCore", new String[] { "basic", "normal", "improved", "advanced" }));
 		itemWrench = register(new ItemWrench());
+		itemPhotovoltaic = register(new ItemModuleMeta("photovoltaic", new String[] { "basic", "default", "improved", "advanced" }));
 		ModuleManager.defaultModuleItem = itemModules = register(new ItemModule());
 		ModuleManager.defaultModuleHolderItem = itemModuleHolder = register(new ItemModuleHolder());
 		ModuleManager.defaultModuleItemContainer = itemModuleContainer = register(new ItemModuleContainer());

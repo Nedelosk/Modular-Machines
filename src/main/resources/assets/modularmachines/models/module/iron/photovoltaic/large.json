@@ -1,0 +1,6 @@
+{
+    "parent": "modularmachines:module/default/photovoltaic/large",
+	"textures": {
+        "wall": "modularmachines:modules/default_photovoltaic"
+    }
+}

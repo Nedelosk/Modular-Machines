@@ -1,5 +1,6 @@
 package de.nedelosk.modularmachines.common.modular;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.nedelosk.modularmachines.api.energy.IEnergyBuffer;
@@ -47,11 +48,11 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 
 	@Override
 	public long receiveEnergy(IModuleState moduleState, EnumFacing facing, long maxReceive, boolean simulate) {
-		List<E> buffers = this.buffers;
+		List<E> buffers = new ArrayList<>(this.buffers);
 		if (moduleState != null && moduleState.getModule() instanceof IModuleControlled) {
 			buffers.clear();
 			IModuleControl control = ((IModuleControlled) moduleState.getModule()).getModuleControl(moduleState);
-			for(E energyBuffer : buffers) {
+			for(E energyBuffer : this.buffers) {
 				if (control.hasPermission(energyBuffer.getModuleState())) {
 					buffers.add(energyBuffer);
 				}

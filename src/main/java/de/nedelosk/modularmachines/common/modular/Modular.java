@@ -181,10 +181,11 @@ public class Modular implements IModular {
 				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
 					if (page instanceof ITickable) {
 						MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageUpdateEvent(moduleState, page, isServer ? Side.SERVER : Side.CLIENT));
+						ITickable tickable = (ITickable) page;
 						if (isServer) {
-							((ITickable) page).updateServer(moduleState, tickCount);
+							tickable.updateServer(moduleState, tickCount);
 						} else {
-							((ITickable) page).updateClient(moduleState, tickCount);
+							tickable.updateClient(moduleState, tickCount);
 						}
 					}
 				}
@@ -412,7 +413,7 @@ public class Modular implements IModular {
 	protected List<IEnergyBuffer> getEnergyBuffers() {
 		List<IEnergyBuffer> handlers = Lists.newArrayList();
 		for(IModuleState state : getModules()) {
-			IModuleContentHandler rnergyInterface = (IModuleContentHandler) state.getContentHandler(IEnergyBuffer.class);
+			IModuleContentHandler rnergyInterface = (IModuleContentHandler) state.getContentHandlerFromAll(IEnergyBuffer.class);
 			if (rnergyInterface instanceof IEnergyBuffer) {
 				handlers.add((IEnergyBuffer) rnergyInterface);
 			}

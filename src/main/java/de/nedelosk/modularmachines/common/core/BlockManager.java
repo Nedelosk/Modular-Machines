@@ -36,6 +36,12 @@ public class BlockManager {
 		GameRegistry.registerTileEntity(TileModuleCrafter.class, "forestmods.module.crafter");
 	}
 
+	public static <B extends Block> B register(B block) {
+		String name = block.getUnlocalizedName().replace("tile.", "").replace("forest.tile.", "");
+		Registry.register(block, name);
+		return block;
+	}
+
 	public static <B extends Block> B register(B block, ItemBlock item) {
 		String name = block.getUnlocalizedName().replace("tile.", "").replace("forest.tile.", "");
 		Registry.register(block, name);

@@ -76,9 +76,27 @@ public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage
 			models.addAll(getStorageModels(moduleStorage, modelState, format, bakedTextureGetter));
 			bakedModel = new BakedMultiModel(models);
 		} else if (position == ExpandedStoragePositions.TOP) {
-			bakedModel = ModuleModelLoader.getModel(top, format);
+			List<IBakedModel> models = new ArrayList<>();
+			models.add(ModuleModelLoader.getModel(top, format));
+			List<IModuleState> modules = new ArrayList<>();
+			for(IModuleState stateStoraged : moduleStorage.getModules()) {
+				if (stateStoraged != null) {
+					modules.add(stateStoraged);
+				}
+			}
+			models.addAll(getStorageModels(moduleStorage, modelState, format, bakedTextureGetter));
+			bakedModel = new BakedMultiModel(models);
 		} else if (position == ExpandedStoragePositions.BACK) {
-			bakedModel = ModuleModelLoader.getModel(back, format);
+			List<IBakedModel> models = new ArrayList<>();
+			models.add(ModuleModelLoader.getModel(back, format));
+			List<IModuleState> modules = new ArrayList<>();
+			for(IModuleState stateStoraged : moduleStorage.getModules()) {
+				if (stateStoraged != null) {
+					modules.add(stateStoraged);
+				}
+			}
+			models.addAll(getStorageModels(moduleStorage, modelState, format, bakedTextureGetter));
+			bakedModel = new BakedMultiModel(models);
 		}
 		// Rotate Modules
 		bakedModel = new TRSRBakedModel(bakedModel, 0F, 0F, 0F, 0F, position.getRotation(), 0F, 1F);
