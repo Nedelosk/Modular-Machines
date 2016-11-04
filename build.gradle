@@ -177,6 +177,8 @@ curseforge {
 		apiKey = System.getenv().CURSEAPIKEY
 		project {
 			id = '233073'
+			changelog = file('changelog.md')
+		    changelogType = 'md'
 			releaseType = 'beta'
 			addArtifact sourcesJar
 			addArtifact apiJar
