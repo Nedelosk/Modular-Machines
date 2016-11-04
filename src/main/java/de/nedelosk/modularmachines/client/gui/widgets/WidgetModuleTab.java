@@ -12,7 +12,10 @@ import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModule;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,7 +36,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 		if (gui != null && provider != null && moduleHandler != null && moduleHandler.getModular() != null && moduleHandler.getModular().getCurrentModule() != null) {
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			RenderUtil.bindTexture(guiTexture);
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider.getContainer().equals(moduleHandler.getModular().getCurrentModule().getContainer())) ? 0 : 28, right ? 214 : 235, 28, 21);
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (provider.getIndex() == moduleHandler.getModular().getCurrentModule().getIndex()) ? 0 : 28, right ? 214 : 235, 28, 21);
 			gui.drawItemStack(provider.getProvider().getItemStack(), gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
 		}
 	}
@@ -43,6 +46,7 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 		IModular modular = moduleHandler.getModular();
 		IModuleState currentModule = modular.getCurrentModule();
 		if (currentModule.getIndex() != provider.getIndex()) {
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			modular.setCurrentModule(provider);
 			PacketHandler.sendToServer(new PacketSelectModule(provider));
 			PacketHandler.sendToServer(new PacketSelectModulePage(moduleHandler, moduleHandler.getModular().getCurrentPage().getPageID()));

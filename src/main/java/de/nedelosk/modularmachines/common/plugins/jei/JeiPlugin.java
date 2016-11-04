@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import de.nedelosk.modularmachines.api.gui.Widget;
+import de.nedelosk.modularmachines.api.modular.handlers.IModularHandler;
 import de.nedelosk.modularmachines.api.modules.IModule;
 import de.nedelosk.modularmachines.api.modules.ModuleManager;
 import de.nedelosk.modularmachines.api.modules.containers.IModuleContainer;
@@ -15,6 +17,8 @@ import de.nedelosk.modularmachines.api.modules.containers.IModuleItemContainer;
 import de.nedelosk.modularmachines.api.modules.integration.IModuleJEI;
 import de.nedelosk.modularmachines.client.gui.GuiAssembler;
 import de.nedelosk.modularmachines.client.gui.GuiModuleCrafter;
+import de.nedelosk.modularmachines.client.gui.GuiPage;
+import de.nedelosk.modularmachines.client.gui.widgets.WidgetFluidTank;
 import de.nedelosk.modularmachines.common.core.BlockManager;
 import de.nedelosk.modularmachines.common.inventory.ContainerModuleCrafter;
 import de.nedelosk.modularmachines.common.plugins.jei.alloysmelter.AlloySmelterRecipeCategory;
@@ -33,6 +37,7 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.gui.BlankAdvancedGuiHandler;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
@@ -72,7 +77,7 @@ public class JeiPlugin extends BlankModPlugin {
 		}
 		registry.addDescription(new ItemStack(BlockManager.blockModular), "tile.modular.description");
 		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockManager.blockModuleCrafter), CategoryUIDs.CRAFTING);
-		registry.addAdvancedGuiHandlers(new AssemblerAdvancedGuiHandler());
+		registry.addAdvancedGuiHandlers(new AssemblerGuiHandler(), new ModularGuiHandler());
 		registry.addRecipeHandlers(new ModuleCrafterRecipeHandler(), new ModuleRecipeHandler(CategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class), new ModuleRecipeHandler(CategoryUIDs.BOILER, BoilerRecipeWrapper.class),
 				new ModuleRecipeHandler(CategoryUIDs.PULVERIZER, PulverizerRecipeWrapper.class), new ModuleRecipeHandler(CategoryUIDs.LATHE, LatheRecipeWrapper.class));
 		registry.addRecipes(ModuleRecipeWrapper.getRecipes("AlloySmelter", CategoryUIDs.ALLOYSMELTER, AlloySmelterRecipeWrapper.class));
@@ -89,7 +94,7 @@ public class JeiPlugin extends BlankModPlugin {
 		JeiPlugin.jeiRuntime = jeiRuntime;
 	}
 
-	private static class AssemblerAdvancedGuiHandler implements IAdvancedGuiHandler<GuiAssembler> {
+	private static class AssemblerGuiHandler extends BlankAdvancedGuiHandler<GuiAssembler> {
 
 		@Nonnull
 		@Override
@@ -101,6 +106,25 @@ public class JeiPlugin extends BlankModPlugin {
 		@Override
 		public List<Rectangle> getGuiExtraAreas(GuiAssembler guiContainer) {
 			return guiContainer.getExtraGuiAreas();
+		}
+	}
+	
+	private static class ModularGuiHandler extends BlankAdvancedGuiHandler<GuiPage> {
+
+		@Nonnull
+		@Override
+		public Class<GuiPage> getGuiContainerClass() {
+			return GuiPage.class;
+		}
+		
+		@Nullable
+		@Override
+		public Object getIngredientUnderMouse(GuiPage guiContainer, int mouseX, int mouseY) {
+			Widget widget = guiContainer.getWidgetManager().getWidgetAtMouse(mouseX, mouseY);
+			if(widget instanceof WidgetFluidTank){
+				return ((WidgetFluidTank)widget).getProvider().getFluid();
+			}
+			return null;
 		}
 	}
 }

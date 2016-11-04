@@ -54,7 +54,7 @@ public class ContainerModular extends BaseContainer<IModularHandler> {
 
 	@Override
 	protected void addInventory(InventoryPlayer inventoryPlayer) {
-		if (currentPage != null) {
+		if (currentPage != null && currentPage.getPlayerInvPosition() >= 0) {
 			int invPosition = currentPage.getPlayerInvPosition() + 1;
 			for(int i1 = 0; i1 < 3; i1++) {
 				for(int l1 = 0; l1 < 9; l1++) {

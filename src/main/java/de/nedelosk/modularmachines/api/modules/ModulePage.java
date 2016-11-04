@@ -86,8 +86,15 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	protected void onUpdateWidget(Widget widget) {
 		if (widget.getProvider() instanceof IModuleState) {
 			Widget<IModuleState> widgetState = widget;
-			if (!widgetState.getProvider().equals(moduleState)) {
-				widgetState.setProvider(moduleState);
+			if(widgetState.getProvider().getIndex() == moduleState.getIndex()){
+				if(!widgetState.getProvider().equals(moduleState)){
+					widgetState.setProvider(moduleState);
+				}
+			}else{
+				IModuleState state = moduleState.getModular().getModule(widgetState.getProvider().getIndex());
+				if(!widgetState.getProvider().equals(state)){
+					widgetState.setProvider(state);
+				}
 			}
 		} else if (widget.getProvider() instanceof IFluidTank) {
 			Widget<IFluidTank> widgetTank = widget;

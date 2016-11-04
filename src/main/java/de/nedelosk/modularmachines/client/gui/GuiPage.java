@@ -30,8 +30,8 @@ public class GuiPage<H extends IGuiProvider> extends GuiBase<H> {
 
 	@Override
 	public void initGui() {
-		super.initGui();
 		page.setGui(this);
+		super.initGui();
 		page.initGui();
 	}
 

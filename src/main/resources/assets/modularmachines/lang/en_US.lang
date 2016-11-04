@@ -223,6 +223,8 @@ module.page.lathe.name=Lathe
 module.page.furnace.name=Furnace
 module.page.battery.name=Battery
 module.page.controller.name=Controller
+module.page.controller.can.used.by=Can be used by
+module.page.controller.can.use=Can use
 module.page.chest.name=Chest
 
 #Forestry

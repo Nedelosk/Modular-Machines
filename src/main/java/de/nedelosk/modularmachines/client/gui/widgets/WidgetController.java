@@ -17,10 +17,16 @@ import net.minecraft.item.ItemStack;
 
 public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
-	public IModuleState state;
+	public final IModuleState state;
+	public final boolean usedBy;
 
 	public WidgetController(int posX, int posY, IModuleState<IModuleControlled> provider, IModuleState state) {
+		this(posX, posY, provider, state, false);
+	}
+	
+	public WidgetController(int posX, int posY, IModuleState<IModuleControlled> provider, IModuleState state, boolean usedBy) {
 		super(posX, posY, 18, 18, provider);
+		this.usedBy = usedBy;
 		this.state = state;
 	}
 
@@ -40,12 +46,17 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		boolean hasPermission = provider.getModule().getModuleControl(provider).hasPermission(state);
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, hasPermission ? 220 : 148, 0, 18, 18);
-		gui.drawItemStack(state.getProvider().getItemStack(), sx + pos.x + 1, sy + pos.y + 1);
+		boolean hasPermission;
+		if(usedBy){
+			IModuleState<IModuleControlled> state = this.state;
+			hasPermission = state.getModule().getModuleControl(state).hasPermission(provider);
+		}else{
+			hasPermission = provider.getModule().getModuleControl(provider).hasPermission(state);
+		}
+		gui.drawItemStack(state.getProvider().getItemStack(), sx + pos.x, sy + pos.y);
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		if (!hasPermission) {
-			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 130, 0, 18, 18);
+			gui.getGui().drawTexturedModalRect(sx + pos.x + 1, sy + pos.y + 1, 130, 0, 14, 14);
 		}
 		GlStateManager.disableAlpha();
 	}
@@ -53,7 +64,13 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-		provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));
-		PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
+		if(usedBy){
+			IModuleState<IModuleControlled> state = this.state;
+			state.getModule().getModuleControl(state).setPermission(provider, !state.getModule().getModuleControl(state).hasPermission(provider));
+			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), state, provider));
+		}else{
+			provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));
+			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
+		}
 	}
 }

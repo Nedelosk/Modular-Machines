@@ -10,7 +10,10 @@ import de.nedelosk.modularmachines.api.modules.IModulePage;
 import de.nedelosk.modularmachines.common.network.PacketHandler;
 import de.nedelosk.modularmachines.common.network.packets.PacketSelectModulePage;
 import de.nedelosk.modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 
 public class WidgetModulePageTab extends Widget<IModulePage> {
@@ -43,6 +46,7 @@ public class WidgetModulePageTab extends Widget<IModulePage> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		IModularHandler modularHandler = (IModularHandler) gui.getHandler();
 		if (!provider.getPageID().equals(provider.getModuleState().getModular().getCurrentPage().getPageID())) {
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			modularHandler.getModular().setCurrentPage(provider.getPageID());
 			PacketHandler.sendToServer(new PacketSelectModulePage(modularHandler, provider.getPageID()));
 		}

@@ -51,13 +51,6 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 	}
 
 	protected void initButtons() {
-		Iterator<GuiButton> buttonIter = buttonList.iterator();
-		while (buttonIter.hasNext()) {
-			GuiButton button = buttonIter.next();
-			if (button instanceof Button) {
-				buttonIter.remove();
-			}
-		}
 		buttonManager.clear();
 		addButtons();
 		buttonList.addAll(buttonManager.getButtons());
