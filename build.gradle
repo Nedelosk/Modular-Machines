@@ -178,7 +178,7 @@ curseforge {
 		project {
 			id = '233073'
 			changelog = file('changelog.md')
-		    changelogType = 'md'
+		    changelogType = 'markdown'
 			releaseType = 'beta'
 			addArtifact sourcesJar
 			addArtifact apiJar
