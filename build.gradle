@@ -29,7 +29,7 @@ version = version_major + '.' + version_minor + '.' + version_patch + '.' + getB
 if (project.hasProperty('buildQualifier')) {
 	version = project.version + '-' + project.buildQualifier
 }
-group= "de.nedelosk.modularmachines" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "modularmachines" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "modularmachines_" + mcversion
 
 // java version
