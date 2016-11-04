@@ -1,3 +1,6 @@
+####################################
+# Assembler
+####################################
 module.storage.top.name=Upper Storage
 module.storage.back.name=Back Storage
 module.storage.left.name=Left Storage
@@ -233,6 +236,11 @@ module.page.bee_house.name=Bee House
 module.page.frame_housing.name=Frame Housing
 
 ####################################
+# Key Bindings
+####################################
+key.mm.showModuleInfo=Show Module Info
+
+####################################
 # Tooltips
 ####################################
 mm.tooltip.nonefluid=No Fluid
@@ -270,6 +278,6 @@ gui.mm.jei.category.boiler=Boiler
 gui.mm.jei.category.alloysmelter=Alloy Smelter
 gui.mm.jei.category.lathe=Lathe
 gui.mm.jei.category.pulverizer=Pulverizer
-gui.jei.category.moduleCrafter=Module Crafting
+gui.mm.jei.category.moduleCrafter=Module Crafting
 
 gui.mm.jei.heat=Heat: %s
