@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
   // compile the modular machines jar
-  deobfCompile "de.nedelosk.modularmachines:modularmachines_${mcversion}:${mm_version}:dev"
+  deobfCompile "modularmachines:modularmachines_${mcversion}:${mm_version}:dev"
 }
 ```
 License & Copyright
