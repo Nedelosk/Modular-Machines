@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiConfigFactory extends GuiConfig {
 
 	public GuiConfigFactory(GuiScreen parentScreen) {
-		super(parentScreen, getConfigElements(parentScreen), Constants.MODID, false, false, Translator.translateToLocal("mm.config.title"));
+		super(parentScreen, getConfigElements(parentScreen), Constants.MOD_ID, false, false, Translator.translateToLocal("mm.config.title"));
 	}
 
 	private static List<IConfigElement> getConfigElements(GuiScreen parent) {

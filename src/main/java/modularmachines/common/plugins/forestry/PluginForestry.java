@@ -28,10 +28,10 @@ public class PluginForestry extends APlugin {
 	public void preInit() {
 		PacketHandler.registerClientPacket(new PacketBeeLogicActiveModule());
 		moduleBeeHouse = new ModuleBeeHouse("bee_house", false);
-		moduleBeeHouse.setRegistryName(new ResourceLocation(Constants.MODID, "bee_house"));
+		moduleBeeHouse.setRegistryName(new ResourceLocation(Constants.MOD_ID, "bee_house"));
 		GameRegistry.register(moduleBeeHouse);
 		moduleApiary = new ModuleBeeHouse("apiary", true);
-		moduleApiary.setRegistryName(new ResourceLocation(Constants.MODID, "apiary"));
+		moduleApiary.setRegistryName(new ResourceLocation(Constants.MOD_ID, "apiary"));
 		GameRegistry.register(moduleApiary);
 	}
 

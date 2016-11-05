@@ -19,6 +19,7 @@ import modularmachines.api.modules.storage.module.ModuleHandler;
 import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.property.PropertyInteger;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -293,5 +294,14 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		ItemStack itemStack = provider.getItemStack();
+		if (itemStack != null && itemStack.hasDisplayName()) {
+			return itemStack.getDisplayName();
+		}
+		return container.getDisplayName();
 	}
 }

@@ -226,6 +226,9 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 								}
 								drops.add(testStack(itemStack, random));
 							}
+							if (!Config.destroyItemsAfterDestroyModular || random.nextBoolean()) {
+								drops.add(new ItemStack(ItemManager.itemChassis));
+							}
 						}
 					} else if (modularHandler.getAssembler() != null) {
 						IModularAssembler assembler = modularHandler.getAssembler();
@@ -240,10 +243,10 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 								}
 							}
 						}
+						if (!Config.destroyItemsAfterDestroyModular || random.nextBoolean()) {
+							drops.add(new ItemStack(ItemManager.itemChassis));
+						}
 					}
-				}
-				if (!Config.destroyItemsAfterDestroyModular || random.nextBoolean()) {
-					drops.add(new ItemStack(ItemManager.itemChassis));
 				}
 				WorldUtil.dropItems(world, pos, drops);
 			}

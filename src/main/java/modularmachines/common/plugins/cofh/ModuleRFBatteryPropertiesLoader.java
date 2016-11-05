@@ -13,7 +13,7 @@ public class ModuleRFBatteryPropertiesLoader implements ICustomLoader {
 
 	@Override
 	public boolean accepts(ResourceLocation name) {
-		return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("battery");
+		return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("battery");
 	}
 
 	@Override

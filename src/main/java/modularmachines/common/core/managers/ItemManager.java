@@ -36,7 +36,6 @@ public class ItemManager {
 	public static Item itemModuleStorageSmall;
 	public static Item itemEngineSteam;
 	public static Item itemEngineElectric;
-	public static Item itemEngineEU;
 	public static Item itemTurbineSteam;
 	public static Item itemModuleCore;
 	public static Item itemModules;

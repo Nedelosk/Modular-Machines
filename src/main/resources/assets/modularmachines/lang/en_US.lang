@@ -241,6 +241,12 @@ module.page.frame_housing.name=Frame Housing
 key.mm.showModuleInfo=Show Module Info
 
 ####################################
+# TOP
+####################################
+mm.top.outofpower=No Power
+mm.top.suffix.rf=RF
+
+####################################
 # Tooltips
 ####################################
 mm.tooltip.nonefluid=No Fluid

@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class WidgetModuleTab extends Widget<IModuleState> {
@@ -59,10 +58,6 @@ public class WidgetModuleTab extends Widget<IModuleState> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
-		ItemStack itemStack = provider.getProvider().getItemStack();
-		if (itemStack != null && itemStack.hasDisplayName()) {
-			return Arrays.asList(itemStack.getDisplayName());
-		}
-		return Arrays.asList(provider.getContainer().getDisplayName());
+		return Arrays.asList(provider.getDisplayName());
 	}
 }

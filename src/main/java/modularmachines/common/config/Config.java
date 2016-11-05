@@ -34,6 +34,11 @@ public class Config {
 	public static boolean pluginTheOneProbe;
 	/* ORES */
 	public static boolean[] generateOre;
+	/* TOP */
+	public static boolean topShowPowerByDefault = true;
+	public static boolean topShowProgressByDefault = true;
+	public static boolean topShowTanksByDefault = true;
+	public static boolean topShowKineticByDefault = true;
 	static {
 		groups = new ArrayList<>();
 	}
@@ -77,10 +82,11 @@ public class Config {
 	public static final ConfigGroup oreGen = new ConfigGroup("Ore Generation", "oreGen");
 	public static final ConfigGroup plugins = new ConfigGroup("Plugins", "plugins", true);
 	public static final ConfigGroup modules = new ConfigGroup("Modules", "modules", false);
+	public static final ConfigGroup top = new ConfigGroup("The One Probe integration", "top", false);
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {
-		if (event.getModID().equals(Constants.MODID)) {
+		if (event.getModID().equals(Constants.MOD_ID)) {
 			Log.info("Updating config...");
 			syncConfig(false);
 		}
@@ -116,6 +122,15 @@ public class Config {
 		pluginTheOneProbe = config.get(plugins.name, "The One Probe", true).getBoolean();
 		// Ores
 		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
+
+		topShowProgressByDefault = config.getBoolean("topShowProgressByDefault", top.name, topShowProgressByDefault,
+				"If true, the progress will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowPowerByDefault = config.getBoolean("topShowPowerByDefault", top.name, topShowPowerByDefault,
+				"If true, the power level will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowKineticByDefault = config.getBoolean("topShowKineticByDefault", top.name, topShowPowerByDefault,
+				"If true, the kinetic power will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowTanksByDefault = config.getBoolean("topShowTanksByDefault", top.name, topShowTanksByDefault,
+				"If true, the tank content will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
 	}
 
 	public static void processModuleConfig() {

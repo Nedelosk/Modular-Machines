@@ -24,7 +24,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("machine");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("machine");
 		}
 
 		@Override
@@ -40,7 +40,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("heater");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("heater");
 		}
 
 		@Override
@@ -56,7 +56,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("kinetic");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("kinetic");
 		}
 
 		@Override
@@ -73,7 +73,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("boiler");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("boiler");
 		}
 
 		@Override
@@ -88,7 +88,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("casing");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("casing");
 		}
 
 		@Override
@@ -106,7 +106,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("modulestorage");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("modulestorage");
 		}
 
 		@Override
@@ -121,7 +121,7 @@ public class DefaultPropertiesLoader {
 
 		@Override
 		public boolean accepts(ResourceLocation name) {
-			return name.getResourceDomain().contains(Constants.MODID) && name.getResourcePath().contains("controller");
+			return name.getResourceDomain().contains(Constants.MOD_ID) && name.getResourcePath().contains("controller");
 		}
 
 		@Override

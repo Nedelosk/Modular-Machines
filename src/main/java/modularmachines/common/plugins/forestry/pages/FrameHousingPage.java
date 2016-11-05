@@ -46,6 +46,6 @@ public class FrameHousingPage extends ModulePage<ModuleBeeHouse> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ResourceLocation getGuiTexture() {
-		return new ResourceLocation(Constants.MODID, "textures/gui/frame_housing.png");
+		return new ResourceLocation(Constants.MOD_ID, "textures/gui/frame_housing.png");
 	}
 }
