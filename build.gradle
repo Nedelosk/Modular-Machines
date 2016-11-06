@@ -49,9 +49,6 @@ jar {
     manifest {
         attributes 'FMLAT': 'modularmachines_at.cfg'
     }
-	into ('forestry/api') {
-		from "./src/main/java/forestry/api/LICENSE.txt"
-	}
 }
 
 publishing {
@@ -92,14 +89,13 @@ task deobfJar(type: Jar) {
 
 task sourcesJar(type: Jar) {
 	from sourceSets.main.allJava
-	exclude 'forestry'
 	classifier = 'sources'
 }
 
 task apiJar(type: Jar) {
 	from sourceSets.main.allSource
 	from sourceSets.main.output
-	include 'de/nedelosk/modularmachines/api/**'
+	include 'modularmachines/api/**'
 	classifier = 'api'
 }
 
