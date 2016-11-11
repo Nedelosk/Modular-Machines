@@ -245,6 +245,7 @@ key.mm.showModuleInfo=Show Module Info
 ####################################
 mm.top.outofpower=No Power
 mm.top.suffix.rf=RF
+mm.top.suffix.kenetic=KE
 
 ####################################
 # Tooltips
