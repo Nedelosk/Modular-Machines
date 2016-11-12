@@ -15,7 +15,7 @@ modular.assembler.complexity.position=Position Complexity
 modular.assembler.complexity.current=Current Complexity: 
 modular.assembler.complexity.allowed=Max Complexity: 
 
-modular.assembler.info=I am a info window I show: the problem when a modular machine can't be assembled, Or when one of the modules in a Modular Machine require a secondary module.
+modular.assembler.info=info: There is nothing to show right now.
 modular.assembler.error.no.casing=This modular machine has no casing, modular machines require a casing to store internal modules.
 modular.assembler.error.no.battery=This modular machine has no battery, One module of this modular machine requires a battery to store RF or EU energy.
 modular.assembler.error.no.storage=The module on %s side of the modular machine has no storage module.
@@ -78,18 +78,18 @@ module.apiary.name=Apiary
 module.bee_house.name=Bee House
 
 #Description's
-module.casing.description=This is a casing module, It defines the the harvest level, harvest tool and the resistance of the modular machine block, and it defines the maximum complexity of storaged modules.
-module.controller.description=This is a controller module, It defines the maximum complexity of the modular machine.
-module.moduleStorage.description=This is a moduleStorage module, It defines the maximum complexity of storaged modules.
-module.heater.steam.description=This type of heater generates heat from steam.
-module.heater.burning.description=This type of heater generates heat from solid fuel, like coal or other furnace fuel.
-module.engine.electric.rf.description=This type of engine generates kinetic energy from redstone flux.
-module.engine.electric.eu.description=This type of engine generates kinetic energy from ic2 energy units.
-module.engine.steam.description=This type of engine generates kinetic energy from steam.
-module.boiler.description=This machine module generates steam and consumes water.
-module.alloysmelter.description=This machine is used to smelt two metals into one new metal.
-module.pulverizer.description=This machine is used to pulverize items.
-module.turbine.steam.description=This type of turbine generates kinetic energy from steam. It is larger than a steam engine, but also is faster than three steam engines! 
+module.casing.description=casing module: casing modules allow for more stored modules in machines.
+module.controller.description=controller module: controller modules allow for more complex modular machine component.
+module.moduleStorage.description=Storage Module: Storage modules allow for more stored modules in machines.
+module.heater.steam.description=Steam heat conductor: transfers heat from steam into other components.
+module.heater.burning.description=Fire box: fire boxes transfer heat from burning coal to other components: eg. fuel like coal or other furnace fuel.
+module.engine.electric.rf.description=RF motor: RF motors generate kinetic energy from rf.
+module.engine.electric.eu.description=EU motor: EU motors generate kinetic energy from ic2 energy units.
+module.engine.steam.description=Modular Steam Turbine: Modular steam turbines generate kinetic energy by cooling steam.
+module.boiler.description=Stream boiler: Steam boilers boil water to generate steam for other components.
+module.alloysmelter.description=Alloy smelter: Alloy smelters alloy metals into new metals.
+module.pulverizer.description=Pulverizer: Pulverizers crush metals and gems into dusts.
+module.turbine.steam.description=Large Turbine: Large Turbines generate large amounts of kinetic energy from steam. Steam turbines take more complexity, but generate more kenetic energy than three steam engines! 
 
 #EnderIO
 module.capacitor_bank.description=This type of battery stores redstone flux.
@@ -120,13 +120,13 @@ material.silver.name=Silver
 # Tabs
 ####################################
 itemGroup.modularmachines=Modular Machines
-itemGroup.modularmachines.modules=Modular Machines modules
+itemGroup.modularmachines.modules=Machine modules
 
 ####################################
 # Blocks
 ####################################
-tile.modular.name=Modular Machine
-tile.modular.description=This is a modular machine, a modular machine contains different modules. modular machines are built in the module assembling machine.
+tile.modular.name=Machine
+tile.modular.description=This is a modular machine, a modular machine contains different modules. Modular machines are built in the module assembling machine.
 modularmachines.item.tile.module_crafter.default.name=Module Crafter
 modularmachines.item.tile.metal_blocks.tin.name=Block of Tin
 modularmachines.item.tile.metal_blocks.copper.name=Block of Copper
@@ -218,8 +218,8 @@ module.page.alloysmelter.name=Alloy Smelter
 module.page.pulverizer.name=Pulverizer
 module.page.boiler.name=Boiler
 module.page.heater.name=Heater
-module.page.engine.steam.name=Steam Engine
-module.page.turbine.steam.name=Steam Trubine
+module.page.engine.steam.name=Modular Steam Turbine
+module.page.turbine.steam.name=Large Steam Trubine
 module.page.cleaner.name=Module Cleaner
 module.page.cleaner.clean.name=Clean Module
 module.page.lathe.name=Lathe
@@ -259,7 +259,7 @@ mm.module.tooltip.complexity=Current Complexity:
 mm.module.tooltip.position=Position: 
 mm.module.tooltip.storage.position=Storage Position: 
 mm.module.tooltip.tier=Power Tier: 
-mm.tooltip.modular.info=This modular machine contains the following modules: 
+mm.tooltip.modular.info=This machine contains: 
 mm.tooltip.moduleInfo=Module Info
 mm.tooltip.moduleContainer=This item is a module container. It contains the data of one or more modules. If you want to get original item back, simple sneak and right click.
 mm.tooltip.moduleContainer.warning=WARNING This action delete all module data that the item contains and give or drop all items that the modules of the item contains !!!
