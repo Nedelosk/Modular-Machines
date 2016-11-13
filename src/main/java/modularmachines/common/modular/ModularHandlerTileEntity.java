@@ -1,12 +1,5 @@
 package modularmachines.common.modular;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergyTile;
-import ic2.api.info.Info;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modular.handlers.ModularHandler;
-import modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,6 +8,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
+
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergyTile;
+import ic2.api.info.Info;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modular.handlers.ModularHandler;
+import modularmachines.api.modules.position.StoragePositions;
 
 public class ModularHandlerTileEntity<K> extends ModularHandler<K> implements IModularHandlerTileEntity<NBTTagCompound, K> {
 

@@ -3,14 +3,15 @@ package modularmachines.api.modules.handlers.filters;
 import java.util.HashMap;
 import java.util.Map;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ItemFilterFluid implements IContentFilter<ItemStack, IModule> {
 
@@ -54,7 +55,7 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, IModule> {
 				}
 				return false;
 			}
-			for(IFluidTankProperties property : handler.getTankProperties()) {
+			for (IFluidTankProperties property : handler.getTankProperties()) {
 				if (property != null) {
 					FluidStack tankContent = property.getContents();
 					if (tankContent != null) {

@@ -1,10 +1,11 @@
 package modularmachines.api.modules.handlers.filters;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.tools.IModuleMachine;
 import modularmachines.api.recipes.RecipeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 public class FilterMachine implements IContentFilter<Object, IModuleMachine> {
 

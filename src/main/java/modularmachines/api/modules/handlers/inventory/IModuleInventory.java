@@ -2,12 +2,13 @@ package modularmachines.api.modules.handlers.inventory;
 
 import javax.annotation.Nonnull;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
-import modularmachines.api.recipes.IRecipeInventory;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
+import modularmachines.api.recipes.IRecipeInventory;
 
 public interface IModuleInventory<M extends IModule> extends IAdvancedModuleContentHandler<ItemStack, M>, IRecipeInventory, IItemHandlerModifiable {
 

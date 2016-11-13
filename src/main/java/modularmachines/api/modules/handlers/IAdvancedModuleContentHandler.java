@@ -5,13 +5,14 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.handlers.filters.IContentFilter;
-import modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.handlers.filters.IContentFilter;
+import modularmachines.api.recipes.RecipeItem;
 
 public interface IAdvancedModuleContentHandler<C, M extends IModule> extends IModuleContentHandler<M>, INBTSerializable<NBTTagCompound> {
 

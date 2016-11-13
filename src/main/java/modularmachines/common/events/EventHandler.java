@@ -1,9 +1,5 @@
 package modularmachines.common.events;
 
-import modularmachines.api.modules.models.ModuleModelLoader;
-import modularmachines.client.model.ModelItemModuleContainer;
-import modularmachines.client.model.ModelModular;
-import modularmachines.common.core.ModularMachines;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +10,11 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.models.ModuleModelLoader;
+import modularmachines.client.model.ModelItemModuleContainer;
+import modularmachines.client.model.ModelModular;
+import modularmachines.common.core.ModularMachines;
 
 public class EventHandler {
 

@@ -1,5 +1,7 @@
 package modularmachines.api.modules.properties;
 
+import net.minecraftforge.common.config.Configuration;
+
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.handlers.IModuleContentHandler;
 import modularmachines.api.modules.handlers.block.BlockModificator;
@@ -7,7 +9,6 @@ import modularmachines.api.modules.handlers.block.IBlockModificator;
 import modularmachines.api.modules.position.EnumModulePositions;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.module.ModuleModuleStorageProperties;
-import net.minecraftforge.common.config.Configuration;
 
 public class ModuleCasingProperties extends ModuleModuleStorageProperties implements IModuleBlockModificatorProperties {
 

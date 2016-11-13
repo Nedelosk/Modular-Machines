@@ -2,10 +2,6 @@ package modularmachines.common.items;
 
 import java.util.List;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.Registry;
-import modularmachines.common.utils.Translator;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -15,6 +11,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.Registry;
+import modularmachines.common.utils.Translator;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemTool extends Item implements IItemModelRegister {
 

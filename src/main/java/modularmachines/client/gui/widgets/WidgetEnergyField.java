@@ -4,22 +4,22 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.api.energy.IEnergyBuffer;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.energy.IEnergyBuffer;
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.Widget;
+import modularmachines.common.utils.RenderUtil;
+import modularmachines.common.utils.Translator;
+
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends Widget<IEnergyBuffer> {
 
 	public static final NumberFormat NF = NumberFormat.getIntegerInstance();
-
 	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 
 	public WidgetEnergyField(int posX, int posY, IEnergyBuffer provider) {

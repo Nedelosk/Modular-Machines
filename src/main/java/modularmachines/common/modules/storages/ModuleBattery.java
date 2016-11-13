@@ -3,6 +3,12 @@ package modularmachines.common.modules.storages;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.modular.ExpandedStoragePositions;
 import modularmachines.api.modular.handlers.IModularHandler;
@@ -28,11 +34,6 @@ import modularmachines.common.modules.pages.ControllerPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.EnergyUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleBattery extends StorageModule implements IModuleBattery, IModuleControlled, ITickable {
 

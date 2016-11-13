@@ -43,7 +43,7 @@ public class DataInputStreamMM extends DataInputStream {
 	public ItemStack[] readItemStacks() throws IOException {
 		int stackCount = readVarInt();
 		ItemStack[] itemStacks = new ItemStack[stackCount];
-		for(int i = 0; i < stackCount; i++) {
+		for (int i = 0; i < stackCount; i++) {
 			itemStacks[i] = readItemStack();
 		}
 		return itemStacks;
@@ -52,14 +52,14 @@ public class DataInputStreamMM extends DataInputStream {
 	public void readItemStacks(Collection<ItemStack> itemStacks) throws IOException {
 		itemStacks.clear();
 		int stackCount = readVarInt();
-		for(int i = 0; i < stackCount; i++) {
+		for (int i = 0; i < stackCount; i++) {
 			itemStacks.add(readItemStack());
 		}
 	}
 
 	public void readInventory(IInventory inventory) throws IOException {
 		int size = readVarInt();
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			ItemStack stack = readItemStack();
 			inventory.setInventorySlotContents(i, stack);
 		}
@@ -82,7 +82,7 @@ public class DataInputStreamMM extends DataInputStream {
 		outputList.clear();
 		int length = readVarInt();
 		if (length > 0) {
-			for(int i = 0; i < length; i++) {
+			for (int i = 0; i < length; i++) {
 				T streamable = readStreamable(streamableClass);
 				outputList.add(streamable);
 			}

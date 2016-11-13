@@ -1,15 +1,16 @@
 package modularmachines.common.plugins.forestry.pages;
 
+import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.ModulePage;
 import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.core.Constants;
 import modularmachines.common.plugins.forestry.ModuleBeeHouse;
 import modularmachines.common.plugins.forestry.handlers.ItemFilterFrame;
-import net.minecraft.inventory.Slot;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class FrameHousingPage extends ModulePage<ModuleBeeHouse> {
 

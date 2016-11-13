@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.ExpandedStoragePositions;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
@@ -30,10 +35,6 @@ import modularmachines.api.modules.storage.module.ModuleStorage;
 import modularmachines.api.modules.storage.module.ModuleStoragePage;
 import modularmachines.common.config.Config;
 import modularmachines.common.utils.Translator;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleCasing extends StorageModule implements IModuleCasing<ModuleStorage> {
 

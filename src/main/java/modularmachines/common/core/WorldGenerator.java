@@ -2,8 +2,6 @@ package modularmachines.common.core;
 
 import java.util.Random;
 
-import modularmachines.common.config.Config;
-import modularmachines.common.core.managers.BlockManager;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,6 +9,9 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
+
+import modularmachines.common.config.Config;
+import modularmachines.common.core.managers.BlockManager;
 
 public class WorldGenerator implements IWorldGenerator {
 
@@ -55,7 +56,7 @@ public class WorldGenerator implements IWorldGenerator {
 
 	public void generateOre(Block ore, int meta, World world, Random random, int posX, int posZ, int maxOre, int spawnChance, int minY, int maxY) {
 		int differenzMinMaxY = maxY - minY;
-		for(int x = 0; x < spawnChance; x++) {
+		for (int x = 0; x < spawnChance; x++) {
 			int positionX = posX + random.nextInt(16);
 			int positionY = minY + random.nextInt(differenzMinMaxY);
 			int positionZ = posZ + random.nextInt(16);

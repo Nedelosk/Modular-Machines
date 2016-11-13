@@ -2,6 +2,11 @@ package modularmachines.common.plugins.forestry;
 
 import static modularmachines.api.modules.ModuleManager.register;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import modularmachines.api.material.EnumVanillaMaterials;
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModule;
@@ -13,10 +18,6 @@ import modularmachines.common.core.Constants;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.APlugin;
 import modularmachines.common.plugins.forestry.network.PacketBeeLogicActiveModule;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PluginForestry extends APlugin {
 

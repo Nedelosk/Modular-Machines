@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IKineticSource;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.handlers.IModularHandler;
@@ -31,10 +36,6 @@ import modularmachines.api.property.PropertyBool;
 import modularmachines.common.modules.pages.ControllerPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleEngine extends ModuleControlled implements IModuleEngine, IModulePositioned {
 

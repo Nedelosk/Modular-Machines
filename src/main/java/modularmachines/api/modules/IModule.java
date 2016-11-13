@@ -6,6 +6,12 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
@@ -20,11 +26,6 @@ import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.state.IModuleStateClient;
 import modularmachines.api.modules.storage.IStorage;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModule extends IForgeRegistryEntry<IModule>, IModuleProperties {
 

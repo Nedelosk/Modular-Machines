@@ -3,11 +3,12 @@ package modularmachines.api.modules.handlers.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.handlers.filters.FilterWrapper;
 import modularmachines.api.modules.handlers.filters.IContentFilter;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 
 public class ModuleInventoryBuilder<M extends IModule> implements IModuleInventoryBuilder<M> {
 

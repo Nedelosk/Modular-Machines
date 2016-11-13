@@ -2,9 +2,6 @@ package modularmachines.common.inventory;
 
 import java.util.List;
 
-import modularmachines.api.gui.IContainerBase;
-import modularmachines.api.gui.IGuiProvider;
-import modularmachines.common.utils.ContainerUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,6 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+
+import modularmachines.api.gui.IContainerBase;
+import modularmachines.api.gui.IGuiProvider;
+import modularmachines.common.utils.ContainerUtil;
 
 public abstract class BaseContainer<H extends IGuiProvider> extends Container implements IContainerBase<H> {
 
@@ -31,12 +32,12 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 	}
 
 	protected void addInventory(InventoryPlayer inventory) {
-		for(int i1 = 0; i1 < 3; i1++) {
-			for(int l1 = 0; l1 < 9; l1++) {
+		for (int i1 = 0; i1 < 3; i1++) {
+			for (int l1 = 0; l1 < 9; l1++) {
 				addSlotToContainer(new Slot(inventory, l1 + i1 * 9 + 9, 8 + l1 * 18, 84 + i1 * 18));
 			}
 		}
-		for(int j1 = 0; j1 < 9; j1++) {
+		for (int j1 = 0; j1 < 9; j1++) {
 			addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 142));
 		}
 	}
@@ -76,7 +77,7 @@ public abstract class BaseContainer<H extends IGuiProvider> extends Container im
 	public void syncOnOpen(EntityPlayerMP playerOpened) {
 		// find another player that already has the gui for this tile open
 		WorldServer server = playerOpened.getServerWorld();
-		for(EntityPlayer player : server.playerEntities) {
+		for (EntityPlayer player : server.playerEntities) {
 			if (player == playerOpened) {
 				continue;
 			}

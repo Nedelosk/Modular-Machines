@@ -5,11 +5,12 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModuleProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleProperties;
 
 public interface IModuleContainer<M extends IModule, P extends IModuleProperties> {
 

@@ -1,11 +1,12 @@
 package modularmachines.api.modules.state;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleProvider;
 import modularmachines.api.modules.models.IModelHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleStateClient<M extends IModule> extends ModuleState<M> implements IModuleStateClient<M> {
 

@@ -2,14 +2,15 @@ package modularmachines.common.core.managers;
 
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
-import modularmachines.api.material.IMetalMaterial;
-import modularmachines.api.material.MaterialList;
-import modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
-import modularmachines.common.items.ItemComponent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+
+import modularmachines.api.material.IMetalMaterial;
+import modularmachines.api.material.MaterialList;
+import modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
+import modularmachines.common.items.ItemComponent;
 
 public class OreDictionaryManager {
 
@@ -18,17 +19,17 @@ public class OreDictionaryManager {
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
-		for(MaterialList<IMetalMaterial> metals : ItemManager.metals) {
-			for(IMetalMaterial material : metals) {
-				for(String oreDict : material.getOreDicts()) {
+		for (MaterialList<IMetalMaterial> metals : ItemManager.metals) {
+			for (IMetalMaterial material : metals) {
+				for (String oreDict : material.getOreDicts()) {
 					registerOre("ingot" + oreDict, ItemManager.itemIngots.getStack(oreDict));
 					registerOre("nugget" + oreDict, ItemManager.itemNuggets.getStack(oreDict));
 				}
 			}
 		}
-		for(MaterialList<IMetalMaterial> metals : ItemManager.dusts) {
-			for(IMetalMaterial material : metals) {
-				for(String oreDict : material.getOreDicts()) {
+		for (MaterialList<IMetalMaterial> metals : ItemManager.dusts) {
+			for (IMetalMaterial material : metals) {
+				for (String oreDict : material.getOreDicts()) {
 					registerOre("dust" + oreDict, ItemManager.itemDusts.getStack(oreDict));
 				}
 			}
@@ -50,20 +51,20 @@ public class OreDictionaryManager {
 		registerComponentOres("screw", ItemManager.itemCompScrews);
 		registerComponentOres("gear", ItemManager.itemCompGears);
 		registerComponentOres("wire", ItemManager.itemCompWires);
-		for(ComponentTypes type : ComponentTypes.values()) {
+		for (ComponentTypes type : ComponentTypes.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
-			for(String oreDict : type.oreDict) {
+			for (String oreDict : type.oreDict) {
 				registerOre("block" + oreDict, stack);
 			}
 		}
 	}
 
 	private static void registerComponentOres(String preFix, ItemComponent component) {
-		for(IMetalMaterial material : component.materials) {
+		for (IMetalMaterial material : component.materials) {
 			ItemStack stack = component.getStack(material);
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					registerOre(preFix + oreDict, stack);
 				}
 			}

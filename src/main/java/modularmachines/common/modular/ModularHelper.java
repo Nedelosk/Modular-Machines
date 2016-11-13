@@ -1,5 +1,9 @@
 package modularmachines.common.modular;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modular.IModularHelper;
@@ -8,9 +12,6 @@ import modularmachines.api.modular.handlers.IModularHandlerEntity;
 import modularmachines.api.modular.handlers.IModularHandlerItem;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.position.StoragePositions;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ModularHelper implements IModularHelper {
 

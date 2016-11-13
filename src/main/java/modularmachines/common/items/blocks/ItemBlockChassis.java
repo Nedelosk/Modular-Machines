@@ -1,12 +1,5 @@
 package modularmachines.common.items.blocks;
 
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.blocks.tile.TileModular;
-import modularmachines.common.core.Registry;
-import modularmachines.common.modular.ModularAssembler;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -26,6 +19,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.blocks.tile.TileModular;
+import modularmachines.common.core.Registry;
+import modularmachines.common.modular.ModularAssembler;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemBlockChassis extends Item implements IItemModelRegister {
 

@@ -1,10 +1,11 @@
 package modularmachines.common.plugins.forestry.handlers;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
+
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.apiculture.InventoryBeeHousing;
 import modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 
@@ -51,7 +52,7 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 	private static int addStack(IItemHandlerModifiable inventory, ItemStack stack, int startSlot, int slots, boolean doAdd) {
 		int added = 0;
 		// Add to existing stacks first
-		for(int i = startSlot; i < startSlot + slots; i++) {
+		for (int i = startSlot; i < startSlot + slots; i++) {
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
 			// Empty slot. Add
 			if (inventoryStack == null || inventoryStack.getItem() == null) {
@@ -89,7 +90,7 @@ public class ModuleInventoryBeeHousing implements IBeeHousingInventory {
 		if (added >= stack.stackSize) {
 			return added;
 		}
-		for(int i = startSlot; i < startSlot + slots; i++) {
+		for (int i = startSlot; i < startSlot + slots; i++) {
 			if (inventory.getStackInSlot(i) != null) {
 				continue;
 			}

@@ -42,7 +42,7 @@ public class RecipeJsonManager {
 	}
 
 	private static void parseRecipesFiles() {
-		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
+		for (IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
 			String recipeCategory = handler.getRecipeCategory();
 			try {
 				File categoryFile = new File(recipeFile, recipeCategory.toLowerCase(Locale.ENGLISH) + "_recipes.json");
@@ -68,7 +68,7 @@ public class RecipeJsonManager {
 		if (!recipeFile.exists()) {
 			recipeFile.mkdirs();
 		}
-		for(IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
+		for (IRecipeHandler handler : RecipeRegistry.getHandlers().values()) {
 			try {
 				File categoryFile = new File(recipeFile, handler.getRecipeCategory().toLowerCase(Locale.ENGLISH) + "_recipes.json");
 				List<IRecipe> recipes = handler.getRecipes();
@@ -99,7 +99,7 @@ public class RecipeJsonManager {
 			}
 		}
 		List<RecipeEntry> entrys = new ArrayList<>();
-		for(IRecipe recipe : recipes) {
+		for (IRecipe recipe : recipes) {
 			Iterator<RecipeEntry> oldEntrys = groupDefault.recipes.iterator();
 			boolean isActive = true;
 			while (oldEntrys.hasNext()) {
@@ -117,7 +117,7 @@ public class RecipeJsonManager {
 		groupDefault.recipes.addAll(entrys);
 		jsonReader.close();
 		JsonObject object = new JsonObject();
-		for(Entry<String, RecipeGroup> group : groups.entrySet()) {
+		for (Entry<String, RecipeGroup> group : groups.entrySet()) {
 			object.add(group.getKey(), GSON.toJsonTree(group.getValue()));
 		}
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(recipeFile)));
@@ -128,7 +128,7 @@ public class RecipeJsonManager {
 	private static Map<String, RecipeGroup> getGoups(JsonElement element) {
 		Map<String, RecipeGroup> groups = Maps.newHashMap();
 		JsonObject object = element.getAsJsonObject();
-		for(Entry<String, JsonElement> groupEntry : object.entrySet()) {
+		for (Entry<String, JsonElement> groupEntry : object.entrySet()) {
 			JsonElement groupElement = groupEntry.getValue();
 			if (groupElement != null && groupElement != JsonNull.INSTANCE) {
 				try {
@@ -144,8 +144,8 @@ public class RecipeJsonManager {
 
 	private static ArrayList<IRecipe> getActiveRecipes(Map<String, RecipeGroup> groups) {
 		ArrayList<IRecipe> recipes = new ArrayList();
-		for(RecipeGroup group : groups.values()) {
-			for(RecipeEntry recipe : group.recipes) {
+		for (RecipeGroup group : groups.values()) {
+			for (RecipeEntry recipe : group.recipes) {
 				if (recipe.isActive) {
 					recipes.add(recipe.recipe);
 				}
@@ -186,7 +186,7 @@ public class RecipeJsonManager {
 		public RecipeGroup(List<IRecipe> recipes, String name) {
 			this.isActive = true;
 			this.recipes = new ArrayList();
-			for(IRecipe recipe : recipes) {
+			for (IRecipe recipe : recipes) {
 				this.recipes.add(new RecipeEntry(recipe.getRecipeName(), true, recipe));
 			}
 			this.name = name;

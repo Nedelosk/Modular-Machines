@@ -6,6 +6,34 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.material.EnumVanillaMaterials;
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modular.ModularManager;
@@ -36,33 +64,6 @@ import modularmachines.common.utils.WorldUtil;
 import modularmachines.common.utils.content.IClientContentHandler;
 import modularmachines.common.utils.content.IColoredBlock;
 import modularmachines.common.utils.content.IItemModelRegister;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public class BlockModular extends BlockForest implements IItemModelRegister, IColoredBlock, IClientContentHandler {
 
@@ -212,11 +213,11 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 						if (level >= 0) {
 							drops.add(ModularManager.saveModularToItem(new ItemStack(this), modularHandler, player));
 						} else {
-							for(IModuleProvider provider : modularHandler.getModular().getProviders()) {
+							for (IModuleProvider provider : modularHandler.getModular().getProviders()) {
 								ItemStack itemStack = provider.getItemStack().copy();
-								for(IModuleState moduleState : provider.getModuleStates()) {
+								for (IModuleState moduleState : provider.getModuleStates()) {
 									if (moduleState != null) {
-										for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+										for (IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
 											if (handler instanceof IAdvancedModuleContentHandler) {
 												drops.addAll(((IAdvancedModuleContentHandler) handler).getDrops());
 											}
@@ -232,13 +233,13 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 						}
 					} else if (modularHandler.getAssembler() != null) {
 						IModularAssembler assembler = modularHandler.getAssembler();
-						for(IStoragePosition postion : assembler.getStoragePositions()) {
+						for (IStoragePosition postion : assembler.getStoragePositions()) {
 							IStoragePage page = assembler.getStoragePage(postion);
 							ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(postion));
 							drops.add(testStack(storageStack, random));
 							if (page != null) {
 								IItemHandler itemHandler = page.getItemHandler();
-								for(int i = 0; i < itemHandler.getSlots(); i++) {
+								for (int i = 0; i < itemHandler.getSlots(); i++) {
 									drops.add(testStack(itemHandler.getStackInSlot(i), random));
 								}
 							}
@@ -263,11 +264,11 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 				List<ItemStack> drops = Lists.newArrayList();
 				if (modularHandler != null) {
 					if (modularHandler.getModular() != null) {
-						for(IModuleProvider provider : modularHandler.getModular().getProviders()) {
+						for (IModuleProvider provider : modularHandler.getModular().getProviders()) {
 							ItemStack itemStack = provider.getItemStack().copy();
-							for(IModuleState moduleState : provider.getModuleStates()) {
+							for (IModuleState moduleState : provider.getModuleStates()) {
 								if (moduleState != null) {
-									for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+									for (IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
 										if (handler instanceof IAdvancedModuleContentHandler) {
 											drops.addAll(((IAdvancedModuleContentHandler) handler).getDrops());
 										}
@@ -279,13 +280,13 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 						}
 					} else if (modularHandler.getAssembler() != null) {
 						IModularAssembler assembler = modularHandler.getAssembler();
-						for(IStoragePosition postion : assembler.getStoragePositions()) {
+						for (IStoragePosition postion : assembler.getStoragePositions()) {
 							IStoragePage page = assembler.getStoragePage(postion);
 							ItemStack storageStack = assembler.getItemHandler().getStackInSlot(assembler.getIndex(postion));
 							drops.add(testStack(storageStack, random));
 							if (page != null) {
 								IItemHandler itemHandler = page.getItemHandler();
-								for(int i = 0; i < itemHandler.getSlots(); i++) {
+								for (int i = 0; i < itemHandler.getSlots(); i++) {
 									drops.add(testStack(itemHandler.getStackInSlot(i), random));
 								}
 							}
@@ -362,7 +363,7 @@ public class BlockModular extends BlockForest implements IItemModelRegister, ICo
 			if (tile instanceof TileModular) {
 				IModularHandlerTileEntity tileModular = (IModularHandlerTileEntity) tile.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, null);
 				if (tileModular.isAssembled()) {
-					for(IModuleState<IModuleColoredBlock> moduleState : tileModular.getModular().getModules(IModuleColoredBlock.class)) {
+					for (IModuleState<IModuleColoredBlock> moduleState : tileModular.getModular().getModules(IModuleColoredBlock.class)) {
 						if (moduleState != null) {
 							int color = moduleState.getModule().getColor(moduleState, tintIndex);
 							if (color > 0) {

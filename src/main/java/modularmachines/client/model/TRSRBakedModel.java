@@ -75,9 +75,9 @@ public class TRSRBakedModel implements IBakedModel {
 		transform = TRSRTransformation.blockCenterToCorner(transform);
 		// face quads
 		EnumMap<EnumFacing, ImmutableList<BakedQuad>> faces = Maps.newEnumMap(EnumFacing.class);
-		for(EnumFacing face : EnumFacing.values()) {
+		for (EnumFacing face : EnumFacing.values()) {
 			if (!original.isBuiltInRenderer()) {
-				for(BakedQuad quad : original.getQuads(null, face, 0)) {
+				for (BakedQuad quad : original.getQuads(null, face, 0)) {
 					Transformer transformer = new Transformer(transform, quad.getFormat());
 					quad.pipe(transformer);
 					builder.add(transformer.build());
@@ -89,7 +89,7 @@ public class TRSRBakedModel implements IBakedModel {
 		// general quads
 		// builder = ImmutableList.builder();
 		if (!original.isBuiltInRenderer()) {
-			for(BakedQuad quad : original.getQuads(null, null, 0)) {
+			for (BakedQuad quad : original.getQuads(null, null, 0)) {
 				Transformer transformer = new Transformer(transform, quad.getFormat());
 				quad.pipe(transformer);
 				builder.add(transformer.build());

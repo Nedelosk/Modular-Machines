@@ -6,15 +6,16 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ClickType;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import modularmachines.api.gui.IGuiProvider;
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.storage.IItemHandlerStorage;
 import modularmachines.api.modules.storage.IStoragePage;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IModularAssembler extends INBTSerializable<NBTTagCompound>, IGuiProvider {
 

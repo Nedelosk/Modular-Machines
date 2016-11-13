@@ -2,14 +2,6 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
-import modularmachines.api.modular.IModularAssembler;
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
-import modularmachines.api.modules.position.IStoragePosition;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.inventory.ContainerAssembler;
-import modularmachines.common.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -18,6 +10,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modular.IModularAssembler;
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modules.network.DataInputStreamMM;
+import modularmachines.api.modules.network.DataOutputStreamMM;
+import modularmachines.api.modules.position.IStoragePosition;
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.inventory.ContainerAssembler;
+import modularmachines.common.network.PacketHandler;
 
 public class PacketSelectAssemblerPosition extends PacketModularHandler implements IPacketClient, IPacketServer {
 
@@ -64,7 +65,7 @@ public class PacketSelectAssemblerPosition extends PacketModularHandler implemen
 		}
 		WorldServer server = player.getServerWorld();
 		PacketHandler.sendToNetwork(this, pos, server);
-		for(EntityPlayer otherPlayer : server.playerEntities) {
+		for (EntityPlayer otherPlayer : server.playerEntities) {
 			if (otherPlayer.openContainer instanceof ContainerAssembler) {
 				ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
 				if (modularHandler == assembler.getHandler()) {

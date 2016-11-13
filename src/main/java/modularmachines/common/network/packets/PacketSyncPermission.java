@@ -2,17 +2,18 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modules.controller.IModuleControlled;
 import modularmachines.api.modules.network.DataInputStreamMM;
 import modularmachines.api.modules.network.DataOutputStreamMM;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.PacketHandler;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSyncPermission extends PacketModularHandler implements IPacketClient, IPacketServer {
 

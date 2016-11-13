@@ -10,6 +10,12 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.gui.IPage;
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.IAssemblerGui;
@@ -30,11 +36,6 @@ import modularmachines.client.gui.widgets.WidgetAssemblerTab;
 import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class GuiAssembler extends GuiBase<IModularHandler> implements IAssemblerGui {
 
@@ -68,8 +69,8 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		double positionsPerSize = (positions.size() + 1) / 2;
 		double spacePerTab = pageSize / positionsPerSize;
 		int positionIndex = 0;
-		for(int side = 0; side < 2; side++) {
-			for(int index = 0; index < positionsPerSize; index++) {
+		for (int side = 0; side < 2; side++) {
+			for (int index = 0; index < positionsPerSize; index++) {
 				boolean isRight = side == 1;
 				int xPos = side == 0 ? xPosLeft : xPosRight;
 				int yPos = (int) Math.round(yStartPos + (index * spacePerTab));
@@ -118,7 +119,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 			ItemStack stack = page.getStorageStack();
 			IModuleItemContainer itemContrainer = ModuleManager.getContainerFromItem(stack);
 			if (itemContrainer != null) {
-				for(IModuleContainer container : itemContrainer.getContainers()) {
+				for (IModuleContainer container : itemContrainer.getContainers()) {
 					if (container.getModule() instanceof IModuleModuleStorage) {
 						String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
 						this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());

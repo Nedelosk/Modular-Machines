@@ -2,6 +2,8 @@ package modularmachines.api.modules;
 
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.gui.IContainerBase;
 import modularmachines.api.gui.IPage;
 import modularmachines.api.modular.IModular;
@@ -11,7 +13,6 @@ import modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import modularmachines.api.modules.handlers.inventory.slots.SlotModule;
 import modularmachines.api.modules.handlers.tank.IModuleTank;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModulePage extends IPage, IModuleContentHandlerProvider {
 

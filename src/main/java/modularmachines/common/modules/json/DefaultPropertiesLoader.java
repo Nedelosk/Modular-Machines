@@ -2,6 +2,8 @@ package modularmachines.common.modules.json;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.modules.json.ICustomLoader;
 import modularmachines.api.modules.position.EnumModulePositions;
 import modularmachines.api.modules.properties.ModuleCasingProperties;
@@ -13,7 +15,6 @@ import modularmachines.api.modules.tools.properties.ModuleBoilerProperties;
 import modularmachines.api.modules.tools.properties.ModuleMachineProperties;
 import modularmachines.api.property.JsonUtils;
 import modularmachines.common.core.Constants;
-import net.minecraft.util.ResourceLocation;
 
 public class DefaultPropertiesLoader {
 

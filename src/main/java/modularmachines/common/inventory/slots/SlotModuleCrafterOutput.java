@@ -1,11 +1,12 @@
 package modularmachines.common.inventory.slots;
 
-import forestry.core.gui.slots.SlotOutput;
-import modularmachines.common.inventory.ContainerModuleCrafter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import forestry.core.gui.slots.SlotOutput;
+import modularmachines.common.inventory.ContainerModuleCrafter;
 
 public class SlotModuleCrafterOutput extends SlotOutput {
 

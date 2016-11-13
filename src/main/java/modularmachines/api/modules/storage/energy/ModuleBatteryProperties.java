@@ -1,10 +1,11 @@
 package modularmachines.api.modules.storage.energy;
 
+import net.minecraftforge.common.config.Configuration;
+
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.position.EnumModulePositions;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.module.StorageModuleProperties;
-import net.minecraftforge.common.config.Configuration;
 
 public class ModuleBatteryProperties extends StorageModuleProperties implements IModuleBatteryProperties {
 

@@ -2,9 +2,10 @@ package modularmachines.api.modules.storage;
 
 import javax.annotation.Nullable;
 
+import net.minecraftforge.items.IItemHandlerModifiable;
+
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 public interface IItemHandlerStorage extends IItemHandlerModifiable {
 

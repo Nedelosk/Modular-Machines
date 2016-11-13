@@ -1,10 +1,11 @@
 package modularmachines.api.modules.handlers.energy;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import modularmachines.api.energy.IKineticSource;
 import modularmachines.api.modules.handlers.BlankModuleContentHandler;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public class ModuleKineticHandler extends BlankModuleContentHandler implements IKineticSource, INBTSerializable<NBTTagCompound> {
 

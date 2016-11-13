@@ -2,9 +2,10 @@ package modularmachines.api.modules.containers;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProperties;
-import net.minecraft.item.ItemStack;
 
 public class ModuleContainer<M extends IModule, P extends IModuleProperties> implements IModuleContainer<M, P> {
 

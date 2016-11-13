@@ -3,12 +3,13 @@ package modularmachines.common.network.packets;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.network.DataInputStreamMM;
 import modularmachines.api.modules.network.DataOutputStreamMM;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class PacketModule extends PacketModularHandler {
 

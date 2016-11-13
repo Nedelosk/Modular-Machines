@@ -3,6 +3,13 @@ package modularmachines.common.plugins.forestry.pages;
 import java.io.IOException;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IContainerListener;
+import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import forestry.core.config.Constants;
 import forestry.core.render.EnumTankLevel;
 import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -18,12 +25,6 @@ import modularmachines.common.plugins.forestry.ModuleBeeHouse;
 import modularmachines.common.plugins.forestry.handlers.BeeHouseHandler;
 import modularmachines.common.plugins.forestry.handlers.ItemFilterBee;
 import modularmachines.common.utils.Log;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.Slot;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamable {
 
@@ -84,7 +85,7 @@ public class BeeHousePage extends MainPage<ModuleBeeHouse> implements IStreamabl
 	}
 
 	protected final void sendPacketToListeners(IPacketClient packet) {
-		for(IContainerListener listener : (List<IContainerListener>) container.getListeners()) {
+		for (IContainerListener listener : (List<IContainerListener>) container.getListeners()) {
 			if (listener instanceof EntityPlayer) {
 				PacketHandler.sendToPlayer(packet, (EntityPlayer) listener);
 			} else {

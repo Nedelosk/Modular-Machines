@@ -1,9 +1,10 @@
 package modularmachines.api.modules.tools.properties;
 
+import net.minecraftforge.common.config.Configuration;
+
 import modularmachines.api.modules.ModuleProperties;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraftforge.common.config.Configuration;
 
 public class ModuleMachineProperties extends ModuleProperties implements IModuleMachineProperties {
 

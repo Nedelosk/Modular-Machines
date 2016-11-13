@@ -3,16 +3,17 @@ package modularmachines.api.modules.containers;
 import java.util.Arrays;
 import java.util.List;
 
-import modularmachines.api.ItemUtil;
-import modularmachines.api.material.IMaterial;
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modules.EnumModuleSizes;
-import modularmachines.api.modules.ModuleManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.ItemUtil;
+import modularmachines.api.material.IMaterial;
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modules.EnumModuleSizes;
+import modularmachines.api.modules.ModuleManager;
 
 public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemContainer> implements IModuleItemContainer {
 
@@ -44,7 +45,7 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 		if (containers == null || containers.length <= 0) {
 			throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with no module containers.");
 		}
-		for(IModuleContainer container : containers) {
+		for (IModuleContainer container : containers) {
 			if (container == null) {
 				throw new NullPointerException("The mod " + modID + " has tried to register a module item container, with a module container which was null.");
 			}
@@ -52,7 +53,7 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 		this.material = material;
 		this.ignorNBT = ignorNBT;
 		this.size = size;
-		for(IModuleContainer container : containers) {
+		for (IModuleContainer container : containers) {
 			container.setItemContainer(this);
 		}
 		this.containers = Arrays.asList(containers);
@@ -105,7 +106,7 @@ public class ModuleItemContainer extends IForgeRegistryEntry.Impl<IModuleItemCon
 			tooltip.addAll(this.tooltip);
 		}
 		int index = 0;
-		for(IModuleContainer container : containers) {
+		for (IModuleContainer container : containers) {
 			if (containers.size() > 1) {
 				tooltip.add(" - " + index + " - ");
 			}

@@ -2,13 +2,14 @@ package modularmachines.common.modular;
 
 import java.util.Random;
 
-import modularmachines.api.modular.handlers.IModularHandlerItem;
-import modularmachines.api.modular.handlers.ModularHandler;
-import modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+
+import modularmachines.api.modular.handlers.IModularHandlerItem;
+import modularmachines.api.modular.handlers.ModularHandler;
+import modularmachines.api.modules.position.StoragePositions;
 
 public class ModularHandlerItem<K> extends ModularHandler<K> implements IModularHandlerItem<NBTTagCompound, K> {
 
@@ -29,7 +30,7 @@ public class ModularHandlerItem<K> extends ModularHandler<K> implements IModular
 
 	@Override
 	public ItemStack getParent() {
-		for(EnumHand hand : EnumHand.values()) {
+		for (EnumHand hand : EnumHand.values()) {
 			ItemStack held = getPlayer().getHeldItem(hand);
 			if (isSameItemInventory(held, parent)) {
 				return held;

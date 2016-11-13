@@ -9,6 +9,15 @@ import javax.annotation.Nonnull;
 
 import com.mojang.authlib.GameProfile;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import forestry.api.apiculture.DefaultBeeListener;
 import forestry.api.apiculture.DefaultBeeModifier;
 import forestry.api.apiculture.IBeeHousing;
@@ -30,14 +39,6 @@ import modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.plugins.forestry.ModuleBeeHouse;
 import modularmachines.common.plugins.forestry.pages.FrameHousingPage;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> implements IBeeHousing, IClimatised, INBTSerializable<NBTTagCompound> {
 
@@ -131,7 +132,7 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 			List<IBeeModifier> beeModifiers = new ArrayList<>();
 			beeModifiers.add(beeModifier);
 			IModulePage page = moduleState.getPage(FrameHousingPage.class);
-			for(IHiveFrame frame : getFrames(page.getInventory())) {
+			for (IHiveFrame frame : getFrames(page.getInventory())) {
 				beeModifiers.add(frame.getBeeModifier());
 			}
 			return beeModifiers;
@@ -141,7 +142,7 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 
 	public Collection<IHiveFrame> getFrames(IModuleInventory inventory) {
 		Collection<IHiveFrame> hiveFrames = new ArrayList<>(3);
-		for(int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			ItemStack stackInSlot = inventory.getStackInSlot(i);
 			if (stackInSlot == null) {
 				continue;

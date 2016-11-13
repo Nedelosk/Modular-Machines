@@ -3,12 +3,13 @@ package modularmachines.common.modular;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.util.EnumFacing;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.modules.controller.IModuleControl;
 import modularmachines.api.modules.controller.IModuleControlled;
 import modularmachines.api.modules.handlers.IModuleContentHandler;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.util.EnumFacing;
 
 public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler> implements IEnergyBuffer {
 
@@ -24,14 +25,14 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 		if (moduleState != null && moduleState.getModule() instanceof IModuleControlled) {
 			buffers.clear();
 			IModuleControl control = ((IModuleControlled) moduleState.getModule()).getModuleControl(moduleState);
-			for(E energyBuffer : this.buffers) {
+			for (E energyBuffer : this.buffers) {
 				if (control.hasPermission(energyBuffer.getModuleState())) {
 					buffers.add(energyBuffer);
 				}
 			}
 		}
 		long totalExtract = 0;
-		for(E energyBuffer : buffers) {
+		for (E energyBuffer : buffers) {
 			IModuleState state = energyBuffer.getModuleState();
 			long extract = energyBuffer.extractEnergy(state, facing, maxExtract, simulate);
 			if (state != null && extract > 0) {
@@ -52,14 +53,14 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 		if (moduleState != null && moduleState.getModule() instanceof IModuleControlled) {
 			buffers.clear();
 			IModuleControl control = ((IModuleControlled) moduleState.getModule()).getModuleControl(moduleState);
-			for(E energyBuffer : this.buffers) {
+			for (E energyBuffer : this.buffers) {
 				if (control.hasPermission(energyBuffer.getModuleState())) {
 					buffers.add(energyBuffer);
 				}
 			}
 		}
 		long totalReceived = 0;
-		for(E energyBuffer : buffers) {
+		for (E energyBuffer : buffers) {
 			IModuleState state = energyBuffer.getModuleState();
 			long receive = energyBuffer.receiveEnergy(state, facing, maxReceive, simulate);
 			if (state != null && receive > 0) {
@@ -77,7 +78,7 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 
 	@Override
 	public void setEnergy(long energy) {
-		for(IEnergyBuffer energyBuffer : buffers) {
+		for (IEnergyBuffer energyBuffer : buffers) {
 			long capacity = energyBuffer.getCapacity();
 			if (energy > capacity) {
 				energyBuffer.setEnergy(capacity);
@@ -95,7 +96,7 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long getEnergyStored() {
 		long energyStored = 0;
-		for(IEnergyBuffer energyBuffer : buffers) {
+		for (IEnergyBuffer energyBuffer : buffers) {
 			energyStored += energyBuffer.getEnergyStored();
 		}
 		return energyStored;
@@ -104,7 +105,7 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public long getCapacity() {
 		long capacity = 0;
-		for(IEnergyBuffer energyBuffer : buffers) {
+		for (IEnergyBuffer energyBuffer : buffers) {
 			capacity += energyBuffer.getCapacity();
 		}
 		return capacity;
@@ -113,7 +114,7 @@ public class ModularEnergyBuffer<E extends IEnergyBuffer & IModuleContentHandler
 	@Override
 	public int getTier() {
 		int tier = 1;
-		for(IEnergyBuffer energyBuffer : buffers) {
+		for (IEnergyBuffer energyBuffer : buffers) {
 			if (energyBuffer.getTier() > tier) {
 				tier = energyBuffer.getTier();
 			}

@@ -2,10 +2,11 @@ package modularmachines.common.modules.propertys;
 
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagString;
+
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.property.PropertyBase;
 import modularmachines.api.recipes.IRecipe;
-import net.minecraft.nbt.NBTTagString;
 
 public class PropertyFurnaceRecipe extends PropertyBase<IRecipe, NBTTagString, IPropertyProvider> {
 
@@ -23,7 +24,7 @@ public class PropertyFurnaceRecipe extends PropertyBase<IRecipe, NBTTagString, I
 
 	@Override
 	public IRecipe readFromNBT(NBTTagString nbt, IPropertyProvider state) {
-		for(IRecipe recipe : recipes) {
+		for (IRecipe recipe : recipes) {
 			if (recipe != null && recipe.getRecipeName() != null && recipe.getRecipeName().equals(nbt.getString())) {
 				return recipe;
 			}

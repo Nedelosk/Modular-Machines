@@ -5,13 +5,14 @@ import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+
 import modularmachines.api.gui.IGuiProvider;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modules.position.StoragePositions;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 public interface IModularHandler<N extends NBTBase, K> extends IGuiProvider, ICapabilitySerializable<N> {
 

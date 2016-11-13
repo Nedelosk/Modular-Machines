@@ -2,6 +2,11 @@ package modularmachines.common.plugins.mekanism;
 
 import static modularmachines.api.modules.ModuleManager.register;
 
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.modules.containers.IModuleItemContainer;
 import modularmachines.api.modules.containers.ModuleContainer;
@@ -13,10 +18,6 @@ import modularmachines.common.plugins.APlugin;
 import modularmachines.common.plugins.cofh.ModuleRFBattery;
 import modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
 import modularmachines.common.plugins.cofh.ModuleRFBatteryPropertiesLoader;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PluginMekanism extends APlugin {
 

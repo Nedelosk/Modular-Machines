@@ -2,6 +2,10 @@ package modularmachines.common.modules.pages;
 
 import java.util.Locale;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.gui.Button;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleModuleCleaner;
@@ -12,9 +16,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketModuleCleaner;
 import modularmachines.common.utils.Translator;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CleanerPage extends MainPage<IModuleModuleCleaner> {
 

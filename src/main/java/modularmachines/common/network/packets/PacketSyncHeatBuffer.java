@@ -2,14 +2,15 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.network.DataInputStreamMM;
+import modularmachines.api.modules.network.DataOutputStreamMM;
 
 public class PacketSyncHeatBuffer extends PacketModularHandler implements IPacketClient {
 

@@ -15,12 +15,13 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.containers.IModuleItemContainer;
 import modularmachines.api.modules.json.EnumLoaderType;
 import modularmachines.api.modules.json.ModuleLoaderRegistry;
 import modularmachines.common.core.ModularMachines;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModuleLoadManager {
 
@@ -46,11 +47,11 @@ public class ModuleLoadManager {
 			if (!containerFolder.exists()) {
 				containerFolder.mkdirs();
 			} else {
-				for(File file : containerFolder.listFiles()) {
+				for (File file : containerFolder.listFiles()) {
 					if (file.getName().endsWith(".json")) {
 						Reader reader = new BufferedReader(new FileReader(file));
 						List<IModuleItemContainer> containers = GSON.fromJson(reader, List.class);
-						for(IModuleItemContainer container : containers) {
+						for (IModuleItemContainer container : containers) {
 							GameRegistry.register(container);
 						}
 						reader.close();

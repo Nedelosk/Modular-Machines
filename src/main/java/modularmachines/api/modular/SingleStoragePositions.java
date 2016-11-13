@@ -2,11 +2,12 @@ package modularmachines.api.modular;
 
 import java.util.Locale;
 
+import net.minecraft.util.text.translation.I18n;
+
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.position.EnumModulePositions;
 import modularmachines.api.modules.position.IModulePostion;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraft.util.text.translation.I18n;
 
 public enum SingleStoragePositions implements IStoragePosition {
 	CASING(EnumModuleSizes.LARGEST, EnumModulePositions.CASING), SIDE(EnumModuleSizes.LARGE, EnumModulePositions.SIDE), TOP(EnumModuleSizes.LARGE, EnumModulePositions.TOP);

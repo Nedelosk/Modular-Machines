@@ -2,6 +2,19 @@ package modularmachines.common.plugins.theoneprobe;
 
 import com.google.common.base.Function;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.Optional;
+
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProbeConfig;
@@ -26,22 +39,10 @@ import modularmachines.common.config.Config;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.utils.Translator;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeInfoProvide", modid = "theoneprobe"), @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeConfigProvider", modid = "theoneprobe")})
+@Optional.InterfaceList({ @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeInfoProvide", modid = "theoneprobe"), @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeConfigProvider", modid = "theoneprobe") })
 public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProvider, Function<ITheOneProbe, Void> {
-	
+
 	public static ITheOneProbe probe;
 
 	@Override
@@ -52,18 +53,18 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 		probe.registerProbeConfigProvider(this);
 		return null;
 	}
-	
+
 	@Override
 	public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-		if(probeInfo != null && world != null && blockState != null && data != null){
+		if (probeInfo != null && world != null && blockState != null && data != null) {
 			TileEntity tileEntity = world.getTileEntity(data.getPos());
-			if(tileEntity != null && tileEntity.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, data.getSideHit())){
+			if (tileEntity != null && tileEntity.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, data.getSideHit())) {
 				IModularHandler modularHandler = tileEntity.getCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, data.getSideHit());
-				if(modularHandler instanceof IModularHandlerTileEntity){
+				if (modularHandler instanceof IModularHandlerTileEntity) {
 					IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) modularHandler;
 					IModular modular = tileHandler.getModular();
-					if(modular != null){
-						for(IModuleState state : modular.getModules()){
+					if (modular != null) {
+						for (IModuleState state : modular.getModules()) {
 							ModuleBox box = new ModuleBox(probeInfo);
 							mkRfLine(mode, box, state, data);
 							mkKineticLine(mode, box, state, data);
@@ -81,9 +82,8 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 				IEnergyBuffer buffer = state.getContentHandler(IEnergyBuffer.class);
 				final IProbeInfo rfLine = box.get(state).horizontal(box.center()).item(new ItemStack(Items.REDSTONE));
 				if (buffer.getEnergyStored() > 0) {
-					rfLine.progress(buffer.getEnergyStored(), buffer.getCapacity(), box.getProbeinfo().defaultProgressStyle().suffix(" " + Translator.translateToLocal("mm.top.suffix.rf"))
-							.filledColor(mcjty.theoneprobe.config.Config.rfbarFilledColor).alternateFilledColor(mcjty.theoneprobe.config.Config.rfbarAlternateFilledColor).borderColor(mcjty.theoneprobe.config.Config.rfbarBorderColor)
-							.numberFormat(mcjty.theoneprobe.config.Config.rfFormat));
+					rfLine.progress(buffer.getEnergyStored(), buffer.getCapacity(), box.getProbeinfo().defaultProgressStyle().suffix(" " + Translator.translateToLocal("mm.top.suffix.rf")).filledColor(mcjty.theoneprobe.config.Config.rfbarFilledColor)
+							.alternateFilledColor(mcjty.theoneprobe.config.Config.rfbarAlternateFilledColor).borderColor(mcjty.theoneprobe.config.Config.rfbarBorderColor).numberFormat(mcjty.theoneprobe.config.Config.rfFormat));
 				} else {
 					rfLine.text(TextFormatting.DARK_RED + Translator.translateToLocal("mm.top.outofpower"));
 				}
@@ -97,8 +97,8 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 				IKineticSource buffer = state.getContentHandler(IKineticSource.class);
 				final IProbeInfo kLine = box.get(state).horizontal(box.center()).item(new ItemStack(ItemManager.itemEngineSteam));
 				if (buffer.getStored() > 0) {
-					kLine.progress((long)buffer.getStored(), (long)buffer.getCapacity(), box.getProbeinfo().defaultProgressStyle().suffix(" " + Translator.translateToLocal("mm.top.suffix.kenetic")).numberFormat(NumberFormat.COMMAS)
-							.filledColor(0xff128bb8).alternateFilledColor(0xff128bb8).lifeBar(false));
+					kLine.progress((long) buffer.getStored(), (long) buffer.getCapacity(),
+							box.getProbeinfo().defaultProgressStyle().suffix(" " + Translator.translateToLocal("mm.top.suffix.kenetic")).numberFormat(NumberFormat.COMMAS).filledColor(0xff128bb8).alternateFilledColor(0xff128bb8).lifeBar(false));
 				} else {
 					kLine.text(TextFormatting.DARK_RED + Translator.translateToLocal("mm.top.outofpower"));
 				}
@@ -132,19 +132,15 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 			probeInfo.text("Liquid: " + fluidStack.getLocalizedName());
 		}
 		if (config.getTankMode() == 1) {
-			probeInfo.progress(contents, maxContents,
-					probeInfo.defaultProgressStyle()
-					.suffix("mB")
-					.filledColor(mcjty.theoneprobe.config.Config.tankbarFilledColor)
-					.alternateFilledColor(mcjty.theoneprobe.config.Config.tankbarAlternateFilledColor)
-					.borderColor(mcjty.theoneprobe.config.Config.tankbarBorderColor)
-					.numberFormat(mcjty.theoneprobe.config.Config.tankFormat));
+			probeInfo.progress(contents, maxContents, probeInfo.defaultProgressStyle().suffix("mB").filledColor(mcjty.theoneprobe.config.Config.tankbarFilledColor).alternateFilledColor(mcjty.theoneprobe.config.Config.tankbarAlternateFilledColor)
+					.borderColor(mcjty.theoneprobe.config.Config.tankbarBorderColor).numberFormat(mcjty.theoneprobe.config.Config.tankFormat));
 		} else {
 			probeInfo.text(TextFormatting.GREEN + ElementProgress.format(contents, mcjty.theoneprobe.config.Config.tankFormat, "mB"));
 		}
 	}
 
 	private static class ModuleBox {
+
 		private final IProbeInfo probeinfo;
 		private IProbeInfo box;
 
@@ -158,7 +154,6 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 
 		public IProbeInfo get(IModuleState state) {
 			if (box == null) {
-
 				box = probeinfo.vertical(probeinfo.defaultLayoutStyle().borderColor(0xffff0000));
 				box.horizontal().item(state.getProvider().getItemStack()).text(state.getDisplayName());
 			}
@@ -176,15 +171,14 @@ public class DefaultInfoProvider implements IProbeInfoProvider, IProbeConfigProv
 
 	@Override
 	public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-		if(config != null && world != null && blockState != null && data != null){
+		if (config != null && world != null && blockState != null && data != null) {
 			TileEntity tileEntity = world.getTileEntity(data.getPos());
-			if(tileEntity != null && tileEntity.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, data.getSideHit())){
+			if (tileEntity != null && tileEntity.hasCapability(ModularManager.MODULAR_HANDLER_CAPABILITY, data.getSideHit())) {
 				config.setRFMode(0);
 				config.setTankMode(0);
 			}
 		}
 	}
-	
 
 	@Override
 	public String getID() {

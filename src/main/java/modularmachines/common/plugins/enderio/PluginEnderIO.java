@@ -2,6 +2,11 @@ package modularmachines.common.plugins.enderio;
 
 import static modularmachines.api.modules.ModuleManager.register;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.containers.IModuleItemContainer;
@@ -15,10 +20,6 @@ import modularmachines.common.plugins.APlugin;
 import modularmachines.common.plugins.cofh.ModuleRFBattery;
 import modularmachines.common.plugins.cofh.ModuleRFBatteryProperties;
 import modularmachines.common.plugins.cofh.ModuleRFBatteryPropertiesLoader;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class PluginEnderIO extends APlugin {
 

@@ -2,8 +2,9 @@ package modularmachines.api.property;
 
 import com.google.gson.JsonPrimitive;
 
-import modularmachines.api.recipes.IToolMode;
 import net.minecraft.nbt.NBTTagInt;
+
+import modularmachines.api.recipes.IToolMode;
 
 public class PropertyToolMode extends PropertyBase<IToolMode, NBTTagInt, IPropertyProvider> implements IPropertyJson<IToolMode, NBTTagInt, IPropertyProvider, JsonPrimitive> {
 

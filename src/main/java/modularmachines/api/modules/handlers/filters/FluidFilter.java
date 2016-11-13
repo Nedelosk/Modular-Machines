@@ -3,10 +3,11 @@ package modularmachines.api.modules.handlers.filters;
 import java.util.HashMap;
 import java.util.Map;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.state.IModuleState;
 
 public class FluidFilter implements IContentFilter<FluidStack, IModule> {
 

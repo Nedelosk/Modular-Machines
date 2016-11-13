@@ -6,6 +6,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.ItemUtil;
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModule;
@@ -15,10 +20,6 @@ import modularmachines.api.modules.containers.IModuleProvider;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.Storage;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
 
 public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefaultModuleStorage, IAddableModuleStorage {
 
@@ -41,7 +42,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		NBTTagList containerList = new NBTTagList();
-		for(IModuleProvider provider : providers) {
+		for (IModuleProvider provider : providers) {
 			NBTTagCompound nbtCompound = provider.serializeNBT();
 			if (!ItemUtil.isIdenticalItem(provider.getItemStack(), provider.getContainer().getItemStack())) {
 				nbtCompound.setTag("Item", provider.getItemStack().serializeNBT());
@@ -56,7 +57,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList containerList = nbt.getTagList("Providers", 10);
-		for(int i = 0; i < containerList.tagCount(); i++) {
+		for (int i = 0; i < containerList.tagCount(); i++) {
 			NBTTagCompound nbtCompound = containerList.getCompoundTagAt(i);
 			IModuleItemContainer itemContainer = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(nbtCompound.getString("Container")));
 			ItemStack itemStack = null;
@@ -72,7 +73,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	@Override
 	public List<IModuleState> getModules() {
 		List<IModuleState> moduleStates = new ArrayList<>();
-		for(IModuleProvider states : providers) {
+		for (IModuleProvider states : providers) {
 			moduleStates.addAll(states.getModuleStates());
 		}
 		return Collections.unmodifiableList(moduleStates);
@@ -80,7 +81,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IModuleState module : getModules()) {
+		for (IModuleState module : getModules()) {
 			if (module.getIndex() == index) {
 				return module;
 			}
@@ -94,7 +95,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IModuleState module : getModules()) {
+		for (IModuleState module : getModules()) {
 			if (moduleClass.isAssignableFrom(module.getModule().getClass())) {
 				modules.add(module);
 			}
@@ -114,7 +115,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	@Override
 	public int getComplexity(boolean withStorage) {
 		int complexity = 0;
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			if (state != null) {
 				if (state.getModule() instanceof IModuleModuleStorage && !withStorage) {
 					continue;
@@ -131,7 +132,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 			return false;
 		}
 		if (providers.add(provider)) {
-			for(IModuleState state : provider.getModuleStates()) {
+			for (IModuleState state : provider.getModuleStates()) {
 				state.setIndex(getModular().getNextIndex());
 			}
 		}
@@ -147,7 +148,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	public ItemStack[] toPageStacks() {
 		ItemStack[] stacks = new ItemStack[size.slots];
 		int index = 0;
-		for(IModuleProvider provider : providers) {
+		for (IModuleProvider provider : providers) {
 			if (provider != null) {
 				stacks[index] = ModuleManager.saveModuleStateToItem(provider);
 				index += provider.getContainer().getSize().slots;

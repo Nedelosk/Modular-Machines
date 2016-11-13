@@ -1,12 +1,13 @@
 package modularmachines.common.blocks.tile;
 
-import modularmachines.client.gui.GuiModuleCrafter;
-import modularmachines.common.inventory.ContainerModuleCrafter;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.gui.GuiModuleCrafter;
+import modularmachines.common.inventory.ContainerModuleCrafter;
 
 public class TileModuleCrafter extends TileBaseInventory {
 

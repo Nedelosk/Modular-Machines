@@ -1,9 +1,10 @@
 package modularmachines.api.modules.storage.module;
 
+import net.minecraftforge.common.config.Configuration;
+
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.position.IModulePostion;
 import modularmachines.api.modules.properties.IModuleModuleStorageProperties;
-import net.minecraftforge.common.config.Configuration;
 
 public class ModuleModuleStorageProperties extends StorageModuleProperties implements IModuleModuleStorageProperties {
 

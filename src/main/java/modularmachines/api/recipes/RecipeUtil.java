@@ -1,7 +1,8 @@
 package modularmachines.api.recipes;
 
-import modularmachines.api.property.PropertyToolMode;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.api.property.PropertyToolMode;
 
 public class RecipeUtil {
 

@@ -5,6 +5,9 @@ import java.util.Map.Entry;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyJson;
 import modularmachines.api.property.IPropertyProvider;
@@ -12,8 +15,6 @@ import modularmachines.api.property.PropertyDouble;
 import modularmachines.api.property.PropertyInteger;
 import modularmachines.api.property.PropertyRecipeItems;
 import modularmachines.api.property.PropertyString;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class Recipe implements IRecipe {
 
@@ -72,7 +73,7 @@ public class Recipe implements IRecipe {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		for(Entry<IProperty, Object> object : properties.entrySet()) {
+		for (Entry<IProperty, Object> object : properties.entrySet()) {
 			if (object.getValue() != null) {
 				nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
 			}
@@ -82,7 +83,7 @@ public class Recipe implements IRecipe {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		for(IProperty property : properties.keySet()) {
+		for (IProperty property : properties.keySet()) {
 			if (nbt.hasKey(property.getName())) {
 				properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
 			}
@@ -92,7 +93,7 @@ public class Recipe implements IRecipe {
 	@Override
 	public JsonObject writeToJson() {
 		JsonObject jsonObject = new JsonObject();
-		for(Entry<IProperty, Object> object : properties.entrySet()) {
+		for (Entry<IProperty, Object> object : properties.entrySet()) {
 			if (object.getValue() != null && object.getKey() instanceof IPropertyJson) {
 				jsonObject.add(object.getKey().getName(), ((IPropertyJson) object.getKey()).writeToJson(object.getValue()));
 			}
@@ -102,7 +103,7 @@ public class Recipe implements IRecipe {
 
 	@Override
 	public void readFromJson(JsonObject jsonObject) {
-		for(IProperty property : properties.keySet()) {
+		for (IProperty property : properties.keySet()) {
 			if (jsonObject.has(property.getName())) {
 				properties.put(property, ((IPropertyJson) property).readFromJson(jsonObject.get(property.getName())));
 			}

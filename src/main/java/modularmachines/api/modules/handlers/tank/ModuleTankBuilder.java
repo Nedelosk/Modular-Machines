@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraftforge.fluids.FluidStack;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.handlers.ContentInfo;
 import modularmachines.api.modules.handlers.filters.FilterWrapper;
 import modularmachines.api.modules.handlers.filters.IContentFilter;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<M> {
 
@@ -54,7 +55,7 @@ public class ModuleTankBuilder<M extends IModule> implements IModuleTankBuilder<
 	public IModuleTank build() {
 		FluidTankAdvanced[] tanks = new FluidTankAdvanced[tankInfos.size()];
 		ContentInfo[] contentInfos = new ContentInfo[tankInfos.size()];
-		for(Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()) {
+		for (Entry<FluidTankAdvanced, ContentInfo> entry : tankInfos.entrySet()) {
 			FluidTankAdvanced tank = entry.getKey();
 			tanks[tank.index] = tank;
 			contentInfos[tank.index] = entry.getValue();

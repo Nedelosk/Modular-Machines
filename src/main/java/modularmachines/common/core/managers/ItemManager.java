@@ -1,5 +1,7 @@
 package modularmachines.common.core.managers;
 
+import net.minecraft.item.Item;
+
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.material.EnumVanillaMaterials;
 import modularmachines.api.material.IMetalMaterial;
@@ -16,7 +18,6 @@ import modularmachines.common.items.ItemModuleMeta;
 import modularmachines.common.items.ItemToolCrafting;
 import modularmachines.common.items.ItemWrench;
 import modularmachines.common.items.blocks.ItemBlockChassis;
-import net.minecraft.item.Item;
 
 public class ItemManager {
 

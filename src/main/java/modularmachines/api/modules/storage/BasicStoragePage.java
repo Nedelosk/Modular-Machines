@@ -2,6 +2,9 @@ package modularmachines.api.modules.storage;
 
 import java.util.List;
 
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
@@ -9,8 +12,6 @@ import modularmachines.api.modular.assembler.IAssemblerContainer;
 import modularmachines.api.modular.assembler.SlotAssembler;
 import modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class BasicStoragePage extends StoragePage {
 

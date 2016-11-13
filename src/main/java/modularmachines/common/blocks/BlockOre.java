@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -20,6 +17,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockOre extends BlockForest implements IItemModelRegister, IBlockWithMeta {
 
@@ -58,7 +59,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
-		for(OreType type : OreType.values()) {
+		for (OreType type : OreType.values()) {
 			manager.registerItemModel(item, type.ordinal(), "ores/" + type.getName());
 		}
 	}
@@ -71,7 +72,7 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-		for(int i = 0; i < OreType.values().length; i++) {
+		for (int i = 0; i < OreType.values().length; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}

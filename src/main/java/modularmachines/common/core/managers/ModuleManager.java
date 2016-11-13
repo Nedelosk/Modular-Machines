@@ -2,6 +2,16 @@ package modularmachines.common.core.managers;
 
 import static modularmachines.api.modules.ModuleManager.register;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import modularmachines.api.material.EnumBlockMaterials;
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.material.EnumVanillaMaterials;
@@ -60,15 +70,6 @@ import modularmachines.common.modules.tools.ModuleLathe;
 import modularmachines.common.modules.tools.ModulePulverizer;
 import modularmachines.common.modules.tools.ModuleSawMill;
 import modularmachines.common.modules.turbines.ModuleTurbineSteam;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.Capability.IStorage;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public class ModuleManager {
 

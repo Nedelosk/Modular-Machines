@@ -3,8 +3,6 @@ package modularmachines.client.gui.widgets;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -16,6 +14,9 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.math.MathHelper;
+
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.Widget;
 
 public class WidgetTextField extends Widget {
 
@@ -228,7 +229,7 @@ public class WidgetTextField extends Widget {
 		int i = pos;
 		boolean flag = n < 0;
 		int j = Math.abs(n);
-		for(int k = 0; k < j; ++k) {
+		for (int k = 0; k < j; ++k) {
 			if (!flag) {
 				int l = this.text.length();
 				i = this.text.indexOf(32, i);

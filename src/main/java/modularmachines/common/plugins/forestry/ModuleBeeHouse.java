@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import forestry.api.apiculture.DefaultBeeListener;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
@@ -26,9 +30,6 @@ import modularmachines.common.plugins.forestry.handlers.ModuleBeeListener;
 import modularmachines.common.plugins.forestry.handlers.ModuleInventoryBeeHousing;
 import modularmachines.common.plugins.forestry.pages.BeeHousePage;
 import modularmachines.common.plugins.forestry.pages.FrameHousingPage;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleBeeHouse extends StorageModule implements ITickable {
 

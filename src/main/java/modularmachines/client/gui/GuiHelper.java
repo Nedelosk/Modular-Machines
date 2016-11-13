@@ -2,6 +2,11 @@ package modularmachines.client.gui;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.gui.IGuiHelper;
 import modularmachines.api.gui.Widget;
@@ -25,10 +30,6 @@ import modularmachines.client.gui.widgets.WidgetModulePageTab;
 import modularmachines.client.gui.widgets.WidgetModuleTab;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.client.gui.widgets.WidgetRedstoneMode;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiHelper implements IGuiHelper {

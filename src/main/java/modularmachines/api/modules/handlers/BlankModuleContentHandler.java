@@ -2,9 +2,10 @@ package modularmachines.api.modules.handlers;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 
 public abstract class BlankModuleContentHandler<M extends IModule> implements IModuleContentHandler<M> {
 

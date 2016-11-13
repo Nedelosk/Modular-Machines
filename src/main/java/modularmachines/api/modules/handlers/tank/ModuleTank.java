@@ -8,16 +8,6 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.handlers.BlankModuleContentHandler;
-import modularmachines.api.modules.handlers.ContentInfo;
-import modularmachines.api.modules.handlers.filters.FilterWrapper;
-import modularmachines.api.modules.handlers.filters.IContentFilter;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -29,6 +19,17 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModulePage;
+import modularmachines.api.modules.handlers.BlankModuleContentHandler;
+import modularmachines.api.modules.handlers.ContentInfo;
+import modularmachines.api.modules.handlers.filters.FilterWrapper;
+import modularmachines.api.modules.handlers.filters.IContentFilter;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.api.recipes.RecipeItem;
 
 public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> implements IModuleTank<M> {
 
@@ -44,10 +45,10 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		this.contentInfos = contentInfos;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			tank.moduleTank = this;
 		}
-		for(EnumFacing facing : EnumFacing.values()) {
+		for (EnumFacing facing : EnumFacing.values()) {
 			configurations.put(facing, new boolean[tanks.length]);
 		}
 	}
@@ -65,7 +66,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public RecipeItem[] getRecipeItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
-		for(int index = 0; index < getInputs(); index++) {
+		for (int index = 0; index < getInputs(); index++) {
 			FluidStack input = getTank(index).getFluid();
 			if (input != null) {
 				input = input.copy();
@@ -78,7 +79,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
+			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isFluid()) {
 						FluidStack test = drainInternal(recipeInput.fluid, false);
@@ -99,7 +100,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
 		if (outputs != null) {
-			for(RecipeItem output : outputs) {
+			for (RecipeItem output : outputs) {
 				if (output != null) {
 					if (output.isFluid()) {
 						if (output.chance == -1 || chance <= output.chance) {
@@ -122,7 +123,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
+			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isFluid()) {
 						drainInternal(recipeInput.fluid, true);
@@ -135,7 +136,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
 		if (outputs != null) {
-			for(RecipeItem item : outputs) {
+			for (RecipeItem item : outputs) {
 				if (item != null && item.isFluid()) {
 					if (item.chance == -1 || chance <= item.chance) {
 						fillInternal(item.fluid.copy(), true);
@@ -152,7 +153,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		}
 		resource = resource.copy();
 		int totalFillAmount = 0;
-		for(FluidTankAdvanced handler : tanks) {
+		for (FluidTankAdvanced handler : tanks) {
 			if (isInput(handler.index)) {
 				continue;
 			}
@@ -173,7 +174,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		}
 		resource = resource.copy();
 		FluidStack totalDrained = null;
-		for(FluidTankAdvanced handler : tanks) {
+		for (FluidTankAdvanced handler : tanks) {
 			if (!isInput(handler.index)) {
 				continue;
 			}
@@ -199,7 +200,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 			return null;
 		}
 		FluidStack totalDrained = null;
-		for(FluidTankAdvanced handler : tanks) {
+		for (FluidTankAdvanced handler : tanks) {
 			if (!isInput(handler.index)) {
 				continue;
 			}
@@ -227,7 +228,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
 		List<IFluidTankProperties> properties = Lists.newArrayList();
-		for(IFluidHandler handler : tanks) {
+		for (IFluidHandler handler : tanks) {
 			Collections.addAll(properties, handler.getTankProperties());
 		}
 		return properties.toArray(new IFluidTankProperties[properties.size()]);
@@ -240,7 +241,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		}
 		resource = resource.copy();
 		int totalFillAmount = 0;
-		for(IFluidHandler handler : tanks) {
+		for (IFluidHandler handler : tanks) {
 			int fillAmount = handler.fill(resource, doFill);
 			totalFillAmount += fillAmount;
 			resource.amount -= fillAmount;
@@ -258,7 +259,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		}
 		resource = resource.copy();
 		FluidStack totalDrained = null;
-		for(IFluidHandler handler : tanks) {
+		for (IFluidHandler handler : tanks) {
 			FluidStack drain = handler.drain(resource, doDrain);
 			if (drain != null) {
 				if (totalDrained == null) {
@@ -281,7 +282,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 			return null;
 		}
 		FluidStack totalDrained = null;
-		for(IFluidHandler handler : tanks) {
+		for (IFluidHandler handler : tanks) {
 			if (totalDrained == null) {
 				totalDrained = handler.drain(maxDrain, doDrain);
 				if (totalDrained != null) {
@@ -316,7 +317,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public int getInputs() {
 		int inputs = 0;
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			if (contentInfos[tank.index].isInput) {
 				inputs++;
 			}
@@ -327,7 +328,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public int getOutputs() {
 		int outputs = 0;
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			if (!contentInfos[tank.index].isInput) {
 				outputs++;
 			}
@@ -338,19 +339,19 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList nbtTagTankList = nbt.getTagList("Tanks", 10);
-		for(int i = 0; i < nbtTagTankList.tagCount(); i++) {
+		for (int i = 0; i < nbtTagTankList.tagCount(); i++) {
 			NBTTagCompound tankTag = nbtTagTankList.getCompoundTagAt(i);
 			int capacity = tankTag.getInteger("Capacity");
 			int index = tankTag.getInteger("Index");
 			tanks[index] = new FluidTankAdvanced(capacity, this, index, tankTag);
 		}
 		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
-		for(int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
+		for (int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
 			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
 			EnumFacing facing = EnumFacing.VALUES[index];
 			boolean[] configurations = new boolean[this.configurations.get(facing).length];
 			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
-			for(int i = 0; i < this.configurations.get(facing).length; i++) {
+			for (int i = 0; i < this.configurations.get(facing).length; i++) {
 				configurations[i] = tankConfiguration[i] == 1;
 			}
 			this.configurations.put(facing, configurations);
@@ -361,7 +362,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagTankList = new NBTTagList();
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			NBTTagCompound tankTag = new NBTTagCompound();
 			tank.writeToNBT(tankTag);
 			tankTag.setInteger("Index", tank.index);
@@ -371,11 +372,11 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		}
 		nbt.setTag("Tanks", nbtTagTankList);
 		NBTTagList nbtTagConfigurationList = new NBTTagList();
-		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
+		for (Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
 			NBTTagCompound entryTag = new NBTTagCompound();
 			entryTag.setInteger("Face", entry.getKey().ordinal());
 			byte[] configurations = new byte[entry.getValue().length];
-			for(int i = 0; i < entry.getValue().length; i++) {
+			for (int i = 0; i < entry.getValue().length; i++) {
 				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
 			}
 			entryTag.setByteArray("Configurations", configurations);
@@ -388,7 +389,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.tanks"));
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			FluidStack fluidStack = tank.getFluid();
 			if (fluidStack != null) {
 				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.tank") + " " + tank.index);
@@ -439,25 +440,25 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 		if (handler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
 			List<IFluidHandler> handlers = new ArrayList<>();
-			for(IModuleState moduleState : state.getModuleHandler().getModules()) {
+			for (IModuleState moduleState : state.getModuleHandler().getModules()) {
 				if (moduleState.getContentHandler(IFluidHandler.class) != null) {
 					handlers.add(moduleState.getContentHandler(IFluidHandler.class));
 				}
-				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
+				for (IModulePage page : (List<IModulePage>) moduleState.getPages()) {
 					if (page.getContentHandler(IFluidHandler.class) != null) {
 						handlers.add(page.getContentHandler(IFluidHandler.class));
 					}
 				}
 			}
-			for(EnumFacing facing : EnumFacing.VALUES) {
+			for (EnumFacing facing : EnumFacing.VALUES) {
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
 				if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())) {
 					handlers.add(tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite()));
 				}
 			}
-			for(IFluidHandler fluidHandler : handlers) {
+			for (IFluidHandler fluidHandler : handlers) {
 				if (!isEmpty()) {
-					for(FluidTankAdvanced tank : getTanks()) {
+					for (FluidTankAdvanced tank : getTanks()) {
 						tank.drainInternal(fluidHandler.fill(tank.getFluid(), true), true);
 					}
 				}
@@ -472,7 +473,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 
 	@Override
 	public boolean isEmpty() {
-		for(FluidTankAdvanced tank : tanks) {
+		for (FluidTankAdvanced tank : tanks) {
 			if (tank != null && !tank.isEmpty()) {
 				return false;
 			}

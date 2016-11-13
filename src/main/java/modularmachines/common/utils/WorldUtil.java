@@ -60,7 +60,7 @@ public class WorldUtil {
 			return;
 		}
 		IInventory inventory = (IInventory) tile;
-		for(int i = 0; i < inventory.getSizeInventory(); i++) {
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			ItemStack item = inventory.getStackInSlot(i);
 			if (item != null && item.stackSize > 0) {
 				dropItem(world, pos, item);
@@ -100,19 +100,19 @@ public class WorldUtil {
 	}
 
 	public static void dropItems(World world, BlockPos pos, ItemStack[] stacks) {
-		for(ItemStack stack : stacks) {
+		for (ItemStack stack : stacks) {
 			dropItem(world, pos, stack);
 		}
 	}
 
 	public static void dropItems(World world, BlockPos pos, IItemHandler handler) {
-		for(int i = 0; i < handler.getSlots(); i++) {
+		for (int i = 0; i < handler.getSlots(); i++) {
 			dropItem(world, pos, handler.getStackInSlot(i));
 		}
 	}
 
 	public static void dropItems(World world, BlockPos pos, Collection<ItemStack> stacks) {
-		for(ItemStack stack : stacks) {
+		for (ItemStack stack : stacks) {
 			dropItem(world, pos, stack);
 		}
 	}

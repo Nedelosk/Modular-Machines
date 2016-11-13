@@ -3,13 +3,14 @@ package modularmachines.client.gui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modules.transport.ITransportHandlerWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
+
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.Widget;
+import modularmachines.api.modules.transport.ITransportHandlerWrapper;
 
 public class WidgetTransportHandlerWrapper extends Widget<ITransportHandlerWrapper> {
 

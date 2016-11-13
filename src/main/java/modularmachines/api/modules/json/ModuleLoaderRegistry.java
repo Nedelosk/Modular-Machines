@@ -9,10 +9,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProperties;
 import modularmachines.api.modules.containers.IModuleItemContainer;
-import net.minecraft.util.ResourceLocation;
 
 public class ModuleLoaderRegistry {
 
@@ -36,7 +37,7 @@ public class ModuleLoaderRegistry {
 		ICustomLoader loader = null;
 		if (jsonObject.has("loader") && jsonObject.get("loader").isJsonPrimitive() && jsonObject.get("loader").getAsJsonPrimitive().isString()) {
 			ResourceLocation loaderLocation = new ResourceLocation(jsonObject.get("loader").getAsString());
-			for(ICustomLoader customLoader : loaders.get(EnumLoaderType.MODULE)) {
+			for (ICustomLoader customLoader : loaders.get(EnumLoaderType.MODULE)) {
 				if (customLoader.accepts(loaderLocation)) {
 					loader = customLoader;
 					break;
@@ -53,7 +54,7 @@ public class ModuleLoaderRegistry {
 		ICustomLoader loader = null;
 		if (jsonObject.has("loader") && jsonObject.get("loader").isJsonPrimitive() && jsonObject.get("loader").getAsJsonPrimitive().isString()) {
 			ResourceLocation loaderLocation = new ResourceLocation(jsonObject.get("loader").getAsString());
-			for(ICustomLoader customLoader : loaders.get(EnumLoaderType.PROPERTY)) {
+			for (ICustomLoader customLoader : loaders.get(EnumLoaderType.PROPERTY)) {
 				if (customLoader.accepts(loaderLocation)) {
 					loader = customLoader;
 					break;
@@ -70,7 +71,7 @@ public class ModuleLoaderRegistry {
 		ICustomLoader loader = null;
 		if (jsonObject.has("loader") && jsonObject.get("loader").isJsonPrimitive() && jsonObject.get("loader").getAsJsonPrimitive().isString()) {
 			ResourceLocation loaderLocation = new ResourceLocation(jsonObject.get("loader").getAsString());
-			for(ICustomLoader customLoader : loaders.get(EnumLoaderType.CONTAINER)) {
+			for (ICustomLoader customLoader : loaders.get(EnumLoaderType.CONTAINER)) {
 				if (customLoader.accepts(loaderLocation)) {
 					loader = customLoader;
 					break;
@@ -87,7 +88,7 @@ public class ModuleLoaderRegistry {
 		List<IModuleItemContainer> containers = new ArrayList<>();
 		if (jsonElement.isJsonArray()) {
 			JsonArray array = jsonElement.getAsJsonArray();
-			for(JsonElement entry : array) {
+			for (JsonElement entry : array) {
 				if (entry.isJsonObject()) {
 					IModuleItemContainer container = loadContainerFromJson(entry.getAsJsonObject());
 					if (container != null) {

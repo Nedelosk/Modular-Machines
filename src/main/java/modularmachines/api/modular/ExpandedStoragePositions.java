@@ -2,15 +2,19 @@ package modularmachines.api.modular;
 
 import java.util.Locale;
 
+import net.minecraft.util.text.translation.I18n;
+
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.position.EnumModulePositions;
 import modularmachines.api.modules.position.IModulePostion;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraft.util.text.translation.I18n;
 
 public enum ExpandedStoragePositions implements IStoragePosition {
-	CASING(EnumModuleSizes.LARGEST, EnumModulePositions.CASING), LEFT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, -(float) (Math.PI / 2)), RIGHT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, (float) (Math.PI / 2)), TOP(EnumModuleSizes.LARGE,
-			EnumModulePositions.TOP), BACK(EnumModuleSizes.LARGE, EnumModulePositions.BACK, (float) (Math.PI));
+	CASING(EnumModuleSizes.LARGEST, EnumModulePositions.CASING),
+	LEFT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, -(float) (Math.PI / 2)),
+	RIGHT(EnumModuleSizes.LARGE, EnumModulePositions.SIDE, (float) (Math.PI / 2)),
+	TOP(EnumModuleSizes.LARGE, EnumModulePositions.TOP),
+	BACK(EnumModuleSizes.LARGE, EnumModulePositions.BACK, (float) (Math.PI));
 
 	public static final IStoragePosition[] VALUES = values();
 	float rotation;

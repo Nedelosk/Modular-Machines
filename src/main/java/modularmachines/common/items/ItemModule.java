@@ -2,6 +2,15 @@ package modularmachines.common.items;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.material.IColoredMaterial;
 import modularmachines.api.material.IMaterial;
 import modularmachines.api.modules.IModule;
@@ -14,14 +23,6 @@ import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.content.IColoredItem;
 import modularmachines.common.utils.content.IItemModelRegister;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemModule extends Item implements IColoredItem, IItemModelRegister {
 
@@ -34,7 +35,8 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerItemModels(Item item, ModelManager manager) {
-		ModelResourceLocation[] locs = new ModelResourceLocation[] { ModelManager.getInstance().createModelLocation("module_small"), ModelManager.getInstance().createModelLocation("module_medium"), ModelManager.getInstance().createModelLocation("module_large") };
+		ModelResourceLocation[] locs = new ModelResourceLocation[] { ModelManager.getInstance().createModelLocation("module_small"), ModelManager.getInstance().createModelLocation("module_medium"),
+				ModelManager.getInstance().createModelLocation("module_large") };
 		manager.registerItemModel(item, new ModuleItemMeshDefinition(locs));
 		ModelBakery.registerItemVariants(item, locs[0]);
 		ModelBakery.registerItemVariants(item, locs[1]);
@@ -75,7 +77,7 @@ public class ItemModule extends Item implements IColoredItem, IItemModelRegister
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(IModuleItemContainer container : ModuleManager.getModulesWithDefaultItem()) {
+		for (IModuleItemContainer container : ModuleManager.getModulesWithDefaultItem()) {
 			subItems.add(ModuleManager.createDefaultStack(container));
 		}
 	}

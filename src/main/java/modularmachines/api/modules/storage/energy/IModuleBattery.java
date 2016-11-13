@@ -1,8 +1,9 @@
 package modularmachines.api.modules.storage.energy;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.IStorageModule;
-import net.minecraft.item.ItemStack;
 
 public interface IModuleBattery extends IStorageModule, IModuleBatteryProperties {
 

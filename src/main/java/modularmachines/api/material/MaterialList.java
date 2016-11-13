@@ -27,7 +27,7 @@ public class MaterialList<M extends IMaterial> implements Iterable<M> {
 			return -1;
 		}
 		int index = 0;
-		for(M otherMaterial : materials) {
+		for (M otherMaterial : materials) {
 			if (otherMaterial.equals(material)) {
 				return index;
 			}
@@ -37,12 +37,12 @@ public class MaterialList<M extends IMaterial> implements Iterable<M> {
 	}
 
 	public M getFromOre(String oreDict) {
-		for(M otherMaterial : materials) {
+		for (M otherMaterial : materials) {
 			if (otherMaterial instanceof IMetalMaterial) {
 				IMetalMaterial metalMaterial = (IMetalMaterial) otherMaterial;
 				String[] oreDicts = metalMaterial.getOreDicts();
 				if (oreDicts != null && oreDicts.length > 0) {
-					for(String otherOreDict : oreDicts) {
+					for (String otherOreDict : oreDicts) {
 						if (otherOreDict.equals(oreDict)) {
 							return otherMaterial;
 						}

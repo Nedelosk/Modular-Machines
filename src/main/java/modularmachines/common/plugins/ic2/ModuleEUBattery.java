@@ -3,6 +3,12 @@ package modularmachines.common.plugins.ic2;
 import java.util.Collections;
 import java.util.Map;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleItemContainer;
 import modularmachines.api.modules.models.IModelHandler;
@@ -10,11 +16,6 @@ import modularmachines.api.modules.models.ModelHandlerDefault;
 import modularmachines.api.modules.models.ModuleModelLoader;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.modules.storages.ModuleBattery;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleEUBattery extends ModuleBattery {
 

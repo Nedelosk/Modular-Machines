@@ -1,10 +1,11 @@
 package modularmachines.api.modules.transport;
 
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+
+import modularmachines.api.modules.IModulePage;
+import modularmachines.api.modules.state.IModuleState;
 
 public class TransportHandlerWrapper<H> implements ITransportHandlerWrapper<H> {
 

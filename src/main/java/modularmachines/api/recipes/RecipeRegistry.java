@@ -64,7 +64,7 @@ public class RecipeRegistry {
 				}
 				int ore = OreDictionary.getOreID(item.ore.oreDict);
 				ItemStack oreStack = input.item.copy();
-				for(int oreID : OreDictionary.getOreIDs(oreStack)) {
+				for (int oreID : OreDictionary.getOreIDs(oreStack)) {
 					if (ore == oreID) {
 						return true;
 					}

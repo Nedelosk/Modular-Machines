@@ -1,11 +1,12 @@
 package modularmachines.common.plugins.forestry.handlers;
 
+import net.minecraft.item.ItemStack;
+
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.EnumBeeType;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.handlers.filters.IContentFilter;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
 
 public class ItemFilterBee implements IContentFilter<ItemStack, IModule> {
 

@@ -5,15 +5,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.handlers.BlankModuleContentHandler;
-import modularmachines.api.modules.handlers.filters.FilterWrapper;
-import modularmachines.api.modules.handlers.filters.IContentFilter;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.recipes.RecipeItem;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -27,6 +18,16 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModulePage;
+import modularmachines.api.modules.handlers.BlankModuleContentHandler;
+import modularmachines.api.modules.handlers.filters.FilterWrapper;
+import modularmachines.api.modules.handlers.filters.IContentFilter;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.api.recipes.RecipeItem;
 
 public class ModuleInventory<M extends IModule> extends BlankModuleContentHandler<M> implements IModuleInventory<M> {
 
@@ -42,7 +43,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		this.contentInfos = contentInfos;
 		this.insertFilter = insertFilter;
 		this.extractFilter = extractFilter;
-		for(EnumFacing facing : EnumFacing.values()) {
+		for (EnumFacing facing : EnumFacing.values()) {
 			configurations.put(facing, new boolean[contentInfos.length]);
 		}
 	}
@@ -269,7 +270,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList nbtTagList = new NBTTagList();
-		for(int i = 0; i < stacks.length; i++) {
+		for (int i = 0; i < stacks.length; i++) {
 			if (stacks[i] != null) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				itemTag.setInteger("Slot", i);
@@ -280,11 +281,11 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		nbt.setTag("Items", nbtTagList);
 		nbt.setInteger("Size", stacks.length);
 		NBTTagList nbtTagConfigurationList = new NBTTagList();
-		for(Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
+		for (Entry<EnumFacing, boolean[]> entry : configurations.entrySet()) {
 			NBTTagCompound entryTag = new NBTTagCompound();
 			entryTag.setInteger("Face", entry.getKey().ordinal());
 			byte[] configurations = new byte[entry.getValue().length];
-			for(int i = 0; i < entry.getValue().length; i++) {
+			for (int i = 0; i < entry.getValue().length; i++) {
 				configurations[i] = (byte) (entry.getValue()[i] ? 1 : 0);
 			}
 			entryTag.setByteArray("Configurations", configurations);
@@ -298,7 +299,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	public void deserializeNBT(NBTTagCompound nbt) {
 		setSize(nbt.hasKey("Size", Constants.NBT.TAG_INT) ? nbt.getInteger("Size") : stacks.length);
 		NBTTagList tagList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-		for(int i = 0; i < tagList.tagCount(); i++) {
+		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
 			int slot = itemTags.getInteger("Slot");
 			if (slot >= 0 && slot < stacks.length) {
@@ -306,12 +307,12 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 			}
 		}
 		NBTTagList nbtTagConfigurationList = nbt.getTagList("Configurations", 10);
-		for(int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
+		for (int index = 0; index < nbtTagConfigurationList.tagCount(); index++) {
 			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
 			EnumFacing facing = EnumFacing.VALUES[index];
 			boolean[] configurations = new boolean[this.configurations.get(facing).length];
 			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
-			for(int i = 0; i < this.configurations.get(facing).length; i++) {
+			for (int i = 0; i < this.configurations.get(facing).length; i++) {
 				configurations[i] = tankConfiguration[i] == 1;
 			}
 			this.configurations.put(facing, configurations);
@@ -322,7 +323,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public void addToolTip(List<String> tooltip, ItemStack stack, IModuleState<M> state) {
 		tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys"));
-		for(int i = 0; i < getSlots(); i++) {
+		for (int i = 0; i < getSlots(); i++) {
 			ItemStack itemStack = getStackInSlot(i);
 			if (itemStack != null) {
 				tooltip.add(" " + TextFormatting.ITALIC + I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
@@ -364,7 +365,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public int getInputs() {
 		int inputs = 0;
-		for(int i = 0; i < stacks.length; i++) {
+		for (int i = 0; i < stacks.length; i++) {
 			if (this.contentInfos[i].isInput) {
 				inputs++;
 			}
@@ -375,7 +376,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public int getOutputs() {
 		int outputs = 0;
-		for(int i = 0; i < stacks.length; i++) {
+		for (int i = 0; i < stacks.length; i++) {
 			if (!this.contentInfos[i].isInput) {
 				outputs++;
 			}
@@ -386,7 +387,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public RecipeItem[] getRecipeItems() {
 		RecipeItem[] inputs = new RecipeItem[getInputs()];
-		for(int index = 0; index < getInputs(); index++) {
+		for (int index = 0; index < getInputs(); index++) {
 			ItemStack input = getStackInSlot(index);
 			if (input != null) {
 				input = input.copy();
@@ -399,7 +400,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
+			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					int stackSize = 0;
 					if (recipeInput.isOre()) {
@@ -428,7 +429,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if (getOutputs() > 0) {
 			boolean allFull = true;
-			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack st = getStackInSlot(i);
 				if (st != null) {
 					st = st.copy();
@@ -444,7 +445,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 				return false;
 			}
 		}
-		for(RecipeItem result : outputs) {
+		for (RecipeItem result : outputs) {
 			if (result.item != null) {
 				if (mergeItemResult(result.item, outputStacks) == 0) {
 					return false;
@@ -457,7 +458,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
 		if (inputs != null) {
-			for(RecipeItem recipeInput : inputs) {
+			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
 					if (recipeInput.isOre()) {
 						extractItemInternal(recipeInput.index, recipeInput.ore.stackSize, false);
@@ -479,7 +480,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	protected int mergeItemResult(ItemStack item, List<ItemStack> outputStacks) {
 		int res = 0;
 		ItemStack copy = item.copy();
-		for(ItemStack outStack : outputStacks) {
+		for (ItemStack outStack : outputStacks) {
 			if (outStack != null && copy != null) {
 				int num = getNumCanMerge(outStack, copy);
 				outStack.stackSize += num;
@@ -490,7 +491,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 				}
 			}
 		}
-		for(int i = 0; i < outputStacks.size(); i++) {
+		for (int i = 0; i < outputStacks.size(); i++) {
 			ItemStack outStack = outputStacks.get(i);
 			if (outStack == null) {
 				outputStacks.set(i, copy);
@@ -504,7 +505,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if (getOutputs() > 0) {
-			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack it = getStackInSlot(i);
 				if (it != null) {
 					it = it.copy();
@@ -512,7 +513,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 				outputStacks.add(it);
 			}
 		}
-		for(RecipeItem result : outputs) {
+		for (RecipeItem result : outputs) {
 			if (result.item != null) {
 				int numMerged = mergeItemResult(result.item, outputStacks);
 				if (numMerged > 0) {
@@ -522,7 +523,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		}
 		if (getOutputs() > 0) {
 			int listIndex = 0;
-			for(int i = getInputs(); i < getInputs() + getOutputs(); i++) {
+			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {
 				ItemStack st = outputStacks.get(listIndex);
 				if (st != null) {
 					st = st.copy();
@@ -564,7 +565,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	@Override
 	public List<ItemStack> getDrops() {
 		List<ItemStack> drops = new ArrayList<>();
-		for(int i = 0; i < getSlots(); i++) {
+		for (int i = 0; i < getSlots(); i++) {
 			ItemStack stack = getStackInSlot(i);
 			if (stack != null) {
 				drops.add(stack);
@@ -584,25 +585,25 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 		if (handler instanceof IModularHandlerTileEntity) {
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) handler;
 			List<IItemHandler> handlers = new ArrayList<>();
-			for(IModuleState moduleState : state.getModuleHandler().getModules()) {
+			for (IModuleState moduleState : state.getModuleHandler().getModules()) {
 				if (moduleState.getContentHandler(IItemHandler.class) != null) {
 					handlers.add(moduleState.getContentHandler(IItemHandler.class));
 				}
-				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
+				for (IModulePage page : (List<IModulePage>) moduleState.getPages()) {
 					if (page.getContentHandler(IItemHandler.class) != null) {
 						handlers.add(page.getContentHandler(IItemHandler.class));
 					}
 				}
 			}
-			for(EnumFacing facing : EnumFacing.VALUES) {
+			for (EnumFacing facing : EnumFacing.VALUES) {
 				TileEntity tile = tileHandler.getWorld().getTileEntity(tileHandler.getPos().offset(facing));
 				if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite())) {
 					handlers.add(tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing.getOpposite()));
 				}
 			}
-			for(IItemHandler itemHandler : handlers) {
+			for (IItemHandler itemHandler : handlers) {
 				if (!isEmpty()) {
-					for(int i = 0; i < getSlots(); i++) {
+					for (int i = 0; i < getSlots(); i++) {
 						setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, getStackInSlot(i), false));
 					}
 				}
@@ -617,7 +618,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack stack : stacks) {
+		for (ItemStack stack : stacks) {
 			if (stack != null && stack.getItem() != null && stack.stackSize > 0) {
 				return false;
 			}

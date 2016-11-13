@@ -1,6 +1,5 @@
 package modularmachines.common.core.managers;
 
-import modularmachines.common.core.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,6 +7,8 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+
+import modularmachines.common.core.Constants;
 
 public class AchievementManager {
 
@@ -51,19 +52,19 @@ public class AchievementManager {
 	public static void registerPage() {
 		AchievementPage.registerAchievementPage(new AchievementPage(
 				Constants.NAME/*
-				 * , craftChassis, craftCasingWood,
-				 * craftCasingBronze, craftCasingIron,
-				 * craftDrawerBrick, craftDrawerBronze,
-				 * craftDrawerIron, craftDrawerSteel,
-				 * craftDrawerMagmarium
-				 */));
+								 * , craftChassis, craftCasingWood,
+								 * craftCasingBronze, craftCasingIron,
+								 * craftDrawerBrick, craftDrawerBronze,
+								 * craftDrawerIron, craftDrawerSteel,
+								 * craftDrawerMagmarium
+								 */));
 	}
 
 	@SubscribeEvent
 	public void onCraftItem(ItemCraftedEvent event) {
 		Item item = event.crafting.getItem();
 		int damage = event.crafting.getItemDamage();
-		for(Achievement a : AchievementPage.getAchievementPage(Constants.NAME).getAchievements()) {
+		for (Achievement a : AchievementPage.getAchievementPage(Constants.NAME).getAchievements()) {
 			if (a instanceof AchievementCrafting) {
 				if (item.equals(a.theItemStack.getItem()) && damage == a.theItemStack.getItemDamage()) {
 					event.player.addStat(a, 1);

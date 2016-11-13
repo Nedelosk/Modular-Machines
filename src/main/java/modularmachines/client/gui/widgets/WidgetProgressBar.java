@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.IPage;
 import modularmachines.api.gui.Widget;
@@ -14,9 +18,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.client.gui.GuiPage;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModuleState<M>> {

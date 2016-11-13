@@ -3,6 +3,9 @@ package modularmachines.api.modules.storage;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
+
 import modularmachines.api.modular.ExpandedStoragePositions;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
@@ -13,8 +16,6 @@ import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleProvider;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.storage.module.IModuleModuleStorage;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 
 public abstract class StorageModule extends Module implements IStorageModule {
 

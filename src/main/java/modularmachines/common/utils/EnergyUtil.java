@@ -2,13 +2,14 @@ package modularmachines.common.utils;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.energy.IEnergyBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+
+import modularmachines.api.energy.IEnergyBuffer;
 
 public class EnergyUtil {
 
@@ -42,9 +43,9 @@ public class EnergyUtil {
 
 	public static int transferEnergy(World world, BlockPos pos, int maxEnergyToTransfer, boolean simulate) {
 		int totalTransfered = 0;
-		for(EnumFacing facing : EnumFacing.VALUES) {
+		for (EnumFacing facing : EnumFacing.VALUES) {
 			IEnergyStorage storageTransfer = getStorage(world, pos, facing);
-			if(storageTransfer != null){
+			if (storageTransfer != null) {
 				int transfer = storageTransfer.receiveEnergy(maxEnergyToTransfer, simulate);
 				if (transfer > 0) {
 					totalTransfered += transfer;

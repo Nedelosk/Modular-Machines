@@ -1,5 +1,7 @@
 package modularmachines.common.modules.generator;
 
+import net.minecraft.world.WorldServer;
+
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.IModule;
@@ -12,7 +14,6 @@ import modularmachines.api.modules.position.IModulePostion;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.world.WorldServer;
 
 public abstract class ModuleGenerator extends Module implements ITickable, IModulePositioned {
 

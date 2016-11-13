@@ -5,6 +5,10 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModulePage;
@@ -17,9 +21,6 @@ import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.property.IPropertyRegistryBuilder;
 import modularmachines.api.property.IPropertySetter;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public interface IModuleState<M extends IModule> extends IPropertyProvider, ICapabilityProvider, IPropertySetter<IModuleState<M>>, IPropertyRegistryBuilder, IMultiModuleContentHandlerProvider {
 

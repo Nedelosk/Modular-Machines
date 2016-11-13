@@ -28,7 +28,7 @@ public class BakedMultiModel implements IBakedModel {
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		List<BakedQuad> quads = new ArrayList<>();
-		for(IBakedModel model : this.models) {
+		for (IBakedModel model : this.models) {
 			if (model != null) {
 				quads.addAll(model.getQuads(state, side, rand++));
 			}

@@ -2,6 +2,14 @@ package modularmachines.common.modules.heaters;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleProvider;
@@ -13,13 +21,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.state.IModuleStateClient;
 import modularmachines.api.property.PropertyInteger;
 import modularmachines.common.modules.pages.SteamHeaterPage;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleHeaterSteam extends ModuleHeater {
 

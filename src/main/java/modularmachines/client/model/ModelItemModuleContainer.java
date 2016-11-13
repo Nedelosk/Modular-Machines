@@ -3,8 +3,6 @@ package modularmachines.client.model;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.containers.IModuleItemProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -16,6 +14,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.containers.IModuleItemProvider;
 
 public class ModelItemModuleContainer implements IBakedModel {
 

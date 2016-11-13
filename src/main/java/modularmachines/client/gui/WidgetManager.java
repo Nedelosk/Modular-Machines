@@ -6,11 +6,12 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.IWidgetManager;
 import modularmachines.api.gui.Widget;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.Minecraft;
 
 public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
@@ -35,7 +36,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		if (widgets == null) {
 			return;
 		}
-		for(Widget widget : widgets) {
+		for (Widget widget : widgets) {
 			if (!widgets.contains(widget)) {
 				widgets.add(widget);
 			}
@@ -53,7 +54,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 
 	@Override
 	public Widget getWidgetAtMouse(int mouseX, int mouseY) {
-		for(Widget widget : widgets) {
+		for (Widget widget : widgets) {
 			if (widget.isMouseOver(mouseX, mouseY)) {
 				return widget;
 			}
@@ -62,11 +63,11 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawWidgets() {
-		for(Widget slot : widgets) {
+		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.draw(gui);
 		}
-		for(Widget slot : widgets) {
+		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			slot.drawStrings(gui);
 		}
@@ -78,7 +79,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		 * gui)) { return true; } } return false;
 		 */
 		Widget focused = null;
-		for(Widget widget : widgets) {
+		for (Widget widget : widgets) {
 			if (widget.isFocused()) {
 				focused = widget;
 			}
@@ -95,7 +96,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		// If the user pressed tab, switch to the next text field, or unfocus if
 		// there are none
 		if (keyChar == '\t') {
-			for(int i = 0; i < widgets.size(); i++) {
+			for (int i = 0; i < widgets.size(); i++) {
 				Widget widget = widgets.get(i);
 				if (widget.isFocused()) {
 					widgets.get((i + 1) % widgets.size()).setFocused(true);
@@ -121,7 +122,7 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	}
 
 	public void drawTooltip(int mX, int mY) {
-		for(Widget widget : widgets) {
+		for (Widget widget : widgets) {
 			if (widget.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
 				RenderUtil.renderTooltip(mX, mY, widget.getTooltip(gui));
 			}

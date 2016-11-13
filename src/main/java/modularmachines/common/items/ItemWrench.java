@@ -1,9 +1,5 @@
 package modularmachines.common.items;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,6 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.Registry;
+import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemWrench extends Item implements IItemModelRegister {
 

@@ -3,6 +3,13 @@ package modularmachines.common.plugins.cofh;
 import java.util.Collections;
 import java.util.Map;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import cofh.api.energy.IEnergyContainerItem;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleItemContainer;
@@ -11,12 +18,6 @@ import modularmachines.api.modules.models.ModelHandlerDefault;
 import modularmachines.api.modules.models.ModuleModelLoader;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.modules.storages.ModuleBattery;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleRFBattery extends ModuleBattery {
 

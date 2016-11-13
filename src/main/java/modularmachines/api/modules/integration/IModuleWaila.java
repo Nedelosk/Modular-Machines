@@ -2,9 +2,10 @@ package modularmachines.api.modules.integration;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.integration.IWailaState;
 import modularmachines.api.modules.IModule;
-import net.minecraft.item.ItemStack;
 
 public interface IModuleWaila extends IModule {
 

@@ -1,8 +1,9 @@
 package modularmachines.api.property;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.RecipeRegistry;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class PropertyRecipe extends PropertyBase<IRecipe, NBTTagCompound, IPropertyProvider> {
 

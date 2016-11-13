@@ -2,8 +2,9 @@ package modularmachines.api.energy;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.util.EnumFacing;
+
+import modularmachines.api.modules.state.IModuleState;
 
 public interface IEnergyBuffer {
 

@@ -1,10 +1,11 @@
 package modularmachines.common.items.blocks;
 
-import modularmachines.common.blocks.IBlockWithMeta;
-import modularmachines.common.core.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.common.blocks.IBlockWithMeta;
+import modularmachines.common.core.Registry;
 
 public class ItemBlockForest extends ItemBlock {
 

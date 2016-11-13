@@ -5,13 +5,14 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import modularmachines.api.material.IMaterial;
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modules.EnumModuleSizes;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.material.IMaterial;
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modules.EnumModuleSizes;
 
 public interface IModuleItemContainer extends IForgeRegistryEntry<IModuleItemContainer> {
 

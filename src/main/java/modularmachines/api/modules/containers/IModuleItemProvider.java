@@ -5,10 +5,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+
+import modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleItemProvider extends ICapabilitySerializable<NBTTagCompound>, Iterable<IModuleState> {
 

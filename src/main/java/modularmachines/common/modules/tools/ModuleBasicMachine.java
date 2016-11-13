@@ -1,5 +1,7 @@
 package modularmachines.common.modules.tools;
 
+import net.minecraft.world.WorldServer;
+
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.IModulePage;
@@ -11,7 +13,6 @@ import modularmachines.common.modules.pages.MainPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.world.WorldServer;
 
 public abstract class ModuleBasicMachine extends ModuleMachine {
 

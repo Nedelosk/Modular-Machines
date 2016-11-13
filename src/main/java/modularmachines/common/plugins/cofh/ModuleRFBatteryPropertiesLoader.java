@@ -2,10 +2,11 @@ package modularmachines.common.plugins.cofh;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.modules.json.ICustomLoader;
 import modularmachines.api.property.JsonUtils;
 import modularmachines.common.core.Constants;
-import net.minecraft.util.ResourceLocation;
 
 public class ModuleRFBatteryPropertiesLoader implements ICustomLoader {
 

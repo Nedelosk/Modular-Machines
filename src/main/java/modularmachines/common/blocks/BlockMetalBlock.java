@@ -2,10 +2,6 @@ package modularmachines.common.blocks;
 
 import java.util.List;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.content.IColoredBlock;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,6 +14,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.utils.content.IColoredBlock;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItemModelRegister, IBlockWithMeta {
 
@@ -58,14 +59,14 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
-		for(ComponentTypes type : ComponentTypes.values()) {
+		for (ComponentTypes type : ComponentTypes.values()) {
 			manager.registerItemModel(item, type.ordinal());
 		}
 	}
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-		for(int i = 0; i < ComponentTypes.values().length; i++) {
+		for (int i = 0; i < ComponentTypes.values().length; i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}

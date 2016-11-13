@@ -2,15 +2,16 @@ package modularmachines.common.items;
 
 import java.util.List;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.Registry;
+import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemCasing extends Item implements IItemModelRegister {
 
@@ -25,7 +26,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
-		for(int i = 0; i < casings.length; i++) {
+		for (int i = 0; i < casings.length; i++) {
 			manager.registerItemModel(item, i, "casing/" + casings[i]);
 		}
 	}
@@ -37,7 +38,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
-		for(int i = 0; i < casings.length; i++) {
+		for (int i = 0; i < casings.length; i++) {
 			subItems.add(new ItemStack(item, 1, i));
 		}
 	}

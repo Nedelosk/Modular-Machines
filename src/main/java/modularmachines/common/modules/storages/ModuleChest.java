@@ -4,6 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.ExpandedStoragePositions;
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -22,10 +27,6 @@ import modularmachines.api.modules.storage.StorageModule;
 import modularmachines.common.modules.pages.ChestPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleChest extends StorageModule implements IModulePositioned {
 

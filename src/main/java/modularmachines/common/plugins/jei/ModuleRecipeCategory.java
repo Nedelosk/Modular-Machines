@@ -1,10 +1,11 @@
 package modularmachines.common.plugins.jei;
 
+import net.minecraft.util.ResourceLocation;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import modularmachines.common.utils.Translator;
-import net.minecraft.util.ResourceLocation;
 
 public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRecipeWrapper> {
 

@@ -5,6 +5,14 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.energy.IHeatSource;
 import modularmachines.api.modular.handlers.IModularHandler;
@@ -14,13 +22,6 @@ import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.IStorage;
 import modularmachines.api.modules.storage.module.IBasicModuleStorage;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IModular extends IBasicModuleStorage, ICapabilityProvider {
 

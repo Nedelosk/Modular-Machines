@@ -7,6 +7,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.material.IMaterial;
 import modularmachines.api.material.MaterialRegistry;
 import modularmachines.api.modules.EnumModuleSizes;
@@ -14,8 +17,6 @@ import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.ModuleItemContainer;
 import modularmachines.api.modules.json.ICustomLoader;
 import modularmachines.api.property.JsonUtils;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class DefaultLoaders {
 
@@ -38,7 +39,7 @@ public class DefaultLoaders {
 			JsonArray containerArray = JsonUtils.getArray(jsonObject.get("containers"));
 			if (containerArray != null) {
 				List<IModuleContainer> containerList = new ArrayList<>();
-				for(JsonElement ele : containerArray) {
+				for (JsonElement ele : containerArray) {
 					if (ele instanceof JsonObject) {
 						IModuleContainer container = JsonUtils.getContainer(ele.getAsJsonObject());
 						if (container != null) {
@@ -63,7 +64,7 @@ public class DefaultLoaders {
 			if (jsonObject.has("tooltip")) {
 				if (jsonObject.get("tooltip").isJsonArray()) {
 					JsonArray array = jsonObject.get("tooltip").getAsJsonArray();
-					for(JsonElement entry : array) {
+					for (JsonElement entry : array) {
 						if (entry.isJsonPrimitive() && entry.getAsJsonPrimitive().isString()) {
 							tooltip.add(entry.getAsString());
 						}

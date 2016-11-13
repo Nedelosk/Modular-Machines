@@ -4,6 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.gui.GuiManager;
 import modularmachines.api.gui.IContainerBase;
 import modularmachines.api.gui.Page;
@@ -24,20 +39,6 @@ import modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import modularmachines.api.modules.handlers.tank.ModuleTankBuilder;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.core.managers.ItemManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModulePage<M extends IModule> extends Page implements IModulePage {
 
@@ -76,7 +77,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@Override
 	public void updateGui() {
 		if (gui != null) {
-			for(Widget widget : (List<Widget>) gui.getWidgetManager().getWidgets()) {
+			for (Widget widget : (List<Widget>) gui.getWidgetManager().getWidgets()) {
 				onUpdateWidget(widget);
 			}
 		}
@@ -86,13 +87,13 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	protected void onUpdateWidget(Widget widget) {
 		if (widget.getProvider() instanceof IModuleState) {
 			Widget<IModuleState> widgetState = widget;
-			if(widgetState.getProvider().getIndex() == moduleState.getIndex()){
-				if(!widgetState.getProvider().equals(moduleState)){
+			if (widgetState.getProvider().getIndex() == moduleState.getIndex()) {
+				if (!widgetState.getProvider().equals(moduleState)) {
 					widgetState.setProvider(moduleState);
 				}
-			}else{
+			} else {
 				IModuleState state = moduleState.getModular().getModule(widgetState.getProvider().getIndex());
-				if(!widgetState.getProvider().equals(state)){
+				if (!widgetState.getProvider().equals(state)) {
 					widgetState.setProvider(state);
 				}
 			}
@@ -202,7 +203,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		if (gui != null) {
 			if (inventory != null && gui.getGui() instanceof GuiContainer) {
 				Container container = ((GuiContainer) gui).inventorySlots;
-				for(int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
+				for (int slotID = 36; slotID < container.inventorySlots.size(); slotID++) {
 					Slot slot = ((ArrayList<Slot>) container.inventorySlots).get(slotID);
 					if (slot.getSlotIndex() < inventory.getSlots()) {
 						drawSlot(slot);
@@ -248,7 +249,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 		List<IModuleState> modulesWithPages = ModuleManager.getModulesWithPages(getModular());
 		int i = 0;
 		if (!modulesWithPages.isEmpty() && modulesWithPages.size() > 1) {
-			for(i = 0; i < modulesWithPages.size(); i++) {
+			for (i = 0; i < modulesWithPages.size(); i++) {
 				IModuleState module = modulesWithPages.get(i);
 				boolean isRight = i >= 7;
 				add(GuiManager.helper.createModuleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), module, modulesWithPages));
@@ -261,13 +262,13 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 			widget.setProvider(new ItemStack(ItemManager.itemChassis));
 		}
 		if (!moduleState.getPages().isEmpty() && moduleState.getPages().size() > 1) {
-			for(int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
+			for (int pageIndex = 0; pageIndex < moduleState.getPages().size(); pageIndex++) {
 				IModulePage page = moduleState.getPages().get(pageIndex);
 				add(GuiManager.helper.createModulePageTab(pageIndex > 4 ? 12 + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : -19, page));
 			}
 		}
 		if (tank != null) {
-			for(ContentInfo info : tank.getContentInfos()) {
+			for (ContentInfo info : tank.getContentInfos()) {
 				if (info != null) {
 					add(GuiManager.helper.createFluidTank(info.xPosition, info.yPosition, tank.getTank(info.index)));
 				}
@@ -296,7 +297,7 @@ public abstract class ModulePage<M extends IModule> extends Page implements IMod
 	@Override
 	public void createSlots(IContainerBase<IModularHandler> container, List<SlotModule> modularSlots) {
 		if (inventory != null) {
-			for(SlotInfo info : inventory.getContentInfos()) {
+			for (SlotInfo info : inventory.getContentInfos()) {
 				if (info != null) {
 					modularSlots.add(new SlotModule(this, info));
 				}

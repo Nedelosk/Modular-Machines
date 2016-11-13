@@ -8,6 +8,16 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.IModularAssembler;
@@ -27,15 +37,6 @@ import modularmachines.api.modules.state.IModuleStateClient;
 import modularmachines.api.modules.state.ModuleState;
 import modularmachines.api.modules.state.ModuleStateClient;
 import modularmachines.api.modules.storage.IStorage;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule {
 
@@ -123,9 +124,9 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 	protected void addProviderTooltip(List<String> tooltip, ItemStack stack, IModuleContainer container) {
 		IModuleItemProvider itemProvider = stack.getCapability(ModuleManager.MODULE_PROVIDER_CAPABILITY, null);
 		if (itemProvider != null && !itemProvider.isEmpty()) {
-			for(IModuleState state : itemProvider) {
+			for (IModuleState state : itemProvider) {
 				if (state.getModule().equals(this)) {
-					for(IModuleContentHandler handler : state.getAllContentHandlers()) {
+					for (IModuleContentHandler handler : state.getAllContentHandlers()) {
 						handler.addToolTip(tooltip, stack, state);
 					}
 				}
@@ -135,7 +136,7 @@ public class Module extends IForgeRegistryEntry.Impl<IModule> implements IModule
 
 	@Override
 	public boolean isClean(IModuleState state) {
-		for(IModuleContentHandler handler : state.getAllContentHandlers()) {
+		for (IModuleContentHandler handler : state.getAllContentHandlers()) {
 			if (handler.isCleanable() && !handler.isEmpty()) {
 				return false;
 			}

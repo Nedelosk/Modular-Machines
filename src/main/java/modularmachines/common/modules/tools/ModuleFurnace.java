@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.Loader;
+
 import modularmachines.api.ItemUtil;
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.containers.IModuleColoredItem;
@@ -22,9 +26,6 @@ import modularmachines.common.modules.pages.FurnacePage;
 import modularmachines.common.modules.propertys.PropertyFurnaceRecipe;
 import modularmachines.common.plugins.jei.JeiPlugin;
 import modularmachines.common.recipse.RecipeBuilder;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.fml.common.Loader;
 
 public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI {
 
@@ -99,13 +100,13 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 
 	protected static List<IRecipe> makeRecipes() {
 		List<IRecipe> furnaceRecipe = new ArrayList<>();
-		for(Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
+		for (Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
 			ItemStack input = entry.getKey();
 			ItemStack output = entry.getValue();
 			if (input != null && output != null) {
 				IRecipeBuilder builder = new RecipeBuilder();
 				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output)).set(Recipe.INPUTS, new RecipeItem[] { new RecipeItem(entry.getKey()) })
-				.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
+						.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
 				furnaceRecipe.add(builder.build());
 			}
 		}

@@ -2,6 +2,8 @@ package modularmachines.common.modules.engines;
 
 import java.util.List;
 
+import net.minecraftforge.fluids.FluidStack;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import modularmachines.api.modules.handlers.tank.IModuleTank;
@@ -9,7 +11,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.core.managers.FluidManager;
 import modularmachines.common.modules.pages.SteamEnginePage;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ModuleEngineSteam extends ModuleEngine {
 

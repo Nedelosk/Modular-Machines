@@ -3,6 +3,11 @@ package modularmachines.common.modules.tools;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.IModulePage;
@@ -22,10 +27,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.plugins.jei.CategoryUIDs;
 import modularmachines.common.plugins.jei.JeiPlugin;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem, IModuleJEI {
 

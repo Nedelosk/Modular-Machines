@@ -3,12 +3,13 @@ package modularmachines.api.modules.controller;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.handlers.IModuleContentHandler;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleControlled extends Module implements IModuleControlled {
 

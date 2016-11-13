@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
@@ -25,10 +30,6 @@ import modularmachines.common.modules.pages.CleanerPage;
 import modularmachines.common.modules.pages.ControllerPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleModuleCleaner extends ModuleControlled implements IModuleModuleCleaner, IModulePositioned, IModuleColoredItem {
 
@@ -73,7 +74,7 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 				while (moduleStates.hasNext()) {
 					IModuleState moduleState = moduleStates.next();
 					if (moduleState != null) {
-						for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+						for (IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
 							if (handler.isCleanable()) {
 								handler.cleanHandler(state);
 							}
@@ -104,8 +105,8 @@ public class ModuleModuleCleaner extends ModuleControlled implements IModuleModu
 	public List<IModuleState> getUsedModules(IModuleState state) {
 		List<IModuleState> modules = new ArrayList<>();
 		IModular modular = state.getModular();
-		for(IModuleState moduleState : modular.getModules()) {
-			for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+		for (IModuleState moduleState : modular.getModules()) {
+			for (IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
 				if (handler != null && handler.isCleanable()) {
 					modules.add(moduleState);
 					break;

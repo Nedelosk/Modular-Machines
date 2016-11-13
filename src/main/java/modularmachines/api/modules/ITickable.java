@@ -1,8 +1,9 @@
 package modularmachines.api.modules;
 
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.state.IModuleState;
 
 public interface ITickable {
 

@@ -1,10 +1,11 @@
 package modularmachines.common.core;
 
-import modularmachines.api.material.EnumMetalMaterials;
-import modularmachines.common.core.managers.ItemManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.api.material.EnumMetalMaterials;
+import modularmachines.common.core.managers.ItemManager;
 
 public class TabModularMachines extends CreativeTabs {
 

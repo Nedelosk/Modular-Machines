@@ -2,10 +2,6 @@ package modularmachines.api.modular.handlers;
 
 import com.mojang.authlib.GameProfile;
 
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modular.IModularAssembler;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -17,6 +13,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modular.IModularAssembler;
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modules.position.StoragePositions;
 
 public abstract class ModularHandler<K> implements IModularHandler<NBTTagCompound, K> {
 

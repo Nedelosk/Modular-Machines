@@ -3,6 +3,13 @@ package modularmachines.api.modules.storage;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.gui.IContainerBase;
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.modular.AssemblerException;
@@ -12,12 +19,6 @@ import modularmachines.api.modular.assembler.IAssemblerContainer;
 import modularmachines.api.modular.assembler.SlotAssembler;
 import modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ChildPage implements IStoragePage {
 

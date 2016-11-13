@@ -2,23 +2,6 @@ package modularmachines.common.core;
 
 import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPED;
 
-import modularmachines.api.gui.IGuiProvider;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modules.models.ModuleModelLoader;
-import modularmachines.client.model.ModelManager;
-import modularmachines.client.model.ModelModular;
-import modularmachines.common.config.Config;
-import modularmachines.common.core.managers.AchievementManager;
-import modularmachines.common.core.managers.BlockManager;
-import modularmachines.common.core.managers.FluidManager;
-import modularmachines.common.core.managers.ItemManager;
-import modularmachines.common.core.managers.ModuleManager;
-import modularmachines.common.core.managers.OreDictionaryManager;
-import modularmachines.common.fluids.FluidBlock;
-import modularmachines.common.modular.ModularHelper;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.plugins.PluginManager;
-import modularmachines.common.recipse.ModuleCrafterRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -45,9 +28,27 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
-public class Registry implements IGuiHandler {
-	public static final PluginManager PLUGIN_MANAGER = new PluginManager();
+import modularmachines.api.gui.IGuiProvider;
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modules.models.ModuleModelLoader;
+import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.ModelModular;
+import modularmachines.common.config.Config;
+import modularmachines.common.core.managers.AchievementManager;
+import modularmachines.common.core.managers.BlockManager;
+import modularmachines.common.core.managers.FluidManager;
+import modularmachines.common.core.managers.ItemManager;
+import modularmachines.common.core.managers.ModuleManager;
+import modularmachines.common.core.managers.OreDictionaryManager;
+import modularmachines.common.fluids.FluidBlock;
+import modularmachines.common.modular.ModularHelper;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.plugins.PluginManager;
+import modularmachines.common.recipse.ModuleCrafterRecipe;
 
+public class Registry implements IGuiHandler {
+
+	public static final PluginManager PLUGIN_MANAGER = new PluginManager();
 	public static Config config;
 
 	private Registry() {
@@ -156,7 +157,7 @@ public class Registry implements IGuiHandler {
 		return "modularmachines.item." + name;
 	}
 
-	/* GUI HANDLER*/
+	/* GUI HANDLER */
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));

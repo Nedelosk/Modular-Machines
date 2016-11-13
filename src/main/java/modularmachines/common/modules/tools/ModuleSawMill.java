@@ -3,6 +3,9 @@ package modularmachines.common.modules.tools;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.containers.IModuleColoredItem;
 import modularmachines.api.modules.containers.IModuleContainer;
@@ -11,8 +14,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.tools.EnumToolType;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.pages.SawMillPage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleSawMill extends ModuleBasicMachine implements IModuleColoredItem {
 

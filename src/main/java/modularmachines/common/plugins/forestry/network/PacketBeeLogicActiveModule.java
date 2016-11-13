@@ -2,6 +2,8 @@ package modularmachines.common.plugins.forestry.network;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.apiculture.BeekeepingLogic;
@@ -14,7 +16,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.packets.IPacketClient;
 import modularmachines.common.network.packets.PacketId;
 import modularmachines.common.network.packets.PacketModule;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketBeeLogicActiveModule extends PacketModule implements IPacketClient {
 

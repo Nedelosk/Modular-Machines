@@ -2,11 +2,12 @@ package modularmachines.common.plugins.jei.boiler;
 
 import java.awt.Color;
 
+import net.minecraft.client.Minecraft;
+
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.Recipe;
 import modularmachines.common.plugins.jei.ModuleRecipeWrapper;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.Minecraft;
 
 public class BoilerRecipeWrapper extends ModuleRecipeWrapper {
 

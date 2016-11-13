@@ -20,7 +20,7 @@ public abstract class ModuleTansport<H> extends ModuleControlled {
 	public List<ITransportCycle> getCycles(IModuleState moduleState) {
 		IModular modular = moduleState.getModular();
 		IModuleControl control = getModuleControl(moduleState);
-		for(IModuleState otherState : modular.getModules()) {
+		for (IModuleState otherState : modular.getModules()) {
 			if (!control.hasPermission(moduleState)) {
 				continue;
 			}
@@ -31,7 +31,7 @@ public abstract class ModuleTansport<H> extends ModuleControlled {
 	public List<H> getHandlers(IModuleState moduleState) {
 		List<H> handlers = new ArrayList<>();
 		IModular modular = moduleState.getModular();
-		for(IModuleState otherState : modular.getModules()) {
+		for (IModuleState otherState : modular.getModules()) {
 			H handler = otherState.getContentHandler(handlerClass);
 			if (handler != null) {
 				handlers.add(handler);
@@ -45,7 +45,7 @@ public abstract class ModuleTansport<H> extends ModuleControlled {
 	public List<IModuleState> getUsedModules(IModuleState moduleState) {
 		List<IModuleState> usedModules = new ArrayList<>();
 		IModular modular = moduleState.getModular();
-		for(IModuleState otherState : modular.getModules()) {
+		for (IModuleState otherState : modular.getModules()) {
 			if (otherState.getContentHandler(handlerClass) != null) {
 				usedModules.add(otherState);
 				break;

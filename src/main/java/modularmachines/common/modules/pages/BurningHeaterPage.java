@@ -3,15 +3,16 @@ package modularmachines.common.modules.pages;
 import java.awt.Color;
 import java.text.DecimalFormat;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.handlers.filters.ItemFliterFurnaceFuel;
 import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import modularmachines.api.modules.heaters.IModuleHeaterBurning;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.client.gui.widgets.WidgetBurning;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BurningHeaterPage extends MainPage<IModuleHeaterBurning> {
 

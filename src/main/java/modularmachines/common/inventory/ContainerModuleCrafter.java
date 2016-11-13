@@ -1,11 +1,5 @@
 package modularmachines.common.inventory;
 
-import modularmachines.api.recipes.IModuleCrafterRecipe;
-import modularmachines.api.recipes.ModuleCraftingWrapper;
-import modularmachines.common.blocks.tile.TileModuleCrafter;
-import modularmachines.common.inventory.slots.SlotModuleCrafter;
-import modularmachines.common.inventory.slots.SlotModuleCrafterHolder;
-import modularmachines.common.inventory.slots.SlotModuleCrafterOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,6 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.WorldServer;
+
+import modularmachines.api.recipes.IModuleCrafterRecipe;
+import modularmachines.api.recipes.ModuleCraftingWrapper;
+import modularmachines.common.blocks.tile.TileModuleCrafter;
+import modularmachines.common.inventory.slots.SlotModuleCrafter;
+import modularmachines.common.inventory.slots.SlotModuleCrafterHolder;
+import modularmachines.common.inventory.slots.SlotModuleCrafterOutput;
 
 public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 
@@ -28,8 +29,8 @@ public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 
 	@Override
 	protected void addSlots(InventoryPlayer inventory) {
-		for(int i = 0; i < 3; ++i) {
-			for(int j = 0; j < 3; ++j) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
 				addSlotToContainer(new SlotModuleCrafter(handler, j + i * 3, 35 + j * 18, 17 + i * 18, this));
 			}
 		}
@@ -46,7 +47,7 @@ public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 
 	public void onResultTaken(EntityPlayer player, ItemStack stack) {
 		IModuleCrafterRecipe crafterRecipe = null;
-		for(IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
+		for (IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
 			if (recipe instanceof IModuleCrafterRecipe) {
 				if (((IModuleCrafterRecipe) recipe).matches(wrapper, player.worldObj)) {
 					crafterRecipe = (IModuleCrafterRecipe) recipe;
@@ -57,7 +58,7 @@ public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 		net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
 		ItemStack[] aitemstack = getRemainingItems(crafterRecipe);
 		net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
-		for(int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.length; ++i) {
 			ItemStack itemstack = handler.getStackInSlot(i);
 			ItemStack itemstack1 = aitemstack[i];
 			if (itemstack != null) {
@@ -89,7 +90,7 @@ public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
 		ItemStack result = null;
-		for(IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
+		for (IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
 			if (recipe instanceof IModuleCrafterRecipe) {
 				if (((IModuleCrafterRecipe) recipe).matches(wrapper, handler.getWorld())) {
 					result = recipe.getCraftingResult(wrapper);
@@ -105,7 +106,7 @@ public class ContainerModuleCrafter extends BaseContainer<TileModuleCrafter> {
 		output.inventory.setInventorySlotContents(0, result);
 		if (!handler.getWorld().isRemote) {
 			WorldServer server = (WorldServer) handler.getWorld();
-			for(EntityPlayer player : server.playerEntities) {
+			for (EntityPlayer player : server.playerEntities) {
 				if (player.openContainer != this && player.openContainer instanceof ContainerModuleCrafter && this.sameGui((ContainerModuleCrafter) player.openContainer)) {
 					((ContainerModuleCrafter) player.openContainer).output.inventory.setInventorySlotContents(0, result);
 				}

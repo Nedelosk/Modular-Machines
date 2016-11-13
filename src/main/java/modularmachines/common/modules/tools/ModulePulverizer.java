@@ -3,6 +3,10 @@ package modularmachines.common.modules.tools;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.containers.IModuleColoredItem;
 import modularmachines.api.modules.containers.IModuleContainer;
@@ -17,9 +21,6 @@ import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.pages.PulverizerPage;
 import modularmachines.common.plugins.jei.CategoryUIDs;
 import modularmachines.common.plugins.jei.JeiPlugin;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePulverizer extends ModuleBasicMachine implements IModuleColoredItem, IModuleJEI {
 

@@ -39,7 +39,7 @@ public class HeatManager {
 	}
 
 	public static HeatLevel getHeatLevel(double heat) {
-		for(int i = HEAT_LEVELS.size() - 1; i >= 0; i--) {
+		for (int i = HEAT_LEVELS.size() - 1; i >= 0; i--) {
 			HeatLevel level = HEAT_LEVELS.get(i);
 			if (level.getHeatMin() <= heat) {
 				return level;

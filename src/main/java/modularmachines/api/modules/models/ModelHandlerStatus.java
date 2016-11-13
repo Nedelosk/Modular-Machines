@@ -2,13 +2,14 @@ package modularmachines.api.modules.models;
 
 import com.google.common.base.Function;
 
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.modules.storage.IStorage;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.api.modules.storage.IStorage;
 
 @SideOnly(Side.CLIENT)
 public class ModelHandlerStatus extends ModelHandler {

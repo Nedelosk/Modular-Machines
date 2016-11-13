@@ -3,14 +3,15 @@ package modularmachines.api.modules.transport;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.IModulePage;
+import modularmachines.api.modules.state.IModuleState;
 
 public abstract class TransportHandler<H, T extends ITransportCycle<H>> implements ITransportHandler<H, T> {
 
@@ -32,7 +33,7 @@ public abstract class TransportHandler<H, T extends ITransportCycle<H>> implemen
 			IModularHandlerTileEntity tileHandler = (IModularHandlerTileEntity) modularHandler;
 			BlockPos pos = tileHandler.getPos();
 			World world = modularHandler.getWorld();
-			for(EnumFacing facing : EnumFacing.VALUES) {
+			for (EnumFacing facing : EnumFacing.VALUES) {
 				TileEntity tileEntity = world.getTileEntity(pos.offset(facing));
 				H handler = getHandler(tileEntity, facing);
 				if (handler != null) {
@@ -40,14 +41,14 @@ public abstract class TransportHandler<H, T extends ITransportCycle<H>> implemen
 				}
 			}
 		}
-		for(IModuleState state : modularHandler.getModular().getModules()) {
+		for (IModuleState state : modularHandler.getModular().getModules()) {
 			{
 				H handler = state.getContentHandler(getHandlerClass());
 				if (handler != null) {
 					handlers.add(new TransportHandlerWrapper(handler, state, null));
 				}
 			}
-			for(IModulePage modulePage : (List<IModulePage>) state.getPages()) {
+			for (IModulePage modulePage : (List<IModulePage>) state.getPages()) {
 				if (modulePage != null) {
 					H handler = modulePage.getContentHandler(getHandlerClass());
 					if (handler != null) {

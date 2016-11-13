@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IHeatSource;
 import modularmachines.api.energy.IKineticSource;
 import modularmachines.api.integration.IWailaState;
@@ -40,11 +46,6 @@ import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.Recipe;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.api.recipes.RecipeRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleMachine extends ModuleControlled implements IModuleMachine, IModuleWaila, IModulePositioned {
 
@@ -85,7 +86,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getCurrentRecipe(state).getOutputs()) {
+		for (RecipeItem item : getCurrentRecipe(state).getOutputs()) {
 			if (item != null) {
 				if (item.chance == -1 || item.chance >= chance) {
 					outputs.add(item.copy());
@@ -93,22 +94,22 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 			}
 		}
 		List<IAdvancedModuleContentHandler> advancedHandlers = new ArrayList<>();
-		for(IModuleContentHandler handler : getHandlers(state)) {
+		for (IModuleContentHandler handler : getHandlers(state)) {
 			if (handler instanceof IAdvancedModuleContentHandler) {
 				advancedHandlers.add((IAdvancedModuleContentHandler) handler);
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
+		for (IAdvancedModuleContentHandler handler : advancedHandlers) {
 			if (!handler.canAddRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]))) {
 				return false;
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
+		for (IAdvancedModuleContentHandler handler : advancedHandlers) {
 			if (!handler.canRemoveRecipeInputs(chance, recipe.getInputs())) {
 				return false;
 			}
 		}
-		for(IAdvancedModuleContentHandler handler : advancedHandlers) {
+		for (IAdvancedModuleContentHandler handler : advancedHandlers) {
 			handler.removeRecipeInputs(chance, recipe.getInputs());
 		}
 		return true;
@@ -147,14 +148,14 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		IModularHandler tile = modular.getHandler();
 		List<IModuleContentHandler> handlers = getHandlers(state);
 		List<RecipeItem> outputs = new ArrayList();
-		for(RecipeItem item : getCurrentRecipe(state).getOutputs()) {
+		for (RecipeItem item : getCurrentRecipe(state).getOutputs()) {
 			if (item != null) {
 				if (item.chance == -1 || item.chance >= chance) {
 					outputs.add(item.copy());
 				}
 			}
 		}
-		for(IModuleContentHandler handler : handlers) {
+		for (IModuleContentHandler handler : handlers) {
 			if (handler instanceof IAdvancedModuleContentHandler) {
 				((IAdvancedModuleContentHandler) handler).addRecipeOutputs(chance, outputs.toArray(new RecipeItem[outputs.size()]));
 			}
@@ -202,7 +203,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 				} else {
 					int workTime = 0;
 					if (type == EnumToolType.KINETIC) {
-						for(IModuleState<IModuleKinetic> otherState : handler.getModules(IModuleKinetic.class)) {
+						for (IModuleState<IModuleKinetic> otherState : handler.getModules(IModuleKinetic.class)) {
 							IKineticSource source = otherState.getModule().getKineticSource(otherState);
 							double kinetic = source.getStored() / source.getCapacity();
 							if (source.getStored() > 0F) {
@@ -258,7 +259,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 			return state.getModular().getHeatSource().getHeatStored() > 0;
 		} else if (type == EnumToolType.KINETIC) {
 			IModular modular = state.getModular();
-			for(IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)) {
+			for (IModuleState<IModuleKinetic> otherState : state.getModuleHandler().getModules(IModuleKinetic.class)) {
 				IKineticSource source = otherState.getModule().getKineticSource(otherState);
 				if (source.getStored() > 0) {
 					return true;
@@ -329,12 +330,12 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		if (recipes == null) {
 			return null;
 		}
-		testRecipes: for(IRecipe recipe : recipes) {
+		testRecipes: for (IRecipe recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
-			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
+			for (RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}
-			for(int i = 0; i < recipeInputs.size(); i++) {
+			for (int i = 0; i < recipeInputs.size(); i++) {
 				RecipeItem recipeInput = recipeInputs.get(i);
 				RecipeItem machineInput = inputs[i];
 				if (recipeInput == null || machineInput == null) {
@@ -368,15 +369,15 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 		if (recipes == null || item == null) {
 			return false;
 		}
-		for(IRecipe recipe : recipes) {
+		for (IRecipe recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
-			for(RecipeItem recipeInput : recipe.getInputs().clone()) {
+			for (RecipeItem recipeInput : recipe.getInputs().clone()) {
 				recipeInputs.add(recipeInput);
 			}
 			if (recipeInputs.isEmpty()) {
 				return false;
 			}
-			for(int i = 0; i < recipeInputs.size(); i++) {
+			for (int i = 0; i < recipeInputs.size(); i++) {
 				RecipeItem recipeInput = recipeInputs.get(i);
 				if (recipeInput == null) {
 					continue;

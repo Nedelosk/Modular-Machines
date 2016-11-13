@@ -3,13 +3,14 @@ package modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.Widget;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyBar extends Widget<IEnergyBuffer> {

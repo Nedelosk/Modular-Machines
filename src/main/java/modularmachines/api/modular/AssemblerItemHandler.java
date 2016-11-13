@@ -2,10 +2,11 @@ package modularmachines.api.modular;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.position.IStoragePosition;
-import modularmachines.api.modules.storage.IItemHandlerStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+
+import modularmachines.api.modules.position.IStoragePosition;
+import modularmachines.api.modules.storage.IItemHandlerStorage;
 
 public class AssemblerItemHandler extends ItemStackHandler implements IItemHandlerStorage {
 

@@ -34,14 +34,14 @@ public class DataOutputStreamMM extends DataOutputStream {
 
 	public void writeItemStacks(ItemStack[] itemStacks) throws IOException {
 		writeVarInt(itemStacks.length);
-		for(ItemStack itemstack : itemStacks) {
+		for (ItemStack itemstack : itemStacks) {
 			writeItemStack(itemstack);
 		}
 	}
 
 	public void writeItemStacks(Collection<ItemStack> itemStacks) throws IOException {
 		writeVarInt(itemStacks.size());
-		for(ItemStack itemstack : itemStacks) {
+		for (ItemStack itemstack : itemStacks) {
 			writeItemStack(itemstack);
 		}
 	}
@@ -49,7 +49,7 @@ public class DataOutputStreamMM extends DataOutputStream {
 	public void writeInventory(IInventory inventory) throws IOException {
 		int size = inventory.getSizeInventory();
 		writeVarInt(size);
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getStackInSlot(i);
 			writeItemStack(stack);
 		}
@@ -69,7 +69,7 @@ public class DataOutputStreamMM extends DataOutputStream {
 			writeVarInt(0);
 		} else {
 			writeVarInt(streamables.size());
-			for(IStreamable streamable : streamables) {
+			for (IStreamable streamable : streamables) {
 				writeStreamable(streamable);
 			}
 		}

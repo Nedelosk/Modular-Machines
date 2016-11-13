@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ModuleItemProvider implements IModuleItemProvider {
 
@@ -30,7 +31,7 @@ public class ModuleItemProvider implements IModuleItemProvider {
 			nbtCompound.setTag("ItemStack", itemStack.serializeNBT());
 		}
 		NBTTagList moduleList = new NBTTagList();
-		for(IModuleState moduleState : moduleStates) {
+		for (IModuleState moduleState : moduleStates) {
 			NBTTagCompound compoundTag = ModuleManager.writeStateToNBT(moduleState);
 			if (compoundTag != null) {
 				moduleList.appendTag(compoundTag);
@@ -46,7 +47,7 @@ public class ModuleItemProvider implements IModuleItemProvider {
 			setItemStack(ItemStack.loadItemStackFromNBT(nbtCompound.getCompoundTag("ItemStack")));
 		}
 		NBTTagList moduleList = nbtCompound.getTagList("Modules", 10);
-		for(int i = 0; i < moduleList.tagCount(); i++) {
+		for (int i = 0; i < moduleList.tagCount(); i++) {
 			NBTTagCompound compoundTag = moduleList.getCompoundTagAt(i);
 			if (compoundTag != null) {
 				IModuleState moduleState = ModuleManager.loadStateFromNBT(null, container, compoundTag);

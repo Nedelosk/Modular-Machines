@@ -2,6 +2,11 @@ package modularmachines.api.gui;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modules.IModuleBurning;
@@ -11,10 +16,6 @@ import modularmachines.api.modules.controller.IModuleControlled;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.tools.IModuleModeMachine;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public interface IGuiHelper {

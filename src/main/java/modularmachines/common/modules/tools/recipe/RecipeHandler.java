@@ -43,10 +43,10 @@ public abstract class RecipeHandler implements IRecipeHandler {
 		} catch (Exception exception) {
 			return false;
 		}
-		for(int index = 0; index < recipe.getInputs().length; index++) {
+		for (int index = 0; index < recipe.getInputs().length; index++) {
 			recipe.getInputs()[index].index = index;
 		}
-		for(int index = 0; index < recipe.getOutputs().length; index++) {
+		for (int index = 0; index < recipe.getOutputs().length; index++) {
 			recipe.getOutputs()[index].index = index;
 		}
 		return recipes.add(recipe);

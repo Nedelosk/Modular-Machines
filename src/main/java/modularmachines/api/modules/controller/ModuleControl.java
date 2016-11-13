@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import modularmachines.api.modules.handlers.BlankModuleContentHandler;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import modularmachines.api.modules.handlers.BlankModuleContentHandler;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ModuleControl extends BlankModuleContentHandler implements IModuleControl, INBTSerializable<NBTTagCompound> {
 
@@ -48,7 +49,7 @@ public class ModuleControl extends BlankModuleContentHandler implements IModuleC
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		nbtTag.setShort("Mode", (short) mode.ordinal());
 		NBTTagList list = new NBTTagList();
-		for(Entry<Integer, Boolean> permission : permissions.entrySet()) {
+		for (Entry<Integer, Boolean> permission : permissions.entrySet()) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("Index", permission.getKey());
 			tag.setBoolean("Permission", permission.getValue());
@@ -62,7 +63,7 @@ public class ModuleControl extends BlankModuleContentHandler implements IModuleC
 	public void deserializeNBT(NBTTagCompound nbt) {
 		mode = EnumRedstoneMode.values()[nbt.getShort("Mode")];
 		NBTTagList list = nbt.getTagList("Permissions", 10);
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound tag = list.getCompoundTagAt(i);
 			permissions.put(tag.getInteger("Index"), tag.getBoolean("Permission"));
 		}

@@ -24,8 +24,8 @@ public class StorageModuleProperties extends ModuleProperties implements IStorag
 
 	@Override
 	public boolean isValidForPosition(IStoragePosition storagePosition, IModuleContainer container) {
-		for(IModulePostion pos : storagePosition.getPostions()) {
-			for(IModulePostion position : positions) {
+		for (IModulePostion pos : storagePosition.getPostions()) {
+			for (IModulePostion position : positions) {
 				if (pos == position) {
 					if (position == EnumModulePositions.CASING && !(container.getModule() instanceof IModuleCasing)) {
 						continue;

@@ -2,16 +2,17 @@ package modularmachines.api.modular;
 
 import com.google.common.collect.ImmutableMap;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerItem;
-import modularmachines.api.modules.position.IStoragePosition;
-import modularmachines.api.modules.position.StoragePositions;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerItem;
+import modularmachines.api.modules.position.IStoragePosition;
+import modularmachines.api.modules.position.StoragePositions;
 
 public class ModularManager {
 

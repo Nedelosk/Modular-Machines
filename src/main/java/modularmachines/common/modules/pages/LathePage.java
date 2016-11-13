@@ -1,5 +1,8 @@
 package modularmachines.common.modules.pages;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.handlers.filters.FilterMachine;
 import modularmachines.api.modules.handlers.filters.OutputFilter;
 import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
@@ -7,8 +10,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.tools.IModuleModeMachine;
 import modularmachines.client.gui.widgets.WidgetMode;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LathePage extends MainPage<IModuleModeMachine> {
 

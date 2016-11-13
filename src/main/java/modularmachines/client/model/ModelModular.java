@@ -10,20 +10,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerItem;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.models.BakedMultiModel;
-import modularmachines.api.modules.models.ModuleModelLoader;
-import modularmachines.api.modules.models.ModuleModelLoader.DefaultTextureGetter;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.modules.state.IModuleStateClient;
-import modularmachines.api.modules.storage.IStorage;
-import modularmachines.api.modules.storage.module.IModuleStorage;
-import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
-import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -51,6 +37,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerItem;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.models.BakedMultiModel;
+import modularmachines.api.modules.models.ModuleModelLoader;
+import modularmachines.api.modules.models.ModuleModelLoader.DefaultTextureGetter;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.api.modules.state.IModuleStateClient;
+import modularmachines.api.modules.storage.IStorage;
+import modularmachines.api.modules.storage.module.IModuleStorage;
+import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
+import modularmachines.common.blocks.propertys.UnlistedBlockPos;
+
 @SideOnly(Side.CLIENT)
 public class ModelModular implements IBakedModel {
 
@@ -62,14 +63,14 @@ public class ModelModular implements IBakedModel {
 
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
-		for(IModularHandlerTileEntity modularHandler : modularHandlers) {
+		for (IModularHandlerTileEntity modularHandler : modularHandlers) {
 			TileEntity tileEntity = modularHandler.getTile();
 			if (tileEntity != null) {
 				if (tileEntity.isInvalid()) {
 					modularHandlers.remove(modularHandler);
 				} else {
 					if (modularHandler.getModular() != null) {
-						for(IModuleState state : modularHandler.getModular().getModules()) {
+						for (IModuleState state : modularHandler.getModular().getModules()) {
 							if (state instanceof IModuleStateClient) {
 								((IModuleStateClient) state).getModelHandler().setNeedReload(true);
 							}
@@ -93,8 +94,8 @@ public class ModelModular implements IBakedModel {
 			if (modular != null) {
 				IModelState modelState = ModelManager.getInstance().DEFAULT_BLOCK;
 				List<IBakedModel> models = new ArrayList<>();
-				for(IStorage storage : modular.getStorages().values()) {
-					for(IModuleState state : storage.getProvider().getModuleStates()) {
+				for (IStorage storage : modular.getStorages().values()) {
+					for (IModuleState state : storage.getProvider().getModuleStates()) {
 						IBakedModel model = ModuleModelLoader.getModel(state, storage, modelState, vertex);
 						if (model != null) {
 							// Rotate the storage module model

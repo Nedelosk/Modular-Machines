@@ -1,5 +1,8 @@
 package modularmachines.api.modular.assembler;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
+
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
@@ -8,8 +11,6 @@ import modularmachines.api.modules.containers.IModuleItemContainer;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.storage.IStorageModule;
 import modularmachines.api.modules.storage.IStoragePage;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotAssemblerStorage extends SlotItemHandler {
 
@@ -45,7 +46,7 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 			return false;
 		}
 		Boolean isValid = null;
-		for(IModuleContainer container : itemContainer.getContainers()) {
+		for (IModuleContainer container : itemContainer.getContainers()) {
 			IModule module = container.getModule();
 			if (module instanceof IStorageModule) {
 				if (((IStorageModule) module).isValidForPosition(position, container)) {

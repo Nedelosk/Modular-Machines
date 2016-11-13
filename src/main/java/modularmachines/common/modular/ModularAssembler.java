@@ -6,6 +6,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.play.server.SPacketSetSlot;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.AssemblerItemHandler;
 import modularmachines.api.modular.IModular;
@@ -34,23 +52,6 @@ import modularmachines.common.inventory.ContainerAssembler;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.utils.Translator;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.server.SPacketSetSlot;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModularAssembler implements IModularAssembler {
 
@@ -91,7 +92,7 @@ public class ModularAssembler implements IModularAssembler {
 
 	private static Map<IStoragePosition, IStoragePage> createEmptyPages(IModularHandler modularHandler) {
 		Map<IStoragePosition, IStoragePage> pages = new HashMap<>();
-		for(IStoragePosition position : (List<IStoragePosition>) modularHandler.getPositions().asList()) {
+		for (IStoragePosition position : (List<IStoragePosition>) modularHandler.getPositions().asList()) {
 			pages.put(position, null);
 		}
 		return pages;
@@ -104,7 +105,7 @@ public class ModularAssembler implements IModularAssembler {
 			tagCompound.setTag("itemHandler", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage().writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, itemHandler, null));
 		}
 		NBTTagList list = new NBTTagList();
-		for(Entry<IStoragePosition, IStoragePage> entry : pages.entrySet()) {
+		for (Entry<IStoragePosition, IStoragePage> entry : pages.entrySet()) {
 			if (entry.getValue() != null) {
 				NBTTagCompound nbtTag = new NBTTagCompound();
 				nbtTag.setInteger("Index", getIndex(entry.getKey()));
@@ -123,7 +124,7 @@ public class ModularAssembler implements IModularAssembler {
 		}
 		updatePages(null);
 		NBTTagList list = nbt.getTagList("Pages", 10);
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
 			IStoragePosition position = indexes.get(nbtTag.getInteger("Index"));
 			pages.get(position).deserializeNBT(nbtTag.getCompoundTag("Page"));
@@ -171,12 +172,12 @@ public class ModularAssembler implements IModularAssembler {
 	public int getComplexity(boolean withStorage, IStoragePosition position) {
 		int complexity = 0;
 		if (position == null) {
-			for(IStoragePosition otherPosition : indexes) {
+			for (IStoragePosition otherPosition : indexes) {
 				ItemStack storageStack = itemHandler.getStackInSlot(getIndex(otherPosition));
 				if (storageStack != null) {
 					IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(storageStack);
 					if (itemContainer != null) {
-						for(IModuleContainer container : itemContainer.getContainers()) {
+						for (IModuleContainer container : itemContainer.getContainers()) {
 							IModule module = container.getModule();
 							if (withStorage || !(module instanceof IStorageModule)) {
 								complexity += module.getComplexity(container);
@@ -187,12 +188,12 @@ public class ModularAssembler implements IModularAssembler {
 				IStoragePage page = pages.get(otherPosition);
 				if (page != null) {
 					IItemHandler assemblerHandler = page.getItemHandler();
-					for(int index = 0; index < assemblerHandler.getSlots(); index++) {
+					for (int index = 0; index < assemblerHandler.getSlots(); index++) {
 						ItemStack stack = assemblerHandler.getStackInSlot(index);
 						if (stack != null) {
 							IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
 							if (itemContainer != null) {
-								for(IModuleContainer container : itemContainer.getContainers()) {
+								for (IModuleContainer container : itemContainer.getContainers()) {
 									IModule module = container.getModule();
 									if (module instanceof IModuleModuleStorage && !withStorage) {
 										continue;
@@ -209,7 +210,7 @@ public class ModularAssembler implements IModularAssembler {
 			if (storageStack != null) {
 				IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(storageStack);
 				if (itemContainer != null) {
-					for(IModuleContainer container : itemContainer.getContainers()) {
+					for (IModuleContainer container : itemContainer.getContainers()) {
 						IModule module = container.getModule();
 						if (withStorage || !(module instanceof IStorageModule)) {
 							complexity += module.getComplexity(container);
@@ -219,12 +220,12 @@ public class ModularAssembler implements IModularAssembler {
 			}
 			if (pages.get(position) != null) {
 				IItemHandler assemblerHandler = pages.get(position).getItemHandler();
-				for(int index = 0; index < assemblerHandler.getSlots(); index++) {
+				for (int index = 0; index < assemblerHandler.getSlots(); index++) {
 					ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 					if (slotStack != null) {
 						IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(slotStack);
 						if (itemContainer != null) {
-							for(IModuleContainer container : itemContainer.getContainers()) {
+							for (IModuleContainer container : itemContainer.getContainers()) {
 								IModule module = container.getModule();
 								if (module instanceof IModuleModuleStorage && !withStorage) {
 									continue;
@@ -242,15 +243,15 @@ public class ModularAssembler implements IModularAssembler {
 	@Override
 	public int getAllowedComplexity(IStoragePosition position) {
 		if (position == null) {
-			for(IStoragePage page : pages.values()) {
+			for (IStoragePage page : pages.values()) {
 				if (page != null) {
 					IItemHandler assemblerHandler = page.getItemHandler();
-					for(int index = 0; index < assemblerHandler.getSlots(); index++) {
+					for (int index = 0; index < assemblerHandler.getSlots(); index++) {
 						ItemStack stack = assemblerHandler.getStackInSlot(index);
 						if (stack != null) {
 							IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(stack);
 							if (itemContainer != null) {
-								for(IModuleContainer container : itemContainer.getContainers()) {
+								for (IModuleContainer container : itemContainer.getContainers()) {
 									IModule module = container.getModule();
 									if (module instanceof IModuleController) {
 										return ((IModuleController) module).getAllowedComplexity(container);
@@ -267,7 +268,7 @@ public class ModularAssembler implements IModularAssembler {
 			if (storageStack != null) {
 				IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(storageStack);
 				if (itemContainer != null) {
-					for(IModuleContainer container : itemContainer.getContainers()) {
+					for (IModuleContainer container : itemContainer.getContainers()) {
 						IModule module = container.getModule();
 						if (module instanceof IModuleModuleStorage) {
 							return ((IModuleModuleStorage) module).getAllowedComplexity(container);
@@ -277,12 +278,12 @@ public class ModularAssembler implements IModularAssembler {
 			}
 			if (pages.get(position) != null) {
 				IItemHandler assemblerHandler = pages.get(position).getItemHandler();
-				for(int index = 0; index < assemblerHandler.getSlots(); index++) {
+				for (int index = 0; index < assemblerHandler.getSlots(); index++) {
 					ItemStack slotStack = assemblerHandler.getStackInSlot(index);
 					if (slotStack != null) {
 						IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(slotStack);
 						if (itemContainer != null) {
-							for(IModuleContainer container : itemContainer.getContainers()) {
+							for (IModuleContainer container : itemContainer.getContainers()) {
 								IModule module = container.getModule();
 								if (module instanceof IModuleModuleStorage) {
 									return ((IModuleModuleStorage) module).getAllowedComplexity(container);
@@ -340,7 +341,7 @@ public class ModularAssembler implements IModularAssembler {
 					IBlockState blockState = server.getBlockState(pos);
 					server.notifyBlockUpdate(pos, blockState, blockState, 3);
 					boolean canOpenGui = modularHandler.getModular() != null && (modularHandler.getModular().getCurrentModule() == null || modularHandler.getModular().getCurrentPage() == null);
-					for(EntityPlayer otherPlayer : server.playerEntities) {
+					for (EntityPlayer otherPlayer : server.playerEntities) {
 						if (otherPlayer.openContainer instanceof ContainerAssembler) {
 							ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
 							if (modularHandler == assembler.getHandler()) {
@@ -369,24 +370,24 @@ public class ModularAssembler implements IModularAssembler {
 	@Override
 	public IModular createModular() throws AssemblerException {
 		IModular modular = new Modular(modularHandler);
-		for(IStoragePage page : pages.values()) {
+		for (IStoragePage page : pages.values()) {
 			if (page != null) {
 				IStorage storage = page.assemble(modular);
 				if (storage != null) {
-					for(IModuleState state : storage.getProvider().getModuleStates()) {
+					for (IModuleState state : storage.getProvider().getModuleStates()) {
 						state.setIndex(modular.getNextIndex());
 					}
 					modular.addStorage(storage);
 				}
 			}
 		}
-		for(IStorage storage : modular.getStorages().values()) {
+		for (IStorage storage : modular.getStorages().values()) {
 			if (storage != null) {
-				for(IModuleState state : storage.getProvider().getModuleStates()) {
+				for (IModuleState state : storage.getProvider().getModuleStates()) {
 					state.getModule().assembleModule(this, modular, storage, state);
 				}
 				if (storage instanceof IModuleStorage) {
-					for(IModuleState state : ((IModuleStorage) storage).getModules()) {
+					for (IModuleState state : ((IModuleStorage) storage).getModules()) {
 						state.getModule().assembleModule(this, modular, storage, state);
 					}
 				}
@@ -395,7 +396,7 @@ public class ModularAssembler implements IModularAssembler {
 		if (modular.getModules(IModuleCasing.class).isEmpty()) {
 			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.casing"));
 		}
-		for(IStoragePage page : pages.values()) {
+		for (IStoragePage page : pages.values()) {
 			if (page != null) {
 				page.canAssemble(modular);
 			}
@@ -424,7 +425,7 @@ public class ModularAssembler implements IModularAssembler {
 		if (hasChange) {
 			BlockPos pos = ((IModularHandlerTileEntity) modularHandler).getPos();
 			WorldServer server = (WorldServer) modularHandler.getWorld();
-			for(EntityPlayer otherPlayer : server.playerEntities) {
+			for (EntityPlayer otherPlayer : server.playerEntities) {
 				if (otherPlayer.openContainer instanceof ContainerAssembler) {
 					ContainerAssembler assembler = (ContainerAssembler) otherPlayer.openContainer;
 					if (modularHandler == assembler.getHandler()) {
@@ -448,7 +449,7 @@ public class ModularAssembler implements IModularAssembler {
 	@Override
 	public void updatePages(IStoragePosition position) {
 		if (position == null) {
-			for(IStoragePosition pos : indexes) {
+			for (IStoragePosition pos : indexes) {
 				IStoragePage page = pages.get(pos);
 				ItemStack stack = itemHandler.getStackInSlot(getIndex(pos));
 				if (page == null) {

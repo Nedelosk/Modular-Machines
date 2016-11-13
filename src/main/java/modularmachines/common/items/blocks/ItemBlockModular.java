@@ -4,17 +4,6 @@ import java.util.List;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerItem;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.containers.IModuleProvider;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.common.blocks.tile.TileModular;
-import modularmachines.common.modular.ModularAssembler;
-import modularmachines.common.modular.ModularHandlerItem;
-import modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,6 +18,18 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modular.handlers.IModularHandler;
+import modularmachines.api.modular.handlers.IModularHandlerItem;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.api.modules.containers.IModuleProvider;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.common.blocks.tile.TileModular;
+import modularmachines.common.modular.ModularAssembler;
+import modularmachines.common.modular.ModularHandlerItem;
+import modularmachines.common.utils.Translator;
 
 public class ItemBlockModular extends ItemBlock {
 
@@ -51,11 +52,11 @@ public class ItemBlockModular extends ItemBlock {
 					tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.modular.info"));
 					IModular modular = handler.getModular();
 					if (modular != null) {
-						for(IModuleProvider provider : modular.getProviders()) {
+						for (IModuleProvider provider : modular.getProviders()) {
 							if (provider != null) {
 								ItemStack itemStack = provider.getItemStack();
 								String moduleName = "";
-								for(IModuleState state : provider.getModuleStates()) {
+								for (IModuleState state : provider.getModuleStates()) {
 									if (state != null) {
 										moduleName += state.getContainer().getDisplayName() + " - ";
 									}

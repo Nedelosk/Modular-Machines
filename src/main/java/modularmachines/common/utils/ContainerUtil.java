@@ -2,10 +2,11 @@ package modularmachines.common.utils;
 
 import java.util.List;
 
-import modularmachines.api.ItemUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.api.ItemUtil;
 
 public class ContainerUtil {
 
@@ -83,7 +84,7 @@ public class ContainerUtil {
 
 	// if mergeOnly = true, don't shift into empty slots.
 	private static boolean shiftToMachineInventory(List inventorySlots, ItemStack stackToShift, int numSlots, boolean mergeOnly) {
-		for(int machineIndex = playerInventorySize; machineIndex < numSlots; machineIndex++) {
+		for (int machineIndex = playerInventorySize; machineIndex < numSlots; machineIndex++) {
 			Slot slot = (Slot) inventorySlots.get(machineIndex);
 			if (mergeOnly && slot.getStack() == null) {
 				continue;
@@ -109,7 +110,7 @@ public class ContainerUtil {
 			return false;
 		}
 		boolean changed = false;
-		for(int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < start + count; slotIndex++) {
+		for (int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < start + count; slotIndex++) {
 			Slot slot = (Slot) inventorySlots.get(slotIndex);
 			ItemStack stackInSlot = slot.getStack();
 			if (stackInSlot != null && ItemUtil.isIdenticalItem(stackInSlot, stackToShift)) {
@@ -136,7 +137,7 @@ public class ContainerUtil {
 			return false;
 		}
 		boolean changed = false;
-		for(int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < start + count; slotIndex++) {
+		for (int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < start + count; slotIndex++) {
 			Slot slot = (Slot) inventorySlots.get(slotIndex);
 			ItemStack stackInSlot = slot.getStack();
 			if (stackInSlot == null) {

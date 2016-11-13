@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.items.ItemHandlerHelper;
+
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.AssemblerItemHandler;
 import modularmachines.api.modular.IAssemblerGui;
@@ -23,11 +29,6 @@ import modularmachines.api.modules.position.IModulePostion;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.storage.IStorage;
 import modularmachines.api.modules.storage.StoragePage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ModuleStoragePage extends StoragePage {
 
@@ -49,13 +50,13 @@ public class ModuleStoragePage extends StoragePage {
 			SlotAssemblerStorage storageSlot;
 			slots.add(storageSlot = new SlotAssemblerStorage(assembler, 44, 35, this, position, container));
 			if (size == EnumModuleSizes.LARGEST) {
-				for(int i = 0; i < 3; ++i) {
-					for(int j = 0; j < 3; ++j) {
+				for (int i = 0; i < 3; ++i) {
+					for (int j = 0; j < 3; ++j) {
 						slots.add(new SlotAssembler(itemHandler, j + i * 3, 80 + j * 18, 17 + i * 18, this, container, storageSlot));
 					}
 				}
 			} else if (size == EnumModuleSizes.LARGE) {
-				for(int i = 0; i < 3; ++i) {
+				for (int i = 0; i < 3; ++i) {
 					slots.add(new SlotAssembler(itemHandler, i, 98, 17 + i * 18, this, container, storageSlot));
 				}
 			}
@@ -71,7 +72,7 @@ public class ModuleStoragePage extends StoragePage {
 		}
 		SlotAssemblerStorage slotStorage = (SlotAssemblerStorage) container.getSlots().get(36);
 		if (!slotStorage.getHasStack()) {
-			for(int index = 0; index < size.slots; index++) {
+			for (int index = 0; index < size.slots; index++) {
 				ItemStack slotStack = itemHandler.getStackInSlot(index);
 				if (slotStack != null) {
 					ItemHandlerHelper.giveItemToPlayer(container.getPlayer(), slotStack);
@@ -80,16 +81,16 @@ public class ModuleStoragePage extends StoragePage {
 			}
 		}
 		List<SlotAssembler> slots = new ArrayList<>();
-		for(int index = 0; index < size.slots; index++) {
+		for (int index = 0; index < size.slots; index++) {
 			Slot slot = container.getSlots().get(37 + index);
 			if (slot instanceof SlotAssembler) {
 				slots.add((SlotAssembler) slot);
 			}
 		}
-		for(SlotAssembler slot : slots) {
+		for (SlotAssembler slot : slots) {
 			slot.hasChange = false;
 		}
-		for(int index = 0; index < slots.size(); index++) {
+		for (int index = 0; index < slots.size(); index++) {
 			SlotAssembler slot = slots.get(index);
 			if (slot.getHasStack()) {
 				IModuleItemContainer itemContainer = ModuleManager.getContainerFromItem(slot.getStack());
@@ -132,7 +133,7 @@ public class ModuleStoragePage extends StoragePage {
 				}
 			}
 		}
-		for(SlotAssembler slot : slots) {
+		for (SlotAssembler slot : slots) {
 			if (!slot.hasChange) {
 				slot.setActive(true);
 			}
@@ -146,7 +147,7 @@ public class ModuleStoragePage extends StoragePage {
 			return false;
 		}
 		boolean hasPosition = false;
-		for(IModuleContainer container : itemContainer.getContainers()) {
+		for (IModuleContainer container : itemContainer.getContainers()) {
 			IModule module = container.getModule();
 			if (storageSlot == null || !storageSlot.getHasStack()) {
 				return false;
@@ -155,8 +156,8 @@ public class ModuleStoragePage extends StoragePage {
 				IModulePostion[] positions = ((IModulePositioned) module).getValidPositions(container);
 				hasPosition = positions.length <= 0;
 				if (!hasPosition) {
-					for(IModulePostion otherPositionStorage : position.getPostions()) {
-						for(IModulePostion otherPositionModule : positions) {
+					for (IModulePostion otherPositionStorage : position.getPostions()) {
+						for (IModulePostion otherPositionModule : positions) {
 							if (otherPositionModule == otherPositionStorage) {
 								hasPosition = true;
 								break;
@@ -170,7 +171,7 @@ public class ModuleStoragePage extends StoragePage {
 			return false;
 		}
 		EnumModuleSizes usedSize = itemContainer.getSize();
-		for(int index = 0; index < position.getSize().slots; index++) {
+		for (int index = 0; index < position.getSize().slots; index++) {
 			IModuleItemContainer otherItemContainer = ModuleManager.getContainerFromItem(itemHandler.getStackInSlot(index));
 			if (otherItemContainer != null) {
 				usedSize = EnumModuleSizes.getSize(usedSize, otherItemContainer.getSize());
@@ -178,7 +179,7 @@ public class ModuleStoragePage extends StoragePage {
 		}
 		Boolean isValid = null;
 		if (usedSize != EnumModuleSizes.UNKNOWN && (usedSize == null || usedSize.ordinal() <= position.getSize().ordinal())) {
-			for(IModuleContainer container : itemContainer.getContainers()) {
+			for (IModuleContainer container : itemContainer.getContainers()) {
 				if (container.getModule().isValid(assembler, position, stack, slot, storageSlot)) {
 					if (itemContainer.needOnlyOnePosition(container)) {
 						isValid = true;
@@ -203,7 +204,7 @@ public class ModuleStoragePage extends StoragePage {
 		IStorage storage = super.assemble(modular);
 		if (storage instanceof IAddableModuleStorage) {
 			IAddableModuleStorage moduleStorage = (IAddableModuleStorage) storage;
-			for(int index = 0; index < itemHandler.getSlots(); index++) {
+			for (int index = 0; index < itemHandler.getSlots(); index++) {
 				ItemStack stack = itemHandler.getStackInSlot(index);
 				if (stack != null) {
 					IModuleProvider provider = ModuleManager.loadOrCreateModuleProvider(modular, stack);

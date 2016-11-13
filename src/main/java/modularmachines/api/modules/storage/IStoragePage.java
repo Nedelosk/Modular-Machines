@@ -5,6 +5,10 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.gui.IPage;
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.IModular;
@@ -12,9 +16,6 @@ import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modular.assembler.IAssemblerContainer;
 import modularmachines.api.modular.assembler.SlotAssembler;
 import modularmachines.api.modular.assembler.SlotAssemblerStorage;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IStoragePage extends IPage {
 

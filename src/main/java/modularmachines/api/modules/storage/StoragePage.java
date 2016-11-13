@@ -3,6 +3,11 @@ package modularmachines.api.modules.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.CapabilityItemHandler;
+
 import modularmachines.api.gui.Page;
 import modularmachines.api.modular.AssemblerException;
 import modularmachines.api.modular.AssemblerItemHandler;
@@ -12,10 +17,6 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.containers.IModuleProvider;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 public abstract class StoragePage extends Page implements IStoragePage {
 

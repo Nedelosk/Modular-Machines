@@ -2,6 +2,16 @@ package modularmachines.common.core;
 
 import static modularmachines.api.modules.ModuleManager.createDefaultStack;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
 import modularmachines.api.energy.HeatManager;
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.material.EnumVanillaMaterials;
@@ -24,15 +34,6 @@ import modularmachines.common.modules.tools.recipe.RecipeHandlerDefault;
 import modularmachines.common.modules.tools.recipe.RecipeHandlerHeat;
 import modularmachines.common.modules.tools.recipe.RecipeHandlerToolMode;
 import modularmachines.common.recipse.ModuleCrafterRecipe;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeManager {
 
@@ -53,11 +54,11 @@ public class RecipeManager {
 	}
 
 	public static void registerHolderRecipes() {
-		for(IMetalMaterial material : modularmachines.api.modules.ModuleManager.getMaterialsWithHolder()) {
+		for (IMetalMaterial material : modularmachines.api.modules.ModuleManager.getMaterialsWithHolder()) {
 			ItemStack holderLarge = modularmachines.api.modules.ModuleManager.getHolder(material, 0).copy();
 			ItemStack holderMedium = modularmachines.api.modules.ModuleManager.getHolder(material, 1).copy();
 			ItemStack holderSmall = modularmachines.api.modules.ModuleManager.getHolder(material, 2).copy();
-			for(String oreDict : material.getOreDicts()) {
+			for (String oreDict : material.getOreDicts()) {
 				addShapedRecipe(holderLarge, "WPW", "IPI", "WPW", 'P', "plate" + oreDict, 'I', "ingot" + oreDict, 'W', "wire" + oreDict);
 			}
 			addShapelessRecipe(holderLarge, holderMedium, holderMedium);
@@ -179,16 +180,16 @@ public class RecipeManager {
 	}
 
 	private static void addMetalRecipes() {
-		for(MaterialList<IMetalMaterial> list : ItemManager.metals) {
-			for(IMetalMaterial material : list) {
-				for(String oreDict : material.getOreDicts()) {
+		for (MaterialList<IMetalMaterial> list : ItemManager.metals) {
+			for (IMetalMaterial material : list) {
+				for (String oreDict : material.getOreDicts()) {
 					addShapedRecipe(ItemManager.itemIngots.getStack(material), "+++", "+++", "+++", '+', "nugget" + oreDict);
 					addShapelessRecipe(ItemManager.itemNuggets.getStack(material), "ingot" + oreDict);
 				}
 			}
 		}
-		for(MaterialList<IMetalMaterial> list : ItemManager.dusts) {
-			for(IMaterial material : list) {
+		for (MaterialList<IMetalMaterial> list : ItemManager.dusts) {
+			for (IMaterial material : list) {
 				if (ItemManager.itemDusts.getStack(material) != null && ItemManager.itemIngots.getStack(material) != null) {
 					GameRegistry.addSmelting(ItemManager.itemDusts.getStack(material), ItemManager.itemIngots.getStack(material), 0.5F);
 				}
@@ -197,29 +198,29 @@ public class RecipeManager {
 	}
 
 	private static void addComponentRecipes() {
-		for(IMetalMaterial material : ItemManager.itemCompPlates.materials) {
+		for (IMetalMaterial material : ItemManager.itemCompPlates.materials) {
 			ItemStack stack = ItemManager.itemCompPlates.getStack(material);
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					addShapelessRecipe(stack, "ingot" + oreDict, "ingot" + oreDict, "toolHammer");
 				}
 			}
 		}
-		for(IMetalMaterial material : ItemManager.itemCompGears.materials) {
+		for (IMetalMaterial material : ItemManager.itemCompGears.materials) {
 			ItemStack stack = ItemManager.itemCompGears.getStack(material);
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					addShapedRecipe(stack, " + ", "+H+", " + ", '+', "plate" + oreDict, 'H', "toolHammer");
 				}
 			}
 		}
-		for(IMetalMaterial material : ItemManager.itemCompRods.materials) {
+		for (IMetalMaterial material : ItemManager.itemCompRods.materials) {
 			ItemStack stack = ItemManager.itemCompRods.getStack(material);
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					String ingot = "ingot" + oreDict;
 					addShapelessRecipe(stack, ingot, ingot, "toolFile");
 					ItemStack latheStack = new ItemStack(ItemManager.itemCompRods, 2, stack.getItemDamage());
@@ -227,10 +228,10 @@ public class RecipeManager {
 				}
 			}
 		}
-		for(IMetalMaterial material : ItemManager.itemCompWires.materials) {
+		for (IMetalMaterial material : ItemManager.itemCompWires.materials) {
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					addShapelessRecipe(ItemManager.itemCompWires.getStack(material, 3), "plate" + oreDict, "toolCutter");
 					RecipeUtil.addLathe("plate" + oreDict + "ToWire", new RecipeItem(new OreStack("plate" + oreDict)), new RecipeItem(ItemManager.itemCompWires.getStack(material, 9)), 3, LatheModes.WIRE);
 					if (ItemManager.itemNuggets.getStack(material) != null) {
@@ -241,23 +242,23 @@ public class RecipeManager {
 				}
 			}
 		}
-		for(IMetalMaterial material : ItemManager.itemCompScrews.materials) {
+		for (IMetalMaterial material : ItemManager.itemCompScrews.materials) {
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
-				for(String oreDict : oreDicts) {
+				for (String oreDict : oreDicts) {
 					RecipeUtil.addLathe("rod" + oreDict + "ToScrew", new RecipeItem(new OreStack("rod" + oreDict, 1)), new RecipeItem(ItemManager.itemCompScrews.getStack(material, 2)), 3, LatheModes.SCREW);
 				}
 			}
 		}
-		for(ComponentTypes type : ComponentTypes.values()) {
+		for (ComponentTypes type : ComponentTypes.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
-			for(String oreDict : type.oreDict) {
+			for (String oreDict : type.oreDict) {
 				addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
 			}
 		}
-		for(ComponentTypes type : ComponentTypes.values()) {
+		for (ComponentTypes type : ComponentTypes.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
-			for(String oreDict : type.oreDict) {
+			for (String oreDict : type.oreDict) {
 				if (OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()) {
 					ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0).copy();
 					ore.stackSize = 9;
@@ -318,11 +319,11 @@ public class RecipeManager {
 		RecipeUtil.addPulverizer("RedstoneOreToDust", new OreStack("oreRedstone"), new RecipeItem[] { new RecipeItem(new ItemStack(Items.REDSTONE, 8)) }, 15);
 		RecipeUtil.addPulverizer("CoalToDust", new OreStack("itemCoal"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2)) }, 7);
 		/* INGOTS TO DUST */
-		for(IMaterial material : MaterialRegistry.getMaterials()) {
+		for (IMaterial material : MaterialRegistry.getMaterials()) {
 			if (!(material instanceof EnumVanillaMaterials)) {
 				if (material != null && ItemManager.itemDusts.getStack(material) != null && material instanceof IMetalMaterial) {
 					String[] oreDicts = ((IMetalMaterial) material).getOreDicts();
-					for(String oreDict : oreDicts) {
+					for (String oreDict : oreDicts) {
 						String ingot = "ingot" + oreDict;
 						RecipeUtil.addPulverizer(ingot + "ToDust", new OreStack(ingot), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(material)) }, 7);
 					}

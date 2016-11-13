@@ -1,9 +1,10 @@
 package modularmachines.api.modules.handlers.inventory;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.handlers.IModuleContentHandlerBuilder;
 import modularmachines.api.modules.handlers.filters.IContentFilter;
-import net.minecraft.item.ItemStack;
 
 public interface IModuleInventoryBuilder<M extends IModule> extends IModuleContentHandlerBuilder<ItemStack, M> {
 

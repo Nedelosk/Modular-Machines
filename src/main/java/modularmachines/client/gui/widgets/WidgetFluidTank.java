@@ -22,12 +22,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import mezz.jei.api.recipe.IFocus.Mode;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.common.plugins.jei.JeiPlugin;
-import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -42,6 +36,13 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import mezz.jei.api.recipe.IFocus.Mode;
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.Widget;
+import modularmachines.common.plugins.jei.JeiPlugin;
+import modularmachines.common.utils.RenderUtil;
+import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
 public class WidgetFluidTank extends Widget<IFluidTank> {
@@ -114,8 +115,8 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 		final int yTileCount = scaledAmount / TEX_HEIGHT;
 		final int yRemainder = scaledAmount - (yTileCount * TEX_HEIGHT);
 		final int yStart = yPosition + 56;
-		for(int xTile = 0; xTile <= xTileCount; xTile++) {
-			for(int yTile = 0; yTile <= yTileCount; yTile++) {
+		for (int xTile = 0; xTile <= xTileCount; xTile++) {
+			for (int yTile = 0; yTile <= yTileCount; yTile++) {
 				int width = (xTile == xTileCount) ? xRemainder : TEX_WIDTH;
 				int height = (yTile == yTileCount) ? yRemainder : TEX_HEIGHT;
 				int x = xPosition + (xTile * TEX_WIDTH);

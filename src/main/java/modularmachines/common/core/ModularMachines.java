@@ -2,11 +2,6 @@ package modularmachines.common.core;
 
 import java.io.File;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.containers.IModuleItemContainer;
-import modularmachines.common.events.EventHandler;
-import modularmachines.common.modules.json.ModuleLoadManager;
-import modularmachines.common.recipse.RecipeJsonManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -18,6 +13,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.RegistryBuilder;
 
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.containers.IModuleItemContainer;
+import modularmachines.common.events.EventHandler;
+import modularmachines.common.modules.json.ModuleLoadManager;
+import modularmachines.common.recipse.RecipeJsonManager;
+
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = "modularmachines.common.config.ConfigFactory")
 public class ModularMachines {
 
@@ -25,7 +26,6 @@ public class ModularMachines {
 	public static ModularMachines instance;
 	@SidedProxy(clientSide = "modularmachines.client.core.ClientProxy", serverSide = "modularmachines.common.core.CommonProxy")
 	public static CommonProxy proxy;
-
 	public static File configFolder;
 	public static File configFile;
 

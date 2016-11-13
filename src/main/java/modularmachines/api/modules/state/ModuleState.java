@@ -7,6 +7,14 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModulePage;
@@ -19,13 +27,6 @@ import modularmachines.api.modules.storage.module.ModuleHandler;
 import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.property.PropertyInteger;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
@@ -55,7 +56,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public IModuleState<M> build() {
 		this.properties = Maps.newHashMap();
-		for(IProperty property : registeredProperties.values()) {
+		for (IProperty property : registeredProperties.values()) {
 			properties.put(property, property.getDefaultValue());
 		}
 		return this;
@@ -93,7 +94,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <P extends IModulePage> P getPage(Class<? extends P> pageClass) {
-		for(IModulePage page : pages) {
+		for (IModulePage page : pages) {
 			if (pageClass.isAssignableFrom(page.getClass())) {
 				return (P) page;
 			}
@@ -108,7 +109,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <H> H getContentHandler(Class<? extends H> handlerClass) {
-		for(IModuleContentHandler handler : contentHandlers) {
+		for (IModuleContentHandler handler : contentHandlers) {
 			if (handlerClass.isAssignableFrom(handler.getClass())) {
 				return (H) handler;
 			}
@@ -120,7 +121,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	public List<IModuleContentHandler> getAllContentHandlers() {
 		List<IModuleContentHandler> contentHandlers = new ArrayList<>();
 		contentHandlers.addAll(getContentHandlers());
-		for(IModulePage page : pages) {
+		for (IModulePage page : pages) {
 			contentHandlers.addAll(page.getContentHandlers());
 		}
 		return contentHandlers;
@@ -128,7 +129,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <H> H getContentHandlerFromAll(Class<? extends H> handlerClass) {
-		for(IModuleContentHandler handler : getAllContentHandlers()) {
+		for (IModuleContentHandler handler : getAllContentHandlers()) {
 			if (handlerClass.isAssignableFrom(handler.getClass())) {
 				return (H) handler;
 			}
@@ -177,7 +178,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 		if (pageID == null) {
 			return null;
 		}
-		for(IModulePage page : pages) {
+		for (IModulePage page : pages) {
 			if (page.getPageID().equals(pageID)) {
 				return page;
 			}
@@ -231,7 +232,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		for(Entry<IProperty, Object> object : properties.entrySet()) {
+		for (Entry<IProperty, Object> object : properties.entrySet()) {
 			try {
 				if (object.getValue() != null) {
 					nbt.setTag(object.getKey().getName(), object.getKey().writeToNBT(this, object.getValue()));
@@ -240,12 +241,12 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 				e.printStackTrace();
 			}
 		}
-		for(IModuleContentHandler handler : contentHandlers) {
+		for (IModuleContentHandler handler : contentHandlers) {
 			if (handler instanceof INBTSerializable) {
 				nbt.setTag(handler.getUID(), ((INBTSerializable) handler).serializeNBT());
 			}
 		}
-		for(IModulePage page : pages) {
+		for (IModulePage page : pages) {
 			nbt.setTag(page.getPageID(), page.serializeNBT());
 		}
 		return nbt;
@@ -253,7 +254,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		for(IProperty property : registeredProperties.values()) {
+		for (IProperty property : registeredProperties.values()) {
 			try {
 				if (nbt.hasKey(property.getName())) {
 					properties.put(property, property.readFromNBT(nbt.getTag(property.getName()), this));
@@ -262,19 +263,19 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 				e.printStackTrace();
 			}
 		}
-		for(IModuleContentHandler handler : contentHandlers) {
+		for (IModuleContentHandler handler : contentHandlers) {
 			if (handler instanceof INBTSerializable && nbt.hasKey(handler.getUID())) {
 				((INBTSerializable) handler).deserializeNBT(nbt.getCompoundTag(handler.getUID()));
 			}
 		}
-		for(IModulePage page : pages) {
+		for (IModulePage page : pages) {
 			page.deserializeNBT(nbt.getCompoundTag(page.getPageID()));
 		}
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		for(IModuleContentHandler handler : contentHandlers) {
+		for (IModuleContentHandler handler : contentHandlers) {
 			if (handler instanceof ICapabilityProvider) {
 				if (((ICapabilityProvider) handler).hasCapability(capability, facing)) {
 					return true;
@@ -286,7 +287,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		for(IModuleContentHandler handler : contentHandlers) {
+		for (IModuleContentHandler handler : contentHandlers) {
 			if (handler instanceof ICapabilityProvider) {
 				if (((ICapabilityProvider) handler).hasCapability(capability, facing)) {
 					return ((ICapabilityProvider) handler).getCapability(capability, facing);

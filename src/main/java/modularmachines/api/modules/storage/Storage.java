@@ -1,10 +1,11 @@
 package modularmachines.api.modules.storage;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modules.containers.IModuleProvider;
 import modularmachines.api.modules.position.IStoragePosition;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class Storage implements IStorage {
 

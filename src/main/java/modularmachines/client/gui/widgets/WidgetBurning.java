@@ -3,6 +3,8 @@ package modularmachines.client.gui.widgets;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraftforge.fml.common.Loader;
+
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.Widget;
@@ -10,7 +12,6 @@ import modularmachines.api.modules.IModuleBurning;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.plugins.jei.JeiPlugin;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraftforge.fml.common.Loader;
 
 public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleState<M>> {
 

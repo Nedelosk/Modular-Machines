@@ -2,8 +2,9 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
-import modularmachines.api.modules.network.DataInputStreamMM;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+
+import modularmachines.api.modules.network.DataInputStreamMM;
 
 public interface IPacket {
 

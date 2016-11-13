@@ -45,7 +45,7 @@ public class ModuleCrafterRecipeHandler implements IRecipeHandler<IModuleCrafter
 			return false;
 		}
 		int inputCount = 0;
-		for(Object input : recipe.getInput()) {
+		for (Object input : recipe.getInput()) {
 			if (input instanceof List) {
 				if (((List) input).isEmpty()) {
 					// missing items for an oreDict name. This is normal

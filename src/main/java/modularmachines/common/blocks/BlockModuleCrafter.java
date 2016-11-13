@@ -1,11 +1,5 @@
 package modularmachines.common.blocks;
 
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.blocks.tile.TileModuleCrafter;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.WorldUtil;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +12,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.blocks.tile.TileModuleCrafter;
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.utils.WorldUtil;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockModuleCrafter extends BlockForest implements IItemModelRegister, IBlockWithMeta {
 

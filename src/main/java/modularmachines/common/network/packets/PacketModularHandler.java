@@ -2,6 +2,13 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import modularmachines.api.modular.ModularManager;
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerItem;
@@ -9,12 +16,6 @@ import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.network.DataInputStreamMM;
 import modularmachines.api.modules.network.DataOutputStreamMM;
 import modularmachines.common.modular.ModularHandlerItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public abstract class PacketModularHandler extends Packet {
 
@@ -77,7 +78,7 @@ public abstract class PacketModularHandler extends Packet {
 		if (identifier instanceof String) {
 			String UID = (String) identifier;
 			ItemStack stack = null;
-			for(EnumHand hand : EnumHand.values()) {
+			for (EnumHand hand : EnumHand.values()) {
 				ItemStack held = player.getHeldItem(hand);
 				if (ModularHandlerItem.hasItemUID(held, UID)) {
 					stack = held;

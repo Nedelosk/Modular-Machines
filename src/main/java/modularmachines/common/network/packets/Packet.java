@@ -2,14 +2,15 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import modularmachines.api.modules.network.DataInputStreamMM;
 import modularmachines.api.modules.network.DataOutputStreamMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.utils.Log;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public abstract class Packet implements IPacket {
 

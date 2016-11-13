@@ -2,6 +2,8 @@ package modularmachines.common.plugins.ic2;
 
 import static modularmachines.api.modules.ModuleManager.register;
 
+import net.minecraft.item.ItemStack;
+
 import ic2.api.item.IC2Items;
 import modularmachines.api.material.EnumMetalMaterials;
 import modularmachines.api.modules.EnumModuleSizes;
@@ -16,7 +18,6 @@ import modularmachines.api.modules.storage.energy.ModuleBatteryProperties;
 import modularmachines.common.core.managers.ModuleManager;
 import modularmachines.common.modules.storages.ModuleBattery;
 import modularmachines.common.plugins.APlugin;
-import net.minecraft.item.ItemStack;
 
 public class PluginIC2 extends APlugin {
 

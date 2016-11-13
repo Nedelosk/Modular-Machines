@@ -1,11 +1,12 @@
 package modularmachines.common.plugins.mekanism;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.material.IMaterial;
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.ModuleItemContainer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleItemContainerEnergyCube extends ModuleItemContainer {
 

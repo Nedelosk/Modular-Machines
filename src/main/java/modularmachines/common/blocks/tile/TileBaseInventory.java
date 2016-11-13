@@ -1,6 +1,5 @@
 package modularmachines.common.blocks.tile;
 
-import modularmachines.common.utils.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -12,6 +11,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+
+import modularmachines.common.utils.InventoryUtil;
 
 public abstract class TileBaseInventory extends TileBaseGui implements ISidedInventory {
 
@@ -158,7 +159,7 @@ public abstract class TileBaseInventory extends TileBaseGui implements ISidedInv
 		if (output == null) {
 			return true;
 		}
-		for(int i = slotMin; i < slotMax; i++) {
+		for (int i = slotMin; i < slotMax; i++) {
 			ItemStack itemStack = getStackInSlot(i);
 			if (itemStack == null) {
 				setInventorySlotContents(i, output);

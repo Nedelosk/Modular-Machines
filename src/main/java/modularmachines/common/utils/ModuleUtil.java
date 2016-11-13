@@ -1,11 +1,12 @@
 package modularmachines.common.utils;
 
-import modularmachines.api.modules.handlers.inventory.IModuleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import modularmachines.api.modules.handlers.inventory.IModuleInventory;
 
 public class ModuleUtil {
 

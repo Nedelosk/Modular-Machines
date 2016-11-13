@@ -1,10 +1,11 @@
 package modularmachines.api.recipes;
 
+import net.minecraft.nbt.NBTBase;
+
 import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyBuilder;
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.property.IPropertySetter;
-import net.minecraft.nbt.NBTBase;
 
 public interface IRecipeBuilder extends IPropertyBuilder, IPropertySetter<IRecipeBuilder> {
 

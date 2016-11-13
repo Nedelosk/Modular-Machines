@@ -4,12 +4,6 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import modularmachines.api.gui.Button;
-import modularmachines.api.gui.IButtonManager;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.IGuiProvider;
-import modularmachines.api.gui.IWidgetManager;
-import modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -21,6 +15,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import modularmachines.api.gui.Button;
+import modularmachines.api.gui.IButtonManager;
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.IGuiProvider;
+import modularmachines.api.gui.IWidgetManager;
+import modularmachines.common.utils.RenderUtil;
 
 public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer implements IGuiBase<H> {
 

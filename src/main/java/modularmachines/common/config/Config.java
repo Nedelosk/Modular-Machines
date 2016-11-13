@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import modularmachines.api.modules.IModuleConfigurable;
 import modularmachines.api.modules.IModulePropertiesConfigurable;
 import modularmachines.api.modules.ModuleManager;
@@ -11,10 +16,6 @@ import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleItemContainer;
 import modularmachines.common.core.Constants;
 import modularmachines.common.utils.Log;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Config {
 
@@ -122,21 +123,16 @@ public class Config {
 		pluginTheOneProbe = config.get(plugins.name, "The One Probe", true).getBoolean();
 		// Ores
 		generateOre = config.get(oreGen.name, "Ore Generation", new boolean[] { true, true, true, true, true, true }, "Ore Generation for Copper, Tin, Silver, Lead, Nickel, Aluminium").getBooleanList();
-
-		topShowProgressByDefault = config.getBoolean("topShowProgressByDefault", top.name, topShowProgressByDefault,
-				"If true, the progress will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
-		topShowPowerByDefault = config.getBoolean("topShowPowerByDefault", top.name, topShowPowerByDefault,
-				"If true, the power level will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
-		topShowKineticByDefault = config.getBoolean("topShowKineticByDefault", top.name, topShowPowerByDefault,
-				"If true, the kinetic power will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
-		topShowTanksByDefault = config.getBoolean("topShowTanksByDefault", top.name, topShowTanksByDefault,
-				"If true, the tank content will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowProgressByDefault = config.getBoolean("topShowProgressByDefault", top.name, topShowProgressByDefault, "If true, the progress will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowPowerByDefault = config.getBoolean("topShowPowerByDefault", top.name, topShowPowerByDefault, "If true, the power level will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowKineticByDefault = config.getBoolean("topShowKineticByDefault", top.name, topShowPowerByDefault, "If true, the kinetic power will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
+		topShowTanksByDefault = config.getBoolean("topShowTanksByDefault", top.name, topShowTanksByDefault, "If true, the tank content will be shown always, otherwise only it will only be shown on 'extended' mode (e.g. with shift pressed)");
 	}
 
 	public static void processModuleConfig() {
-		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
+		for (IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
 			if (itemContainer != null) {
-				for(IModuleContainer container : itemContainer.getContainers()) {
+				for (IModuleContainer container : itemContainer.getContainers()) {
 					if (container.getModule() instanceof IModuleConfigurable) {
 						((IModuleConfigurable) container.getModule()).processConfig(container, config);
 					}

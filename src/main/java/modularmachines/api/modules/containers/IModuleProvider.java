@@ -4,11 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modules.state.IModuleState;
 
 public interface IModuleProvider extends INBTSerializable<NBTTagCompound>, Iterable<IModuleState> {
 

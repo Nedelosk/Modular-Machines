@@ -2,15 +2,6 @@ package modularmachines.common.blocks.tile;
 
 import java.util.EnumMap;
 
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
-import modularmachines.api.energy.IEnergyBuffer;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.client.model.ModelModular;
-import modularmachines.common.modular.ModularHandlerTileEntity;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
@@ -28,8 +19,18 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
+import ic2.api.energy.tile.IEnergyEmitter;
+import ic2.api.energy.tile.IEnergySink;
+import modularmachines.api.energy.IEnergyBuffer;
+import modularmachines.api.modular.ModularManager;
+import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
+import modularmachines.client.model.ModelModular;
+import modularmachines.common.modular.ModularHandlerTileEntity;
+
 @Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHLib"), @Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHLib"),
-	@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
+		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergyReceiver, IEnergySink {
 
 	@CapabilityInject(ITeslaConsumer.class)
@@ -45,7 +46,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	public TileModular() {
 		this.modularHandler = new ModularHandlerTileEntity(ModularManager.DEFAULT_STORAGE_POSITIONS);
 		modularHandler.setTile(this);
-		for(EnumFacing face : EnumFacing.VALUES) {
+		for (EnumFacing face : EnumFacing.VALUES) {
 			sides.put(face, new SideCapability(face));
 		}
 	}
@@ -285,7 +286,7 @@ public class TileModular extends TileBaseGui implements IEnergyProvider, IEnergy
 	 * energyInterface.getSourceTier(); } } return tier; }
 	 */
 	@Optional.InterfaceList({ @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"), @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla"),
-		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla") })
+			@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla") })
 	private class SideCapability implements ITeslaConsumer, ITeslaHolder, ITeslaProducer, IEnergyStorage {
 
 		private EnumFacing facing;

@@ -1,5 +1,8 @@
 package modularmachines.common.plugins.forestry.handlers;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.DefaultBeeListener;
 import forestry.api.apiculture.IBee;
@@ -8,8 +11,6 @@ import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeekeepingMode;
 import forestry.api.apiculture.IHiveFrame;
 import modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class ModuleBeeListener extends DefaultBeeListener {
 
@@ -27,7 +28,7 @@ public class ModuleBeeListener extends DefaultBeeListener {
 	public void wearOutEquipment(int amount) {
 		IBeekeepingMode beekeepingMode = BeeManager.beeRoot.getBeekeepingMode(beeHousing.getWorldObj());
 		int wear = Math.round(amount * beekeepingMode.getWearModifier());
-		for(int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			ItemStack hiveFrameStack = frameHousingInventory.getStackInSlot(i);
 			if (hiveFrameStack == null) {
 				continue;

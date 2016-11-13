@@ -3,13 +3,14 @@ package modularmachines.common.recipse;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.nbt.NBTBase;
+
 import modularmachines.api.property.IProperty;
 import modularmachines.api.property.IPropertyJson;
 import modularmachines.api.property.IPropertyProvider;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeBuilder;
 import modularmachines.api.recipes.Recipe;
-import net.minecraft.nbt.NBTBase;
 
 public class RecipeBuilder implements IRecipeBuilder {
 

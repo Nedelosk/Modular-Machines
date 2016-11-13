@@ -1,8 +1,5 @@
 package modularmachines.api.modules.handlers.inventory.slots;
 
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.handlers.inventory.IModuleInventory;
-import modularmachines.api.modules.handlers.inventory.SlotInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.SlotItemHandler;
+
+import modularmachines.api.modules.IModulePage;
+import modularmachines.api.modules.handlers.inventory.IModuleInventory;
+import modularmachines.api.modules.handlers.inventory.SlotInfo;
 
 public class SlotModule extends SlotItemHandler {
 

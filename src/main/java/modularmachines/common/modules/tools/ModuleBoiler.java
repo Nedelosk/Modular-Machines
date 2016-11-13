@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.energy.HeatLevel;
 import modularmachines.api.energy.HeatManager;
 import modularmachines.api.energy.IHeatSource;
@@ -43,12 +50,6 @@ import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.plugins.jei.CategoryUIDs;
 import modularmachines.common.plugins.jei.JeiPlugin;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleBoiler extends ModuleControlled implements IModuleTool, IModulePositioned, IModuleColoredItem, IModuleJEI, IModuleBoilerProperties {
 

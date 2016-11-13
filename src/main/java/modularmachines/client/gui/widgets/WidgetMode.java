@@ -3,6 +3,11 @@ package modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
+
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.Widget;
 import modularmachines.api.modules.state.IModuleState;
@@ -12,10 +17,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncToolMode;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.SoundEvents;
 
 public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 

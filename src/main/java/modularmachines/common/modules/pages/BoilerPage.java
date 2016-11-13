@@ -1,5 +1,7 @@
 package modularmachines.common.modules.pages;
 
+import net.minecraftforge.fluids.FluidRegistry;
+
 import modularmachines.api.modules.handlers.filters.FluidFilter;
 import modularmachines.api.modules.handlers.filters.ItemFilterFluid;
 import modularmachines.api.modules.handlers.filters.OutputFilter;
@@ -7,7 +9,6 @@ import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import modularmachines.api.modules.handlers.tank.IModuleTankBuilder;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.tools.IModuleTool;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class BoilerPage extends MainPage<IModuleTool> {
 

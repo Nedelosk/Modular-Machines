@@ -3,6 +3,10 @@ package modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.gui.IGuiBase;
 import modularmachines.api.gui.Widget;
 import modularmachines.api.modular.IModularAssembler;
@@ -13,9 +17,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSelectAssemblerPosition;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 

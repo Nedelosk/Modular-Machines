@@ -1,12 +1,13 @@
 package modularmachines.common.inventory.slots;
 
-import modularmachines.api.ItemUtil;
-import modularmachines.api.recipes.IModuleCrafterRecipe;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+
+import modularmachines.api.ItemUtil;
+import modularmachines.api.recipes.IModuleCrafterRecipe;
 
 public class SlotModuleCrafterHolder extends SlotModuleCrafter {
 
@@ -19,7 +20,7 @@ public class SlotModuleCrafterHolder extends SlotModuleCrafter {
 		if (stack == null) {
 			return false;
 		}
-		for(IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
+		for (IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
 			if (recipe instanceof IModuleCrafterRecipe) {
 				IModuleCrafterRecipe crafterRecipe = (IModuleCrafterRecipe) recipe;
 				if (crafterRecipe.getHolder() == null) {

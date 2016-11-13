@@ -2,6 +2,12 @@ package modularmachines.common.items;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.material.IMaterial;
 import modularmachines.api.material.MaterialList;
 import modularmachines.client.model.ModelManager;
@@ -10,11 +16,6 @@ import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.content.IColoredItem;
 import modularmachines.common.utils.content.IItemModelRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMetal extends Item implements IItemModelRegister, IColoredItem {
 
@@ -33,8 +34,8 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
 		int listIndex = 0;
-		for(MaterialList list : materials) {
-			for(IMaterial material : list.getMaterials()) {
+		for (MaterialList list : materials) {
+			for (IMaterial material : list.getMaterials()) {
 				manager.registerItemModel(item, listIndex * 10 + list.getIndex(material), "components/" + uln);
 			}
 			listIndex++;
@@ -48,8 +49,8 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List subItems) {
-		for(MaterialList list : materials) {
-			for(IMaterial material : list.getMaterials()) {
+		for (MaterialList list : materials) {
+			for (IMaterial material : list.getMaterials()) {
 				subItems.add(getStack(material));
 			}
 		}
@@ -71,7 +72,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 
 	public ItemStack getStack(IMaterial material, int size) {
 		int listIndex = 0;
-		for(MaterialList list : materials) {
+		for (MaterialList list : materials) {
 			int index = list.getIndex(material);
 			if (index > -1) {
 				return new ItemStack(this, size, listIndex * 10 + index);
@@ -87,7 +88,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 
 	public ItemStack getStack(String oreDict, int size) {
 		int listIndex = 0;
-		for(MaterialList list : materials) {
+		for (MaterialList list : materials) {
 			int index = list.getIndex(list.getFromOre(oreDict));
 			if (index > -1) {
 				return new ItemStack(this, size, listIndex * 10 + index);

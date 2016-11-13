@@ -2,10 +2,11 @@ package modularmachines.common.modules.pages;
 
 import java.util.Locale;
 
+import net.minecraft.util.text.translation.I18n;
+
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModulePage;
 import modularmachines.api.modules.state.IModuleState;
-import net.minecraft.util.text.translation.I18n;
 
 public class MainPage<M extends IModule> extends ModulePage<M> {
 

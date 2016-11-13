@@ -1,9 +1,10 @@
 package modularmachines.api.modules.handlers.filters;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, IModule> {
 

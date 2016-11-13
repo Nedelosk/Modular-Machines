@@ -1,11 +1,12 @@
 package modularmachines.api.modules.handlers.energy;
 
-import modularmachines.api.energy.IEnergyBuffer;
-import modularmachines.api.modules.handlers.BlankModuleContentHandler;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import modularmachines.api.energy.IEnergyBuffer;
+import modularmachines.api.modules.handlers.BlankModuleContentHandler;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ModuleEnergyBuffer extends BlankModuleContentHandler implements IEnergyBuffer, INBTSerializable<NBTTagCompound> {
 

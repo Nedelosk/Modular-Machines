@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.client.Minecraft;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -13,7 +15,6 @@ import mezz.jei.api.ingredients.IIngredients;
 import modularmachines.common.plugins.jei.CategoryUIDs;
 import modularmachines.common.plugins.jei.ModuleRecipeCategory;
 import modularmachines.common.plugins.jei.ModuleRecipeWrapper;
-import net.minecraft.client.Minecraft;
 
 public class AlloySmelterRecipeCategory extends ModuleRecipeCategory {
 

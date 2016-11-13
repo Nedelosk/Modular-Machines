@@ -3,9 +3,10 @@ package modularmachines.common.modules.transport;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.modules.transport.TransportCyclePage;
 import modularmachines.client.gui.widgets.WidgetTextField;
-import net.minecraftforge.items.IItemHandler;
 
 public class ItemTransportCyclePage extends TransportCyclePage<IItemHandler, ItemTransportCycle> {
 

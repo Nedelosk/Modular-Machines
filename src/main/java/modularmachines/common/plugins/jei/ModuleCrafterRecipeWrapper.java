@@ -7,11 +7,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.item.ItemStack;
+
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import modularmachines.api.recipes.IModuleCrafterRecipe;
-import net.minecraft.item.ItemStack;
 
 public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper {
 
@@ -22,7 +23,7 @@ public class ModuleCrafterRecipeWrapper extends BlankRecipeWrapper implements IS
 
 	public ModuleCrafterRecipeWrapper(@Nonnull IModuleCrafterRecipe recipe) {
 		this.recipe = recipe;
-		for(Object input : this.recipe.getInput()) {
+		for (Object input : this.recipe.getInput()) {
 			if (input instanceof ItemStack) {
 				ItemStack itemStack = (ItemStack) input;
 				if (itemStack.stackSize != 1) {

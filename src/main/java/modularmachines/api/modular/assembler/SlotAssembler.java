@@ -1,9 +1,10 @@
 package modularmachines.api.modular.assembler;
 
-import modularmachines.api.modules.storage.IStoragePage;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+
+import modularmachines.api.modules.storage.IStoragePage;
 
 public class SlotAssembler extends SlotItemHandler {
 

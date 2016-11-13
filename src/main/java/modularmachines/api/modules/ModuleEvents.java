@@ -1,11 +1,12 @@
 package modularmachines.api.modules;
 
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modules.state.IModuleState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
+
+import modularmachines.api.modular.IModular;
+import modularmachines.api.modules.state.IModuleState;
 
 public class ModuleEvents {
 

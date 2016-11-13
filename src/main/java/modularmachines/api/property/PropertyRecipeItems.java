@@ -2,10 +2,11 @@ package modularmachines.api.property;
 
 import com.google.gson.JsonArray;
 
-import modularmachines.api.recipes.IRecipe;
-import modularmachines.api.recipes.RecipeItem;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+
+import modularmachines.api.recipes.IRecipe;
+import modularmachines.api.recipes.RecipeItem;
 
 public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompound, IRecipe> implements IPropertyJson<RecipeItem[], NBTTagCompound, IRecipe, JsonArray> {
 
@@ -28,7 +29,7 @@ public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompou
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		NBTTagList tagList = new NBTTagList();
 		int maxIndex = 0;
-		for(RecipeItem item : value) {
+		for (RecipeItem item : value) {
 			if (item != null) {
 				if (item.index > maxIndex) {
 					maxIndex = item.index;
@@ -47,7 +48,7 @@ public class PropertyRecipeItems extends PropertyBase<RecipeItem[], NBTTagCompou
 	public RecipeItem[] readFromNBT(NBTTagCompound nbt, IRecipe state) {
 		NBTTagList tagList = nbt.getTagList("Items", 10);
 		RecipeItem[] items = new RecipeItem[nbt.getInteger("MaxIndex") + 1];
-		for(int i = 0; i < tagList.tagCount(); i++) {
+		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound nbtTag = tagList.getCompoundTagAt(i);
 			RecipeItem item = RecipeItem.loadFromNBT(nbtTag);
 			items[item.index] = item;

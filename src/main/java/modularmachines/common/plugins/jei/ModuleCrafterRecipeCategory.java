@@ -2,6 +2,8 @@ package modularmachines.common.plugins.jei;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.util.ResourceLocation;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -10,7 +12,6 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.util.Translator;
-import net.minecraft.util.ResourceLocation;
 
 public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCrafterRecipeWrapper> {
 
@@ -55,8 +56,8 @@ public class ModuleCrafterRecipeCategory extends BlankRecipeCategory<ModuleCraft
 	public void setRecipe(IRecipeLayout recipeLayout, ModuleCrafterRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 		guiItemStacks.init(craftOutputSlot, false, 122, 18);
-		for(int y = 0; y < 3; ++y) {
-			for(int x = 0; x < 3; ++x) {
+		for (int y = 0; y < 3; ++y) {
+			for (int x = 0; x < 3; ++x) {
 				int index = craftInputSlot1 + x + (y * 3);
 				guiItemStacks.init(index, true, 27 + x * 18, y * 18);
 			}

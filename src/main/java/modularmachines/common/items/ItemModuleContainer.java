@@ -4,17 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.containers.IModuleItemProvider;
-import modularmachines.api.modules.containers.ModuleItemProvider;
-import modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
-import modularmachines.api.modules.handlers.IModuleContentHandler;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.Registry;
-import modularmachines.common.utils.Translator;
-import modularmachines.common.utils.content.IColoredItem;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +20,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.containers.IModuleItemProvider;
+import modularmachines.api.modules.containers.ModuleItemProvider;
+import modularmachines.api.modules.handlers.IAdvancedModuleContentHandler;
+import modularmachines.api.modules.handlers.IModuleContentHandler;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.Registry;
+import modularmachines.common.utils.Translator;
+import modularmachines.common.utils.content.IColoredItem;
+import modularmachines.common.utils.content.IItemModelRegister;
+
 public class ItemModuleContainer extends Item implements IColoredItem, IItemModelRegister {
 
 	public ItemModuleContainer() {
@@ -46,10 +47,10 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 				ItemStack providerStack = moduleProvider.getItemStack().copy();
 				boolean dropItems = !world.isRemote;
 				List<ItemStack> drops = Lists.newArrayList();
-				for(IModuleState moduleState : moduleProvider) {
+				for (IModuleState moduleState : moduleProvider) {
 					if (moduleState != null) {
 						if (dropItems) {
-							for(IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
+							for (IModuleContentHandler handler : moduleState.getAllContentHandlers()) {
 								if (handler instanceof IAdvancedModuleContentHandler) {
 									drops.addAll(((IAdvancedModuleContentHandler) handler).getDrops());
 								}
@@ -59,7 +60,7 @@ public class ItemModuleContainer extends Item implements IColoredItem, IItemMode
 					}
 				}
 				if (dropItems) {
-					for(ItemStack stack : drops) {
+					for (ItemStack stack : drops) {
 						ItemHandlerHelper.giveItemToPlayer(player, stack);
 					}
 				}

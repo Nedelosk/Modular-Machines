@@ -4,10 +4,11 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import modularmachines.api.gui.IGuiProvider;
-import modularmachines.api.gui.IPage;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.InventoryPlayer;
+
+import modularmachines.api.gui.IGuiProvider;
+import modularmachines.api.gui.IPage;
 
 public class GuiPage<H extends IGuiProvider> extends GuiBase<H> {
 

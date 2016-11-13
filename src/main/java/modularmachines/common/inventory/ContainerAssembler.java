@@ -3,17 +3,18 @@ package modularmachines.common.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modular.IModularAssembler;
 import modularmachines.api.modular.assembler.IAssemblerContainer;
 import modularmachines.api.modular.assembler.SlotAssemblerStorage;
 import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.storage.IStoragePage;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class ContainerAssembler extends BaseContainer<IModularHandler> implements IAssemblerContainer {
 
@@ -35,7 +36,7 @@ public class ContainerAssembler extends BaseContainer<IModularHandler> implement
 		} else {
 			List<Slot> slots = new ArrayList<>();
 			page.createSlots(this, slots);
-			for(Slot slot : slots) {
+			for (Slot slot : slots) {
 				addSlotToContainer(slot);
 			}
 		}

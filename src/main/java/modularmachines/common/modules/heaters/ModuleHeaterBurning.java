@@ -2,6 +2,11 @@ package modularmachines.common.modules.heaters;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModulePage;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleProvider;
@@ -13,10 +18,6 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.state.IModuleStateClient;
 import modularmachines.api.property.PropertyInteger;
 import modularmachines.common.modules.pages.BurningHeaterPage;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBurning {
 

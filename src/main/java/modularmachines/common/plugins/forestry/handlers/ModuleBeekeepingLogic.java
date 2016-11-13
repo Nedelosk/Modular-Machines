@@ -1,11 +1,12 @@
 package modularmachines.common.plugins.forestry.handlers;
 
-import forestry.apiculture.BeekeepingLogic;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.plugins.forestry.network.PacketBeeLogicActiveModule;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
+import forestry.apiculture.BeekeepingLogic;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.plugins.forestry.network.PacketBeeLogicActiveModule;
 
 public class ModuleBeekeepingLogic extends BeekeepingLogic {
 

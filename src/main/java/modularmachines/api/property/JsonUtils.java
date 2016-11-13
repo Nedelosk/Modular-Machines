@@ -5,15 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import modularmachines.api.modules.EnumModuleSizes;
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModuleProperties;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.api.modules.containers.ModuleContainer;
-import modularmachines.api.modules.json.ModuleLoaderRegistry;
-import modularmachines.api.recipes.OreStack;
-import modularmachines.api.recipes.RecipeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -25,6 +16,16 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import modularmachines.api.modules.EnumModuleSizes;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleProperties;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.ModuleContainer;
+import modularmachines.api.modules.json.ModuleLoaderRegistry;
+import modularmachines.api.recipes.OreStack;
+import modularmachines.api.recipes.RecipeItem;
+
 public class JsonUtils {
 
 	public static RecipeItem[] parseRecipeItem(JsonArray jsonRecipe) {
@@ -33,7 +34,7 @@ public class JsonUtils {
 			item = null;
 		}
 		item = new RecipeItem[jsonRecipe.size()];
-		for(int i = 0; i < jsonRecipe.size(); i++) {
+		for (int i = 0; i < jsonRecipe.size(); i++) {
 			try {
 				JsonElement recipeElement = jsonRecipe.get(i);
 				if (!recipeElement.isJsonObject()) {
@@ -73,7 +74,7 @@ public class JsonUtils {
 
 	public static JsonArray writeRecipeItem(RecipeItem[] items) {
 		JsonArray array = new JsonArray();
-		for(RecipeItem item : items) {
+		for (RecipeItem item : items) {
 			JsonObject json = new JsonObject();
 			json.addProperty("Chance", item.chance);
 			if (item.isItem()) {

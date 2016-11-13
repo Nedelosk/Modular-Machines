@@ -13,14 +13,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 
-import modularmachines.api.modules.EnumModuleSizes;
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.api.modules.containers.IModuleItemContainer;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.modules.state.IModuleStateClient;
-import modularmachines.api.modules.storage.IStorage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -36,6 +28,15 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.EnumModuleSizes;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleItemContainer;
+import modularmachines.api.modules.state.IModuleState;
+import modularmachines.api.modules.state.IModuleStateClient;
+import modularmachines.api.modules.storage.IStorage;
+
 @SideOnly(Side.CLIENT)
 public class ModuleModelLoader {
 
@@ -49,13 +50,13 @@ public class ModuleModelLoader {
 		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
-		for(IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
+		for (IModuleItemContainer itemContainer : ModuleManager.MODULE_CONTAINERS) {
 			if (itemContainer != null) {
-				for(IModuleContainer moduleContainer : itemContainer.getContainers()) {
+				for (IModuleContainer moduleContainer : itemContainer.getContainers()) {
 					IModule module = moduleContainer.getModule();
 					Map<ResourceLocation, ResourceLocation> locatons = module.getModelLocations(itemContainer);
 					if (locatons != null && !locatons.isEmpty()) {
-						for(Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()) {
+						for (Entry<ResourceLocation, ResourceLocation> locaton : locatons.entrySet()) {
 							if (locaton != null && !modelLocations.contains(locaton.getKey())) {
 								Builder<VertexFormat, IBakedModel> baker = new Builder<>();
 								IModel model;
@@ -100,7 +101,7 @@ public class ModuleModelLoader {
 			}
 		}
 		ModuleModelLoader.models = modelBaker.build();
-		for(Exception e : loadingExceptions.values()) {
+		for (Exception e : loadingExceptions.values()) {
 			e.printStackTrace();
 		}
 	}

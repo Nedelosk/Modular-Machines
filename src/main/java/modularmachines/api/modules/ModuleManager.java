@@ -10,6 +10,16 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistry;
+
 import modularmachines.api.material.IMetalMaterial;
 import modularmachines.api.modular.IModular;
 import modularmachines.api.modules.containers.IModuleContainer;
@@ -20,15 +30,6 @@ import modularmachines.api.modules.containers.ModuleProvider;
 import modularmachines.api.modules.position.IStoragePosition;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.IStorageModule;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class ModuleManager {
 
@@ -52,7 +53,7 @@ public class ModuleManager {
 
 	public static IModuleItemContainer register(IModuleItemContainer itemContainer) {
 		String registryName = "";
-		for(IModuleContainer modulContainer : itemContainer.getContainers()) {
+		for (IModuleContainer modulContainer : itemContainer.getContainers()) {
 			registryName += modulContainer.getModule().getRegistryName().getResourcePath();
 		}
 		return register(itemContainer, registryName);
@@ -81,7 +82,7 @@ public class ModuleManager {
 		if (itemContainer != null) {
 			return itemContainer;
 		}
-		for(IModuleItemContainer container : MODULE_CONTAINERS) {
+		for (IModuleItemContainer container : MODULE_CONTAINERS) {
 			if (container.matches(stack)) {
 				return container;
 			}
@@ -115,7 +116,7 @@ public class ModuleManager {
 	public static ItemStack saveModuleStateToItem(IModuleProvider provider) {
 		if (provider != null) {
 			ItemStack stack = provider.getItemStack().copy();
-			for(IModuleState state : provider.getModuleStates()) {
+			for (IModuleState state : provider.getModuleStates()) {
 				if (state != null) {
 					state.getModule().saveDataToItem(stack, state);
 				}
@@ -126,13 +127,13 @@ public class ModuleManager {
 				itemProvider.setItemStack(stack);
 				if (provider != null) {
 					List<IModuleState> moduleStates = new ArrayList<>();
-					for(IModuleState state : provider.getModuleStates()) {
+					for (IModuleState state : provider.getModuleStates()) {
 						if (!state.getModule().isClean(state)) {
 							moduleStates.add(state);
 						}
 					}
 					if (!moduleStates.isEmpty()) {
-						for(IModuleState moduleState : moduleStates) {
+						for (IModuleState moduleState : moduleStates) {
 							itemProvider.addModuleState(moduleState);
 						}
 					}
@@ -178,7 +179,7 @@ public class ModuleManager {
 	public static List<IModuleState> createModuleState(IModuleProvider provider, IModuleItemContainer itemContainer) {
 		if (itemContainer != null) {
 			List<IModuleState> moduleStates = new ArrayList<>();
-			for(IModuleContainer container : itemContainer.getContainers()) {
+			for (IModuleContainer container : itemContainer.getContainers()) {
 				if (container != null) {
 					IModuleState state = container.getModule().createState(provider, container);
 					if (state != null) {
@@ -193,7 +194,7 @@ public class ModuleManager {
 	}
 
 	public static IModuleState<IStorageModule> getStorageState(IModuleProvider provider, IStoragePosition position) {
-		for(IModuleState moduleState : provider.getModuleStates()) {
+		for (IModuleState moduleState : provider.getModuleStates()) {
 			IModule module = moduleState.getModule();
 			if (module instanceof IStorageModule) {
 				IStorageModule storageModule = (IStorageModule) module;
@@ -209,7 +210,7 @@ public class ModuleManager {
 		if (itemContainer == null) {
 			return null;
 		}
-		for(IModuleContainer moduleContainer : itemContainer.getContainers()) {
+		for (IModuleContainer moduleContainer : itemContainer.getContainers()) {
 			IModule module = moduleContainer.getModule();
 			if (module instanceof IStorageModule) {
 				IStorageModule storageModule = (IStorageModule) module;
@@ -231,11 +232,11 @@ public class ModuleManager {
 		IModuleProvider provider = new ModuleProvider(itemContainer, modular, itemProvider != null ? itemProvider.getItemStack() : stack);
 		Map<Boolean, IModuleState> moduleStates = new HashMap<>();
 		if (itemProvider != null) {
-			for(IModuleState moduleState : itemProvider) {
+			for (IModuleState moduleState : itemProvider) {
 				moduleStates.put(true, moduleState);
 			}
-			CONTAINERS: for(IModuleContainer container : itemContainer.getContainers()) {
-				for(IModuleState moduleState : moduleStates.values()) {
+			CONTAINERS: for (IModuleContainer container : itemContainer.getContainers()) {
+				for (IModuleState moduleState : moduleStates.values()) {
 					if (moduleState.getContainer() == container) {
 						continue CONTAINERS;
 					}
@@ -243,11 +244,11 @@ public class ModuleManager {
 				moduleStates.put(false, createModuleState(provider, itemContainer, container.getIndex()));
 			}
 		} else {
-			for(IModuleState moduleState : createModuleState(provider, itemContainer)) {
+			for (IModuleState moduleState : createModuleState(provider, itemContainer)) {
 				moduleStates.put(true, moduleState);
 			}
 		}
-		for(Entry<Boolean, IModuleState> stateEntry : moduleStates.entrySet()) {
+		for (Entry<Boolean, IModuleState> stateEntry : moduleStates.entrySet()) {
 			if (stateEntry.getKey()) {
 				IModuleState state = stateEntry.getValue();
 				if (state != null) {
@@ -256,7 +257,7 @@ public class ModuleManager {
 				}
 			}
 		}
-		for(IModuleState moduleState : moduleStates.values()) {
+		for (IModuleState moduleState : moduleStates.values()) {
 			provider.addModuleState(moduleState);
 		}
 		return provider;
@@ -267,7 +268,7 @@ public class ModuleManager {
 			return Collections.emptyList();
 		}
 		List<IModuleState> modulesWithPages = Lists.newArrayList();
-		for(IModuleState moduleState : modular.getModules()) {
+		for (IModuleState moduleState : modular.getModules()) {
 			if (moduleState != null && !moduleState.getPages().isEmpty()) {
 				modulesWithPages.add(moduleState);
 			}
@@ -297,7 +298,7 @@ public class ModuleManager {
 		nbtTag.setString("Material", container.getMaterial().getName());
 		nbtTag.setString("Size", container.getSize().getName());
 		String moduleName = "";
-		for(IModuleContainer moduleContainer : container.getContainers()) {
+		for (IModuleContainer moduleContainer : container.getContainers()) {
 			moduleName += "." + moduleContainer.getDisplayName();
 		}
 		nbtTag.setString("ModuleName", moduleName.replaceFirst(".", ""));
@@ -325,7 +326,7 @@ public class ModuleManager {
 		if (material != null) {
 			if (!materialsWithHolder.containsKey(material)) {
 				ItemStack[] holders = new ItemStack[3];
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					ItemStack stack = new ItemStack(defaultModuleHolderItem, 1, i);
 					NBTTagCompound nbtTag = new NBTTagCompound();
 					nbtTag.setString("Material", material.getName());

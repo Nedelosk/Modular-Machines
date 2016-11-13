@@ -32,7 +32,7 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 		if (slotFilters.get(index) == null || slotFilters.get(index).isEmpty()) {
 			return !isInput;
 		}
-		for(IContentFilter<C, M> filter : slotFilters.get(index)) {
+		for (IContentFilter<C, M> filter : slotFilters.get(index)) {
 			if (filter.isValid(index, content, state)) {
 				return true;
 			}
@@ -44,7 +44,7 @@ public class FilterWrapper<C, M extends IModule> implements IContentFilter<C, M>
 		if (!slotFilters.containsKey(index)) {
 			slotFilters.put(index, new ArrayList());
 		}
-		for(IContentFilter<C, M> filter : filters) {
+		for (IContentFilter<C, M> filter : filters) {
 			slotFilters.get(index).add(filter);
 		}
 	}

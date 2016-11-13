@@ -3,12 +3,13 @@ package modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.gui.IGuiBase;
+import modularmachines.api.gui.Widget;
+import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class WidgetWashing extends Widget {

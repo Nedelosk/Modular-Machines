@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 
+import net.minecraftforge.fml.common.Loader;
+
 import modularmachines.common.plugins.enderio.PluginEnderIO;
 import modularmachines.common.plugins.forestry.PluginForestry;
 import modularmachines.common.plugins.ic2.PluginIC2;
 import modularmachines.common.plugins.mekanism.PluginMekanism;
 import modularmachines.common.plugins.theoneprobe.PluginTheOneProbe;
 import modularmachines.common.utils.Log;
-import net.minecraftforge.fml.common.Loader;
 
 public class PluginManager {
 
@@ -23,7 +24,7 @@ public class PluginManager {
 	}
 
 	private void loadPlugins() {
-		for(APlugin plugin : registeredPlugins) {
+		for (APlugin plugin : registeredPlugins) {
 			if ((Loader.isModLoaded(plugin.getRequiredMod()) || plugin.getRequiredMod() == null) && plugin.isActive()) {
 				loadedPlugins.add(plugin);
 			}
@@ -38,7 +39,7 @@ public class PluginManager {
 		registerPlugin(new PluginMekanism());
 		registerPlugin(new PluginForestry());
 		loadPlugins();
-		for(APlugin plugin : loadedPlugins) {
+		for (APlugin plugin : loadedPlugins) {
 			try {
 				plugin.preInit();
 			} catch (Exception e) {
@@ -48,7 +49,7 @@ public class PluginManager {
 	}
 
 	public void postInit() {
-		for(APlugin plugin : loadedPlugins) {
+		for (APlugin plugin : loadedPlugins) {
 			try {
 				plugin.postInit();
 			} catch (Exception e) {
@@ -58,7 +59,7 @@ public class PluginManager {
 	}
 
 	public void init() {
-		for(APlugin plugin : loadedPlugins) {
+		for (APlugin plugin : loadedPlugins) {
 			try {
 				plugin.init();
 				plugin.registerRecipes();

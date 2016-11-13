@@ -1,5 +1,9 @@
 package modularmachines.common.core.managers;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import modularmachines.common.blocks.BlockMetalBlock;
 import modularmachines.common.blocks.BlockModular;
 import modularmachines.common.blocks.BlockModuleCrafter;
@@ -10,9 +14,6 @@ import modularmachines.common.core.Registry;
 import modularmachines.common.items.blocks.ItemBlockForest;
 import modularmachines.common.items.blocks.ItemBlockMetalBlock;
 import modularmachines.common.items.blocks.ItemBlockModular;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockManager {
 

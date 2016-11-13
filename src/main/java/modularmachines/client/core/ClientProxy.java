@@ -5,14 +5,6 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import modularmachines.api.gui.GuiManager;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.containers.IModuleItemContainer;
-import modularmachines.client.gui.GuiHelper;
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.CommonProxy;
-import modularmachines.common.core.Constants;
-import modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -28,6 +20,15 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+
+import modularmachines.api.gui.GuiManager;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.containers.IModuleItemContainer;
+import modularmachines.client.gui.GuiHelper;
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.CommonProxy;
+import modularmachines.common.core.Constants;
+import modularmachines.common.utils.Translator;
 
 public class ClientProxy extends CommonProxy {
 
@@ -52,7 +53,7 @@ public class ClientProxy extends CommonProxy {
 				List<String> moduleTooltip = new ArrayList<>();
 				tooltip.add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
 				container.addTooltip(moduleTooltip, itemStack);
-				for(String s : moduleTooltip) {
+				for (String s : moduleTooltip) {
 					tooltip.add(TextFormatting.DARK_GREEN + s);
 				}
 			} else {

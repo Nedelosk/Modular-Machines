@@ -5,6 +5,14 @@ import java.util.List;
 
 import com.google.common.base.Function;
 
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modular.ExpandedStoragePositions;
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.EnumWallType;
@@ -20,13 +28,6 @@ import modularmachines.api.modules.state.IModuleStateClient;
 import modularmachines.api.modules.storage.IStorage;
 import modularmachines.api.modules.storage.module.IDefaultModuleStorage;
 import modularmachines.api.modules.storage.module.IModuleModuleStorage;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage> implements IModelHandler<IModuleModuleStorage> {
@@ -57,13 +58,13 @@ public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage
 			List<IBakedModel> models = new ArrayList<>();
 			models.add(ModuleModelLoader.getModel(storageModel, format));
 			List<IModuleState> modules = new ArrayList<>();
-			for(IModuleState stateStoraged : moduleStorage.getModules()) {
+			for (IModuleState stateStoraged : moduleStorage.getModules()) {
 				if (stateStoraged != null) {
 					modules.add(stateStoraged);
 				}
 			}
 			EnumModuleSizes size = null;
-			for(IModuleState storagedState : modules) {
+			for (IModuleState storagedState : modules) {
 				if (!(storagedState.getModule() instanceof IModuleModuleStorage)) {
 					size = EnumModuleSizes.getSize(size, storagedState.getContainer().getItemContainer().getSize());
 					if (size == EnumModuleSizes.MEDIUM) {
@@ -79,7 +80,7 @@ public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage
 			List<IBakedModel> models = new ArrayList<>();
 			models.add(ModuleModelLoader.getModel(top, format));
 			List<IModuleState> modules = new ArrayList<>();
-			for(IModuleState stateStoraged : moduleStorage.getModules()) {
+			for (IModuleState stateStoraged : moduleStorage.getModules()) {
 				if (stateStoraged != null) {
 					modules.add(stateStoraged);
 				}
@@ -90,7 +91,7 @@ public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage
 			List<IBakedModel> models = new ArrayList<>();
 			models.add(ModuleModelLoader.getModel(back, format));
 			List<IModuleState> modules = new ArrayList<>();
-			for(IModuleState stateStoraged : moduleStorage.getModules()) {
+			for (IModuleState stateStoraged : moduleStorage.getModules()) {
 				if (stateStoraged != null) {
 					modules.add(stateStoraged);
 				}
@@ -106,12 +107,12 @@ public class ModelHandlerModuleStorage extends ModelHandler<IModuleModuleStorage
 		List<IBakedModel> models = new ArrayList<>();
 		EnumModuleSizes size = null;
 		List<IModuleState> modules = new ArrayList<>();
-		for(IModuleState stateStoraged : storage.getModules()) {
+		for (IModuleState stateStoraged : storage.getModules()) {
 			if (stateStoraged != null) {
 				modules.add(stateStoraged);
 			}
 		}
-		for(IModuleState moduleState : modules) {
+		for (IModuleState moduleState : modules) {
 			EnumModuleSizes moduleSize = moduleState.getContainer().getItemContainer().getSize();
 			IModule module = moduleState.getModule();
 			IModuleItemContainer itemContainer = moduleState.getContainer().getItemContainer();

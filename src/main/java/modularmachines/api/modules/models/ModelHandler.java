@@ -1,9 +1,10 @@
 package modularmachines.api.modules.models;
 
-import modularmachines.api.modules.IModule;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.IModule;
 
 @SideOnly(Side.CLIENT)
 public abstract class ModelHandler<M extends IModule> implements IModelHandler<M> {

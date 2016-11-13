@@ -2,14 +2,15 @@ package modularmachines.common.plugins.jei.lathe;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IToolMode;
 import modularmachines.api.recipes.RecipeUtil;
 import modularmachines.common.plugins.jei.ModuleRecipeWrapper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 public class LatheRecipeWrapper extends ModuleRecipeWrapper {
 

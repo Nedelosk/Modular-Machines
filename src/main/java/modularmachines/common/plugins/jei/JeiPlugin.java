@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.item.ItemStack;
+
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
@@ -39,7 +41,6 @@ import modularmachines.common.plugins.jei.lathe.LatheRecipeWrapper;
 import modularmachines.common.plugins.jei.pulverizer.PulverizerRecipeCategory;
 import modularmachines.common.plugins.jei.pulverizer.PulverizerRecipeWrapper;
 import modularmachines.common.utils.Translator;
-import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class JeiPlugin extends BlankModPlugin {
@@ -61,14 +62,14 @@ public class JeiPlugin extends BlankModPlugin {
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BlockManager.blockModular));
 		jeiHelpers.getItemBlacklist().addItemToBlacklist(new ItemStack(ModuleManager.defaultModuleItemContainer));
 		registry.addRecipeCategories(new ModuleCrafterRecipeCategory(guiHelper), new AlloySmelterRecipeCategory(guiHelper), new BoilerRecipeCategory(guiHelper), new PulverizerRecipeCategory(guiHelper), new LatheRecipeCategory(guiHelper));
-		for(IModuleItemContainer container : ModuleManager.MODULE_CONTAINERS) {
-			for(IModuleContainer moduleContainer : container.getContainers()) {
+		for (IModuleItemContainer container : ModuleManager.MODULE_CONTAINERS) {
+			for (IModuleContainer moduleContainer : container.getContainers()) {
 				IModule module = moduleContainer.getModule();
 				if (module instanceof IModuleJEI) {
 					registry.addRecipeCategoryCraftingItem(container.getItemStack(), ((IModuleJEI) module).getJEIRecipeCategorys(moduleContainer));
 				}
 				String description = moduleContainer.getDescription();
-				if (moduleContainer.getDescription() != null && Translator.canTranslateToLocal(description)) {
+				if (description != null && !description.isEmpty() && Translator.canTranslateToLocal(description)) {
 					registry.addDescription(container.getItemStack(), description);
 				}
 			}
@@ -119,8 +120,8 @@ public class JeiPlugin extends BlankModPlugin {
 		@Override
 		public Object getIngredientUnderMouse(GuiPage guiContainer, int mouseX, int mouseY) {
 			Widget widget = guiContainer.getWidgetManager().getWidgetAtMouse(mouseX, mouseY);
-			if(widget instanceof WidgetFluidTank){
-				return ((WidgetFluidTank)widget).getProvider().getFluid();
+			if (widget instanceof WidgetFluidTank) {
+				return ((WidgetFluidTank) widget).getProvider().getFluid();
 			}
 			return null;
 		}

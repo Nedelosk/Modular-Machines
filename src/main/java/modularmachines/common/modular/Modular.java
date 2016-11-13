@@ -10,6 +10,28 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.ItemUtil;
 import modularmachines.api.energy.HeatBuffer;
 import modularmachines.api.energy.IEnergyBuffer;
@@ -49,27 +71,6 @@ import modularmachines.common.inventory.ContainerModular;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class Modular implements IModular {
 
@@ -109,7 +110,7 @@ public class Modular implements IModular {
 		if (!getEnergyBuffers().isEmpty()) {
 			energyBuffer = new ModularEnergyBuffer(getEnergyBuffers());
 		}
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			if (state != null) {
 				state.getModule().onModularAssembled(state);
 			}
@@ -135,7 +136,7 @@ public class Modular implements IModular {
 	}
 
 	private IModuleState getFirstGui() {
-		for(IModuleState module : getModules()) {
+		for (IModuleState module : getModules()) {
 			if (!module.getPages().isEmpty()) {
 				return module;
 			}
@@ -151,7 +152,7 @@ public class Modular implements IModular {
 				if (modularHandler instanceof IModularHandlerTileEntity) {
 					boolean oneHeaterWork = false;
 					List<IModuleState<IModuleHeater>> heaters = getModules(IModuleHeater.class);
-					for(IModuleState<IModuleHeater> heater : heaters) {
+					for (IModuleState<IModuleHeater> heater : heaters) {
 						if (heater.getModule().isWorking(heater)) {
 							oneHeaterWork = true;
 						}
@@ -167,7 +168,7 @@ public class Modular implements IModular {
 				}
 			}
 		}
-		for(IModuleState moduleState : getModules()) {
+		for (IModuleState moduleState : getModules()) {
 			if (moduleState != null) {
 				if (moduleState.getModule() instanceof ITickable) {
 					MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModuleUpdateEvent(moduleState, isServer ? Side.SERVER : Side.CLIENT));
@@ -178,7 +179,7 @@ public class Modular implements IModular {
 						module.updateClient(moduleState, tickCount);
 					}
 				}
-				for(IModulePage page : (List<IModulePage>) moduleState.getPages()) {
+				for (IModulePage page : (List<IModulePage>) moduleState.getPages()) {
 					if (page instanceof ITickable) {
 						MinecraftForge.EVENT_BUS.post(new ModuleEvents.ModulePageUpdateEvent(moduleState, page, isServer ? Side.SERVER : Side.CLIENT));
 						ITickable tickable = (ITickable) page;
@@ -202,7 +203,7 @@ public class Modular implements IModular {
 	public void deserializeNBT(NBTTagCompound nbt) {
 		List<IStoragePosition> positions = modularHandler.getPositions().asList();
 		NBTTagList list = nbt.getTagList("Storages", 10);
-		for(int i = 0; i < list.tagCount(); i++) {
+		for (int i = 0; i < list.tagCount(); i++) {
 			try {
 				NBTTagCompound tagCompound = list.getCompoundTagAt(i);
 				IModuleItemContainer itemContainer = ModuleManager.MODULE_CONTAINERS.getValue(new ResourceLocation(tagCompound.getString("Container")));
@@ -232,7 +233,7 @@ public class Modular implements IModular {
 			if (currentModule != null && nbt.hasKey("CurrentPage")) {
 				String pageID = nbt.getString("CurrentPage");
 				IModulePage currentPage = null;
-				for(IModulePage page : (List<IModulePage>) currentModule.getPages()) {
+				for (IModulePage page : (List<IModulePage>) currentModule.getPages()) {
 					if (page.getPageID().equals(pageID)) {
 						currentPage = page;
 						break;
@@ -259,7 +260,7 @@ public class Modular implements IModular {
 			nbt.setTag("HeatBuffer", heatSource.serializeNBT());
 		}
 		NBTTagList list = new NBTTagList();
-		for(Entry<IStoragePosition, IStorage> entry : storages.entrySet()) {
+		for (Entry<IStoragePosition, IStorage> entry : storages.entrySet()) {
 			if (entry.getValue() != null) {
 				IStorage storage = entry.getValue();
 				NBTTagCompound tagCompound = new NBTTagCompound();
@@ -290,7 +291,7 @@ public class Modular implements IModular {
 
 	private ArrayList<IModuleState> getWailaModules() {
 		ArrayList<IModuleState> wailaModuleStates = Lists.newArrayList();
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			if (state.getModule() instanceof IModuleWaila) {
 				wailaModuleStates.add(state);
 			}
@@ -318,7 +319,7 @@ public class Modular implements IModular {
 	public void setCurrentPage(String pageID) {
 		if (currentModule != null) {
 			IModulePage currentPage = null;
-			for(IModulePage page : (List<IModulePage>) currentModule.getPages()) {
+			for (IModulePage page : (List<IModulePage>) currentModule.getPages()) {
 				if (page.getPageID().equals(pageID)) {
 					currentPage = page;
 					break;
@@ -354,7 +355,7 @@ public class Modular implements IModular {
 		float resistance = 0F;
 		float hardness = 0F;
 		boolean hasModificator = false;
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			IBlockModificator modificator = state.getContentHandler(IBlockModificator.class);
 			if (modificator != null) {
 				hasModificator = true;
@@ -372,9 +373,9 @@ public class Modular implements IModular {
 
 	protected List<IItemHandler> getInventorys() {
 		List<IItemHandler> handlers = Lists.newArrayList();
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			addInventory(state, handlers);
-			for(IModulePage page : (List<IModulePage>) state.getPages()) {
+			for (IModulePage page : (List<IModulePage>) state.getPages()) {
 				if (page != null) {
 					addInventory(page, handlers);
 				}
@@ -392,9 +393,9 @@ public class Modular implements IModular {
 
 	protected List<IFluidHandler> getTanks() {
 		List<IFluidHandler> fluidHandlers = Lists.newArrayList();
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			addTank(state, fluidHandlers);
-			for(IModulePage page : (List<IModulePage>) state.getPages()) {
+			for (IModulePage page : (List<IModulePage>) state.getPages()) {
 				if (page != null) {
 					addTank(page, fluidHandlers);
 				}
@@ -412,7 +413,7 @@ public class Modular implements IModular {
 
 	protected List<IEnergyBuffer> getEnergyBuffers() {
 		List<IEnergyBuffer> handlers = Lists.newArrayList();
-		for(IModuleState state : getModules()) {
+		for (IModuleState state : getModules()) {
 			IModuleContentHandler rnergyInterface = (IModuleContentHandler) state.getContentHandlerFromAll(IEnergyBuffer.class);
 			if (rnergyInterface instanceof IEnergyBuffer) {
 				handlers.add((IEnergyBuffer) rnergyInterface);
@@ -442,7 +443,7 @@ public class Modular implements IModular {
 	@Override
 	public List<IModuleState> getModules() {
 		List<IModuleState> modules = new ArrayList<>();
-		for(IStorage storage : storages.values()) {
+		for (IStorage storage : storages.values()) {
 			if (storage != null) {
 				modules.addAll(storage.getProvider().getModuleStates());
 				if (storage instanceof IModuleStorage) {
@@ -460,7 +461,7 @@ public class Modular implements IModular {
 	@Override
 	public List<IModuleProvider> getProviders() {
 		List<IModuleProvider> providers = new ArrayList<>();
-		for(IStorage storage : storages.values()) {
+		for (IStorage storage : storages.values()) {
 			if (storage != null) {
 				providers.add(storage.getProvider());
 				if (storage instanceof IModuleStorage) {
@@ -477,8 +478,8 @@ public class Modular implements IModular {
 
 	@Override
 	public <M extends IModule> IModuleState<M> getModule(int index) {
-		for(IStorage storage : storages.values()) {
-			for(IModuleState state : storage.getProvider().getModuleStates()) {
+		for (IStorage storage : storages.values()) {
+			for (IModuleState state : storage.getProvider().getModuleStates()) {
 				if (state.getIndex() == index) {
 					return state;
 				}
@@ -499,8 +500,8 @@ public class Modular implements IModular {
 			return null;
 		}
 		List<IModuleState<M>> modules = Lists.newArrayList();
-		for(IStorage storage : storages.values()) {
-			for(IModuleState state : storage.getProvider().getModuleStates()) {
+		for (IStorage storage : storages.values()) {
+			for (IModuleState state : storage.getProvider().getModuleStates()) {
 				if (moduleClass.isAssignableFrom(state.getModule().getClass())) {
 					modules.add(state);
 				}
@@ -517,8 +518,8 @@ public class Modular implements IModular {
 		if (moduleClass == null) {
 			return null;
 		}
-		for(IStorage storage : storages.values()) {
-			for(IModuleState state : storage.getProvider().getModuleStates()) {
+		for (IStorage storage : storages.values()) {
+			for (IModuleState state : storage.getProvider().getModuleStates()) {
 				if (moduleClass.isAssignableFrom(state.getModule().getClass())) {
 					return state;
 				}
@@ -536,12 +537,12 @@ public class Modular implements IModular {
 	@Override
 	public int getComplexity(boolean withStorage) {
 		int complexity = 0;
-		for(IStorage storage : storages.values()) {
+		for (IStorage storage : storages.values()) {
 			if (storage instanceof IModuleStorage) {
 				if (storage instanceof IBasicModuleStorage) {
 					complexity += ((IBasicModuleStorage) storage).getComplexity(withStorage);
 				} else {
-					for(IModuleState state : ((IModuleStorage) storage).getModules()) {
+					for (IModuleState state : ((IModuleStorage) storage).getModules()) {
 						if (state != null) {
 							if (state.getModule() instanceof IModuleModuleStorage && !withStorage) {
 								continue;
@@ -628,7 +629,7 @@ public class Modular implements IModular {
 		List<IStoragePosition> positions = modularHandler.getPositions().asList();
 		ItemStack[] stacks = new ItemStack[positions.size()];
 		Map<IStoragePosition, IStoragePage> pages = new HashMap<>();
-		for(IStoragePosition position : positions) {
+		for (IStoragePosition position : positions) {
 			IStorage storage = storages.get(position);
 			if (storage != null) {
 				IModuleProvider provider = storage.getProvider();

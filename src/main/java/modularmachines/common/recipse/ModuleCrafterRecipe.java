@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import modularmachines.api.ItemUtil;
-import modularmachines.api.recipes.IModuleCrafterRecipe;
-import modularmachines.api.recipes.ModuleCraftingWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -15,6 +12,10 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
+
+import modularmachines.api.ItemUtil;
+import modularmachines.api.recipes.IModuleCrafterRecipe;
+import modularmachines.api.recipes.ModuleCraftingWrapper;
 
 public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 
@@ -49,7 +50,7 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		}
 		if (recipe[idx] instanceof String[]) {
 			String[] parts = (String[]) recipe[idx++];
-			for(String s : parts) {
+			for (String s : parts) {
 				width = s.length();
 				shape += s;
 			}
@@ -64,14 +65,14 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		}
 		if (width * height != shape.length()) {
 			String ret = "Invalid shaped ore recipe: ";
-			for(Object tmp : recipe) {
+			for (Object tmp : recipe) {
 				ret += tmp + ", ";
 			}
 			ret += output;
 			throw new RuntimeException(ret);
 		}
 		HashMap<Character, Object> itemMap = new HashMap<>();
-		for(; idx < recipe.length; idx += 2) {
+		for (; idx < recipe.length; idx += 2) {
 			Character chr = (Character) recipe[idx];
 			Object in = recipe[idx + 1];
 			if (in instanceof ItemStack) {
@@ -84,7 +85,7 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 				itemMap.put(chr, OreDictionary.getOres((String) in));
 			} else {
 				String ret = "Invalid shaped ore recipe: ";
-				for(Object tmp : recipe) {
+				for (Object tmp : recipe) {
 					ret += tmp + ", ";
 				}
 				ret += output;
@@ -93,7 +94,7 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		}
 		input = new Object[width * height];
 		int x = 0;
-		for(char chr : shape.toCharArray()) {
+		for (char chr : shape.toCharArray()) {
 			input[x++] = itemMap.get(chr);
 		}
 	}
@@ -103,8 +104,8 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		if (holder != null && !ItemUtil.isCraftingEquivalent(holder, inv.getHolder())) {
 			return false;
 		}
-		for(int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
-			for(int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
+		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
 					return true;
 				}
@@ -121,8 +122,8 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 		if (holder != null) {
 			return false;
 		}
-		for(int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
-			for(int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
+		for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++) {
+			for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y) {
 				if (checkMatch(inv, x, y, false)) {
 					return true;
 				}
@@ -136,8 +137,8 @@ public class ModuleCrafterRecipe implements IModuleCrafterRecipe, IRecipe {
 
 	@SuppressWarnings("unchecked")
 	public boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror) {
-		for(int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
-			for(int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
+		for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
+			for (int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
 				int subX = x - startX;
 				int subY = y - startY;
 				Object target = null;

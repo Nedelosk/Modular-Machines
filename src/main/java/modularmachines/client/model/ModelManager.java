@@ -7,10 +7,6 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
 
-import modularmachines.common.utils.content.IClientContentHandler;
-import modularmachines.common.utils.content.IColoredBlock;
-import modularmachines.common.utils.content.IColoredItem;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -33,8 +29,13 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.common.utils.content.IClientContentHandler;
+import modularmachines.common.utils.content.IColoredBlock;
+import modularmachines.common.utils.content.IColoredItem;
+import modularmachines.common.utils.content.IItemModelRegister;
+
 @SideOnly(Side.CLIENT)
-public class ModelManager  {
+public class ModelManager {
 
 	private static final ModelManager instance = new ModelManager();
 	private final List<IItemModelRegister> itemModelRegisters = new ArrayList<>();
@@ -140,7 +141,7 @@ public class ModelManager  {
 
 	@SideOnly(Side.CLIENT)
 	public void registerModels() {
-		for(IItemModelRegister itemModelRegister : itemModelRegisters) {
+		for (IItemModelRegister itemModelRegister : itemModelRegisters) {
 			Item item = null;
 			if (itemModelRegister instanceof Block) {
 				item = Item.getItemFromBlock((Block) itemModelRegister);
@@ -151,7 +152,7 @@ public class ModelManager  {
 				itemModelRegister.registerItemModels(item, this);
 			}
 		}
-		for(IClientContentHandler clientContentHandler : clientContentHandlers) {
+		for (IClientContentHandler clientContentHandler : clientContentHandlers) {
 			clientContentHandler.handleClientContent();
 		}
 	}
@@ -160,13 +161,13 @@ public class ModelManager  {
 	public void registerItemAndBlockColors() {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		BlockColors blockColors = minecraft.getBlockColors();
-		for(IColoredBlock blockColor : blockColorList) {
+		for (IColoredBlock blockColor : blockColorList) {
 			if (blockColor instanceof Block) {
 				blockColors.registerBlockColorHandler(BlockColorHandler.INSTANCE, (Block) blockColor);
 			}
 		}
 		ItemColors itemColors = minecraft.getItemColors();
-		for(IColoredItem itemColor : itemColorList) {
+		for (IColoredItem itemColor : itemColorList) {
 			if (itemColor instanceof Item) {
 				itemColors.registerItemColorHandler(ItemColorHandler.INSTANCE, (Item) itemColor);
 			}
