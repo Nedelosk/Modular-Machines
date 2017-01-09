@@ -84,7 +84,7 @@ public class ModuleLathe extends ModuleModeMachine implements IModuleColoredItem
 	@Override
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
 		if (super.isRecipeValid(recipe, state)) {
-			if (recipe.get(RecipeUtil.LATHEMODE) == getCurrentMode(state)) {
+			if (recipe.getValue(RecipeUtil.LATHEMODE) == getCurrentMode(state)) {
 				return true;
 			}
 		}

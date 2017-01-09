@@ -48,12 +48,12 @@ public abstract class ModuleModeMachine extends ModuleMachine implements IModule
 
 	@Override
 	public IToolMode getCurrentMode(IModuleState state) {
-		return state.get(MODE);
+		return state.getValue(MODE);
 	}
 
 	@Override
 	public void setCurrentMode(IModuleState state, IToolMode mode) {
-		state.set(MODE, mode);
+		state.setValue(MODE, mode);
 	}
 
 	@Override

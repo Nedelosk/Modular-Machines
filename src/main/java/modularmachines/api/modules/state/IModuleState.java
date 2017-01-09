@@ -26,33 +26,25 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	@Override
 	@Nonnull
-	<T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);
+	<T, V extends T> IModuleState<M> setValue(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value);
 
 	@Override
 	@Nonnull
 	IModuleState<M> register(IProperty property);
 
 	/**
-	 * Finish the registration of the properties.
+	 * Finish the registration of properties.
 	 */
 	@Override
 	@Nonnull
-	IModuleState<M> build();
+	IModuleState<M> init();
 
-	int getIndex();
+	/**
+	 * The position of this module in the IModular.
+	 */
+	int getPosition();
 
-	void setIndex(int index);
-
-	void addPage(@Nonnull IModulePage page);
-
-	@Nonnull
-	List<IModulePage> getPages();
-
-	@Nullable
-	<P extends IModulePage> P getPage(Class<? extends P> pageClass);
-
-	@Nullable
-	IModulePage getPage(String pageID);
+	void setPosition(int position);
 
 	@Nonnull
 	M getModule();
@@ -83,4 +75,21 @@ public interface IModuleState<M extends IModule> extends IPropertyProvider, ICap
 
 	@Nonnull
 	String getDisplayName();
+
+	/* PAGES */
+	/**
+	 * Add a page to the module.
+	 */
+	void addPage(@Nonnull IModulePage page);
+
+	@Nonnull
+	List<IModulePage> getPages();
+
+	boolean hasPages();
+
+	@Nullable
+	<P extends IModulePage> P getPage(Class<? extends P> pageClass);
+
+	@Nullable
+	IModulePage getPage(String pageID);
 }

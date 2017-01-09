@@ -40,6 +40,7 @@ import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.module.IModuleHandler;
 import modularmachines.api.modules.tools.properties.IModuleMachineProperties;
 import modularmachines.api.property.PropertyDouble;
+import modularmachines.api.property.PropertyFloat;
 import modularmachines.api.property.PropertyInteger;
 import modularmachines.api.property.PropertyRecipe;
 import modularmachines.api.recipes.IRecipe;
@@ -51,7 +52,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	public static final PropertyInteger WORKTIME = new PropertyInteger("workTime", 0);
 	public static final PropertyInteger WORKTIMETOTAL = new PropertyInteger("workTimeTotal", 0);
-	public static final PropertyInteger CHANCE = new PropertyInteger("chance", 0);
+	public static final PropertyFloat CHANCE = new PropertyFloat("chance", 0);
 	public static final PropertyDouble SPEED = new PropertyDouble("speed", 0);
 	public static final PropertyDouble HEATTOREMOVE = new PropertyDouble("heatToRemove", 0);
 	public static final PropertyDouble HEATREQUIRED = new PropertyDouble("requiredHeat", 0F);
@@ -81,7 +82,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	/* RECIPE */
 	protected boolean removeInput(IModuleState state) {
-		int chance = getChance(state);
+		float chance = getChance(state);
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
 		IRecipe recipe = getCurrentRecipe(state);
@@ -143,7 +144,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	}
 
 	protected boolean addOutput(IModuleState state) {
-		int chance = getChance(state);
+		float chance = getChance(state);
 		IModular modular = state.getModular();
 		IModularHandler tile = modular.getHandler();
 		List<IModuleContentHandler> handlers = getHandlers(state);
@@ -183,7 +184,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 							setCurrentRecipe(state, null);
 							setWorkTimeTotal(state, 0);
 							setWorkTime(state, 0);
-							state.set(CHANCE, rand.nextInt(100));
+							state.setValue(CHANCE, rand.nextFloat());
 							needUpdate = true;
 						}
 					} else if (validRecipe != null) {
@@ -193,10 +194,10 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 							return;
 						}
 						setWorkTimeTotal(state, createWorkTimeTotal(state, validRecipe.getSpeed()) / state.getContainer().getItemContainer().getMaterial().getTier());
-						state.set(CHANCE, rand.nextInt(100));
+						state.setValue(CHANCE, rand.nextFloat());
 						if (type == EnumToolType.HEAT) {
-							state.set(HEATTOREMOVE, validRecipe.get(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
-							state.set(HEATREQUIRED, validRecipe.get(Recipe.HEAT));
+							state.setValue(HEATTOREMOVE, validRecipe.getValue(Recipe.HEATTOREMOVE) / getWorkTimeTotal(state));
+							state.setValue(HEATREQUIRED, validRecipe.getValue(Recipe.HEAT));
 						}
 						needUpdate = true;
 					}
@@ -208,26 +209,26 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 							double kinetic = source.getStored() / source.getCapacity();
 							if (source.getStored() > 0F) {
 								source.extractKineticEnergy(kinetic, false);
-								if (state.get(SPEED) < getMaxSpeed(state)) {
-									state.set(SPEED, state.get(SPEED) + kinetic / 10F);
-								} else if (state.get(SPEED) > getMaxSpeed(state)) {
-									state.set(SPEED, getMaxSpeed(state));
+								if (state.getValue(SPEED) < getMaxSpeed(state)) {
+									state.setValue(SPEED, state.getValue(SPEED) + kinetic / 10F);
+								} else if (state.getValue(SPEED) > getMaxSpeed(state)) {
+									state.setValue(SPEED, getMaxSpeed(state));
 								}
 							} else {
-								if (state.get(SPEED) > 0F) {
-									state.set(SPEED, state.get(SPEED) - kinetic / 5F);
-								} else if (0 > state.get(SPEED)) {
-									state.set(SPEED, 0F);
+								if (state.getValue(SPEED) > 0F) {
+									state.setValue(SPEED, state.getValue(SPEED) - kinetic / 5F);
+								} else if (0 > state.getValue(SPEED)) {
+									state.setValue(SPEED, 0F);
 								}
 							}
 						}
-						if (state.get(SPEED) > 0) {
-							workTime += Math.round(state.get(SPEED));
+						if (state.getValue(SPEED) > 0) {
+							workTime += Math.round(state.getValue(SPEED));
 						}
 					} else if (type == EnumToolType.HEAT) {
 						IHeatSource heatBuffer = modular.getHeatSource();
-						if (heatBuffer.getHeatStored() >= state.get(HEATREQUIRED)) {
-							heatBuffer.extractHeat(state.get(HEATTOREMOVE), false);
+						if (heatBuffer.getHeatStored() >= state.getValue(HEATREQUIRED)) {
+							heatBuffer.extractHeat(state.getValue(HEATTOREMOVE), false);
 							workTime = 1;
 						}
 					}
@@ -246,7 +247,7 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	protected boolean isRecipeValid(IRecipe recipe, IModuleState state) {
 		EnumToolType type = getType(state);
 		if (type == EnumToolType.HEAT) {
-			if (recipe.get(Recipe.HEAT) > state.getModular().getHeatSource().getHeatStored()) {
+			if (recipe.getValue(Recipe.HEAT) > state.getModular().getHeatSource().getHeatStored()) {
 				return false;
 			}
 		}
@@ -280,32 +281,32 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	@Override
 	public int getWorkTime(IModuleState state) {
-		return state.get(WORKTIME);
+		return state.getValue(WORKTIME);
 	}
 
 	@Override
 	public void setWorkTime(IModuleState state, int burnTime) {
-		state.set(WORKTIME, burnTime);
+		state.setValue(WORKTIME, burnTime);
 	}
 
 	@Override
 	public void addWorkTime(IModuleState state, int burnTime) {
-		state.set(WORKTIME, state.get(WORKTIME) + burnTime);
+		state.setValue(WORKTIME, state.getValue(WORKTIME) + burnTime);
 	}
 
 	@Override
 	public int getWorkTimeTotal(IModuleState state) {
-		return state.get(WORKTIMETOTAL);
+		return state.getValue(WORKTIMETOTAL);
 	}
 
 	@Override
 	public void setWorkTimeTotal(IModuleState state, int burnTimeTotal) {
-		state.set(WORKTIMETOTAL, burnTimeTotal);
+		state.setValue(WORKTIMETOTAL, burnTimeTotal);
 	}
 
 	@Override
 	public boolean isWorking(IModuleState state) {
-		return state.get(WORKTIME) > 0;
+		return state.getValue(WORKTIME) > 0;
 	}
 
 	@Override
@@ -404,8 +405,8 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 	}
 
 	@Override
-	public int getChance(IModuleState state) {
-		return state.get(CHANCE);
+	public float getChance(IModuleState state) {
+		return state.getValue(CHANCE);
 	}
 
 	@Override
@@ -420,12 +421,12 @@ public abstract class ModuleMachine extends ModuleControlled implements IModuleM
 
 	@Override
 	public IRecipe getCurrentRecipe(IModuleState state) {
-		return state.get(RECIPE);
+		return state.getValue(RECIPE);
 	}
 
 	@Override
 	public void setCurrentRecipe(IModuleState state, IRecipe recipe) {
-		state.set(RECIPE, recipe);
+		state.setValue(RECIPE, recipe);
 	}
 
 	@Override

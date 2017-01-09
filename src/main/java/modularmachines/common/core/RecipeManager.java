@@ -34,6 +34,7 @@ import modularmachines.common.modules.tools.recipe.RecipeHandlerDefault;
 import modularmachines.common.modules.tools.recipe.RecipeHandlerHeat;
 import modularmachines.common.modules.tools.recipe.RecipeHandlerToolMode;
 import modularmachines.common.recipse.ModuleCrafterRecipe;
+import modularmachines.common.utils.ItemEnergyStorage;
 
 public class RecipeManager {
 
@@ -115,6 +116,8 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore), "PWP", "WRW", "PWP", 'P', "plateBronze", 'W', "wireBronze", 'R', "dustRedstone");
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 1), "BWB", "PRP", "BWB", 'P', "plateIron", 'W', "wireIron", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2), "BWB", "PSP", "BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
+		// Batterys
+		addShapedRecipe(ItemEnergyStorage.createItemStack(ItemManager.itemBattery, 1, 0, true), "+d+", "+d+", "+d+", '+', "logWood", 'd', "dustRedstone");
 		// Boilers
 		addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[0]), "PPP", "GCG", "PPP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
 		addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[1]), "PGP", "COC", "PGP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O',
@@ -302,14 +305,14 @@ public class RecipeManager {
 
 	private static void registerPulverizerRecipes() {
 		/* ORES TO DUST */
-		RecipeUtil.addPulverizer("CoalOreToDust", new OreStack("oreCoal"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2)), new RecipeItem(new ItemStack(Items.COAL), 15) }, 15);
+		RecipeUtil.addPulverizer("CoalOreToDust", new OreStack("oreCoal"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2)), new RecipeItem(new ItemStack(Items.COAL), 0.15F) }, 15);
 		RecipeUtil.addPulverizer("ObsidianBlockToDust", new OreStack("blockObsidian"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.OBSIDIAN, 2)) }, 15);
 		RecipeUtil.addPulverizer("IronOreToDust", new OreStack("oreIron"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.IRON, 2)) }, 15);
-		RecipeUtil.addPulverizer("GoldOreToDust", new OreStack("oreGold"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.GOLD, 2)), new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER, 1), 20) },
+		RecipeUtil.addPulverizer("GoldOreToDust", new OreStack("oreGold"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.GOLD, 2)), new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER, 1), 0.20F) },
 				15);
 		RecipeUtil.addPulverizer("DiamondOreToDust", new OreStack("oreDiamond"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.DIAMOND, 2)) }, 15);
 		RecipeUtil.addPulverizer("CopperOreToDust", new OreStack("oreCopper"),
-				new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER, 2)), new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.GOLD, 1), 15) }, 12);
+				new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.COPPER, 2)), new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.GOLD, 1), 0.15F) }, 12);
 		RecipeUtil.addPulverizer("TinOreToDust", new OreStack("oreTin"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.TIN, 2)) }, 15);
 		RecipeUtil.addPulverizer("SilverOreToDust", new OreStack("oreSilver"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.SILVER, 2)) }, 15);
 		RecipeUtil.addPulverizer("LeadOreToDust", new OreStack("oreLead"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumMetalMaterials.LEAD, 2)) }, 15);

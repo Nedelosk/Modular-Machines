@@ -9,12 +9,12 @@ import modularmachines.common.utils.Translator;
 
 public abstract class ModuleRecipeCategory extends BlankRecipeCategory<ModuleRecipeWrapper> {
 
-	protected IDrawable background;
-	protected IDrawable slot;
-	protected IDrawable tank;
-	protected IDrawable tankOverlay;
-	protected String inventoryTitle;
-	protected String uid;
+	protected final IDrawable background;
+	protected final IDrawable slot;
+	protected final IDrawable tank;
+	protected final IDrawable tankOverlay;
+	protected final String inventoryTitle;
+	protected final String uid;
 	protected final static ResourceLocation WIDGET_TEXTURE = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 
 	public ModuleRecipeCategory(IDrawable background, IGuiHelper guiHelper, String inventoryTitle, String uid) {

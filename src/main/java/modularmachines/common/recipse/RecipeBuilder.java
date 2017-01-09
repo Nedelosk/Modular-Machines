@@ -21,7 +21,7 @@ public class RecipeBuilder implements IRecipeBuilder {
 	}
 
 	@Override
-	public <T, V extends T> IRecipeBuilder set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
+	public <T, V extends T> IRecipeBuilder setValue(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
 		if (property instanceof IPropertyJson) {
 			properties.put(property, value);
 		}
@@ -29,7 +29,7 @@ public class RecipeBuilder implements IRecipeBuilder {
 	}
 
 	@Override
-	public IRecipe build() {
+	public IRecipe init() {
 		return new Recipe(properties);
 	}
 }

@@ -20,7 +20,7 @@ import modularmachines.api.modular.handlers.IModularHandler;
 import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
 import modularmachines.api.modules.IModuleProperties;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleColoredItem;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.containers.IModuleItemContainer;
@@ -96,7 +96,7 @@ public class ModuleController extends Module implements IModuleController, IModu
 
 	@Override
 	public void onModularAssembled(IModuleState state) {
-		if (ModuleManager.getModulesWithPages(state.getModular()).isEmpty()) {
+		if (ModuleHelper.getPageModules(state.getModular()).isEmpty()) {
 			state.addPage(new MainPage(null, state));
 		}
 	}

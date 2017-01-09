@@ -7,6 +7,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.energy.IEnergyBuffer;
 import modularmachines.api.gui.Widget;
+import modularmachines.api.modules.handlers.filters.ItemFilterEnergy;
+import modularmachines.api.modules.handlers.inventory.IModuleInventoryBuilder;
 import modularmachines.api.modules.state.IModuleState;
 import modularmachines.api.modules.storage.energy.IModuleBattery;
 import modularmachines.client.gui.widgets.WidgetEnergyField;
@@ -15,6 +17,12 @@ public class BatteryPage extends MainPage<IModuleBattery> {
 
 	public BatteryPage(IModuleState<IModuleBattery> state) {
 		super("battery", state);
+	}
+
+	@Override
+	protected void createInventory(IModuleInventoryBuilder invBuilder) {
+		invBuilder.addInventorySlot(true, 26, 24, ItemFilterEnergy.INSTANCE);
+		invBuilder.addInventorySlot(true, 26, 54, ItemFilterEnergy.INSTANCE);
 	}
 
 	@SideOnly(Side.CLIENT)

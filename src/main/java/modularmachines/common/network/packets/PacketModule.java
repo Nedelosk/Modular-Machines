@@ -13,23 +13,23 @@ import modularmachines.api.modules.state.IModuleState;
 
 public abstract class PacketModule extends PacketModularHandler {
 
-	protected int index;
+	protected int position;
 	protected String pageId;
 
 	public PacketModule() {
 	}
 
 	public PacketModule(IModuleState module) {
-		this(module.getModular().getHandler(), module.getIndex(), null);
+		this(module.getModular().getHandler(), module.getPosition(), null);
 		IModulePage currentPage = module.getModular().getCurrentPage();
-		if (currentPage.getModuleState().getIndex() == module.getIndex()) {
+		if (currentPage.getModuleState().getPosition() == module.getPosition()) {
 			pageId = currentPage.getPageID();
 		}
 	}
 
-	public PacketModule(IModularHandler handler, int index, String pageId) {
+	public PacketModule(IModularHandler handler, int position, String pageId) {
 		super(handler);
-		this.index = index;
+		this.position = position;
 		this.pageId = pageId;
 	}
 
@@ -41,13 +41,13 @@ public abstract class PacketModule extends PacketModularHandler {
 		if (handler == null || handler.getModular() == null) {
 			return null;
 		}
-		return handler.getModular().getModule(index);
+		return handler.getModular().getModule(position);
 	}
 
 	@Override
 	public void readData(DataInputStreamMM data) throws IOException {
 		super.readData(data);
-		index = data.readInt();
+		position = data.readInt();
 		if (data.readBoolean()) {
 			pageId = DataInputStream.readUTF(data);
 		}
@@ -56,7 +56,7 @@ public abstract class PacketModule extends PacketModularHandler {
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
 		super.writeData(data);
-		data.writeInt(index);
+		data.writeInt(position);
 		data.writeBoolean(pageId != null);
 		if (pageId != null) {
 			data.writeUTF(pageId);

@@ -168,10 +168,10 @@ public abstract class ModuleTurbine extends ModuleControlled implements IModuleT
 
 	@Override
 	public boolean isWorking(IModuleState state) {
-		return state.get(WORKING);
+		return state.getValue(WORKING);
 	}
 
 	protected void setIsWorking(IModuleState state, boolean isWorking) {
-		state.set(WORKING, isWorking);
+		state.setValue(WORKING, isWorking);
 	}
 }

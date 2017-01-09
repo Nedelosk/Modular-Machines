@@ -11,13 +11,13 @@ public class RecipeHandlerHeat extends RecipeHandler {
 
 	@Override
 	public IRecipe buildDefault() {
-		return getDefaultTemplate().set(Recipe.HEAT, 0D).build();
+		return getDefaultTemplate().setValue(Recipe.HEAT, 0D).init();
 	}
 
 	@Override
 	public boolean isRecipeValid(IRecipe recipe) {
 		if (super.isRecipeValid(recipe)) {
-			if (recipe.get(Recipe.HEAT) == 0) {
+			if (recipe.getValue(Recipe.HEAT) == 0) {
 				return false;
 			}
 			return true;

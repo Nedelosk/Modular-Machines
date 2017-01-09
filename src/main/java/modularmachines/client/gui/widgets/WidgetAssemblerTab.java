@@ -3,7 +3,10 @@ package modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -48,6 +51,7 @@ public class WidgetAssemblerTab extends Widget<IModularAssembler> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		if (!provider.getSelectedPosition().equals(position)) {
 			provider.setSelectedPosition(position);
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			IModularHandler modularHandler = provider.getHandler();
 			if (modularHandler != null && modularHandler.getWorld() != null) {
 				if (modularHandler.getWorld().isRemote) {

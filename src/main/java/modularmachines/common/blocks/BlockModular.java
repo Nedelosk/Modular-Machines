@@ -66,7 +66,8 @@ import modularmachines.common.utils.content.IColoredBlock;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockModular extends BlockForest implements IItemModelRegister, IColoredBlock, IClientContentHandler {
-
+	
+	
 	public BlockModular() {
 		super(Material.IRON, TabModularMachines.tabModules);
 		setSoundType(SoundType.METAL);

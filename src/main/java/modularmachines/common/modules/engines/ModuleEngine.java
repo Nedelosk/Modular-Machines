@@ -94,13 +94,13 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 		IModular modular = state.getModular();
 		IModuleState<IModuleController> controller = modular.getModule(IModuleController.class);
 		if (state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))) {
-			boolean isWorking = state.get(WORKING);
+			boolean isWorking = state.getValue(WORKING);
 			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
 			boolean needUpdate = false;
 			if (canWork(state)) {
 				if (removeMaterial(state)) {
 					if (!isWorking) {
-						state.set(WORKING, true);
+						state.setValue(WORKING, true);
 					}
 					kineticHandler.increaseKineticEnergy(getKineticModifier(state) * 2);
 					needUpdate = true;
@@ -109,7 +109,7 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 				if (kineticHandler.getStored() > 0) {
 					kineticHandler.reduceKineticEnergy(getKineticModifier(state) * 2);
 				} else {
-					state.set(WORKING, false);
+					state.setValue(WORKING, false);
 				}
 				needUpdate = true;
 			}
@@ -148,11 +148,11 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 
 	@Override
 	public boolean isWorking(IModuleState state) {
-		return state.get(WORKING);
+		return state.getValue(WORKING);
 	}
 
 	protected void setIsWorking(IModuleState state, boolean isWorking) {
-		state.set(WORKING, isWorking);
+		state.setValue(WORKING, isWorking);
 	}
 
 	@SideOnly(Side.CLIENT)

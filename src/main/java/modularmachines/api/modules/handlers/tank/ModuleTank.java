@@ -77,7 +77,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
+	public boolean canRemoveRecipeInputs(float chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -98,16 +98,14 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
+	public boolean canAddRecipeOutputs(float chance, RecipeItem[] outputs) {
 		if (outputs != null) {
 			for (RecipeItem output : outputs) {
 				if (output != null) {
 					if (output.isFluid()) {
-						if (output.chance == -1 || chance <= output.chance) {
-							int test = fillInternal(output.fluid, false);
-							if (test != output.fluid.amount) {
-								return false;
-							}
+						int test = fillInternal(output.fluid, false);
+						if (test != output.fluid.amount) {
+							return false;
 						}
 					}
 					continue;
@@ -121,7 +119,7 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
+	public void removeRecipeInputs(float chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -134,13 +132,11 @@ public class ModuleTank<M extends IModule> extends BlankModuleContentHandler<M> 
 	}
 
 	@Override
-	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
+	public void addRecipeOutputs(float chance, RecipeItem[] outputs) {
 		if (outputs != null) {
 			for (RecipeItem item : outputs) {
 				if (item != null && item.isFluid()) {
-					if (item.chance == -1 || chance <= item.chance) {
-						fillInternal(item.fluid.copy(), true);
-					}
+					fillInternal(item.fluid.copy(), true);
 				}
 			}
 		}

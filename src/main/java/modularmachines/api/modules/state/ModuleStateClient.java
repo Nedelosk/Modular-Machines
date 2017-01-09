@@ -18,8 +18,8 @@ public class ModuleStateClient<M extends IModule> extends ModuleState<M> impleme
 	}
 
 	@Override
-	public IModuleState<M> build() {
-		super.build();
+	public IModuleState<M> init() {
+		super.init();
 		modelHandler = getModule().createModelHandler(this);
 		return this;
 	}

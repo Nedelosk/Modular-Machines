@@ -90,7 +90,7 @@ public interface IModular extends IBasicModuleStorage, ICapabilityProvider {
 	/**
 	 * @return The next valid index for a new module state.
 	 */
-	int getNextIndex();
+	int getNextValidPosition();
 
 	/**
 	 * Called at the point at that the assembler assemble the modular.

@@ -27,7 +27,7 @@ public class PacketBeeLogicActiveModule extends PacketModule implements IPacketC
 	public PacketBeeLogicActiveModule(IModuleState module, IBeeHousing beeHousing) {
 		super(module);
 		this.beekeepingLogic = (BeekeepingLogic) beeHousing.getBeekeepingLogic();
-		this.index = ((IModuleContentHandler) beeHousing).getModuleState().getIndex();
+		this.position = ((IModuleContentHandler) beeHousing).getModuleState().getPosition();
 	}
 
 	@Override

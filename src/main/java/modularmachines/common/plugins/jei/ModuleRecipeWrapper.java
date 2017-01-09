@@ -14,6 +14,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.api.recipes.RecipeRegistry;
+import scala.actors.threadpool.Arrays;
 
 public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWrapper {
 
@@ -23,6 +24,22 @@ public class ModuleRecipeWrapper extends BlankRecipeWrapper implements IRecipeWr
 	public ModuleRecipeWrapper(IRecipe recipe, String recipeCategoryUid) {
 		this.recipe = recipe;
 		this.recipeCategoryUid = recipeCategoryUid;
+	}
+
+	/**
+	 * @return The chance of an item. Only work with outputs.
+	 */
+	public float getChance(int index) {
+		RecipeItem recipeItem = recipe.getOutputs()[index];
+		float chance = recipeItem.chance;
+		if (chance < 0) {
+			return -1;
+		}
+		return chance;
+	}
+
+	public List<RecipeItem> getOutputItems() {
+		return Arrays.asList(recipe.getOutputs());
 	}
 
 	@Override

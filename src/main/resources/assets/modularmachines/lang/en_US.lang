@@ -42,6 +42,7 @@ mode.redstone.off.name=Only Work without redstone signal
 ####################################
 # Modules
 ####################################
+module.size.largest.name=Largest
 module.size.large.name=Large
 module.size.small.name=Small
 module.size.medium.name=Normal
@@ -166,7 +167,7 @@ modularmachines.item.moduleStorageLarge_bronze.name=Large Bronze Module Storage
 modularmachines.item.moduleStorageLarge_iron.name=Large Iron Module Storage
 modularmachines.item.moduleStorageLarge_steel.name=Large Steel Module Storage
 modularmachines.item.moduleStorageLarge_magmarium.name=Large Magmarium Module Storage
-modularmachines.item.moduleStorageSmall_wood.name=Wood Brick Module Storage
+modularmachines.item.moduleStorageSmall_wood.name=Small Wood Module Storage
 modularmachines.item.moduleStorageSmall_brick.name=Small Brick Module Storage
 modularmachines.item.moduleStorageSmall_bronze.name=Small Bronze Module Storage
 modularmachines.item.moduleStorageSmall_iron.name=Small Iron Module Storage
@@ -224,7 +225,7 @@ module.page.cleaner.clean.name=Clean Module
 module.page.lathe.name=Lathe
 module.page.furnace.name=Furnace
 module.page.battery.name=Battery
-module.page.controller.name=Controller
+module.page.controller.name=%s Controller
 module.page.controller.can.used.by=Can be used by
 module.page.controller.can.use=Can use
 module.page.chest.name=Chest
@@ -250,6 +251,7 @@ mm.top.suffix.kenetic=KE
 # Tooltips
 ####################################
 mm.tooltip.nonefluid=No Fluid
+mm.tooltip.energy=RF: 
 mm.module.tooltip.material=Material: 
 mm.module.tooltip.name=Name: 
 mm.module.tooltip.size=Size: 
@@ -286,4 +288,5 @@ gui.mm.jei.category.lathe=Lathe
 gui.mm.jei.category.pulverizer=Pulverizer
 gui.mm.jei.category.moduleCrafter=Module Crafting
 
+gui.mm.jei.chance=Chance: %s
 gui.mm.jei.heat=Heat: %s

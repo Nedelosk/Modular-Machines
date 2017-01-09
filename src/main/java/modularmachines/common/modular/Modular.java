@@ -251,7 +251,7 @@ public class Modular implements IModular {
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		if (currentModule != null) {
-			nbt.setInteger("CurrentModule", currentModule.getIndex());
+			nbt.setInteger("CurrentModule", currentModule.getPosition());
 			if (currentPage != null) {
 				nbt.setString("CurrentPage", currentPage.getPageID());
 			}
@@ -480,7 +480,7 @@ public class Modular implements IModular {
 	public <M extends IModule> IModuleState<M> getModule(int index) {
 		for (IStorage storage : storages.values()) {
 			for (IModuleState state : storage.getProvider().getModuleStates()) {
-				if (state.getIndex() == index) {
+				if (state.getPosition() == index) {
 					return state;
 				}
 			}
@@ -557,7 +557,7 @@ public class Modular implements IModular {
 	}
 
 	@Override
-	public int getNextIndex() {
+	public int getNextValidPosition() {
 		return index++;
 	}
 

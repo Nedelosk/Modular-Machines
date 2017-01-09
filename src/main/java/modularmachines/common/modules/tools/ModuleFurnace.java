@@ -68,12 +68,12 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 
 	@Override
 	public IRecipe getCurrentRecipe(IModuleState state) {
-		return state.get(FURNACERECIPE);
+		return state.getValue(FURNACERECIPE);
 	}
 
 	@Override
 	public void setCurrentRecipe(IModuleState state, IRecipe recipe) {
-		state.set(FURNACERECIPE, recipe);
+		state.setValue(FURNACERECIPE, recipe);
 	}
 
 	@Override
@@ -105,9 +105,9 @@ public class ModuleFurnace extends ModuleBasicMachine implements IModuleColoredI
 			ItemStack output = entry.getValue();
 			if (input != null && output != null) {
 				IRecipeBuilder builder = new RecipeBuilder();
-				builder.set(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output)).set(Recipe.INPUTS, new RecipeItem[] { new RecipeItem(entry.getKey()) })
-						.set(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).set(Recipe.HEAT, 50D).set(Recipe.HEATTOREMOVE, 0.15D).set(Recipe.SPEED, 1);
-				furnaceRecipe.add(builder.build());
+				builder.setValue(Recipe.NAME, ItemUtil.getStackToString(input) + "To" + ItemUtil.getStackToString(output)).setValue(Recipe.INPUTS, new RecipeItem[] { new RecipeItem(entry.getKey()) })
+						.setValue(Recipe.OUTPUTS, new RecipeItem[] { new RecipeItem(entry.getValue()) }).setValue(Recipe.HEAT, 50D).setValue(Recipe.HEATTOREMOVE, 0.15D).setValue(Recipe.SPEED, 1);
+				furnaceRecipe.add(builder.init());
 			}
 		}
 		return furnaceRecipe;

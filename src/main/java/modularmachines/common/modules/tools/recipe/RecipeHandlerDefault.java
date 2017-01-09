@@ -10,6 +10,6 @@ public class RecipeHandlerDefault extends RecipeHandler {
 
 	@Override
 	public IRecipe buildDefault() {
-		return getDefaultTemplate().build();
+		return getDefaultTemplate().init();
 	}
 }

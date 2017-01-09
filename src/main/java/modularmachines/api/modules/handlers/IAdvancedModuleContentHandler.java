@@ -48,13 +48,13 @@ public interface IAdvancedModuleContentHandler<C, M extends IModule> extends IMo
 	 */
 	RecipeItem[] getRecipeItems();
 
-	void removeRecipeInputs(int chance, RecipeItem[] inputs);
+	void removeRecipeInputs(float chance, RecipeItem[] inputs);
 
-	boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs);
+	boolean canRemoveRecipeInputs(float chance, RecipeItem[] inputs);
 
-	void addRecipeOutputs(int chance, RecipeItem[] outputs);
+	void addRecipeOutputs(float chance, RecipeItem[] outputs);
 
-	boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs);
+	boolean canAddRecipeOutputs(float chance, RecipeItem[] outputs);
 
 	@Nonnull
 	List<ItemStack> getDrops();

@@ -32,7 +32,7 @@ public class PacketModuleCleaner extends PacketModule implements IPacketClient, 
 		Container container = player.openContainer;
 		if (container instanceof ContainerModular) {
 			IModularHandler handler = getModularHandler(player);
-			IModuleState state = handler.getModular().getModule(index);
+			IModuleState state = handler.getModular().getModule(position);
 			((IModuleModuleCleaner) state.getModule()).cleanModule(state);
 		}
 	}
@@ -42,7 +42,7 @@ public class PacketModuleCleaner extends PacketModule implements IPacketClient, 
 		Container container = player.openContainer;
 		if (container instanceof ContainerModular) {
 			IModularHandler handler = getModularHandler(player);
-			IModuleState state = handler.getModular().getModule(index);
+			IModuleState state = handler.getModular().getModule(position);
 			((IModuleModuleCleaner) state.getModule()).cleanModule(state);
 			PacketHandler.sendToNetwork(this, ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) player.worldObj);
 		}

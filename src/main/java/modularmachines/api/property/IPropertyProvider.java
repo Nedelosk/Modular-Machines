@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IPropertyProvider extends INBTSerializable<NBTTagCompound> {
 
-	<V> V get(IProperty<V, ? extends NBTBase, ? extends IPropertyProvider> property);
+	<V> V getValue(IProperty<V, ? extends NBTBase, ? extends IPropertyProvider> property);
 
 	Map<IProperty, Object> getProperties();
 }

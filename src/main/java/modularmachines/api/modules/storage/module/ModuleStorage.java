@@ -80,9 +80,9 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 	}
 
 	@Override
-	public <M extends IModule> IModuleState<M> getModule(int index) {
+	public <M extends IModule> IModuleState<M> getModule(int position) {
 		for (IModuleState module : getModules()) {
-			if (module.getIndex() == index) {
+			if (module.getPosition() == position) {
 				return module;
 			}
 		}
@@ -133,7 +133,7 @@ public class ModuleStorage extends Storage implements IBasicModuleStorage, IDefa
 		}
 		if (providers.add(provider)) {
 			for (IModuleState state : provider.getModuleStates()) {
-				state.setIndex(getModular().getNextIndex());
+				state.setPosition(getModular().getNextValidPosition());
 			}
 		}
 		return true;

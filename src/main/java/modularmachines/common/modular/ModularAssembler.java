@@ -375,7 +375,7 @@ public class ModularAssembler implements IModularAssembler {
 				IStorage storage = page.assemble(modular);
 				if (storage != null) {
 					for (IModuleState state : storage.getProvider().getModuleStates()) {
-						state.setIndex(modular.getNextIndex());
+						state.setPosition(modular.getNextValidPosition());
 					}
 					modular.addStorage(storage);
 				}

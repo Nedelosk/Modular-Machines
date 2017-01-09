@@ -120,9 +120,6 @@ repositories {
 		name 'tterrag maven'
 		url "http://maven.tterrag.com/"
 	}
-	maven {
-		url "http://dl.bintray.com/raoulvdberge/dev"
-	}
 }
 
 dependencies {
@@ -136,8 +133,6 @@ dependencies {
 	deobfCompile "mcjty.theoneprobe:TheOneProbe:${top_version}"
 	//Forestry
 	deobfCompile "net.sengir.forestry:forestry_${mcversion}:${forestry_version}"
-	//Refined Storage
-	deobfCompile "refinedstorage:refinedstorage:${refinedstorage_version}:deobf"
 }
 
 processResources {

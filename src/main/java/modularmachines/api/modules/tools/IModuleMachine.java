@@ -12,7 +12,7 @@ public interface IModuleMachine extends IModuleTool, IModuleWorkerTime, IModuleR
 
 	EnumToolType getType(IModuleState state);
 
-	int getChance(IModuleState state);
+	float getChance(IModuleState state);
 
 	/**
 	 * @return All valid recipe for that module state.

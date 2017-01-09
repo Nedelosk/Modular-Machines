@@ -22,7 +22,7 @@ public class LatheRecipeWrapper extends ModuleRecipeWrapper {
 
 	public LatheRecipeWrapper(IRecipe recipe, String recipeCategoryUid, IGuiHelper guiHelper) {
 		super(recipe, recipeCategoryUid);
-		IToolMode mode = recipe.get(RecipeUtil.LATHEMODE);
+		IToolMode mode = recipe.getValue(RecipeUtil.LATHEMODE);
 		modeBackground = guiHelper.createDrawable(widgetTexture, 238, 0, 18, 18);
 		modeItem = guiHelper.createDrawable(widgetTexture, 238, 18 * mode.ordinal() + 18, 18, 18);
 	}

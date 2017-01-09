@@ -6,6 +6,8 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -58,11 +60,41 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 
 	@Override
 	public void updateServer(IModuleState<IModule> state, int tickCount) {
-		IModuleState<IModuleController> controller = state.getModular().getModule(IModuleController.class);
-		if (controller != null && controller.getModule().canWork(controller, state) && tickCount % 2 == 0) {
-			IModularHandler modularHandler = state.getModular().getHandler();
-			if (modularHandler instanceof IModularHandlerTileEntity) {
-				EnergyUtil.transferEnergy(modularHandler.getWorld(), ((IModularHandlerTileEntity) modularHandler).getPos(), state.getContentHandler(IEnergyBuffer.class), getCapacity(state) / 10000, false);
+		IEnergyBuffer energyBuffer = state.getContentHandler(IEnergyBuffer.class);
+		if (energyBuffer != null) {
+			if (tickCount % 2 == 0) {
+				IModulePage page = state.getPage(BatteryPage.class);
+				ItemStack stackToDischarge = page.getInventory().getStackInSlot(0);
+				ItemStack stackToCharge = page.getInventory().getStackInSlot(1);
+				if (stackToDischarge != null) {
+					IEnergyStorage storage = stackToDischarge.getCapability(CapabilityEnergy.ENERGY, null);
+					if (storage.canExtract()) {
+						int maxTransfer = storage.getMaxEnergyStored() / 100;
+						int transfer = (int) energyBuffer.receiveEnergy(state, null, maxTransfer, true);
+						if (transfer > 0 && storage.extractEnergy(transfer, true) == transfer) {
+							energyBuffer.receiveEnergy(state, null, storage.extractEnergy(transfer, false), false);
+							sendModuleUpdate(state);
+						}
+					}
+				}
+				if (stackToCharge != null) {
+					IEnergyStorage storage = stackToCharge.getCapability(CapabilityEnergy.ENERGY, null);
+					if (storage.canReceive()) {
+						int maxTransfer = storage.getMaxEnergyStored() / 100;
+						int transfer = (int) energyBuffer.extractEnergy(state, null, maxTransfer, true);
+						if (transfer > 0 && storage.receiveEnergy(transfer, true) == transfer) {
+							energyBuffer.extractEnergy(state, null, storage.receiveEnergy(transfer, false), false);
+							sendModuleUpdate(state);
+						}
+					}
+				}
+			}
+			IModuleState<IModuleController> controller = state.getModular().getModule(IModuleController.class);
+			if (controller != null && controller.getModule().canWork(controller, state) && tickCount % 2 == 0) {
+				IModularHandler modularHandler = state.getModular().getHandler();
+				if (modularHandler instanceof IModularHandlerTileEntity) {
+					EnergyUtil.transferEnergy(modularHandler.getWorld(), ((IModularHandlerTileEntity) modularHandler).getPos(), energyBuffer, getCapacity(state) / 10000, false);
+				}
 			}
 		}
 	}
@@ -135,7 +167,7 @@ public abstract class ModuleBattery extends StorageModule implements IModuleBatt
 	@Override
 	public void saveDataToItem(ItemStack itemStack, IModuleState state) {
 		super.saveDataToItem(itemStack, state);
-		IEnergyBuffer energyBuffer = state.<IEnergyBuffer> getContentHandler(IEnergyBuffer.class);
+		IEnergyBuffer energyBuffer = state.getContentHandler(IEnergyBuffer.class);
 		if (energyBuffer != null) {
 			saveEnergy(state, energyBuffer.getEnergyStored(), itemStack);
 		}

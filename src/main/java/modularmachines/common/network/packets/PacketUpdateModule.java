@@ -35,9 +35,9 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
 		super.writeData(data);
-		if (index > 0) {
+		if (position > 0) {
 			if (modularHandler.isAssembled()) {
-				IModuleState state = modularHandler.getModular().getModule(index);
+				IModuleState state = modularHandler.getModular().getModule(position);
 				if (pageId != null) {
 					IModulePage page = state.getPage(pageId);
 					if (page instanceof IStreamable) {
@@ -56,7 +56,7 @@ public class PacketUpdateModule extends PacketModule implements IPacketClient {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		if (index > 0) {
+		if (position > 0) {
 			IModularHandler modularHandler = getModularHandler(player);
 			if (modularHandler.isAssembled()) {
 				IModuleState state = getModule(modularHandler);

@@ -87,7 +87,7 @@ public class ModulePhotovoltaic extends ModuleControlled implements ITickable, I
 			if (state.getModular().getHandler() instanceof IModularHandlerTileEntity) {
 				IModularHandlerTileEntity handler = (IModularHandlerTileEntity) state.getModular().getHandler();
 				IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
-				if (energyBuffer.getCapacity() > energyBuffer.getEnergyStored()) {
+				if (energyBuffer != null && energyBuffer.getCapacity() > energyBuffer.getEnergyStored()) {
 					World world = handler.getWorld();
 					BlockPos pos = handler.getPos();
 					float lightRatio = calculateLightModifier(world);

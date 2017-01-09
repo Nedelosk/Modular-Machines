@@ -28,7 +28,7 @@ public abstract class RecipeHandler implements IRecipeHandler {
 	@Override
 	public IRecipeBuilder getDefaultTemplate() {
 		IRecipeBuilder builder = createBuilder();
-		return builder.set(Recipe.CATEGORY, recipeCategory).set(Recipe.NAME, "Default").set(Recipe.INPUTS, new RecipeItem[0]).set(Recipe.OUTPUTS, new RecipeItem[0]).set(Recipe.SPEED, 0);
+		return builder.setValue(Recipe.CATEGORY, recipeCategory).setValue(Recipe.NAME, "Default").setValue(Recipe.INPUTS, new RecipeItem[0]).setValue(Recipe.OUTPUTS, new RecipeItem[0]).setValue(Recipe.SPEED, 0);
 	}
 
 	@Override

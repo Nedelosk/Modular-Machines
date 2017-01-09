@@ -38,7 +38,7 @@ public class Recipe implements IRecipe {
 	}
 
 	@Override
-	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
+	public <T> T getValue(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
 		if (!properties.containsKey(property)) {
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the recipe.");
 		}
@@ -47,27 +47,27 @@ public class Recipe implements IRecipe {
 
 	@Override
 	public RecipeItem[] getInputs() {
-		return get(Recipe.INPUTS);
+		return getValue(Recipe.INPUTS);
 	}
 
 	@Override
 	public RecipeItem[] getOutputs() {
-		return get(Recipe.OUTPUTS);
+		return getValue(Recipe.OUTPUTS);
 	}
 
 	@Override
 	public String getRecipeName() {
-		return get(Recipe.NAME);
+		return getValue(Recipe.NAME);
 	}
 
 	@Override
 	public String getRecipeCategory() {
-		return get(Recipe.CATEGORY);
+		return getValue(Recipe.CATEGORY);
 	}
 
 	@Override
 	public int getSpeed() {
-		return get(Recipe.SPEED);
+		return getValue(Recipe.SPEED);
 	}
 
 	@Override

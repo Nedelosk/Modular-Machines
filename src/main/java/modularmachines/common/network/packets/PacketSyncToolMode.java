@@ -56,7 +56,7 @@ public class PacketSyncToolMode extends PacketModule implements IPacketClient, I
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			IModuleState<IModuleModeMachine> machine = modularHandler.getModular().getModule(index);
+			IModuleState<IModuleModeMachine> machine = modularHandler.getModular().getModule(position);
 			if (machine != null) {
 				machine.getModule().setCurrentMode(machine, machine.getModule().getMode(mode));
 			}

@@ -30,7 +30,7 @@ import modularmachines.api.property.PropertyInteger;
 
 public class ModuleState<M extends IModule> implements IModuleState<M> {
 
-	protected static final PropertyInteger INDEX = new PropertyInteger("index", -1);
+	protected static final PropertyInteger POSITION = new PropertyInteger("position", -1);
 	protected Map<IProperty, Object> properties;
 	protected final Map<String, IProperty> registeredProperties;
 	protected final IModuleHandler moduleHandler;
@@ -41,7 +41,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 
 	public ModuleState(IModuleProvider provider, IModuleContainer container) {
 		this.registeredProperties = Maps.newHashMap();
-		register(INDEX);
+		register(POSITION);
 		this.provider = provider;
 		this.container = container;
 		this.pages = container.getModule().createPages(this);
@@ -54,7 +54,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public IModuleState<M> build() {
+	public IModuleState<M> init() {
 		this.properties = Maps.newHashMap();
 		for (IProperty property : registeredProperties.values()) {
 			properties.put(property, property.getDefaultValue());
@@ -73,7 +73,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <T> T get(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
+	public <T> T getValue(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property) {
 		if (!registeredProperties.containsValue(property)) {
 			throw new IllegalArgumentException("Cannot get property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
@@ -84,7 +84,7 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public <T, V extends T> IModuleState<M> set(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
+	public <T, V extends T> IModuleState<M> setValue(IProperty<T, ? extends NBTBase, ? extends IPropertyProvider> property, V value) {
 		if (!registeredProperties.containsValue(property)) {
 			throw new IllegalArgumentException("Cannot set property " + property + " as it is not registred in the module state from the model " + container.getDisplayName());
 		}
@@ -100,6 +100,11 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean hasPages() {
+		return !pages.isEmpty();
 	}
 
 	@Override
@@ -148,13 +153,13 @@ public class ModuleState<M extends IModule> implements IModuleState<M> {
 	}
 
 	@Override
-	public int getIndex() {
-		return get(INDEX);
+	public int getPosition() {
+		return getValue(POSITION);
 	}
 
 	@Override
-	public void setIndex(int index) {
-		set(INDEX, index);
+	public void setPosition(int index) {
+		setValue(POSITION, index);
 	}
 
 	@Override

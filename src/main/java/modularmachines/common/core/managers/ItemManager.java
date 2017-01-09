@@ -8,6 +8,7 @@ import modularmachines.api.material.IMetalMaterial;
 import modularmachines.api.material.MaterialList;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.common.core.Registry;
+import modularmachines.common.items.ItemBattery;
 import modularmachines.common.items.ItemCasing;
 import modularmachines.common.items.ItemComponent;
 import modularmachines.common.items.ItemMetal;
@@ -47,6 +48,7 @@ public class ItemManager {
 	public static Item itemWrench;
 	public static Item itemPhotovoltaic;
 	public static Item itemSolarBoiler;
+	public static ItemBattery itemBattery;
 	public static MaterialList<IMetalMaterial> alloys = new MaterialList(EnumMetalMaterials.BRONZE, EnumMetalMaterials.INVAR);
 	public static MaterialList<IMetalMaterial> default_metals = new MaterialList(EnumMetalMaterials.COPPER, EnumMetalMaterials.TIN, EnumMetalMaterials.SILVER, EnumMetalMaterials.LEAD, EnumMetalMaterials.NICKEL, EnumMetalMaterials.ALUMINIUM,
 			EnumMetalMaterials.STEEL);
@@ -79,6 +81,7 @@ public class ItemManager {
 		itemWrench = register(new ItemWrench());
 		itemPhotovoltaic = register(new ItemModuleMeta("photovoltaic", new String[] { "basic", "default", "improved", "advanced" }));
 		itemSolarBoiler = register(new ItemModuleMeta("solar_boiler", new String[] { "basic", "default", "improved", "advanced" }));
+		itemBattery = register(new ItemBattery());
 		ModuleManager.defaultModuleItem = itemModules = register(new ItemModule());
 		ModuleManager.defaultModuleHolderItem = itemModuleHolder = register(new ItemModuleHolder());
 		ModuleManager.defaultModuleItemContainer = itemModuleContainer = register(new ItemModuleContainer());

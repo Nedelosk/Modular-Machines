@@ -19,7 +19,7 @@ import modularmachines.common.network.PacketHandler;
 public class PacketSyncRedstoneMode extends PacketModularHandler implements IPacketClient, IPacketServer {
 
 	private int mode;
-	private int index;
+	private int position;
 
 	public PacketSyncRedstoneMode() {
 		super();
@@ -28,21 +28,21 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 	public PacketSyncRedstoneMode(IModularHandler modularHandler, IModuleState<IModuleControlled> moduleState) {
 		super(modularHandler);
 		this.mode = moduleState.getModule().getModuleControl(moduleState).getRedstoneMode().ordinal();
-		this.index = moduleState.getIndex();
+		this.position = moduleState.getPosition();
 	}
 
 	@Override
 	protected void writeData(DataOutputStreamMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(mode);
-		data.writeInt(index);
+		data.writeInt(position);
 	}
 
 	@Override
 	public void readData(DataInputStreamMM data) throws IOException {
 		super.readData(data);
 		mode = data.readInt();
-		index = data.readInt();
+		position = data.readInt();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -51,7 +51,7 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
+			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(position);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
 			}
@@ -63,7 +63,7 @@ public class PacketSyncRedstoneMode extends PacketModularHandler implements IPac
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
+			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(position);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setRedstoneMode(EnumRedstoneMode.VALUES[mode]);
 			}

@@ -311,9 +311,9 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 			NBTTagCompound entryTag = nbtTagConfigurationList.getCompoundTagAt(index);
 			EnumFacing facing = EnumFacing.VALUES[index];
 			boolean[] configurations = new boolean[this.configurations.get(facing).length];
-			byte[] tankConfiguration = entryTag.getByteArray("Configurations");
-			for (int i = 0; i < this.configurations.get(facing).length; i++) {
-				configurations[i] = tankConfiguration[i] == 1;
+			byte[] slotConfiguration = entryTag.getByteArray("Configurations");
+			for (int i = 0; i < slotConfiguration.length; i++) {
+				configurations[i] = slotConfiguration[i] == 1;
 			}
 			this.configurations.put(facing, configurations);
 		}
@@ -398,7 +398,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public boolean canRemoveRecipeInputs(int chance, RecipeItem[] inputs) {
+	public boolean canRemoveRecipeInputs(float chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -425,7 +425,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public boolean canAddRecipeOutputs(int chance, RecipeItem[] outputs) {
+	public boolean canAddRecipeOutputs(float chance, RecipeItem[] outputs) {
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if (getOutputs() > 0) {
 			boolean allFull = true;
@@ -456,7 +456,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public void removeRecipeInputs(int chance, RecipeItem[] inputs) {
+	public void removeRecipeInputs(float chance, RecipeItem[] inputs) {
 		if (inputs != null) {
 			for (RecipeItem recipeInput : inputs) {
 				if (recipeInput != null) {
@@ -502,7 +502,7 @@ public class ModuleInventory<M extends IModule> extends BlankModuleContentHandle
 	}
 
 	@Override
-	public void addRecipeOutputs(int chance, RecipeItem[] outputs) {
+	public void addRecipeOutputs(float chance, RecipeItem[] outputs) {
 		List<ItemStack> outputStacks = new ArrayList<>(getOutputs());
 		if (getOutputs() > 0) {
 			for (int i = getInputs(); i < getInputs() + getOutputs(); i++) {

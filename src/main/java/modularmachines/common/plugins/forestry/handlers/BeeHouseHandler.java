@@ -186,6 +186,11 @@ public class BeeHouseHandler extends BlankModuleContentHandler<ModuleBeeHouse> i
 	}
 
 	@Override
+	public boolean isRaining() {
+		return worldObj.isRainingAt(getCoordinates().up());
+	}
+
+	@Override
 	public GameProfile getOwner() {
 		return moduleState.getModular().getHandler().getOwner();
 	}

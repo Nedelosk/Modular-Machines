@@ -9,7 +9,7 @@ public class RecipeItem {
 	public final FluidStack fluid;
 	public final ItemStack item;
 	public final OreStack ore;
-	public final int chance;
+	public final float chance;
 	public int index;
 
 	public RecipeItem(ItemStack item) {
@@ -36,7 +36,7 @@ public class RecipeItem {
 		this.chance = -1;
 	}
 
-	public RecipeItem(ItemStack item, int chance) {
+	public RecipeItem(ItemStack item, float chance) {
 		this.item = item;
 		this.fluid = null;
 		this.ore = null;
@@ -44,7 +44,7 @@ public class RecipeItem {
 		this.chance = chance;
 	}
 
-	public RecipeItem(FluidStack fluid, int chance) {
+	public RecipeItem(FluidStack fluid, float chance) {
 		this.fluid = fluid;
 		this.item = null;
 		this.ore = null;
@@ -52,7 +52,7 @@ public class RecipeItem {
 		this.chance = chance;
 	}
 
-	public RecipeItem(OreStack ore, int chance) {
+	public RecipeItem(OreStack ore, float chance) {
 		this.fluid = null;
 		this.item = null;
 		this.ore = ore;
@@ -83,7 +83,7 @@ public class RecipeItem {
 		this.index = slotIndex;
 	}
 
-	public RecipeItem(int slotIndex, ItemStack item, int chance) {
+	public RecipeItem(int slotIndex, ItemStack item, float chance) {
 		this.item = item;
 		this.chance = chance;
 		this.fluid = null;
@@ -91,7 +91,7 @@ public class RecipeItem {
 		this.index = slotIndex;
 	}
 
-	public RecipeItem(int slotIndex, FluidStack fluid, int chance) {
+	public RecipeItem(int slotIndex, FluidStack fluid, float chance) {
 		this.fluid = fluid;
 		this.chance = chance;
 		this.item = null;
@@ -99,7 +99,7 @@ public class RecipeItem {
 		this.index = slotIndex;
 	}
 
-	public RecipeItem(int slotIndex, OreStack ore, int chance) {
+	public RecipeItem(int slotIndex, OreStack ore, float chance) {
 		this.fluid = null;
 		this.item = null;
 		this.chance = chance;
@@ -107,7 +107,7 @@ public class RecipeItem {
 		this.index = slotIndex;
 	}
 
-	public RecipeItem(int slotIndex, ItemStack item, FluidStack fluid, OreStack ore, int chance) {
+	public RecipeItem(int slotIndex, ItemStack item, FluidStack fluid, OreStack ore, float chance) {
 		this.fluid = fluid;
 		this.item = item;
 		this.ore = ore;
@@ -117,7 +117,7 @@ public class RecipeItem {
 
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("slotIndex", this.index);
-		nbt.setInteger("chance", this.chance);
+		nbt.setFloat("chance", this.chance);
 		if (item != null) {
 			NBTTagCompound nbtTag = new NBTTagCompound();
 			item.writeToNBT(nbtTag);

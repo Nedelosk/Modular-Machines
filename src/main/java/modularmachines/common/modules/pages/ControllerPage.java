@@ -3,12 +3,15 @@ package modularmachines.common.modules.pages;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,8 +40,8 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 		this.usedModules = new ArrayList<>();
 		IModuleControl control = module.getModule().getModuleControl(module);
 		for (IModuleState state : module.getModule().getUsedModules(module)) {
-			if (state.getIndex() != module.getIndex()) {
-				this.usedModules.add(state.getIndex());
+			if (state.getPosition() != module.getPosition()) {
+				this.usedModules.add(state.getPosition());
 				control.setPermission(state, true);
 			}
 		}
@@ -51,11 +54,11 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 		usedByModules = new ArrayList<>();
 		usedByPage = 1;
 		for (IModuleState state : module.getModular().getModules()) {
-			if (state.getIndex() != module.getIndex()) {
+			if (state.getPosition() != module.getPosition()) {
 				if (state.getModule() instanceof IModuleControlled) {
 					for (IModuleState otherState : ((IModuleControlled) state.getModule()).getUsedModules(state)) {
-						if (otherState.getIndex() == module.getIndex()) {
-							usedByModules.add(state.getIndex());
+						if (otherState.getPosition() == module.getPosition()) {
+							usedByModules.add(state.getPosition());
 							break;
 						}
 					}
@@ -67,6 +70,18 @@ public class ControllerPage extends ModulePage<IModuleControlled> {
 			usedByPages = 1;
 		}
 		this.usedByPages = usedByPages;
+	}
+
+	@Override
+	public String getPageTitle() {
+		ItemStack stack = moduleState.getProvider().getItemStack();
+		if (stack != null && stack.hasDisplayName()) {
+			return stack.getDisplayName();
+		}
+		if (title == null || title.isEmpty()) {
+			return null;
+		}
+		return I18n.translateToLocalFormatted("module.page." + title.toLowerCase(Locale.ENGLISH) + ".name", moduleState.getDisplayName());
 	}
 
 	@Override

@@ -17,6 +17,6 @@ public class AlloySmelterRecipeWrapper extends ModuleRecipeWrapper {
 
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", recipe.get(Recipe.HEAT)), 72, 5, Color.gray.getRGB());
+		minecraft.fontRendererObj.drawString(Translator.translateToLocalFormatted("gui.mm.jei.heat", recipe.getValue(Recipe.HEAT)), 72, 5, Color.gray.getRGB());
 	}
 }

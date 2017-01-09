@@ -56,22 +56,22 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 
 	@Override
 	public int getBurnTime(IModuleState state) {
-		return state.get(BURNTIME);
+		return state.getValue(BURNTIME);
 	}
 
 	@Override
 	public int getBurnTimeTotal(IModuleState state) {
-		return state.get(BURNTIMETOTAL);
+		return state.getValue(BURNTIMETOTAL);
 	}
 
 	@Override
 	public void setBurnTime(IModuleState state, int burnTime) {
-		state.set(BURNTIME, burnTime);
+		state.setValue(BURNTIME, burnTime);
 	}
 
 	@Override
 	public void addBurnTime(IModuleState state, int burnTime) {
-		state.set(BURNTIME, state.get(BURNTIME) + burnTime);
+		state.setValue(BURNTIME, state.getValue(BURNTIME) + burnTime);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class ModuleHeaterBurning extends ModuleHeater implements IModuleHeaterBu
 		if (input != null) {
 			if (inventory.extractItemInternal(0, 1, false) != null) {
 				setBurnTime(state, TileEntityFurnace.getItemBurnTime(input));
-				state.set(BURNTIMETOTAL, TileEntityFurnace.getItemBurnTime(input));
+				state.setValue(BURNTIMETOTAL, TileEntityFurnace.getItemBurnTime(input));
 				return true;
 			}
 		}

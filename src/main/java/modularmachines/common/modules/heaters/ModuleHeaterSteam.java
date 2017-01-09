@@ -42,15 +42,15 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}
 
 	public int getBurnTime(IModuleState state) {
-		return state.get(BURNTIME);
+		return state.getValue(BURNTIME);
 	}
 
 	public void setBurnTime(IModuleState state, int burnTime) {
-		state.set(BURNTIME, burnTime);
+		state.setValue(BURNTIME, burnTime);
 	}
 
 	public void addBurnTime(IModuleState state, int burnTime) {
-		state.set(BURNTIME, state.get(BURNTIME) + burnTime);
+		state.setValue(BURNTIME, state.getValue(BURNTIME) + burnTime);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 		if (input == null) {
 			if (tank.drainInternal(80, true) != null) {
 				setBurnTime(state, 50);
-				state.set(BURNTIMETOTAL, 50);
+				state.setValue(BURNTIMETOTAL, 50);
 				return true;
 			}
 		}
