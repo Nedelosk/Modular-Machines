@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
-
+import modularmachines.common.core.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncToolMode;
 import modularmachines.common.utils.RenderUtil;
@@ -44,7 +44,7 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+		ModularMachines.proxy.playButtonClick();
 		IModuleModeMachine module = source.getModule();
 		module.setCurrentMode(source, module.getNextMode(source));
 		PacketHandler.sendToServer(new PacketSyncToolMode(source.getModular().getHandler(), source));

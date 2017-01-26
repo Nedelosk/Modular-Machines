@@ -16,7 +16,7 @@ import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ContainerUtil;
-import modularmachines.common.utils.ModuleUtils;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketSelectModule extends PacketModule {
 
@@ -40,7 +40,7 @@ public class PacketSelectModule extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtils.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
 			if (guiLogic != null) {
 				IModuleLogic logic = guiLogic.getLogic();
 				int index = data.readVarInt();
@@ -53,7 +53,7 @@ public class PacketSelectModule extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			WorldServer world = player.getServerWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtils.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
 			if (guiLogic != null) {
 				IModuleLogic logic = guiLogic.getLogic();
 				int index = data.readVarInt();

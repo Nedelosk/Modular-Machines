@@ -13,7 +13,7 @@ import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
-import modularmachines.common.utils.ModuleUtils;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketSyncHandlerState extends PacketLocatable{
 
@@ -45,8 +45,8 @@ public class PacketSyncHandlerState extends PacketLocatable{
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			BlockPos pos = data.readBlockPos();
 			World world = player.world;
-			IModuleLogic logic = ModuleUtils.getLogic(pos, world);
-			IAssembler assembler = ModuleUtils.getAssembler(pos, world);
+			IModuleLogic logic = ModuleUtil.getLogic(pos, world);
+			IAssembler assembler = ModuleUtil.getAssembler(pos, world);
 			boolean assembled = data.readBoolean();
 			if(assembler != null && logic != null){
 				if (assembled) {
@@ -61,8 +61,8 @@ public class PacketSyncHandlerState extends PacketLocatable{
 		public void onPacketData(PacketBufferMM  data, EntityPlayerMP player) throws IOException {
 			BlockPos pos = data.readBlockPos();
 			World world = player.world;
-			IModuleLogic logic = ModuleUtils.getLogic(pos, world);
-			IAssembler assembler = ModuleUtils.getAssembler(pos, world);
+			IModuleLogic logic = ModuleUtil.getLogic(pos, world);
+			IAssembler assembler = ModuleUtil.getAssembler(pos, world);
 			boolean assembled = data.readBoolean();
 			if(assembler != null && logic != null){
 				if (assembled) {

@@ -11,7 +11,7 @@ import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.common.network.PacketBufferMM;
-import modularmachines.common.utils.ModuleUtils;
+import modularmachines.common.utils.ModuleUtil;
 
 public abstract class PacketLocatable<S extends ILocatableSource> extends Packet {
 
@@ -35,11 +35,11 @@ public abstract class PacketLocatable<S extends ILocatableSource> extends Packet
 	
 	@Nullable
 	protected static IAssembler getAssembler(PacketBufferMM data, World world){
-		return ModuleUtils.getAssembler(getPos(data), world);
+		return ModuleUtil.getAssembler(getPos(data), world);
 	}
 	
 	@Nullable
 	protected static IModuleLogic getLogic(PacketBufferMM data, World world){
-		return ModuleUtils.getLogic(getPos(data), world);
+		return ModuleUtil.getLogic(getPos(data), world);
 	}
 }

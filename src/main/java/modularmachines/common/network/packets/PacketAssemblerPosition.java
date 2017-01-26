@@ -13,7 +13,7 @@ import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ContainerUtil;
-import modularmachines.common.utils.ModuleUtils;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketAssemblerPosition extends PacketLocatable {
 	
@@ -58,7 +58,7 @@ public class PacketAssemblerPosition extends PacketLocatable {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			BlockPos pos = getPos(data);
-			IAssembler assembler = ModuleUtils.getAssembler(pos, player.world);
+			IAssembler assembler = ModuleUtil.getAssembler(pos, player.world);
 			short positionIndex = data.readShort();
 			if (assembler != null) {
 				assembler.setSelectedPosition(assembler.getPosition(positionIndex));

@@ -8,4 +8,7 @@ public class ModularMachines {
 
 	@Instance(Constants.MOD_ID)
 	public static ModularMachines instance;
+	
+	@SidedProxy(clientSide = "modularmachines.client.core.ClientProxy", serverSide = "modularmachines.common.core.CommonProxy")
+	public static CommonProxy proxy;
 }

@@ -14,13 +14,16 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.containers.ContainerModular;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModuleUtils {
+public class ModuleUtil {
 
 	@Nullable
 	public <M extends Module> List<M> getModules(IModuleLogic logic, Class<? extends M> moduleClass) {
@@ -61,6 +64,12 @@ public class ModuleUtils {
 	@Nullable
 	public static IAssembler getAssembler(ILocatable locatable){
 		return getAssembler(locatable.getCoordinates(), locatable.getWorldObj());
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static IModuleGuiLogic getClientGuiLogic(){
+		Minecraft mc = Minecraft.getMinecraft();
+		return getGuiLogic(mc.player);
 	}
 	
 	public static IModuleGuiLogic getGuiLogic(EntityPlayer player){

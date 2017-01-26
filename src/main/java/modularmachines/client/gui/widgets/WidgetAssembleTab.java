@@ -15,7 +15,7 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.client.gui.GuiBase;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
-import modularmachines.common.utils.ModuleUtils;
+import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 

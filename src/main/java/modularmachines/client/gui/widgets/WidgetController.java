@@ -8,11 +8,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-
+import modularmachines.client.gui.GuiBase;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncPermission;
 
-public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
+/*public class WidgetController extends Widget {
 
 	public final IModuleState state;
 	public final boolean usedBy;
@@ -28,7 +28,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase gui) {
+	public List<String> getTooltip() {
 		ItemStack itemStack = state.getSource().getItemStack();
 		if (itemStack != null && itemStack.hasDisplayName()) {
 			return Arrays.asList(itemStack.getDisplayName());
@@ -37,7 +37,8 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw() {
+		GuiBase gui = manager.getG
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
@@ -70,4 +71,4 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), source, state));
 		}
 	}
-}
+}*/
