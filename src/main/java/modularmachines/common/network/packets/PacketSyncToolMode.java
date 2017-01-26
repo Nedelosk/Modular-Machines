@@ -1,16 +1,6 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.common.network.PacketHandler;
-
-public class PacketSyncToolMode extends PacketModule implements IPacketClient, IPacketServer {
+/*public class PacketSyncToolMode extends PacketModule implements IPacketClient, IPacketServer {
 
 	private int mode;
 
@@ -63,4 +53,4 @@ public class PacketSyncToolMode extends PacketModule implements IPacketClient, I
 	public PacketId getPacketId() {
 		return PacketId.SYNC_TOOL_MODE;
 	}
-}
+}*/

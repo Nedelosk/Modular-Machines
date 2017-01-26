@@ -1,4 +1,4 @@
-package modularmachines.common.modules;
+package modularmachines.common.modules.logic;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.ModuleHelper;

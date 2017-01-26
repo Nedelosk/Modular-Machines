@@ -3,7 +3,6 @@ package modularmachines.client.gui.widgets;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-import modularmachines.client.gui.GuiBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -380,12 +379,11 @@ public class WidgetTextField extends Widget {
 	}
 
 	@Override
-	public void draw() {
-		GuiBase gui = manager.getGui();
+	public void draw(int guiLeft, int guiTop) {
 		if (this.getVisible()) {
 			if (this.getEnableBackgroundDrawing()) {
-				Gui.drawRect(positon.x - 1, positon.y - 1, positon.x + positon.width + 1, positon.y + positon.height + 1, -6250336);
-				Gui.drawRect(positon.x, positon.y, positon.x + positon.width, positon.y + positon.height, -16777216);
+				Gui.drawRect(pos.x - 1, pos.y - 1, pos.x + pos.width + 1, pos.y + pos.height + 1, -6250336);
+				Gui.drawRect(pos.x, pos.y, pos.x + pos.width, pos.y + pos.height, -16777216);
 			}
 			int i = this.isEnabled ? this.enabledColor : this.disabledColor;
 			int j = this.cursorPosition - this.lineScrollOffset;
@@ -393,8 +391,8 @@ public class WidgetTextField extends Widget {
 			String s = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
 			boolean flag = j >= 0 && j <= s.length();
 			boolean flag1 = this.isFocused && this.cursorCounter / 6 % 2 == 0 && flag;
-			int l = this.enableBackgroundDrawing ? positon.x + 4 : positon.x;
-			int i1 = this.enableBackgroundDrawing ? positon.y + (positon.height - 8) / 2 : positon.y;
+			int l = this.enableBackgroundDrawing ? pos.x + 4 : pos.x;
+			int i1 = this.enableBackgroundDrawing ? pos.y + (pos.height - 8) / 2 : pos.y;
 			int j1 = l;
 			if (k > s.length()) {
 				k = s.length();
@@ -406,7 +404,7 @@ public class WidgetTextField extends Widget {
 			boolean flag2 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
 			int k1 = j1;
 			if (!flag) {
-				k1 = j > 0 ? l + positon.width : l;
+				k1 = j > 0 ? l + pos.width : l;
 			} else if (flag2) {
 				k1 = j1 - 1;
 				--j1;
@@ -442,11 +440,11 @@ public class WidgetTextField extends Widget {
 			startY = endY;
 			endY = j;
 		}
-		if (endX > positon.x + positon.width) {
-			endX = positon.x + positon.width;
+		if (endX > pos.x + pos.width) {
+			endX = pos.x + pos.width;
 		}
-		if (startX > positon.x + positon.width) {
-			startX = positon.x + positon.width;
+		if (startX > pos.x + pos.width) {
+			startX = pos.x + pos.width;
 		}
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
@@ -516,12 +514,12 @@ public class WidgetTextField extends Widget {
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-		boolean flag = mouseX >= positon.x && mouseX < positon.x + positon.width && mouseY >= positon.y && mouseY < positon.y + positon.height;
+		boolean flag = mouseX >= pos.x && mouseX < pos.x + pos.width && mouseY >= pos.y && mouseY < pos.y + pos.height;
 		if (this.canLoseFocus) {
 			this.setFocused(flag);
 		}
 		if (this.isFocused && flag && mouseButton == 0) {
-			int i = mouseX - positon.x;
+			int i = mouseX - pos.x;
 			if (this.enableBackgroundDrawing) {
 				i -= 4;
 			}
@@ -578,7 +576,7 @@ public class WidgetTextField extends Widget {
 	 * enabled
 	 */
 	public int getWidth() {
-		return this.getEnableBackgroundDrawing() ? positon.width - 8 : positon.width;
+		return this.getEnableBackgroundDrawing() ? pos.width - 8 : pos.width;
 	}
 
 	/**

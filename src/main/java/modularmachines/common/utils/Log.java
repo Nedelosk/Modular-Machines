@@ -16,7 +16,7 @@ public class Log {
 		log(Constants.NAME, level, msg, args);
 	}
 
-	public static void logPluginManager(Level level, String msg, Object... args) {
+	public static void logPlugin(Level level, String msg, Object... args) {
 		log(Constants.NAME + " PluginManager", level, msg, args);
 	}
 

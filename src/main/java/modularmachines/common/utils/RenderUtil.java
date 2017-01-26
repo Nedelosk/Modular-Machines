@@ -20,12 +20,12 @@ public class RenderUtil {
 		return Minecraft.getMinecraft().renderEngine;
 	}
 
-	public static void bindTexture(ResourceLocation tex) {
+	public static void texture(ResourceLocation tex) {
 		engine().bindTexture(tex);
 	}
 
 	public static void bindBlockTexture() {
-		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		texture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 	
 }

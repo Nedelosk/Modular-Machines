@@ -11,12 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import modularmachines.api.modules.IModuleGuiLogic;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.ModulePage;
-import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.GuiBase;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSelectModule;
-import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RenderUtil;
 
@@ -35,33 +30,29 @@ public class WidgetModuleTab extends Widget<IModuleLogic> {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(int guiLeft, int guiTop) {
 		GuiBase gui = manager.getGui();
-		int guiLeft = gui.getGuiLeft();
-		int guiTop = gui.getGuiTop();
 		int moduleIndex = module.getIndex();
 		int currentIndex = guiLogic.getCurrentModule().getIndex();
 		GlStateManager.color(1F, 1F, 1F, 1F);
-		RenderUtil.bindTexture(guiTexture);
-		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, (moduleIndex == currentIndex) ? 0 : 28, onRightSide ? 214 : 235, 28, 21);
+		RenderUtil.texture(guiTexture);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, (moduleIndex == currentIndex) ? 0 : 28, onRightSide ? 214 : 235, 28, 21);
 		//TODO: Find an item
 		//gui.drawItemStack(source.getSource().getItemStack(), guiLeft + positon.x + (onRightSide ? 5 : 7), guiTop + positon.y + 2);
 	}
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-		IModular modular = moduleHandler.getModular();
-		IModuleState currentModule = modular.getCurrentModule();
-		if (currentModule.getPosition() != source.getPosition()) {
+		int moduleIndex = module.getIndex();
+		int currentIndex = guiLogic.getCurrentModule().getIndex();
+		if (moduleIndex == currentIndex) {
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-			modular.setCurrentModule(source);
-			PacketHandler.sendToServer(new PacketSelectModule(source));
-			PacketHandler.sendToServer(new PacketSelectModulePage(moduleHandler, moduleHandler.getModular().getCurrentPage().getPageID()));
+			guiLogic.setCurrentPage(module.getPage(0), true);
 		}
 	}
 
 	@Override
 	public List<String> getTooltip() {
-		return Arrays.asList(source.getDisplayName());
+		return Arrays.asList(module.getData().getDisplayName());
 	}
 }

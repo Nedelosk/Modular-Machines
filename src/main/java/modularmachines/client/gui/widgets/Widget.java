@@ -5,6 +5,7 @@ import java.util.List;
 
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.ILocatableSource;
+import modularmachines.client.gui.GuiBase;
 import modularmachines.client.gui.WidgetManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,13 +16,15 @@ public abstract class Widget<S extends ILocatableSource> {
 	
 	protected static final ResourceLocation widgetTexture = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
 	
-	protected final Rectangle positon;
+	protected final Rectangle pos;
 	protected WidgetManager<IGuiProvider, S> manager;
+	protected GuiBase<IGuiProvider, S> gui;
 	protected S source;
 
 	public Widget(int posX, int posY, int width, int height) {
-		this.positon = new Rectangle(posX, posY, width, height);
-		this.source = manager.getGui().getSource();
+		this.pos = new Rectangle(posX, posY, width, height);
+		this.gui = manager.getGui();
+		this.source = gui.getSource();
 	}
 	
 	public void setManager(WidgetManager<IGuiProvider, S> manager) {
@@ -33,7 +36,7 @@ public abstract class Widget<S extends ILocatableSource> {
 		return manager;
 	}
 
-	public void draw() {
+	public void draw(int guiLeft, int guiTop) {
 	}
 
 	public boolean keyTyped(char keyChar, int keyCode) {
@@ -48,7 +51,7 @@ public abstract class Widget<S extends ILocatableSource> {
 	}
 
 	public boolean isMouseOver(int x, int y) {
-		return x >= positon.x && y >= positon.y && x < positon.x + positon.width && y < positon.y + positon.height;
+		return x >= pos.x && y >= pos.y && x < pos.x + pos.width && y < pos.y + pos.height;
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
@@ -66,13 +69,13 @@ public abstract class Widget<S extends ILocatableSource> {
 	}
 	
 	public final Rectangle getPos() {
-		return positon;
+		return pos;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if (w.positon.equals(positon)) {
+		if (w.pos.equals(pos)) {
 			return true;
 		}
 		return false;

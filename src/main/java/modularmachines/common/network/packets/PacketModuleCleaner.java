@@ -1,20 +1,6 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.Module;
-import modularmachines.common.network.PacketBufferMM;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.PacketId;
-
-public class PacketModuleCleaner extends PacketModule {
+/*public class PacketModuleCleaner extends PacketModule {
 
 	public PacketModuleCleaner() {
 	}
@@ -54,4 +40,4 @@ public class PacketModuleCleaner extends PacketModule {
 		}
 		
 	}
-}
+}*/

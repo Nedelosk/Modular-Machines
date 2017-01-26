@@ -9,8 +9,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
 import modularmachines.api.modules.IModuleLogic;
-import modularmachines.api.modules.ModuleGuiLogic;
 import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.common.modules.logic.ModuleGuiLogic;
 
 public class ContainerModular extends BaseContainer<IModuleLogic> {
 

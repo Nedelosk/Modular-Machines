@@ -1,13 +1,6 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-public class PacketSyncHeatBuffer extends PacketLocatable {
+/*public class PacketSyncHeatBuffer extends PacketLocatable {
 
 	public double heatBuffer;
 
@@ -45,4 +38,4 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HEAT;
 	}
-}
+}*/

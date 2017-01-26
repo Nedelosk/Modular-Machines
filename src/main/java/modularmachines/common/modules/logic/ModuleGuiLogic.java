@@ -1,8 +1,13 @@
-package modularmachines.api.modules;
+package modularmachines.common.modules.logic;
 
 import javax.annotation.Nullable;
 
+import modularmachines.api.modules.IModuleGuiLogic;
+import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.Module;
 import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSelectModulePage;
 
 public class ModuleGuiLogic implements IModuleGuiLogic {
 	private final IModuleLogic logic;
@@ -20,10 +25,13 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
     }
     
     @Override
-	public void setCurrentPage(@Nullable ModulePage page){
+	public void setCurrentPage(@Nullable ModulePage page, boolean sendToServer){
     	if(page != null){
     		this.currentModule = page.getParent();
     		this.currentPage = page;
+    		if(sendToServer){
+    			PacketHandler.sendToServer(new PacketSelectModulePage(logic, page.getIndex()));
+    		}
     	}else{
     		this.currentModule = null;
     		this.currentPage = null;

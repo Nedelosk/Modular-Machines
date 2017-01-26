@@ -54,10 +54,10 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		return null;
 	}
 
-	public void drawWidgets() {
+	public void drawWidgets(int guiLeft, int guiTop) {
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			slot.draw();
+			slot.draw(guiLeft, guiTop);
 		}
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

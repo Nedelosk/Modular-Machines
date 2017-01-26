@@ -1,18 +1,6 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.client.gui.GuiModuleLogic;
-import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
-
-@SideOnly(Side.CLIENT)
+/*@SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModuleState<M>> {
 
 	public List<String> jeiTooltip;
@@ -60,19 +48,19 @@ public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModu
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(int guiLeft, int guiTop) {
 		int worktTimeTotal = source.getModule().getWorkTimeTotal(source);
 		int workTime = source.getModule().getWorkTime(source);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
-		RenderUtil.bindTexture(widgetTexture);
-		int process = (worktTimeTotal == 0) ? 0 : workTime * positon.width / worktTimeTotal;
+		RenderUtil.texture(widgetTexture);
+		int process = (worktTimeTotal == 0) ? 0 : workTime * pos.width / worktTimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 54, 0, positon.width, positon.height);
+		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, pos.width, pos.height);
 		if (workTime > 0) {
-			gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 76, 0, process, positon.height);
+			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, pos.height);
 		}
 		GlStateManager.disableAlpha();
 	}
-}
+}*/

@@ -65,10 +65,10 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(guiTexture);
+		RenderUtil.texture(guiTexture);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		render();
-		widgetManager.drawWidgets();
+		widgetManager.drawWidgets(guiLeft, guiTop);
 	}
 
 	@Override

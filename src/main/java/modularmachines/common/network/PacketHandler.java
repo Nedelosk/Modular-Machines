@@ -1,12 +1,8 @@
 package modularmachines.common.network;
 
 import java.io.IOException;
-import java.io.InputStream;
-
 import com.google.common.base.Preconditions;
 
-import forestry.core.network.IForestryPacketHandlerServer;
-import forestry.core.network.PacketBufferForestry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,43 +22,38 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import io.netty.buffer.ByteBufInputStream;
 import modularmachines.common.network.packets.IPacket;
 import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
-import modularmachines.common.network.packets.PacketModuleCleaner;
 import modularmachines.common.network.packets.PacketAssemblerPosition;
 import modularmachines.common.network.packets.PacketSelectModule;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
-import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncModule;
-import modularmachines.common.network.packets.PacketSyncPermission;
-import modularmachines.common.network.packets.PacketSyncRedstoneMode;
-import modularmachines.common.network.packets.PacketSyncToolMode;
 import modularmachines.common.network.packets.PacketUpdateModule;
 import modularmachines.common.utils.Log;
 
 public class PacketHandler {
 
-	public static final String channelId = "modularmachines";
+	public static final String channelId = "MM";
 	private final static FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channelId);
 	
 	public PacketHandler() {
 		channel.register(this);
+		registerClientPacket(PacketId.ASSEMBLER_POSITION, new PacketAssemblerPosition.Handler());
+		registerServerPacket(PacketId.ASSEMBLER_POSITION, new PacketAssemblerPosition.Handler());
+		registerClientPacket(PacketId.SELECT_MODULE, new PacketSelectModule.Handler());
+		registerServerPacket(PacketId.SELECT_MODULE, new PacketSelectModule.Handler());
+		registerClientPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
+		registerServerPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
+		registerClientPacket(PacketId.SYNC_HANDLER_STATE, new PacketSyncHandlerState.Handler());
+		registerServerPacket(PacketId.SYNC_HANDLER_STATE, new PacketSyncHandlerState.Handler());
+		registerClientPacket(PacketId.SYNC_MODULE, new PacketSyncModule.Handler());
+		registerClientPacket(PacketId.UPDATE_MODULE, new PacketUpdateModule.Handler());
+		/*registerClientPacket(new PacketSyncToolMode());
+		registerServerPacket(new PacketSyncToolMode());
 		registerClientPacket(new PacketModuleCleaner());
 		registerServerPacket(new PacketModuleCleaner());
-		registerClientPacket(new PacketAssemblerPosition());
-		registerServerPacket(new PacketAssemblerPosition());
-		registerClientPacket(new PacketSelectModule());
-		registerServerPacket(new PacketSelectModule());
-		registerClientPacket(new PacketSelectModulePage());
-		registerServerPacket(new PacketSelectModulePage());
-		registerClientPacket(new PacketSyncToolMode());
-		registerServerPacket(new PacketSyncToolMode());
-		registerClientPacket(new PacketSyncHandlerState());
-		registerServerPacket(new PacketSyncHandlerState());
-		registerClientPacket(new PacketSyncModule());
 		registerClientPacket(new PacketSyncRedstoneMode());
 		registerServerPacket(new PacketSyncRedstoneMode());
 		registerClientPacket(new PacketSyncToolMode());
@@ -71,8 +62,7 @@ public class PacketHandler {
 		registerServerPacket(new PacketSyncRedstoneMode());
 		registerClientPacket(new PacketSyncPermission());
 		registerServerPacket(new PacketSyncPermission());
-		registerClientPacket(new PacketSyncHeatBuffer());
-		registerClientPacket(new PacketUpdateModule());
+		registerClientPacket(new PacketSyncHeatBuffer());*/
 	}
 
 	public static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {

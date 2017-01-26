@@ -1,4 +1,4 @@
-package modularmachines.common.modules;
+package modularmachines.common.modules.logic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleGuiLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.storages.IStorage;

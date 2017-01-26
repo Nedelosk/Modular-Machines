@@ -1,16 +1,6 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.common.network.PacketHandler;
-
-public class PacketSyncRedstoneMode extends PacketLocatable implements IPacketClient, IPacketServer {
+/*public class PacketSyncRedstoneMode extends PacketLocatable implements IPacketClient, IPacketServer {
 
 	private int mode;
 	private int position;
@@ -69,4 +59,4 @@ public class PacketSyncRedstoneMode extends PacketLocatable implements IPacketCl
 	public PacketId getPacketId() {
 		return PacketId.SYNC_REDSTONE_MODE;
 	}
-}
+}*/

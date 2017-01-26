@@ -1,19 +1,6 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.SoundEvents;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncToolMode;
-import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
-
-public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
+/*public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 
 	public WidgetMode(int posX, int posY, IModuleState<IModuleModeMachine> provider) {
 		super(posX, posY, 18, 18, provider);
@@ -31,14 +18,12 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
-		int sx = gui.getGuiLeft();
-		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 238, 0, 18, 18);
-		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
+		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 238, 0, 18, 18);
+		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
 		GlStateManager.disableAlpha();
 	}
 
@@ -49,4 +34,4 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 		module.setCurrentMode(source, module.getNextMode(source));
 		PacketHandler.sendToServer(new PacketSyncToolMode(source.getModular().getHandler(), source));
 	}
-}
+}*/

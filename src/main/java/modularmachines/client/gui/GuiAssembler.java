@@ -176,10 +176,10 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		if (page != null) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			page.drawBackground(mouseX, mouseY);
-			widgetManager.drawWidgets();
+			widgetManager.drawWidgets(guiLeft, guiTop);
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderUtil.bindTexture(modularWdgets);
+		RenderUtil.texture(modularWdgets);
 		drawTexturedModalRect(this.guiLeft + 180, this.guiTop + 2, 0, 0, 126, 158);
 		drawTexturedModalRect(this.guiLeft + -130, this.guiTop + 77, 130, 0, 126, 83);
 	}
@@ -199,13 +199,13 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
 		GlStateManager.color(1F, 1F, 1F, 1F);
-		RenderUtil.bindTexture(modularWdgets);
+		RenderUtil.texture(modularWdgets);
 		if (slot instanceof SlotAssembler) {
 			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, ((SlotAssembler) slot).isActive ? 238 : 220, 18, 18);
 		} else if (slot instanceof SlotAssemblerStorage) {
 			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, 238, 18, 18);
 		}
-		RenderUtil.bindTexture(guiTexture);
+		RenderUtil.texture(guiTexture);
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
 		if (slot instanceof SlotAssembler) {

@@ -1,17 +1,5 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.Arrays;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import modularmachines.client.gui.GuiBase;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncPermission;
-
 /*public class WidgetController extends Widget {
 
 	public final IModuleState state;
@@ -37,7 +25,7 @@ import modularmachines.common.network.packets.PacketSyncPermission;
 	}
 
 	@Override
-	public void draw() {
+	public void draw(int guiLeft, int guiTop) {
 		GuiBase gui = manager.getG
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();

@@ -26,7 +26,6 @@ public class PacketSelectModule extends PacketModule {
 	public PacketSelectModule(Module module) {
 		super(module);
 	}
-	
 
 	@Override
 	public PacketId getPacketId() {

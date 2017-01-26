@@ -6,7 +6,7 @@ import modularmachines.api.modules.pages.ModulePage;
 
 public interface IModuleGuiLogic {
 
-    void setCurrentPage(@Nullable ModulePage page);
+    void setCurrentPage(@Nullable ModulePage page, boolean sendToServer);
     
     @Nullable
     Module getCurrentModule();

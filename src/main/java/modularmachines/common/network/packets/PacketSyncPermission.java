@@ -1,16 +1,6 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.common.network.PacketHandler;
-
-public class PacketSyncPermission extends PacketLocatable implements IPacketClient, IPacketServer {
+/*public class PacketSyncPermission extends PacketLocatable implements IPacketClient, IPacketServer {
 
 	public boolean permission;
 	public int moduleIndex;
@@ -73,4 +63,4 @@ public class PacketSyncPermission extends PacketLocatable implements IPacketClie
 	public PacketId getPacketId() {
 		return PacketId.SYNC_PERMISSON;
 	}
-}
+}*/

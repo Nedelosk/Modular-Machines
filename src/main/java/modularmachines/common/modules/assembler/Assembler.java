@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import modularmachines.api.IGuiProvider;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
@@ -18,9 +17,7 @@ import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.EmptyStoragePage;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.assemblers.StoragePage;
 import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
@@ -34,14 +31,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -49,7 +42,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
-import scala.tools.nsc.interpreter.MemberHandlers.ModuleHandler;
 
 public class Assembler implements IAssembler {
 
@@ -176,7 +168,8 @@ public class Assembler implements IAssembler {
 				world.markBlockRangeForRenderUpdate(pos, pos);
 			} else {
 				if(world instanceof WorldServer){
-					modularHandler.markDirty();
+					//TODO: markDirty
+					//modularHandler.markDirty();
 					WorldServer server = (WorldServer) world;
 					IBlockState blockState = server.getBlockState(pos);
 					
@@ -275,7 +268,8 @@ public class Assembler implements IAssembler {
 				}
 			}
 		}
-		modularHandler.markDirty();
+		//TODO: markDirty
+		//modularHandler.markDirty();
 	}
 	
 	public void createPage(ItemStack itemStack, IStoragePosition position){

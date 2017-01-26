@@ -49,7 +49,7 @@ public class GuiModuleLogic<P extends IGuiProvider> extends GuiBase<P, IModuleLo
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		page.drawBackground(mouseX, mouseY);
-		widgetManager.drawWidgets();
+		widgetManager.drawWidgets(guiLeft, guiTop);
 		page.drawFrontBackground(mouseX, mouseY);
 	}
 

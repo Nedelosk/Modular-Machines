@@ -1,17 +1,5 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.SoundEvents;
-
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncRedstoneMode;
-import modularmachines.common.utils.RenderUtil;
-
 /*public class WidgetRedstoneMode extends Widget<IModuleState<IModuleControlled>> {
 
 	public WidgetRedstoneMode(int posX, int posY, IModuleState<IModuleControlled> provider) {

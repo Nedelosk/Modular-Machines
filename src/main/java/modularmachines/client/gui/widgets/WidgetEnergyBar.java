@@ -11,13 +11,10 @@ import modularmachines.client.gui.GuiBase;
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
-public class WidgetEnergyBar extends Widget {
-
-	private IEnergyStorage storage;
+public class WidgetEnergyBar extends WidgetEnergy {
 	
 	public WidgetEnergyBar(int posX, int posY, IEnergyStorage storage) {
-		super(posX, posY, 12, 69);
-		this.storage = storage;
+		super(posX, posY, 12, 69, storage);
 	}
 
 	@Override
@@ -28,17 +25,19 @@ public class WidgetEnergyBar extends Widget {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(int guiLeft, int guiTop) {
 		if (storage == null) {
 			return;
 		}
-		GuiBase gui = manager.getGui();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
-		RenderUtil.bindTexture(widgetTexture);
-		gui.drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, 180, 187, 12, 69);
-		int energy = (int) ((storage.getEnergyStored() * positon.height) / storage.getMaxEnergyStored());
-		gui.drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y + 69 - energy, 192, 256 - energy, positon.width, energy);
+		RenderUtil.texture(widgetTexture);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 180, 187, 12, 69);
+		int energy = storage.getEnergyStored();
+		if (energy > 0) {
+			int scaledEnergy = getEnergyStoredScaled(energy);
+			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y + 69 - scaledEnergy, 192, 256 - scaledEnergy, pos.width, scaledEnergy);
+		}
 		GlStateManager.disableAlpha();
 	}
 }
