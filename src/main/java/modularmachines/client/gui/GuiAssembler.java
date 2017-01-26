@@ -15,57 +15,45 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import modularmachines.api.gui.IPage;
-import modularmachines.api.modular.AssemblerException;
-import modularmachines.api.modular.IAssemblerGui;
-import modularmachines.api.modular.IModular;
-import modularmachines.api.modular.IModularAssembler;
-import modularmachines.api.modular.ModularManager;
-import modularmachines.api.modular.assembler.SlotAssembler;
-import modularmachines.api.modular.assembler.SlotAssemblerStorage;
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.assemblers.AssemblerError;
+import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.assemblers.IStoragePage;
+import modularmachines.api.modules.assemblers.SlotAssembler;
+import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
 import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.api.modules.containers.IModuleItemContainer;
-import modularmachines.api.modules.position.IStoragePosition;
-import modularmachines.api.modules.storage.IStoragePage;
-import modularmachines.api.modules.storage.module.IModuleModuleStorage;
+import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.widgets.WidgetAssembleTab;
 import modularmachines.client.gui.widgets.WidgetAssemblerTab;
-import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
-public class GuiAssembler extends GuiBase<IModularHandler> implements IAssemblerGui {
+public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public final IStoragePage page;
-	public final IModularAssembler assembler;
-	public AssemblerException lastException;
+	public AssemblerError lastError;
 	public boolean hasChange = false;
-	public IModular modular;
 	public int complexity;
 	public int complexityAllowed;
 	public int positionComplexity;
 	public int positionComplexityAllowed;
 	public final WidgetAssembleTab assembleTab;
 
-	public GuiAssembler(IModularHandler modularHandler, InventoryPlayer inventory) {
-		super(modularHandler, inventory);
-		this.assembler = modularHandler.getAssembler();
-		this.page = assembler.getStoragePage(modularHandler.getAssembler().getSelectedPosition());
-		if (page != null) {
+	public GuiAssembler(IAssembler assembler, InventoryPlayer inventory) {
+		super(assembler, assembler, inventory);
+		this.page = assembler.getPage(assembler.getSelectedPosition());
+		if (!page.isEmpty()) {
 			page.setGui(this);
-			page.addWidgets();
+			page.initGui();
 		}
 		WidgetAssembleTab assembleTab = null;
-		IModularAssembler assembler = modularHandler.getAssembler();
 		int xPosLeft = 8;
 		int xPosRight = 140;
 		int pageSize = 69;
 		int yStartPos = 3;
-		List<IStoragePosition> positions = handler.getPositions().asList();
+		List<IStoragePosition> positions = source.getPositions();
 		double positionsPerSize = (positions.size() + 1) / 2;
 		double spacePerTab = pageSize / positionsPerSize;
 		int positionIndex = 0;
@@ -75,7 +63,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 				int xPos = side == 0 ? xPosLeft : xPosRight;
 				int yPos = (int) Math.round(yStartPos + (index * spacePerTab));
 				if (positionIndex < positions.size()) {
-					widgetManager.add(new WidgetAssemblerTab(xPos, yPos, assembler, positions.get(positionIndex), isRight));
+					widgetManager.add(new WidgetAssemblerTab(xPos, yPos, positions.get(positionIndex), isRight));
 					positionIndex++;
 				} else {
 					widgetManager.add(assembleTab = new WidgetAssembleTab(xPos, yPos, isRight));
@@ -92,7 +80,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	@Override
 	public void onGuiClosed() {
 		super.onGuiClosed();
-		if (page != null) {
+		if (!page.isEmpty()) {
 			page.setGui(null);
 		}
 	}
@@ -100,13 +88,12 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		if (!handler.isAssembled()) {
-			String s = Translator.translateToLocal("module.storage." + handler.getAssembler().getSelectedPosition().getName() + ".name");
-			this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-		}
+		
+		String s = Translator.translateToLocal("module.storage." + page.getPosition().getName() + ".name");
+		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		String exceptionText;
-		if (lastException != null) {
-			exceptionText = lastException.getLocalizedMessage();
+		if (lastError != null) {
+			exceptionText = lastError.getLocalizedMessage();
 		} else {
 			exceptionText = Translator.translateToLocal("modular.assembler.info");
 		}
@@ -115,22 +102,22 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRendererObj.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
 		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
-		if (positionComplexityAllowed > 0 && page != null) {
-			ItemStack stack = page.getStorageStack();
-			IModuleItemContainer itemContrainer = ModuleManager.getContainerFromItem(stack);
-			if (itemContrainer != null) {
-				for (IModuleContainer container : itemContrainer.getContainers()) {
-					if (container.getModule() instanceof IModuleModuleStorage) {
-						String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
-						this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
-						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
-						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
-						break;
+		if (!page.isEmpty()) {
+			if (positionComplexityAllowed > 0) {
+				ItemStack stack = page.getStorageStack();
+				IModuleContainer container = ModuleHelper.getContainerFromItem(stack);
+				if (container != null) {
+					for (ModuleData data : container.getDatas()) {
+						if (data.isStorage(page.getPosition())) {
+							String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
+							this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+							this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+							this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+							break;
+						}
 					}
 				}
 			}
-		}
-		if (page != null) {
 			page.drawForeground(getFontRenderer(), mouseX, mouseY);
 		}
 	}
@@ -138,7 +125,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-		if (page != null) {
+		if (!page.isEmpty()) {
 			page.updateGui();
 		}
 		if (hasChange) {
@@ -148,20 +135,28 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	}
 
 	protected void onUpdate() {
-		if (handler != null && assembler != null) {
-			try {
-				lastException = null;
-				modular = assembler.createModular();
-				assembleTab.setProvider(ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player));
-			} catch (AssemblerException exception) {
-				lastException = exception;
-				modular = null;
-				assembleTab.setProvider(null);
+		if (source != null) {
+			List<AssemblerError> errors = source.canAssemble();
+			if(errors.isEmpty()){
+				lastError = null;
+			}else{
+				lastError = errors.get(0);
 			}
-			complexity = assembler.getComplexity(true, null);
-			complexityAllowed = assembler.getAllowedComplexity(null);
-			positionComplexity = assembler.getComplexity(false, assembler.getSelectedPosition());
-			positionComplexityAllowed = assembler.getAllowedComplexity(assembler.getSelectedPosition());
+			/*if(source.canAssemble().isEmpty()){
+				try {
+					lastError = null;
+					modular = source.createModular();
+					assembleTab.setProvider(ModularManager.saveModularToItem(new ItemStack(BlockManager.blockModular), modular, player));
+				} catch (AssemblerException exception) {
+					lastError = exception;
+					modular = null;
+					assembleTab.setProvider(null);
+				}
+			}*/
+			complexity = source.getComplexity();
+			complexityAllowed = source.getAllowedComplexity();
+			positionComplexity = page.getComplexity();
+			positionComplexityAllowed = page.getAllowedComplexity();
 		}
 	}
 
@@ -176,13 +171,12 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int mouseX, int mouseY) {
-		super.drawGuiContainerBackgroundLayer(p_146976_1_, mouseX, mouseY);
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		if (page != null) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			page.drawBackground(mouseX, mouseY);
 			widgetManager.drawWidgets();
-			page.drawFrontBackground(mouseX, mouseY);
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(modularWdgets);
@@ -207,9 +201,9 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(modularWdgets);
 		if (slot instanceof SlotAssembler) {
-			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1, 56, ((SlotAssembler) slot).isActive ? 238 : 220, 18, 18);
+			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, ((SlotAssembler) slot).isActive ? 238 : 220, 18, 18);
 		} else if (slot instanceof SlotAssemblerStorage) {
-			drawTexturedModalRect(slot.xDisplayPosition - 1, slot.yDisplayPosition - 1, 56, 238, 18, 18);
+			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, 238, 18, 18);
 		}
 		RenderUtil.bindTexture(guiTexture);
 		GlStateManager.enableLighting();
@@ -223,13 +217,6 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 	}
 
 	@Override
-	public void addButtons() {
-		if (page != null) {
-			page.addButtons();
-		}
-	}
-
-	@Override
 	protected String getGuiTexture() {
 		return "modular_assembler";
 	}
@@ -239,7 +226,6 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		return Collections.singletonList(new Rectangle(guiLeft + 180, guiTop + 2, 126, 158));
 	}
 
-	@Override
 	public void setHasChange() {
 		hasChange = true;
 	}
@@ -260,7 +246,7 @@ public class GuiAssembler extends GuiBase<IModularHandler> implements IAssembler
 		}
 	}
 
-	public IPage getPage() {
+	public IStoragePage getPage() {
 		return page;
 	}
 }

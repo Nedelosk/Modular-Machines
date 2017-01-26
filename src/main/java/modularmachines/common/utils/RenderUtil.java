@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
-public final class RenderUtil {
+public class RenderUtil {
 
 	public static void renderTooltip(int x, int y, List<String> tooltipData) {
 		ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -27,4 +27,5 @@ public final class RenderUtil {
 	public static void bindBlockTexture() {
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
+	
 }

@@ -4,67 +4,63 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.inventory.ContainerModular;
+import modularmachines.api.modules.IModuleGuiLogic;
+import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.Module;
+import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ContainerUtil;
+import modularmachines.common.utils.ModuleUtils;
 
-public class PacketSelectModulePage extends PacketModule implements IPacketClient, IPacketServer {
+public class PacketSelectModulePage extends PacketModule {
 
 	public PacketSelectModulePage() {
 	}
 
-	public PacketSelectModulePage(IModularHandler handler, String pageId) {
-		super(handler, 0, pageId);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		IModularHandler modularHandler = getModularHandler(player);
-		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			modularHandler.getModular().setCurrentPage(pageId);
-		}
-	}
-
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
-		IModularHandler modularHandler = getModularHandler(player);
-		BlockPos pos = getPos(modularHandler);
-		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			modularHandler.getModular().setCurrentPage(pageId);
-		}
-		WorldServer server = player.getServerWorld();
-		PacketHandler.sendToNetwork(this, pos, server);
-		for (EntityPlayer otherPlayer : server.playerEntities) {
-			if (otherPlayer.openContainer instanceof ContainerModular) {
-				ContainerModular container = (ContainerModular) otherPlayer.openContainer;
-				if (modularHandler == container.getHandler()) {
-					ItemStack heldStack = null;
-					if (otherPlayer.inventory.getItemStack() != null) {
-						heldStack = otherPlayer.inventory.getItemStack();
-						otherPlayer.inventory.setItemStack(null);
-					}
-					otherPlayer.openGui(ModularMachines.instance, 0, otherPlayer.worldObj, pos.getX(), pos.getY(), pos.getZ());
-					if (heldStack != null) {
-						otherPlayer.inventory.setItemStack(heldStack);
-						((EntityPlayerMP) otherPlayer).connection.sendPacket(new SPacketSetSlot(-1, -1, heldStack));
-					}
-				}
-			}
-		}
+	public PacketSelectModulePage(IModuleLogic logic, int pageIndex) {
+		super(logic, -1, pageIndex);
 	}
 
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SELECT_PAGE;
 	}
+	
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
+	
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
+			World world = player.getEntityWorld();
+			BlockPos pos = data.readBlockPos();
+			IModuleGuiLogic guiLogic = ModuleUtils.getGuiLogic(player);
+			if (guiLogic != null) {
+				Module module = guiLogic.getCurrentModule();
+				int pageIndex = data.readVarInt();
+				guiLogic.setCurrentPage(module.getPage(pageIndex));
+			}
+		}
+	
+		@Override
+		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
+			WorldServer world = player.getServerWorld();
+			BlockPos pos = data.readBlockPos();
+			IModuleGuiLogic guiLogic = ModuleUtils.getGuiLogic(player);
+			if (guiLogic != null) {
+				IModuleLogic logic = guiLogic.getLogic();
+				Module module = guiLogic.getCurrentModule();
+				int pageIndex = data.readVarInt();
+				guiLogic.setCurrentPage(module.getPage(pageIndex));
+				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, pageIndex), pos, world);
+				ContainerUtil.openGuiSave(logic);
+			}
+		}
+	}
+
 }

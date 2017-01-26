@@ -110,7 +110,7 @@ repositories {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
 	maven {
-		name = "ic2"
+		name = "foretsry"
 		url = "http://maven.ic2.player.to/"
 	}
 	maven {
@@ -120,24 +120,18 @@ repositories {
 		name 'tterrag maven'
 		url "http://maven.tterrag.com/"
 	}
-	maven {
-		url "http://dl.bintray.com/raoulvdberge/dev"
-	}
 }
 
 dependencies {
+	//Tesla
 	deobfCompile "net.darkhax.tesla:Tesla:${tesla_version}"
 	//JEI
-	deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
-	runtime "mezz.jei:jei_${mcversion}:${jei_version}"
-	//ic2
-	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+    deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
+    runtime "mezz.jei:jei_${mcversion}:${jei_version}"
 	//TheOneProbe
 	deobfCompile "mcjty.theoneprobe:TheOneProbe:${top_version}"
 	//Forestry
 	deobfCompile "net.sengir.forestry:forestry_${mcversion}:${forestry_version}"
-	//Refined Storage
-	deobfCompile "refinedstorage:refinedstorage:${refinedstorage_version}:deobf"
 }
 
 processResources {

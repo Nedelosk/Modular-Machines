@@ -10,9 +10,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.energy.IEnergyBuffer;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
@@ -29,24 +26,24 @@ public class WidgetEnergyField extends Widget<IEnergyBuffer> {
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<>();
-		description.add(TextFormatting.WHITE + NF.format(provider.getEnergyStored()) + " " + Translator.translateToLocal("mm.tooltip.widget.energy.field.of"));
-		description.add(TextFormatting.WHITE + NF.format(provider.getCapacity()) + " " + TextFormatting.GRAY + Translator.translateToLocal("mm.tooltip.widget.energy.field.rf"));
+		description.add(TextFormatting.WHITE + NF.format(source.getEnergyStored()) + " " + Translator.translateToLocal("mm.tooltip.widget.energy.field.of"));
+		description.add(TextFormatting.WHITE + NF.format(source.getCapacity()) + " " + TextFormatting.GRAY + Translator.translateToLocal("mm.tooltip.widget.energy.field.rf"));
 		return description;
 	}
 
 	@Override
 	public void draw(IGuiBase gui) {
-		if (provider == null) {
+		if (source == null) {
 			return;
 		}
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widget);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 0, 190, 66, 66);
-		if (this.provider.getEnergyStored() > 0) {
-			int eS = (int) (this.provider.getEnergyStored() / 100 * 66);
-			int energy = (int) (eS / (this.provider.getCapacity() / 100));
-			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 66 - energy, 66, 190 + 66 - energy, pos.width, energy);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, 0, 190, 66, 66);
+		if (this.source.getEnergyStored() > 0) {
+			int eS = (int) (this.source.getEnergyStored() / 100 * 66);
+			int energy = (int) (eS / (this.source.getCapacity() / 100));
+			gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y + 66 - energy, 66, 190 + 66 - energy, positon.width, energy);
 		}
 		GlStateManager.disableAlpha();
 	}

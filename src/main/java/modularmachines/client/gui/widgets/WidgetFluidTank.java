@@ -38,46 +38,48 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import mezz.jei.api.recipe.IFocus.Mode;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.common.plugins.jei.JeiPlugin;
+import modularmachines.client.gui.GuiBase;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
-public class WidgetFluidTank extends Widget<IFluidTank> {
+public class WidgetFluidTank extends Widget {
 
 	private static final int TEX_WIDTH = 14;
 	private static final int TEX_HEIGHT = 14;
 	private static final int MIN_FLUID_HEIGHT = 1;
 
-	public WidgetFluidTank(int posX, int posY, IFluidTank provider) {
-		super(posX, posY, 18, 60, provider);
+	public IFluidTank tank;
+	
+	public WidgetFluidTank(int posX, int posY, IFluidTank tank) {
+		super(posX, posY, 18, 60);
+		
+		this.tank = tank;
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		if (provider != null && provider.getFluid() != null) {
-			Loader.instance();
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		if (tank != null && tank.getFluid() != null) {
 			if (Loader.isModLoaded("JEI")) {
-				JeiPlugin.jeiRuntime.getRecipesGui().show(JeiPlugin.jeiRuntime.getRecipeRegistry().createFocus(mouseButton == 0 ? Mode.OUTPUT : Mode.INPUT, provider.getFluid()));
+				JeiPlugin.jeiRuntime.getRecipesGui().show(JeiPlugin.jeiRuntime.getRecipeRegistry().createFocus(mouseButton == 0 ? Mode.OUTPUT : Mode.INPUT, tank.getFluid()));
 			}
 		}
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw() {
+		GuiBase gui =  getManager().getGui();
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlpha();
 		GlStateManager.color(1, 1, 1, 1);
 		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 132, 127, pos.width, pos.height);
-		drawFluid(gui.getGuiLeft() + pos.x + 1, gui.getGuiTop() + pos.y + 1, provider.getFluid());
+		gui.drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, 132, 127, positon.width, positon.height);
+		drawFluid(gui.getGuiLeft() + positon.x + 1, gui.getGuiTop() + positon.y + 1, tank.getFluid());
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0, 0, 200);
 		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 150, 127, pos.width - 2, pos.height);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, 150, 127, positon.width - 2, positon.height);
 		GlStateManager.popMatrix();
 		GlStateManager.disableAlpha();
 		GlStateManager.disableBlend();
@@ -101,7 +103,7 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 			fluidStillSprite = textureMapBlocks.getMissingSprite();
 		}
 		int fluidColor = fluid.getColor(fluidStack);
-		int scaledAmount = (fluidStack.amount * 56) / provider.getCapacity();
+		int scaledAmount = (fluidStack.amount * 56) / tank.getCapacity();
 		if (fluidStack.amount > 0 && scaledAmount < MIN_FLUID_HEIGHT) {
 			scaledAmount = MIN_FLUID_HEIGHT;
 		}
@@ -155,12 +157,12 @@ public class WidgetFluidTank extends Widget<IFluidTank> {
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase gui) {
+	public List<String> getTooltip() {
 		ArrayList<String> description = new ArrayList<>();
-		if (provider == null || provider.getFluidAmount() == 0) {
+		if (tank == null || tank.getFluidAmount() == 0) {
 			description.add(Translator.translateToLocal("mm.tooltip.nonefluid"));
 		} else {
-			description.add(provider.getFluidAmount() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb / " + provider.getCapacity() + " " + Translator.translateToLocal(provider.getFluid().getLocalizedName()) + " mb");
+			description.add(tank.getFluidAmount() + " " + Translator.translateToLocal(tank.getFluid().getLocalizedName()) + " mb / " + tank.getCapacity() + " " + Translator.translateToLocal(tank.getFluid().getLocalizedName()) + " mb");
 		}
 		return description;
 	}

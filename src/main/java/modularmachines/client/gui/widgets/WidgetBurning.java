@@ -6,11 +6,6 @@ import java.util.List;
 import net.minecraftforge.fml.common.Loader;
 
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modules.IModuleBurning;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.common.plugins.jei.JeiPlugin;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleState<M>> {
@@ -36,10 +31,10 @@ public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleState
 		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 0, 176, pos.width, pos.height);
-		if (provider.getModule().getBurnTime(provider) > 0) {
-			int fuel = (provider.getModule().getBurnTime(provider) * pos.height) / provider.getModule().getBurnTimeTotal(provider);
-			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y + 14 - fuel, 14, 176 + 14 - fuel, pos.width, fuel);
+		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 0, 176, positon.width, positon.height);
+		if (source.getModule().getBurnTime(source) > 0) {
+			int fuel = (source.getModule().getBurnTime(source) * positon.height) / source.getModule().getBurnTimeTotal(source);
+			gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y + 14 - fuel, 14, 176 + 14 - fuel, positon.width, fuel);
 		}
 	}
 }

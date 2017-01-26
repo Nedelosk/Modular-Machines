@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -15,28 +13,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import modularmachines.api.gui.Button;
-import modularmachines.api.gui.IButtonManager;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.IGuiProvider;
-import modularmachines.api.gui.IWidgetManager;
+import modularmachines.api.IGuiProvider;
+import modularmachines.api.ILocatableSource;
+import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
 
-public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer implements IGuiBase<H> {
+public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource> extends GuiContainer {
 
 	protected final ResourceLocation guiTexture;
-	protected final H handler;
-	protected final ButtonManager buttonManager;
+	protected final S source;
 	protected final WidgetManager widgetManager;
 	protected final EntityPlayer player;
 
-	public GuiBase(H tile, InventoryPlayer inventory) {
-		super(tile.createContainer(inventory));
-		this.handler = tile;
+	public GuiBase(P porvider, S source, InventoryPlayer inventory) {
+		super(porvider.createContainer(inventory));
+		this.source = source;
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
-		buttonManager = new ButtonManager(this);
 		if (getTextureModID() != null && getGuiTexture() != null) {
 			guiTexture = new ResourceLocation(getTextureModID(), "textures/gui/" + getGuiTexture() + ".png");
 		} else {
@@ -44,34 +37,12 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		}
 	}
 
-	@Override
-	public void initGui() {
-		super.initGui();
-		initButtons();
-	}
-
-	protected void initButtons() {
-		buttonManager.clear();
-		addButtons();
-		buttonList.addAll(buttonManager.getButtons());
-	}
-
-	protected void addButtons() {
-	}
-
-	@Override
-	public IButtonManager getButtonManager() {
-		return buttonManager;
-	}
-
-	@Override
-	public IWidgetManager getWidgetManager() {
+	public WidgetManager getWidgetManager() {
 		return widgetManager;
 	}
-
-	@Override
-	public H getHandler() {
-		return handler;
+	
+	public S getSource(){
+		return source;
 	}
 
 	@Override
@@ -86,14 +57,13 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 	}
 
 	@Override
-	public void drawScreen(int param1, int param2, float p_73863_3_) {
-		super.drawScreen(param1, param2, p_73863_3_);
-		widgetManager.drawTooltip(param1, param2);
-		buttonManager.drawTooltip(param1, param2);
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		widgetManager.drawTooltip(mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.bindTexture(guiTexture);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
@@ -107,14 +77,7 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 			super.keyTyped(p_73869_1_, p_73869_2_);
 		}
 	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button instanceof Button) {
-			((Button) button).onButtonClick();
-		}
-	}
-
+	
 	protected void renderStrings(FontRenderer fontRenderer, int x, int y) {
 	}
 
@@ -127,17 +90,14 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 
 	protected abstract String getGuiTexture();
 
-	@Override
 	public RenderItem getRenderItem() {
 		return itemRender;
 	}
 
-	@Override
 	public void setZLevel(float zLevel) {
 		this.zLevel = zLevel;
 	}
 
-	@Override
 	public float getZLevel() {
 		return zLevel;
 	}
@@ -152,22 +112,14 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		return this.guiTop;
 	}
 
-	@Override
 	public EntityPlayer getPlayer() {
 		return player;
 	}
 
-	@Override
 	public FontRenderer getFontRenderer() {
 		return fontRendererObj;
 	}
 
-	@Override
-	public Gui getGui() {
-		return this;
-	}
-
-	@Override
 	public void drawItemStack(ItemStack stack, int x, int y) {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();
@@ -186,7 +138,6 @@ public abstract class GuiBase<H extends IGuiProvider> extends GuiContainer imple
 		RenderHelper.disableStandardItemLighting();
 	}
 
-	@Override
-	public void onTextFieldChanged(modularmachines.api.gui.Widget widget, String oldText) {
+	public void onTextFieldChanged(Widget widget, String oldText) {
 	}
 }

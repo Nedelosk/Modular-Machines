@@ -2,16 +2,26 @@ package modularmachines.common.utils;
 
 import java.util.List;
 
+import modularmachines.api.ILocatable;
+import modularmachines.api.ILocatableSource;
+import modularmachines.common.containers.BaseContainer;
+import modularmachines.common.containers.ContainerAssembler;
+import modularmachines.common.core.ModularMachines;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-
-import modularmachines.api.ItemUtil;
+import net.minecraft.network.play.server.SPacketSetSlot;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
 
 public class ContainerUtil {
-
-	private static final int playerInventorySize = 9 * 4;
-	private static final int playerHotbarSize = 9;
+	
+	private static final int SIZE_PLAYER_INV = 9 * 4;
+	private static final int SIVE_HOTBAR = 9;
 
 	public static ItemStack transferStackInSlot(List inventorySlots, EntityPlayer player, int slotIndex) {
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
@@ -53,22 +63,22 @@ public class ContainerUtil {
 	}
 
 	private static boolean shiftToPlayerInventory(List inventorySlots, ItemStack stackInSlot) {
-		int playerHotbarStart = playerInventorySize - playerHotbarSize;
+		int playerHotbarStart = SIZE_PLAYER_INV - SIVE_HOTBAR;
 		// try to merge with existing stacks, hotbar first
-		boolean shifted = shiftItemStackToRangeMerge(inventorySlots, stackInSlot, playerHotbarStart, playerHotbarSize);
+		boolean shifted = shiftItemStackToRangeMerge(inventorySlots, stackInSlot, playerHotbarStart, SIVE_HOTBAR);
 		shifted |= shiftItemStackToRangeMerge(inventorySlots, stackInSlot, 0, playerHotbarStart);
 		// shift to open slots, hotbar first
-		shifted |= shiftItemStackToRangeOpenSlots(inventorySlots, stackInSlot, playerHotbarStart, playerHotbarSize);
+		shifted |= shiftItemStackToRangeOpenSlots(inventorySlots, stackInSlot, playerHotbarStart, SIVE_HOTBAR);
 		shifted |= shiftItemStackToRangeOpenSlots(inventorySlots, stackInSlot, 0, playerHotbarStart);
 		return shifted;
 	}
 
 	private static boolean shiftToPlayerInventoryNoHotbar(List inventorySlots, ItemStack stackInSlot) {
-		return shiftItemStackToRange(inventorySlots, stackInSlot, 0, playerInventorySize - playerHotbarSize);
+		return shiftItemStackToRange(inventorySlots, stackInSlot, 0, SIZE_PLAYER_INV - SIVE_HOTBAR);
 	}
 
 	private static boolean shiftToHotbar(List inventorySlots, ItemStack stackInSlot) {
-		return shiftItemStackToRange(inventorySlots, stackInSlot, playerInventorySize - playerHotbarSize, playerHotbarSize);
+		return shiftItemStackToRange(inventorySlots, stackInSlot, SIZE_PLAYER_INV - SIVE_HOTBAR, SIVE_HOTBAR);
 	}
 
 	private static boolean shiftToInventory(List inventorySlots, ItemStack stackToShift, int numSlots) {
@@ -84,7 +94,7 @@ public class ContainerUtil {
 
 	// if mergeOnly = true, don't shift into empty slots.
 	private static boolean shiftToMachineInventory(List inventorySlots, ItemStack stackToShift, int numSlots, boolean mergeOnly) {
-		for (int machineIndex = playerInventorySize; machineIndex < numSlots; machineIndex++) {
+		for (int machineIndex = SIZE_PLAYER_INV; machineIndex < numSlots; machineIndex++) {
 			Slot slot = (Slot) inventorySlots.get(machineIndex);
 			if (mergeOnly && slot.getStack() == null) {
 				continue;
@@ -110,8 +120,8 @@ public class ContainerUtil {
 			return false;
 		}
 		boolean changed = false;
-		for (int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < start + count; slotIndex++) {
-			Slot slot = (Slot) inventorySlots.get(slotIndex);
+		for (int index = start; stackToShift.stackSize > 0 && index < start + count; index++) {
+			Slot slot = (Slot) inventorySlots.get(index);
 			ItemStack stackInSlot = slot.getStack();
 			if (stackInSlot != null && ItemUtil.isIdenticalItem(stackInSlot, stackToShift)) {
 				int resultingStackSize = stackInSlot.stackSize + stackToShift.stackSize;
@@ -154,7 +164,7 @@ public class ContainerUtil {
 	}
 
 	private static boolean isInPlayerInventory(int slotIndex) {
-		return slotIndex < playerInventorySize;
+		return slotIndex < SIZE_PLAYER_INV;
 	}
 
 	public static boolean isSlotInRange(int slotIndex, int start, int count) {
@@ -162,6 +172,51 @@ public class ContainerUtil {
 	}
 
 	private static boolean isInPlayerHotbar(int slotIndex) {
-		return isSlotInRange(slotIndex, playerInventorySize - playerHotbarSize, playerInventorySize);
+		return isSlotInRange(slotIndex, SIZE_PLAYER_INV - SIVE_HOTBAR, SIZE_PLAYER_INV);
 	}
+	
+	/**
+	 * Open a gui and transfer the held item of the players.
+	 */
+	public static void openGuiSave(ILocatableSource source){
+		openOrCloseGuiSave(source, true);
+	}
+	
+	public static void openOrCloseGuiSave(ILocatableSource source, boolean openGui){
+		ILocatable locatable = source.getLocatable();
+		if(locatable != null){
+			World world = locatable.getWorldObj();
+			BlockPos position = locatable.getCoordinates();
+			if(world instanceof WorldServer){
+				WorldServer server = (WorldServer) world;
+				for (EntityPlayer player : server.playerEntities) {
+					if(!(player instanceof EntityPlayerMP) || player instanceof FakePlayer){
+						continue;
+					}
+					EntityPlayerMP playerMP = (EntityPlayerMP) player;
+					if (player.openContainer instanceof ContainerAssembler) {
+						ContainerAssembler container = (ContainerAssembler) player.openContainer;
+						if (container.getSource() == source) {
+							if(!openGui){
+								player.closeScreen();
+							}else{
+								ItemStack itemStack = ItemStack.EMPTY;
+								InventoryPlayer inv = player.inventory;
+								if (!inv.getItemStack().isEmpty()) {
+									itemStack = inv.getItemStack();
+									inv.setItemStack(ItemStack.EMPTY);
+								}
+								player.openGui(ModularMachines.instance, 0, world, position.getX(), position.getY(), position.getZ());
+								if (!itemStack.isEmpty()) {
+									inv.setItemStack(itemStack);
+									playerMP.connection.sendPacket(new SPacketSetSlot(-1, -1, itemStack));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 }

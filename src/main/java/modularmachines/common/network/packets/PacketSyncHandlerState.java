@@ -4,72 +4,73 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import modularmachines.api.ILocatableSource;
+import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.common.network.PacketBufferMM;
+import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ModuleUtils;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
-
-public class PacketSyncHandlerState extends PacketModularHandler implements IPacketClient, IPacketServer {
+public class PacketSyncHandlerState extends PacketLocatable{
 
 	private boolean isAssembled;
 
 	public PacketSyncHandlerState() {
 	}
 
-	public PacketSyncHandlerState(IModularHandler handler, boolean isAssembled) {
-		super(handler);
+	public PacketSyncHandlerState(ILocatableSource source, boolean isAssembled) {
+		super(source);
 		this.isAssembled = isAssembled;
 	}
 
 	@Override
-	public void readData(DataInputStreamMM data) throws IOException {
-		super.readData(data);
-		isAssembled = data.readBoolean();
-	}
-
-	@Override
-	protected void writeData(DataOutputStreamMM data) throws IOException {
+	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeBoolean(isAssembled);
 	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		IModularHandler modularHandler = getModularHandler(player);
-		if (modularHandler != null) {
-			if (isAssembled) {
-				if (modularHandler.getAssembler() != null) {
-					modularHandler.getAssembler().assemble(player);
-				}
-			} else {
-				if (modularHandler.getModular() != null) {
-					modularHandler.getModular().disassemble(player);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayerMP player) throws IOException {
-		IModularHandler modularHandler = getModularHandler(player);
-		if (modularHandler != null) {
-			if (isAssembled) {
-				if (modularHandler.getAssembler() != null) {
-					modularHandler.getAssembler().assemble(player);
-				}
-			} else {
-				if (modularHandler.getModular() != null) {
-					modularHandler.getModular().disassemble(player);
-				}
-			}
-		}
-	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HANDLER_STATE;
+	}
+	
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
+	
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
+			BlockPos pos = data.readBlockPos();
+			World world = player.world;
+			IModuleLogic logic = ModuleUtils.getLogic(pos, world);
+			IAssembler assembler = ModuleUtils.getAssembler(pos, world);
+			boolean assembled = data.readBoolean();
+			if(assembler != null && logic != null){
+				if (assembled) {
+					logic.assemble(assembler, player);
+				}else {
+					assembler.disassemble(logic, player);
+				}
+			}
+		}
+	
+		@Override
+		public void onPacketData(PacketBufferMM  data, EntityPlayerMP player) throws IOException {
+			BlockPos pos = data.readBlockPos();
+			World world = player.world;
+			IModuleLogic logic = ModuleUtils.getLogic(pos, world);
+			IAssembler assembler = ModuleUtils.getAssembler(pos, world);
+			boolean assembled = data.readBoolean();
+			if(assembler != null && logic != null){
+				if (assembled) {
+					logic.assemble(assembler, player);
+				}else{
+					assembler.disassemble(logic, player);
+				}
+			}
+		}
 	}
 }

@@ -8,14 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.IPage;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.IModuleWorkerTime;
-import modularmachines.api.modules.integration.IModuleJEI;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.client.gui.GuiPage;
+import modularmachines.client.gui.GuiModuleLogic;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
@@ -31,20 +24,20 @@ public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModu
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton, gui);
-		if (provider.getModule() instanceof IModuleJEI) {
-			((IModuleJEI) provider.getModule()).openJEI(provider);
+		if (source.getModule() instanceof IModuleJEI) {
+			((IModuleJEI) source.getModule()).openJEI(source);
 		}
 	}
 
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> list = new ArrayList<>();
-		if (provider.getModule().getWorkTimeTotal(provider) != 0) {
-			list.add(provider.getModule().getWorkTime(provider) + " / " + provider.getModule().getWorkTimeTotal(provider));
+		if (source.getModule().getWorkTimeTotal(source) != 0) {
+			list.add(source.getModule().getWorkTime(source) + " / " + source.getModule().getWorkTimeTotal(source));
 		}
 		if (jeiTooltip == null) {
-			if (gui instanceof GuiPage) {
-				GuiPage guiPage = (GuiPage) gui;
+			if (gui instanceof GuiModuleLogic) {
+				GuiModuleLogic guiPage = (GuiModuleLogic) gui;
 				IPage page = guiPage.getPage();
 				if (page instanceof IModulePage) {
 					IModuleState state = ((IModulePage) page).getModuleState();
@@ -68,17 +61,17 @@ public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModu
 
 	@Override
 	public void draw(IGuiBase gui) {
-		int worktTimeTotal = provider.getModule().getWorkTimeTotal(provider);
-		int workTime = provider.getModule().getWorkTime(provider);
+		int worktTimeTotal = source.getModule().getWorkTimeTotal(source);
+		int workTime = source.getModule().getWorkTime(source);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
-		int process = (worktTimeTotal == 0) ? 0 : workTime * pos.width / worktTimeTotal;
+		int process = (worktTimeTotal == 0) ? 0 : workTime * positon.width / worktTimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, pos.width, pos.height);
+		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 54, 0, positon.width, positon.height);
 		if (workTime > 0) {
-			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, pos.height);
+			gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 76, 0, process, positon.height);
 		}
 		GlStateManager.disableAlpha();
 	}

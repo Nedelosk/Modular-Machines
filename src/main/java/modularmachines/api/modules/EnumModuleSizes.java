@@ -5,7 +5,7 @@ import java.util.Locale;
 import net.minecraft.util.text.translation.I18n;
 
 public enum EnumModuleSizes {
-	UNKNOWN(0),
+	NONE(0),
 	/* S * 1 */
 	SMALL(1),
 	/* S * 2 */
@@ -22,7 +22,8 @@ public enum EnumModuleSizes {
 	/* S * 9 */
 	/* M * 4.5 */
 	/* L * 3 */
-	LARGEST(9);
+	LARGEST(9),
+	UNKNOWN(0);
 
 	public int slots;
 	public static final EnumModuleSizes[] VALUES = values();

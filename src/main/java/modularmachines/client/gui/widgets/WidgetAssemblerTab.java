@@ -3,62 +3,67 @@ package modularmachines.client.gui.widgets;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modular.IModularAssembler;
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.position.IStoragePosition;
-import modularmachines.api.modules.storage.IStoragePage;
+import net.minecraft.world.World;
+import modularmachines.api.ILocatable;
+import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.assemblers.IStoragePage;
+import modularmachines.api.modules.storages.IStoragePosition;
+import modularmachines.client.gui.GuiBase;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSelectAssemblerPosition;
+import modularmachines.common.network.packets.PacketAssemblerPosition;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
-public class WidgetAssemblerTab extends Widget<IModularAssembler> {
+public class WidgetAssemblerTab extends Widget<IAssembler> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	protected final IStoragePosition position;
 	protected final boolean right;
 
-	public WidgetAssemblerTab(int xPosition, int yPosition, IModularAssembler provider, IStoragePosition position, boolean right) {
-		super(xPosition, yPosition, 28, 21, provider);
+	public WidgetAssemblerTab(int xPosition, int yPosition, IStoragePosition position, boolean right) {
+		super(xPosition, yPosition, 28, 21);
 		this.position = position;
 		this.right = right;
 	}
 
 	@Override
-	public void draw(IGuiBase gui) {
+	public void draw() {
+		GuiBase gui = manager.getGui();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.bindTexture(guiTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, (position.equals(provider.getSelectedPosition())) ? 0 : 28, right ? 214 : 235, 28, 21);
-		IStoragePage page = provider.getStoragePage(position);
+		gui.drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, (position.equals(source.getSelectedPosition())) ? 0 : 28, right ? 214 : 235, 28, 21);
+		IStoragePage page = source.getPage(position);
 		if (page != null) {
 			ItemStack item = page.getStorageStack();
 			if (item != null) {
-				gui.drawItemStack(item, gui.getGuiLeft() + pos.x + (right ? 5 : 7), gui.getGuiTop() + pos.y + 2);
+				gui.drawItemStack(item, gui.getGuiLeft() + positon.x + (right ? 5 : 7), gui.getGuiTop() + positon.y + 2);
 			}
 		}
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		if (!provider.getSelectedPosition().equals(position)) {
-			provider.setSelectedPosition(position);
-			IModularHandler modularHandler = provider.getHandler();
-			if (modularHandler != null && modularHandler.getWorld() != null) {
-				if (modularHandler.getWorld().isRemote) {
-					PacketHandler.sendToServer(new PacketSelectAssemblerPosition(modularHandler, position));
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		if (!source.getSelectedPosition().equals(position)) {
+			source.setSelectedPosition(position);
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			ILocatable locatable= source.getLocatable();
+			if(locatable != null){
+				World world = locatable.getWorldObj();
+				if(world.isRemote){
+					PacketHandler.sendToServer(new PacketAssemblerPosition(source, position));
 				}
 			}
 		}
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase gui) {
+	public List<String> getTooltip() {
 		return Arrays.asList(Translator.translateToLocal("module.storage." + position.getName() + ".name"));
 	}
 }

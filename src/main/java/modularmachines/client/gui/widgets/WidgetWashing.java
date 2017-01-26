@@ -7,11 +7,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
 import modularmachines.common.utils.RenderUtil;
 
-@SideOnly(Side.CLIENT)
+/*@SideOnly(Side.CLIENT)
 public class WidgetWashing extends Widget {
 
 	public int workTime;
@@ -37,13 +35,13 @@ public class WidgetWashing extends Widget {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
-		int process = (worktTimeTotal == 0) ? 0 : workTime * pos.width / worktTimeTotal;
+		int process = (worktTimeTotal == 0) ? 0 : workTime * positon.width / worktTimeTotal;
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 28, 171, pos.width, pos.height);
+		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 28, 171, positon.width, positon.height);
 		if (workTime > 0) {
-			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 48, 171, process, pos.height);
+			gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 48, 171, process, positon.height);
 		}
 		GlStateManager.disableAlpha();
 	}
-}
+}*/

@@ -8,18 +8,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.controller.IModuleControlled;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
-import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.PacketHandler;
 
-public class PacketSyncPermission extends PacketModularHandler implements IPacketClient, IPacketServer {
+public class PacketSyncPermission extends PacketLocatable implements IPacketClient, IPacketServer {
 
 	public boolean permission;
 	public int moduleIndex;
-	public int index;
+	public int position;
 
 	public PacketSyncPermission() {
 		super();
@@ -27,9 +22,9 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 
 	public PacketSyncPermission(IModularHandler modularHandler, IModuleState<IModuleControlled> moduleState, IModuleState state) {
 		super(modularHandler);
-		this.moduleIndex = state.getIndex();
+		this.moduleIndex = state.getPosition();
 		this.permission = moduleState.getModule().getModuleControl(moduleState).hasPermission(state);
-		this.index = moduleState.getIndex();
+		this.position = moduleState.getPosition();
 	}
 
 	@Override
@@ -37,7 +32,7 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 		super.readData(data);
 		permission = data.readBoolean();
 		moduleIndex = data.readInt();
-		index = data.readInt();
+		position = data.readInt();
 	}
 
 	@Override
@@ -45,7 +40,7 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 		super.writeData(data);
 		data.writeBoolean(permission);
 		data.writeInt(moduleIndex);
-		data.writeInt(index);
+		data.writeInt(position);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -54,7 +49,7 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
+			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(position);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setPermission(modularHandler.getModular().getModule(moduleIndex), permission);
 			}
@@ -66,7 +61,7 @@ public class PacketSyncPermission extends PacketModularHandler implements IPacke
 		IModularHandler modularHandler = getModularHandler(player);
 		BlockPos pos = getPos(modularHandler);
 		if (modularHandler.getModular() != null && modularHandler.isAssembled()) {
-			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(index);
+			IModuleState<IModuleControlled> moduleState = modularHandler.getModular().getModule(position);
 			if (moduleState != null) {
 				moduleState.getModule().getModuleControl(moduleState).setPermission(modularHandler.getModular().getModule(moduleIndex), permission);
 			}

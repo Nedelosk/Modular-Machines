@@ -4,61 +4,56 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modular.handlers.IModularHandlerTileEntity;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.modules.state.IModuleStateClient;
+import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.Module;
+import modularmachines.common.network.PacketBufferMM;
+import modularmachines.common.network.PacketId;
 
-public class PacketSyncModule extends PacketModule implements IPacketClient {
+public class PacketSyncModule extends PacketModule {
 
 	private NBTTagCompound nbt;
 
 	public PacketSyncModule() {
 	}
 
-	public PacketSyncModule(IModuleState module) {
+	public PacketSyncModule(Module module) {
 		super(module);
-		this.nbt = module.serializeNBT();
+		this.nbt = module.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
-	protected void writeData(DataOutputStreamMM data) throws IOException {
+	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
-		data.writeNBTTagCompound(nbt);
+		data.writeCompoundTag(nbt);
 	}
-
-	@Override
-	public void readData(DataInputStreamMM data) throws IOException {
-		super.readData(data);
-		nbt = data.readNBTTagCompound();
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		IModularHandler handler = getModularHandler(player);
-		if (handler == null || handler.getModular() == null) {
-			return;
-		}
-		IModuleState moduleState = getModule(handler);
-		moduleState.deserializeNBT(nbt);
-		if (moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)) {
-			((IModuleStateClient) moduleState).getModelHandler().setNeedReload(true);
-			if (handler instanceof IModularHandlerTileEntity) {
-				BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
-				player.worldObj.markBlockRangeForRenderUpdate(pos, pos);
-			}
-		}
-	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SYNC_MODULE;
+	}
+	
+	public static class Handler implements IPacketHandlerClient{
+
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
+			World world = player.world;
+			IModuleLogic logic = PacketLocatable.getLogic(data, world);
+			Module module = getModule(logic, data);
+			module.readFromNBT(data.readCompoundTag());
+			//TODO: MODEL SYSTEM
+			/*if (moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)) {
+				((IModuleStateClient) moduleState).getModelHandler().setNeedReload(true);
+				if (handler instanceof IModularHandlerTileEntity) {
+					BlockPos pos = ((IModularHandlerTileEntity) handler).getPos();
+					player.worldObj.markBlockRangeForRenderUpdate(pos, pos);
+				}
+			}*/
+		}
+		
 	}
 }

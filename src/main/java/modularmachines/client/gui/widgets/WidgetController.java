@@ -9,10 +9,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modules.controller.IModuleControlled;
-import modularmachines.api.modules.state.IModuleState;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncPermission;
 
@@ -33,7 +29,7 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
-		ItemStack itemStack = state.getProvider().getItemStack();
+		ItemStack itemStack = state.getSource().getItemStack();
 		if (itemStack != null && itemStack.hasDisplayName()) {
 			return Arrays.asList(itemStack.getDisplayName());
 		}
@@ -50,14 +46,14 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 		boolean hasPermission;
 		if (usedBy) {
 			IModuleState<IModuleControlled> state = this.state;
-			hasPermission = state.getModule().getModuleControl(state).hasPermission(provider);
+			hasPermission = state.getModule().getModuleControl(state).hasPermission(source);
 		} else {
-			hasPermission = provider.getModule().getModuleControl(provider).hasPermission(state);
+			hasPermission = source.getModule().getModuleControl(source).hasPermission(state);
 		}
-		gui.drawItemStack(state.getProvider().getItemStack(), sx + pos.x, sy + pos.y);
+		gui.drawItemStack(state.getSource().getItemStack(), sx + positon.x, sy + positon.y);
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		if (!hasPermission) {
-			gui.getGui().drawTexturedModalRect(sx + pos.x + 1, sy + pos.y + 1, 130, 0, 14, 14);
+			gui.getGui().drawTexturedModalRect(sx + positon.x + 1, sy + positon.y + 1, 130, 0, 14, 14);
 		}
 		GlStateManager.disableAlpha();
 	}
@@ -67,11 +63,11 @@ public class WidgetController extends Widget<IModuleState<IModuleControlled>> {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 		if (usedBy) {
 			IModuleState<IModuleControlled> state = this.state;
-			state.getModule().getModuleControl(state).setPermission(provider, !state.getModule().getModuleControl(state).hasPermission(provider));
-			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), state, provider));
+			state.getModule().getModuleControl(state).setPermission(source, !state.getModule().getModuleControl(state).hasPermission(source));
+			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), state, source));
 		} else {
-			provider.getModule().getModuleControl(provider).setPermission(state, !provider.getModule().getModuleControl(provider).hasPermission(state));
-			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), provider, state));
+			source.getModule().getModuleControl(source).setPermission(state, !source.getModule().getModuleControl(source).hasPermission(state));
+			PacketHandler.sendToServer(new PacketSyncPermission(state.getModular().getHandler(), source, state));
 		}
 	}
 }

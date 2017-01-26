@@ -1,65 +1,63 @@
 package modularmachines.common.network.packets;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 
-import net.minecraft.entity.player.EntityPlayer;
+import modularmachines.api.modules.IModuleGuiLogic;
+import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.Module;
+import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.common.containers.ContainerModular;
+import modularmachines.common.network.PacketBufferMM;
 
-import modularmachines.api.modular.handlers.IModularHandler;
-import modularmachines.api.modules.IModulePage;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.api.modules.network.DataOutputStreamMM;
-import modularmachines.api.modules.state.IModuleState;
-
-public abstract class PacketModule extends PacketModularHandler {
+public abstract class PacketModule extends PacketLocatable<IModuleLogic> {
 
 	protected int index;
-	protected String pageId;
+	protected int pageIndex;
 
 	public PacketModule() {
 	}
-
-	public PacketModule(IModuleState module) {
-		this(module.getModular().getHandler(), module.getIndex(), null);
-		IModulePage currentPage = module.getModular().getCurrentPage();
-		if (currentPage.getModuleState().getIndex() == module.getIndex()) {
-			pageId = currentPage.getPageID();
-		}
+	
+	public PacketModule(ContainerModular container) {
+		this(container.getGuiLogic());
+	}
+	
+	public PacketModule(IModuleGuiLogic logic) {
+		this(logic.getCurrentModule(), logic.getCurrentPage());
+	}
+	
+	public PacketModule(Module module) {
+		this(module.getLogic(), module.getIndex(), -1);
 	}
 
-	public PacketModule(IModularHandler handler, int index, String pageId) {
-		super(handler);
+	public PacketModule(Module module, ModulePage page) {
+		this(module.getLogic(), module.getIndex(), page.getIndex());
+	}
+
+	public PacketModule(IModuleLogic logic, int index, int pageIndex) {
+		super(logic);
 		this.index = index;
-		this.pageId = pageId;
+		this.pageIndex = pageIndex;
 	}
-
-	public IModuleState getModule(EntityPlayer player) {
-		return getModule(getModularHandler(player));
-	}
-
-	public IModuleState getModule(IModularHandler handler) {
-		if (handler == null || handler.getModular() == null) {
-			return null;
-		}
-		return handler.getModular().getModule(index);
-	}
-
+	
 	@Override
-	public void readData(DataInputStreamMM data) throws IOException {
-		super.readData(data);
-		index = data.readInt();
-		if (data.readBoolean()) {
-			pageId = DataInputStream.readUTF(data);
-		}
-	}
-
-	@Override
-	protected void writeData(DataOutputStreamMM data) throws IOException {
+	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(index);
-		data.writeBoolean(pageId != null);
-		if (pageId != null) {
-			data.writeUTF(pageId);
+		data.writeInt(pageIndex);
+	}
+
+	protected static Module getModule(IModuleLogic logic, PacketBufferMM data) {
+		if (logic == null) {
+			return null;
 		}
+		return logic.getModule(data.readInt());
+	}
+	
+	protected static ModulePage getPage(IModuleLogic logic, PacketBufferMM data) {
+		Module module = getModule(logic, data);
+		if(module == null){
+			return null;
+		}
+		return module.getPage(data.readInt());
 	}
 }

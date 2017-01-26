@@ -8,11 +8,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
-import modularmachines.api.modules.state.IModuleState;
-import modularmachines.api.modules.tools.IModuleModeMachine;
-import modularmachines.api.recipes.IToolMode;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncToolMode;
 import modularmachines.common.utils.RenderUtil;
@@ -25,7 +20,7 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 	}
 
 	private IToolMode getMode() {
-		return provider.getModule().getCurrentMode(provider);
+		return source.getModule().getCurrentMode(source);
 	}
 
 	@Override
@@ -42,16 +37,16 @@ public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
 		RenderUtil.bindTexture(widgetTexture);
 		int sx = gui.getGuiLeft();
 		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 0, 18, 18);
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
+		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 238, 0, 18, 18);
+		gui.getGui().drawTexturedModalRect(sx + positon.x, sy + positon.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
 		GlStateManager.disableAlpha();
 	}
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-		IModuleModeMachine module = provider.getModule();
-		module.setCurrentMode(provider, module.getNextMode(provider));
-		PacketHandler.sendToServer(new PacketSyncToolMode(provider.getModular().getHandler(), provider));
+		IModuleModeMachine module = source.getModule();
+		module.setCurrentMode(source, module.getNextMode(source));
+		PacketHandler.sendToServer(new PacketSyncToolMode(source.getModular().getHandler(), source));
 	}
 }

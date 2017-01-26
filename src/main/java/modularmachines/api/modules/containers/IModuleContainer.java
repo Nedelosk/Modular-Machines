@@ -1,41 +1,26 @@
 package modularmachines.api.modules.containers;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
+import java.util.Collection;
 import javax.annotation.Nullable;
 
+import modularmachines.api.modules.ModuleData;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModuleProperties;
+/**
+ * An IModuleContainer provides informations about modules.
+ */
+public interface IModuleContainer {
 
-public interface IModuleContainer<M extends IModule, P extends IModuleProperties> {
+	/**
+	 * @return The stack that is used to display this container in a guit.
+	 */
+	ItemStack getParent();
 
-	@SideOnly(Side.CLIENT)
-	void addTooltip(List<String> tooltip, ItemStack stack);
-
-	@Nonnull
-	M getModule();
+	/**
+	 * @return The {@link ModuleData}s that this container contains.
+	 */
+	Collection<ModuleData> getDatas();
 
 	@Nullable
-	P getProperties();
-
-	@Nullable
-	IModuleItemContainer getItemContainer();
-
-	void setItemContainer(@Nonnull IModuleItemContainer itemContainer);
-
-	@Nonnull
-	String getUnlocalizedName();
-
-	@Nonnull
-	String getDisplayName();
-
-	@Nonnull
-	String getDescription();
-
-	int getIndex();
+	boolean matches(ItemStack stack);
 }

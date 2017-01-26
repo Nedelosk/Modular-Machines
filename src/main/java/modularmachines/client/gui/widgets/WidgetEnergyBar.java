@@ -7,9 +7,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.energy.IEnergyBuffer;
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.Widget;
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
@@ -22,21 +19,21 @@ public class WidgetEnergyBar extends Widget<IEnergyBuffer> {
 	@Override
 	public List<String> getTooltip(IGuiBase gui) {
 		ArrayList<String> description = new ArrayList<>();
-		description.add(provider.getEnergyStored() + " RF / " + provider.getCapacity() + " RF");
+		description.add(source.getEnergyStored() + " RF / " + source.getCapacity() + " RF");
 		return description;
 	}
 
 	@Override
 	public void draw(IGuiBase gui) {
-		if (provider == null) {
+		if (source == null) {
 			return;
 		}
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.bindTexture(widgetTexture);
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y, 180, 187, 12, 69);
-		int energy = (int) ((provider.getEnergyStored() * pos.height) / provider.getCapacity());
-		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + pos.x, gui.getGuiTop() + pos.y + 69 - energy, 192, 256 - energy, pos.width, energy);
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y, 180, 187, 12, 69);
+		int energy = (int) ((source.getEnergyStored() * positon.height) / source.getCapacity());
+		gui.getGui().drawTexturedModalRect(gui.getGuiLeft() + positon.x, gui.getGuiTop() + positon.y + 69 - energy, 192, 256 - energy, positon.width, energy);
 		GlStateManager.disableAlpha();
 	}
 }

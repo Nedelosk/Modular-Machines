@@ -3,6 +3,10 @@ package modularmachines.common.network;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.google.common.base.Preconditions;
+
+import forestry.core.network.IForestryPacketHandlerServer;
+import forestry.core.network.PacketBufferForestry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,12 +27,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.netty.buffer.ByteBufInputStream;
-import modularmachines.api.modules.network.DataInputStreamMM;
-import modularmachines.common.network.packets.IPacketClient;
-import modularmachines.common.network.packets.IPacketServer;
-import modularmachines.common.network.packets.PacketId;
+import modularmachines.common.network.packets.IPacket;
+import modularmachines.common.network.packets.IPacketHandlerClient;
+import modularmachines.common.network.packets.IPacketHandlerServer;
 import modularmachines.common.network.packets.PacketModuleCleaner;
-import modularmachines.common.network.packets.PacketSelectAssemblerPosition;
+import modularmachines.common.network.packets.PacketAssemblerPosition;
 import modularmachines.common.network.packets.PacketSelectModule;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
@@ -44,13 +47,13 @@ public class PacketHandler {
 
 	public static final String channelId = "modularmachines";
 	private final static FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channelId);
-
+	
 	public PacketHandler() {
 		channel.register(this);
 		registerClientPacket(new PacketModuleCleaner());
 		registerServerPacket(new PacketModuleCleaner());
-		registerClientPacket(new PacketSelectAssemblerPosition());
-		registerServerPacket(new PacketSelectAssemblerPosition());
+		registerClientPacket(new PacketAssemblerPosition());
+		registerServerPacket(new PacketAssemblerPosition());
 		registerClientPacket(new PacketSelectModule());
 		registerServerPacket(new PacketSelectModule());
 		registerClientPacket(new PacketSelectModulePage());
@@ -72,15 +75,15 @@ public class PacketHandler {
 		registerClientPacket(new PacketUpdateModule());
 	}
 
-	public static void registerClientPacket(IPacketClient packet) {
-		packet.getPacketId().setPacketClient(packet);
+	public static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {
+		packetID.setHandlerClient(packet);
 	}
 
-	public static void registerServerPacket(IPacketServer packet) {
-		packet.getPacketId().setPacketServer(packet);
+	public static void registerServerPacket(PacketId packetID, IPacketHandlerServer packet) {
+		packetID.setHandlerServer(packet);
 	}
 
-	public static void sendToNetwork(IPacketClient packet, BlockPos pos, WorldServer world) {
+	public static void sendToNetwork(IPacket packet, BlockPos pos, WorldServer world) {
 		if (packet == null) {
 			return;
 		}
@@ -99,14 +102,14 @@ public class PacketHandler {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void sendToServer(IPacketServer packet) {
+	public static void sendToServer(IPacket packet) {
 		NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getConnection();
 		if (netHandler != null) {
 			netHandler.sendPacket(packet.getPacket());
 		}
 	}
 
-	public static void sendToPlayer(IPacketClient packet, EntityPlayer entityplayer) {
+	public static void sendToPlayer(IPacket packet, EntityPlayer entityplayer) {
 		if (!(entityplayer instanceof EntityPlayerMP) || entityplayer instanceof FakePlayer) {
 			return;
 		}
@@ -120,68 +123,48 @@ public class PacketHandler {
 
 	@SubscribeEvent
 	public void onPacket(ServerCustomPacketEvent event) {
-		DataInputStreamMM data = getStream(event.getPacket());
+		PacketBufferMM data = new PacketBufferMM(event.getPacket().payload());
 		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).playerEntity;
-		try {
-			byte packetIdOrdinal = data.readByte();
-			PacketId packetId = PacketId.VALUES[packetIdOrdinal];
-			IPacketServer packetHandler = packetId.getServerPacket();
-			checkThreadAndEnqueue(packetHandler, data, player, player.getServerWorld());
-		} catch (IOException e) {
-			Log.err("Failed to read packet.", e);
-		}
+		
+		byte packetIdOrdinal = data.readByte();
+		PacketId packetId = PacketId.VALUES[packetIdOrdinal];
+		IPacketHandlerServer packetHandler = packetId.getServerHandler();
+		checkThreadAndEnqueue(packetHandler, data, player, player.getServerWorld());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onPacket(ClientCustomPacketEvent event) {
-		DataInputStreamMM data = getStream(event.getPacket());
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		try {
-			byte packetIdOrdinal = data.readByte();
-			PacketId packetId = PacketId.VALUES[packetIdOrdinal];
-			IPacketClient packetHandler = packetId.getClientPacket();
-			checkThreadAndEnqueue(packetHandler, data, player, Minecraft.getMinecraft());
-		} catch (IOException e) {
-			Log.err("Failed to read packet.", e);
-		}
-	}
-
-	private static DataInputStreamMM getStream(FMLProxyPacket fmlPacket) {
-		InputStream is = new ByteBufInputStream(fmlPacket.payload());
-		return new DataInputStreamMM(is);
+		PacketBufferMM data = new PacketBufferMM(event.getPacket().payload());
+		
+		byte packetIdOrdinal = data.readByte();
+		PacketId packetId = PacketId.VALUES[packetIdOrdinal];
+		IPacketHandlerClient packetHandler = packetId.getClientHandler();
+		checkThreadAndEnqueue(packetHandler, data, Minecraft.getMinecraft());
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void checkThreadAndEnqueue(final IPacketClient packet, final DataInputStreamMM data, final EntityPlayer player, IThreadListener threadListener) {
+	private static void checkThreadAndEnqueue(final IPacketHandlerClient packet, final PacketBufferMM data, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
-			threadListener.addScheduledTask(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						packet.readData(data);
-						packet.onPacketData(data, player);
-					} catch (IOException e) {
-						Log.err("Network Error", e);
-					}
+			threadListener.addScheduledTask(() -> {
+				try {
+					EntityPlayer player = Minecraft.getMinecraft().player;
+					Preconditions.checkNotNull(player, "Tried to send data to client before the player exists.");
+					packet.onPacketData(data, player);
+				} catch (IOException e) {
+					Log.err("Network Error", e);
 				}
 			});
 		}
 	}
 
-	private static void checkThreadAndEnqueue(final IPacketServer packet, final DataInputStreamMM data, final EntityPlayerMP player, IThreadListener threadListener) {
+	private static void checkThreadAndEnqueue(final IPacketHandlerServer packet, final PacketBufferMM data, final EntityPlayerMP player, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
-			threadListener.addScheduledTask(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						packet.readData(data);
-						packet.onPacketData(data, player);
-					} catch (IOException e) {
-						Log.err("Network Error", e);
-					}
+			threadListener.addScheduledTask(() -> {
+				try {
+					packet.onPacketData(data, player);
+				} catch (IOException e) {
+					Log.err("Network Error", e);
 				}
 			});
 		}

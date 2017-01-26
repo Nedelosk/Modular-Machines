@@ -6,32 +6,26 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
-
-import modularmachines.api.gui.IGuiBase;
-import modularmachines.api.gui.IWidgetManager;
-import modularmachines.api.gui.Widget;
+import modularmachines.api.IGuiProvider;
+import modularmachines.api.ILocatableSource;
+import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
 
-public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
+public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 
-	public final G gui;
-	public final Minecraft minecraft;
 	protected final List<Widget> widgets = new ArrayList<>();
+	public final GuiBase<P, S> gui;
 
-	public WidgetManager(G gui) {
+	public WidgetManager(GuiBase<P, S> gui) {
 		this.gui = gui;
-		this.minecraft = Minecraft.getMinecraft();
 	}
 
-	@Override
 	public void add(Widget widget) {
 		if (!widgets.contains(widget)) {
 			this.widgets.add(widget);
 		}
 	}
 
-	@Override
 	public void addAll(Collection<Widget> widgets) {
 		if (widgets == null) {
 			return;
@@ -43,7 +37,6 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		}
 	}
 
-	@Override
 	public void remove(Widget widget) {
 		this.widgets.remove(widget);
 	}
@@ -52,7 +45,6 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		this.widgets.clear();
 	}
 
-	@Override
 	public Widget getWidgetAtMouse(int mouseX, int mouseY) {
 		for (Widget widget : widgets) {
 			if (widget.isMouseOver(mouseX, mouseY)) {
@@ -65,11 +57,11 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 	public void drawWidgets() {
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			slot.draw(gui);
+			slot.draw();
 		}
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			slot.drawStrings(gui);
+			slot.drawStrings();
 		}
 	}
 
@@ -108,12 +100,12 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		// If there is a focused text field, attempt to type into it
 		if (focused != null) {
 			String old = focused.getText();
-			if (focused.keyTyped(keyChar, keyCode, gui)) {
+			if (focused.keyTyped(keyChar, keyCode)) {
 				gui.onTextFieldChanged(focused, old);
 				return true;
 			}
 		}
-		// More NEI behavior, f key focuses first text field
+		// More JEI behavior, f key focuses first text field
 		if (keyChar == 'f' && focused == null && !widgets.isEmpty()) {
 			focused = widgets.get(0);
 			focused.setFocused(true);
@@ -121,28 +113,29 @@ public class WidgetManager<G extends IGuiBase> implements IWidgetManager<G> {
 		return false;
 	}
 
-	public void drawTooltip(int mX, int mY) {
-		for (Widget widget : widgets) {
-			if (widget.isMouseOver(mX - gui.getGuiLeft(), mY - gui.getGuiTop())) {
-				RenderUtil.renderTooltip(mX, mY, widget.getTooltip(gui));
-			}
+	public void drawTooltip(int mouseX, int mouseY) {
+		int posX = mouseX - gui.getGuiLeft();
+		int posY = mouseY - gui.getGuiTop();
+		Widget widget = getWidgetAtMouse(posX, posY);
+		if (widget != null) {
+			RenderUtil.renderTooltip(mouseX, mouseY, widget.getTooltip());
 		}
 	}
 
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-		Widget widget = getWidgetAtMouse(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
+		int posX = mouseX - gui.getGuiLeft();
+		int posY = mouseY - gui.getGuiTop();
+		Widget widget = getWidgetAtMouse(posX, posY);
 		if (widget != null) {
-			widget.handleMouseClick(mouseX, mouseY, mouseButton, gui);
+			widget.handleMouseClick(mouseX, mouseY, mouseButton);
 		}
 	}
 
-	@Override
 	public List<Widget> getWidgets() {
 		return widgets;
 	}
-
-	@Override
-	public G getGui() {
+	
+	public GuiBase<P, S> getGui() {
 		return gui;
 	}
 }
