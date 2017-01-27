@@ -6,8 +6,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ModuleContainerDamage extends ModuleContainer {
 
-	public ModuleContainerDamage(ItemStack parent, ModuleData... datas) {
-		super(parent, datas);
+	public ModuleContainerDamage(ItemStack parent, ModuleData data) {
+		super(parent, data);
 	}
 
 	@Override

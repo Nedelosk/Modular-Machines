@@ -235,9 +235,9 @@ public class Assembler implements IAssembler {
 					ItemStack itemStack = itemHandler.getStackInSlot(i);
 					IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
 					if(container != null ){
-						for(ModuleData moduleData : container.getDatas()){
+						ModuleData moduleData = container.getData();
 							moduleData.canAssemble(this, errors);
-						}
+						
 					}
 				}
 			}
@@ -278,18 +278,18 @@ public class Assembler implements IAssembler {
 		}
 		IModuleContainer moduleContainer = ModuleHelper.getContainerFromItem(itemStack);
 		if (moduleContainer != null) {
-			for(ModuleData data : moduleContainer.getDatas()){
-				if(data.isStorage(position)){
-					IStoragePage page = data.createStoragePage(this, position);
-					this.pages.put(position, page);
-					Collection<IStoragePosition> childPositions = data.getChildPositions(position);
-					for(IStoragePosition childPosition : childPositions){
-						IStoragePage child = data.createChildPage(this, childPosition);
-						page.addChild(child);
-						pages.put(childPosition, child);
-					}
+			ModuleData data = moduleContainer.getData();
+			if(data.isStorage(position)){
+				IStoragePage page = data.createStoragePage(this, position);
+				this.pages.put(position, page);
+				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
+				for(IStoragePosition childPosition : childPositions){
+					IStoragePage child = data.createChildPage(this, childPosition);
+					page.addChild(child);
+					pages.put(childPosition, child);
 				}
 			}
+			
 		}
 	}
 

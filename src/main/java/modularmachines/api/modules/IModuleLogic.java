@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nullable;
 
-import modularmachines.api.ILocatableSource;
+import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IModuleLogic extends ILocatableSource {
+public interface IModuleLogic extends IGuiProvider {
 	
 	/**
 	 * 
@@ -43,9 +43,6 @@ public interface IModuleLogic extends ILocatableSource {
 	
 	@Nullable
 	IStorage getStorage(IStoragePosition position);
-	
-	@SideOnly(Side.CLIENT)
-	void updateRendering();
 	
 	@SideOnly(Side.CLIENT)
 	IModuleGuiLogic getGuiLogic();

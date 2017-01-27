@@ -43,7 +43,7 @@ public class PacketSelectModulePage extends PacketModule {
 			if (guiLogic != null) {
 				Module module = guiLogic.getCurrentModule();
 				int pageIndex = data.readVarInt();
-				guiLogic.setCurrentPage(module.getPage(pageIndex));
+				guiLogic.setCurrentPage(module.getPage(pageIndex), false);
 			}
 		}
 	
@@ -56,7 +56,7 @@ public class PacketSelectModulePage extends PacketModule {
 				IModuleLogic logic = guiLogic.getLogic();
 				Module module = guiLogic.getCurrentModule();
 				int pageIndex = data.readVarInt();
-				guiLogic.setCurrentPage(module.getPage(pageIndex));
+				guiLogic.setCurrentPage(module.getPage(pageIndex), false);
 				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, pageIndex), pos, world);
 				ContainerUtil.openGuiSave(logic);
 			}

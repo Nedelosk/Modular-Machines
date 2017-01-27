@@ -1,5 +1,6 @@
 package modularmachines.api.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import modularmachines.api.modules.assemblers.IAssembler;
@@ -15,7 +16,13 @@ public class ModuleManager {
 	@CapabilityInject(IAssembler.class)
 	public static Capability<IAssembler> ASSEMBLER;
 	
+	private static final List<IModuleContainer> CONTAINERS = new ArrayList<>();
+	
+	public static void registerContainer(IModuleContainer container){
+		CONTAINERS.add(container);
+	}
+	
 	public static List<IModuleContainer> getContainers(){
-		return null;
+		return CONTAINERS;
 	}
 }

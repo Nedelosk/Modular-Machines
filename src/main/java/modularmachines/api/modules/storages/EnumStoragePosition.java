@@ -1,9 +1,10 @@
 package modularmachines.api.modules.storages;
 
+import java.util.List;
 import java.util.Locale;
 
 import net.minecraft.util.text.translation.I18n;
-
+import scala.actors.threadpool.Arrays;
 import modularmachines.api.modules.EnumModuleSizes;
 
 public enum EnumStoragePosition implements IMachineStoragePosition {
@@ -56,6 +57,10 @@ public enum EnumStoragePosition implements IMachineStoragePosition {
 			return 1;
 		}
 		return 0;
+	}
+	
+	public static List<IStoragePosition> getPositions(){
+		return Arrays.asList(VALUES);
 	}
 
 	@Override

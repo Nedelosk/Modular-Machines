@@ -5,7 +5,6 @@ import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
-import modularmachines.common.modules.assembler.Assembler;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
@@ -14,10 +13,10 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 
 	protected final IStoragePage page;
 	protected final IStoragePosition position;
-	protected final Assembler assembler;
+	protected final IAssembler assembler;
 	protected final Container container;
 
-	public SlotAssemblerStorage(Assembler assembler, Container container, int xPosition, int yPosition, IStoragePage page) {
+	public SlotAssemblerStorage(IAssembler assembler, Container container, int xPosition, int yPosition, IStoragePage page) {
 		super(page.getItemHandler(), 0, xPosition, yPosition);
 		this.assembler = assembler;
 		this.container = container;
@@ -41,27 +40,22 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		IModuleContainer itemContainer = ModuleHelper.getContainerFromItem(stack);
-		if (itemContainer == null) {
+		IModuleContainer container = ModuleHelper.getContainerFromItem(stack);
+		if (container == null) {
 			return false;
 		}
-		Boolean isValid = null;
-		DATAS: for (ModuleData data : itemContainer.getDatas()) {
-			if (data.isStorageAt(position, this)) {
-				if (data.isValid(assembler, position, stack, null, this)) {
-					Collection<IStoragePosition> childPositions = data.getChildPositions(position);
-					for(IStoragePosition position : childPositions){
-						if(!assembler.getPage(position).isEmpty()){
-							continue DATAS;
-						}
+		ModuleData data = container.getData();
+		if (data.isStorageAt(position, this)) {
+			if (data.isItemValid(assembler, position, stack, null, this)) {
+				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
+				for(IStoragePosition position : childPositions){
+					if(!assembler.getPage(position).isEmpty()){
+						return false;
 					}
-					return true;
 				}
+				return true;
 			}
 		}
-		if (isValid == null) {
-			isValid = false;
-		}
-		return isValid;
+		return false;
 	}
 }

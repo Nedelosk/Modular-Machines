@@ -93,7 +93,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		String exceptionText;
 		if (lastError != null) {
-			exceptionText = lastError.getLocalizedMessage();
+			exceptionText = lastError.getMessage();
 		} else {
 			exceptionText = Translator.translateToLocal("modular.assembler.info");
 		}
@@ -107,14 +107,12 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 				ItemStack stack = page.getStorageStack();
 				IModuleContainer container = ModuleHelper.getContainerFromItem(stack);
 				if (container != null) {
-					for (ModuleData data : container.getDatas()) {
-						if (data.isStorage(page.getPosition())) {
-							String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
-							this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
-							this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
-							this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
-							break;
-						}
+					ModuleData data = container.getData();
+					if (data.isStorage(page.getPosition())) {
+						String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
+						this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
 					}
 				}
 			}

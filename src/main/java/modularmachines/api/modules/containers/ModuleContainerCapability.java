@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public class ModuleContainerCapability extends ModuleContainerNBT {
 
-	public ModuleContainerCapability(ItemStack parent, ModuleData... datas) {
-		super(parent, datas);
+	public ModuleContainerCapability(ItemStack parent, ModuleData data) {
+		super(parent, data);
 	}
 
 	@Override

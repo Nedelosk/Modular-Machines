@@ -5,27 +5,46 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nullable;
 
+import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
+import modularmachines.client.gui.GuiModuleLogic;
+import modularmachines.common.containers.ContainerModuleLogic;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSyncHandlerState;
+import modularmachines.common.utils.ContainerUtil;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ModuleLogic implements IModuleLogic {
+public class ModuleLogic implements IModuleLogic {
 
 	@SideOnly(Side.CLIENT)
 	public final ModuleGuiLogic guiLogic = new ModuleGuiLogic(this);
 	public final List<IStorage> storages = new ArrayList<>();
+	public final ILocatable locatable;
+	
+	public ModuleLogic(ILocatable locatable) {
+		this.locatable = locatable;
+	}
 	
     @Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
@@ -48,15 +67,17 @@ public abstract class ModuleLogic implements IModuleLogic {
     		String registryName = tag.getString("ModuleData");
     		IStoragePosition position = getValidPositions().get(tag.getInteger("Pos"));
     		ModuleData moduleData = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(registryName));
-    		IStorage storage = moduleData.createStorage(this, position);
-    		storages.add(storage);
+    		IStorage storage = moduleData.createStorage(this, position, null);
+    		if(storage != null){
+        		storages.add(storage);
+    		}
     	}
     }
     
 	@Override
 	public Module getModule(int index) {
 		for (IStorage storage : storages) {
-			Module module = storage.getStorage().getModule(index);
+			Module module = storage.getStorage().getModuleForIndex(index);
 			if (module != null) {
 				return module;
 			}
@@ -81,7 +102,7 @@ public abstract class ModuleLogic implements IModuleLogic {
 		int currentIndex = 0;
 		for (IStoragePage page : assembler.getPages()) {
 			if (page != null) {
-				IStorage storage = page.assamble(assembler, this);
+				IStorage storage = page.assemble(assembler, this);
 				if (storage != null) {
 					for (Module module : storage.getStorage().getModules()) {
 						module.setIndex(currentIndex++);
@@ -96,6 +117,21 @@ public abstract class ModuleLogic implements IModuleLogic {
 			}
 		}
 		onAssembled();
+		if(locatable != null){
+			World world = locatable.getWorldObj();
+			BlockPos pos = locatable.getCoordinates();
+			if (world.isRemote) {
+				world.markBlockRangeForRenderUpdate(pos, pos);
+			} else {
+				if(world instanceof WorldServer){
+					WorldServer server = (WorldServer) world;
+					PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, true), pos, server);
+					IBlockState blockState = server.getBlockState(pos);
+					server.notifyBlockUpdate(pos, blockState, blockState, 3);
+					ContainerUtil.openOrCloseGuiSave(this, !ModuleHelper.getPageModules(this).isEmpty());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -127,10 +163,25 @@ public abstract class ModuleLogic implements IModuleLogic {
 		storages.add(storage);
 	}
 	
+	@Override
+	public ILocatable getLocatable() {
+		return locatable;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ModuleGuiLogic getGuiLogic() {
 		return guiLogic;
 	}
 	
+	@Override
+	public Container createContainer(InventoryPlayer inventory) {
+		return new ContainerModuleLogic(this, inventory);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public GuiContainer createGui(InventoryPlayer inventory) {
+		return new GuiModuleLogic(this, inventory);
+	}
 }

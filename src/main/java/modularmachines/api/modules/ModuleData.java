@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.assemblers.SlotAssembler;
 import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
 import modularmachines.api.modules.assemblers.StoragePage;
@@ -39,16 +40,24 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return 0;
 	}
 	
+	public EnumModuleSizes getSize(){
+		return EnumModuleSizes.MEDIUM;
+	}
+	
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
 	}
 	
 	public Module createModule(IModuleContainer container, ItemStack itemStack){
-		Module module = createModule(container);
-		module.onCreateModule(itemStack);
+		Module module = createModule();
+		module.onCreateModule(container, itemStack);
 		return module;
 	}
 	
-	protected Module createModule(IModuleContainer container){
+	public boolean isPositionValid(IStoragePosition position){
+		return true;
+	}
+	
+	public Module createModule(){
 		return null;
 	}
 	
@@ -56,11 +65,11 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return 0;
 	}
 	
-	public boolean isValid(IAssembler assembler, IStoragePosition position, ItemStack stack, @Nullable SlotAssembler slot, SlotAssemblerStorage storageSlot){
+	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack, @Nullable SlotAssembler slot, SlotAssemblerStorage storageSlot){
 		return false;
 	}
 	
-	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position) {
+	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page) {
 		return null;
 	}
 	
@@ -72,15 +81,20 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return false;
 	}
 	
-	public StoragePage createStoragePage(IAssembler assembler, IStoragePosition position){
+	public StoragePage createStoragePage(IAssembler assembler, IStoragePosition position, @Nullable IStorage storage){
 		return null;
 	}
 	
+	@Nullable
 	public StoragePage createChildPage(IAssembler assembler, IStoragePosition position){
 		return null;
 	}
 	
 	public Collection<IStoragePosition> getChildPositions(IStoragePosition position){
 		return Collections.emptyList();
+	}
+
+	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleContainer container) {
+		
 	}
 }

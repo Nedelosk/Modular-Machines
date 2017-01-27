@@ -1,21 +1,22 @@
 package modularmachines.api.modules.assemblers;
 
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import modularmachines.common.containers.ContainerAssembler;
 
 public class SlotAssembler extends SlotItemHandler {
 
 	protected final SlotAssemblerStorage storageSlot;
-	protected final StoragePage page;
-	protected final ContainerAssembler container;
+	protected final IAssembler assembler;
+	protected final IStoragePage page;
+	protected final Container container;
 	public boolean isActive;
 	public boolean hasChange;
 
-	public SlotAssembler(IItemHandler inventory, int index, int xPosition, int yPosition, StoragePage page, ContainerAssembler container, SlotAssemblerStorage storageSlot) {
-		super(inventory, index, xPosition, yPosition);
+	public SlotAssembler(IAssembler assembler, Container container, int index, int xPosition, int yPosition, IStoragePage page, SlotAssemblerStorage storageSlot) {
+		super(page.getItemHandler(), index, xPosition, yPosition);
 		this.storageSlot = storageSlot;
+		this.assembler = assembler;
 		this.page = page;
 		this.container = container;
 		this.isActive = true;
@@ -25,7 +26,7 @@ public class SlotAssembler extends SlotItemHandler {
 	@Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
-		page.onSlotChanged(container, container.getSource());
+		page.onSlotChanged(container, assembler);
 	}
 
 	@Override

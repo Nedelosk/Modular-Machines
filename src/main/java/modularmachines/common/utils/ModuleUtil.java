@@ -1,7 +1,6 @@
 package modularmachines.common.utils;
 
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
@@ -13,7 +12,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStorage;
-import modularmachines.common.containers.ContainerModular;
+import modularmachines.common.containers.ContainerModuleLogic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -74,8 +73,8 @@ public class ModuleUtil {
 	
 	public static IModuleGuiLogic getGuiLogic(EntityPlayer player){
 		Container container = player.openContainer;
-		if(container instanceof ContainerModular){
-			return ((ContainerModular) container).getGuiLogic();
+		if(container instanceof ContainerModuleLogic){
+			return ((ContainerModuleLogic) container).getGuiLogic();
 		}
 		return null;
 	}

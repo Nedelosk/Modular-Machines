@@ -1,13 +1,9 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import modularmachines.client.gui.GuiBase;
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
@@ -15,13 +11,6 @@ public class WidgetEnergyBar extends WidgetEnergy {
 	
 	public WidgetEnergyBar(int posX, int posY, IEnergyStorage storage) {
 		super(posX, posY, 12, 69, storage);
-	}
-
-	@Override
-	public List<String> getTooltip() {
-		ArrayList<String> description = new ArrayList<>();
-		description.add(storage.getEnergyStored() + " RF / " + storage.getMaxEnergyStored() + " RF");
-		return description;
 	}
 
 	@Override

@@ -12,14 +12,14 @@ import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.modules.logic.ModuleGuiLogic;
 
-public class ContainerModular extends BaseContainer<IModuleLogic> {
+public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 
 	public ModuleGuiLogic guiLogic;
 	
 	public InventoryPlayer inventory;
 	public ModulePage currentPage;
 
-	public ContainerModular(IModuleLogic moduleLogic, InventoryPlayer inventory) {
+	public ContainerModuleLogic(IModuleLogic moduleLogic, InventoryPlayer inventory) {
 		super(moduleLogic, inventory);
 		this.inventory = inventory;
 		this.currentPage.setContainer(this);

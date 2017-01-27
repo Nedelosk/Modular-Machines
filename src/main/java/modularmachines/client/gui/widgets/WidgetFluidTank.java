@@ -22,8 +22,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -35,13 +33,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import mezz.jei.api.recipe.IFocus.Mode;
-import modularmachines.client.gui.GuiBase;
+import modularmachines.common.utils.Mod;
 import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
@@ -64,8 +59,8 @@ public class WidgetFluidTank extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (tank != null && tank.getFluid() != null) {
-			if (Loader.isModLoaded("JEI")) {
-				PluginUtil.openRecipesGui(mouseButton == 1, tank.getFluid());
+			if (Mod.JEI.active()) {
+				PluginUtil.show(mouseButton == 1, tank.getFluid());
 			}
 		}
 	}
@@ -76,13 +71,13 @@ public class WidgetFluidTank extends Widget {
 		GlStateManager.enableAlpha();
 		GlStateManager.color(1, 1, 1, 1);
 		RenderUtil.texture(widgetTexture);
-		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 132, 127, positon.width, positon.height);
-		drawFluid(guiLeft + positon.x + 1, guiTop + positon.y + 1, tank.getFluid());
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 132, 127, pos.width, pos.height);
+		drawFluid(guiLeft + pos.x + 1, guiTop + pos.y + 1, tank.getFluid());
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0, 0, 200);
 		RenderUtil.texture(widgetTexture);
-		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 150, 127, positon.width - 2, positon.height);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 150, 127, pos.width - 2, pos.height);
 		GlStateManager.popMatrix();
 		GlStateManager.disableAlpha();
 		GlStateManager.disableBlend();

@@ -10,7 +10,11 @@ public interface IModuleStorage {
 	 */
 	Collection<Module> getModules();
 	
-	Module getModule(int index);
+	Module getModuleForIndex(int index);
+	
+	Module getModuleAtPosition(int position);
+	
+	int getPosition(Module module);
 	
 	IModuleLogic getLogic();
 	

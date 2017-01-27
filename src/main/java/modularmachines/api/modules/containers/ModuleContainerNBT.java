@@ -6,8 +6,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ModuleContainerNBT extends ModuleContainer {
 
-	public ModuleContainerNBT(ItemStack parent, ModuleData... datas) {
-		super(parent, datas);
+	public ModuleContainerNBT(ItemStack parent, ModuleData data) {
+		super(parent, data);
 	}
 
 	@Override

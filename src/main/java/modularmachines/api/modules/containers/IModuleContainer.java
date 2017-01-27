@@ -1,6 +1,5 @@
 package modularmachines.api.modules.containers;
 
-import java.util.Collection;
 import javax.annotation.Nullable;
 
 import modularmachines.api.modules.ModuleData;
@@ -17,9 +16,9 @@ public interface IModuleContainer {
 	ItemStack getParent();
 
 	/**
-	 * @return The {@link ModuleData}s that this container contains.
+	 * @return The {@link ModuleData} that this container contains.
 	 */
-	Collection<ModuleData> getDatas();
+	ModuleData getData();
 
 	@Nullable
 	boolean matches(ItemStack stack);

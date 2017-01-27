@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import modularmachines.api.modules.IModuleGuiLogic;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
-import modularmachines.client.gui.GuiBase;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RenderUtil;
 
@@ -21,19 +20,20 @@ public class WidgetModuleTab extends Widget<IModuleLogic> {
 	public final Module module;
 	public final boolean onRightSide;
 	public final IModuleGuiLogic guiLogic;
+	public final int currentIndex;
+	public final int moduleIndex;
 
 	public WidgetModuleTab(int xPosition, int yPosition, Module module, boolean onRightSide) {
 		super(xPosition, yPosition, 28, 21);
 		this.onRightSide = onRightSide;
 		this.module = module;
+		this.moduleIndex = module.getIndex();
 		this.guiLogic = ModuleUtil.getClientGuiLogic();
+		this.currentIndex = guiLogic.getCurrentModule().getIndex();
 	}
 
 	@Override
 	public void draw(int guiLeft, int guiTop) {
-		GuiBase gui = manager.getGui();
-		int moduleIndex = module.getIndex();
-		int currentIndex = guiLogic.getCurrentModule().getIndex();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.texture(guiTexture);
 		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, (moduleIndex == currentIndex) ? 0 : 28, onRightSide ? 214 : 235, 28, 21);
@@ -43,8 +43,6 @@ public class WidgetModuleTab extends Widget<IModuleLogic> {
 
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-		int moduleIndex = module.getIndex();
-		int currentIndex = guiLogic.getCurrentModule().getIndex();
 		if (moduleIndex == currentIndex) {
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			guiLogic.setCurrentPage(module.getPage(0), true);

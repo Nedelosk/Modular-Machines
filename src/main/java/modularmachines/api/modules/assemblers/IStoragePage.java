@@ -24,7 +24,7 @@ public interface IStoragePage {
     void readFromNBT(NBTTagCompound compound);
 	
 	@Nullable
-	IStorage assamble(IAssembler assembler, IModuleLogic logic);
+	IStorage assemble(IAssembler assembler, IModuleLogic logic);
 	
 	void canAssemble(IAssembler assembler, List<AssemblerError> errors);
 	
@@ -72,7 +72,7 @@ public interface IStoragePage {
 
 	void detectAndSendChanges();
 	
-	boolean isItemValid(ItemStack stack, Slot slot, SlotAssemblerStorage storageSlot);
+	boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot);
 
 	void updateGui();
 

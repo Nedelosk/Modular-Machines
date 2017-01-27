@@ -11,7 +11,6 @@ import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
-import modularmachines.common.modules.assembler.Assembler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -53,11 +52,6 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {	
 	}
-	
-	@Override
-	public IStorage assamble(IAssembler assembler, IModuleLogic logic) {
-		return null;
-	}
 
 	@Override
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors) {
@@ -69,6 +63,19 @@ public abstract class StoragePage implements IStoragePage {
 
 	@Override
 	public void onSlotChanged(Container container, IAssembler assembler) {
+	}
+	
+	@Override
+	public IStorage assemble(IAssembler assembler, IModuleLogic logic) {
+		ItemStack storageStack = getStorageStack();
+		if (storageStack != null) {
+			IModuleContainer container = ModuleHelper.getContainerFromItem(storageStack);
+			ModuleData data = container.getData();
+			if (data != null) {
+				return data.createStorage(logic, position, this);
+			}
+		}
+		return null;
 	}
 	
 	@Override
@@ -117,9 +124,8 @@ public abstract class StoragePage implements IStoragePage {
 			if (slotStack != null) {
 				IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
 				if (container != null) {
-					for (ModuleData data : container.getDatas()) {
-						complexity += data.getComplexity();
-					}
+					ModuleData data = container.getData();
+					complexity += data.getComplexity();
 				}
 			}
 		}
@@ -134,9 +140,8 @@ public abstract class StoragePage implements IStoragePage {
 			if (slotStack != null) {
 				IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
 				if (container != null) {
-					for (ModuleData data : container.getDatas()) {
-						allowedComplexity += data.getAllowedComplexity();
-					}
+					ModuleData data = container.getData();
+					allowedComplexity += data.getAllowedComplexity();
 				}
 			}
 		}
@@ -144,18 +149,12 @@ public abstract class StoragePage implements IStoragePage {
 	}
 	
 	@Override
-	public abstract boolean isEmpty();
-
-	public void createSlots(Container container, Assembler assembler, List<Slot> slots) {
-		
+	public boolean isEmpty(){
+		return false;
 	}
 
 	@Override
 	public void setContainer(Container container) {
-		
-	}
-
-	public void onSlotChanged(Container container, Assembler assembler) {
 		
 	}
 
@@ -165,7 +164,7 @@ public abstract class StoragePage implements IStoragePage {
 	}
 	
 	@Override
-	public boolean isItemValid(ItemStack stack, Slot slot, SlotAssemblerStorage storageSlot) {
+	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
 		return false;
 	}
 	

@@ -4,12 +4,12 @@ import java.util.List;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
-import modularmachines.common.containers.BaseContainer;
 import modularmachines.common.containers.ContainerAssembler;
 import modularmachines.common.core.ModularMachines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketSetSlot;
@@ -180,6 +180,15 @@ public class ContainerUtil {
 	 */
 	public static void openGuiSave(ILocatableSource source){
 		openOrCloseGuiSave(source, true);
+	}
+	
+	public static EntityPlayer getPlayer(Container container){
+		Slot slot = container.getSlot(0);
+		if(slot != null && slot.inventory instanceof InventoryPlayer){
+			InventoryPlayer inv = (InventoryPlayer) slot.inventory;
+			return inv.player;
+		}
+		return null;
 	}
 	
 	public static void openOrCloseGuiSave(ILocatableSource source, boolean openGui){

@@ -4,17 +4,16 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiModuleLogic<P extends IGuiProvider> extends GuiBase<P, IModuleLogic> {
+public class GuiModuleLogic extends GuiBase<IModuleLogic, IModuleLogic> {
 
 	protected final ModulePage page;
 
-	public GuiModuleLogic(P provider, IModuleLogic logic, InventoryPlayer inventory) {
-		super(provider, logic, inventory);
+	public GuiModuleLogic(IModuleLogic logic, InventoryPlayer inventory) {
+		super(logic, logic, inventory);
 		this.page = logic.getGuiLogic().getCurrentPage();
 		page.setGui(this);
 		page.addWidgets();

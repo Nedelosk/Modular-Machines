@@ -25,11 +25,11 @@ public enum EnumModuleSizes {
 	LARGEST(9),
 	UNKNOWN(0);
 
-	public int slots;
+	public int slotNumbers;
 	public static final EnumModuleSizes[] VALUES = values();
 
-	private EnumModuleSizes(int slots) {
-		this.slots = slots;
+	private EnumModuleSizes(int slotNumbers) {
+		this.slotNumbers = slotNumbers;
 	}
 
 	public static EnumModuleSizes getSize(EnumModuleSizes firstSize, EnumModuleSizes secondSize) {

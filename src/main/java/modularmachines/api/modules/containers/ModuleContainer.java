@@ -1,21 +1,16 @@
 package modularmachines.api.modules.containers;
 
-import java.util.Collection;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import modularmachines.api.modules.ModuleData;
 import net.minecraft.item.ItemStack;
 
 public class ModuleContainer implements IModuleContainer {
 
 	protected final ItemStack parent;
-	protected final Set<ModuleData> datas;
+	protected final ModuleData data;
 
-	public ModuleContainer(ItemStack parent, ModuleData... datas) {
+	public ModuleContainer(ItemStack parent, ModuleData data) {
 		this.parent = parent;
-		this.datas = Sets.newHashSet(datas);
+		this.data = data;
 	}
 
 	@Override
@@ -24,8 +19,8 @@ public class ModuleContainer implements IModuleContainer {
 	}
 
 	@Override
-	public Collection<ModuleData> getDatas() {
-		return datas;
+	public ModuleData getData() {
+		return data;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.api.modules.storages.IStorage;
 import net.minecraft.item.ItemStack;
@@ -71,7 +72,7 @@ public class Module {
 		return Collections.singletonList(parentItem);
 	}
 	
-	public void onCreateModule(ItemStack parentItem){
+	public void onCreateModule(IModuleContainer container, ItemStack parentItem){
 		this.parentItem = parentItem;
 	}
 	
