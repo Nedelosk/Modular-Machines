@@ -1,4 +1,4 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.heaters;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -6,22 +6,28 @@ import java.text.DecimalFormat;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
+import modularmachines.api.modules.Module;
+import modularmachines.api.modules.energy.IHeatSource;
+import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.core.managers.FluidManager;
+import modularmachines.common.modules.pages.MainPage;
+import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.Translator;
 
-public class SteamHeaterPage extends MainPage<IModuleHeaterBurning> {
+public class PageSteamHeater extends ModulePage {
 
-	public SteamHeaterPage(IModuleState<IModuleHeaterBurning> heaterState) {
-		super("heater.steam", heaterState);
+	public static final DecimalFormat FORMATE = new DecimalFormat("#0.00");
+	
+	public PageSteamHeater(Module parent) {
+		super(parent);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 		super.drawForeground(fontRenderer, mouseX, mouseY);
-		DecimalFormat f = new DecimalFormat("#0.00");
-		String heatName = Translator.translateToLocalFormatted("module.heater.heat", f.format(moduleState.getModular().getHeatSource().getHeatStored()));
+		IHeatSource heatSource = ModuleUtil.getHeat(parent.getLogic());
+		String heatName = Translator.translateToLocalFormatted("module.heater.heat", FORMATE.format(heatSource.getHeatStored()));
 		fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2), 45, Color.gray.getRGB());
 	}
 

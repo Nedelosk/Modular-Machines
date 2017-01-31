@@ -1,16 +1,6 @@
 package modularmachines.common.modules.pages;
 
-import java.util.Locale;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.utils.Translator;
-
-public class CleanerPage extends MainPage<IModuleModuleCleaner> {
+/*public class CleanerPage extends MainPage<IModuleModuleCleaner> {
 
 	public CleanerPage(IModuleState<IModuleModuleCleaner> module) {
 		super("cleaner", module);
@@ -50,4 +40,4 @@ public class CleanerPage extends MainPage<IModuleModuleCleaner> {
 			PacketHandler.sendToServer(new PacketModuleCleaner(moduleState));
 		}
 	}
-}
+}*/

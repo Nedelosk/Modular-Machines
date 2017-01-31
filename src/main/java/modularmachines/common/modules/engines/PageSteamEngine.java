@@ -1,27 +1,27 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.engines;
 
 import java.util.List;
 
 import modularmachines.client.gui.widgets.WidgetFluidTank;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.engines.ModuleEngineSteam;
+import modularmachines.common.modules.pages.ModulePageWidget;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SteamEnginePage extends ModulePageWidget<ModuleEngineSteam> {
+public class PageSteamEngine extends ModulePageWidget<ModuleEngineSteam> {
 
-	public SteamEnginePage(ModuleEngineSteam parent) {
+	public PageSteamEngine(ModuleEngineSteam parent) {
 		super(parent);
 	}
 	
 	@Override
 	public void createSlots(List<Slot> slots) {
 		ItemHandlerModule itemHandler = parent.getItemHandler();
-		slots.add(new SlotModule(itemHandler, itemHandler.getContainer(0), 15, 28));
-		slots.add(new SlotModule(itemHandler, itemHandler.getContainer(1), 15, 48));
+		slots.add(new SlotModule(itemHandler, 0, 15, 28));
+		slots.add(new SlotModule(itemHandler, 1, 15, 48));
 	}
 	
 	@SideOnly(Side.CLIENT)

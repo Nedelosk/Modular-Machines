@@ -9,5 +9,5 @@ public interface IContentFilter<C, M extends Module> {
 	/**
 	 * Test if a item valid for the index.
 	 */
-	boolean isValid(int index, @Nonnull C content, Module module);
+	boolean isValid(int index, @Nonnull C content, M module);
 }

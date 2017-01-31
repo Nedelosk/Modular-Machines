@@ -1,4 +1,4 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.heaters;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -8,11 +8,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.gui.widgets.WidgetBurning;
+import modularmachines.common.modules.pages.MainPage;
 import modularmachines.common.utils.Translator;
 
-public class BurningHeaterPage extends MainPage<IModuleHeaterBurning> {
+public class PageBurningHeater extends MainPage<IModuleHeaterBurning> {
 
-	public BurningHeaterPage(IModuleState<IModuleHeaterBurning> heaterState) {
+	public PageBurningHeater(IModuleState<IModuleHeaterBurning> heaterState) {
 		super("heater", heaterState);
 	}
 

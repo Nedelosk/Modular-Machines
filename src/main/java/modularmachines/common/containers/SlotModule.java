@@ -11,9 +11,13 @@ import modularmachines.common.inventory.ItemHandlerModule;
 public class SlotModule extends SlotItemHandler {
 
 	public ItemContainer container;
-
+	
 	public SlotModule(ItemHandlerModule itemHandler, ItemContainer container, int xPosition, int yPosition) {
-		super(itemHandler, container.getIndex(), xPosition, yPosition);
+		this(itemHandler, container.getIndex(), xPosition, yPosition);
+	}
+	
+	public SlotModule(ItemHandlerModule itemHandler, int index, int xPosition, int yPosition) {
+		super(itemHandler, index, xPosition, yPosition);
 	}
 
 	@Override

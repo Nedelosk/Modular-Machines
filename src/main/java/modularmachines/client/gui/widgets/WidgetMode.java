@@ -1,17 +1,33 @@
 package modularmachines.client.gui.widgets;
 
-/*public class WidgetMode extends Widget<IModuleState<IModuleModeMachine>> {
+import java.util.ArrayList;
+import java.util.List;
 
-	public WidgetMode(int posX, int posY, IModuleState<IModuleModeMachine> provider) {
-		super(posX, posY, 18, 18, provider);
+import modularmachines.api.modules.Module;
+import modularmachines.api.recipes.IMode;
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.modules.IModuleMode;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSyncMode;
+import modularmachines.common.utils.RenderUtil;
+import modularmachines.common.utils.Translator;
+import net.minecraft.client.renderer.GlStateManager;
+
+public class WidgetMode extends Widget {
+
+	public final IModuleMode module;
+	
+	public WidgetMode(int posX, int posY, IModuleMode module) {
+		super(posX, posY, 18, 18);
+		this.module = module;
 	}
 
-	private IToolMode getMode() {
-		return source.getModule().getCurrentMode(source);
+	private IMode getMode() {
+		return module.getCurrentMode();
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase gui) {
+	public List<String> getTooltip() {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(Translator.translateToLocal("mode." + getMode().getName() + ".name"));
 		return list;
@@ -21,17 +37,20 @@ package modularmachines.client.gui.widgets;
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
-		RenderUtil.bindTexture(widgetTexture);
-		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 238, 0, 18, 18);
-		gui.drawTexturedModalRect(guiLeft + positon.x, guiTop + positon.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
+		RenderUtil.texture(widgetTexture);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 238, 0, 18, 18);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 238, 18 * getMode().ordinal() + 18, 18, 18);
 		GlStateManager.disableAlpha();
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		ModularMachines.proxy.playButtonClick();
-		IModuleModeMachine module = source.getModule();
-		module.setCurrentMode(source, module.getNextMode(source));
-		PacketHandler.sendToServer(new PacketSyncToolMode(source.getModular().getHandler(), source));
+		if(mouseButton == 0){
+			module.setCurrentMode(getMode().next().ordinal());
+		}else{
+			module.setCurrentMode(getMode().previous().ordinal());
+		}
+		PacketHandler.sendToServer(new PacketSyncMode((Module) module, module));
 	}
-}*/
+}

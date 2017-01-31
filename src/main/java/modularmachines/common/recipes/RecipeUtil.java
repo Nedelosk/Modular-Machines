@@ -1,5 +1,6 @@
-package modularmachines.api.recipes;
+package modularmachines.common.recipes;
 
+import modularmachines.api.recipes.IMode;
 import modularmachines.api.recipes.IRecipeHandler;
 import modularmachines.api.recipes.OreStack;
 import modularmachines.api.recipes.RecipeItem;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 public class RecipeUtil {
 
-	public static final PropertyToolMode LATHEMODE = new PropertyToolMode("mode", LatheModes.class, LatheModes.ROD);
+	public static final PropertyToolMode LATHEMODE = new PropertyToolMode("mode", LatheMode.class, LatheMode.ROD);
 
 	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output,
 			int speed/* , double kinetic */) {
@@ -36,7 +37,7 @@ public class RecipeUtil {
 		return handler.registerRecipe(builder.init());
 	}
 
-	public static boolean addLathe(String recipeName, RecipeItem input, RecipeItem output, int speed, LatheModes mode) {
+	public static boolean addLathe(String recipeName, RecipeItem input, RecipeItem output, int speed, LatheMode mode) {
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Lathe");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder.setValue(Recipe.INPUTS, new RecipeItem[] { input }).setValue(Recipe.OUTPUTS, new RecipeItem[] { output }).setValue(Recipe.SPEED, speed).setValue(LATHEMODE, mode);
@@ -62,20 +63,5 @@ public class RecipeUtil {
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder.setValue(Recipe.INPUTS, new RecipeItem[] { input }).setValue(Recipe.OUTPUTS, new RecipeItem[] { output }).setValue(Recipe.SPEED, speed).setValue(Recipe.HEAT, heat).setValue(Recipe.HEATTOREMOVE, heatToRemove);
 		return handler.registerRecipe(builder.init());
-	}
-
-	public static enum LatheModes implements IToolMode {
-		ROD("rod"), WIRE("wire"), SCREW("screw");
-
-		private String name;
-
-		private LatheModes(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
 	}
 }

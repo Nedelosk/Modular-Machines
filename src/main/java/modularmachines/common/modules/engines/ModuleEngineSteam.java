@@ -12,15 +12,14 @@ import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.FluidFilter;
 import modularmachines.common.modules.filters.ItemFilterFluid;
 import modularmachines.common.modules.filters.OutputFilter;
-import modularmachines.common.modules.pages.SteamEnginePage;
 import modularmachines.common.tanks.FluidTankHandler;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 
-	public ItemHandlerModule itemHandler;
-	public FluidTankHandler fluidHandler;
-	public IFluidTank fluidTank;
+	public final ItemHandlerModule itemHandler;
+	public final FluidTankHandler fluidHandler;
+	public final IFluidTank fluidTank;
 	
 	public ModuleEngineSteam(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
 		super(storage, capacity, maxTransfer, materialPerWork, kineticModifier);
@@ -81,7 +80,7 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	@Override
 	public void initPages() {
 		super.initPages();
-		addPage(new SteamEnginePage(this));
+		addPage(new PageSteamEngine(this));
 	}
 	
 	public IFluidTank getFluidTank() {

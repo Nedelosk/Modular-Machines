@@ -1,9 +1,12 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.storages.items;
 
-public class ChestPage extends MainPage<IModuleMachine> {
+import modularmachines.api.modules.Module;
+import modularmachines.api.modules.pages.ModulePage;
 
-	public ChestPage(IModuleState<IModuleMachine> module) {
-		super("chest", module);
+public class PageChest extends ModulePage {
+
+	public PageChest(Module parent) {
+		super(parent);
 	}
 
 	@Override

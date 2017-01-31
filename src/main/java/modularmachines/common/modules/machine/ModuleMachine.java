@@ -12,10 +12,11 @@ import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.api.recipes.RecipeRegistry;
+import modularmachines.common.modules.IModuleWorking;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 
-public abstract class ModuleMachine extends Module implements ITickable {
+public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
 
 	public static final Random RANDOM = new Random();
 	
@@ -24,7 +25,7 @@ public abstract class ModuleMachine extends Module implements ITickable {
 	protected int workTime = 0;
 	protected int workTimeTotal = 0;
 	protected float chance = 0.0F;
-	protected IRecipe recipe;
+	protected R recipe;
 
 	public ModuleMachine(IModuleStorage storage, int workTimeModifier) {
 		super(storage);
@@ -67,7 +68,7 @@ public abstract class ModuleMachine extends Module implements ITickable {
 
 	public abstract RecipeItem[] getInputs();
 
-	protected boolean isRecipeValid(IRecipe recipe) {
+	protected boolean isRecipeValid(R recipe) {
 		IRecipeConsumer[] consumers = getConsumers();
 		for (IRecipeConsumer consumer : consumers) {
 			if (!consumer.extractInputs(chance, recipe, true) || !consumer.insertOutputs(chance, recipe, true)) {
@@ -83,13 +84,13 @@ public abstract class ModuleMachine extends Module implements ITickable {
 		return recipeSpeed * workTimeModifier;
 	}
 
-	public IRecipe getValidRecipe() {
-		List<IRecipe> recipes = getRecipes();
+	public R getValidRecipe() {
+		List<R> recipes = getRecipes();
 		RecipeItem[] inputs = getInputs();
 		if (recipes == null) {
 			return null;
 		}
-		testRecipes: for (IRecipe recipe : recipes) {
+		testRecipes: for (R recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
 			for (RecipeItem recipeInput : recipe.getInputItems().clone()) {
 				recipeInputs.add(recipeInput);
@@ -123,11 +124,11 @@ public abstract class ModuleMachine extends Module implements ITickable {
 	}
 
 	public boolean isRecipeInput(RecipeItem item) {
-		List<IRecipe> recipes = getRecipes();
+		List<R> recipes = getRecipes();
 		if (recipes == null || item == null) {
 			return false;
 		}
-		for (IRecipe recipe : recipes) {
+		for (R recipe : recipes) {
 			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
 			for (RecipeItem recipeInput : recipe.getInputItems().clone()) {
 				recipeInputs.add(recipeInput);
@@ -153,19 +154,34 @@ public abstract class ModuleMachine extends Module implements ITickable {
 
 	protected abstract String getRecipeCategory();
 	
+	@Override
+	public int getWorkTime() {
+		return workTime;
+	}
+	
+	@Override
+	public int getWorkTimeTotal() {
+		return workTimeTotal;
+	}
+	
+	@Override
+	public boolean isWorking() {
+		return workTime > 0;
+	}
+	
 	public float getChance() {
 		return chance;
 	}
 	
-	public IRecipe getRecipe() {
+	public R getRecipe() {
 		return recipe;
 	}
 	
-	public void setRecipe(IRecipe recipe) {
+	public void setRecipe(R recipe) {
 		this.recipe = recipe;
 	}
 
-	public List<IRecipe> getRecipes() {
+	public List<R> getRecipes() {
 		if (RecipeRegistry.getRecipeHandler(getRecipeCategory()) == null) {
 			return Collections.emptyList();
 		}

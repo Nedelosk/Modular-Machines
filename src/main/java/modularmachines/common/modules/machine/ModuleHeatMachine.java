@@ -2,11 +2,10 @@ package modularmachines.common.modules.machine;
 
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeHeat;
 import modularmachines.common.utils.ModuleUtil;
 
-public abstract class ModuleHeatMachine extends ModuleMachine {
+public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMachine<R> {
 
 	protected double heatToRemove = 0;
 	protected double heatRequired = 0;
@@ -20,7 +19,7 @@ public abstract class ModuleHeatMachine extends ModuleMachine {
 		boolean needUpdate = false;
 		if (canWork()) {
 			if (workTime >= workTimeTotal || recipe == null) {
-				IRecipe validRecipe = getValidRecipe();
+				R validRecipe = getValidRecipe();
 				if (recipe != null) {
 					if (addOutputs()) {
 						recipe = null;
@@ -34,7 +33,7 @@ public abstract class ModuleHeatMachine extends ModuleMachine {
 					workTimeTotal = createWorkTimeTotal(validRecipe.getSpeed());
 					chance = rand.nextFloat();
 					if(validRecipe instanceof IRecipeHeat){
-						IRecipeHeat heatRecipe = (IRecipeHeat) recipe;
+						IRecipeHeat heatRecipe = recipe;
 						heatToRemove = heatRecipe.getHeatToRemove() / workTimeTotal;
 						heatRequired = heatRecipe.getRequiredHeat();
 					}
@@ -59,16 +58,13 @@ public abstract class ModuleHeatMachine extends ModuleMachine {
 	}
 	
 	@Override
-	protected boolean isRecipeValid(IRecipe recipe) {
+	protected boolean isRecipeValid(R recipe) {
 		if(!super.isRecipeValid(recipe)){
 			return false;
 		}
-		if(recipe instanceof IRecipeHeat){
-			IRecipeHeat recipeHeat = (IRecipeHeat) recipe;
-			IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
-			if (recipeHeat.getRequiredHeat() > heatBuffer.getHeatStored()) {
-				return false;
-			}
+		IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
+		if (recipe.getRequiredHeat() > heatBuffer.getHeatStored()) {
+			return false;
 		}
 		return true;
 	}

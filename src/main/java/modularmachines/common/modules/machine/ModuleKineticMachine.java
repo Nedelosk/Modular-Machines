@@ -7,7 +7,7 @@ import modularmachines.api.recipes.IRecipe;
 import modularmachines.common.utils.ModuleUtil;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ModuleKineticMachine extends ModuleMachine {
+public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMachine<R> {
 
 	protected final double maxSpeed;
 	protected double speed = 0.0D;
@@ -46,7 +46,7 @@ public abstract class ModuleKineticMachine extends ModuleMachine {
 		boolean needUpdate = false;
 		if (canWork()) {
 			if (workTime >= workTimeTotal || recipe == null) {
-				IRecipe validRecipe = getValidRecipe();
+				R validRecipe = getValidRecipe();
 				if (recipe != null) {
 					if (addOutputs()) {
 						recipe = null;

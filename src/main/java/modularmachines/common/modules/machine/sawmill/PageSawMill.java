@@ -1,11 +1,12 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.machine.sawmill;
 
+import modularmachines.common.modules.pages.MainPage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SawMillPage extends MainPage<IModuleMachine> {
+public class PageSawMill extends MainPage<IModuleMachine> {
 
-	public SawMillPage(IModuleState<IModuleMachine> moduleState) {
+	public PageSawMill(IModuleState<IModuleMachine> moduleState) {
 		super("sawmill", moduleState);
 	}
 

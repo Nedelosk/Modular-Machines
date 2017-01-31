@@ -1,14 +1,28 @@
 package modularmachines.common.modules.filters;
 
-/*public class FilterMachine implements IContentFilter<Object, IModuleMachine> {
+import modularmachines.api.recipes.RecipeItem;
+import modularmachines.common.inventory.IContentFilter;
+import modularmachines.common.modules.machine.ModuleMachine;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
+public class FilterMachine<O> implements IContentFilter<O, ModuleMachine> {
 
 	public static final FilterMachine INSTANCE = new FilterMachine();
 
+	public static FilterMachine<ItemStack> itemFilter(){
+		return INSTANCE;
+	}
+	
+	public static FilterMachine<FluidStack> fluidFilter(){
+		return INSTANCE;
+	}
+	
 	private FilterMachine() {
 	}
 
 	@Override
-	public boolean isValid(int index, Object content, IModuleState<IModuleMachine> state) {
+	public boolean isValid(int index, Object content, ModuleMachine module) {
 		if (content == null) {
 			return false;
 		}
@@ -20,6 +34,6 @@ package modularmachines.common.modules.filters;
 		} else {
 			return false;
 		}
-		return state.getModule().isRecipeInput(state, recipeItem);
+		return module.isRecipeInput(recipeItem);
 	}
-}*/
+}

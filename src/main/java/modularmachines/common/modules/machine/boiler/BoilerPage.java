@@ -1,5 +1,6 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.machine.boiler;
 
+import modularmachines.common.modules.pages.MainPage;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class BoilerPage extends MainPage<IModuleTool> {

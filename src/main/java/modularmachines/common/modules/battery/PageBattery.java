@@ -1,4 +1,4 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.battery;
 
 import java.util.ArrayList;
 
@@ -6,10 +6,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.gui.widgets.WidgetEnergyField;
+import modularmachines.common.modules.pages.MainPage;
 
-public class BatteryPage extends MainPage<IModuleBattery> {
+public class PageBattery extends MainPage<IModuleBattery> {
 
-	public BatteryPage(IModuleState<IModuleBattery> state) {
+	public PageBattery(IModuleState<IModuleBattery> state) {
 		super("battery", state);
 	}
 

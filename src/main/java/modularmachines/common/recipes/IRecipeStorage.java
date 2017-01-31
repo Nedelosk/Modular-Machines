@@ -1,4 +1,4 @@
-package modularmachines.api.recipes;
+package modularmachines.common.recipes;
 
 import java.util.List;
 

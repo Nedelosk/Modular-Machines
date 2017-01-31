@@ -1,40 +1,49 @@
 package modularmachines.client.gui.widgets;
 
-/*@SideOnly(Side.CLIENT)
-public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModuleState<M>> {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import modularmachines.client.gui.GuiModuleLogic;
+import modularmachines.common.modules.IModuleJei;
+import modularmachines.common.modules.IModuleWorking;
+import modularmachines.common.utils.PluginUtil;
+import modularmachines.common.utils.RenderUtil;
+import modularmachines.common.utils.Translator;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
+public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 
 	public List<String> jeiTooltip;
+	public final IModuleWorking module;
 
-	public WidgetProgressBar(int posX, int posY, IModuleState<M> working) {
-		super(posX, posY, 22, 17, working);
+	public WidgetProgressBar(int posX, int posY, IModuleWorking module) {
+		super(posX, posY, 22, 17);
+		this.module = module;
 	}
 
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton, IGuiBase gui) {
-		super.handleMouseClick(mouseX, mouseY, mouseButton, gui);
-		if (source.getModule() instanceof IModuleJEI) {
-			((IModuleJEI) source.getModule()).openJEI(source);
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		super.handleMouseClick(mouseX, mouseY, mouseButton);
+		if (module instanceof IModuleJei) {
+			PluginUtil.show(((IModuleJei) module).getJEIRecipeCategorys());
 		}
 	}
 
 	@Override
-	public List<String> getTooltip(IGuiBase gui) {
+	public List<String> getTooltip() {
 		ArrayList<String> list = new ArrayList<>();
-		if (source.getModule().getWorkTimeTotal(source) != 0) {
-			list.add(source.getModule().getWorkTime(source) + " / " + source.getModule().getWorkTimeTotal(source));
+		if (module.getWorkTimeTotal() > 0) {
+			list.add(module.getWorkTime() + " / " + module.getWorkTimeTotal());
 		}
 		if (jeiTooltip == null) {
 			if (gui instanceof GuiModuleLogic) {
-				GuiModuleLogic guiPage = (GuiModuleLogic) gui;
-				IPage page = guiPage.getPage();
-				if (page instanceof IModulePage) {
-					IModuleState state = ((IModulePage) page).getModuleState();
-					if (state.getModule() instanceof IModuleJEI) {
-						IModuleJEI moduleJei = (IModuleJEI) state.getModule();
-						if (moduleJei.getJEIRecipeCategorys(state.getContainer()) != null) {
-							jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
-						}
-					}
+				if (module instanceof IModuleJei) {
+					jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
 				}
 			}
 			if (jeiTooltip == null) {
@@ -49,18 +58,26 @@ public class WidgetProgressBar<M extends IModuleWorkerTime> extends Widget<IModu
 
 	@Override
 	public void draw(int guiLeft, int guiTop) {
-		int worktTimeTotal = source.getModule().getWorkTimeTotal(source);
-		int workTime = source.getModule().getWorkTime(source);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		RenderUtil.texture(widgetTexture);
-		int process = (worktTimeTotal == 0) ? 0 : workTime * pos.width / worktTimeTotal;
-		int sx = gui.getGuiLeft();
-		int sy = gui.getGuiTop();
-		gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 54, 0, pos.width, pos.height);
-		if (workTime > 0) {
-			gui.getGui().drawTexturedModalRect(sx + pos.x, sy + pos.y, 76, 0, process, pos.height);
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 54, 0, pos.width, pos.height);
+		int process = getTimeScaled();
+		if (process > 0) {
+			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 76, 0, process, pos.height);
 		}
 		GlStateManager.disableAlpha();
 	}
-}*/
+	
+	protected int getTimeScaled() {
+		int scale = pos.height;
+		return (int) MathHelper.clamp(Math.round(scale * getTimeRatio(module.getWorkTime())), 0, scale);
+	}
+
+	private double getTimeRatio(int time) {
+		if (time <= 0) {
+			return 0;
+		}
+		return (double) time / module.getWorkTimeTotal();
+	}
+}

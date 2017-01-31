@@ -1,10 +1,11 @@
-package modularmachines.common.modules.pages;
+package modularmachines.common.modules.turbines;
 
 import modularmachines.common.core.managers.FluidManager;
+import modularmachines.common.modules.pages.MainPage;
 
-public class SteamTurbinePage extends MainPage<IModuleTurbine> {
+public class PageSteamTurbine extends MainPage<IModuleTurbine> {
 
-	public SteamTurbinePage(IModuleState<IModuleTurbine> module) {
+	public PageSteamTurbine(IModuleState<IModuleTurbine> module) {
 		super("turbine.steam", module);
 	}
 
