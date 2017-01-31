@@ -2,17 +2,22 @@ package modularmachines.common.modules.logic;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Preconditions;
+
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.GuiModuleLogic;
@@ -36,14 +41,36 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLogic implements IModuleLogic {
-
-	@SideOnly(Side.CLIENT)
-	public final ModuleGuiLogic guiLogic = new ModuleGuiLogic(this);
-	public final List<IStorage> storages = new ArrayList<>();
-	public final ILocatable locatable;
+	
+	protected final Map<String, LogicComponent> componentMap;
+	protected final List<IStorage> storages = new ArrayList<>();
+	protected final ILocatable locatable;
 	
 	public ModuleLogic(ILocatable locatable) {
 		this.locatable = locatable;
+		this.componentMap = new LinkedHashMap<>();
+		addComponent(LogicComponent.ENERGY, new EnergyStorageComponent());
+	}
+	
+	@Override
+	public void addComponent(String identifier, LogicComponent component) {
+		Preconditions.checkNotNull(component, "Can't have a null logic component!");
+		component.setLogic(this);
+		this.componentMap.put(identifier, component);
+	}
+
+	@Override
+	public Map<String, LogicComponent> getComponents() {
+		return this.componentMap;
+	}
+
+	@Override
+	public <T extends LogicComponent> T getComponent(String identifier) {
+		return (T) this.componentMap.get(identifier);
+	}
+
+	public boolean hasComponent(String identifier) {
+		return this.componentMap.containsKey(identifier);
 	}
 	
     @Override
@@ -166,12 +193,6 @@ public class ModuleLogic implements IModuleLogic {
 	@Override
 	public ILocatable getLocatable() {
 		return locatable;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModuleGuiLogic getGuiLogic() {
-		return guiLogic;
 	}
 	
 	@Override

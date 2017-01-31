@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
@@ -18,6 +17,7 @@ import modularmachines.api.modules.assemblers.EmptyStoragePage;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
@@ -147,7 +147,7 @@ public class Assembler implements IAssembler {
 			if (storage != null) {
 				Module module = storage.getModule();
 				ModuleData data = module.getData();
-				IStoragePage page = data.createStoragePage(this, position);
+				IStoragePage page = data.createStoragePage(this, position, storage);
 				pages.put(position, page);
 				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
 				if (!childPositions.isEmpty()) {
@@ -236,8 +236,7 @@ public class Assembler implements IAssembler {
 					IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
 					if(container != null ){
 						ModuleData moduleData = container.getData();
-							moduleData.canAssemble(this, errors);
-						
+						moduleData.canAssemble(this, errors);
 					}
 				}
 			}
@@ -280,7 +279,7 @@ public class Assembler implements IAssembler {
 		if (moduleContainer != null) {
 			ModuleData data = moduleContainer.getData();
 			if(data.isStorage(position)){
-				IStoragePage page = data.createStoragePage(this, position);
+				IStoragePage page = data.createStoragePage(this, position, null);
 				this.pages.put(position, page);
 				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
 				for(IStoragePosition childPosition : childPositions){

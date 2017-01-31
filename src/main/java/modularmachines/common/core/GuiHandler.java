@@ -2,8 +2,8 @@ package modularmachines.common.core;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.logic.IModuleLogic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

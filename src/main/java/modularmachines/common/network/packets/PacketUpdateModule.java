@@ -2,8 +2,8 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.network.IStreamable;
 import modularmachines.common.network.PacketBufferMM;

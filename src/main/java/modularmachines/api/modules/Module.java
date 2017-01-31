@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.api.modules.storages.IStorage;
 import net.minecraft.item.ItemStack;
@@ -29,6 +30,7 @@ public class Module {
 		this.storage = storage;
 		this.logic = storage.getLogic();
 		pages = new ArrayList<>();
+		initPages();
 	}
 	
 	public void setIndex(int index) {
@@ -55,13 +57,16 @@ public class Module {
 	}
 	
 	public ModulePage getPage(int index){
+		if(index >= pages.size() || index < 0){
+			return null;
+		}
 		return pages.get(index);
 	}
 	
 	protected void addPage(ModulePage page){
 		if(!pages.contains(page)){
+			page.setIndex(pages.size());
 			pages.add(page);
-			page.setIndex(pages.size()-1);
 		}
 	}
 
@@ -76,7 +81,7 @@ public class Module {
 		this.parentItem = parentItem;
 	}
 	
-	public void initPages(){
+	protected void initPages(){
 		
 	}
 

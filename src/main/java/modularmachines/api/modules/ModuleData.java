@@ -13,8 +13,9 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.assemblers.SlotAssembler;
 import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
-import modularmachines.api.modules.assemblers.StoragePage;
 import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import net.minecraft.item.ItemStack;
@@ -22,8 +23,10 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 
-	
 	private Map<Class<? extends Object>, IModelData> models = new HashMap<>();
+	private int complexity = 0;
+	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
+	
 	
 	/**
 	 * A description of this module. It woud be displayed in jei and the module crafter gui.
@@ -37,11 +40,19 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	}
 	
 	public int getComplexity(){
-		return 0;
+		return complexity;
+	}
+	
+	public void setComplexity(int complexity) {
+		this.complexity = complexity;
 	}
 	
 	public EnumModuleSizes getSize(){
-		return EnumModuleSizes.MEDIUM;
+		return size;
+	}
+	
+	public void setSize(EnumModuleSizes size) {
+		this.size = size;
 	}
 	
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
@@ -81,12 +92,12 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return false;
 	}
 	
-	public StoragePage createStoragePage(IAssembler assembler, IStoragePosition position, @Nullable IStorage storage){
+	public IStoragePage createStoragePage(IAssembler assembler, IStoragePosition position, @Nullable IStorage storage){
 		return null;
 	}
 	
 	@Nullable
-	public StoragePage createChildPage(IAssembler assembler, IStoragePosition position){
+	public IStoragePage createChildPage(IAssembler assembler, IStoragePosition position){
 		return null;
 	}
 	

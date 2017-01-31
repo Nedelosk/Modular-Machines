@@ -1,28 +1,32 @@
 package modularmachines.common.modules.engines;
 
+import modularmachines.api.modules.IModuleStorage;
+import modularmachines.api.modules.energy.IHeatSource;
+import modularmachines.common.utils.ModuleUtil;
+
 public class ModuleEngineStirling extends ModuleEngine {
 
-	public ModuleEngineStirling() {
-		super("stirling");
+	public ModuleEngineStirling(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
+		super(storage, capacity, maxTransfer, materialPerWork, kineticModifier);
 	}
 
 	@Override
-	public boolean canWork(IModuleState state) {
-		IModular modular = state.getModular();
-		if (modular.getEnergyBuffer() == null) {
+	public boolean canWork() {
+		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+		if (heatSource == null) {
 			return false;
 		}
-		return modular.getEnergyBuffer().getEnergyStored() > 0;
+		return heatSource.getHeatStored() > 0;
 	}
 
 	@Override
-	public boolean removeMaterial(IModuleState state) {
-		IHeatSource heatBuffer = state.getModular().getHeatSource();
-		if (heatBuffer == null) {
+	public boolean removeMaterial() {
+		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+		if (heatSource == null) {
 			return false;
 		}
-		if (heatBuffer.extractHeat(getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
-			return heatBuffer.extractHeat(getMaterialPerWork(state), false) == getMaterialPerWork(state);
+		if (heatSource.extractHeat(getMaterialPerWork(), true) == getMaterialPerWork()) {
+			return heatSource.extractHeat(getMaterialPerWork(), false) == getMaterialPerWork();
 		} else {
 			return false;
 		}

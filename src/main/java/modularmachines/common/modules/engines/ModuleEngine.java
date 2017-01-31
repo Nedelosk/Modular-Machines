@@ -1,138 +1,77 @@
 package modularmachines.common.modules.engines;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ITickable;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.EnumWallType;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModuleStorage;
+import modularmachines.api.modules.Module;
+import modularmachines.common.energy.KineticBuffer;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
+import modularmachines.common.utils.ModuleUtil;
 
-public abstract class ModuleEngine extends ModuleControlled implements IModuleEngine, IModulePositioned {
+public abstract class ModuleEngine extends Module implements ITickable {
 
-	public static final PropertyBool WORKING = new PropertyBool("isWorking", false);
-
-	public ModuleEngine(String name) {
-		super("engine." + name);
+	protected final int materialPerWork;
+	protected final double kineticModifier;
+	public boolean isWorking;
+	public KineticBuffer buffer;
+	
+	public ModuleEngine(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
+		super(storage);
+		buffer = new KineticBuffer(capacity, maxTransfer);
+		this.materialPerWork = materialPerWork;
+		this.kineticModifier = kineticModifier;
 	}
 
-	@Override
-	protected IModulePage getControllerPage(IModuleState state) {
-		return new ControllerPage(state);
+	protected int getMaterialPerWork(){
+		return materialPerWork;
 	}
 
-	@Override
-	public int getMaxKineticEnergy(IModuleState state) {
-		IModuleProperties properties = state.getContainer().getProperties();
-		if (properties instanceof IModuleKineticProperties) {
-			return ((IModuleKineticProperties) properties).getMaxKineticEnergy(state);
-		}
-		return 0;
+	protected double getKineticModifier(){
+		return kineticModifier;
 	}
+	
+	protected abstract boolean canWork();
 
+	protected abstract boolean removeMaterial();
+	
 	@Override
-	public int getMaterialPerWork(IModuleState state) {
-		IModuleProperties properties = state.getContainer().getProperties();
-		if (properties instanceof IModuleKineticProperties) {
-			return ((IModuleKineticProperties) properties).getMaterialPerWork(state);
-		}
-		return 0;
-	}
-
-	@Override
-	public double getKineticModifier(IModuleState state) {
-		IModuleProperties properties = state.getContainer().getProperties();
-		if (properties instanceof IModuleKineticProperties) {
-			return ((IModuleKineticProperties) properties).getKineticModifier(state);
-		}
-		return 0;
-	}
-
-	@Override
-	public List<IModuleContentHandler> createHandlers(IModuleState state) {
-		List<IModuleContentHandler> handlers = super.createHandlers(state);
-		handlers.add(new ModuleKineticHandler(state, getMaxKineticEnergy(state), 100));
-		return handlers;
-	}
-
-	@Override
-	public IKineticSource getKineticSource(IModuleState state) {
-		return state.getContentHandler(ModuleKineticHandler.class);
-	}
-
-	@Override
-	public void updateServer(IModuleState state, int tickCount) {
-		IModular modular = state.getModular();
-		IModuleState<IModuleController> controller = modular.getModuleForIndex(IModuleController.class);
-		if (state.getModular().updateOnInterval(2) && (controller == null || controller.getModule() == null || controller.getModule().canWork(controller, state))) {
-			boolean isWorking = state.getValue(WORKING);
-			ModuleKineticHandler kineticHandler = state.getContentHandler(ModuleKineticHandler.class);
-			boolean needUpdate = false;
-			if (canWork(state)) {
-				if (removeMaterial(state)) {
+	public void update() {
+		if (ModuleUtil.getUpdate(logic).updateOnInterval(2)) {
+			boolean needNetworkUpdate = false;
+			if (canWork()) {
+				if (removeMaterial()) {
 					if (!isWorking) {
-						state.setValue(WORKING, true);
+						isWorking = true;
 					}
-					kineticHandler.increaseKineticEnergy(getKineticModifier(state) * 2);
-					needUpdate = true;
+					buffer.increaseKineticEnergy(getKineticModifier() * 2);
+					needNetworkUpdate = true;
 				}
 			} else if (isWorking) {
-				if (kineticHandler.getStored() > 0) {
-					kineticHandler.reduceKineticEnergy(getKineticModifier(state) * 2);
+				if (buffer.getStored() > 0) {
+					buffer.reduceKineticEnergy(getKineticModifier() * 2);
 				} else {
-					state.setValue(WORKING, false);
+					isWorking = false;
 				}
-				needUpdate = true;
+				needNetworkUpdate = true;
 			}
-			if (needUpdate) {
-				sendModuleUpdate(state);
+			if (needNetworkUpdate) {
+				sendModuleUpdate();
 			}
 		}
 	}
 
 	@Override
-	public void sendModuleUpdate(IModuleState state) {
-		IModularHandler handler = state.getModular().getHandler();
-		if (handler instanceof IModularHandlerTileEntity) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(state), ((IModularHandlerTileEntity) handler).getPos(), (WorldServer) handler.getWorld());
+	public void sendModuleUpdate() {
+		ILocatable locatable = logic.getLocatable();
+		if (locatable != null) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
 
-	protected abstract boolean canWork(IModuleState state);
-
-	protected abstract boolean removeMaterial(IModuleState state);
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateClient(IModuleState state, int tickCount) {
-	}
-
-	@Override
-	public IModuleState createState(IModuleProvider provider, IModuleContainer container) {
-		return super.createState(provider, container).register(WORKING);
-	}
-
-	@Override
-	public IModulePostion[] getValidPositions(IModuleContainer container) {
-		return new IModulePostion[] { EnumModulePositions.SIDE };
-	}
-
-	@Override
-	public boolean isWorking(IModuleState state) {
-		return state.getValue(WORKING);
-	}
-
-	protected void setIsWorking(IModuleState state, boolean isWorking) {
-		state.setValue(WORKING, isWorking);
-	}
-
-	@SideOnly(Side.CLIENT)
+	//TODO:model system
+	/*@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		IModuleItemContainer container = state.getContainer().getItemContainer();
@@ -157,5 +96,5 @@ public abstract class ModuleEngine extends ModuleControlled implements IModuleEn
 	@Override
 	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
 		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
-	}
+	}*/
 }

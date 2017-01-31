@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import modularmachines.api.ILocatableSource;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.utils.ModuleUtil;
 

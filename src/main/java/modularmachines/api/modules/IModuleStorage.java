@@ -2,6 +2,8 @@ package modularmachines.api.modules;
 
 import java.util.Collection;
 
+import modularmachines.api.modules.logic.IModuleLogic;
+
 public interface IModuleStorage {
 
 	/**

@@ -3,7 +3,7 @@ package modularmachines.client.gui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.ModuleBurning;
 import modularmachines.common.utils.Mod;
 import modularmachines.common.utils.PluginUtil;

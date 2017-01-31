@@ -1,11 +1,11 @@
 package modularmachines.client.gui;
 
 import java.io.IOException;
-
 import org.lwjgl.opengl.GL11;
 
-import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.common.containers.ContainerModuleLogic;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class GuiModuleLogic extends GuiBase<IModuleLogic, IModuleLogic> {
@@ -14,7 +14,7 @@ public class GuiModuleLogic extends GuiBase<IModuleLogic, IModuleLogic> {
 
 	public GuiModuleLogic(IModuleLogic logic, InventoryPlayer inventory) {
 		super(logic, logic, inventory);
-		this.page = logic.getGuiLogic().getCurrentPage();
+		this.page = ((ContainerModuleLogic)inventorySlots).guiLogic.getCurrentPage();
 		page.setGui(this);
 		page.addWidgets();
 		ySize = page.getYSize();

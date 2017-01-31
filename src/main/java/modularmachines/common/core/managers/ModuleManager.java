@@ -10,8 +10,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Collections;
 
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.assembler.Assembler;
 import modularmachines.common.modules.logic.ModuleLogic;
 

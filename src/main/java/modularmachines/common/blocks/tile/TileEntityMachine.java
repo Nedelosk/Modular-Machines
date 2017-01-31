@@ -3,9 +3,9 @@ package modularmachines.common.blocks.tile;
 import java.util.List;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.modules.assembler.Assembler;

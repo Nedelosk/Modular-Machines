@@ -2,9 +2,9 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
-import modularmachines.api.modules.IModuleGuiLogic;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketBufferMM;

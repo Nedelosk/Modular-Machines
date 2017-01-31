@@ -1,35 +1,22 @@
 package modularmachines.common.modules.engines;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import modularmachines.common.utils.Translator;
+import modularmachines.api.modules.IModuleStorage;
+import modularmachines.common.utils.ModuleUtil;
+import net.minecraftforge.energy.IEnergyStorage;
 
 public class ModuleEngineElectric extends ModuleEngine {
-
-	public ModuleEngineElectric() {
-		super("electric");
+	
+	public ModuleEngineElectric(IModuleStorage storage, int capacity, int maxTransfer, int energyPerWork, double kineticModifier) {
+		super(storage, capacity, maxTransfer, energyPerWork, kineticModifier);
 	}
 
 	@Override
-	public void assembleModule(IModularAssembler assembler, IModular modular, IStorage storage, IModuleState state) throws AssemblerException {
-		if (modular.getModules(IModuleBattery.class).isEmpty()) {
-			throw new AssemblerException(Translator.translateToLocal("modular.assembler.error.no.battery"));
-		}
-	}
-
-	@Override
-	public List<IModuleState> getUsedModules(IModuleState state) {
-		return new ArrayList(state.getModular().getModules(IModuleBattery.class));
-	}
-
-	@Override
-	public boolean canWork(IModuleState state) {
-		IModular modular = state.getModular();
-		if (modular.getEnergyBuffer() == null) {
+	protected boolean canWork() {
+		IEnergyStorage energyStorage = ModuleUtil.getEnergy(logic);
+		if (energyStorage == null) {
 			return false;
 		}
-		if (modular.getEnergyBuffer().getEnergyStored() > 0) {
+		if (energyStorage.getEnergyStored() > 0) {
 			return true;
 		} else {
 			return false;
@@ -37,15 +24,26 @@ public class ModuleEngineElectric extends ModuleEngine {
 	}
 
 	@Override
-	public boolean removeMaterial(IModuleState state) {
-		IEnergyBuffer energyBuffer = state.getModular().getEnergyBuffer();
-		if (energyBuffer == null) {
+	protected boolean removeMaterial() {
+		IEnergyStorage energyStorage = ModuleUtil.getEnergy(logic);
+		if (energyStorage == null) {
 			return false;
 		}
-		if (energyBuffer.extractEnergy(state, null, getMaterialPerWork(state), true) == getMaterialPerWork(state)) {
-			return energyBuffer.extractEnergy(state, null, getMaterialPerWork(state), false) == getMaterialPerWork(state);
+		int energyPerWork = getMaterialPerWork();
+		if (energyStorage.extractEnergy(energyPerWork, true) == energyPerWork) {
+			return energyStorage.extractEnergy(energyPerWork, false) == energyPerWork;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	protected int getMaterialPerWork() {
+		return materialPerWork;
+	}
+
+	@Override
+	protected double getKineticModifier() {
+		return kineticModifier;
 	}
 }

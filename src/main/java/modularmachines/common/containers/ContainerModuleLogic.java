@@ -7,8 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-
-import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.modules.logic.ModuleGuiLogic;
 

@@ -7,9 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 

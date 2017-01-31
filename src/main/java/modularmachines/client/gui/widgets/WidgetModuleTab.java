@@ -8,9 +8,9 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
-import modularmachines.api.modules.IModuleGuiLogic;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RenderUtil;
 

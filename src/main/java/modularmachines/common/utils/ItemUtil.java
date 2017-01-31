@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
-
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		return isIdenticalItem(lhs, rhs, false);
 	}

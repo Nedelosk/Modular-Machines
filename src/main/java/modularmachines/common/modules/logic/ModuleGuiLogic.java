@@ -2,9 +2,9 @@ package modularmachines.common.modules.logic;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.IModuleGuiLogic;
-import modularmachines.api.modules.IModuleLogic;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSelectModulePage;

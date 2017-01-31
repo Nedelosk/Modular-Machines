@@ -5,8 +5,8 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import modularmachines.api.modules.IModuleGuiLogic;
-import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.utils.ModuleUtil;

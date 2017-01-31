@@ -5,6 +5,7 @@ import java.util.List;
 
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.logic.IModuleLogic;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import modularmachines.api.IGuiProvider;
-import modularmachines.api.modules.IModuleLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStoragePosition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
