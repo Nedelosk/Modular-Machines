@@ -29,6 +29,7 @@ import modularmachines.common.network.packets.PacketAssemblerPosition;
 import modularmachines.common.network.packets.PacketSelectModule;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
+import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncMode;
 import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.network.packets.PacketUpdateModule;
@@ -62,8 +63,8 @@ public class PacketHandler {
 		registerClientPacket(new PacketSyncRedstoneMode());
 		registerServerPacket(new PacketSyncRedstoneMode());
 		registerClientPacket(new PacketSyncPermission());
-		registerServerPacket(new PacketSyncPermission());
-		registerClientPacket(new PacketSyncHeatBuffer());*/
+		registerServerPacket(new PacketSyncPermission());*/
+		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
 	}
 
 	public static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {

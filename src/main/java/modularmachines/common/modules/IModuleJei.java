@@ -5,6 +5,6 @@ import javax.annotation.Nullable;
 public interface IModuleJei {
 
 	@Nullable
-	String[] getJEIRecipeCategorys();
+	String[] getJeiRecipeCategorys();
 	
 }

@@ -69,7 +69,7 @@ public class ModularMachines {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		//ModuleManager.registerModuels();
-		//ModuleManager.registerModuleContainers();
+		ModuleManager.registerContainers();
 		RecipeManager.registerRecipes();
 		proxy.init();
 		PLUGIN_MANAGER.init();

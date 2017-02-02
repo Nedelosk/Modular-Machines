@@ -1,32 +1,19 @@
 package modularmachines.common.tanks;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map.Entry;
-
 import com.google.common.collect.Lists;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
-import modularmachines.common.inventory.ItemContainer;
-import modularmachines.common.utils.ContentContainer;
 
 public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 
@@ -71,7 +58,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		if (recipe == null) {
 			return false;
 		}
-		for (RecipeItem recipeInput : recipe.getInputs()) {
+		for (RecipeItem recipeInput : recipe.getInputItems()) {
 			if (recipeInput != null) {
 				if (recipeInput.isFluid()) {
 					FluidStack recipeFluid = recipeInput.fluid;
@@ -90,7 +77,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		if (recipe == null) {
 			return false;
 		}
-		for (RecipeItem recipeOutput : recipe.getInputs()) {
+		for (RecipeItem recipeOutput : recipe.getOutputItems()) {
 			if (recipeOutput != null) {
 				if (recipeOutput.isFluid() && recipeOutput.canUseItem(chance)) {
 					FluidStack recipeFluid = recipeOutput.fluid;

@@ -1,10 +1,6 @@
 package modularmachines.common.modules.machine.sawmill;
 
-import modularmachines.common.modules.pages.MainPage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-public class PageSawMill extends MainPage<IModuleMachine> {
+/*public class PageSawMill extends MainPage<IModuleMachine> {
 
 	public PageSawMill(IModuleState<IModuleMachine> moduleState) {
 		super("sawmill", moduleState);
@@ -23,4 +19,4 @@ public class PageSawMill extends MainPage<IModuleMachine> {
 		super.addWidgets();
 		add(new WidgetProgressBar(82, 36, moduleState));
 	}
-}
+}*/

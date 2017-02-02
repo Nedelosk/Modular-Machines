@@ -19,14 +19,14 @@ public class GuiHandler implements IGuiHandler {
 		if(tile != null){
 			switch (ID) {
 				case 0: {
-					if (tile.hasCapability(modularmachines.api.modules.ModuleManager.ASSEMBLER, null)) {
-						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleManager.ASSEMBLER, null);
+					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null)) {
+						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
 						return assembler.createContainer(player.inventory);
 					}
 				}
 				case 1: {
-					if (tile.hasCapability(modularmachines.api.modules.ModuleManager.MODULE_LOGIC, null)) {
-						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleManager.MODULE_LOGIC, null);
+					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null)) {
+						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
 						return logic.createContainer(player.inventory);
 					}
 				}
@@ -44,14 +44,14 @@ public class GuiHandler implements IGuiHandler {
 		if(tile != null){
 			switch (ID) {
 				case 0: {
-					if (tile.hasCapability(modularmachines.api.modules.ModuleManager.ASSEMBLER, null)) {
-						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleManager.ASSEMBLER, null);
+					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null)) {
+						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
 						return assembler.createGui(player.inventory);
 					}
 				}
 				case 1: {
-					if (tile.hasCapability(modularmachines.api.modules.ModuleManager.MODULE_LOGIC, null)) {
-						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleManager.MODULE_LOGIC, null);
+					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null)) {
+						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
 						return logic.createGui(player.inventory);
 					}
 				}

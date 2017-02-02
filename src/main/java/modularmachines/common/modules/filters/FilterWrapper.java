@@ -25,7 +25,7 @@ public class FilterWrapper<C, M extends Module> implements IContentFilter<C, M> 
 	}
 
 	@Override
-	public boolean isValid(int index, C content, Module state) {
+	public boolean isValid(int index, C content, M state) {
 		if (content == null) {
 			return false;
 		}

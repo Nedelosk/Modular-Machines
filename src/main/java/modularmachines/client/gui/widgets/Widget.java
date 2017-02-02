@@ -23,13 +23,12 @@ public abstract class Widget<S extends ILocatableSource> {
 
 	public Widget(int posX, int posY, int width, int height) {
 		this.pos = new Rectangle(posX, posY, width, height);
-		this.gui = manager.getGui();
-		this.source = gui.getSource();
 	}
 	
 	public void setManager(WidgetManager<IGuiProvider, S> manager) {
 		this.manager = manager;
-		this.source = manager.getGui().getSource();
+		this.gui = manager.getGui();
+		this.source = gui.getSource();
 	}
 	
 	public WidgetManager<IGuiProvider, S> getManager() {

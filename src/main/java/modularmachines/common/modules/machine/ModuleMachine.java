@@ -13,8 +13,11 @@ import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.api.recipes.RecipeRegistry;
 import modularmachines.common.modules.IModuleWorking;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSyncModule;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
+import net.minecraft.world.WorldServer;
 
 public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
 
@@ -64,6 +67,14 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 			consumer.insertOutputs(chance, recipe, false);
 		}
 		return true;
+	}
+	
+	@Override
+	public void sendModuleUpdate() {
+		ILocatable locatable = logic.getLocatable();
+		if (locatable != null) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+		}
 	}
 
 	public abstract RecipeItem[] getInputs();

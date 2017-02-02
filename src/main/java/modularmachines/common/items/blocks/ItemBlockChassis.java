@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.core.Registry;
+import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.TileUtil;
 import modularmachines.common.utils.content.IItemModelRegister;
 
@@ -31,6 +32,7 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 
 	public ItemBlockChassis(Block block) {
 		this.block = block;
+		setCreativeTab(TabModularMachines.tabModularMachines);
 		setUnlocalizedName("modular.chassis");
 	}
 

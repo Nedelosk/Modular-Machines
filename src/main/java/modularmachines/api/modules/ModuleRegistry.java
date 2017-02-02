@@ -9,7 +9,7 @@ import modularmachines.api.modules.logic.IModuleLogic;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
-public class ModuleManager {
+public class ModuleRegistry {
 
 	@CapabilityInject(IModuleLogic.class)
 	public static Capability<IModuleLogic> MODULE_LOGIC;

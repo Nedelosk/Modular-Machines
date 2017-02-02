@@ -1,9 +1,14 @@
 package modularmachines.common.modules.machine;
 
+import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.recipes.IRecipeHeat;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.ModuleUtil;
+import net.minecraft.world.WorldServer;
 
 public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMachine<R> {
 
@@ -73,6 +78,15 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 	protected boolean canWork() {
 		IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
 		return heatBuffer.getHeatStored() > 0;
+	}
+	
+	@Override
+	public void sendModuleUpdate() {
+		ILocatable locatable = logic.getLocatable();
+		if (locatable != null) {
+			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(logic), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+		}
 	}
 
 }

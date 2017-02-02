@@ -54,10 +54,10 @@ public class ModuleHelper {
 	 */
 	@Nullable
 	public static IModuleContainer getContainerFromItem(ItemStack stack) {
-		if (stack == null) {
+		if (stack == null || stack.isEmpty()) {
 			return null;
 		}
-		for (IModuleContainer container : ModuleManager.getContainers()) {
+		for (IModuleContainer container : ModuleRegistry.getContainers()) {
 			if (container.matches(stack)) {
 				return container;
 			}
@@ -66,10 +66,10 @@ public class ModuleHelper {
 	}
 	
 	@Nullable
-	public static Module createModule(ItemStack stack){
+	public static Module createModule(IModuleStorage storage, ItemStack stack){
 		IModuleContainer container = getContainerFromItem(stack);
 		if(container != null && container.getData() != null){
-			return container.getData().createModule(container, stack);
+			return container.getData().createModule(storage, container, stack);
 		}
 		return null;
 	}

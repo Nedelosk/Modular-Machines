@@ -30,7 +30,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton);
 		if (module instanceof IModuleJei) {
-			PluginUtil.show(((IModuleJei) module).getJEIRecipeCategorys());
+			PluginUtil.show(((IModuleJei) module).getJeiRecipeCategorys());
 		}
 	}
 

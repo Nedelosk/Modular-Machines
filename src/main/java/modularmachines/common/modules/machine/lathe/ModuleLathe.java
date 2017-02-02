@@ -1,8 +1,6 @@
 package modularmachines.common.modules.machine.lathe;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldServer;
-import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IMode;
 import modularmachines.api.recipes.IRecipeConsumer;
@@ -15,8 +13,6 @@ import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.OutputFilter;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleKineticMachine;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModule;
 
 public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IModuleJei, IModuleMode {
 
@@ -63,16 +59,8 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	}
 
 	@Override
-	public String[] getJEIRecipeCategorys() {
+	public String[] getJeiRecipeCategorys() {
 		return new String[] { MachineCategorys.LATHE };
-	}
-
-	@Override
-	public void sendModuleUpdate() {
-		ILocatable locatable = logic.getLocatable();
-		if (locatable != null) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-		}
 	}
 
 	@Override

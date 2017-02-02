@@ -1,14 +1,6 @@
 package modularmachines.common.modules.battery;
 
-import java.util.ArrayList;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.client.gui.widgets.WidgetEnergyField;
-import modularmachines.common.modules.pages.MainPage;
-
-public class PageBattery extends MainPage<IModuleBattery> {
+/*public class PageBattery extends MainPage<IModuleBattery> {
 
 	public PageBattery(IModuleState<IModuleBattery> state) {
 		super("battery", state);
@@ -37,4 +29,4 @@ public class PageBattery extends MainPage<IModuleBattery> {
 		super.addWidgets();
 		gui.getWidgetManager().add(new WidgetEnergyField(55, 15, moduleState.getContentHandler(IEnergyBuffer.class)));
 	}
-}
+}*/

@@ -1,20 +1,6 @@
 package modularmachines.common.modules.heaters;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
-
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.api.modules.pages.ModulePage;
-import modularmachines.common.core.managers.FluidManager;
-import modularmachines.common.modules.pages.MainPage;
-import modularmachines.common.utils.ModuleUtil;
-import modularmachines.common.utils.Translator;
-
-public class PageSteamHeater extends ModulePage {
+/*public class PageSteamHeater extends ModulePage {
 
 	public static final DecimalFormat FORMATE = new DecimalFormat("#0.00");
 	
@@ -41,4 +27,4 @@ public class PageSteamHeater extends ModulePage {
 	public void createTank(IModuleTankBuilder tankBuilder) {
 		tankBuilder.addFluidTank(16000, true, 80, 18, FluidFilter.get(FluidManager.STEAM));
 	}
-}
+}*/

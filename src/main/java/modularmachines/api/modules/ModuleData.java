@@ -19,24 +19,34 @@ import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
-
+	
 	private Map<Class<? extends Object>, IModelData> models = new HashMap<>();
 	private int complexity = 0;
 	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
-	
-	
+    private String unlocalizedName;
+    private IModuleFactory factory = DefaultModuleFactory.INSTANCE;
+    
 	/**
-	 * A description of this module. It woud be displayed in jei and the module crafter gui.
+	 * A description of this module. It woud be displayed in jei and the item tooltip.
 	 */
 	public String getDescription(){
-		return "";
+		return I18n.translateToLocal(getDescriptionKey());
+	}
+	
+	protected String getDescriptionKey(){
+		return "module." + unlocalizedName + ".description";
+	}
+	
+	public void setUnlocalizedName(String unlocalizedName) {
+		this.unlocalizedName = unlocalizedName;
 	}
 	
 	public String getDisplayName(){
-		return "";
+		return I18n.translateToLocal("module." + unlocalizedName + ".name");
 	}
 	
 	public int getComplexity(){
@@ -45,6 +55,10 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
 	public void setComplexity(int complexity) {
 		this.complexity = complexity;
+	}
+	
+	public void setFactory(IModuleFactory factory) {
+		this.factory = factory;
 	}
 	
 	public EnumModuleSizes getSize(){
@@ -58,8 +72,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
 	}
 	
-	public Module createModule(IModuleContainer container, ItemStack itemStack){
-		Module module = createModule();
+	public Module createModule(IModuleStorage storage, IModuleContainer container, ItemStack itemStack){
+		Module module = createModule(storage);
 		module.onCreateModule(container, itemStack);
 		return module;
 	}
@@ -68,8 +82,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return true;
 	}
 	
-	public Module createModule(){
-		return null;
+	public Module createModule(IModuleStorage storage){
+		return factory.createModule(storage);
 	}
 	
 	public int getAllowedComplexity(){
@@ -106,6 +120,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	}
 
 	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleContainer container) {
-		
+		if(I18n.canTranslate(getDescriptionKey())){
+			tooltip.add(getDescription());
+		}
 	}
 }

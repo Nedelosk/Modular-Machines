@@ -1,5 +1,6 @@
 package modularmachines.api.modules.storages;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,7 +16,7 @@ public enum EnumStoragePosition implements IMachineStoragePosition {
 	BACK(EnumModuleSizes.LARGE, (float) (Math.PI)),
 	NONE(EnumModuleSizes.NONE);
 
-	public static final IStoragePosition[] VALUES = values();
+	public static final EnumStoragePosition[] VALUES = values();
 	float rotation;
 	EnumModuleSizes size;
 	
@@ -57,6 +58,16 @@ public enum EnumStoragePosition implements IMachineStoragePosition {
 			return 1;
 		}
 		return 0;
+	}
+	
+	public static List<IStoragePosition> getValidPositions(){
+		List<IStoragePosition> positions = new ArrayList<>();
+		for(EnumStoragePosition position : VALUES){
+			if(position != NONE){
+				positions.add(position);
+			}
+		}
+		return positions;
 	}
 	
 	public static List<IStoragePosition> getPositions(){

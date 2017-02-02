@@ -24,6 +24,7 @@ public class WidgetAssembleTab extends Widget {
 	public WidgetAssembleTab(int xPosition, int yPosition, boolean isRight) {
 		super(xPosition, yPosition, 28, 21);
 		this.isRight = isRight;
+		this.itemStack = ItemStack.EMPTY;
 	}
 	
 	public void setItemStack(ItemStack itemStack) {

@@ -1,10 +1,6 @@
 package modularmachines.common.modules.machine.furnace;
 
-import modularmachines.common.modules.pages.MainPage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-public class PageFurnace extends MainPage<IModuleMachine> {
+/*public class PageFurnace extends MainPage<IModuleMachine> {
 
 	public PageFurnace(IModuleState<IModuleMachine> module) {
 		super("furnace", module);
@@ -22,4 +18,4 @@ public class PageFurnace extends MainPage<IModuleMachine> {
 		super.addWidgets();
 		add(new WidgetProgressBar(82, 35, moduleState));
 	}
-}
+}*/

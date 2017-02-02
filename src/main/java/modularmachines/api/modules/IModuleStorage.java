@@ -1,6 +1,6 @@
 package modularmachines.api.modules;
 
-import java.util.Collection;
+import java.util.List;
 
 import modularmachines.api.modules.logic.IModuleLogic;
 
@@ -10,7 +10,7 @@ public interface IModuleStorage {
 	 * 
 	 * @return A collection of all modules that this handler does handle.
 	 */
-	Collection<Module> getModules();
+	List<Module> getModules();
 	
 	Module getModuleForIndex(int index);
 	

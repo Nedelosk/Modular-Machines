@@ -6,7 +6,7 @@ import modularmachines.common.energy.HeatBuffer;
 
 public class HeatComponent extends LogicComponent implements IHeatSource{
 
-	public final HeatBuffer buffer;
+	protected final HeatBuffer buffer;
 	
 	public HeatComponent() {
 		buffer = new HeatBuffer(500, 15F);
@@ -45,6 +45,10 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	@Override
 	public double getCapacity() {
 		return buffer.getCapacity();
+	}
+	
+	public HeatBuffer getBuffer() {
+		return buffer;
 	}
 
 }

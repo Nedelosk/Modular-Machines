@@ -1,17 +1,6 @@
 package modularmachines.common.modules.heaters;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
-
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.client.gui.widgets.WidgetBurning;
-import modularmachines.common.modules.pages.MainPage;
-import modularmachines.common.utils.Translator;
-
-public class PageBurningHeater extends MainPage<IModuleHeaterBurning> {
+/*public class PageBurningHeater extends MainPage<IModuleHeaterBurning> {
 
 	public PageBurningHeater(IModuleState<IModuleHeaterBurning> heaterState) {
 		super("heater", heaterState);
@@ -37,4 +26,4 @@ public class PageBurningHeater extends MainPage<IModuleHeaterBurning> {
 	public void createInventory(IModuleInventoryBuilder invBuilder) {
 		invBuilder.addInventorySlot(true, 80, 35, ItemFliterFurnaceFuel.INSTANCE);
 	}
-}
+}*/

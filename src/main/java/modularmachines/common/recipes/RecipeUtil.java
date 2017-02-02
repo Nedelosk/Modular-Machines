@@ -1,32 +1,25 @@
 package modularmachines.common.recipes;
 
-import modularmachines.api.recipes.IMode;
-import modularmachines.api.recipes.IRecipeHandler;
-import modularmachines.api.recipes.OreStack;
-import modularmachines.api.recipes.RecipeItem;
-import modularmachines.api.recipes.RecipeRegistry;
-import net.minecraft.item.ItemStack;
-
 public class RecipeUtil {
 
-	public static final PropertyToolMode LATHEMODE = new PropertyToolMode("mode", LatheMode.class, LatheMode.ROD);
+	/*public static final PropertyToolMode LATHEMODE = new PropertyToolMode("mode", LatheMode.class, LatheMode.ROD);
 
 	public static boolean addPulverizer(String recipeName, ItemStack input, RecipeItem[] output,
-			int speed/* , double kinetic */) {
-		return addPulverizer(recipeName, new RecipeItem(input), output, speed/* , kinetic */);
+			int speed/* , double kinetic ) {
+				/*	return addPulverizer(recipeName, new RecipeItem(input), output, speed/* , kinetic );
 	}
 
 	public static boolean addPulverizer(String recipeName, OreStack input, RecipeItem[] output,
-			int speed/* , double kinetic */) {
-		return addPulverizer(recipeName, new RecipeItem(input), output, speed/* , kinetic */);
+			int speed/* , double kinetic ) {
+				/*return addPulverizer(recipeName, new RecipeItem(input), output, speed/* , kinetic );
 	}
 
 	public static boolean addPulverizer(String recipeName, RecipeItem input, RecipeItem[] output,
-			int speed/* , double kinetic */) {
+			int speed/* , double kinetic  {
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Pulverizer");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder.setValue(Recipe.INPUTS, new RecipeItem[] { input }).setValue(Recipe.OUTPUTS, output).setValue(Recipe.SPEED, speed)
-		/* .set(Recipe.KINETIC, kinetic) */;
+		/* .set(Recipe.KINETIC, kinetic) ;
 		return handler.registerRecipe(builder.init());
 	}
 
@@ -42,7 +35,7 @@ public class RecipeUtil {
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder.setValue(Recipe.INPUTS, new RecipeItem[] { input }).setValue(Recipe.OUTPUTS, new RecipeItem[] { output }).setValue(Recipe.SPEED, speed).setValue(LATHEMODE, mode);
 		return handler.registerRecipe(builder.init());
-	}
+	}*/
 
 	/*
 	 * public static boolean addSawMill(String recipeName, OreStack input,
@@ -57,11 +50,11 @@ public class RecipeUtil {
 	 * RecipeItem[] output, int speedModifier, int energy){ return
 	 * registerRecipe(new Recipe(recipeName, new RecipeItem[] { input }, output,
 	 * speedModifier, energy, "SawMill")); }
-	 */
+	 
 	public static boolean addBoilerRecipe(String recipeName, RecipeItem input, RecipeItem output, int speed, double heat, double heatToRemove) {
 		IRecipeHandler handler = RecipeRegistry.getRecipeHandler("Boiler");
 		IRecipeBuilder builder = handler.getDefaultTemplate();
 		builder.setValue(Recipe.INPUTS, new RecipeItem[] { input }).setValue(Recipe.OUTPUTS, new RecipeItem[] { output }).setValue(Recipe.SPEED, speed).setValue(Recipe.HEAT, heat).setValue(Recipe.HEATTOREMOVE, heatToRemove);
 		return handler.registerRecipe(builder.init());
-	}
+	}*/
 }

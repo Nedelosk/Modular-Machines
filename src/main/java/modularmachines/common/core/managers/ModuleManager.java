@@ -1,5 +1,6 @@
 package modularmachines.common.core.managers;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -7,16 +8,26 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.INBTSerializable;
-
 import java.util.Collections;
 
+import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.ModuleContainer;
+import modularmachines.api.modules.containers.ModuleContainerCapability;
+import modularmachines.api.modules.containers.ModuleContainerDamage;
+import modularmachines.api.modules.containers.ModuleContainerNBT;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.assembler.Assembler;
 import modularmachines.common.modules.logic.ModuleLogic;
 
 public class ModuleManager {
-
+	
+	public static void registerContainers(){
+		registerDamage(new ItemStack(ItemManager.itemCasings, 1, 0), ModuleDefinition.CASING_WOOD);
+	}
+	
 	/*public static IModuleController moduleController;
 	public static IModuleControllerProperties[] moduleControllerProperties = new IModuleControllerProperties[4];
 	public static IModuleItemContainer[] moduleControllerContainers = new IModuleItemContainer[4];
@@ -300,5 +311,25 @@ public class ModuleManager {
 				((INBTSerializable) instance).deserializeNBT(nbt);
 			}
 		}
+	}
+	
+	private static void register(ItemStack parent, ModuleDefinition definition){
+		ModuleRegistry.registerContainer(new ModuleContainer(parent, definition.data()));
+	}
+	
+	private static void registerCapability(ItemStack parent, ModuleDefinition definition){
+		ModuleRegistry.registerContainer(new ModuleContainerCapability(parent, definition.data()));
+	}
+	
+	private static void registerNBT(ItemStack parent, ModuleDefinition definition){
+		ModuleRegistry.registerContainer(new ModuleContainerNBT(parent, definition.data()));
+	}
+	
+	private static void registerDamage(ItemStack parent, ModuleDefinition definition){
+		ModuleRegistry.registerContainer(new ModuleContainerDamage(parent, definition.data()));
+	}
+	
+	private static void register(IModuleContainer container){
+		ModuleRegistry.registerContainer(container);
 	}
 }

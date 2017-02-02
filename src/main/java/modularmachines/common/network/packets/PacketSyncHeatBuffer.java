@@ -1,36 +1,45 @@
 package modularmachines.common.network.packets;
 
-/*public class PacketSyncHeatBuffer extends PacketLocatable {
+import java.io.IOException;
+
+import modularmachines.api.modules.energy.IHeatSource;
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.common.network.PacketBufferMM;
+import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ModuleUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class PacketSyncHeatBuffer extends PacketLocatable {
 
 	public double heatBuffer;
 
 	public PacketSyncHeatBuffer() {
 	}
 
-	public PacketSyncHeatBuffer(IModularHandler handler) {
-		super(handler);
-		heatBuffer = handler.getModular().getHeatSource().getHeatStored();
+	public PacketSyncHeatBuffer(IModuleLogic logic) {
+		super(logic);
+		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+		heatBuffer = heatSource.getHeatStored();
 	}
 
 	@Override
-	public void readData(DataInputStreamMM data) throws IOException {
-		super.readData(data);
-		heatBuffer = data.readDouble();
-	}
-
-	@Override
-	protected void writeData(DataOutputStreamMM data) throws IOException {
+	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeDouble(heatBuffer);
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void onPacketData(DataInputStreamMM data, EntityPlayer player) throws IOException {
-		IModularHandler modularHandler = getModularHandler(player);
-		if (modularHandler != null && modularHandler.getModular() != null) {
-			BlockPos pos = ((IModularHandlerTileEntity) modularHandler).getPos();
-			modularHandler.getModular().getHeatSource().setHeatStored(heatBuffer);
+	public static final class Handler implements IPacketHandlerClient{
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
+			IModuleLogic logic = getLogic(data, player.world);
+			if (logic != null) {
+				IHeatSource heatSource = ModuleUtil.getHeat(logic);
+				heatSource.setHeatStored(data.readInt());
+			}
 		}
 	}
 
@@ -38,4 +47,4 @@ package modularmachines.common.network.packets;
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HEAT;
 	}
-}*/
+}

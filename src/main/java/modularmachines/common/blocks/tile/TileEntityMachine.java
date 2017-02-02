@@ -3,7 +3,7 @@ package modularmachines.common.blocks.tile;
 import java.util.List;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.EnumStoragePosition;
@@ -23,7 +23,7 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	public IModuleLogic logic;
 	
 	public TileEntityMachine() {
-		List<IStoragePosition> positions = EnumStoragePosition.getPositions();
+		List<IStoragePosition> positions = EnumStoragePosition.getValidPositions();
 		this.assembler = new Assembler(this, positions);
 		this.logic = new ModuleLogic(this);
 	}
@@ -67,15 +67,15 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == ModuleManager.ASSEMBLER || capability == ModuleManager.MODULE_LOGIC || super.hasCapability(capability, facing);
+		return capability == ModuleRegistry.ASSEMBLER || capability == ModuleRegistry.MODULE_LOGIC || super.hasCapability(capability, facing);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModuleManager.ASSEMBLER){
-			return ModuleManager.ASSEMBLER.cast(assembler);
-		}else if(capability == ModuleManager.MODULE_LOGIC){
-			return ModuleManager.MODULE_LOGIC.cast(logic);
+		if(capability == ModuleRegistry.ASSEMBLER){
+			return ModuleRegistry.ASSEMBLER.cast(assembler);
+		}else if(capability == ModuleRegistry.MODULE_LOGIC){
+			return ModuleRegistry.MODULE_LOGIC.cast(logic);
 		}
 		return super.getCapability(capability, facing);
 	}

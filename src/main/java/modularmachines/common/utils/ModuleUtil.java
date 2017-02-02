@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
@@ -143,8 +143,8 @@ public class ModuleUtil {
 	@Nullable
 	public static IModuleLogic getLogic(BlockPos pos, World world){
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity.hasCapability(ModuleManager.MODULE_LOGIC, null)){
-			return tileEntity.getCapability(ModuleManager.MODULE_LOGIC, null);
+		if(tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, null)){
+			return tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, null);
 		}
 		return null;
 	}
@@ -152,8 +152,8 @@ public class ModuleUtil {
 	@Nullable
 	public static IAssembler getAssembler(BlockPos pos, World world){
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity.hasCapability(ModuleManager.ASSEMBLER, null)){
-			return tileEntity.getCapability(ModuleManager.ASSEMBLER, null);
+		if(tileEntity.hasCapability(ModuleRegistry.ASSEMBLER, null)){
+			return tileEntity.getCapability(ModuleRegistry.ASSEMBLER, null);
 		}
 		return null;
 	}

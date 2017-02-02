@@ -23,6 +23,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 	public void add(Widget widget) {
 		if (!widgets.contains(widget)) {
 			this.widgets.add(widget);
+			widget.setManager(this);
 		}
 	}
 
@@ -31,9 +32,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 			return;
 		}
 		for (Widget widget : widgets) {
-			if (!widgets.contains(widget)) {
-				widgets.add(widget);
-			}
+			add(widget);
 		}
 	}
 
