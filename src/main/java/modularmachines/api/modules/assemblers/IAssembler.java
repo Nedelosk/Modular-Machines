@@ -35,6 +35,10 @@ public interface IAssembler extends IGuiProvider {
 
 	void onStorageSlotChange();
 	
+	boolean hasChange();
+	
+	void setHasChange(boolean hasChange);
+	
 	List<IStoragePosition> getPositions();
 	
 	IStoragePosition getPosition(int index);

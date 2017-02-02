@@ -48,6 +48,10 @@ public interface IStoragePage {
 	int getAllowedComplexity();
 	
 	boolean isEmpty();
+	
+	void init();
+	
+	boolean wasInitialized();
 
 	void createSlots(Container container, IAssembler assembler, List<Slot> slots);
 
@@ -78,5 +82,7 @@ public interface IStoragePage {
 
 	@SideOnly(Side.CLIENT)
 	void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY);
+	
+	
 
 }

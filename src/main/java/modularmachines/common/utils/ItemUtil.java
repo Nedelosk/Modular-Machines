@@ -11,6 +11,34 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
 	
+	public static void setCount(ItemStack itemStack, int count){
+		itemStack.setCount(count);
+	}
+	
+	public static int getCount(ItemStack itemStack){
+		return itemStack.getCount();
+	}
+	
+	public static void shrink(ItemStack itemStack, int quantity){
+		itemStack.shrink(quantity);
+	}
+	
+	public static void grow(ItemStack itemStack, int quantity){
+		itemStack.grow(quantity);
+	}
+	
+	public static boolean isNotEmpty(ItemStack itemStack){
+		return itemStack != null && !itemStack.isEmpty();
+	}
+	
+	public static boolean isEmpty(ItemStack itemStack){
+		return itemStack == null || itemStack.isEmpty();
+	}
+	
+	public static ItemStack empty(){
+		return ItemStack.EMPTY;
+	}
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		return isIdenticalItem(lhs, rhs, false);
 	}

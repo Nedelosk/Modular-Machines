@@ -20,7 +20,6 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 	private final IStoragePage page;
 	private boolean afterPage = false;
 	private boolean transferStack = false;
-	private boolean hasStorageChange = false;
 
 	public ContainerAssembler(Assembler assembler, InventoryPlayer inventory) {
 		super(assembler, inventory);
@@ -46,10 +45,12 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 	@Override
 	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 		ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
-		ILocatable locatable = source.getLocatable();
-		if(locatable != null){
-			ContainerUtil.openGuiSave(source);
-			hasStorageChange = false;
+		if(source.hasChange()){
+			ILocatable locatable = source.getLocatable();
+			if(locatable != null){
+				ContainerUtil.openGuiSave(source);
+				source.setHasChange(false);
+			}
 		}
 		return stack;
 	}
@@ -81,13 +82,5 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 
 	public boolean transferStack() {
 		return transferStack;
-	}
-
-	public boolean hasStorageChange() {
-		return hasStorageChange;
-	}
-
-	public void setHasStorageChange(boolean hasChange) {
-		this.hasStorageChange = hasChange;
 	}
 }

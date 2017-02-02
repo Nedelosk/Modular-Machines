@@ -28,11 +28,16 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 	public int getSlotStackLimit() {
 		return 1;
 	}
+	
+	@Override
+	public int getItemStackLimit(ItemStack stack) {
+		return 1;
+	}
 
 	@Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
-		if (page != null) {
+		if (!page.isEmpty()) {
 			page.onSlotChanged(container, assembler);
 		}
 		assembler.onStorageSlotChange();
@@ -45,7 +50,7 @@ public class SlotAssemblerStorage extends SlotItemHandler {
 			return false;
 		}
 		ModuleData data = container.getData();
-		if (data.isStorageAt(position, this)) {
+		if (data.isStorage(position)) {
 			if (data.isItemValid(assembler, position, stack, null, this)) {
 				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
 				for(IStoragePosition position : childPositions){

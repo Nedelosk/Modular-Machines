@@ -20,37 +20,50 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 
 public abstract class StoragePage implements IStoragePage {
 	
 	protected final IAssembler assembler;
 	protected final IStoragePosition position;
-	protected final IItemHandlerModifiable itemHandler;
+	protected final ItemStackHandlerPage itemHandler;
 	protected final List<IStoragePage> childs;
+	protected boolean wasInitialized;
 	
 	public StoragePage(IAssembler assembler, IStoragePosition position, int size) {
 		this.assembler = assembler;
 		this.position = position;
 		this.childs = new ArrayList<>();
-		this.itemHandler = new ItemStackHandler(size);
+		this.itemHandler = new ItemStackHandlerPage(size, this);
+		this.wasInitialized = false;
 	}
 	
 	public StoragePage(IAssembler assembler, IStoragePosition position) {
 		this.assembler = assembler;
 		this.position = position;
 		this.childs= new ArrayList<>();
-		this.itemHandler = new ItemStackHandler(1);
+		this.itemHandler = new ItemStackHandlerPage(1, this);
+		this.wasInitialized = false;
 	}
 	
+	@Override
+	public void init() {
+		wasInitialized = true;
+	}
+	
+	@Override
+	public boolean wasInitialized() {
+		return wasInitialized;
+	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setTag("Items", itemHandler.serializeNBT());
 		return compound;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {	
+		itemHandler.deserializeNBT(compound.getCompoundTag("Items"));
 	}
 
 	@Override
@@ -68,7 +81,7 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public IStorage assemble(IAssembler assembler, IModuleLogic logic) {
 		ItemStack storageStack = getStorageStack();
-		if (storageStack != null) {
+		if (!storageStack.isEmpty()) {
 			IModuleContainer container = ModuleHelper.getContainerFromItem(storageStack);
 			ModuleData data = container.getData();
 			if (data != null) {
@@ -121,12 +134,10 @@ public abstract class StoragePage implements IStoragePage {
 		int complexity = 0;
 		for (int index = 0; index < itemHandler.getSlots(); index++) {
 			ItemStack slotStack = itemHandler.getStackInSlot(index);
-			if (slotStack != null) {
-				IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
-				if (container != null) {
-					ModuleData data = container.getData();
-					complexity += data.getComplexity();
-				}
+			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
+			if (container != null) {
+				ModuleData data = container.getData();
+				complexity += data.getComplexity();
 			}
 		}
 		return complexity;
@@ -137,12 +148,10 @@ public abstract class StoragePage implements IStoragePage {
 		int allowedComplexity = 0;
 		for (int index = 0; index < itemHandler.getSlots(); index++) {
 			ItemStack slotStack = itemHandler.getStackInSlot(index);
-			if (slotStack != null) {
-				IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
-				if (container != null) {
-					ModuleData data = container.getData();
-					allowedComplexity += data.getAllowedComplexity();
-				}
+			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
+			if (container != null) {
+				ModuleData data = container.getData();
+				allowedComplexity += data.getAllowedComplexity();
 			}
 		}
 		return allowedComplexity;

@@ -37,11 +37,11 @@ public class ModuleUtil {
 	public static void tryEmptyContainer(int inputSlot, int outputSlot, IItemHandler inventory, IFluidHandler handler) {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
-			if(!stack.isEmpty()){
+			if(ItemUtil.isNotEmpty(stack)){
 				ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false).getResult();
-				if (!containerStack.isEmpty()) {
-					if (!inventory.extractItem(inputSlot, 1, true).isEmpty()) {
-						if (inventory.insertItem(outputSlot, containerStack, true).isEmpty()) {
+				if (ItemUtil.isNotEmpty(containerStack)) {
+					if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
+						if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
 							FluidActionResult emptyContainer = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, true);
 							inventory.insertItem(outputSlot, emptyContainer.getResult(), false);
 							inventory.extractItem(inputSlot, 1, false);
@@ -55,11 +55,11 @@ public class ModuleUtil {
 	public static void tryFillContainer(int inputSlot, int outputSlot, IItemHandler inventory, IFluidHandler handler) {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
-			if(!stack.isEmpty()){
+			if(ItemUtil.isNotEmpty(stack)){
 				ItemStack containerStack = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false).getResult();
-				if (!containerStack.isEmpty()) {
-					if (!inventory.extractItem(inputSlot, 1, true).isEmpty()) {
-						if (inventory.insertItem(outputSlot, containerStack, true).isEmpty()) {
+				if (ItemUtil.isNotEmpty(containerStack)) {
+					if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
+						if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
 							FluidActionResult filledContainer = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, true);
 							inventory.insertItem(outputSlot, filledContainer.getResult(), false);
 							inventory.extractItem(inputSlot, 1, false);

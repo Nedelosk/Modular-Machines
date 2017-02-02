@@ -12,6 +12,11 @@ public class ModuleDataCasing extends ModuleDataStorageModule {
 	
 	@Override
 	public boolean isPositionValid(IStoragePosition position) {
+		return false;
+	}
+	
+	@Override
+	public boolean isStorage(IStoragePosition position) {
 		return position == EnumStoragePosition.CASING;
 	}
 	

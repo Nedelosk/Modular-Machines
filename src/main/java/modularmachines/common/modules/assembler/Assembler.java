@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
@@ -27,6 +29,7 @@ import modularmachines.common.containers.ContainerAssembler;
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
+import modularmachines.common.utils.ItemUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,17 +103,19 @@ public class Assembler implements IAssembler {
 		NBTTagList list = compound.getTagList("Pages", 10);
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbtTag = list.getCompoundTagAt(i);
-			ItemStack itemStack = new ItemStack(compound.getCompoundTag("Item"));
-			String positionName = compound.getString("Pos");
+			ItemStack itemStack = new ItemStack(nbtTag.getCompoundTag("Item"));
+			String positionName = nbtTag.getString("Pos");
 			IStoragePosition position = EnumStoragePosition.NONE;
 			for(IStoragePosition pos : positions){
-				if(position.getName().equals(positionName)){
+				if(pos.getName().equals(positionName)){
 					position = pos;
 					break;
 				}
 			}
 			if(position != EnumStoragePosition.NONE){
-				createPage(itemStack, position);
+				IStoragePage page = createPage(itemStack, position, null);
+				page.readFromNBT(nbtTag.getCompoundTag("Page"));
+				pages.put(position, page);
 			}
 		}
 		updatePages();
@@ -259,42 +264,50 @@ public class Assembler implements IAssembler {
 			IStoragePosition position = positions.next();
 			IStoragePage page = getPage(position);
 			ItemStack itemStack = page.getStorageStack();
-			if (page.isEmpty()) {
-				createPage(itemStack, position);
-			} else {
-				if (itemStack == null && (page.getParent() == null || page.getParent().getStorageStack() == null)) {
-					pages.put(position, new EmptyStoragePage(this, position));
-				}
+			if (page.isEmpty() && !ItemUtil.isEmpty(itemStack) || !page.isEmpty() && ItemUtil.isEmpty(itemStack) && (page.getParent() == null || ItemUtil.isEmpty(page.getParent().getStorageStack()))) {
+				pages.put(position, createPage(itemStack, position, page));
 			}
 		}
 		//TODO: markDirty
 		//modularHandler.markDirty();
 	}
 	
-	public void createPage(ItemStack itemStack, IStoragePosition position){
-		if(itemStack == null){
-			return;
+	public IStoragePage createPage(ItemStack itemStack, IStoragePosition position, @Nullable IStoragePage oldPage){
+		if(ItemUtil.isEmpty(itemStack)){
+			return new EmptyStoragePage(this, position);
 		}
 		IModuleContainer moduleContainer = ModuleHelper.getContainerFromItem(itemStack);
 		if (moduleContainer != null) {
 			ModuleData data = moduleContainer.getData();
 			if(data.isStorage(position)){
 				IStoragePage page = data.createStoragePage(this, position, null);
-				this.pages.put(position, page);
+				page.getItemHandler().setStackInSlot(0, itemStack.copy());
 				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
 				for(IStoragePosition childPosition : childPositions){
 					IStoragePage child = data.createChildPage(this, childPosition);
 					page.addChild(child);
 					pages.put(childPosition, child);
 				}
+				page.init();
+				return page;
 			}
-			
 		}
+		return new EmptyStoragePage(this, position);
 	}
 
 	@Override
 	public void onStorageSlotChange() {
 		hasChange = true;
+	}
+	
+	@Override
+	public boolean hasChange() {
+		return hasChange;
+	}
+	
+	@Override
+	public void setHasChange(boolean hasChange) {
+		this.hasChange =hasChange;
 	}
 	
 	@Override

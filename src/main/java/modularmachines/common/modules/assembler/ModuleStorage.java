@@ -1,6 +1,5 @@
 package modularmachines.common.modules.assembler;
 
-import java.util.Collection;
 import java.util.List;
 
 import modularmachines.api.modules.IModuleStorage;
@@ -23,7 +22,7 @@ public class ModuleStorage implements IModuleStorage {
 	}
 	
 	@Override
-	public Collection<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
@@ -73,7 +72,7 @@ public class ModuleStorage implements IModuleStorage {
     		String registryName = tagCompound.getString("Data");
     		ModuleData data = ModularMachines.DATAS.getValue(new ResourceLocation(registryName));
     		int position = tagCompound.getInteger("Position");
-    		Module module = data.createModule();
+    		Module module = data.createModule(this);
     		module.readFromNBT(tagCompound);
     		modules.set(position, module);
     	}

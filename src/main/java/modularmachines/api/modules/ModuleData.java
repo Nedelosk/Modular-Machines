@@ -91,15 +91,11 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	}
 	
 	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack, @Nullable SlotAssembler slot, SlotAssemblerStorage storageSlot){
-		return false;
+		return true;
 	}
 	
 	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page) {
 		return null;
-	}
-	
-	public boolean isStorageAt(IStoragePosition position, SlotAssemblerStorage slot){
-		return false;
 	}
 	
 	public boolean isStorage(IStoragePosition position){

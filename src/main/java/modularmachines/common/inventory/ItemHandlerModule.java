@@ -11,6 +11,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
+import modularmachines.common.utils.ItemUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -115,7 +116,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 			if (existing.isEmpty()) {
 				container.set(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack);
 			} else {
-				existing.grow(reachedLimit ? limit : stack.getCount());
+				ItemUtil.grow(existing, reachedLimit ? limit : stack.getCount());
 			}
 			onContentsChanged(slot);
 		}
@@ -166,7 +167,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList nbtTagList = new NBTTagList();
 		for (int i = 0; i < containers.size(); i++) {
-			if (!containers.get(i).get().isEmpty()) {
+			if (ItemUtil.isNotEmpty(containers.get(i).get())) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				itemTag.setInteger("Slot", i);
 				containers.get(i).get().writeToNBT(itemTag);

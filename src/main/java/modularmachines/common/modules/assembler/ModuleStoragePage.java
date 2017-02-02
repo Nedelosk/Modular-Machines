@@ -23,13 +23,14 @@ import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.utils.ContainerUtil;
+import modularmachines.common.utils.ItemUtil;
 
 public class ModuleStoragePage extends StoragePage {
 
 	protected EnumModuleSizes size;
 
 	public ModuleStoragePage(IAssembler assembler, IStoragePosition position, EnumModuleSizes size) {
-		super(assembler, position, size.slotNumbers);
+		super(assembler, position, size.slotNumbers + 1);
 		this.size = size;
 	}
 	
@@ -41,7 +42,7 @@ public class ModuleStoragePage extends StoragePage {
 			if (size == EnumModuleSizes.LARGEST) {
 				for (int i = 0; i < 3; ++i) {
 					for (int j = 0; j < 3; ++j) {
-						slots.add(new SlotAssembler(assembler, container, j + i * 3, 80 + j * 18, 17 + i * 18, this, storageSlot));
+						slots.add(new SlotAssembler(assembler, container, 1 + j + i * 3, 80 + j * 18, 17 + i * 18, this, storageSlot));
 					}
 				}
 			} else if (size == EnumModuleSizes.LARGE) {
@@ -60,9 +61,9 @@ public class ModuleStoragePage extends StoragePage {
 		if (!slotStorage.getHasStack()) {
 			for (int index = 0; index < size.slotNumbers; index++) {
 				ItemStack slotStack = itemHandler.getStackInSlot(index);
-				if (slotStack != null) {
+				if (!ItemUtil.isEmpty(slotStack)) {
 					ItemHandlerHelper.giveItemToPlayer(player, slotStack);
-					itemHandler.setStackInSlot(index, null);
+					itemHandler.setStackInSlot(index, ItemUtil.empty());
 				}
 			}
 		}
@@ -82,7 +83,7 @@ public class ModuleStoragePage extends StoragePage {
 				IModuleContainer moduleContainer = ModuleHelper.getContainerFromItem(slot.getStack());
 				if (moduleContainer == null) {
 					ItemHandlerHelper.giveItemToPlayer(player, slot.getStack());
-					itemHandler.setStackInSlot(1 + index, null);
+					itemHandler.setStackInSlot(1 + index, ItemUtil.empty());
 					onSlotChanged(container, assembler);
 					return;
 				}
@@ -137,12 +138,12 @@ public class ModuleStoragePage extends StoragePage {
 		if (storageSlot == null || !storageSlot.getHasStack()) {
 			return false;
 		}
-		if (data.isPositionValid(position)) {
+		if (!data.isPositionValid(position)) {
 			return false;
 		}
 		EnumModuleSizes usedSize = data.getSize();
 		for (int index = 0; index < position.getSize().slotNumbers; index++) {
-			IModuleContainer otherContainer = ModuleHelper.getContainerFromItem(itemHandler.getStackInSlot(index));
+			IModuleContainer otherContainer = ModuleHelper.getContainerFromItem(itemHandler.getStackInSlot(index + 1));
 			if (otherContainer != null) {
 				usedSize = EnumModuleSizes.getSize(usedSize, otherContainer.getData().getSize());
 			}

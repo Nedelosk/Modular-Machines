@@ -7,6 +7,7 @@ import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.core.managers.ModuleManager;
 import modularmachines.common.core.managers.OreDictionaryManager;
 import modularmachines.common.event.EventHandler;
+import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.PluginManager;
 import net.minecraft.util.ResourceLocation;
@@ -69,7 +70,7 @@ public class ModularMachines {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		//ModuleManager.registerModuels();
-		ModuleManager.registerContainers();
+		ModuleDefinition.registerModuleContainers();
 		RecipeManager.registerRecipes();
 		proxy.init();
 		PLUGIN_MANAGER.init();

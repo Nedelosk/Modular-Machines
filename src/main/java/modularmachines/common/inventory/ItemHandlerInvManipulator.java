@@ -1,6 +1,9 @@
 package modularmachines.common.inventory;
 
 import javax.annotation.Nullable;
+
+import modularmachines.common.utils.ItemUtil;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -76,7 +79,7 @@ public class ItemHandlerInvManipulator implements Iterable<InvSlot> {
 
 	@Nullable
 	protected ItemStack addStack(ItemStack stack, boolean doAdd) {
-		if (stack.isEmpty()) {
+		if (ItemUtil.isEmpty(stack)) {
 			return null;
 		}
 		stack = stack.copy();
@@ -84,7 +87,7 @@ public class ItemHandlerInvManipulator implements Iterable<InvSlot> {
 		List<InvSlot> emptySlots = new ArrayList<>(inv.getSlots());
 		for (InvSlot slot : new ItemHandlerInvManipulator(inv)) {
 			if (slot.canPutStackInSlot(stack)) {
-				if (slot.getStackInSlot().isEmpty()) {
+				if (ItemUtil.isEmpty(slot.getStackInSlot())) {
 					emptySlots.add(slot);
 				} else {
 					filledSlots.add(slot);
@@ -95,25 +98,25 @@ public class ItemHandlerInvManipulator implements Iterable<InvSlot> {
 		int injected = 0;
 		injected = tryPut(filledSlots, stack, injected, doAdd);
 		injected = tryPut(emptySlots, stack, injected, doAdd);
-		stack.shrink(injected);
+		ItemUtil.shrink(stack, injected);
 		return stack;
 	}
 
 	private int tryPut(List<InvSlot> slots, ItemStack stack, int injected, boolean doAdd) {
-		if (injected >= stack.getCount()) {
+		if (injected >= ItemUtil.getCount(stack)) {
 			return injected;
 		}
 		for (InvSlot slot : slots) {
 			final ItemStack stackToInsert = stack.copy();
-			final int stackToInsertSize = stack.getCount() - injected;
-			stackToInsert.setCount(stackToInsertSize);
+			final int stackToInsertSize = ItemUtil.getCount(stack) - injected;
+			ItemUtil.setCount(stackToInsert, stackToInsertSize);
 
 			final ItemStack remainder = inv.insertItem(slot.getIndex(), stackToInsert, !doAdd);
-			if (remainder.isEmpty()) {
-				return stack.getCount();
+			if (ItemUtil.isEmpty(remainder)) {
+				return ItemUtil.getCount(stack);
 			}
-			injected += stackToInsertSize - remainder.getCount();
-			if (injected >= stack.getCount()) {
+			injected += stackToInsertSize - ItemUtil.getCount(remainder);
+			if (injected >= ItemUtil.getCount(stack)) {
 				return injected;
 			}
 		}

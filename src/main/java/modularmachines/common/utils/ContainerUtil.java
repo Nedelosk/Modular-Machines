@@ -36,7 +36,7 @@ public class ContainerUtil {
 		}
 		slot.onSlotChange(stackInSlot, originalStack);
 		if (stackInSlot.getCount() <= 0) {
-			slot.putStack(null);
+			slot.putStack(ItemUtil.empty());
 		} else {
 			slot.onSlotChanged();
 		}
@@ -127,13 +127,13 @@ public class ContainerUtil {
 				int resultingStackSize = stackInSlot.getCount() + stackToShift.getCount();
 				int max = Math.min(stackToShift.getMaxStackSize(), slot.getSlotStackLimit());
 				if (resultingStackSize <= max) {
-					stackToShift.setCount(0);
-					stackInSlot.setCount(resultingStackSize);
+					ItemUtil.setCount(stackToShift, 0);
+					ItemUtil.setCount(stackInSlot, resultingStackSize);
 					slot.onSlotChanged();
 					changed = true;
 				} else if (stackInSlot.getCount() < max) {
-					stackToShift.shrink(max - stackInSlot.getCount());
-					stackInSlot.setCount(max);
+					ItemUtil.shrink(stackToShift, max - stackInSlot.getCount());
+					ItemUtil.setCount(stackInSlot, max);
 					slot.onSlotChanged();
 					changed = true;
 				}
@@ -153,8 +153,8 @@ public class ContainerUtil {
 			if (stackInSlot == null) {
 				int max = Math.min(stackToShift.getMaxStackSize(), slot.getSlotStackLimit());
 				stackInSlot = stackToShift.copy();
-				stackInSlot.setCount(Math.min(stackToShift.getCount(), max));
-				stackToShift.shrink(stackInSlot.getCount());
+				ItemUtil.setCount(stackInSlot, Math.min(stackToShift.getCount(), max));
+				ItemUtil.shrink(stackToShift, stackInSlot.getCount());
 				slot.putStack(stackInSlot);
 				slot.onSlotChanged();
 				changed = true;
@@ -209,11 +209,11 @@ public class ContainerUtil {
 							if(!openGui){
 								player.closeScreen();
 							}else{
-								ItemStack itemStack = ItemStack.EMPTY;
+								ItemStack itemStack = ItemUtil.empty();
 								InventoryPlayer inv = player.inventory;
 								if (!inv.getItemStack().isEmpty()) {
 									itemStack = inv.getItemStack();
-									inv.setItemStack(ItemStack.EMPTY);
+									inv.setItemStack(ItemUtil.empty());
 								}
 								player.openGui(ModularMachines.instance, 0, world, position.getX(), position.getY(), position.getZ());
 								if (!itemStack.isEmpty()) {

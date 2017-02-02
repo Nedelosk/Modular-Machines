@@ -24,10 +24,6 @@ import modularmachines.common.modules.logic.ModuleLogic;
 
 public class ModuleManager {
 	
-	public static void registerContainers(){
-		registerDamage(new ItemStack(ItemManager.itemCasings, 1, 0), ModuleDefinition.CASING_WOOD);
-	}
-	
 	/*public static IModuleController moduleController;
 	public static IModuleControllerProperties[] moduleControllerProperties = new IModuleControllerProperties[4];
 	public static IModuleItemContainer[] moduleControllerContainers = new IModuleItemContainer[4];

@@ -1,5 +1,6 @@
 package modularmachines.common.items;
 
+import modularmachines.common.utils.ItemUtil;
 import net.minecraft.item.ItemStack;
 
 public class ItemToolCrafting extends ItemTool {
@@ -21,7 +22,7 @@ public class ItemToolCrafting extends ItemTool {
 	public ItemStack getContainerItem(ItemStack stack) {
 		ItemStack itemstack = stack.copy();
 		itemstack.setItemDamage(itemstack.getItemDamage() + damage);
-		itemstack.setCount(1);
+		ItemUtil.setCount(itemstack, 1);
 		return itemstack;
 	}
 }

@@ -6,6 +6,7 @@ public class EmptyStoragePage extends StoragePage {
 	
 	public EmptyStoragePage(IAssembler assembler, IStoragePosition position) {
 		super(assembler, position);
+		init();
 	}
 	
 	@Override

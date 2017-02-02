@@ -37,7 +37,12 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	public void updateServer() {
 		
 	}
-
+	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+	
 	@Override
 	public BlockPos getCoordinates() {
 		return getPos();
