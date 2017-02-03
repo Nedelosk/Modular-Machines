@@ -64,7 +64,7 @@ public class PacketAssemblerPosition extends PacketLocatable {
 				assembler.setSelectedPosition(assembler.getPosition(positionIndex));
 			}
 			PacketHandler.sendToNetwork(new PacketAssemblerPosition(assembler, positionIndex), pos, player.getServerWorld());
-			ContainerUtil.openGuiSave(assembler);
+			ContainerUtil.openGuiSave(assembler, 0);
 		}
 		
 	}

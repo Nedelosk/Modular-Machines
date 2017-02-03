@@ -287,7 +287,7 @@ public class ModuleManager {
 	}*/
 
 	public static void registerCapability() {
-		CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null));
+		CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
 		CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
 	}
 

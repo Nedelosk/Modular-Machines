@@ -26,6 +26,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
 	private Map<Class<? extends Object>, IModelData> models = new HashMap<>();
 	private int complexity = 0;
+	private int allowedComplexity = 0;
 	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
     private String unlocalizedName;
     private IModuleFactory factory = DefaultModuleFactory.INSTANCE;
@@ -47,6 +48,14 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
 	public String getDisplayName(){
 		return I18n.translateToLocal("module." + unlocalizedName + ".name");
+	}
+	
+	public int getAllowedComplexity(){
+		return allowedComplexity;
+	}
+	
+	public void setAllowedComplexity(int allowedComplexity) {
+		this.allowedComplexity = allowedComplexity;
 	}
 	
 	public int getComplexity(){
@@ -74,7 +83,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
 	public Module createModule(IModuleStorage storage, IModuleContainer container, ItemStack itemStack){
 		Module module = createModule(storage);
-		module.onCreateModule(container, itemStack);
+		module.onCreateModule(container, this, itemStack);
 		return module;
 	}
 	
@@ -84,10 +93,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
 	public Module createModule(IModuleStorage storage){
 		return factory.createModule(storage);
-	}
-	
-	public int getAllowedComplexity(){
-		return 0;
 	}
 	
 	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack, @Nullable SlotAssembler slot, SlotAssemblerStorage storageSlot){

@@ -32,6 +32,8 @@ public interface IModuleLogic extends IGuiProvider {
 	
 	void assemble(IAssembler assembler, EntityPlayer player);
 	
+	void clear();
+	
     NBTTagCompound writeToNBT(NBTTagCompound compound);
     
     void readFromNBT(NBTTagCompound compound);

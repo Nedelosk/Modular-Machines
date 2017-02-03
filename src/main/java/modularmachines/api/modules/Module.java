@@ -22,14 +22,16 @@ public class Module {
 	protected final List<ModulePage> pages;
 	protected final IModuleStorage storage;
 	protected final IModuleLogic logic;
-	protected int index;
-	protected ItemStack parentItem;
+	@Nullable
 	protected ModuleData data;
+	@Nullable
+	protected ItemStack parentItem;
+	protected int index;
 	
 	public Module(IModuleStorage storage) {
+		pages = new ArrayList<>();
 		this.storage = storage;
 		this.logic = storage.getLogic();
-		pages = new ArrayList<>();
 		initPages();
 	}
 	
@@ -77,8 +79,9 @@ public class Module {
 		return Collections.singletonList(parentItem);
 	}
 	
-	public void onCreateModule(IModuleContainer container, ItemStack parentItem){
+	public void onCreateModule(IModuleContainer container, ModuleData data, ItemStack parentItem){
 		this.parentItem = parentItem;
+		this.data = data;
 	}
 	
 	protected void initPages(){
@@ -108,25 +111,28 @@ public class Module {
 	}
 	
     public NBTTagCompound writeToNBT(NBTTagCompound compound){
+    	compound.setInteger("Index", index);
     	return compound;
     }
     
     public void readFromNBT(NBTTagCompound compound){
-    	
+    	index = compound.getInteger("Index");
     }
 	
 	public IModuleLogic getLogic() {
 		return logic;
 	}
 	
-	public ItemStack getParentItem() {
-		return parentItem;
-	}
-	
 	public IModuleStorage getStorage() {
 		return storage;
 	}
 	
+	@Nullable
+	public ItemStack getParentItem() {
+		return parentItem;
+	}
+	
+	@Nullable
 	public ModuleData getData() {
 		return data;
 	}

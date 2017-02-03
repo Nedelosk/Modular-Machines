@@ -51,17 +51,10 @@ public class WidgetAssembleTab extends Widget {
 		ILocatableSource source = getManager().getGui().getSource();
 		if (source instanceof IModuleLogic) {
 			IModuleLogic logic = (IModuleLogic) source;
-			//TODO: fix
-			/*try {
-				IModular modular = handler.getAssembler().createModular();
-				if (modular != null) {
-					PacketHandler.sendToServer(new PacketSyncHandlerState(handler, true));
-				}
-			} catch (AssemblerException e) {
-			}*/
+			PacketHandler.sendToServer(new PacketSyncHandlerState(logic, false));
 		} else if (source instanceof IAssembler){
 			IAssembler assembler = (IAssembler) source;
-			PacketHandler.sendToServer(new PacketSyncHandlerState(assembler, false));
+			PacketHandler.sendToServer(new PacketSyncHandlerState(assembler, true));
 		}
 	}
 

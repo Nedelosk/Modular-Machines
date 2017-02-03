@@ -21,10 +21,10 @@ public class PagePulverizer extends ModulePageWidget<ModulePulverizer> {
 		super.createSlots(slots);
 		ItemHandlerModule itemHandler = parent.getItemHandler();
 		slots.add(new SlotModule(itemHandler, 0, 56, 35));
-		slots.add(new SlotModule(itemHandler, 1, 116, 35));
-		slots.add(new SlotModule(itemHandler, 2, 134, 35));
-		slots.add(new SlotModule(itemHandler, 3, 116, 65));
-		slots.add(new SlotModule(itemHandler, 4, 134, 65));
+		slots.add(new SlotModule(itemHandler, 1, 116, 26));
+		slots.add(new SlotModule(itemHandler, 2, 134, 26));
+		slots.add(new SlotModule(itemHandler, 3, 116, 44));
+		slots.add(new SlotModule(itemHandler, 4, 134, 44));
 	}
 
 	@SideOnly(Side.CLIENT)

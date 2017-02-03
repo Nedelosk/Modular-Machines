@@ -21,8 +21,9 @@ public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 	public ContainerModuleLogic(IModuleLogic moduleLogic, InventoryPlayer inventory) {
 		super(moduleLogic, inventory);
 		this.inventory = inventory;
-		this.currentPage.setContainer(this);
 		this.guiLogic = new ModuleGuiLogic(moduleLogic);
+		this.currentPage = guiLogic.getCurrentPage();
+		this.currentPage.setContainer(this);
 		addInventory(inventory);
 		addSlots(inventory);
 	}

@@ -260,7 +260,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 			if (input != null) {
 				input = input.copy();
 			}
-			inputs[index] = new RecipeItem(index, input);
+			inputs[index] = new RecipeItem(input);
 		}
 		return inputs;
 	}
@@ -294,14 +294,16 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		if (recipe == null) {
 			return false;
 		}
-		for (RecipeItem recipeInput : recipe.getInputItems()) {
+		RecipeItem[] items = recipe.getInputItems();
+		for (int i = 0;i < items.length;i++) {
+			RecipeItem recipeInput = items[i];
 			if (recipeInput != null) {
 				if (recipeInput.isOre()) {
-					if (extractItem(recipeInput.index, recipeInput.ore.stackSize, simulate).isEmpty()) {
+					if (extractItem(i, recipeInput.ore.stackSize, simulate).isEmpty()) {
 						return false;
 					}
 				} else if (recipeInput.isItem()) {
-					if (extractItem(recipeInput.index, recipeInput.item.getCount(), simulate).isEmpty()) {
+					if (extractItem(i, recipeInput.item.getCount(), simulate).isEmpty()) {
 						return false;
 					}
 				}

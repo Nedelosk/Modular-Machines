@@ -59,7 +59,7 @@ public class PacketSelectModule extends PacketModule {
 				Module module = logic.getModule(index);
 				guiLogic.setCurrentPage(module.getPage(0), false);
 				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, index), pos, world);
-				ContainerUtil.openGuiSave(logic);
+				ContainerUtil.openGuiSave(logic, 1);
 			}
 		}
 		

@@ -10,4 +10,6 @@ public interface ILocatable {
 	/** Must not be named "getWorldObj" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	World getWorldObj();
 	
+	void markLocatableDirty();
+	
 }

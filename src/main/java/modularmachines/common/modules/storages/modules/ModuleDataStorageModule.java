@@ -37,7 +37,7 @@ public class ModuleDataStorageModule extends ModuleData {
 			for(int i = 0;i < itemHandler.getSlots();i++){
 				Module module = ModuleHelper.createModule(moduleStorage, itemHandler.getStackInSlot(i));
 				if(module != null){
-					modules.set(i, module);
+					modules.add(module);
 				}
 			}
 		}

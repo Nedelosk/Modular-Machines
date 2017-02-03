@@ -18,6 +18,7 @@ public class ItemStackHandlerPage extends ItemStackHandler {
     	if(page.wasInitialized() && slot == 0){
     		assembler.updatePages();
     	}
+    	assembler.getLocatable().markLocatableDirty();
     }
     
 	@Override

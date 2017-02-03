@@ -3,6 +3,8 @@ package modularmachines.api.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
@@ -16,6 +18,9 @@ public class ModuleRegistry {
 	
 	@CapabilityInject(IAssembler.class)
 	public static Capability<IAssembler> ASSEMBLER;
+	
+	@Nullable
+	public static IModuleHelper helper;
 	
 	private static final List<IModuleContainer> CONTAINERS = new ArrayList<>();
 	

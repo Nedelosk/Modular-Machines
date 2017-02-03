@@ -21,6 +21,14 @@ public class RecipeRegistry {
 		}
 		return handler.getRecipes().remove(recipe);
 	}
+	
+	public static void registerRecipe(IRecipe recipe){
+		IRecipeHandler handler = getRecipeHandler(recipe.getRecipeCategory());
+		if (handler == null) {
+			return;
+		}
+		handler.addRecipe(recipe);
+	}
 
 	/**
 	 * @param testSizeSame
@@ -77,12 +85,13 @@ public class RecipeRegistry {
 	/**
 	 * Register a recipe handler for a recipeCategory.
 	 */
-	public static void registerRecipeHandler(IRecipeHandler handler) {
+	public static IRecipeHandler registerRecipeHandler(IRecipeHandler handler) {
 		String recipeCategory = handler.getRecipeCategory();
 		if (handlers.containsKey(recipeCategory)) {
-			return;
+			return handlers.get(recipeCategory);
 		}
 		handlers.put(recipeCategory, handler);
+		return handler;
 	}
 
 	/**

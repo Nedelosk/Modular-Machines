@@ -48,7 +48,7 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 		if(source.hasChange()){
 			ILocatable locatable = source.getLocatable();
 			if(locatable != null){
-				ContainerUtil.openGuiSave(source);
+				ContainerUtil.openGuiSave(source, 0);
 				source.setHasChange(false);
 			}
 		}

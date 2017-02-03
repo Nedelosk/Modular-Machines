@@ -4,7 +4,7 @@ import java.util.List;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
-import modularmachines.common.containers.ContainerAssembler;
+import modularmachines.common.containers.BaseContainer;
 import modularmachines.common.core.ModularMachines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -178,8 +178,8 @@ public class ContainerUtil {
 	/**
 	 * Open a gui and transfer the held item of the players.
 	 */
-	public static void openGuiSave(ILocatableSource source){
-		openOrCloseGuiSave(source, true);
+	public static void openGuiSave(ILocatableSource source, int guiID){
+		openOrCloseGuiSave(source, guiID, true);
 	}
 	
 	public static EntityPlayer getPlayer(Container container){
@@ -191,7 +191,7 @@ public class ContainerUtil {
 		return null;
 	}
 	
-	public static void openOrCloseGuiSave(ILocatableSource source, boolean openGui){
+	public static void openOrCloseGuiSave(ILocatableSource source, int guiID, boolean openGui){
 		ILocatable locatable = source.getLocatable();
 		if(locatable != null){
 			World world = locatable.getWorldObj();
@@ -203,8 +203,8 @@ public class ContainerUtil {
 						continue;
 					}
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					if (player.openContainer instanceof ContainerAssembler) {
-						ContainerAssembler container = (ContainerAssembler) player.openContainer;
+					if (player.openContainer instanceof BaseContainer) {
+						BaseContainer container = (BaseContainer) player.openContainer;
 						if (container.getSource() == source) {
 							if(!openGui){
 								player.closeScreen();
@@ -215,7 +215,7 @@ public class ContainerUtil {
 									itemStack = inv.getItemStack();
 									inv.setItemStack(ItemUtil.empty());
 								}
-								player.openGui(ModularMachines.instance, 0, world, position.getX(), position.getY(), position.getZ());
+								player.openGui(ModularMachines.instance, guiID, world, position.getX(), position.getY(), position.getZ());
 								if (!itemStack.isEmpty()) {
 									inv.setItemStack(itemStack);
 									playerMP.connection.sendPacket(new SPacketSetSlot(-1, -1, itemStack));

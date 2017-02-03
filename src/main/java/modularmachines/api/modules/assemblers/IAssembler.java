@@ -27,6 +27,8 @@ public interface IAssembler extends IGuiProvider {
 	
 	void disassemble(IModuleLogic logic, EntityPlayer player);
 	
+	void clear();
+	
 	IStoragePage getPage(IStoragePosition position);
 	
 	List<AssemblerError> canAssemble();

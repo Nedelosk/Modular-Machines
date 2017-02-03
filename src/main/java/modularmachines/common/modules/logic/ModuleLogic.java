@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Preconditions;
-
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
@@ -44,12 +43,18 @@ public class ModuleLogic implements IModuleLogic {
 	
 	protected final Map<String, LogicComponent> componentMap;
 	protected final List<IStorage> storages = new ArrayList<>();
+	protected final List<IStoragePosition> positions;
 	protected final ILocatable locatable;
 	
-	public ModuleLogic(ILocatable locatable) {
+	public ModuleLogic(ILocatable locatable, List<IStoragePosition> positions) {
+		Preconditions.checkNotNull(locatable);
+		Preconditions.checkNotNull(positions);
 		this.locatable = locatable;
+		this.positions = positions;
 		this.componentMap = new LinkedHashMap<>();
 		addComponent(LogicComponent.ENERGY, new EnergyStorageComponent());
+		addComponent(LogicComponent.UPDATE, new UpdateComponent());
+		addComponent(LogicComponent.HEAT, new HeatComponent());
 	}
 	
 	@Override
@@ -78,8 +83,9 @@ public class ModuleLogic implements IModuleLogic {
     	NBTTagList storageList = new NBTTagList();
     	for(IStorage storage : storages){
     		NBTTagCompound tag = new NBTTagCompound();
-    		tag.setString("ModuleData", storage.getModule().getData().getRegistryName().toString());
-    		tag.setInteger("Pos", getValidPositions().indexOf(storage.getPosition()));
+    		Module module = storage.getModule();
+    		tag.setString("ModuleData", module.getData().getRegistryName().toString());
+    		tag.setInteger("Pos", positions.indexOf(storage.getPosition()));
     		storage.writeToNBT(tag);
     	}
     	compound.setTag("Storages", storageList);
@@ -92,7 +98,7 @@ public class ModuleLogic implements IModuleLogic {
     	for(int i = 0;i < storageList.tagCount();i++){
     		NBTTagCompound tag = storageList.getCompoundTagAt(i);
     		String registryName = tag.getString("ModuleData");
-    		IStoragePosition position = getValidPositions().get(tag.getInteger("Pos"));
+    		IStoragePosition position = positions.get(tag.getInteger("Pos"));
     		ModuleData moduleData = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(registryName));
     		IStorage storage = moduleData.createStorage(this, position, null);
     		if(storage != null){
@@ -128,7 +134,7 @@ public class ModuleLogic implements IModuleLogic {
 	public void assemble(IAssembler assembler, EntityPlayer player) {
 		int currentIndex = 0;
 		for (IStoragePage page : assembler.getPages()) {
-			if (page != null) {
+			if (!page.isEmpty()) {
 				IStorage storage = page.assemble(assembler, this);
 				if (storage != null) {
 					for (Module module : storage.getStorage().getModules()) {
@@ -144,26 +150,30 @@ public class ModuleLogic implements IModuleLogic {
 			}
 		}
 		onAssembled();
-		if(locatable != null){
-			World world = locatable.getWorldObj();
-			BlockPos pos = locatable.getCoordinates();
-			if (world.isRemote) {
-				world.markBlockRangeForRenderUpdate(pos, pos);
-			} else {
-				if(world instanceof WorldServer){
-					WorldServer server = (WorldServer) world;
-					PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, true), pos, server);
-					IBlockState blockState = server.getBlockState(pos);
-					server.notifyBlockUpdate(pos, blockState, blockState, 3);
-					ContainerUtil.openOrCloseGuiSave(this, !ModuleHelper.getPageModules(this).isEmpty());
-				}
+		assembler.clear();
+		World world = locatable.getWorldObj();
+		BlockPos pos = locatable.getCoordinates();
+		if (world.isRemote) {
+			world.markBlockRangeForRenderUpdate(pos, pos);
+		} else {
+			if(world instanceof WorldServer){
+				WorldServer server = (WorldServer) world;
+				PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, true), pos, server);
+				IBlockState blockState = server.getBlockState(pos);
+				server.notifyBlockUpdate(pos, blockState, blockState, 3);
+				ContainerUtil.openOrCloseGuiSave(assembler, 1, !ModuleHelper.getPageModules(this).isEmpty());
 			}
 		}
+	}
+	
+	@Override
+	public void clear() {
+		storages.clear();
 	}
 
 	@Override
 	public List<IStoragePosition> getValidPositions() {
-		return null;
+		return positions;
 	}
 	
 	@Override

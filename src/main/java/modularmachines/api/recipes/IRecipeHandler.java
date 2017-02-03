@@ -9,7 +9,7 @@ public interface IRecipeHandler<R extends IRecipe> {
 	 */
 	boolean isRecipeValid(R recipe);
 
-	boolean registerRecipe(R recipe);
+	boolean addRecipe(R recipe);
 
 	boolean removeRecipe(R recipe);
 

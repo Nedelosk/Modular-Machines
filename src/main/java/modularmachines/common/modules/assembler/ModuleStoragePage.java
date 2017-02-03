@@ -47,7 +47,7 @@ public class ModuleStoragePage extends StoragePage {
 				}
 			} else if (size == EnumModuleSizes.LARGE) {
 				for (int i = 0; i < 3; ++i) {
-					slots.add(new SlotAssembler(assembler, container, i, 98, 17 + i * 18, this, storageSlot));
+					slots.add(new SlotAssembler(assembler, container, i + 1, 98, 17 + i * 18, this, storageSlot));
 				}
 			}
 		}

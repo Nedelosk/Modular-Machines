@@ -1,8 +1,11 @@
 package modularmachines.common.modules.logic;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
@@ -18,6 +21,10 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	
 	public ModuleGuiLogic(IModuleLogic logic) {
 		this.logic = logic;
+		List<Module> modules = ModuleHelper.getPageModules(logic);
+		if(!modules.isEmpty()){
+			setCurrentPage(modules.get(0).getPage(0), false);
+		}
 	}
     
     public boolean canOpenGui(){

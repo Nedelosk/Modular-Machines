@@ -25,7 +25,7 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	public TileEntityMachine() {
 		List<IStoragePosition> positions = EnumStoragePosition.getValidPositions();
 		this.assembler = new Assembler(this, positions);
-		this.logic = new ModuleLogic(this);
+		this.logic = new ModuleLogic(this, positions);
 	}
 	
 	@Override
@@ -45,12 +45,17 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	
 	@Override
 	public BlockPos getCoordinates() {
-		return getPos();
+		return pos;
 	}
 
 	@Override
 	public World getWorldObj() {
 		return world;
+	}
+	
+	@Override
+	public void markLocatableDirty() {
+		markDirty();
 	}
 	
 	@Override
@@ -68,6 +73,10 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 		facing = EnumFacing.VALUES[compound.getShort("Facing")];
 		assembler.readFromNBT(compound.getCompoundTag("Assembler"));
 		logic.readFromNBT(compound.getCompoundTag("Logic"));
+	}
+	
+	public boolean isAssembled(){
+		return logic != null && !logic.getStorages().isEmpty();
 	}
 	
 	@Override

@@ -3,6 +3,8 @@ package modularmachines.common.blocks;
 import java.util.Collections;
 import java.util.List;
 
+import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
@@ -96,15 +98,18 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack heldItem = player.getHeldItem(hand);
 		TileEntityMachine tile = TileUtil.getTile(world, pos, TileEntityMachine.class);
-		if (tile != null) {
-			if (tile.logic != null || tile.assembler != null) {
-				if (!world.isRemote) {
-					player.openGui(ModularMachines.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		if (tile != null && TileUtil.isUsableByPlayer(player, tile)) {
+			if(tile.isAssembled()){
+				IModuleLogic logic = tile.logic;
+				if(ModuleHelper.getPageModules(logic).isEmpty()){
+					return false;
 				}
-				return true;
 			}
+			if (!world.isRemote) {
+				player.openGui(ModularMachines.instance, tile.isAssembled() ? 1: 0, world, pos.getX(), pos.getY(), pos.getZ());
+			}
+			return true;
 		}
 		return false;
 	}
@@ -262,7 +267,7 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 		if (tile != null) {
 			if (tile.getFacing() != axis) {
 				tile.setFacing(axis);
-				tile.markDirty();
+				tile.markLocatableDirty();
 				world.markBlockRangeForRenderUpdate(pos, pos);
 				return true;
 			}

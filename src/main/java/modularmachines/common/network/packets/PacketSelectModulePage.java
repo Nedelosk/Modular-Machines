@@ -58,7 +58,7 @@ public class PacketSelectModulePage extends PacketModule {
 				int pageIndex = data.readVarInt();
 				guiLogic.setCurrentPage(module.getPage(pageIndex), false);
 				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, pageIndex), pos, world);
-				ContainerUtil.openGuiSave(logic);
+				ContainerUtil.openGuiSave(logic, 1);
 			}
 		}
 	}

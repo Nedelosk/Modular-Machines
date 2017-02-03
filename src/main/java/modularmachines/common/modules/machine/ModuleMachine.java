@@ -1,6 +1,5 @@
 package modularmachines.common.modules.machine;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -102,12 +101,9 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 			return null;
 		}
 		testRecipes: for (R recipe : recipes) {
-			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
-			for (RecipeItem recipeInput : recipe.getInputItems().clone()) {
-				recipeInputs.add(recipeInput);
-			}
-			for (int i = 0; i < recipeInputs.size(); i++) {
-				RecipeItem recipeInput = recipeInputs.get(i);
+			RecipeItem[] recipeInputs = recipe.getInputItems();
+			for (int i = 0; i < recipeInputs.length; i++) {
+				RecipeItem recipeInput = recipeInputs[i];
 				RecipeItem machineInput = inputs[i];
 				if (recipeInput == null || machineInput == null) {
 					continue testRecipes;
@@ -134,30 +130,18 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		return null;
 	}
 
-	public boolean isRecipeInput(RecipeItem item) {
+	public boolean isRecipeInput(int index, RecipeItem item) {
 		List<R> recipes = getRecipes();
 		if (recipes == null || item == null) {
 			return false;
 		}
 		for (R recipe : recipes) {
-			ArrayList<RecipeItem> recipeInputs = new ArrayList<>();
-			for (RecipeItem recipeInput : recipe.getInputItems().clone()) {
-				recipeInputs.add(recipeInput);
+			RecipeItem[] items = recipe.getInputItems();
+			if(index >= items.length){
+				continue;
 			}
-			if (recipeInputs.isEmpty()) {
-				return false;
-			}
-			for (int i = 0; i < recipeInputs.size(); i++) {
-				RecipeItem recipeInput = recipeInputs.get(i);
-				if (recipeInput == null) {
-					continue;
-				}
-				if (recipeInput.index != item.index) {
-					continue;
-				}
-				if (RecipeRegistry.itemEqualsItem(recipeInput, item, false)) {
-					return true;
-				}
+			if (RecipeRegistry.itemEqualsItem(items[index], item, false)) {
+				return true;
 			}
 		}
 		return false;

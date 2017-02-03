@@ -1,5 +1,6 @@
 package modularmachines.common.core;
 import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.core.managers.FluidManager;
@@ -8,6 +9,7 @@ import modularmachines.common.core.managers.ModuleManager;
 import modularmachines.common.core.managers.OreDictionaryManager;
 import modularmachines.common.event.EventHandler;
 import modularmachines.common.modules.ModuleDefinition;
+import modularmachines.common.modules.ModuleHelper;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.PluginManager;
 import net.minecraft.util.ResourceLocation;
@@ -44,6 +46,7 @@ public class ModularMachines {
 		registryBuilder.setName(new ResourceLocation("modularmachines:modulecontainers"));
 		registryBuilder.setType(ModuleData.class);
 		DATAS = registryBuilder.create();
+		ModuleRegistry.helper = new ModuleHelper();
 	}
 	
 	@Mod.EventHandler

@@ -28,12 +28,12 @@ public class FilterMachine<O> implements IContentFilter<O, ModuleMachine> {
 		}
 		RecipeItem recipeItem = null;
 		if (content instanceof ItemStack) {
-			recipeItem = new RecipeItem(index, (ItemStack) content);
+			recipeItem = new RecipeItem((ItemStack) content);
 		} else if (content instanceof FluidStack) {
-			recipeItem = new RecipeItem(index, (FluidStack) content);
+			recipeItem = new RecipeItem((FluidStack) content);
 		} else {
 			return false;
 		}
-		return module.isRecipeInput(recipeItem);
+		return module.isRecipeInput(index, recipeItem);
 	}
 }

@@ -1,7 +1,6 @@
 package modularmachines.common.modules.assembler;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -9,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
@@ -26,9 +27,9 @@ import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.GuiAssembler;
 import modularmachines.common.config.Config;
 import modularmachines.common.containers.ContainerAssembler;
-import modularmachines.common.core.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
+import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ItemUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -54,17 +55,15 @@ public class Assembler implements IAssembler {
 	protected IStoragePosition selectedPosition;
 	protected ILocatable locatable;
 	
-	public Assembler(ILocatable locatable, List<IStoragePosition> positions, NBTTagCompound compound) {
-		this(locatable, positions);
-		readFromNBT(compound);
-	}
-	
 	public Assembler(ILocatable locatable, List<IStoragePosition> positions) {
 		this(locatable, positions, new LinkedHashMap<>());
 		createEmptyPages();
 	}
 
 	public Assembler(ILocatable locatable, List<IStoragePosition> positions, Map<IStoragePosition, IStoragePage> pages) {
+		Preconditions.checkNotNull(locatable);
+		Preconditions.checkNotNull(positions);
+		Preconditions.checkNotNull(pages);
 		this.locatable = locatable;
 		this.pages = pages;
 		this.positions = positions;
@@ -144,9 +143,6 @@ public class Assembler implements IAssembler {
 	
 	@Override
 	public void disassemble(IModuleLogic logic, EntityPlayer player) {
-		pages.clear();
-		createEmptyPages();
-		Map<IStoragePosition, IStoragePage> pages = new HashMap<>();
 		for (IStoragePosition position : positions) {
 			IStorage storage = logic.getStorage(position);
 			if (storage != null) {
@@ -166,24 +162,27 @@ public class Assembler implements IAssembler {
 				pages.put(position, new EmptyStoragePage(this, position));
 			}
 		}
-		if(locatable != null){
-			World world = locatable.getWorldObj();
-			BlockPos pos = locatable.getCoordinates();
-			if (world.isRemote) {
-				world.markBlockRangeForRenderUpdate(pos, pos);
-			} else {
-				if(world instanceof WorldServer){
-					//TODO: markDirty
-					//modularHandler.markDirty();
-					WorldServer server = (WorldServer) world;
-					IBlockState blockState = server.getBlockState(pos);
-					
-					PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, false), pos, server);
-					server.notifyBlockUpdate(pos, blockState, blockState, 3);
-					player.openGui(ModularMachines.instance, 0, server, pos.getX(), pos.getY(), pos.getZ());
-				}
+		logic.clear();
+		World world = locatable.getWorldObj();
+		BlockPos pos = locatable.getCoordinates();
+		if (world.isRemote) {
+			world.markBlockRangeForRenderUpdate(pos, pos);
+		} else {
+			if(world instanceof WorldServer){
+				WorldServer server = (WorldServer) world;
+				IBlockState blockState = server.getBlockState(pos);
+				
+				PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, false), pos, server);
+				server.notifyBlockUpdate(pos, blockState, blockState, 3);
+				ContainerUtil.openOrCloseGuiSave(logic, 0, true);
 			}
 		}
+	}
+	
+	@Override
+	public void clear() {
+		pages.clear();
+		createEmptyPages();
 	}
 
 	protected void isToComplex(List<AssemblerError> errors) {
@@ -268,8 +267,6 @@ public class Assembler implements IAssembler {
 				pages.put(position, createPage(itemStack, position, page));
 			}
 		}
-		//TODO: markDirty
-		//modularHandler.markDirty();
 	}
 	
 	public IStoragePage createPage(ItemStack itemStack, IStoragePosition position, @Nullable IStoragePage oldPage){
