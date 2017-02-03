@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.List;
 
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.modules.ModuleBurning;
+import modularmachines.common.modules.IModuleBurning;
 import modularmachines.common.utils.Mod;
 import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 
-public class WidgetBurning<M extends ModuleBurning> extends Widget<IModuleLogic> {
+public class WidgetBurning<M extends IModuleBurning> extends Widget<IModuleLogic> {
 
 	protected M module;
 	
@@ -34,9 +34,9 @@ public class WidgetBurning<M extends ModuleBurning> extends Widget<IModuleLogic>
 	public void draw(int guiLeft, int guiTop) {
 		RenderUtil.texture(widgetTexture);
 		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 0, 176, pos.width, pos.height);
-		int burnTime = module.getBurnTime();
+		int burnTime = module.getFuel();
 		if (burnTime > 0) {
-			int burnTimeTotal = module.getBurnTimeTotal();
+			int burnTimeTotal = module.getFuelTotal();
 			int fuel = (burnTime * pos.height) / burnTimeTotal;
 			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y + 14 - fuel, 14, 176 + 14 - fuel, pos.width, fuel);
 		}

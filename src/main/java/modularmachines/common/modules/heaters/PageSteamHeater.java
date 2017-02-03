@@ -1,10 +1,27 @@
 package modularmachines.common.modules.heaters;
 
-/*public class PageSteamHeater extends ModulePage {
+import java.awt.Color;
+import java.text.DecimalFormat;
+import java.util.List;
+
+import modularmachines.api.modules.Module;
+import modularmachines.api.modules.energy.IHeatSource;
+import modularmachines.client.gui.widgets.WidgetFluidTank;
+import modularmachines.common.containers.SlotModule;
+import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.pages.ModulePageWidget;
+import modularmachines.common.utils.ModuleUtil;
+import modularmachines.common.utils.Translator;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.inventory.Slot;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class PageSteamHeater extends ModulePageWidget<ModuleHeaterSteam> {
 
 	public static final DecimalFormat FORMATE = new DecimalFormat("#0.00");
 	
-	public PageSteamHeater(Module parent) {
+	public PageSteamHeater(ModuleHeaterSteam parent) {
 		super(parent);
 	}
 
@@ -14,17 +31,21 @@ package modularmachines.common.modules.heaters;
 		super.drawForeground(fontRenderer, mouseX, mouseY);
 		IHeatSource heatSource = ModuleUtil.getHeat(parent.getLogic());
 		String heatName = Translator.translateToLocalFormatted("module.heater.heat", FORMATE.format(heatSource.getHeatStored()));
-		fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2), 45, Color.gray.getRGB());
+		fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2), 45, Color.GRAY.getRGB());
 	}
-
+	
 	@Override
-	public void createInventory(IModuleInventoryBuilder invBuilder) {
-		invBuilder.addInventorySlot(true, 15, 28, "liquid", ItemFilterFluid.get(FluidManager.STEAM));
-		invBuilder.addInventorySlot(false, 15, 48, "container", OutputFilter.INSTANCE);
+	public void createSlots(List<Slot> slots) {
+		super.createSlots(slots);
+		ItemHandlerModule itemHandler = parent.getItemHandler();
+		slots.add(new SlotModule(itemHandler, 0, 15, 28));
+		slots.add(new SlotModule(itemHandler, 0, 15, 48));
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public void createTank(IModuleTankBuilder tankBuilder) {
-		tankBuilder.addFluidTank(16000, true, 80, 18, FluidFilter.get(FluidManager.STEAM));
+	public void addWidgets() {
+		super.addWidgets();
+		addWidget(new WidgetFluidTank(80, 18, parent.getTank()));
 	}
-}*/
+}
