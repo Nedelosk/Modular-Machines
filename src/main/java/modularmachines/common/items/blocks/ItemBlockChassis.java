@@ -23,7 +23,7 @@ import modularmachines.client.model.ModelManager;
 import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.utils.TileUtil;
+import modularmachines.common.utils.WorldUtil;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemBlockChassis extends Item implements IItemModelRegister {
@@ -78,7 +78,7 @@ public class ItemBlockChassis extends Item implements IItemModelRegister {
 		}
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() == this.block) {
-			TileEntityMachine tile = TileUtil.getTile(world, pos, TileEntityMachine.class);
+			TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
 			if (tile == null) {
 				world.setBlockToAir(pos);
 				return false;

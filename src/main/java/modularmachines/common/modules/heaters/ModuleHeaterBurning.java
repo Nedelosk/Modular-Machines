@@ -1,26 +1,18 @@
 package modularmachines.common.modules.heaters;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.reflect.internal.Types.Type.FilterMapForeach;
 import modularmachines.api.modules.IModuleStorage;
-import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.IModuleBurning;
-import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 
 public class ModuleHeaterBurning extends ModuleHeater {
 
 	public final ItemHandlerModule itemHandler;
 	
-	public ModuleHeaterBurning(IModuleStorage storage, double heatOnCycle, int heatModifier) {
-		super(storage, heatOnCycle, heatModifier);
+	public ModuleHeaterBurning(IModuleStorage storage, double maxHeat, int heatModifier) {
+		super(storage, maxHeat, heatModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
 	}
@@ -38,6 +30,7 @@ public class ModuleHeaterBurning extends ModuleHeater {
 		itemHandler.readFromNBT(compound);
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

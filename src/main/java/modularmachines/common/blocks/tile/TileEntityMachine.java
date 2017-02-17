@@ -1,11 +1,13 @@
 package modularmachines.common.blocks.tile;
 
+import java.util.Collection;
 import java.util.List;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.modules.assembler.Assembler;
@@ -26,6 +28,7 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 		List<IStoragePosition> positions = EnumStoragePosition.getValidPositions();
 		this.assembler = new Assembler(this, positions);
 		this.logic = new ModuleLogic(this, positions);
+		this.facing = EnumFacing.NORTH;
 	}
 	
 	@Override
@@ -35,7 +38,10 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 
 	@Override
 	public void updateServer() {
-		
+		Collection<LogicComponent> components = logic.getComponents().values();
+		for(LogicComponent component : components){
+			component.update();
+		}
 	}
 	
 	@Override

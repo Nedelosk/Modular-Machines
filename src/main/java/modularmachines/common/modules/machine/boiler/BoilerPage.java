@@ -28,6 +28,7 @@ public class BoilerPage extends ModulePageWidget<ModuleBoiler> {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
+		super.addWidgets();
 		addWidget(new WidgetFluidTank(55, 15, parent.getTankWater()));
 		addWidget(new WidgetFluidTank(105, 15, parent.getTankSteam()));
 	}

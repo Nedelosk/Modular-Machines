@@ -31,6 +31,7 @@ public class ModulePulverizer extends ModuleKineticMachine {
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		itemHandler.writeToNBT(compound);
 		return compound;
 	}
@@ -56,6 +57,7 @@ public class ModulePulverizer extends ModuleKineticMachine {
 		return MachineCategorys.PULVERIZER;
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

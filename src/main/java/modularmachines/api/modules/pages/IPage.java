@@ -18,9 +18,8 @@ public interface IPage {
 	void setGui(GuiContainer gui);
 
 	@Nullable
+	@SideOnly(Side.CLIENT)
 	Container getContainer();
-
-	void setContainer(Container container);
 
 	@SideOnly(Side.CLIENT)
 	void updateGui();

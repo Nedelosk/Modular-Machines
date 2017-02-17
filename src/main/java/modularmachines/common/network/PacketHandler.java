@@ -25,8 +25,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.common.network.packets.IPacket;
 import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
+import modularmachines.common.network.packets.PacketAddCycle;
 import modularmachines.common.network.packets.PacketAssemblerPosition;
-import modularmachines.common.network.packets.PacketSelectModule;
+import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
@@ -44,8 +45,6 @@ public class PacketHandler {
 		channel.register(this);
 		registerClientPacket(PacketId.ASSEMBLER_POSITION, new PacketAssemblerPosition.Handler());
 		registerServerPacket(PacketId.ASSEMBLER_POSITION, new PacketAssemblerPosition.Handler());
-		registerClientPacket(PacketId.SELECT_MODULE, new PacketSelectModule.Handler());
-		registerServerPacket(PacketId.SELECT_MODULE, new PacketSelectModule.Handler());
 		registerClientPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
 		registerServerPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
 		registerClientPacket(PacketId.SYNC_HANDLER_STATE, new PacketSyncHandlerState.Handler());
@@ -64,6 +63,10 @@ public class PacketHandler {
 		registerServerPacket(new PacketSyncRedstoneMode());
 		registerClientPacket(new PacketSyncPermission());
 		registerServerPacket(new PacketSyncPermission());*/
+		registerClientPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
+		registerServerPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
+		registerClientPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
+		registerServerPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
 		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
 	}
 

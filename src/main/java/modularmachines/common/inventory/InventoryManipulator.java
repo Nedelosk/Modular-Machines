@@ -7,16 +7,14 @@ import modularmachines.common.utils.ItemUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 
-public class ItemHandlerInvManipulator implements Iterable<InvSlot> {
+public class InventoryManipulator implements Iterable<InvSlot> {
 
 	private final IItemHandler inv;
 
-	public ItemHandlerInvManipulator(IItemHandler inv) {
+	public InventoryManipulator(IItemHandler inv) {
 		this.inv = inv;
 	}
 
@@ -45,47 +43,15 @@ public class ItemHandlerInvManipulator implements Iterable<InvSlot> {
 		return addStack(stack, true);
 	}
 
-	public boolean transferOneStack(IItemHandler dest, Predicate<ItemStack> filter) {
-		return transferStacks(dest, filter, true);
-	}
-
-	public boolean transferStacks(IItemHandler dest, Predicate<ItemStack> filter) {
-		return transferStacks(dest, filter, false);
-	}
-
-	private boolean transferStacks(IItemHandler dest, Predicate<ItemStack> filter, boolean singleStack) {
-		ItemHandlerInvManipulator destManipulator = new ItemHandlerInvManipulator(dest);
-		boolean stacksMoved = false;
-		for (int slotIndex = 0; slotIndex < inv.getSlots(); slotIndex++) {
-			ItemStack targetStack = inv.extractItem(slotIndex, Integer.MAX_VALUE, true);
-			if (!targetStack.isEmpty() && filter.test(targetStack)) {
-				int extractStackSize = targetStack.getCount();
-				ItemStack remaining = destManipulator.tryAddStack(targetStack);
-				if (remaining != null) {
-					extractStackSize -= remaining.getCount();
-				}
-				if (extractStackSize > 0) {
-					ItemStack extracted = inv.extractItem(slotIndex, extractStackSize, false);
-					destManipulator.addStack(extracted);
-					stacksMoved = true;
-					if (singleStack) {
-						return true;
-					}
-				}
-			}
-		}
-		return stacksMoved;
-	}
-
 	@Nullable
-	protected ItemStack addStack(ItemStack stack, boolean doAdd) {
+	public ItemStack addStack(ItemStack stack, boolean doAdd) {
 		if (ItemUtil.isEmpty(stack)) {
 			return null;
 		}
 		stack = stack.copy();
 		List<InvSlot> filledSlots = new ArrayList<>(inv.getSlots());
 		List<InvSlot> emptySlots = new ArrayList<>(inv.getSlots());
-		for (InvSlot slot : new ItemHandlerInvManipulator(inv)) {
+		for (InvSlot slot : new InventoryManipulator(inv)) {
 			if (slot.canPutStackInSlot(stack)) {
 				if (ItemUtil.isEmpty(slot.getStackInSlot())) {
 					emptySlots.add(slot);

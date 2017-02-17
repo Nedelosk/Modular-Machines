@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
-import modularmachines.common.modules.logic.ModuleGuiLogic;
+import modularmachines.common.utils.ModuleUtil;
 
 public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 
-	public ModuleGuiLogic guiLogic;
+	public IModuleGuiLogic guiLogic;
 	
 	public InventoryPlayer inventory;
 	public ModulePage currentPage;
@@ -21,9 +21,8 @@ public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 	public ContainerModuleLogic(IModuleLogic moduleLogic, InventoryPlayer inventory) {
 		super(moduleLogic, inventory);
 		this.inventory = inventory;
-		this.guiLogic = new ModuleGuiLogic(moduleLogic);
+		this.guiLogic = ModuleUtil.getGuiLogic(moduleLogic, player);
 		this.currentPage = guiLogic.getCurrentPage();
-		this.currentPage.setContainer(this);
 		addInventory(inventory);
 		addSlots(inventory);
 	}
@@ -32,14 +31,6 @@ public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		currentPage.detectAndSendChanges();
-	}
-
-	@Override
-	public void onContainerClosed(EntityPlayer playerIn) {
-		super.onContainerClosed(playerIn);
-		if (currentPage != null) {
-			currentPage.setContainer(null);
-		}
 	}
 
 	@Override
@@ -70,7 +61,7 @@ public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 		}
 	}
 	
-	public ModuleGuiLogic getGuiLogic() {
+	public IModuleGuiLogic getGuiLogic() {
 		return guiLogic;
 	}
 }

@@ -82,11 +82,12 @@ public class ModuleLogic implements IModuleLogic {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
     	NBTTagList storageList = new NBTTagList();
     	for(IStorage storage : storages){
-    		NBTTagCompound tag = new NBTTagCompound();
+    		NBTTagCompound tagCompound = new NBTTagCompound();
     		Module module = storage.getModule();
-    		tag.setString("ModuleData", module.getData().getRegistryName().toString());
-    		tag.setInteger("Pos", positions.indexOf(storage.getPosition()));
-    		storage.writeToNBT(tag);
+    		tagCompound.setString("ModuleData", module.getData().getRegistryName().toString());
+    		tagCompound.setInteger("Pos", positions.indexOf(storage.getPosition()));
+    		storage.writeToNBT(tagCompound);
+    		storageList.appendTag(tagCompound);
     	}
     	compound.setTag("Storages", storageList);
     	return compound;
@@ -94,15 +95,22 @@ public class ModuleLogic implements IModuleLogic {
     
     @Override
 	public void readFromNBT(NBTTagCompound compound) {
+    	storages.clear();
     	NBTTagList storageList = compound.getTagList("Storages", 10);
     	for(int i = 0;i < storageList.tagCount();i++){
-    		NBTTagCompound tag = storageList.getCompoundTagAt(i);
-    		String registryName = tag.getString("ModuleData");
-    		IStoragePosition position = positions.get(tag.getInteger("Pos"));
+    		NBTTagCompound tagCompound = storageList.getCompoundTagAt(i);
+    		String registryName = tagCompound.getString("ModuleData");
+    		IStoragePosition position = positions.get(tagCompound.getInteger("Pos"));
     		ModuleData moduleData = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(registryName));
     		IStorage storage = moduleData.createStorage(this, position, null);
     		if(storage != null){
+    			storage.readFromNBT(tagCompound);
         		storages.add(storage);
+    		}
+    	}
+    	for(IStorage storage : storages){
+    		for(Module module : storage.getStorage().getModules()){
+    			module.onLoad();
     		}
     	}
     }
@@ -146,7 +154,7 @@ public class ModuleLogic implements IModuleLogic {
 		}
 		for (IStorage storage : storages) {
 			for (Module module : storage.getStorage().getModules()) {
-				module.assembleModule(assembler, this, storage);
+				module.onAssemble(assembler, this, storage);
 			}
 		}
 		onAssembled();

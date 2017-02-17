@@ -43,6 +43,8 @@ public class PacketSyncModule extends PacketModule {
 			World world = player.world;
 			IModuleLogic logic = PacketLocatable.getLogic(data, world);
 			Module module = getModule(logic, data);
+			//page index
+			int page = data.readInt();
 			module.readFromNBT(data.readCompoundTag());
 			//TODO: MODEL SYSTEM
 			/*if (moduleState.getModule().needHandlerReload((IModuleStateClient) moduleState)) {

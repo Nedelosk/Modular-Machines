@@ -126,7 +126,10 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		int posY = mouseY - gui.getGuiTop();
 		Widget widget = getWidgetAtMouse(posX, posY);
 		if (widget != null) {
-			widget.handleMouseClick(mouseX, mouseY, mouseButton);
+			widget.handleMouseClick(posX, posY, mouseButton);
+		}
+		for(Widget w : widgets){
+			w.onMouseClick(posX, posY, mouseButton);
 		}
 	}
 

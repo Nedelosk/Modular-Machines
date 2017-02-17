@@ -10,6 +10,7 @@ import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.core.ModularMachines;
+import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.utils.RenderUtil;
@@ -17,32 +18,21 @@ import modularmachines.common.utils.Translator;
 
 public class WidgetAssembleTab extends Widget {
 
+	protected static final ItemStack ITEM_STACK = new ItemStack(ItemManager.itemChassis);
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	protected final boolean isRight;
-	protected ItemStack itemStack;
 
 	public WidgetAssembleTab(int xPosition, int yPosition, boolean isRight) {
 		super(xPosition, yPosition, 28, 21);
 		this.isRight = isRight;
-		this.itemStack = ItemStack.EMPTY;
-	}
-	
-	public void setItemStack(ItemStack itemStack) {
-		this.itemStack = itemStack;
-	}
-	
-	public ItemStack getItemStack() {
-		return itemStack;
 	}
 
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.texture(guiTexture);
-		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, itemStack.isEmpty() ? 28 : 0, isRight ? 214 : 235, 28, 21);
-		if (!itemStack.isEmpty()) {
-			gui.drawItemStack(itemStack, guiLeft + pos.x + 5, guiLeft + pos.y + 2);
-		}
+		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 0, isRight ? 214 : 235, 28, 21);
+		gui.drawItemStack(ITEM_STACK, guiLeft + pos.x + 5, guiTop + pos.y + 3);
 	}
 
 	@Override

@@ -58,7 +58,6 @@ public class ModuleStorage implements IModuleStorage {
     		NBTTagCompound tagCompound = new NBTTagCompound();
     		module.writeToNBT(tagCompound);
     		tagCompound.setString("Data", module.getData().getRegistryName().toString());
-    		tagCompound.setInteger("Position", i);
     		tagList.appendTag(tagCompound);
     	}
     	compound.setTag("Modules", tagList);
@@ -66,15 +65,15 @@ public class ModuleStorage implements IModuleStorage {
     }
     
     public void readFromNBT(NBTTagCompound compound){
+    	modules.clear();
     	NBTTagList tagList = compound.getTagList("Modules", 10);
     	for(int i = 0;i < tagList.tagCount();i++){
     		NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
     		String registryName = tagCompound.getString("Data");
     		ModuleData data = ModularMachines.DATAS.getValue(new ResourceLocation(registryName));
-    		int position = tagCompound.getInteger("Position");
     		Module module = data.createModule(this);
     		module.readFromNBT(tagCompound);
-    		modules.set(position, module);
+    		modules.add(module);
     	}
     }
 

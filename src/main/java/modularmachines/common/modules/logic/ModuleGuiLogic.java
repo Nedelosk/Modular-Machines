@@ -26,6 +26,20 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 			setCurrentPage(modules.get(0).getPage(0), false);
 		}
 	}
+	
+	public ModuleGuiLogic(IModuleLogic logic, int moduleIndex, int pageIndex) {
+		this.logic = logic;
+		List<Module> modules = ModuleHelper.getPageModules(logic);
+		if(!modules.isEmpty()){
+			if(moduleIndex < 0){
+				moduleIndex = modules.get(0).getIndex();
+			}
+			if(pageIndex < 0){
+				pageIndex = 0;
+			}
+			setCurrentPage(logic.getModule(moduleIndex).getPage(pageIndex), false);
+		}
+	}
     
     public boolean canOpenGui(){
     	return currentModule == null || currentPage == null;
@@ -37,7 +51,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
     		this.currentModule = page.getParent();
     		this.currentPage = page;
     		if(sendToServer){
-    			PacketHandler.sendToServer(new PacketSelectModulePage(logic, page.getIndex()));
+    			PacketHandler.sendToServer(new PacketSelectModulePage(logic, page));
     		}
     	}else{
     		this.currentModule = null;

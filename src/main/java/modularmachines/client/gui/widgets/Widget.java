@@ -1,6 +1,7 @@
 package modularmachines.client.gui.widgets;
 
 import java.awt.Rectangle;
+import java.util.Collections;
 import java.util.List;
 
 import modularmachines.api.IGuiProvider;
@@ -46,7 +47,7 @@ public abstract class Widget<S extends ILocatableSource> {
 	}
 
 	public List<String> getTooltip() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	public boolean isMouseOver(int x, int y) {
@@ -54,6 +55,10 @@ public abstract class Widget<S extends ILocatableSource> {
 	}
 
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+	}
+	
+	public void onMouseClick(int mouseX, int mouseY, int mouseButton){
+		
 	}
 
 	public boolean isFocused() {

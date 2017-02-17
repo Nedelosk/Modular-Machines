@@ -23,6 +23,7 @@ public class PageBurningHeater extends ModulePageWidget<ModuleHeaterBurning> {
 		super(parent);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addWidgets(){
 		super.addWidgets();

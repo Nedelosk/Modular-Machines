@@ -1,28 +1,13 @@
 package modularmachines.common.modules.heaters;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.EnumWallType;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.IModuleBurning;
-import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncModule;
@@ -30,14 +15,14 @@ import modularmachines.common.utils.ModuleUtil;
 
 public abstract class ModuleHeater extends Module implements ITickable, IModuleBurning{
 
-	protected final double heatOnCycle;
+	protected final double maxHeat;
 	protected final int heatModifier;
 	protected int fuel;
 	protected int fuelTotal;
 	
-	public ModuleHeater(IModuleStorage storage, double heatOnCycle, int heatModifier) {
+	public ModuleHeater(IModuleStorage storage, double maxHeat, int heatModifier) {
 		super(storage);
-		this.heatOnCycle = heatOnCycle;
+		this.maxHeat = maxHeat;
 		this.heatModifier = heatModifier;
 	}
 	
@@ -72,7 +57,7 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 			boolean needUpdate = false;
 			if (canAddHeat()) {
 				IHeatSource buffer = ModuleUtil.getHeat(logic);
-				buffer.increaseHeat(heatOnCycle, heatModifier);
+				buffer.increaseHeat(maxHeat, heatModifier);
 				afterAddHeat();
 				needUpdate = true;
 			} else {

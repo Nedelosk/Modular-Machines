@@ -1,0 +1,53 @@
+package modularmachines.client.gui.widgets;
+
+import java.util.List;
+
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.modules.transfer.ITransferCycle;
+import modularmachines.common.modules.transfer.ModuleTransfer;
+import modularmachines.common.modules.transfer.ModuleTransferPage;
+import modularmachines.common.modules.transfer.items.ItemTransferCycle;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketRemoveCycle;
+import modularmachines.common.utils.RenderUtil;
+import net.minecraft.client.renderer.GlStateManager;
+
+public class WidgetTransferButton<H> extends Widget {
+
+	public boolean addButton;
+	public ModuleTransferPage<ModuleTransfer<H>, H> transferPage;
+	
+	public WidgetTransferButton(int posX, int posY, boolean addButton, ModuleTransferPage<ModuleTransfer<H>, H> transferPage) {
+		super(posX, posY, 18, 18);
+		this.addButton = addButton;
+		this.transferPage = transferPage;
+	}
+	
+	@Override
+	public void draw(int guiLeft, int guiTop) {
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderUtil.texture(widgetTexture);
+		if(addButton){
+			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 166, 18, 18, 18);
+		}else{
+			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 184, 18, 18, 18);
+		}
+	}
+	
+	@Override
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		ModularMachines.proxy.playButtonClick();
+		if(addButton){
+			transferPage.addCycle();
+		}else{
+			WidgetTransfer widget = transferPage.selectedWidget;
+			if(widget != null){
+				ModuleTransfer module = transferPage.getParent();
+				List<ITransferCycle> cycles = module.getTransferCycles();
+				PacketHandler.sendToServer(new PacketRemoveCycle(transferPage.getParent(), cycles.indexOf(widget.cycle)));
+			}
+		}
+		
+	}
+
+}

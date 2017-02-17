@@ -39,6 +39,7 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		itemHandler.writeToNBT(compound);
 		setCurrentMode(compound.getInteger("Mode"));
 		return compound;
@@ -54,6 +55,7 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 		return itemHandler.getInputs();
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

@@ -10,7 +10,7 @@ import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.core.ModularMachines;
-import modularmachines.common.utils.TileUtil;
+import modularmachines.common.utils.WorldUtil;
 import modularmachines.common.utils.content.IClientContentHandler;
 import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.BlockContainer;
@@ -98,8 +98,8 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		TileEntityMachine tile = TileUtil.getTile(world, pos, TileEntityMachine.class);
-		if (tile != null && TileUtil.isUsableByPlayer(player, tile)) {
+		TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
+		if (tile != null && WorldUtil.isUsableByPlayer(player, tile)) {
 			if(tile.isAssembled()){
 				IModuleLogic logic = tile.logic;
 				if(ModuleHelper.getPageModules(logic).isEmpty()){
@@ -263,7 +263,7 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-		TileEntityMachine tile = TileUtil.getTile(world, pos, TileEntityMachine.class);
+		TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
 		if (tile != null) {
 			if (tile.getFacing() != axis) {
 				tile.setFacing(axis);

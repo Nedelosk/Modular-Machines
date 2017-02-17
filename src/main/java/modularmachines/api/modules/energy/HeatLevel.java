@@ -18,7 +18,7 @@ public class HeatLevel implements Comparable<HeatLevel> {
 	}
 	
 	public void setIndex(int index) {
-		if(index < 0){
+		if(index >= 0){
 			this.index = index;
 		}
 	}

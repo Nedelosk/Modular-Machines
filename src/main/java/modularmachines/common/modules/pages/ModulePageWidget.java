@@ -2,6 +2,8 @@ package modularmachines.common.modules.pages;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.pages.ModulePage;
@@ -14,6 +16,7 @@ import modularmachines.client.gui.widgets.WidgetPageTab;
 import modularmachines.common.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
@@ -24,8 +27,23 @@ public class ModulePageWidget<P extends Module> extends ModulePage<P> {
 
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 
+	@SideOnly(Side.CLIENT)
+	@Nullable
+	public WidgetManager widgetManager;
+	
 	public ModulePageWidget(P parent) {
 		super(parent);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void setGui(GuiContainer gui){
+		super.setGui(gui);
+		if(gui instanceof GuiModuleLogic){
+			widgetManager = ((GuiModuleLogic) gui).getWidgetManager();
+		}else{
+			widgetManager = null;
+		}
 	}
 	
 	@Override
@@ -54,7 +72,6 @@ public class ModulePageWidget<P extends Module> extends ModulePage<P> {
 	
 	public void addWidget(Widget widget){
 		if(gui instanceof GuiModuleLogic){
-			WidgetManager widgetManager = ((GuiModuleLogic) gui).getWidgetManager();
 			widgetManager.add(widget);
 		}
 	}
@@ -78,7 +95,7 @@ public class ModulePageWidget<P extends Module> extends ModulePage<P> {
 	@Override
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 		if (renderPageTitle() && getPageTitle() != null) {
-			fontRenderer.drawString(getPageTitle(), 90 - (fontRenderer.getStringWidth(getPageTitle()) / 2), 6, 4210752);
+			fontRenderer.drawString(getPageTitle(), gui.xSize / 2 - (fontRenderer.getStringWidth(getPageTitle()) / 2), 6, 4210752);
 		}
 	}
 	

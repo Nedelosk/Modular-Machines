@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
@@ -23,8 +24,8 @@ public class PacketSelectModulePage extends PacketModule {
 	public PacketSelectModulePage() {
 	}
 
-	public PacketSelectModulePage(IModuleLogic logic, int pageIndex) {
-		super(logic, -1, pageIndex);
+	public PacketSelectModulePage(IModuleLogic logic, ModulePage page) {
+		super(logic, page.getParent().getIndex(), page.getIndex());
 	}
 
 	@Override
@@ -39,11 +40,12 @@ public class PacketSelectModulePage extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
-				Module module = guiLogic.getCurrentModule();
-				int pageIndex = data.readVarInt();
-				guiLogic.setCurrentPage(module.getPage(pageIndex), false);
+				Module module = getModule(ModuleUtil.getLogic(pos, world), data);
+				int pageIndex = data.readInt();
+				ModulePage page = module.getPage(pageIndex);
+				guiLogic.setCurrentPage(page, false);
 			}
 		}
 	
@@ -51,13 +53,14 @@ public class PacketSelectModulePage extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			WorldServer world = player.getServerWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
 				IModuleLogic logic = guiLogic.getLogic();
-				Module module = guiLogic.getCurrentModule();
-				int pageIndex = data.readVarInt();
-				guiLogic.setCurrentPage(module.getPage(pageIndex), false);
-				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, pageIndex), pos, world);
+				Module module = getModule(logic, data);
+				int pageIndex = data.readInt();
+				ModulePage page = module.getPage(pageIndex);
+				guiLogic.setCurrentPage(page, false);
+				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, page), pos, world);
 				ContainerUtil.openGuiSave(logic, 1);
 			}
 		}

@@ -17,6 +17,7 @@ public class ModulePage<P extends Module> implements IPage {
 
 	@SideOnly(Side.CLIENT)
 	protected GuiContainer gui;
+	@SideOnly(Side.CLIENT)
 	protected Container container;
 	protected int index = -1;
 	protected final P parent;
@@ -26,7 +27,7 @@ public class ModulePage<P extends Module> implements IPage {
 	}
 	
 	public void setIndex(int index) {
-		if(index < 0){
+		if(index <= 0){
 			this.index = index;
 		}
 	}
@@ -64,6 +65,11 @@ public class ModulePage<P extends Module> implements IPage {
 	@SideOnly(Side.CLIENT)
 	public void setGui(GuiContainer gui){
 		this.gui = gui;
+		if(gui != null) {
+			this.container = gui.inventorySlots;
+		}else{
+			this.container = null;
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -136,11 +142,6 @@ public class ModulePage<P extends Module> implements IPage {
 	@Override
 	public void detectAndSendChanges(){
 		
-	}
-	
-	@Override
-	public void setContainer(Container container) {
-		this.container = container;
 	}
 	
 	@Override

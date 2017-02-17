@@ -24,8 +24,8 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	public ModuleEngineSteam(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
 		super(storage, capacity, maxTransfer, materialPerWork, kineticModifier);
 		itemHandler = new ItemHandlerModule(this);
-		itemHandler.addSlot(true, "liquid").addFilter(ItemFilterFluid.get(FluidManager.STEAM));
-		itemHandler.addSlot(false, "container").addFilter(OutputFilter.INSTANCE);
+		itemHandler.addContainer(true, "liquid").addFilter(ItemFilterFluid.get(FluidManager.STEAM));
+		itemHandler.addContainer(false, "container").addFilter(OutputFilter.INSTANCE);
 		fluidHandler = new FluidTankHandler(this);
 		fluidTank = fluidHandler.addTank(true, Fluid.BUCKET_VOLUME).addFilter(FluidFilter.get(FluidManager.STEAM));
 	}
@@ -39,6 +39,7 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		fluidHandler.writeToNBT(compound);
 		itemHandler.writeToNBT(compound);
 		return compound;
@@ -87,6 +88,7 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 		return fluidTank;
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

@@ -5,11 +5,13 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.client.gui.WidgetManager;
+import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.core.ModularMachines;
-import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetPageTab extends Widget<IModuleLogic> {
@@ -17,8 +19,8 @@ public class WidgetPageTab extends Widget<IModuleLogic> {
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public final ModulePage page;
 	public final boolean isDown;
-	public final IModuleGuiLogic guiLogic;
-	public final int currentIndex;
+	public IModuleGuiLogic guiLogic;
+	public int currentIndex;
 	public final int pageIndex;
 
 	public WidgetPageTab(int xPosition, int yPosition, ModulePage page) {
@@ -26,7 +28,13 @@ public class WidgetPageTab extends Widget<IModuleLogic> {
 		this.page = page;
 		this.pageIndex = page.getIndex();
 		this.isDown = page.getIndex() > 4;
-		this.guiLogic = ModuleUtil.getClientGuiLogic();
+	}
+	
+	@Override
+	public void setManager(WidgetManager<IGuiProvider, IModuleLogic> manager) {
+		super.setManager(manager);
+		ContainerModuleLogic logic = (ContainerModuleLogic) gui.inventorySlots;
+		this.guiLogic = logic.getGuiLogic();
 		this.currentIndex = guiLogic.getCurrentModule().getIndex();
 	}
 

@@ -12,10 +12,12 @@ import modularmachines.api.modules.containers.ModuleContainerCapability;
 import modularmachines.api.modules.containers.ModuleContainerDamage;
 import modularmachines.api.modules.containers.ModuleContainerNBT;
 import modularmachines.common.core.managers.ItemManager;
-import modularmachines.common.modules.machine.pulverizer.ModulePulverizer;
+import modularmachines.common.modules.heaters.ModuleHeaterBurning;
+import modularmachines.common.modules.machine.boiler.ModuleBoiler;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
+import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -165,15 +167,37 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	PULVERIZER(new ModuleDataSide(), "pulverizer", 4, EnumModuleSizes.LARGE){
+	TRANSFER_ITEM(new ModuleDataCasingPosition(), "transfer_item", 4, EnumModuleSizes.LARGE){
 		@Override
 		public Module createModule(IModuleStorage storage) {
-			return new ModulePulverizer(storage, 2, 500);
+			return new ModuleTransferItem(storage);
+		}
+
+		@Override
+		public void registerContainers() {
+			registerDamage(new ItemStack(Blocks.RAIL));
+		}
+	},
+	HEATER(new ModuleDataSide(), "heater", 4, EnumModuleSizes.LARGE){
+		@Override
+		public Module createModule(IModuleStorage storage) {
+			return new ModuleHeaterBurning(storage, 150, 2);
 		}
 
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.FURNACE));
+		}
+	},
+	BOILER(new ModuleDataSide(), "boiler", 4, EnumModuleSizes.LARGE){
+		@Override
+		public Module createModule(IModuleStorage storage) {
+			return new ModuleBoiler(storage, 6);
+		}
+
+		@Override
+		public void registerContainers() {
+			registerDamage(new ItemStack(Blocks.BRICK_BLOCK));
 		}
 	};
 

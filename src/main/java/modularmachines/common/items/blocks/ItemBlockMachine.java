@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import modularmachines.common.blocks.tile.TileEntityMachine;
-import modularmachines.common.utils.TileUtil;
+import modularmachines.common.utils.WorldUtil;
 
 public class ItemBlockMachine extends ItemBlock {
 
@@ -60,7 +60,7 @@ public class ItemBlockMachine extends ItemBlock {
 		}
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() == this.block) {
-			TileEntityMachine tile = TileUtil.getTile(world, pos, TileEntityMachine.class);
+			TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
 			if (tile == null) {
 				world.setBlockToAir(pos);
 				return false;

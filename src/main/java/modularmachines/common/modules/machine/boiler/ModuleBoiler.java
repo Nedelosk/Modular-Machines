@@ -40,10 +40,10 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	public ModuleBoiler(IModuleStorage storage, int waterPerWork) {
 		super(storage);
 		itemHandler = new ItemHandlerModule(this);
-		itemHandler.addSlot(true, "liquid").addFilter(ItemFilterFluid.get(FluidRegistry.WATER));
-		itemHandler.addSlot(false, "container").addFilter(OutputFilter.INSTANCE);
-		itemHandler.addSlot(true, "container").addFilter(ItemFilterFluid.INSTANCE);
-		itemHandler.addSlot(false, "liquid").addFilter(OutputFilter.INSTANCE);
+		itemHandler.addContainer(true, "liquid").addFilter(ItemFilterFluid.get(FluidRegistry.WATER));
+		itemHandler.addContainer(false, "container").addFilter(OutputFilter.INSTANCE);
+		itemHandler.addContainer(true, "container").addFilter(ItemFilterFluid.INSTANCE);
+		itemHandler.addContainer(false, "liquid").addFilter(OutputFilter.INSTANCE);
 		fluidHandler = new FluidTankHandler(this);
 		tankWater = fluidHandler.addTank(true, Fluid.BUCKET_VOLUME).addFilter(FluidFilter.get(FluidRegistry.WATER));
 		tankSteam = fluidHandler.addTank(false, Fluid.BUCKET_VOLUME).addFilter(OutputFilter.INSTANCE);
@@ -59,6 +59,7 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		fluidHandler.writeToNBT(compound);
 		itemHandler.writeToNBT(compound);
 		return compound;
@@ -97,7 +98,7 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 					if (waterCost <= 0) {
 						return;
 					}
-					FluidStack water = tankWater.drainInternal(waterCost * 15, false);
+					FluidStack water = tankWater.drainInternal(waterCost, false);
 					if (water == null) {
 						return;
 					}
@@ -107,13 +108,13 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 					if (steam.amount > 0) {
 						tankWater.drainInternal(waterCost * 15, true);
 						tankSteam.fillInternal(steam, true);
-						sendModuleUpdate();
 					}
 				}
 			}
 		}
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

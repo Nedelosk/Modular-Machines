@@ -48,7 +48,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 			if (input != null) {
 				input = input.copy();
 			}
-			inputs[index] = new RecipeItem(index, input);
+			inputs[index] = new RecipeItem(input);
 		}
 		return inputs;
 	}

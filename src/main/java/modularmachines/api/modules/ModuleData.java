@@ -38,7 +38,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return I18n.translateToLocal(getDescriptionKey());
 	}
 	
-	protected String getDescriptionKey(){
+	public String getDescriptionKey(){
 		return "module." + unlocalizedName + ".description";
 	}
 	

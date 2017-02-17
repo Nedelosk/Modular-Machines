@@ -1,22 +1,11 @@
 package modularmachines.common.modules.heaters;
 
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import modularmachines.api.modules.IModuleStorage;
-import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.filters.FluidFilter;
 import modularmachines.common.modules.filters.ItemFilterFluid;
 import modularmachines.common.modules.filters.OutputFilter;
 import modularmachines.common.tanks.FluidTankHandler;
@@ -29,11 +18,11 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public final FluidTankHandler fluidHandler;
 	public final FluidTankModule tank;
 	
-	public ModuleHeaterSteam(IModuleStorage storage, double heatOnCycle, int heatModifier) {
-		super(storage, heatOnCycle, heatModifier);
+	public ModuleHeaterSteam(IModuleStorage storage, double maxHeat, int heatModifier) {
+		super(storage, maxHeat, heatModifier);
 		itemHandler = new ItemHandlerModule(this);
-		itemHandler.addSlot(true, "liquid").addFilter(ItemFilterFluid.get(FluidRegistry.WATER));
-		itemHandler.addSlot(false, "container").addFilter(OutputFilter.INSTANCE);
+		itemHandler.addContainer(true, "liquid").addFilter(ItemFilterFluid.get(FluidRegistry.WATER));
+		itemHandler.addContainer(false, "container").addFilter(OutputFilter.INSTANCE);
 		fluidHandler = new FluidTankHandler(this);
 		tank = fluidHandler.addTank(true, Fluid.BUCKET_VOLUME).addFilter(OutputFilter.INSTANCE);
 	}
@@ -82,6 +71,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 		}
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

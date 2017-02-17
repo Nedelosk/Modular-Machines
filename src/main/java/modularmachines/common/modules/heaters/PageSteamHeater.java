@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.client.gui.widgets.WidgetFluidTank;
 import modularmachines.common.containers.SlotModule;

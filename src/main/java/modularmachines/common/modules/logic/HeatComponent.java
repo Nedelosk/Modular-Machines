@@ -3,6 +3,7 @@ package modularmachines.common.modules.logic;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.energy.HeatBuffer;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class HeatComponent extends LogicComponent implements IHeatSource{
 
@@ -10,6 +11,18 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	
 	public HeatComponent() {
 		buffer = new HeatBuffer(500, 15F);
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setTag("Heat", buffer.serializeNBT());
+		return compound;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		buffer.deserializeNBT(compound.getCompoundTag("Heat"));
 	}
 	
 	@Override

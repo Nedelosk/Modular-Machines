@@ -26,13 +26,13 @@ public class ContainerUtil {
 	public static ItemStack transferStackInSlot(List inventorySlots, EntityPlayer player, int slotIndex) {
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
 		if (slot == null || !slot.getHasStack()) {
-			return null;
+			return ItemUtil.empty();
 		}
 		int numSlots = inventorySlots.size();
 		ItemStack stackInSlot = slot.getStack();
 		ItemStack originalStack = stackInSlot.copy();
 		if (!shiftItemStack(inventorySlots, stackInSlot, slotIndex, numSlots)) {
-			return null;
+			return ItemUtil.empty();
 		}
 		slot.onSlotChange(stackInSlot, originalStack);
 		if (stackInSlot.getCount() <= 0) {
@@ -41,7 +41,7 @@ public class ContainerUtil {
 			slot.onSlotChanged();
 		}
 		if (stackInSlot.getCount() == originalStack.getCount()) {
-			return null;
+			return ItemUtil.empty();
 		}
 		slot.onTake(player, stackInSlot);
 		return originalStack;
@@ -123,7 +123,7 @@ public class ContainerUtil {
 		for (int index = start; stackToShift.getCount() > 0 && index < start + count; index++) {
 			Slot slot = (Slot) inventorySlots.get(index);
 			ItemStack stackInSlot = slot.getStack();
-			if (stackInSlot != null && ItemUtil.isIdenticalItem(stackInSlot, stackToShift)) {
+			if (!stackInSlot.isEmpty() && ItemUtil.isIdenticalItem(stackInSlot, stackToShift)) {
 				int resultingStackSize = stackInSlot.getCount() + stackToShift.getCount();
 				int max = Math.min(stackToShift.getMaxStackSize(), slot.getSlotStackLimit());
 				if (resultingStackSize <= max) {
@@ -150,7 +150,7 @@ public class ContainerUtil {
 		for (int slotIndex = start; stackToShift.getCount() > 0 && slotIndex < start + count; slotIndex++) {
 			Slot slot = (Slot) inventorySlots.get(slotIndex);
 			ItemStack stackInSlot = slot.getStack();
-			if (stackInSlot == null) {
+			if (stackInSlot.isEmpty()) {
 				int max = Math.min(stackToShift.getMaxStackSize(), slot.getSlotStackLimit());
 				stackInSlot = stackToShift.copy();
 				ItemUtil.setCount(stackInSlot, Math.min(stackToShift.getCount(), max));

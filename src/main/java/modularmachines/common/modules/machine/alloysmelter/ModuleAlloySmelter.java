@@ -31,6 +31,7 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		itemHandler.writeToNBT(compound);
 		return compound;
 	}
@@ -56,6 +57,7 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 		return MachineCategorys.ALLOY_SMELTER;
 	}
 	
+	@Override
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}

@@ -230,6 +230,12 @@ module.page.controller.can.used.by=Can be used by
 module.page.controller.can.use=Can use
 module.page.chest.name=Chest
 
+module.transfer.item.page.from=From
+module.transfer.item.page.to=To
+module.transfer.item.page.amount=Amount
+module.transfer.item.page.priority=Priority
+module.transfer.item.page.time=Time
+
 #Forestry
 module.page.apiary.name=Apiary
 module.page.bee_house.name=Bee House

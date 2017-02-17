@@ -3,10 +3,14 @@ package modularmachines.common.utils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import modularmachines.common.inventory.ItemTransferHelper;
+import modularmachines.common.modules.transfer.ModuleTransfer;
+import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
@@ -37,6 +41,36 @@ public class ItemUtil {
 	
 	public static ItemStack empty(){
 		return ItemStack.EMPTY;
+	}
+	
+	public static int[] getSlots(IItemHandler handler) {
+		int[] slots = new int[handler.getSlots()];
+		for (int i = 0; i < slots.length; i++) {
+			slots[i] = i;
+		}
+		return slots;
+	}
+	
+	public static void transferStacks(ModuleTransfer<IItemHandler> module, ItemTransferCycle cycle) {
+		IItemHandler startHandler = module.getHandler(cycle.getStartHandler());
+		ItemTransferHelper helper = new ItemTransferHelper(module.getHandler(cycle.getEndHandler()), cycle.getInsertSlots());
+		int amount = cycle.getAmount();
+		int[] slots = cycle.getSlots();
+		for (int i = 0; i < slots.length; i++) {
+			int slotIndex = slots[i];
+			ItemStack targetStack = startHandler.extractItem(slotIndex, amount, true);
+			if (!targetStack.isEmpty() && (cycle.getFilter() == null || cycle.getFilter().test(targetStack))) {
+				int extractStackSize = targetStack.getCount();
+				ItemStack remaining = helper.tryAddStack(targetStack);
+				if (!remaining.isEmpty()) {
+					extractStackSize -= remaining.getCount();
+				}
+				if (extractStackSize > 0) {
+					ItemStack extracted = startHandler.extractItem(slotIndex, extractStackSize, false);
+					helper.addStack(extracted);
+				}
+			}
+		}
 	}
 	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {

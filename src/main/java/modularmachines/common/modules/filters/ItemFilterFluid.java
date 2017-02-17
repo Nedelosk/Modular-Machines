@@ -47,8 +47,8 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
 		if (content == null) {
 			return false;
 		}
-		if (content.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-			IFluidHandler handler = content.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+		if (content.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
+			IFluidHandler handler = content.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
 			if (handler.getTankProperties() == null || handler.getTankProperties().length <= 0) {
 				if (empty) {
 					return true;

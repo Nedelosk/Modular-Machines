@@ -47,7 +47,7 @@ public class PacketSyncMode extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
 				IModuleLogic logic = guiLogic.getLogic();
 				int index = data.readVarInt();
@@ -63,7 +63,7 @@ public class PacketSyncMode extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(player);
+			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
 				IModuleLogic logic = guiLogic.getLogic();
 				int index = data.readVarInt();

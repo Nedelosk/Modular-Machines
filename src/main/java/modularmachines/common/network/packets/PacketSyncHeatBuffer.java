@@ -38,7 +38,7 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 			IModuleLogic logic = getLogic(data, player.world);
 			if (logic != null) {
 				IHeatSource heatSource = ModuleUtil.getHeat(logic);
-				heatSource.setHeatStored(data.readInt());
+				heatSource.setHeatStored(data.readDouble());
 			}
 		}
 	}

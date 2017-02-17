@@ -28,4 +28,8 @@ public class UpdateComponent extends LogicComponent{
 		return tickCount % tickInterval == 0;
 	}
 	
+	public int getTickCount() {
+		return tickCount;
+	}
+	
 }

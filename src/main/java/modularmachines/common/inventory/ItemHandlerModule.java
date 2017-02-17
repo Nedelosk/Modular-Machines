@@ -36,7 +36,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		return container;
 	}
 	
-	public ItemContainer addSlot(boolean isInput, String backgroundTexture){
+	public ItemContainer addContainer(boolean isInput, String backgroundTexture){
 		ItemContainer container = new ItemContainer(containers.size(), isInput, module, backgroundTexture);
 		containers.add(container);
 		return container;
@@ -174,8 +174,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 				nbtTagList.appendTag(itemTag);
 			}
 		}
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setTag("Items", nbtTagList);
+		compound.setTag("Items", nbtTagList);
 		return compound;
 	}
 
@@ -270,7 +269,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		if (recipe == null) {
 			return false;
 		}
-		ItemHandlerInvManipulator manipulator = new ItemHandlerInvManipulator(this);
+		InventoryManipulator manipulator = new InventoryManipulator(this);
 		for (RecipeItem recipeOutput : recipe.getOutputItems()) {
 			if (recipeOutput != null) {
 				if (recipeOutput.isItem() && recipeOutput.canUseItem(chance)) {

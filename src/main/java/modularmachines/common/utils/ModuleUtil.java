@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
@@ -13,13 +14,10 @@ import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.api.modules.storages.IStorage;
-import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -28,8 +26,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
 public class ModuleUtil {
@@ -38,8 +34,9 @@ public class ModuleUtil {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
 			if(ItemUtil.isNotEmpty(stack)){
-				ItemStack containerStack = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false).getResult();
-				if (ItemUtil.isNotEmpty(containerStack)) {
+				FluidActionResult result = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false);
+				if(result.isSuccess()){
+					ItemStack containerStack = result.getResult();
 					if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
 						if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
 							FluidActionResult emptyContainer = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, true);
@@ -56,13 +53,16 @@ public class ModuleUtil {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
 			if(ItemUtil.isNotEmpty(stack)){
-				ItemStack containerStack = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false).getResult();
-				if (ItemUtil.isNotEmpty(containerStack)) {
-					if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
-						if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
-							FluidActionResult filledContainer = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, true);
-							inventory.insertItem(outputSlot, filledContainer.getResult(), false);
-							inventory.extractItem(inputSlot, 1, false);
+				FluidActionResult result =  FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false);
+				if(result.isSuccess()){
+					ItemStack containerStack = result.getResult();
+					if (ItemUtil.isNotEmpty(containerStack)) {
+						if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
+							if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
+								FluidActionResult filledContainer = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, true);
+								inventory.insertItem(outputSlot, filledContainer.getResult(), false);
+								inventory.extractItem(inputSlot, 1, false);
+							}
 						}
 					}
 				}
@@ -111,18 +111,25 @@ public class ModuleUtil {
 		return getAssembler(locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public static IModuleGuiLogic getClientGuiLogic(){
-		Minecraft mc = Minecraft.getMinecraft();
-		return getGuiLogic(mc.player);
+	public static IModuleGuiLogic getGuiLogic(IModuleLogic logic, EntityPlayer player){
+		return getGuiLogic(player.world, logic.getLocatable().getCoordinates(), player.getGameProfile());
 	}
 	
-	public static IModuleGuiLogic getGuiLogic(EntityPlayer player){
-		Container container = player.openContainer;
-		if(container instanceof ContainerModuleLogic){
-			return ((ContainerModuleLogic) container).getGuiLogic();
+	public static IModuleGuiLogic getGuiLogic(BlockPos pos, EntityPlayer player){
+		return getGuiLogic(player.world, pos, player.getGameProfile());
+	}
+	
+	public static IModuleGuiLogic getGuiLogic(World world, BlockPos pos, @Nullable GameProfile player){
+		String filename = "guiLogic." + (player == null ? "common" : player.getId());
+		GuiLogicCache cache = (GuiLogicCache) world.loadData(GuiLogicCache.class, filename);
+
+		// Create a cache if there is none yet.
+		if (cache == null) {
+			cache = new GuiLogicCache(filename);
+			world.setData(filename, cache);
 		}
-		return null;
+
+		return cache.getLogic(world, pos);
 	}
 	
 	@Nullable

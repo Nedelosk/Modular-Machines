@@ -69,6 +69,12 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	@Override
 	public void markDirty(){
 		module.sendModuleUpdate();
+		module.getLogic().getLocatable().markLocatableDirty();
+	}
+	
+	@Override
+	protected void onContentsChanged() {
+		markDirty();
 	}
 	
 	@Override
