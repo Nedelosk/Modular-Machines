@@ -11,7 +11,6 @@ import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

@@ -8,7 +8,6 @@ import com.google.common.primitives.Ints;
 
 import modularmachines.client.gui.widgets.WidgetTextField;
 import modularmachines.client.gui.widgets.WidgetTransferHandler;
-import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.network.PacketHandler;
@@ -56,20 +55,6 @@ public class ModuleTransferItemPage extends ModuleTransferPage<ModuleTransferIte
 	
 	public ModuleTransferItemPage(ModuleTransferItem parent, int index) {
 		super(parent, index);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ITransferCycle<IItemHandler> createCycle() {
-		/*ITransferHandlerWrapper<IItemHandler> startHandler = this.startHandler.getCurrentWrapper();
-		int[] slots;
-		ITransferHandlerWrapper<IItemHandler> endHandler = this.endHandler.getCurrentWrapper();
-		int[] insertSlots;
-		int time;
-		int priority;
-		int amount;
-		return new ItemTransferCycle(startHandler, slots, endHandler, insertSlots, time, priority, amount);*/
-		return null;
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -21,9 +21,12 @@ import modularmachines.api.modules.storages.IStoragePosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
+	@SideOnly(Side.CLIENT)
 	private Map<Class<? extends Object>, IModelData> models = new HashMap<>();
 	private int complexity = 0;
 	private int allowedComplexity = 0;
@@ -124,5 +127,15 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		if(I18n.canTranslate(getDescriptionKey())){
 			tooltip.add(getDescription());
 		}
+	}
+	
+	/* MODEL */
+	
+	public void addModel(Class<? extends Object> clazz, IModelData modelData){
+		models.put(clazz, modelData);
+	}
+	
+	public IModelData getModel(Class<? extends Object> clazz){
+		return models.get(clazz);
 	}
 }

@@ -6,6 +6,7 @@ public class LogicComponent {
 
 	public static final String ENERGY = "energy";
 	public static final String HEAT = "heat";
+	public static final String MODEL = "model";
 	public static final String UPDATE = "update";
 	
 	protected IModuleLogic logic;

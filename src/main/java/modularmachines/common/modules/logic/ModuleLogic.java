@@ -55,6 +55,7 @@ public class ModuleLogic implements IModuleLogic {
 		addComponent(LogicComponent.ENERGY, new EnergyStorageComponent());
 		addComponent(LogicComponent.UPDATE, new UpdateComponent());
 		addComponent(LogicComponent.HEAT, new HeatComponent());
+		addComponent(LogicComponent.MODEL, new ModelComponent());
 	}
 	
 	@Override

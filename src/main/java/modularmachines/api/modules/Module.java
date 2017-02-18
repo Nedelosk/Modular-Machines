@@ -176,4 +176,15 @@ public class Module implements ICapabilityProvider {
 		return getFluidHandler() != null && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || getItemHandler() != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
 	
+	/* MODEL */
+	protected boolean modelNeedReload;
+	
+	public void setModelNeedReload(boolean modelNeedReload) {
+		this.modelNeedReload = modelNeedReload;
+	}
+	
+	public boolean isModelNeedReload() {
+		return modelNeedReload;
+	}
+	
 }

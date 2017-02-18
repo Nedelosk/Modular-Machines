@@ -6,7 +6,6 @@ import modularmachines.common.core.ModularMachines;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.ModuleTransferPage;
-import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.utils.RenderUtil;

@@ -3,8 +3,6 @@ package modularmachines.common.modules.transfer.items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
-
 import java.util.function.Predicate;
 
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;

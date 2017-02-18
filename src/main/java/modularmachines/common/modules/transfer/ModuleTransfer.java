@@ -12,14 +12,12 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.logic.UpdateComponent;
-import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 import modularmachines.common.utils.ModuleUtil;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.items.IItemHandler;
 
 public abstract class ModuleTransfer<H> extends Module implements ITickable {
 

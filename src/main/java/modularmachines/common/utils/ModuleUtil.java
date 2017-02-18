@@ -16,6 +16,7 @@ import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
+import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -130,6 +131,11 @@ public class ModuleUtil {
 		}
 
 		return cache.getLogic(world, pos);
+	}
+	
+	@Nullable
+	public static ModelComponent getModel(IModuleLogic logic){
+		return logic.getComponent(LogicComponent.MODEL);
 	}
 	
 	@Nullable

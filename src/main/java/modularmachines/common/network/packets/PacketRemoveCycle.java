@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
@@ -13,7 +12,6 @@ import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ModuleUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
