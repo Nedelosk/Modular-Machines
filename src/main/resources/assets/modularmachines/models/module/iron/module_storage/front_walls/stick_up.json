@@ -1,6 +1,6 @@
 {
     "parent": "modularmachines:module/default/module_storage/front_walls/stick_up",
 	"textures": {
-        "wall": "modularmachines:blocks/casing/moduleStorage_iron"
+        "wall": "modularmachines:blocks/casing/storage_iron"
     }
 }

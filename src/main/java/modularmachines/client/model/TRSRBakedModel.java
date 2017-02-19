@@ -59,17 +59,23 @@ public class TRSRBakedModel implements IBakedModel {
 	private final TRSROverride override;
 	private final int faceOffset;
 
+	public TRSRBakedModel(IBakedModel original, float x, float y, float z) {
+		this(original, x, y, z, 0, 0, 0, 1F);
+	}
+
+	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ) {
+		this(original, x, y, z, rotX, rotY, rotZ, 1F);
+	}
+	
 	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float scale) {
 		this(original, x, y, z, 0, 0, 0, scale, scale, scale);
 	}
 
-	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ,
-			float scale) {
+	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scale) {
 		this(original, x, y, z, rotX, rotY, rotZ, scale, scale, scale);
 	}
 
-	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ,
-			float scaleX, float scaleY, float scaleZ) {
+	public TRSRBakedModel(IBakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
 		this(original, new TRSRTransformation(new Vector3f(x, y, z), null, new Vector3f(scaleX, scaleY, scaleZ),
 				TRSRTransformation.quatFromXYZ(rotX, rotY, rotZ)));
 	}

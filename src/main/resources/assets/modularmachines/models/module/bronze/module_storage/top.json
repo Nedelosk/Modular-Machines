@@ -1,6 +1,6 @@
 {
     "parent": "modularmachines:module/default/module_storage/top",
 	"textures": {
-        "wall": "modularmachines:blocks/casing/moduleStorage_bronze"
+        "wall": "modularmachines:blocks/casing/storage_bronze"
     }
 }

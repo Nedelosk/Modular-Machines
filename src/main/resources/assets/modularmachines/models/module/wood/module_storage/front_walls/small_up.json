@@ -1,6 +1,6 @@
 {
     "parent": "modularmachines:module/default/module_storage/front_walls/small_up",
 	"textures": {
-        "wall": "modularmachines:blocks/casing/moduleStorage_wood"
+        "wall": "modularmachines:blocks/casing/storage_wood"
     }
 }

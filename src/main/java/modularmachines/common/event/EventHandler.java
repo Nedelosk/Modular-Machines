@@ -1,6 +1,9 @@
 package modularmachines.common.event;
 
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -10,6 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.block.ModelModular;
+import modularmachines.client.model.module.ModelLoader;
 import modularmachines.common.core.ModularMachines;
 
 public class EventHandler {
@@ -28,13 +33,13 @@ public class EventHandler {
 	}
 
 	@SideOnly(Side.CLIENT)
+	
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
-		/*IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
+		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
 		registry.putObject(new ModelResourceLocation("modularmachines:modular", "inventory"), new ModelModular());
-		registry.putObject(new ModelResourceLocation("modularmachines:module_container", "inventory"), new ModelItemModuleContainer());
-		ModuleModelLoader.loadModels();*/
+		ModelLoader.loadModels();
 		ModelManager.getInstance().onBakeModels(event);
 	}
 }

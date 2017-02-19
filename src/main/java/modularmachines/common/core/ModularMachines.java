@@ -67,6 +67,7 @@ public class ModularMachines {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		PLUGIN_MANAGER.preInit();
 		proxy.preInit();
+		proxy.loadModuleModels();
 		OreDictionaryManager.registerOres();
 	}
 

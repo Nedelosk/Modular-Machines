@@ -1,17 +1,24 @@
 package modularmachines.common.modules.storages.items;
 
-/*public class PageChest extends ModulePage {
+import java.util.List;
 
-	public PageChest(Module parent) {
+import modularmachines.common.containers.SlotModule;
+import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.pages.ModulePageWidget;
+
+public class PageChest extends ModulePageWidget<ModuleChest> {
+
+	public PageChest(ModuleChest parent) {
 		super(parent);
 	}
-
+	
 	@Override
-	public void createInventory(IModuleInventoryBuilder invBuilder) {
+	public void createSlots(List slots) {
+		ItemHandlerModule itemHandler = parent.getItemHandler();
 		for (int j = 0; j < 3; ++j) {
-			for (int k = 0; k < 9; ++k) {
-				invBuilder.addInventorySlot(true, 8 + k * 18, 18 + j * 18, DefaultFilter.INSTANCE);
+			for (int i = 0; i < 9; ++i) {
+				slots.add(new SlotModule(itemHandler, i + j * 9, 8 + i * 18, 18 + j * 18));
 			}
 		}
 	}
-}*/
+}

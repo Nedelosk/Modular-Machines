@@ -5,6 +5,7 @@ import java.util.List;
 
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.client.core.ClientProxy;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -68,7 +70,7 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void handleClientContent() {
-		//ModularMachines.proxy.registerStateMapper(this, new ClientProxy.BlockModeStateMapper(new ModelResourceLocation("modularmachines:modular")));
+		ModularMachines.proxy.registerStateMapper(this, new ClientProxy.BlockModeStateMapper(new ModelResourceLocation("modularmachines:modular")));
 	}
 	
 	@Override

@@ -43,6 +43,10 @@ public class CommonProxy {
 
 	}
 	
+	public void loadModuleModels(){
+		
+	}
+	
 	public List<String> addModuleInfo(ItemStack itemStack) {
 		return Collections.emptyList();
 	}

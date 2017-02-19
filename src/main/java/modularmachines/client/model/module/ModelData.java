@@ -7,6 +7,7 @@ import java.util.Map;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.client.model.TRSRBakedModel;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,5 +33,9 @@ public abstract class ModelData<M extends Module> implements IModelData<IBakedMo
 	@Override
 	public Collection<ResourceLocation> getValidLocations() {
 		return locations.values();
+	}
+	
+	protected IBakedModel createModel(IBakedModel model, float y){
+		return new TRSRBakedModel(model, 0F, y, 0F);
 	}
 }

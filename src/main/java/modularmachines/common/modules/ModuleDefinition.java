@@ -11,9 +11,15 @@ import modularmachines.api.modules.containers.ModuleContainer;
 import modularmachines.api.modules.containers.ModuleContainerCapability;
 import modularmachines.api.modules.containers.ModuleContainerDamage;
 import modularmachines.api.modules.containers.ModuleContainerNBT;
+import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.client.model.module.ModelDataCasing;
+import modularmachines.client.model.module.ModelDataDefault;
+import modularmachines.client.model.module.ModelDataModuleStorage;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
+import modularmachines.common.modules.storages.items.ModuleChest;
+import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
@@ -21,6 +27,8 @@ import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public enum ModuleDefinition implements IModuleFactory {
 	CASING_WOOD(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.wood", 0, EnumModuleSizes.LARGE){
@@ -38,6 +46,12 @@ public enum ModuleDefinition implements IModuleFactory {
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 0));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataCasing.initModelData(new ModelLocation(data()).addFolder("wood/casings"));
 		}
 		
 	},
@@ -58,6 +72,12 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 1));
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataCasing.initModelData(new ModelLocation(data()).addFolder("bronze/casings"));
+		}
+		
 	},
 	CASING_IRON(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.iron", 0, EnumModuleSizes.NONE){
 
@@ -74,6 +94,12 @@ public enum ModuleDefinition implements IModuleFactory {
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 2));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataCasing.initModelData(new ModelLocation(data()).addFolder("iron/casings"));
 		}
 		
 	},
@@ -94,6 +120,12 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 3));
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataCasing.initModelData(new ModelLocation(data()).addFolder("steel/casings"));
+		}
+		
 	},
 	MODULE_RACK_WOOD(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.wood", 1, EnumModuleSizes.NONE){
 
@@ -110,6 +142,12 @@ public enum ModuleDefinition implements IModuleFactory {
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 0));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataModuleStorage.initModelData(new ModelLocation(data()).addFolder("wood/module_storage"));
 		}
 		
 	},
@@ -130,6 +168,12 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1));
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataModuleStorage.initModelData(new ModelLocation(data()).addFolder("bronze/module_storage"));
+		}
+		
 	},
 	MODULE_RACK_IRON(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.iron", 3, EnumModuleSizes.NONE){
 
@@ -148,6 +192,12 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 2));
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataModuleStorage.initModelData(new ModelLocation(data()).addFolder("iron/module_storage"));
+		}
+		
 	},
 	MODULE_RACK_STEEL(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.steel", 4, EnumModuleSizes.NONE){
 
@@ -164,6 +214,12 @@ public enum ModuleDefinition implements IModuleFactory {
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 3));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataModuleStorage.initModelData(new ModelLocation(data()).addFolder("steel/module_storage"));
 		}
 		
 	},
@@ -199,6 +255,24 @@ public enum ModuleDefinition implements IModuleFactory {
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.BRICK_BLOCK));
 		}
+	},
+	CHEST(new ModuleDataChest(), "chest", 4, EnumModuleSizes.LARGEST){
+		
+		@Override
+		public Module createModule(IModuleStorage storage) {
+			return new ModuleChest(storage);
+		}
+
+		@Override
+		public void registerContainers() {
+			register(new ItemStack(Blocks.CHEST));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataDefault.initModelData(new ModelLocation(data()).addFolder("wood/chest").addSize());
+		}
 	};
 
 	private final ModuleData data;
@@ -230,6 +304,11 @@ public enum ModuleDefinition implements IModuleFactory {
 	}
 	
 	public abstract void registerContainers();
+	
+	@SideOnly(Side.CLIENT)
+	public void registerModelData(){
+		
+	}
 	
 	public static void registerModuleContainers(){
 		for(ModuleDefinition definition : values()){

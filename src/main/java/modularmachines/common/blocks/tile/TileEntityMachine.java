@@ -100,6 +100,10 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 		return super.getCapability(capability, facing);
 	}
 	
+	public IModuleLogic getLogic() {
+		return logic;
+	}
+	
 	public EnumFacing getFacing() {
 		return facing;
 	}

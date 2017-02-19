@@ -1,5 +1,5 @@
 {
-    "parent": "modularmachines:module/default/module_storage/top",
+    "parent": "modularmachines:module/default/module_storage/storage",
 	"textures": {
         "wall": "modularmachines:blocks/casing/storage_steel"
     }

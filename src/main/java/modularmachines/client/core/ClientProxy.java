@@ -12,6 +12,7 @@ import modularmachines.client.gui.GuiAssembler;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
+import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -55,8 +56,14 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void postInit() {
-		//TODO:Fix model
-		//ModuleModelLoader.loadModels();
+		modularmachines.client.model.module.ModelLoader.loadModels();
+	}
+	
+	@Override
+	public void loadModuleModels() {
+		for(ModuleDefinition definition : ModuleDefinition.values()){
+			definition.registerModelData();
+		}
 	}
 	
 	@Override

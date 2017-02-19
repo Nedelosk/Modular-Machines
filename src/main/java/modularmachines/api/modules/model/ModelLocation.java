@@ -1,29 +1,46 @@
 package modularmachines.api.modules.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import modularmachines.api.modules.ModuleData;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelLocation {
 	
-	protected final List<ModelFormatting> formattings;
+	protected final Set<ModelFormatting> formattings;
 	protected final ModuleData data;
 	protected String preFix;
 	protected String folder;
 	protected boolean status;
 	protected ResourceLocation location;
 	
+	public ModelLocation(ModelLocation location) {
+		this.data = location.data;
+		this.formattings = location.formattings;
+		this.preFix = location.preFix;
+		this.folder = location.folder;
+		this.status = location.status;
+		this.location = null;
+	}
+	
 	public ModelLocation(ModuleData data) {
 		this.data = data;
-		this.formattings = new ArrayList<>();
+		this.formattings = new HashSet<>();
 		this.location = null;
 		this.preFix = "";
 	}
 	
 	public ModelLocation addPreFix(String preFix){
 		this.preFix = preFix;
+		return this;
+	}
+	
+	public ModelLocation addToPreFix(String preFix){
+		this.preFix += preFix;
 		return this;
 	}
 	
@@ -39,9 +56,19 @@ public class ModelLocation {
 		return this;
 	}
 	
+	public ModelLocation addToFolder(String folder) {
+		this.folder += folder;
+		formattings.add(ModelFormatting.FOLDER);
+		return this;
+	}
+	
 	public ModelLocation addSize() {
 		formattings.add(ModelFormatting.SIZE);
 		return this;
+	}
+	
+	public ModuleData getData() {
+		return data;
 	}
 	
 	public ResourceLocation toLocation(){
