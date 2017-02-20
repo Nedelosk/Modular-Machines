@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.base.Function;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.model.ModelLocation;
 import modularmachines.api.modules.storages.EnumStoragePosition;

@@ -22,23 +22,28 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 
 	public static final Random RANDOM = new Random();
 	
-	protected final Random rand;
 	protected final int workTimeModifier;
 	protected int workTime = 0;
 	protected int workTimeTotal = 0;
 	protected float chance = 0.0F;
 	protected R recipe;
+	protected Random rand;
 
 	public ModuleMachine(IModuleStorage storage, int workTimeModifier) {
 		super(storage);
 		this.workTimeModifier = workTimeModifier;
-		ILocatable locatable = logic.getLocatable();
-		if(locatable != null){
-			rand = locatable.getWorldObj().rand;
-		}else{
-			rand = RANDOM; 
+	}
+	
+	@Override
+	public void update() {
+		if(rand == null){
+			ILocatable locatable = logic.getLocatable();
+			if(locatable != null && locatable.getWorldObj() != null){
+				rand = locatable.getWorldObj().rand;
+			}else{
+				rand = RANDOM; 
+			}
 		}
-			
 	}
 	
 	@Override
@@ -63,6 +68,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	protected boolean addOutputs() {
 		IRecipeConsumer[] consumers = getConsumers();
 		for (IRecipeConsumer consumer : consumers) {
+			consumer.extractInputs(chance, recipe, false);
 			consumer.insertOutputs(chance, recipe, false);
 		}
 		return true;
@@ -90,7 +96,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 
 	protected abstract boolean canWork();
 	
-	protected int createWorkTimeTotal( int recipeSpeed) {
+	protected int createWorkTimeTotal(int recipeSpeed) {
 		return recipeSpeed * workTimeModifier;
 	}
 

@@ -18,6 +18,7 @@ import modularmachines.client.model.module.ModelDataModuleStorage;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
+import modularmachines.common.modules.machine.furnace.ModuleFurnace;
 import modularmachines.common.modules.storages.items.ModuleChest;
 import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
@@ -25,6 +26,7 @@ import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -234,6 +236,19 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.RAIL));
 		}
 	},
+	FURNACE(new ModuleDataSide(), "furnace", 1, EnumModuleSizes.MEDIUM){
+
+		@Override
+		public Module createModule(IModuleStorage storage) {
+			return new ModuleFurnace(storage, 32);
+		}
+
+		@Override
+		public void registerContainers() {
+			registerDamage(new ItemStack(Blocks.FURNACE));
+		}
+		
+	},
 	HEATER(new ModuleDataSide(), "heater", 4, EnumModuleSizes.LARGE){
 		@Override
 		public Module createModule(IModuleStorage storage) {
@@ -242,7 +257,7 @@ public enum ModuleDefinition implements IModuleFactory {
 
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.FURNACE));
+			registerDamage(new ItemStack(Items.BLAZE_ROD));
 		}
 	},
 	BOILER(new ModuleDataSide(), "boiler", 4, EnumModuleSizes.LARGE){

@@ -1,21 +1,32 @@
 package modularmachines.common.modules.machine.furnace;
 
-/*public class PageFurnace extends MainPage<IModuleMachine> {
+import java.util.List;
 
-	public PageFurnace(IModuleState<IModuleMachine> module) {
-		super("furnace", module);
+import modularmachines.client.gui.widgets.WidgetProgressBar;
+import modularmachines.common.containers.SlotModule;
+import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.pages.ModulePageWidget;
+import net.minecraft.inventory.Slot;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class PageFurnace extends ModulePageWidget<ModuleFurnace> {
+
+	public PageFurnace(ModuleFurnace module) {
+		super(module);
 	}
 
 	@Override
-	public void createInventory(IModuleInventoryBuilder invBuilder) {
-		invBuilder.addInventorySlot(true, 55, 35, FilterMachine.INSTANCE);
-		invBuilder.addInventorySlot(false, 116, 35, OutputFilter.INSTANCE);
+	public void createSlots(List<Slot> slots) {
+		ItemHandlerModule itemHandler = parent.getItemHandler();
+		slots.add(new SlotModule(itemHandler, 0, 55, 35));
+		slots.add(new SlotModule(itemHandler, 1, 116, 35));
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addWidgets() {
 		super.addWidgets();
-		add(new WidgetProgressBar(82, 35, moduleState));
+		addWidget(new WidgetProgressBar(82, 35, parent));
 	}
-}*/
+}

@@ -7,6 +7,11 @@ import modularmachines.common.modules.storages.ModuleDataStorage;
 public class ModuleDataChest extends ModuleDataStorage {
 	
 	@Override
+	public boolean isPositionValid(IStoragePosition position) {
+		return position == EnumStoragePosition.CASING;
+	}
+	
+	@Override
 	public boolean isStorage(IStoragePosition position) {
 		return position == EnumStoragePosition.LEFT || position == EnumStoragePosition.RIGHT || position == EnumStoragePosition.BACK;
 	}

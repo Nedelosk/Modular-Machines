@@ -1,9 +1,14 @@
 package modularmachines.common.modules.logic;
 
+import modularmachines.api.ILocatable;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.energy.HeatBuffer;
+import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketSyncHeatBuffer;
+import modularmachines.common.utils.ModuleUtil;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.WorldServer;
 
 public class HeatComponent extends LogicComponent implements IHeatSource{
 
@@ -38,6 +43,20 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	@Override
 	public void increaseHeat(double maxHeat, int heatModifier) {
 		buffer.increaseHeat(maxHeat, heatModifier);
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		UpdateComponent update = ModuleUtil.getUpdate(logic);
+		if (update.updateOnInterval(20)) {
+			double oldHeat = buffer.getHeatStored();
+			buffer.reduceHeat(1);
+			if (oldHeat != buffer.getHeatStored()) {
+				ILocatable locatable = logic.getLocatable();
+				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(logic), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			}
+		}
 	}
 
 	@Override

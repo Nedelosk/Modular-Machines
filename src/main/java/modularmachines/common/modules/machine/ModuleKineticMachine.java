@@ -43,6 +43,7 @@ public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMach
 	
 	@Override
 	public void update() {
+		super.update();
 		boolean needUpdate = false;
 		if (canWork()) {
 			if (workTime >= workTimeTotal || recipe == null) {

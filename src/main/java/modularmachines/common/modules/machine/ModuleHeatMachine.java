@@ -21,6 +21,7 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 	
 	@Override
 	public void update() {
+		super.update();
 		boolean needUpdate = false;
 		if (canWork()) {
 			if (workTime >= workTimeTotal || recipe == null) {

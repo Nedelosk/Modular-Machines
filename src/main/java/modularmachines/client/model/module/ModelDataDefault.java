@@ -3,7 +3,6 @@ package modularmachines.client.model.module;
 import com.google.common.base.Function;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.model.ModelLocation;
 import modularmachines.api.modules.storages.IStorage;
 import net.minecraft.client.renderer.block.model.IBakedModel;
