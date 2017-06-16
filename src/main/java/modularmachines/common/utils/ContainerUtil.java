@@ -2,10 +2,6 @@ package modularmachines.common.utils;
 
 import java.util.List;
 
-import modularmachines.api.ILocatable;
-import modularmachines.api.ILocatableSource;
-import modularmachines.common.containers.BaseContainer;
-import modularmachines.common.core.ModularMachines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,7 +12,13 @@ import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.common.util.FakePlayer;
+
+import modularmachines.api.ILocatable;
+import modularmachines.api.ILocatableSource;
+import modularmachines.common.containers.BaseContainer;
+import modularmachines.common.core.ModularMachines;
 
 public class ContainerUtil {
 	

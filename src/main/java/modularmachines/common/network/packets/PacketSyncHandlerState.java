@@ -6,8 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;

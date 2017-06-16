@@ -26,6 +26,13 @@ package modularmachines.client.model;
 
 import com.google.common.collect.ImmutableList;
 
+import javax.annotation.Nonnull;
+import javax.vecmath.Matrix3f;
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -39,17 +46,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
 import net.minecraftforge.client.model.pipeline.VertexTransformer;
 import net.minecraftforge.common.model.TRSRTransformation;
-
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.vecmath.Matrix3f;
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Vector4f;
 
 // for those wondering TRSR stands for Translation Rotation Scale Rotation
 public class TRSRBakedModel implements IBakedModel {

@@ -2,14 +2,15 @@ package modularmachines.common.modules.assembler;
 
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.core.ModularMachines;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
 
 public class ModuleStorage implements IModuleStorage {
 

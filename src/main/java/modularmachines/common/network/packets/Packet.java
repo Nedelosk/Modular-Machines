@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
-import io.netty.buffer.Unpooled;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.Log;
+
+import io.netty.buffer.Unpooled;
 
 public abstract class Packet implements IPacket {
 

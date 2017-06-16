@@ -2,13 +2,15 @@ package modularmachines.common.core;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.logic.IModuleLogic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.common.network.IGuiHandler;
+
+import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.logic.IModuleLogic;
 
 public class GuiHandler implements IGuiHandler {
 	

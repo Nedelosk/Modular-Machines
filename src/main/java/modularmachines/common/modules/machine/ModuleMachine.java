@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
+import net.minecraft.world.WorldServer;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
@@ -14,9 +18,6 @@ import modularmachines.api.recipes.RecipeRegistry;
 import modularmachines.common.modules.IModuleWorking;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
-import net.minecraft.world.WorldServer;
 
 public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
 

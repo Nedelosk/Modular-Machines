@@ -1,8 +1,9 @@
 package modularmachines.common.inventory;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.Module;
 import modularmachines.common.utils.ContentContainer;
-import net.minecraft.item.ItemStack;
 
 public class ItemContainer extends ContentContainer<ItemStack> {
 

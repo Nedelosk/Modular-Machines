@@ -1,5 +1,8 @@
 package modularmachines.common.modules.logic;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.WorldServer;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.logic.LogicComponent;
@@ -7,8 +10,6 @@ import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldServer;
 
 public class HeatComponent extends LogicComponent implements IHeatSource{
 

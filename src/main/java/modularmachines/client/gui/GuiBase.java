@@ -2,8 +2,6 @@ package modularmachines.client.gui;
 
 import java.io.IOException;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,6 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.ILocatableSource;
 import modularmachines.client.gui.widgets.Widget;

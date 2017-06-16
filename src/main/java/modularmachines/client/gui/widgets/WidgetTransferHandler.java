@@ -3,11 +3,12 @@ package modularmachines.client.gui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 
 public class WidgetTransferHandler<H> extends Widget {
 

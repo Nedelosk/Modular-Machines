@@ -1,5 +1,13 @@
 package modularmachines.common.modules;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleStorage;
@@ -24,13 +32,8 @@ import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
+import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public enum ModuleDefinition implements IModuleFactory {
 	CASING_WOOD(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.wood", 0, EnumModuleSizes.LARGE){
@@ -234,6 +237,17 @@ public enum ModuleDefinition implements IModuleFactory {
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.RAIL));
+		}
+	},
+	TRANSFER_FLUID(new ModuleDataCasingPosition(), "transfer_fluid", 4, EnumModuleSizes.LARGE){
+		@Override
+		public Module createModule(IModuleStorage storage) {
+			return new ModuleTransferFluid(storage);
+		}
+
+		@Override
+		public void registerContainers() {
+			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
 		}
 	},
 	FURNACE(new ModuleDataSide(), "furnace", 1, EnumModuleSizes.MEDIUM){

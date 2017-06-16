@@ -1,6 +1,7 @@
 package modularmachines.common.modules.machine.lathe;
 
 import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IMode;
 import modularmachines.api.recipes.IRecipeConsumer;

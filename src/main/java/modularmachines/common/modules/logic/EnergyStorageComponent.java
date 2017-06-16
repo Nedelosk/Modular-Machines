@@ -3,8 +3,9 @@ package modularmachines.common.modules.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.api.modules.logic.LogicComponent;
 import net.minecraftforge.energy.IEnergyStorage;
+
+import modularmachines.api.modules.logic.LogicComponent;
 
 public class EnergyStorageComponent extends LogicComponent implements IEnergyStorage {
 

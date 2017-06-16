@@ -1,12 +1,18 @@
 package modularmachines.api.modules;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
+
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
@@ -18,11 +24,6 @@ import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	

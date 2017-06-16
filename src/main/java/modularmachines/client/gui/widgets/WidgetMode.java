@@ -3,6 +3,8 @@ package modularmachines.client.gui.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IMode;
 import modularmachines.common.core.ModularMachines;
@@ -11,7 +13,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncMode;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class WidgetMode extends Widget {
 

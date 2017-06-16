@@ -11,7 +11,7 @@ public abstract class TransferCycle<H> implements ITransferCycle<H> {
 	protected final ModuleTransfer<H> moduleTransfer;
 	protected final int amount;
 
-	public TransferCycle(ModuleTransfer<H> moduleTransfer, ITransferHandlerWrapper<H> startHandler, int[] slots, ITransferHandlerWrapper<H> endHandler, int[] insertSlots, int time, int priority, int amount) {
+	public TransferCycle(ModuleTransfer<H> moduleTransfer, ITransferHandlerWrapper<H> startHandler, ITransferHandlerWrapper<H> endHandler, int time, int priority, int amount) {
 		this.moduleTransfer = moduleTransfer;
 		this.startHandler = startHandler;
 		this.endHandler = endHandler;

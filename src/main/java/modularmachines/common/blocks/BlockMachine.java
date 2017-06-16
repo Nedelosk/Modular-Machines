@@ -3,17 +3,6 @@ package modularmachines.common.blocks;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.client.core.ClientProxy;
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
-import modularmachines.common.blocks.propertys.UnlistedBlockPos;
-import modularmachines.common.blocks.tile.TileEntityMachine;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.utils.WorldUtil;
-import modularmachines.common.utils.content.IClientContentHandler;
-import modularmachines.common.utils.content.IItemModelRegister;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -32,13 +21,28 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.client.core.ClientProxy;
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
+import modularmachines.common.blocks.propertys.UnlistedBlockPos;
+import modularmachines.common.blocks.tile.TileEntityMachine;
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.utils.WorldUtil;
+import modularmachines.common.utils.content.IClientContentHandler;
+import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockMachine extends BlockContainer implements IItemModelRegister, IClientContentHandler {
 
@@ -262,6 +266,11 @@ public class BlockMachine extends BlockContainer implements IItemModelRegister, 
 		}
 		return stack;
 	}*/
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		return super.getPickBlock(state, target, world, pos, player);
+	}
 
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {

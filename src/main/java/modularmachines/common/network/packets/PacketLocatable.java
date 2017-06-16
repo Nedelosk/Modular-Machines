@@ -1,11 +1,11 @@
 package modularmachines.common.network.packets;
 
-import java.io.IOException;
-
 import javax.annotation.Nullable;
+import java.io.IOException;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;

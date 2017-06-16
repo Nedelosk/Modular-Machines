@@ -1,9 +1,12 @@
 package modularmachines.client.gui.widgets;
 
 import net.minecraft.client.renderer.GlStateManager;
+
 import net.minecraftforge.energy.IEnergyStorage;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)

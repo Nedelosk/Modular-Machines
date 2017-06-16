@@ -1,9 +1,11 @@
 package modularmachines.common.utils.content;
 
-import modularmachines.client.model.ModelManager;
 import net.minecraft.item.Item;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.client.model.ModelManager;
 
 public interface IItemModelRegister {
 

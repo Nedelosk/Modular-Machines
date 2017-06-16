@@ -1,8 +1,9 @@
 package modularmachines.common.modules.engines;
 
+import net.minecraftforge.energy.IEnergyStorage;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraftforge.energy.IEnergyStorage;
 
 public class ModuleEngineElectric extends ModuleEngine {
 	

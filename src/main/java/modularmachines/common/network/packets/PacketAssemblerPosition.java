@@ -5,8 +5,10 @@ import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.network.PacketBufferMM;

@@ -4,13 +4,15 @@ import java.awt.Rectangle;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.ILocatableSource;
 import modularmachines.client.gui.GuiBase;
 import modularmachines.client.gui.WidgetManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class Widget<S extends ILocatableSource> {

@@ -5,8 +5,10 @@ import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;

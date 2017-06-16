@@ -1,5 +1,7 @@
 package modularmachines.common.modules.machine;
 
+import net.minecraft.world.WorldServer;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IHeatSource;
@@ -8,7 +10,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.world.WorldServer;
 
 public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMachine<R> {
 

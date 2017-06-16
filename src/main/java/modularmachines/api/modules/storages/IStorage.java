@@ -1,8 +1,9 @@
 package modularmachines.api.modules.storages;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IStorage {
 	

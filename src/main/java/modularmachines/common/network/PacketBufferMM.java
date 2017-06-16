@@ -4,16 +4,18 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
+import io.netty.buffer.ByteBuf;
 
 public class PacketBufferMM extends PacketBuffer {
 	public PacketBufferMM(ByteBuf wrapped) {

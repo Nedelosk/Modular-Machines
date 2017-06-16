@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;

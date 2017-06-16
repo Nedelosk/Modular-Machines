@@ -1,7 +1,8 @@
 package modularmachines.common.network;
 
-import java.io.IOException;
 import com.google.common.base.Preconditions;
+
+import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -12,7 +13,9 @@ import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.common.util.FakePlayer;
+
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;

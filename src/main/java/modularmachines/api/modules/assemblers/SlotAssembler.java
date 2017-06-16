@@ -2,6 +2,7 @@ package modularmachines.api.modules.assemblers;
 
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotAssembler extends SlotItemHandler {

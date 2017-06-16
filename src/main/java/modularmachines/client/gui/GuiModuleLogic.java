@@ -1,12 +1,14 @@
 package modularmachines.client.gui;
 
 import java.io.IOException;
+
+import net.minecraft.entity.player.InventoryPlayer;
+
 import org.lwjgl.opengl.GL11;
 
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.containers.ContainerModuleLogic;
-import net.minecraft.entity.player.InventoryPlayer;
 
 public class GuiModuleLogic extends GuiBase<IModuleLogic, IModuleLogic> {
 

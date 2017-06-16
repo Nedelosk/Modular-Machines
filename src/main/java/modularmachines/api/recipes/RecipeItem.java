@@ -2,6 +2,7 @@ package modularmachines.api.recipes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraftforge.fluids.FluidStack;
 
 public class RecipeItem {

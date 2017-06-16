@@ -2,9 +2,12 @@ package modularmachines.common.containers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+
+import net.minecraftforge.items.SlotItemHandler;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.SlotItemHandler;
+
 import modularmachines.common.inventory.ItemContainer;
 import modularmachines.common.inventory.ItemHandlerModule;
 

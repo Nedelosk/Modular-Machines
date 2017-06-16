@@ -1,9 +1,11 @@
 package modularmachines.common.energy;
 
+import net.minecraft.nbt.NBTTagCompound;
+
+import net.minecraftforge.common.util.INBTSerializable;
+
 import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 
 public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound> {
 

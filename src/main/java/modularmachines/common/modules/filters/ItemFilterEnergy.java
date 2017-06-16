@@ -1,6 +1,7 @@
 package modularmachines.common.modules.filters;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.energy.CapabilityEnergy;
 
 import modularmachines.api.modules.Module;

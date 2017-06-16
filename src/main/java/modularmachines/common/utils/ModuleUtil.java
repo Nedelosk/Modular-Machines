@@ -1,10 +1,23 @@
 package modularmachines.common.utils;
 
-import java.util.List;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import com.mojang.authlib.GameProfile;
+
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
@@ -18,16 +31,6 @@ import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
 import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModuleUtil {
 

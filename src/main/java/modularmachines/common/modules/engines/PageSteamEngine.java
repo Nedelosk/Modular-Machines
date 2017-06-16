@@ -2,14 +2,17 @@ package modularmachines.common.modules.engines;
 
 import java.util.List;
 
+import net.minecraft.inventory.Slot;
+
+import net.minecraftforge.fluids.IFluidTank;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.client.gui.widgets.WidgetFluidTank;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.pages.ModulePageWidget;
-import net.minecraft.inventory.Slot;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PageSteamEngine extends ModulePageWidget<ModuleEngineSteam> {
 

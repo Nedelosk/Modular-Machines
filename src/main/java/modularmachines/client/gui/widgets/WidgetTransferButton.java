@@ -2,6 +2,8 @@ package modularmachines.client.gui.widgets;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
@@ -9,7 +11,6 @@ import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class WidgetTransferButton<H> extends Widget {
 

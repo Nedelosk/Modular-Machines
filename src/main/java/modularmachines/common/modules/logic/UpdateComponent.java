@@ -2,9 +2,10 @@ package modularmachines.common.modules.logic;
 
 import java.util.Random;
 
+import net.minecraft.util.ITickable;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.LogicComponent;
-import net.minecraft.util.ITickable;
 
 public class UpdateComponent extends LogicComponent{
 

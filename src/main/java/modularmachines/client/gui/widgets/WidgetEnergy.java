@@ -4,12 +4,15 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.common.utils.Translator;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+
 import net.minecraftforge.energy.IEnergyStorage;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
 public abstract class WidgetEnergy extends Widget {

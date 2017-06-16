@@ -1,13 +1,16 @@
 package modularmachines.api.modules.assemblers;
 
 import java.util.Collection;
+
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+
+import net.minecraftforge.items.SlotItemHandler;
+
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotAssemblerStorage extends SlotItemHandler {
 

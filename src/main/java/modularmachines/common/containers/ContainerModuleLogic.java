@@ -1,11 +1,12 @@
 package modularmachines.common.containers;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
+
+import java.util.List;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;

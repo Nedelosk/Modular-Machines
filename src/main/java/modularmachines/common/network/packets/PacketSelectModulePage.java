@@ -7,8 +7,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;

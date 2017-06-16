@@ -3,15 +3,17 @@ package modularmachines.common.utils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import modularmachines.common.inventory.ItemTransferHelper;
-import modularmachines.common.modules.transfer.ModuleTransfer;
-import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
+
+import modularmachines.common.inventory.ItemTransferHelper;
+import modularmachines.common.modules.transfer.ModuleTransfer;
+import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 
 public class ItemUtil {
 	

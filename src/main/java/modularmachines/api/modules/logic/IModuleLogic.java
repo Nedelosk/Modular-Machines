@@ -1,18 +1,18 @@
 package modularmachines.api.modules.logic;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IModuleLogic extends IGuiProvider {
 	

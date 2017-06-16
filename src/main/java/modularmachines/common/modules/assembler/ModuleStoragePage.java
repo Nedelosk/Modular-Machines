@@ -9,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
+
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import modularmachines.api.modules.EnumModuleSizes;

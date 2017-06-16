@@ -3,10 +3,12 @@ package modularmachines.api.modules.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import modularmachines.api.modules.ModuleData;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.ModuleData;
 
 @SideOnly(Side.CLIENT)
 public class ModelLocation {

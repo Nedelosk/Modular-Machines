@@ -2,7 +2,6 @@ package modularmachines.common.utils;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.ILocatable;
 import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +11,8 @@ import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import modularmachines.api.ILocatable;
 
 public class WorldUtil {
 

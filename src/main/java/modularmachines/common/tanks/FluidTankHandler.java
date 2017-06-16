@@ -1,15 +1,18 @@
 package modularmachines.common.tanks;
 
+import com.google.common.collect.Lists;
+
 import java.util.Collections;
 import java.util.List;
-import com.google.common.collect.Lists;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
+
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;

@@ -1,8 +1,5 @@
 package modularmachines.common.modules.transfer;
 
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.core.ModularMachines;
-import modularmachines.common.utils.WorldUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.common.core.ModularMachines;
+import modularmachines.common.utils.WorldUtil;
 
 public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> {
 	

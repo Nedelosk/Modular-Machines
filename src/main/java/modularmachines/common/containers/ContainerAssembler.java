@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.assemblers.SlotAssemblerStorage;

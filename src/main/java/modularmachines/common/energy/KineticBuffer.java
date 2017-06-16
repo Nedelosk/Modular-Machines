@@ -1,7 +1,8 @@
 package modularmachines.common.energy;
 
-import modularmachines.api.modules.energy.IKineticSource;
 import net.minecraft.nbt.NBTTagCompound;
+
+import modularmachines.api.modules.energy.IKineticSource;
 
 public class KineticBuffer implements IKineticSource {
 

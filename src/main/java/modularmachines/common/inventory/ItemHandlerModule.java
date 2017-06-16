@@ -1,24 +1,26 @@
 package modularmachines.common.inventory;
 
-import static net.minecraft.item.ItemStack.EMPTY;
-
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
+
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.utils.ItemUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
+
+import static net.minecraft.item.ItemStack.EMPTY;
 
 public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsumer {
 

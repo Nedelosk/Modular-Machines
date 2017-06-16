@@ -1,10 +1,17 @@
 package modularmachines.common.modules.transfer.items;
 
+import com.google.common.base.Predicate;
+import com.google.common.primitives.Ints;
+
 import java.awt.Color;
 import java.util.List;
 
-import com.google.common.base.Predicate;
-import com.google.common.primitives.Ints;
+import net.minecraft.client.gui.FontRenderer;
+
+import net.minecraftforge.items.IItemHandler;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.gui.widgets.WidgetTextField;
 import modularmachines.client.gui.widgets.WidgetTransferHandler;
@@ -13,10 +20,6 @@ import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketAddCycle;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModuleTransferItemPage extends ModuleTransferPage<ModuleTransferItem, IItemHandler> {
 

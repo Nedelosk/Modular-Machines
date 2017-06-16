@@ -2,15 +2,17 @@ package modularmachines.common.core.managers;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import modularmachines.common.blocks.BlockMachine;
 import modularmachines.common.blocks.BlockMetalBlock;
 import modularmachines.common.blocks.BlockOre;
 import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.core.Registry;
 import modularmachines.common.items.blocks.ItemBlockForest;
-import modularmachines.common.items.blocks.ItemBlockMetalBlock;
 import modularmachines.common.items.blocks.ItemBlockMachine;
+import modularmachines.common.items.blocks.ItemBlockMetalBlock;
 
 public class BlockManager {
 

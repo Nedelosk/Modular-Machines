@@ -1,8 +1,10 @@
 package modularmachines.api.modules.containers;
 
-import modularmachines.api.modules.ModuleData;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.oredict.OreDictionary;
+
+import modularmachines.api.modules.ModuleData;
 
 public class ModuleContainerNBT extends ModuleContainer {
 

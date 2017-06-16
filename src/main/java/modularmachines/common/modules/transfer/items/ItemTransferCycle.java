@@ -1,9 +1,11 @@
 package modularmachines.common.modules.transfer.items;
 
+import java.util.function.Predicate;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraftforge.items.IItemHandler;
-import java.util.function.Predicate;
 
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 import modularmachines.common.modules.transfer.TransferCycle;
@@ -15,7 +17,7 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 	protected final int[] insertSlots;
 	
 	public ItemTransferCycle(ModuleTransferItem moduleTransfer, ITransferHandlerWrapper<IItemHandler> startHandler, int[] slots, ITransferHandlerWrapper<IItemHandler> endHandler, int[] insertSlots, int time, int priority, int amount) {
-		super(moduleTransfer, startHandler, slots, endHandler, insertSlots, time, priority, amount);
+		super(moduleTransfer, startHandler, endHandler, time, priority, amount);
 		if (slots == null || slots.length == 0) {
 			slots = generateDefaultSlots(moduleTransfer.getHandler(startHandler));
 		}

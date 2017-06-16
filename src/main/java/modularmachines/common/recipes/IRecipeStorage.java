@@ -2,8 +2,9 @@ package modularmachines.common.recipes;
 
 import java.util.List;
 
-import modularmachines.api.recipes.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+
+import modularmachines.api.recipes.IRecipe;
 
 public interface IRecipeStorage {
 

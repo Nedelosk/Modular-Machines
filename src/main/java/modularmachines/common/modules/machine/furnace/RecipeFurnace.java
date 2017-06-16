@@ -1,9 +1,10 @@
 package modularmachines.common.modules.machine.furnace;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.recipes.RecipeHeat;
-import net.minecraft.item.ItemStack;
 
 public class RecipeFurnace extends RecipeHeat {
 

@@ -1,5 +1,8 @@
 package modularmachines.common.modules.assembler;
 
+import com.google.common.base.Preconditions;
+
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -7,9 +10,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
-import com.google.common.base.Preconditions;
+import net.minecraftforge.items.IItemHandler;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
@@ -31,21 +47,7 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ItemUtil;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
+import modularmachines.common.utils.Translator;
 
 public class Assembler implements IAssembler {
 
@@ -190,9 +192,9 @@ public class Assembler implements IAssembler {
 		int allowedComplexity = getAllowedComplexity();
 		if (complexity > allowedComplexity) {
 			if (allowedComplexity == Config.defaultAllowedComplexity) {
-				errors.add(new AssemblerError(I18n.translateToLocal("modular.assembler.error.no.controller")));
+				errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.no.controller")));
 			}
-			errors.add(new AssemblerError(I18n.translateToLocal("modular.assembler.error.complexity")));
+			errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.complexity")));
 		}
 	}
 
@@ -246,7 +248,7 @@ public class Assembler implements IAssembler {
 			}
 		}
 		if (getPage(EnumStoragePosition.CASING).isEmpty()) {
-			errors.add(new AssemblerError(I18n.translateToLocal("modular.assembler.error.no.casing")));
+			errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.no.casing")));
 		}
 		
 		isToComplex(errors);

@@ -1,7 +1,8 @@
 package modularmachines.common.items;
 
-import modularmachines.common.utils.ItemUtil;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.common.utils.ItemUtil;
 
 public class ItemToolCrafting extends ItemTool {
 

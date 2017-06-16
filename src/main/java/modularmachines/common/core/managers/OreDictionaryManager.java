@@ -1,16 +1,17 @@
 package modularmachines.common.core.managers;
 
-import static net.minecraftforge.oredict.OreDictionary.registerOre;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.oredict.OreDictionary;
 
 import modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
 import modularmachines.common.items.ItemComponent;
 import modularmachines.common.materials.EnumMaterial;
 import modularmachines.common.materials.MaterialList;
+
+import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
 public class OreDictionaryManager {
 

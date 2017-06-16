@@ -3,10 +3,12 @@ package modularmachines.common.modules.logic;
 import java.util.HashMap;
 import java.util.Map;
 
-import modularmachines.api.modules.logic.LogicComponent;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.logic.LogicComponent;
 
 public class ModelComponent extends LogicComponent {
 	

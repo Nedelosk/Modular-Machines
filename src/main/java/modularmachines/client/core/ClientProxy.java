@@ -3,17 +3,6 @@ package modularmachines.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.client.gui.GuiAssembler;
-import modularmachines.client.model.ModelManager;
-import modularmachines.common.core.CommonProxy;
-import modularmachines.common.core.Constants;
-import modularmachines.common.modules.ModuleDefinition;
-import modularmachines.common.utils.Translator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -32,10 +21,24 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fluids.Fluid;
+
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+
+import org.lwjgl.input.Keyboard;
+
+import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.client.gui.GuiAssembler;
+import modularmachines.client.model.ModelManager;
+import modularmachines.common.core.CommonProxy;
+import modularmachines.common.core.Constants;
+import modularmachines.common.modules.ModuleDefinition;
+import modularmachines.common.utils.Translator;
 
 public class ClientProxy extends CommonProxy {
 

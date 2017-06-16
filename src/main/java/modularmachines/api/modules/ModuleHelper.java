@@ -1,16 +1,16 @@
 package modularmachines.api.modules;
 
+import com.google.common.collect.Lists;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
+import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
-import net.minecraft.item.ItemStack;
 
 public class ModuleHelper {
 	

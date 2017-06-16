@@ -2,14 +2,16 @@ package modularmachines.common.modules.machine.lathe;
 
 import java.util.List;
 
+import net.minecraft.inventory.Slot;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.client.gui.widgets.WidgetMode;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.pages.ModulePageWidget;
-import net.minecraft.inventory.Slot;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PageLathe extends ModulePageWidget<ModuleLathe> {
 

@@ -3,11 +3,12 @@ package modularmachines.common.tanks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+
 import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 import modularmachines.common.utils.IContentContainer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 
 public class FluidTankModule extends FluidTank implements IContentContainer<FluidStack> {
 

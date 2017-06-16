@@ -2,15 +2,17 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModulePage;
 import modularmachines.common.network.IStreamable;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketUpdateModule extends PacketModule{
 

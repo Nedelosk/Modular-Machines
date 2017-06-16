@@ -1,5 +1,15 @@
 package modularmachines.common.modules.transfer.items;
 
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.common.modules.transfer.ITransferCycle;
@@ -8,14 +18,6 @@ import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.modules.transfer.TransferWrapperModule;
 import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 public class ModuleTransferItem extends ModuleTransfer<IItemHandler>{
 

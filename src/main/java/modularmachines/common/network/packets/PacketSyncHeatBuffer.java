@@ -2,14 +2,16 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketSyncHeatBuffer extends PacketLocatable {
 

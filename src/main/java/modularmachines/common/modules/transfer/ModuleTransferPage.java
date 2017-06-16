@@ -1,8 +1,12 @@
 package modularmachines.common.modules.transfer;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.gui.widgets.Widget;
 import modularmachines.client.gui.widgets.WidgetTransfer;
@@ -10,9 +14,6 @@ import modularmachines.client.gui.widgets.WidgetTransferButton;
 import modularmachines.client.gui.widgets.WidgetTransferCycle;
 import modularmachines.common.modules.pages.ModulePageWidget;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ModuleTransferPage<M extends ModuleTransfer<H>, H> extends ModulePageWidget<M> {
 

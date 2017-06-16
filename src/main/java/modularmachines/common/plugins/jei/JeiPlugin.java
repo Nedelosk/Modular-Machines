@@ -1,10 +1,14 @@
 package modularmachines.common.plugins.jei;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.Rectangle;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import modularmachines.client.gui.GuiAssembler;
+import modularmachines.client.gui.GuiModuleLogic;
+import modularmachines.client.gui.widgets.Widget;
+import modularmachines.client.gui.widgets.WidgetFluidTank;
 
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IJeiHelpers;
@@ -12,10 +16,6 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.gui.BlankAdvancedGuiHandler;
-import modularmachines.client.gui.GuiAssembler;
-import modularmachines.client.gui.GuiModuleLogic;
-import modularmachines.client.gui.widgets.Widget;
-import modularmachines.client.gui.widgets.WidgetFluidTank;
 
 @JEIPlugin
 public class JeiPlugin extends BlankModPlugin {

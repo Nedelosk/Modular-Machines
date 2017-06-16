@@ -1,13 +1,12 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 
-import modularmachines.common.utils.Translator;
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -19,6 +18,8 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.math.MathHelper;
+
+import modularmachines.common.utils.Translator;
 
 public class WidgetTextField extends Widget {
 

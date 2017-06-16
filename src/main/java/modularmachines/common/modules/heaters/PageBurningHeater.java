@@ -4,16 +4,18 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.inventory.Slot;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.client.gui.widgets.WidgetBurning;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.modules.pages.ModulePageWidget;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.inventory.Slot;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PageBurningHeater extends ModulePageWidget<ModuleHeaterBurning> {
 

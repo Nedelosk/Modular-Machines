@@ -1,22 +1,22 @@
 package modularmachines.common.utils;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Nullable;
-
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
-import modularmachines.common.modules.logic.ModuleGuiLogic;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+
+import modularmachines.api.modules.Module;
+import modularmachines.api.modules.logic.IModuleGuiLogic;
+import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.common.modules.logic.ModuleGuiLogic;
 
 public class GuiLogicCache extends WorldSavedData {
 

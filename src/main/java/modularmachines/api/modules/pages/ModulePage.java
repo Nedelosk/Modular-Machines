@@ -1,17 +1,18 @@
 package modularmachines.api.modules.pages;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import modularmachines.api.modules.Module;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.api.modules.Module;
 
 public class ModulePage<P extends Module> implements IPage {
 

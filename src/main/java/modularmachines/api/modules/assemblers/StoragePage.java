@@ -1,9 +1,20 @@
 package modularmachines.api.modules.assemblers;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import net.minecraftforge.items.IItemHandlerModifiable;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
@@ -11,15 +22,6 @@ import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 public abstract class StoragePage implements IStoragePage {
 	

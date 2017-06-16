@@ -2,8 +2,9 @@ package modularmachines.api.modules.containers;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.ModuleData;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.api.modules.ModuleData;
 
 /**
  * An IModuleContainer provides informations about modules.

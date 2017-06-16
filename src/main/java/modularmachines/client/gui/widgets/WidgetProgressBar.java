@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.client.gui.GuiModuleLogic;
 import modularmachines.common.modules.IModuleJei;
 import modularmachines.common.modules.IModuleWorking;
 import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorking> extends Widget {

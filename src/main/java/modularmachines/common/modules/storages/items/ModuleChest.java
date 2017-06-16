@@ -1,10 +1,11 @@
 package modularmachines.common.modules.storages.items;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.DefaultFilter;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleChest extends Module {
 

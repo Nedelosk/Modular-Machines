@@ -1,10 +1,11 @@
 package modularmachines.api.recipes;
 
-import java.util.HashMap;
-
 import com.google.common.collect.Maps;
 
+import java.util.HashMap;
+
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeRegistry {

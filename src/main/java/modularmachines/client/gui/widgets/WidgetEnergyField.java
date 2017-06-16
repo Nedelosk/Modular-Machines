@@ -2,7 +2,9 @@ package modularmachines.client.gui.widgets;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.energy.IEnergyStorage;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

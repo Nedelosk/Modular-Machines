@@ -1,14 +1,15 @@
 package modularmachines.common.inventory;
 
 import javax.annotation.Nullable;
-
-import modularmachines.common.utils.ItemUtil;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.items.IItemHandler;
+
+import modularmachines.common.utils.ItemUtil;
 
 public class InventoryManipulator implements Iterable<InvSlot> {
 

@@ -1,11 +1,12 @@
 package modularmachines.common.modules.machine;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modules.IModuleKinetic;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IKineticSource;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMachine<R> {
 

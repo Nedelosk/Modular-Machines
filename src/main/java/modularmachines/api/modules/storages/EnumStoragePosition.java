@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Locale;
 
 import net.minecraft.util.text.translation.I18n;
-import scala.actors.threadpool.Arrays;
+
 import modularmachines.api.modules.EnumModuleSizes;
+
+import scala.actors.threadpool.Arrays;
 
 public enum EnumStoragePosition implements IMachineStoragePosition {
 	CASING(EnumModuleSizes.LARGEST),

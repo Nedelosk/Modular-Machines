@@ -1,6 +1,7 @@
 package modularmachines.common.inventory;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.items.IItemHandler;
 
 public class InvSlot {

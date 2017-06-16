@@ -1,13 +1,14 @@
 package modularmachines.common.modules.tools;
 
-import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleStorage;
-import modularmachines.api.modules.Module;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModuleStorage;
+import modularmachines.api.modules.Module;
 
 public class ModuleWoodcutter extends Module implements ITickable {
 

@@ -1,14 +1,16 @@
 package modularmachines.common.core.managers;
 
+import java.util.Collections;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.INBTSerializable;
-import java.util.Collections;
 
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;

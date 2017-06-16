@@ -1,8 +1,17 @@
 package modularmachines.common.modules.pages;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;
@@ -14,14 +23,6 @@ import modularmachines.client.gui.widgets.WidgetAssembleTab;
 import modularmachines.client.gui.widgets.WidgetModuleTab;
 import modularmachines.client.gui.widgets.WidgetPageTab;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Slot;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModulePageWidget<P extends Module> extends ModulePage<P> {
 

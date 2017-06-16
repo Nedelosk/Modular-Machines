@@ -1,20 +1,20 @@
 package modularmachines.client.gui;
 
+import javax.annotation.Nonnull;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.AssemblerError;

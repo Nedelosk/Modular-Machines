@@ -3,6 +3,13 @@ package modularmachines.common.blocks.tile;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import net.minecraftforge.common.capabilities.Capability;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
@@ -12,11 +19,6 @@ import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.modules.assembler.Assembler;
 import modularmachines.common.modules.logic.ModuleLogic;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
 
 public class TileEntityMachine extends TileBase implements ILocatable{
 

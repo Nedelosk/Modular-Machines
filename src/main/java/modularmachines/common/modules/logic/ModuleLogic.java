@@ -1,13 +1,30 @@
 package modularmachines.common.modules.logic;
 
+import com.google.common.base.Preconditions;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
@@ -24,20 +41,6 @@ import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.utils.ContainerUtil;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModuleLogic implements IModuleLogic {
 	

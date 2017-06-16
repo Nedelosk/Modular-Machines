@@ -2,18 +2,21 @@ package modularmachines.client.model.module;
 
 import com.google.common.base.Function;
 
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.tileentity.TileEntity;
+
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.model.IModelState;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.model.ModelLocation;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.IModuleWorking;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataWorking extends ModelData {

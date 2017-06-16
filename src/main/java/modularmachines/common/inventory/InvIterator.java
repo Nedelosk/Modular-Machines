@@ -3,8 +3,9 @@ package modularmachines.common.inventory;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import modularmachines.common.utils.ItemUtil;
 import net.minecraftforge.items.IItemHandler;
+
+import modularmachines.common.utils.ItemUtil;
 
 public class InvIterator implements Iterator<InvSlot> {
 	private final IItemHandler inv;

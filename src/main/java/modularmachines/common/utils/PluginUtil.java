@@ -1,6 +1,7 @@
 package modularmachines.common.utils;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fluids.FluidStack;
 
 public class PluginUtil {

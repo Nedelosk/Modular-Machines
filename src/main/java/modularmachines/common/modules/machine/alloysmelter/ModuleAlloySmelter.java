@@ -1,5 +1,7 @@
 package modularmachines.common.modules.machine.alloysmelter;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
@@ -8,7 +10,6 @@ import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.OutputFilter;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleHeatMachine;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleAlloySmelter extends ModuleHeatMachine {
 	

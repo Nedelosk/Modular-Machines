@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.IRecipeHeat;
@@ -14,8 +17,6 @@ import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.OutputFilter;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleHeatMachine;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IModuleJei {
 

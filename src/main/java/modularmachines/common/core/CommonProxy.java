@@ -10,7 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.Fluid;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class CommonProxy {

@@ -6,6 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.materials.EnumMaterial;

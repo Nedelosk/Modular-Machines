@@ -1,4 +1,20 @@
 package modularmachines.common.core;
+
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
+
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import net.minecraftforge.fml.common.registry.RegistryBuilder;
+
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.common.config.Config;
@@ -12,18 +28,6 @@ import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleHelper;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.PluginManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import net.minecraftforge.fml.common.registry.RegistryBuilder;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, guiFactory = "modularmachines.common.config.ConfigFactory")
 public class ModularMachines {

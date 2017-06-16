@@ -1,10 +1,11 @@
 package modularmachines.common.modules.machine.pulverizer;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.recipes.OreStack;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.recipes.Recipe;
-import net.minecraft.item.ItemStack;
 
 public class RecipePulverizer extends Recipe{
 	

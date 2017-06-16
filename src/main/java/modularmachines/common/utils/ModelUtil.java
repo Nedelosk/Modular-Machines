@@ -1,19 +1,21 @@
 package modularmachines.common.utils;
 
+import com.google.common.base.Charsets;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import com.google.common.base.Charsets;
-
-import modularmachines.common.core.ModularMachines;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelBlock;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.client.model.IPerspectiveAwareModel.MapWrapper;
 import net.minecraftforge.client.model.SimpleModelState;
+
+import modularmachines.common.core.ModularMachines;
 
 public class ModelUtil {
 

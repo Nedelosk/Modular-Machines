@@ -1,17 +1,17 @@
 package modularmachines.client.gui.widgets;
 
+import javax.annotation.Nullable;
 import java.awt.Color;
 
-import javax.annotation.Nullable;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class WidgetTransfer extends Widget {
 

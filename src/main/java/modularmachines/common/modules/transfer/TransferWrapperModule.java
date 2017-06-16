@@ -1,8 +1,9 @@
 package modularmachines.common.modules.transfer;
 
+import net.minecraft.item.ItemStack;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
-import net.minecraft.item.ItemStack;
 
 public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 	

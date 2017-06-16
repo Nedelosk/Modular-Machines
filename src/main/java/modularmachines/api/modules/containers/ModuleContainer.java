@@ -1,7 +1,8 @@
 package modularmachines.api.modules.containers;
 
-import modularmachines.api.modules.ModuleData;
 import net.minecraft.item.ItemStack;
+
+import modularmachines.api.modules.ModuleData;
 
 public class ModuleContainer implements IModuleContainer {
 

@@ -1,9 +1,21 @@
 package modularmachines.client.model.module;
 
+import com.google.common.base.Function;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Function;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.model.IModelState;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.EnumWallType;
@@ -15,15 +27,6 @@ import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.model.TRSRBakedModel;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataModuleStorage extends ModelData {

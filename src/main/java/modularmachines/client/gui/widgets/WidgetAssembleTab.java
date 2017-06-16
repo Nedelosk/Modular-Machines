@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;

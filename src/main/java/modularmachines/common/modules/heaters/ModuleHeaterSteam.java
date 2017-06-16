@@ -1,9 +1,11 @@
 package modularmachines.common.modules.heaters;
 
 import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.ItemFilterFluid;

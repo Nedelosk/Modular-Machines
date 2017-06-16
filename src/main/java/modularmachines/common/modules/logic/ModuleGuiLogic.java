@@ -1,8 +1,7 @@
 package modularmachines.common.modules.logic;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
+import java.util.List;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;

@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
 import modularmachines.common.utils.ContainerUtil;

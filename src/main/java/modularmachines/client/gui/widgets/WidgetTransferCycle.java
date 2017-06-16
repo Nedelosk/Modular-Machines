@@ -1,9 +1,10 @@
 package modularmachines.client.gui.widgets;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.utils.RenderUtil;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class WidgetTransferCycle extends Widget{
 

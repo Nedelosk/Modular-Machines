@@ -3,6 +3,7 @@ package modularmachines.common.modules.heaters;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;

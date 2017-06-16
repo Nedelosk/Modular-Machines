@@ -1,15 +1,15 @@
 package modularmachines.api.modules;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 
 public class ModuleRegistry {
 

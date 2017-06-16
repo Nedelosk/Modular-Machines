@@ -2,6 +2,15 @@ package modularmachines.common.network.packets;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.transfer.ITransferCycle;
@@ -11,13 +20,6 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ModuleUtil;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PacketAddCycle extends PacketModule {
 

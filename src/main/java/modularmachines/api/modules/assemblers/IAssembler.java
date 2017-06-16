@@ -3,11 +3,12 @@ package modularmachines.api.modules.assemblers;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStoragePosition;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 
 public interface IAssembler extends IGuiProvider {
 

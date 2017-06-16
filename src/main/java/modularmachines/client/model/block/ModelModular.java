@@ -1,14 +1,14 @@
 package modularmachines.client.model.block;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,15 +26,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
+
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.logic.IModuleLogic;

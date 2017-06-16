@@ -3,6 +3,8 @@ package modularmachines.common.modules.storages.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.items.IItemHandlerModifiable;
+
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
@@ -17,7 +19,6 @@ import modularmachines.common.modules.assembler.ModuleStorage;
 import modularmachines.common.modules.assembler.ModuleStoragePage;
 import modularmachines.common.modules.assembler.Storage;
 import modularmachines.common.modules.assembler.StorageModule;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class ModuleDataStorageModule extends ModuleData {
 
