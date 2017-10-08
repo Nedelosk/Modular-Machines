@@ -2,20 +2,23 @@ package modularmachines.common.modules.machine.pulverizer;
 
 import java.util.List;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.pages.DefaultModuleComponent;
+import modularmachines.api.modules.pages.IModuleComponent;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.pages.ModulePageWidget;
+import modularmachines.common.modules.pages.PageWidget;
 
-public class PagePulverizer extends ModulePageWidget<ModulePulverizer> {
-
-	public PagePulverizer(ModulePulverizer parent) {
-		super(parent);
+public class ModuleComponentPulverizer extends DefaultModuleComponent<ModulePulverizer> {
+	
+	public ModuleComponentPulverizer(ModulePulverizer parent) {
+		super(parent, PagePulverizer::new);
 	}
 	
 	@Override
@@ -28,11 +31,17 @@ public class PagePulverizer extends ModulePageWidget<ModulePulverizer> {
 		slots.add(new SlotModule(itemHandler, 3, 116, 44));
 		slots.add(new SlotModule(itemHandler, 4, 134, 44));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
-	@Override
-	public void addWidgets() {
-		super.addWidgets();
-		addWidget(new WidgetProgressBar(82, 35, parent));
+	public static class PagePulverizer extends PageWidget<ModulePulverizer> {
+		public PagePulverizer(IModuleComponent<ModulePulverizer> component, GuiContainer gui) {
+			super(component, gui);
+		}
+		
+		@Override
+		public void addWidgets() {
+			super.addWidgets();
+			addWidget(new WidgetProgressBar(82, 35, module));
+		}
 	}
 }

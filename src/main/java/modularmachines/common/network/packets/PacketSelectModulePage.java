@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;
@@ -26,7 +26,7 @@ public class PacketSelectModulePage extends PacketModule {
 	public PacketSelectModulePage() {
 	}
 
-	public PacketSelectModulePage(IModuleLogic logic, ModulePage page) {
+	public PacketSelectModulePage(IModuleLogic logic, ModuleComponent page) {
 		super(logic, page.getParent().getIndex(), page.getIndex());
 	}
 
@@ -46,7 +46,7 @@ public class PacketSelectModulePage extends PacketModule {
 			if (guiLogic != null) {
 				Module module = getModule(ModuleUtil.getLogic(pos, world), data);
 				int pageIndex = data.readInt();
-				ModulePage page = module.getPage(pageIndex);
+				ModuleComponent page = module.getComponent(pageIndex);
 				guiLogic.setCurrentPage(page, false);
 			}
 		}
@@ -60,7 +60,7 @@ public class PacketSelectModulePage extends PacketModule {
 				IModuleLogic logic = guiLogic.getLogic();
 				Module module = getModule(logic, data);
 				int pageIndex = data.readInt();
-				ModulePage page = module.getPage(pageIndex);
+				ModuleComponent page = module.getComponent(pageIndex);
 				guiLogic.setCurrentPage(page, false);
 				PacketHandler.sendToNetwork(new PacketSelectModulePage(logic, page), pos, world);
 				ContainerUtil.openGuiSave(logic, 1);

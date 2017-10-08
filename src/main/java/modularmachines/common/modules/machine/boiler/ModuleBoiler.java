@@ -130,9 +130,9 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new BoilerPage(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new BoilerModuleComponent(this));
 	}
 
 	/*@SideOnly(Side.CLIENT)

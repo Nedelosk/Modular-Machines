@@ -1,5 +1,6 @@
 package modularmachines.common.modules.transfer.fluid;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -12,10 +13,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.pages.IPage;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
+import modularmachines.common.modules.transfer.ModuleComponentTransfer;
 import modularmachines.common.modules.transfer.ModuleTransfer;
-import modularmachines.common.modules.transfer.ModuleTransferPage;
 import modularmachines.common.modules.transfer.TransferWrapperModule;
 import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
 
@@ -85,10 +87,30 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 		}
 		return null;
 	}
-
+	
 	@Override
-	protected ModuleTransferPage createPage(ModuleTransfer<IFluidHandler> parent, int index) {
-		return new ModuleTransferFluidPage(this, index);
+	public boolean isValid(ITransferHandlerWrapper<IFluidHandler> wrapper) {
+		if(wrapper instanceof TransferWrapperTileEntity){
+			TransferWrapperTileEntity tileWrapper = (TransferWrapperTileEntity) wrapper;
+			TileEntity tile = tileWrapper.getTileEntity();
+			EnumFacing facing = tileWrapper.getFacing();
+			return tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite());
+		}else if(wrapper instanceof TransferWrapperModule){
+			TransferWrapperModule moduleWrapper = (TransferWrapperModule) wrapper;
+			Module module = moduleWrapper.getModule();
+			return module.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+		}
+		return false;
+	}
+	
+	@Override
+	protected ModuleComponentTransfer createComponent(ModuleTransfer<IFluidHandler> parent, int index) {
+		return new ModuleComponentTransfer(this, index){
+			@Override
+			public IPage createPage(GuiContainer gui) {
+				return new PageTransferFluid(this, gui);
+			}
+		};
 	}
 
 	@Override

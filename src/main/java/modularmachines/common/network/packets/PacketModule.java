@@ -5,7 +5,7 @@ import java.io.IOException;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 
@@ -22,14 +22,14 @@ public abstract class PacketModule extends PacketLocatable<IModuleLogic> {
 	}
 	
 	public PacketModule(IModuleGuiLogic logic) {
-		this(logic.getCurrentModule(), logic.getCurrentPage());
+		this(logic.getCurrentModule(), logic.getCurrentComponent());
 	}
 	
 	public PacketModule(Module module) {
 		this(module.getLogic(), module.getIndex(), -1);
 	}
 
-	public PacketModule(Module module, ModulePage page) {
+	public PacketModule(Module module, ModuleComponent page) {
 		this(module.getLogic(), module.getIndex(), page.getIndex());
 	}
 
@@ -53,11 +53,11 @@ public abstract class PacketModule extends PacketLocatable<IModuleLogic> {
 		return logic.getModule(data.readInt());
 	}
 	
-	protected static ModulePage getPage(IModuleLogic logic, PacketBufferMM data) {
+	protected static ModuleComponent getPage(IModuleLogic logic, PacketBufferMM data) {
 		Module module = getModule(logic, data);
 		if(module == null){
 			return null;
 		}
-		return module.getPage(data.readInt());
+		return module.getComponent(data.readInt());
 	}
 }

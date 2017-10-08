@@ -1,8 +1,6 @@
 package modularmachines.api.modules;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +15,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.assemblers.SlotAssembler;
-import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.model.IModelData;
@@ -31,12 +27,13 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	private Map<Class<? extends Object>, IModelData> models = new HashMap<>();
 	private int complexity = 0;
 	private int allowedComplexity = 0;
+	private float dropChance = 1.0F;
 	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
     private String unlocalizedName;
     private IModuleFactory factory = DefaultModuleFactory.INSTANCE;
     
 	/**
-	 * A description of this module. It woud be displayed in jei and the item tooltip.
+	 * A description of this module. It would be displayed in jei and the item tooltip.
 	 */
 	public String getDescription(){
 		return I18n.translateToLocal(getDescriptionKey());
@@ -82,6 +79,14 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		this.size = size;
 	}
 	
+	public float getDropChance(){
+		return dropChance;
+	}
+	
+	public void setDropChance(float dropChance) {
+		this.dropChance = dropChance;
+	}
+	
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
 	}
 	
@@ -91,18 +96,24 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return module;
 	}
 	
-	public boolean isPositionValid(IStoragePosition position){
-		return true;
-	}
-	
 	public Module createModule(IModuleStorage storage){
 		return factory.createModule(storage);
 	}
 	
-	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack, @Nullable SlotAssembler slot, SlotAssemblerStorage storageSlot){
+	public IModuleType[] getTypes(ItemStack itemStack){
+		return new IModuleType[0];
+	}
+	
+	/* STORAGE */
+	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack){
 		return true;
 	}
 	
+	public boolean isPositionValid(IStoragePosition position){
+		return true;
+	}
+	
+	/* OWN STORAGE */
 	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page) {
 		return null;
 	}
@@ -114,16 +125,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	public IStoragePage createStoragePage(IAssembler assembler, IStoragePosition position, @Nullable IStorage storage){
 		return null;
 	}
-	
-	@Nullable
-	public IStoragePage createChildPage(IAssembler assembler, IStoragePosition position){
-		return null;
-	}
-	
-	public Collection<IStoragePosition> getChildPositions(IStoragePosition position){
-		return Collections.emptyList();
-	}
 
+	/* ITEM INFO */
 	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleContainer container) {
 		if(I18n.canTranslate(getDescriptionKey())){
 			tooltip.add(getDescription());
@@ -131,7 +134,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	}
 	
 	/* MODEL */
-	
 	public void addModel(Class<? extends Object> clazz, IModelData modelData){
 		models.put(clazz, modelData);
 	}

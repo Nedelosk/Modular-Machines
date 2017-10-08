@@ -46,7 +46,7 @@ public class ModelDataCasing extends ModelData {
 			models.add(ModelLoader.getModel(get(CASING_RIGHT), format));
 		}
 		models.add(ModelLoader.getModel(get(CASING), format));
-		for (Module otherModule : storage.getStorage().getModules()) {
+		for (Module otherModule : storage.getModules().getModules()) {
 			if(otherModule != module){
 				models.add(ModelLoader.getModel(otherModule, storage, modelState, format));
 			}

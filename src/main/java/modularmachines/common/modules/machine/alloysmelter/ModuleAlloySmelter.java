@@ -38,9 +38,9 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageAlloySmelter(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentAlloySmelter(this));
 	}
 
 	@Override

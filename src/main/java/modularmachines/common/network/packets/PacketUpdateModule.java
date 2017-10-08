@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.IStreamable;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
@@ -23,7 +23,7 @@ public class PacketUpdateModule extends PacketModule{
 		super(module);
 	}
 
-	public PacketUpdateModule(Module module, ModulePage page) {
+	public PacketUpdateModule(Module module, ModuleComponent page) {
 		super(module, page);
 	}
 	
@@ -33,7 +33,7 @@ public class PacketUpdateModule extends PacketModule{
 		if (index > 0) {
 			Module module = source.getModule(index);
 			if (pageIndex > 0) {
-				ModulePage page = module.getPage(pageIndex);
+				ModuleComponent page = module.getComponent(pageIndex);
 				if (page instanceof IStreamable) {
 					((IStreamable) page).writeData(data);
 				}
@@ -56,7 +56,7 @@ public class PacketUpdateModule extends PacketModule{
 				Module module = logic.getModule(index);
 				int pageIndex = data.readInt();
 				if (pageIndex > 0) {
-					ModulePage page = module.getPage(pageIndex);
+					ModuleComponent page = module.getComponent(pageIndex);
 					if (page instanceof IStreamable) {
 						((IStreamable) page).readData(data);
 					}

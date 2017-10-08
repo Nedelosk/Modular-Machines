@@ -23,12 +23,13 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	
 	public ModuleLathe(IModuleStorage storage, int workTimeModifier, double maxSpeed) {
 		super(storage, workTimeModifier, maxSpeed);
+		this.defaultMode = LatheMode.ROD;
+		this.mode = defaultMode;
+		
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(FilterMachine.INSTANCE);
 		itemHandler.addSlot(false).addFilter(OutputFilter.INSTANCE);
 		itemHandler.addSlot(false).addFilter(OutputFilter.INSTANCE);
-		this.defaultMode = LatheMode.ROD;
-		this.mode = defaultMode;
 	}
 	
 	@Override
@@ -72,9 +73,9 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageLathe(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentLathe(this));
 	}
 
 	@Override

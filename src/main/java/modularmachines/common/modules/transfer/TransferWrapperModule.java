@@ -19,12 +19,12 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 
 	@Override
 	public String getTabTooltip() {
-		return null;
+		return module.getData().getDisplayName();
 	}
 
 	@Override
 	public boolean isValid() {
-		return module != null;
+		return module != null && moduleTransfer.isValid(this);
 	}
 
 	@Override

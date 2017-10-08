@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import modularmachines.common.core.ModularMachines;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
-import modularmachines.common.modules.transfer.ModuleTransferPage;
+import modularmachines.common.modules.transfer.PageTransfer;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.utils.RenderUtil;
@@ -15,9 +15,9 @@ import modularmachines.common.utils.RenderUtil;
 public class WidgetTransferButton<H> extends Widget {
 
 	public boolean addButton;
-	public ModuleTransferPage<ModuleTransfer<H>, H> transferPage;
+	public PageTransfer<ModuleTransfer<H>, H> transferPage;
 	
-	public WidgetTransferButton(int posX, int posY, boolean addButton, ModuleTransferPage<ModuleTransfer<H>, H> transferPage) {
+	public WidgetTransferButton(int posX, int posY, boolean addButton, PageTransfer<ModuleTransfer<H>, H> transferPage) {
 		super(posX, posY, 18, 18);
 		this.addButton = addButton;
 		this.transferPage = transferPage;
@@ -42,9 +42,9 @@ public class WidgetTransferButton<H> extends Widget {
 		}else{
 			WidgetTransfer widget = transferPage.selectedWidget;
 			if(widget != null){
-				ModuleTransfer module = transferPage.getParent();
+				ModuleTransfer module = transferPage.getModule();
 				List<ITransferCycle> cycles = module.getTransferCycles();
-				PacketHandler.sendToServer(new PacketRemoveCycle(transferPage.getParent(), cycles.indexOf(widget.cycle)));
+				PacketHandler.sendToServer(new PacketRemoveCycle(transferPage.getModule(), cycles.indexOf(widget.cycle)));
 			}
 		}
 		

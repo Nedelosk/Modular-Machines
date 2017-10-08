@@ -47,7 +47,7 @@ package modularmachines.common.modules.pages;
 	}
 
 	@Override
-	public String getPageTitle() {
+	public String getTitle() {
 		ItemStack stack = moduleState.getProvider().getItemStack();
 		if (stack != null && stack.hasDisplayName()) {
 			return stack.getDisplayName();
@@ -100,8 +100,8 @@ package modularmachines.common.modules.pages;
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addWidgets() {
-		super.addWidgets();
+	public void setGui() {
+		super.setGui();
 		add(new WidgetRedstoneMode(6, 9, moduleState));
 		if (!usedModules.isEmpty()) {
 			int index = 0;

@@ -39,6 +39,7 @@ public abstract class TransferCycle<H> implements ITransferCycle<H> {
 		return compound;
 	}
 	
+	@Override
 	public int getAmount() {
 		return amount;
 	}

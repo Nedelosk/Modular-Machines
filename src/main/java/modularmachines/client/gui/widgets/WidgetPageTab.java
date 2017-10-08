@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.client.gui.WidgetManager;
 import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.core.ModularMachines;
@@ -18,13 +18,13 @@ import modularmachines.common.utils.RenderUtil;
 public class WidgetPageTab extends Widget<IModuleLogic> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
-	public final ModulePage page;
+	public final ModuleComponent page;
 	public final boolean isDown;
 	public IModuleGuiLogic guiLogic;
 	public int currentIndex;
 	public final int pageIndex;
 
-	public WidgetPageTab(int xPosition, int yPosition, ModulePage page) {
+	public WidgetPageTab(int xPosition, int yPosition, ModuleComponent page) {
 		super(xPosition, yPosition, 28, 21);
 		this.page = page;
 		this.pageIndex = page.getIndex();
@@ -63,6 +63,6 @@ public class WidgetPageTab extends Widget<IModuleLogic> {
 
 	@Override
 	public List getTooltip() {
-		return Arrays.asList(page.getPageTitle());
+		return Arrays.asList(page.getTitle());
 	}
 }

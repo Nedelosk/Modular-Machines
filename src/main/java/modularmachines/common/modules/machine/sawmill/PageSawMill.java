@@ -15,8 +15,8 @@ package modularmachines.common.modules.machine.sawmill;
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addWidgets() {
-		super.addWidgets();
+	public void setGui() {
+		super.setGui();
 		add(new WidgetProgressBar(82, 36, moduleState));
 	}
 }*/

@@ -2,13 +2,13 @@ package modularmachines.common.modules.storages.items;
 
 import java.util.List;
 
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.pages.ModulePageWidget;
 
-public class PageChest extends ModulePageWidget<ModuleChest> {
+public class ModuleComponentChest extends ModuleComponent<ModuleChest> {
 
-	public PageChest(ModuleChest parent) {
+	public ModuleComponentChest(ModuleChest parent) {
 		super(parent);
 	}
 	

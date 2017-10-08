@@ -197,7 +197,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 	 * public void addToolTip(List<String> tooltip, ItemStack stack, Module
 	 * state) {
 	 * tooltip.add(I18n.translateToLocal("mm.tooltip.handler.inventorys")); for
-	 * (int i = 0; i < getSlots(); i++) { ItemStack itemStack =
+	 * (int i = 0; i < getCollection(); i++) { ItemStack itemStack =
 	 * getStackInSlot(i); if (itemStack != null) { tooltip.add(" " +
 	 * TextFormatting.ITALIC +
 	 * I18n.translateToLocal("mm.tooltip.handler.inventory") + " " + i);
@@ -362,7 +362,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 			}
 			for (IItemHandler itemHandler : handlers) {
 				if (!isEmpty()) {
-					for (int i = 0; i < getSlots(); i++) {
+					for (int i = 0; i < getCollection(); i++) {
 						setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, getStackInSlot(i), false));
 					}
 				}

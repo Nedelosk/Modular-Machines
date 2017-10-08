@@ -3,10 +3,14 @@ package modularmachines.common.blocks.tile;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import com.mojang.authlib.GameProfile;
 
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -23,6 +27,7 @@ import modularmachines.common.modules.logic.ModuleLogic;
 public class TileEntityMachine extends TileBase implements ILocatable{
 
 	public EnumFacing facing;
+	public GameProfile owner;
 	public IAssembler assembler;
 	public IModuleLogic logic;
 	
@@ -52,6 +57,11 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	}
 	
 	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		super.handleUpdateTag(tag);
+	}
+	
+	@Override
 	public BlockPos getCoordinates() {
 		return pos;
 	}
@@ -67,9 +77,17 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	}
 	
 	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return !isInvalid() && world.getTileEntity(pos) == this && player.getDistanceSqToCenter(pos) <= 64;
+	}
+	
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setShort("Facing", (short) facing.ordinal());
+		if(owner != null) {
+			NBTUtil.writeGameProfile(compound.getCompoundTag("Owner"), owner);
+		}
 		compound.setTag("Assembler", assembler.writeToNBT(new NBTTagCompound()));
 		compound.setTag("Logic", logic.writeToNBT(new NBTTagCompound()));
 		return compound;
@@ -79,6 +97,9 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		facing = EnumFacing.VALUES[compound.getShort("Facing")];
+		if(compound.hasKey("Owner")){
+			owner = NBTUtil.readGameProfileFromNBT(compound.getCompoundTag("Owner"));
+		}
 		assembler.readFromNBT(compound.getCompoundTag("Assembler"));
 		logic.readFromNBT(compound.getCompoundTag("Logic"));
 	}
@@ -113,5 +134,12 @@ public class TileEntityMachine extends TileBase implements ILocatable{
 	public void setFacing(EnumFacing facing) {
 		this.facing = facing;
 	}
-
+	
+	public void setOwner(GameProfile owner) {
+		this.owner = owner;
+	}
+	
+	public GameProfile getOwner() {
+		return owner;
+	}
 }

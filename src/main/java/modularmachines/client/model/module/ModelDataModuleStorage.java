@@ -63,7 +63,7 @@ public class ModelDataModuleStorage extends ModelData {
 	private List<IBakedModel> getStorageModels(IStorage storage, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
 		EnumModuleSizes size = null;
-		for (Module module : storage.getStorage().getModules()) {
+		for (Module module : storage.getModules().getModules()) {
 			if(module != storage.getModule()){
 				EnumModuleSizes moduleSize = module.getData().getSize();
 				IBakedModel model = ModelLoader.getModel(module, storage, modelState, format);
@@ -155,7 +155,7 @@ public class ModelDataModuleStorage extends ModelData {
 	@Override
 	public IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		IStoragePosition position = storage.getPosition();
-		IModuleStorage moduleStorage = storage.getStorage();
+		IModuleStorage moduleStorage = storage.getModules();
 		IBakedModel bakedModel;
 		if (position == EnumStoragePosition.TOP) {
 			List<IBakedModel> models = new ArrayList<>();

@@ -22,9 +22,9 @@ public class ModuleChest extends Module {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageChest(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentChest(this));
 	}
 	
 	@Override

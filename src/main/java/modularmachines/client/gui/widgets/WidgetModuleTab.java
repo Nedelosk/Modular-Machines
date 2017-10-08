@@ -51,7 +51,7 @@ public class WidgetModuleTab extends Widget<IModuleLogic> {
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (moduleIndex != currentIndex) {
 			ModularMachines.proxy.playButtonClick();
-			guiLogic.setCurrentPage(module.getPage(0), true);
+			guiLogic.setCurrentPage(module.getComponent(0), true);
 		}
 	}
 

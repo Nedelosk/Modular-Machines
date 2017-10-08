@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -32,15 +33,13 @@ public interface IStoragePage {
 	
 	IItemHandlerModifiable getItemHandler();
 	
+	IModuleSlots getSlots();
+	
 	IAssembler getAssembler();
 	
 	IStoragePosition getPosition();
 	
 	ItemStack getStorageStack();
-	
-	List<IStoragePage> getChilds();
-	
-	void addChild(IStoragePage child);
 	
 	@Nullable
 	IStoragePage getParent();
@@ -55,7 +54,7 @@ public interface IStoragePage {
 	
 	boolean wasInitialized();
 
-	void createSlots(Container container, IAssembler assembler, List<Slot> slots);
+	void createContainerSlots(Container container, EntityPlayer player, IAssembler assembler, List<Slot> slots);
 
 	@SideOnly(Side.CLIENT)
 	void setGui(GuiContainer gui);
@@ -74,11 +73,9 @@ public interface IStoragePage {
 	
 	void setContainer(Container container);
 
-	void onSlotChanged(Container container, IAssembler assembler);
+	void onSlotChanged(EntityPlayer player, IAssembler assembler);
 
 	void detectAndSendChanges();
-	
-	boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot);
 
 	void updateGui();
 

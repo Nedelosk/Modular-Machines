@@ -25,8 +25,8 @@ package modularmachines.common.modules.battery;
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addWidgets() {
-		super.addWidgets();
+	public void setGui() {
+		super.setGui();
 		gui.getWidgetManager().add(new WidgetEnergyField(55, 15, moduleState.getContentHandler(IEnergyBuffer.class)));
 	}
 }*/

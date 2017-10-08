@@ -50,7 +50,7 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 	public boolean canInteractWith(EntityPlayer player) {
 		ILocatable locatable = source.getLocatable();
 		if(locatable != null){
-			return player.getDistanceSqToCenter(locatable.getCoordinates()) <= 64;
+			return locatable.isUsableByPlayer(player);
 		}
 		return true;
 	}

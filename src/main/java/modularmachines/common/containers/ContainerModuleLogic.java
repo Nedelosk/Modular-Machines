@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
@@ -17,13 +17,13 @@ public class ContainerModuleLogic extends BaseContainer<IModuleLogic> {
 	public IModuleGuiLogic guiLogic;
 	
 	public InventoryPlayer inventory;
-	public ModulePage currentPage;
+	public ModuleComponent currentPage;
 
 	public ContainerModuleLogic(IModuleLogic moduleLogic, InventoryPlayer inventory) {
 		super(moduleLogic, inventory);
 		this.inventory = inventory;
 		this.guiLogic = ModuleUtil.getGuiLogic(moduleLogic, player);
-		this.currentPage = guiLogic.getCurrentPage();
+		this.currentPage = guiLogic.getCurrentComponent();
 		addInventory(inventory);
 		addSlots(inventory);
 	}

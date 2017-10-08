@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -35,6 +36,7 @@ import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.client.gui.GuiAssembler;
 import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.block.ModelModular;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
@@ -47,8 +49,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		ModelManager.getInstance().registerModels();
-		//TODO:Fix model
-		//MinecraftForge.EVENT_BUS.register(ModelModular.class);
+		MinecraftForge.EVENT_BUS.register(ModelModular.class);
 	}
 	
 	@Override

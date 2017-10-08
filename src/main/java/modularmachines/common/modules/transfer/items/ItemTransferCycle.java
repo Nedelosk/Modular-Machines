@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 
 import net.minecraftforge.items.IItemHandler;
 
@@ -15,8 +16,9 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 
 	protected final int[] slots;
 	protected final int[] insertSlots;
+	protected Predicate<ItemStack> matcher;
 	
-	public ItemTransferCycle(ModuleTransferItem moduleTransfer, ITransferHandlerWrapper<IItemHandler> startHandler, int[] slots, ITransferHandlerWrapper<IItemHandler> endHandler, int[] insertSlots, int time, int priority, int amount) {
+	public ItemTransferCycle(ModuleTransferItem moduleTransfer, ITransferHandlerWrapper<IItemHandler> startHandler, int[] slots, ITransferHandlerWrapper<IItemHandler> endHandler, int[] insertSlots, int time, int priority, int amount, NonNullList<ItemStack> filters, boolean metaMode, boolean oredictMode, boolean blacklist, boolean nbtMode) {
 		super(moduleTransfer, startHandler, endHandler, time, priority, amount);
 		if (slots == null || slots.length == 0) {
 			slots = generateDefaultSlots(moduleTransfer.getHandler(startHandler));
@@ -26,6 +28,18 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 			insertSlots = generateDefaultSlots(moduleTransfer.getHandler(endHandler));
 		}
 		this.insertSlots = insertSlots;
+		NonNullList<ItemStack> filterList = NonNullList.create();
+		for (ItemStack stack : filters) {
+			if (!stack.isEmpty()) {
+				filterList.add(stack);
+			}
+		}
+		if (filterList.isEmpty()) {
+			matcher = itemStack -> true;
+		} else {
+			ItemFilterCache filterCache = new ItemFilterCache(metaMode, oredictMode, blacklist, nbtMode, filterList);
+			matcher = filterCache::match;
+		}
 	}
 	
 	@Override
@@ -73,6 +87,6 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 
 	@Override
 	public Predicate<ItemStack> getFilter() {
-		return null;
+		return matcher;
 	}
 }

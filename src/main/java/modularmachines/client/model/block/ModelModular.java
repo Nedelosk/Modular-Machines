@@ -62,7 +62,7 @@ public class ModelModular implements IBakedModel {
 	private static final ItemOverrideList overrideList = new ItemOverrideListModular();
 	private static IBakedModel missingModel;
 	private static IBakedModel assemblerModel;
-
+	
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
 		for (TileEntityMachine tileEntity : machines) {
@@ -81,7 +81,7 @@ public class ModelModular implements IBakedModel {
 		assemblerModel = null;
 		missingModel = null;
 	}
-
+	
 	private static IBakedModel bakeModel(ICapabilityProvider provider, VertexFormat vertex, EnumFacing facing, boolean isAssembled) {
 		IModuleLogic logic = getModuleLogic(provider);
 		if (isAssembled) {

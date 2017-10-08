@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.modules.assembler.Assembler;
 import modularmachines.common.utils.ContainerUtil;
@@ -28,18 +27,14 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 		assembler.updatePages();
 		this.page = assembler.getPage(position);
 		// Add slots to container
-		if (page.isEmpty()) {
-			addSlotToContainer(new SlotAssemblerStorage(assembler, this, 44, 35, page));
-		} else {
-			List<Slot> slots = new ArrayList<>();
-			page.createSlots(this, source, slots);
-			for (Slot slot : slots) {
-				addSlotToContainer(slot);
-			}
+		List<Slot> slots = new ArrayList<>();
+		page.createContainerSlots(this, inventory.player, source, slots);
+		for (Slot slot : slots) {
+			addSlotToContainer(slot);
 		}
 		if (page != null) {
 			page.setContainer(this);
-			page.onSlotChanged(this, source);
+			page.onSlotChanged(inventory.player, source);
 		}
 	}
 

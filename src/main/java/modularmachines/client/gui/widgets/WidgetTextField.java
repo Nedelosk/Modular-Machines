@@ -324,7 +324,7 @@ public class WidgetTextField extends Widget {
 					}
 					return true;
 				default:
-					if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && filter == null || filter.passesFilter(this, typedChar)) {
+					if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && (filter == null || filter.passesFilter(this, typedChar))) {
 						if (this.isEnabled) {
 							this.writeText(Character.toString(typedChar));
 						}

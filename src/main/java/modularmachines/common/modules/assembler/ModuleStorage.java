@@ -28,7 +28,7 @@ public class ModuleStorage implements IModuleStorage {
 	}
 
 	@Override
-	public Module getModuleForIndex(int index) {
+	public Module getModule(int index) {
 		for(Module module : modules){
 			if(module.getIndex() == index){
 				return module;

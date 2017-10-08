@@ -39,7 +39,7 @@ public class Storage implements IStorage {
 	}
 
 	@Override
-	public IModuleStorage getStorage() {
+	public IModuleStorage getModules() {
 		return storage;
 	}
 }

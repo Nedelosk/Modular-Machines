@@ -32,6 +32,7 @@ import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
+import modularmachines.common.modules.transfer.ModuleDataTransfer;
 import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 
@@ -228,7 +229,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	TRANSFER_ITEM(new ModuleDataCasingPosition(), "transfer_item", 4, EnumModuleSizes.LARGE){
+	TRANSFER_ITEM(new ModuleDataTransfer(), "transfer_item", 4, EnumModuleSizes.LARGE){
 		@Override
 		public Module createModule(IModuleStorage storage) {
 			return new ModuleTransferItem(storage);
@@ -239,7 +240,7 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.RAIL));
 		}
 	},
-	TRANSFER_FLUID(new ModuleDataCasingPosition(), "transfer_fluid", 4, EnumModuleSizes.LARGE){
+	TRANSFER_FLUID(new ModuleDataTransfer(), "transfer_fluid", 4, EnumModuleSizes.LARGE){
 		@Override
 		public Module createModule(IModuleStorage storage) {
 			return new ModuleTransferFluid(storage);

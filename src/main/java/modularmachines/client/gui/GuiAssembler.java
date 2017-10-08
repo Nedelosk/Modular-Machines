@@ -20,8 +20,7 @@ import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.assemblers.SlotAssembler;
-import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
+import modularmachines.api.modules.assemblers.SlotModule;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.widgets.WidgetAssembleTab;
@@ -184,8 +183,8 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 
 	@Override
 	public boolean isMouseOverSlot(Slot slot, int mouseX, int mouseY) {
-		if (slot instanceof SlotAssembler) {
-			if (!((SlotAssembler) slot).isActive) {
+		if (slot instanceof SlotModule) {
+			if (!((SlotModule) slot).isActive()) {
 				return false;
 			}
 		}
@@ -198,16 +197,20 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		GlStateManager.disableDepth();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		RenderUtil.texture(modularWdgets);
-		if (slot instanceof SlotAssembler) {
-			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, ((SlotAssembler) slot).isActive ? 238 : 220, 18, 18);
-		} else if (slot instanceof SlotAssemblerStorage) {
-			drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, 238, 18, 18);
+		
+		if (slot instanceof SlotModule) {
+			SlotModule slotModule = (SlotModule) slot;
+			if(slotModule.isStorageSlot()){
+				drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, 238, 18, 18);
+			}else {
+				drawTexturedModalRect(slot.xPos - 1, slot.yPos - 1, 56, slotModule.isActive() ? 238 : 220, 18, 18);
+			}
 		}
 		RenderUtil.texture(guiTexture);
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
-		if (slot instanceof SlotAssembler) {
-			if (!((SlotAssembler) slot).isActive) {
+		if (slot instanceof SlotModule) {
+			if (!((SlotModule) slot).isActive()) {
 				return;
 			}
 		}

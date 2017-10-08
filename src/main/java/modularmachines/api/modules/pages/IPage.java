@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2017 Nedelosk
+ *
+ * This work (the MOD) is licensed under the "MIT" License, see LICENSE for details.
+ */
 package modularmachines.api.modules.pages;
 
 import javax.annotation.Nullable;
@@ -9,51 +14,36 @@ import net.minecraft.inventory.Container;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public interface IPage {
-
-	@SideOnly(Side.CLIENT)
+	
+	IModuleComponent getComponent();
+	
+	void addWidgets();
+	
 	@Nullable
 	GuiContainer getGui();
-
-	@SideOnly(Side.CLIENT)
-	void setGui(GuiContainer gui);
-
-	@Nullable
-	@SideOnly(Side.CLIENT)
-	Container getContainer();
-
-	@SideOnly(Side.CLIENT)
-	void updateGui();
-
-	@SideOnly(Side.CLIENT)
-	void initGui();
-
-	@SideOnly(Side.CLIENT)
-	void handleMouseClicked(int mouseX, int mouseY, int mouseButton);
-
-	@SideOnly(Side.CLIENT)
-	void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY);
-
-	@SideOnly(Side.CLIENT)
-	void drawBackground(int mouseX, int mouseY);
-
-	@SideOnly(Side.CLIENT)
-	void drawTooltips(int mouseX, int mouseY);
-
-	@SideOnly(Side.CLIENT)
-	void drawFrontBackground(int mouseX, int mouseY);
-
-	@SideOnly(Side.CLIENT)
-	int getXSize();
-
-	@SideOnly(Side.CLIENT)
-	int getYSize();
-
-	@SideOnly(Side.CLIENT)
-	void addWidgets();
-
-	void detectAndSendChanges();
-
-	String getPageTitle();
 	
+	@Nullable
+	Container getContainer();
+	
+	void initGui();
+	
+	void updateGui();
+	
+	void handleMouseClicked(int mouseX, int mouseY, int mouseButton);
+	
+	boolean mouseReleased(int mouseX, int mouseY, int state);
+	
+	void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY);
+	
+	void drawBackground(int mouseX, int mouseY);
+	
+	void drawTooltips(int mouseX, int mouseY);
+	
+	void drawFrontBackground(int mouseX, int mouseY);
+	
+	int getXSize();
+	
+	int getYSize();
 }

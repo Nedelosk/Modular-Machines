@@ -15,6 +15,8 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 
 	protected final List<Widget> widgets = new ArrayList<>();
 	public final GuiBase<P, S> gui;
+	public int mouseX;
+	public int mouseY;
 
 	public WidgetManager(GuiBase<P, S> gui) {
 		this.gui = gui;
@@ -63,29 +65,29 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 			slot.drawStrings();
 		}
 	}
-
+	
+	public void setMouseX(int mouseX) {
+		this.mouseX = mouseX;
+	}
+	
+	public void setMouseY(int mouseY) {
+		this.mouseY = mouseY;
+	}
+	
 	public boolean keyTyped(char keyChar, int keyCode) {
-		/*
-		 * for(Widget widget : widgets) { if (widget.keyTyped(keyChar, keyCode,
-		 * gui)) { return true; } } return false;
-		 */
 		Widget focused = null;
 		for (Widget widget : widgets) {
 			if (widget.isFocused()) {
 				focused = widget;
 			}
 		}
-		// If esc is pressed
 		if (keyCode == 1) {
-			// If there is a focused text field unfocus it
 			if (focused != null && keyCode == 1) {
 				focused.setFocused(false);
 				focused = null;
 				return true;
 			}
 		}
-		// If the user pressed tab, switch to the next text field, or unfocus if
-		// there are none
 		if (keyChar == '\t') {
 			for (int i = 0; i < widgets.size(); i++) {
 				Widget widget = widgets.get(i);
@@ -96,7 +98,6 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 				}
 			}
 		}
-		// If there is a focused text field, attempt to type into it
 		if (focused != null) {
 			String old = focused.getText();
 			if (focused.keyTyped(keyChar, keyCode)) {
@@ -104,7 +105,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 				return true;
 			}
 		}
-		// More JEI behavior, f key focuses first text field
+		//JEI behavior, f key focuses first text field
 		if (keyChar == 'f' && focused == null && !widgets.isEmpty()) {
 			focused = widgets.get(0);
 			focused.setFocused(true);

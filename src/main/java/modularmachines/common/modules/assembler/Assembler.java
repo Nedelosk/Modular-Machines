@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -22,18 +23,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-import net.minecraftforge.items.IItemHandler;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.AssemblerError;
-import modularmachines.api.modules.assemblers.EmptyStoragePage;
 import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.assemblers.IModuleSlot;
+import modularmachines.api.modules.assemblers.IModuleSlots;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
@@ -43,6 +44,7 @@ import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.GuiAssembler;
 import modularmachines.common.config.Config;
 import modularmachines.common.containers.ContainerAssembler;
+import modularmachines.common.modules.assembler.page.EmptyStoragePage;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
 import modularmachines.common.utils.ContainerUtil;
@@ -53,6 +55,7 @@ public class Assembler implements IAssembler {
 
 	protected final Map<IStoragePosition, IStoragePage> pages;
 	protected final List<IStoragePosition> positions;
+	protected final Map<IModuleType, ModuleTypeData> types;
 	protected boolean hasChange = false;
 	protected IStoragePosition selectedPosition;
 	protected ILocatable locatable;
@@ -70,6 +73,7 @@ public class Assembler implements IAssembler {
 		this.pages = pages;
 		this.positions = positions;
 		this.selectedPosition = positions.get(0);
+		this.types = new HashMap<>();
 		updatePages();
 	}
 
@@ -152,14 +156,6 @@ public class Assembler implements IAssembler {
 				ModuleData data = module.getData();
 				IStoragePage page = data.createStoragePage(this, position, storage);
 				pages.put(position, page);
-				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
-				if (!childPositions.isEmpty()) {
-					for(IStoragePosition  childPosition : childPositions){
-						IStoragePage childPage = data.createChildPage(this, childPosition);
-						page.addChild(childPage);
-						pages.put(childPosition, childPage);
-					}
-				}
 			} else {
 				pages.put(position, new EmptyStoragePage(this, position));
 			}
@@ -195,6 +191,13 @@ public class Assembler implements IAssembler {
 				errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.no.controller")));
 			}
 			errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.complexity")));
+		}
+	}
+	
+	protected void checkTypes(List<AssemblerError> errors) {
+		for(ModuleTypeData typeData : types.values()){
+			IModuleType type = typeData.type;
+			type.isValidModuleCount(this, typeData.moduleCount, errors);
 		}
 	}
 
@@ -233,16 +236,21 @@ public class Assembler implements IAssembler {
 	@Override
 	public List<AssemblerError> canAssemble(){
 		List<AssemblerError> errors = new LinkedList<>();
+		types.clear();
 		for(IStoragePage page : pages.values()){
 			if(!page.isEmpty()){
 				page.canAssemble(this, errors);
-				IItemHandler itemHandler = page.getItemHandler();
-				for(int i = 0;i < itemHandler.getSlots();i++){
-					ItemStack itemStack = itemHandler.getStackInSlot(i);
+				IModuleSlots slots = page.getSlots();
+				for(IModuleSlot slot : slots){
+					ItemStack itemStack = slot.getItem();
 					IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
 					if(container != null ){
 						ModuleData moduleData = container.getData();
 						moduleData.canAssemble(this, errors);
+						for(IModuleType type : moduleData.getTypes(itemStack)){
+							ModuleTypeData typeData = types.computeIfAbsent(type, t -> new ModuleTypeData(t));
+							typeData.addModuleCount(1);
+						}
 					}
 				}
 			}
@@ -252,6 +260,7 @@ public class Assembler implements IAssembler {
 		}
 		
 		isToComplex(errors);
+		checkTypes(errors);
 		return errors;
 	}
 
@@ -280,13 +289,7 @@ public class Assembler implements IAssembler {
 			ModuleData data = moduleContainer.getData();
 			if(data.isStorage(position)){
 				IStoragePage page = data.createStoragePage(this, position, null);
-				page.getItemHandler().setStackInSlot(0, itemStack.copy());
-				Collection<IStoragePosition> childPositions = data.getChildPositions(position);
-				for(IStoragePosition childPosition : childPositions){
-					IStoragePage child = data.createChildPage(this, childPosition);
-					page.addChild(child);
-					pages.put(childPosition, child);
-				}
+				page.getSlots().setItem(0, itemStack.copy());
 				page.init();
 				return page;
 			}
@@ -327,6 +330,19 @@ public class Assembler implements IAssembler {
 	@Override
 	public List<IStoragePosition> getPositions() {
 		return positions;
+	}
+	
+	private static class ModuleTypeData{
+		public int moduleCount = 0;
+		public final IModuleType type;
+		
+		public ModuleTypeData(IModuleType type) {
+			this.type = type;
+		}
+		
+		public void addModuleCount(int moduleCount) {
+			this.moduleCount += moduleCount;
+		}
 	}
 	
 }

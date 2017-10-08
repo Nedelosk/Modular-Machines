@@ -1,12 +1,12 @@
 package modularmachines.common.modules.transfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -16,13 +16,15 @@ import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.logic.UpdateComponent;
 import modularmachines.common.utils.ModuleUtil;
 
-public abstract class ModuleTransfer<H> extends Module implements ITickable {
+public abstract class ModuleTransfer<H> extends Module implements ITickable, IModuleTransfer<H> {
 
 	protected List<ITransferCycle<H>> transferCycles;
+	public boolean wasCreated;
 	public boolean wasInited;
 	protected final Map<Integer, ITransferHandlerWrapper<H>> moduleWrappers = new HashMap<>();
 	protected final Map<EnumFacing, ITransferHandlerWrapper<H>> tileWrappers = new HashMap<>();
@@ -45,6 +47,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
+		createWrappers();
 		transferCycles.clear();
 		NBTTagList list = compound.getTagList("Cycles", 10);
 		for(int i = 0;i < list.tagCount();i++){
@@ -54,61 +57,61 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable {
 	
 	@Override
 	public void onAssemble(IAssembler assembler, IModuleLogic logic, IStorage storage) {
-		if(tileWrappers.isEmpty()){
-			for (EnumFacing facing : EnumFacing.VALUES) {
-				if(!tileWrappers.containsKey(facing)){
-					tileWrappers.put(facing, createTileWrapper(facing));
-				}
-			}
-		}
-		if(moduleWrappers.isEmpty()){
-			for (Module module : logic.getModules()) {
-				int index = module.getIndex();
-				if(!moduleWrappers.containsKey(index)){
-					moduleWrappers.put(index, createModuleWrapper(index));
-				}
-			}
-		}
+		createWrappers();
 	}
 	
-	@Override
-	public void onLoad() {
-		if(tileWrappers.isEmpty()){
-			for (EnumFacing facing : EnumFacing.VALUES) {
-				if(!tileWrappers.containsKey(facing)){
-					tileWrappers.put(facing, createTileWrapper(facing));
-				}
+	private void createWrappers(){
+		if(wasCreated){
+			return;
+		}
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if(!tileWrappers.containsKey(facing)){
+				tileWrappers.put(facing, createTileWrapper(facing));
 			}
 		}
-		if(moduleWrappers.isEmpty()){
-			for (Module module : logic.getModules()) {
-				int index = module.getIndex();
-				if(!moduleWrappers.containsKey(index)){
-					moduleWrappers.put(index, createModuleWrapper(index));
-				}
+		for (Module module : logic.getModules()) {
+			int index = module.getIndex();
+			if(!moduleWrappers.containsKey(index)){
+				moduleWrappers.put(index, createModuleWrapper(index));
 			}
 		}
+		wasCreated = true;
 	}
 	
 	public void addCycle(ITransferCycle<H> cycle){
 		transferCycles.add(cycle);
+		Collections.sort(transferCycles);
+		updateCycleWidgets();
 	}
 	
-	public abstract NBTBase writeWrapper(ITransferHandlerWrapper<H> wrapper);
+	public void removeCycles(int index){
+		if(index >= transferCycles.size()){
+			return;
+		}
+		transferCycles.remove(index);
+		if(!transferCycles.isEmpty()) {
+			Collections.sort(transferCycles);
+		}
+		updateCycleWidgets();
+	}
 	
-	public abstract ITransferHandlerWrapper<H> getWrapper(NBTBase base);
+	public void updateCycleWidgets(){
+		ModuleComponent page = getComponent(0);
+		if(page instanceof ModuleComponentTransfer){
+			ModuleComponentTransfer transferPage = (ModuleComponentTransfer) page;
+			
+		}
+	}
 	
-	public abstract ITransferCycle<H> getCycle(NBTTagCompound compound);
-	
-	public abstract Class<H> getHandlerClass();
-	
-	public abstract H getHandler(ITransferHandlerWrapper<H> wrapper);
-	
-	public abstract ITransferHandlerWrapper<H> createModuleWrapper(int moduleIndex);
-	
-	public abstract ITransferHandlerWrapper<H> createTileWrapper(EnumFacing facing);
-	
-	protected abstract ModuleTransferPage createPage(ModuleTransfer<H> parent, int index);
+	public void initWrappers(){
+		if(wasInited){
+			return;
+		}
+		for(ITransferHandlerWrapper wrapper : getWrappers()){
+			wrapper.init(logic);
+		}
+		wasInited = true;
+	}
 	
 	public List<ITransferHandlerWrapper<H>> getValidWrappers() {
 		List<ITransferHandlerWrapper<H>> wrappers = getWrappers();
@@ -132,16 +135,14 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable {
 	@Override
 	public void update() {
 		if(!wasInited){
-			for(ITransferHandlerWrapper wrapper : getWrappers()){
-				wrapper.init(logic);
-			}
+			initWrappers();
 			wasInited = true;
 		}
 		UpdateComponent update = ModuleUtil.getUpdate(logic);
 		try{
 			for (ITransferCycle<H> cycle : getTransferCycles()) {
 				if (cycle.canWork()) {
-						cycle.work(update.getTickCount());
+					cycle.work(update.getTickCount());
 				}
 			}
 		}catch(Exception e){
@@ -150,16 +151,13 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
+	protected void createComponents() {
+		super.createComponents();
 		transferCycles = new ArrayList<>();
-		addPage(createPage(this, 0));
-		for(int i = 1;i < 5;i++){
-			if(transferCycles.size() > i * 6){
-				addPage(createPage(this, i));
-			}
-		}
+		addComponent(createComponent(this, 0));
 	}
+	
+	protected abstract ModuleComponentTransfer createComponent(ModuleTransfer<H> parent, int index);
 	
 	public List<ITransferCycle<H>> getTransferCycles() {
 		return transferCycles;

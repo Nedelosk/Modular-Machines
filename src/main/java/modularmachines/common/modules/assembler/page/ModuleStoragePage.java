@@ -1,6 +1,10 @@
-package modularmachines.common.modules.assembler;
+/*
+ * Copyright (c) 2017 Nedelosk
+ *
+ * This work (the MOD) is licensed under the "MIT" License, see LICENSE for details.
+ */
+package modularmachines.common.modules.assembler.page;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,17 +17,12 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import modularmachines.api.modules.EnumModuleSizes;
-import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.assemblers.SlotAssembler;
-import modularmachines.api.modules.assemblers.SlotAssemblerStorage;
-import modularmachines.api.modules.assemblers.StoragePage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.assemblers.IModuleSlot;
+import modularmachines.api.modules.assemblers.SlotModule;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.common.core.ModularMachines;
-import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ItemUtil;
 
 public class ModuleStoragePage extends StoragePage {
@@ -36,39 +35,44 @@ public class ModuleStoragePage extends StoragePage {
 	}
 	
 	@Override
-	public void createSlots(Container container, IAssembler assembler, List<Slot> slots) {
+	public void createContainerSlots(Container container, EntityPlayer player, IAssembler assembler, List<Slot> slots) {
 		if (position != null) {
-			SlotAssemblerStorage storageSlot;
-			slots.add(storageSlot = new SlotAssemblerStorage(assembler, container, 44, 35, this));
+			slots.add(new SlotModule(this.slots.getStorageSlot(), 44, 35, player));
 			if (size == EnumModuleSizes.LARGEST) {
 				for (int i = 0; i < 3; ++i) {
 					for (int j = 0; j < 3; ++j) {
-						slots.add(new SlotAssembler(assembler, container, 1 + j + i * 3, 80 + j * 18, 17 + i * 18, this, storageSlot));
+						IModuleSlot slot = this.slots.getSlot(1 + j + i * 3);
+						slots.add(new SlotModule(slot, 80 + j * 18, 17 + i * 18, player));
 					}
 				}
 			} else if (size == EnumModuleSizes.LARGE) {
 				for (int i = 0; i < 3; ++i) {
-					slots.add(new SlotAssembler(assembler, container, i + 1, 98, 17 + i * 18, this, storageSlot));
+					IModuleSlot slot = this.slots.getSlot(i + 1);
+					slots.add(new SlotModule(slot, 98, 17 + i * 18, player));
 				}
 			}
 		}
 	}
 	
 	@Override
-	public void onSlotChanged(Container container, IAssembler assembler) {
-		EntityPlayer player = ContainerUtil.getPlayer(container);
+	public void onSlotChanged(EntityPlayer player, IAssembler assembler) {
 		ModularMachines.proxy.onAssemblerGuiChange();
-		SlotAssemblerStorage slotStorage = (SlotAssemblerStorage) container.inventorySlots.get(36);
-		if (!slotStorage.getHasStack()) {
-			for (int index = 0; index < size.slotNumbers; index++) {
-				ItemStack slotStack = itemHandler.getStackInSlot(index);
+		IModuleSlot storageSlot = slots.getStorageSlot();
+		if(!storageSlot.hasItem()){
+			for (IModuleSlot slot : slots.getSlots()) {
+				if(slot.isStorage()){
+					continue;
+				}
+				int index = slot.getIndex();
+				ItemStack slotStack = slots.getItem(index);
 				if (!ItemUtil.isEmpty(slotStack)) {
 					ItemHandlerHelper.giveItemToPlayer(player, slotStack);
-					itemHandler.setStackInSlot(index, ItemUtil.empty());
+					slots.setItem(index, ItemUtil.empty());
 				}
 			}
+			slots.reload();
 		}
-		List<SlotAssembler> slots = new ArrayList<>();
+		/*List<SlotAssembler> slots = new ArrayList<>();
 		for (int index = 0; index < size.slotNumbers; index++) {
 			Slot slot = container.inventorySlots.get(37 + index);
 			if (slot instanceof SlotAssembler) {
@@ -125,20 +129,17 @@ public class ModuleStoragePage extends StoragePage {
 			if (!slot.hasChange) {
 				slot.setActive(true);
 			}
-		}
+		}*/
 	}
 	
-	@Override
-	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
+	/*@Override
+	public boolean isItemValid(ItemStack stack) {
 		IModuleContainer container = ModuleHelper.getContainerFromItem(stack);
-		if (slot == null || container == null) {
+		if (container == null) {
 			return false;
 		}
 		boolean hasPosition = false;
 		ModuleData data = container.getData();
-		if (storageSlot == null || !storageSlot.getHasStack()) {
-			return false;
-		}
 		if (!data.isPositionValid(position)) {
 			return false;
 		}
@@ -150,10 +151,10 @@ public class ModuleStoragePage extends StoragePage {
 			}
 		}
 		if (usedSize != EnumModuleSizes.UNKNOWN && (usedSize == null || usedSize.ordinal() <= position.getSize().ordinal())) {
-			return data.isItemValid(assembler, position, stack, slot, storageSlot);
+			return data.isItemValid(assembler, position, stack);
 		}
 		return false;
-	}
+	}*/
 	
 	@Override
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors) {

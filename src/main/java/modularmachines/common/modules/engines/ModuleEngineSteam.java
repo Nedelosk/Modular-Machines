@@ -81,9 +81,9 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	}
 	
 	@Override
-	public void initPages() {
-		super.initPages();
-		addPage(new PageSteamEngine(this));
+	public void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentSteamEngine(this));
 	}
 	
 	public IFluidTank getFluidTank() {

@@ -38,9 +38,9 @@ public class ModulePulverizer extends ModuleKineticMachine {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PagePulverizer(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentPulverizer(this));
 	}
 
 	@Override

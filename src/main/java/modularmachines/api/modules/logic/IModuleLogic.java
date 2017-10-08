@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.IGuiProvider;
+import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.storages.IStorage;
@@ -24,7 +25,7 @@ public interface IModuleLogic extends IGuiProvider {
 	
 	/**
 	 * 
-	 * @return A module that is at a speciel position in this handler.
+	 * @return A module that is at a special position in this handler.
 	 */
 	Module getModule(int index);
 	
@@ -53,4 +54,14 @@ public interface IModuleLogic extends IGuiProvider {
 	
 	Map<String, LogicComponent> getComponents();
 	
+	default boolean isItem(){
+		return getLocatable() == null;
+	}
+	
+	/**
+	 * @return only null if the logic is a item.
+	 */
+	@Override
+	@Nullable
+	ILocatable getLocatable();
 }

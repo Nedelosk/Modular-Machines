@@ -47,10 +47,10 @@ public class ModuleLogic implements IModuleLogic {
 	protected final Map<String, LogicComponent> componentMap;
 	protected final List<IStorage> storages = new ArrayList<>();
 	protected final List<IStoragePosition> positions;
+	@Nullable
 	protected final ILocatable locatable;
 	
-	public ModuleLogic(ILocatable locatable, List<IStoragePosition> positions) {
-		Preconditions.checkNotNull(locatable);
+	public ModuleLogic(@Nullable ILocatable locatable, List<IStoragePosition> positions) {
 		Preconditions.checkNotNull(positions);
 		this.locatable = locatable;
 		this.positions = positions;
@@ -113,7 +113,7 @@ public class ModuleLogic implements IModuleLogic {
     		}
     	}
     	for(IStorage storage : storages){
-    		for(Module module : storage.getStorage().getModules()){
+    		for(Module module : storage.getModules().getModules()){
     			module.onLoad();
     		}
     	}
@@ -122,7 +122,7 @@ public class ModuleLogic implements IModuleLogic {
 	@Override
 	public Module getModule(int index) {
 		for (IStorage storage : storages) {
-			Module module = storage.getStorage().getModuleForIndex(index);
+			Module module = storage.getModules().getModule(index);
 			if (module != null) {
 				return module;
 			}
@@ -135,7 +135,7 @@ public class ModuleLogic implements IModuleLogic {
 		List<Module> modules = new ArrayList<>();
 		for (IStorage storage : storages) {
 			if (storage != null) {
-				IModuleStorage moduleStorage = storage.getStorage();
+				IModuleStorage moduleStorage = storage.getModules();
 				modules.addAll(moduleStorage.getModules());
 			}
 		}
@@ -144,12 +144,15 @@ public class ModuleLogic implements IModuleLogic {
 	
 	@Override
 	public void assemble(IAssembler assembler, EntityPlayer player) {
+		if(isItem()){
+			throw new UnsupportedOperationException();
+		}
 		int currentIndex = 0;
 		for (IStoragePage page : assembler.getPages()) {
 			if (!page.isEmpty()) {
 				IStorage storage = page.assemble(assembler, this);
 				if (storage != null) {
-					for (Module module : storage.getStorage().getModules()) {
+					for (Module module : storage.getModules().getModules()) {
 						module.setIndex(currentIndex++);
 					}
 					addStorage(storage);
@@ -157,7 +160,7 @@ public class ModuleLogic implements IModuleLogic {
 			}
 		}
 		for (IStorage storage : storages) {
-			for (Module module : storage.getStorage().getModules()) {
+			for (Module module : storage.getModules().getModules()) {
 				module.onAssemble(assembler, this, storage);
 			}
 		}
@@ -173,7 +176,7 @@ public class ModuleLogic implements IModuleLogic {
 				PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, true), pos, server);
 				IBlockState blockState = server.getBlockState(pos);
 				server.notifyBlockUpdate(pos, blockState, blockState, 3);
-				ContainerUtil.openOrCloseGuiSave(assembler, 1, !ModuleHelper.getPageModules(this).isEmpty());
+				ContainerUtil.openOrCloseGuiSave(assembler, 1, !ModuleHelper.getModulesWithComponents(this).isEmpty());
 			}
 		}
 	}

@@ -24,12 +24,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.api.modules.storages.IStorage;
 
 public class Module implements ICapabilityProvider {
 
-	protected final List<ModulePage> pages;
+	protected final List<ModuleComponent> components;
 	protected final IModuleStorage storage;
 	protected final IModuleLogic logic;
 	@Nullable
@@ -39,10 +39,10 @@ public class Module implements ICapabilityProvider {
 	protected int index;
 	
 	public Module(IModuleStorage storage) {
-		pages = new ArrayList<>();
+		components = new ArrayList<>();
 		this.storage = storage;
 		this.logic = storage.getLogic();
-		initPages();
+		createComponents();
 	}
 	
 	public void setIndex(int index) {
@@ -64,21 +64,21 @@ public class Module implements ICapabilityProvider {
 		return null;
 	}
 	
-	public List<ModulePage> getPages(){
-		return pages;
+	public List<ModuleComponent> getComponents(){
+		return components;
 	}
 	
-	public ModulePage getPage(int index){
-		if(index >= pages.size() || index < 0){
+	public ModuleComponent getComponent(int index){
+		if(index >= components.size() || index < 0){
 			return null;
 		}
-		return pages.get(index);
+		return components.get(index);
 	}
 	
-	protected void addPage(ModulePage page){
-		if(!pages.contains(page)){
-			page.setIndex(pages.size());
-			pages.add(page);
+	protected void addComponent(ModuleComponent component){
+		if(!components.contains(component)){
+			component.setIndex(components.size());
+			components.add(component);
 		}
 	}
 
@@ -102,18 +102,7 @@ public class Module implements ICapabilityProvider {
 		this.data = data;
 	}
 	
-	protected void initPages(){
-		
-	}
-
-	/* MODULE CONTAINERS */
-
-	/**
-	 * Add a tooltip to a item that are registered for a module container with
-	 * this module.
-	 */
-	@SideOnly(Side.CLIENT)
-	public void addTooltip(List<String> tooltip, ItemStack stack){
+	protected void createComponents() {
 	}
 
 	public boolean isClean(){

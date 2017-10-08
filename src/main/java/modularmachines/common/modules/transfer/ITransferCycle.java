@@ -2,7 +2,6 @@ package modularmachines.common.modules.transfer;
 
 import java.util.function.Predicate;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface ITransferCycle<H> extends Comparable<ITransferCycle<H>> {
@@ -10,12 +9,14 @@ public interface ITransferCycle<H> extends Comparable<ITransferCycle<H>> {
 	int getComplexity();
 
 	int getTime();
-
+	
+	int getPriority();
+	
+	int getAmount();
+	
 	void work(int ticks);
 
 	boolean canWork();
-
-	int getPriority();
 	
 	NBTTagCompound writeToNBT(NBTTagCompound compound);
 
@@ -23,7 +24,7 @@ public interface ITransferCycle<H> extends Comparable<ITransferCycle<H>> {
 
 	ITransferHandlerWrapper<H> getEndHandler();
 	
-	Predicate<ItemStack> getFilter();
+	Predicate getFilter();
 	
 	@Override
 	public default int compareTo(ITransferCycle<H> o) {

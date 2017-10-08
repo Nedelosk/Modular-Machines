@@ -51,9 +51,9 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageFurnace(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentFurnace(this));
 	}
 	
 	@Override

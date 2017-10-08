@@ -81,7 +81,7 @@ public class ModuleUtil {
 		}
 		List<M> modules = Lists.newArrayList();
 		for (IStorage storage : logic.getStorages()) {
-			for (Module module : storage.getStorage().getModules()) {
+			for (Module module : storage.getModules().getModules()) {
 				if (moduleClass.isAssignableFrom(module.getClass())) {
 					modules.add((M) module);
 				}
@@ -96,7 +96,7 @@ public class ModuleUtil {
 			return null;
 		}
 		for (IStorage storage : logic.getStorages()) {
-			for (Module module : storage.getStorage().getModules()) {
+			for (Module module : storage.getModules().getModules()) {
 				if (moduleClass.isAssignableFrom(module.getClass())) {
 					return (M) module;
 				}

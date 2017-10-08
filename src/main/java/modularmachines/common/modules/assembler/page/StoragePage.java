@@ -1,11 +1,16 @@
-package modularmachines.api.modules.assemblers;
+/*
+ * Copyright (c) 2017 Nedelosk
+ *
+ * This work (the MOD) is licensed under the "MIT" License, see LICENSE for details.
+ */
+package modularmachines.common.modules.assembler.page;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -18,32 +23,35 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.assemblers.AssemblerError;
+import modularmachines.api.modules.assemblers.IAssembler;
+import modularmachines.api.modules.assemblers.IModuleSlot;
+import modularmachines.api.modules.assemblers.IModuleSlots;
+import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.containers.IModuleContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
+import modularmachines.common.modules.assembler.ModuleSlots;
 
 public abstract class StoragePage implements IStoragePage {
 	
 	protected final IAssembler assembler;
 	protected final IStoragePosition position;
-	protected final ItemStackHandlerPage itemHandler;
-	protected final List<IStoragePage> childs;
+	protected final IModuleSlots slots;
 	protected boolean wasInitialized;
 	
 	public StoragePage(IAssembler assembler, IStoragePosition position, int size) {
 		this.assembler = assembler;
 		this.position = position;
-		this.childs = new ArrayList<>();
-		this.itemHandler = new ItemStackHandlerPage(size, this);
+		this.slots = new ModuleSlots(size, this);
 		this.wasInitialized = false;
 	}
 	
 	public StoragePage(IAssembler assembler, IStoragePosition position) {
 		this.assembler = assembler;
 		this.position = position;
-		this.childs= new ArrayList<>();
-		this.itemHandler = new ItemStackHandlerPage(1, this);
+		this.slots = new ModuleSlots(1, this);
 		this.wasInitialized = false;
 	}
 	
@@ -59,13 +67,14 @@ public abstract class StoragePage implements IStoragePage {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		compound.setTag("Items", itemHandler.serializeNBT());
+		compound.setTag("Slots", slots.writeToNBT(new NBTTagCompound()));
 		return compound;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {	
-		itemHandler.deserializeNBT(compound.getCompoundTag("Items"));
+	public void readFromNBT(NBTTagCompound compound) {
+		slots.readFromNBT(compound.getCompoundTag("Slots"));
+		slots.reload();
 	}
 
 	@Override
@@ -73,11 +82,11 @@ public abstract class StoragePage implements IStoragePage {
 	}
 
 	@Override
-	public void createSlots(Container container, IAssembler assembler, List<Slot> slots) {
+	public void createContainerSlots(Container container, EntityPlayer player, IAssembler assembler, List<Slot> slots) {
 	}
 
 	@Override
-	public void onSlotChanged(Container container, IAssembler assembler) {
+	public void onSlotChanged(EntityPlayer player, IAssembler assembler) {
 	}
 	
 	@Override
@@ -95,7 +104,7 @@ public abstract class StoragePage implements IStoragePage {
 	
 	@Override
 	public IItemHandlerModifiable getItemHandler() {
-		return itemHandler;
+		return slots.getItemHandler();
 	}
 	
 	@Override
@@ -110,19 +119,7 @@ public abstract class StoragePage implements IStoragePage {
 	
 	@Override
 	public ItemStack getStorageStack(){
-		return itemHandler.getStackInSlot(0);
-	}
-	
-	@Override
-	public List<IStoragePage> getChilds(){
-		return childs;
-	}
-	
-	@Override
-	public void addChild(IStoragePage child){
-		if(!childs.contains(child)){
-			childs.add(child);
-		}
+		return slots.getStorageSlot().getItem();
 	}
 	
 	@Override
@@ -134,8 +131,8 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public int getComplexity() {
 		int complexity = 0;
-		for (int index = 0; index < itemHandler.getSlots(); index++) {
-			ItemStack slotStack = itemHandler.getStackInSlot(index);
+		for (IModuleSlot slot : slots) {
+			ItemStack slotStack = slot.getItem();
 			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
 			if (container != null) {
 				ModuleData data = container.getData();
@@ -148,8 +145,8 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public int getAllowedComplexity() {
 		int allowedComplexity = 0;
-		for (int index = 0; index < itemHandler.getSlots(); index++) {
-			ItemStack slotStack = itemHandler.getStackInSlot(index);
+		for (IModuleSlot slot : slots) {
+			ItemStack slotStack = slot.getItem();
 			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
 			if (container != null) {
 				ModuleData data = container.getData();
@@ -157,6 +154,11 @@ public abstract class StoragePage implements IStoragePage {
 			}
 		}
 		return allowedComplexity;
+	}
+	
+	@Override
+	public IModuleSlots getSlots() {
+		return slots;
 	}
 	
 	@Override
@@ -172,11 +174,6 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public void detectAndSendChanges() {
 		
-	}
-	
-	@Override
-	public boolean isItemValid(ItemStack stack, SlotAssembler slot, SlotAssemblerStorage storageSlot) {
-		return false;
 	}
 	
 	@SideOnly(Side.CLIENT)

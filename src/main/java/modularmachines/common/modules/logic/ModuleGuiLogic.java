@@ -7,7 +7,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 
@@ -16,19 +16,19 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	@Nullable
 	private Module currentModule;
 	@Nullable
-	private ModulePage currentPage;
+	private ModuleComponent currentComponent;
 	
 	public ModuleGuiLogic(IModuleLogic logic) {
 		this.logic = logic;
-		List<Module> modules = ModuleHelper.getPageModules(logic);
+		List<Module> modules = ModuleHelper.getModulesWithComponents(logic);
 		if(!modules.isEmpty()){
-			setCurrentPage(modules.get(0).getPage(0), false);
+			setCurrentPage(modules.get(0).getComponent(0), false);
 		}
 	}
 	
 	public ModuleGuiLogic(IModuleLogic logic, int moduleIndex, int pageIndex) {
 		this.logic = logic;
-		List<Module> modules = ModuleHelper.getPageModules(logic);
+		List<Module> modules = ModuleHelper.getModulesWithComponents(logic);
 		if(!modules.isEmpty()){
 			if(moduleIndex < 0){
 				moduleIndex = modules.get(0).getIndex();
@@ -36,25 +36,25 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 			if(pageIndex < 0){
 				pageIndex = 0;
 			}
-			setCurrentPage(logic.getModule(moduleIndex).getPage(pageIndex), false);
+			setCurrentPage(logic.getModule(moduleIndex).getComponent(pageIndex), false);
 		}
 	}
     
     public boolean canOpenGui(){
-    	return currentModule == null || currentPage == null;
+    	return currentModule == null || currentComponent == null;
     }
     
     @Override
-	public void setCurrentPage(@Nullable ModulePage page, boolean sendToServer){
+	public void setCurrentPage(@Nullable ModuleComponent page, boolean sendToServer){
     	if(page != null){
     		this.currentModule = page.getParent();
-    		this.currentPage = page;
+    		this.currentComponent = page;
     		if(sendToServer){
     			PacketHandler.sendToServer(new PacketSelectModulePage(logic, page));
     		}
     	}else{
     		this.currentModule = null;
-    		this.currentPage = null;
+    		this.currentComponent = null;
     	}
     }
     
@@ -64,8 +64,8 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	}
     
     @Override
-	public ModulePage getCurrentPage() {
-		return currentPage;
+	public ModuleComponent getCurrentComponent() {
+		return currentComponent;
 	}
     
 	@Override

@@ -15,6 +15,6 @@ public interface IStorage {
 
 	Module getModule();
 	
-	IModuleStorage getStorage();
+	IModuleStorage getModules();
 	
 }

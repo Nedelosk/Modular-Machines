@@ -3,17 +3,17 @@ package modularmachines.api.modules.logic;
 import javax.annotation.Nullable;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 
 public interface IModuleGuiLogic {
 
-    void setCurrentPage(@Nullable ModulePage page, boolean sendToServer);
+    void setCurrentPage(@Nullable ModuleComponent page, boolean sendToServer);
     
     @Nullable
     Module getCurrentModule();
     
     @Nullable
-    ModulePage getCurrentPage();
+    ModuleComponent getCurrentComponent();
     
     @Nullable
     IModuleLogic getLogic();

@@ -1,9 +1,13 @@
 package modularmachines.common.utils;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -67,6 +71,22 @@ public class WorldUtil {
 		World world = tile.getWorld();
 
 		return !tile.isInvalid() && world.getTileEntity(pos) == tile && player.getDistanceSqToCenter(pos) <= 64.0D;
+	}
+	
+	public static void dropItems(World world, BlockPos pos, List<ItemStack> drops){
+		if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
+			for(ItemStack stack : drops) {
+				if(stack.isEmpty()){
+					continue;
+				}
+				double xOffset = (double) (world.rand.nextFloat() * 0.5F) + 0.25D;
+				double yOffset = (double) (world.rand.nextFloat() * 0.5F) + 0.25D;
+				double zOffset = (double) (world.rand.nextFloat() * 0.5F) + 0.25D;
+				EntityItem entityitem = new EntityItem(world, (double) pos.getX() + xOffset, (double) pos.getY() + yOffset, (double) pos.getZ() + zOffset, stack);
+				entityitem.setDefaultPickupDelay();
+				world.spawnEntity(entityitem);
+			}
+		}
 	}
 	
 }

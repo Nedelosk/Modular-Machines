@@ -60,9 +60,9 @@ public class ModuleHeaterBurning extends ModuleHeater {
 	}
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageBurningHeater(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentBurningHeater(this));
 	}
 	
 	//TODO: rendering

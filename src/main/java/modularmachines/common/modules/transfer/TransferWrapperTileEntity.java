@@ -28,7 +28,11 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 
 	@Override
 	public String getTabTooltip() {
-		return null;
+		ItemStack tabItem = getTabItem();
+		if(tabItem == null || tabItem.isEmpty()){
+			return "UNKNOWN";
+		}
+		return tabItem.getDisplayName();
 	}
 	
 	@Override
@@ -40,7 +44,7 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 
 	@Override
 	public boolean isValid() {
-		return tileEntity != null;
+		return tileEntity != null && moduleTransfer.isValid(this);
 	}
 	
 	public TileEntity getTileEntity() {

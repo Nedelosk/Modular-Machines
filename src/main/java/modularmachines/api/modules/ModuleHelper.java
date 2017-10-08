@@ -17,13 +17,13 @@ public class ModuleHelper {
 	/**
 	 * @return All modules of an IModular that have a page.
 	 */
-	public static List<Module> getPageModules(@Nullable IModuleLogic logic) {
+	public static List<Module> getModulesWithComponents(@Nullable IModuleLogic logic) {
 		if (logic == null) {
 			return Collections.emptyList();
 		}
 		List<Module> validModules = Lists.newArrayList();
 		for (Module module : logic.getModules()) {
-			if (module != null && !module.getPages().isEmpty()) {
+			if (module != null && !module.getComponents().isEmpty()) {
 				validModules.add(module);
 			}
 		}

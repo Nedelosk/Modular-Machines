@@ -105,8 +105,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}*/
 	
 	@Override
-	protected void initPages() {
-		super.initPages();
-		addPage(new PageSteamHeater(this));
+	protected void createComponents() {
+		super.createComponents();
+		addComponent(new ModuleComponentSteamHeater(this));
 	}
 }

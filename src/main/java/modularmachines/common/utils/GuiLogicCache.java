@@ -15,7 +15,7 @@ import net.minecraft.world.WorldSavedData;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModulePage;
+import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.modules.logic.ModuleGuiLogic;
 
 public class GuiLogicCache extends WorldSavedData {
@@ -101,7 +101,7 @@ public class GuiLogicCache extends WorldSavedData {
 		
 		public int getPageIndex() {
 			if(logic != null){
-				ModulePage page = logic.getCurrentPage();
+				ModuleComponent page = logic.getCurrentComponent();
 				if(page != null){
 					return page.getIndex();
 				}

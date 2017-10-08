@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.translation.I18n;
 
 import modularmachines.api.modules.EnumModuleSizes;
@@ -70,6 +71,21 @@ public enum EnumStoragePosition implements IMachineStoragePosition {
 			}
 		}
 		return positions;
+	}
+	
+	public static EnumStoragePosition getPositionFromFacing(EnumFacing facing, EnumFacing logicFacing){
+		if(facing == logicFacing){
+			return CASING;
+		}else if(facing == logicFacing.getOpposite()){
+			return BACK;
+		}else if(facing == EnumFacing.UP){
+			return TOP;
+		}else if(logicFacing.rotateY() == facing){
+			return RIGHT;
+		}else if(logicFacing.rotateY().getOpposite() == facing){
+			return LEFT;
+		}
+		return NONE;
 	}
 	
 	public static List<IStoragePosition> getPositions(){

@@ -64,6 +64,8 @@ module.furnace.name=Furnace
 module.chest.name=Chest
 module.moduleStorage.name=Module Storage
 module.photovoltaic.name=Photovoltaic
+module.transfer_item.name=Item Transfer Module
+module.transfer_fluid.name=Fluid Transfer Module
 
 #EnderIO
 module.capacitor_bank.name=Capacitor Bank
@@ -231,10 +233,15 @@ module.page.controller.can.use=Can use
 module.page.chest.name=Chest
 
 module.transfer.item.page.from=From
+module.transfer.item.page.from.info=The slots from that the cycle can take the items.
 module.transfer.item.page.to=To
+module.transfer.item.page.to.info=The slots in that the cycle can put the items.
 module.transfer.item.page.amount=Amount
+module.transfer.item.page.amount.info=The amount of items that the cycle can transfer per work cycle.
 module.transfer.item.page.priority=Priority
+module.transfer.item.page.priority.info=The priority of this cycle.
 module.transfer.item.page.time=Time
+module.transfer.item.page.time.info=The time in ticks between the work cycles.
 
 #Forestry
 module.page.apiary.name=Apiary
