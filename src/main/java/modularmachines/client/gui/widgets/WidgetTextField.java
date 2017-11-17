@@ -12,9 +12,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.math.MathHelper;
@@ -67,7 +67,7 @@ public class WidgetTextField extends Widget {
 	}
 
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId) {
-		this(posX, posY, width, height, componentId, Minecraft.getMinecraft().fontRendererObj);
+		this(posX, posY, width, height, componentId, Minecraft.getMinecraft().fontRenderer);
 	}
 
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId, FontRenderer fontrendererObj) {
@@ -404,16 +404,16 @@ public class WidgetTextField extends Widget {
 			startX = pos.x + pos.width;
 		}
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder buffer = tessellator.getBuffer();
 		GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableColorLogic();
 		GlStateManager.colorLogicOp(GlStateManager.LogicOp.OR_REVERSE);
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
-		vertexbuffer.pos(startX, endY, 0.0D).endVertex();
-		vertexbuffer.pos(endX, endY, 0.0D).endVertex();
-		vertexbuffer.pos(endX, startY, 0.0D).endVertex();
-		vertexbuffer.pos(startX, startY, 0.0D).endVertex();
+		buffer.begin(7, DefaultVertexFormats.POSITION);
+		buffer.pos(startX, endY, 0.0D).endVertex();
+		buffer.pos(endX, endY, 0.0D).endVertex();
+		buffer.pos(endX, startY, 0.0D).endVertex();
+		buffer.pos(startX, startY, 0.0D).endVertex();
 		tessellator.draw();
 		GlStateManager.disableColorLogic();
 		GlStateManager.enableTexture2D();

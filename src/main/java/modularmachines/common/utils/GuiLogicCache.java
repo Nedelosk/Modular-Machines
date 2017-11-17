@@ -10,11 +10,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.storage.WorldSavedData;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.modules.logic.ModuleGuiLogic;
 
@@ -54,17 +54,18 @@ public class GuiLogicCache extends WorldSavedData {
 		logicCache.remove(pos);
 	}
 	
+	@Nullable
 	public IModuleGuiLogic getLogic(World world, BlockPos pos){
 		CacheValue cacheValue = logicCache.get(pos);
 		if(cacheValue == null || cacheValue.logic == null){
-			IModuleLogic logic = ModuleUtil.getLogic(pos, world);
-			if(logic == null){
+			IModuleContainer provider = ModuleUtil.getContainer(pos, world);
+			if(provider == null){
 				return null;
 			}
 			if(cacheValue == null){
-				logicCache.put(pos, cacheValue = new CacheValue(logic));
+				logicCache.put(pos, cacheValue = new CacheValue(provider));
 			}else{
-				cacheValue.setLogic(logic);
+				cacheValue.setProvider(provider);
 			}
 		}
 		return cacheValue.logic;
@@ -81,12 +82,12 @@ public class GuiLogicCache extends WorldSavedData {
 			this.pageIndex = pageIndex;
 		}
 		
-		public CacheValue(IModuleLogic logic) {
-			this.logic = new ModuleGuiLogic(logic, moduleIndex, pageIndex);
+		public CacheValue(IModuleContainer provider) {
+			this.logic = new ModuleGuiLogic(provider, moduleIndex, pageIndex);
 		}
 		
-		public void setLogic(IModuleLogic logic) {
-			this.logic = new ModuleGuiLogic(logic, moduleIndex, pageIndex);
+		public void setProvider(IModuleContainer provider) {
+			this.logic = new ModuleGuiLogic(provider, moduleIndex, pageIndex);
 		}
 		
 		public int getModuleIndex() {

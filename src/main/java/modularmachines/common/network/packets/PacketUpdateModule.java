@@ -32,8 +32,8 @@ public class PacketUpdateModule extends PacketModule{
 		super.writeData(data);
 		if (index > 0) {
 			Module module = source.getModule(index);
-			if (pageIndex > 0) {
-				ModuleComponent page = module.getComponent(pageIndex);
+			if (componentIndex > 0) {
+				ModuleComponent page = module.getComponent(componentIndex);
 				if (page instanceof IStreamable) {
 					((IStreamable) page).writeData(data);
 				}

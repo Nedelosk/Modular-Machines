@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -22,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.api.modules.storages.IStorage;
@@ -30,27 +33,22 @@ import modularmachines.api.modules.storages.IStorage;
 public class Module implements ICapabilityProvider {
 
 	protected final List<ModuleComponent> components;
-	protected final IModuleStorage storage;
-	protected final IModuleLogic logic;
-	@Nullable
-	protected ModuleData data;
-	@Nullable
-	protected ItemStack parentItem;
+	/**
+	 * The position of the module at the handler.
+	 */
+	protected IModulePosition position;
+	/**
+	 * The handler that contains this module.
+	 */
+	protected IModuleHandler parent;
+	protected IModuleContainer container;
 	protected int index;
+	protected ModuleData data;
+	private ItemStack parentItem = ItemStack.EMPTY;
 	
-	public Module(IModuleStorage storage) {
+	public Module() {
 		components = new ArrayList<>();
-		this.storage = storage;
-		this.logic = storage.getLogic();
 		createComponents();
-	}
-	
-	public void setIndex(int index) {
-		this.index = index;
-	}
-	
-	public int getIndex() {
-		return index;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -97,9 +95,14 @@ public class Module implements ICapabilityProvider {
 		
 	}
 	
-	public void onCreateModule(IModuleContainer container, ModuleData data, ItemStack parentItem){
+	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem){
+		this.parent = parent;
+		this.container = parent.getProvider().getContainer();
+		this.position = position;
 		this.parentItem = parentItem;
-		this.data = data;
+		this.data = container.getData();
+		
+		this.container.onModuleAdded(this);
 	}
 	
 	protected void createComponents() {
@@ -108,38 +111,46 @@ public class Module implements ICapabilityProvider {
 	public boolean isClean(){
 		return true;
 	}
-
+	
 	public void sendModuleUpdate(){
 		
 	}
 	
     public NBTTagCompound writeToNBT(NBTTagCompound compound){
-    	compound.setInteger("Index", index);
     	compound.setTag("Parent", parentItem.serializeNBT());
     	compound.setString("Data", data.getRegistryName().toString());
     	return compound;
     }
     
-    public void readFromNBT(NBTTagCompound compound){
-    	index = compound.getInteger("Index");
-    	parentItem = new ItemStack(compound.getCompoundTag("Parent"));
-    	data = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(compound.getString("Data")));
-    }
-	
-	public IModuleLogic getLogic() {
-		return logic;
+    public void readFromNBT(NBTTagCompound compound) {
+		parentItem = new ItemStack(compound.getCompoundTag("Parent"));
+		data = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(compound.getString("Data")));
 	}
 	
-	public IModuleStorage getStorage() {
-		return storage;
+	public IModuleHandler getParent() {
+		return parent;
 	}
 	
-	@Nullable
+	public IModuleContainer getContainer() {
+		return container;
+	}
+	
+	public IModulePosition getPosition() {
+		return position;
+	}
+	
 	public ItemStack getParentItem() {
 		return parentItem;
 	}
 	
-	@Nullable
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 	public ModuleData getData() {
 		return data;
 	}
@@ -149,6 +160,27 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	public IFluidHandler getFluidHandler(){
+		return null;
+	}
+	
+	@Nullable
+	public RayTraceResult collisionRayTrace(Vec3d start, Vec3d end){
+		AxisAlignedBB boundingBox = getCollisionBox();
+		return boundingBox == null ? null : boundingBox.calculateIntercept(start, end);
+	}
+	
+	@Nullable
+	private AxisAlignedBB getCollisionBox(){
+		AxisAlignedBB boundingBox = getBoundingBox();
+		return boundingBox == null ? null : boundingBox.offset(getBoundingBoxOffset());
+	}
+	
+	protected Vec3d getBoundingBoxOffset(){
+		return Vec3d.ZERO;
+	}
+	
+	@Nullable
+	public AxisAlignedBB getBoundingBox(){
 		return null;
 	}
 	

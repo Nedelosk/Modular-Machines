@@ -1,0 +1,44 @@
+package modularmachines.api.modules;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Map;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+
+import modularmachines.api.ILocatable;
+import modularmachines.api.ILocatableSource;
+import modularmachines.api.modules.listeners.IModuleListener;
+import modularmachines.api.modules.logic.LogicComponent;
+
+public interface IModuleContainer extends ILocatableSource, IModuleListener, IModuleProvider {
+	
+	void addComponent(String identifier, LogicComponent component);
+	
+	@Nullable
+	<T extends LogicComponent> T getComponent(String identifier);
+	
+	Map<String, LogicComponent> getComponents();
+	
+	ILocatable getLocatable();
+	
+	@Nullable
+	Module getModule(int index);
+	
+	Collection<Module> getModules();
+	
+	Collection<Module> getModules(IModuleType type);
+	
+	@Nullable
+	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
+	
+	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult);
+	
+	@Override
+	default IModuleContainer getContainer(){
+		return this;
+	}
+}

@@ -64,7 +64,7 @@ public class PageWidget<M extends Module> extends Page {
 	
 	@Override
 	public void addWidgets(){
-		List<Module> modulesWithPages = ModuleHelper.getModulesWithComponents(module.getLogic());
+		List<Module> modulesWithPages = ModuleHelper.getModulesWithComponents(module.getContainer());
 		int i = 0;
 		if (!modulesWithPages.isEmpty() && modulesWithPages.size() > 1) {
 			for (i = 0; i < modulesWithPages.size(); i++) {

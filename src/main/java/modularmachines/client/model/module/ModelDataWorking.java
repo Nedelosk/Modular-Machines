@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.IModuleWorking;
 
@@ -24,7 +24,7 @@ public class ModelDataWorking extends ModelData {
 	public static final String ON = "on";
 	public static final String OFF = "off";
 
-	public static void initModelData(ModuleData data, ModelLocation locationOn, ModelLocation locationOff){
+	public static void initModelData(ModuleData data, ModelLocationBuilder locationOn, ModelLocationBuilder locationOff){
 		ModelDataWorking working = new ModelDataWorking();
 		working.addLocation(ON, locationOn);
 		working.addLocation(OFF, locationOff);

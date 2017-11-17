@@ -54,7 +54,7 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
-		renderStrings(fontRendererObj, param1, param2);
+		renderStrings(fontRenderer, param1, param2);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 	}
 
 	public FontRenderer getFontRenderer() {
-		return fontRendererObj;
+		return fontRenderer;
 	}
 
 	public void drawItemStack(ItemStack stack, int x, int y) {

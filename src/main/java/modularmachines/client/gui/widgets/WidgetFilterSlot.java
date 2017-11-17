@@ -11,6 +11,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -62,7 +63,7 @@ public class WidgetFilterSlot extends Widget {
 		if(stack.isEmpty()){
 			return Collections.emptyList();
 		}
-		return stack.getTooltip(Minecraft.getMinecraft().player, false);
+		return stack.getTooltip(Minecraft.getMinecraft().player, ITooltipFlag.TooltipFlags.ADVANCED);
 	}
 	
 	public ItemStack getStack() {

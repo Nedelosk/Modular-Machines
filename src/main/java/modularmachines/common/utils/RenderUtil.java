@@ -14,7 +14,7 @@ public class RenderUtil {
 
 	public static void renderTooltip(int x, int y, List<String> tooltipData) {
 		ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-		GuiUtils.drawHoveringText(tooltipData, x, y, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), -1, Minecraft.getMinecraft().fontRendererObj);
+		GuiUtils.drawHoveringText(tooltipData, x, y, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), -1, Minecraft.getMinecraft().fontRenderer);
 	}
 
 	public static TextureManager engine() {

@@ -11,7 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.pages.IPage;
 import modularmachines.common.modules.transfer.ITransferCycle;
@@ -23,8 +22,7 @@ import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
 
 public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 
-	public ModuleTransferFluid(IModuleStorage storage) {
-		super(storage);
+	public ModuleTransferFluid() {
 	}
 
 	@Override

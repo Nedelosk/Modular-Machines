@@ -1,5 +1,7 @@
 package modularmachines.common.modules.transfer;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,15 +12,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.api.modules.IModuleContainer;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
 
 public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> {
 	
-	protected TileEntity tileEntity;
 	protected final EnumFacing facing;
 	protected final ModuleTransfer<H> moduleTransfer;
+	@Nullable
+	protected TileEntity tileEntity;
 	
 	public TransferWrapperTileEntity(ModuleTransfer<H> moduleTransfer, EnumFacing facing) {
 		this.moduleTransfer = moduleTransfer;
@@ -36,9 +39,9 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 	}
 	
 	@Override
-	public void init(IModuleLogic logic) {
+	public void init(IModuleContainer provider) {
 		if(tileEntity == null){
-			tileEntity = WorldUtil.getTile(logic.getLocatable(), facing);
+			tileEntity = WorldUtil.getTile(provider.getLocatable(), facing);
 		}
 	}
 

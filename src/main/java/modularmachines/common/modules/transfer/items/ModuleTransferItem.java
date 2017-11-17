@@ -11,20 +11,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.pages.IPage;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
-import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.ModuleComponentTransfer;
+import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.TransferWrapperModule;
 import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
 
 public class ModuleTransferItem extends ModuleTransfer<IItemHandler>{
 
-	public ModuleTransferItem(IModuleStorage storage) {
-		super(storage);
+	public ModuleTransferItem() {
+		super();
 	}
 
 	@Override

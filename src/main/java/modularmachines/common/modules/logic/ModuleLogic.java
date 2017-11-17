@@ -29,7 +29,6 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.logic.IModuleLogic;
@@ -40,7 +39,6 @@ import modularmachines.client.gui.GuiModuleLogic;
 import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;
-import modularmachines.common.utils.ContainerUtil;
 
 public class ModuleLogic implements IModuleLogic {
 	
@@ -64,7 +62,7 @@ public class ModuleLogic implements IModuleLogic {
 	@Override
 	public void addComponent(String identifier, LogicComponent component) {
 		Preconditions.checkNotNull(component, "Can't have a null logic component!");
-		component.setLogic(this);
+		//component.setProvider(this);
 		this.componentMap.put(identifier, component);
 	}
 
@@ -176,7 +174,7 @@ public class ModuleLogic implements IModuleLogic {
 				PacketHandler.sendToNetwork(new PacketSyncHandlerState(this, true), pos, server);
 				IBlockState blockState = server.getBlockState(pos);
 				server.notifyBlockUpdate(pos, blockState, blockState, 3);
-				ContainerUtil.openOrCloseGuiSave(assembler, 1, !ModuleHelper.getModulesWithComponents(this).isEmpty());
+				//ContainerUtil.openOrCloseGuiSave(assembler, 1, !ModuleHelper.getModulesWithComponents(this).isEmpty());
 			}
 		}
 	}

@@ -14,9 +14,9 @@ public class UpdateComponent extends LogicComponent{
 	
 	@Override
 	public void update(){
-		if(logic != null){
+		if(provider != null){
 			tickCount++;
-			for(Module module : logic.getModules()){
+			for(Module module : provider.getModules()){
 				if(module instanceof ITickable){
 					ITickable tickable = (ITickable) module;
 					tickable.update();

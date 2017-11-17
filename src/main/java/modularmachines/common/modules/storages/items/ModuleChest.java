@@ -2,7 +2,6 @@ package modularmachines.common.modules.storages.items;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.DefaultFilter;
@@ -11,8 +10,7 @@ public class ModuleChest extends Module {
 
 	public final ItemHandlerModule itemHandler;
 	
-	public ModuleChest(IModuleStorage storage) {
-		super(storage);
+	public ModuleChest() {
 		itemHandler = new ItemHandlerModule(this);
 		for (int j = 0; j < 3; ++j) {
 			for (int k = 0; k < 9; ++k) {

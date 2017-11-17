@@ -11,7 +11,7 @@ import modularmachines.api.modules.EnumModuleSizes;
 
 import scala.actors.threadpool.Arrays;
 
-public enum EnumStoragePosition implements IMachineStoragePosition {
+public enum EnumStoragePosition implements IStoragePositionRotatable {
 	CASING(EnumModuleSizes.LARGEST),
 	LEFT(EnumModuleSizes.LARGE, -(float) (Math.PI / 2)),
 	RIGHT(EnumModuleSizes.LARGE, (float) (Math.PI / 2)),

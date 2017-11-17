@@ -1,10 +1,12 @@
 package modularmachines.common.items.blocks;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -42,7 +44,8 @@ public class ItemBlockMachine extends ItemBlock implements IItemModelRegister {
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if (GuiScreen.isShiftKeyDown()) {
 			IModuleLogic moduleLogic = stack.getCapability(ModuleRegistry.MODULE_LOGIC, null);
 			if (stack.hasTagCompound()) {
@@ -58,9 +61,9 @@ public class ItemBlockMachine extends ItemBlock implements IItemModelRegister {
 		} else {
 			tooltip.add(TextFormatting.WHITE.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.holdshift"));
 		}
-		super.addInformation(stack, playerIn, tooltip, advanced);
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
-
+	
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
 		if (!world.setBlockState(pos, newState, 3)) {

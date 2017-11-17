@@ -122,7 +122,7 @@ public class PacketHandler {
 	@SubscribeEvent
 	public void onPacket(ServerCustomPacketEvent event) {
 		PacketBufferMM data = new PacketBufferMM(event.getPacket().payload());
-		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).playerEntity;
+		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
 		
 		byte packetIdOrdinal = data.readByte();
 		PacketId packetId = PacketId.VALUES[packetIdOrdinal];

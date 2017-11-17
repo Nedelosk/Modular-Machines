@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHandlerState;

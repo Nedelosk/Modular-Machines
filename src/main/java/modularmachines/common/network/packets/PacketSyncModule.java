@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
@@ -43,8 +43,8 @@ public class PacketSyncModule extends PacketModule {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
-			IModuleLogic logic = PacketLocatable.getLogic(data, world);
-			Module module = getModule(logic, data);
+			IModuleContainer provider = PacketLocatable.getProvider(data, world);
+			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
 			module.readFromNBT(data.readCompoundTag());

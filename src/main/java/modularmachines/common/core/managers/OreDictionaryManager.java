@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-import modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
+import modularmachines.common.blocks.BlockMetalBlock.Metals;
 import modularmachines.common.items.ItemComponent;
 import modularmachines.common.materials.EnumMaterial;
 import modularmachines.common.materials.MaterialList;
@@ -52,7 +52,7 @@ public class OreDictionaryManager {
 		registerComponentOres("screw", ItemManager.itemCompScrews);
 		registerComponentOres("gear", ItemManager.itemCompGears);
 		registerComponentOres("wire", ItemManager.itemCompWires);
-		for (ComponentTypes type : ComponentTypes.values()) {
+		for (Metals type : Metals.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
 			for (String oreDict : type.oreDict) {
 				registerOre("block" + oreDict, stack);

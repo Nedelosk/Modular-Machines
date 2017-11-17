@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GlStateManager;
 
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.PageTransfer;

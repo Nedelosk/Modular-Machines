@@ -12,8 +12,8 @@ public class ModuleHeaterBurning extends ModuleHeater {
 
 	public final ItemHandlerModule itemHandler;
 	
-	public ModuleHeaterBurning(IModuleStorage storage, double maxHeat, int heatModifier) {
-		super(storage, maxHeat, heatModifier);
+	public ModuleHeaterBurning(double maxHeat, int heatModifier) {
+		super(maxHeat, heatModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
 	}

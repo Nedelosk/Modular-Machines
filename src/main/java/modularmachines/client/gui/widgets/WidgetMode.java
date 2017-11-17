@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IMode;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.IModuleMode;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncMode;

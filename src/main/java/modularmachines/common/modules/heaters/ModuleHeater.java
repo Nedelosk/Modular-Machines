@@ -5,7 +5,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.world.WorldServer;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.modules.IModuleBurning;
@@ -21,8 +20,7 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 	protected int fuel;
 	protected int fuelTotal;
 	
-	public ModuleHeater(IModuleStorage storage, double maxHeat, int heatModifier) {
-		super(storage);
+	public ModuleHeater(double maxHeat, int heatModifier) {
 		this.maxHeat = maxHeat;
 		this.heatModifier = heatModifier;
 	}
@@ -54,10 +52,10 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 
 	@Override
 	public void update() {
-		if (ModuleUtil.getUpdate(logic).updateOnInterval(20)) {
+		if (ModuleUtil.getUpdate(container).updateOnInterval(20)) {
 			boolean needUpdate = false;
 			if (canAddHeat()) {
-				IHeatSource buffer = ModuleUtil.getHeat(logic);
+				IHeatSource buffer = ModuleUtil.getHeat(container);
 				buffer.increaseHeat(maxHeat, heatModifier);
 				afterAddHeat();
 				needUpdate = true;
@@ -72,10 +70,10 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 
 	@Override
 	public void sendModuleUpdate() {
-		ILocatable locatable = logic.getLocatable();
+		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(logic), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
 

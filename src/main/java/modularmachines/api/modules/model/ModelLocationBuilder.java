@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.ModuleData;
 
 @SideOnly(Side.CLIENT)
-public class ModelLocation {
+public class ModelLocationBuilder {
 	
 	protected final Set<ModelFormatting> formattings;
 	protected final ModuleData data;
@@ -20,7 +20,7 @@ public class ModelLocation {
 	protected boolean status;
 	protected ResourceLocation location;
 	
-	public ModelLocation(ModelLocation location) {
+	public ModelLocationBuilder(ModelLocationBuilder location) {
 		this.data = location.data;
 		this.formattings = location.formattings;
 		this.preFix = location.preFix;
@@ -29,42 +29,42 @@ public class ModelLocation {
 		this.location = null;
 	}
 	
-	public ModelLocation(ModuleData data) {
+	public ModelLocationBuilder(ModuleData data) {
 		this.data = data;
 		this.formattings = new HashSet<>();
 		this.location = null;
 		this.preFix = "";
 	}
 	
-	public ModelLocation addPreFix(String preFix){
+	public ModelLocationBuilder addPreFix(String preFix){
 		this.preFix = preFix;
 		return this;
 	}
 	
-	public ModelLocation addToPreFix(String preFix){
+	public ModelLocationBuilder addToPreFix(String preFix){
 		this.preFix += preFix;
 		return this;
 	}
 	
-	public ModelLocation addStatus(boolean status) {
+	public ModelLocationBuilder addStatus(boolean status) {
 		this.status = status;
 		formattings.add(ModelFormatting.STATUS);
 		return this;
 	}
 	
-	public ModelLocation addFolder(String folder) {
+	public ModelLocationBuilder addFolder(String folder) {
 		this.folder = folder;
 		formattings.add(ModelFormatting.FOLDER);
 		return this;
 	}
 	
-	public ModelLocation addToFolder(String folder) {
+	public ModelLocationBuilder addToFolder(String folder) {
 		this.folder += folder;
 		formattings.add(ModelFormatting.FOLDER);
 		return this;
 	}
 	
-	public ModelLocation addSize() {
+	public ModelLocationBuilder addSize() {
 		formattings.add(ModelFormatting.SIZE);
 		return this;
 	}
@@ -73,7 +73,7 @@ public class ModelLocation {
 		return data;
 	}
 	
-	public ResourceLocation toLocation(){
+	public ResourceLocation build(){
 		String modID = data.getRegistryName().getResourceDomain();
 		String preFix = this.preFix;
 		if (preFix == null) {

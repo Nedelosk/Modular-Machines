@@ -31,7 +31,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.storages.IStorage;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.utils.ModuleUtil;
 
@@ -45,26 +45,26 @@ public class ModelLoader {
 		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
-		for (ModuleData data : ModularMachines.DATAS) {
+		for (ModuleData data : ModularMachines.dataRegistry) {
 			if (data != null) {
 				IModelData<IBakedModel> modelData = data.getModel(TileEntity.class);
 				if(modelData != null){
 					Collection<ResourceLocation> locations = modelData.getValidLocations();
 					if (locations != null && !locations.isEmpty()) {
-						for (ResourceLocation locaton : locations) {
-							if (locaton != null && !modelLocations.contains(locaton)) {
+						for (ResourceLocation location : locations) {
+							if (location != null && !modelLocations.contains(location)) {
 								Builder<VertexFormat, IBakedModel> baker = new Builder<>();
 								IModel model = null;
 								try {
-									model = ModelLoaderRegistry.getModel(locaton);
+									model = ModelLoaderRegistry.getModel(location);
 								} catch (Exception e) {
-									loadingExceptions.put(locaton, e);
+									loadingExceptions.put(location, e);
 								}
 								if (model != null) {
 									baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
 									baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
-									modelBaker.put(locaton, baker.build());
-									modelLocations.add(locaton);
+									modelBaker.put(location, baker.build());
+									modelLocations.add(location);
 								}
 							}
 						}
@@ -105,7 +105,7 @@ public class ModelLoader {
 	}
 
 	public static IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat vertex) {
-		ModelComponent component = ModuleUtil.getModel(module.getLogic());
+		ModelComponent component = ModuleUtil.getModel(module.getContainer());
 		IBakedModel model = component.getModel(module.getIndex());
 		IModelData<IBakedModel> data = getModelData(module);
 		if(data != null){

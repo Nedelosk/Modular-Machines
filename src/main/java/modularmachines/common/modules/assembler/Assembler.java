@@ -36,7 +36,7 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IModuleSlot;
 import modularmachines.api.modules.assemblers.IModuleSlots;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStorage;
@@ -243,7 +243,7 @@ public class Assembler implements IAssembler {
 				IModuleSlots slots = page.getSlots();
 				for(IModuleSlot slot : slots){
 					ItemStack itemStack = slot.getItem();
-					IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
+					IModuleDataContainer container = ModuleHelper.getContainerFromItem(itemStack);
 					if(container != null ){
 						ModuleData moduleData = container.getData();
 						moduleData.canAssemble(this, errors);
@@ -284,7 +284,7 @@ public class Assembler implements IAssembler {
 		if(ItemUtil.isEmpty(itemStack)){
 			return new EmptyStoragePage(this, position);
 		}
-		IModuleContainer moduleContainer = ModuleHelper.getContainerFromItem(itemStack);
+		IModuleDataContainer moduleContainer = ModuleHelper.getContainerFromItem(itemStack);
 		if (moduleContainer != null) {
 			ModuleData data = moduleContainer.getData();
 			if(data.isStorage(position)){

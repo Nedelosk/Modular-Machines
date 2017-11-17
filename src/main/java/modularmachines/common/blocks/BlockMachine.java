@@ -23,7 +23,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -44,23 +43,19 @@ import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.listeners.IDropListener;
-import modularmachines.api.modules.listeners.INeighborChangeListener;
-import modularmachines.api.modules.listeners.IRedstoneListener;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.IModuleComponent;
-import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.core.ClientProxy;
 import modularmachines.client.model.ModelManager;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.config.Config;
-import modularmachines.common.core.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
-import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.WorldUtil;
 import modularmachines.common.utils.capabilitys.CapabilityUtils;
 import modularmachines.common.utils.content.IClientContentHandler;
@@ -119,7 +114,7 @@ public class BlockMachine extends Block implements IItemModelRegister, IClientCo
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
 		if (tile != null) {
@@ -143,9 +138,9 @@ public class BlockMachine extends Block implements IItemModelRegister, IClientCo
 			return true;
 		}
 		return false;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		if(side == null){
 			return false;
@@ -159,10 +154,11 @@ public class BlockMachine extends Block implements IItemModelRegister, IClientCo
 			}
 		}
 		return false;
-	}
+	}*/
 	
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 	}
 	
 	@Override
@@ -231,7 +227,7 @@ public class BlockMachine extends Block implements IItemModelRegister, IClientCo
 		if (!Config.destroyModules) {
 			return stack;
 		}
-		IModuleContainer moduleContainer = ModuleHelper.getContainerFromItem(stack);
+		IModuleDataContainer moduleContainer = ModuleHelper.getContainerFromItem(stack);
 		if (moduleContainer != null) {
 			if (random.nextFloat() < moduleContainer.getData().getDropChance()) {
 				return stack;
@@ -269,16 +265,16 @@ public class BlockMachine extends Block implements IItemModelRegister, IClientCo
 		return false;
 	}
 	
-	@Override
+	/*@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		super.onNeighborChange(world, pos, neighbor);
 		IModuleLogic tileLogic = CapabilityUtils.getCapability(world, pos, ModuleRegistry.MODULE_LOGIC,null);
 		if(tileLogic != null){
-			for(INeighborChangeListener changeListener : ModuleUtil.getModules(tileLogic, INeighborChangeListener.class)){
+			for(INeighborBlockListener changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockListener.class)){
 				changeListener.onNeighborChange(world, pos, neighbor);
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public EnumFacing[] getValidRotations(World world, BlockPos pos) {

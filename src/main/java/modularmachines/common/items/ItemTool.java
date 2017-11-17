@@ -1,14 +1,16 @@
 package modularmachines.common.items;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -43,12 +45,13 @@ public class ItemTool extends Item implements IItemModelRegister {
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return getUnlocalizedName().replace("item.", "");
 	}
-
+	
 	@Override
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean advanced) {
-		aList.add(Translator.translateToLocal("mm.tooltip.damage") + (aStack.getMaxDamage() - getDamage(aStack)) + "/" + aStack.getMaxDamage());
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(Translator.translateToLocal("mm.tooltip.damage") + (stack.getMaxDamage() - getDamage(stack)) + "/" + stack.getMaxDamage());
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	private class ToolMeshDefinition implements ItemMeshDefinition {
 

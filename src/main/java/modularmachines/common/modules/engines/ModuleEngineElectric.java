@@ -2,18 +2,17 @@ package modularmachines.common.modules.engines;
 
 import net.minecraftforge.energy.IEnergyStorage;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleEngineElectric extends ModuleEngine {
 	
-	public ModuleEngineElectric(IModuleStorage storage, int capacity, int maxTransfer, int energyPerWork, double kineticModifier) {
-		super(storage, capacity, maxTransfer, energyPerWork, kineticModifier);
+	public ModuleEngineElectric(int capacity, int maxTransfer, int energyPerWork, double kineticModifier) {
+		super(capacity, maxTransfer, energyPerWork, kineticModifier);
 	}
 
 	@Override
 	protected boolean canWork() {
-		IEnergyStorage energyStorage = ModuleUtil.getEnergy(logic);
+		IEnergyStorage energyStorage = ModuleUtil.getEnergy(container);
 		if (energyStorage == null) {
 			return false;
 		}
@@ -26,7 +25,7 @@ public class ModuleEngineElectric extends ModuleEngine {
 
 	@Override
 	protected boolean removeMaterial() {
-		IEnergyStorage energyStorage = ModuleUtil.getEnergy(logic);
+		IEnergyStorage energyStorage = ModuleUtil.getEnergy(container);
 		if (energyStorage == null) {
 			return false;
 		}

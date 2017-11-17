@@ -23,8 +23,8 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	public static final List<IRecipeHeat> FURNACE_RECIPES = new ArrayList<>();
 	public final ItemHandlerModule itemHandler;
 
-	public ModuleFurnace(IModuleStorage storage, int workTimeModifier) {
-		super(storage, workTimeModifier);
+	public ModuleFurnace(int workTimeModifier) {
+		super(workTimeModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(FilterMachine.INSTANCE);
 		itemHandler.addSlot(false).addFilter(OutputFilter.INSTANCE);

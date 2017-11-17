@@ -2,7 +2,7 @@ package modularmachines.common.modules.transfer;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.IModuleContainer;
 
 public interface ITransferHandlerWrapper<H> {
 
@@ -12,7 +12,7 @@ public interface ITransferHandlerWrapper<H> {
 	
 	ItemStack getTabItem();
 	
-	void init(IModuleLogic logic);
+	void init(IModuleContainer provider);
 	
 	boolean isValid();
 }

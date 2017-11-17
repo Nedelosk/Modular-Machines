@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ModuleUtil;
@@ -20,9 +20,9 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 	public PacketSyncHeatBuffer() {
 	}
 
-	public PacketSyncHeatBuffer(IModuleLogic logic) {
-		super(logic);
-		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+	public PacketSyncHeatBuffer(IModuleContainer provider) {
+		super(provider);
+		IHeatSource heatSource = ModuleUtil.getHeat(provider);
 		heatBuffer = heatSource.getHeatStored();
 	}
 
@@ -37,9 +37,9 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
-			IModuleLogic logic = getLogic(data, player.world);
-			if (logic != null) {
-				IHeatSource heatSource = ModuleUtil.getHeat(logic);
+			IModuleContainer provider = getProvider(data, player.world);
+			if (provider != null) {
+				IHeatSource heatSource = ModuleUtil.getHeat(provider);
 				heatSource.setHeatStored(data.readDouble());
 			}
 		}

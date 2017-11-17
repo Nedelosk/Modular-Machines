@@ -22,12 +22,12 @@ import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItemModelRegister, IBlockWithMeta {
 
-	public static final PropertyEnum<ComponentTypes> TYPE = PropertyEnum.create("type", ComponentTypes.class);
+	public static final PropertyEnum<Metals> TYPE = PropertyEnum.create("type", Metals.class);
 
 	public BlockMetalBlock() {
 		super(Material.IRON, TabModularMachines.tabModularMachines);
 		setUnlocalizedName("metal_blocks");
-		setDefaultState(blockState.getBaseState().withProperty(TYPE, ComponentTypes.TIN));
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, Metals.TIN));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -38,7 +38,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 
 	@Override
 	public String getNameFromMeta(int meta) {
-		return ComponentTypes.values()[meta].getName();
+		return Metals.values()[meta].getName();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(TYPE, ComponentTypes.values()[meta]);
+		return getDefaultState().withProperty(TYPE, Metals.values()[meta]);
 	}
 
 	@Override
@@ -59,26 +59,27 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
-		for (ComponentTypes type : ComponentTypes.values()) {
+		for (Metals type : Metals.values()) {
 			manager.registerItemModel(item, type.ordinal());
 		}
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (int i = 0; i < ComponentTypes.values().length; i++) {
-			subItems.add(new ItemStack(item, 1, i));
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		for (int i = 0; i < Metals.values().length; i++) {
+			subItems.add(new ItemStack(this, 1, i));
 		}
 	}
 
-	public static enum ComponentTypes implements IStringSerializable {
+	public static enum Metals implements IStringSerializable {
 		TIN(0xCACECF, "tin", "Tin"), COPPER(0xCC6410, "copper", "Copper"), BRONZE(0xCA9956, "bronze", "Bronze"), STEEL(0xA0A0A0, "steel", "Steel"), INVAR(0xA1A48C, "invar", "Invar");
 
 		public int color;
 		public String name;
 		public String[] oreDict;
 
-		private ComponentTypes(int color, String name, String... oreDict) {
+		private Metals(int color, String name, String... oreDict) {
 			this.color = color;
 			this.name = name;
 			this.oreDict = oreDict;

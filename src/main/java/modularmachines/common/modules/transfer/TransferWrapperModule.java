@@ -1,16 +1,19 @@
 package modularmachines.common.modules.transfer;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.item.ItemStack;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleLogic;
 
 public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 	
-	protected H handler;
 	protected final int index;
-	protected Module module;
 	protected final ModuleTransfer<H> moduleTransfer;
+	//protected H handler;
+	@Nullable
+	protected Module module;
 	
 	public TransferWrapperModule(ModuleTransfer<H> moduleTransfer, int index) {
 		this.moduleTransfer = moduleTransfer;
@@ -19,6 +22,9 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 
 	@Override
 	public String getTabTooltip() {
+		if(module == null){
+			return "UNKNOWN";
+		}
 		return module.getData().getDisplayName();
 	}
 
@@ -28,9 +34,9 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 	}
 
 	@Override
-	public void init(IModuleLogic logic) {
+	public void init(IModuleContainer provider) {
 		if(module == null){
-			module = logic.getModule(index);
+			module = provider.getModule(index);
 		}
 	}
 	
@@ -38,6 +44,7 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 		return index;
 	}
 	
+	@Nullable
 	public Module getModule() {
 		return module;
 	}

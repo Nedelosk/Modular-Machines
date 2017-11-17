@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.IModuleMode;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
@@ -51,9 +51,9 @@ public class PacketSyncMode extends PacketModule {
 			BlockPos pos = data.readBlockPos();
 			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
-				IModuleLogic logic = guiLogic.getLogic();
+				IModuleContainer provider = guiLogic.getProvider();
 				int index = data.readVarInt();
-				Module module = logic.getModule(index);
+				Module module = provider.getModule(index);
 				int mode = data.readVarInt();
 				if(module instanceof IModuleMode){
 					((IModuleMode) module).setCurrentMode(mode);
@@ -67,9 +67,9 @@ public class PacketSyncMode extends PacketModule {
 			BlockPos pos = data.readBlockPos();
 			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
-				IModuleLogic logic = guiLogic.getLogic();
+				IModuleContainer provider = guiLogic.getProvider();
 				int index = data.readVarInt();
-				Module module = logic.getModule(index);
+				Module module = provider.getModule(index);
 				int mode = data.readVarInt();
 				if(module instanceof IModuleMode){
 					((IModuleMode) module).setCurrentMode(mode);

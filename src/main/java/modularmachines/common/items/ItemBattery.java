@@ -1,17 +1,19 @@
 package modularmachines.common.items;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -57,16 +59,17 @@ public class ItemBattery extends Item implements IEnergyItem, IItemModelRegister
 	public boolean showDurabilityBar(ItemStack stack) {
 		return EnergyStorageItem.hasEnergy(stack);
 	}
-
+	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		NBTTagCompound tagCombound = stack.getTagCompound();
-		if (!EnergyStorageItem.hasEnergy(tagCombound)) {
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		NBTTagCompound tagCompound = stack.getTagCompound();
+		if (!EnergyStorageItem.hasEnergy(tagCompound)) {
 			return;
 		}
-		tooltip.add(Translator.translateToLocal("mm.tooltip.energy") + EnergyStorageItem.getEnergy(tagCombound) + " / " + getCapacity(stack));
+		tooltip.add(Translator.translateToLocal("mm.tooltip.energy") + EnergyStorageItem.getEnergy(tagCompound) + " / " + getCapacity(stack));
 	}
-
+	
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 		NBTTagCompound tagCombound = stack.getTagCompound();
@@ -79,13 +82,15 @@ public class ItemBattery extends Item implements IEnergyItem, IItemModelRegister
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (int i = 0; i < CAPACITY.length; i++) {
-			subItems.add(EnergyStorageItem.createItemStack(this, 1, i, true));
-			subItems.add(EnergyStorageItem.createItemStack(this, 1, i, false));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if(isInCreativeTab(tab)) {
+			for (int i = 0; i < CAPACITY.length; i++) {
+				subItems.add(EnergyStorageItem.createItemStack(this, 1, i, true));
+				subItems.add(EnergyStorageItem.createItemStack(this, 1, i, false));
+			}
 		}
 	}
-
+	
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
 		return new EnergyStorageItem(stack, this);

@@ -12,7 +12,7 @@ import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.client.gui.WidgetManager;
 import modularmachines.common.containers.ContainerModuleLogic;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetModuleTab extends Widget<IModuleLogic> {

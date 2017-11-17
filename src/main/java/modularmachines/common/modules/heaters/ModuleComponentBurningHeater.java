@@ -50,7 +50,7 @@ public class ModuleComponentBurningHeater extends DefaultModuleComponent<ModuleH
 		@Override
 		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 			super.drawForeground(fontRenderer, mouseX, mouseY);
-			IHeatSource heatSource = ModuleUtil.getHeat(module.getLogic());
+			IHeatSource heatSource = ModuleUtil.getHeat(module.getContainer());
 			String heatName = Translator.translateToLocalFormatted("module.heater.heat", FORMATE.format(heatSource.getHeatStored()));
 			fontRenderer.drawString(heatName, 90 - (fontRenderer.getStringWidth(heatName) / 2), 55, Color.GRAY.getRGB());
 		}

@@ -35,9 +35,12 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	}
 
 	@Override
-	public void getSubItems(Item id, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (int i = 0; i < names.length; i++) {
-			list.add(new ItemStack(id, 1, i));
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if(isInCreativeTab(tab)) {
+			for (int i = 0; i < names.length; i++) {
+				list.add(new ItemStack(this, 1, i));
+			}
 		}
 	}
 

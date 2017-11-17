@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
@@ -48,8 +48,8 @@ public class PacketRemoveCycle extends PacketModule {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
-			IModuleLogic logic = PacketLocatable.getLogic(data, world);
-			Module module = getModule(logic, data);
+			IModuleContainer provider = PacketLocatable.getProvider(data, world);
+			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
 			if(module instanceof ModuleTransfer){
@@ -62,8 +62,8 @@ public class PacketRemoveCycle extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleLogic logic = ModuleUtil.getLogic(pos, world);
-			Module module = getModule(logic, data);
+			IModuleContainer provider = ModuleUtil.getContainer(pos, world);
+			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
 			if(module instanceof ModuleTransfer){
@@ -71,7 +71,7 @@ public class PacketRemoveCycle extends PacketModule {
 				int index = data.readInt();
 				transfer.getTransferCycles().remove(index);
 				PacketHandler.sendToNetwork(new PacketRemoveCycle(transfer, index), pos, player.getServerWorld());
-				ContainerUtil.openGuiSave(logic, 1);
+				ContainerUtil.openGuiSave(provider, 1);
 			}
 		}
 	}

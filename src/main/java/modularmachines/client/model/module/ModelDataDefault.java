@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.storages.IStorage;
 
 @SideOnly(Side.CLIENT)
@@ -20,7 +20,7 @@ public class ModelDataDefault extends ModelData {
 
 	public static final String DEFAULT = "default";
 
-	public static void initModelData(ModelLocation location){
+	public static void initModelData(ModelLocationBuilder location){
 		ModelDataDefault model = new ModelDataDefault();
 		model.addLocation(DEFAULT, location);
 		location.getData().addModel(TileEntity.class, model);

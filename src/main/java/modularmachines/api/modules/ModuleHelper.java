@@ -9,7 +9,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 
 public class ModuleHelper {
@@ -17,12 +17,12 @@ public class ModuleHelper {
 	/**
 	 * @return All modules of an IModular that have a page.
 	 */
-	public static List<Module> getModulesWithComponents(@Nullable IModuleLogic logic) {
-		if (logic == null) {
+	public static List<Module> getModulesWithComponents(@Nullable IModuleContainer provider) {
+		if (provider == null) {
 			return Collections.emptyList();
 		}
 		List<Module> validModules = Lists.newArrayList();
-		for (Module module : logic.getModules()) {
+		for (Module module : provider.getModules()) {
 			if (module != null && !module.getComponents().isEmpty()) {
 				validModules.add(module);
 			}
@@ -53,11 +53,11 @@ public class ModuleHelper {
 	 * @return The matching module container for the stack.
 	 */
 	@Nullable
-	public static IModuleContainer getContainerFromItem(ItemStack stack) {
+	public static IModuleDataContainer getContainerFromItem(ItemStack stack) {
 		if (stack == null || stack.isEmpty()) {
 			return null;
 		}
-		for (IModuleContainer container : ModuleRegistry.getContainers()) {
+		for (IModuleDataContainer container : ModuleRegistry.getContainers()) {
 			if (container.matches(stack)) {
 				return container;
 			}
@@ -67,9 +67,9 @@ public class ModuleHelper {
 	
 	@Nullable
 	public static Module createModule(IModuleStorage storage, ItemStack stack){
-		IModuleContainer container = getContainerFromItem(stack);
+		IModuleDataContainer container = getContainerFromItem(stack);
 		if(container != null && container.getData() != null){
-			return container.getData().createModule(storage, container, stack);
+			//return container.getData().createModule(storage, container, stack);
 		}
 		return null;
 	}

@@ -1,18 +1,17 @@
 package modularmachines.common.modules.engines;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleEngineStirling extends ModuleEngine {
 
-	public ModuleEngineStirling(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
-		super(storage, capacity, maxTransfer, materialPerWork, kineticModifier);
+	public ModuleEngineStirling(int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
+		super(capacity, maxTransfer, materialPerWork, kineticModifier);
 	}
 
 	@Override
 	public boolean canWork() {
-		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+		IHeatSource heatSource = ModuleUtil.getHeat(container);
 		if (heatSource == null) {
 			return false;
 		}
@@ -21,7 +20,7 @@ public class ModuleEngineStirling extends ModuleEngine {
 
 	@Override
 	public boolean removeMaterial() {
-		IHeatSource heatSource = ModuleUtil.getHeat(logic);
+		IHeatSource heatSource = ModuleUtil.getHeat(container);
 		if (heatSource == null) {
 			return false;
 		}

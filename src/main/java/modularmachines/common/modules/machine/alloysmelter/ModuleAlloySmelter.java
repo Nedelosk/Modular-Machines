@@ -2,7 +2,6 @@ package modularmachines.common.modules.machine.alloysmelter;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -15,8 +14,8 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 	
 	public final ItemHandlerModule itemHandler;
 	
-	public ModuleAlloySmelter(IModuleStorage storage, int workTimeModifier) {
-		super(storage, workTimeModifier);
+	public ModuleAlloySmelter(int workTimeModifier) {
+		super(workTimeModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(FilterMachine.INSTANCE);
 		itemHandler.addSlot(true).addFilter(FilterMachine.INSTANCE);

@@ -1,18 +1,19 @@
 package modularmachines.common.network.packets;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 
-public abstract class PacketModule extends PacketLocatable<IModuleLogic> {
+public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 
 	protected int index;
-	protected int pageIndex;
+	protected int componentIndex;
 
 	public PacketModule() {
 	}
@@ -26,35 +27,37 @@ public abstract class PacketModule extends PacketLocatable<IModuleLogic> {
 	}
 	
 	public PacketModule(Module module) {
-		this(module.getLogic(), module.getIndex(), -1);
+		this(module.getContainer(), module.getIndex(), -1);
 	}
 
-	public PacketModule(Module module, ModuleComponent page) {
-		this(module.getLogic(), module.getIndex(), page.getIndex());
+	public PacketModule(Module module, ModuleComponent component) {
+		this(module.getContainer(), module.getIndex(), component.getIndex());
 	}
 
-	public PacketModule(IModuleLogic logic, int index, int pageIndex) {
-		super(logic);
+	public PacketModule(IModuleContainer provider, int index, int componentIndex) {
+		super(provider);
 		this.index = index;
-		this.pageIndex = pageIndex;
+		this.componentIndex = componentIndex;
 	}
 	
 	@Override
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(index);
-		data.writeInt(pageIndex);
+		data.writeInt(componentIndex);
 	}
 
-	protected static Module getModule(IModuleLogic logic, PacketBufferMM data) {
-		if (logic == null) {
+	@Nullable
+	protected static Module getModule(@Nullable IModuleContainer provider, PacketBufferMM data) {
+		if (provider == null) {
 			return null;
 		}
-		return logic.getModule(data.readInt());
+		return provider.getModule(data.readInt());
 	}
 	
-	protected static ModuleComponent getPage(IModuleLogic logic, PacketBufferMM data) {
-		Module module = getModule(logic, data);
+	@Nullable
+	protected static ModuleComponent getPage(@Nullable IModuleContainer provider, PacketBufferMM data) {
+		Module module = getModule(provider, data);
 		if(module == null){
 			return null;
 		}

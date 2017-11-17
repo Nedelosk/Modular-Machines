@@ -1,25 +1,38 @@
 package modularmachines.common.core.managers;
 
+import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.INBTSerializable;
 
+import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.IModulePosition;
+import modularmachines.api.modules.IModuleType;
+import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.containers.IModuleContainer;
-import modularmachines.api.modules.containers.ModuleContainer;
-import modularmachines.api.modules.containers.ModuleContainerCapability;
-import modularmachines.api.modules.containers.ModuleContainerDamage;
-import modularmachines.api.modules.containers.ModuleContainerNBT;
+import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.containers.ModuleDataContainer;
+import modularmachines.api.modules.containers.ModuleDataContainerCapability;
+import modularmachines.api.modules.containers.ModuleDataContainerDamage;
+import modularmachines.api.modules.containers.ModuleDataContainerNBT;
 import modularmachines.api.modules.logic.IModuleLogic;
+import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.assembler.Assembler;
 import modularmachines.common.modules.logic.ModuleLogic;
@@ -291,6 +304,75 @@ public class ModuleManager {
 	public static void registerCapability() {
 		CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
 		CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
+		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), ()-> new IModuleContainer(){
+			@Override
+			public void addComponent(String identifier, LogicComponent component) {
+			}
+			
+			@Nullable
+			@Override
+			public <T extends LogicComponent> T getComponent(String identifier) {
+				return null;
+			}
+			
+			@Override
+			public Map<String, LogicComponent> getComponents() {
+				return null;
+			}
+			
+			@Override
+			public ILocatable getLocatable() {
+				return null;
+			}
+			
+			@Override
+			public IModuleHandler getHandler() {
+				return null;
+			}
+			
+			@Nullable
+			@Override
+			public Module getModule(int index) {
+				return null;
+			}
+			
+			@Override
+			public Collection<Module> getModules() {
+				return null;
+			}
+			
+			@Override
+			public Collection<Module> getModules(IModuleType type) {
+				return null;
+			}
+			
+			@Override
+			public void onModuleRemoved(Module module) {
+			
+			}
+			
+			@Override
+			public void onModuleAdded(Module module) {
+			
+			}
+			
+			@Nullable
+			@Override
+			public RayTraceResult collisionRayTrace(BlockPos blockPos, Vec3d start, Vec3d end) {
+				return null;
+			}
+			
+			@Override
+			public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult) {
+				return false;
+			}
+			
+			@Nullable
+			@Override
+			public IModulePosition getPosition(RayTraceResult hit) {
+				return null;
+			}
+		});
 	}
 
 	private static class DefaultStorage implements IStorage {
@@ -312,22 +394,22 @@ public class ModuleManager {
 	}
 	
 	private static void register(ItemStack parent, ModuleDefinition definition){
-		ModuleRegistry.registerContainer(new ModuleContainer(parent, definition.data()));
+		ModuleRegistry.registerContainer(new ModuleDataContainer(parent, definition.data()));
 	}
 	
 	private static void registerCapability(ItemStack parent, ModuleDefinition definition){
-		ModuleRegistry.registerContainer(new ModuleContainerCapability(parent, definition.data()));
+		ModuleRegistry.registerContainer(new ModuleDataContainerCapability(parent, definition.data()));
 	}
 	
 	private static void registerNBT(ItemStack parent, ModuleDefinition definition){
-		ModuleRegistry.registerContainer(new ModuleContainerNBT(parent, definition.data()));
+		ModuleRegistry.registerContainer(new ModuleDataContainerNBT(parent, definition.data()));
 	}
 	
 	private static void registerDamage(ItemStack parent, ModuleDefinition definition){
-		ModuleRegistry.registerContainer(new ModuleContainerDamage(parent, definition.data()));
+		ModuleRegistry.registerContainer(new ModuleDataContainerDamage(parent, definition.data()));
 	}
 	
-	private static void register(IModuleContainer container){
+	private static void register(IModuleDataContainer container){
 		ModuleRegistry.registerContainer(container);
 	}
 }

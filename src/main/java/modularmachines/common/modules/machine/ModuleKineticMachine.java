@@ -3,7 +3,6 @@ package modularmachines.common.modules.machine;
 import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.modules.IModuleKinetic;
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IKineticSource;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.common.utils.ModuleUtil;
@@ -13,14 +12,14 @@ public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMach
 	protected final double maxSpeed;
 	protected double speed = 0.0D;
 	
-	public ModuleKineticMachine(IModuleStorage storage, int workTimeModifier, double maxSpeed) {
-		super(storage, workTimeModifier);
+	public ModuleKineticMachine(int workTimeModifier, double maxSpeed) {
+		super(workTimeModifier);
 		this.maxSpeed = maxSpeed;
 	}
 	
 	@Override
 	protected boolean canWork() {
-		for (IModuleKinetic module : ModuleUtil.getModules(logic, IModuleKinetic.class)) {
+		for (IModuleKinetic module : ModuleUtil.getModules(container, IModuleKinetic.class)) {
 			IKineticSource source = module.getKineticSource();
 			if (source.getStored() > 0) {
 				return true;
@@ -65,7 +64,7 @@ public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMach
 				}
 			} else {
 				int workTime = 0;
-				for (IModuleKinetic moduleKinetic : ModuleUtil.getModules(logic, IModuleKinetic.class)) {
+				for (IModuleKinetic moduleKinetic : ModuleUtil.getModules(container, IModuleKinetic.class)) {
 					IKineticSource source = moduleKinetic.getKineticSource();
 					double kinetic = source.getStored() / source.getCapacity();
 					if (source.getStored() > 0F) {

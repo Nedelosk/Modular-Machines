@@ -3,7 +3,6 @@ package modularmachines.common.modules.machine;
 import net.minecraft.world.WorldServer;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.recipes.IRecipeHeat;
 import modularmachines.common.network.PacketHandler;
@@ -16,8 +15,8 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 	protected double heatToRemove = 0;
 	protected double heatRequired = 0;
 	
-	public ModuleHeatMachine(IModuleStorage storage, int workTimeModifier) {
-		super(storage, workTimeModifier);
+	public ModuleHeatMachine(int workTimeModifier) {
+		super(workTimeModifier);
 	}
 	
 	@Override
@@ -48,7 +47,7 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 				}
 			} else {
 				int workTime = 0;
-				IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
+				IHeatSource heatBuffer = ModuleUtil.getHeat(container);
 				if (heatBuffer.getHeatStored() >= heatRequired) {
 					heatBuffer.extractHeat(heatToRemove, false);
 					workTime = 1;
@@ -69,7 +68,7 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 		if(!super.isRecipeValid(recipe)){
 			return false;
 		}
-		IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
+		IHeatSource heatBuffer = ModuleUtil.getHeat(container);
 		if (recipe.getRequiredHeat() > heatBuffer.getHeatStored()) {
 			return false;
 		}
@@ -78,16 +77,16 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 	
 	@Override
 	protected boolean canWork() {
-		IHeatSource heatBuffer = ModuleUtil.getHeat(logic);
+		IHeatSource heatBuffer = ModuleUtil.getHeat(container);
 		return heatBuffer.getHeatStored() > 0;
 	}
 	
 	@Override
 	public void sendModuleUpdate() {
-		ILocatable locatable = logic.getLocatable();
+		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(logic), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
 

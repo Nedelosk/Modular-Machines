@@ -11,9 +11,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
@@ -26,8 +26,8 @@ public class PacketSelectModulePage extends PacketModule {
 	public PacketSelectModulePage() {
 	}
 
-	public PacketSelectModulePage(IModuleLogic logic, ModuleComponent page) {
-		super(logic, page.getParent().getIndex(), page.getIndex());
+	public PacketSelectModulePage(IModuleContainer provider, ModuleComponent page) {
+		super(provider, page.getParent().getIndex(), page.getIndex());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class PacketSelectModulePage extends PacketModule {
 			BlockPos pos = data.readBlockPos();
 			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
-				Module module = getModule(ModuleUtil.getLogic(pos, world), data);
+				Module module = getModule(ModuleUtil.getContainer(pos, world), data);
 				int pageIndex = data.readInt();
 				ModuleComponent page = module.getComponent(pageIndex);
 				guiLogic.setCurrentPage(page, false);
@@ -57,7 +57,7 @@ public class PacketSelectModulePage extends PacketModule {
 			BlockPos pos = data.readBlockPos();
 			IModuleGuiLogic guiLogic = ModuleUtil.getGuiLogic(pos, player);
 			if (guiLogic != null) {
-				IModuleLogic logic = guiLogic.getLogic();
+				IModuleContainer logic = guiLogic.getProvider();
 				Module module = getModule(logic, data);
 				int pageIndex = data.readInt();
 				ModuleComponent page = module.getComponent(pageIndex);

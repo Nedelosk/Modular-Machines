@@ -3,8 +3,6 @@ package modularmachines.api.modules.assemblers;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -12,9 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraftforge.items.IItemHandlerModifiable;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStorage;
@@ -56,7 +51,7 @@ public interface IStoragePage {
 
 	void createContainerSlots(Container container, EntityPlayer player, IAssembler assembler, List<Slot> slots);
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	void setGui(GuiContainer gui);
 	
 	@SideOnly(Side.CLIENT)
@@ -71,16 +66,16 @@ public interface IStoragePage {
 	@SideOnly(Side.CLIENT)
 	void drawBackground(int mouseX, int mouseY);
 	
-	void setContainer(Container container);
+	void setContainer(Container container);*/
 
 	void onSlotChanged(EntityPlayer player, IAssembler assembler);
 
-	void detectAndSendChanges();
+	/*void detectAndSendChanges();
 
 	void updateGui();
 
 	@SideOnly(Side.CLIENT)
-	void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY);
+	void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY);*/
 	
 	
 

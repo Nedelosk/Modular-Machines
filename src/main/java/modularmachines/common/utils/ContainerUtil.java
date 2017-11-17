@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
 import modularmachines.common.containers.BaseContainer;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 
 public class ContainerUtil {
 	

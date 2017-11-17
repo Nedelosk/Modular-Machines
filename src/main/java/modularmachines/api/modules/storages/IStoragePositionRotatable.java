@@ -1,6 +1,6 @@
 package modularmachines.api.modules.storages;
 
-public interface IMachineStoragePosition extends IStoragePosition {
+public interface IStoragePositionRotatable extends IStoragePosition {
 
 	float getRotation();
 	

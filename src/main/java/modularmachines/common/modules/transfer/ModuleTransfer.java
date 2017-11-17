@@ -12,7 +12,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleLogic;
@@ -28,10 +27,6 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	public boolean wasInited;
 	protected final Map<Integer, ITransferHandlerWrapper<H>> moduleWrappers = new HashMap<>();
 	protected final Map<EnumFacing, ITransferHandlerWrapper<H>> tileWrappers = new HashMap<>();
-
-	public ModuleTransfer(IModuleStorage storage) {
-		super(storage);
-	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -69,7 +64,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 				tileWrappers.put(facing, createTileWrapper(facing));
 			}
 		}
-		for (Module module : logic.getModules()) {
+		for (Module module : container.getModules()) {
 			int index = module.getIndex();
 			if(!moduleWrappers.containsKey(index)){
 				moduleWrappers.put(index, createModuleWrapper(index));
@@ -108,7 +103,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 			return;
 		}
 		for(ITransferHandlerWrapper wrapper : getWrappers()){
-			wrapper.init(logic);
+			wrapper.init(container);
 		}
 		wasInited = true;
 	}
@@ -138,7 +133,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 			initWrappers();
 			wasInited = true;
 		}
-		UpdateComponent update = ModuleUtil.getUpdate(logic);
+		UpdateComponent update = ModuleUtil.getUpdate(container);
 		try{
 			for (ITransferCycle<H> cycle : getTransferCycles()) {
 				if (cycle.canWork()) {

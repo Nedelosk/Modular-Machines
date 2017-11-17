@@ -22,7 +22,7 @@ import modularmachines.api.modules.assemblers.IModuleSlot;
 import modularmachines.api.modules.assemblers.IModuleSlots;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.assemblers.ItemStackHandlerPage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
 
 public class ModuleSlots implements IModuleSlots {
@@ -68,7 +68,7 @@ public class ModuleSlots implements IModuleSlots {
 	
 	@Override
 	public boolean isItemValid(ItemStack itemStack, boolean storage) {
-		IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
+		IModuleDataContainer container = ModuleHelper.getContainerFromItem(itemStack);
 		if (container == null) {
 			return false;
 		}
@@ -147,7 +147,7 @@ public class ModuleSlots implements IModuleSlots {
 		if(slot.isStorage()){
 			return;
 		}
-		IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
+		IModuleDataContainer container = ModuleHelper.getContainerFromItem(itemStack);
 		if(container == null){
 			return;
 		}

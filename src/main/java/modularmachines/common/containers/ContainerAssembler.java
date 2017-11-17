@@ -33,7 +33,7 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 			addSlotToContainer(slot);
 		}
 		if (page != null) {
-			page.setContainer(this);
+			//page.setContainer(this);
 			page.onSlotChanged(inventory.player, source);
 		}
 	}
@@ -55,7 +55,7 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 		if (page != null) {
-			page.setContainer(null);
+			//page.setContainer(null);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class ContainerAssembler extends BaseContainer<Assembler> {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		if (page != null) {
-			page.detectAndSendChanges();
+			//page.detectAndSendChanges();
 		}
 	}
 

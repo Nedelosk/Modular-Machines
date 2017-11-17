@@ -4,7 +4,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.world.WorldServer;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.common.energy.KineticBuffer;
 import modularmachines.common.network.PacketHandler;
@@ -18,8 +17,7 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	public boolean isWorking;
 	public KineticBuffer buffer;
 	
-	public ModuleEngine(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
-		super(storage);
+	public ModuleEngine(int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
 		buffer = new KineticBuffer(capacity, maxTransfer);
 		this.materialPerWork = materialPerWork;
 		this.kineticModifier = kineticModifier;
@@ -39,7 +37,7 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	
 	@Override
 	public void update() {
-		if (ModuleUtil.getUpdate(logic).updateOnInterval(2)) {
+		if (ModuleUtil.getUpdate(container).updateOnInterval(2)) {
 			boolean needNetworkUpdate = false;
 			if (canWork()) {
 				if (removeMaterial()) {
@@ -65,7 +63,7 @@ public abstract class ModuleEngine extends Module implements ITickable {
 
 	@Override
 	public void sendModuleUpdate() {
-		ILocatable locatable = logic.getLocatable();
+		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}

@@ -88,7 +88,7 @@ public class PageTransferItem extends PageTransfer<ModuleTransferItem, IItemHand
 	public void initGui() {
 		if(!module.wasInited){
 			for(ITransferHandlerWrapper wrapper : module.getWrappers()){
-				wrapper.init(module.getLogic());
+				wrapper.init(module.getContainer());
 			}
 			module.wasInited = true;
 		}

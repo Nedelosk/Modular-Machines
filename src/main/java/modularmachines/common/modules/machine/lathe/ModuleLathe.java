@@ -2,7 +2,6 @@ package modularmachines.common.modules.machine.lathe;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IMode;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.IRecipeMode;
@@ -21,8 +20,8 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	public final IMode defaultMode;
 	public IMode mode;
 	
-	public ModuleLathe(IModuleStorage storage, int workTimeModifier, double maxSpeed) {
-		super(storage, workTimeModifier, maxSpeed);
+	public ModuleLathe(int workTimeModifier, double maxSpeed) {
+		super(workTimeModifier, maxSpeed);
 		this.defaultMode = LatheMode.ROD;
 		this.mode = defaultMode;
 		

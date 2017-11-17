@@ -7,6 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.materials.EnumMaterial;
@@ -46,9 +49,12 @@ public class ItemComponent extends Item implements IColoredItem, IItemModelRegis
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (EnumMaterial material : materials) {
-			list.add(getStack(material));
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if(isInCreativeTab(tab)) {
+			for (EnumMaterial material : materials) {
+				list.add(getStack(material));
+			}
 		}
 	}
 

@@ -8,8 +8,8 @@ public class DefaultModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public Module createModule(IModuleStorage storage) {
-		return new Module(storage);
+	public Module createModule() {
+		return new Module();
 	}
 	
 }

@@ -10,7 +10,8 @@ import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
+import modularmachines.common.utils.Log;
 
 public class ModuleStorage implements IModuleStorage {
 
@@ -54,13 +55,13 @@ public class ModuleStorage implements IModuleStorage {
 	
     public NBTTagCompound writeToNBT(NBTTagCompound compound){
     	NBTTagList tagList = new NBTTagList();
-    	for(int i = 0;i < modules.size();i++){
-    		Module module = modules.get(i);
-    		NBTTagCompound tagCompound = new NBTTagCompound();
-    		module.writeToNBT(tagCompound);
-    		tagCompound.setString("Data", module.getData().getRegistryName().toString());
-    		tagList.appendTag(tagCompound);
-    	}
+		for (Module module : modules) {
+			NBTTagCompound tagCompound = new NBTTagCompound();
+			module.writeToNBT(tagCompound);
+			ResourceLocation location = module.getData().getRegistryName();
+			tagCompound.setString("Data", location.toString());
+			tagList.appendTag(tagCompound);
+		}
     	compound.setTag("Modules", tagList);
     	return compound;
     }
@@ -71,8 +72,12 @@ public class ModuleStorage implements IModuleStorage {
     	for(int i = 0;i < tagList.tagCount();i++){
     		NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
     		String registryName = tagCompound.getString("Data");
-    		ModuleData data = ModularMachines.DATAS.getValue(new ResourceLocation(registryName));
-    		Module module = data.createModule(this);
+    		ModuleData data = ModularMachines.dataRegistry.getValue(new ResourceLocation(registryName));
+    		if(data == null){
+				Log.warn("Failed");
+				continue;
+			}
+    		Module module = data.createModule();
     		module.readFromNBT(tagCompound);
     		modules.add(module);
     	}

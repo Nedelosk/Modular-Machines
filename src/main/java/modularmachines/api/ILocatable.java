@@ -17,7 +17,7 @@ public interface ILocatable {
 	/** Must not be named "canInteractWith" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	boolean isUsableByPlayer(EntityPlayer player);
 	
-	/** Must not be named "markLocatableDirty" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
+	/** Must not be named "markDirty" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	void markLocatableDirty();
 	
 	/**

@@ -4,12 +4,12 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.ModuleData;
 
-public class ModuleContainer implements IModuleContainer {
+public class ModuleDataContainer implements IModuleDataContainer {
 
 	protected final ItemStack parent;
 	protected final ModuleData data;
 
-	public ModuleContainer(ItemStack parent, ModuleData data) {
+	public ModuleDataContainer(ItemStack parent, ModuleData data) {
 		this.parent = parent;
 		this.data = data;
 	}
@@ -26,7 +26,7 @@ public class ModuleContainer implements IModuleContainer {
 
 	@Override
 	public boolean matches(ItemStack stack) {
-		if(stack == null) {
+		if(stack.isEmpty()) {
 			return false;
 		}
 		return stack.getItem() == parent.getItem();

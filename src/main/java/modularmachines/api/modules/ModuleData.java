@@ -8,14 +8,15 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.storages.IStorage;
@@ -31,18 +32,25 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
     private String unlocalizedName;
     private IModuleFactory factory = DefaultModuleFactory.INSTANCE;
+    private IModulePosition position = EnumModulePositions.CASING;
     
 	/**
 	 * A description of this module. It would be displayed in jei and the item tooltip.
 	 */
 	public String getDescription(){
-		return I18n.translateToLocal(getDescriptionKey());
+		return I18n.translateToLocal(getUnlocalizedDescription());
 	}
 	
-	public String getDescriptionKey(){
+	/**
+	 * @return The translation kay of a description that describes the module.
+	 */
+	public String getUnlocalizedDescription(){
 		return "module." + unlocalizedName + ".description";
 	}
 	
+	/**
+	 * Sets the unlocalized name of this module.
+	 */
 	public void setUnlocalizedName(String unlocalizedName) {
 		this.unlocalizedName = unlocalizedName;
 	}
@@ -59,6 +67,9 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		this.allowedComplexity = allowedComplexity;
 	}
 	
+	/**
+	 * @return The complexity that a module with this data has.
+	 */
 	public int getComplexity(){
 		return complexity;
 	}
@@ -67,18 +78,29 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		this.complexity = complexity;
 	}
 	
+	/**
+	 * The module factory creates the module out of this data if a player adds it to a {@link IModuleHandler}.
+	 */
 	public void setFactory(IModuleFactory factory) {
 		this.factory = factory;
 	}
 	
+	/**
+	 * @return The size of this module.
+	 */
+	@Deprecated
 	public EnumModuleSizes getSize(){
 		return size;
 	}
 	
+	@Deprecated
 	public void setSize(EnumModuleSizes size) {
 		this.size = size;
 	}
 	
+	/**
+	 * The chance that the module drops if a player breaks the block that contains this module.
+	 */
 	public float getDropChance(){
 		return dropChance;
 	}
@@ -90,14 +112,18 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
 	}
 	
-	public Module createModule(IModuleStorage storage, IModuleContainer container, ItemStack itemStack){
-		Module module = createModule(storage);
-		module.onCreateModule(container, this, itemStack);
+	public Module createModule(IModuleHandler handler, IModulePosition position, IModuleDataContainer container, ItemStack itemStack){
+		Module module = createModule();
+		module.onCreateModule(handler, position, container, itemStack);
 		return module;
 	}
 	
-	public Module createModule(IModuleStorage storage){
-		return factory.createModule(storage);
+	
+	/**
+	 * Uses the module factory to create a new instance of a module.
+	 */
+	public Module createModule(){
+		return factory.createModule();
 	}
 	
 	public IModuleType[] getTypes(ItemStack itemStack){
@@ -113,8 +139,32 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return true;
 	}
 	
+	/**
+	 * Checks if the position is a valid position for this module.
+	 */
+	public boolean isValidPosition(IModulePosition position){
+		return this.position == position;
+	}
+	
+	/**
+	 * Sets a valid position for this module.
+	 */
+	public void setPosition(IModulePosition position) {
+		this.position = position;
+	}
+	
 	/* OWN STORAGE */
+	@Nullable
 	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page) {
+		return null;
+	}
+	
+	/**
+	 * Creates a storage that is only used to render the modules.
+	 */
+	@SideOnly(Side.CLIENT)
+	@Nullable
+	public IStorage createStorageCache(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page){
 		return null;
 	}
 	
@@ -127,8 +177,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	}
 
 	/* ITEM INFO */
-	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleContainer container) {
-		if(I18n.canTranslate(getDescriptionKey())){
+	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleDataContainer container) {
+		if(I18n.canTranslate(getUnlocalizedDescription())){
 			tooltip.add(getDescription());
 		}
 	}

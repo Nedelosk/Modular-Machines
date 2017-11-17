@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelData;
-import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.client.model.TRSRBakedModel;
 
 @SideOnly(Side.CLIENT)
@@ -24,8 +24,8 @@ public abstract class ModelData<M extends Module> implements IModelData<IBakedMo
 		locations = new HashMap<>();
 	}
 	
-	public void addLocation(String key, ModelLocation location){
-		locations.put(key, location.toLocation());
+	public void addLocation(String key, ModelLocationBuilder location){
+		locations.put(key, location.build());
 	}
 	
 	protected ResourceLocation get(String key){

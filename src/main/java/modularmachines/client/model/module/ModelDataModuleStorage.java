@@ -22,7 +22,7 @@ import modularmachines.api.modules.EnumWallType;
 import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.model.ModelLocation;
+import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.storages.EnumStoragePosition;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
@@ -44,19 +44,19 @@ public class ModelDataModuleStorage extends ModelData {
 	public static final String MEDIUM_UP = "medium_up";
 	public static final String LARGE = "large";
 	
-	public static void initModelData(ModelLocation basicLocation){
+	public static void initModelData(ModelLocationBuilder basicLocation){
 		ModelDataModuleStorage storage = new ModelDataModuleStorage();
-		storage.addLocation(STORAGE, new ModelLocation(basicLocation).addPreFix("storage"));
-		storage.addLocation(TOP, new ModelLocation(basicLocation).addPreFix("top"));
-		storage.addLocation(BACK, new ModelLocation(basicLocation).addPreFix("back"));
-		storage.addLocation(STICK_DOWN, new ModelLocation(basicLocation).addPreFix("front_walls/stick_down"));
-		storage.addLocation(STICK_UP, new ModelLocation(basicLocation).addPreFix("front_walls/stick_up"));
-		storage.addLocation(SMALL_DOWN, new ModelLocation(basicLocation).addPreFix("front_walls/small_down"));
-		storage.addLocation(SMALL_MEDIUM, new ModelLocation(basicLocation).addPreFix("front_walls/small_medium"));
-		storage.addLocation(SMALL_UP, new ModelLocation(basicLocation).addPreFix("front_walls/small_up"));
-		storage.addLocation(MEDIUM_MEDIUM, new ModelLocation(basicLocation).addPreFix("front_walls/medium_medium"));
-		storage.addLocation(MEDIUM_UP, new ModelLocation(basicLocation).addPreFix("front_walls/medium_up"));
-		storage.addLocation(LARGE, new ModelLocation(basicLocation).addPreFix("front_walls/large"));
+		storage.addLocation(STORAGE, new ModelLocationBuilder(basicLocation).addPreFix("storage"));
+		storage.addLocation(TOP, new ModelLocationBuilder(basicLocation).addPreFix("top"));
+		storage.addLocation(BACK, new ModelLocationBuilder(basicLocation).addPreFix("back"));
+		storage.addLocation(STICK_DOWN, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/stick_down"));
+		storage.addLocation(STICK_UP, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/stick_up"));
+		storage.addLocation(SMALL_DOWN, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/small_down"));
+		storage.addLocation(SMALL_MEDIUM, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/small_medium"));
+		storage.addLocation(SMALL_UP, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/small_up"));
+		storage.addLocation(MEDIUM_MEDIUM, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/medium_medium"));
+		storage.addLocation(MEDIUM_UP, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/medium_up"));
+		storage.addLocation(LARGE, new ModelLocationBuilder(basicLocation).addPreFix("front_walls/large"));
 		basicLocation.getData().addModel(TileEntity.class, storage);
 	}
 

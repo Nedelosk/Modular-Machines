@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.network.PacketBufferMM;
@@ -50,7 +50,7 @@ public class PacketAddCycle extends PacketModule {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
-			IModuleLogic logic = PacketLocatable.getLogic(data, world);
+			IModuleContainer logic = PacketLocatable.getProvider(data, world);
 			Module module = getModule(logic, data);
 			//page index
 			int page = data.readInt();
@@ -64,7 +64,7 @@ public class PacketAddCycle extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
 			BlockPos pos = data.readBlockPos();
-			IModuleLogic logic = ModuleUtil.getLogic(pos, world);
+			IModuleContainer logic = ModuleUtil.getContainer(pos, world);
 			Module module = getModule(logic, data);
 			//page index
 			int page = data.readInt();

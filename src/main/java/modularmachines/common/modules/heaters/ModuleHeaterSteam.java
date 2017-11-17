@@ -6,7 +6,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.ItemFilterFluid;
 import modularmachines.common.modules.filters.OutputFilter;
@@ -20,8 +19,8 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	public final FluidTankHandler fluidHandler;
 	public final FluidTankModule tank;
 	
-	public ModuleHeaterSteam(IModuleStorage storage, double maxHeat, int heatModifier) {
-		super(storage, maxHeat, heatModifier);
+	public ModuleHeaterSteam(double maxHeat, int heatModifier) {
+		super(maxHeat, heatModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addContainer(true, "liquid").addFilter(ItemFilterFluid.get(FluidRegistry.WATER));
 		itemHandler.addContainer(false, "container").addFilter(OutputFilter.INSTANCE);
@@ -68,7 +67,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 
 	@Override
 	public void update() {
-		if (ModuleUtil.getUpdate(logic).updateOnInterval(20)) {
+		if (ModuleUtil.getUpdate(container).updateOnInterval(20)) {
 			ModuleUtil.tryEmptyContainer(0, 1, itemHandler, fluidHandler);
 		}
 	}

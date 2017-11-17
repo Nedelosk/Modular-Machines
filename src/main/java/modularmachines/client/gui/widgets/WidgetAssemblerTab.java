@@ -13,7 +13,7 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.GuiBase;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketAssemblerPosition;
 import modularmachines.common.utils.RenderUtil;

@@ -37,9 +37,12 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (int i = 0; i < casings.length; i++) {
-			subItems.add(new ItemStack(item, 1, i));
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if(isInCreativeTab(tab)) {
+			for (int i = 0; i < casings.length; i++) {
+				subItems.add(new ItemStack(this, 1, i));
+			}
 		}
 	}
 }

@@ -2,7 +2,6 @@ package modularmachines.common.modules.machine.pulverizer;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -14,8 +13,8 @@ import modularmachines.common.modules.machine.ModuleKineticMachine;
 public class ModulePulverizer extends ModuleKineticMachine {
 	public final ItemHandlerModule itemHandler;
 	
-	public ModulePulverizer(IModuleStorage storage, int workTimeModifier, double maxSpeed) {
-		super(storage, workTimeModifier, maxSpeed);
+	public ModulePulverizer(int workTimeModifier, double maxSpeed) {
+		super(workTimeModifier, maxSpeed);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addSlot(true).addFilter(FilterMachine.INSTANCE);
 		itemHandler.addSlot(false).addFilter(OutputFilter.INSTANCE);

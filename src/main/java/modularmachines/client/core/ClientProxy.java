@@ -33,7 +33,7 @@ import org.lwjgl.input.Keyboard;
 
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.client.gui.GuiAssembler;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.block.ModelModular;
@@ -90,7 +90,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public List<String> addModuleInfo(ItemStack itemStack) {
 		List<String> tooltip = new ArrayList<>();
-		IModuleContainer container = ModuleHelper.getContainerFromItem(itemStack);
+		IModuleDataContainer container = ModuleHelper.getContainerFromItem(itemStack);
 		if (container != null) {
 			if (Keyboard.isKeyDown(MODULE_INFO.getKeyCode())) {
 				ModuleData data = container.getData();

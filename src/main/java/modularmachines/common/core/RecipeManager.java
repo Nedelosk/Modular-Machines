@@ -3,17 +3,19 @@ package modularmachines.common.core;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import modularmachines.api.recipes.IRecipeHandler;
 import modularmachines.api.recipes.OreStack;
 import modularmachines.api.recipes.RecipeRegistry;
-import modularmachines.common.blocks.BlockMetalBlock.ComponentTypes;
+import modularmachines.common.blocks.BlockMetalBlock.Metals;
 import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.materials.EnumMaterial;
@@ -60,15 +62,15 @@ public class RecipeManager {
 	}
 
 	private static void addModuleRecipes() {
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.TIN), "oreTin", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.COPPER), "oreCopper", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.LEAD), "oreLead", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.NICKEL), "oreNickel", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.SILVER), "oreSilver", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminum", "toolHammer");
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminium", "toolHammer");
+		addShapelessRecipe("tin_dust", ItemManager.itemDusts.getStack(EnumMaterial.TIN), "oreTin", "toolHammer");
+		addShapelessRecipe("copper_dust", ItemManager.itemDusts.getStack(EnumMaterial.COPPER), "oreCopper", "toolHammer");
+		addShapelessRecipe("lead_dust", ItemManager.itemDusts.getStack(EnumMaterial.LEAD), "oreLead", "toolHammer");
+		addShapelessRecipe("nickle_dust", ItemManager.itemDusts.getStack(EnumMaterial.NICKEL), "oreNickel", "toolHammer");
+		addShapelessRecipe("silver_dust", ItemManager.itemDusts.getStack(EnumMaterial.SILVER), "oreSilver", "toolHammer");
+		addShapelessRecipe("aluminum_dust", ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminum", "toolHammer");
+		addShapelessRecipe("aluminium_dust", ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminium", "toolHammer");
 		ItemStack cupperDust = ItemManager.itemDusts.getStack(EnumMaterial.COPPER);
-		addShapelessRecipe(ItemManager.itemDusts.getStack(EnumMaterial.BRONZE, 3), cupperDust, cupperDust, cupperDust, ItemManager.itemDusts.getStack(EnumMaterial.TIN));
+		addShapelessRecipe("bronze_dust", ItemManager.itemDusts.getStack(EnumMaterial.BRONZE, 3), cupperDust, cupperDust, cupperDust, ItemManager.itemDusts.getStack(EnumMaterial.TIN));
 		// Casings
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings), "+++", "+ +", "---", '+', "plankWood", '-', "logWood");
 		addShapedRecipe(new ItemStack(ItemManager.itemCasings, 1, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
@@ -158,11 +160,11 @@ public class RecipeManager {
 	}
 
 	private static void addNormalRecipes() {
-		addShapedRecipe(new ItemStack(ItemManager.itemHammer), "+S+", "+S+", " - ", '+', "ingotIron", 'S', "stone", '-', "stickWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemFileIron), true, "  I", "FIF", "S  ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemFileDiamond), true, "  D", "FDF", "S  ", 'D', "gemDiamond", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemCutter), "  S", "FS ", "IF ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe(new ItemStack(ItemManager.itemWrench), "I I", " I ", " I ", 'I', "ingotIron");
+		addShapedRecipe("hammer", new ItemStack(ItemManager.itemHammer), "+S+", "+S+", " - ", '+', "ingotIron", 'S', "stone", '-', "stickWood");
+		addShapedRecipe("file_iron", new ItemStack(ItemManager.itemFileIron), true, "  I", "FIF", "S  ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
+		addShapedRecipe("file_diamond", new ItemStack(ItemManager.itemFileDiamond), true, "  D", "FDF", "S  ", 'D', "gemDiamond", 'F', Items.FLINT, 'S', "stickWood");
+		addShapedRecipe("file_cutter", new ItemStack(ItemManager.itemCutter), "  S", "FS ", "IF ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
+		addShapedRecipe("file_wrench", new ItemStack(ItemManager.itemWrench), "I I", " I ", " I ", 'I', "ingotIron");
 	}
 
 	private static void addMachineRecipes() {
@@ -172,8 +174,8 @@ public class RecipeManager {
 		for (MaterialList list : ItemManager.metals) {
 			for (EnumMaterial material : list) {
 				for (String oreDict : material.getOreDicts()) {
-					addShapedRecipe(ItemManager.itemIngots.getStack(material), "+++", "+++", "+++", '+', "nugget" + oreDict);
-					addShapelessRecipe(ItemManager.itemNuggets.getStack(material), "ingot" + oreDict);
+					addShapedRecipe(material.getName() + "_" + oreDict + "_ingots",  ItemManager.itemIngots.getStack(material), "+++", "+++", "+++", '+', "nugget" + oreDict);
+					addShapelessRecipe(material.getName() + "_" + oreDict + "_nuggets",  ItemManager.itemNuggets.getStack(material, 9), "ingot" + oreDict);
 				}
 			}
 		}
@@ -192,7 +194,7 @@ public class RecipeManager {
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
 				for (String oreDict : oreDicts) {
-					addShapelessRecipe(stack, "ingot" + oreDict, "ingot" + oreDict, "toolHammer");
+					addShapelessRecipe(material.getName() + "_" + oreDict + "_plates",  stack, "ingot" + oreDict, "ingot" + oreDict, "toolHammer");
 				}
 			}
 		}
@@ -201,7 +203,7 @@ public class RecipeManager {
 			String[] oreDicts = material.getOreDicts();
 			if (oreDicts != null) {
 				for (String oreDict : oreDicts) {
-					addShapedRecipe(stack, " + ", "+H+", " + ", '+', "plate" + oreDict, 'H', "toolHammer");
+					addShapedRecipe(material.getName() + "_" + oreDict + "_gears",  stack, " + ", "+H+", " + ", '+', "plate" + oreDict, 'H', "toolHammer");
 				}
 			}
 		}
@@ -239,19 +241,19 @@ public class RecipeManager {
 				}
 			}
 		}*/
-		for (ComponentTypes type : ComponentTypes.values()) {
+		for (Metals type : Metals.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
 			for (String oreDict : type.oreDict) {
-				addShapedRecipe(stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
+				addShapedRecipe(type.name + "_" + oreDict + "_blocks", stack, "+++", "+++", "+++", '+', "ingot" + oreDict);
 			}
 		}
-		for (ComponentTypes type : ComponentTypes.values()) {
+		for (Metals type : Metals.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
 			for (String oreDict : type.oreDict) {
 				if (OreDictionary.getOres("ingot" + oreDict) != null && !OreDictionary.getOres("ingot" + oreDict).isEmpty()) {
 					ItemStack ore = OreDictionary.getOres("ingot" + oreDict).get(0).copy();
 					ore.setCount(9);
-					addShapelessRecipe(ore, stack);
+					addShapelessRecipe(type.name + "_" + oreDict + "_ingots", ore, stack);
 				}
 			}
 		}
@@ -369,12 +371,22 @@ public class RecipeManager {
 		}
 		GameRegistry.addRecipe(new ModuleCrafterRecipe(stack, holder, obj));
 	}*/
-
+	
+	private static int i = 0;
+	
 	private static void addShapedRecipe(ItemStack stack, Object... obj) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(stack, obj));
+		addShapedRecipe(Integer.toString(i++), stack, obj);
 	}
 
-	private static void addShapelessRecipe(ItemStack stack, Object... obj) {
-		GameRegistry.addRecipe(new ShapelessOreRecipe(stack, obj));
+	private static void addShapedRecipe(String name, ItemStack stack, Object... obj) {
+		ShapedOreRecipe recipe = new ShapedOreRecipe(null, stack, obj);
+		recipe.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+		ForgeRegistries.RECIPES.register(recipe);
+	}
+
+	private static void addShapelessRecipe(String name, ItemStack stack, Object... obj) {
+		ShapelessOreRecipe recipe = new ShapelessOreRecipe(null, stack, obj);
+		recipe.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+		ForgeRegistries.RECIPES.register(recipe);
 	}
 }

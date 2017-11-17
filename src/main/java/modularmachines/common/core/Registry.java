@@ -9,11 +9,14 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
+import modularmachines.common.ModularMachines;
 import modularmachines.common.blocks.FluidBlock;
 
 public class Registry {
@@ -37,10 +40,10 @@ public class Registry {
 			if (!fluid.canBePlacedInWorld()) {
 				Block fluidBlock = new FluidBlock(fluid, material, fluidName);
 				fluidBlock.setRegistryName("fluid_" + fluidName);
-				GameRegistry.register(fluidBlock);
+				ForgeRegistries.BLOCKS.register(fluidBlock);
 				ItemBlock itemBlock = new ItemBlock(fluidBlock);
 				itemBlock.setRegistryName("fluid_" + fluidName);
-				GameRegistry.register(itemBlock);
+				ForgeRegistries.ITEMS.register(itemBlock);
 				ModularMachines.proxy.registerFluidStateMapper(fluidBlock, fluid);
 			}
 			if (!FluidRegistry.getBucketFluids().contains(fluid)) {
@@ -54,18 +57,23 @@ public class Registry {
 		if(entry.getRegistryName() == null){
 			entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), name));
 		}
-		GameRegistry.register(entry);
+		IForgeRegistry registry;
 		if (entry instanceof Block) {
 			ModularMachines.proxy.registerBlock((Block) entry);
+			registry = ForgeRegistries.BLOCKS;
 		} else if (entry instanceof Item) {
 			ModularMachines.proxy.registerItem((Item) entry);
+			registry = ForgeRegistries.ITEMS;
+		}else{
+			throw new IllegalArgumentException();
 		}
+		registry.register(entry);
 		return entry;
 	}
 
 	public static Item register(Item entry) {
 		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), entry.getUnlocalizedName()));
-		GameRegistry.register(entry);
+		ForgeRegistries.ITEMS.register(entry);
 		ModularMachines.proxy.registerItem(entry);
 		return entry;
 	}

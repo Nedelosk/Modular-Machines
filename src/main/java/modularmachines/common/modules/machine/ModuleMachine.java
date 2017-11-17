@@ -1,49 +1,47 @@
 package modularmachines.common.modules.machine;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.WorldServer;
 
-import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.api.recipes.RecipeRegistry;
 import modularmachines.common.modules.IModuleWorking;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModule;
 
 public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
 
-	public static final Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 	
 	protected final int workTimeModifier;
 	protected int workTime = 0;
 	protected int workTimeTotal = 0;
 	protected float chance = 0.0F;
+	@Nullable
 	protected R recipe;
+	@Nullable
 	protected Random rand;
 
-	public ModuleMachine(IModuleStorage storage, int workTimeModifier) {
-		super(storage);
+	public ModuleMachine(int workTimeModifier) {
+		super();
 		this.workTimeModifier = workTimeModifier;
 	}
 	
 	@Override
 	public void update() {
 		if(rand == null){
-			ILocatable locatable = logic.getLocatable();
-			if(locatable != null && locatable.getWorldObj() != null){
+			/*ILocatable locatable = logic.getLocatable();
+			if(locatable != null){
 				rand = locatable.getWorldObj().rand;
-			}else{
+			}else{*/
 				rand = RANDOM; 
-			}
+			//}
 		}
 	}
 	
@@ -77,10 +75,10 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	
 	@Override
 	public void sendModuleUpdate() {
-		ILocatable locatable = logic.getLocatable();
+		/*ILocatable locatable = logic.getLocatable();
 		if (locatable != null) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-		}
+		}*/
 	}
 
 	public abstract RecipeItem[] getInputs();

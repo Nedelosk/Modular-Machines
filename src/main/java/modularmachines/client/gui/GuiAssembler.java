@@ -21,7 +21,7 @@ import modularmachines.api.modules.assemblers.AssemblerError;
 import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.assemblers.SlotModule;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.gui.widgets.WidgetAssembleTab;
 import modularmachines.client.gui.widgets.WidgetAssemblerTab;
@@ -44,8 +44,8 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		super(assembler, assembler, inventory);
 		this.page = assembler.getPage(assembler.getSelectedPosition());
 		if (!page.isEmpty()) {
-			page.setGui(this);
-			page.initGui();
+			//page.setGui(this);
+			//page.initGui();
 		}
 		WidgetAssembleTab assembleTab = null;
 		int xPosLeft = 8;
@@ -80,7 +80,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 	public void onGuiClosed() {
 		super.onGuiClosed();
 		if (!page.isEmpty()) {
-			page.setGui(null);
+			//page.setGui(null);
 		}
 	}
 
@@ -89,33 +89,33 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
 		String s = Translator.translateToLocal("module.storage." + page.getPosition().getName() + ".name");
-		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+		this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 		String exceptionText;
 		if (lastError != null) {
 			exceptionText = lastError.getMessage();
 		} else {
 			exceptionText = Translator.translateToLocal("modular.assembler.info");
 		}
-		this.fontRendererObj.drawSplitString(exceptionText, 186, 8, 117, Color.WHITE.getRGB());
+		this.fontRenderer.drawSplitString(exceptionText, 186, 8, 117, Color.WHITE.getRGB());
 		String complexity = Translator.translateToLocal("modular.assembler.complexity");
-		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRendererObj.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());
-		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
-		this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
+		this.fontRenderer.drawString(Translator.translateToLocal("modular.assembler.complexity"), -65 - (fontRenderer.getStringWidth(complexity) / 2), 83, Color.WHITE.getRGB());
+		this.fontRenderer.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.complexity, -124, 83 + 12, Color.WHITE.getRGB());
+		this.fontRenderer.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.complexityAllowed, -124, 83 + 21, Color.WHITE.getRGB());
 		if (!page.isEmpty()) {
 			if (positionComplexityAllowed > 0) {
 				ItemStack stack = page.getStorageStack();
-				IModuleContainer container = ModuleHelper.getContainerFromItem(stack);
+				IModuleDataContainer container = ModuleHelper.getContainerFromItem(stack);
 				if (container != null) {
 					ModuleData data = container.getData();
 					if (data.isStorage(page.getPosition())) {
 						String positionComplexity = Translator.translateToLocal("modular.assembler.complexity.position");
-						this.fontRendererObj.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRendererObj.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
-						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
-						this.fontRendererObj.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
+						this.fontRenderer.drawString(Translator.translateToLocal(positionComplexity), -65 - (fontRenderer.getStringWidth(positionComplexity) / 2), 83 + 36, Color.WHITE.getRGB());
+						this.fontRenderer.drawString(Translator.translateToLocal("modular.assembler.complexity.current") + this.positionComplexity, -124, 83 + 48, Color.WHITE.getRGB());
+						this.fontRenderer.drawString(Translator.translateToLocal("modular.assembler.complexity.allowed") + this.positionComplexityAllowed, -124, 83 + 57, Color.WHITE.getRGB());
 					}
 				}
 			}
-			page.drawForeground(getFontRenderer(), mouseX, mouseY);
+			//page.drawForeground(getFontRenderer(), mouseX, mouseY);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 	public void updateScreen() {
 		super.updateScreen();
 		if (!page.isEmpty()) {
-			page.updateGui();
+			//page.updateGui();
 		}
 		if (hasChange) {
 			onUpdate();
@@ -161,8 +161,8 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 	public void initGui() {
 		super.initGui();
 		if (page != null) {
-			page.setGui(this);
-			page.initGui();
+			//page.setGui(this);
+			//page.initGui();
 		}
 		hasChange = true;
 	}
@@ -172,7 +172,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		if (page != null) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			page.drawBackground(mouseX, mouseY);
+			//page.drawBackground(mouseX, mouseY);
 			widgetManager.drawWidgets(guiLeft, guiTop);
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -235,7 +235,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 	public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
 		super.drawScreen(mouseX, mouseY, p_73863_3_);
 		if (page != null) {
-			page.drawTooltips(mouseX, mouseY);
+			//page.drawTooltips(mouseX, mouseY);
 		}
 	}
 
@@ -243,7 +243,7 @@ public class GuiAssembler extends GuiBase<IAssembler, IAssembler> {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (page != null) {
-			page.handleMouseClicked(mouseX, mouseY, mouseButton);
+			//page.handleMouseClicked(mouseX, mouseY, mouseButton);
 		}
 	}
 

@@ -22,7 +22,7 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IModuleSlot;
 import modularmachines.api.modules.assemblers.SlotModule;
 import modularmachines.api.modules.storages.IStoragePosition;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.ItemUtil;
 
 public class ModuleStoragePage extends StoragePage {

@@ -4,9 +4,9 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.ModuleData;
 
-public class ModuleContainerCapability extends ModuleContainerNBT {
+public class ModuleDataContainerCapability extends ModuleDataContainerNBT {
 
-	public ModuleContainerCapability(ItemStack parent, ModuleData data) {
+	public ModuleDataContainerCapability(ItemStack parent, ModuleData data) {
 		super(parent, data);
 	}
 

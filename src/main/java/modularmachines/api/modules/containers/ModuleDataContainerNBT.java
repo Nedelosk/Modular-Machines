@@ -6,9 +6,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import modularmachines.api.modules.ModuleData;
 
-public class ModuleContainerNBT extends ModuleContainer {
+public class ModuleDataContainerNBT extends ModuleDataContainer {
 
-	public ModuleContainerNBT(ItemStack parent, ModuleData data) {
+	public ModuleDataContainerNBT(ItemStack parent, ModuleData data) {
 		super(parent, data);
 	}
 

@@ -49,13 +49,13 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	@Override
 	public void update() {
 		super.update();
-		UpdateComponent update = ModuleUtil.getUpdate(logic);
+		UpdateComponent update = ModuleUtil.getUpdate(provider);
 		if (update.updateOnInterval(20)) {
 			double oldHeat = buffer.getHeatStored();
 			buffer.reduceHeat(1);
 			if (oldHeat != buffer.getHeatStored()) {
-				ILocatable locatable = logic.getLocatable();
-				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(logic), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+				ILocatable locatable = provider.getLocatable();
+				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(provider), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 			}
 		}
 	}

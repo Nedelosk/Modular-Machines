@@ -8,7 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
 import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 
 public class ModuleRegistry {
@@ -19,16 +19,19 @@ public class ModuleRegistry {
 	@CapabilityInject(IAssembler.class)
 	public static Capability<IAssembler> ASSEMBLER;
 	
+	@CapabilityInject(IModuleContainer.class)
+	public static Capability<IModuleContainer> MODULE_CONTAINER;
+	
 	@Nullable
 	public static IModuleHelper helper;
 	
-	private static final List<IModuleContainer> CONTAINERS = new ArrayList<>();
+	private static final List<IModuleDataContainer> CONTAINERS = new ArrayList<>();
 	
-	public static void registerContainer(IModuleContainer container){
+	public static void registerContainer(IModuleDataContainer container){
 		CONTAINERS.add(container);
 	}
 	
-	public static List<IModuleContainer> getContainers(){
+	public static List<IModuleDataContainer> getContainers(){
 		return CONTAINERS;
 	}
 }

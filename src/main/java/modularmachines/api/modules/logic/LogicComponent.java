@@ -2,6 +2,8 @@ package modularmachines.api.modules.logic;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import modularmachines.api.modules.IModuleContainer;
+
 public class LogicComponent {
 
 	public static final String ENERGY = "energy";
@@ -9,21 +11,21 @@ public class LogicComponent {
 	public static final String MODEL = "model";
 	public static final String UPDATE = "update";
 	
-	protected IModuleLogic logic;
+	protected IModuleContainer provider;
+	
 	
 	public LogicComponent() {
 	}
 	
 	public void update(){
-		
 	}
 	
-	public void setLogic(IModuleLogic logic) {
-		this.logic = logic;
+	public void setProvider(IModuleContainer provider) {
+		this.provider = provider;
 	}
 	
-	public IModuleLogic getLogic() {
-		return logic;
+	public IModuleContainer getProvider() {
+		return provider;
 	}
 	
 	public void readFromNBT(NBTTagCompound compound) {

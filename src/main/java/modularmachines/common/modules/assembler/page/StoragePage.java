@@ -8,8 +8,6 @@ package modularmachines.common.modules.assembler.page;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -18,9 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.assemblers.AssemblerError;
@@ -28,7 +23,7 @@ import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.assemblers.IModuleSlot;
 import modularmachines.api.modules.assemblers.IModuleSlots;
 import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.containers.IModuleContainer;
+import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
@@ -93,7 +88,7 @@ public abstract class StoragePage implements IStoragePage {
 	public IStorage assemble(IAssembler assembler, IModuleLogic logic) {
 		ItemStack storageStack = getStorageStack();
 		if (!storageStack.isEmpty()) {
-			IModuleContainer container = ModuleHelper.getContainerFromItem(storageStack);
+			IModuleDataContainer container = ModuleHelper.getContainerFromItem(storageStack);
 			ModuleData data = container.getData();
 			if (data != null) {
 				return data.createStorage(logic, position, this);
@@ -133,7 +128,7 @@ public abstract class StoragePage implements IStoragePage {
 		int complexity = 0;
 		for (IModuleSlot slot : slots) {
 			ItemStack slotStack = slot.getItem();
-			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
+			IModuleDataContainer container = ModuleHelper.getContainerFromItem(slotStack);
 			if (container != null) {
 				ModuleData data = container.getData();
 				complexity += data.getComplexity();
@@ -147,7 +142,7 @@ public abstract class StoragePage implements IStoragePage {
 		int allowedComplexity = 0;
 		for (IModuleSlot slot : slots) {
 			ItemStack slotStack = slot.getItem();
-			IModuleContainer container = ModuleHelper.getContainerFromItem(slotStack);
+			IModuleDataContainer container = ModuleHelper.getContainerFromItem(slotStack);
 			if (container != null) {
 				ModuleData data = container.getData();
 				allowedComplexity += data.getAllowedComplexity();
@@ -164,53 +159,6 @@ public abstract class StoragePage implements IStoragePage {
 	@Override
 	public boolean isEmpty(){
 		return false;
-	}
-
-	@Override
-	public void setContainer(Container container) {
-		
-	}
-
-	@Override
-	public void detectAndSendChanges() {
-		
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void setGui(GuiContainer gui) {
-		
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void initGui() {
-		
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawTooltips(int mouseX, int mouseY) {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawBackground(int mouseX, int mouseY) {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateGui() {
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 	}
 	
 }

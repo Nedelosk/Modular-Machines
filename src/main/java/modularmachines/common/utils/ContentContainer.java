@@ -53,7 +53,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	
 	@Override
 	public void markDirty(){
-		module.getLogic().getLocatable().markLocatableDirty();
+		module.getContainer().getLocatable().markLocatableDirty();
 	}
 	
 	@Override

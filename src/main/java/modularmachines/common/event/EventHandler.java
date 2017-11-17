@@ -35,7 +35,7 @@ import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.block.ModelModular;
 import modularmachines.client.model.module.ModelLoader;
-import modularmachines.common.core.ModularMachines;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
 
 public class EventHandler {
@@ -78,7 +78,7 @@ public class EventHandler {
 			if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite())){
 				IModuleLogic logic = tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite());
 				if(logic != null){
-					FontRenderer fontRenderer = mc.fontRendererObj;
+					FontRenderer fontRenderer = mc.fontRenderer;
 					IStoragePosition position = EnumStoragePosition.getPositionFromFacing(facing, logic.getLocatable().getFacing());
 					if(position != EnumStoragePosition.NONE) {
 						IStorage storage = logic.getStorage(position);

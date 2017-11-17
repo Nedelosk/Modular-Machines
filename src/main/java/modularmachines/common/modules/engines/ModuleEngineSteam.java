@@ -8,7 +8,6 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.common.core.managers.FluidManager;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.FluidFilter;
@@ -23,8 +22,8 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	public final FluidTankHandler fluidHandler;
 	public final IFluidTank fluidTank;
 	
-	public ModuleEngineSteam(IModuleStorage storage, int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
-		super(storage, capacity, maxTransfer, materialPerWork, kineticModifier);
+	public ModuleEngineSteam(int capacity, int maxTransfer, int materialPerWork, double kineticModifier) {
+		super(capacity, maxTransfer, materialPerWork, kineticModifier);
 		itemHandler = new ItemHandlerModule(this);
 		itemHandler.addContainer(true, "liquid").addFilter(ItemFilterFluid.get(FluidManager.STEAM));
 		itemHandler.addContainer(false, "container").addFilter(OutputFilter.INSTANCE);
@@ -64,7 +63,7 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	@Override
 	public void update() {
 		super.update();
-		if (ModuleUtil.getUpdate(logic).updateOnInterval(20)) {
+		if (ModuleUtil.getUpdate(container).updateOnInterval(20)) {
 			ModuleUtil.tryEmptyContainer(0, 1, itemHandler, fluidHandler);
 		}
 	}

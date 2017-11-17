@@ -47,7 +47,7 @@ public class ModuleComponentSteamHeater extends DefaultModuleComponent<ModuleHea
 		@Override
 		public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 			super.drawForeground(fontRenderer, mouseX, mouseY);
-			IHeatSource heatSource = ModuleUtil.getHeat(module.getLogic());
+			IHeatSource heatSource = ModuleUtil.getHeat(module.getContainer());
 			String heatName = Translator.translateToLocalFormatted("module.heater.heat", FORMATE.format(heatSource.getHeatStored()));
 			fontRenderer.drawString(heatName, 135 - (fontRenderer.getStringWidth(heatName) / 2), 45, Color.GRAY.getRGB());
 		}

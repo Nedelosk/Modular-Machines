@@ -8,7 +8,7 @@ package modularmachines.api.modules.listeners;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public interface INeighborChangeListener {
+public interface INeighborBlockListener {
 	
 	void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor);
 	

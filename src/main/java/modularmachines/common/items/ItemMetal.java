@@ -48,10 +48,13 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (MaterialList list : materials) {
-			for (EnumMaterial material : list.getMaterials()) {
-				subItems.add(getStack(material));
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if(isInCreativeTab(tab)) {
+			for (MaterialList list : materials) {
+				for (EnumMaterial material : list.getMaterials()) {
+					subItems.add(getStack(material));
+				}
 			}
 		}
 	}

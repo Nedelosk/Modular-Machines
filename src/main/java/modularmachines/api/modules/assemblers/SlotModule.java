@@ -21,8 +21,7 @@ public class SlotModule extends Slot {
 	@Nullable
 	private final IModuleSlot slot;
 	
-	public SlotModule(IModuleSlot slot, int xPosition, int yPosition, EntityPlayer player)
-	{
+	public SlotModule(IModuleSlot slot, int xPosition, int yPosition, EntityPlayer player) {
 		super(emptyInventory, slot.getIndex(), xPosition, yPosition);
 		this.slot = slot;
 		this.slots = slot.getParent();

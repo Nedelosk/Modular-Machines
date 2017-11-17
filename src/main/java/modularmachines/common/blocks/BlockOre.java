@@ -70,12 +70,12 @@ public class BlockOre extends BlockForest implements IItemModelRegister, IBlockW
 	public String getNameFromMeta(int meta) {
 		return OreType.values()[meta].getName();
 	}
-
-	@SideOnly(Side.CLIENT)
+	
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i = 0; i < OreType.values().length; i++) {
-			list.add(new ItemStack(item, 1, i));
+			list.add(new ItemStack(this,1, i));
 		}
 	}
 
