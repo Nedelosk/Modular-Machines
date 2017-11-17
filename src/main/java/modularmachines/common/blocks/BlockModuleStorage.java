@@ -97,7 +97,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void handleClientContent() {
-		ModularMachines.proxy.registerStateMapper(this, new ClientProxy.BlockModeStateMapper(new ModelResourceLocation("modularmachines:modular")));
+		ModularMachines.proxy.registerStateMapper(this, new ClientProxy.BlockModeStateMapper(new ModelResourceLocation("modularmachines:module_storage")));
 	}
 	
 	@Override

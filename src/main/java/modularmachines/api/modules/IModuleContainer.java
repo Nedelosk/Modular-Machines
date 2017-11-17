@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -40,5 +41,10 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	@Override
 	default IModuleContainer getContainer(){
 		return this;
+	}
+	
+	@Nullable
+	default EnumFacing getFacing(){
+		return null;
 	}
 }

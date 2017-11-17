@@ -188,6 +188,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		models.put(clazz, modelData);
 	}
 	
+	@Nullable
 	public IModelData getModel(Class<? extends Object> clazz){
 		return models.get(clazz);
 	}

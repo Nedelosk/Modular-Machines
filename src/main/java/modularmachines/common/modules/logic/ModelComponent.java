@@ -1,5 +1,6 @@
 package modularmachines.common.modules.logic;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class ModelComponent extends LogicComponent {
 		models.put(index, model);
 	}
 	
+	@Nullable
 	@SideOnly(Side.CLIENT)
 	public IBakedModel getModel(int index) {
 		return models.get(index);

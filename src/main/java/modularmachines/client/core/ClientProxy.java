@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void postInit() {
-		modularmachines.client.model.module.ModelLoader.loadModels();
+		//modularmachines.client.model.module.ModelLoader.loadModels();
 	}
 	
 	@Override

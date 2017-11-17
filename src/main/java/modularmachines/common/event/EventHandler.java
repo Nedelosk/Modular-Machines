@@ -34,6 +34,7 @@ import modularmachines.api.modules.storages.IStorage;
 import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.block.ModelModular;
+import modularmachines.client.model.block.ModuleStorageModelBaked;
 import modularmachines.client.model.module.ModelLoader;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
@@ -59,6 +60,7 @@ public class EventHandler {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
 		registry.putObject(new ModelResourceLocation("modularmachines:machine", "inventory"), new ModelModular());
+		registry.putObject(new ModelResourceLocation("modularmachines:module_storage"), new ModuleStorageModelBaked());
 		ModelLoader.loadModels();
 		ModelManager.getInstance().onBakeModels(event);
 	}

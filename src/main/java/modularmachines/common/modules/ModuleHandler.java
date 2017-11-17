@@ -103,14 +103,14 @@ public class ModuleHandler implements IModuleHandler {
 				Log.warn("Failed to load a module of a module handler.");
 				continue;
 			}
-			Module module = data.createModule();
-			module.readFromNBT(tagCompound);
-			provider.getContainer().onModuleAdded(module);
 			IModulePosition position = getPosition(index);
 			if(position == null){
-				Log.warn("Failed to load a module of a module handler: Data:{}, Module:{}", data, module);
+				Log.warn("Failed to load a module of a module handler: Data:{}", data);
 				continue;
 			}
+			Module module = data.createModule();
+			module.onLoadModule(this, position);
+			module.readFromNBT(tagCompound);
 			modules.put(position, module);
 		}
 	}

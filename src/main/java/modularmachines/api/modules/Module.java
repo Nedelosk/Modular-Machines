@@ -105,6 +105,14 @@ public class Module implements ICapabilityProvider {
 		this.container.onModuleAdded(this);
 	}
 	
+	public void onLoadModule(IModuleHandler parent, IModulePosition position){
+		this.parent = parent;
+		this.container = parent.getProvider().getContainer();
+		this.position = position;
+		
+		this.container.onModuleAdded(this);
+	}
+	
 	protected void createComponents() {
 	}
 

@@ -9,4 +9,8 @@ public interface IModulePosition {
 	 * Checks if the module of the data can be placed at this position.
 	 */
 	boolean isValidModule(ModuleData moduleData);
+	
+	default float getRotation(){
+		return 0.0F;
+	}
 }

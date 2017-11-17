@@ -138,8 +138,8 @@ public class ModuleUtil {
 	}
 	
 	@Nullable
-	public static ModelComponent getModel(IModuleContainer provider){
-		return provider.getComponent(LogicComponent.MODEL);
+	public static ModelComponent getModel(IModuleContainer container){
+		return container.getComponent(LogicComponent.MODEL);
 	}
 	
 	@Nullable

@@ -19,7 +19,13 @@ import modularmachines.api.modules.storages.IStorage;
 @SideOnly(Side.CLIENT)
 public interface IModelData<M> {
 
-	M getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter);
+	default M getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter){
+		return null;
+	}
+	
+	default M getModel(Module module, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter){
+		return null;
+	}
 	
 	Collection<ResourceLocation> getValidLocations();
 }
