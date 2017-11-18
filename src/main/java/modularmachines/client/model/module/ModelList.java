@@ -14,27 +14,28 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.model.IModelKey;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelLocations;
+import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.client.model.TRSRBakedModel;
 
 public class ModelList implements IModelList {
-	public List<IBakedModel> models = new LinkedList<>();
+	private final List<IBakedModel> models = new LinkedList<>();
 	private final VertexFormat format;
 	private final IModelState modelState;
-	private IModelLocations cache;
-	private Function<ResourceLocation, TextureAtlasSprite> textureGetter;
+	private final IModelLocations cache;
+	private final Function<ResourceLocation, TextureAtlasSprite> textureGetter;
 	@Nullable
 	private IBakedModel missingModel;
 	
-	public ModelList(IModelLocations cache, VertexFormat format, IModelState modelState) {
+	public ModelList(IModelLocations cache, VertexFormat format, IModelState modelState, Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
 		this.cache = cache;
 		this.format = format;
 		this.modelState = modelState;
+		this.textureGetter = textureGetter;
 	}
 	
-	public void add(IModelKey key) {
+	public void add(IModelProperty key) {
 		add(cache.get(key));
 	}
 	
@@ -58,7 +59,7 @@ public class ModelList implements IModelList {
 		add(model, m -> new TRSRBakedModel(m, 0F, y, 0F));
 	}
 	
-	public void add(IModelKey key, Function<IBakedModel, IBakedModel> modelWrapper) {
+	public void add(IModelProperty key, Function<IBakedModel, IBakedModel> modelWrapper) {
 		add(cache.get(key), modelWrapper);
 	}
 	
@@ -96,7 +97,7 @@ public class ModelList implements IModelList {
 	
 	@Nullable
 	@Override
-	public IBakedModel get(IModelKey key) {
+	public IBakedModel get(IModelProperty key) {
 		return get(cache.get(key));
 	}
 	

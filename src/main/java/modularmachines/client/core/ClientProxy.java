@@ -23,8 +23,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -34,8 +34,8 @@ import org.lwjgl.input.Keyboard;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.client.model.BuiltInModelLoader;
 import modularmachines.client.model.ModelManager;
-import modularmachines.client.model.block.ModuleStorageModelBaked;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
@@ -48,7 +48,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		ModelManager.getInstance().registerModels();
-		MinecraftForge.EVENT_BUS.register(ModuleStorageModelBaked.class);
+		ModelLoaderRegistry.registerLoader(new BuiltInModelLoader(ModelManager.getInstance().getBuiltInModels()));
 	}
 	
 	@Override

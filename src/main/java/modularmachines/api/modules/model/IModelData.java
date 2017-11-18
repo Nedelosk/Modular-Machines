@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
+import modularmachines.client.model.EmptyModelState;
 
 @SideOnly(Side.CLIENT)
 public interface IModelData {
@@ -20,7 +21,11 @@ public interface IModelData {
 		return null;
 	}
 	
-	default void addModel(IModelList modelList, Module module) {
+	default void addModel(IModelList modelList, Module module, IModuleModelState modelState) {
+	}
+	
+	default IModuleModelState createState(Module module) {
+		return EmptyModelState.INSTANCE;
 	}
 	
 	IModelLocations locations();

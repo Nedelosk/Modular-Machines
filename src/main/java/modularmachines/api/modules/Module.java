@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.utils.BoundingBoxHelper;
 
@@ -154,11 +155,13 @@ public class Module implements ICapabilityProvider {
 		return data;
 	}
 	
-	public IItemHandler getItemHandler() {
+	@Nullable
+	protected IItemHandler getItemHandler() {
 		return null;
 	}
 	
-	public IFluidHandler getFluidHandler() {
+	@Nullable
+	protected IFluidHandler getFluidHandler() {
 		return null;
 	}
 	
@@ -215,14 +218,28 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	/* MODEL */
+	@SideOnly(Side.CLIENT)
 	protected boolean modelNeedReload;
+	@SideOnly(Side.CLIENT)
+	protected IModuleModelState modelState;
 	
+	@SideOnly(Side.CLIENT)
 	public void setModelNeedReload(boolean modelNeedReload) {
 		this.modelNeedReload = modelNeedReload;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public boolean isModelNeedReload() {
 		return modelNeedReload;
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public void setModelState(IModuleModelState modelState) {
+		this.modelState = modelState;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public IModuleModelState getModelState() {
+		return modelState;
+	}
 }

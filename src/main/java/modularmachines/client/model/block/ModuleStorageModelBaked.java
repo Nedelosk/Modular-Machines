@@ -45,13 +45,10 @@ public class ModuleStorageModelBaked implements IBakedModel {
 	
 	//private static final Cache<IModuleLogic, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
 	//private static final ItemOverrideList overrideList = new ItemOverrideListModular();
-	@Nullable
-	private static IBakedModel missingModel;
 	
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
 		//inventoryCache.invalidateAll();
-		missingModel = null;
 	}
 	
 	@Nullable

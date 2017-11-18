@@ -33,4 +33,9 @@ public abstract class ModuleContainer extends Module implements IModuleProvider 
 		super.readFromNBT(compound);
 		moduleHandler.readFromNBT(compound);
 	}
+	
+	@Override
+	public boolean isModelNeedReload() {
+		return super.isModelNeedReload() || moduleHandler.getModules().stream().allMatch(Module::isModelNeedReload);
+	}
 }

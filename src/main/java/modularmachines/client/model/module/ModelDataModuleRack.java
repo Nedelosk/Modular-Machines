@@ -11,36 +11,37 @@ import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.model.IModelKey;
 import modularmachines.api.modules.model.IModelList;
+import modularmachines.api.modules.model.IModelProperty;
+import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.client.model.TRSRBakedModel;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataModuleRack extends ModelData {
 	
-	private enum ModelKey implements IModelKey {
+	private enum Property implements IModelProperty {
 		STORAGE, TOP, BACK, WALL, STICK_DOWN, STICK_UP, SMALL_DOWN, SMALL_MEDIUM, SMALL_UP, MEDIUM_MEDIUM, MEDIUM_UP, LARGE
 	}
 	
 	public static void initModelData(ModelLocationBuilder basicLocation) {
 		ModelDataModuleRack storage = new ModelDataModuleRack();
-		storage.add(ModelKey.STORAGE, basicLocation.copy().addPreFix("storage"));
-		storage.add(ModelKey.TOP, basicLocation.copy().addPreFix("top"));
-		storage.add(ModelKey.BACK, basicLocation.addPreFix("back"));
-		storage.add(ModelKey.STICK_DOWN, basicLocation.copy().addPreFix("front_walls/stick_down"));
-		storage.add(ModelKey.STICK_UP, basicLocation.copy().addPreFix("front_walls/stick_up"));
-		storage.add(ModelKey.SMALL_DOWN, basicLocation.copy().addPreFix("front_walls/small_down"));
-		storage.add(ModelKey.SMALL_MEDIUM, basicLocation.copy().addPreFix("front_walls/small_medium"));
-		storage.add(ModelKey.SMALL_UP, basicLocation.copy().addPreFix("front_walls/small_up"));
-		storage.add(ModelKey.MEDIUM_MEDIUM, basicLocation.copy().addPreFix("front_walls/medium_medium"));
-		storage.add(ModelKey.MEDIUM_UP, basicLocation.copy().addPreFix("front_walls/medium_up"));
-		storage.add(ModelKey.LARGE, basicLocation.copy().addPreFix("front_walls/large"));
+		storage.add(Property.STORAGE, basicLocation.copy().addPreFix("storage"));
+		storage.add(Property.TOP, basicLocation.copy().addPreFix("top"));
+		storage.add(Property.BACK, basicLocation.addPreFix("back"));
+		storage.add(Property.STICK_DOWN, basicLocation.copy().addPreFix("front_walls/stick_down"));
+		storage.add(Property.STICK_UP, basicLocation.copy().addPreFix("front_walls/stick_up"));
+		storage.add(Property.SMALL_DOWN, basicLocation.copy().addPreFix("front_walls/small_down"));
+		storage.add(Property.SMALL_MEDIUM, basicLocation.copy().addPreFix("front_walls/small_medium"));
+		storage.add(Property.SMALL_UP, basicLocation.copy().addPreFix("front_walls/small_up"));
+		storage.add(Property.MEDIUM_MEDIUM, basicLocation.copy().addPreFix("front_walls/medium_medium"));
+		storage.add(Property.MEDIUM_UP, basicLocation.copy().addPreFix("front_walls/medium_up"));
+		storage.add(Property.LARGE, basicLocation.copy().addPreFix("front_walls/large"));
 		basicLocation.data().setModel(storage);
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, Module module) {
+	public void addModel(IModelList modelList, Module module, IModuleModelState modelState) {
 		IModuleHandler moduleHandler = module.getParent();
 		if (module instanceof IModuleProvider) {
 			moduleHandler = ((IModuleProvider) module).getHandler();
@@ -58,15 +59,15 @@ public class ModelDataModuleRack extends ModelData {
 			models.addAll(getStorageModels(moduleHandler, modelState, format, bakedTextureGetter));
 			bakedModel = new BakedMultiModel(models);
 		}else{*/
-		modelList.add(get(ModelKey.STORAGE));
+		modelList.add(get(Property.STORAGE));
 		EnumModuleSizes size = null;
 		for (Module otherModule : moduleHandler.getModules()) {
 			ModuleData data = otherModule.getData();
 			size = EnumModuleSizes.getSize(size, data.getSize());
 			if (size == EnumModuleSizes.MEDIUM) {
-				modelList.add(ModelKey.WALL);
+				modelList.add(Property.WALL);
 			} else if (size == EnumModuleSizes.SMALL) {
-				modelList.add(ModelKey.WALL, m -> new TRSRBakedModel(m, 0F, 0.25F, 0F));
+				modelList.add(Property.WALL, m -> new TRSRBakedModel(m, 0F, 0.25F, 0F));
 			}
 		}
 		addStorageModels(moduleHandler, modelList);
@@ -105,46 +106,46 @@ public class ModelDataModuleRack extends ModelData {
 				if (wallType == EnumWallType.WINDOW) {
 					models.add(windowModel, 0.5F);
 				} else {
-					models.add(ModelKey.SMALL_UP);
+					models.add(Property.SMALL_UP);
 				}
 			}
-			models.add(get(ModelKey.STICK_UP));
+			models.add(Property.STICK_UP);
 		} else if (size == EnumModuleSizes.MEDIUM) {
 			if (wallType != EnumWallType.NONE) {
 				if (moduleSize == EnumModuleSizes.SMALL) {
 					if (wallType == EnumWallType.WINDOW) {
 						models.add(windowModel, 0.25F);
 					} else {
-						models.add(ModelKey.SMALL_MEDIUM);
+						models.add(Property.SMALL_MEDIUM);
 					}
 				} else if (moduleSize == EnumModuleSizes.MEDIUM) {
 					if (wallType == EnumWallType.WINDOW) {
 						models.add(windowModel, 0.25F);
 					} else {
-						models.add(ModelKey.MEDIUM_UP);
+						models.add(Property.MEDIUM_UP);
 					}
 				}
 			}
-			models.add(get(ModelKey.STICK_DOWN));
+			models.add(Property.STICK_DOWN);
 		} else if (size == EnumModuleSizes.LARGE) {
 			if (wallType != EnumWallType.NONE) {
 				if (moduleSize == EnumModuleSizes.SMALL) {
 					if (wallType == EnumWallType.WINDOW) {
 						models.add(module.getWindowLocation());
 					} else {
-						models.add(ModelKey.SMALL_DOWN);
+						models.add(Property.SMALL_DOWN);
 					}
 				} else if (moduleSize == EnumModuleSizes.MEDIUM) {
 					if (wallType == EnumWallType.WINDOW) {
 						models.add(windowModel);
 					} else {
-						models.add(ModelKey.MEDIUM_MEDIUM);
+						models.add(Property.MEDIUM_MEDIUM);
 					}
 				} else if (moduleSize == EnumModuleSizes.LARGE) {
 					if (wallType == EnumWallType.WINDOW) {
 						models.add(windowModel);
 					} else {
-						models.add(ModelKey.LARGE);
+						models.add(Property.LARGE);
 					}
 				}
 			}
