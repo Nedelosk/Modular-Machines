@@ -45,7 +45,6 @@ import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
-import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
 
 public class TileModuleStorage extends TileBase implements ILocatable, IModuleContainer {
@@ -64,7 +63,6 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 		addComponent(LogicComponent.ENERGY, new EnergyStorageComponent());
 		addComponent(LogicComponent.UPDATE, new UpdateComponent());
 		addComponent(LogicComponent.HEAT, new HeatComponent());
-		addComponent(LogicComponent.MODEL, new ModelComponent());
 	}
 	
 	@Override

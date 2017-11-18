@@ -24,8 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.client.model.ModelManager;
-import modularmachines.client.model.block.ModuleStorageModelBaked;
-import modularmachines.client.model.module.ModelLoader;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
 
@@ -50,8 +48,7 @@ public class EventHandler {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		//registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
 		//registry.putObject(new ModelResourceLocation("modularmachines:machine", "inventory"), new ModelModular());
-		registry.putObject(new ModelResourceLocation("modularmachines:module_storage"), new ModuleStorageModelBaked());
-		ModelLoader.loadModels();
+		//registry.putObject(new ModelResourceLocation("modularmachines:module_storage"), new ModuleStorageModelBaked());
 		ModelManager.getInstance().onBakeModels(event);
 	}
 	

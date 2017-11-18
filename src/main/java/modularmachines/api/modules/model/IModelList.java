@@ -14,9 +14,9 @@ import net.minecraftforge.common.model.IModelState;
 import modularmachines.api.modules.Module;
 
 public interface IModelList {
-	void add(IModelKey key);
+	void add(IModelProperty key);
 	
-	void add(IModelKey key, Function<IBakedModel, IBakedModel> modelWrapper);
+	void add(IModelProperty key, Function<IBakedModel, IBakedModel> modelWrapper);
 	
 	void add(@Nullable ResourceLocation location);
 	
@@ -35,7 +35,7 @@ public interface IModelList {
 	IBakedModel get(@Nullable ResourceLocation location);
 	
 	@Nullable
-	IBakedModel get(IModelKey key);
+	IBakedModel get(IModelProperty key);
 	
 	boolean empty();
 	

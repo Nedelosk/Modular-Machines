@@ -7,10 +7,10 @@ import net.minecraft.util.ResourceLocation;
 
 public interface IModelLocations extends Iterable<ResourceLocation> {
 	
-	void add(IModelKey key, ModelLocationBuilder location);
+	void add(IModelProperty key, ModelLocationBuilder location);
 	
 	@Nullable
-	ResourceLocation get(IModelKey key);
+	ResourceLocation get(IModelProperty key);
 	
 	Collection<ResourceLocation> values();
 }

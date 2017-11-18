@@ -8,19 +8,19 @@ import java.util.Map;
 
 import net.minecraft.util.ResourceLocation;
 
-import modularmachines.api.modules.model.IModelKey;
+import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModelLocations;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 
 public class ModelLocations implements IModelLocations {
-	private Map<IModelKey, ResourceLocation> locations = new HashMap<>();
+	private Map<IModelProperty, ResourceLocation> locations = new HashMap<>();
 	
-	public void add(IModelKey key, ModelLocationBuilder location) {
+	public void add(IModelProperty key, ModelLocationBuilder location) {
 		locations.put(key, location.build());
 	}
 	
 	@Nullable
-	public ResourceLocation get(IModelKey key) {
+	public ResourceLocation get(IModelProperty key) {
 		return locations.get(key);
 	}
 	

@@ -29,7 +29,6 @@ import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
-import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
 
 public class ModuleUtil {
@@ -123,11 +122,6 @@ public class ModuleUtil {
 		}
 		
 		return cache.getLogic(world, pos);
-	}
-	
-	@Nullable
-	public static ModelComponent getModel(IModuleContainer container) {
-		return container.getComponent(LogicComponent.MODEL);
 	}
 	
 	@Nullable

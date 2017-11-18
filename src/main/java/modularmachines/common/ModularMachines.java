@@ -66,6 +66,7 @@ public class ModularMachines {
 		//Config.syncConfig(true);
 		ModuleManager.registerCapability();
 		new PacketHandler();
+		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		FluidManager.registerFluids();
 		BlockManager.registerBlocks();
 		ItemManager.registerItems();
@@ -96,4 +97,6 @@ public class ModularMachines {
 		RecipeManager.registerHolderRecipes();
 		PLUGIN_MANAGER.postInit();
 	}
+	
+	
 }

@@ -4,6 +4,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.event.RegistryEvent;
+
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,7 +24,6 @@ import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataModuleRack;
-import modularmachines.common.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
@@ -328,14 +330,12 @@ public enum ModuleDefinition implements IModuleFactory {
 		data.setUnlocalizedName(registry);
 		data.setFactory(this);
 		initData(data);
-		ModularMachines.dataRegistry.register(data);
 	}
 	
 	ModuleDefinition() {
 		this.data = createData();
 		this.data.setFactory(this);
 		initData(data);
-		ModularMachines.dataRegistry.register(data);
 	}
 	
 	protected void initData(ModuleData data) {
@@ -351,6 +351,13 @@ public enum ModuleDefinition implements IModuleFactory {
 	@SideOnly(Side.CLIENT)
 	public void registerModelData() {
 		
+	}
+	
+	@SubscribeEvent
+	public static void onModuleRegister(RegistryEvent.Register<ModuleData> event){
+		for(ModuleDefinition definition : values()) {
+			event.getRegistry().register(definition.data());
+		}
 	}
 	
 	public static void registerModuleContainers() {
