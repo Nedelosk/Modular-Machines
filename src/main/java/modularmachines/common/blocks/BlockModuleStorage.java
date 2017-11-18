@@ -119,10 +119,10 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 		}
 		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
 		RayTraceResult hit = collisionRayTrace(state, world, pos, vectors.getKey(), vectors.getValue());
-		if (hit != null && !world.isRemote) {
-			return container.insertModule(player.getHeldItem(hand), hit);
+		if (hit != null) {
+			return container.insertModule(player.getHeldItem(hand), hit, world.isRemote);
 		}
-		return false;
+		return true;
 	}
 	
 	@Nullable

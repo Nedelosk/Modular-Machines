@@ -40,7 +40,7 @@ public interface IModuleHandler {
 	 * @param itemStack
 	 * @return True if the modules was inserted at the position.
 	 */
-	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack);
+	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate);
 	
 	ItemStack extractModule(IModulePosition position);
 	

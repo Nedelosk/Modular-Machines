@@ -358,7 +358,7 @@ public class ModuleManager {
 			}
 			
 			@Override
-			public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult) {
+			public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate) {
 				return false;
 			}
 			

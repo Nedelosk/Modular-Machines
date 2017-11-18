@@ -3,7 +3,7 @@ package modularmachines.client.model.module;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.EnumModulePositions;
+import modularmachines.api.modules.EnumCasingPositions;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelList;
@@ -34,8 +34,8 @@ public class ModelDataCasing extends ModelData {
 			moduleHandler = ((ModuleCasing) module).getHandler();
 		}
 		ModuleModelState modelState = new ModuleModelState();
-		modelState.set(Property.LEFT, !moduleHandler.hasModule(EnumModulePositions.LEFT));
-		modelState.set(Property.RIGHT, !moduleHandler.hasModule(EnumModulePositions.RIGHT));
+		modelState.set(Property.LEFT, !moduleHandler.hasModule(EnumCasingPositions.LEFT));
+		modelState.set(Property.RIGHT, !moduleHandler.hasModule(EnumCasingPositions.RIGHT));
 		return modelState;
 	}
 	

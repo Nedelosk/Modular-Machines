@@ -43,7 +43,7 @@ public class ModelList implements IModelList {
 		if (location == null) {
 			return;
 		}
-		add(ModelLoader.getModel(location, format));
+		add(ModuleModelLoader.getModel(location, format));
 	}
 	
 	public void add(@Nullable IBakedModel model) {
@@ -67,7 +67,7 @@ public class ModelList implements IModelList {
 		if (location == null) {
 			return;
 		}
-		IBakedModel bakedModel = ModelLoader.getModel(location, format);
+		IBakedModel bakedModel = ModuleModelLoader.getModel(location, format);
 		if (bakedModel != null) {
 			add(modelWrapper.apply(bakedModel));
 		}
@@ -83,7 +83,7 @@ public class ModelList implements IModelList {
 		if (module == null) {
 			return null;
 		}
-		return ModelLoader.getModel(module, modelState, format);
+		return ModuleModelLoader.getModel(module, modelState, format);
 	}
 	
 	@Nullable
@@ -92,7 +92,7 @@ public class ModelList implements IModelList {
 		if (location == null) {
 			return null;
 		}
-		return ModelLoader.getModel(location, format);
+		return ModuleModelLoader.getModel(location, format);
 	}
 	
 	@Nullable

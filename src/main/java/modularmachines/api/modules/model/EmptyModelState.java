@@ -1,10 +1,7 @@
-package modularmachines.client.model;
+package modularmachines.api.modules.model;
 
 import java.util.Collection;
 import java.util.Collections;
-
-import modularmachines.api.modules.model.IModelProperty;
-import modularmachines.api.modules.model.IModuleModelState;
 
 public enum  EmptyModelState implements IModuleModelState {
 	INSTANCE;

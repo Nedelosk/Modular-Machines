@@ -219,9 +219,9 @@ public class Module implements ICapabilityProvider {
 	
 	/* MODEL */
 	@SideOnly(Side.CLIENT)
-	protected boolean modelNeedReload;
+	private boolean modelNeedReload;
 	@SideOnly(Side.CLIENT)
-	protected IModuleModelState modelState;
+	private IModuleModelState modelState;
 	
 	@SideOnly(Side.CLIENT)
 	public void setModelNeedReload(boolean modelNeedReload) {
@@ -234,7 +234,7 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void setModelState(IModuleModelState modelState) {
+	public void setModelState(@Nullable IModuleModelState modelState) {
 		this.modelState = modelState;
 	}
 	

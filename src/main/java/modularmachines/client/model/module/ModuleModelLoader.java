@@ -13,8 +13,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -38,31 +40,21 @@ import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.common.ModularMachines;
 
 @SideOnly(Side.CLIENT)
-public enum ModelLoader {
+public enum ModuleModelLoader {
 	INSTANCE;
 	
 	@Nullable
 	private static ImmutableMap<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> bakedModels;
 	private static final Cache<Pair<ResourceLocation, IModuleModelState>, IBakedModel> cachedModels =
 			CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
+	private static Set<ResourceLocation> locations;
 	
 	@SuppressWarnings("unchecked")
 	public void reloadModels() {
 		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
-		ModularMachines.dataRegistry.getValues().stream()
-				.filter(Objects::nonNull)
-				.map(data -> {
-					IModelData modelData = data.getModel();
-					if (modelData == null) {
-						return Collections.<ResourceLocation>emptyList();
-					}
-					return modelData.locations().values();
-				})
-				.flatMap(Collection::stream)
-				.filter(l -> Objects.nonNull(l) && !modelLocations.contains(l))
-				.forEach(location -> {
+		locations.forEach(location -> {
 					Builder<VertexFormat, IBakedModel> baker = new Builder<>();
 					IModel model = null;
 					try {
@@ -94,9 +86,27 @@ public enum ModelLoader {
 						}
 					}*/
 				});
-		ModelLoader.bakedModels = modelBaker.build();
+		ModuleModelLoader.bakedModels = modelBaker.build();
 		cachedModels.invalidateAll();
 		loadingExceptions.values().forEach(Throwable::printStackTrace);
+	}
+	
+	public void registerModels() {
+		locations = ModularMachines.dataRegistry.getValues().stream()
+				.filter(Objects::nonNull)
+				.map(data -> {
+					IModelData modelData = data.getModel();
+					if (modelData == null) {
+						return Collections.<ResourceLocation>emptyList();
+					}
+					return modelData.locations().values();
+				})
+				.flatMap(Collection::stream)
+				.filter(Objects::nonNull).collect(Collectors.toSet());
+	}
+	
+	public Set<ResourceLocation> getModelLocations() {
+		return locations;
 	}
 	
 	public enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite> {

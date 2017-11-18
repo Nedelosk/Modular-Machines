@@ -66,15 +66,17 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Override
-	public boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack) {
-		if (hasModule(position) || !provider.isValidModule(position, container)) {
+	public boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate) {
+		if (hasModule(position) || !modules.containsKey(position) || !provider.isValidModule(position, container)) {
 			return false;
+		}
+		if (simulate) {
+			return true;
 		}
 		Module module = container.getData().createModule(this, position, container, itemStack);
 		modules.put(position, module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
-		//locatable.markBlockUpdate();
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {

@@ -1,19 +1,21 @@
 package modularmachines.api.modules;
 
-public enum EnumModulePositions implements IModulePosition {
+public enum EnumCasingPositions implements IModulePosition {
 	CASING,
 	FRONT,
+	TOP,
+	UP,
 	BACK((float) (Math.PI)),
 	RIGHT((float) (Math.PI / 2)),
 	LEFT(-(float) (Math.PI / 2));
 	
 	private final float rotation;
 	
-	EnumModulePositions() {
+	EnumCasingPositions() {
 		this(0.0F);
 	}
 	
-	EnumModulePositions(float rotation) {
+	EnumCasingPositions(float rotation) {
 		this.rotation = rotation;
 	}
 	

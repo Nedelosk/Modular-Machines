@@ -35,7 +35,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.TRSRBakedModel;
 import modularmachines.client.model.module.BakedMultiModel;
-import modularmachines.client.model.module.ModelLoader;
+import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.utils.ModuleUtil;
@@ -75,13 +75,9 @@ public class ModuleStorageModelBaked implements IBakedModel {
 	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex) {
 		List<IBakedModel> models = new ArrayList<>();
 		for (Module module : provider.getHandler().getModules()) {
-			IBakedModel model = ModelLoader.getModel(module, modelState, vertex);
+			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex);
 			if (model == null) {
 				continue;
-			}
-			float rotation = module.getPosition().getRotationAngle();
-			if (rotation > 0.0F || rotation < 0.0F) {
-				model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, rotation, 0F, 1F);
 			}
 			if (module instanceof IModuleProvider) {
 				IModuleProvider moduleProvider = (IModuleProvider) module;
@@ -89,6 +85,10 @@ public class ModuleStorageModelBaked implements IBakedModel {
 				if (bakedModel != null) {
 					model = new BakedMultiModel(ImmutableList.of(model, bakedModel));
 				}
+			}
+			float rotation = module.getPosition().getRotationAngle();
+			if (rotation > 0.0F || rotation < 0.0F) {
+				model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, rotation, 0F, 1F);
 			}
 			models.add(model);
 		}

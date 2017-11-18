@@ -45,7 +45,7 @@ public class CommonProxy {
 	
 	}
 	
-	public void loadModuleModels() {
+	public void registerModuleModels() {
 		
 	}
 	

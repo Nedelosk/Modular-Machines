@@ -31,7 +31,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.EnumModulePositions;
+import modularmachines.api.modules.EnumCasingPositions;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModulePosition;
@@ -56,7 +56,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	public ModuleHandler moduleHandler;
 	
 	public TileModuleStorage() {
-		this.moduleHandler = new ModuleHandler(this, EnumModulePositions.CASING);
+		this.moduleHandler = new ModuleHandler(this, EnumCasingPositions.CASING);
 		this.facing = EnumFacing.NORTH;
 		this.componentMap = new LinkedHashMap<>();
 		this.validIndexes = new BitSet();
@@ -244,7 +244,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	}
 	
 	@Override
-	public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult) {
+	public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate) {
 		if (itemStack.isEmpty()) {
 			return false;
 		}
@@ -253,27 +253,27 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 			return false;
 		}
 		if (rayTraceResult.subHit == -1) {
-			return insertModule(this, itemStack, dataContainer, rayTraceResult);
+			return insertModule(this, itemStack.copy(), dataContainer, rayTraceResult, simulate);
 		}
 		Module module = getModule(rayTraceResult.subHit);
 		if (!(module instanceof IModuleProvider)) {
 			return false;
 		}
 		IModuleProvider provider = (IModuleProvider) module;
-		return insertModule(provider, itemStack, dataContainer, rayTraceResult);
+		return insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
 	}
 	
-	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult) {
+	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
 		IModulePosition position = provider.getPosition(rayTraceResult);
 		if (position == null) {
 			return false;
 		}
-		return provider.getHandler().insertModule(position, dataContainer, itemStack);
+		return provider.getHandler().insertModule(position, dataContainer, itemStack, simulate);
 	}
 	
 	@Override
 	public IModulePosition getPosition(RayTraceResult hit) {
-		return EnumModulePositions.CASING;
+		return EnumCasingPositions.CASING;
 	}
 	
 	@Override

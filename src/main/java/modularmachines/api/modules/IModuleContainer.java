@@ -42,7 +42,7 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 		return Block.FULL_BLOCK_AABB;
 	}
 	
-	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult);
+	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate);
 	
 	@Override
 	default IModuleContainer getContainer() {

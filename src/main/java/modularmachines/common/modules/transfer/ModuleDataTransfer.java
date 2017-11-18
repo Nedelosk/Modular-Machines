@@ -8,10 +8,10 @@ package modularmachines.common.modules.transfer;
 import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.IModuleType;
-import modularmachines.common.modules.ModuleDataCasingPosition;
+import modularmachines.common.modules.ModuleDataHorizontal;
 import modularmachines.common.modules.ModuleType;
 
-public class ModuleDataTransfer extends ModuleDataCasingPosition {
+public class ModuleDataTransfer extends ModuleDataHorizontal {
 	public ModuleDataTransfer() {
 	}
 	

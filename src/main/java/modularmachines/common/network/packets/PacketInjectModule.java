@@ -57,7 +57,7 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (dataContainer == null) {
 					return;
 				}
-				if (!handler.insertModule(position, dataContainer, itemStack)) {
+				if (!handler.insertModule(position, dataContainer, itemStack, false)) {
 					return;
 				}
 			}

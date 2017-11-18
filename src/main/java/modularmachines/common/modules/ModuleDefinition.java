@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,12 +25,13 @@ import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataModuleRack;
+import modularmachines.client.model.module.ModelDataWorking;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
 import modularmachines.common.modules.machine.furnace.ModuleFurnace;
 import modularmachines.common.modules.storages.items.ModuleChest;
-import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
@@ -268,7 +270,7 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
 		}
 	},
-	FURNACE(new ModuleDataSide(), "furnace", 1, EnumModuleSizes.MEDIUM) {
+	FURNACE(new ModuleDataHorizontal(), "furnace", 1, EnumModuleSizes.LARGE) {
 		@Override
 		public Module createModule() {
 			return new ModuleFurnace(32);
@@ -279,6 +281,11 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.FURNACE));
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataWorking.initModelData(new ModelLocationBuilder(data()).addFolder("minecraft").addPreFix("furnace"), new ModelLocationBuilder(data()).addFolder("minecraft").addPreFix("furnace"));
+		}
 	},
 	HEATER(new ModuleDataSide(), "heater", 4, EnumModuleSizes.LARGE) {
 		@Override
@@ -302,7 +309,7 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.BRICK_BLOCK));
 		}
 	},
-	CHEST(new ModuleDataChest(), "chest", 4, EnumModuleSizes.LARGEST) {
+	CHEST(new ModuleDataHorizontal(), "chest", 4, EnumModuleSizes.LARGEST) {
 		@Override
 		public Module createModule() {
 			return new ModuleChest();
@@ -358,6 +365,11 @@ public enum ModuleDefinition implements IModuleFactory {
 		for(ModuleDefinition definition : values()) {
 			event.getRegistry().register(definition.data());
 		}
+	}
+	
+	@SubscribeEvent
+	public static void onModelRegister(ModelRegistryEvent event) {
+		ModularMachines.proxy.registerModuleModels();
 	}
 	
 	public static void registerModuleContainers() {

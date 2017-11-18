@@ -36,6 +36,7 @@ import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.client.model.BuiltInModelLoader;
 import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
@@ -63,10 +64,11 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void loadModuleModels() {
+	public void registerModuleModels() {
 		for (ModuleDefinition definition : ModuleDefinition.values()) {
 			definition.registerModelData();
 		}
+		ModuleModelLoader.INSTANCE.registerModels();
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package modularmachines.client.model.block;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -10,10 +11,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.common.model.IModelState;
 
+import modularmachines.client.model.module.ModuleModelLoader;
+
 public class ModuleStorageModel implements IModel {
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		modularmachines.client.model.module.ModelLoader.INSTANCE.reloadModels();
+		ModuleModelLoader.INSTANCE.reloadModels();
 		return new ModuleStorageModelBaked();
+	}
+	
+	@Override
+	public Collection<ResourceLocation> getDependencies() {
+		return ModuleModelLoader.INSTANCE.getModelLocations();
 	}
 }
